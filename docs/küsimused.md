@@ -2,7 +2,7 @@
 Intervjuudeks ettevalmistamise jaoks on allpool esitatud jututeemad ja küsimused. Need küsimused on mõtete kujundamiseks, mitte punkt-punktilt vastamiseks. Intervjuud teeme pigem avatud arutlustena, mitte range küsimuste-vastuste jadana.
 Võimalikud grupid (visionäärid, erikeelsete kasutajatega tegelejad (portaalide üleselt?), info haldajad (sisutoimetajad), haridustöötajad, tööturu esindajad
 	
-MIDA KASUTAJALE KUVADA/MIDA NAD VAJAVAD
+### MIDA KASUTAJALE KUVADA/MIDA NAD VAJAVAD
 1.	Mis on teie asutuse kõige populaarsem veebileht? Miks? Mida sealt otsitakse?
 2.	Kes on veebilehe külastajad/kellele seda sisu vaja on?
 3.	Mis on kõige olulisem info/tegevus külastajatele? (Google analytics ka)
@@ -13,10 +13,12 @@ MIDA KASUTAJALE KUVADA/MIDA NAD VAJAVAD
 8.	Milline sisu peaks puuetega inimestele kasutatavad olema?
 9.	Mis küsimustes kõige sagedamini teie/asutuse poole pöördutakse? Kas põhiküsimuste lahendamiseks kujutate ette senisest paremaid lahendusi?
 10.	Milline peaks olema hariduse portaal 5 aasta pärast
-	ERIKEELSETE KASUTAJATE VAJADUSED
+
+### ERIKEELSETE KASUTAJATE VAJADUSED
 11.	Millist sisu peaks kindlasti meie vene keelt kõnelevatele kasutajatele näidata?
 12.	Millist sisu peaks kindlasti välismaalastele näitama? (kõige olulisem info, euroopa, aasia jne)
-	ÜHTNE INFOHALDUS/TOIMETAMINE PORTAALIS (AMETNIKKU PUUDUTAV INFO)
+
+### ÜHTNE INFOHALDUS/TOIMETAMINE PORTAALIS (AMETNIKKU PUUDUTAV INFO)
 13.	Kellel on täna oma veebilehe kasutamisega probleeme/miks?
 14.	Kuidas täna tekib sisu teie veebilehele? 
 15.	Takistused heale ja mugavale sisu loomisele. Tooge välja ka koostööprobleemid!
@@ -32,19 +34,22 @@ MIDA KASUTAJALE KUVADA/MIDA NAD VAJAVAD
 25.	Mis statistikat teie asutusel tekib? (Mis statistikat vajatakse?)
 26.	Mis teenuseid te täna pakute. Kuidas olete infot ja teenuseid integreerinud/kuidas võiks neid integreerida?
 27.	Inimeste teavitamine (uudiskirjad). Kuidas teavitate, kui palju neid loetakse?
-KOOSTÖÖ
+
+### KOOSTÖÖ
 28.	Kuidas toimub asutus sees tavaliselt infovahetus?
 29.	Mis infokanaleid ja funktsionaalsusi (tagasiside) praegu kasutatakse (näiteks veebileht, intranet, õppeinfosüsteem, e-post, facebook, blogid, foorumid, teadete tahvel, infoleht, kooli ajaleht…)? 
 30.	Mis infot vahetatakse erinevates kanalites (kellega ja/või mis liiki info vahetamiseks mingit kanalit kasutatakse)?
 31.	Mis väliste osapooltega asutus suhtleb? (suhtlevad, koostöö, partnerlus, sponsorlus)
 32.	Kes on partnerid, kellega infot vahetatakse?
 33.	Kuidas toimub infovahetus ?
-	HARIDUSVÕIMALUSED (INIMESTE MOTIVEERIMINE)
+
+### HARIDUSVÕIMALUSED (INIMESTE MOTIVEERIMINE)
 34.	Kuidas motiveerite inimesi õppima/õppimise valikut tegema/karjäär
 35.	Milliseid uusi võimalusi võiks õppimise ja tööturu ühendamiseks veebis kasutada?
 36.	Mis on need takistused täna, mis takistavad teenuste arendamist/pakkumist?
 37.	Kuidas täna toimib hariduse ja tööturu koostöö?
-	TÖÖTURG (KOOSTÖÖ, MOTIVEERIMINE)
+
+### TÖÖTURG (KOOSTÖÖ, MOTIVEERIMINE)
 38.	Kuidas motiveerite inimesi täiendõppele/erialale kus on tööjõu puudus?
 39.	Kuidas peaks see koostöö ideaalis toimima?
 
