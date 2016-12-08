@@ -1,4 +1,4 @@
-**Sihtgrupp:** põhikoolist 7-9 klass, gümnasistid, kutseõppurid, esmakursuslane, elupõlised õppijad, emakeel vene keel, välismaalased (kelle ema-isa töötab Eestis ja välismaalasest lapsevanem), lapsevanemad, ümberõppijad, väärikad, ...
+**Sihtgrupp:** Teha grupis: põhikoolist 7-9 klass (töökaaslaste lapsed), gümnasistid, kutseõppurid, esmakursuslane (Pärnust EgleM kaudu?), elupõlised õppijad (erinevatele tuttavatele), emakeel vene keel (Mihklilt?, Egle uurib?), välismaalased (kelle ema-isa töötab Eestis ja välismaalasest lapsevanem) (Ametnike kaudu?), lapsevanemad, ümberõppijad, väärikad, ..., õpetaja kasutaja rollis (Eglelt, Katrilt) 
 
 1. Rääkige alustuseks natuke endast kes te olete ja millega tegelete? (haridus, hobid, huvid, töö)
  * Missuguseid veebilehti te peamiselt kasutate?
