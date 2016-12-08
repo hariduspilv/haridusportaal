@@ -1,13 +1,14 @@
-1. Rääkige alustuseks natuke endast kes te olete ja millega tegelete? (haridus, hobid, huvid, töö)
-2. Missuguseid veebilehti te peamiselt kasutate?
+ Esmakursuslane, elupõlised õppijad, põhikoolist 9 klass, gümnasistid, kutseõppurid, emakeel vene keel, välismaalased (ema-isa töötb 
+ * Rääkige alustuseks natuke endast kes te olete ja millega tegelete? (haridus, hobid, huvid, töö)
+ * Missuguseid veebilehti te peamiselt kasutate?
  * Mis on kõige olulisem info/tegevus teile?
-2. Kas te huvitute hariduse/ teaduse/ keele/ noorte valdkonnast?
-3. Kui sageli te hariduse/teaduse/keele/noorte veebe külastate?
-4. Mis on peamised põhjused külastamiseks?
-5. Milliseid hariduse veebe külastad/oled külastanud kõige sagedamini? Miks just need?
-6. Kuidas jõudsid nende veebideni?
-7. Mis kanaleid kaudu sa otsid/uurid hariduse (noorte) infot?
-8. Kas on ette tulnud olukordi, kus oled veebi läinud infot otsima/mingit tegevust tegema ning mingil põhjusel ei ole eesmärgini jõudnud?
+ * Kas te huvitute hariduse/ teaduse/ keele/ noorte valdkonnast?
+ * Kui sageli te hariduse/teaduse/keele/noorte veebe külastate?
+ * Mis on peamised põhjused külastamiseks?
+ * Milliseid hariduse veebe külastad/oled külastanud kõige sagedamini? Miks just need?
+ * Kuidas jõudsid nende veebideni?
+ * Mis kanaleid kaudu sa otsid/uurid hariduse (noorte) infot?
+ * Kas on ette tulnud olukordi, kus oled veebi läinud infot otsima/mingit tegevust tegema ning mingil põhjusel ei ole eesmärgini jõudnud?
  * Mida teed sellises olukorras?
  * Missuguseid haridusega seotud teenuseid oled varem kasutanud?
  * Kuidas hindad seda kogemust?
