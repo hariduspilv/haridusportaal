@@ -1,4 +1,4 @@
- Esmakursuslane, elupõlised õppijad, põhikoolist 9 klass, gümnasistid, kutseõppurid, emakeel vene keel, välismaalased (ema-isa töötb 
+ Esmakursuslane, elupõlised õppijad, põhikoolist 9 klass, gümnasistid, kutseõppurid, emakeel vene keel, välismaalased (ema-isa töötab Eestis)
  * Rääkige alustuseks natuke endast kes te olete ja millega tegelete? (haridus, hobid, huvid, töö)
  * Missuguseid veebilehti te peamiselt kasutate?
  * Mis on kõige olulisem info/tegevus teile?
