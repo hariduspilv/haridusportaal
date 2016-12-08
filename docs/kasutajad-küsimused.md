@@ -3,7 +3,7 @@
 1. Rääkige alustuseks natuke endast kes te olete ja millega tegelete? (haridus, hobid, huvid, töö)
 2. Missuguseid veebilehti te peamiselt kasutate?
  * Mis on kõige olulisem info/tegevus teile?
- * Kas te huvitute hariduse/ teaduse/ keele/ noorte valdkonnast?
+3. Kas te huvitute hariduse/ teaduse/ keele/ noorte valdkonnast?
  * Kui sageli te hariduse/teaduse/keele/noorte veebe külastate?
  * Mis on peamised põhjused külastamiseks?
  * Milliseid hariduse veebe külastad/oled külastanud kõige sagedamini? Miks just need?
