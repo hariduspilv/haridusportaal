@@ -1,4 +1,4 @@
- Esmakursuslane, elupõlised õppijad, põhikoolist 9 klass, gümnasistid, kutseõppurid, emakeel vene keel, välismaalased (ema-isa töötab Eestis)
+ Sihtgrupp: põhikoolist 7-9 klass, gümnasistid, kutseõppurid, esmakursuslane, elupõlised õppijad, emakeel vene keel, välismaalased (kelle ema-isa töötab Eestis ja välismaalasest lapsevanem), lapsevanemad, ümberõppijad, väärikad, ...
  * Rääkige alustuseks natuke endast kes te olete ja millega tegelete? (haridus, hobid, huvid, töö)
  * Missuguseid veebilehti te peamiselt kasutate?
  * Mis on kõige olulisem info/tegevus teile?
