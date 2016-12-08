@@ -1,4 +1,4 @@
- Sihtgrupp: põhikoolist 7-9 klass, gümnasistid, kutseõppurid, esmakursuslane, elupõlised õppijad, emakeel vene keel, välismaalased (kelle ema-isa töötab Eestis ja välismaalasest lapsevanem), lapsevanemad, ümberõppijad, väärikad, ...
+**Sihtgrupp:** põhikoolist 7-9 klass, gümnasistid, kutseõppurid, esmakursuslane, elupõlised õppijad, emakeel vene keel, välismaalased (kelle ema-isa töötab Eestis ja välismaalasest lapsevanem), lapsevanemad, ümberõppijad, väärikad, ...
 
 1. Rääkige alustuseks natuke endast kes te olete ja millega tegelete? (haridus, hobid, huvid, töö)
  * Missuguseid veebilehti te peamiselt kasutate?
@@ -27,7 +27,6 @@
  * Milline on sinu jaoks hea veebileht? sama küsimus ametnikele
  * Mõni näide? 
  * Mis teeb selle/need lehed heaks?
- 
  * Mis on täna suurimad probleemid haridus/teadus/keele/noorte valdkonna info leidmisel?
 
 
