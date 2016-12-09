@@ -3,9 +3,10 @@ Intervjuudeks ettevalmistamise jaoks on allpool esitatud jututeemad ja küsimuse
 Grupid:
 * visionäärid
 * erikeelsete kasutajatega tegelejad (portaalide üleselt?)
-* info haldajad (sisutoimetajad)
+* info haldajad (sisutoimetajad) 16.12
 * haridustöötajad
-* tööturu esindajad, kutseõppega tegelejad
+* tööturu esindajad, kutseõppega tegelejad (kutsekoda, oska 12.12)
+* noorsootöötajad 13.12
 	
 ### MIDA KASUTAJALE KUVADA/MIDA NAD VAJAVAD
 1. Mis on teie asutuse kõige populaarsem veebileht? Miks? Mida sealt otsitakse?
