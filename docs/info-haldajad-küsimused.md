@@ -1,6 +1,11 @@
 
 Intervjuudeks ettevalmistamise jaoks on allpool esitatud jututeemad ja küsimused. Need küsimused on mõtete kujundamiseks, mitte punkt-punktilt vastamiseks. Intervjuud teeme pigem avatud arutlustena, mitte range küsimuste-vastuste jadana.
-Võimalikud grupid (visionäärid, erikeelsete kasutajatega tegelejad (portaalide üleselt?), info haldajad (sisutoimetajad), haridustöötajad, tööturu esindajad
+Grupid:
+* visionäärid
+* erikeelsete kasutajatega tegelejad (portaalide üleselt?)
+* info haldajad (sisutoimetajad)
+* haridustöötajad
+* tööturu esindajad, kutseõppega tegelejad
 	
 ### MIDA KASUTAJALE KUVADA/MIDA NAD VAJAVAD
 1. Mis on teie asutuse kõige populaarsem veebileht? Miks? Mida sealt otsitakse?
