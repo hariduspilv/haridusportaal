@@ -55,3 +55,17 @@ Osaliselt grupis, osaliselt individuaalselt:
  * Mis teeb selle/need lehed heaks?
  ..
  Aitäh!
+ 
+ HITSA projektist:
+ 
+1.	Milline on Sinu roll? (õpilane, lapsevanem jne)
+2.	Milliseid infokanaleid kasutad peamiselt kooliga seotud suhtluseks või info saamiseks?
+3.	Kui tihti Sa kooli veebilehte külastad? (kord päevad, kord nädalas, kord kuus, harvem)
+4.	Millist infot Sa otsid kooli veebilehelt? Millised on peamised leheküljed, mida kooli veebilehel külastad?
+5.	Mida Sa oled veebilehelt otsinud, aga ei ole leidnud? Ehk mis seal võiks olla?
+6.	Kas Sa oskad viidata mõnele  kooli veebilehte, mis väärib esiletoomist? Miks?
+7.	Ettepanekud? 
+
+ 
+ 
+ 
