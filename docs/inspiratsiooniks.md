@@ -1,3 +1,5 @@
+Siia koondame lingid, mida töö käigus on näidetena esile toodud või soovitatud
+
 1. Kutseharidus/ -valdkond
  * http://www.cityandguilds.com/ - näide kutseteemade lahendusest
  
