@@ -1,4 +1,4 @@
-Siia koondame lingid, mida töö käigus on näidetena esile toodud või soovitatud
+Siia koondame lingid, mida töö käigus on näidetena esile toodud või soovitatud, ise soovitame
 
 1. Kutseharidus/ -valdkond
  * http://www.cityandguilds.com/ - näide kutseteemade lahendusest
