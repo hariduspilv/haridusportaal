@@ -27,6 +27,10 @@ Grupid:
 ### ÜHTNE INFOHALDUS/TOIMETAMINE PORTAALIS (AMETNIKKU PUUDUTAV INFO)
 13. Kellel on täna oma veebilehe kasutamisega probleeme/miks?
 14. Kuidas täna tekib sisu teie veebilehele? 
+ * kas toimetate ise või "sisse ostetud"?
+ * Kas veebis on dünaamilist (luuakse päringu peale) sisuloome komponenti?
+ * Kes ja kuidas lisab uudised, sündmused?
+ * Milliste muude süsteemidega on veeb liidestatud?
 15. Takistused heale ja mugavale sisu loomisele. Tooge välja ka koostööprobleemid!
 16. Kas peate veebi üles panema ka kasutut infot?
 17. Kuidas näete koostöövormi tulevikus? Mida on heaks koostööks vaja?
@@ -37,6 +41,7 @@ Grupid:
 22. Mis infot sooviksite tulevikus portaalis avaldada, mida praegu ei avaldata? Miks seda praegu veebilehel ei avaldata?
 23. Mis infot saab asutuse veebilehe kaudu esitada (kas veebilehel on vorme, mida saab täita ja koolile esitada)? 
 24. Mis keeles keeles/keeltes asutuse leht on? Kas näete, et peaks lisanduma veel mõni keel?
+ * Kas olete mõelnud masintõlke võimaluse komponendile?
 25. Mis statistikat teie asutusel tekib? (Mis statistikat vajatakse?)
 26. Mis teenuseid te täna pakute. Kuidas olete infot ja teenuseid integreerinud/kuidas võiks neid integreerida?
 27. Inimeste teavitamine (uudiskirjad). Kuidas teavitate, kui palju neid loetakse?
