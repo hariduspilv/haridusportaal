@@ -1,6 +1,6 @@
 # 12.12.2016 SA Kutsekojas
 
-### Osalejad:
+#### Osalejad:
 
 * Tiia Randma, OSKA arendusjuht. Kohtumise eesmärk on praktiline vajadus.., et programmimuudatusi saaks ASAP kirjeldada... kuidas andmed saaksid paremini visualiseeritud ja see oleks esimene tükk haridusportaalis.
 * Marit Valge, OSKA kommunikatsioonijuht. Selgitab Kutsekoja tegevusi laiemalt (milles nemad saavad kaasa rääkida).
@@ -8,11 +8,12 @@
 * Rain Leoma, OSKA analüütik.
 * Anneli Entson, Tööandjate Keskliit, haridusnõunik. Tuli teadmisega, et planeeritakse luua ühtne veebivärav ja saab selles kaasa rääkida. Tänane seis: vajalikku infot raske leida, palju otsima. Samas, kui kõik veebid kokku tõsta siis ka raske, sest liiga palju infot koos... Kes seda kõike haldab? Palju küsimusi õhus!
 
-### Videos
+#### Videos
 
 * Meeli Murasov, HTM kutsehariduse osakond.
 * Kaidi Nõmmela, HTM täiskasvanuhariduse osakond.
 * Külli All, HTM täiskasvanuhariduse osakond. Tuli kohtumisele OSKA andmetest rääkima – kuidas andmeid kasutajasõbralikumaks kuvada.
+
 * Egle Mätas ja Katri Selg (edaspidi TW) Eesmärk selgitada, mida vajavad teenuste sihtgrupid ja mida vajate teie – kõik need vajadused ja ootused  kaardistada. Mõelda suurelt!
 
 Selgitati TW-le teada olevat eelinfot – tutvunud analüüsiga, mis tehti 2016 suvel. Lisati, et Kutseregistri analüüsist saab ka infot kutseregistri kasutusmugavuse kohta.
