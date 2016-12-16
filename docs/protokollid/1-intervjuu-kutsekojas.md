@@ -14,7 +14,7 @@
 * Kaidi Nõmmela, HTM täiskasvanuhariduse osakond.
 * Külli All, HTM täiskasvanuhariduse osakond. Tuli kohtumisele OSKA andmetest rääkima – kuidas andmeid kasutajasõbralikumaks kuvada.
 
-* Egle Mätas ja Katri Selg (edaspidi TW) Eesmärk selgitada, mida vajavad teenuste sihtgrupid ja mida vajate teie – kõik need vajadused ja ootused  kaardistada. Mõelda suurelt!
+Egle Mätas ja Katri Selg (edaspidi TW) Eesmärk selgitada, mida vajavad teenuste sihtgrupid ja mida vajate teie – kõik need vajadused ja ootused  kaardistada. Mõelda suurelt!
 
 Selgitati TW-le teada olevat eelinfot – tutvunud analüüsiga, mis tehti 2016 suvel. Lisati, et Kutseregistri analüüsist saab ka infot kutseregistri kasutusmugavuse kohta.
 
