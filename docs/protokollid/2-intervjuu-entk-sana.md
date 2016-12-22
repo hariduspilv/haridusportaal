@@ -12,7 +12,7 @@
 
 Infot, mis sinna uude portaali kindlasti peab jõudma just seoses noortega, mis on nende jaoks oluline.
 
-**Huvi on, et lõpplahendusse jõuaks:
+**Huvi on, et lõpplahendusse jõuaks**:
 
 —noorte poliitiline osa: üldse kogu valdkonna infost
 —noorsootöötajale suunatud infost
@@ -21,13 +21,13 @@ Infot, mis sinna uude portaali kindlasti peab jõudma just seoses noortega, mis 
 —mitteformaalsest õppest
 —kõigest, mis noorte valdkonna all on vajalik edasi anda
 
-**Erinevad sihtgruppid ja nende vajadused:
+**Erinevad sihtgruppid ja nende vajadused**:
 
 1. noorsootöötajad
 2. noored
 3. noorte poliitika vaade, peamiselt ametnikud
 
-**Mis on need veebilehed mis kuuluvad ENTK ja HTM haldusalas:
+**Mis on need veebilehed mis kuuluvad ENTK ja HTM haldusalas**:
 
 1. HTM
 2. etk
@@ -39,7 +39,7 @@ Infot, mis sinna uude portaali kindlasti peab jõudma just seoses noortega, mis 
 8. teeviit (noorteinfoga)
 9. teaduse valdkond Miks.ee
 
-**Millised neist on populaarseimad:
+**Millised neist on populaarseimad**:
 
 Statistika veebide külastatavuse kohta hetkel puudub. Samuti mainitakse, et need veebid on suunatud erinevatele sihtrühmadele (alatooniga, et mis kasu statistikast sel juhul on).
 Eri ülesanded eri veebidel:
@@ -49,7 +49,7 @@ Eri ülesanded eri veebidel:
 
 Kommentaar HTM’i inimestelt: selliseid uuringuid on juba tehtud ja kaardistus on olemas.
 
-**Mis me näeme, et noorte valdkonnas on oluline 
+**Mis me näeme, et noorte valdkonnas on oluline**: 
 
  * poliitikavaates
  * noosootöötajatele
@@ -68,7 +68,7 @@ EESMÄRGI PÄRANE JAGUNEMINE
 
 Vajadustest noortevaldkonna infoga, eraldi fokuseeritud noortele.
 
-**Milline info peab olema kättesaadav? 
+**Milline info peab olema kättesaadav**? 
 
 * see on dokumenteeritud “noorteinfo teenusstandard” 
 Teemade jaotus antud dokumendis: 
@@ -87,7 +87,7 @@ Uuringud mida olete hiljuti tellinud ja mis sealt on välja tulnud:
 
 SOOVID
 
-**Soovid uute e-teenusesse:
+**Soovid uute e-teenusesse**:
 
 —INFO PEAKS OLEMA STAATILINE… arendatav tulevikus koos e-teenuste osakonnaga 
 —tark teenus, mis aitab noort profileerida, vastavalt asukohale, vanusele, päritolule vms näitajate kaudu, info kompineeritud konkreetse noore vajadustele
@@ -131,7 +131,7 @@ Hetkel olemas teenused (mitteformaalne või noor.ee):
 (euroopa komisjoni portaal on ajale jalgu jäänud, staatiline ja jäik, kõikidele riikidele ühtemoodi, pole paindlik, ei saa olla loominguline lisamaks valdkondi jms)
 
 
-**Probleemid:
+**Probleemid**:
 
  * infot jagatakse kohati raskes keeles, seega vajab tõlkimist nö. noorte keelde (noorsotöötaja töö osa)
  * puudub sündmuste kalender, mis aitaks noori kursis hoidma toimuvaga (laagrid jms sündmuste toimumis ajad)
@@ -139,7 +139,7 @@ Hetkel olemas teenused (mitteformaalne või noor.ee):
  * maakondlikud nõustamiskeskused kaovad ära järgmisest aastast
  * kuhu läheb info enne uue portaali nö. avamist, vajadus vahepealse lahenduse järgi
 
-**Nõudmised:
+**Nõudmised**:
 
  * teemavaldkonnad on suureti kokku lepitud teatud dokumentides ja EL poliitikaga
  * noorteinfo teenusstandardist lähtuvad teema peaksid olema kaetud 
@@ -147,7 +147,7 @@ Hetkel olemas teenused (mitteformaalne või noor.ee):
  * info edastus noortepärane, abiks tal elupuudutavaid otsuseid tegema
 
 
-**Uuringu dokumendid, mida jagati:
+**Uuringu dokumendid, mida jagati**:
 
 1. Noorteinfo teenuse kättesaadavuse ja kasutatavusemugavuse tõstmise analüüs
 2. Valdkonnast tulenev noorteinfo, mis uuringutest ei tule
@@ -155,17 +155,17 @@ Hetkel olemas teenused (mitteformaalne või noor.ee):
 Kas uuringutest tuli midagi uut välja:
  * maakondlikud infokeskused, probleem on et sinna keskustesse ja võrgustiku ei satuta
 
-**Statistika?
+**Statistika**?
 
 — on tehtud
 — noortele väljapanduna hetkel pole
 
-**Tegevused ja teenused mida üle tuua uude portaali:
+**Tegevused ja teenused mida üle tuua uude portaali**:
 
  * tagasiside küsimine
  * stardiplatis cv, oma info kogum, profiil, miinus see et vajab sisselogimist
 
-**Kuidas noored jõuavad infoni:
+**Kuidas noored jõuavad infoni**:
 
  * suust suhu
  * koolihuvijuhi ja õpetajate kaudu
