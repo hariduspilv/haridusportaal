@@ -21,7 +21,7 @@ Infot, mis sinna uude portaali kindlasti peab jõudma just seoses noortega, mis 
 —mitteformaalsest õppest
 —kõigest, mis noorte valdkonna all on vajalik edasi anda
 
-**Erinevad sihtgruppid ja nende vajadused**:
+**Erinevad sihtgrupid ja nende vajadused**:
 
 1. noorsootöötajad
 2. noored
@@ -41,11 +41,13 @@ Infot, mis sinna uude portaali kindlasti peab jõudma just seoses noortega, mis 
 
 **Millised neist on populaarseimad**:
 
-Statistika veebide külastatavuse kohta hetkel puudub. Samuti mainitakse, et need veebid on suunatud erinevatele sihtrühmadele (alatooniga, et mis kasu statistikast sel juhul on).
+Statistika veebide külastatavuse kohta hetkel puudub.
+Samuti mainitakse, et need veebid on suunatud erinevatele sihtrühmadele (alatooniga, et mis kasu statistikast sel juhul on).
+
 Eri ülesanded eri veebidel:
-— noored.ee: otsitakse võimalusi projekte; minna välismaale (erasmus+ võimalused)—kasutaja noor/õpilane
-— mitteformaalne.ee: koolituseinfo, õppematejalid, koolitajate võrgustiku info
-— entk: rahastused, projekti konkursid, taotlus tingimused 
+ * noored.ee: otsitakse võimalusi projekte; minna välismaale (erasmus+ võimalused)—kasutaja noor/õpilane
+ * mitteformaalne.ee: koolituseinfo, õppematejalid, koolitajate võrgustiku info
+ * entk: rahastused, projekti konkursid, taotlus tingimused 
 
 Kommentaar HTM’i inimestelt: selliseid uuringuid on juba tehtud ja kaardistus on olemas.
 
@@ -59,10 +61,10 @@ Mis on täna halvasti, mis on täna hästi, mis funktsionaalsusi on puudu, üle
 
 TEEMADE JAOTUS
 
-EESMÄRGI PÄRANE JAGUNEMINE
+EESMÄRGI PÄRANE JAGUNEMINE:
+
 1. mitteformaalne.ee
- * noorsootöötaja pädevusega tegelev info, koolitused ja materjalid
-—ei jaga instrumente noortega töötamiseks
+ * noorsootöötaja pädevusega tegelev info, koolitused ja materjalid - ei jaga instrumente noortega töötamiseks
 2. portaalid suunatud noortele
  * projekti-, koolituse-, õppimise-, koostöö-, karjäärivõimalused
 
@@ -89,17 +91,17 @@ SOOVID
 
 **Soovid uute e-teenusesse**:
 
-—INFO PEAKS OLEMA STAATILINE… arendatav tulevikus koos e-teenuste osakonnaga 
-—tark teenus, mis aitab noort profileerida, vastavalt asukohale, vanusele, päritolule vms näitajate kaudu, info kompineeritud konkreetse noore vajadustele
-—haldusala pealne info; valdkonna põhine
-—noor saab analüüsida oma kogemust (mitteformaalset kogemust: laager, huviring) ja ehk retrospektiivis… juba arendatakse
-—noorel tööriist, mis aitab võimeid ja oskusi analüüsida
-—kutse ja oskuste teekonna joonis/käik, mis näitaks arenguvõimalusi (rajaleidja), ehk gümn õppingutest >> ülikoolini >> tööni
-—noortepäraselt esitatud, selliselt et noored sellest aru saaks, noor saaks teha elu puudutavaid otsuseid
-—sündmustekalender noortele
-—lingikogu, mis pakub kõikki noortele suunatud info (ühest kesksest kohast)
-—peaks olema enamat kui info jagamise keskkond
-—kasutada rohkem avaandmeid, rohkem kasulike funktsionaalsusi, universaalsed näiteks taotlusvormid
+ * INFO PEAKS OLEMA STAATILINE… arendatav tulevikus koos e-teenuste osakonnaga 
+ * tark teenus, mis aitab noort profileerida, vastavalt asukohale, vanusele, päritolule vms näitajate kaudu, info kompineeritud konkreetse noore vajadustele
+ * haldusala pealne info; valdkonna põhine
+ * noor saab analüüsida oma kogemust (mitteformaalset kogemust: laager, huviring) ja ehk retrospektiivis… juba arendatakse
+ * noorel tööriist, mis aitab võimeid ja oskusi analüüsida
+ * kutse ja oskuste teekonna joonis/käik, mis näitaks arenguvõimalusi (rajaleidja), ehk gümn õppingutest >> ülikoolini >> tööni
+ * noortepäraselt esitatud, selliselt et noored sellest aru saaks, noor saaks teha elu puudutavaid otsuseid
+ * sündmustekalender noortele
+ * lingikogu, mis pakub kõikki noortele suunatud info (ühest kesksest kohast)
+ * peaks olema enamat kui info jagamise keskkond
+ * kasutada rohkem avaandmeid, rohkem kasulike funktsionaalsusi, universaalsed näiteks taotlusvormid
 
 
 Tähelepanek soovidest uude portaali:
