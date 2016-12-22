@@ -1,5 +1,5 @@
 
-# 13.12.2016 INTERVJUU HTM-s
+# 13.12.2016 HTM-s
 
 ### Osalejad:
 
@@ -12,7 +12,8 @@
 
 Infot, mis sinna uude portaali kindlasti peab jõudma just seoses noortega, mis on nende jaoks oluline.
 
-###Huvi on, et lõpplahendusse jõuaks:
+**Huvi on, et lõpplahendusse jõuaks:
+
 —noorte poliitiline osa: üldse kogu valdkonna infost
 —noorsootöötajale suunatud infost
 —uuringutest
@@ -20,12 +21,14 @@ Infot, mis sinna uude portaali kindlasti peab jõudma just seoses noortega, mis 
 —mitteformaalsest õppest
 —kõigest, mis noorte valdkonna all on vajalik edasi anda
 
-###Erinevad sihtgruppid ja nende vajadused:
+**Erinevad sihtgruppid ja nende vajadused:
+
 1. noorsootöötajad
 2. noored
 3. noorte poliitika vaade, peamiselt ametnikud
 
-###Mis on need veebilehed mis kuuluvad ENTK ja HTM haldusalas:
+**Mis on need veebilehed mis kuuluvad ENTK ja HTM haldusalas:
+
 1. HTM
 2. etk
 3. noored
@@ -36,7 +39,8 @@ Infot, mis sinna uude portaali kindlasti peab jõudma just seoses noortega, mis 
 8. teeviit (noorteinfoga)
 9. teaduse valdkond Miks.ee
 
-###Millised neist on populaarseimad:
+**Millised neist on populaarseimad:
+
 Statistika veebide külastatavuse kohta hetkel puudub. Samuti mainitakse, et need veebid on suunatud erinevatele sihtrühmadele (alatooniga, et mis kasu statistikast sel juhul on).
 Eri ülesanded eri veebidel:
 — noored.ee: otsitakse võimalusi projekte; minna välismaale (erasmus+ võimalused)—kasutaja noor/õpilane
@@ -45,10 +49,11 @@ Eri ülesanded eri veebidel:
 
 Kommentaar HTM’i inimestelt: selliseid uuringuid on juba tehtud ja kaardistus on olemas.
 
-###Mis me näeme, et noorte valdkonnas on oluline 
-—poliitikavaates
-—noosootöötajatele
-—noored
+**Mis me näeme, et noorte valdkonnas on oluline 
+
+ * poliitikavaates
+ * noosootöötajatele
+ * noored
 
 Mis on täna halvasti, mis on täna hästi, mis funktsionaalsusi on puudu, üle
 
@@ -56,31 +61,33 @@ TEEMADE JAOTUS
 
 EESMÄRGI PÄRANE JAGUNEMINE
 1. mitteformaalne.ee
->> noorsootöötaja pädevusega tegelev info, koolitused ja materjalid
+ * noorsootöötaja pädevusega tegelev info, koolitused ja materjalid
 —ei jaga instrumente noortega töötamiseks
 2. portaalid suunatud noortele
->> projekti-, koolituse-, õppimise-, koostöö-, karjäärivõimalused
+ * projekti-, koolituse-, õppimise-, koostöö-, karjäärivõimalused
 
 Vajadustest noortevaldkonna infoga, eraldi fokuseeritud noortele.
-Milline info peab olema kättesaadav? 
-— see on dokumenteeritud “noorteinfo teenusstandard” 
+
+**Milline info peab olema kättesaadav? 
+
+* see on dokumenteeritud “noorteinfo teenusstandard” 
 Teemade jaotus antud dokumendis: 
-*noorsotöö võimalused
-*töö ja karjäär
-*haridus
-*ühiskond ja kodanik
-*noorte osaluse kaasamine
-*huviharidus ja huvitegevus
-*tervis ja suhted
-*rahvusvaheline info
-*noorte vabaaeg
+* noorsotöö võimalused
+* töö ja karjäär
+* haridus
+* ühiskond ja kodanik
+* noorte osaluse kaasamine
+* huviharidus ja huvitegevus
+* tervis ja suhted
+* rahvusvaheline info
+* noorte vabaaeg
 
 Uuringud mida olete hiljuti tellinud ja mis sealt on välja tulnud:
 —seotud noorte info tänase korralduse ja nende vajadusega (entk)
 
 SOOVID
 
-###Soovid uute e-teenusesse:
+**Soovid uute e-teenusesse:
 
 —INFO PEAKS OLEMA STAATILINE… arendatav tulevikus koos e-teenuste osakonnaga 
 —tark teenus, mis aitab noort profileerida, vastavalt asukohale, vanusele, päritolule vms näitajate kaudu, info kompineeritud konkreetse noore vajadustele
@@ -100,69 +107,71 @@ Noorte vajaduste kohta: Kuidas me läheneme ja miks me just nii läheneme? Mida 
 Reelika, Marko: fookus võiks olla laiemalt info, mis aitab noori suunata tegema nö. õigeid otsuseid. KUJUNDADA VÄÄRTUSI (stateegia/noorte poliitika, et noored saaksid oma eluga hakkama ja oleksid riigile kasulikud)
 
 Tähelepanek hirmudest seotud uue portaaliga:
-* Info võib minna kaduma
-* Tekivad ebaloogiliselt teema jaotused, kategooriad
+ * Info võib minna kaduma
+ * Tekivad ebaloogiliselt teema jaotused, kategooriad
 Näiteks: Eesti ja EL harta teemade erijaotuste pinnal võib tekkida segadus
-* Eri arendused, mis juba praegu plaanitud saaksid seal kaetud 
+ * Eri arendused, mis juba praegu plaanitud saaksid seal kaetud 
+ 
 Näiteks: mitteformaalse.ee on noorte valdkonna koolitusele, suunatud eraldi noore õpetaja kutse taotlemine (elektroonilise portfoolio koostamine) ja vormistamine.
-Noorte seire süsteem, mis pole valmis vaid areneb, ning vajab edasi arendamist. Andmeaidad, statistika, 
+Noorte seire süsteem, mis pole valmis vaid areneb, ning vajab edasi arendamist. Andmeaidad, statistika. 
 
-
-HETKEL
+AS-IS
 
 Hetkel on olemas vajadus antud info järgi: 
 1. noored.ee
-—projektid, mida noored saavad ise teostada, plus rahastusvõimalused ja kõik mis seotud 
-—koolitusted ja info mida noortele pakutakse
+ * projektid, mida noored saavad ise teostada, plus rahastusvõimalused ja kõik mis seotud 
+ * koolitusted ja info mida noortele pakutakse
 2. rajaleidja
-—NR.1 haridusteemad, õppimisvõimalused: eestis, välismaal
-—NR.2 töötamisega seotud info, palgad, seadusandlus jms statistika
-—NR.3 info teenuste ja keskuste kohta, mida rajaleidja pakub
+ * haridusteemad, õppimisvõimalused: eestis, välismaal
+ * töötamisega seotud info, palgad, seadusandlus jms statistika
+ * info teenuste ja keskuste kohta, mida rajaleidja pakub
 
 Hetkel olemas teenused (mitteformaalne või noor.ee):
-—koolitustele registreerimine
+ * koolitustele registreerimine
 (euroopa komisjoni portaal on ajale jalgu jäänud, staatiline ja jäik, kõikidele riikidele ühtemoodi, pole paindlik, ei saa olla loominguline lisamaks valdkondi jms)
-—
-
-Probleemid:
-— infot jagatakse kohati raskes keeles, seega vajab tõlkimist nö. noorte keelde (noorsotöötaja töö osa)
-— puudub sündmuste kalender, mis aitaks noori kursis hoidma toimuvaga (laagrid jms sündmuste toimumis ajad)
-— hetkel ei ole kogu info hallatav riigi tasemel vaid osa info kohalik hallatav KOV. Raske selle KOV infoni jõuda, seda jagada jms. ei jõua nooreni
-— maakondlikud nõustamiskeskused kaovad ära järgmisest aastast
-— kuhu läheb info enne uue portaali nö. avamist, vajadus vahepealse lahenduse järgi
-—
 
 
-Nõudmised:
-—teemavaldkonnad on suureti kokku lepitud teatud dokumentides ja EL poliitikaga
-—noorteinfo teenusstandardist lähtuvad teema peaksid olema kaetud 
-—euroopa noorteinfo harta, lähtuda
-—info edastus noortepärane, abiks tal elupuudutavaid otsuseid tegema
+**Probleemid:
+
+ * infot jagatakse kohati raskes keeles, seega vajab tõlkimist nö. noorte keelde (noorsotöötaja töö osa)
+ * puudub sündmuste kalender, mis aitaks noori kursis hoidma toimuvaga (laagrid jms sündmuste toimumis ajad)
+ * hetkel ei ole kogu info hallatav riigi tasemel vaid osa info kohalik hallatav KOV. Raske selle KOV infoni jõuda, seda jagada jms. ei jõua nooreni
+ * maakondlikud nõustamiskeskused kaovad ära järgmisest aastast
+ * kuhu läheb info enne uue portaali nö. avamist, vajadus vahepealse lahenduse järgi
+
+**Nõudmised:
+
+ * teemavaldkonnad on suureti kokku lepitud teatud dokumentides ja EL poliitikaga
+ * noorteinfo teenusstandardist lähtuvad teema peaksid olema kaetud 
+ * euroopa noorteinfo harta, lähtuda
+ * info edastus noortepärane, abiks tal elupuudutavaid otsuseid tegema
 
 
-###Uuringu dokumendid, mida jagati:
+**Uuringu dokumendid, mida jagati:
+
 1. Noorteinfo teenuse kättesaadavuse ja kasutatavusemugavuse tõstmise analüüs
 2. Valdkonnast tulenev noorteinfo, mis uuringutest ei tule
  
 Kas uuringutest tuli midagi uut välja:
-—maakondlikud infokeskused, probleem on et sinna keskustesse ja võrgustiku ei satuta
+ * maakondlikud infokeskused, probleem on et sinna keskustesse ja võrgustiku ei satuta
 
-Statistika??? 
+**Statistika?
+
 — on tehtud
 — noortele väljapanduna hetkel pole
 
-Tegevused ja teenused mida üle tuua uude portaali:
-—tagasiside küsimine
-—stardiplatis cv, oma info kogum, profiil, miinus see et vajab sisselogimist
+**Tegevused ja teenused mida üle tuua uude portaali:
 
-###Kuidas noored jõuavad infoni:
-—suust suhu
-—koolihuvijuhi ja õpetajate kaudu
-—noosootöötaja käest
-—veebi
-—laialdane turundus, konverents
+ * tagasiside küsimine
+ * stardiplatis cv, oma info kogum, profiil, miinus see et vajab sisselogimist
 
+**Kuidas noored jõuavad infoni:
 
+ * suust suhu
+ * koolihuvijuhi ja õpetajate kaudu
+ * noosootöötaja käest
+ * veebi
+ * laialdane turundus, konverents
 
-Kairi ettepanek— võibolla saame midagi vana kasutada ja midagi uut projekti tuua. Arvab, et spetsialisti vaate võiks olla eraldi kuskilt mujalt
-spetsialistile suunatud info on e-koolikotti vms keskkonda
+Kairi ettepanek— võibolla saame midagi vana kasutada ja midagi uut projekti tuua. Arvab, et spetsialisti vaade võiks olla eraldi kuskilt mujalt.
+* spetsialistile suunatud info on e-koolikotti vms keskkonda
