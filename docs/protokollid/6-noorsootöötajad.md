@@ -114,7 +114,7 @@ Koostöö teiste asutustega on olnud hea.
 * läheneda huvi ja piirkonna põhiselt
 
 Lisaks
-Pakkutavad teenused/funktsioonid:
+Pakutavad teenused/funktsioonid:
 * Teavitused koolidesse jms
 * Regamised laagritesse, messidele, seminaridele
 * Uudiskiri kahekeelsed (rus, est) kuid avamisprotsent väike
