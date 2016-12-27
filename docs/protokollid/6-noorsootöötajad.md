@@ -5,6 +5,7 @@
 
 1. Margit Sellik, kommunikatsioonijuht
 2. Jelena Škenjova, spetsialist
+
 3.
 
 Trinidad Wiseman OÜ: Katri Selg ja Egle Vesk.
@@ -33,8 +34,8 @@ Tegevused:
 Teemaprogrammid: 
 
 Teemad, mis programmides kaetakse on tulnud noorte huvist ja soovist seda teada.
- * noorte tervise edenduse programm
- * tööhõive ettevõtlikuse programm
+ * noorte tervise edendamise programm
+ * tööhõive ettevõtlikkuse programm
  * ülelinnalised noorteprogrammid
  * mobiilne noorsootöö 
  * rahvusvaheline noorsootöö 
@@ -71,7 +72,7 @@ Küsitlustest selgub et esmane kontakt on koolidest ja sealt need teemad on noor
 **Kuidas sihtrühmani jõutakse**:
 
 *	Lapsevanemateni läbi kampaaniate sisuturunduse, reklaamid, klipid, artiklid ajakirjades, sots meedias 
-*	**Venekeelne sihtrühm vajab/otsib samat infot, nendeni jõutake läbi kooli ja õpetajate**
+*	**Venekeelne sihtrühm vajab/otsib sama infot, nendeni jõutakse läbi kooli ja õpetajate**
 *	Puuetega noortele hetkel programmid puuduvad 
 *	**Välismaalasteni jõutakse läbi rahvusvaheliste partnerite, konkreetsed lingid selleks**
 *	**Nooreni läbi kooli, koolikaaslaste, õpetajate ja klassijuhataja**
@@ -125,11 +126,11 @@ Tulevikus teenused:
 **Head praegusel kodulehel**:
 
 * Suvetegevused ja -laagrid
-* Huvitegevuse teadmik
+* Huvitegevuse teatmik
 * Seminarid/üritused
 * **Tähelepanek: infot keskmiselt läbi otsitakse 3 min**
 
-**Noorte motiveerimis tehnikad**:
+**Noorte motiveerimise tehnikad**:
 
 * Lasevad noortel kaasa lüüa, motiveerimine läbi osaluse: grupitöö, praktilised harjutused, näitlikud/õpetlikud filmid, klipid jms
 * Interaktiivsed ja mänguliselt kaasavad formaadid
