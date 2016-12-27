@@ -6,7 +6,6 @@
 1. Margit Sellik, kommunikatsioonijuht
 2. Jelena Škenjova, spetsialist
 
-3.
 
 Trinidad Wiseman OÜ: Katri Selg ja Egle Vesk.
 
