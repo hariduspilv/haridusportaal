@@ -17,3 +17,6 @@ Siia koondame lingid, mida töö käigus on näidetena esile toodud või soovita
 
 6. Disain
  * https://material.google.com/#
+
+7. EK standard õppekavade/kursuste andmestiku ühtlustamiseks, esitlemiseks-pakkumiseks-reklaamiks veebis
+https://joinup.ec.europa.eu/catalogue/asset_release/metadata-learning-opportunities-mlo-advertising
