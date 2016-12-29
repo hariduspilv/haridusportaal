@@ -3,7 +3,9 @@
 #### Osalejad:
 
 *Terje Tuisk -osakonnajuhataja
+
 *Sirje - Vanemkoordinaator
+
 *Trinidad Wiseman OÜ: Katri Selg ja Egle Vesk.
 
 #### Tegevused
