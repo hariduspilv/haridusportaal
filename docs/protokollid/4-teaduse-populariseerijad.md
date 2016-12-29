@@ -14,7 +14,9 @@
 
 #### Sihtrühmad
 *Sihtrühmad laiemalt: õppekoordinaatorid, õpetajad, õpilased, KOV-id, ettevõtted, lapsevanemad, teaduse populariseerijad- kõik ei ole asutused, populariseerijate võrgustik-funktsioon mida neilt oodatakse, saada infot mida teised teevad. Kvaliteet on märksõna. Koolid teaksid millised on võimalused. KOV-d teaksid mida teised KOV-d teevad. Need, kes täna midagi ei tee, hakkaksid ka midagi tegema.
+
 *Miks.ee sihtrühm: õpilased alates põhikooli 2. astmest.
+
 *Miks.ee lehele reeglina noored ise ei tule, õpetajad peamiselt suunavad. Andes lastele ülesande otsida mingit infot või midagi teha.
 
 #### Haridusportaali eesmärk
