@@ -24,13 +24,13 @@
 * Ei kujuta ette, et kogu hariduse info on ühes portaalis koos. 
 
 #### Haridusportaal 5a pärast
-*Ei tohiks dubleerida head infot. 
-*Struktureeritus peaks tulema sihtrühma põhiselt.
-*Lihtne ja loogiline ülesehitus
-*igaüks ei tohiks saada muuta värve ja fonti
-*lahendada on vaja failide üleslaadimine (on koole, kes ei kasuta MC office tarkvara vaid tasuta programme), kuidas need kokku viia
-*videod - kui youtube panna, mis saab kui see tasuliseks läheb
-*pildigalerii - sündmustest tekib galerii
+* Ei tohiks dubleerida head infot. 
+* Struktureeritus peaks tulema sihtrühma põhiselt.
+* Lihtne ja loogiline ülesehitus
+* igaüks ei tohiks saada muuta värve ja fonti
+* lahendada on vaja failide üleslaadimine (on koole, kes ei kasuta MC office tarkvara vaid tasuta programme), kuidas need kokku viia
+* videod - kui youtube panna, mis saab kui see tasuliseks läheb
+* pildigalerii - sündmustest tekib galerii
 
 #### Vene keelt kõnelevate kasutajate vajadused
 * Venekeelsetele kasutajatele info kuvamiseks resurssi ei ole, kuigi vajadus oleks. 
