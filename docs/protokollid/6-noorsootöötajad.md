@@ -3,11 +3,9 @@
 
 ## Osalejad
 
-1. Margit Sellik. peaspetsialist
-* Margit tegeleb Tallinna noorteinfo kommunikatsiooni korraldamisega ning annab välja noortevaldkonna erilehte Noor Tegija
+1. Margit Sellik, tegeleb Tallinna noorteinfo kommunikatsiooni korraldamisega ning annab välja noortevaldkonna erilehte Noor Tegija
 
-2. Jelena Škenjova, spetsialist
-* Jelena tegeleb noorteinfo vahendamisega, hoolitseb osakonna kodulehe ja sotsiaalmeediakanalite eest ning korraldab noortele suunatud infotunde vene keeles.
+2. Jelena Škenjova, tegeleb noorteinfo vahendamisega, hoolitseb osakonna kodulehe ja sotsiaalmeediakanalite eest ning korraldab noortele suunatud infotunde vene keeles.
 
 Trinidad Wiseman OÜ: Katri Selg ja Egle Vesk.
 
