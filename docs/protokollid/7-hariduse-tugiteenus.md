@@ -78,23 +78,23 @@ Mudel: http://www.rajaleidja.ee/public/Suunaja/Karjaariinfo_vahendamise_mudel_20
 **Ootused ja vajadused portaalile**:
 
 * Aitaks kasutajat, kes planeerib karjääri ja selles arvestaks sihtrühma vajadusi – profileeriks, ei saa kõigile nö ühte pakki pihku pista
-*	Aitaks Karjäärinõustajaid
-*	Täiskasvanud vajavad sama tuge, mis noored, ka nemad peavad portaalist tuge ja nõu saama
+*	Aitaks Karjäärinõustajaid.
+*	Täiskasvanud vajavad sama tuge, mis noored, ka nemad peavad portaalist tuge ja nõu saama.
 *	Spetsialist ja lapsevanem, kes otseselt mõjutavad noort , kus nemad saavad tugimaterjalid – keerukus on erinev.
-*	Täiendkoolitused, kõik õppimisega seotud võimalused peaksid olema kaetud
+*	Täiendkoolitused, kõik õppimisega seotud võimalused peaksid olema kaetud.
 *	Haridusinfo (EHIS): Koolid, erialad, õppekavad ja erinevad otsinguvõimalused. Kindlasti ka gümnaasiumide kohta peab olema info. Vaadata Rajaleidja prototüüpi.
-* Rahvusvaheline osa: tuled Eestisse sh välismaalased, lähed välismaale – Euroopa Kooli sihtgrupp
-*	Keskkond peab olema paindlik – täna on video popp, aga kui homme mitte
+* Rahvusvaheline osa: tuled Eestisse sh välismaalased, lähed välismaale – Euroopa Kooli sihtgrupp.
+*	Keskkond peab olema paindlik – täna on video popp, aga kui homme mitte.
 *	Interaktiivsed vahendid: kuidas enda karjääri planeerida, kujundada – selline tööriist võiks olla Taanlastel on, karjääriplaneerimise etapid (mudel). Midagi sellist võiks olla portaali osa. See on midagi, mis aitab ise karjääriteemades orienteeruda.
-*	Kasutaja vajab ka oma piirkonna infot mitte ainult Eesti kohta
-*	Portaal ei peaks andma sügavuti andmeid, aga mingi piirini peaks aitama (kus on piir?)
+*	Kasutaja vajab ka oma piirkonna infot mitte ainult Eesti kohta.
+*	Portaal ei peaks andma sügavuti andmeid, aga mingi piirini peaks aitama (kus on piir?).
 
 **Vajalikud funktsionaalsused**:
 
-*	Teenusele registreerimine (või jääb see Innove lehele?), tühistamine – praktiline vajadus Rajaleidjas
-*	Erinevate küsimustike tegemise võimalus (valikvastused, õige/vale jms) peab võimaldama erinevaid küsimusi koostada (interaktiivne)
+*	Teenusele registreerimine (või jääb see Innove lehele?), tühistamine – praktiline vajadus Rajaleidjas.
+*	Erinevate küsimustike tegemise võimalus (valikvastused, õige/vale jms) peab võimaldama erinevaid küsimusi koostada (interaktiivne).
 *	Registreerimise vorm: infopäevale, üritusele. NB! Seos EHIS-ga, KliendiAB-ga, vajalik, et andmed oleksid eeltäidetud. Isikuandmete kaitse teema – vajalik õiguslik analüüs. N: kui 14 a saab nõustamisteenust, EHIS-est andmed.. vajalik analüüsida, kas nii on ok.
-*	Chät teenus (mootor) – juba käivitamisel, see on sisuline teenus. See on nii küsimusele vastamine või esmane nõustamine
+*	Chät teenus (mootor) – juba käivitamisel, see on sisuline teenus. See on nii küsimusele vastamine või esmane nõustamine.
 
 **Töövarjuks registreerimine**:
 
@@ -114,8 +114,8 @@ Palju kasutatakse ametite AB-s venekeelset osa sh kasutab Töötukassa. Kindlast
 *	Et ei läheks märksõnaloendiks
 *	Rajaleidja bränd
 *	Imelik, et haridusportaalis saad karjäärinõu..
-*	Kas on ambitsioon ka HTM haldusalast välja.. miks siis haridusportaal? Kas sektorite ülene.. tööturg peab olema sees, kuigi on tegemist haridusportaaliga. Fookuses peab olema tavakasutaja
-*	Tahaks veel sisendit anda, suur mure, et Rajaleidjat ei saa arendada.. aga millal Portaal
+*	Kas on ambitsioon ka HTM haldusalast välja.. miks siis haridusportaal? Kas sektorite ülene.. tööturg peab olema sees, kuigi on tegemist haridusportaaliga. Fookuses peab olema tavakasutaja.
+*	Tahaks veel sisendit anda, suur mure, et Rajaleidjat ei saa arendada.. aga millal Portaal.
 *	Kuidas saab sisuloome olema, kes sisu toimetab, kuidas jagada, kes mis sisu haldab ja uuendab. Nägemus: koos on 10 toimetajat ja 5 arendajat, mitte nii, et igas asutuses keegi toimetab. Võimalikud probleemid:
  * Segadus, kes mida teeb
  * Et stiil ja „keel“ oleks üks
