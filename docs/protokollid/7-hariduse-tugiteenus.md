@@ -40,6 +40,7 @@ Vajame kõiki, mis puudutab hariduse ja tööturu infot
 *	EKKA
 *	ETAG: MIKS.ee
 * OSKA prognoosid – vaja muuta loetavamaks (lihtsamaks)
+
 Loetelu peaks olema kirjas Rajaleidja Suunaja osas.
 
 **Ametite AB**:
@@ -70,6 +71,8 @@ Norras: https://utdanning.no/.
 *	2015 kaardistus, just see , mida meie projektis käsitleme: http://www.cedefop.europa.eu/en/publications-and-resources/publications/5555?src=email&freq=weekly
 *	http://www.innove.ee/et/haridustugiteenused/uuringud
 *	Värke PISA uuring.
+
+Mudel: http://www.rajaleidja.ee/public/Suunaja/Karjaariinfo_vahendamise_mudel_2014.pdf
 
 
 **Ootused ja vajadused portaalile**:
