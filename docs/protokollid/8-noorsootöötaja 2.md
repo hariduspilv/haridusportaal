@@ -15,8 +15,8 @@
 * peamiselt saue valla lapsed saue gümnaasiumist
 
 #### Oluliseim info külastajale (mida otsikakse noortekeskuse kodulehelt)
-*huviringid (nii noortele kui ka täiskasvanutele)
-*Sihtrühma toob kohale huviringid, vanemad, õed-vennad
+* huviringid (nii noortele kui ka täiskasvanutele)
+* Sihtrühma toob kohale huviringid, vanemad, õed-vennad
 
 #### Tagasiside, millest kasutajad puudust tunnevad
 * Kasutajad ei tunne otseselt puudust, kui neil midagi vaja on siis nad leiavad selle üles, küsimus on info kvaliteedis.
