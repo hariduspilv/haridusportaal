@@ -44,9 +44,9 @@
 
 5. 	Põhja-Eesti Rajaleidja	/ Karjäärinõustajate kogemus 
 
-6. 	Spordi- ja Noorsooamet	/ Noorsootöötate kogemus
+6. 	Spordi- ja Noorsooamet	/ Noorsootöötajate kogemus
 
-7. 	Saue Noortekeskus	/ Noorsootöötate kogemus
+7. 	Saue Noortekeskus	/ Noorsootöötajate kogemus
 
 8. 	Innove	/ Hariduse tugiteenus - Rajaleidja
 
