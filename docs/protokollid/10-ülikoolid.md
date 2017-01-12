@@ -50,6 +50,7 @@ Väga palju ühiseid teenuseid täna pole.
 **3. Protsessidest**
 
 Sarnased komponendid on olemas.
+
 •	Avalduse esitamine – ei ole isegi haridusevaldkonna spetsiifiline
 
 •	Kooskõlastamise protsess on täna erinev (suurusest tulenevalt) võiks olla 3-4 standardit, mida suurusest tulenevalt kasutad.
