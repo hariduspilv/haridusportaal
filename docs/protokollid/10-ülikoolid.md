@@ -35,7 +35,7 @@ Tehniline dokument esitatakse „IT-inimestele“.
 
 **IT töörühmast, kes standardimise komisjonist saadud sisendile lisavad IT manifesti tulevasele arendajale.**
 
-Andmed ei peaks olema ülikoolis vaid registrid võiksid olla hariduspilves ja andmeid pakutakse ülikoolidele. See kaotaks ära vajaduse üleval pidada erinevat tehnoloogilist baasi, vabaneb ressurss, kompetents, ei pea statistikat looma. Registrid oleksid riigipilves. Täna veel ei olda valmis IS-i ära andma, sest protsessid on erinevad, aga kaugemas tulevikus võiks ka see olla eesmärk.*
+Andmed ei peaks olema ülikoolis vaid registrid võiksid olla hariduspilves ja andmeid pakutakse ülikoolidele. See kaotaks ära vajaduse üleval pidada erinevat tehnoloogilist baasi, vabaneb ressurss, kompetents, ei pea statistikat looma. Registrid oleksid riigipilves. Täna veel ei olda valmis IS-i ära andma, sest protsessid on erinevad, aga kaugemas tulevikus võiks ka see olla eesmärk.
 
 **2. Ühised veebiteenused**
 
