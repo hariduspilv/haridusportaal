@@ -10,7 +10,7 @@
 
 4.	Helen / lektor ja lapsevanem
 
-5. 	Heli, 33 / "elupõline" õppur (magistriõpe 1. kursus) ja lapsevanem
+5. 	Heli, 33 / "elupõline" õppur (magistriõpe 1. kursus), lapsevanem ja koolitusfirma töötaja
 
 6. 	Christi, üle 60 / õpetaja Narvas (mitmes koolis)
 
@@ -27,6 +27,8 @@
 12. Doris, 22	/ õppur (üliõpilane, bakalaureus, 2. kursus)
 
 13. Gümnaasiumi õpilased Narvas, 17 aastased /	õppurid (11. klass)
+
+14. Marjut, personalijuht / riigifirma esindaja
 		
 ###Intervjuud info haldajatega
 
