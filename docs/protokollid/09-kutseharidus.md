@@ -191,20 +191,20 @@ Ettepanek:
 
 **AS-IS:**
 
-1.	Puudub hea andmevahetus. Dubleerimine mitmes kohas, kuna erinevad andmebaasid ei suhtle omavahel.
+* Puudub hea andmevahetus. Dubleerimine mitmes kohas, kuna erinevad andmebaasid ei suhtle omavahel.
 
 Koolituste info näitel:
-* EHIS’es
-* Riigitöötajate portaalis/Riigiasutuste infosüsteemis
-* Oma infoõppe süsteemis
+ * EHIS’es
+ * Riigitöötajate portaalis/Riigiasutuste infosüsteemis
+ * Oma infoõppe süsteemis
 
 Töötajate info näitel:
-* SAP
-* Riigitöötajate portaalis
-* EHIS’es, aga suhtlus puudub teiste eelnevatega
-* oma infoõppe süsteemis
+ * SAP
+ * Riigitöötajate portaalis
+ * EHIS’es, aga suhtlus puudub teiste eelnevatega
+ * oma infoõppe süsteemis
 
-2.	Puuduvad andmed HEV inimeste kohta kui toimub sisseastumine jms. kuna terviliku info andmel on kaitse ees (10 000 puudega inimest).
+* Puuduvad andmed HEV inimeste kohta kui toimub sisseastumine jms. kuna terviliku info andmel on kaitse ees (10 000 puudega inimest).
 
 SISULOOMEST:
 
@@ -213,8 +213,8 @@ Teatud infot sellest kasutab ja modifitseerib Innove, et siis edasi anda teisel 
 
 Probleemid sisuloomes:
 
-1.	EHIS’es vanu õppekavasid pole arhiveeritud ja ei saa aru, mis on kõige õigem praegune õppekava.
-2.	Õppekava loomisel pole ühtset põhja, et tutvustada seda sihtrühmale.
+*	EHIS’es vanu õppekavasid pole arhiveeritud ja ei saa aru, mis on kõige õigem praegune õppekava.
+*	Õppekava loomisel pole ühtset põhja, et tutvustada seda sihtrühmale.
 
 Ettepanek: 
 
