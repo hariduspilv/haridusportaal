@@ -4,7 +4,7 @@
 
 http://www.ekey.ee/liikmed: Tanel Linnus, Tarmo Sööt, ?
 
-HTM kutsehariduse osakonnast: Karin Ruul, Rita Siilivask, Meeli
+HTM kutsehariduse osakonnast: Karin Ruul, Rita Siilivask, Meeli Murasov
 
 Innove: Maarja Vaikmaa
 
@@ -14,9 +14,9 @@ TW: Egle Vesk
 
 **Veebid**
 
-http://www.innove.ee/et/kutseharidus. 
-http://www.innove.ee/et/organisatsioonist/programmid-ja-projektid/prom
-https://www.hm.ee/et/opipoiss.
+* http://www.innove.ee/et/kutseharidus. 
+* http://www.innove.ee/et/organisatsioonist/programmid-ja-projektid/prom
+* https://www.hm.ee/et/opipoiss.
 
 **Sissejuhatuseks**
 
