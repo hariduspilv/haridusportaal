@@ -29,6 +29,8 @@
 13. Gümnaasiumi õpilased Narvas, 17 aastased /	õppurid (11. klass)
 
 14. Marjut, personalijuht / riigifirma esindaja
+
+15. Helen, TLÜ õppeosakonna juhataja/ ülikooli esindaja (protsesside täpsustamine)
 		
 ###Intervjuud info haldajatega
 
@@ -53,3 +55,5 @@
 9. 	Innove, HTM, EKEÜ	/ Kutseharidus
 
 10.	HTM, RN, Ülikoolide esindajad: TLÜ, TÜ, TTÜ, EMTA, EKA, EMÜ	/ Ülikoolide koostöö
+
+11.     ETAG / Seosed haridusportaalis
