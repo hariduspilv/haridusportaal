@@ -60,4 +60,10 @@
 
 11.	ETAG / Seosed haridusportaalis
 
+12. 	Visionäär / Haridusvaldkond
 
+13.	Eesti keele instituut, HTM/ Keeleportaal 
+
+14. 	ENTK, HTM / Noorsootöö 
+
+15.	Innove  / Eksamid
