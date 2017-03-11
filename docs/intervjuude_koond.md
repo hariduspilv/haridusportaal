@@ -57,13 +57,8 @@
 9. 	Innove, HTM, EKEÜ	/ Kutseharidus
 
 10.	HTM, RN, Ülikoolide esindajad: TLÜ, TÜ, TTÜ, EMTA, EKA, EMÜ	/ Ülikoolide koostöö
-
 11.	ETAG / Seosed haridusportaalis
-
 12. 	Visionäär / Haridusvaldkond
-
 13.	Eesti keele instituut, HTM/ Keeleportaal 
-
 14. 	ENTK, HTM / Noorsootöö 
-
 15.	Innove  / Eksamid
