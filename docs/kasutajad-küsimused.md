@@ -1,15 +1,15 @@
 **Sihtgrupp:** 
 Osaliselt grupis, osaliselt individuaalselt:
- * põhikoolist 7-9 klass (leiame töökaaslaste lapsed - 1 grupiintervjuu)
+ * põhikoolist 7-9 klass  
  * gümnasistid
  * kutseõppurid
- * esmakursuslane (ülikoolide kaudu)
- * elupõlised õppijad ja lapsevanemad (töökaaslaste kaudu, kiri läks 08.12 - ilmselt individuaalselt)
- * emakeel vene keel (Mihklilt?, Egle uurib?)
- * välismaalased lapsevanemad (kelle ema-isa töötab Eestis, ametnike kaudu?)
+ * esmakursuslane 
+ * elupõlised õppijad ja lapsevanemad 
+ * emakeel vene keel 
+ * välismaalased lapsevanemad 
  * ümberõppijad
  * väärikad
- * õpetaja kasutaja rollis (Eglelt, Katrilt)
+ * õpetaja kasutaja rollis 
 
 1. Rääkige alustuseks natuke endast - kes olete ja millega tegelete? (haridusest, hobidest, huvidest, tööst)
 2. Missuguseid veebilehti/ äppe te peamiselt kasutate?
