@@ -1,12 +1,12 @@
 
 Intervjuudeks ettevalmistamise jaoks on allpool esitatud jututeemad ja küsimused. Need küsimused on mõtete kujundamiseks, mitte punkt-punktilt vastamiseks. Intervjuud teeme pigem avatud arutlustena, mitte range küsimuste-vastuste jadana.
-Grupid:
-* visionäärid
-* erikeelsete kasutajatega tegelejad (portaalide üleselt?)
-* info haldajad (sisutoimetajad) 16.12
-* haridustöötajad
-* tööturu esindajad, kutseõppega tegelejad (kutsekoda, oska 12.12)
-* noorsootöötajad 13.12
+Esmane valik gruppidest:
+* visionäärid (ei toimunud, töökoosolekul 14.02 osales Mart Laanpere)
+* erikeelsete kasutajatega tegelejad (teemat käsitleti teiste intervjuude raames)
+* info haldajad (sisutoimetajad 16.12)
+* haridustöötajad (ülikoolide esindajad 11.01)
+* tööturu esindajad, kutseõppega tegelejad (kutseharidus 11.01 , oska 12.12)
+* noorsootöötajad (13.12 ja 28.02)
 	
 ### MIDA KASUTAJALE KUVADA/MIDA NAD VAJAVAD
 1. Mis on teie asutuse kõige populaarsem veebileht? Miks? Mida sealt otsitakse?
