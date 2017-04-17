@@ -1,4 +1,4 @@
-###Intervjuud kasutajatega
+### Intervjuud kasutajatega
 
 / Roll
 
@@ -19,7 +19,7 @@
 15. Helen, TLÜ õppeosakonna juhataja/ ülikooli esindaja (protsesside täpsustamine)
 16. Karin, ETAG tegevjuht/ Teadusportaali info haldaja
 		
-###Intervjuud info haldajatega
+### Intervjuud info haldajatega
 
 / Fookus
 
