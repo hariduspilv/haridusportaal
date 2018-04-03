@@ -1,0 +1,20 @@
+<div *ngIf="data">
+  <mat-menu></mat-menu>
+
+  <div *ngFor="let item of data">
+
+    <a href="javascript:void(0);" mat-menu-item [routerLink]="[item.url.translate.path]"  *ngIf="item.url.internal" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}">
+      <span>{{ item.label }}</span>
+    </a>
+
+    <a mat-menu-item href="{{ item.url.path }}" target="_blank"  *ngIf="!item.url.internal" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}">
+      <span>{{ item.label }}</span>
+      <mat-icon>link</mat-icon>
+    </a>
+    
+  </div><!--/*ngFor-->
+  
+  <a href="javascript:void(0);" mat-menu-item >
+    <span>Sündmused</span>
+  </a>
+</div>

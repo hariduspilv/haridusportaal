@@ -1,0 +1,36 @@
+<mat-spinner *ngIf="!content && !error"></mat-spinner>
+
+<div *ngIf="error" class="text-center">
+  <h1>404: Page not found</h1>
+  <button mat-raised-button>Go back</button>
+</div><!--/error-->
+
+<div *ngIf="content">
+  
+  
+  <ul class="breadcrumb">
+    <li *ngFor="let item of breadcrumb">
+      <a [routerLink]="[item.url.path]">
+        <span>{{ item.text }}</span>
+      </a>
+    </li>
+    <li>
+      <span>{{ content.title | ellipsis:30 }}</span>
+    </li>
+  </ul>
+  
+  <article>
+    <h1>{{ content.title }}</h1>
+    <p><b>{{ content.body.summary }}</b></p>
+
+    <mat-card *ngIf="content.fieldImage">
+      <mat-card-content>
+        <img  src="{{ content.fieldImage.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
+        <p>{{ content.fieldImage.alt }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <div [innerHTML]="content.body.value"></div>
+  </article>
+  
+</div><!--/content-->

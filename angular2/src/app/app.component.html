@@ -1,0 +1,15 @@
+<app-header></app-header>
+
+<mat-sidenav-container class="example-container"  style="min-height:100%;">
+  
+  <mat-sidenav #sidenav mode="{{ mode }}" style="width:300px;" [disableClose]="isSidenavCloseDisabled" fixedInViewport="true">
+    <app-side-menu></app-side-menu>
+  </mat-sidenav>
+
+  <mat-sidenav-content role="contentinfo">
+    
+    <router-outlet></router-outlet>
+    
+  </mat-sidenav-content>
+  
+</mat-sidenav-container>

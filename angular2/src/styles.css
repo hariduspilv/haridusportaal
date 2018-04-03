@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+body{margin:0; padding:0; font-family: Roboto,"Helvetica Neue",sans-serif; padding-top:64px;}
+
+
+.fill-space {
+  /* This fills the remaining space, by using flexbox. 
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+html{
+  height:100%;
+}
+body{height: calc(100% - 64px);}
+
+.pull-right{
+  float:right;
+}
+
+.indent .mat-menu-item{
+  padding-left:30px;
+}
+
+.header-logo{height:54px; margin-top:5px;}
+
+.sm-show{display: none !important;}
+@media screen and (max-width:900px){
+  .sm-show{display: block !important;}
+}
+
+.mat-sidenav-content{padding:0 20px 20px 20px;}
+
+.mat-toolbar{position: fixed; top:0; left:0; width:100%; z-index: 999;}
+
+.text-center{text-align:center;}
+
+.mat-menu-item-active{font-weight: bold !important;}
+
+.mat-card{margin:16px 0; max-width: 100%;}
+.mat-card img{width:100%;}
+.mat-card p{margin:10px 0 -8px 0 !important;}
+
+.mat-menu-item img{height:24px; vertical-align: middle; margin-right:6px; margin-top:-4px;}
+
+.grid{margin:0 -10px;}
+.row{display: flex; width: 100%;}
+.row .col{flex-grow: 1; padding:10px;}
+.row .col .mat-card{width:100%; box-sizing: border-box; margin:0; float:none; max-width: 9999px;}
+
+.breadcrumb{display: block; padding:0; margin:16px 0;}
+.breadcrumb li{margin:0; padding:0; display: inline;}
+.breadcrumb li a{color:inherit;}
+.breadcrumb li:after{content:">"; display: inline-block; padding:0 5px;}
+.breadcrumb li:last-child:after{display: none;}
+.breadcrumb li span{overflow: hidden; display: inline; max-width:200px; text-overflow: ellipsis; white-space: nowrap;}
+
+.mat-sidenav{top:64px !important;}
+.mat-sidenav .mat-menu-item{height:auto; padding-top:8px; padding-bottom:8px; line-height:120%;}
+.mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 13px;}
+
+article{line-height:150%;}
+article a[href]{color:#3f51b5;}
+
+.menu-burger{cursor: pointer;}
+
+.mat-spinner{margin:50px auto;}
+@media (max-width:599px) {
+  body{padding-top:56px; height: calc(100% - 64px);}
+  .header-logo{height:46px;  margin-top:5px;}
+  .row{flex-wrap: wrap;}
+  .row .col{width:100%;}
+  .mat-sidenav{top:56px !important;}
+}
+
