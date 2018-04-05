@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MaterialModule } from '../../_shared/material.module';
+import { MaterialModule } from '../../_core/material.module';
 import { HeaderComponent } from './header.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SideMenuService } from '../../_services';

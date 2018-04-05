@@ -1,11 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
-import { MaterialModule } from './_shared/material.module';
+import { MaterialModule } from './_core/material.module';
 import { AppComponent } from './app.component';
-import { GraphQLModule } from './_shared/graphql.module';
+import { GraphQLModule } from './_core/graphql.module';
+
+import { ArticleService } from './_services';
 
 /* Custom imports */
-import { AppModules } from './_modules';
+import { AppModules } from './_components';
 import { AppPipes } from './_pipes';
 import { AppRoutingModule, routedComponents } from './app.routing.module';
 
@@ -23,6 +25,10 @@ import { AppRoutingModule, routedComponents } from './app.routing.module';
     AppModules,
     GraphQLModule,
     AppRoutingModule
+  ],
+
+  providers: [
+    ArticleService
   ],
 
   exports: [

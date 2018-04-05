@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { NewsComponent, FrontpageComponent } from './_components';
+import { NewsComponent, FrontpageComponent } from './_views';
 
 const appRoutes: Routes = [
-  { path: ':lang/artikkel/:id', component: NewsComponent },
+  { path: ':lang/artiklid/:id', component: NewsComponent },
   { path: ':lang/articles/:id', component: NewsComponent },
   { path: '', component: FrontpageComponent },
   { path: ':lang', component: FrontpageComponent },
