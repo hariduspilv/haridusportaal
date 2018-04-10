@@ -1,0 +1,10 @@
+spring:
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers}
+    consumer:
+      auto-offset-reset: earliest
+      group-id: liides
+
+kafka:
+  topic:
+    request: test_topic
