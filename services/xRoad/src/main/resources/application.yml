@@ -3,6 +3,9 @@ spring:
     consumer:
       auto-offset-reset: earliest
       group-id: liides
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
     bootstrap-servers: 213.180.8.133:30092
 
 kafka:

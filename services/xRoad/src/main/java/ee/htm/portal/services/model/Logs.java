@@ -92,4 +92,18 @@ public class Logs {
   public void setResponseId(String responseId) {
     this.responseId = responseId;
   }
+
+  @Override
+  public String toString() {
+    return "Logs{" +
+        "type='" + type + '\'' +
+        ", severity='" + severity + '\'' +
+        ", startTime=" + startTime +
+        ", endTime=" + endTime +
+        ", message='" + message + '\'' +
+        ", user='" + user + '\'' +
+        ", requestId='" + requestId + '\'' +
+        ", responseId='" + responseId + '\'' +
+        '}';
+  }
 }

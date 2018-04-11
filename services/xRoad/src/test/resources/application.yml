@@ -4,7 +4,15 @@ spring:
     consumer:
       auto-offset-reset: earliest
       group-id: liides
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 kafka:
   topic:
     request: test_topic
+
+logging:
+  level:
+    root: ERROR
+    ee.htm.portal: INFO
