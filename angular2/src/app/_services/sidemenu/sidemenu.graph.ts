@@ -10,6 +10,9 @@ export class SidemenuGraph {
             ... Item
             links {
               ... Item
+              links {
+                ... Item
+              }
             }
           }
         }

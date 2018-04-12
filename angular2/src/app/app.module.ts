@@ -5,11 +5,13 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 
 import { ArticleService } from './_services';
+import { EventsService } from './_services';
 
 /* Custom imports */
 import { AppModules } from './_components';
 import { AppPipes } from './_pipes';
 import { AppRoutingModule, routedComponents } from './app.routing.module';
+import { AppDirectives } from './_directives';
 
 @NgModule({
 
@@ -24,11 +26,13 @@ import { AppRoutingModule, routedComponents } from './app.routing.module';
     MaterialModule,
     AppModules,
     GraphQLModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AppDirectives
   ],
 
   providers: [
-    ArticleService
+    ArticleService,
+    EventsService
   ],
 
   exports: [

@@ -1,20 +1,72 @@
 <div *ngIf="data">
   <mat-menu></mat-menu>
 
-  <div *ngFor="let item of data">
+  <ul class="ul-styleless">
+    <li *ngFor="let item of data" [class.has-children]="item.links.length > 0" >
+      
+      <!-- Dropdown link -->
+      <a href="javascript:void(0);"  mat-menu-item *ngIf="item.links && item.links.length > 0" appToggleClass="menu-open">
+        <span>{{ item.label }}</span>
+        <mat-icon *ngIf="item.links && item.links.length > 0">chevron_right</mat-icon>
+      </a>
+      
+      <!-- Internal link -->
+      <a href="javascript:void(0);" [routerLink]="[item.url.translate.path]" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.url.internal && item.links.length == 0">
+        <span>{{ item.label }}</span>
+      </a>
+      
+      <!-- External link-->
+      <a href="{{ item.url.translate.path }}" mat-menu-item *ngIf="!item.url.internal" target="_blank" >
+        <span>{{ item.label }}</span>
+        <mat-icon>launch</mat-icon>
+      </a>
+      
+      
+      <ul class="ul-styleless" *ngIf="item.links">
+        <li *ngFor="let item2 of item.links" [class.has-children]="item2.links.length > 0">
+          
+          <!-- Dropdown link -->
+          <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" appToggleClass="menu-open" >
+            <span>{{ item2.label }}</span>
+            <mat-icon *ngIf="item2.links && item2.links.length > 0">chevron_right</mat-icon>
+          </a>
 
-    <a href="javascript:void(0);" mat-menu-item [routerLink]="[item.url.translate.path]"  *ngIf="item.url.internal" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}">
-      <span>{{ item.label }}</span>
-    </a>
+          <!-- Internal link -->
+          <a href="javascript:void(0);" [routerLink]="[item2.url.translate.path]" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.url.internal && item2.links.length == 0">
+            <span>{{ item2.label }}</span>
+          </a>
 
-    <a mat-menu-item href="{{ item.url.path }}" target="_blank"  *ngIf="!item.url.internal" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}">
-      <span>{{ item.label }}</span>
-      <mat-icon>link</mat-icon>
-    </a>
-    
-  </div><!--/*ngFor-->
+          <!-- External link-->
+          <a href="{{ item2.url.translate.path }}" mat-menu-item *ngIf="!item2.url.internal" target="_blank">
+            <span>{{ item2.label }}</span>
+            <mat-icon>launch</mat-icon>
+          </a>
+
+          <ul class="ul-styleless" *ngIf="item2.links">
+            <li *ngFor="let item3 of item2.links">
+              
+              <!-- Internal link -->
+              <a href="javascript:void(0);" [routerLink]="[item3.url.translate.path]" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item3.url.internal">
+                <span>{{ item3.label }}</span>
+              </a>
+
+              <!-- External link-->
+              <a href="{{ item3.url.translate.path }}" mat-menu-item *ngIf="!item3.url.internal" target="_blank">
+                <span>{{ item3.label }}</span>
+                <mat-icon>launch</mat-icon>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a [routerLink]="['/en/events']" mat-menu-item routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}">
+        <span>Events</span>
+      </a>
+    </li>
+  </ul>
+
   
-  <a href="javascript:void(0);" mat-menu-item >
-    <span>Sündmused</span>
-  </a>
+  
 </div>

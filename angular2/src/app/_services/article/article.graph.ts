@@ -25,21 +25,18 @@ export class ArticleGraph {
               }
             }
             entity {
-
-              entityTranslation(language:EN){
-               ... on NodeArticle{
+             ... on NodeArticle{
+                title
+                body {
+                  value
+                  summary
+                  format
+                }
+                fieldImage {
+                  url
+                  targetId
+                  alt
                   title
-                  body {
-                    value
-                    summary
-                    format
-                  }
-                  fieldImage {
-                    url
-                    targetId
-                    alt
-                    title
-                  }
                 }
               }
             }
