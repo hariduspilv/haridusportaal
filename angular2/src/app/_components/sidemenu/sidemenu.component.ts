@@ -16,7 +16,9 @@ export class SideMenuComponent {
   constructor(private apollo: Apollo, private sidemenuService: SideMenuService) {
 
     sidemenuService.getData( data => {
+
       this.data = data['menu']['links'];
+
     });
 
   }

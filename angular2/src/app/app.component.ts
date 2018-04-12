@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, HostListener } from '@angular/core';
+import { Component, ViewChild, OnInit, HostListener, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService } from './_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
@@ -6,7 +6,8 @@ import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class AppComponent implements OnInit {
