@@ -1,5 +1,5 @@
 # Haridusportaal
-<a href="https://www.zenhub.com/extension"><img src="https://img.shields.io/badge/Epicute_nägemiseks_paigalda-ZenHub-5e60ba.svg"></a>
+<a href="https://www.zenhub.com/extension"><img src="https://github.com/hariduspilv/haridusportaal/blob/master/docs/zenhub.svg"></a>
 
 Noortevaldkonna, hariduse, õppe- ja karjäärinõustamise ning tööturgu õppega seostavate valdkondade:
 - Info
