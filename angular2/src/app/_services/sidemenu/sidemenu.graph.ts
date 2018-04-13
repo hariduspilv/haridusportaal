@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export class SidemenuGraph {
 
-  buildQuery() {
+  buildQuery(lang) {
     return gql`
       query {
         menu:menuByName(name: "main") {
@@ -22,12 +22,12 @@ export class SidemenuGraph {
         label
         url {
           internal:routed
-          translate(language:EN){
+          translate(language:${lang}){
             path
           }
           ... on EntityCanonicalUrl{
             entity{
-              entityTranslation(language:EN){
+              entityTranslation(language:${lang}){
                 entityUrl {
                   path
                   internal:routed

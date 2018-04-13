@@ -8,9 +8,8 @@ const appRoutes: Routes = [
   { path: ':lang/articles/:id', component: NewsComponent },
   { path: ':lang/events', component: EventsComponent },
   { path: ':lang/sundmused', component: EventsComponent },
-  { path: '', component: FrontpageComponent },
   { path: ':lang', component: FrontpageComponent },
-  { path: '**', redirectTo: '/', pathMatch: 'full' }
+  { path: '**', redirectTo: '/et', pathMatch: 'full' }
 ];
 
 @NgModule({

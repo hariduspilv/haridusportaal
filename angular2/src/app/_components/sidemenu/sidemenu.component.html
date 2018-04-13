@@ -11,15 +11,10 @@
       </a>
       
       <!-- Internal link -->
-      <a href="javascript:void(0);" [routerLink]="[item.url.translate.path]" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.url.internal && item.links.length == 0">
+      <a href="javascript:void(0);" [routerLink]="[item.url.translate.path]" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0">
         <span>{{ item.label }}</span>
       </a>
-      
-      <!-- External link-->
-      <a href="{{ item.url.translate.path }}" mat-menu-item *ngIf="!item.url.internal" target="_blank" >
-        <span>{{ item.label }}</span>
-        <mat-icon>launch</mat-icon>
-      </a>
+
       
       
       <ul class="ul-styleless" *ngIf="item.links">
@@ -32,14 +27,8 @@
           </a>
 
           <!-- Internal link -->
-          <a href="javascript:void(0);" [routerLink]="[item2.url.translate.path]" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.url.internal && item2.links.length == 0">
+          <a href="javascript:void(0);" [routerLink]="[item2.url.translate.path]" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.links.length == 0">
             <span>{{ item2.label }}</span>
-          </a>
-
-          <!-- External link-->
-          <a href="{{ item2.url.translate.path }}" mat-menu-item *ngIf="!item2.url.internal" target="_blank">
-            <span>{{ item2.label }}</span>
-            <mat-icon>launch</mat-icon>
           </a>
 
           <ul class="ul-styleless" *ngIf="item2.links">
@@ -59,11 +48,6 @@
           </ul>
         </li>
       </ul>
-    </li>
-    <li>
-      <a [routerLink]="['/en/events']" mat-menu-item routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}">
-        <span>Events</span>
-      </a>
     </li>
   </ul>
 

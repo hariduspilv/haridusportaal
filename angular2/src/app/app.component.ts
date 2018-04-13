@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, HostListener, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SideMenuService } from './_services';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { SideMenuService, RootScopeService } from './_services';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,6 @@ import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-
 export class AppComponent implements OnInit {
 
   @ViewChild('sidenav') sidenav;
@@ -18,8 +17,9 @@ export class AppComponent implements OnInit {
   debounce: any;
   debounceDelay: any;
   isSidenavCloseDisabled: boolean;
+  routeSub: any;
 
-  constructor(private sidemenu: SideMenuService, private router: Router) {
+  constructor(private sidemenu: SideMenuService, private router: Router, private rootScope: RootScopeService, private route: ActivatedRoute) {
 
     this.isSidenavCloseDisabled = true;
 
@@ -31,12 +31,18 @@ export class AppComponent implements OnInit {
 
     router.events.subscribe( (event: Event) => {
 
+        if (event instanceof RoutesRecognized) {
+
+          let params = event.state.root.firstChild.params;
+          this.rootScope.set('currentLang', params['lang'] );
+        }
         if (event instanceof NavigationStart) {
           this.menuStyle();
         }
 
         if (event instanceof NavigationEnd) {
             // Hide loading indicator
+          this.sidemenu.triggerLang();
         }
 
         if (event instanceof NavigationError) {

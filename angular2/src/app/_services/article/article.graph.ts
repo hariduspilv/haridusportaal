@@ -10,6 +10,9 @@ export class ArticleGraph {
             languageSwitchLinks{
               active
               title
+              language {
+                id
+              }
               url {
                 path
                 routed
