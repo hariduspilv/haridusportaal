@@ -70,20 +70,27 @@
     </div><!--/date-block-->
     <div class="col">
       
-      <p><b> {{ item.title }}</b></p>
+      <p class="mt-0"><b> {{ item.title }}</b></p>
       
       <div class="row">
-        <div class="col-4">
+        <div class="col-3">
           <span *ngIf="item.eventDate[0]">Toimumiseaeg: {{ item.eventDate[0].entity.fieldEventStartTime }}</span>
         </div><!--/col-4-->
-        <div class="col-4">
-          <span *ngIf="item.location">Asukoht: {{ item.location.name }}</span>
+        <div class="col-4" *ngIf="item.location.name">
+          <span>Asukoht: {{ item.location.name }}</span>
         </div><!--/col-4-->
         <div class="col-4">
-          <span *ngIf="item.registrationDate">Sündmuse staatus:{{ item.registrationDate }}</span>
+          <span *ngIf="item.registrationDate">Sündmuse staatus: Registreerumisega kuni {{ item.registrationDate.entity.fieldRegistrationFirstDate.value }}</span>
         </div><!--/col-4-->
       </div><!--/row-->
-      
+
+      <div class="row" *ngIf="item.hashTags.length > 0">
+        <div class="col-12">
+          <mat-chip-list>
+            <mat-chip *ngFor="let item of item.hashTags">#{{ item.entity.entityLabel }}</mat-chip>
+          </mat-chip-list>
+        </div><!--/col-12-->
+      </div><!--/row-->
     </div><!--/col-10-->
   </div><!--/row-->
   <mat-divider></mat-divider>

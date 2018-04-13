@@ -5,17 +5,17 @@
   </div><!--/menu-burger-->
 
   <span class="fill-space"></span>
-  <a [routerLink]="['/']"><img src="assets/logo.png" class="header-logo" /></a>
+  <a [routerLink]="[logoLink]"><img src="assets/logo.png" class="header-logo" /></a>
   <!-- This fills the remaining space of the current row -->
   <span class="fill-space"></span>
 
   
   <div *ngIf="languages">
-    <mat-menu #appMenu="matMenu" overlapTrigger="false">
-      <button mat-menu-item *ngFor="let item of languages">{{ item.argument | uppercase }}</button>
+    <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
+      <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)">{{ item.argument | uppercase }}</button>
     </mat-menu>
 
-    <button mat-button [matMenuTriggerFor]="appMenu" >EN</button>
+    <button mat-button [matMenuTriggerFor]="appMenu" >{{ activeLanguage | uppercase }}</button>
   </div><!--/languages-->
 
   

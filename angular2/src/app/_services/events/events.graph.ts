@@ -2,10 +2,11 @@ import gql from 'graphql-tag';
 
 export class EventsGraph {
 
-  buildList() {
+  buildList(lang) {
+
     return gql`
       query{
-        nodeQuery(filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"]}, {operator: EQUAL, field: "langcode", value: ["en"]}]}) {
+        nodeQuery(filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"]}, {operator: EQUAL, field: "langcode", value: ["${lang}"]}]}) {
           entities {
             ... on NodeEvent {
               title: entityLabel
@@ -23,7 +24,7 @@ export class EventsGraph {
               registrationDate: fieldRegistrationDate {
                 ...registrationdates
               }
-              hashTags: fieldTags {
+              hashTags: fieldTag {
                 entity {
                   entityLabel
                 }

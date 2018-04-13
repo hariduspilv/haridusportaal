@@ -4,19 +4,24 @@ import { Apollo } from 'apollo-angular';
 import { HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
+import { RootScopeService } from '../rootScope/rootScope.service';
 
 @Injectable()
 export class EventsService extends EventsGraph {
 
   data: any;
 
-  constructor( private apollo: Apollo ) {
+  lang: any;
+
+  constructor( private apollo: Apollo, private rootScope: RootScopeService) {
     super();
   }
 
   getList(path, cb): any {
 
-    const query = this.buildList();
+    this.lang = this.rootScope.get('currentLang');
+
+    const query = this.buildList(this.lang);
 
     this.apollo.query({
       query: query,

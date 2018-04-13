@@ -5,15 +5,19 @@ import { HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { RootScopeService } from '../rootScope/rootScope.service';
 
 @Injectable()
 export class SideMenuService extends SidemenuGraph {
 
   private subject = new Subject<any>();
 
+  private langSwitch = new Subject<any>();
+
   data: any;
 
-  constructor( private apollo: Apollo ) {
+  lang: any;
+  constructor( private apollo: Apollo, private rootScope: RootScopeService) {
     super();
   }
 
@@ -29,9 +33,24 @@ export class SideMenuService extends SidemenuGraph {
     return this.subject.asObservable();
   }
 
+  triggerLang() {
+    this.langSwitch.next({ any: Math.random() * 1000000 });
+  }
+  updateLang(): Observable<any> {
+    return this.langSwitch.asObservable();
+  }
+
   getData(cb): any {
 
-    const query = this.buildQuery();
+    if( this.rootScope.get('currentLang') === undefined ){
+      return false;
+    }
+
+    if(  this.rootScope.get('currentLang').toUpperCase() == this.lang ){ return false; }
+
+    this.lang = this.rootScope.get('currentLang').toUpperCase();
+    
+    const query = this.buildQuery( this.lang );
 
     this.apollo.query({
       query: query,

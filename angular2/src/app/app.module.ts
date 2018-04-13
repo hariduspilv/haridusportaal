@@ -4,8 +4,7 @@ import { MaterialModule } from './_core/material.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 
-import { ArticleService } from './_services';
-import { EventsService } from './_services';
+import { ArticleService, EventsService, RootScopeService } from './_services';
 
 /* Custom imports */
 import { AppModules } from './_components';
@@ -32,7 +31,8 @@ import { AppDirectives } from './_directives';
 
   providers: [
     ArticleService,
-    EventsService
+    EventsService,
+    RootScopeService
   ],
 
   exports: [
