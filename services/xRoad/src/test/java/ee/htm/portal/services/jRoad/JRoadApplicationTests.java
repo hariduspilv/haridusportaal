@@ -1,11 +1,11 @@
 package ee.htm.portal.services.jRoad;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 import ee.htm.portal.services.kafka.consumers.RequestConsumer;
 import ee.htm.portal.services.kafka.producers.Sender;
-import ee.htm.portal.services.model.Logs;
-import java.sql.Timestamp;
+import ee.htm.portal.services.model.EeIsikukaartRequest;
 import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -24,6 +24,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class JRoadApplicationTests {
 
   private static String TEST_TOPIC = "test_topic";
+  private static String TEST_TOPIC1 = "test_topic1";
+  private static String TEST_TOPIC2 = "test_topic2";
 
   @Autowired
   private Sender sender;
@@ -35,7 +37,8 @@ public class JRoadApplicationTests {
   private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
   @ClassRule
-  public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, TEST_TOPIC);
+  public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, TEST_TOPIC, TEST_TOPIC1,
+      TEST_TOPIC2);
 
   @Before
   public void setUp() throws Exception {
@@ -49,11 +52,10 @@ public class JRoadApplicationTests {
 
   @Test
   public void testRequestConsumer() throws Exception {
-    Logs log = new Logs("type", "severity", new Timestamp(System.currentTimeMillis()),
-        new Timestamp(System.currentTimeMillis()), "message", "user", "requestId", "responseId");
-    sender.send(TEST_TOPIC, String.valueOf(System.currentTimeMillis()), log);
+    EeIsikukaartRequest request = new EeIsikukaartRequest("38304110000");
+    sender.send(TEST_TOPIC, String.valueOf(System.currentTimeMillis()), request, "eeIsikukaart");
 
-    requestConsumer.getLatch().await(10000, TimeUnit.MILLISECONDS);
-    assertThat(requestConsumer.getLatch().getCount()).isEqualTo(0);
+    await().atMost(10, TimeUnit.SECONDS).until(() -> requestConsumer.getMessageCount() == 1);
+    assertThat(requestConsumer.getMessageCount()).isGreaterThan(0);
   }
 }

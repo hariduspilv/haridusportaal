@@ -11,6 +11,8 @@ spring:
 kafka:
   topic:
     request: test_topic
+    response: test_topic1
+    logs: test_topic2
 
 logging:
   level:
