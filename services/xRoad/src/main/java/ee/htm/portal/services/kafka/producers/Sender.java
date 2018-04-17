@@ -22,13 +22,13 @@ public class Sender {
   @Autowired
   private KafkaTemplate<String, Object> kafkaTemplate;
 
-  public void send(String topic, String key, Object payload) {
+  public void send(String topic, String key, Object payload, String xRoadService) {
     LOGGER.info("-----------------------------------");
     LOGGER.info("sending key='{}', payload='{}', xRoadService='{}' to topic='{}'", key,
-        payload.toString(), payload.getClass().getName(), topic);
+        payload.toString(), xRoadService, topic);
 
     List<Header> headers = new ArrayList<>();
-    headers.add(new RecordHeader("xRoadService", payload.getClass().getName().getBytes()));
+    headers.add(new RecordHeader("xRoadService", xRoadService.getBytes()));
 
     ProducerRecord<String, Object> record = new ProducerRecord<>(topic, null, key, payload,
         headers);
