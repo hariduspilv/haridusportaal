@@ -1,0 +1,31 @@
+{
+    "authors": [
+        {
+            "name": "Frederic G. MARAND",
+            "email": "fgm@osinet.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Drupal\\kafka\\Composer\\": "src/Composer"
+        }
+    },
+    "description": "A Drupal 8 facade for Apache Kafka, based on librdkafka.",
+    "license": "GPL-2.0+",
+    "minimum-stability": "dev",
+    "name": "drupal/kafka",
+    "require": {
+        "ext-rdkafka": ">= 1.0",
+        "php": ">= 5.6.27",
+        "psr/log": "^1.0"
+    },
+    "scripts": {
+        "pre-install-cmd": [
+            "Drupal\\kafka\\Composer\\Requirements::validate"
+        ],
+        "pre-update-cmd": [
+            "Drupal\\kafka\\Composer\\Requirements::validate"
+        ]
+    },
+    "type": "drupal-module"
+}

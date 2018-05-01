@@ -1,0 +1,19 @@
+uuid: 25836bc1-be18-48d2-b40c-13b4c9bd23bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_organizer
+    - node.type.event
+id: node.event.field_organizer
+field_name: field_organizer
+entity_type: node
+bundle: event
+label: Organiseerija
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

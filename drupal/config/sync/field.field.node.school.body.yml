@@ -1,0 +1,22 @@
+uuid: 11fcafc4-625f-473d-bdff-df13eb76897f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.school
+  module:
+    - text
+id: node.school.body
+field_name: body
+entity_type: node
+bundle: school
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary

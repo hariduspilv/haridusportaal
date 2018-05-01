@@ -1,0 +1,45 @@
+field.field_settings.duration:
+  type: mapping
+  label: 'Duration settings'
+  mapping:
+    granularity:
+      type: mapping
+      label: 'Granularity'
+      mapping:
+        year:
+          type: boolean
+          label: 'Year'
+        month:
+          type: boolean
+          label: 'Month'
+        day:
+          type: boolean
+          label: 'Day'
+        hour:
+          type: boolean
+          label: 'Hour'
+        minute:
+          type: boolean
+          label: 'Minute'
+        second:
+          type: boolean
+          label: 'Second'
+
+field.widget.settings.duration_widget:
+  type: mapping
+  label: 'Duration widget settings'
+  mapping:
+    duration:
+      type: string
+      label: 'Duration'
+
+field.formatter.settings.duration_human_display:
+  type: mapping
+  label: 'Duration human display formatter settings'
+  mapping:
+    text_length:
+      type: string
+      label: 'Text Length'
+    separator:
+      type: string
+      label: 'Separator'

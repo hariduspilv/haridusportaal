@@ -1,0 +1,13 @@
+custom_translation_module.settings:
+  type: config_object
+  label: 'Site information custom'
+  mapping:
+    field1:
+      type: label
+      label: 'Site name custom'
+    field2:
+      type: label
+      label: 'ming uus'
+    field3:
+      type: label
+      label: 'ming uus'

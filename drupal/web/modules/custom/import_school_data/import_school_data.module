@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Contains import_school_data.module.
+ */
+
+use Drupal\import_school_data\Controller\SchoolImportController;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_help().
+ */
+function import_school_data_cron() {
+        $import_controller = new SchoolImportController();
+
+        /** @var QueueFactory $queue_factory */
+        $queue_factory = \Drupal::service('queue');
+        /** @var QueueInterface $queue */
+        $queue = $queue_factory->get('cron_import_school_data');
+
+        $schoolnodes = $import_controller->import();
+        foreach($schoolnodes as $schoolnode){
+          $queue->createItem($schoolnode);
+        }
+}

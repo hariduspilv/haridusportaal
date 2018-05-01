@@ -1,0 +1,12 @@
+{
+  "name": "drupal/conditional_fields",
+  "description": "Conditional fields",
+  "type": "drupal-module",
+  "authors": [
+    {
+      "name": "Adyax",
+      "homepage": "https://www.adyax.com/"
+    }
+  ],
+  "license": "GPL-2.0+"
+}

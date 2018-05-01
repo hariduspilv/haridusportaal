@@ -1,0 +1,10 @@
+custom_translation_module.custom_translation_form:
+  path: '/admin/config/custom_translation_module/customtranslation'
+  defaults:
+    _form: '\Drupal\custom_translation_module\Form\CustomTranslationForm'
+    _title: 'CustomTranslationForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
