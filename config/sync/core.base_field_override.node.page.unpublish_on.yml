@@ -1,0 +1,18 @@
+uuid: 237da0a6-763f-4800-981d-3b82c193dab0
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.page
+id: node.page.unpublish_on
+field_name: unpublish_on
+entity_type: node
+bundle: page
+label: 'Mitteavaldatuks märkimise aeg'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

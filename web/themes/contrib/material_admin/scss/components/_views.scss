@@ -1,0 +1,470 @@
+/* @file
+ * Common low level styles for Views UI
+ *
+ */
+
+// Views UI.
+.views-ui-display-tab-bucket__title {
+  font-size: 1.5rem;
+}
+
+.views-ui-display-tab-bucket+.views-ui-display-tab-bucket {
+  border-top: 1px solid color($utility, 'lighten-2');
+  border-bottom: 1px solid color($utility, 'lighten-2');
+}
+
+.views-display-column {
+  border: 0;
+}
+
+.views-ui-display-tab-bucket .views-display-setting:nth-of-type(even) {
+  background-color: $body-background;
+}
+
+.views-ui-display-tab-bucket .views-display-setting {
+  font-size: inherit;
+}
+
+.views-display-setting .label,
+.views-display-setting .views-ajax-link {
+  float: none;
+}
+
+.views-admin .dropbutton-wrapper {
+  a.icon.add,
+  a.ellipsis-icon {
+    border: inherit;
+    background: inherit;
+    width: inherit;
+    height: inherit;
+    text-indent: 0;
+    &:hover {
+      box-shadow: none;
+      background-color: $transparent-black;
+    }
+  }
+}
+
+.views-admin {
+  .form-edit .form-actions {
+    border: 0;
+    background-color: color($utility, 'lighten-4');
+    padding: 1em;
+  }
+  .form-type-checkbox label,
+  .form-type-checkbox label,
+  .form-type-radio label,
+  .form-item-page-create label,
+  .form-item-block-create label,
+  .form-item-rest-export-create label {
+    line-height: inherit;
+    font-weight: normal;
+  }
+  fieldset.container-inline {
+    .form-item {
+      display: inline-block;
+      padding-right: 20px;
+    }
+  }
+}
+
+.views-admin .collection-item,
+.views-admin .collection {
+  overflow: visible;
+}
+
+.views-ui-display-tab-bucket .views-display-setting:not(.collection-item):not(.views-ui-display-tab-setting) {
+  padding: 15px;
+}
+
+.views-ui-display-tab-bucket.views-ui-display-tab-actions {
+  padding: 15px 0;
+}
+
+.views-ui-display-tab-bucket .dropbutton-wrapper {
+  position: absolute;
+  right: 0;
+}
+
+
+
+.views-ui-display-tab-bucket {
+  padding-top: 0;
+}
+
+.views-ui-display-tab-actions .dropbutton-wrapper li a,
+.views-ui-display-tab-actions .dropbutton-wrapper input {
+  display: block;
+  padding: 14px 16px;
+  text-transform: none;
+  line-height: 22px;
+  color: color($accent, 'lighten-1');
+  font-size: 16px;
+}
+
+.views-display-top .dropbutton-wrapper {
+  z-index: 1;
+}
+
+details.views-display-column.form-wrapper {
+  margin-top: 0.5rem;
+  margin-left: 2%;
+  >.details-wrapper {
+    padding: 0;
+  }
+  .collection:not(:first-child) {
+    border-bottom: 1px solid color($utility, 'lighten-2');
+  }
+}
+
+.collection>.collection.views-subcollection {
+  padding: .5rem 0 0;
+  &:first-of-type {
+    padding-top: 1rem;
+  }
+  &:only-of-type {
+    padding-top: 0;
+    >.label {
+      display: none;
+    }
+    .collection-item {
+      &:first-of-type {
+        margin-top: 0;
+      }
+    }
+  }
+  .label {
+    padding-left: 15px;
+    font-size: .9rem;
+  }
+  .collection-item {
+    border: 0;
+    padding-left: 40px;
+    &:first-of-type {
+      margin-top: 5px;
+    }
+  }
+}
+
+.views-ui-display-tab-bucket>.views-display-setting {
+  padding: .5rem 0 0;
+}
+
+#edit-display-settings-top {
+  border: 0;
+  padding-bottom: 0;
+  .views-display-setting {
+    .label {
+      display: none;
+    }
+    a {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.views-display-top {
+  background-color: inherit;
+  padding: 0;
+}
+
+.views-displays {
+  border: 0;
+}
+
+.views-admin .unit-title {
+  display: none;
+}
+
+.view-changed {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.views-displays .tabs.secondary li {
+  margin: 0;
+  a {
+    border: 0;
+    background: transparent;
+    padding: 0 24px;
+    line-height: 48px;
+    font-size: 14px;
+    &.active {
+      border-bottom: 2px solid color($secondary, 'lighten-1');
+      border-radius: 0;
+    }
+    &:hover {
+      color: color($secondary, 'lighten-1');
+    }
+  }
+  &.add {
+    margin-top: 5px;
+    margin-left: 20px;
+    a {
+      @extend .btn,
+      .btn-flat;
+
+      border-radius: 2px;
+      text-decoration: none;
+      line-height: 36px;
+      .icon {
+        display: none;
+      }
+      &:hover {
+        background-color: $transparent-black;
+        color: color($utility, 'darken-3');
+      }
+    }
+    ul {
+      @extend .z-depth-2;
+
+      top: 0;
+      z-index: 51;
+      border: 0;
+      background: $white;
+      padding: 0;
+      li {
+        clear: both;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        width: 100%;
+        min-height: 50px;
+        text-align: left;
+        text-transform: none;
+        line-height: 1.5rem;
+        color: $black;
+        &:hover {
+          background-color: color($utility, 'lighten-3');
+        }
+        i {
+          display: block;
+          border: 0;
+          box-shadow: none;
+          background: none;
+          padding: inherit;
+          color: inherit;
+          &:hover {
+            background-color: transparent;
+          }
+        }
+        input {
+          display: block;
+          border: 0;
+          box-shadow: none;
+          padding: 14px 16px;
+          text-transform: none;
+          line-height: 22px;
+          color: color($accent, 'lighten-1');
+          font-size: 16px;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}
+
+// views listing page
+#views-entity-list {
+  .form-type-search {
+    margin: 4em 0;
+  }
+}
+
+.views-ui-view-name {
+  h3 {
+    font-size: 1em;
+    font-weight: 400;
+  }
+}
+
+.views-list-section {
+  margin: 4em 0;
+  h2 {
+    font-size: 1.6em;
+    font-weight: normal;
+  }
+}
+
+// FOUC fixes for Views UI.
+#views-display-menu-tabs~input.add-display {
+  display: none;
+}
+
+.view-changed.messages.js-hide {
+  display: none;
+}
+
+#edit-display-settings-top .dropbutton:not(.dropdown-content) {
+  display: none;
+}
+
+.views-preview-wrapper {
+  margin-top: 3em;
+  .view-preview-form {
+    .view-preview-form__title {
+      @extend .small-header;
+
+      background: color($utility, 'lighten-4');
+    }
+    .arguments-preview,
+    .form-item-view-args {
+      margin: 10px 20px !important;
+    }
+  }
+}
+
+.views-filterable-options {
+  border-top: 0;
+  .filterable-option .title {
+    font-weight: $global-weight-normal;
+  }
+}
+
+
+// Views exposed form and bulk filter styles.
+.view {
+  position: relative;
+  .views-bulk-form-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: .2s;
+    opacity: 0;
+    border-bottom: 1px solid color($utility, 'lighten-1');
+    background-color: color($accent, 'lighten-4');
+    padding: 1rem;
+    width: 100%;
+    >.form-wrapper:first-child {
+      display: none;
+    }
+    label[for='edit-action'] {
+      display: none;
+    }
+    .dropbutton-wrapper {
+      float: right;
+    }
+    .views-bulk-form-count {
+      float: left;
+      color: color($accent, 'darken-1');
+    }
+  }
+  &.has-selection {
+    .views-bulk-form-header {
+      opacity: 1;
+    }
+    .exposed-form-collapsible {
+      opacity: 0;
+    }
+  }
+}
+
+#views-live-preview {
+  .view {
+    &.has-selection {
+      .exposed-form-collapsible {
+        opacity: 1;
+      }
+    }
+    .views-bulk-form-header {
+      display: inline-block;
+      position: relative;
+    }
+  }
+}
+
+// Responsive Views styles.
+@media #{$small-and-down} {
+  .sticky-header {
+    top: 0 !important;
+  }
+  .views-table.tablesaw-stack {
+    thead .select-all.views-field {
+      display: block;
+      label {
+        color: color($utility, 'base');
+      }
+    }
+    tbody {
+      tr {
+        position: relative;
+      }
+      td {
+        padding: 20px 0 0 20px;
+        .tablesaw-cell-label {
+          color: color($utility, 'base');
+          font-weight: 200;
+          &::after {
+            right: 0;
+            color: color($utility, 'base');
+            font-weight: 400;
+            content: ':';
+          }
+        }
+        &[class*='bulk-form'] {
+          .tablesaw-cell-label {
+            display: none;
+          }
+          .form-item {
+            margin: 0;
+          }
+        }
+        &.views-field-operations {
+          .tablesaw-cell-label {
+            display: none;
+          }
+          .tablesaw-cell-content {
+            position: absolute;
+            top: 10px;
+            right: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.views-table .select-all.views-field label {
+  color: transparent;
+}
+
+.views-button {
+  span,
+  i {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: inherit;
+  }
+}
+
+.view-preview-form .form-item-live-preview {
+  top: 5px;
+  font-size: 1.3rem;
+}
+
+.views-ui-dialog {
+  padding: 1em;
+
+  .views-override:not(:empty) {
+    z-index: 3;
+    background: color($utility, 'lighten-4');
+    div.form-item {
+      margin: 30px 0 0 !important;
+    }
+  }
+}
+
+
+.views-ui-dialog .views-filterable-options-controls,
+.views-filterable-options-controls {
+  display: inherit;
+  .form-item {
+    width: auto;
+  }
+}
+
+.views-override:not(:empty).form--inline {
+  div.form-item {
+    margin-right: 10px !important;
+  }
+}

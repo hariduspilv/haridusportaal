@@ -1,0 +1,6 @@
+name: Kafka
+type: module
+description: Queue API adapter for Apache Kafka
+core: 8.x
+package: Performance
+php: 5.6

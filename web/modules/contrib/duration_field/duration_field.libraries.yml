@@ -1,0 +1,5 @@
+element:
+  version: VERSION
+  css:
+    theme:
+      css/duration_element.css: {}

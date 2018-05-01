@@ -1,0 +1,18 @@
+uuid: f9147db0-b038-4470-86ba-6b8f6715c4eb
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_created_from_ehis_datetime
+field_name: field_created_from_ehis_datetime
+entity_type: node
+type: timestamp
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

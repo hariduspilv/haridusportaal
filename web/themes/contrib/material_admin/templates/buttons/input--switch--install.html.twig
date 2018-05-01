@@ -1,0 +1,19 @@
+{% extends '@material_admin/buttons/input--switch.html.twig' %}
+{#
+/**
+ * @file
+ * Theme override for an 'input' #type form element.
+ *
+ * Available variables:
+ * - attributes: A list of HTML attributes for the input element.
+ * - children: Optional additional rendered elements.
+ *
+ * @see template_preprocess_input()
+ */
+#}  
+
+{# ovveride the tooltip text to be specific to the module install page. #}
+{% set tooltip_text = 'Cannot modify. This module either has unmet dependencies or another enabled module requires it. To uninstalled, go to the <a href="/admin/modules/uninstall">Uninstall page</a>' %}
+
+{% block switch_before_text %}Off{% endblock %}
+{% block switch_after_text %}On{% endblock %}

@@ -1,0 +1,5 @@
+taxonomy_term_depth.menu_update_depth_form:
+  title: 'Update term depths'
+  route_name: taxonomy_term_depth.update_depth_form
+  base_route: entity.taxonomy_vocabulary.overview_form
+  weight: 100

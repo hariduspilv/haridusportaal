@@ -1,0 +1,11 @@
+name: Multilingual Menu URLs
+type: module
+description: Provides the options to add different external URLs to a menu item translation
+# core: 8.x
+package: Multilingual
+
+# Information added by Drupal.org packaging script on 2018-04-05
+version: '8.x-1.0-alpha1'
+core: '8.x'
+project: 'multilingual_menu_urls'
+datestamp: 1522897386

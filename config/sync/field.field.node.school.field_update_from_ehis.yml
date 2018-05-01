@@ -1,0 +1,21 @@
+uuid: 799b2c0c-81a5-4637-865d-3d11002844a6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_update_from_ehis
+    - node.type.school
+  module:
+    - options
+id: node.school.field_update_from_ehis
+field_name: field_update_from_ehis
+entity_type: node
+bundle: school
+label: 'EHIS-st andmete automaatne uuendamine'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,7 @@
+kafka.report:
+  path: '/admin/reports/status/kafka'
+  defaults:
+    _controller: '\Drupal\kafka\Controller\ReportController::action'
+    _title: 'Kafka status'
+  requirements:
+    _permission: 'administer site configuration'

@@ -1,0 +1,20 @@
+uuid: 9ba1856c-bcd9-44de-a268-0f5b2f9c44a1
+langcode: et
+status: true
+dependencies:
+  module:
+    - locale
+title: 'Queue: Update translations'
+id: ultimate_cron_queue_locale_translation
+weight: 10
+module: locale
+callback: 'ultimate_cron.queue_worker:queueCallback'
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '* * * * *'
+launcher:
+  id: serial
+logger:
+  id: database
