@@ -1,0 +1,81 @@
+global-styling:
+  version: VERSION
+  css:
+    base:
+      css/material_admin.css: {}
+  js:
+    js/lib/materialize.min.js: {}
+    js/material_admin.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/drupalSettings
+
+tables:
+  version: VERSION
+  js:
+    js/lib/tablesaw.stackonly.jquery.js: {}
+    js/lib/tablesaw-init.js: {}
+
+notifications:
+  version: VERSION
+  js:
+    js/notifications.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+
+date_and_time:
+  version: VERSION
+  js:
+    js/date-time-picker.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+
+dropbutton:
+  version: VERSION
+  js:
+    js/dropbutton.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.ui
+
+color:
+  version: VERSION
+  js:
+    js/color.js: {}
+  dependencies:
+    - core/jquery
+
+permissions:
+  version: VERSION
+  js:
+    js/user.permissions.js: {}
+  dependencies:
+    - core/jquery
+
+tableselect:
+  version: VERSION
+  js:
+    js/tableselect.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.ui
+
+collapsed-form:
+  version: VERSION
+  js:
+    js/collapsed_form_chips.js: {}
+  dependencies:
+    - core/drupl
+    - core/jquery
+
+views-bulk-form:
+  version: VERSION
+  js:
+    js/views_bulk_form.js: {}
+  dependencies:
+    - 'material_admin/collapsed-form'

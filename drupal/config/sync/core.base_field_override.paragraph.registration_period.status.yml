@@ -1,0 +1,22 @@
+uuid: ee369ca1-1266-4039-94a6-a99497551350
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.registration_period
+id: paragraph.registration_period.status
+field_name: status
+entity_type: paragraph
+bundle: registration_period
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

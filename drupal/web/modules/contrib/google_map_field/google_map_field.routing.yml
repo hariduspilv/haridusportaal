@@ -1,0 +1,7 @@
+gmap.field.settings:
+  path: '/admin/config/services/gmap-field-settings'
+  defaults:
+    _form: '\Drupal\google_map_field\Form\GmapFieldSettingsForm'
+    _title: 'google map api key configuration'
+  requirements:
+    _permission: 'administer site configuration'

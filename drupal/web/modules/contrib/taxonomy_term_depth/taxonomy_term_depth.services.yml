@@ -1,0 +1,10 @@
+services:
+  taxonomy_term_depth.queue_service:
+    class: Drupal\taxonomy_term_depth\QueueManager\Manager
+
+  taxonomy_term_depth.uninstall_validator:
+      class: Drupal\taxonomy_term_depth\DepthUninstallValidator
+      tags:
+        - { name: module_install.uninstall_validator }
+      arguments: ['@entity_type.manager', '@entity_field.manager', '@string_translation']
+      lazy: true

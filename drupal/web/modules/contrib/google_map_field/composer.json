@@ -1,0 +1,32 @@
+{
+  "name": "drupal/google_map_field",
+  "description": "Defines a field type for Google Maps.",
+  "type": "drupal-module",
+  "homepage": "http://drupal.org/project/google_map_field",
+  "authors": [
+    {
+      "name": "Paulo Gomes",
+      "email": "pauloamgomes@gmail.com",
+      "homepage": "https://www.drupal.org/u/pauloamgomes",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Scot Hubbard",
+      "email": "scot@scotserve.net",
+      "homepage": "https://www.drupal.org/u/scothubbard",
+      "role": "Maintainer"
+    },
+    {
+      "name": "See contributors",
+      "homepage": "https://www.drupal.org/node/1531046/committers"
+    }
+  ],
+  "support": {
+    "issues": "http://drupal.org/project/google_map_field",
+    "irc": "irc://irc.freenode.org/drupal-contribute",
+    "source": "http://cgit.drupalcode.org/google_map_field"
+  },
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "require": {}
+}

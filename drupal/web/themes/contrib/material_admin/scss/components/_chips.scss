@@ -1,0 +1,33 @@
+/* @file
+ * Chips
+ *
+ */
+
+//chips for lists
+.item-list--comma-list {
+  margin: 0.5em 0;
+  .item-list__comma-list {
+    li.chip {
+      display: inline-block;
+      font-weight: 200;
+      &::after {
+        content: '';
+      }
+      &:empty {
+        visibility: hidden;
+      }
+    }
+  }
+}
+
+table.highlight>tbody>tr:hover li.chip {
+  background-color: color($utility, 'lighten-5');
+}
+
+.chip.ui-tabs-tab {
+  display: inherit;
+  border-radius: 3px 3px 0 0;
+  height: inherit;
+  line-height: inherit;
+  font-size: inherit;
+}

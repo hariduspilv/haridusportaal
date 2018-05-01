@@ -1,0 +1,21 @@
+uuid: 3f3ccf47-ff0b-4923-8bd1-426679f9139a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_location_type
+    - paragraphs.paragraphs_type.school_location
+  module:
+    - options
+id: paragraph.school_location.field_location_type
+field_name: field_location_type
+entity_type: paragraph
+bundle: school_location
+label: 'Asukoha tüüp'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

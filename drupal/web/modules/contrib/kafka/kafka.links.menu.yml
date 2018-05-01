@@ -1,0 +1,5 @@
+kafka.report:
+  title: Kafka
+  description: 'Report on the current Kafka configuration and status'
+  route_name: 'kafka.report'
+  parent: 'system.status'

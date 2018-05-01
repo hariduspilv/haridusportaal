@@ -1,0 +1,166 @@
+<?php
+
+/**
+ * @file
+ * Contains google_map_field.install.
+ */
+
+use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
+use Drupal\Core\Entity\Sql\SqlContentEntityStorageException;
+
+/**
+ * Implements hook_requirements().
+ */
+function google_map_field_requirements($phase) {
+  $requirements = [];
+
+  // Whether or not an API key or client id is provided.
+  $key_provided = FALSE;
+
+  $config = \Drupal::config('google_map_field.settings');
+  $settings = $config->get();
+
+  switch ($settings['google_map_field_auth_method']) {
+    case 1:
+      if (!empty($settings['google_map_field_apikey'])) {
+        $key_provided = TRUE;
+      }
+      break;
+
+    case 2:
+      if (!empty($settings['google_map_field_map_client_id'])) {
+        $key_provided = TRUE;
+      }
+      break;
+  }
+
+  if (!$key_provided) {
+    $requirements['google_map_field'] = [
+      'title' => t('Google map field'),
+      'severity' => REQUIREMENT_WARNING,
+      'value' => t('Google Maps API key or Client ID was not found. As of 2016/06/22, keyless access is no longer supported and it may impact rendering of maps. For more information visit: <a href="@link">@link</a>', [
+        '@link' => 'http://googlegeodevelopers.blogspot.ca/2016/06/building-for-scale-updates-to-google.html',
+      ]),
+    ];
+  }
+
+  return $requirements;
+}
+
+/**
+ * @param array $columns_to_add
+ *   The column names to add.
+ */
+function google_map_field_add_columns_to_schema(array $columns_to_add) {
+  $field_type_manager = \Drupal::service('plugin.manager.field.field_type');
+  $map_definition = $field_type_manager->getDefinition('google_map_field');
+  $map_item_class = $map_definition['class'];
+
+  $schema = \Drupal::database()->schema();
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $entity_field_manager = \Drupal::service('entity_field.manager');
+  $entity_field_map = $entity_field_manager->getFieldMapByFieldType('google_map_field');
+
+  // The key-value collection for tracking installed storage schema.
+  $entity_storage_schema_sql = \Drupal::keyValue('entity.storage_schema.sql');
+  $entity_definitions_installed = \Drupal::keyValue('entity.definitions.installed');
+
+  $processed_fields = [];
+
+  foreach ($entity_field_map as $entity_type_id => $field_map) {
+    $entity_storage = $entity_type_manager->getStorage($entity_type_id);
+    // Only SQL storage based entities are supported / throw known exception.
+    if (!($entity_storage instanceof SqlContentEntityStorage)) {
+      continue;
+    }
+    $entity_type = $entity_type_manager->getDefinition($entity_type_id);
+    $field_storage_definitions = $entity_field_manager->getFieldStorageDefinitions($entity_type_id);
+    /** @var Drupal\Core\Entity\Sql\DefaultTableMapping $table_mapping */
+    $table_mapping = $entity_storage->getTableMapping($field_storage_definitions);
+    // Only need field storage definitions of map fields.
+    /** @var \Drupal\Core\Field\FieldStorageDefinitionInterface $field_storage_definition */
+    foreach (array_intersect_key($field_storage_definitions, $field_map) as $field_storage_definition) {
+      $field_name = $field_storage_definition->getName();
+      try {
+        $table = $table_mapping->getFieldTableName($field_name);
+      }
+      catch (SqlContentEntityStorageException $e) {
+        // Custom storage? Broken site? No matter what, if there is no table
+        // or column, there's little we can do.
+        continue;
+      }
+      // See if the field has a revision table.
+      $revision_table = NULL;
+      if ($entity_type->isRevisionable() && $field_storage_definition->isRevisionable()) {
+        if ($table_mapping->requiresDedicatedTableStorage($field_storage_definition)) {
+          $revision_table = $table_mapping->getDedicatedRevisionTableName($field_storage_definition);
+        }
+        elseif ($table_mapping->allowsSharedTableStorage($field_storage_definition)) {
+          $revision_table = $entity_type->getRevisionDataTable() ?: $entity_type->getRevisionTable();
+        }
+      }
+      // Load the installed field schema so that it can be updated.
+      $schema_key = "$entity_type_id.field_schema_data.$field_name";
+      $field_schema_data = $entity_storage_schema_sql->get($schema_key);
+
+      $processed_fields[] = [$entity_type_id, $field_name];
+      // Loop over each new column and add it as a schema column change.
+      foreach ($columns_to_add as $column_id) {
+        $column = $table_mapping->getFieldColumnName($field_storage_definition, $column_id);
+        // Add `initial_from_field` to the new spec, as this will copy over
+        // the entire data.
+        $field_schema = $map_item_class::schema($field_storage_definition);
+        $spec = $field_schema['columns'][$column_id];
+        // Add the new column.
+        $schema->addField($table, $column, $spec);
+
+        // Add the new column to the revision table.
+        if ($revision_table) {
+          $schema->addField($revision_table, $column, $spec);
+        }
+
+        // Add the new column to the installed field schema.
+        if ($field_schema_data) {
+          $field_schema_data[$table]['fields'][$column] = $field_schema['columns'][$column_id];
+          $field_schema_data[$table]['fields'][$column]['not null'] = FALSE;
+          if ($revision_table) {
+            $field_schema_data[$revision_table]['fields'][$column] = $field_schema['columns'][$column_id];
+            $field_schema_data[$revision_table]['fields'][$column]['not null'] = FALSE;
+          }
+        }
+      }
+
+      // Save changes to the installed field schema.
+      if ($field_schema_data) {
+        $entity_storage_schema_sql->set($schema_key, $field_schema_data);
+      }
+      if ($table_mapping->allowsSharedTableStorage($field_storage_definition)) {
+        $key = "$entity_type_id.field_storage_definitions";
+        if ($definitions = $entity_definitions_installed->get($key)) {
+          $definitions[$field_name] = $field_storage_definition;
+          $entity_definitions_installed->set($key, $definitions);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Adds map type column to google map field type.
+ */
+function google_map_field_update_8001() {
+  $columns_to_add = ['type', 'width', 'height', 'marker', 'controls'];
+  $processed_fields = google_map_field_add_columns_to_schema($columns_to_add);
+
+  \Drupal::state()->set('google_map_field_8101_processed', $processed_fields);
+}
+
+/**
+ * Adds map infoWindow popup.
+ */
+function google_map_field_update_8002() {
+  $columns_to_add = ['infowindow'];
+  $processed_fields = google_map_field_add_columns_to_schema($columns_to_add);
+
+  \Drupal::state()->set('google_map_field_8102_processed', $processed_fields);
+}

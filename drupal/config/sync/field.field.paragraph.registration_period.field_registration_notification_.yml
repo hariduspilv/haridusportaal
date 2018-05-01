@@ -1,0 +1,19 @@
+uuid: 65b4853f-e232-4012-86e0-56e67c73e7be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_registration_notification_
+    - paragraphs.paragraphs_type.registration_period
+id: paragraph.registration_period.field_registration_notification_
+field_name: field_registration_notification_
+entity_type: paragraph
+bundle: registration_period
+label: 'Registration Notification Email'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

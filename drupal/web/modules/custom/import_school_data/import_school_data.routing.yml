@@ -1,0 +1,8 @@
+
+import_school_data.school_import_controller_import:
+  path: '/import_school_data/Controller'
+  defaults:
+    _controller: '\Drupal\import_school_data\Controller\SchoolImportController::import'
+    _title: 'import'
+  requirements:
+    _permission: 'access content'

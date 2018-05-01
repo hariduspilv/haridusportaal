@@ -1,0 +1,5 @@
+custom_translation_module:
+  title: 'System information custom'
+  base_route_name: custom_translation_module.custom_translation_form
+  names:
+    - custom_translation_module.settings

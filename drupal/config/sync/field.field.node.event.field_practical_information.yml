@@ -1,0 +1,21 @@
+uuid: e60f3404-3afa-4f82-b706-480b1c11aff9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_practical_information
+    - node.type.event
+  module:
+    - text
+id: node.event.field_practical_information
+field_name: field_practical_information
+entity_type: node
+bundle: event
+label: 'Praktiline informatsioon'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
