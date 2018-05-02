@@ -4,10 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ArticleService, RootScopeService } from '../../_services';
 
 @Component({
-  templateUrl: './news.component.html'
+  templateUrl: './article.component.html'
 })
 
-export class NewsComponent {
+export class ArticleComponent {
 
   content: any;
   breadcrumb: any;
