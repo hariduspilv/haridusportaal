@@ -1,0 +1,42 @@
+uuid: 3a8b0ad5-a0d4-4d3c-b219-23554457169d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.additional_section.field_additional_body
+    - field.field.paragraph.additional_section.field_icon
+    - field.field.paragraph.additional_section.field_title
+    - paragraphs.paragraphs_type.additional_section
+  module:
+    - text
+id: paragraph.additional_section.default
+targetEntityType: paragraph
+bundle: additional_section
+mode: default
+content:
+  field_additional_body:
+    weight: 2
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_icon:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true
