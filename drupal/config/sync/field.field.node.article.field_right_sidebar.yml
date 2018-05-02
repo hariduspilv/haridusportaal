@@ -1,0 +1,43 @@
+uuid: b1029d6a-5282-4ca6-a2d3-ea7b4dd819bf
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_right_sidebar
+    - node.type.article
+    - paragraphs.paragraphs_type.contact_section
+  module:
+    - entity_reference_revisions
+id: node.article.field_right_sidebar
+field_name: field_right_sidebar
+entity_type: node
+bundle: article
+label: 'Right sidebar'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      contact_section: contact_section
+    target_bundles_drag_drop:
+      contact_section:
+        enabled: true
+        weight: 6
+      event_date:
+        weight: 7
+        enabled: false
+      link:
+        weight: 8
+        enabled: false
+      registration_period:
+        weight: 9
+        enabled: false
+      school_location:
+        weight: 10
+        enabled: false
+field_type: entity_reference_revisions
