@@ -1,0 +1,21 @@
+uuid: 78c02077-d7b5-40f3-9c8d-f04bbb194e6b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_created_from_ehis_datetime
+    - node.type.school
+id: node.school.field_created_from_ehis_datetime
+field_name: field_created_from_ehis_datetime
+entity_type: node
+bundle: school
+label: 'EHIS-st automaatselt lisamise aeg'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1524054389
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

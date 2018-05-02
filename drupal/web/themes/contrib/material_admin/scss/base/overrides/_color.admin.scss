@@ -1,0 +1,70 @@
+/* @file
+ * Color module override
+ *
+ */
+
+.color-form {
+  .wrap-placeholder-fab {
+    @extend .col,
+    .m3;
+  }
+}
+
+.color-palette {
+
+  .form-item:not(.form-item-scheme) {
+    @extend .col,
+    .m4,
+    .s12;
+
+    display: inline;
+    input {
+      margin-top: 15px;
+      margin-right: 5px;
+      padding: 0 5px;
+      width: 70%;
+    }
+  }
+  .color-palette__hook {
+    display: inline-block;
+    width: 10%;
+    height: 20px;
+    &.is-up {
+      &::before {
+        @extend .material-icons;
+
+        display: inline-block;
+        position: absolute;
+        text-indent: 0;
+        content: 'link';
+      }
+    }
+  }
+  button.color-palette__lock,
+  .color-palette__lock {
+    display: inline-block;
+    position: relative;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    width: 10%;
+    height: 20px;
+    overflow: hidden;
+    text-indent: -9999px;
+    white-space: nowrap;
+    &::before {
+      @extend .material-icons;
+
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      text-indent: 0;
+      content: 'lock_outline';
+    }
+    &.is-unlocked {
+      &::before {
+        content: 'lock_open';
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+parameters:
+  duration_field.service.class: 'Drupal\duration_field\Service\DurationService'
+
+services:
+  duration_field.service:
+    class: '%duration_field.service.class%'

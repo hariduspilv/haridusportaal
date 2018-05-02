@@ -1,0 +1,17 @@
+name: Google Map Field
+description: Defines a field type for Google Maps.
+package: Field types
+
+type: module
+# core: 8.x
+
+dependencies:
+  - field
+
+configure : gmap.field.settings
+
+# Information added by Drupal.org packaging script on 2018-02-25
+version: '8.x-1.5'
+core: '8.x'
+project: 'google_map_field'
+datestamp: 1519597085

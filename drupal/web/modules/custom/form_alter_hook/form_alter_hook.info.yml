@@ -1,0 +1,5 @@
+name: 'Form Alter Hook'
+type: module
+description: 'Module for altering forms'
+core: 8.x
+package: 'Custom'

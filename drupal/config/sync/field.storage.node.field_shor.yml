@@ -1,0 +1,19 @@
+uuid: dad0034e-823d-4d84-868d-bc4541af708f
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_shor
+field_name: field_shor
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

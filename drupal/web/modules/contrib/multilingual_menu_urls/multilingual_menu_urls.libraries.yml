@@ -1,0 +1,7 @@
+multilingual_menu_urls:
+  version: VERSION
+  js:
+    js/multilingual_menu_urls.js: {}
+  dependencies:
+      - core/jquery
+      - core/drupal

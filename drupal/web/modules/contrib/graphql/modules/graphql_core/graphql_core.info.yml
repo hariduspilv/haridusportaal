@@ -1,0 +1,12 @@
+name: GraphQL Core
+type: module
+description: 'Provides type system plugins and derivers on behalf of core modules.'
+package: GraphQL
+# core: 8.x
+dependencies:
+  - graphql
+# Information added by Drupal.org packaging script on 2018-04-06
+version: '8.x-3.0-beta7'
+core: '8.x'
+project: 'graphql'
+datestamp: 1523021609
