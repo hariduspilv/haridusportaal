@@ -1,23 +1,21 @@
-<mat-toolbar color="primary" role="header">
-  
-  <div class="menu-burger">
-    <mat-icon (click)="toggleSideNav()" class="sm-show">menu</mat-icon>
-  </div><!--/menu-burger-->
+<mat-toolbar color="primary" role="header" class="header-toolbar mat-elevation-z6">
+  <div class="inline">
 
-  <span class="fill-space"></span>
-  <a [routerLink]="[logoLink]"><img src="assets/logo.png" class="header-logo" /></a>
-  <!-- This fills the remaining space of the current row -->
-  <span class="fill-space"></span>
+    <div class="menu-burger">
+      <mat-icon (click)="toggleSideNav()" class="sm-show">menu</mat-icon>
+    </div><!--/menu-burger-->
 
-  
-  <div *ngIf="languages">
-    <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
-      <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)">{{ item.argument | uppercase }}</button>
-    </mat-menu>
+    <a [routerLink]="[logoLink]" class="header-logo"><img src="assets/logo.png" /></a>
+    <!-- This fills the remaining space of the current row -->
 
-    <button mat-button [matMenuTriggerFor]="appMenu" >{{ activeLanguage | uppercase }}</button>
-  </div><!--/languages-->
+    <span class="fill-space"></span>
+    
+    <div *ngIf="languages" class="pull-right">
+      <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
+        <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)">{{ item.argument | uppercase }}</button>
+      </mat-menu>
 
-  
-  
+      <button mat-button [matMenuTriggerFor]="appMenu" >{{ activeLanguage | uppercase }}</button>
+    </div><!--/languages-->
+  </div><!--/inline-->
 </mat-toolbar>

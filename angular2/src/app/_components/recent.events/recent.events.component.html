@@ -1,0 +1,17 @@
+<div *ngFor="let item of content">
+   <h2>
+      {{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | weekday: "unix"}}
+      {{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | date: "dd. MMMM yyy "}}
+   </h2>
+   <a [routerLink]="[item.entityTranslation.entityUrl.path]" href="javascript:void(0);" class="normal-text">
+      <b>{{ item.entityTranslation.title }}</b>
+      <p *ngIf="item.entityTranslation.fieldDescription">{{ item.entityTranslation.fieldDescription.summary }}</p>
+      <p>
+
+         <b>Toimumisaeg:</b> {{ item.entityTranslation.eventDates[0].entity.fieldEventStartTime | unixToTime }}<br />
+         <span *ngIf="item.entityTranslation.location"><b>Asukoht:</b> {{ item.entityTranslation.location.name }}</span>
+      </p>
+   </a>
+   <mat-divider class="mt-20 mb-20"></mat-divider>
+</div>
+<a href="javascript:void(0);" [routerLink]="allPath" mat-button color="primary">Vaata kõiki</a>

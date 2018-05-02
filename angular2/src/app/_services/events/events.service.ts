@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, group } from '@angular/core';
 import { EventsGraph } from './events.graph';
 import { Apollo } from 'apollo-angular';
 import { HttpHeaders } from '@angular/common/http';
@@ -17,11 +17,11 @@ export class EventsService extends EventsGraph {
     super();
   }
 
-  getList(path, cb): any {
+  getList(path, cb, offset=0, limit=10): any {
 
     this.lang = this.rootScope.get('currentLang');
 
-    const query = this.buildList(this.lang);
+    const query = this.buildList(this.lang, offset, limit);
 
     this.apollo.query({
       query: query,
@@ -35,5 +35,63 @@ export class EventsService extends EventsGraph {
     });
 
   }
+
+  getSingle(path, cb): any {
+
+    this.lang = this.rootScope.get('currentLang');
+
+    const query = this.buildSingle(this.lang, path);
+
+    this.apollo.query({
+      query: query,
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+      context: {
+        headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+      }
+    }).subscribe(({data}) => {
+      cb(data);
+    });
+
+  }
+  
+  getRelated(groupID, nid, cb): any {
+
+    this.lang = this.rootScope.get('currentLang');
+
+    const query = this.buildRelated(this.lang, nid, groupID);
+
+    this.apollo.query({
+      query: query,
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+      context: {
+        headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+      }
+    }).subscribe(({data}) => {
+      cb(data);
+    });
+
+  }
+
+  getRecent(cb): any {
+
+    this.lang = this.rootScope.get('currentLang');
+
+    const query = this.buildRecent(this.lang);
+
+    this.apollo.query({
+      query: query,
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+      context: {
+        headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+      }
+    }).subscribe(({data}) => {
+      cb(data);
+    });
+
+  }
+  
 
 }
