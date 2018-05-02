@@ -12,11 +12,11 @@ type: list_string
 settings:
   allowed_values:
     -
-      value: icon-info
-      label: Info
+      value: info
+      label: High
     -
-      value: icon-muu
-      label: Muu
+      value: info_outline
+      label: Normal
   allowed_values_function: ''
 module: options
 locked: false
