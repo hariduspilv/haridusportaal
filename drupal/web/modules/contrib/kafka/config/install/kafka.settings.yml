@@ -1,0 +1,10 @@
+conf:
+  group:
+    id: 'drupal'
+  metadata:
+    broker:
+      list: '127.0.0.1'
+topic_conf:
+  auto:
+    offset:
+      reset: 'smallest'

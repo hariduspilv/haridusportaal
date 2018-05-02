@@ -1,0 +1,14 @@
+type: module
+name: GraphQL Requests Test
+description: Dummy callbacks for internal request testing.
+package: Testing
+# core: 8.x
+hidden: TRUE
+dependencies:
+- graphql_core
+
+# Information added by Drupal.org packaging script on 2018-04-06
+version: '8.x-3.0-beta7'
+core: '8.x'
+project: 'graphql'
+datestamp: 1523021609

@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * Contains readonly_field_widget.module..
+ */
+
+use Drupal\Core\Entity\EntityFormInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_field_widget_info_alter().
+ */
+function readonly_field_widget_field_widget_info_alter(array &$info) {
+  // Let the readonly field widget be useable on all field types.
+  $formatters = \Drupal::service('plugin.manager.field.formatter')->getDefinitions();
+  $field_types = [];
+  foreach ($formatters as $formatter) {
+    $field_types = array_merge($field_types, $formatter['field_types']);
+  }
+
+  $info['readonly_field_widget']['field_types'] = array_unique($field_types);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function readonly_field_widget_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  // Check that this is an entity form.
+  $form_object = $form_state->getFormObject();
+  if ($form_object instanceof EntityFormInterface) {
+    $entity = $form_object->getEntity();
+
+    // Set access to readonly widget items based on their view access.
+    $storage = $form_state->getStorage();
+    if (isset($storage['form_display'])) {
+      $form_display = $storage['form_display'];
+    }
+    else {
+      return;
+    }
+    foreach ($form_display->getComponents() as $name => $options) {
+      $widget = $form_display->getRenderer($name);
+
+      if (!empty($widget) && $widget->getBaseId() == 'readonly_field_widget') {
+        $items = $entity->get($name);
+        $items->filterEmptyItems();
+        $form[$name]['#access'] = $items->access('view');
+      }
+
+    }
+
+  }
+
+}

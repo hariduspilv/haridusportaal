@@ -1,0 +1,4 @@
+custom_translation_module.custom_translation_form:
+  route_name: custom_translation_module.custom_translation_form
+  title: Settings
+  base_route: custom_translation_module.custom_translation_form

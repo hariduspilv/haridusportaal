@@ -1,0 +1,12 @@
+name: 'Simple split filter'
+type: module
+# core: 8.x
+package: Testing
+dependencies:
+  - config_filter:config_filter
+
+# Information added by Drupal.org packaging script on 2018-04-05
+version: '8.x-1.2'
+core: '8.x'
+project: 'config_filter'
+datestamp: 1522943894

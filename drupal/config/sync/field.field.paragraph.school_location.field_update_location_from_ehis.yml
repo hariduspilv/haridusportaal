@@ -1,0 +1,21 @@
+uuid: cd7600bb-e142-4acc-a914-194ccf654099
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_update_location_from_ehis
+    - paragraphs.paragraphs_type.school_location
+  module:
+    - options
+id: paragraph.school_location.field_update_location_from_ehis
+field_name: field_update_location_from_ehis
+entity_type: paragraph
+bundle: school_location
+label: 'EHIS-st asukoha andmete automaatne uuendamine'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

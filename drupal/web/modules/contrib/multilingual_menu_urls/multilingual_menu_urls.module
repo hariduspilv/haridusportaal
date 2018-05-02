@@ -1,0 +1,156 @@
+<?php
+
+/**
+ * @file
+ * Contains multilingual_menu_urls.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\URL;
+
+/**
+ * Implements hook_help().
+ */
+function multilingual_menu_urls_help($route_name, RouteMatchInterface $route_match)
+{
+  switch ($route_name) {
+    // Main module help for the multilingual_menu_urls module.
+    case 'help.page.multilingual_menu_urls':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Provides the options to add different external URLs to a menu item translation') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multilingual_menu_urls_form_menu_link_content_menu_link_content_form_alter(&$form, FormStateInterface $form_state) {
+
+  $menu_config = $form_state->getFormObject()->getEntity();
+  $form['#attached']['library'][] = 'multilingual_menu_urls/multilingual_menu_urls';
+  if ($menu_config->isDefaultTranslation()) {
+    // Mltilingual external URL options unavailable to default translations.
+    $form['translated_link_on']['#access'] = FALSE;
+    $form['translated_link_url']['#access'] = FALSE;
+  }
+  else {
+    // Move enabled field for better UX.
+    $form['enabled']['#weight'] = 4;
+
+    // Translated link options only visible if "Enable Translated Link"
+    // is true.
+    $form['translated_link_url']['#states'] = [
+      'visible' => [
+        ':input[name="translated_link_on[value]"]'  => [
+          'checked' => TRUE,
+        ],
+      ],
+    ];
+    // If "Enable Translated Link", hide default link and title fields.
+    $form['link']['#states'] = $form['title']['#states'] = [
+      'visible' => [
+        ':input[name="translated_link_on[value]"]'  => [
+          'checked' => FALSE,
+        ],
+      ],
+    ];
+    $form['translated_link_url']['widget'][0]['title']['#weight'] = 5;
+    $form['translated_link_url']['widget'][0]['uri']['#weight'] = 10;
+    // If translated links are enabled, then the link and URL are required.
+    $form['translated_link_url']['widget'][0]['title']['#states'] = $form['translated_link_url']['widget'][0]['uri']['#states'] = [
+      'required' => [
+        ':input[name="translated_link_on[value]"]'  => [
+          'checked' => TRUE,
+        ],
+      ],
+    ];
+  }
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function multilingual_menu_urls_entity_base_field_info(EntityTypeInterface $entityType)
+{
+  if ($entityType->id() == 'menu_link_content') {
+
+    $fields = [];
+    $fields['translated_link_on'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Provide Translated External Link'))
+      ->setDescription(t('Not necessary for internall links. Allows you to provide a language-specific link for this menu item.'))
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'boolean_checkbox',
+        'settings' => [
+          'display_label' => TRUE,
+        ],
+        'weight' => -8,
+      ])
+      ->setDisplayConfigurable('form', TRUE);
+
+    $fields['translated_link_url'] = BaseFieldDefinition::create('link')
+      ->setLabel(t('Translated Link'))
+      ->setDescription(t('Overrides the menu link field - use only if this is an external link that differs from the URL used in the default language'))
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'link_default',
+        'settings' => [
+          'display_label' => TRUE,
+        ],
+        'weight' => -7,
+      ])
+      ->setDisplayConfigurable('form', TRUE);
+    return $fields;
+
+
+  }
+}
+
+/**
+ * Implements template_preprocess_menu().
+ * TODO: Find a way to do this earlier than a preprocessor
+ */
+function multilingual_menu_urls_preprocess_menu(&$variables) {
+  $default_language = \Drupal::languageManager()->getDefaultLanguage()->getId();
+  $current_language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  // There is no need to continue if we are on a page in the default language.
+  if ($default_language == $current_language) {
+    return;
+  }
+  /*
+   * Loop through each menu link. If multilingual URL is enabled and
+   * the multilingual link field is available, use those values
+   * in the rendered menu link.
+   */
+  foreach ($variables['items'] as $k => $item) {
+    $menu_link = $item['original_link'];
+    $uuid = $menu_link->getDerivativeId();
+    if (!empty($uuid)) {
+      $entity = \Drupal::entityManager()->loadEntityByUuid('menu_link_content', $menu_link->getDerivativeId());
+      if ($entity->hasTranslation($current_language)) {
+        $translated_entity = $entity->getTranslation($current_language);
+        if ($translated_entity->hasField('translated_link_on') && $translated_entity->translated_link_on->value) {
+          $translated_url = $translated_entity->translated_link_url->uri;
+          $translated_title = $translated_entity->translated_link_url->title;
+          if (!empty($translated_title)) {
+            $variables['items'][$k]['title'] = $translated_title;
+          }
+          if (!empty($translated_url)) {
+            $options = $item['url']->getOptions();
+            $new_url = Url::fromUri($translated_url);
+            $new_url->setOptions($options);
+            $variables['items'][$k]['url'] = $new_url;
+          }
+        }
+      }
+    }
+  }
+}
+

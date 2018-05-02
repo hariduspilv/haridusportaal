@@ -1,0 +1,13 @@
+name: Config Ignore Hook Test
+type: module
+description: Module that implements all the hook from Config Ignore for testing purposes
+# core: 8.x
+package: Configuration
+dependencies:
+  - config_ignore
+
+# Information added by Drupal.org packaging script on 2017-10-11
+version: '8.x-2.1'
+core: '8.x'
+project: 'config_ignore'
+datestamp: 1507706047

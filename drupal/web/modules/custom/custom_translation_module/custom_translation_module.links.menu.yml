@@ -1,0 +1,7 @@
+custom_translation_module.custom_translation_form:
+  title: 'HTM site custom translations'
+  route_name: custom_translation_module.custom_translation_form
+  description: 'HTM site custom translations'
+  parent: system.admin_config_regional
+  weight: 99
+

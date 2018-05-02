@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function multilingual_menu_urls_install() {
+  // Add Field Storage for Translated Link fields.
+  $entity_manager = \Drupal::entityManager();
+  $definition = $entity_manager->getFieldStorageDefinitions('menu_link_content')['translated_link_on'];
+  $entity_manager->onFieldStorageDefinitionCreate($definition);
+  $definition = $entity_manager->getFieldStorageDefinitions('menu_link_content')['translated_link_url'];
+  $entity_manager->onFieldStorageDefinitionCreate($definition);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multilingual_menu_urls_uninstall() {
+  $entity_manager = \Drupal::entityManager();
+  $definition = $entity_manager->getFieldStorageDefinitions('menu_link_content')['translated_link_on'];
+  if (!empty($definition)) {
+    $entity_manager->onFieldStorageDefinitionDelete($definition);
+  }
+  $definition = $entity_manager->getFieldStorageDefinitions('menu_link_content')['translated_link_url'];
+  if (!empty($definition)) {
+    $entity_manager->onFieldStorageDefinitionDelete($definition);
+  }
+}

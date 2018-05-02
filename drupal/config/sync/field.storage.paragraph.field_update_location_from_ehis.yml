@@ -1,0 +1,27 @@
+uuid: 4750b03a-7fc3-4b8e-8f8e-b22a6c60e7b1
+langcode: et
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_update_location_from_ehis
+field_name: field_update_location_from_ehis
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: '1'
+      label: jah
+    -
+      value: '0'
+      label: ei
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

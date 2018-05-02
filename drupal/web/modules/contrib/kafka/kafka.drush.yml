@@ -1,0 +1,28 @@
+commands:
+  # Queue API related commands
+
+  kafka-high-level-consumer-demo:
+    aliases: ['khlcd']
+    description: 'Demoes the high-level Kafka consumer.'
+    # options:
+    #  all: 'Also list workers not configured for Beanstalkd handling.'
+
+  kafka-low-level-consumer-demo:
+    aliases: ['kllcd']
+    description: 'Demoes the low-level Kafka consumer.'
+
+  kafka-producer-demo:
+    aliases: ['kpd']
+    description: 'Demoes the Kafka producer by submitting a number of messages.'
+
+  kafka-topics:
+    aliases: ['kt']
+    description: 'Gets the available Kafka topics.'
+
+  kafka-queue-producer-demo:
+    aliases: ['kqpd']
+    description: 'Demoes the Kafka producer through Queue API'
+
+  kafka-queue-consumer-demo:
+    aliases: ['kqcd']
+    description: 'Demoes the Kafka high-level consuer through Queue API'
