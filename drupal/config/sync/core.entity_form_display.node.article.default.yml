@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.article.body
+    - field.field.node.article.field_accordion_section
     - field.field.node.article.field_additional_info
     - field.field.node.article.field_image
     - field.field.node.article.field_links
@@ -40,6 +41,18 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_accordion_section:
+    type: entity_reference_paragraphs
+    weight: 26
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
   field_additional_info:
     type: entity_reference_paragraphs
     weight: 12
