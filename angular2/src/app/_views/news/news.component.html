@@ -8,7 +8,7 @@
 <div *ngIf="content">
   
   
-  <ul class="breadcrumb">
+  <ul class="breadcrumb mt-0">
     <li *ngFor="let item of breadcrumb">
       <a [routerLink]="[item.url.path]">
         <span>{{ item.text }}</span>
@@ -23,7 +23,7 @@
     <h1>{{ content.title }}</h1>
     <p><b>{{ content.body.summary }}</b></p>
 
-    <mat-card *ngIf="content.fieldImage">
+    <mat-card *ngIf="content.fieldImage" class="article-image">
       <mat-card-content>
         <img  src="{{ content.fieldImage.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
         <p>{{ content.fieldImage.alt }}</p>

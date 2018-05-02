@@ -1,0 +1,34 @@
+<div *ngFor="let item of content" >
+   <div class="row sm-hide">
+      <div class="col-4">
+         <p class="button-height">{{ item.entityTranslation.title }}</p>
+      </div>
+      <div class="col-4">
+         <p class="button-height" *ngIf="item.entityTranslation.eventDates[0]">
+   
+            <span>
+               {{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | weekday: "unix" }}
+               {{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | date: "dd.MM yyy " }}
+               Kell
+               {{ item.entityTranslation.eventDates[0].entity.fieldEventStartTime | unixToTime }} - {{ item.entityTranslation.eventDates[0].entity.fieldEventEndTime | unixToTime }}
+            </span>
+         </p>
+      </div>
+      <div class="col-4">
+         <a href="javascript:void(0);" [routerLink]="[item.entityTranslation.entityUrl.path]" mat-button >Sündmuse vaatesse</a>
+      </div>
+   </div>
+   <div class="sm-show">
+      <p class="button-height">
+         <a [routerLink]="[item.entityTranslation.entityUrl.path]" href="javascript:void(0);" class="normal-text">
+            {{ item.entityTranslation.title }}<br />
+            <span>
+               {{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | weekday: "unix" }}
+               {{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | date: "dd.MM yyy " }}
+               Kell
+               {{ item.entityTranslation.eventDates[0].entity.fieldEventStartTime | unixToTime }} - {{ item.entityTranslation.eventDates[0].entity.fieldEventEndTime | unixToTime }}
+            </span>
+         </a>
+      </p>
+   </div>
+</div>
