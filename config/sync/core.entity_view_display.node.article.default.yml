@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.article.body
+    - field.field.node.article.field_accordion_section
     - field.field.node.article.field_additional_info
     - field.field.node.article.field_image
     - field.field.node.article.field_links
@@ -31,6 +32,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     label: hidden
+  field_accordion_section:
+    type: entity_reference_revisions_entity_view
+    weight: 7
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
   field_additional_info:
     type: entity_reference_revisions_entity_view
     weight: 3
