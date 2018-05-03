@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.school.body
+    - field.field.node.school.field_adrid
     - field.field.node.school.field_created_from_ehis_datetime
     - field.field.node.school.field_educational_institution_ty
     - field.field.node.school.field_ehis_id
@@ -17,6 +18,7 @@ dependencies:
     - field.field.node.school.field_student_home
     - field.field.node.school.field_teaching_language
     - field.field.node.school.field_update_from_ehis
+    - field.field.node.school.field_update_location_from_ehis
     - node.type.school
   module:
     - paragraphs
@@ -27,8 +29,16 @@ targetEntityType: node
 bundle: school
 mode: default
 content:
+  field_adrid:
+    weight: 8
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_created_from_ehis_datetime:
-    weight: 13
+    weight: 15
     settings:
       label: above
       formatter_type: null
@@ -48,7 +58,7 @@ content:
     type: options_shs
     region: content
   field_ehis_id:
-    weight: 11
+    weight: 14
     settings:
       size: 60
       placeholder: ''
@@ -70,7 +80,7 @@ content:
     type: string_textfield
     region: content
   field_school_contact_email:
-    weight: 9
+    weight: 11
     settings:
       size: 60
       placeholder: ''
@@ -78,7 +88,7 @@ content:
     type: email_default
     region: content
   field_school_contact_phone:
-    weight: 8
+    weight: 10
     settings:
       size: 60
       placeholder: ''
@@ -87,7 +97,7 @@ content:
     region: content
   field_school_location:
     type: entity_reference_paragraphs
-    weight: 7
+    weight: 9
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -98,7 +108,7 @@ content:
     third_party_settings: {  }
     region: content
   field_school_webpage_address:
-    weight: 10
+    weight: 12
     settings:
       size: 60
       placeholder: ''
@@ -126,14 +136,20 @@ content:
     type: options_select
     region: content
   field_update_from_ehis:
-    weight: 12
+    weight: 13
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
+  field_update_location_from_ehis:
+    weight: 7
     settings: {  }
     third_party_settings: {  }
     type: options_buttons
     region: content
   status:
     type: options_buttons
-    weight: 14
+    weight: 16
     region: content
     settings: {  }
     third_party_settings: {  }
