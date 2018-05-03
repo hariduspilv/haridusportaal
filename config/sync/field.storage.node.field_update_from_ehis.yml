@@ -1,24 +1,15 @@
-uuid: 94289105-6d40-4ce7-8564-053e80d9acd7
+uuid: 260970e1-5d88-4e26-8a9b-44d171a62a27
 langcode: et
 status: true
 dependencies:
   module:
     - node
-    - options
 id: node.field_update_from_ehis
 field_name: field_update_from_ehis
 entity_type: node
-type: list_string
-settings:
-  allowed_values:
-    -
-      value: '1'
-      label: jah
-    -
-      value: '0'
-      label: ei
-  allowed_values_function: ''
-module: options
+type: boolean
+settings: {  }
+module: core
 locked: false
 cardinality: 1
 translatable: true
