@@ -1,0 +1,29 @@
+uuid: 7ad44090-fa35-4d43-adbc-2a4372ff4d58
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_school_location
+    - paragraphs.paragraphs_type.school_location
+    - taxonomy.vocabulary.educational_institution_location
+id: paragraph.school_location.field_school_location
+field_name: field_school_location
+entity_type: paragraph
+bundle: school_location
+label: 'Kooli asukoht'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      educational_institution_location: educational_institution_location
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference
