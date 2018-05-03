@@ -163,9 +163,9 @@ class SchoolImportController extends ControllerBase {
         $ownershipvalues[] = $ownershiptypes[$school->omandivorm];
       }
       $schoolnode['field_ownership_type'] = $ownershipvalues;
-      if(isset($school->juriidilineAadress)){
-        $schoolnode['field_adrid'] = $school->juriidilineAadress->adrId;
-      }
+      //if(isset($school->juriidilineAadress)){
+        //$schoolnode['field_adrid'] = $school->juriidilineAadress->adrId;
+      //}
       $langvalues = [];
       if(isset($school->oppeKeeled)){
         foreach($school->oppeKeeled->oppeKeel as $ehislanguage){
