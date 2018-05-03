@@ -11,22 +11,30 @@ use Drupal\node\Entity\Node;
 class SchoolImportController extends ControllerBase {
 
   public function import() {
-    $schools = $this->getSchoolData('school');
-    $ownershiptypes = $this->getTaxonomyTerms('ownership_type');
-    $teachinglanguages = $this->getTaxonomyTerms('teaching_language');
-    $schooltypes = $this->getTaxonomyEhisOutputs('educational_institution_type');
     $schoolnodes = [];
+    $retrieved_ehis_ids = [];
+    $schools = $this->get_school_data('school');
+    $ownershiptypes = $this->get_taxonomy_terms('ownership_type');
+    $teachinglanguages = $this->get_taxonomy_terms('teaching_language');
+    $schooltypes = $this->get_taxonomy_ehis_outputs('educational_institution_type');
+    $existing_ehis_ids = $this->get_existing_ehis_ids();
     foreach($schools as $school){
       $schoolnode['node_response'] = $this->check_school_existance($school);
       if($schoolnode['node_response']['field_update_from_ehis'] === '1'){
         $schoolnode['edited_node'] = $this->add_school_fields($school, $schoolnode['node_response'], $ownershiptypes, $teachinglanguages, $schooltypes);
         $schoolnodes[] = $schoolnode['edited_node'];
       }
+      $retrieved_ehis_ids[$school->koolId] = '';
+    }
+    $unused_ehis_ids = $this->get_unused_ehis_ids($existing_ehis_ids, $retrieved_ehis_ids);
+    foreach($unused_ehis_ids as $id){
+      $schoolnode['edited_node'] = $this->unpublish_school($id);
+      $schoolnodes[] = $schoolnode['edited_node'];
     }
     return $schoolnodes;
   }
 
-  public function getSchoolData($type){
+  public function get_school_data($type){
     switch($type){
       case 'school':
       $json_url = 'http://enda.ehis.ee/avaandmed/rest/oppeasutused/-/-/-/-/-/-/-/-/-/-/1/JSON';
@@ -44,6 +52,42 @@ class SchoolImportController extends ControllerBase {
     return $schools;
   }
 
+  public function unpublish_school($ehisid){
+    $schoolnode = [];
+    $nid_result = \Drupal::entityQuery('node')
+    ->condition('field_ehis_id', $ehisid)
+    ->execute();
+
+    $nid = array_shift($nid_result);
+    $schoolnode['nid'] = $nid;
+    $schoolnode['status'] = '0';
+    return $schoolnode;
+  }
+
+  public function get_unused_ehis_ids($existingids, $retrievedids){
+    $unusedids = [];
+    foreach($existingids as $id){
+      if(!isset($retrievedids[$id])){
+        $unusedids[] = $id;
+      }
+    }
+    return $unusedids;
+  }
+
+  public function get_existing_ehis_ids(){
+    $schoolehisids = [];
+    $nid_result = \Drupal::entityQuery('node')
+    ->condition('type', 'school')
+    ->execute();
+
+    foreach($nid_result as $nodeid){
+      $schoolitem = entity_load('node', $nodeid);
+      $schoolehisids[$nodeid] = $schoolitem->get('field_ehis_id')->getValue()[0]['value'];
+    }
+
+    return $schoolehisids;
+  }
+
   public function check_school_existance($school){
     $schoolnode = [];
     $query = \Drupal::entityQuery('node');
@@ -58,7 +102,7 @@ class SchoolImportController extends ControllerBase {
 
       // Match found, update existing node
       $nid = array_shift($nid_result);
-      // Load node
+
       $schoolnode['nid'] = $nid;
       $schoolnode['field_ehis_id'] = $school->koolId;
       $schoolnode['field_update_from_ehis'] = '1';
@@ -119,6 +163,9 @@ class SchoolImportController extends ControllerBase {
         $ownershipvalues[] = $ownershiptypes[$school->omandivorm];
       }
       $schoolnode['field_ownership_type'] = $ownershipvalues;
+      if(isset($school->juriidilineAadress)){
+        $schoolnode['field_adrid'] = $school->juriidilineAadress->adrId;
+      }
       $langvalues = [];
       if(isset($school->oppeKeeled)){
         foreach($school->oppeKeeled->oppeKeel as $ehislanguage){
@@ -148,6 +195,7 @@ class SchoolImportController extends ControllerBase {
       $schoolnode['field_ehis_id'] = $school->koolId;
       $schoolnode['field_created_from_ehis_datetime'] = REQUEST_TIME;
       $schoolnode['field_update_from_ehis'] = '1';
+      $schoolnode['status'] = '1';
     }
     return $schoolnode;
   }
@@ -171,7 +219,7 @@ class SchoolImportController extends ControllerBase {
     $node->save();
   }
 
-  public function getTaxonomyTerms($taxonomy){
+  public function get_taxonomy_terms($taxonomy){
     $query = \Drupal::entityQuery('taxonomy_term');
     $query->condition('vid', $taxonomy);
     $tids = $query->execute();
@@ -183,7 +231,7 @@ class SchoolImportController extends ControllerBase {
 
     return $terms_parsed;
   }
-  public function getTaxonomyEhisOutputs($taxonomy){
+  public function get_taxonomy_ehis_outputs($taxonomy){
     $query = \Drupal::entityQuery('taxonomy_term');
     $query->condition('vid', $taxonomy);
     $tids = $query->execute();
