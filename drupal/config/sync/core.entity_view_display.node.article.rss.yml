@@ -21,5 +21,10 @@ content:
     region: content
 hidden:
   body: true
+  field_accordion_section: true
+  field_additional_info: true
   field_image: true
+  field_links: true
+  field_related_pages: true
+  field_right_sidebar: true
   langcode: true
