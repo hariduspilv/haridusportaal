@@ -1,14 +1,13 @@
-uuid: 3f6c5103-5d10-41ef-b740-e410a6a438e3
+uuid: cf89099f-4dfa-46ee-9b14-b1a1bcfc813f
 langcode: et
 status: true
 dependencies:
   module:
     - entity_reference_revisions
-    - node
     - paragraphs
-id: node.field_additional_info
-field_name: field_additional_info
-entity_type: node
+id: paragraph.field_contact_section
+field_name: field_contact_section
+entity_type: paragraph
 type: entity_reference_revisions
 settings:
   target_type: paragraph
