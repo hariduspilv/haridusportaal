@@ -4,3 +4,6 @@ services:
     arguments: ['@language_manager', '@plugin.manager.language_negotiation_method', '@config.factory', '@settings', '@request_stack', '@current_user']
     calls:
       - [initLanguageManager]
+  custom_graphql_functions.custom_tree_manipulators:
+    class: Drupal\custom_menu_uri_translation\Menu\CustomMenuLinkTreeManipulators
+    arguments: ['@access_manager', '@current_user', '@entity_type.manager']
