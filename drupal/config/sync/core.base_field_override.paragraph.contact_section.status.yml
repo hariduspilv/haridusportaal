@@ -1,4 +1,4 @@
-uuid: d53cee3e-a126-4b84-9fb6-a9d9e1048567
+uuid: ca4d8aa3-b856-471d-b35d-99a1195a60a0
 langcode: et
 status: true
 dependencies:
@@ -11,7 +11,7 @@ bundle: contact_section
 label: Avalda
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 1

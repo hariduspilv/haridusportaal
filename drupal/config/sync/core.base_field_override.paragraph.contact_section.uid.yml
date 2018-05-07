@@ -1,4 +1,4 @@
-uuid: 0885ff4e-17f3-46e9-8f59-1f8ec1af041c
+uuid: 33e42198-099f-4e63-9bd9-fe8fee4eaab7
 langcode: et
 status: true
 dependencies:
@@ -11,7 +11,7 @@ bundle: contact_section
 label: 'Authored by'
 description: 'The user ID of the paragraphs author.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: 'Drupal\paragraphs\Entity\Paragraph::getCurrentUserId'
 settings:
