@@ -1,4 +1,4 @@
-uuid: ac5188b2-f1bb-401e-a956-13c6b343b4d0
+uuid: 8f0ed42a-6721-406a-9f2c-fdb2148b51ef
 langcode: et
 status: true
 dependencies:
@@ -11,19 +11,7 @@ module: import_school_data
 callback: import_school_data_cron
 scheduler:
   id: simple
-  configuration:
-    rules:
-      - '0+@ 0 * * *'
 launcher:
   id: serial
-  configuration:
-    timeouts:
-      lock_timeout: 3600
-    launcher:
-      thread: 0
 logger:
   id: database
-  configuration:
-    method: '3'
-    expire: 1209600
-    retain: 1000

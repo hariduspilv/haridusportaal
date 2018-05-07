@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.news.field_news_link
     - field.field.node.news.field_news_tag
     - field.field.node.news.field_shor
+    - image.style.kokki_stiil
     - node.type.news
   module:
     - image
@@ -50,7 +51,7 @@ content:
     weight: 105
     label: above
     settings:
-      image_style: ''
+      image_style: kokki_stiil
       image_link: ''
     third_party_settings: {  }
     type: image

@@ -5,10 +5,8 @@ dependencies:
   config:
     - field.field.node.article.body
     - field.field.node.article.field_accordion_section
-    - field.field.node.article.field_additional_info
     - field.field.node.article.field_image
     - field.field.node.article.field_links
-    - field.field.node.article.field_related_pages
     - field.field.node.article.field_right_sidebar
     - image.style.thumbnail
     - node.type.article
@@ -50,19 +48,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: ''
-    third_party_settings: {  }
-    region: content
-  field_additional_info:
-    type: entity_reference_paragraphs
-    weight: 12
-    settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
+      default_paragraph_type: _none
     third_party_settings: {  }
     region: content
   field_image:
@@ -81,15 +67,6 @@ content:
     third_party_settings: {  }
     type: link_default
     region: content
-  field_related_pages:
-    weight: 15
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
   field_right_sidebar:
     type: entity_reference_paragraphs
     weight: 13
@@ -99,7 +76,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: ''
+      default_paragraph_type: _none
     third_party_settings: {  }
     region: content
   path:
