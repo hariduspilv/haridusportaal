@@ -1,12 +1,12 @@
-uuid: 7946b4f4-08fb-4fbe-806a-f8b707e1ff2a
+uuid: f8e21bb3-f703-4b91-9eff-383410b063c4
 langcode: et
 status: true
 dependencies:
   module:
-    - paragraphs
-id: paragraph.field_adrid
+    - node
+id: node.field_adrid
 field_name: field_adrid
-entity_type: paragraph
+entity_type: node
 type: string
 settings:
   max_length: 255
