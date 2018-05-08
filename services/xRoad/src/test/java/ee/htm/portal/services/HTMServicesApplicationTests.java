@@ -1,4 +1,4 @@
-package ee.htm.portal.services.jRoad;
+package ee.htm.portal.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class JRoadApplicationTests {
+public class HTMServicesApplicationTests {
 
   private static String TEST_TOPIC = "test_topic";
   private static String TEST_TOPIC1 = "test_topic1";

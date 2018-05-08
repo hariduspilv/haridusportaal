@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class EeIsikukaartResponse {
+public class EeIsikukaartResponse extends ResponseImpl implements Response {
 
   private String personalIdCode;
   private Date dateOfBirth;
   private List<Error> error;
 
-  public EeIsikukaartResponse() {
-  }
-
-  public EeIsikukaartResponse(String personalIdCode) {
+  public EeIsikukaartResponse(String uuidString, String personalIdCode) {
+    super(uuidString, "PENDING");
     this.personalIdCode = personalIdCode;
   }
 
@@ -45,7 +43,9 @@ public class EeIsikukaartResponse {
     return "EeIsikukaartResponse{" +
         "personalIdCode='" + personalIdCode + '\'' +
         ", dateOfBirth=" + dateOfBirth +
-        ", error='" + error + '\'' +
+        ", error=" + error +
+        ", uuidString=" + getUuidString() +
+        ", status=" + getStatus() +
         '}';
   }
 }

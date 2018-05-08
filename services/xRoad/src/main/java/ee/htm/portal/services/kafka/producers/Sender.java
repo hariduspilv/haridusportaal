@@ -5,8 +5,7 @@ import java.util.List;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.internals.RecordHeader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -17,21 +16,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class Sender {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Sender.class);
+  private static final Logger LOGGER = Logger.getLogger(Sender.class);
 
   @Autowired
   private KafkaTemplate<String, Object> kafkaTemplate;
 
   public void send(String topic, String key, Object payload, String xRoadService) {
     LOGGER.info("-----------------------------------");
-    LOGGER.info("sending key='{}', payload='{}', xRoadService='{}' to topic='{}'", key,
-        payload.toString(), xRoadService, topic);
+    LOGGER.info(String.format("sending key='%s', payload='%s', xRoadService='%s' to topic='%s'",
+        key, payload.toString(), xRoadService, topic));
 
-    List<Header> headers = new ArrayList<>();
-    headers.add(new RecordHeader("xRoadService", xRoadService.getBytes()));
+//    List<Header> headers = new ArrayList<>();
+//    headers.add(new RecordHeader("xRoadService", xRoadService.getBytes()));
 
-    ProducerRecord<String, Object> record = new ProducerRecord<>(topic, null, key, payload,
-        headers);
-    kafkaTemplate.send(record);
+//    ProducerRecord<String, Object> record = new ProducerRecord<>(topic, null, key, payload,
+//        headers);
+    kafkaTemplate.send(topic, key, payload);
   }
 }
