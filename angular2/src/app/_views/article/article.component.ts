@@ -10,7 +10,6 @@ import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
 
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
-import { link } from 'fs';
 
 @Component({
   templateUrl: './article.component.html'
@@ -21,7 +20,10 @@ export class ArticleComponent implements OnInit, OnDestroy{
   content: any;
   breadcrumb: any;
   error: boolean;
-  
+
+  accordionOpenState: boolean = false;
+  accordionSection: any[];
+
   fieldRightSidebar: any;
   toggleRightSidebar: boolean = false;
   
@@ -69,8 +71,8 @@ export class ArticleComponent implements OnInit, OnDestroy{
     .valueChanges.subscribe(({data, loading}) => {
       this.content = data['route']['entity'];
       this.breadcrumb = data['route']['breadcrumb'];
-      
-      this.fieldRightSidebar = data['route']['entity']['fieldRightSidebar']
+      this.accordionSection = data['route']['entity']['fieldAccordionSection'];
+      this.fieldRightSidebar = data['route']['entity']['fieldRightSidebar'];
       
       if (this.fieldRightSidebar !== null) {
         
@@ -92,7 +94,6 @@ export class ArticleComponent implements OnInit, OnDestroy{
           this.fieldContactOrganization = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldOrganization'];
         }
       }
-      // console.log(data['route']['languageSwitchLinks'])
     });
   }
   
