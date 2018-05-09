@@ -1,0 +1,47 @@
+
+ <div class="row">
+   <div class="col-6">
+     <h1 class="mt-0">
+       News
+     </h1>
+   </div><!--/col-6-->
+   <div class="col-6 text-right">
+     
+   </div><!--/col-6-->
+ </div><!--/row-->
+ 
+ <mat-spinner *ngIf="!list && !error"></mat-spinner>
+
+ <div *ngIf="list">
+   
+  <div *ngFor="let item of list">
+      <mat-card class="mb-20">
+          <mat-card-content>
+            <div class="row">
+              <div class="col-2" *ngIf="item.fieldIntroductionImage">
+                <img src="{{ item.fieldIntroductionImage.url }}" width="100%" />
+              </div>
+
+              <div class="col-10">
+                <p class="mt-0"><a href="javascript:void();" class="normal-text"><b> {{ item.entityLabel }}</b></a></p>
+
+                <p>{{ item.entityOwner.entityLabel}} {{ item.created*1000 | date:"dd.MM.yyyy" }}</p>
+
+                <mat-chip-list>
+                  <span *ngFor="let tag of item.fieldNewsTag" class="mat-chip-wrapper">
+                    <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
+                  </span>
+                </mat-chip-list>
+                
+                <p class="mb-0">{{ item.fieldNewsDescription.summary }}</p>
+              </div>
+            </div>
+          </mat-card-content>
+      </mat-card>
+  </div><!--ngFor-->
+
+  <div class="text-center mt-30" *ngIf="!listEnd">
+    <button mat-raised-button color="primary" (click)="loadMore()">Load more</button>
+  </div><!--/text-center-->
+   
+ </div><!--/ngIf-->
