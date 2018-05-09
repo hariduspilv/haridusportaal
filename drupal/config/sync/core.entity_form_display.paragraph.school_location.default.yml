@@ -4,11 +4,9 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.school_location.field_address
-    - field.field.paragraph.school_location.field_adrid
     - field.field.paragraph.school_location.field_coordinates
     - field.field.paragraph.school_location.field_location_type
-    - field.field.paragraph.school_location.field_schoo
-    - field.field.paragraph.school_location.field_update_location_from_ehis
+    - field.field.paragraph.school_location.field_school_location
     - paragraphs.paragraphs_type.school_location
   module:
     - google_map_field
@@ -20,14 +18,6 @@ mode: default
 content:
   field_address:
     weight: 0
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_adrid:
-    weight: 3
     settings:
       size: 60
       placeholder: ''
@@ -46,7 +36,7 @@ content:
     third_party_settings: {  }
     type: options_select
     region: content
-  field_schoo:
+  field_school_location:
     weight: 1
     settings:
       display_node_count: false
@@ -55,12 +45,6 @@ content:
       force_deepest: false
     third_party_settings: {  }
     type: options_shs
-    region: content
-  field_update_location_from_ehis:
-    weight: 5
-    settings: {  }
-    third_party_settings: {  }
-    type: options_buttons
     region: content
 hidden:
   created: true

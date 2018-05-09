@@ -1,0 +1,27 @@
+uuid: 6c41eabf-b5c3-4bb5-ab83-e2fa27271ffe
+langcode: et
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_icon
+field_name: field_icon
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: info
+      label: High
+    -
+      value: info_outline
+      label: Normal
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
