@@ -7,29 +7,20 @@
 
 <div *ngIf="content">
   
-  <!--   
-    <ul class="breadcrumb mt-0">
-      <li *ngFor="let breadcrumbEl of breadcrumb">
-        <a [routerLink]="[breadcrumbEl.url.path]">
-          <span>{{ breadcrumbEl.text }}</span>
-        </a>
-      </li>
-      <li>
-        <span>{{ content.title | ellipsis:30 }}</span>
-      </li>
-    </ul>
-  -->
-  
   <div class="row">
-    <div class="col-8">
-      <!-- {{article.bodyValue}} -->
-      <!-- article = {{article.bodyValue}} -->
-    </div>
-  </div>
-  
-  
-  <div class="row">
+    
     <div class="col-8 sm-12" [ngClass]="{'col-12': !toggleRightSidebar}">
+      
+      <ul class="breadcrumb mt-0">
+        <li *ngFor="let breadcrumbEl of breadcrumb">
+          <a [routerLink]="[breadcrumbEl.url.path]">
+            <span>{{ breadcrumbEl.text }}</span>
+          </a>
+        </li>
+        <li>
+          <span>{{ content.title | ellipsis:30 }}</span>
+        </li>
+      </ul>
       
       <article>
         <h1>{{ content.title }}</h1>
@@ -44,6 +35,31 @@
         
         <div [innerHTML]="content.body.value"></div>
       </article>
+      
+      <div *ngIf="accordionSection.length > 0">
+        <h2>Alamosa pealkiri</h2>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let accordionItem of accordionSection">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{accordionItem.entity.fieldAccordionTitle}}
+              </mat-panel-title>
+              <!-- <mat-panel-description></mat-panel-description> -->
+            </mat-expansion-panel-header>
+            <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
+          </mat-expansion-panel>
+          <!-- <mat-expansion-panel (opened)="accordionOpenState = true" (closed)="accordionOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Self aware panel
+              </mat-panel-title> -->
+              <!-- <mat-panel-description></mat-panel-description> -->
+            <!-- </mat-expansion-panel-header>
+            <p>I'm visible because I am open</p>
+          </mat-expansion-panel> -->
+        </mat-accordion>
+      </div>
+      
     </div>
     
     <div class="col-4 sm-hide" *ngIf="fieldRightSidebar !== null">

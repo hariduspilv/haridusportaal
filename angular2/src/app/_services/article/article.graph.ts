@@ -120,6 +120,14 @@ query getArticleData($path: String!) {
             alt
             title
           }
+          fieldAccordionSection {
+            entity {
+              fieldAccordionTitle
+              fieldBody {
+                value
+              }
+            }
+          }
           fieldRightSidebar {
             entity {
               fieldAdditional {
