@@ -5,6 +5,7 @@ import com.nortal.jroad.client.service.XRoadDatabaseService;
 import ee.htm.portal.services.database.EhisXRoadDatabase;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartDocument.EeIsikukaart;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusOpingudDocument.VpTaotlusOpingud;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusOpingudResponseDocument.VpTaotlusOpingudResponse;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,26 @@ public class EhisV6XRoadServiceImpl extends XRoadDatabaseService implements Ehis
     request.setIsikukood(isikukood);
     request.setFormat(format);
 
-    if (userId == null) {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
       return ehisXRoadDatabase.eeIsikukaartV1(request);
     }
 
     return ehisXRoadDatabase.eeIsikukaartV1(request, userId);
   }
 
-  public VpTaotlusOpingudResponse vptOpingud() throws XRoadServiceConsumptionException {
+  public VpTaotlusOpingudResponse vptOpingud(String isikukood, Object taotlusId, String userId)
+      throws XRoadServiceConsumptionException {
+    VpTaotlusOpingud request = VpTaotlusOpingud.Factory.newInstance();
+    request.setTaotlejaIsikukood(isikukood);
 
+    if (taotlusId != null) {
+      request.setTaotluseId(taotlusId);
+    }
+
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return ehisXRoadDatabase.vpTaotlusOpingudV1(request);
+    }
+
+    return ehisXRoadDatabase.vpTaotlusOpingudV1(request, userId);
   }
 }
