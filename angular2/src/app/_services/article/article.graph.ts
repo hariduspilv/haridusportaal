@@ -48,7 +48,40 @@ export class ArticleGraph {
     }
     `;
   }
+  buildList(lang, offset=0, limit=10) {
+
+    lang = lang.toUpperCase();
+    
+    return gql`
+      query{
+        nodeQuery(offset: ${offset}, limit: ${limit}, sort: {field:"created", direction:DESC }, filter: {conditions: [{operator: EQUAL, field: "type", value: ["article"], language: ${lang}}]}) {
+          entities {
+            entityTranslation(language: ET) {
+              ... on NodeArticle {
+                entityLabel
+                created
+                body{
+                  summary
+                }
+                entityOwner {
+                  entityLabel
+                }
+                fieldImage{
+                  alt
+                  derivative(style:THUMBNAIL){
+                    url
+                  }
+                }
+                
+              }
+            }
+          }
+        }
+      }      
+    `;
+  }
 }
+
 export const getArticleData = gql`
 query getArticleData($path: String!) {
   route(path: $path) {
@@ -122,39 +155,6 @@ query getArticleData($path: String!) {
         }
       }
     }
-  }
-
-  buildList(lang, offset=0, limit=10) {
-
-    lang = lang.toUpperCase();
-    
-    return gql`
-      query{
-        nodeQuery(offset: ${offset}, limit: ${limit}, sort: {field:"created", direction:DESC }, filter: {conditions: [{operator: EQUAL, field: "type", value: ["article"], language: ${lang}}]}) {
-          entities {
-            entityTranslation(language: ET) {
-              ... on NodeArticle {
-                entityLabel
-                created
-                body{
-                  summary
-                }
-                entityOwner {
-                  entityLabel
-                }
-                fieldImage{
-                  alt
-                  derivative(style:THUMBNAIL){
-                    url
-                  }
-                }
-                
-              }
-            }
-          }
-        }
-      }      
-    `;
   }
 }
 
