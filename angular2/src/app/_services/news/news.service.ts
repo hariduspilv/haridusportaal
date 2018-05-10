@@ -36,4 +36,23 @@ export class NewsService extends NewsGraph {
 
   }
 
+  getSingle(path, cb): any {
+
+    this.lang = this.rootScope.get('currentLang');
+
+    const query = this.buildSingle(this.lang, path);
+
+    this.apollo.query({
+      query: query,
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+      context: {
+        headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+      }
+    }).subscribe(({data}) => {
+      cb(data);
+    });
+
+  }
+
 }

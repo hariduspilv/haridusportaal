@@ -1,0 +1,61 @@
+<mat-spinner *ngIf="!content && !error"></mat-spinner>
+
+<article *ngIf="content">
+   <div class="row">
+      <div class="col-10">
+         <h1 class="mt-0 mb-0">{{ content.entityLabel }}</h1>
+      </div><!--/col-10-->
+      <div class="col-2 text-right">
+         <button mat-button><mat-icon>share</mat-icon></button>
+      </div><!--/col-2-->
+   </div><!--/row-->
+
+      
+   <div class="row mb-20">
+      <div class="col-12">
+         {{ content.fieldAuthor }} {{ content.created*1000 | date:"dd.MM.yyyy" }}
+      </div><!--/col-10-->
+   </div><!--/row-->
+
+   <div class="row mb-20" *ngIf="content.fieldNewsTag">
+      <div class="col-12">
+         <mat-chip-list>
+            <span *ngFor="let tag of content.fieldNewsTag" class="mat-chip-wrapper">
+               <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
+            </span>
+         </mat-chip-list>
+      </div><!--/col-10-->
+   </div><!--/row-->
+   
+   <div class="row">
+      <div class="col-12">
+         <mat-card *ngIf="content.fieldIntroductionImage !== null" class="article-image pull-right mt-0">
+            <mat-card-content>
+               <img  src="{{ content.fieldIntroductionImage.url }}" alt="{{ content.fieldIntroductionImage.alt }}" title="{{ content.fieldIntroductionImage.alt }}" style="max-width:100%;" />
+               <p *ngIf="content.fieldIntroductionImage.alt">{{ content.fieldIntroductionImage.alt }}</p>
+            </mat-card-content>
+         </mat-card>
+         <b [innerHtml]="content.fieldShortDescription"></b>
+         <div [innerHtml]="content.fieldNewsDescription.value"></div>
+      </div><!--/col-12-->
+   </div><!--/row-->
+
+   <div class="row" *ngIf="content.fieldNewsLink">
+      <div class="col-12">
+         <ul class="link-list mt-0">
+            <li *ngFor="let item of content.fieldNewsLink"><a href="{{ item.url.path | url }}" target="_blank"><mat-icon>launch</mat-icon>{{ item.title }}</a></li>
+         </ul>
+      </div><!--/col-12-->
+   </div> <!--/row-->
+
+   <div class="row" *ngIf="content.fieldAdditionalImages">
+      <div class="col-4" *ngFor="let item of content.fieldAdditionalImages">
+         <mat-card>
+            <img class="mat-card-image" [src]="item.derivative.url">
+            <mat-card-content>
+               {{ item.alt }}
+            </mat-card-content>
+         </mat-card>
+      </div><!--/col-4-->
+   </div> <!--/row-->
+</article>

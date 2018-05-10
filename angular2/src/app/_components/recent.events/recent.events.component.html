@@ -1,5 +1,5 @@
 <div *ngFor="let item of content">
-   <h2>
+   <h2 *ngIf="item.entityTranslation.eventDates[0]">
       {{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | weekday: "unix"}}
       {{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | date: "dd. MMMM yyy "}}
    </h2>
@@ -8,7 +8,7 @@
       <p *ngIf="item.entityTranslation.fieldDescription">{{ item.entityTranslation.fieldDescription.summary }}</p>
       <p>
 
-         <b>Toimumisaeg:</b> {{ item.entityTranslation.eventDates[0].entity.fieldEventStartTime | unixToTime }}<br />
+         <span *ngIf="item.entityTranslation.eventDates[0]"><b>Toimumisaeg:</b> {{ item.entityTranslation.eventDates[0].entity.fieldEventStartTime | unixToTime }}<br /></span>
          <span *ngIf="item.entityTranslation.location"><b>Asukoht:</b> {{ item.entityTranslation.location.name }}</span>
       </p>
    </a>
