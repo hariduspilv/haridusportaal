@@ -5,7 +5,8 @@ dependencies:
   config:
     - field.field.paragraph.right_sidebar_section_info.field_additional
     - field.field.paragraph.right_sidebar_section_info.field_contact_section
-    - field.field.paragraph.right_sidebar_section_info.field_links
+    - field.field.paragraph.right_sidebar_section_info.field_hyperlinks
+    - field.field.paragraph.right_sidebar_section_info.field_related_article
     - paragraphs.paragraphs_type.right_sidebar_section_info
   module:
     - entity_reference_revisions
@@ -33,8 +34,20 @@ content:
       link: ''
     third_party_settings: {  }
     region: content
-  field_links:
-    weight: 2
+  field_hyperlinks:
+    weight: 5
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_related_article:
+    weight: 4
     label: above
     settings:
       trim_length: 80
