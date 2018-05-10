@@ -1,28 +1,24 @@
-uuid: e99b6804-3c7e-4657-95e1-b2f97b232292
+uuid: c23bf45d-7d34-406e-bce2-3f5b3e635e3d
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.media.field_media_image
-    - media.type.image
-  enforced:
-    module:
-      - media
+    - field.storage.media.field_media_image_1
+    - media.type.custom_crop_image_16_9
   module:
     - image
-_core:
-  default_config_hash: pzPA-2JwyxlJ3qMb4L9viAnhNhbEhl2couH8A3FO020
-id: media.image.field_media_image
-field_name: field_media_image
+id: media.custom_crop_image_16_9.field_media_image_1
+field_name: field_media_image_1
 entity_type: media
-bundle: image
+bundle: custom_crop_image_16_9
 label: Image
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
+  file_extensions: 'png gif jpg jpeg'
   alt_field: true
   alt_field_required: true
   title_field: false
@@ -36,7 +32,6 @@ settings:
     width: null
     height: null
   file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'png gif jpg jpeg'
   max_filesize: ''
   handler: 'default:file'
   handler_settings: {  }

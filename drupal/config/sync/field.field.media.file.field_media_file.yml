@@ -16,10 +16,10 @@ id: media.file.field_media_file
 field_name: field_media_file
 entity_type: media
 bundle: file
-label: Manus
+label: File
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:

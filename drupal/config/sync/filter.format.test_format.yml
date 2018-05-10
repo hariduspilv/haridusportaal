@@ -4,7 +4,7 @@ status: true
 dependencies: {  }
 name: 'Test format'
 format: test_format
-weight: 0
+weight: -8
 filters:
   filter_html:
     id: filter_html
