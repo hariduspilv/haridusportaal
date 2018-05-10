@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { ArticleService, EventsService, RootScopeService } from './_services';
+import { ArticleService, EventsService, RootScopeService, NewsService } from './_services';
 
 /* Custom imports */
 import { AppModules } from './_components';
@@ -41,7 +41,8 @@ import { AgmCoreModule } from '@agm/core';
   providers: [
     ArticleService,
     EventsService,
-    RootScopeService
+    RootScopeService,
+    NewsService
   ],
 
   exports: [
