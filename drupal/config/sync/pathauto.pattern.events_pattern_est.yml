@@ -8,24 +8,24 @@ dependencies:
 id: events_pattern_est
 label: 'Events pattern EST'
 type: 'canonical_entities:node'
-pattern: 'üritused/[node:title]'
+pattern: 'uritused/[node:title]'
 selection_criteria:
-  61376f62-cbdd-4b82-8a20-cd6aca5f275f:
+  dc13fe51-dec4-4d6d-9e87-887224bf095c:
     id: node_type
     bundles:
       event: event
     negate: false
     context_mapping:
       node: node
-    uuid: 61376f62-cbdd-4b82-8a20-cd6aca5f275f
-  b20bb607-6789-4e1b-85c2-e9f51d1f4568:
+    uuid: dc13fe51-dec4-4d6d-9e87-887224bf095c
+  82877a82-3087-429c-a5b7-cf847a2c9b94:
     id: language
     langcodes:
       et: et
     negate: false
     context_mapping:
       language: 'node:langcode:language'
-    uuid: b20bb607-6789-4e1b-85c2-e9f51d1f4568
+    uuid: 82877a82-3087-429c-a5b7-cf847a2c9b94
 selection_logic: and
 weight: -10
 relationships:

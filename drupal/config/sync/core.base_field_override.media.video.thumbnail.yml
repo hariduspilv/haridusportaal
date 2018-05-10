@@ -1,28 +1,23 @@
-uuid: e99b6804-3c7e-4657-95e1-b2f97b232292
-langcode: et
+uuid: 1e1868cf-d052-4fa7-a9c7-013e82f2c02b
+langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.media.field_media_image
-    - media.type.image
-  enforced:
-    module:
-      - media
+    - media.type.video
   module:
     - image
-_core:
-  default_config_hash: pzPA-2JwyxlJ3qMb4L9viAnhNhbEhl2couH8A3FO020
-id: media.image.field_media_image
-field_name: field_media_image
+id: media.video.thumbnail
+field_name: thumbnail
 entity_type: media
-bundle: image
-label: Image
-description: ''
-required: true
+bundle: video
+label: Thumbnail
+description: 'The thumbnail of the media item.'
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
+  file_extensions: 'png gif jpg jpeg'
   alt_field: true
   alt_field_required: true
   title_field: false
@@ -36,8 +31,7 @@ settings:
     width: null
     height: null
   file_directory: '[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'png gif jpg jpeg'
   max_filesize: ''
-  handler: 'default:file'
+  handler: default
   handler_settings: {  }
 field_type: image
