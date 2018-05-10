@@ -4,6 +4,8 @@ namespace Drupal\import_school_data\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\paragraphs\Entity\Paragraph;
 
 /**
 * Class SchoolImportController.
@@ -14,13 +16,15 @@ class SchoolImportController extends ControllerBase {
     $schoolnodes = [];
     $retrieved_ehis_ids = [];
     $schools = $this->get_school_data('school');
+    $update_from_ehis_nodes = $this->get_ehis_updateable_nodes();
+    $update_location_from_ehis_nodes = $this->get_ehis_location_updateable_nodes();
     $ownershiptypes = $this->get_taxonomy_terms('ownership_type');
     $teachinglanguages = $this->get_taxonomy_terms('teaching_language');
     $schooltypes = $this->get_taxonomy_ehis_outputs('educational_institution_type');
     $existing_ehis_ids = $this->get_existing_ehis_ids();
     foreach($schools as $school){
-      $schoolnode['node_response'] = $this->check_school_existance($school);
-      if($schoolnode['node_response']['field_update_from_ehis'] === '1'){
+      $schoolnode['node_response'] = $this->check_school_existance($school, $update_from_ehis_nodes, $update_location_from_ehis_nodes);
+      if($schoolnode['node_response']['school_field']['field_update_from_ehis'] === '1'){
         $schoolnode['edited_node'] = $this->add_school_fields($school, $schoolnode['node_response'], $ownershiptypes, $teachinglanguages, $schooltypes);
         $schoolnodes[] = $schoolnode['edited_node'];
       }
@@ -59,9 +63,22 @@ class SchoolImportController extends ControllerBase {
     ->execute();
 
     $nid = array_shift($nid_result);
-    $schoolnode['nid'] = $nid;
-    $schoolnode['status'] = '0';
+    $schoolnode['school_field']['nid'] = $nid;
+    $schoolnode['school_field']['status'] = '0';
     return $schoolnode;
+  }
+
+  public function get_ehis_location_updateable_nodes(){
+    $updateablenodes = [];
+    $nid_result = \Drupal::entityQuery('node')
+    ->condition('field_update_location_from_ehis', '1')
+    ->execute();
+
+    foreach($nid_result as $nodeid){
+      $updateablenodes[$nodeid] = '';
+    }
+
+    return $updateablenodes;
   }
 
   public function get_unused_ehis_ids($existingids, $retrievedids){
@@ -73,6 +90,20 @@ class SchoolImportController extends ControllerBase {
     }
     return $unusedids;
   }
+
+  public function get_ehis_updateable_nodes(){
+    $updateablenodes = [];
+    $nid_result = \Drupal::entityQuery('node')
+    ->condition('field_update_from_ehis', '1')
+    ->execute();
+
+    foreach($nid_result as $nodeid){
+      $updateablenodes[$nodeid] = '';
+    }
+
+    return $updateablenodes;
+  }
+
 
   public function get_existing_ehis_ids(){
     $schoolehisids = [];
@@ -88,50 +119,42 @@ class SchoolImportController extends ControllerBase {
     return $schoolehisids;
   }
 
-  public function check_school_existance($school){
+  public function check_school_existance($school, $upehis, $uplocehis){
     $schoolnode = [];
-    $query = \Drupal::entityQuery('node');
-    $group = $query
-    ->andConditionGroup()
+
+    $nid_result = \Drupal::entityQuery('node')
     ->condition('field_ehis_id', $school->koolId)
-    ->condition('field_update_from_ehis', '1');
-    $query->condition($group);
-    $nid_result = $query->execute();
+    ->execute();
 
     if(!empty($nid_result)) {
 
       // Match found, update existing node
       $nid = array_shift($nid_result);
 
-      $schoolnode['nid'] = $nid;
-      $schoolnode['field_ehis_id'] = $school->koolId;
-      $schoolnode['field_update_from_ehis'] = '1';
-    }else{
-      $query = \Drupal::entityQuery('node');
-      $group = $query
-      ->andConditionGroup()
-      ->condition('field_ehis_id', $school->koolId)
-      ->condition('field_update_from_ehis', '0');
-      $query->condition($group);
-      $nid_result = $query->execute();
-
-      if(!empty($nid_result)){
-        $nid = array_shift($nid_result);
-        $schoolnode['nid'] = $nid;
-        $schoolnode['field_ehis_id'] = $school->koolId;
-        $schoolnode['field_update_from_ehis'] = '0';
+      $schoolnode['school_field']['nid'] = $nid;
+      $schoolnode['school_field']['field_ehis_id'] = $school->koolId;
+      if(isset($upehis[$nid])){
+        $schoolnode['school_field']['field_update_from_ehis'] = '1';
       }else{
-        $schoolnode['field_ehis_id'] = $school->koolId;
-        $schoolnode['field_update_from_ehis'] = '1';
+        $schoolnode['school_field']['field_update_from_ehis'] = '0';
       }
+      if(isset($uplocehis[$nid])){
+        $schoolnode['school_field']['field_update_location_from_ehis'] = '1';
+      }else{
+        $schoolnode['school_field']['field_update_location_from_ehis'] = '0';
+      }
+    }else{
+      $schoolnode['school_field']['field_ehis_id'] = $school->koolId;
+      $schoolnode['school_field']['field_update_from_ehis'] = '1';
+      $schoolnode['school_field']['field_update_location_from_ehis'] = '1';
     }
     return $schoolnode;
   }
 
   public function add_school_fields($school, $schoolnode, $ownershiptypes, $teachinglanguages, $schooltypes){
-    if($schoolnode['field_update_from_ehis'] == '1'){
-      $schoolnode['title'] = $school->nimetus;
-      $schoolnode['field_registration_code'] = $school->regNr;
+    if($schoolnode['school_field']['field_update_from_ehis'] == '1'){
+      $schoolnode['school_field']['title'] = $school->nimetus;
+      $schoolnode['school_field']['field_registration_code'] = $school->regNr;
       $institutetypevalues = [];
       //$node->field_educational_institution_type;
       $activityforms = [];
@@ -157,15 +180,17 @@ class SchoolImportController extends ControllerBase {
           $institutetypevalues[] = $key[0];
         }
       }
-      $schoolnode['field_educational_institution_ty'] = array_unique($institutetypevalues);
+      $schoolnode['school_field']['field_educational_institution_ty'] = array_unique($institutetypevalues);
       $ownershipvalues = [];
       if(isset($ownershiptypes[$school->omandivorm])){
         $ownershipvalues[] = $ownershiptypes[$school->omandivorm];
       }
-      $schoolnode['field_ownership_type'] = $ownershipvalues;
-      //if(isset($school->juriidilineAadress)){
-        //$schoolnode['field_adrid'] = $school->juriidilineAadress->adrId;
-      //}
+      $schoolnode['school_field']['field_ownership_type'] = $ownershipvalues;
+      if(isset($school->juriidilineAadress)){
+        if(isset($school->juriidilineAadress->adrId)){
+          $schoolnode['school_field']['field_adrid'] = $school->juriidilineAadress->adrId;
+        }
+      }
       $langvalues = [];
       if(isset($school->oppeKeeled)){
         foreach($school->oppeKeeled->oppeKeel as $ehislanguage){
@@ -174,46 +199,183 @@ class SchoolImportController extends ControllerBase {
           }
         }
       }
-      $schoolnode['field_teaching_language'] = $langvalues;
+      $schoolnode['school_field']['field_teaching_language'] = $langvalues;
       if(isset($school->kontaktAndmed)){
         if(isset($school->kontaktAndmed->telefon)){
-          $schoolnode['field_school_contact_phone'] = $school->kontaktAndmed->telefon;
-        }else{
-          $schoolnode['field_school_contact_phone'] = '';
+          $schoolnode['school_field']['field_school_contact_phone'] = $school->kontaktAndmed->telefon;
         }
         if(isset($school->kontaktAndmed->epost)){
-          $schoolnode['field_school_contact_email'] = $school->kontaktAndmed->epost;
-        }else{
-          $schoolnode['field_school_contact_email'] = '';
+          $schoolnode['school_field']['field_school_contact_email'] = $school->kontaktAndmed->epost;
         }
         if(isset($school->kontaktAndmed->veebiLeht)){
-          $schoolnode['field_school_webpage_address'] = $school->kontaktAndmed->veebiLeht;
-        }else{
-          $schoolnode['field_school_webpage_address'] = '';
+          $schoolnode['school_field']['field_school_webpage_address'] = $school->kontaktAndmed->veebiLeht;
         }
       }
-      $schoolnode['field_ehis_id'] = $school->koolId;
-      $schoolnode['field_created_from_ehis_datetime'] = REQUEST_TIME;
-      $schoolnode['field_update_from_ehis'] = '1';
-      $schoolnode['status'] = '1';
+      $schoolnode['school_field']['field_ehis_id'] = $school->koolId;
+      $schoolnode['school_field']['field_created_from_ehis_datetime'] = REQUEST_TIME;
+      $schoolnode['school_field']['field_update_from_ehis'] = '1';
+      $schoolnode['school_field']['status'] = '1';
+    }
+    if($schoolnode['school_field']['field_update_location_from_ehis'] == '1'){
+      if(isset($schoolnode['school_field']['field_adrid'])){
+
+        $adrid = $schoolnode['school_field']['field_adrid'];
+        $json_url = 'https://inaadress.maaamet.ee/inaadress/gazetteer?adrid='.$adrid;
+
+        $client = \Drupal::httpClient();
+
+        $response = $client->request('GET', $json_url);
+        $data = $response->getBody();
+        $data_from_json = json_decode($data->getContents());
+        if(isset($data_from_json->error)){
+          kint($data_from_json->error);
+        }else if(isset($data_from_json->addresses)){
+          foreach($data_from_json->addresses as $address){
+            if(isset($address->unik) && isset($address->liikVal)){
+              if($address->unik === '1' && $address->liikVal === 'EHITIS'){
+                if(isset($address->maakond) && isset($address->omavalitsus) && isset($address->asustusyksus) && isset($address->ehakmk) && isset($address->ehakov) && isset($address->ehak)){
+                  if($address->maakond != '' && $address->omavalitsus != '' && $address->ehakmk != '' && $address->ehakov != ''){
+                    $schoolnode['school_location_taxonomy']['field_school_county']['code'] = $address->ehakmk;
+                    $schoolnode['school_location_taxonomy']['field_school_county']['name'] = $address->maakond;
+                    $schoolnode['school_location_taxonomy']['field_school_local_gov']['code'] = $address->ehakov;
+                    $schoolnode['school_location_taxonomy']['field_school_local_gov']['name'] = $address->omavalitsus;
+                    $schoolnode['school_location_taxonomy']['field_school_set_unit']['code'] = $address->ehak;
+                    $schoolnode['school_location_taxonomy']['field_school_set_unit']['name'] = $address->asustusyksus;
+                  }
+                }
+                $schoolnode['school_location_paragraph']['field_address'] = $address->aadresstekst;
+                $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->aadresstekst;
+                $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
+                $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
+                $schoolnode['school_location_paragraph']['field_location_type'] = 'L';
+                break;
+              }
+            }
+          }
+          if(!isset($schoolnode['school_location_paragraph'])){
+            foreach($data_from_json->addresses as $address){
+              if(isset($address->maakond) && isset($address->omavalitsus) && isset($address->asustusyksus) && isset($address->ehakmk) && isset($address->ehakov) && isset($address->ehak)){
+                if($address->maakond != '' && $address->omavalitsus != '' && $address->ehakmk != '' && $address->ehakov != ''){
+                  $schoolnode['school_location_taxonomy']['field_school_county']['code'] = $address->ehakmk;
+                  $schoolnode['school_location_taxonomy']['field_school_county']['name'] = $address->maakond;
+                  $schoolnode['school_location_taxonomy']['field_school_local_gov']['code'] = $address->ehakov;
+                  $schoolnode['school_location_taxonomy']['field_school_local_gov']['name'] = $address->omavalitsus;
+                  $schoolnode['school_location_taxonomy']['field_school_set_unit']['code'] = $address->ehak;
+                  $schoolnode['school_location_taxonomy']['field_school_set_unit']['name'] = $address->asustusyksus;
+                }
+              }
+              $schoolnode['school_location_paragraph']['field_address'] = $address->aadresstekst;
+              $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->aadresstekst;
+              $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
+              $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
+              $schoolnode['school_location_paragraph']['field_location_type'] = 'L';
+              break;
+            }
+          }
+        }
+      }
     }
     return $schoolnode;
   }
-  public function save_school($school){
-    if(isset($school['nid'])){
+  public function save_school($school, $loctaxonomy){
+    if(isset($school['school_field']['nid'])){
       $node_storage = \Drupal::entityManager()->getStorage('node');
-      $node = $node_storage->load($school['nid']);
-    }else if(!isset($school['nid'])){
+      $node = $node_storage->load($school['school_field']['nid']);
+    }else if(!isset($school['school_field']['nid'])){
       $node = Node::create([
         'type' => 'school',
         'langcode' => 'et',
         'created' => REQUEST_TIME,
         'changed' => REQUEST_TIME,
         'uid' => 1,
-        'title' => sprintf('%s', $school['title']),
+        'title' => sprintf('%s', $school['school_field']['title']),
       ]);
     }
-    foreach($school as $fieldlabel => $fieldvalue){
+    if(isset($school['school_location_paragraph'])){
+      if(isset($node->toArray()['field_school_location'][0]['target_id'])){
+        $paragraph = entity_load('paragraph', $node->toArray()['field_school_location'][0]['target_id']);
+      }else{
+        $paragraph = Paragraph::create(['type' => 'school_location',]);
+      }
+      foreach($school['school_location_paragraph'] as $fieldlabel => $fieldvalue){
+        $paragraph->set($this->parse_key($fieldlabel), $fieldvalue);
+      }
+      if(isset($school['school_location_taxonomy'])){
+        $county = $school['school_location_taxonomy']['field_school_county'];
+        $localgov = $school['school_location_taxonomy']['field_school_local_gov'];
+        $setunit = $school['school_location_taxonomy']['field_school_set_unit'];
+        $countyterm;
+        $localgovterm;
+        $setunitterm;
+        $terms = [];
+
+        if(!isset($loctaxonomy[$this->parse_key($county['name'])])){
+          $countyterm = Term::create([
+            'name' => $county['name'],
+            'vid' => 'educational_institution_location',
+            'field_ehak' => $county['code'],
+          ]);
+        }else{
+          $termid = \Drupal::entityQuery('taxonomy_term')
+          ->condition('vid', 'educational_institution_location')
+          ->condition('name', $county['name'])
+          ->execute();
+          $key = key($termid);
+          $countyterm = entity_load('taxonomy_term', $termid[$key]);
+        }
+        $countyterm->save();
+        $terms[] = $countyterm->get('tid')->getValue()[0]['value'];
+
+        if(!isset($loctaxonomy[$this->parse_key($localgov['name'])])){
+          $localgovterm = Term::create([
+            'name' => $localgov['name'],
+            'vid' => 'educational_institution_location',
+            'field_ehak' => $localgov['code'],
+            'parent' => $countyterm->get('tid')->getValue()[0]['value'],
+          ]);
+        }else{
+          $termid = \Drupal::entityQuery('taxonomy_term')
+          ->condition('vid', 'educational_institution_location')
+          ->condition('name', $localgov['name'])
+          ->execute();
+          $key = key($termid);
+          $localgovterm = entity_load('taxonomy_term', $termid[$key]);
+        }
+        $localgovterm->save();
+        $terms[] = $localgovterm->get('tid')->getValue()[0]['value'];
+
+        if($setunit['name'] != ''){
+          if(!isset($loctaxonomy[$this->parse_key($setunit['name'])])){
+            $setunitterm = Term::create([
+              'name' => $setunit['name'],
+              'vid' => 'educational_institution_location',
+              'field_ehak' => $setunit['code'],
+              'parent' => $localgovterm->get('tid')->getValue()[0]['value'],
+            ]);
+          }else{
+            $termid = \Drupal::entityQuery('taxonomy_term')
+            ->condition('vid', 'educational_institution_location')
+            ->condition('name', $setunit['name'])
+            ->execute();
+            $key = key($termid);
+            $setunitterm = entity_load('taxonomy_term', $termid[$key]);
+          }
+          $setunitterm->save();
+          $terms[] = $setunitterm->get('tid')->getValue()[0]['value'];
+        }
+        $paragraph->set('field_school_location', array('target_id' => end($terms)));
+      }
+      if($paragraph->id() != NULL){
+        $paragraph->isNew();
+      }
+      $paragraph->save();
+      $locparagraph[] = array(
+        'target_id' => $paragraph->id(),
+        'target_revision_id' => $paragraph->getRevisionId(),
+      );
+      $node->set('field_school_location', $locparagraph);
+    }
+    foreach($school['school_field'] as $fieldlabel => $fieldvalue){
       $node->set($this->parse_key($fieldlabel), $fieldvalue);
     }
     $node->save();

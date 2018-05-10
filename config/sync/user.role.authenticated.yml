@@ -18,3 +18,7 @@ permissions:
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
+  - 'use text format custom_editor'
+  - 'use text format default_editor'
+  - 'use text format default_html'
+  - 'use text format editor'
