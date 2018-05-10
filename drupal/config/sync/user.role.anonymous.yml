@@ -16,3 +16,4 @@ permissions:
   - 'execute persisted graphql requests'
   - 'restful post personal_card_rest_resource'
   - 'search content'
+  - 'view media'

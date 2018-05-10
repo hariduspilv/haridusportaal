@@ -179,8 +179,8 @@ display:
             offset: false
             offset_label: Offset
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ Eelmine'
+            next: 'Järgmine ›'
             first: '« First'
             last: 'Last »'
           quantity: 9
