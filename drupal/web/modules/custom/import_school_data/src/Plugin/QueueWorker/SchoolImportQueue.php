@@ -21,6 +21,7 @@ class SchoolImportQueue extends QueueWorkerBase {
    */
   public function processItem($school) {
     $import_controller = new SchoolImportController();
-    $import_controller->save_school($school);
+    $loctaxonomy = $import_controller->get_taxonomy_terms('educational_institution_location');
+    $import_controller->save_school($school, $loctaxonomy);
   }
 }

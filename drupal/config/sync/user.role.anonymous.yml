@@ -16,4 +16,4 @@ permissions:
   - 'execute persisted graphql requests'
   - 'restful post personal_card_rest_resource'
   - 'search content'
-  - 'use text format restricted_html'
+  - 'view media'

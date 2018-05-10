@@ -1,0 +1,52 @@
+uuid: 6db986e4-2eb4-439d-9262-873f31b09599
+langcode: et
+status: true
+dependencies:
+  config:
+    - filter.format.custom_editor
+  module:
+    - ckeditor
+format: custom_editor
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Formatting
+          items:
+            - Bold
+            - Italic
+            - Table
+            - SpecialChar
+            - DrupalLink
+            - DrupalUnlink
+        -
+          name: Lists
+          items:
+            - BulletedList
+            - NumberedList
+        -
+          name: Tools
+          items:
+            - Format
+            - Undo
+            - Redo
+            - Cut
+            - Copy
+            - Paste
+            - PasteFromWord
+            - Maximize
+  plugins:
+    language:
+      language_list: un
+    stylescombo:
+      styles: ''
+image_upload:
+  status: false
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null
