@@ -1,6 +1,6 @@
 uuid: c1f2938c-c8fe-4521-a9ae-ba260cc8d7a7
 langcode: et
-status: true
+status: false
 dependencies:
   config:
     - filter.format.basic_html
@@ -19,30 +19,21 @@ settings:
           items:
             - Bold
             - Italic
-        -
-          name: Linking
-          items:
+            - SpecialChar
+            - Table
             - DrupalLink
-            - DrupalUnlink
         -
           name: Lists
           items:
             - BulletedList
             - NumberedList
         -
-          name: Media
-          items:
-            - Blockquote
-            - DrupalImage
-        -
-          name: 'Block Formatting'
-          items:
-            - Format
-        -
           name: Tools
           items:
-            - Source
+            - Format
   plugins:
+    language:
+      language_list: un
     stylescombo:
       styles: ''
 image_upload:
@@ -51,5 +42,5 @@ image_upload:
   directory: inline-images
   max_size: ''
   max_dimensions:
-    width: 0
-    height: 0
+    width: null
+    height: null

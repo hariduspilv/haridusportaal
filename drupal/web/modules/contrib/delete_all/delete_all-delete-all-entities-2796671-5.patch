@@ -1,0 +1,331 @@
+diff --git a/drush/delete_all.drush.inc b/drush/delete_all.drush.inc
+index 73fffd4..0587c4f 100644
+--- a/drush/delete_all.drush.inc
++++ b/drush/delete_all.drush.inc
+@@ -7,10 +7,12 @@
+ 
+ use Drupal\delete_all\Controller\UserDeleteController;
+ use Drupal\delete_all\Controller\ContentDeleteController;
++use Drupal\delete_all\Controller\EntityDeleteController;
+ 
+ // Include dependencies.
+ include_once drupal_get_path('module', 'delete_all') . '/includes/delete_all.user.batch.inc';
+ include_once drupal_get_path('module', 'delete_all') . '/includes/delete_all.content.batch.inc';
++include_once drupal_get_path('module', 'delete_all') . '/includes/delete_all.entities.batch.inc';
+ 
+ /**
+  * Implements hook_drush_command().
+@@ -46,6 +48,29 @@ include_once drupal_get_path('module', 'delete_all') . '/includes/delete_all.con
+  *            Please note that machine name of the content type must be
+  *            provided. Two content types should be separed only by a 'comma'
+  *            without any space before or after the comma.
++ *
++ * delete-all-delete-entities (dade)
++ *   - Command to delete entities. *
++ *   - "--type" is an optional parameter here and provides the option to delete
++ *       all entities of a type specified in the command. *
++ *   - Following are the possible ways to use the command: *
++ *     1. `drush dade`
++ *          - User can choose one of the entity types from the options given.
++ *            After selecting an entity type, a bundle select option will appear.
++ *            Options to delete all or cancel also exists. All entities of that type
++ *            and bundle will be deleted after confirmation
++ *
++ *     2. `drush dade --type type_1
++ *          - All entities with the given type will be deleted.
++ *            Please note that machine name of the entity type must be
++ *            provided. Unlike the delete users and delete content options, this
++ *            does not work with multiple entity types in the same command. *
++ *
++ *     2. `drush dade --type entity_type --bundle bundle_type
++ *          - All entities with the given type will be deleted.
++ *            Please note that machine name of the entity type must be
++ *            provided. Unlike the delete users and delete content options, this
++ *            does not work with multiple entity types in the same command.
+  */
+ function delete_all_drush_command() {
+   $items = array();
+@@ -71,6 +96,18 @@ function delete_all_drush_command() {
+     ),
+     'aliases' => array('dadc'),
+   );
++
++  $items['delete-all-delete-entities'] = array(
++    'description' => 'Delete entities.',
++    'options' => array(
++      'type' => 'pick entity type',
++      'bundle' => 'pick entity bundle',
++    ),
++    'examples' => array(
++      'drush delete-all-delete-entities ' => 'Delete entities.',
++    ),
++    'aliases' => array('dade'),
++  );
+   return $items;
+ }
+ 
+@@ -188,3 +225,117 @@ function drush_delete_all_delete_content() {
+   // Start the batch process.
+   drush_backend_batch_process();
+ }
++
++
++/**
++ * Drush callback to delete entities.
++ */
++function drush_delete_all_delete_entities() {
++
++    // Get complete list of content entity types
++    $entities_info = [];
++    $entities_info_extended = [];
++
++    $entity_type_options = false;
++    $bundle_type_options = false;
++
++    foreach(\Drupal::entityTypeManager()->getDefinitions() as $id => $definition) {
++
++        if (is_a($definition ,'Drupal\Core\Entity\ContentEntityType')) {
++            $entities_info[$id] = $definition->getLabel();
++
++
++            $entities_info_extended[$id] = [
++                'label' => $definition->getLabel(),
++                'entity_key_id' => $definition->getKeys()['id'],
++                'entity_bundle' => $definition->getKeys()['bundle'],
++                ];
++        }
++    }
++
++    $deleteEntity = new EntityDeleteController();
++
++    // get variables
++    $vars = func_get_args();
++
++    // Check for presence of '--type' in drush command.
++    if (drush_get_option('type')) {
++
++        if ($vars && isset($vars[0])) {
++            $entity_type_options = $vars[0];
++
++            if (!in_array($entity_type_options, array_keys($entities_info))) {
++                drush_set_error('Please select a valid entity type');
++                return;
++            }
++        }
++    }
++
++    if (!$entity_type_options) {
++
++        $entity_type_options = drush_choice($entities_info, dt("Choose an entity type to delete. All items of this"));
++
++        // Return if no entity is chosen or entity invalid
++        if (!in_array($entity_type_options, array_keys($entities_info))) {
++            return;
++        }
++    }
++
++
++
++    $bundles_info = ['all'=>'All'];
++    $bundle_definitions = entity_get_bundles($entity_type_options);
++
++    if ($bundle_definitions) {
++        foreach ($bundle_definitions as $id => $definition) {
++            $bundles_info[$id] = $definition['label'];
++        }
++
++        // Check for presence of '--bundle' in drush command.
++        if (drush_get_option('bundle')) {
++
++            if ($vars && isset($vars[1])) {
++
++                $bundle_type_options = $vars[1];
++
++                if (!in_array($bundle_type_options, array_keys($bundles_info))) {
++                    drush_set_error('Please select a valid bundle type');
++                    return;
++                }
++
++            }
++        }
++
++        if (!$bundle_type_options) {
++
++            $bundle_type_options = drush_choice($bundles_info, dt("Choose bundle type to delete. All items of this"));
++
++            if (!$bundle_type_options ) {
++                return;
++            }
++            // Delete all if bundle is All
++            if ($bundle_type_options == 'all')
++                $bundle_type_options = false;
++        }
++    }
++
++    if (drush_confirm('Are you sure you want to delete the entities?')) {
++
++        // Get entities to delete.
++        $entities_to_delete = $deleteEntity->getEntitiesToDelete($entity_type_options, $bundle_type_options, $entities_info_extended);
++
++        // Get batch array.
++        $batch = $deleteEntity->getEntitiesDeleteBatch($entities_to_delete, $entity_type_options);
++
++        // Initialize the batch.
++        batch_set($batch);
++
++        // Start the batch process.
++        drush_backend_batch_process();
++
++    }
++    else {
++        drush_user_abort();
++    }
++
++}
+diff --git a/includes/delete_all.entities.batch.inc b/includes/delete_all.entities.batch.inc
+new file mode 100644
+index 0000000..62e2fb6
+--- /dev/null
++++ b/includes/delete_all.entities.batch.inc
+@@ -0,0 +1,64 @@
++<?php
++
++/**
++ * Function to delete content using Batch API.
++ *
++ * @param array $entities
++ *   Array of entities to delete.
++ * @param  array &$context
++ *   Sandbox context array.
++ */
++function delete_all_entities_batch_delete($entities = FALSE, $entity_type, &$context) {
++    $db = \Drupal::database();
++
++    if (!isset($context['sandbox']['progress'])) {
++        $context['sandbox']['progress'] = 0;
++        $context['sandbox']['max'] = count($entities);
++
++        // Collect results to process in the finished callback.
++        $context['results']['count'] = $context['sandbox']['max'];
++    }
++
++    // Get a batch of 100 nodes to delete.
++    $to_delete = array_slice($entities, $context['sandbox']['progress'], 100);
++
++    if ($context['sandbox']['max'] + 1 > 0) {
++        if (!empty($to_delete)) {
++            foreach ($to_delete as $id) {
++
++                $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
++                $entity = $storage->load($id);
++
++                // taxonomy terms and other entities are hierarchic, causing some entities to be deleted when their parents are deleted
++                if ($entity) {
++                    $entity->delete();
++                }
++
++                $context['message'] = t('Deleting entity with id %id', array('%id' => $id));
++                $context['sandbox']['current_nid'] = $id;
++                $context['sandbox']['progress']++;
++            }
++        }
++
++        // Inform the batch engine that we are not finished,
++        // and provide an estimation of the completion level we reached.
++        if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
++            $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
++        }
++    }
++}
++
++/**
++ * Finished callback for the user deletion batch.
++ * @param int $success
++ *   Equals 1 if batch is successfull else equals 0.
++ * @param variable $results
++ *   List of results parameter collected during batch processing.
++ * @param variable $operations
++ *   @todo  add description.
++ */
++function delete_all_entities_batch_delete_finished($success, $results, $operations) {
++    if ($success) {
++        drupal_set_message(t('Deleted @count entities.', array('@count' => $results['count'])));
++    }
++}
+diff --git a/src/Controller/EntityDeleteController.php b/src/Controller/EntityDeleteController.php
+new file mode 100644
+index 0000000..3d922b1
+--- /dev/null
++++ b/src/Controller/EntityDeleteController.php
+@@ -0,0 +1,71 @@
++<?php
++
++/**
++ * @file
++ * Contains \Drupal\delete_all\Controller\EntityDeleteController.
++ */
++
++namespace Drupal\delete_all\Controller;
++
++use Drupal\delete_all\Controller\DeleteControllerBase;
++
++/**
++ * Returns responses for devel module routes.
++ */
++class EntityDeleteController extends DeleteControllerBase {
++    /**
++     * Get ids of the entities to delete.
++     *
++     * @param string $entity_type
++     *   entity machine name
++     *
++     * @param string $bundle_type
++     *   entity machine name
++     *
++     * @param array $entity_info
++     *   entity definition information
++     *
++     * @return array
++     *   Array of ids of entities to delete.
++     */
++    public function getEntitiesToDelete($entity_type, $bundle_type = false, $entity_info) {
++        $entities_to_delete = [];
++
++        // Delete content by entity type.
++        if ($entity_type !== FALSE) {
++
++
++            $query = \Drupal::entityQuery($entity_type);
++
++            if ($bundle_type)
++                $query->condition($entity_info[$entity_type]['entity_bundle'], $bundle_type);
++
++            $to_delete = $query->execute();
++        }
++        // Can't delete content of all entities
++        else {
++                $to_delete = [];
++        }
++
++        return $to_delete;
++    }
++
++    /**
++     *
++     */
++    public function getEntitiesDeleteBatch($entities_to_delete = FALSE, $entity_type) {
++        // Define batch.
++        $batch = array(
++            'operations' => array(
++                array('delete_all_entities_batch_delete', array($entities_to_delete, $entity_type)),
++            ),
++            'finished' => 'delete_all_entities_batch_delete_finished',
++            'title' => t('Deleting entities'),
++            'init_message' => t('Entity deletion is starting.'),
++            'progress_message' => t('Deleting entities...'),
++            'error_message' => t('Entity deletion has encountered an error.'),
++        );
++
++        return $batch;
++    }
++}

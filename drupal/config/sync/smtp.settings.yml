@@ -5,11 +5,11 @@ smtp_port: '587'
 smtp_protocol: tls
 smtp_username: teavitus@twn.ee
 smtp_password: Tarkmeesdru123
-smtp_from: ''
+smtp_from: teavitus@twn.ee
 smtp_fromname: ''
 smtp_client_hostname: ''
 smtp_client_helo: ''
-smtp_allowhtml: '0'
+smtp_allowhtml: '1'
 smtp_test_address: ''
 smtp_debugging: true
 prev_mail_system: php_mail

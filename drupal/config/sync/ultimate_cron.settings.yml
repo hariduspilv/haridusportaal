@@ -2,7 +2,7 @@ bypass_transactional_safe_connection: false
 queue:
   enabled: true
   timeouts:
-    lease_time: !!float 30
+    lease_time: !!float 60
     time: !!float 15
   delays:
     empty_delay: !!float 0
