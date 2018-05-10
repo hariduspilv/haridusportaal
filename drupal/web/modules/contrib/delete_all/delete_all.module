@@ -1,0 +1,5 @@
+<?php
+
+include_once drupal_get_path('module', 'delete_all') . '/includes/delete_all.content.batch.inc';
+include_once drupal_get_path('module', 'delete_all') . '/includes/delete_all.entities.batch.inc';
+include_once drupal_get_path('module', 'delete_all') . '/includes/delete_all.user.batch.inc';

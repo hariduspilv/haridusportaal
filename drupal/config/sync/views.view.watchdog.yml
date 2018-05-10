@@ -250,7 +250,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Severity
+          label: Tõsidus
           exclude: true
           alter:
             alter_text: false
@@ -401,7 +401,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Message
+          label: Teade
           exclude: false
           alter:
             alter_text: false
@@ -611,7 +611,7 @@ display:
           exposed: true
           expose:
             operator_id: severity_op
-            label: Severity
+            label: Tõsidus
             description: ''
             use_operator: false
             operator: severity_op
