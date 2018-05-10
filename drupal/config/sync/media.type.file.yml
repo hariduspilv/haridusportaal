@@ -5,7 +5,7 @@ dependencies: {  }
 _core:
   default_config_hash: s6qJnINiq7zI-ZoQOXM_gtiDpIsHT3fm7RySP1F_BE0
 id: file
-label: Manus
+label: File
 description: 'Use local files for reusable media.'
 source: file
 queue_thumbnail_downloads: false

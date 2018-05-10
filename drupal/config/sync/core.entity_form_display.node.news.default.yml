@@ -10,7 +10,7 @@ dependencies:
     - field.field.node.news.field_news_description
     - field.field.node.news.field_news_link
     - field.field.node.news.field_news_tag
-    - field.field.node.news.field_shor
+    - field.field.node.news.field_short_description
     - image.style.thumbnail
     - node.type.news
   module:
@@ -80,13 +80,13 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete_tags
     region: content
-  field_shor:
+  field_short_description:
     weight: 6
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
+    type: string_textarea
     region: content
   langcode:
     type: language_select
