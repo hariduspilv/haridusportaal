@@ -8,7 +8,7 @@ dependencies:
 _core:
   default_config_hash: tS8PbpJX90aRFC3-UTgXzdqkq7_2frk2pz4TMijEebM
 id: content
-label: Content
+label: Sisu
 module: node
 description: 'Find and manage content.'
 tag: default
@@ -39,7 +39,7 @@ display:
       pager:
         type: full
         options:
-          items_per_page: 10
+          items_per_page: 500
           offset: 0
           id: 0
           total_pages: null
@@ -210,7 +210,7 @@ display:
           id: title
           table: node_field_data
           field: title
-          label: Title
+          label: Pealkiri
           exclude: false
           alter:
             alter_text: false
@@ -418,7 +418,7 @@ display:
           exposed: true
           expose:
             operator_id: title_op
-            label: Title
+            label: Pealkiri
             description: ''
             use_operator: false
             operator: title_op
@@ -583,7 +583,7 @@ display:
           group: 1
           entity_type: node
       sorts: {  }
-      title: Content
+      title: Sisu
       empty:
         area_text_custom:
           id: area_text_custom
