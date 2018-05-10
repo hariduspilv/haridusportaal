@@ -38,7 +38,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Filtreeri
+          submit_button: Filter
           reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
@@ -53,8 +53,8 @@ display:
           id: 0
           total_pages: 0
           tags:
-            previous: '‹ Previous'
-            next: 'Next ›'
+            previous: '‹ Eelmine'
+            next: 'Järgmine ›'
             first: '« First'
             last: 'Last »'
           expose:
@@ -251,7 +251,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Olek
+          label: Status
           exclude: false
           alter:
             alter_text: false
@@ -470,7 +470,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Toimingud
+          label: Operations
           exclude: false
           alter:
             alter_text: false
@@ -647,7 +647,7 @@ display:
               administrator: '0'
           is_grouped: true
           group_info:
-            label: Olek
+            label: Status
             description: ''
             identifier: status
             optional: true
@@ -890,7 +890,7 @@ display:
       show_admin_links: false
       menu:
         type: 'default tab'
-        title: List
+        title: Nimekiri
         description: 'Find and manage people interacting with your site.'
         menu_name: admin
         weight: -10

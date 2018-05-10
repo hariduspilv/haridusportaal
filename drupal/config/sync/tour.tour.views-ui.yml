@@ -89,7 +89,7 @@ tips:
   views-ui-preview:
     id: views-ui-preview
     plugin: text
-    label: Preview
+    label: Eelvaade
     body: 'Show a preview of the view output.'
     weight: 10
     location: left
