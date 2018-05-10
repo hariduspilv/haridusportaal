@@ -1,0 +1,5 @@
+name: 'Custom menu URI translation'
+type: module
+description: 'Override menu urls by menu manipulator'
+core: 8.x
+package: 'Custom'

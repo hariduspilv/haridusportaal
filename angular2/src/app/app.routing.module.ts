@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ArticleComponent, FrontpageComponent, EventsComponent, PersonalDataComponent, EventsSingleComponent } from './_views';
+import { ArticleComponent, FrontpageComponent, EventsComponent, PersonalDataComponent, EventsSingleComponent, NewsComponent } from './_views';
 
 const appRoutes: Routes = [
   { path: ':lang/artiklid/:id', component: ArticleComponent },
   { path: ':lang/articles/:id', component: ArticleComponent },
   { path: ':lang/events', component: EventsComponent },
   { path: ':lang/events/:id', component: EventsSingleComponent },
+  { path: ':lang/news', component: NewsComponent },
+  { path: ':lang/uudised', component: NewsComponent },
   { path: ':lang/sundmused', component: EventsComponent },
   { path: ':lang/sundmused/:id', component: EventsSingleComponent },
   { path: ':lang', component: FrontpageComponent },
@@ -27,5 +29,7 @@ export const routedComponents = [
   FrontpageComponent,
   EventsComponent,
   EventsSingleComponent,
-  PersonalDataComponent
+  PersonalDataComponent,
+  NewsComponent
 ];
+

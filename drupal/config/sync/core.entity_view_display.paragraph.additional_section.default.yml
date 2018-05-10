@@ -4,11 +4,9 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.additional_section.field_additional_body
-    - field.field.paragraph.additional_section.field_icon
     - field.field.paragraph.additional_section.field_title
     - paragraphs.paragraphs_type.additional_section
   module:
-    - options
     - text
 id: paragraph.additional_section.default
 targetEntityType: paragraph
@@ -21,13 +19,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
-    region: content
-  field_icon:
-    weight: 3
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
     region: content
   field_title:
     weight: 2
