@@ -22,7 +22,6 @@ module:
   custom_translation_module: 0
   datetime: 0
   dblog: 0
-  delete_all: 0
   devel: 0
   devel_generate: 0
   duration_field: 0
