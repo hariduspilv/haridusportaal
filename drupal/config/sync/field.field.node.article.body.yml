@@ -13,9 +13,9 @@ id: node.article.body
 field_name: body
 entity_type: node
 bundle: article
-label: Body
+label: Sisu
 description: ''
-required: false
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''
