@@ -88,15 +88,11 @@ query getArticleData($path: String!) {
     ... on EntityCanonicalUrl {
       languageSwitchLinks {
         active
-        title
         language {
           id
         }
         url {
           path
-          routed
-          pathAlias
-          pathInternal
         }
       }
       breadcrumb {
