@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.additional_section.field_additional_body
-    - field.field.paragraph.additional_section.field_icon
     - field.field.paragraph.additional_section.field_title
     - paragraphs.paragraphs_type.additional_section
   module:
@@ -22,12 +21,6 @@ content:
     third_party_settings: {  }
     type: text_textarea
     region: content
-  field_icon:
-    weight: 1
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
   field_title:
     weight: 0
     settings:
@@ -35,6 +28,9 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  translation:
+    weight: 10
     region: content
 hidden:
   created: true

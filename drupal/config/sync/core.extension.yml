@@ -18,6 +18,7 @@ module:
   contextual: 0
   ctools: 0
   custom_graphql_functions: 0
+  custom_menu_uri_translation: 0
   custom_rest_functions: 0
   custom_translation_module: 0
   datetime: 0
