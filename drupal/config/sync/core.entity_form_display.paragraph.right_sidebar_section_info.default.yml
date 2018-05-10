@@ -5,7 +5,8 @@ dependencies:
   config:
     - field.field.paragraph.right_sidebar_section_info.field_additional
     - field.field.paragraph.right_sidebar_section_info.field_contact_section
-    - field.field.paragraph.right_sidebar_section_info.field_links
+    - field.field.paragraph.right_sidebar_section_info.field_hyperlinks
+    - field.field.paragraph.right_sidebar_section_info.field_related_article
     - paragraphs.paragraphs_type.right_sidebar_section_info
   module:
     - link
@@ -39,13 +40,24 @@ content:
       default_paragraph_type: _none
     third_party_settings: {  }
     region: content
-  field_links:
-    weight: 2
+  field_hyperlinks:
+    weight: 12
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
+    region: content
+  field_related_article:
+    weight: 11
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  translation:
+    weight: 10
     region: content
 hidden:
   created: true
