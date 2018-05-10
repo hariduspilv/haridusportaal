@@ -16,14 +16,18 @@ import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 })
 
 export class ArticleComponent implements OnInit, OnDestroy{
-  
+
+  private querySubscription: Subscription;  
+  private path: string;
+  private lang: string;
+
   content: any;
   breadcrumb: any;
   error: boolean;
-
+  
   accordionOpenState: boolean = false;
   accordionSection: any[];
-
+  
   fieldRightSidebar: any;
   toggleRightSidebar: boolean = false;
   
@@ -40,61 +44,63 @@ export class ArticleComponent implements OnInit, OnDestroy{
   articleLinks: any[];
   relatedArticles: any[];
   
-  constructor(private router: Router, private route: ActivatedRoute, private articleService: ArticleService, private rootScope:RootScopeService, private apollo: Apollo) {
-    
-    this.route.params.subscribe( params => {
-      const path = this.router.url;      
-      articleService.getArticle(path, function(data) {
-        const langOptions = data['route']['languageSwitchLinks'];
-        let langValues = {};
-        for( var i in langOptions ){
-          langValues[langOptions[i].language.id] = langOptions[i].url.path;
-        }
-        rootScope.set('langOptions', langValues);
-      });
-    });
-  }
-  
-  private querySubscription: Subscription;
+  constructor(private router: Router, private route: ActivatedRoute, private articleService: ArticleService, private rootScope: RootScopeService, private apollo: Apollo) {}
   
   ngOnInit() {
-    const path = this.router.url;
-    const lang = this.rootScope.get("currentLang");   
-      
-    this.querySubscription = this.apollo.watchQuery({
-      query: getArticleData,
-      variables: {
-        path: path,
-        lang: lang.toUpperCase(),
-      },
-    })
-    .valueChanges.subscribe(({data, loading}) => {
-      this.content = data['route']['entity'];
-      this.breadcrumb = data['route']['breadcrumb'];
-      this.accordionSection = data['route']['entity']['fieldAccordionSection'];
-      this.fieldRightSidebar = data['route']['entity']['fieldRightSidebar'];
-      
-      if (this.fieldRightSidebar !== null) {
+
+    this.route.params.subscribe (
+      (params: ActivatedRoute) => {
+        this.path = this.router.url;
+        this.lang = params['lang'];
         
-        this.toggleRightSidebar = true;
-        this.fieldContactSection = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection'];
-        this.fieldAdditional = data['route']['entity']['fieldRightSidebar']['entity']['fieldAdditional'];
-        this.articleLinks = data['route']['entity']['fieldRightSidebar']['entity']['fieldHyperlinks'];
-        this.relatedArticles = data['route']['entity']['fieldRightSidebar']['entity']['fieldRelatedArticle'];        
-        
-        if(this.fieldAdditional !== null) {
-          this.fieldAdditionalTitle = data['route']['entity']['fieldRightSidebar']['entity']['fieldAdditional']['entity']['fieldTitle'];
-          this.fieldAdditionalBody = data['route']['entity']['fieldRightSidebar']['entity']['fieldAdditional']['entity']['fieldAdditionalBody']['value'];
-        }
-        
-        if(this.fieldContactSection !== null) {
-          this.fieldContactPerson = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldPerson'];
-          this.fieldContactPhone = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldPhone'];
-          this.fieldContactEmail = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldEmail'];
-          this.fieldContactOrganization = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldOrganization'];
-        }
+        this.querySubscription = this.apollo.watchQuery({
+          query: getArticleData,
+          variables: {
+            path: this.path,
+            lang: this.lang.toUpperCase(),
+          },
+        })
+        .valueChanges
+        .subscribe(({data, loading}) => {
+          
+          //language service
+          const langOptions = data['route']['languageSwitchLinks'];
+          let langValues = {};
+          for( var i in langOptions ){
+            langValues[langOptions[i].language.id] = langOptions[i].url.path;
+          }
+          this.rootScope.set('langOptions', langValues);
+          //language service
+          
+          this.content = data['route']['entity'];
+          this.breadcrumb = data['route']['breadcrumb'];
+          this.accordionSection = data['route']['entity']['fieldAccordionSection'];
+          this.fieldRightSidebar = data['route']['entity']['fieldRightSidebar'];
+          
+          if (this.fieldRightSidebar !== null) {
+            
+            this.toggleRightSidebar = true;
+            this.fieldContactSection = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection'];
+            this.fieldAdditional = data['route']['entity']['fieldRightSidebar']['entity']['fieldAdditional'];
+            this.articleLinks = data['route']['entity']['fieldRightSidebar']['entity']['fieldHyperlinks'];
+            this.relatedArticles = data['route']['entity']['fieldRightSidebar']['entity']['fieldRelatedArticle'];        
+            
+            if(this.fieldAdditional !== null) {
+              this.fieldAdditionalTitle = data['route']['entity']['fieldRightSidebar']['entity']['fieldAdditional']['entity']['fieldTitle'];
+              this.fieldAdditionalBody = data['route']['entity']['fieldRightSidebar']['entity']['fieldAdditional']['entity']['fieldAdditionalBody']['value'];
+            }
+            
+            if(this.fieldContactSection !== null) {
+              this.fieldContactPerson = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldPerson'];
+              this.fieldContactPhone = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldPhone'];
+              this.fieldContactEmail = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldEmail'];
+              this.fieldContactOrganization = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldOrganization'];
+            }
+          }
+        });
       }
-    });
+    )
+
   }
   
   ngOnDestroy() {
