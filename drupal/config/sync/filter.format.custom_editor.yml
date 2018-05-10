@@ -4,7 +4,7 @@ status: true
 dependencies: {  }
 name: 'Custom editor'
 format: custom_editor
-weight: 0
+weight: -10
 filters:
   filter_html:
     id: filter_html

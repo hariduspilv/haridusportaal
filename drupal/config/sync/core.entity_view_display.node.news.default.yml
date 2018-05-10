@@ -10,8 +10,7 @@ dependencies:
     - field.field.node.news.field_news_description
     - field.field.node.news.field_news_link
     - field.field.node.news.field_news_tag
-    - field.field.node.news.field_shor
-    - image.style.kokki_stiil
+    - field.field.node.news.field_short_description
     - node.type.news
   module:
     - image
@@ -47,15 +46,6 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-  field_introduction_image:
-    weight: 105
-    label: above
-    settings:
-      image_style: kokki_stiil
-      image_link: ''
-    third_party_settings: {  }
-    type: image
-    region: content
   field_news_description:
     weight: 104
     label: above
@@ -83,12 +73,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  field_shor:
-    weight: 109
+  field_short_description:
+    weight: 111
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    type: basic_string
     region: content
   links:
     weight: 100
@@ -96,4 +86,5 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_introduction_image: true
   langcode: true

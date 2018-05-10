@@ -26,6 +26,7 @@ content:
     weight: 100
     region: content
 hidden:
+  field_adrid: true
   field_created_from_ehis_datetime: true
   field_educational_institution_ty: true
   field_ehis_id: true
@@ -39,4 +40,5 @@ hidden:
   field_student_home: true
   field_teaching_language: true
   field_update_from_ehis: true
+  field_update_location_from_ehis: true
   langcode: true
