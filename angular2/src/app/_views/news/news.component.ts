@@ -29,7 +29,7 @@ export class NewsComponent {
     private rootScope:RootScopeService) {
 
     const that = this;
-    this.limit = 5;
+    this.limit = 10;
     this.offset = 0;
     this.listEnd = false;
 
@@ -41,6 +41,7 @@ export class NewsComponent {
       newsService.getList(this.offset, this.limit, function(data){
         that.list = data['nodeQuery']['entities'];
 
+        console.log(that.list);
         if( that.list.length < that.limit ){
           that.listEnd = true;
         }

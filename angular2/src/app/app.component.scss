@@ -28,7 +28,6 @@ body{height: calc(100% - 64px);}
   img{height:54px; margin-top:5px;}
 } 
 
-
 .mat-sidenav-content{padding:0 0 40px 40px;
 
 }
@@ -97,7 +96,6 @@ article a[href]{color:#3f51b5;}
 .mat-form-label{padding-top:20px; text-align: center;}
 .mat-spinner{margin:50px auto;}
 .mat-chip[ng-reflect-router-link]{cursor: pointer !important;}
-
 
 .mat-chip-list{margin:0 -4px; display:block !important;;
   .mat-chip{cursor: pointer !important; margin:0 4px;}
@@ -185,7 +183,6 @@ $grid-columns: 12;
 
 .header-logo{margin-left:20px;}
 
-
 @media (max-width:900px) {
   .mat-drawer{background:#fff; }
   .sm-hide{display:none !important;}
@@ -208,5 +205,4 @@ $grid-columns: 12;
   }
   .mat-sidenav{top:56px !important;}
   
-
 }
