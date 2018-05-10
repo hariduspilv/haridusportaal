@@ -22,7 +22,7 @@ tips:
   language-edit-langcode:
     id: language-edit-langcode
     plugin: text
-    label: 'Language code'
+    label: 'Keele kood'
     body: '<p>You cannot change the code of a language on the site, since it is used by the system to keep track of the language.</p>'
     weight: 2
     attributes:
