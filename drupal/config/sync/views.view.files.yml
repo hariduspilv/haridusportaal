@@ -816,7 +816,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Entity
+          label: Olem
           exclude: false
           alter:
             alter_text: false
