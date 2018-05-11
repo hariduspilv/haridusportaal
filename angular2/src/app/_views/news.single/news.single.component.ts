@@ -18,6 +18,7 @@ export class NewsSingleComponent {
   unix: any;
   error: boolean;
   map: any;
+  allNewsPath: any;
 
   constructor(
 		private router: Router,
@@ -42,8 +43,19 @@ export class NewsSingleComponent {
           that.error = true;
         } else {
           that.content = data['route']['entity'];
-          console.log(that.content);
         }
+
+        that.allNewsPath = path.split("/");
+        that.allNewsPath = that.allNewsPath.slice(0, that.allNewsPath.length - 1).join("/");
+
+        //language service
+        const langOptions = data['route']['languageSwitchLinks'];
+        let langValues = {};
+        for( var i in langOptions ){
+          langValues[langOptions[i].language.id] = langOptions[i].url.path;
+        }
+        that.rootScope.set('langOptions', langValues);
+        //language service
       });
 
     });

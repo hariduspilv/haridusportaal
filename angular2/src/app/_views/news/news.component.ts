@@ -41,7 +41,6 @@ export class NewsComponent {
       newsService.getList(this.offset, this.limit, function(data){
         that.list = data['nodeQuery']['entities'];
 
-        console.log(that.list);
         if( that.list.length < that.limit ){
           that.listEnd = true;
         }
@@ -62,7 +61,6 @@ export class NewsComponent {
     let that = this;
     that.offset = that.list.length;
 
-    console.log(that.offset);
     that.newsService.getList(that.offset, that.limit, function(data) {
       if ( data['nodeQuery'] == null ) {
         that.error = true;

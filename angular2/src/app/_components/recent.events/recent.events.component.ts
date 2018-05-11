@@ -43,7 +43,6 @@ export class RecentEventsComponent implements OnInit {
 				that.error = true;
 			} else {
 				that.content = data['nodeQuery']['entities'];
-				console.log(that.content);
 			}
 		});
 
