@@ -29,13 +29,10 @@ export class AppComponent implements OnInit {
       this.sidenav.toggle();
     });
 
+    var that = this;
     router.events.subscribe( (event: Event) => {
 
-        if (event instanceof RoutesRecognized) {
-
-          let params = event.state.root.firstChild.params;
-          this.rootScope.set('currentLang', params['lang'] );
-        }
+        
         if (event instanceof NavigationStart) {
           this.menuStyle();
         }
@@ -49,7 +46,7 @@ export class AppComponent implements OnInit {
             // Hide loading indicator
             // Present error to user
         }
-
+        
     });
 
 

@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService, RootScopeService } from '../../_services';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Router } from '@angular/router';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -51,6 +51,16 @@ export class HeaderComponent {
       }
 
       this.languages = data['availableLanguages'];
+    });
+
+    router.events.subscribe( (event: Event) => {
+      if (event instanceof RoutesRecognized) {
+
+        let params = event.state.root.firstChild.params;
+        
+        rootScope.set('currentLang', params['lang'] );
+        this.activeLanguage = params['lang'];
+      }
     });
   }
 
