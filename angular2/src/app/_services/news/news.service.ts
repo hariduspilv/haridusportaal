@@ -55,4 +55,23 @@ export class NewsService extends NewsGraph {
 
   }
 
+  getRecent(nid, cb): any {
+
+    this.lang = this.rootScope.get('currentLang');
+
+    const query = this.buildRecent(nid, this.lang);
+
+    this.apollo.query({
+      query: query,
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+      context: {
+        headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+      }
+    }).subscribe(({data}) => {
+      cb(data);
+    });
+
+  }
+
 }

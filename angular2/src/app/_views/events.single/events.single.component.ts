@@ -47,10 +47,7 @@ export class EventsSingleComponent {
             }
           }
 
-          console.log(that.content);
           that.unix = new Date().getTime();
-
-          console.log(that.unix);
         }
       });
 
