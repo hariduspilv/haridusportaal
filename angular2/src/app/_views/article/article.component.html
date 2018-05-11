@@ -9,7 +9,7 @@
   
   <div class="row">
     
-    <div class="col-8 sm-12" [ngClass]="{'col-12': !toggleRightSidebar}">
+    <div class="col-8 sm-12" >
       
       <ul class="breadcrumb mt-0">
         <li *ngFor="let breadcrumbEl of breadcrumb">
@@ -23,6 +23,21 @@
       </ul>
       
       <article>
+
+        <table mat-table>
+          <thead>
+            <tr>
+              <td>asd</td>
+              <td>asdasd</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <td>sdasd</td>
+                <td>sdasd</td>
+            </tr>
+          </tbody>
+        </table>
         <h1>{{ content.title }}</h1>
         <p><b>{{ content.body.summary }}</b></p>
         
@@ -38,7 +53,7 @@
       
       <div *ngIf="accordionSection.length > 0">
         <h2>Alamosa pealkiri</h2>
-        <mat-accordion>
+        <mat-accordion multi>
           <mat-expansion-panel *ngFor="let accordionItem of accordionSection">
             <mat-expansion-panel-header>
               <mat-panel-title>
