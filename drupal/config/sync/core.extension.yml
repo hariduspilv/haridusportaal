@@ -39,6 +39,7 @@ module:
   field: 0
   field_ui: 0
   file: 0
+  file_browser: 0
   filter: 0
   form_alter_hook: 0
   google_map_field: 0

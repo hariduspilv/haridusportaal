@@ -8,24 +8,24 @@ dependencies:
 id: events_pattern_est
 label: 'Events pattern EST'
 type: 'canonical_entities:node'
-pattern: 'uritused/[node:title]'
+pattern: 'sundmused/[node:title]'
 selection_criteria:
-  dc13fe51-dec4-4d6d-9e87-887224bf095c:
+  abd09a81-cc50-47d8-8c9e-a6237752df41:
     id: node_type
     bundles:
       event: event
     negate: false
     context_mapping:
       node: node
-    uuid: dc13fe51-dec4-4d6d-9e87-887224bf095c
-  82877a82-3087-429c-a5b7-cf847a2c9b94:
+    uuid: abd09a81-cc50-47d8-8c9e-a6237752df41
+  8b6a3fda-020a-4c17-8a9a-7ecf7770ecc3:
     id: language
     langcodes:
       et: et
     negate: false
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 82877a82-3087-429c-a5b7-cf847a2c9b94
+    uuid: 8b6a3fda-020a-4c17-8a9a-7ecf7770ecc3
 selection_logic: and
 weight: -10
 relationships:
