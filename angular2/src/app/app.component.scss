@@ -20,6 +20,8 @@ body{height: calc(100% - 64px);}
   float:right;
 }
 
+.pointer{cursor: pointer;}
+
 .indent .mat-menu-item{
   padding-left:30px;
 }
@@ -49,7 +51,8 @@ body{height: calc(100% - 64px);}
 }
 
 .link-list{list-style:none; padding:0; margin:16px 0;
-  a[href]{color:rgba(0,0,0,.87); text-decoration: none; line-height:24px;
+  a[href]{color:rgba(0,0,0,.87); text-decoration: none; line-height:24px; color:#3f51b5;
+    &:hover{text-decoration: underline;}
     .mat-icon{vertical-align: top; margin-right:8px; color:#3f51b5;}
   }
 

@@ -65,6 +65,7 @@ export class NewsGraph {
           entity{
             ... on NodeNews {
               entityLabel
+              nid
               created
               fieldAuthor
               fieldNewsDescription {
@@ -90,6 +91,7 @@ export class NewsGraph {
               fieldNewsTag{
                 entity{
                   entityLabel
+                  tid
                 }
               }
               entityUrl {
@@ -109,6 +111,37 @@ export class NewsGraph {
         }
       }
     }
+    `;
+  }
+
+  buildRecent(nid, lang) {
+
+    lang = lang.toUpperCase();
+
+    return gql`
+    query{
+      nodeQuery(limit: 3, sort: {field: "created", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: ${lang} }, {operator: NOT_EQUAL, field: "nid", value: ["${nid}"], language:${lang}}]}) {
+        entities {
+          entityTranslation(language: ${lang}) {
+            ... on NodeNews {
+              entityLabel
+              created
+              fieldShortDescription
+              entityUrl {
+                ... on EntityCanonicalUrl {
+                  path
+                  languageSwitchLinks {
+                    url {
+                      path
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }    
     `;
   }
 }
