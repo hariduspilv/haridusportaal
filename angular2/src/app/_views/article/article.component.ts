@@ -16,11 +16,11 @@ import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 })
 
 export class ArticleComponent implements OnInit, OnDestroy{
-
+  
   private querySubscription: Subscription;  
   private path: string;
   private lang: string;
-
+  
   content: any;
   breadcrumb: any;
   error: boolean;
@@ -29,7 +29,6 @@ export class ArticleComponent implements OnInit, OnDestroy{
   accordionSection: any[];
   
   fieldRightSidebar: any;
-  toggleRightSidebar: boolean = false;
   
   fieldAdditional: any;
   fieldAdditionalTitle: any;
@@ -47,8 +46,8 @@ export class ArticleComponent implements OnInit, OnDestroy{
   constructor(private router: Router, private route: ActivatedRoute, private articleService: ArticleService, private rootScope: RootScopeService, private apollo: Apollo) {}
   
   ngOnInit() {
-
-    this.route.params.subscribe (
+    
+    this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
         this.lang = params['lang'];
@@ -79,28 +78,33 @@ export class ArticleComponent implements OnInit, OnDestroy{
           
           if (this.fieldRightSidebar !== null) {
             
-            this.toggleRightSidebar = true;
-            this.fieldContactSection = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection'];
-            this.fieldAdditional = data['route']['entity']['fieldRightSidebar']['entity']['fieldAdditional'];
-            this.articleLinks = data['route']['entity']['fieldRightSidebar']['entity']['fieldHyperlinks'];
-            this.relatedArticles = data['route']['entity']['fieldRightSidebar']['entity']['fieldRelatedArticle'];        
+            this.fieldRightSidebar = data['route']['entity']['fieldRightSidebar']['entity'];
+            
+            this.fieldContactSection = this.fieldRightSidebar['fieldContactSection'];
+            this.fieldAdditional = this.fieldRightSidebar['fieldAdditional'];
+            this.articleLinks = this.fieldRightSidebar['fieldHyperlinks'];
+            this.relatedArticles = this.fieldRightSidebar['fieldRelatedArticle'];        
             
             if(this.fieldAdditional !== null) {
-              this.fieldAdditionalTitle = data['route']['entity']['fieldRightSidebar']['entity']['fieldAdditional']['entity']['fieldTitle'];
-              this.fieldAdditionalBody = data['route']['entity']['fieldRightSidebar']['entity']['fieldAdditional']['entity']['fieldAdditionalBody']['value'];
+
+              this.fieldAdditional = this.fieldRightSidebar['fieldAdditional']['entity'];
+              this.fieldAdditionalTitle = this.fieldAdditional['fieldTitle'];
+              this.fieldAdditionalBody = this.fieldAdditional['fieldAdditionalBody']['value'];
             }
             
             if(this.fieldContactSection !== null) {
-              this.fieldContactPerson = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldPerson'];
-              this.fieldContactPhone = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldPhone'];
-              this.fieldContactEmail = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldEmail'];
-              this.fieldContactOrganization = data['route']['entity']['fieldRightSidebar']['entity']['fieldContactSection']['entity']['fieldOrganization'];
+
+              this.fieldContactSection = this.fieldRightSidebar['fieldContactSection']['entity'];
+              this.fieldContactPerson = this.fieldContactSection['fieldPerson'];
+              this.fieldContactPhone = this.fieldContactSection['fieldPhone'];
+              this.fieldContactEmail = this.fieldContactSection['fieldEmail'];
+              this.fieldContactOrganization = this.fieldContactSection['fieldOrganization'];
             }
           }
         });
       }
     )
-
+    
   }
   
   ngOnDestroy() {

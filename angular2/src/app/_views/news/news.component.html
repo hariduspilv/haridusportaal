@@ -2,7 +2,7 @@
  <div class="row">
    <div class="col-6">
      <h1 class="mt-0">
-       News
+       Uudised
      </h1>
    </div><!--/col-6-->
    <div class="col-6 text-right">
@@ -17,11 +17,11 @@
       <mat-card class="mb-20">
           <mat-card-content>
             <div class="row">
-              <div class="col-2" *ngIf="item.entityTranslation.fieldIntroductionImage" [routerLink]="[item.entityTranslation.entityUrl.path]">
-                <img src="{{ item.entityTranslation.fieldIntroductionImage.url }}" width="100%" />
+              <div class="col-2 sm-12 pointer" *ngIf="item.entityTranslation.fieldIntroductionImage" [routerLink]="[item.entityTranslation.entityUrl.path]">
+                <img src="{{ item.entityTranslation.fieldIntroductionImage.url }}" alt="{{ item.entityTranslation.fieldIntroductionImage.alt }}" width="100%" />
               </div>
 
-              <div class="col-10">
+              <div class="col-10 sm-hide">
                 <p class="mt-0"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityTranslation.entityUrl.path]"><b> {{ item.entityTranslation.entityLabel }}</b></a></p>
 
                 <p>{{ item.entityTranslation.fieldAuthor }} {{ item.entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</p>
@@ -35,12 +35,15 @@
                 <p class="mb-0">{{ item.entityTranslation.fieldShortDescription }}</p>
               </div>
             </div>
+            <div class="sm-show col-12">
+              <p class="mb-0"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityTranslation.entityUrl.path]"><b> {{ item.entityTranslation.entityLabel }}</b></a></p>
+            </div><!--/col-12-->
           </mat-card-content>
       </mat-card>
   </div><!--ngFor-->
 
-  <div class="text-center mt-30" *ngIf="!listEnd">
-    <button mat-raised-button color="primary" (click)="loadMore()">Load more</button>
+  <div class="text-center mt-30 mb-20" *ngIf="!listEnd">
+    <button mat-raised-button color="primary" (click)="loadMore()">Lae rohkem</button>
   </div><!--/text-center-->
    
  </div><!--/ngIf-->
