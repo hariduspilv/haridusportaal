@@ -1,24 +1,26 @@
-uuid: 5e37ed62-d220-40df-b1e9-9e2947e03baa
+uuid: a2104adf-01dc-4244-834b-a5b2b9a9283a
 langcode: et
 status: true
 dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.news
   module:
+    - node
     - user
-_core:
-  default_config_hash: o_8fSWHZOVIbydZACGsSX09DtuJhqkRmNOzcVj-4bQI
-id: who_s_new
-label: 'Who''s new'
-module: user
-description: 'Shows a list of the newest user accounts on the site.'
-tag: default
-base_table: users_field_data
-base_field: uid
+id: uudised
+label: Uudised
+module: views
+description: ''
+tag: ''
+base_table: node_field_data
+base_field: nid
 core: 8.x
 display:
   default:
     display_plugin: default
     id: default
-    display_title: Peamine
+    display_title: Master
     position: 0
     display_options:
       access:
@@ -47,22 +49,37 @@ display:
           sort_asc_label: Kasvav
           sort_desc_label: Kahanev
       pager:
-        type: some
+        type: mini
         options:
-          items_per_page: 5
+          items_per_page: 10
           offset: 0
+          id: 0
+          total_pages: null
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Kirjeid lehel'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- Kõik -'
+            offset: false
+            offset_label: Nihe
+          tags:
+            previous: ‹‹
+            next: ››
       style:
-        type: html_list
+        type: default
       row:
-        type: fields
+        type: 'entity:node'
+        options:
+          view_mode: teaser
       fields:
-        name:
-          id: name
-          table: users_field_data
-          field: name
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          entity_type: node
+          entity_field: title
           label: ''
-          plugin_id: field
-          type: user_name
           alter:
             alter_text: false
             make_link: false
@@ -74,6 +91,9 @@ display:
             html: false
           hide_empty: false
           empty_zero: false
+          settings:
+            link_to_entity: true
+          plugin_id: field
           relationship: none
           group_type: group
           admin_label: ''
@@ -88,79 +108,56 @@ display:
           element_default_classes: true
           empty: ''
           hide_alter_empty: true
-          entity_type: user
-          entity_field: name
+          click_sort_column: value
+          type: string
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
       filters:
         status:
           value: '1'
-          table: users_field_data
+          table: node_field_data
           field: status
+          plugin_id: boolean
+          entity_type: node
+          entity_field: status
           id: status
           expose:
-            operator: '0'
-          group: 1
-          plugin_id: boolean
-          entity_type: user
-          entity_field: status
-        access:
-          id: access
-          table: users_field_data
-          field: access
-          relationship: none
-          group_type: group
-          admin_label: ''
-          operator: '>'
-          value:
-            min: ''
-            max: ''
-            value: '1970-01-01'
-            type: date
-          group: 1
-          exposed: false
-          expose:
-            operator_id: '0'
-            label: ''
-            description: ''
-            use_operator: false
             operator: ''
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          plugin_id: date
-          entity_type: user
-          entity_field: access
+          group: 1
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          value:
+            news: news
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
       sorts:
         created:
           id: created
-          table: users_field_data
+          table: node_field_data
           field: created
+          order: DESC
+          entity_type: node
+          entity_field: created
+          plugin_id: date
           relationship: none
           group_type: group
           admin_label: ''
-          order: DESC
           exposed: false
           expose:
             label: ''
           granularity: second
-          plugin_id: date
-          entity_type: user
-          entity_field: created
-      title: 'Who''s new'
+      title: Uudised
       header: {  }
       footer: {  }
       empty: {  }
@@ -168,26 +165,28 @@ display:
       arguments: {  }
       display_extenders: {  }
     cache_metadata:
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
+        - 'user.node_grants:view'
         - user.permissions
-      max-age: -1
       tags: {  }
-  block_1:
-    display_plugin: block
-    id: block_1
-    display_title: 'Who''s new'
+  page_1:
+    display_plugin: page
+    id: page_1
+    display_title: Page
     position: 1
     display_options:
-      display_description: 'A list of new users'
-      block_description: 'Who''s new'
-      block_category: Kasutaja
       display_extenders: {  }
+      path: uudised
     cache_metadata:
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url.query_args
+        - 'user.node_grants:view'
         - user.permissions
-      max-age: -1
       tags: {  }

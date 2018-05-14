@@ -1,4 +1,4 @@
-uuid: 35500873-fa19-4362-bed3-8f5ccf9060da
+uuid: c84a4208-32ae-422f-b985-d6b32ff7f496
 langcode: und
 status: true
 dependencies:
@@ -11,15 +11,15 @@ dependencies:
     - dropzonejs_eb_widget
     - views
 _core:
-  default_config_hash: N3y52bEZkiYEw6HW7b1KtTa3p_cZCsW75tHh8Mnbuz0
-name: browse_files
-label: 'Browser for files'
-display: iframe
+  default_config_hash: 3nSl8VhOgIqEZaatR63quCeMwEZ6h35dUddtIVLCNPk
+name: browse_files_modal
+label: 'Browser for files (modal)'
+display: modal
 display_configuration:
-  width: 100%
-  height: '768'
+  width: '1100'
+  height: '650'
   link_text: 'Select files'
-  auto_open: true
+  auto_open: false
 selection_display: multi_step_display
 selection_display_configuration:
   entity_type: file

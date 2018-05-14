@@ -20,7 +20,7 @@ core: '8'
 display:
   default:
     id: default
-    display_title: Master
+    display_title: Peamine
     display_plugin: default
     position: 0
     display_options:
@@ -43,13 +43,13 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Apply
+          submit_button: Rakenda
           reset_button: false
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
+          reset_button_label: Tühista
+          exposed_sorts_label: 'Sorteerimise alus'
           expose_sort_order: true
-          sort_asc_label: Asc
-          sort_desc_label: Desc
+          sort_asc_label: Kasvav
+          sort_desc_label: Kahanev
       pager:
         type: mini
         options:
@@ -59,12 +59,12 @@ display:
           total_pages: 0
           expose:
             items_per_page: false
-            items_per_page_label: 'Items per page'
+            items_per_page_label: 'Kirjeid lehel'
             items_per_page_options: '5, 10, 25, 50'
             items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
+            items_per_page_options_all_label: '- Kõik -'
             offset: false
-            offset_label: Offset
+            offset_label: Nihe
           tags:
             previous: ‹‹
             next: ››
