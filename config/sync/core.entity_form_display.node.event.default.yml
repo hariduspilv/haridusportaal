@@ -31,6 +31,7 @@ dependencies:
     - image
     - link
     - paragraphs
+    - path
     - scheduler
     - text
 id: node.event.default
@@ -238,6 +239,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete_tags
     region: content
+  path:
+    type: path
+    weight: 22
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   publish_on:
     type: datetime_timestamp_no_default
     weight: 20
@@ -267,7 +274,6 @@ hidden:
   body: true
   created: true
   langcode: true
-  path: true
   promote: true
   status: true
   sticky: true

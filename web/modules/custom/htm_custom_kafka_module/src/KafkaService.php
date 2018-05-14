@@ -49,10 +49,10 @@ class KafkaService implements KafkaServiceInterface {
 	 */
 	public function ConsumeNewMessages($topic){
 		$topicConf = $this->getTopicConf();
-		kint($topicConf->dump());
+		//kint($topicConf->dump());
 		$topic = $this->lowLevelConsumer->newTopic($topic, $topicConf);
-		kint($topic);
-		kint(RD_KAFKA_OFFSET_STORED);	
+		//kint($topic);
+		//kint(RD_KAFKA_OFFSET_STORED);	
 		
 		$topic->consumeStart(0, RD_KAFKA_OFFSET_STORED);
 		$count = 0;
@@ -79,10 +79,20 @@ if($msg) {
 	 */
 	private function getTopicConf(){
 		$topicConf = new TopicConf();
-		$topicConf->set('offset.store.method', 'broker');
-		$topicConf->set('auto.offset.reset', 'smallest');
-		$topicConf->set('auto.commit.interval.ms', 1e3);
+		//$topicConf->set('offset.store.method', 'broker');
+		
+
+		//$topicConf->set('auto.offset.reset', 'smallest');
+		//$topicConf->set('auto.commit.interval.ms', 1000);
+		
+		$topicConf->set("auto.commit.interval.ms", 1e3);
 		$topicConf->set("offset.store.sync.interval.ms", 60e3);
+
+	
+		//$topicConf->set('debug', 'all');
+		//$topicConf->set('socket.timeout.ms', 30000);
+		//$topicConf->set('request.timeout.ms', 10000);		
+		//$topicConf->set('auto.commit.interval.ms', 60e3);
 		//$topicConf->set('group.id', 'drupal');
 		//kint($topicConf->dump());		
 return $topicConf;
@@ -90,11 +100,12 @@ return $topicConf;
 
 
 	/**
-	 * @param $payload
+ * @param $payload
 	 */
 	private function logMessages($payload){
 		$payload_object = json_decode($payload);
-		kint($payload_object);
+		dump($payload_object);
+		//kint($payload_object);
 		$logger_type = $payload_object->type;
 		$logger_severty = $payload_object->severity;
 		$logger_message = $payload_object->message;

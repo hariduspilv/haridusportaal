@@ -106,7 +106,7 @@ class ClientFactory {
    *   A client instance.
    */
   public function create($type, Conf $conf = NULL) {
-    $consumerGroup = $this->consumerSettings('group.id', 'drupal');
+    $consumerGroup = $this->consumerSettings('group.id', 'drupal4');
     $defaultBrokers = ['127.0.0.1:9092'];
 
     if (!isset($conf)) {

@@ -121,7 +121,7 @@ class CustomKafkaStatusForm extends ConfigFormBase {
 
 		$kafka_service = \Drupal::service('htm_custom_kafka_module.default');
 		$test = $kafka_service->ConsumeNewMessages('logs');
-		kint($test);
+		//kint($test);
 		
 			//kint($kafka_service->ConsumeNewMessages('logs'));
 		//kint($messages);
