@@ -13,6 +13,9 @@ function custom_graphql_functions_system_breadcrumb_alter(\Drupal\Core\Breadcrum
 		$title = \Drupal::service('title_resolver')->getTitle(\Drupal::request(), $route_match->getRouteObject());
 		if (!empty($title)) {
 			$breadcrumb->addLink(\Drupal\Core\Link::createFromRoute($title, '<none>'));
+
+			//add cache context for full url alias
+			$breadcrumb->addCacheContexts(['url']);
 		}
 	}
 }
