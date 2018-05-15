@@ -12,13 +12,11 @@
     <div class="col-8 sm-12" >
       
       <ul class="breadcrumb mt-0">
-        <li *ngFor="let breadcrumbEl of breadcrumb">
-          <a [routerLink]="[breadcrumbEl.url.path]">
+        <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
+          <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
             <span>{{ breadcrumbEl.text }}</span>
           </a>
-        </li>
-        <li>
-          <span>{{ content.title | ellipsis:30 }}</span>
+          <span *ngIf="last">{{ content.title | ellipsis:30 }}</span>
         </li>
       </ul>
       
@@ -79,6 +77,9 @@
             </mat-card-title>
             <address>
               <mat-card-content>
+                <div>{{fieldContactOrganization}}</div>
+              </mat-card-content>
+              <mat-card-content>
                 <div>{{fieldContactPerson}}</div>
               </mat-card-content>
               <mat-card-content>
@@ -87,9 +88,6 @@
               </mat-card-content>
               <mat-card-content>
                 <div><a href="mailto:{{fieldContactEmail}}" alt="">{{fieldContactEmail}}</a></div>
-              </mat-card-content>
-              <mat-card-content>
-                <div>{{fieldContactOrganization}}</div>
               </mat-card-content>
             </address>
           </mat-card>
