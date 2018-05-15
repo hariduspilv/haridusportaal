@@ -33,11 +33,11 @@ class CustomEntityField extends EntityFieldBase {
 
 				if ($access->isAllowed()) {
 					foreach ($items as $item) {
+
+						// Do not yield untranslated paragraphs
 						if(empty($definition['property'])){
 							if($item->entity->getEntityTypeId() === 'paragraph'){
 								$translated = ($item->entity->hasTranslation($context->getContext('language', $info)));
-
-								//if paragraph is not translated continue;
 								if(!$translated) continue;
 							}
 						}
