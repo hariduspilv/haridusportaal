@@ -7,12 +7,20 @@ import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
 import { MomentModule } from 'angular2-moment/moment.module';
+import { Apollo } from 'apollo-angular';
+import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
 
 @Component({
   templateUrl: './news.component.html'
 })
 
 export class NewsComponent {
+
+  private querySubscription: Subscription;  
+  private path: string;
+  private lang: string;
+
+  breadcrumb: any;
 
   content: any;
   unix: any;
@@ -26,7 +34,8 @@ export class NewsComponent {
     private router: Router,
     private route: ActivatedRoute,
     private newsService: NewsService,
-    private rootScope:RootScopeService) {
+    private rootScope:RootScopeService,
+    private apollo: Apollo ) {
 
     const that = this;
     this.limit = 10;
@@ -75,4 +84,24 @@ export class NewsComponent {
     });
   }
 
+  ngOnInit() {
+    this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.path = this.router.url;
+        this.lang = params['lang'];
+        
+        this.querySubscription = this.apollo.watchQuery({
+          query: getBreadcrumb,
+          variables: {
+            path: this.path,
+            lang: this.lang.toUpperCase(),
+          },
+        })
+        .valueChanges
+        .subscribe(({data}) => {
+          this.breadcrumb = data['route']['breadcrumb'];
+        });
+      }
+    )
+  }
 }
