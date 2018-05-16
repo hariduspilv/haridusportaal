@@ -10,7 +10,6 @@
     </ul>
   </div>
 </div>
-
 <div class="row">
   <div class="col-6">
     <h1 class="mt-0">
@@ -21,6 +20,49 @@
     
   </div><!--/col-6-->
 </div><!--/row-->
+
+<div class="row sm-hide">
+  <div class="col-3">
+    <mat-form-field class="w-100">
+      <mat-placeholder>Otsi uudist märksõna järgi</mat-placeholder>
+      <input matInput />
+    </mat-form-field>
+  </div><!--/col-3-->
+  <div class="col-3">
+    <div class="row">
+      <div class="col-5">
+        <mat-form-field class="w-100">
+          <mat-placeholder>pp.kk.aa</mat-placeholder>
+          <input matInput [matDatepicker]="myDatepicker1">
+          <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+          <mat-datepicker #myDatepicker1></mat-datepicker>
+        </mat-form-field>
+      </div><!--/col-5-->
+      <div class="col-2"><div class="mat-form-label">kuni</div></div>
+      <div class="col-5">
+        <mat-form-field class="w-100">
+          <mat-placeholder>pp.kk.aa</mat-placeholder>
+          <input matInput [matDatepicker]="myDatepicker2">
+          <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+          <mat-datepicker #myDatepicker2></mat-datepicker>
+        </mat-form-field>
+      </div><!--/col-5-->
+    </div><!--/row-->
+  </div><!--/col-3-->
+  <div class="col-3">
+    <mat-form-field class="w-100">
+      <mat-placeholder>Vali sildid</mat-placeholder>
+      <mat-select multiple>
+        <mat-option value="1">Koolitus</mat-option>
+        <mat-option value="2">Sündmus</mat-option>
+        <mat-option value="3">Seminar</mat-option>
+        <mat-option value="4">Sündmuse liik</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div><!--/col-3-->
+</div><!--/row-->
+
+
 
 <mat-spinner *ngIf="!list && !error"></mat-spinner>
 
