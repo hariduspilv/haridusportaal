@@ -76,6 +76,8 @@ export class EventsSingleComponent {
             path: this.path,
             lang: this.lang.toUpperCase(),
           },
+          fetchPolicy: 'no-cache',
+          errorPolicy: 'all',
         })
         .valueChanges
         .subscribe(({data}) => {

@@ -15,13 +15,13 @@ import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
 })
 
 export class NewsComponent {
-
+  
   private querySubscription: Subscription;  
   private path: string;
   private lang: string;
-
+  
   breadcrumb: any;
-
+  
   content: any;
   unix: any;
   error: boolean;
@@ -29,61 +29,55 @@ export class NewsComponent {
   limit: number;
   listEnd: boolean;
   list: any;
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private newsService: NewsService,
-    private rootScope:RootScopeService,
-    private apollo: Apollo ) {
-
+  
+  constructor( private router: Router, private route: ActivatedRoute, private newsService: NewsService, private rootScope:RootScopeService, private apollo: Apollo ) {
+    
     const that = this;
     this.limit = 10;
     this.offset = 0;
     this.listEnd = false;
-
+    
     this.setPaths();
-
+    
     
     this.route.params.subscribe( params => {
-
+      
       newsService.getList(this.offset, this.limit, function(data){
         that.list = data['nodeQuery']['entities'];
-
+        
         if( that.list.length < that.limit ){
           that.listEnd = true;
         }
       });
-
+      
     });
-
   }
-
+  
   setPaths() {
     this.rootScope.set('langOptions', {
       'en': '/en/news',
       'et': '/et/uudised'
     });
   }
-
+  
   loadMore() {
     let that = this;
     that.offset = that.list.length;
-
+    
     that.newsService.getList(that.offset, that.limit, function(data) {
       if ( data['nodeQuery'] == null ) {
         that.error = true;
       } else {
-
+        
         that.list = that.list.concat( data['nodeQuery']['entities'] );
-
+        
         if( data['nodeQuery']['entities'].length < that.limit ){
           that.listEnd = true;
         }
       }
     });
   }
-
+  
   ngOnInit() {
     this.route.params.subscribe(
       (params: ActivatedRoute) => {
@@ -95,6 +89,8 @@ export class NewsComponent {
           variables: {
             path: this.path,
             lang: this.lang.toUpperCase(),
+            fetchPolicy: 'no-cache',
+            errorPolicy: 'all',
           },
         })
         .valueChanges

@@ -58,6 +58,8 @@ export class ArticleComponent implements OnInit, OnDestroy{
             path: this.path,
             lang: this.lang.toUpperCase(),
           },
+          fetchPolicy: 'no-cache',
+          errorPolicy: 'all',
         })
         .valueChanges
         .subscribe(({data, loading}) => {
@@ -86,14 +88,14 @@ export class ArticleComponent implements OnInit, OnDestroy{
             this.relatedArticles = this.fieldRightSidebar['fieldRelatedArticle'];        
             
             if(this.fieldAdditional !== null) {
-
+              
               this.fieldAdditional = this.fieldRightSidebar['fieldAdditional']['entity'];
               this.fieldAdditionalTitle = this.fieldAdditional['fieldTitle'];
               this.fieldAdditionalBody = this.fieldAdditional['fieldAdditionalBody']['value'];
             }
             
             if(this.fieldContactSection !== null) {
-
+              
               this.fieldContactSection = this.fieldRightSidebar['fieldContactSection']['entity'];
               this.fieldContactPerson = this.fieldContactSection['fieldPerson'];
               this.fieldContactPhone = this.fieldContactSection['fieldPhone'];
