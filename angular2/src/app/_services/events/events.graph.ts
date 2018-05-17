@@ -169,9 +169,9 @@ export class EventsGraph {
                 title
               }
               fieldDescription {
-                summary
                 value
               }
+              fieldDescriptionSummary
               fieldContactPerson
               fieldContactPhone
               fieldContactEmail
