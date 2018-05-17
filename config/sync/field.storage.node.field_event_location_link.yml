@@ -1,16 +1,16 @@
-uuid: dba306ab-2182-4998-98c5-5cbe1e6b1b54
+uuid: fd892c47-6887-43b2-ba22-ede8618dbd63
 langcode: et
 status: true
 dependencies:
   module:
+    - link
     - node
-    - telephone
-id: node.field_contact_phone
-field_name: field_contact_phone
+id: node.field_event_location_link
+field_name: field_event_location_link
 entity_type: node
-type: telephone
+type: link
 settings: {  }
-module: telephone
+module: link
 locked: false
 cardinality: 1
 translatable: true

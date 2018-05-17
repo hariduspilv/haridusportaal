@@ -1,21 +1,19 @@
-uuid: 947483ff-74d2-4598-9781-bb68d41a31e0
+uuid: c17b911a-7db2-46b5-b715-fe27a335d99c
 langcode: et
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_additional_body
     - paragraphs.paragraphs_type.additional_section
-  module:
-    - text
 id: paragraph.additional_section.field_additional_body
 field_name: field_additional_body
 entity_type: paragraph
 bundle: additional_section
 label: 'Additional body'
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: text_long
+field_type: string_long

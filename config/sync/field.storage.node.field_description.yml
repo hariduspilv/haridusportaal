@@ -1,5 +1,5 @@
-uuid: 17576153-ee69-4ffb-8967-c2a357cf935e
-langcode: en
+uuid: a1ac6e26-abd9-4f7c-8ec5-a1d5a34bc62e
+langcode: et
 status: true
 dependencies:
   module:
@@ -8,7 +8,7 @@ dependencies:
 id: node.field_description
 field_name: field_description
 entity_type: node
-type: text_with_summary
+type: text_long
 settings: {  }
 module: text
 locked: false

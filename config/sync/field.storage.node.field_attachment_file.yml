@@ -10,8 +10,8 @@ field_name: field_attachment_file
 entity_type: node
 type: file
 settings:
-  display_field: false
-  display_default: false
+  display_field: true
+  display_default: true
   uri_scheme: public
   target_type: file
 module: file

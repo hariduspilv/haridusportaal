@@ -1,17 +1,17 @@
-uuid: 607796ac-a2ac-4a57-912d-8e1328e18edd
+uuid: 35dd85d3-7db4-4242-b4a7-334c3884ce9a
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_description
-    - node.type.event
+    - field.storage.node.field_body
+    - node.type.article
   module:
     - text
-id: node.event.field_description
-field_name: field_description
+id: node.article.field_body
+field_name: field_body
 entity_type: node
-bundle: event
-label: Description
+bundle: article
+label: Body
 description: ''
 required: true
 translatable: true
