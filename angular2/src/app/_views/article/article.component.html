@@ -22,7 +22,7 @@
       
       <article>
         <h1>{{ content.title }}</h1>
-        <p><b>{{ content.body.summary }}</b></p>
+        <p><b>{{ content.fieldBodySummary }}</b></p>
         
         <mat-card *ngIf="content.fieldImage" class="article-image">
           <mat-card-content>
@@ -31,7 +31,7 @@
           </mat-card-content>
         </mat-card>
         
-        <div [innerHTML]="content.body.value"></div>
+        <div [innerHTML]="content.fieldBody.value"></div>
       </article>
       
       <div *ngIf="accordionSection.length > 0">
