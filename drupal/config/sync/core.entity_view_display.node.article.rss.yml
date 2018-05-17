@@ -24,6 +24,8 @@ content:
 hidden:
   field_accordion_section: true
   field_additional_info: true
+  field_body: true
+  field_body_summary: true
   field_image: true
   field_imagee: true
   field_links: true
