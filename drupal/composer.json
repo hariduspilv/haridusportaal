@@ -40,6 +40,7 @@
         "drupal/jsonapi": "^1.15",
         "drupal/kafka": "1.x-dev",
         "drupal/material_admin": "^1.0@alpha",
+        "drupal/maxlength": "^1.0@beta",
         "drupal/paragraphs": "^1.2",
         "drupal/pathauto": "^1.1",
         "drupal/queue_ui": "2.x-dev",

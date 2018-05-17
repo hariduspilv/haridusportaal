@@ -3,17 +3,18 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.event.body
     - field.field.node.event.field_attachment_file
     - field.field.node.event.field_contact_email
     - field.field.node.event.field_contact_person
     - field.field.node.event.field_contact_phone
     - field.field.node.event.field_description
+    - field.field.node.event.field_description_summary
     - field.field.node.event.field_entry_type
     - field.field.node.event.field_event_date
     - field.field.node.event.field_event_group
     - field.field.node.event.field_event_link
     - field.field.node.event.field_event_location
+    - field.field.node.event.field_event_location_link
     - field.field.node.event.field_event_type
     - field.field.node.event.field_max_number_of_participants
     - field.field.node.event.field_organizer
@@ -61,19 +62,25 @@ content:
     type: string
     region: content
   field_contact_phone:
-    weight: 10
+    weight: 23
     label: above
-    settings:
-      link_to_entity: false
+    settings: {  }
     third_party_settings: {  }
-    type: string
+    type: basic_string
     region: content
   field_description:
-    weight: 0
+    weight: 21
     label: above
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_description_summary:
+    weight: 20
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
     region: content
   field_entry_type:
     weight: 12
@@ -117,6 +124,18 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: google_map_field_default
+    region: content
+  field_event_location_link:
+    weight: 22
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
     region: content
   field_event_type:
     weight: 1
@@ -184,6 +203,5 @@ content:
     type: entity_reference_label
     region: content
 hidden:
-  body: true
   langcode: true
   links: true
