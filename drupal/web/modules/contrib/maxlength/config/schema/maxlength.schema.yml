@@ -1,0 +1,16 @@
+field.widget.third_party.maxlength:
+  type: mapping
+  label: 'maxlength settings'
+  mapping:
+    maxlength_js:
+      type: integer
+    maxlength_js_label:
+      type: string
+    maxlength_js_summary:
+      type: integer
+    maxlength_js_label_summary:
+      type: string
+    maxlength_js_enforce:
+      type: boolean
+    maxlength_js_truncate_html:
+      type: boolean

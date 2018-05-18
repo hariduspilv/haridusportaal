@@ -1,5 +1,5 @@
-uuid: 8edba9b0-98f4-450a-b718-f6252153a7aa
-langcode: en
+uuid: 607796ac-a2ac-4a57-912d-8e1328e18edd
+langcode: et
 status: true
 dependencies:
   config:
@@ -13,10 +13,9 @@ entity_type: node
 bundle: event
 label: Description
 description: ''
-required: false
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''
-settings:
-  display_summary: true
-field_type: text_with_summary
+settings: {  }
+field_type: text_long
