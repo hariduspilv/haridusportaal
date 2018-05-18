@@ -71,7 +71,6 @@ module:
   quickedit: 0
   rdf: 0
   readonly_field_widget: 0
-  redis: 0
   rest: 0
   restui: 0
   scheduler: 0
