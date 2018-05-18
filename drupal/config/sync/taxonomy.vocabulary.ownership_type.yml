@@ -6,4 +6,4 @@ name: 'School ownership Type'
 vid: ownership_type
 description: ''
 hierarchy: 0
-weight: 0
+weight: -6
