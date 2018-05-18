@@ -33,9 +33,7 @@ export class EventsGraph {
                 
                 hashTags:fieldTag{
                   entity{
-                    entityTranslation(language:${lang}){
-                      entityLabel 
-                    }
+                    entityLabel
                   }
                 }
                 entityUrl{
