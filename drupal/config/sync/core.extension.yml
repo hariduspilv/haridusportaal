@@ -60,6 +60,7 @@ module:
   language: 0
   link: 0
   locale: 0
+  maxlength: 0
   media: 0
   menu_ui: 0
   node: 0
@@ -70,6 +71,7 @@ module:
   quickedit: 0
   rdf: 0
   readonly_field_widget: 0
+  redis: 0
   rest: 0
   restui: 0
   scheduler: 0

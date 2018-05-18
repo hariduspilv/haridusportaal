@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "18ecdb7e8a59487b5539c0fb480a327d",
+    "content-hash": "bfb0c5db2cd3d42b110df6edc212c47c",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2431,81 +2431,6 @@
             }
         },
         {
-            "name": "drupal/delete_all",
-            "version": "1.0.0-alpha2",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/delete_all",
-                "reference": "8.x-1.0-alpha2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/delete_all-8.x-1.0-alpha2.zip",
-                "reference": "8.x-1.0-alpha2",
-                "shasum": "468de5deb424a18e4b9c8c0bf9afa976191c97df"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.0-alpha2",
-                    "datestamp": "1474530239",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Alpha releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Hammad Ghani",
-                    "homepage": "https://www.drupal.org/user/3196009"
-                },
-                {
-                    "name": "coderintherye",
-                    "homepage": "https://www.drupal.org/user/297478"
-                },
-                {
-                    "name": "danylevskyi",
-                    "homepage": "https://www.drupal.org/user/322039"
-                },
-                {
-                    "name": "dipakmdhrm",
-                    "homepage": "https://www.drupal.org/user/1687410"
-                },
-                {
-                    "name": "douggreen",
-                    "homepage": "https://www.drupal.org/user/29191"
-                },
-                {
-                    "name": "kbahey",
-                    "homepage": "https://www.drupal.org/user/4063"
-                },
-                {
-                    "name": "realityloop",
-                    "homepage": "https://www.drupal.org/user/139189"
-                },
-                {
-                    "name": "wafaa",
-                    "homepage": "https://www.drupal.org/user/50133"
-                }
-            ],
-            "description": "Allows deletion of all nodes, comments and users on a site. Useful for development or prior to launching a site.",
-            "homepage": "https://www.drupal.org/project/delete_all",
-            "support": {
-                "source": "http://cgit.drupalcode.org/delete_all"
-            }
-        },
-        {
             "name": "drupal/devel",
             "version": "1.2.0",
             "source": {
@@ -2737,6 +2662,53 @@
             }
         },
         {
+            "name": "drupal/editor_advanced_link",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/editor_advanced_link",
+                "reference": "8.x-1.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/editor_advanced_link-8.x-1.4.zip",
+                "reference": "8.x-1.4",
+                "shasum": "52cf139a313d5fa6a461a25a1ba36ae987bc403d"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.4",
+                    "datestamp": "1490108883",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "DuaelFr",
+                    "homepage": "https://www.drupal.org/user/931394"
+                }
+            ],
+            "description": "Add title, target etc. attributes to Text Editor's link dialog if the text format allows them.",
+            "homepage": "https://www.drupal.org/project/editor_advanced_link",
+            "support": {
+                "source": "http://cgit.drupalcode.org/editor_advanced_link"
+            }
+        },
+        {
             "name": "drupal/embed",
             "version": "1.0.0",
             "source": {
@@ -2952,53 +2924,6 @@
                 "source": "http://cgit.drupalcode.org/entity_embed",
                 "issues": "https://www.drupal.org/project/issues/entity_embed",
                 "irc": "irc://irc.freenode.org/drupal-media"
-            }
-        },
-        {
-            "name": "drupal/editor_advanced_link",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/editor_advanced_link",
-                "reference": "8.x-1.4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/editor_advanced_link-8.x-1.4.zip",
-                "reference": "8.x-1.4",
-                "shasum": "52cf139a313d5fa6a461a25a1ba36ae987bc403d"
-            },
-            "require": {
-                "drupal/core": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.4",
-                    "datestamp": "1490108883",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "DuaelFr",
-                    "homepage": "https://www.drupal.org/user/931394"
-                }
-            ],
-            "description": "Add title, target etc. attributes to Text Editor's link dialog if the text format allows them.",
-            "homepage": "https://www.drupal.org/project/editor_advanced_link",
-            "support": {
-                "source": "http://cgit.drupalcode.org/editor_advanced_link"
             }
         },
         {
@@ -3597,6 +3522,113 @@
             }
         },
         {
+            "name": "drupal/maxlength",
+            "version": "1.0.0-beta1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/maxlength",
+                "reference": "8.x-1.0-beta1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/maxlength-8.x-1.0-beta1.zip",
+                "reference": "8.x-1.0-beta1",
+                "shasum": "e51e7e738394ea1f66cc7121bd47e6ede0bbe3a0"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-beta1",
+                    "datestamp": "1471873139",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Beta releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Aron Novak",
+                    "homepage": "https://www.drupal.org/user/61864"
+                },
+                {
+                    "name": "Schnitzel",
+                    "homepage": "https://www.drupal.org/user/643820"
+                },
+                {
+                    "name": "a_c_m",
+                    "homepage": "https://www.drupal.org/user/195063"
+                },
+                {
+                    "name": "artur.thiessen",
+                    "homepage": "https://www.drupal.org/user/2390554"
+                },
+                {
+                    "name": "barneytech",
+                    "homepage": "https://www.drupal.org/user/669922"
+                },
+                {
+                    "name": "claudiu_cristea",
+                    "homepage": "https://www.drupal.org/user/2623935"
+                },
+                {
+                    "name": "dawehner",
+                    "homepage": "https://www.drupal.org/user/99340"
+                },
+                {
+                    "name": "derhasi",
+                    "homepage": "https://www.drupal.org/user/83474"
+                },
+                {
+                    "name": "frjo",
+                    "homepage": "https://www.drupal.org/user/5546"
+                },
+                {
+                    "name": "hefox",
+                    "homepage": "https://www.drupal.org/user/426416"
+                },
+                {
+                    "name": "jm.federico",
+                    "homepage": "https://www.drupal.org/user/509892"
+                },
+                {
+                    "name": "k4v",
+                    "homepage": "https://www.drupal.org/user/744246"
+                },
+                {
+                    "name": "mariano73",
+                    "homepage": "https://www.drupal.org/user/1324866"
+                },
+                {
+                    "name": "mariuss",
+                    "homepage": "https://www.drupal.org/user/28539"
+                },
+                {
+                    "name": "sanduhrs",
+                    "homepage": "https://www.drupal.org/user/28074"
+                },
+                {
+                    "name": "vasi1186",
+                    "homepage": "https://www.drupal.org/user/342104"
+                }
+            ],
+            "description": "Limit the number of characters in textfields and textareas and shows the amount of characters left.",
+            "homepage": "https://www.drupal.org/project/maxlength",
+            "support": {
+                "source": "http://cgit.drupalcode.org/maxlength"
+            }
+        },
+        {
             "name": "drupal/paragraphs",
             "version": "1.2.0",
             "source": {
@@ -3831,6 +3863,65 @@
             }
         },
         {
+            "name": "drupal/redis",
+            "version": "1.0.0-rc2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/redis",
+                "reference": "8.x-1.0-rc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/redis-8.x-1.0-rc2.zip",
+                "reference": "8.x-1.0-rc2",
+                "shasum": "7eeaa7078e9df6f4bbea1ca90dbc43aa044da346"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "suggest": {
+                "predis/predis": "^1.1.1"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-rc2",
+                    "datestamp": "1505390043",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "RC releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Drupal\\redis\\": "src"
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "pounard",
+                    "homepage": "https://www.drupal.org/user/240164"
+                }
+            ],
+            "description": "Provide a module placeholder, for using as dependency for module that needs Redis.",
+            "homepage": "https://www.drupal.org/project/redis",
+            "support": {
+                "source": "http://cgit.drupalcode.org/redis"
+            }
+        },
+        {
             "name": "drupal/restui",
             "version": "1.15.0",
             "source": {
@@ -4010,74 +4101,6 @@
         {
             "name": "drupal/smtp",
             "version": "1.0.0-beta3",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/smtp",
-                "reference": "8.x-1.0-beta3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/smtp-8.x-1.0-beta3.zip",
-                "reference": "8.x-1.0-beta3",
-                "shasum": "a351dac3765b9570933fd07f1e029aa22e5c69b0"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.0-beta3",
-                    "datestamp": "1498667343",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "LukeLast",
-                    "homepage": "https://www.drupal.org/user/30151"
-                },
-                {
-                    "name": "japerry",
-                    "homepage": "https://www.drupal.org/user/45640"
-                },
-                {
-                    "name": "josesanmartin",
-                    "homepage": "https://www.drupal.org/user/72012"
-                },
-                {
-                    "name": "oadaeh",
-                    "homepage": "https://www.drupal.org/user/4649"
-                },
-                {
-                    "name": "wundo",
-                    "homepage": "https://www.drupal.org/user/25523"
-                },
-                {
-                    "name": "yettyn",
-                    "homepage": "https://www.drupal.org/user/93281"
-                }
-            ],
-            "description": "Allow for site emails to be sent through an SMTP server of your choice.",
-            "homepage": "https://www.drupal.org/project/smtp",
-            "support": {
-                "source": "http://cgit.drupalcode.org/smtp",
-                "issues": "https://www.drupal.org/project/issues/smtp"
-            }
-        },
-        {
-            "name": "drupal/taxonomy_term_depth",
-            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/smtp",
@@ -7759,6 +7782,81 @@
             "time": "2017-03-18T10:28:49+00:00"
         },
         {
+            "name": "drupal/delete_all",
+            "version": "1.0.0-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/delete_all",
+                "reference": "8.x-1.0-alpha2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/delete_all-8.x-1.0-alpha2.zip",
+                "reference": "8.x-1.0-alpha2",
+                "shasum": "468de5deb424a18e4b9c8c0bf9afa976191c97df"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha2",
+                    "datestamp": "1474530239",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Hammad Ghani",
+                    "homepage": "https://www.drupal.org/user/3196009"
+                },
+                {
+                    "name": "coderintherye",
+                    "homepage": "https://www.drupal.org/user/297478"
+                },
+                {
+                    "name": "danylevskyi",
+                    "homepage": "https://www.drupal.org/user/322039"
+                },
+                {
+                    "name": "dipakmdhrm",
+                    "homepage": "https://www.drupal.org/user/1687410"
+                },
+                {
+                    "name": "douggreen",
+                    "homepage": "https://www.drupal.org/user/29191"
+                },
+                {
+                    "name": "kbahey",
+                    "homepage": "https://www.drupal.org/user/4063"
+                },
+                {
+                    "name": "realityloop",
+                    "homepage": "https://www.drupal.org/user/139189"
+                },
+                {
+                    "name": "wafaa",
+                    "homepage": "https://www.drupal.org/user/50133"
+                }
+            ],
+            "description": "Allows deletion of all nodes, comments and users on a site. Useful for development or prior to launching a site.",
+            "homepage": "https://www.drupal.org/project/delete_all",
+            "support": {
+                "source": "http://cgit.drupalcode.org/delete_all"
+            }
+        },
+        {
             "name": "drupal/duration_field",
             "version": "1.3.0",
             "source": {
@@ -9688,6 +9786,7 @@
         "drupal/inline_entity_form": 10,
         "drupal/kafka": 20,
         "drupal/material_admin": 15,
+        "drupal/maxlength": 10,
         "drupal/queue_ui": 20
     },
     "prefer-stable": true,

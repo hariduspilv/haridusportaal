@@ -1,18 +1,16 @@
-uuid: 6164ef71-0c78-4217-b363-b18cde382a22
-langcode: en
+uuid: dba306ab-2182-4998-98c5-5cbe1e6b1b54
+langcode: et
 status: true
 dependencies:
   module:
     - node
+    - telephone
 id: node.field_contact_phone
 field_name: field_contact_phone
 entity_type: node
-type: string
-settings:
-  max_length: 50
-  is_ascii: false
-  case_sensitive: false
-module: core
+type: telephone
+settings: {  }
+module: telephone
 locked: false
 cardinality: 1
 translatable: true

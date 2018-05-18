@@ -3,17 +3,19 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.event.body
+    - entity_browser.browser.browse_files
     - field.field.node.event.field_attachment_file
     - field.field.node.event.field_contact_email
     - field.field.node.event.field_contact_person
     - field.field.node.event.field_contact_phone
     - field.field.node.event.field_description
+    - field.field.node.event.field_description_summary
     - field.field.node.event.field_entry_type
     - field.field.node.event.field_event_date
     - field.field.node.event.field_event_group
     - field.field.node.event.field_event_link
     - field.field.node.event.field_event_location
+    - field.field.node.event.field_event_location_link
     - field.field.node.event.field_event_type
     - field.field.node.event.field_max_number_of_participants
     - field.field.node.event.field_organizer
@@ -22,17 +24,18 @@ dependencies:
     - field.field.node.event.field_registration_
     - field.field.node.event.field_registration_date
     - field.field.node.event.field_tag
-    - image.style.thumbnail
     - node.type.event
   module:
     - conditional_fields
+    - entity_browser
     - file
     - google_map_field
-    - image
     - link
+    - maxlength
     - paragraphs
     - path
     - scheduler
+    - telephone
     - text
 id: node.event.default
 targetEntityType: node
@@ -40,14 +43,14 @@ bundle: event
 mode: default
 content:
   field_attachment_file:
-    weight: 6
+    weight: 7
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
     type: file_generic
     region: content
   field_contact_email:
-    weight: 12
+    weight: 14
     settings:
       size: 60
       placeholder: ''
@@ -55,39 +58,53 @@ content:
     type: email_default
     region: content
   field_contact_person:
-    weight: 9
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_contact_phone:
     weight: 11
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
     type: string_textfield
     region: content
-  field_description:
-    weight: 1
+  field_contact_phone:
+    weight: 13
     settings:
-      rows: 9
-      summary_rows: 3
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea_with_summary
+    type: telephone_default
+    region: content
+  field_description:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_description_summary:
+    weight: 2
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 300
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
     region: content
   field_entry_type:
-    weight: 13
+    weight: 15
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_event_date:
     type: entity_reference_paragraphs
-    weight: 18
+    weight: 20
     region: content
     settings:
       title: Paragraph
@@ -98,7 +115,7 @@ content:
       default_paragraph_type: event_date
     third_party_settings: {  }
   field_event_group:
-    weight: 19
+    weight: 21
     settings:
       match_operator: CONTAINS
       size: 60
@@ -107,7 +124,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_event_link:
-    weight: 4
+    weight: 5
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -115,42 +132,58 @@ content:
     type: link_default
     region: content
   field_event_location:
-    weight: 7
+    weight: 8
     settings: {  }
     third_party_settings: {  }
     type: google_map_field_default
     region: content
+  field_event_location_link:
+    weight: 9
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
   field_event_type:
-    weight: 2
+    weight: 1
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_max_number_of_participants:
-    weight: 16
+    weight: 18
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_organizer:
-    weight: 8
+    weight: 10
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
     type: string_textfield
     region: content
   field_picture:
-    weight: 5
+    weight: 6
     settings:
-      progress_indicator: throbber
+      entity_browser: browse_files
+      field_widget_remove: true
+      selection_mode: selection_append
       preview_image_style: thumbnail
+      field_widget_edit: true
+      open: false
+      view_mode: default
     third_party_settings: {  }
-    type: image_image
+    type: entity_browser_file
     region: content
   field_practical_information:
-    weight: 17
+    weight: 19
     settings:
       rows: 5
       placeholder: ''
@@ -158,7 +191,7 @@ content:
     type: text_textarea
     region: content
   field_registration_:
-    weight: 15
+    weight: 17
     settings:
       rows: 5
       placeholder: ''
@@ -185,7 +218,7 @@ content:
     region: content
   field_registration_date:
     type: entity_reference_paragraphs
-    weight: 14
+    weight: 16
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -231,7 +264,7 @@ content:
           bundle: event
     region: content
   field_tag:
-    weight: 3
+    weight: 4
     settings:
       match_operator: CONTAINS
       size: 60
@@ -241,13 +274,13 @@ content:
     region: content
   path:
     type: path
-    weight: 22
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
   publish_on:
     type: datetime_timestamp_no_default
-    weight: 20
+    weight: 22
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -258,20 +291,22 @@ content:
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
   translation:
-    weight: 10
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
   unpublish_on:
     type: datetime_timestamp_no_default
-    weight: 21
+    weight: 23
     region: content
     settings: {  }
     third_party_settings: {  }
 hidden:
-  body: true
   created: true
   langcode: true
   promote: true
