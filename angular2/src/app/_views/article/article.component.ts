@@ -91,7 +91,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
               
               this.fieldAdditional = this.fieldRightSidebar['fieldAdditional']['entity'];
               this.fieldAdditionalTitle = this.fieldAdditional['fieldTitle'];
-              this.fieldAdditionalBody = this.fieldAdditional['fieldAdditionalBody']['value'];
+              this.fieldAdditionalBody = this.fieldAdditional['fieldAdditionalBody'];
             }
             
             if(this.fieldContactSection !== null) {

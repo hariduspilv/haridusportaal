@@ -106,10 +106,10 @@ query getArticleData($path: String!) {
       entity {
         ... on NodeArticle {
           title
-          body {
+          fieldBody{
             value
-            summary
           }
+          fieldBodySummary
           fieldImage {
             url
             targetId
@@ -129,9 +129,7 @@ query getArticleData($path: String!) {
               fieldAdditional {
                 entity {
                   fieldTitle
-                  fieldAdditionalBody {
-                    value
-                  }
+                  fieldAdditionalBody
                 }
               }
               fieldContactSection {

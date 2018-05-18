@@ -14,7 +14,7 @@ import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
   templateUrl: './news.component.html'
 })
 
-export class NewsComponent {
+export class NewsComponent implements OnInit{
   
   private querySubscription: Subscription;  
   private path: string;
