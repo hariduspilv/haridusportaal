@@ -145,3 +145,85 @@ export class NewsGraph {
     `;
   }
 }
+
+
+
+// query{
+//   nodeQuery(
+//     offset: 0, 
+//     limit: 10, 
+//     sort: {field: "created", direction: DESC}, 
+//     filter: {
+//       conditions: [{operator: EQUAL, field: "type", value: ["news"], language: ET}]}) {
+//     entities {
+//       entityTranslation(language: ET) {
+//         ... on NodeNews {
+//           entityLabel
+//           created
+//           entityUrl {
+//             ... on EntityCanonicalUrl {
+//               path
+//               languageSwitchLinks {
+//                 active
+//                 title
+//               }
+//             }
+//           }
+//           fieldShortDescription
+//           fieldAuthor
+//           fieldIntroductionImage {
+//             url
+//             alt
+//           }
+//           fieldNewsTag {
+//             entity {
+//               entityLabel
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+
+
+// sildi jargi
+
+// {
+//   nodeQuery(offset: 0, limit: 10, sort: {field: "created", direction: DESC},
+//     filter: {conditions: [
+//       {operator: EQUAL, field: "type", value: ["news"], language: ET},
+//       {operator: EQUAL, field: "field_news_tag.entity.tid", value: ["21"], language: ET}
+//     ]}) {
+//     entities {
+//       entityTranslation(language: ET) {
+//         ... on NodeNews {
+//           entityLabel
+//           created
+//           entityUrl {
+//             ... on EntityCanonicalUrl {
+//               path
+//               languageSwitchLinks {
+//                 active
+//                 title
+//               }
+//             }
+//           }
+//           fieldShortDescription
+//           fieldAuthor
+//           fieldIntroductionImage {
+//             url
+//             alt
+//           }
+//           fieldNewsTag {
+//             entity {
+//               entityLabel
+//               tid
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
