@@ -248,7 +248,7 @@ display:
           id: status
           table: node_field_data
           field: status
-          label: Status
+          label: Olek
           exclude: false
           alter:
             alter_text: false
@@ -381,7 +381,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Operations
+          label: Toimingud
           exclude: false
           alter:
             alter_text: false
@@ -438,7 +438,7 @@ display:
           exposed: true
           expose:
             operator_id: ''
-            label: Status
+            label: Olek
             description: ''
             use_operator: false
             operator: status_op
@@ -484,7 +484,7 @@ display:
           exposed: true
           expose:
             operator_id: type_op
-            label: Liik
+            label: Type
             description: ''
             use_operator: false
             operator: type_op

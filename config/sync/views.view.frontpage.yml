@@ -292,7 +292,7 @@ display:
       path: node
       display_extenders: {  }
     display_plugin: page
-    display_title: Page
+    display_title: Lehekülg
     id: page_1
     position: 1
     cache_metadata:
