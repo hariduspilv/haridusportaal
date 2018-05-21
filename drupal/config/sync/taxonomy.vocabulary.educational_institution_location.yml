@@ -6,4 +6,4 @@ name: 'Educational Institution Location'
 vid: educational_institution_location
 description: ''
 hierarchy: 0
-weight: 0
+weight: -10

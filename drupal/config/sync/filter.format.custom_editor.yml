@@ -1,7 +1,9 @@
 uuid: 401653df-5732-4c68-ab87-356c7a76d828
 langcode: et
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - entity_embed
 name: 'Custom editor'
 format: custom_editor
 weight: -10
@@ -12,6 +14,24 @@ filters:
     status: true
     weight: -10
     settings:
-      allowed_html: '<a href hreflang title target> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr> <p> <h1>'
+      allowed_html: '<a href hreflang title target> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr> <p> <h1> <img>'
       filter_html_help: true
       filter_html_nofollow: false
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
+    status: true
+    weight: 10
+    settings: {  }
+  filter_caption:
+    id: filter_caption
+    provider: filter
+    status: true
+    weight: 0
+    settings: {  }
+  entity_embed:
+    id: entity_embed
+    provider: entity_embed
+    status: true
+    weight: 0
+    settings: {  }

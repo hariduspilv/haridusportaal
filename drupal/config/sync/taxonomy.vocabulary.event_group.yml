@@ -6,4 +6,4 @@ name: 'Event Group'
 vid: event_group
 description: ''
 hierarchy: 0
-weight: 0
+weight: -8

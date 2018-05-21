@@ -6,4 +6,4 @@ name: 'School teaching language'
 vid: teaching_language
 description: ''
 hierarchy: 0
-weight: 0
+weight: -5
