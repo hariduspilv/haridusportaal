@@ -124,20 +124,6 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     private $removedIds = array();
     private $alreadyLoading = array();
 
-    private static $internalTypes = array(
-        'int' => true,
-        'float' => true,
-        'string' => true,
-        'bool' => true,
-        'resource' => true,
-        'object' => true,
-        'array' => true,
-        'null' => true,
-        'callable' => true,
-        'iterable' => true,
-        'mixed' => true,
-    );
-
     public function __construct(ParameterBagInterface $parameterBag = null)
     {
         parent::__construct($parameterBag);
@@ -355,11 +341,6 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         if (!$class = $this->getParameterBag()->resolveValue($class)) {
             return;
         }
-
-        if (isset(self::$internalTypes[$class])) {
-            return null;
-        }
-
         $resource = null;
 
         try {

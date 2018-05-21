@@ -292,13 +292,12 @@ abstract class ArrayUtils
     }
 
     /**
-     * @deprecated Since 3.2.0; use the native array_filter methods
+     * Compatibility Method for array_filter on <5.6 systems
      *
      * @param array $data
      * @param callable $callback
      * @param null|int $flag
      * @return array
-     * @throws Exception\InvalidArgumentException
      */
     public static function filter(array $data, $callback, $flag = null)
     {
@@ -309,6 +308,28 @@ abstract class ArrayUtils
             ));
         }
 
-        return array_filter($data, $callback, $flag);
+        if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
+            return array_filter($data, $callback, $flag);
+        }
+
+        $output = [];
+        foreach ($data as $key => $value) {
+            $params = [$value];
+
+            if ($flag === static::ARRAY_FILTER_USE_BOTH) {
+                $params[] = $key;
+            }
+
+            if ($flag === static::ARRAY_FILTER_USE_KEY) {
+                $params = [$key];
+            }
+
+            $response = call_user_func_array($callback, $params);
+            if ($response) {
+                $output[$key] = $value;
+            }
+        }
+
+        return $output;
     }
 }

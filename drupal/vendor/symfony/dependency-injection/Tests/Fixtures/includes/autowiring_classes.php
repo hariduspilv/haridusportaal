@@ -181,7 +181,7 @@ class NotGuessableArgumentForSubclass
 }
 class MultipleArguments
 {
-    public function __construct(A $k, $foo, Dunglas $dunglas, array $bar)
+    public function __construct(A $k, $foo, Dunglas $dunglas)
     {
     }
 }
