@@ -155,12 +155,17 @@ services:
   # Event subscribers.
   jsonapi.resource_response.subscriber:
     class: Drupal\jsonapi\EventSubscriber\ResourceResponseSubscriber
-    arguments: ['@jsonapi.serializer_do_not_use_removal_imminent', '@renderer', '@logger.channel.jsonapi', '@module_handler', '@app.root']
+    arguments: ['@jsonapi.serializer_do_not_use_removal_imminent', '@renderer']
+    tags:
+      - { name: event_subscriber }
+  jsonapi.resource_response_validator.subscriber:
+    class: Drupal\jsonapi\EventSubscriber\ResourceResponseValidator
+    arguments: ['@jsonapi.serializer_do_not_use_removal_imminent', '@logger.channel.jsonapi', '@module_handler', '@app.root']
     calls:
       - [setValidator, []]
       - [setSchemaFactory, ['@?schemata.schema_factory']] # This is only injected when the service is available.
     tags:
-      - { name: event_subscriber }
+      - { name: event_subscriber, priority: 1000 }
 
   # Deprecated services.
   serializer.normalizer.htt_exception.jsonapi:

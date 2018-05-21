@@ -446,4 +446,19 @@ class UserTest extends ResourceTestBase {
     $this->assertArrayHasKey('mail', $doc['data'][3]['attributes']);
   }
 
+  /**
+   * Test good error DX when trying to filter users by role.
+   */
+  public function testQueryInvolvingRoles() {
+    $this->setUpAuthorization('GET');
+
+    $collection_url = Url::fromRoute('jsonapi.user--user.collection', [], ['query' => ['filter[roles.uuid][value]' => 'e9b1de3f-9517-4c27-bef0-0301229de792']]);
+    $request_options = [];
+    $request_options[RequestOptions::HEADERS]['Accept'] = 'application/vnd.api+json';
+    $request_options = NestedArray::mergeDeep($request_options, $this->getAuthenticationRequestOptions());
+
+    $response = $this->request('GET', $collection_url, $request_options);
+    $this->assertResourceErrorResponse(400, "Filtering on config entities is not supported by Drupal's entity API. You tried to filter on a Role config entity.", $response);
+  }
+
 }

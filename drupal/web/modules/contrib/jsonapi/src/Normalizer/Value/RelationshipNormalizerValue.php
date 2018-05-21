@@ -74,9 +74,69 @@ class RelationshipNormalizerValue extends FieldNormalizerValue {
     // Empty 'to-many' relationships must be an empty array.
     // @link http://jsonapi.org/format/#document-resource-object-linkage
     $data = parent::rasterizeValue() ?: [];
-    return empty($data) && $this->cardinality == 1
-      ? ['data' => NULL, 'links' => $links]
-      : ['data' => $data, 'links' => $links];
+
+    if ($this->cardinality === 1) {
+      return empty($data)
+        ? ['data' => NULL, 'links' => $links]
+        : ['data' => $data, 'links' => $links];
+    }
+    else {
+      return ['data' => static::ensureUniqueResourceIdentifierObjects($data), 'links' => $links];
+    }
+  }
+
+  /**
+   * Ensures each resource identifier object is unique.
+   *
+   * The official JSON API JSON-Schema document requires that no two resource
+   * identifier objects are duplicated.
+   *
+   * This adds an @code arity @endcode member to each object's
+   * @code meta @endcode member. The value of this member is an integer that is
+   * incremented by 1 (starting from 0) for each repeated resource identifier
+   * sharing a common @code type @endcode and @code id @endcode.
+   *
+   * @param array $resource_identifier_objects
+   *   A list of JSON API resource identifier objects.
+   *
+   * @return array
+   *   A set of JSON API resource identifier objects, with those having multiple
+   *   occurrences getting [meta][arity].
+   *
+   * @see http://jsonapi.org/format/#document-resource-object-relationships
+   * @see https://github.com/json-api/json-api/pull/1156#issuecomment-325377995
+   * @see https://www.drupal.org/project/jsonapi/issues/2864680
+   */
+  protected static function ensureUniqueResourceIdentifierObjects(array $resource_identifier_objects) {
+    if (count($resource_identifier_objects) <= 1) {
+      return $resource_identifier_objects;
+    }
+
+    // Count each repeated resource identifier and track their array indices.
+    $analysis = [];
+    foreach ($resource_identifier_objects as $index => $rio) {
+      $composite_key = $rio['type'] . ':' . $rio['id'];
+
+      $analysis[$composite_key]['count'] = isset($analysis[$composite_key])
+        ? $analysis[$composite_key]['count'] + 1
+        : 0;
+
+      // The index will later be used to assign an arity to repeated resource
+      // identifier objects. Doing this in two phases prevents adding an arity
+      // to objects which only occur once.
+      $analysis[$composite_key]['indices'][] = $index;
+    }
+
+    // Assign an arity to objects whose type + ID pair occurred more than once.
+    foreach ($analysis as $computed) {
+      if ($computed['count'] > 0) {
+        foreach ($computed['indices'] as $arity => $index) {
+          $resource_identifier_objects[$index]['meta']['arity'] = $arity;
+        }
+      }
+    }
+
+    return $resource_identifier_objects;
   }
 
   /**

@@ -2,6 +2,7 @@
 
 namespace Drupal\jsonapi\ResourceType;
 
+use Drupal\Core\Entity\ContentEntityNullStorage;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
@@ -109,7 +110,8 @@ class ResourceTypeRepository implements ResourceTypeRepositoryInterface {
             $entity_type_id,
             $bundle,
             $entity_type->getClass(),
-            static::shouldBeInternalResourceType($entity_type)
+            static::shouldBeInternalResourceType($entity_type),
+            static::isLocatableResourceType($entity_type)
           );
         }, array_keys($this->entityTypeBundleInfo->getBundleInfo($entity_type_id))));
       }
@@ -165,6 +167,19 @@ class ResourceTypeRepository implements ResourceTypeRepositoryInterface {
       return $entity_type->isInternal();
     }
     return $entity_type->id() === 'content_moderation_state';
+  }
+
+  /**
+   * Whether an entity type is a locatable resource type.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
+   *   The entity type to assess.
+   *
+   * @return bool
+   *   TRUE if the entity type is locatable, FALSE otherwise.
+   */
+  protected static function isLocatableResourceType(EntityTypeInterface $entity_type) {
+    return $entity_type->getStorageClass() !== ContentEntityNullStorage::class;
   }
 
   /**

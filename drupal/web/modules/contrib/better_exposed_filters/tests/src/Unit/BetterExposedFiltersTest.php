@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\better_exposed_filters\Tests\BetterExposedFiltersTest.
- */
-
 namespace Drupal\better_exposed_filters\Tests;
 
 use Drupal\better_exposed_filters\Plugin\views\exposed_form\BetterExposedFilters;

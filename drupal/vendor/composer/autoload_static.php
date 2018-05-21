@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
 {
     public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
@@ -69,6 +70,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'Symfony\\Polyfill\\Php70\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Validator\\' => 28,
@@ -140,7 +142,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             'Drush\\Internal\\' => 15,
             'Drush\\' => 6,
-            'Drupal\\redis\\' => 13,
             'Drupal\\kafka\\Composer\\' => 22,
             'Drupal\\Driver\\' => 14,
             'Drupal\\Core\\' => 12,
@@ -249,6 +250,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Symfony\\Polyfill\\Iconv\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-iconv',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Component\\Yaml\\' => 
         array (
@@ -437,10 +442,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Drush\\' => 
         array (
             0 => __DIR__ . '/..' . '/drush/drush/src',
-        ),
-        'Drupal\\redis\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/web/modules/contrib/redis/src',
         ),
         'Drupal\\kafka\\Composer\\' => 
         array (

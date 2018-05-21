@@ -32,6 +32,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
  * Process all entity requests.
@@ -195,9 +196,18 @@ class EntityResource {
       $received_attributes = array_keys($document['data']['attributes']);
       foreach ($received_attributes as $field_name) {
         $internal_field_name = $this->resourceType->getInternalName($field_name);
-        $field_access = $entity->get($internal_field_name)->access('edit', NULL, TRUE);
-        if (!$field_access->isAllowed()) {
-          throw new EntityAccessDeniedHttpException(NULL, $field_access, '/data/attributes/' . $field_name, sprintf('The current user is not allowed to POST the selected field (%s).', $field_name));
+        try {
+          $field_access = $entity->get($internal_field_name)->access('edit', NULL, TRUE);
+          if (!$field_access->isAllowed()) {
+            throw new EntityAccessDeniedHttpException(NULL, $field_access, '/data/attributes/' . $field_name, sprintf('The current user is not allowed to POST the selected field (%s).', $field_name));
+          }
+        }
+        catch (\InvalidArgumentException $e) {
+          throw new UnprocessableEntityHttpException(sprintf(
+            'The attribute %s does not exist on the %s resource type.',
+            $internal_field_name,
+            $this->resourceType->getTypeName()
+          ));
         }
       }
     }
@@ -233,7 +243,9 @@ class EntityResource {
       [],
       'individual'
     );
-    $response->headers->set('Location', $entity_url);
+    if ($entity_url) {
+      $response->headers->set('Location', $entity_url);
+    }
 
     // Return response object with updated headers info.
     return $response;
@@ -323,7 +335,21 @@ class EntityResource {
     $params = isset($route_params['_json_api_params']) ? $route_params['_json_api_params'] : [];
     $query = $this->getCollectionQuery($entity_type_id, $params);
 
-    $results = $query->execute();
+    try {
+      $results = $query->execute();
+    }
+    catch (\LogicException $e) {
+      // Ensure good DX when an entity query involves a config entity type.
+      // @todo Core should throw a better exception.
+      if (strpos($e->getMessage(), 'Getting the base fields is not supported for entity type') === 0) {
+        preg_match('/entity type (.*)\./', $e->getMessage(), $matches);
+        $config_entity_type_id = $matches[1];
+        throw new BadRequestHttpException(sprintf("Filtering on config entities is not supported by Drupal's entity API. You tried to filter on a %s config entity.", $config_entity_type_id));
+      }
+      else {
+        throw $e;
+      }
+    }
 
     $storage = $this->entityTypeManager->getStorage($entity_type_id);
     // We request N+1 items to find out if there is a next page for the pager.
@@ -818,8 +844,13 @@ class EntityResource {
         $field_name = $this->resourceType->getInternalName($field_name);
         $destination_field_list = $destination->get($field_name);
       }
-      catch (\Exception $e) {
-        throw new BadRequestHttpException(sprintf('The provided field (%s) does not exist in the entity with ID %s.', $field_name, $destination->uuid()));
+      catch (\InvalidArgumentException $e) {
+        $resource_type = $this->resourceTypeRepository->get($destination->getEntityTypeId(), $destination->bundle());
+        throw new UnprocessableEntityHttpException(sprintf(
+          'The attribute %s does not exist on the %s resource type.',
+          $field_name,
+          $resource_type->getTypeName()
+        ));
       }
 
       $origin_field_list = $origin->get($field_name);
