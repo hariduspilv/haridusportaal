@@ -2,6 +2,8 @@ uuid: 6b64fb7c-a608-42c8-b047-81de5e3eb762
 langcode: et
 status: true
 dependencies:
+  config:
+    - node.type.article
   module:
     - entity_embed
     - node
@@ -12,6 +14,10 @@ id: node
 type_id: entity
 type_settings:
   entity_type: node
-  bundles: {  }
+  bundles:
+    - article
   display_plugins: {  }
+  entity_browser: browse_files
+  entity_browser_settings:
+    display_review: false
 icon_uuid: null
