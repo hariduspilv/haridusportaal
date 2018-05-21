@@ -6,4 +6,4 @@ name: 'Educational Institution Type'
 vid: educational_institution_type
 description: ''
 hierarchy: 1
-weight: 0
+weight: -9
