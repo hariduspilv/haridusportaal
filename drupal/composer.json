@@ -30,7 +30,7 @@
         "drupal/devel": "~1.0",
         "drupal/dropzonejs": "^2.0@alpha",
         "drupal/editor_advanced_link": "^1.4",
-        "drupal/elasticsearch_connector": "^5.0@alpha",
+        "drupal/elasticsearch_connector": "^5.0",
         "drupal/entity_browser": "^1.4",
         "drupal/file_browser": "^1.1",
         "drupal/google_map_field": "^1.5",

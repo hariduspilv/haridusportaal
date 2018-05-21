@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2688bd2888ea9c09fc6328d131b3bffd",
+    "content-hash": "9474311ebb0ad7ec958e810781c2a79d",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1452,7 +1452,7 @@
                 },
                 "drupal": {
                     "version": "8.x-3.0-alpha3",
-                    "datestamp": "1501274342",
+                    "datestamp": "1525044484",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Alpha releases are not covered by Drupal security advisories."
@@ -3201,7 +3201,7 @@
                 },
                 "drupal": {
                     "version": "8.x-3.0-beta7",
-                    "datestamp": "1523021581",
+                    "datestamp": "1526548684",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
@@ -3454,7 +3454,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.16",
-                    "datestamp": "1524679677",
+                    "datestamp": "1525889880",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -8183,7 +8183,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.0-alpha2",
-                    "datestamp": "1474530239",
+                    "datestamp": "1526542684",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Alpha releases are not covered by Drupal security advisories."
@@ -8258,7 +8258,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.3",
-                    "datestamp": "1524263880",
+                    "datestamp": "1524800585",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -10219,7 +10219,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/dropzonejs": 15,
-        "drupal/elasticsearch_connector": 15,
         "drupal/graphql": 10,
         "drupal/inline_entity_form": 10,
         "drupal/kafka": 20,
