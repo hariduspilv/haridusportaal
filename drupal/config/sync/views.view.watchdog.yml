@@ -300,7 +300,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Liik
+          label: Type
           exclude: false
           alter:
             alter_text: false
@@ -349,7 +349,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Date
+          label: Kuupäev
           exclude: false
           alter:
             alter_text: false
@@ -516,7 +516,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Operations
+          label: Toimingud
           exclude: false
           alter:
             alter_text: false
@@ -572,7 +572,7 @@ display:
           exposed: true
           expose:
             operator_id: type_op
-            label: Liik
+            label: Type
             description: ''
             use_operator: false
             operator: type_op
@@ -696,7 +696,7 @@ display:
   page:
     display_plugin: page
     id: page
-    display_title: Page
+    display_title: Lehekülg
     position: 1
     display_options:
       display_extenders: {  }

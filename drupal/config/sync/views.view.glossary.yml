@@ -432,7 +432,7 @@ display:
       tags: {  }
   page_1:
     id: page_1
-    display_title: Page
+    display_title: Lehekülg
     display_plugin: page
     position: 1
     display_options:

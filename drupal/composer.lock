@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9474311ebb0ad7ec958e810781c2a79d",
+    "content-hash": "e0f24aef51af29e74b4cbc1db8308075",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3703,6 +3703,53 @@
             "homepage": "https://www.drupal.org/project/maxlength",
             "support": {
                 "source": "http://cgit.drupalcode.org/maxlength"
+            }
+        },
+        {
+            "name": "drupal/module_missing_message_fixer",
+            "version": "1.0.0-alpha3",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/module_missing_message_fixer",
+                "reference": "8.x-1.0-alpha3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/module_missing_message_fixer-8.x-1.0-alpha3.zip",
+                "reference": "8.x-1.0-alpha3",
+                "shasum": "74fe6a5e12c94efaa8f9d18c582610a70f8279b9"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha3",
+                    "datestamp": "1511927889",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "labboy0276",
+                    "homepage": "https://www.drupal.org/user/2397942"
+                }
+            ],
+            "description": "This module displays a list of missing modules that appear on your site and lets you fix the entries.",
+            "homepage": "https://www.drupal.org/project/module_missing_message_fixer",
+            "support": {
+                "source": "http://cgit.drupalcode.org/module_missing_message_fixer"
             }
         },
         {
