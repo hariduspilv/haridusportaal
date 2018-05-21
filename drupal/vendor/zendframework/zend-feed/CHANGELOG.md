@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.9.1 - 2018-05-14
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#16](https://github.com/zendframework/zend-feed/pull/16) updates the `Zend\Feed\Pubsubhubbub\AbstractCallback` to no longer use the
+  `$GLOBALS['HTTP_RAW_POST_DATA']` value as a fallback when `php://input` is
+  empty. The fallback existed because, prior to PHP 5.6, `php://input` could
+  only be read once. As we now require PHP 5.6, the fallback is unnecessary,
+  and best removed as the globals value is deprecated.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#68](https://github.com/zendframework/zend-feed/pull/68) fixes the behavior of `Zend\Feed\Writer\AbstractFeed::setTitle()` and
+  `Zend\Feed\Writer\Entry::setTitle()` to accept the string `"0"`.
+
+- [#68](https://github.com/zendframework/zend-feed/pull/68) updates both `Zend\Feed\Writer\AbstractFeed` and `Zend\Feed\Writer\Entry`
+  to no longer throw an exception for entry titles which have a string value of `0`.
+
 ## 2.9.0 - 2017-12-04
 
 ### Added
