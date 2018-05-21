@@ -3,7 +3,6 @@
 namespace Behat\Mink\Tests\Driver;
 
 use Behat\Mink\Driver\BrowserKitDriver;
-use Behat\Mink\Tests\Driver\Util\FixturesKernel;
 use Symfony\Component\HttpKernel\Client;
 
 class BrowserKitConfig extends AbstractConfig
@@ -18,7 +17,7 @@ class BrowserKitConfig extends AbstractConfig
      */
     public function createDriver()
     {
-        $client = new Client(new FixturesKernel());
+        $client = new Client(require(__DIR__.'/app.php'));
 
         return new BrowserKitDriver($client);
     }
@@ -34,21 +33,5 @@ class BrowserKitConfig extends AbstractConfig
     protected function supportsJs()
     {
         return false;
-    }
-
-    public function skipMessage($testCase, $test)
-    {
-        if (
-            'Behat\Mink\Tests\Driver\Form\Html5Test' === $testCase
-            && in_array($test, array(
-                'testHtml5FormAction',
-                'testHtml5FormMethod',
-            ))
-            && !method_exists('Symfony\Component\DomCrawler\Tests\FormTest', 'testGetMethodWithOverride')
-        ) {
-            return 'Mink BrowserKit doesn\'t support HTML5 form attributes before Symfony 3.3';
-        }
-
-        return parent::skipMessage($testCase, $test);
     }
 }
