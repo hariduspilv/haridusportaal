@@ -3,7 +3,6 @@
 namespace Drupal\jsonapi\Routing;
 
 use Drupal\Core\Routing\Enhancer\RouteEnhancerInterface;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Route;
@@ -19,20 +18,20 @@ class RouteEnhancer implements RouteEnhancerInterface {
    * {@inheritdoc}
    */
   public function applies(Route $route) {
-    return (bool) $route->getRequirement('_bundle') && (bool) $route->getRequirement('_entity_type');
+    return (bool) Routes::getResourceTypeNameFromParameters($route->getDefaults());
   }
 
   /**
    * {@inheritdoc}
    */
   public function enhance(array $defaults, Request $request) {
-    $route = $defaults[RouteObjectInterface::ROUTE_OBJECT];
-    $entity_type = $route->getRequirement('_entity_type');
-    if (!isset($defaults[$entity_type]) || !($entity = $defaults[$entity_type])) {
+    $resource_type = Routes::getResourceTypeNameFromParameters($defaults);
+    $entity_type_id = $resource_type->getEntityTypeId();
+    if (!isset($defaults[$entity_type_id]) || !($entity = $defaults[$entity_type_id])) {
       return $defaults;
     }
     $retrieved_bundle = $entity->bundle();
-    $configured_bundle = $route->getRequirement('_bundle');
+    $configured_bundle = $resource_type->getBundle();
     if ($retrieved_bundle != $configured_bundle) {
       // If the bundle in the loaded entity does not match the bundle in the
       // route (which is set based on the corresponding ResourceType), then

@@ -234,8 +234,11 @@ abstract class JsonApiFunctionalTestBase extends BrowserTestBase {
    *   Set to TRUE if you want to add a link to the generated articles.
    * @param bool $is_multilingual
    *   (optional) Set to TRUE if you want to enable multilingual content.
+   * @param bool $referencing_twice
+   *   (optional) Set to TRUE if you want articles to reference the same tag
+   *   twice.
    */
-  protected function createDefaultContent($num_articles, $num_tags, $article_has_image, $article_has_link, $is_multilingual) {
+  protected function createDefaultContent($num_articles, $num_tags, $article_has_image, $article_has_link, $is_multilingual, $referencing_twice = FALSE) {
     $random = $this->getRandomGenerator();
     for ($created_tags = 0; $created_tags < $num_tags; $created_tags++) {
       $term = Term::create([
@@ -251,20 +254,29 @@ abstract class JsonApiFunctionalTestBase extends BrowserTestBase {
       $this->tags[] = $term;
     }
     for ($created_nodes = 0; $created_nodes < $num_articles; $created_nodes++) {
-      // Get N random tags.
-      $selected_tags = mt_rand(1, $num_tags);
-      $tags = [];
-      while (count($tags) < $selected_tags) {
-        $tags[] = mt_rand(1, $num_tags);
-        $tags = array_unique($tags);
-      }
       $values = [
         'uid' => ['target_id' => $this->user->id()],
         'type' => 'article',
-        'field_tags' => array_map(function ($tag) {
-          return ['target_id' => $tag];
-        }, $tags),
       ];
+
+      if ($referencing_twice) {
+        $values['field_tags'] = [
+          ['target_id' => 1],
+          ['target_id' => 1],
+        ];
+      }
+      else {
+        // Get N random tags.
+        $selected_tags = mt_rand(1, $num_tags);
+        $tags = [];
+        while (count($tags) < $selected_tags) {
+          $tags[] = mt_rand(1, $num_tags);
+          $tags = array_unique($tags);
+        }
+        $values['field_tags'] = array_map(function ($tag) {
+          return ['target_id' => $tag];
+        }, $tags);
+      }
       if ($article_has_image) {
         $file = File::create([
           'uri' => 'vfs://' . $random->name() . '.png',

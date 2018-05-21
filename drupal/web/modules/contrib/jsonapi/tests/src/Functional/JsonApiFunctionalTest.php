@@ -21,7 +21,7 @@ class JsonApiFunctionalTest extends JsonApiFunctionalTestBase {
    * Test the GET method.
    */
   public function testRead() {
-    $this->createDefaultContent(61, 5, TRUE, TRUE, static::IS_NOT_MULTILINGUAL);
+    $this->createDefaultContent(61, 5, TRUE, TRUE, static::IS_NOT_MULTILINGUAL, FALSE);
     // Unpublish the last entity, so we can check access.
     $this->nodes[60]->setUnpublished()->save();
 
@@ -472,10 +472,24 @@ class JsonApiFunctionalTest extends JsonApiFunctionalTestBase {
   }
 
   /**
+   * Test the GET method on articles referencing the same tag twice.
+   */
+  public function testReferencingTwiceRead() {
+    $this->createDefaultContent(1, 1, FALSE, FALSE, static::IS_NOT_MULTILINGUAL, TRUE);
+
+    // 1. Load all articles (1st page).
+    $collection_output = Json::decode($this->drupalGet('/jsonapi/node/article'));
+    $this->assertSession()->statusCodeEquals(200);
+    $this->assertEquals(1, count($collection_output['data']));
+    $this->assertSession()
+      ->responseHeaderEquals('Content-Type', 'application/vnd.api+json');
+  }
+
+  /**
    * Test POST, PATCH and DELETE.
    */
   public function testWrite() {
-    $this->createDefaultContent(0, 3, FALSE, FALSE, static::IS_NOT_MULTILINGUAL);
+    $this->createDefaultContent(0, 3, FALSE, FALSE, static::IS_NOT_MULTILINGUAL, FALSE);
     // 1. Successful post.
     $collection_url = Url::fromRoute('jsonapi.node--article.collection');
     $body = [
@@ -837,8 +851,8 @@ class JsonApiFunctionalTest extends JsonApiFunctionalTestBase {
       ],
     ]);
     $updated_response = Json::decode($response->getBody()->__toString());
-    $this->assertEquals(400, $response->getStatusCode());
-    $this->assertEquals("The provided field (field_that_doesnt_exist) does not exist in the entity with ID $uuid.",
+    $this->assertEquals(422, $response->getStatusCode());
+    $this->assertEquals("The attribute field_that_doesnt_exist does not exist on the node--article resource type.",
       $updated_response['errors']['0']['detail']);
     // 14. Successful DELETE.
     $response = $this->request('DELETE', $individual_url, [
