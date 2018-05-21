@@ -70,7 +70,7 @@ class EntityViewDisplayTest extends ResourceTestBase {
    */
   protected function getExpectedDocument() {
     $self_url = Url::fromUri('base:/jsonapi/entity_view_display/entity_view_display/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
-    return [
+    $document = [
       'jsonapi' => [
         'meta' => [
           'links' => [
@@ -114,6 +114,11 @@ class EntityViewDisplayTest extends ResourceTestBase {
         ],
       ],
     ];
+    if (floatval(\Drupal::VERSION) >= 8.6) {
+      $document['data']['attributes']['content']['links']['settings'] = [];
+      $document['data']['attributes']['content']['links']['third_party_settings'] = [];
+    }
+    return $document;
   }
 
   /**

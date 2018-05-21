@@ -50,6 +50,13 @@ class ResourceType {
   protected $internal;
 
   /**
+   * Whether this resource type's resources are locatable.
+   *
+   * @var bool
+   */
+  protected $isLocatable;
+
+  /**
    * Gets the entity type ID.
    *
    * @return string
@@ -177,6 +184,18 @@ class ResourceType {
   }
 
   /**
+   * Whether resources of this resource type are locatable.
+   *
+   * A resource type may for example not be locatable when it is not stored.
+   *
+   * @return bool
+   *   TRUE if the resource type's resources are locatable. FALSE otherwise.
+   */
+  public function isLocatable() {
+    return $this->isLocatable;
+  }
+
+  /**
    * Instantiates a ResourceType object.
    *
    * @param string $entity_type_id
@@ -187,12 +206,15 @@ class ResourceType {
    *   The deserialization target class.
    * @param bool $internal
    *   (optional) Whether the resource type should be internal.
+   * @param bool $is_locatable
+   *   (optional) Whether the resource type is locatable.
    */
-  public function __construct($entity_type_id, $bundle, $deserialization_target_class, $internal = FALSE) {
+  public function __construct($entity_type_id, $bundle, $deserialization_target_class, $internal = FALSE, $is_locatable = TRUE) {
     $this->entityTypeId = $entity_type_id;
     $this->bundle = $bundle;
     $this->deserializationTargetClass = $deserialization_target_class;
     $this->internal = $internal;
+    $this->isLocatable = $is_locatable;
 
     $this->typeName = sprintf('%s--%s', $this->entityTypeId, $this->bundle);
   }

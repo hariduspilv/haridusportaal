@@ -30,6 +30,7 @@ use Drupal\path\Plugin\Field\FieldType\PathItem;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\user\Entity\Role;
 use Drupal\user\RoleInterface;
+use Drupal\user\UserInterface;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -184,88 +185,109 @@ abstract class ResourceTestBase extends BrowserTestBase {
     $this->container->get('current_user')->setAccount($this->account);
 
     // Create an entity.
-    $this->entityStorage = $this->container->get('entity_type.manager')
-      ->getStorage(static::$entityTypeId);
-    $this->entity = $this->createEntity();
+    $this->entityStorage = $this->container->get('entity_type.manager')->getStorage(static::$entityTypeId);
+    $this->entity = $this->setUpFields($this->createEntity(), $this->account);
+  }
 
-    if ($this->entity instanceof FieldableEntityInterface) {
-      // Add access-protected field.
+  /**
+   * Sets up additional fields for testing.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The primary test entity.
+   * @param \Drupal\user\UserInterface $account
+   *   The primary test user account.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface
+   *   The reloaded entity with the new fields attached.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  protected function setUpFields(EntityInterface $entity, UserInterface $account) {
+    if (!$entity instanceof FieldableEntityInterface) {
+      return $entity;
+    }
+
+    $entity_bundle = $entity->bundle();
+    $account_bundle = $account->bundle();
+
+    // Add access-protected field.
+    FieldStorageConfig::create([
+      'entity_type' => static::$entityTypeId,
+      'field_name' => 'field_rest_test',
+      'type' => 'text',
+    ])
+      ->setCardinality(1)
+      ->save();
+    FieldConfig::create([
+      'entity_type' => static::$entityTypeId,
+      'field_name' => 'field_rest_test',
+      'bundle' => $entity_bundle,
+    ])
+      ->setLabel('Test field')
+      ->setTranslatable(FALSE)
+      ->save();
+
+    FieldStorageConfig::create([
+      'entity_type' => static::$entityTypeId,
+      'field_name' => 'field_jsonapi_test_entity_ref',
+      'type' => 'entity_reference',
+    ])
+      ->setSetting('target_type', 'user')
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->save();
+
+    FieldConfig::create([
+      'entity_type' => static::$entityTypeId,
+      'field_name' => 'field_jsonapi_test_entity_ref',
+      'bundle' => $entity_bundle,
+    ])
+      ->setTranslatable(FALSE)
+      ->setSetting('handler', 'default')
+      ->setSetting('handler_settings', [
+        'target_bundles' => [$account_bundle => $account_bundle],
+      ])
+      ->save();
+
+    // @todo Do this unconditionally when JSON API requires Drupal 8.5 or newer.
+    if (floatval(\Drupal::VERSION) >= 8.5) {
+      // Add multi-value field.
       FieldStorageConfig::create([
         'entity_type' => static::$entityTypeId,
-        'field_name' => 'field_rest_test',
-        'type' => 'text',
+        'field_name' => 'field_rest_test_multivalue',
+        'type' => 'string',
       ])
-        ->setCardinality(1)
+        ->setCardinality(3)
         ->save();
       FieldConfig::create([
         'entity_type' => static::$entityTypeId,
-        'field_name' => 'field_rest_test',
-        'bundle' => $this->entity->bundle(),
+        'field_name' => 'field_rest_test_multivalue',
+        'bundle' => $entity_bundle,
       ])
-        ->setLabel('Test field')
+        ->setLabel('Test field: multi-value')
         ->setTranslatable(FALSE)
         ->save();
+    }
 
-      FieldStorageConfig::create([
-        'entity_type' => static::$entityTypeId,
-        'field_name' => 'field_jsonapi_test_entity_ref',
-        'type' => 'entity_reference',
-      ])
-        ->setSetting('target_type', 'user')
-        ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-        ->save();
+    \Drupal::service('jsonapi.resource_type.repository')->clearCachedDefinitions();
+    \Drupal::service('router.builder')->rebuild();
 
-      FieldConfig::create([
-        'entity_type' => static::$entityTypeId,
-        'field_name' => 'field_jsonapi_test_entity_ref',
-        'bundle' => $this->entity->bundle(),
-      ])
-        ->setTranslatable(FALSE)
-        ->setSetting('handler', 'default')
-        ->setSetting('handler_settings', [
-          'target_bundles' => [$this->account->bundle() => $this->account->bundle()],
-        ])
-        ->save();
+    // Reload entity so that it has the new field.
+    $reloaded_entity = $this->entityStorage->loadUnchanged($entity->id());
+    // Some entity types are not stored, hence they cannot be reloaded.
+    if ($reloaded_entity !== NULL) {
+      $entity = $reloaded_entity;
 
+      // Set a default value on the fields.
+      $entity->set('field_rest_test', ['value' => 'All the faith he had had had had no effect on the outcome of his life.']);
+      $entity->set('field_jsonapi_test_entity_ref', ['user' => $account->id()]);
       // @todo Do this unconditionally when JSON API requires Drupal 8.5 or newer.
       if (floatval(\Drupal::VERSION) >= 8.5) {
-        // Add multi-value field.
-        FieldStorageConfig::create([
-          'entity_type' => static::$entityTypeId,
-          'field_name' => 'field_rest_test_multivalue',
-          'type' => 'string',
-        ])
-          ->setCardinality(3)
-          ->save();
-        FieldConfig::create([
-          'entity_type' => static::$entityTypeId,
-          'field_name' => 'field_rest_test_multivalue',
-          'bundle' => $this->entity->bundle(),
-        ])
-          ->setLabel('Test field: multi-value')
-          ->setTranslatable(FALSE)
-          ->save();
+        $entity->set('field_rest_test_multivalue', [['value' => 'One'], ['value' => 'Two']]);
       }
-
-      \Drupal::service('jsonapi.resource_type.repository')->clearCachedDefinitions();
-      \Drupal::service('router.builder')->rebuild();
-
-      // Reload entity so that it has the new field.
-      $reloaded_entity = $this->entityStorage->loadUnchanged($this->entity->id());
-      // Some entity types are not stored, hence they cannot be reloaded.
-      if ($reloaded_entity !== NULL) {
-        $this->entity = $reloaded_entity;
-
-        // Set a default value on the fields.
-        $this->entity->set('field_rest_test', ['value' => 'All the faith he had had had had no effect on the outcome of his life.']);
-        $this->entity->set('field_jsonapi_test_entity_ref', ['user' => $this->account->id()]);
-        // @todo Do this unconditionally when JSON API requires Drupal 8.5 or newer.
-        if (floatval(\Drupal::VERSION) >= 8.5) {
-          $this->entity->set('field_rest_test_multivalue', [['value' => 'One'], ['value' => 'Two']]);
-        }
-        $this->entity->save();
-      }
+      $entity->save();
     }
+
+    return $entity;
   }
 
   /**
@@ -749,6 +771,9 @@ abstract class ResourceTestBase extends BrowserTestBase {
 
     $this->setUpAuthorization('GET');
 
+    // Set body despite that being nonsensical: should be ignored.
+    $request_options[RequestOptions::BODY] = Json::encode($this->getExpectedDocument());
+
     // 200 for well-formed HEAD request.
     $response = $this->request('HEAD', $url, $request_options);
     $this->assertResourceResponse(200, NULL, $response, $this->getExpectedCacheTags(), $this->getExpectedCacheContexts(), FALSE, 'MISS');
@@ -1207,6 +1232,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
     $parseable_invalid_request_body = Json::encode($this->makeNormalizationInvalid($this->getPostDocument(), 'label'));
     $parseable_invalid_request_body_2 = Json::encode(NestedArray::mergeDeep(['data' => ['id' => $this->randomMachineName(129)]], $this->getPostDocument()));
     $parseable_invalid_request_body_3 = Json::encode(NestedArray::mergeDeep(['data' => ['attributes' => ['field_rest_test' => $this->randomString()]]], $this->getPostDocument()));
+    $parseable_invalid_request_body_4 = Json::encode(NestedArray::mergeDeep(['data' => ['attributes' => ['field_nonexistent' => $this->randomString()]]], $this->getPostDocument()));
 
     // The URL and Guzzle request options that will be used in this test. The
     // request options will be modified/expanded throughout this test:
@@ -1218,7 +1244,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
     $request_options[RequestOptions::HEADERS]['Accept'] = 'application/vnd.api+json';
     $request_options = NestedArray::mergeDeep($request_options, $this->getAuthenticationRequestOptions());
 
-    // @todo Uncomment in https://www.drupal.org/project/jsonapi/issues/2943170.
+    // @todo Uncomment in https://www.drupal.org/project/jsonapi/issues/2934149.
     // @codingStandardsIgnoreStart
     /*
     // DX: 415 when no Content-Type request header. HTML response because
@@ -1233,14 +1259,14 @@ abstract class ResourceTestBase extends BrowserTestBase {
     // DX: 415 when no Content-Type request header.
     $response = $this->request('POST', $url, $request_options);
     $this->assertResourceErrorResponse(415, '…', 'No "Content-Type" request header specified', $response);
+*/
+    // @codingStandardsIgnoreEnd
 
     $request_options[RequestOptions::HEADERS]['Content-Type'] = '';
 
     // DX: 400 when no request body.
     $response = $this->request('POST', $url, $request_options);
-    $this->assertResourceErrorResponse(400, 'No entity content received.', $response);
-*/
-    // @codingStandardsIgnoreEnd
+    $this->assertResourceErrorResponse(400, 'Empty request body.', $response);
 
     $request_options[RequestOptions::BODY] = $unparseable_request_body;
 
@@ -1339,6 +1365,12 @@ abstract class ResourceTestBase extends BrowserTestBase {
     $response = $this->request('POST', $url, $request_options);
     $this->assertResourceErrorResponse(403, "The current user is not allowed to POST the selected field (field_rest_test).", $response, '/data/attributes/field_rest_test');
 
+    $request_options[RequestOptions::BODY] = $parseable_invalid_request_body_4;
+
+    // DX: 422 when request document contains non-existent field.
+    $response = $this->request('POST', $url, $request_options);
+    $this->assertResourceErrorResponse(422, sprintf("The attribute field_nonexistent does not exist on the %s resource type.", static::$resourceTypeName), $response);
+
     $request_options[RequestOptions::BODY] = $parseable_valid_request_body;
 
     // @todo Uncomment when https://www.drupal.org/project/jsonapi/issues/2934149 lands.
@@ -1357,21 +1389,15 @@ abstract class ResourceTestBase extends BrowserTestBase {
     // 201 for well-formed request.
     $response = $this->request('POST', $url, $request_options);
     $this->assertResourceResponse(201, FALSE, $response);
-    // @todo Remove this logic to extract a UUID from the response in https://www.drupal.org/project/jsonapi/issues/2944977
-    if (get_class($this->entityStorage) !== ContentEntityNullStorage::class) {
-      $uuid = $this->entityStorage->load(static::$firstCreatedEntityId)->uuid();
-    }
-    else {
-      $r = Json::decode((string) $response->getBody());
-      $uuid = NestedArray::getValue($r, ['data', 'id']);
-    }
-    // @todo Remove line below in favor of commented line in https://www.drupal.org/project/jsonapi/issues/2878463.
-    $location = Url::fromRoute(sprintf('jsonapi.%s.individual', static::$resourceTypeName), [static::$entityTypeId => $uuid])->setAbsolute(TRUE)->toString();
-    /* $location = $this->entityStorage->load(static::$firstCreatedEntityId)->toUrl('jsonapi')->setAbsolute(TRUE)->toString(); */
-    $this->assertSame([$location], $response->getHeader('Location'));
     $this->assertFalse($response->hasHeader('X-Drupal-Cache'));
     // If the entity is stored, perform extra checks.
     if (get_class($this->entityStorage) !== ContentEntityNullStorage::class) {
+      $uuid = $this->entityStorage->load(static::$firstCreatedEntityId)->uuid();
+      // @todo Remove line below in favor of commented line in https://www.drupal.org/project/jsonapi/issues/2878463.
+      $location = Url::fromRoute(sprintf('jsonapi.%s.individual', static::$resourceTypeName), [static::$entityTypeId => $uuid])->setAbsolute(TRUE)->toString();
+      /* $location = $this->entityStorage->load(static::$firstCreatedEntityId)->toUrl('jsonapi')->setAbsolute(TRUE)->toString(); */
+      $this->assertSame([$location], $response->getHeader('Location'));
+
       // Assert that the entity was indeed created, and that the response body
       // contains the serialized created entity.
       $created_entity = $this->entityStorage->loadUnchanged(static::$firstCreatedEntityId);
@@ -1401,6 +1427,9 @@ abstract class ResourceTestBase extends BrowserTestBase {
         }
       }
     }
+    else {
+      $this->assertFalse($response->hasHeader('Location'));
+    }
 
     // 201 for well-formed request that creates another entity.
     // If the entity is stored, delete the first created entity (in case there
@@ -1410,21 +1439,15 @@ abstract class ResourceTestBase extends BrowserTestBase {
     }
     $response = $this->request('POST', $url, $request_options);
     $this->assertResourceResponse(201, FALSE, $response);
-    // @todo Remove this logic to extract a UUID from the response in https://www.drupal.org/project/jsonapi/issues/2944977
-    if (get_class($this->entityStorage) !== ContentEntityNullStorage::class) {
-      $uuid = $this->entityStorage->load(static::$secondCreatedEntityId)->uuid();
-    }
-    else {
-      $r = Json::decode((string) $response->getBody());
-      $uuid = NestedArray::getValue($r, ['data', 'id']);
-    }
-    // @todo Remove line below in favor of commented line in https://www.drupal.org/project/jsonapi/issues/2878463.
-    $location = Url::fromRoute(sprintf('jsonapi.%s.individual', static::$resourceTypeName), [static::$entityTypeId => $uuid])->setAbsolute(TRUE)->toString();
-    /* $location = $this->entityStorage->load(static::$secondCreatedEntityId)->toUrl('jsonapi')->setAbsolute(TRUE)->toString(); */
-    $this->assertSame([$location], $response->getHeader('Location'));
     $this->assertFalse($response->hasHeader('X-Drupal-Cache'));
 
     if ($this->entity->getEntityType()->getStorageClass() !== ContentEntityNullStorage::class && $this->entity->getEntityType()->hasKey('uuid')) {
+      $uuid = $this->entityStorage->load(static::$secondCreatedEntityId)->uuid();
+      // @todo Remove line below in favor of commented line in https://www.drupal.org/project/jsonapi/issues/2878463.
+      $location = Url::fromRoute(sprintf('jsonapi.%s.individual', static::$resourceTypeName), [static::$entityTypeId => $uuid])->setAbsolute(TRUE)->toString();
+      /* $location = $this->entityStorage->load(static::$secondCreatedEntityId)->toUrl('jsonapi')->setAbsolute(TRUE)->toString(); */
+      $this->assertSame([$location], $response->getHeader('Location'));
+
       // 500 when creating an entity with a duplicate UUID.
       $doc = $this->getModifiedEntityForPostTesting();
       $doc['data']['id'] = $uuid;
@@ -1448,7 +1471,9 @@ abstract class ResourceTestBase extends BrowserTestBase {
       $this->assertNotNull($new_entity);
       $new_entity->delete();
     }
-
+    else {
+      $this->assertFalse($response->hasHeader('Location'));
+    }
   }
 
   /**
@@ -1474,6 +1499,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
     // up in the JSON API document. Even when we explicitly add it to the JSON
     // API document that we send in a PATCH request, it is considered invalid.
     $parseable_invalid_request_body_3 = Json::encode(NestedArray::mergeDeep(['data' => ['attributes' => ['field_rest_test' => $this->entity->get('field_rest_test')->getValue()]]], $this->getPatchDocument()));
+    $parseable_invalid_request_body_4 = Json::encode(NestedArray::mergeDeep(['data' => ['attributes' => ['field_nonexistent' => $this->randomString()]]], $this->getPatchDocument()));
 
     // The URL and Guzzle request options that will be used in this test. The
     // request options will be modified/expanded throughout this test:
@@ -1487,7 +1513,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
     $request_options[RequestOptions::HEADERS]['Accept'] = 'application/vnd.api+json';
     $request_options = NestedArray::mergeDeep($request_options, $this->getAuthenticationRequestOptions());
 
-    // @todo Uncomment in https://www.drupal.org/project/jsonapi/issues/2943170.
+    // @todo Uncomment in https://www.drupal.org/project/jsonapi/issues/2934149.
     // @codingStandardsIgnoreStart
     /*
     // DX: 415 when no Content-Type request header.
@@ -1503,12 +1529,12 @@ abstract class ResourceTestBase extends BrowserTestBase {
     $this->assertResourceErrorResponse(415, 'No "Content-Type" request header specified', $response);
 
     $request_options[RequestOptions::HEADERS]['Content-Type'] = static::$mimeType;
+*/
+    // @codingStandardsIgnoreEnd
 
     // DX: 400 when no request body.
     $response = $this->request('PATCH', $url, $request_options);
-    $this->assertResourceErrorResponse(400, 'No entity content received.', $response);
-*/
-    // @codingStandardsIgnoreEnd
+    $this->assertResourceErrorResponse(400, 'Empty request body.', $response);
 
     $request_options[RequestOptions::BODY] = $unparseable_request_body;
 
@@ -1679,6 +1705,12 @@ abstract class ResourceTestBase extends BrowserTestBase {
       /* $this->assertResourceErrorResponse(403, "The current user is not allowed to PATCH the selected field (" . $patch_protected_field_name . ")." . ($reason !== NULL ? ' ' . $reason : ''), $response, '/data/attributes/' . $patch_protected_field_name); */
       $modified_entity->get($patch_protected_field_name)->setValue($original_values[$patch_protected_field_name]);
     }
+
+    $request_options[RequestOptions::BODY] = $parseable_invalid_request_body_4;
+
+    // DX: 422 when request document contains non-existent field.
+    $response = $this->request('PATCH', $url, $request_options);
+    $this->assertResourceErrorResponse(422, sprintf("The attribute field_nonexistent does not exist on the %s resource type.", static::$resourceTypeName), $response);
 
     // 200 for well-formed PATCH request that sends all fields (even including
     // read-only ones, but with unchanged values).
