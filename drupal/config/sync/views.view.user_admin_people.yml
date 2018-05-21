@@ -251,7 +251,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Status
+          label: Olek
           exclude: false
           alter:
             alter_text: false
@@ -296,7 +296,7 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_true: Active
+            format_custom_true: Aktiivne
             format_custom_false: Blocked
           entity_type: user
           entity_field: status
@@ -470,7 +470,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Operations
+          label: Toimingud
           exclude: false
           alter:
             alter_text: false
@@ -647,7 +647,7 @@ display:
               administrator: '0'
           is_grouped: true
           group_info:
-            label: Status
+            label: Olek
             description: ''
             identifier: status
             optional: true
@@ -658,7 +658,7 @@ display:
             default_group_multiple: {  }
             group_items:
               1:
-                title: Active
+                title: Aktiivne
                 operator: '='
                 value: '1'
               2:
@@ -883,7 +883,7 @@ display:
   page_1:
     display_plugin: page
     id: page_1
-    display_title: Page
+    display_title: Lehekülg
     position: 1
     display_options:
       path: admin/people/list

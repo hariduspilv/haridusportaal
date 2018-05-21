@@ -1,0 +1,35 @@
+label: 'Fields indexed in this index'
+tips:
+  search-api-index-fields-introduction:
+    label: 'Fields indexed in this index'
+    body: 'This page lists which fields are indexed in this index, grouped by datasource. (Datasource-independent fields are listed under "General".) Indexed fields can be used to add filters or sorting to views or other search displays based on the index. Fields with type "Fulltext" can also be used for fulltext searching.'
+  search-api-index-fields-add:
+    label: 'Add fields'
+    body: 'With the "Add fields" button you can add additional fields to this index.'
+  search-api-index-fields-label:
+    label: Label
+    body: 'A label for the field that will be used to refer to the field in most places in the user interface.'
+  search-api-index-fields-machine-name:
+    label: 'Machine name'
+    body: 'The internal ID to use for this field. Can safely be ignored by inexperienced users in most cases. Changing a field''s machine name requires reindexing of the index.'
+  search-api-index-fields-property-path:
+    label: 'Property path'
+    body: 'The internal relationship linking the indexed item to the field, with links being separated by colons (:). This can be useful information for advanced users, but can otherwise be ignored.'
+  search-api-index-fields-type:
+    label: Type
+    body: 'The data type to use when indexing the field. Determines how a field can be used in searches. For information on the available types, see the <a href="#search-api-data-types-table">"Data types" box</a> at the bottom of the page.'
+  search-api-index-fields-boost:
+    label: Boost
+    body: 'Only applicable for fulltext fields. Determines how "important" the field is compared to other fulltext fields, to influence scoring of fulltext searches.'
+  search-api-index-fields-edit:
+    label: 'Edit field'
+    body: 'Some fields have additional configuration available, in which case an "Edit" link is displayed in the "Operations" column.'
+  search-api-index-fields-remove:
+    label: 'Remove field'
+    body: 'Removes a field from the index again. (Note: Sometimes, a field is required (for example, by a processor) and cannot be removed.)'
+  search-api-index-fields-submit:
+    label: 'Save changes'
+    body: 'This saves all changes made to the fields for this index. Until this button is pressed, all added, changed or removed fields will only be stored temporarily and not effect the actual index used in the rest of the site.'
+  search-api-index-fields-cancel:
+    label: 'Cancel changes'
+    body: 'If you have made changes to the index''s fields but not yet saved them, the "Cancel" link lets you discard those changes.'
