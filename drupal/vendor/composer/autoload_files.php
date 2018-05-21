@@ -16,6 +16,7 @@ return array(
     '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
     'def43f6c87e4f8dfd0c9e1b1bab14fe8' => $vendorDir . '/symfony/polyfill-iconv/bootstrap.php',
+    'ad155f8f1cf0d418fe49e248db8c661b' => $vendorDir . '/react/promise/src/functions_include.php',
     '801c31d8ed748cfa537fa45402288c95' => $vendorDir . '/psy/psysh/src/functions.php',
     '952683d815ff0a7bf322b93c0be7e4e4' => $vendorDir . '/chi-teck/drupal-code-generator/src/bootstrap.php',
     '5a12a5271c58108e0aa33355e6ac54ea' => $vendorDir . '/drupal/console-core/src/functions.php',

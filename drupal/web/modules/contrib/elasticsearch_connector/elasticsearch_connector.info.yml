@@ -1,0 +1,14 @@
+name: 
+  'Elasticsearch Connector'
+description: 
+  'Abstraction of making connection to the elasticsearch server. This module is API for a whole bunch of functionality connected with this module.'
+# core: 8.x
+package: Elasticsearch
+type: module
+configure: elasticsearch_connector.config_entity.list
+
+# Information added by Drupal.org packaging script on 2018-02-07
+version: '8.x-5.0-alpha2'
+core: '8.x'
+project: 'elasticsearch_connector'
+datestamp: 1518040084
