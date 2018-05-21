@@ -187,7 +187,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         ),
         'nodespark\\DESConnector\\' => 
         array (
-            0 => __DIR__ . '/..' . '/nodespark/des-connector/src/DESConnector',
+            0 => __DIR__ . '/..',
         ),
         'cweagans\\Composer\\' => 
         array (
