@@ -21,11 +21,9 @@ use Drupal\user\Entity\Role;
 use Drupal\user\Entity\User;
 use Drupal\user\RoleInterface;
 use Prophecy\Argument;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Route;
 
 /**
  * @coversDefaultClass \Drupal\jsonapi\Normalizer\JsonApiDocumentTopLevelNormalizer
@@ -751,27 +749,13 @@ class JsonApiDocumentTopLevelNormalizerTest extends JsonapiKernelTestBase {
    *   The ID of the entity type. Ex: node.
    * @param string $bundle
    *   The bundle. Ex: article.
-   * @param string $related_property
-   *   The related property.
    *
    * @return array
    *   A numeric array containing the request and the ResourceType.
+   *
+   * @throws \Exception
    */
-  protected function generateProphecies($entity_type_id, $bundle, $related_property = NULL) {
-    $path = sprintf('/%s/%s', $entity_type_id, $bundle);
-    $path = $related_property ?
-      sprintf('%s/%s', $path, $related_property) :
-      $path;
-
-    $route = new Route($path, [
-      '_on_relationship' => NULL,
-    ], [
-      '_entity_type' => $entity_type_id,
-      '_bundle' => $bundle,
-    ]);
-    $request = new Request([], [], [
-      RouteObjectInterface::ROUTE_OBJECT => $route,
-    ]);
+  protected function generateProphecies($entity_type_id, $bundle) {
     /* @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
     $entity_type_manager = $this->container->get('entity_type.manager');
 
@@ -781,13 +765,9 @@ class JsonApiDocumentTopLevelNormalizerTest extends JsonapiKernelTestBase {
       $entity_type_manager->getDefinition($entity_type_id)->getClass()
     );
 
-    /* @var \Symfony\Component\HttpFoundation\RequestStack $request_stack */
-    $request_stack = $this->container->get('request_stack');
-    $request_stack->push($request);
-    $this->container->set('request_stack', $request_stack);
     $this->container->get('jsonapi.serializer_do_not_use_removal_imminent');
 
-    return [$request, $resource_type];
+    return [new Request(), $resource_type];
   }
 
 }

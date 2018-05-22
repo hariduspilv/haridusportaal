@@ -14,7 +14,6 @@ use Drupal\jsonapi\Normalizer\JsonApiDocumentTopLevelNormalizer;
 use Drupal\jsonapi\LinkManager\LinkManager;
 use Drupal\Tests\UnitTestCase;
 use Prophecy\Argument;
-use Symfony\Component\Routing\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepository;
@@ -68,9 +67,6 @@ class JsonApiDocumentTopLevelNormalizerTest extends UnitTestCase {
     $entity_type = $this->prophesize(EntityTypeInterface::class);
     $entity_type->getKey('uuid')->willReturn('uuid');
     $entity_type_manager->getDefinition('node')->willReturn($entity_type->reveal());
-
-    $current_route = $this->prophesize(Route::class);
-    $current_route->getDefault('_on_relationship')->willReturn(FALSE);
 
     $this->normalizer = new JsonApiDocumentTopLevelNormalizer(
       $link_manager->reveal(),

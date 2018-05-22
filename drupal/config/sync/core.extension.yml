@@ -28,10 +28,10 @@ module:
   devel_generate: 0
   dropzonejs: 0
   dropzonejs_eb_widget: 0
-  duration_field: 0
   dynamic_page_cache: 0
   editor: 0
   editor_advanced_link: 0
+  elasticsearch_connector: 0
   embed: 0
   entity_browser: 0
   entity_embed: 0
@@ -49,13 +49,11 @@ module:
   help: 0
   history: 0
   hms_field: 0
-  htm_custom_kafka_module: 0
   image: 0
   image_widget_crop: 0
   import_school_data: 0
   inline_entity_form: 0
   jsonapi: 0
-  kafka: 0
   kint: 0
   language: 0
   link: 0
@@ -63,6 +61,7 @@ module:
   maxlength: 0
   media: 0
   menu_ui: 0
+  module_missing_message_fixer: 0
   node: 0
   options: 0
   page_cache: 0
@@ -71,11 +70,10 @@ module:
   quickedit: 0
   rdf: 0
   readonly_field_widget: 0
-  redis: 0
   rest: 0
   restui: 0
   scheduler: 0
-  search: 0
+  search_api: 0
   serialization: 0
   shortcut: 0
   shs: 0

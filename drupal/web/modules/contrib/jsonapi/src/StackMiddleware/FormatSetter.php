@@ -2,6 +2,7 @@
 
 namespace Drupal\jsonapi\StackMiddleware;
 
+use Drupal\jsonapi\Routing\Routes;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -33,7 +34,7 @@ class FormatSetter implements HttpKernelInterface {
    * {@inheritdoc}
    */
   public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
-    if (static::isJsonApiRequest($request)) {
+    if ($this->isJsonApiRequest($request)) {
       $request->setRequestFormat('api_json');
     }
 
@@ -44,6 +45,7 @@ class FormatSetter implements HttpKernelInterface {
    * Checks whether the current request is a JSON API request.
    *
    * Inspects:
+   * - request parameters
    * - request path (uses a heuristic, because e.g. language negotiation may use
    *   path prefixes)
    * - 'Accept' request header value.
@@ -54,13 +56,17 @@ class FormatSetter implements HttpKernelInterface {
    * @return bool
    *   Whether the current request is a JSON API request.
    */
-  protected static function isJsonApiRequest(Request $request) {
-    return strpos($request->getPathInfo(), '/jsonapi/') !== FALSE
-      &&
-      // Check if the 'Accept' header includes the JSON API MIME type.
-      count(array_filter($request->getAcceptableContentTypes(), function ($accept) {
-        return strpos($accept, 'application/vnd.api+json') === 0;
-      }));
+  protected function isJsonApiRequest(Request $request) {
+    $is_jsonapi_route = $request->attributes->get(Routes::JSON_API_ROUTE_FLAG_KEY);
+    // Check if the path indicates that the request intended to target a JSON
+    // API route (but may not have because of an incorrect parameter or minor
+    // typo).
+    $jsonapi_route_intended = strpos($request->getPathInfo(), "/jsonapi/") !== FALSE;
+    // Check if the 'Accept' header includes the JSON API MIME type.
+    $request_has_jsonapi_media_type = count(array_filter($request->getAcceptableContentTypes(), function ($accept) {
+      return strpos($accept, 'application/vnd.api+json') === 0;
+    }));
+    return $is_jsonapi_route || ($jsonapi_route_intended && $request_has_jsonapi_media_type);
   }
 
 }

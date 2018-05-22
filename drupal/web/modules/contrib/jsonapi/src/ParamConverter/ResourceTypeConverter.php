@@ -14,6 +14,13 @@ use Symfony\Component\Routing\Route;
 class ResourceTypeConverter implements ParamConverterInterface {
 
   /**
+   * The route parameter type to match.
+   *
+   * @var string
+   */
+  const PARAM_TYPE_ID = 'jsonapi_resource_type';
+
+  /**
    * The JSON API resource type repository.
    *
    * @var \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface
@@ -41,7 +48,7 @@ class ResourceTypeConverter implements ParamConverterInterface {
    * {@inheritdoc}
    */
   public function applies($definition, $name, Route $route) {
-    return (!empty($definition['type']) && $definition['type'] === 'jsonapi_resource_type');
+    return (!empty($definition['type']) && $definition['type'] === static::PARAM_TYPE_ID);
   }
 
 }

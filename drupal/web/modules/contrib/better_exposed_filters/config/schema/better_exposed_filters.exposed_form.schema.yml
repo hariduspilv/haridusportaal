@@ -12,6 +12,9 @@ better_exposed_filters.general:
     autosubmit:
       type: boolean
       label: 'Autosubmit'
+    autosubmit_exclude_textfield:
+      type: boolean
+      label: 'Exclude Textfield'
     autosubmit_hide:
       type: boolean
       label: 'Hide submit button'

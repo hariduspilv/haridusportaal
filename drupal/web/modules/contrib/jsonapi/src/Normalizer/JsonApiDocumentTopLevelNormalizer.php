@@ -261,7 +261,7 @@ class JsonApiDocumentTopLevelNormalizer extends NormalizerBase implements Denorm
         trim($include_str)
       );
       // We don't need the entity information for the includes. Clean it.
-      return preg_replace('/\.entity\./', '.', $resolved);
+      return preg_replace('/\.entity(:[a-z_]+)?\./', '.', $resolved);
     }, $includes);
     // Build the expanded context.
     $context = [

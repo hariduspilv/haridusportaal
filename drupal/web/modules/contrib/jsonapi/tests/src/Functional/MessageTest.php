@@ -4,6 +4,8 @@ namespace Drupal\Tests\jsonapi\Functional;
 
 use Drupal\contact\Entity\ContactForm;
 use Drupal\contact\Entity\Message;
+use Drupal\Core\Url;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * JSON API integration test for the "Message" content entity type.
@@ -110,35 +112,50 @@ class MessageTest extends ResourceTestBase {
    * {@inheritdoc}
    */
   public function testGetIndividual() {
-    $this->markTestSkipped('Change this override in https://www.drupal.org/project/jsonapi/issues/2944977');
+    // Contact Message entities are not stored, so they cannot be retrieved.
+    $this->setExpectedException(RouteNotFoundException::class, 'Route "jsonapi.contact_message--camelids.individual" does not exist.');
+
+    Url::fromRoute('jsonapi.contact_message--camelids.individual')->toString(TRUE);
   }
 
   /**
    * {@inheritdoc}
    */
   public function testPatchIndividual() {
-    $this->markTestSkipped('Change this override in https://www.drupal.org/project/jsonapi/issues/2944977');
+    // Contact Message entities are not stored, so they cannot be modified.
+    $this->setExpectedException(RouteNotFoundException::class, 'Route "jsonapi.contact_message--camelids.individual" does not exist.');
+
+    Url::fromRoute('jsonapi.contact_message--camelids.individual')->toString(TRUE);
   }
 
   /**
    * {@inheritdoc}
    */
   public function testDeleteIndividual() {
-    $this->markTestSkipped('Change this override in https://www.drupal.org/project/jsonapi/issues/2944977');
+    // Contact Message entities are not stored, so they cannot be deleted.
+    $this->setExpectedException(RouteNotFoundException::class, 'Route "jsonapi.contact_message--camelids.individual" does not exist.');
+
+    Url::fromRoute('jsonapi.contact_message--camelids.individual')->toString(TRUE);
   }
 
   /**
    * {@inheritdoc}
    */
   public function testRelated() {
-    $this->markTestSkipped('Change this override in https://www.drupal.org/project/jsonapi/issues/2944977');
+    // Contact Message entities are not stored, so they cannot be retrieved.
+    $this->setExpectedException(RouteNotFoundException::class, 'Route "jsonapi.contact_message--camelids.related" does not exist.');
+
+    Url::fromRoute('jsonapi.contact_message--camelids.related')->toString(TRUE);
   }
 
   /**
    * {@inheritdoc}
    */
   public function testGetRelationships() {
-    $this->markTestSkipped('Change this override in https://www.drupal.org/project/jsonapi/issues/2944977');
+    // Contact Message entities are not stored, so they cannot be retrieved.
+    $this->setExpectedException(RouteNotFoundException::class, 'Route "jsonapi.contact_message--camelids.relationship" does not exist.');
+
+    Url::fromRoute('jsonapi.contact_message--camelids.relationship')->toString(TRUE);
   }
 
 }

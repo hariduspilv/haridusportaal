@@ -68,7 +68,7 @@
 
             // If all checkboxes are already checked by default then switch to Select None
             if ($('input:checkbox:checked', this).length == $('input:checkbox', this).length) {
-              newLink.click();
+              newLink.text(selNone);
             }
           })
         ;
