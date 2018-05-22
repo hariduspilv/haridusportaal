@@ -145,7 +145,7 @@
                         </span>
                         
                         <span *ngFor="let tag of item.hashTags" class="mat-chip-wrapper">
-                          <mat-chip *ngIf="tag.entity.entityTranslation">#{{ tag.entity.entityTranslation.entityLabel }}</mat-chip>
+                          <mat-chip *ngIf="tag.entity">#{{ tag.entity.entityLabel }}</mat-chip>
                         </span>
                       </mat-chip-list>
                     </div><!--/col-12-->
