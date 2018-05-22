@@ -1,0 +1,17 @@
+uuid: ce8a7fef-8f82-43b1-9454-b08aaa3b059c
+langcode: et
+status: true
+dependencies:
+  module:
+    - custom_graphql_authentication
+    - serialization
+id: jwt_token_rest_resource
+plugin_id: jwt_token_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - json_authentication_provider

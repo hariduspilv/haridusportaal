@@ -14,6 +14,7 @@ permissions:
   - 'access site-wide contact form'
   - 'execute graphql requests'
   - 'execute persisted graphql requests'
+  - 'restful post jwt_token_rest_resource'
   - 'restful post personal_card_rest_resource'
   - 'search content'
   - 'view media'
