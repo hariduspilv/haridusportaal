@@ -6,6 +6,13 @@ dependencies:
     - filter.format.custom_editor
   module:
     - ckeditor
+    - editor_file
+third_party_settings:
+  editor_file:
+    status: true
+    scheme: public
+    directory: inline-files
+    extensions: pdf
 format: custom_editor
 editor: ckeditor
 settings:
@@ -19,17 +26,20 @@ settings:
             - Italic
             - Table
             - SpecialChar
-            - DrupalLink
-            - DrupalUnlink
         -
           name: Lists
           items:
             - BulletedList
             - NumberedList
         -
+          name: Links
+          items:
+            - DrupalLink
+            - DrupalUnlink
+            - DrupalFile
+        -
           name: Tools
           items:
-            - Format
             - Undo
             - Redo
             - Cut
@@ -37,11 +47,7 @@ settings:
             - Paste
             - PasteFromWord
             - Maximize
-        -
-          name: File
-          items:
-            - file_browser
-            - node
+            - Format
   plugins:
     stylescombo:
       styles: ''

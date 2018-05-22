@@ -6,6 +6,13 @@ dependencies:
     - filter.format.full_html
   module:
     - ckeditor
+    - editor_file
+third_party_settings:
+  editor_file:
+    status: true
+    scheme: public
+    directory: inline-files
+    extensions: txt
 _core:
   default_config_hash: 967ijj7p6i7rwrYl7r08WQFeCY_c23YAh0h8u-w_CXM
 format: full_html
@@ -48,13 +55,14 @@ settings:
         -
           name: Tools
           items:
+            - DrupalFile
             - ShowBlocks
             - Source
   plugins:
-    language:
-      language_list: un
     stylescombo:
       styles: ''
+    language:
+      language_list: un
 image_upload:
   status: true
   scheme: public
