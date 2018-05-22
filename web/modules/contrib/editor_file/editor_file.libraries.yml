@@ -1,0 +1,10 @@
+drupal.ckeditor.drupalfile.admin:
+  version: VERSION
+  js:
+    js/ckeditor.drupalfile.admin.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once
+    - core/drupal.vertical-tabs
+    - core/drupalSettings
