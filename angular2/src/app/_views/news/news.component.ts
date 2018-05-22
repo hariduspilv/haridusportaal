@@ -12,9 +12,8 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/filter';
 
-import { NewsService, RootScopeService } from '../../_services';
+import { RootScopeService } from '../../_services';
 import { AppComponent } from '../../app.component';
 import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
 import { sortByOptions, getNewsTags } from '../../_services/news/news.graph';
@@ -59,7 +58,6 @@ export class NewsComponent implements OnInit, OnDestroy{
   constructor ( 
     private router: Router,
     private route: ActivatedRoute,
-    private newsService: NewsService,
     private rootScope: RootScopeService,
     private apollo: Apollo
   ) { }
