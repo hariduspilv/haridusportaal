@@ -2,9 +2,8 @@
 
 namespace Drupal\jsonapi\EventSubscriber;
 
+use Drupal\jsonapi\Routing\Routes;
 use Drupal\serialization\EventSubscriber\DefaultExceptionSubscriber as SerializationDefaultExceptionSubscriber;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -34,12 +33,10 @@ class DefaultExceptionSubscriber extends SerializationDefaultExceptionSubscriber
    * {@inheritdoc}
    */
   public function onException(GetResponseForExceptionEvent $event) {
-    /** @var \Symfony\Component\HttpKernel\Exception\HttpException $exception */
-    $exception = $event->getException();
-    if (!$this->isJsonApiFormatted($event->getRequest())) {
+    if (!$this->isJsonApiExceptionEvent($event)) {
       return;
     }
-    if (!$exception instanceof HttpException) {
+    if (($exception = $event->getException()) && !$exception instanceof HttpException) {
       $exception = new HttpException(500, $exception->getMessage(), $exception);
       $event->setException($exception);
     }
@@ -51,11 +48,8 @@ class DefaultExceptionSubscriber extends SerializationDefaultExceptionSubscriber
    * {@inheritdoc}
    */
   protected function setEventResponse(GetResponseForExceptionEvent $event, $status) {
-    /** @var \Symfony\Component\HttpKernel\Exception\HttpException $exception */
+    /* @var \Symfony\Component\HttpKernel\Exception\HttpException $exception */
     $exception = $event->getException();
-    if (!$this->isJsonApiFormatted($event->getRequest())) {
-      return;
-    }
     $encoded_content = $this->serializer->serialize($exception, 'api_json', ['data_wrapper' => 'errors']);
     $response = new Response($encoded_content, $status);
     $response->headers->set('Content-Type', 'application/vnd.api+json');
@@ -65,18 +59,19 @@ class DefaultExceptionSubscriber extends SerializationDefaultExceptionSubscriber
   /**
    * Check if the error should be formatted using JSON API.
    *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The failed request.
+   * The JSON API format is supported if the format is explicitly set or the
+   * request is for a known JSON API route.
+   *
+   * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $exception_event
+   *   The exception event.
    *
    * @return bool
-   *   TRUE if it needs to be formated using JSON API. FALSE otherwise.
+   *   TRUE if it needs to be formatted using JSON API. FALSE otherwise.
    */
-  protected function isJsonApiFormatted(Request $request) {
-    $route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT);
-    $format = $request->getRequestFormat();
-    // The JSON API format is supported if the format is explicitly set or the
-    // request is for a known JSON API route.
-    return $format === 'api_json' || ($route && $route->getOption('_is_jsonapi'));
+  protected function isJsonApiExceptionEvent(GetResponseForExceptionEvent $exception_event) {
+    $request = $exception_event->getRequest();
+    $parameters = $request->attributes->all();
+    return $request->getRequestFormat() === 'api_json' || (bool) Routes::getResourceTypeNameFromParameters($parameters);
   }
 
 }

@@ -1,0 +1,24 @@
+uuid: f4cf2157-71b7-442b-baf1-8647b06ed52b
+langcode: et
+status: true
+dependencies:
+  module:
+    - elasticsearch_connector
+id: elasticsearch_server_v2
+name: 'Elasticsearch Server v2'
+description: ''
+backend: elasticsearch
+backend_config:
+  cluster_settings:
+    cluster: elasticsearch_cluster_v2
+  fuzziness: auto
+  scheme: http
+  host: localhost
+  port: '9200'
+  path: ''
+  excerpt: false
+  retrieve_data: false
+  highlight_data: false
+  http_method: AUTO
+  autocorrect_spell: true
+  autocorrect_suggest_words: true

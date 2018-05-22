@@ -296,8 +296,9 @@ function _bef_preprocess_nested_elements(array &$variables) {
  */
 function bef_sort_combine_submit($form, FormStateInterface $form_state) {
   $sortBy = $sortOrder = '';
-  if ($form_state->hasValue('sort_bef_combine')) {
-    list($sortBy, $sortOrder) = explode(' ', $form_state->getValue('sort_bef_combine'));
+  $combined = $form_state->getValue('sort_bef_combine');
+  if (!empty($combined)) {
+    list($sortBy, $sortOrder) = explode(' ', $combined);
   }
   $form_state->setValue('sort_by', $sortBy);
   $form_state->setValue('sort_order', $sortOrder);

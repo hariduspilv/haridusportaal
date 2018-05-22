@@ -6,6 +6,7 @@ use Drupal\Component\Plugin\PluginBase;
 use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Render\RenderContext;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\GraphQL\ValueWrapperInterface;
 use Drupal\graphql\Plugin\FieldPluginInterface;
@@ -37,6 +38,13 @@ abstract class FieldPluginBase extends PluginBase implements FieldPluginInterfac
   protected $languageContext;
 
   /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public static function createInstance(SchemaBuilderInterface $builder, FieldPluginManager $manager, $definition, $id) {
@@ -64,6 +72,18 @@ abstract class FieldPluginBase extends PluginBase implements FieldPluginInterfac
       $this->languageContext = \Drupal::service('graphql.language_context');
     }
     return $this->languageContext;
+  }
+
+  /**
+   * Get the renderer service.
+   *
+   * @return \Drupal\Core\Render\RendererInterface
+   */
+  protected function getRenderer() {
+    if (!isset($this->renderer)) {
+      $this->renderer = \Drupal::service('renderer');
+    }
+    return $this->renderer;
   }
 
   /**
@@ -132,15 +152,25 @@ abstract class FieldPluginBase extends PluginBase implements FieldPluginInterfac
    * {@inheritdoc}
    */
   protected function resolveDeferred(callable $callback, $value, array $args, ResolveContext $context, ResolveInfo $info) {
-    $result = $callback($value, $args, $context, $info);
+    $renderContext = new RenderContext();
+
+    $result = $this->getRenderer()->executeInRenderContext($renderContext, function () use ($callback, $value, $args, $context, $info) {
+      $result = $callback($value, $args, $context, $info);
+      if ($result instanceof \Generator) {
+        $result = iterator_to_array($result);
+      }
+      return $result;
+    });
+
+    if (!$renderContext->isEmpty() && $info->operation->operation === 'query') {
+      $context->addCacheableDependency($renderContext->pop());
+    }
 
     if (is_callable($result)) {
       return new Deferred(function () use ($result, $value, $args, $context, $info) {
         return $this->resolveDeferred($result, $value, $args, $context, $info);
       });
     }
-
-    $result = iterator_to_array($result);
 
     // Only collect cache metadata if this is a query. All other operation types
     // are not cacheable anyways.

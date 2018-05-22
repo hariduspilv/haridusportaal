@@ -292,6 +292,12 @@ class CommentTest extends ResourceTestBase {
       case 'POST';
         return "The 'post comments' permission is required.";
 
+      case 'PATCH':
+        // @todo Make this unconditional when JSON API requires Drupal 8.6 or newer.
+        if (floatval(\Drupal::VERSION) >= 8.6) {
+          return "The 'edit own comments' permission is required, the user must be the comment author, and the comment must be published.";
+        }
+
       default:
         return parent::getExpectedUnauthorizedAccessMessage($method);
     }

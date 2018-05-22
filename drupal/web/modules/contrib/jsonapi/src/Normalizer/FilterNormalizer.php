@@ -112,6 +112,13 @@ class FilterNormalizer implements DenormalizerInterface {
   protected function expand(array $original, array $context) {
     $expanded = [];
     foreach ($original as $key => $item) {
+      // Allow extreme shorthand filters, f.e. `?filter[promote]=1`.
+      if (!is_array($item)) {
+        $item = [
+          EntityConditionNormalizer::VALUE_KEY => $item,
+        ];
+      }
+
       // Throw an exception if the query uses the reserved filter id for the
       // root group.
       if ($key == static::ROOT_ID) {

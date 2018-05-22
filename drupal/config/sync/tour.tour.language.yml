@@ -16,7 +16,7 @@ tips:
   language-overview:
     id: language-overview
     plugin: text
-    label: Languages
+    label: Keeled
     body: '<p>The "Languages" page allows you to add, edit, delete, and reorder languages for the site.</p>'
     weight: 1
   language-add:

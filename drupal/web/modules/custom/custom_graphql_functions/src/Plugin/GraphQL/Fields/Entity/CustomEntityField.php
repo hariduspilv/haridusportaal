@@ -36,8 +36,9 @@ class CustomEntityField extends EntityFieldBase {
 
 						// Do not yield untranslated paragraphs
 						if(empty($definition['property'])){
-							if($item->entity && $item->entity->getEntityTypeId() === 'paragraph'){
-								$translated = ($item->entity->hasTranslation($context->getContext('language', $info)));
+							/** @var \Drupal\Core\Entity\ContentEntityBase $entity */
+							if(($entity = $item->entity) && $item->entity->isTranslatable() && $item->entity->getEntityTypeId() === 'paragraph'){
+								$translated = ($entity->hasTranslation($context->getContext('language', $info)));
 								if(!$translated) continue;
 							}
 						}

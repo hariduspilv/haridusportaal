@@ -6,7 +6,10 @@ use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Entity\TypedData\EntityDataDefinitionInterface;
 use Drupal\Core\Field\TypedData\FieldItemDataDefinition;
+use Drupal\Core\TypedData\ComplexDataDefinitionInterface;
+use Drupal\Core\TypedData\DataReferenceDefinitionInterface;
 use Drupal\Core\TypedData\DataReferenceTargetDefinition;
 use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
@@ -115,16 +118,20 @@ class FieldResolver {
     $reference_breadcrumbs = [];
     /* @var \Drupal\jsonapi\ResourceType\ResourceType[] $resource_types */
     $resource_types = [$resource_type];
-    while ($part = array_shift($parts)) {
+    // This complex expression is needed to handle the string, "0", which would
+    // otherwise be evaluated as FALSE.
+    while (!is_null(($part = array_shift($parts)))) {
       $field_name = $this->getInternalName($part, $resource_types);
 
       // If none of the resource types are traversable, assume that the
-      // remaining path parts are for sub-properties.
+      // remaining path parts are targeting field deltas and/or field
+      // properties.
       if (!$this->resourceTypesAreTraversable($resource_types)) {
         $reference_breadcrumbs[] = $field_name;
         return $this->constructInternalPath($reference_breadcrumbs, $parts);
       }
 
+      // Different resource types have different field definitions.
       $candidate_definitions = $this->getFieldItemDefinitions(
         $resource_types,
         $field_name
@@ -139,16 +146,50 @@ class FieldResolver {
         ));
       }
 
+      // We have a valid field, so add it to the validated trail of path parts.
+      $reference_breadcrumbs[] = $field_name;
+
       // Get all of the referenceable resource types.
       $resource_types = $this->getReferenceableResourceTypes($candidate_definitions);
 
-      // Keep a trail of entity reference field names.
-      $reference_breadcrumbs[] = $field_name;
+      // If there are no remaining path parts, the process is finished.
+      if (empty($parts)) {
+        return $this->constructInternalPath($reference_breadcrumbs);
+      }
 
-      // $field_name may not be a reference field. In that case we should treat
-      // the rest of the parts as sub-properties of the field.
-      if (empty($resource_types)) {
-        return $this->constructInternalPath($reference_breadcrumbs, $parts);
+      // If the next part is a delta, as in "body.0.value", then we add it to
+      // the breadcrumbs and remove it from the parts that still must be
+      // processed.
+      if (static::isDelta($parts[0])) {
+        $reference_breadcrumbs[] = array_shift($parts);
+      }
+
+      // If there are no remaining path parts, the process is finished.
+      if (empty($parts)) {
+        return $this->constructInternalPath($reference_breadcrumbs);
+      }
+
+      // Determine if the next part is not a property of $field_name.
+      if (!static::isCandidateDefinitionProperty($parts[0], $candidate_definitions)) {
+        // The next path part is neither a delta nor a field property, so it
+        // must be a field on a targeted resource type. We need to guess the
+        // intermediate reference property since one was not provided.
+        //
+        // For example, the path `uid.name` for a `node--article` resource type
+        // will be resolved into `uid.entity.name`.
+        $reference_breadcrumbs[] = static::getDataReferencePropertyName($candidate_definitions, $parts);
+      }
+      else {
+        // If the property is not a reference property, then all
+        // remaining parts must be further property specifiers.
+        // @todo: to provide a better DX, we should actually validate that the
+        // remaining parts are in fact valid properties.
+        if (!static::isCandidateDefinitionReferenceProperty($parts[0], $candidate_definitions)) {
+          return $this->constructInternalPath($reference_breadcrumbs, $parts);
+        }
+        // The property is a reference, so add it to the breadcrumbs and
+        // continue resolving fields.
+        $reference_breadcrumbs[] = array_shift($parts);
       }
     }
 
@@ -174,7 +215,7 @@ class FieldResolver {
     // This rebuilds the path from the real, internal field names that have
     // been traversed so far. It joins them with the "entity" keyword as
     // required by the entity query system.
-    $entity_path = implode('.entity.', $references);
+    $entity_path = implode('.', $references);
 
     // Reconstruct the full path to the final reference field.
     return (empty($field_path)) ? $entity_path : $entity_path . '.' . $field_path;
@@ -318,6 +359,98 @@ class FieldResolver {
    */
   protected function getAllBundlesForEntityType($entity_type_id) {
     return array_keys($this->entityTypeBundleInfo->getBundleInfo($entity_type_id));
+  }
+
+  /**
+   * Determines the reference property name from the given field definitions.
+   *
+   * @param \Drupal\Core\TypedData\ComplexDataDefinitionInterface[] $candidate_definitions
+   *   A list of targeted field item definitions specified by the path.
+   * @param string[] $remaining_parts
+   *   The remaining path parts.
+   *
+   * @return string
+   *   The reference name.
+   */
+  protected static function getDataReferencePropertyName(array $candidate_definitions, array $remaining_parts) {
+    $reference_property_names = array_reduce($candidate_definitions, function (array $reference_property_names, ComplexDataDefinitionInterface $definition) {
+      $property_definitions = $definition->getPropertyDefinitions();
+      foreach ($property_definitions as $property_name => $property_definition) {
+        if ($property_definition instanceof DataReferenceDefinitionInterface) {
+          $target_definition = $property_definition->getTargetDefinition();
+          assert($target_definition instanceof EntityDataDefinitionInterface, 'Entity reference fields should only be able to reference entities.');
+          $reference_property_names[] = $property_name . ':' . $target_definition->getEntityTypeId();
+        }
+      }
+      return $reference_property_names;
+    }, []);
+    $unique_reference_names = array_unique($reference_property_names);
+    if (count($unique_reference_names) > 1) {
+      $choices = implode(', ', $unique_reference_names);
+      $given = implode('.', $remaining_parts);
+      // @todo Add test coverage for this in https://www.drupal.org/project/jsonapi/issues/2971281
+      $message = sprintf('Ambiguous path. Try one of the following: %s, before the given path: %s', $choices, $given);
+      throw new BadRequestHttpException($message);
+    }
+    return $unique_reference_names[0];
+  }
+
+  /**
+   * Determines if a path part targets a specific field delta.
+   *
+   * @param string $part
+   *   The path part.
+   *
+   * @return bool
+   *   TRUE if the part is an integer, FALSE otherwise.
+   */
+  protected static function isDelta($part) {
+    return (bool) preg_match('/^[0-9]+$/', $part);
+  }
+
+  /**
+   * Determines if a path part targets a field property, not a subsequent field.
+   *
+   * @param string $part
+   *   The path part.
+   * @param \Drupal\Core\TypedData\ComplexDataDefinitionInterface[] $candidate_definitions
+   *   A list of targeted field item definitions which are specified by the
+   *   path.
+   *
+   * @return bool
+   *   TRUE if the part is a property of one of the candidate definitions, FALSE
+   *   otherwise.
+   */
+  protected static function isCandidateDefinitionProperty($part, array $candidate_definitions) {
+    foreach ($candidate_definitions as $definition) {
+      if ($definition->getPropertyDefinition($part)) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * Determines if a path part targets a reference property.
+   *
+   * @param string $part
+   *   The path part.
+   * @param \Drupal\Core\TypedData\ComplexDataDefinitionInterface[] $candidate_definitions
+   *   A list of targeted field item definitions which are specified by the
+   *   path.
+   *
+   * @return bool
+   *   TRUE if the part is a property of one of the candidate definitions, FALSE
+   *   otherwise.
+   */
+  protected static function isCandidateDefinitionReferenceProperty($part, array $candidate_definitions) {
+    foreach ($candidate_definitions as $definition) {
+      $property = $definition->getPropertyDefinition($part);
+      if ($property && $property instanceof DataReferenceDefinitionInterface) {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
 }

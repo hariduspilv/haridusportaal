@@ -153,7 +153,7 @@ class SchoolImportController extends ControllerBase {
 
   public function add_school_fields($school, $schoolnode, $ownershiptypes, $teachinglanguages, $schooltypes){
     if($schoolnode['school_field']['field_update_from_ehis'] == '1'){
-      $schoolnode['school_field']['title'] = $school->nimetus;
+      $schoolnode['school_field']['title'] = html_entity_decode(htmlspecialchars_decode($school->nimetus), ENT_QUOTES | ENT_HTML5);
       $schoolnode['school_field']['field_registration_code'] = $school->regNr;
       $institutetypevalues = [];
       //$node->field_educational_institution_type;

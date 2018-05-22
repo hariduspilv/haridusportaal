@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
 {
     public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
@@ -17,6 +18,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
+        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         '952683d815ff0a7bf322b93c0be7e4e4' => __DIR__ . '/..' . '/chi-teck/drupal-code-generator/src/bootstrap.php',
         '5a12a5271c58108e0aa33355e6ac54ea' => __DIR__ . '/..' . '/drupal/console-core/src/functions.php',
@@ -28,6 +30,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
+        ),
+        'n' => 
+        array (
+            'nodespark\\DESConnector\\' => 23,
         ),
         'c' => 
         array (
@@ -64,6 +70,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'Symfony\\Polyfill\\Php70\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Validator\\' => 28,
@@ -92,6 +99,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'R' => 
         array (
             'Robo\\' => 5,
+            'React\\Promise\\' => 14,
         ),
         'P' => 
         array (
@@ -104,6 +112,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'M' => 
         array (
             'Masterminds\\' => 12,
+            'MakinaCorpus\\Lucene\\' => 20,
         ),
         'L' => 
         array (
@@ -115,6 +124,8 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         ),
         'G' => 
         array (
+            'GuzzleHttp\\Stream\\' => 18,
+            'GuzzleHttp\\Ring\\' => 16,
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
@@ -123,11 +134,14 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'GraphQL\\' => 8,
             'Goutte\\' => 7,
         ),
+        'E' => 
+        array (
+            'Elasticsearch\\' => 14,
+        ),
         'D' => 
         array (
             'Drush\\Internal\\' => 15,
             'Drush\\' => 6,
-            'Drupal\\redis\\' => 13,
             'Drupal\\kafka\\Composer\\' => 22,
             'Drupal\\Driver\\' => 14,
             'Drupal\\Core\\' => 12,
@@ -172,6 +186,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'nodespark\\DESConnector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nodespark/des-connector/src/DESConnector',
         ),
         'cweagans\\Composer\\' => 
         array (
@@ -232,6 +250,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Symfony\\Polyfill\\Iconv\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-iconv',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Component\\Yaml\\' => 
         array (
@@ -333,6 +355,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/consolidation/robo/src',
         ),
+        'React\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/react/promise/src',
+        ),
         'Psy\\' => 
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src',
@@ -357,6 +383,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
         ),
+        'MakinaCorpus\\Lucene\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/makinacorpus/php-lucene/src',
+        ),
         'League\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/container/src',
@@ -364,6 +394,14 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Interop\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
+        ),
+        'GuzzleHttp\\Stream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/streams/src',
+        ),
+        'GuzzleHttp\\Ring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/ringphp/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -393,6 +431,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/fabpot/goutte/Goutte',
         ),
+        'Elasticsearch\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/elasticsearch/elasticsearch/src/Elasticsearch',
+        ),
         'Drush\\Internal\\' => 
         array (
             0 => __DIR__ . '/..' . '/drush/drush/internal-copy',
@@ -400,10 +442,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Drush\\' => 
         array (
             0 => __DIR__ . '/..' . '/drush/drush/src',
-        ),
-        'Drupal\\redis\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/web/modules/contrib/redis/src',
         ),
         'Drupal\\kafka\\Composer\\' => 
         array (
