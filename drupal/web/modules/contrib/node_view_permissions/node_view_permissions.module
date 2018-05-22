@@ -1,0 +1,57 @@
+<?php
+/**
+ * @file
+ * @see \Drupal\node\Tests\NodeQueryAlterTest
+ * @see \Drupal\node\Tests\NodeAccessBaseTableTest
+ */
+
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\Entity\NodeType;
+use Drupal\node\NodeInterface;
+
+/**
+ *  Implements hook_node_access_records().
+ */
+function node_view_permissions_node_access_records(NodeInterface $node) {
+  $grants = [];
+  // We only care about the node if it's published.
+  // We don't want to override view published permissions.
+  if ($node->isPublished()) {
+    $grants[] = [
+      'realm' => "view_any_{$node->getType()}_content",
+      'gid' => 1,
+      'grant_view' => 1,
+      'grant_update' => 0,
+      'grant_delete' => 0,
+      'priority' => 0,
+    ];
+    $grants[] = [
+      'realm' => "view_own_{$node->getType()}_content",
+      'gid' => $node->getOwnerId(),
+      'grant_view' => 1,
+      'grant_update' => 0,
+      'grant_delete' => 0,
+      'priority' => 0,
+    ];
+  }
+  return $grants;
+}
+
+/**
+ * Implements hook_node_grants().
+ */
+function node_view_permissions_node_grants(AccountInterface $account, $op) {
+  $grants = [];
+  if ($op == 'view') {
+    foreach (NodeType::loadMultiple() as $type) {
+      $type_id = $type->id();
+      if ($account->hasPermission("view any $type_id content")) {
+        $grants["view_any_{$type_id}_content"] = [1];
+      }
+      if ($account->hasPermission("view own $type_id content")) {
+        $grants["view_own_{$type_id}_content"] = [$account->id()];
+      }
+    }
+  }
+  return $grants;
+}

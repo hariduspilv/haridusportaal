@@ -55,6 +55,10 @@ module:
   import_school_data: 0
   inline_entity_form: 0
   jsonapi: 0
+  jwt: 0
+  jwt_auth_consumer: 0
+  jwt_auth_issuer: 0
+  key: 0
   kint: 0
   language: 0
   link: 0
@@ -64,6 +68,7 @@ module:
   menu_ui: 0
   module_missing_message_fixer: 0
   node: 0
+  node_view_permissions: 0
   options: 0
   page_cache: 0
   path: 0
@@ -87,6 +92,7 @@ module:
   toolbar: 0
   tour: 0
   ultimate_cron: 0
+  update: 0
   user: 0
   views_ui: 0
   menu_link_content: 1
