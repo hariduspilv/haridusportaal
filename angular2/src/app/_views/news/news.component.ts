@@ -12,6 +12,8 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { delay, map } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
 
 import { RootScopeService } from '../../_services';
 import { AppComponent } from '../../app.component';
@@ -25,15 +27,17 @@ import { sortByOptions, getNewsTags } from '../../_services/news/news.graph';
 export class NewsComponent implements OnInit, OnDestroy{
   
   // TAGS
-  
+  newsTagObs: Observable<any[]>;
   newsTags: any[];
-  selected: any[];
+  selectedTags: any[];
+
   // for datepicker
-  
-  public newsTagsSelectForm = new FormControl();
-  public titleForm = new FormControl();
-  public minDateForm = new FormControl();
-  public maxDateForm = new FormControl();
+  filterFormGroup = new FormGroup({
+    titleForm: new FormControl(),
+    minDateForm: new FormControl({ value: null, disabled: false }),
+    maxDateForm: new FormControl({ value: null, disabled: false }),
+    newsTagsSelectForm: new FormControl({ value: []}),
+  });
   
   
   public querySubscription: Subscription;  
@@ -182,28 +186,48 @@ export class NewsComponent implements OnInit, OnDestroy{
         .valueChanges
         .subscribe(({data}) => {
           this.newsTags = data['taxonomyTermQuery']['entities'];
+          var newsTagArr  = this.newsTags.map((item) => { return item.entityLabel})
+          this.newsTagObs = of(newsTagArr).pipe(delay(500));
+          console.log(this.newsTagObs)
+          console.log(this.newsTags)
+          console.log(newsTagArr)
+
         });
+        
+        
+        // get tags
         
       }
     )
+    
   }
   
   newsFilter() {
+
+    console.log(this.filterFormGroup);
+
+
+
+
+
+
+
+
+
     // TITLE FILTER
-    if(this.titleForm.value != null) {
+    if(this.filterFormGroup.value.titleForm != null) {
       this.titleEnabled = true;
     }
 
     // DATE FILTER
-    if(this.minDateForm.value != null) { 
-      // this.minDate = (this.minDateForm.value.getTime()/1000).toString();
-      this.minDate = (this.minDateForm.value.getTime()/1000).toString();
+    if(this.filterFormGroup.value.minDateForm != null) { 
+      this.minDate = (this.filterFormGroup.value.minDateForm.getTime()/1000).toString();
     } else { this.minDate = "-2147483647"; }
-    if(this.maxDateForm.value != null) {
-      this.maxDate = (this.maxDateForm.value.getTime()/1000 + 86399).toString();
+    if(this.filterFormGroup.value.maxDateForm != null) {
+      this.maxDate = (this.filterFormGroup.value.maxDateForm.getTime()/1000 + 86399).toString();
     } else { this.maxDate = "2147483647"; }
-    console.log(this.minDate)
-    console.log(this.maxDate)
+    // console.log(this.minDate)
+    // console.log(this.maxDate)
     
 
     this.offset = 0;
@@ -212,7 +236,7 @@ export class NewsComponent implements OnInit, OnDestroy{
       variables: {
         tagValue: this.tagValue,
         tagEnabled: false,
-        titleValue: "%" + this.titleForm.value + "%",
+        titleValue: "%" + this.filterFormGroup.value.titleForm + "%",
         titleEnabled: this.titleEnabled,
         minDate: this.minDate,
         maxDate: this.maxDate,
