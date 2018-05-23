@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
-import { MomentModule } from 'angular2-moment/moment.module';
 import { Apollo, QueryRef } from 'apollo-angular';
-import * as moment from 'moment';
 
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
