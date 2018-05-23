@@ -3,4 +3,4 @@ _core:
   default_config_hash: VnJRkQumCIpCyjYAJevVI3NEg_EMkh2AyvPbn8pbGP4
 langcode: et
 algorithm: HS512
-key_id: voti
+key_id: default_key
