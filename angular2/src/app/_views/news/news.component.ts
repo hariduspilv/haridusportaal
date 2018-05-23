@@ -30,13 +30,13 @@ export class NewsComponent implements OnInit, OnDestroy{
   newsTagObs: Observable<any[]>;
   newsTags: any[];
   selectedTags: any[];
-
+  
   // for datepicker
   filterFormGroup = new FormGroup({
-    titleForm: new FormControl(),
+    titleForm: new FormControl({ value: null, disabled: false }),
     minDateForm: new FormControl({ value: null, disabled: false }),
     maxDateForm: new FormControl({ value: null, disabled: false }),
-    newsTagsSelectForm: new FormControl({ value: []}),
+    newsTagsSelectForm: new FormControl({ value: [], disabled: false }),
   });
   
   
@@ -52,10 +52,10 @@ export class NewsComponent implements OnInit, OnDestroy{
   public offset: number = 0; 
   public limit: number = 10;
   
-  public tagValue: Array<string> = [];
   public titleValue: string = "";
-  public tagEnabled: boolean = false;
   public titleEnabled: boolean = false;
+  public tagValue: Array<string> = [];
+  public tagEnabled: boolean = false;
   public minDate: String = "-2147483647";
   public maxDate: String = "2147483647";
   
@@ -186,39 +186,47 @@ export class NewsComponent implements OnInit, OnDestroy{
         .valueChanges
         .subscribe(({data}) => {
           this.newsTags = data['taxonomyTermQuery']['entities'];
-          var newsTagArr  = this.newsTags.map((item) => { return item.entityLabel})
+          
+          let newsTagArr = [];
+          
+          for( let i in this.newsTags ){
+            let current = this.newsTags[i];
+            let tmp = {
+              name: current['entityLabel'],
+              id: current['entityId']
+            };
+            newsTagArr.push(tmp);
+          }
           this.newsTagObs = of(newsTagArr).pipe(delay(500));
-          console.log(this.newsTagObs)
-          console.log(this.newsTags)
-          console.log(newsTagArr)
-
+          // console.log(this.newsTagObs)
+          // console.log(newsTagArr)
         });
-        
-        
-        // get tags
-        
       }
     )
     
   }
   
   newsFilter() {
-
+    this.tagEnabled = false;
+    this.titleEnabled = false;
+    
     console.log(this.filterFormGroup);
-
-
-
-
-
-
-
-
-
+    
+    // TAG FILTER
+    if(this.filterFormGroup.value.newsTagsSelectForm != null) {  
+      if(this.filterFormGroup.value.newsTagsSelectForm.length > 0) {  
+        this.tagValue = this.filterFormGroup.value.newsTagsSelectForm.map((item) => { return item.id; })
+        this.tagEnabled = true;
+        // console.log(this.tagValue);
+      }
+    }
+    
+    
     // TITLE FILTER
     if(this.filterFormGroup.value.titleForm != null) {
       this.titleEnabled = true;
     }
-
+    
     // DATE FILTER
     if(this.filterFormGroup.value.minDateForm != null) { 
       this.minDate = (this.filterFormGroup.value.minDateForm.getTime()/1000).toString();
@@ -229,13 +237,13 @@ export class NewsComponent implements OnInit, OnDestroy{
     // console.log(this.minDate)
     // console.log(this.maxDate)
     
-
+    
     this.offset = 0;
     this.apollo.watchQuery({
       query: sortByOptions,
       variables: {
         tagValue: this.tagValue,
-        tagEnabled: false,
+        tagEnabled: this.tagEnabled,
         titleValue: "%" + this.filterFormGroup.value.titleForm + "%",
         titleEnabled: this.titleEnabled,
         minDate: this.minDate,

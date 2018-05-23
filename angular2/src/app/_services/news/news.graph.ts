@@ -149,6 +149,7 @@ export const getNewsTags = gql`
 query getNewsTags($lang: LanguageId!){
   taxonomyTermQuery(limit: 1000, filter: {conditions: [{operator: EQUAL, field: "vid", value: ["tags"], language: $lang}]}) {
     entities {
+      entityId
       entityLabel
     }
   }
