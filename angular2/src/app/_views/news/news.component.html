@@ -21,11 +21,14 @@
   </div><!--/col-6-->
 </div><!--/row-->
 
-<div class="row sm-hide">
+<form [formGroup]="filterFormGroup" class="row sm-hide">
   <div class="col-3">
     <mat-form-field class="w-100">
       <mat-placeholder>Otsi uudist märksõna järgi</mat-placeholder>
-      <input matInput [(ngModel)]="titleValue" [formControl]="titleForm"/>
+      <input matInput formControlName="titleForm"/>
+      <button mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div><!--/col-3-->
   <div class="col-3">
@@ -34,7 +37,7 @@
         <mat-form-field class="w-100">
           <mat-placeholder>pp.kk.aa</mat-placeholder>
           <!-- <input matInput [matDatepicker]="myDatepicker1" (dateInput)="addMinDatepicker($event)" [formControl]="minDateForm"> -->
-          <input matInput [matDatepicker]="myDatepicker1" [formControl]="minDateForm">
+          <input matInput [matDatepicker]="myDatepicker1" formControlName="minDateForm">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker1></mat-datepicker>
         </mat-form-field>
@@ -44,36 +47,33 @@
         <mat-form-field class="w-100">
           <mat-placeholder>pp.kk.aa</mat-placeholder>
           <!-- <input matInput [matDatepicker]="myDatepicker2" (dateInput)="addMaxDatepicker($event)" [formControl]="maxDateForm"> -->
-          <input matInput [matDatepicker]="myDatepicker2" [formControl]="maxDateForm">
+          <input matInput [matDatepicker]="myDatepicker2" formControlName="maxDateForm">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker2></mat-datepicker>
         </mat-form-field>
       </div><!--/col-5-->
     </div><!--/row-->
   </div><!--/col-3-->
-  <div class="col-3">
-    <!-- <mat-form-field class="w-100">
-      <mat-placeholder>Vali sildid</mat-placeholder>
-      <mat-select multiple>
-        <mat-option value="1">Koolitus</mat-option>
-        <mat-option value="2">Sündmus</mat-option>
-        <mat-option value="3">Seminar</mat-option>
-        <mat-option value="4">Sündmuse liik</mat-option>
-      </mat-select>
-    </mat-form-field> -->
-    <mat-form-field>
-      <mat-select class="w-100" placeholder="Vali sildid" [formControl]="newsTagsSelectForm" multiple [(value)]="selected">
-        <mat-option *ngFor="let tagEl of newsTags; let index = index;" [value]="tagEl">{{tagEl.entityLabel}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div><!--/col-3-->
-  <div class="col-3">
-    <div class="button-row">
+  <div class="col-4">
+    
+    <ng-select
+    [items]="newsTagObs | async"
+    [multiple]="true"
+    [closeOnSelect]="false"
+    bindLabel="name"
+    placeholder="Select people"
+    [(ngModel)]="selectedTags"
+    formControlName="newsTagsSelectForm"
+    [dropdownPosition]="'bottom'"></ng-select>
+
+  </div><!--/col-4-->
+  <div class="col-2">
+    <div class="button-row text-right">
       <button mat-raised-button color="primary" (click)="newsFilter()">Primary</button>
       <!-- <button mat-raised-button color="primary" (click)="newsFilter()"   [routerLink]="path" [queryParams]="queryParams">Primary</button> -->
     </div>
   </div><!--/col-3-->
-</div><!--/row-->
+</form><!--/row-->
 
 <mat-spinner *ngIf="!list && !error"></mat-spinner>
 
