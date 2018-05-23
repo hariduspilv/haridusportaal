@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4773b36420a42e1b940917494adc3dd7",
+    "content-hash": "d32acf5c523e8c3504fb20542e706133",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3537,6 +3537,67 @@
             }
         },
         {
+            "name": "drupal/jwt",
+            "version": "1.0.0-alpha6",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/jwt",
+                "reference": "8.x-1.0-alpha6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/jwt-8.x-1.0-alpha6.zip",
+                "reference": "8.x-1.0-alpha6",
+                "shasum": "f743bbaa615a7d30b26401a8bfc5906ec851d75b"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/key": "~1.3",
+                "firebase/php-jwt": "4"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha6",
+                    "datestamp": "1487876583",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "bradjones1",
+                    "homepage": "https://www.drupal.org/user/405824"
+                },
+                {
+                    "name": "gabesullice",
+                    "homepage": "https://www.drupal.org/user/2287430"
+                },
+                {
+                    "name": "jonathan.green",
+                    "homepage": "https://www.drupal.org/user/3505671"
+                }
+            ],
+            "description": "Provides a JSON Web Token authentication provider",
+            "homepage": "https://www.drupal.org/project/jwt",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/jwt",
+                "issues": "http://drupal.org/project/issues/jwt"
+            }
+        },
+        {
             "name": "drupal/kafka",
             "version": "dev-1.x",
             "source": {
@@ -3592,6 +3653,74 @@
             "homepage": "https://www.drupal.org/project/kafka",
             "support": {
                 "source": "http://cgit.drupalcode.org/kafka"
+            }
+        },
+        {
+            "name": "drupal/key",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/key",
+                "reference": "8.x-1.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/key-8.x-1.7.zip",
+                "reference": "8.x-1.7",
+                "shasum": "2f6cf737604fdf6b59c10d6e3872e967ce12a6fd"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.7",
+                    "datestamp": "1517255284",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Cellar Door",
+                    "homepage": "https://www.drupal.org/user/658076"
+                },
+                {
+                    "name": "CrashTest_",
+                    "homepage": "https://www.drupal.org/user/261457"
+                },
+                {
+                    "name": "nerdstein",
+                    "homepage": "https://www.drupal.org/user/1557710"
+                },
+                {
+                    "name": "rlhawk",
+                    "homepage": "https://www.drupal.org/user/352283"
+                }
+            ],
+            "description": "Provides the ability to manage site-wide keys",
+            "homepage": "http://drupal.org/project/key",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/key",
+                "issues": "http://drupal.org/project/key"
             }
         },
         {
@@ -3797,6 +3926,61 @@
             "homepage": "https://www.drupal.org/project/module_missing_message_fixer",
             "support": {
                 "source": "http://cgit.drupalcode.org/module_missing_message_fixer"
+            }
+        },
+        {
+            "name": "drupal/node_view_permissions",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/node_view_permissions",
+                "reference": "8.x-1.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/node_view_permissions-8.x-1.2.zip",
+                "reference": "8.x-1.2",
+                "shasum": "25ebeb34821466bc332ed02466d079a9d46768ad"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.2",
+                    "datestamp": "1514257988",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "adci_contributor",
+                    "homepage": "https://www.drupal.org/user/1830536"
+                },
+                {
+                    "name": "adcillc",
+                    "homepage": "https://www.drupal.org/user/366450"
+                },
+                {
+                    "name": "hoter",
+                    "homepage": "https://www.drupal.org/user/1677790"
+                }
+            ],
+            "description": "Enables permissions \"View own content\" and \"View any content\" for each content type.",
+            "homepage": "https://www.drupal.org/project/node_view_permissions",
+            "support": {
+                "source": "http://cgit.drupalcode.org/node_view_permissions"
             }
         },
         {
@@ -4744,6 +4928,49 @@
                 "search"
             ],
             "time": "2017-11-08T17:04:47+00:00"
+        },
+        {
+            "name": "firebase/php-jwt",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firebase/php-jwt.git",
+                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
+                "reference": "dccf163dc8ed7ed6a00afc06c51ee5186a428d35",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Firebase\\JWT\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Neuman Vong",
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anant Narayanan",
+                    "email": "anant@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+            "homepage": "https://github.com/firebase/php-jwt",
+            "time": "2016-07-18T04:51:16+00:00"
         },
         {
             "name": "grasmash/expander",
@@ -10146,6 +10373,7 @@
         "drupal/dropzonejs": 15,
         "drupal/graphql": 10,
         "drupal/inline_entity_form": 10,
+        "drupal/jwt": 15,
         "drupal/kafka": 20,
         "drupal/material_admin": 15,
         "drupal/maxlength": 10,
