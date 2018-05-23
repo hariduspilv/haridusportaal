@@ -171,7 +171,7 @@ class UserLogin extends MutationPluginBase implements ContainerFactoryPluginInte
 		if ($this->userIsBlocked($credentials['name'])) {
 			throw new BadRequestHttpException($this->t('The user has not been activated or is blocked.'));
 		}
-		//dump($this->flood);
+		//dump($this->flood);head -c 64 /dev/urandom | base64 -w 0 > /path/to/private/dir/jwt.key.txt
 
 		if ($uid = $this->userAuth->authenticate($credentials['name'], $credentials['password'])) {
 			// If login succeeded, clean flood data.

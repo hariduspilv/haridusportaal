@@ -134,6 +134,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'GraphQL\\' => 8,
             'Goutte\\' => 7,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
         'E' => 
         array (
             'Elasticsearch\\' => 14,
@@ -430,6 +434,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Goutte\\' => 
         array (
             0 => __DIR__ . '/..' . '/fabpot/goutte/Goutte',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Elasticsearch\\' => 
         array (
