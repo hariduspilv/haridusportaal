@@ -151,25 +151,6 @@ class SchoolImportController extends ControllerBase {
     return $schoolnode;
   }
 
-  public function add_school_location_fields($schoolnode, $address){
-    if(isset($address->maakond) && isset($address->omavalitsus) && isset($address->asustusyksus) && isset($address->ehakmk) && isset($address->ehakov) && isset($address->ehak)){
-      if($address->maakond != '' && $address->omavalitsus != '' && $address->ehakmk != '' && $address->ehakov != ''){
-        $schoolnode['school_location_taxonomy']['field_school_county']['code'] = $address->ehakmk;
-        $schoolnode['school_location_taxonomy']['field_school_county']['name'] = $address->maakond;
-        $schoolnode['school_location_taxonomy']['field_school_local_gov']['code'] = $address->ehakov;
-        $schoolnode['school_location_taxonomy']['field_school_local_gov']['name'] = $address->omavalitsus;
-        $schoolnode['school_location_taxonomy']['field_school_set_unit']['code'] = $address->ehak;
-        $schoolnode['school_location_taxonomy']['field_school_set_unit']['name'] = $address->asustusyksus;
-      }
-    }
-    $schoolnode['school_location_paragraph']['field_address'] = $address->aadresstekst;
-    $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->aadresstekst;
-    $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
-    $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
-    $schoolnode['school_location_paragraph']['field_location_type'] = 'L';
-    return $schoolnode;
-  }
-
   public function add_school_fields($school, $schoolnode, $ownershiptypes, $teachinglanguages, $schooltypes){
     if($schoolnode['school_field']['field_update_from_ehis'] == '1'){
       $schoolnode['school_field']['title'] = html_entity_decode(htmlspecialchars_decode($school->nimetus), ENT_QUOTES | ENT_HTML5);
@@ -252,18 +233,42 @@ class SchoolImportController extends ControllerBase {
           foreach($data_from_json->addresses as $address){
             if(isset($address->unik) && isset($address->liikVal)){
               if($address->unik === '1' && $address->liikVal === 'EHITIS'){
-                $schoolnodeedit = $this->add_school_location_fields($schoolnode, $address);
-                $schoolnode['school_location_taxonomy'] = $schoolnodeedit['school_location_taxonomy'];
-                $schoolnode['school_location_paragraph'] = $schoolnodeedit['school_location_paragraph'];
+                if(isset($address->maakond) && isset($address->omavalitsus) && isset($address->asustusyksus) && isset($address->ehakmk) && isset($address->ehakov) && isset($address->ehak)){
+                  if($address->maakond != '' && $address->omavalitsus != '' && $address->ehakmk != '' && $address->ehakov != ''){
+                    $schoolnode['school_location_taxonomy']['field_school_county']['code'] = $address->ehakmk;
+                    $schoolnode['school_location_taxonomy']['field_school_county']['name'] = $address->maakond;
+                    $schoolnode['school_location_taxonomy']['field_school_local_gov']['code'] = $address->ehakov;
+                    $schoolnode['school_location_taxonomy']['field_school_local_gov']['name'] = $address->omavalitsus;
+                    $schoolnode['school_location_taxonomy']['field_school_set_unit']['code'] = $address->ehak;
+                    $schoolnode['school_location_taxonomy']['field_school_set_unit']['name'] = $address->asustusyksus;
+                  }
+                }
+                $schoolnode['school_location_paragraph']['field_address'] = $address->aadresstekst;
+                $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->aadresstekst;
+                $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
+                $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
+                $schoolnode['school_location_paragraph']['field_location_type'] = 'L';
                 break;
               }
             }
           }
           if(!isset($schoolnode['school_location_paragraph'])){
             foreach($data_from_json->addresses as $address){
-              $schoolnodeedit = $this->add_school_location_fields($schoolnode, $address);
-              $schoolnode['school_location_taxonomy'] = $schoolnodeedit['school_location_taxonomy'];
-              $schoolnode['school_location_paragraph'] = $schoolnodeedit['school_location_paragraph'];
+              if(isset($address->maakond) && isset($address->omavalitsus) && isset($address->asustusyksus) && isset($address->ehakmk) && isset($address->ehakov) && isset($address->ehak)){
+                if($address->maakond != '' && $address->omavalitsus != '' && $address->ehakmk != '' && $address->ehakov != ''){
+                  $schoolnode['school_location_taxonomy']['field_school_county']['code'] = $address->ehakmk;
+                  $schoolnode['school_location_taxonomy']['field_school_county']['name'] = $address->maakond;
+                  $schoolnode['school_location_taxonomy']['field_school_local_gov']['code'] = $address->ehakov;
+                  $schoolnode['school_location_taxonomy']['field_school_local_gov']['name'] = $address->omavalitsus;
+                  $schoolnode['school_location_taxonomy']['field_school_set_unit']['code'] = $address->ehak;
+                  $schoolnode['school_location_taxonomy']['field_school_set_unit']['name'] = $address->asustusyksus;
+                }
+              }
+              $schoolnode['school_location_paragraph']['field_address'] = $address->aadresstekst;
+              $schoolnode['school_location_paragraph']['field_coordinates']['name'] = $address->aadresstekst;
+              $schoolnode['school_location_paragraph']['field_coordinates']['lat'] = $address->viitepunkt_b;
+              $schoolnode['school_location_paragraph']['field_coordinates']['lon'] = $address->viitepunkt_l;
+              $schoolnode['school_location_paragraph']['field_location_type'] = 'L';
               break;
             }
           }

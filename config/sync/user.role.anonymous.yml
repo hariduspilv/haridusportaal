@@ -17,7 +17,6 @@ permissions:
   - 'restful post jwt_token_rest_resource'
   - 'restful post personal_card_rest_resource'
   - 'search content'
-  - 'view any article content'
   - 'view any event content'
   - 'view any news content'
   - 'view any page content'
