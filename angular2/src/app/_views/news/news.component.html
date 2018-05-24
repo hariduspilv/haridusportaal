@@ -36,7 +36,7 @@
       <div class="col-5">
         <mat-form-field class="w-100">
           <mat-placeholder>pp.kk.aa</mat-placeholder>
-          <input matInput [matDatepicker]="myDatepicker1" formControlName="minDateForm">
+          <input matInput [matDatepicker]="myDatepicker1" (click)="myDatepicker1.open()" formControlName="minDateForm">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker1></mat-datepicker>
         </mat-form-field>
@@ -45,7 +45,7 @@
       <div class="col-5">
         <mat-form-field class="w-100">
           <mat-placeholder>pp.kk.aa</mat-placeholder>
-          <input matInput [matDatepicker]="myDatepicker2" formControlName="maxDateForm">
+          <input matInput [matDatepicker]="myDatepicker2" (click)="myDatepicker2.open()"formControlName="maxDateForm">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker2></mat-datepicker>
         </mat-form-field>
