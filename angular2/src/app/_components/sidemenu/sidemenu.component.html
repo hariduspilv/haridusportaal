@@ -1,7 +1,8 @@
 <div *ngIf="data" class="side-menu-wrapper">
   <mat-menu></mat-menu>
 
-  <ul class="ul-styleless">
+  <ul class="ul-styleless category">
+    <div class="menu-category">ÕPITEE</div>
     <li *ngFor="let item of data" [class.has-children]="item.links.length > 0" >
       
       <!-- Dropdown link -->

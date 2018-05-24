@@ -5,10 +5,19 @@
       <mat-icon (click)="toggleSideNav()" class="sm-show">menu</mat-icon>
     </div><!--/menu-burger-->
 
-    <a [routerLink]="[logoLink]" class="header-logo"><img src="assets/logo.png" /></a>
+    <a [routerLink]="[logoLink]" class="header-logo">
+      <span>Edu<span class="bold">portaal</span></span>
+      <!-- <img src="assets/logo.png" /> -->
+    </a>
     <!-- This fills the remaining space of the current row -->
 
-    <span class="fill-space"></span>
+    <span class="fill-space">
+      <div class="searchbar">
+        <mat-form-field class="w-100 custom-curved-input search">
+          <input class="search-icon" placeholder="Otsi" matInput />
+        </mat-form-field>
+      </div>
+    </span>
     
     <div *ngIf="languages" class="pull-right">
       <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">

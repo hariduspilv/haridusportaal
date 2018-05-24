@@ -20,18 +20,17 @@
   </div><!--/col-3-->
   <div class="col-3">
     <div class="row">
-      <div class="col-5">
+      <div class="col-6">
         <mat-form-field class="w-100">
-          <mat-placeholder>pp.kk.aa</mat-placeholder>
+          <mat-placeholder>Aeg alates</mat-placeholder>
           <input matInput [matDatepicker]="myDatepicker1">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker1></mat-datepicker>
         </mat-form-field>
       </div><!--/col-5-->
-      <div class="col-2"><div class="mat-form-label">kuni</div></div>
-      <div class="col-5">
+      <div class="col-6">
         <mat-form-field class="w-100">
-          <mat-placeholder>pp.kk.aa</mat-placeholder>
+          <mat-placeholder>Aeg kuni</mat-placeholder>
           <input matInput [matDatepicker]="myDatepicker2">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker2></mat-datepicker>
@@ -59,6 +58,12 @@
         <mat-option value="3">Silt 3</mat-option>
         <mat-option value="4">Silt 4</mat-option>
       </mat-select>
+    </mat-form-field>
+  </div><!--/col-3-->
+  <div class="col-3">
+    <mat-form-field class="w-100 custom-curved-input">
+      <span class="title-label">Otsi sündmust test </span>
+      <input placeholder="Otsi sündmust nime järgi" matInput />
     </mat-form-field>
   </div><!--/col-3-->
 </div><!--/row-->
