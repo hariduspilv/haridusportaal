@@ -1,8 +1,14 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "../assets/styles/controls.scss";
+@import "../assets/styles/header.scss";
+@import "../assets/styles/sidebar.scss";
 
 /* You can add global styles to this file, and also import other style files */
-body{margin:0; padding:0; font-family: Roboto,"Helvetica Neue",sans-serif; padding-top:64px; background:#fafafa;}
+body{margin:0; padding:0; padding-top:64px; background:#fafafa;}
 
+/* Force Rubik font over material default */
+body [class^='mat-'], body [class*=' mat-'] {font-family: 'Rubik', sans-serif; } 
+body .material-icons {font-family: 'Material Icons';}
 
 h1{font-size:32px; line-height:120%;}
 .fill-space {
@@ -76,8 +82,8 @@ body{height: calc(100% - 64px);}
 .breadcrumb li:last-child:after{display: none;}
 .breadcrumb li span{overflow: hidden; display: inline; max-width:200px; text-overflow: ellipsis; white-space: nowrap;}
 
-.mat-sidenav{top:84px !important;}
-.mat-sidenav .mat-menu-item{height:auto; padding-top:8px; padding-bottom:8px; line-height:120%;}
+.mat-sidenav{top:64px !important;}
+.mat-sidenav .mat-menu-item{height:auto; padding-top:14px; padding-bottom:14px; line-height:120%;}
 .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 13px;}
 
 article{line-height:150%;}
@@ -92,7 +98,7 @@ article a[href]{color:#3f51b5;}
 .ul-styleless ul a{padding-left:30px;}
 .ul-styleless ul ul a{padding-left:44px;}
 .mat-sidenav li.has-children > .mat-menu-item{position: relative; padding-right:40px;}
-.mat-sidenav li.has-children .mat-icon{position: absolute; top:50%; right:6px; margin-top:-12px; margin-right:0;} 
+.mat-sidenav li.has-children .mat-icon{position: absolute; top:50%; right:18px; margin-top:-12px; margin-right:0;} 
 .mat-sidenav li ul{display: none;}
 .mat-sidenav li.menu-open > ul{display: block;}
 .mat-sidenav li.menu-open > a .mat-icon{transform:rotate(90deg);}
@@ -166,7 +172,7 @@ $grid-columns: 12;
 .clist-item{padding:7px 12px; background:#e0e0e0; border-radius:24px; font-size:13px; line-height:18px;}
 
 
-.inline{max-width:1400px; margin:0 auto; padding:0 40px;}
+.inline{max-width:1400px; margin:0 auto; padding:0 40px 0 0;}
 
 .mat-toolbar{ padding:0 !important;
   .inline{display: flex; align-items:center; width:100%;
@@ -183,8 +189,6 @@ $grid-columns: 12;
     &>.row:last-child{margin-bottom:-10px;}
   }
 }
-
-.header-logo{margin-left:20px;}
 
 @media (max-width:900px) {
   .mat-drawer{background:#fff; }
@@ -203,9 +207,9 @@ $grid-columns: 12;
 
 @media (max-width:599px){
   body{padding-top:56px; height: calc(100% - 64px);}
-  .header-logo{
-    img{height:46px;  margin-top:5px;}
-  }
+  // .header-logo{
+  //   img{height:46px;  margin-top:5px;}
+  // }
   .mat-sidenav{top:56px !important;}
   
 }
