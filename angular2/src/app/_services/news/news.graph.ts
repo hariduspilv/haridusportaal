@@ -119,21 +119,19 @@ export class NewsGraph {
     lang = lang.toUpperCase();
     
     return gql`
-    query{
-      nodeQuery(limit: 3, sort: {field: "created", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: ${lang} }, {operator: NOT_EQUAL, field: "nid", value: ["${nid}"], language:${lang}}]}) {
+    query {
+      nodeQuery(limit: 1, sort: {field: "created", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: ${lang}}]}) {
         entities {
-          entityTranslation(language: ${lang}) {
-            ... on NodeNews {
-              entityLabel
-              created
-              fieldShortDescription
-              entityUrl {
-                ... on EntityCanonicalUrl {
-                  path
-                  languageSwitchLinks {
-                    url {
-                      path
-                    }
+          ... on NodeNews {
+            entityLabel
+            created
+            fieldShortDescription
+            entityUrl {
+              ... on EntityCanonicalUrl {
+                path
+                languageSwitchLinks {
+                  url {
+                    path
                   }
                 }
               }
@@ -141,7 +139,8 @@ export class NewsGraph {
           }
         }
       }
-    }    
+    }
+    
     `;
   }
 }
