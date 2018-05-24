@@ -11,7 +11,7 @@ id: node.event.field_attachment_file
 field_name: field_attachment_file
 entity_type: node
 bundle: event
-label: 'Lisa failimanus'
+label: Failid
 description: ''
 required: false
 translatable: true

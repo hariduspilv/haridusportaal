@@ -293,41 +293,39 @@ export class EventsGraph {
 
     return gql`
       query{
-        nodeQuery(limit: 2, sort: {field: "field_event_date.entity.field_event_date", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language: ${lang} }]}) {
+        nodeQuery(limit: 1, sort: {field: "field_event_date.entity.field_event_date", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language: ${lang} }]}) {
           entities {
-            entityTranslation(language: ${lang}) {
-              ... on NodeEvent {
-                title: entityLabel
-                location: fieldEventLocation {
-                  lat
-                  lon
-                  name
+            ... on NodeEvent {
+              title: entityLabel
+              location: fieldEventLocation {
+                lat
+                lon
+                name
+              }
+              fieldEventType {
+                entity {
+                  entityLabel
                 }
-                fieldEventType {
-                  entity {
-                    entityLabel
-                  }
+              }
+              eventDates: fieldEventDate {
+                ...eventdates
+              }
+              fieldEntryType
+              fieldDescription {
+                value
+                format
+                processed
+              }
+              registrationDate: fieldRegistrationDate {
+                ...registrationdates
+              }
+              hashTags: fieldTag {
+                entity {
+                  entityLabel
                 }
-                eventDates: fieldEventDate {
-                  ...eventdates
-                }
-                fieldEntryType
-                fieldDescription{
-                  summary
-                }
-                registrationDate: fieldRegistrationDate {
-                  ...registrationdates
-                }
-                hashTags: fieldTag {
-                  entity {
-                    entityTranslation(language: ${lang}) {
-                      entityLabel
-                    }
-                  }
-                }
-                entityUrl {
-                  ...url
-                }
+              }
+              entityUrl {
+                ...url
               }
             }
           }
