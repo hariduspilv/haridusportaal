@@ -21,11 +21,14 @@
   </div><!--/col-6-->
 </div><!--/row-->
 
-<div class="row sm-hide">
+<form [formGroup]="filterFormGroup" class="row sm-hide">
   <div class="col-3">
     <mat-form-field class="w-100">
       <mat-placeholder>Otsi uudist märksõna järgi</mat-placeholder>
-      <input matInput />
+      <input matInput formControlName="titleForm" [(ngModel)]="titleValue"/>
+      <button mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div><!--/col-3-->
   <div class="col-3">
@@ -33,7 +36,7 @@
       <div class="col-5">
         <mat-form-field class="w-100">
           <mat-placeholder>pp.kk.aa</mat-placeholder>
-          <input matInput [matDatepicker]="myDatepicker1">
+          <input matInput [matDatepicker]="myDatepicker1" (click)="myDatepicker1.open()" formControlName="minDateForm">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker1></mat-datepicker>
         </mat-form-field>
@@ -42,27 +45,33 @@
       <div class="col-5">
         <mat-form-field class="w-100">
           <mat-placeholder>pp.kk.aa</mat-placeholder>
-          <input matInput [matDatepicker]="myDatepicker2">
+          <input matInput [matDatepicker]="myDatepicker2" (click)="myDatepicker2.open()"formControlName="maxDateForm">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker2></mat-datepicker>
         </mat-form-field>
       </div><!--/col-5-->
     </div><!--/row-->
   </div><!--/col-3-->
-  <div class="col-3">
-    <mat-form-field class="w-100">
-      <mat-placeholder>Vali sildid</mat-placeholder>
-      <mat-select multiple>
-        <mat-option value="1">Koolitus</mat-option>
-        <mat-option value="2">Sündmus</mat-option>
-        <mat-option value="3">Seminar</mat-option>
-        <mat-option value="4">Sündmuse liik</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="col-4">
+    
+    <ng-select
+    [items]="newsTagObs | async"
+    [multiple]="true"
+    [closeOnSelect]="false"
+    bindLabel="name"
+    placeholder="Select people"
+    [(ngModel)]="selectedTags"
+    formControlName="newsTagsSelectForm"
+    [dropdownPosition]="'bottom'"></ng-select>
+
+  </div><!--/col-4-->
+  <div class="col-2">
+    <div class="button-row text-right">
+      <button mat-raised-button color="primary" (click)="newsFilter()">Primary</button>
+      <!-- <button mat-raised-button color="primary" (click)="newsFilter()"   [routerLink]="path" [queryParams]="queryParams">Primary</button> -->
+    </div>
   </div><!--/col-3-->
-</div><!--/row-->
-
-
+</form><!--/row-->
 
 <mat-spinner *ngIf="!list && !error"></mat-spinner>
 
@@ -71,33 +80,36 @@
     <mat-card class="mb-20">
       <mat-card-content>
         <div class="row">
-          <div class="col-2 sm-12 pointer" *ngIf="item.entityTranslation.fieldIntroductionImage" [routerLink]="[item.entityTranslation.entityUrl.path]">
-            <img src="{{ item.entityTranslation.fieldIntroductionImage.url }}" alt="{{ item.entityTranslation.fieldIntroductionImage.alt }}" width="100%" />
+          <div class="col-2 sm-12 pointer" *ngIf="item.fieldIntroductionImage" [routerLink]="[item.entityUrl.path]">
+            <img src="{{ item.fieldIntroductionImage.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
           </div>
           
           <div class="col-10 sm-hide">
-            <p class="mt-0"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityTranslation.entityUrl.path]"><b> {{ item.entityTranslation.entityLabel }}</b></a></p>
+            <p class="mt-0"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><b> {{ item.entityLabel }}</b></a></p>
             
-            <p>{{ item.entityTranslation.fieldAuthor }} {{ item.entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</p>
+            <p>{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</p>
             
             <mat-chip-list>
-              <span *ngFor="let tag of item.entityTranslation.fieldNewsTag" class="mat-chip-wrapper">
+              <span *ngFor="let tag of item.fieldNewsTag" class="mat-chip-wrapper">
                 <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
               </span>
             </mat-chip-list>
             
-            <p class="mb-0">{{ item.entityTranslation.fieldShortDescription }}</p>
+            <p class="mb-0">{{ item.fieldShortDescription }}</p>
           </div>
         </div>
         <div class="sm-show col-12">
-          <p class="mb-0"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityTranslation.entityUrl.path]"><b> {{ item.entityTranslation.entityLabel }}</b></a></p>
+          <p class="mb-0"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><b> {{ item.entityLabel }}</b></a></p>
         </div><!--/col-12-->
       </mat-card-content>
     </mat-card>
   </div><!--ngFor-->
   
   <div class="text-center mt-30 mb-20" *ngIf="!listEnd">
-    <button mat-raised-button color="primary" (click)="loadMore()">Lae rohkem</button>
+    <button mat-raised-button color="primary" (click)="loadMore()" >Lae rohkem</button>
+  </div><!--/text-center-->
+  <div class="text-center mt-30 mb-20" *ngIf="(list != null && list.length) === 0">
+    <p>No result</p>
   </div><!--/text-center-->
   
 </div><!--/ngIf-->

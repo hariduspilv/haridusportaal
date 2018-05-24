@@ -16,7 +16,7 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: string
+    type: text
   type:
     label: 'Content type'
     datasource_id: 'entity:node'
