@@ -1,10 +1,8 @@
-<h2 class="mt-0" *ngIf="content">Loe veel</h2>
-
-<mat-card *ngFor="let item of content" [routerLink]="item.entityTranslation.entityUrl.path" class="pointer mb-20">
-   <mat-card-content>
-      <h3>{{ item.entityTranslation.entityLabel }}</h3>
-      <p>{{ item.entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</p>
-      <p [innerHtml]="item.entityTranslation.fieldShortDescription"></p>
-      <a mat-raised-button color="primary">Loe lähemalt</a>
-   </mat-card-content>
-</mat-card>
+<div *ngFor="let item of content" class="mb-20">
+    <h3>{{ item.entityLabel }}</h3>
+    <p>{{ item.created*1000 | date:"dd.MM.yyyy" }}</p>
+    <p [innerHtml]="item.fieldShortDescription"></p>
+    <a mat-raised-button [routerLink]="item.entityUrl.path" color="primary">Loe lähemalt</a>
+    <mat-divider class="mt-20 mb-20"></mat-divider>
+ </div>
+ <a href="javascript:void(0);" [routerLink]="allPath" mat-button color="primary">Vaata kõiki</a>
