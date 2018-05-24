@@ -157,6 +157,27 @@ query getNewsTags($lang: LanguageId!){
 
 `;
 
+
+export const getNewsTags2 = gql`
+query getNewsTags2( $lang: LanguageId!){
+  nodeQuery(filter: {conditions: [
+    {operator: EQUAL, field: "type", value: ["news"], language: $lang}
+  ]}) {
+    entities {
+      ... on NodeNews{
+        Tag: fieldNewsTag {
+          entity{
+            entityId
+            entityLabel
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+
 // query{
 //   nodeQuery(
 //     offset: 0, 

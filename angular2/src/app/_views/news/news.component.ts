@@ -16,7 +16,7 @@ import { of } from 'rxjs/observable/of';
 import { RootScopeService } from '../../_services';
 import { AppComponent } from '../../app.component';
 import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
-import { sortByOptions, getNewsTags } from '../../_services/news/news.graph';
+import { sortByOptions, getNewsTags, getNewsTags2 } from '../../_services/news/news.graph';
 
 @Component({
   templateUrl: './news.component.html'
@@ -27,6 +27,7 @@ export class NewsComponent implements OnInit, OnDestroy{
   // TAGS
   newsTagObs: Observable<any[]>;
   newsTags: any[];
+  newsTags2: any[];
   selectedTags: any[];
   
   // for datepicker
@@ -172,9 +173,37 @@ export class NewsComponent implements OnInit, OnDestroy{
           this.breadcrumb = data['route']['breadcrumb'];
         });
         
+        // // get tags
+        // this.querySubscription = this.apollo.watchQuery({
+        //   query: getNewsTags,
+        //   variables: {
+        //     lang: this.lang.toUpperCase(),
+        //     fetchPolicy: 'no-cache',
+        //     errorPolicy: 'all',
+        //   },
+        // })
+        // .valueChanges
+        // .subscribe(({data}) => {
+        //   this.newsTags = data['taxonomyTermQuery']['entities'];
+        
+        //   let newsTagArr = [];
+        
+        //   for( let i in this.newsTags ){
+        //     let current = this.newsTags[i];
+        //     let tmp = {
+        //       name: current['entityLabel'],
+        //       id: current['entityId']
+        //     };
+        //     newsTagArr.push(tmp);
+        //   }
+        //   this.newsTagObs = of(newsTagArr).pipe(delay(500));
+        //   // console.log(this.newsTagObs)
+        //   // console.log(newsTagArr)
+        // });
+        
         // get tags
         this.querySubscription = this.apollo.watchQuery({
-          query: getNewsTags,
+          query: getNewsTags2,
           variables: {
             lang: this.lang.toUpperCase(),
             fetchPolicy: 'no-cache',
@@ -183,22 +212,28 @@ export class NewsComponent implements OnInit, OnDestroy{
         })
         .valueChanges
         .subscribe(({data}) => {
-          this.newsTags = data['taxonomyTermQuery']['entities'];
-          
+          this.newsTags2 = data['nodeQuery']['entities'];
           let newsTagArr = [];
-          
-          for( let i in this.newsTags ){
-            let current = this.newsTags[i];
-            let tmp = {
-              name: current['entityLabel'],
-              id: current['entityId']
-            };
-            newsTagArr.push(tmp);
-          }
+          this.newsTags2.map((tag)=>{
+
+            tag['Tag'].filter((tagItem, index, array) => {
+              let tmp = {
+                id: tagItem['entity']['entityId'],
+                name: tagItem['entity']['entityLabel'],
+              };
+              newsTagArr.push(tmp);
+            });            
+          });
+
+          newsTagArr = newsTagArr.filter((thing, index, self) =>
+            index === self.findIndex((t) => (
+              t.id === thing.id && t.name === thing.name
+            ))
+          )
           this.newsTagObs = of(newsTagArr).pipe(delay(500));
-          // console.log(this.newsTagObs)
           // console.log(newsTagArr)
         });
+        
       }
     )
     
