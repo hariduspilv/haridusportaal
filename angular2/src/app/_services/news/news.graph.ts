@@ -120,7 +120,7 @@ export class NewsGraph {
     
     return gql`
     query {
-      nodeQuery(limit: 1, sort: {field: "created", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: ${lang}}]}) {
+      nodeQuery(limit: 3, sort: {field: "created", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: ${lang} }, {operator: NOT_EQUAL, field: "nid", value: ["${nid}"], language:${lang}}]}) {
         entities {
           ... on NodeNews {
             entityLabel
@@ -159,7 +159,7 @@ query getNewsTags($lang: LanguageId!){
 
 export const getNewsTags2 = gql`
 query getNewsTags2( $lang: LanguageId!){
-  nodeQuery(filter: {conditions: [
+  nodeQuery(limit: 1000, filter: {conditions: [
     {operator: EQUAL, field: "type", value: ["news"], language: $lang}
   ]}) {
     entities {
@@ -258,7 +258,7 @@ query sortByOptions (
         fieldNewsTag {
           entity {
             entityLabel
-            tid
+            entityId
           }
         }
       }
