@@ -8,31 +8,38 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 
 export class RecentNewsComponent implements OnInit {
-
-	@Input() nid: number;
-
+	
 	error: boolean;
-   content: any;
-   lang: string;
-
+	content: any;
+	lang: string;
+	allPath: any;
+	
 	constructor(private newsService: NewsService, private router: Router, private route: ActivatedRoute) {
 		
 	}
 	ngOnInit() {
-
-      this.lang = this.router.url;
-      
+		
+		this.lang = this.router.url;
 		let that = this;
-
-      this.newsService.getRecent(this.nid, function(data){
+		
+		this.route.params.subscribe( params => {
+			if( this.lang == "/en" ){
+				this.allPath = "/en/news";
+			}
+			else if( this.lang == "/et" ){
+				this.allPath = "/et/uudised";
+			}
+		});
+		
+		this.newsService.getRecent("",function(data){
 			if ( data['nodeQuery'] == null ) {
 				that.error = true;
 			} else {
 				that.content = data['nodeQuery']['entities'];
 			}
-      });
-      
-
+		});
+		
+		
 	}
 }
 

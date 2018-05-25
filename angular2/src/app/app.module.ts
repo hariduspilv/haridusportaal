@@ -15,6 +15,9 @@ import { AppDirectives } from './_directives';
 import { MomentModule } from 'angular2-moment/moment.module';
 import { AgmCoreModule } from '@agm/core';
 
+
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
 
   declarations: [
@@ -30,6 +33,7 @@ import { AgmCoreModule } from '@agm/core';
     AppRoutingModule,
     AppDirectives,
     MomentModule,
+    NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
     AppPipes,
