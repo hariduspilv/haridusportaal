@@ -22,7 +22,6 @@ permissions:
   - 'view any page content'
   - 'view any school content'
   - 'view media'
-  - 'view own article content'
   - 'view own event content'
   - 'view own news content'
   - 'view own page content'
