@@ -1,0 +1,35 @@
+.custom-curved-input {
+  .mat-input-flex.mat-form-field-flex {
+    border: 1px solid grey;
+    border-radius: 20px;
+  }
+  .mat-form-field-infix {
+    border-top: none;
+    padding: 0.625rem 1rem;
+  }
+  .mat-form-field-underline {
+    display: none;
+  }
+  .mat-input-infix .title-label {
+    white-space: nowrap;
+    padding: 5px 5px 0px 5px;
+    position: absolute;
+    top: -12px;
+    background: rgb(250, 250, 250);
+    font-size: 12px;
+    left: 32px;
+  }
+  .mat-input-placeholder {
+    padding-left: 1rem;
+    padding-top: 2px;
+  }
+}
+.custom-curved-input.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: none;
+  display: none;
+}
+.custom-curved-input .mat-form-field-label {
+  overflow: hidden;
+  width: 85%;
+  text-overflow: ellipsis;
+}
