@@ -39,7 +39,7 @@ display:
       pager:
         type: full
         options:
-          items_per_page: 500
+          items_per_page: 50
           offset: 0
           id: 0
           total_pages: null
