@@ -41,6 +41,16 @@ processor_settings:
   rendered_item: {  }
   aggregated_field: {  }
   add_url: {  }
+  highlight:
+    highlight: always
+    highlight_partial: true
+    excerpt: true
+    excerpt_length: 256
+    exclude_fields: {  }
+    prefix: '<strong>'
+    suffix: '</strong>'
+    weights:
+      postprocess_query: 0
 tracker_settings:
   default:
     indexing_order: fifo
