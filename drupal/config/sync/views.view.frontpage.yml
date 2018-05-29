@@ -11,9 +11,9 @@ dependencies:
 _core:
   default_config_hash: ezK5Dw8P_4bqJdDQIiecSAJak9p1Wf1yDwHzTutGFuQ
 id: frontpage
-label: Frontpage
+label: Avaleht
 module: node
-description: 'All content promoted to the front page.'
+description: 'Kogu avalehele määratud sisu.'
 tag: default
 base_table: node_field_data
 base_field: nid
@@ -61,7 +61,7 @@ display:
           admin_label: ''
           label: ''
           empty: true
-          title: 'Welcome to [site:name]'
+          title: 'Tere tulemast lehele [site:name]'
           plugin_id: title
       exposed_form:
         type: basic
@@ -181,8 +181,8 @@ display:
           tags:
             previous: '‹ Eelmine'
             next: 'Järgmine ›'
-            first: '« First'
-            last: 'Last »'
+            first: '« Esimene'
+            last: 'Viimane »'
           quantity: 9
       query:
         type: views_query
@@ -255,7 +255,7 @@ display:
   feed_1:
     display_plugin: feed
     id: feed_1
-    display_title: Feed
+    display_title: Andmevoog
     position: 2
     display_options:
       sitename_title: true

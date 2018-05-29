@@ -5,6 +5,6 @@ dependencies: {  }
 _core:
   default_config_hash: 5VpawMrKPEPCkoO4YpPa0TDFO2dgiIHfTziJtwlmUxc
 id: html_yearless_date
-label: 'HTML Yearless date'
+label: 'HTML Ilma aastata kuupäev'
 locked: true
 pattern: m-d
