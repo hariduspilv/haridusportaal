@@ -5,8 +5,8 @@ import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-// const uri = 'http://test-htm.wiseman.ee:30000/graphql';
-const uri = 'http://test.edu.ee/graphql';
+const uri = 'http://test-htm.wiseman.ee:30000/graphql';
+// const uri = 'http://localhost:300000/graphql';
 
 @NgModule({
   exports: [
