@@ -5,7 +5,7 @@ dependencies: {  }
 _core:
   default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
 id: anonymous
-label: 'Anonymous user'
+label: 'Anonüümne kasutaja'
 weight: 0
 is_admin: false
 permissions:
@@ -14,6 +14,7 @@ permissions:
   - 'access site-wide contact form'
   - 'execute graphql requests'
   - 'execute persisted graphql requests'
+  - 'restful get base_settings_rest_resource'
   - 'restful post jwt_token_rest_resource'
   - 'restful post personal_card_rest_resource'
   - 'search content'

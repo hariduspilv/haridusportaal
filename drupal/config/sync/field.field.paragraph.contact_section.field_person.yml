@@ -9,7 +9,7 @@ id: paragraph.contact_section.field_person
 field_name: field_person
 entity_type: paragraph
 bundle: contact_section
-label: Person
+label: 'Kontakt isik'
 description: ''
 required: false
 translatable: true

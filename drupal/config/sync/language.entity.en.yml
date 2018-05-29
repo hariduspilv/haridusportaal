@@ -5,7 +5,7 @@ dependencies: {  }
 _core:
   default_config_hash: lBXDpdDPXQtrfTJQhr6MjRJJEEyYSoRJ0acdvHLsWeA
 id: en
-label: English
+label: 'Inglise keel'
 direction: ltr
 weight: 1
 locked: false
