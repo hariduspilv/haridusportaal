@@ -1,0 +1,19 @@
+add event registration entities:
+  title: 'Create new Event registration entities'
+
+administer event registration entities:
+  title: 'Administer Event registration entities'
+  description: 'Allow to access the administration form to configure Event registration entities.'
+  restrict access: true
+
+delete event registration entities:
+  title: 'Delete Event registration entities'
+
+edit event registration entities:
+  title: 'Edit Event registration entities'
+
+view published event registration entities:
+  title: 'View published Event registration entities'
+
+view unpublished event registration entities:
+  title: 'View unpublished Event registration entities'
