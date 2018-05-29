@@ -43,7 +43,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Filter
+          submit_button: Filtreeri
           reset_button: false
           reset_button_label: Tühista
           exposed_sorts_label: 'Sorteerimise alus'
@@ -68,8 +68,8 @@ display:
           tags:
             previous: '‹ Eelmine'
             next: 'Järgmine ›'
-            first: '« First'
-            last: 'Last »'
+            first: '« Esimene'
+            last: 'Viimane »'
           quantity: 9
       style:
         type: table
@@ -144,7 +144,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Thumbnail
+          label: Pisipilt
           exclude: false
           alter:
             alter_text: false
@@ -226,7 +226,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Media name'
+          label: 'Meedia nimetus'
           exclude: false
           element_type: ''
           element_class: ''
@@ -322,7 +322,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Author
+          label: Autor
           exclude: false
           alter:
             alter_text: false
@@ -432,8 +432,8 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_true: Published
-            format_custom_false: Unpublished
+            format_custom_true: Avaldatud
+            format_custom_false: Avaldamata
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -454,7 +454,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Updated
+          label: Uuendatud
           exclude: false
           alter:
             alter_text: false
@@ -579,7 +579,7 @@ display:
           exposed: true
           expose:
             operator_id: name_op
-            label: 'Media name'
+            label: 'Meedia nimetus'
             description: ''
             use_operator: false
             operator: name_op
@@ -660,7 +660,7 @@ display:
           exposed: true
           expose:
             operator_id: ''
-            label: 'True'
+            label: Tõene
             description: null
             use_operator: false
             operator: status_op
@@ -672,7 +672,7 @@ display:
               authenticated: authenticated
           is_grouped: true
           group_info:
-            label: 'Published status'
+            label: 'Avaldamise staatus'
             description: ''
             identifier: status
             optional: true
@@ -683,11 +683,11 @@ display:
             default_group_multiple: {  }
             group_items:
               1:
-                title: Published
+                title: Avaldatud
                 operator: '='
                 value: '1'
               2:
-                title: Unpublished
+                title: Avaldamata
                 operator: '='
                 value: '0'
           plugin_id: boolean
@@ -763,7 +763,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: false
-          content: 'No content available.'
+          content: 'Sisu puudub.'
           plugin_id: text_custom
       relationships: {  }
       arguments: {  }
