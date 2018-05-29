@@ -214,3 +214,34 @@ $grid-columns: 12;
   .mat-sidenav{top:56px !important;}
   
 }
+
+@media print{
+  body{padding-top:0; width:1200px;}
+  .inline{padding:0;}
+  .mat-sidenav-content{padding:0;}
+  app-header, .mat-drawer, .breadcrumb{display: none !important;}
+  .mat-drawer-content{margin-left:0 !important;}
+  .mat-sidenav-container{overflow: visible; height:auto;}
+  article{
+    &>h1,
+    &>h2,
+    &>h3,
+    &>h4,
+    &>h5,
+    &>h6,
+    &>p{
+      &:first-child{margin-top:0;}
+    }
+  }
+
+  .row{display: block;font-size:0; margin:0;
+    &>[class*='col']{display: inline-block; font-size:16px; vertical-align: top;}
+    @for $i from 1 through $grid-columns {
+      .col-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+  }
+  .mat-card{page-break-inside: avoid;}
+  
+  .mat-expansion-panel-content{height:auto !important; visibility: visible !important;}
+
+}
