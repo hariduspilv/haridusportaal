@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row sm-hide">
   <div class="col-12">
     <ul class="breadcrumb mt-0">
       <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
@@ -10,67 +10,83 @@
     </ul>
   </div>
 </div>
-<div class="row">
-  <div class="col-6">
-    <h1 class="mt-0">
-      Uudised
-    </h1>
-  </div><!--/col-6-->
-  <div class="col-6 text-right">
-    
-  </div><!--/col-6-->
-</div><!--/row-->
-
-<form [formGroup]="filterFormGroup" class="row sm-hide">
-  <div class="col-3">
-    <mat-form-field class="w-100">
-      <mat-placeholder>Otsi uudist märksõna järgi</mat-placeholder>
-      <input matInput formControlName="titleForm" [(ngModel)]="titleValue"/>
-      <button mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </div><!--/col-3-->
-  <div class="col-3">
-    <div class="row">
-      <div class="col-5">
-        <mat-form-field class="w-100">
-          <mat-placeholder>pp/kk/aa</mat-placeholder>
-          <input matInput [matDatepicker]="myDatepicker1" (click)="myDatepicker1.open()" formControlName="minDateForm">
-          <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+<form [formGroup]="filterFormGroup" class="filter-wrapper">
+  <div class="row">
+    <div class="col-4 sm-12">
+      <div class="round-input__wrapper w-100">
+        <span class="round-input__title">Otsi uudist märksõna järgi</span>
+        <div class="round-input__field-wrapper">
+          <input class="round-input__field" placeholder="Sisesta uudise nimi" formControlName="titleForm" [(ngModel)]="titleValue"/>
+          <button class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      <!-- <mat-form-field class="w-100">
+        <mat-placeholder>Otsi uudist märksõna järgi</mat-placeholder>
+        <input matInput formControlName="titleForm" [(ngModel)]="titleValue"/>
+        <button mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field> -->
+    </div><!--/col-3-->
+    <div class="col-3 sm-6">
+      <div class="round-input__wrapper w-100">
+        <span class="round-input__title">Kuupäev</span>
+        <div class="round-input__field-wrapper">
+          <input class="round-input__field" [matDatepicker]="myDatepicker1" placeholder="Vali alguskuupäev" formControlName="minDateForm"/>
+          <!--(click)="myDatepicker1.open()"-->
+          <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker1></mat-datepicker>
-        </mat-form-field>
-      </div><!--/col-5-->
-      <div class="col-2"><div class="mat-form-label">kuni</div></div>
-      <div class="col-5">
-        <mat-form-field class="w-100">
-          <mat-placeholder>pp/kk/aa</mat-placeholder>
-          <input matInput [matDatepicker]="myDatepicker2" (click)="myDatepicker2.open()"formControlName="maxDateForm">
-          <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
-          <mat-datepicker #myDatepicker2></mat-datepicker>
-        </mat-form-field>
-      </div><!--/col-5-->
-    </div><!--/row-->
-  </div><!--/col-3-->
-  <div class="col-4">
-    
-    <ng-select
-    [items]="newsTagObs | async"
-    [multiple]="true"
-    [closeOnSelect]="false"
-    bindLabel="name"
-    placeholder="Select people"
-    [(ngModel)]="selectedTags"
-    formControlName="newsTagsSelectForm"
-    [dropdownPosition]="'bottom'"></ng-select>
-
-  </div><!--/col-4-->
-  <div class="col-2">
-    <div class="button-row text-right">
-      <button mat-raised-button color="primary" (click)="newsFilter()">Primary</button>
-      <!-- <button mat-raised-button color="primary" (click)="newsFilter()"   [routerLink]="path" [queryParams]="queryParams">Primary</button> -->
+        </div>
+      </div>
     </div>
-  </div><!--/col-3-->
+      <!-- <mat-form-field class="w-100">
+        <mat-placeholder>pp/kk/aa</mat-placeholder>
+        <input matInput [matDatepicker]="myDatepicker1" (click)="myDatepicker1.open()" formControlName="minDateForm">
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+        <mat-datepicker #myDatepicker1></mat-datepicker>
+      </mat-form-field> -->
+        <!-- <div class="col-2"><div class="mat-form-label">kuni</div></div> -->
+    <div class="col-3 sm-6">
+      <div class="round-input__wrapper w-100">
+        <span class="round-input__title">Kuupäev</span>
+        <div class="round-input__field-wrapper">
+          <input class="round-input__field" [matDatepicker]="myDatepicker2" placeholder="Vali lõpukuupäev" formControlName="maxDateForm"/>
+          <!--(click)="myDatepicker2.open()"-->
+          <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+          <mat-datepicker #myDatepicker2></mat-datepicker>
+        </div>
+      </div>
+      <!-- <mat-form-field class="w-100">
+        <mat-placeholder>pp/kk/aa</mat-placeholder>
+        <input matInput [matDatepicker]="myDatepicker2" (click)="myDatepicker2.open()" formControlName="maxDateForm">
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+        <mat-datepicker #myDatepicker2></mat-datepicker>
+      </mat-form-field> -->
+    </div><!--/col-3-->
+    <div class="col-2 align-end sm-12">
+      <div class="button-row text-right">
+        <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+        <!-- <button mat-raised-button color="primary" (click)="newsFilter()"   [routerLink]="path" [queryParams]="queryParams">Primary</button> -->
+      </div>
+    </div><!--/col-3-->
+  </div>
+  <div class="row sm-hide">
+    <div class="col-10">
+      
+      <ng-select
+      [items]="newsTagObs | async"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      bindLabel="name"
+      placeholder="Select people"
+      [(ngModel)]="selectedTags"
+      formControlName="newsTagsSelectForm"
+      [dropdownPosition]="'bottom'"></ng-select>
+
+    </div>
+  </div>
 </form><!--/row-->
 
 <mat-spinner *ngIf="!list && !error"></mat-spinner>
