@@ -1,0 +1,11 @@
+uuid: c7516671-f1ee-4776-adaf-45481e843661
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+id: node.study_programme
+target_entity_type_id: node
+target_bundle: study_programme
+default_langcode: site_default
+language_alterable: false
