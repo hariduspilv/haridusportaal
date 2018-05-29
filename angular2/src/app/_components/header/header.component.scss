@@ -1,0 +1,58 @@
+.mat-toolbar.mat-primary {
+  background:#2e3374;
+  height: 4rem;
+}
+.header-logo {
+  margin-left: 1.25rem;
+  span {font-weight: 300;}
+  span.bold {font-weight: 500;}
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  text-align: center;
+  color: #ffffff;
+  @media (min-width: 900px) {
+    margin-left: 0px;
+    width: 260px;
+  }
+}
+.search-input  {
+  height: 2.5rem;
+  border-radius: 1.25rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0);
+  color: white;
+  padding: 0px 1rem;
+  font-size: 1rem;
+}
+::placeholder {font-family: 'Material Icons';color: white; opacity: 1; position: relative; top: 0.25rem; font-size: 1.25rem;}
+::-ms-input-placeholder {color: white; font-family: 'Material Icons'; position: relative; top: 0.25rem; font-size: 1.25rem;}
+.searchbar {
+  justify-content: flex-start;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-left: 2.5rem;
+  .search {flex-basis: 75%;}
+  @media (max-width: 900px) {display: none;}
+}
+mat-icon { 
+  &.search { padding-right: 1rem; }
+  &.person { padding-right: 0.75rem;
+    @media (min-width: 900px) {padding-right: 0px;}
+  }
+  &.more {padding-right: 0.75rem;
+    @media (min-width: 900px) {padding-right: 0px;}
+  }
+}
+.login-wrapper { padding-right: 1.5rem;padding-left: 0.5rem;
+  .login {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+}
+mat-toolbar button {min-width: 24px; width: 24px; padding: 0;}

@@ -10,21 +10,23 @@
       <!-- <img src="assets/logo.png" /> -->
     </a>
     <!-- This fills the remaining space of the current row -->
-
     <span class="fill-space">
       <div class="searchbar">
-        <mat-form-field class="w-100 custom-curved-input search">
-          <input class="search-icon" placeholder="Otsi" matInput />
-        </mat-form-field>
+        <span class="search">
+          <input class="search-input w-100 round-input" placeholder="search" />
+        </span>
       </div>
     </span>
-    
+    <mat-icon class="search sm-show">search</mat-icon>
+    <mat-icon class="person">person_outline</mat-icon>
+    <span class="login-wrapper sm-hide">
+      <a class="login" href="javascript:void();">Logi sisse</a>
+    </span>
     <div *ngIf="languages" class="pull-right">
       <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
         <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)">{{ item.argument | uppercase }}</button>
       </mat-menu>
-
-      <button mat-button [matMenuTriggerFor]="appMenu" >{{ activeLanguage | uppercase }}</button>
-    </div><!--/languages-->
+      <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">more_vert</mat-icon></button>
+    </div>
   </div><!--/inline-->
 </mat-toolbar>
