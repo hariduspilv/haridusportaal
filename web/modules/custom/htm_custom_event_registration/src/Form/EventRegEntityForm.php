@@ -27,6 +27,9 @@ class EventRegEntityForm extends ContentEntityForm {
 			'#weight' => 2,
 		];
 
+		$form['name_group']['participant_idcode'] = $form['participant_idcode'];
+		unset($form['participant_idcode']);
+
 		$form['name_group']['participant_first_name'] = $form['participant_first_name'];
 		unset($form['participant_first_name']);
 
