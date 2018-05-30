@@ -13,13 +13,11 @@
     span { font-size: 1rem !important }
   }
   .mat-menu-item-active {
-    background-color: rgba(0,0,0,.04);
     font-weight: normal !important;
     border-left: 5px solid #fd8208;
     transition: border-left .3s cubic-bezier(.55,0,.55,.2);
   }
   .mat-menu-item-active-parent {
-    background-color: rgba(0,0,0,.04);
     transition: border-left .3s cubic-bezier(.55,0,.55,.2);
     font-weight: normal !important;
     border-left: 5px solid #fd8208;
