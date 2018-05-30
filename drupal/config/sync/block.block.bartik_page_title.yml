@@ -14,7 +14,7 @@ provider: null
 plugin: page_title_block
 settings:
   id: page_title_block
-  label: 'Lehe pealkiri'
+  label: 'Page title'
   provider: core
   label_display: '0'
 visibility: {  }

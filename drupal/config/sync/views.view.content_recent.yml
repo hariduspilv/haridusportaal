@@ -8,9 +8,9 @@ dependencies:
 _core:
   default_config_hash: sqwEJaSgef4rCaRMf-JdNAdV_kCICU1SfQh5Wl2sUrc
 id: content_recent
-label: 'Hiljutine sisu'
+label: 'Recent content'
 module: node
-description: 'Viimati lisatud sisu.'
+description: 'Recent content.'
 tag: default
 base_table: node_field_data
 base_field: nid
@@ -258,7 +258,7 @@ display:
           entity_type: node
           entity_field: changed
           plugin_id: date
-      title: 'Hiljutine sisu'
+      title: 'Recent content'
       header: {  }
       footer: {  }
       empty:
@@ -271,7 +271,7 @@ display:
           admin_label: ''
           empty: true
           tokenize: false
-          content: 'Sisu puudub.'
+          content: 'No content available.'
           plugin_id: text_custom
       relationships:
         uid:
@@ -289,7 +289,7 @@ display:
       display_extenders: {  }
       use_more: false
       use_more_always: false
-      use_more_text: Veel
+      use_more_text: More
       link_url: ''
       link_display: '0'
     cache_metadata:
@@ -304,7 +304,7 @@ display:
   block_1:
     display_plugin: block
     id: block_1
-    display_title: Plokk
+    display_title: Block
     position: 1
     display_options:
       display_extenders: {  }

@@ -10,9 +10,9 @@ dependencies:
 _core:
   default_config_hash: _12Vkw1VGBz_s0_W_LLVCrBPpioNSnB6zcd1lUAQubM
 id: glossary
-label: Sõnastik
+label: Glossary
 module: node
-description: 'Kogu sisu, tähestikuliselt.'
+description: 'All content, by letter.'
 tag: default
 base_table: node_field_data
 base_field: nid
@@ -124,7 +124,7 @@ display:
           id: name
           table: users_field_data
           field: name
-          label: Autor
+          label: Author
           relationship: uid
           plugin_id: field
           type: user_name
@@ -176,7 +176,7 @@ display:
           id: changed
           table: node_field_data
           field: changed
-          label: 'Viimati uuendatud'
+          label: 'Last update'
           type: timestamp
           settings:
             date_format: long
@@ -364,7 +364,7 @@ display:
       tags: {  }
   attachment_1:
     id: attachment_1
-    display_title: Manus
+    display_title: Attachment
     display_plugin: attachment
     position: 2
     display_options:
@@ -442,7 +442,7 @@ display:
       path: glossary
       menu:
         type: normal
-        title: Sõnastik
+        title: Glossary
         weight: 0
         menu_name: main
         parent: ''

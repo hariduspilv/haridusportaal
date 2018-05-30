@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies: {  }
 id: additional_section
-label: 'alamosa sekstioon'
+label: 'Additional section'
 icon_uuid: null
 description: ''
 behavior_plugins: {  }

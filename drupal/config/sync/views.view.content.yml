@@ -10,7 +10,7 @@ _core:
 id: content
 label: Sisu
 module: node
-description: 'Otsi ja halda lehe sisu.'
+description: 'Find and manage content.'
 tag: default
 base_table: node_field_data
 base_field: nid
@@ -29,7 +29,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Filtreeri
+          submit_button: Filter
           reset_button: true
           reset_button_label: Tühista
           exposed_sorts_label: 'Sorteerimise alus'
@@ -46,8 +46,8 @@ display:
           tags:
             previous: '‹ Eelmine'
             next: 'Järgmine ›'
-            first: '« Esimene'
-            last: 'Viimane »'
+            first: '« First'
+            last: 'Last »'
           expose:
             items_per_page: false
             items_per_page_label: 'Items per page'
@@ -296,7 +296,7 @@ display:
           table: users_field_data
           field: name
           relationship: uid
-          label: Autor
+          label: Author
           exclude: false
           alter:
             alter_text: false
@@ -327,8 +327,8 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_true: Avaldatud
-            format_custom_false: Avaldamata
+            format_custom_true: Published
+            format_custom_false: Unpublished
           plugin_id: field
           entity_type: node
           entity_field: status
@@ -336,7 +336,7 @@ display:
           id: changed
           table: node_field_data
           field: changed
-          label: Uuendatud
+          label: Updated
           exclude: false
           alter:
             alter_text: false
@@ -511,7 +511,7 @@ display:
               authenticated: authenticated
           is_grouped: true
           group_info:
-            label: 'Avaldamise staatus'
+            label: 'Published status'
             description: ''
             identifier: status
             optional: true
@@ -522,11 +522,11 @@ display:
             default_group_multiple: {  }
             group_items:
               1:
-                title: Avaldatud
+                title: Published
                 operator: '='
                 value: '1'
               2:
-                title: Avaldamata
+                title: Unpublished
                 operator: '='
                 value: '0'
           plugin_id: boolean
@@ -590,7 +590,7 @@ display:
           table: views
           field: area_text_custom
           empty: true
-          content: 'Sisu puudub.'
+          content: 'No content available.'
           plugin_id: text_custom
       arguments: {  }
       relationships:

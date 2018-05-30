@@ -12,7 +12,7 @@ id: node.school.field_school_location
 field_name: field_school_location
 entity_type: node
 bundle: school
-label: Asukoht
+label: Location
 description: ''
 required: false
 translatable: false
@@ -37,16 +37,4 @@ settings:
       school_location:
         enabled: true
         weight: 8
-      accordion:
-        weight: 9
-        enabled: false
-      additional_section:
-        weight: 10
-        enabled: false
-      contact_section:
-        weight: 11
-        enabled: false
-      right_sidebar_section_info:
-        weight: 15
-        enabled: false
 field_type: entity_reference_revisions

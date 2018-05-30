@@ -1,0 +1,19 @@
+uuid: c1f9e65d-ae7e-4cd6-8384-112079b603f3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_qualification_standard_id
+    - node.type.study_programme
+id: node.study_programme.field_qualification_standard_id
+field_name: field_qualification_standard_id
+entity_type: node
+bundle: study_programme
+label: 'Qualification Standard ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

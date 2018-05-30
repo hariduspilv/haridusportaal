@@ -13,7 +13,7 @@ _core:
 id: taxonomy_term
 label: 'Taksonoomia termin'
 module: taxonomy
-description: 'Teatud taksonoomia termiga seotud sisu.'
+description: 'Content belonging to a certain taxonomy term.'
 tag: default
 base_table: node_field_data
 base_field: nid
@@ -106,7 +106,7 @@ display:
           exception:
             value: ''
             title_enable: false
-            title: Kõik
+            title: All
           title_enable: true
           title: '{{ arguments.tid }}'
           default_argument_type: fixed
@@ -256,7 +256,7 @@ display:
       tags: {  }
   feed_1:
     id: feed_1
-    display_title: Andmevoog
+    display_title: Feed
     display_plugin: feed
     position: 2
     display_options:

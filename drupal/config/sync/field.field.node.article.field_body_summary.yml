@@ -9,7 +9,7 @@ id: node.article.field_body_summary
 field_name: field_body_summary
 entity_type: node
 bundle: article
-label: Sissejuhatus
+label: 'Body summary'
 description: ''
 required: true
 translatable: true

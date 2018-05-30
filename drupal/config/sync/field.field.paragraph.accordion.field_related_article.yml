@@ -11,7 +11,7 @@ id: paragraph.accordion.field_related_article
 field_name: field_related_article
 entity_type: paragraph
 bundle: accordion
-label: 'Seotud artikkel'
+label: 'Related article'
 description: ''
 required: false
 translatable: true
