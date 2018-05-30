@@ -293,6 +293,17 @@ class EventRegEntity extends ContentEntityBase implements EventRegEntityInterfac
 				'weight' => -4,
 			]);
 
+		$fields['participant_idcode'] = BaseFieldDefinition::create('string')
+				->setLabel(t('Comment'))
+				->setTranslatable(TRUE)
+				->setDisplayOptions('form', [
+						'type' => 'string_textarea',
+						'settings' => [
+								'cols' => '6',
+						],
+						'weight' => -4,
+				]);
+
 		$fields['language'] = BaseFieldDefinition::create('language')
 			->setLabel(t('Language'))
 			->setTranslatable(TRUE)
