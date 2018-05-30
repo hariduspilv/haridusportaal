@@ -9,7 +9,7 @@ id: node.school.field_school_contact_email
 field_name: field_school_contact_email
 entity_type: node
 bundle: school
-label: E-post
+label: Email
 description: ''
 required: false
 translatable: false

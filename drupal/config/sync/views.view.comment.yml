@@ -324,7 +324,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Autor
+          label: Author
           exclude: false
           alter:
             alter_text: false
@@ -388,7 +388,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Postitatud
+          label: 'Posted in'
           exclude: false
           alter:
             alter_text: false
@@ -453,7 +453,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Uuendatud
+          label: Updated
           exclude: false
           alter:
             alter_text: false
@@ -721,7 +721,7 @@ display:
           exposed: true
           expose:
             operator_id: combine_op
-            label: 'Autori nimi'
+            label: 'Author name'
             description: ''
             use_operator: false
             operator: combine_op
@@ -819,13 +819,13 @@ display:
           admin_label: ''
           empty: true
           tokenize: false
-          content: 'Kommentaarid puuduvad.'
+          content: 'No comments available.'
           plugin_id: text_custom
       arguments: {  }
       display_extenders: {  }
       use_more: false
       use_more_always: true
-      use_more_text: veel
+      use_more_text: more
       use_ajax: false
       hide_attachment_summary: false
       show_admin_links: true
@@ -860,7 +860,7 @@ display:
   page_published:
     display_plugin: page
     id: page_published
-    display_title: 'Avaldatud kommentaarid'
+    display_title: 'Published comments'
     position: 1
     display_options:
       path: admin/content/comment
@@ -889,13 +889,13 @@ display:
   page_unapproved:
     display_plugin: page
     id: page_unapproved
-    display_title: 'Heakskiitmata kommentaarid'
+    display_title: 'Unapproved comments'
     position: 2
     display_options:
       path: admin/content/comment/approval
       menu:
         type: tab
-        title: 'Heakskiitmata kommentaarid'
+        title: 'Unapproved comments'
         description: 'Comments unapproved'
         parent: ''
         weight: 1
@@ -1261,7 +1261,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Autor
+          label: Author
           exclude: false
           alter:
             alter_text: false
@@ -1325,7 +1325,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Postitatud
+          label: 'Posted in'
           exclude: false
           alter:
             alter_text: false
@@ -1390,7 +1390,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Uuendatud
+          label: Updated
           exclude: false
           alter:
             alter_text: false

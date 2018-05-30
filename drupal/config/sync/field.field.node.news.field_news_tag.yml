@@ -10,7 +10,7 @@ id: node.news.field_news_tag
 field_name: field_news_tag
 entity_type: node
 bundle: news
-label: Sildid
+label: Tag
 description: 'Max <b>4</b> tags separated by comma'
 required: false
 translatable: true

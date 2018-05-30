@@ -7,9 +7,9 @@ dependencies:
 _core:
   default_config_hash: o_8fSWHZOVIbydZACGsSX09DtuJhqkRmNOzcVj-4bQI
 id: who_s_new
-label: 'Uued kasutajad'
+label: 'Who''s new'
 module: user
-description: 'Näitab nimekirja viimati loodud kasutajakontodest.'
+description: 'Shows a list of the newest user accounts on the site.'
 tag: default
 base_table: users_field_data
 base_field: uid
@@ -160,7 +160,7 @@ display:
           plugin_id: date
           entity_type: user
           entity_field: created
-      title: 'Uued kasutajad'
+      title: 'Who''s new'
       header: {  }
       footer: {  }
       empty: {  }
@@ -177,11 +177,11 @@ display:
   block_1:
     display_plugin: block
     id: block_1
-    display_title: 'Uued kasutajad'
+    display_title: 'Who''s new'
     position: 1
     display_options:
-      display_description: 'Uute kasutajate nimekiri'
-      block_description: 'Uued kasutajad'
+      display_description: 'A list of new users'
+      block_description: 'Who''s new'
       block_category: Kasutaja
       display_extenders: {  }
     cache_metadata:

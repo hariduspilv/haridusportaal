@@ -10,7 +10,7 @@ _core:
 id: watchdog
 label: Watchdog
 module: views
-description: 'Viimased logiteated'
+description: 'Recent log messages'
 tag: ''
 base_table: watchdog
 base_field: wid
@@ -40,7 +40,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Filtreeri
+          submit_button: Filter
           reset_button: true
           reset_button_label: Tühista
           exposed_sorts_label: 'Sorteerimise alus'
@@ -650,7 +650,7 @@ display:
           expose:
             label: ''
           plugin_id: standard
-      title: 'Viimased logiteated'
+      title: 'Recent log messages'
       header: {  }
       footer: {  }
       empty:
@@ -664,7 +664,7 @@ display:
           empty: true
           tokenize: false
           content:
-            value: 'Logis ei ole teateid.'
+            value: 'No log messages available.'
             format: basic_html
           plugin_id: text
       relationships:
