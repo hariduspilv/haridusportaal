@@ -8,9 +8,9 @@ dependencies:
 _core:
   default_config_hash: rRWxAX-IQkJ5viACQRovRkC784EyCl9493GU_G23n2Q
 id: files
-label: Failid
+label: Files
 module: file
-description: 'Otsi ja halda faile.'
+description: 'Find and manage files.'
 tag: default
 base_table: file_managed
 base_field: fid
@@ -40,7 +40,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Filtreeri
+          submit_button: Filter
           reset_button: false
           reset_button_label: Tühista
           exposed_sorts_label: 'Sorteerimise alus'
@@ -250,7 +250,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: MIME-tüüp
+          label: 'MIME type'
           exclude: false
           alter:
             alter_text: false
@@ -398,8 +398,8 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_false: Ajutine
-            format_custom_true: Alaline
+            format_custom_false: Temporary
+            format_custom_true: Permanent
           plugin_id: field
           entity_type: file
           entity_field: status
@@ -410,7 +410,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Üleslaadimise kuupäev'
+          label: 'Upload date'
           exclude: false
           alter:
             alter_text: false
@@ -466,7 +466,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Muutmise kuupäev'
+          label: 'Changed date'
           exclude: false
           alter:
             alter_text: false
@@ -626,7 +626,7 @@ display:
           exposed: true
           expose:
             operator_id: filemime_op
-            label: MIME-tüüp
+            label: 'MIME type'
             description: ''
             use_operator: false
             operator: filemime_op
@@ -695,7 +695,7 @@ display:
           entity_type: file
           entity_field: status
       sorts: {  }
-      title: Failid
+      title: Files
       header: {  }
       footer: {  }
       empty:
@@ -704,7 +704,7 @@ display:
           table: views
           field: area_text_custom
           empty: true
-          content: 'Ühtegi faili pole saadaval.'
+          content: 'No files available.'
           plugin_id: text_custom
       relationships:
         fid:
@@ -731,13 +731,13 @@ display:
   page_1:
     display_plugin: page
     id: page_1
-    display_title: 'Failide ülevaade'
+    display_title: 'Files overview'
     position: 1
     display_options:
       path: admin/content/files
       menu:
         type: tab
-        title: Failid
+        title: Files
         description: ''
         menu_name: admin
         weight: 0
@@ -768,7 +768,7 @@ display:
   page_2:
     display_plugin: page
     id: page_2
-    display_title: 'Faili kasutus'
+    display_title: 'File usage'
     position: 2
     display_options:
       display_description: ''
@@ -915,7 +915,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Registreerin moodulit'
+          label: 'Registering module'
           exclude: false
           alter:
             alter_text: false
@@ -964,7 +964,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Kasutuse loendur'
+          label: 'Use count'
           exclude: false
           alter:
             alter_text: false
@@ -1015,7 +1015,7 @@ display:
           suffix: ''
           plugin_id: numeric
       group_by: false
-      title: 'Faili kasutus'
+      title: 'File usage'
       arguments:
         fid:
           id: fid
@@ -1028,9 +1028,9 @@ display:
           exception:
             value: all
             title_enable: false
-            title: Kõik
+            title: All
           title_enable: true
-          title: 'Kasutusinfo failile {{ arguments.fid }}'
+          title: 'File usage information for {{ arguments.fid }}'
           default_argument_type: fixed
           default_argument_options:
             argument: ''

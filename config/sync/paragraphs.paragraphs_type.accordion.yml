@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies: {  }
 id: accordion
-label: Akordion
+label: Accordion
 icon_uuid: null
 description: ''
 behavior_plugins: {  }

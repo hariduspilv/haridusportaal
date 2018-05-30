@@ -9,7 +9,7 @@ id: paragraph.contact_section.field_organization
 field_name: field_organization
 entity_type: paragraph
 bundle: contact_section
-label: Organisatsioon
+label: Organization
 description: ''
 required: false
 translatable: true

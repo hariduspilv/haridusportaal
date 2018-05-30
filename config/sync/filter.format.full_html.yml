@@ -6,7 +6,7 @@ dependencies:
     - editor
 _core:
   default_config_hash: hewPmBgni9jlDK_IjLxUx1HsTbinK-hdl0lOwjbteIY
-name: 'Täielik HTML'
+name: 'Full HTML'
 format: full_html
 weight: -7
 filters:

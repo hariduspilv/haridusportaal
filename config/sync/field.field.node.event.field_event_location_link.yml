@@ -11,7 +11,7 @@ id: node.event.field_event_location_link
 field_name: field_event_location_link
 entity_type: node
 bundle: event
-label: 'Ürituse asukoha link'
+label: 'Event location link'
 description: ''
 required: false
 translatable: false

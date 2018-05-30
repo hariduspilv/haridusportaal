@@ -5,6 +5,6 @@ dependencies: {  }
 _core:
   default_config_hash: M7yqicYkU36hRy5p9drAaGBBihhUD1OyujFrAaQ93ZE
 id: html_time
-label: 'HTML Aeg'
+label: 'HTML Time'
 locked: true
 pattern: 'H:i:s'

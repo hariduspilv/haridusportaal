@@ -10,9 +10,9 @@ dependencies:
 _core:
   default_config_hash: SRH1EhxAiIRj01P9xYv0h_LfIfWxjll0Yq-eDfjziFI
 id: archive
-label: Arhiiv
+label: Archive
 module: node
-description: 'Kogu sisu, kuu kaupa.'
+description: 'All content, by month.'
 tag: default
 base_table: node_field_data
 base_field: nid
@@ -32,7 +32,7 @@ display:
           distinct: false
           replica: false
           query_tags: {  }
-      title: 'Igakuine arhiiv'
+      title: 'Monthly archive'
       access:
         type: perm
         options:
@@ -184,7 +184,7 @@ display:
       tags: {  }
   block_1:
     id: block_1
-    display_title: Plokk
+    display_title: Block
     display_plugin: block
     position: 1
     display_options:

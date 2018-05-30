@@ -5,6 +5,6 @@ dependencies: {  }
 _core:
   default_config_hash: og8sWXhBuHbLMw3CoiBEZjgqSyhFBFmcbUW_wLcfNbo
 id: long
-label: 'Vaikimisi pikk kuupäevaformaat'
+label: 'Default long date'
 locked: false
 pattern: 'l, F j, Y - H:i'

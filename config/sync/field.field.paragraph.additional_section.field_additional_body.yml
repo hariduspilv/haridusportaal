@@ -9,7 +9,7 @@ id: paragraph.additional_section.field_additional_body
 field_name: field_additional_body
 entity_type: paragraph
 bundle: additional_section
-label: 'Alamlehe sisu'
+label: 'Additional body'
 description: ''
 required: false
 translatable: true

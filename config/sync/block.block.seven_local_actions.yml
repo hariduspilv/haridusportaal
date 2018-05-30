@@ -14,7 +14,7 @@ provider: null
 plugin: local_actions_block
 settings:
   id: local_actions_block
-  label: 'Peamised administraatori toimingud'
+  label: 'Primary admin actions'
   provider: core
   label_display: '0'
 visibility: {  }
