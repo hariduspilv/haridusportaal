@@ -26,9 +26,6 @@ class NamespacePassTest extends CodeCleanerTestCase
 
     public function testProcess()
     {
-        $this->parseAndTraverse('');
-        $this->assertNull($this->cleaner->getNamespace());
-
         $this->parseAndTraverse('array_merge()');
         $this->assertNull($this->cleaner->getNamespace());
 

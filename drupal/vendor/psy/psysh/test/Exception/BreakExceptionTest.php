@@ -30,13 +30,4 @@ class BreakExceptionTest extends \PHPUnit\Framework\TestCase
         $this->assertContains('foo', $e->getMessage());
         $this->assertSame('foo', $e->getRawMessage());
     }
-
-    /**
-     * @expectedException \Psy\Exception\BreakException
-     * @expectedExceptionMessage Goodbye
-     */
-    public function testExitShell()
-    {
-        BreakException::exitShell();
-    }
 }
