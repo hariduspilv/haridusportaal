@@ -3,6 +3,7 @@
 namespace Drupal\custom_study_programme_import\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 
 /**
@@ -12,14 +13,14 @@ class StudyProgrammeController extends ControllerBase {
 
   public function import() {
     // $node_storage = \Drupal::entityManager()->getStorage('node');
-    // $node = $node_storage->load('6004');
+    // $node = $node_storage->load('9701');
     // kint($node);
     // die();
-    $programmes = $this->get_programme_data('programme');
-    $update_from_ehis_nodes = $this->get_ehis_updateable_nodes();
-    $existing_ehis_ids = $this->get_existing_ehis_ids();
     $schools = $this->get_existing_schools();
     $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
+    $programmes = $this->get_programme_data('programme', $schools, $taxonomies['studyprogrammetype']);
+    $update_from_ehis_nodes = $this->get_ehis_updateable_nodes();
+    $existing_ehis_ids = $this->get_existing_ehis_ids();
     $taxonomies['degreeordiploma'] = $this->get_taxonomy_terms('degreeordiploma');
     $taxonomies['teaching_language'] = $this->get_taxonomy_terms('teaching_language');
     $taxonomies['studyprogrammelevel'] = $this->get_taxonomy_outputs('studyprogrammelevel','field_ehis_output');
@@ -34,7 +35,7 @@ class StudyProgrammeController extends ControllerBase {
     return $programmenodes;
   }
 
-  public function get_programme_data($type){
+  public function get_programme_data($type, $schools, $programmetype){
     switch($type){
       case 'programme':
       $json_urls[] = 'http://enda.ehis.ee/avaandmed/rest/oppekavad/-/-/OK_LIIK_KORG/1/JSON';
@@ -51,7 +52,7 @@ class StudyProgrammeController extends ControllerBase {
       $data = $response->getBody();
       $data_from_json = json_decode($data->getContents());
       foreach($data_from_json->body->oppekavad->oppekava as $oppekava){
-        if($oppekava->vastuvott != 'Vastuvõttu ei toimu, õppimine keelatud'){
+        if($oppekava->vastuvott != 'Vastuvõttu ei toimu, õppimine keelatud' && isset($programmetype[$this->parse_key($oppekava->oppekavaLiik)]) && isset($schools[$oppekava->koolId]) && isset($oppekava->oppekavaNimetus) && $oppekava->oppekavaNimetus != "" && isset($oppekava->oppekavaKood) && $oppekava->oppekavaKood != "" && isset($oppekava->oppekavaLiik) && $oppekava->oppekavaLiik != ""){
           $programmes[] = $oppekava;
         }
       }
@@ -79,9 +80,11 @@ class StudyProgrammeController extends ControllerBase {
     ->condition('type', 'study_programme')
     ->execute();
 
-    foreach($nid_result as $nodeid){
-      $programmeitem = entity_load('node', $nodeid);
-      $programmeehisids[$nodeid] = $programmeitem->get('field_ehis_id')->getValue()[0]['value'];
+    if(count($nid_result) > 0){
+      foreach($nid_result as $nodeid){
+        $programmeitem = entity_load('node', $nodeid);
+        $programmeehisids[$nodeid] = $programmeitem->get('field_ehis_id')->getValue()[0]['value'];
+      }
     }
 
     return $programmeehisids;
@@ -91,7 +94,6 @@ class StudyProgrammeController extends ControllerBase {
     $nid_result = \Drupal::entityQuery('node')
     ->condition('type', 'school')
     ->execute();
-
     foreach($nid_result as $nodeid){
       $programmeitem = entity_load('node', $nodeid);
       $programmeehisids[$programmeitem->get('field_ehis_id')->getValue()[0]['value']] = $nodeid;
@@ -138,41 +140,37 @@ class StudyProgrammeController extends ControllerBase {
         $programmenode['programme_field']['field_educational_institution'] = $schools[$programme->koolId];
       }
 
-      $programmetypevalue = '';
       if(isset($taxonomies['studyprogrammetype'][$this->parse_key($programme->oppekavaLiik)])){
         $programmetypevalue = $taxonomies['studyprogrammetype'][$this->parse_key($programme->oppekavaLiik)];
+        $programmenode['programme_field']['field_study_programme_type'] = $programmetypevalue;
       }
-      $programmenode['programme_field']['field_study_programme_type'] = $programmetypevalue;
 
-      $degreeordiplomavalue = '';
       if(isset($programme->akadKraadDiplom)){
         if(isset($taxonomies['degreeordiploma'][$this->parse_key($programme->akadKraadDiplom)])){
           $degreeordiplomavalue = $taxonomies['degreeordiploma'][$this->parse_key($programme->akadKraadDiplom)];
+          $programmenode['programme_field']['field_degree_or_diploma_awarded'] = $degreeordiplomavalue;
         }
       }
-      $programmenode['programme_field']['field_degree_or_diploma_awarded'] = $degreeordiplomavalue;
 
-      $programmelevelvalue = '';
       foreach($taxonomies['studyprogrammelevel'] as $level){
         $key = array_keys($level);
         if(isset($programme->ope)){
           if($level[$key[0]] === $programme->ope){
             $programmelevelvalue = $key[0];
+            $programmenode['programme_field']['field_study_programme_level'] = $programmelevelvalue;
           }
         }
       }
-      $programmenode['programme_field']['field_study_programme_level'] = $programmelevelvalue;
 
-      $iscedfdetailed = '';
       foreach($taxonomies['iscedf'] as $iscedf){
         $key = array_keys($level);
         if(isset($programme->ryhmaKood)){
           if($level[$key[0]] === $programme->ryhmaKood){
             $iscedfdetailed = $key[0];
+            $programmenode['programme_field']['field_iscedf_detailed'] = $iscedfdetailed;
           }
         }
       }
-      $programmenode['programme_field']['field_iscedf_detailed'] = $iscedfdetailed;
 
       $langvalues = [];
       if(isset($programme->oppeKeeled)){
@@ -191,7 +189,7 @@ class StudyProgrammeController extends ControllerBase {
         }
       }
       $specializationvalue = implode(", ",$specializationvalues);
-      $programmenode['programme_field']['field_specializaton'] = $specializationvalue;
+      $programmenode['programme_field']['field_specialization'] = $specializationvalue;
 
       if(isset($programme->maht)){
         if($programme->oppekavaLiik === 'Kõrghariduse õppekava'){
@@ -236,9 +234,7 @@ class StudyProgrammeController extends ControllerBase {
       $programmenode['programme_field']['field_update_from_ehis'] = '1';
       $programmenode['programme_field']['status'] = '1';
     }
-    if(isset($programmenode['programme_field']['title']) && isset($programmenode['programme_field']['field_ehis_id']) && isset($programmenode['programme_field']['field_study_programme_type'])){
-      return $programmenode;
-    }
+    return $programmenode;
   }
 
   public function get_taxonomy_terms($taxonomy){
@@ -269,7 +265,7 @@ class StudyProgrammeController extends ControllerBase {
     return $terms_parsed;
   }
 
-  public function save_programme($programme){
+  public function save_programme($programme, $iscedftaxonomy){
     if(isset($programme['programme_field']['nid'])){
       $node_storage = \Drupal::entityManager()->getStorage('node');
       $node = $node_storage->load($programme['programme_field']['nid']);
@@ -283,6 +279,10 @@ class StudyProgrammeController extends ControllerBase {
         'title' => sprintf('%s', $programme['programme_field']['title']),
       ]);
     }
+    foreach($programme['programme_field'] as $fieldlabel => $fieldvalue){
+      $node->set($this->parse_key($fieldlabel), $fieldvalue);
+    }
+    $node->save();
   }
 
   private function parse_key($key){
