@@ -85,9 +85,4 @@ class RequirePassTest extends CodeCleanerTestCase
             [''],
         ];
     }
-
-    public function testResolveWorks()
-    {
-        $this->assertEquals(__FILE__, RequirePass::resolve(__FILE__, 3));
-    }
 }
