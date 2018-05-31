@@ -18,7 +18,7 @@ class StudyProgrammeQueue extends QueueWorkerBase {
    */
   public function processItem($programme) {
     $import_controller = new StudyProgrammeController();
-    $iscedtaxonomy = $import_controller->get_taxonomy_terms('isced_f');
-    $import_controller->save_programme($programme, $iscedtaxonomy);
+    $iscedftaxonomy = $import_controller->get_taxonomy_terms('isced_f');
+    $import_controller->save_programme($programme, $iscedftaxonomy);
   }
 }
