@@ -60,8 +60,6 @@ class CodeCleanerTest extends \PHPUnit\Framework\TestCase
             [['echo \''],  true],
             [['if (1) {'], true],
 
-            [['echo "foo",'], true],
-
             [['echo ""'],   false],
             [["echo ''"],   false],
             [['if (1) {}'], false],

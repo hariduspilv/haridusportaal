@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d32acf5c523e8c3504fb20542e706133",
+    "content-hash": "60521a49104d33dfa26ea3b533b0eccf",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3331,6 +3331,55 @@
             }
         },
         {
+            "name": "drupal/image_style_warmer",
+            "version": "1.0.0-alpha4",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/image_style_warmer",
+                "reference": "8.x-1.0-alpha4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/image_style_warmer-8.x-1.0-alpha4.zip",
+                "reference": "8.x-1.0-alpha4",
+                "shasum": "1ed51f535effef7cdad4b63c415a6d8c2927d462"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha4",
+                    "datestamp": "1521658684",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Steffen Schlaer (IT-Cru)",
+                    "homepage": "https://www.drupal.org/u/IT-Cru",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Create image styles of an image on upload or via queue worker.",
+            "homepage": "https://drupal.org/project/image_style_warmer",
+            "support": {
+                "source": "https://cgit.drupalcode.org/image_style_warmer",
+                "issues": "https://drupal.org/project/issues/image_style_warmer"
+            }
+        },
+        {
             "name": "drupal/image_widget_crop",
             "version": "2.1.0",
             "source": {
@@ -3433,7 +3482,7 @@
                 },
                 "drupal": {
                     "version": "8.x-1.0-beta1",
-                    "datestamp": "1477868343",
+                    "datestamp": "1527030784",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
@@ -10372,6 +10421,7 @@
     "stability-flags": {
         "drupal/dropzonejs": 15,
         "drupal/graphql": 10,
+        "drupal/image_style_warmer": 15,
         "drupal/inline_entity_form": 10,
         "drupal/jwt": 15,
         "drupal/kafka": 20,
