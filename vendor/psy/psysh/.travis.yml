@@ -18,18 +18,12 @@ matrix:
     - php: 5.4
       env: 'COMPOSER_FLAGS="--prefer-lowest --prefer-stable"'
     - php: hhvm
-  fast_finish: true
 
 install: travis_retry composer update --no-interaction $COMPOSER_FLAGS
 
-script:
- - vendor/bin/phpunit --verbose --coverage-clover=coverage.xml
- - '[[ $TRAVIS_PHP_VERSION = 7.2* ]] && make build || true'
+script: vendor/bin/phpunit --verbose
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
-before_deploy: make dist
+before_deploy: bin/package -v $TRAVIS_TAG
 
 deploy:
   provider: releases
@@ -41,4 +35,4 @@ deploy:
   on:
     tags: true
     repo: bobthecow/psysh
-    condition: $TRAVIS_PHP_VERSION = 7.2*
+    condition: (($TRAVIS_PHP_VERSION = 5.4* && -z "$COMPOSER_FLAGS") || $TRAVIS_PHP_VERSION = 7.0*)

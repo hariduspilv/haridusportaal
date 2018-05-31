@@ -11,16 +11,23 @@ use Drupal\taxonomy\Entity\Term;
 class StudyProgrammeController extends ControllerBase {
 
   public function import() {
+    // $node_storage = \Drupal::entityManager()->getStorage('node');
+    // $node = $node_storage->load('6004');
+    // kint($node);
+    // die();
     $programmes = $this->get_programme_data('programme');
     $update_from_ehis_nodes = $this->get_ehis_updateable_nodes();
     $existing_ehis_ids = $this->get_existing_ehis_ids();
     $schools = $this->get_existing_schools();
-    $programmetypes = $this->get_taxonomy_terms('studyprogrammetype');
-    $programmelevels = $this->get_taxonomy_ehis_outputs('studyprogrammelevel');
+    $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
+    $taxonomies['degreeordiploma'] = $this->get_taxonomy_terms('degreeordiploma');
+    $taxonomies['teaching_language'] = $this->get_taxonomy_terms('teaching_language');
+    $taxonomies['studyprogrammelevel'] = $this->get_taxonomy_outputs('studyprogrammelevel','field_ehis_output');
+    $taxonomies['iscedf'] = $this->get_taxonomy_outputs('isced_f','field_code');
     foreach($programmes as $programme){
       $programmenode['node_response'] = $this->check_programme_existance($programme, $update_from_ehis_nodes);
       if($programmenode['node_response']['programme_field']['field_update_from_ehis'] === '1'){
-        $programmenode['edited_node'] = $this->add_programme_fields($programme, $programmenode['node_response'], $schools, $programmetypes, $programmelevels);
+        $programmenode['edited_node'] = $this->add_programme_fields($programme, $programmenode['node_response'], $schools, $taxonomies);
         $programmenodes[] = $programmenode['edited_node'];
       }
     }
@@ -119,24 +126,35 @@ class StudyProgrammeController extends ControllerBase {
     return $programmenode;
   }
 
-  public function add_programme_fields($programme, $programmenode, $schools, $programmetypes, $programmelevels){
+  public function add_programme_fields($programme, $programmenode, $schools, $taxonomies){
     if($programmenode['programme_field']['field_update_from_ehis'] == '1'){
-      $programmenode['programme_field']['title'] = html_entity_decode(htmlspecialchars_decode($programme->oppekavaNimetus), ENT_QUOTES | ENT_HTML5);
-      $programmenode['programme_field']['field_ehis_id'] = $programme->oppekavaKood;
+      if(isset($programme->oppekavaNimetus)){
+        $programmenode['programme_field']['title'] = html_entity_decode(htmlspecialchars_decode($programme->oppekavaNimetus), ENT_QUOTES | ENT_HTML5);
+      }
+      if(isset($programme->oppekavaKood)){
+        $programmenode['programme_field']['field_ehis_id'] = $programme->oppekavaKood;
+      }
       if(isset($schools[$programme->koolId])){
         $programmenode['programme_field']['field_educational_institution'] = $schools[$programme->koolId];
       }
 
-      $programmetypevalues = [];
-      if(isset($programmetypes[$this->parse_key($programme->oppekavaLiik)])){
-        $programmetypevalues[] = $programmetypes[$this->parse_key($programme->oppekavaLiik)];
+      $programmetypevalue = '';
+      if(isset($taxonomies['studyprogrammetype'][$this->parse_key($programme->oppekavaLiik)])){
+        $programmetypevalue = $taxonomies['studyprogrammetype'][$this->parse_key($programme->oppekavaLiik)];
       }
-      $programmenode['programme_field']['field_study_programme_type'] = $programmetypevalues;
+      $programmenode['programme_field']['field_study_programme_type'] = $programmetypevalue;
+
+      $degreeordiplomavalue = '';
+      if(isset($programme->akadKraadDiplom)){
+        if(isset($taxonomies['degreeordiploma'][$this->parse_key($programme->akadKraadDiplom)])){
+          $degreeordiplomavalue = $taxonomies['degreeordiploma'][$this->parse_key($programme->akadKraadDiplom)];
+        }
+      }
+      $programmenode['programme_field']['field_degree_or_diploma_awarded'] = $degreeordiplomavalue;
 
       $programmelevelvalue = '';
-      foreach($programmelevels as $level){
+      foreach($taxonomies['studyprogrammelevel'] as $level){
         $key = array_keys($level);
-        //kint($key[0]);
         if(isset($programme->ope)){
           if($level[$key[0]] === $programme->ope){
             $programmelevelvalue = $key[0];
@@ -144,11 +162,83 @@ class StudyProgrammeController extends ControllerBase {
         }
       }
       $programmenode['programme_field']['field_study_programme_level'] = $programmelevelvalue;
+
+      $iscedfdetailed = '';
+      foreach($taxonomies['iscedf'] as $iscedf){
+        $key = array_keys($level);
+        if(isset($programme->ryhmaKood)){
+          if($level[$key[0]] === $programme->ryhmaKood){
+            $iscedfdetailed = $key[0];
+          }
+        }
+      }
+      $programmenode['programme_field']['field_iscedf_detailed'] = $iscedfdetailed;
+
+      $langvalues = [];
+      if(isset($programme->oppeKeeled)){
+        foreach($programme->oppeKeeled->oppeKeel as $ehislanguage){
+          if(isset($taxonomies['teaching_language'][$this->parse_key($ehislanguage)])){
+            $langvalues[] = $taxonomies['teaching_language'][$this->parse_key($ehislanguage)];
+          }
+        }
+      }
+      $programmenode['programme_field']['field_teaching_language'] = $langvalues;
+
+      $specializationvalues = [];
+      if(isset($programme->spetsialiseerumised)){
+        foreach($programme->spetsialiseerumised->spetsialiseerumine as $specialization){
+          $specializationvalues[] = $specialization;
+        }
+      }
+      $specializationvalue = implode(", ",$specializationvalues);
+      $programmenode['programme_field']['field_specializaton'] = $specializationvalue;
+
+      if(isset($programme->maht)){
+        if($programme->oppekavaLiik === 'Kõrghariduse õppekava'){
+          $programmenode['programme_field']['field_amount'] = $programme->maht.' EAP';
+        }
+        if($programme->oppekavaLiik === 'Kutsehariduse õppekava'){
+          $programmenode['programme_field']['field_amount'] = $programme->maht.' EKAP';
+        }
+      }
+
+      if(isset($programme->praktikaMaht)){
+        if($programme->oppekavaLiik === 'Kõrghariduse õppekava'){
+          $programmenode['programme_field']['field_practical_training_amount'] = $programme->praktikaMaht.' EAP';
+        }
+        if($programme->oppekavaLiik === 'Kutsehariduse õppekava'){
+          $programmenode['programme_field']['field_practical_training_amount'] = $programme->praktikaMaht.' EKAP';
+        }
+      }
+
+      if(isset($programme->nominaalKestusAastad)){
+        $programmenode['programme_field']['field_duration_years'] = $programme->nominaalKestusAastad;
+      }
+
+      if(isset($programme->nominaalKestusKuud)){
+        $programmenode['programme_field']['field_duration_months'] = $programme->nominaalKestusKuud;
+      }
+
+      if(isset($programme->vastuvott)){
+        $programmenode['programme_field']['field_admission_status'] = $programme->vastuvott;
+      }
+
+      if(isset($programme->akrediteerimisOtsus)){
+        $programmenode['programme_field']['field_accreditation_status'] = $programme->akrediteerimisOtsus;
+      }
+
+      if(isset($programme->akrediteerimiseKehtivusKuupaev)){
+        $datefields = explode('.', $programme->akrediteerimiseKehtivusKuupaev);
+        $programmenode['programme_field']['field_accreditation_valid_until']['value'] = $datefields[2].'-'.$datefields[1].'-'.$datefields[0];
+      }
+
       $programmenode['programme_field']['field_created_from_ehis_datetime'] = REQUEST_TIME;
       $programmenode['programme_field']['field_update_from_ehis'] = '1';
       $programmenode['programme_field']['status'] = '1';
     }
-    return $programmenode;
+    if(isset($programmenode['programme_field']['title']) && isset($programmenode['programme_field']['field_ehis_id']) && isset($programmenode['programme_field']['field_study_programme_type'])){
+      return $programmenode;
+    }
   }
 
   public function get_taxonomy_terms($taxonomy){
@@ -164,19 +254,35 @@ class StudyProgrammeController extends ControllerBase {
     return $terms_parsed;
   }
 
-  public function get_taxonomy_ehis_outputs($taxonomy){
+  public function get_taxonomy_outputs($taxonomy, $outputfield){
     $query = \Drupal::entityQuery('taxonomy_term');
     $query->condition('vid', $taxonomy);
     $tids = $query->execute();
     $terms = \Drupal\taxonomy\Entity\Term::loadMultiple($tids);
     $terms_parsed = [];
     foreach($terms as $term){
-      $ehisoutputs = $term->get('field_ehis_output')->getValue();
-      foreach($ehisoutputs as $output){
+      $outputs = $term->get($outputfield)->getValue();
+      foreach($outputs as $output){
         $terms_parsed[] = [$term->id() => $output['value']];
       }
     }
     return $terms_parsed;
+  }
+
+  public function save_programme($programme){
+    if(isset($programme['programme_field']['nid'])){
+      $node_storage = \Drupal::entityManager()->getStorage('node');
+      $node = $node_storage->load($programme['programme_field']['nid']);
+    }else if(!isset($programme['programme_field']['nid'])){
+      $node = Node::create([
+        'type' => 'study_programme',
+        'langcode' => 'et',
+        'created' => REQUEST_TIME,
+        'changed' => REQUEST_TIME,
+        'uid' => 1,
+        'title' => sprintf('%s', $programme['programme_field']['title']),
+      ]);
+    }
   }
 
   private function parse_key($key){
