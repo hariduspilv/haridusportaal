@@ -3831,18 +3831,18 @@
     },
     {
         "name": "drupal/inline_entity_form",
-        "version": "1.0.0-rc1",
-        "version_normalized": "1.0.0.0-RC1",
+        "version": "1.0.0-beta1",
+        "version_normalized": "1.0.0.0-beta1",
         "source": {
             "type": "git",
             "url": "https://git.drupal.org/project/inline_entity_form",
-            "reference": "8.x-1.0-rc1"
+            "reference": "8.x-1.0-beta1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/inline_entity_form-8.x-1.0-rc1.zip",
-            "reference": "8.x-1.0-rc1",
-            "shasum": "898789fb6a0662fc2572b87f8d0654a0241473f9"
+            "url": "https://ftp.drupal.org/files/projects/inline_entity_form-8.x-1.0-beta1.zip",
+            "reference": "8.x-1.0-beta1",
+            "shasum": "185ffc28a7b68d19cce057855d1c111f1741a3ea"
         },
         "require": {
             "drupal/core": "~8.0"
@@ -3856,11 +3856,11 @@
                 "dev-1.x": "1.x-dev"
             },
             "drupal": {
-                "version": "8.x-1.0-rc1",
+                "version": "8.x-1.0-beta1",
                 "datestamp": "1527030784",
                 "security-coverage": {
                     "status": "not-covered",
-                    "message": "RC releases are not covered by Drupal security advisories."
+                    "message": "Beta releases are not covered by Drupal security advisories."
                 }
             }
         },
@@ -4985,6 +4985,63 @@
         "support": {
             "source": "http://cgit.drupalcode.org/smtp",
             "issues": "https://www.drupal.org/project/issues/smtp"
+        }
+    },
+    {
+        "name": "drupal/taxonomy_import",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/taxonomy_import",
+            "reference": "8.x-1.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/taxonomy_import-8.x-1.0.zip",
+            "reference": "8.x-1.0",
+            "shasum": "56d1e1eaea042afabdf570d200ec841508934232"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0",
+                "datestamp": "1498644843",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Aswathy Ajish",
+                "homepage": "https://www.drupal.org/user/2584696"
+            },
+            {
+                "name": "neethups",
+                "homepage": "https://www.drupal.org/user/3516137"
+            },
+            {
+                "name": "sajiniantony",
+                "homepage": "https://www.drupal.org/user/2603884"
+            }
+        ],
+        "description": "A module to import taxonomy using CSV or XML file to a user defined vocabulary",
+        "homepage": "https://www.drupal.org/project/taxonomy_import",
+        "support": {
+            "source": "http://cgit.drupalcode.org/taxonomy_import"
         }
     },
     {
@@ -7481,17 +7538,17 @@
     },
     {
         "name": "psy/psysh",
-        "version": "v0.9.4",
-        "version_normalized": "0.9.4.0",
+        "version": "v0.9.3",
+        "version_normalized": "0.9.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/bobthecow/psysh.git",
-            "reference": "4d969a0e08e1e05e7207c07cb4207017ecc9a331"
+            "reference": "79c280013cf0b30fa23f3ba8bd3649218075adf4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/bobthecow/psysh/zipball/4d969a0e08e1e05e7207c07cb4207017ecc9a331",
-            "reference": "4d969a0e08e1e05e7207c07cb4207017ecc9a331",
+            "url": "https://api.github.com/repos/bobthecow/psysh/zipball/79c280013cf0b30fa23f3ba8bd3649218075adf4",
+            "reference": "79c280013cf0b30fa23f3ba8bd3649218075adf4",
             "shasum": ""
         },
         "require": {
@@ -7503,9 +7560,9 @@
             "symfony/var-dumper": "~2.7|~3.0|~4.0"
         },
         "require-dev": {
-            "bamarni/composer-bin-plugin": "^1.2",
             "hoa/console": "~2.15|~3.16",
-            "phpunit/phpunit": "~4.8.35|~5.0|~6.0|~7.0"
+            "phpunit/phpunit": "~4.8.35|~5.0|~6.0|~7.0",
+            "symfony/finder": "~2.1|~3.0|~4.0"
         },
         "suggest": {
             "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
@@ -7514,7 +7571,7 @@
             "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history.",
             "hoa/console": "A pure PHP readline implementation. You'll want this if your PHP install doesn't already support readline or libedit."
         },
-        "time": "2018-05-22T06:48:07+00:00",
+        "time": "2018-04-18T12:32:50+00:00",
         "bin": [
             "bin/psysh"
         ],

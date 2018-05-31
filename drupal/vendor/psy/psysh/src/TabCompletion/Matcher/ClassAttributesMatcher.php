@@ -54,10 +54,7 @@ class ClassAttributesMatcher extends AbstractMatcher
 
         return array_map(
             function ($name) use ($class) {
-                $chunks = explode('\\', $class);
-                $className = array_pop($chunks);
-
-                return $className . '::' . $name;
+                return $class . '::' . $name;
             },
             array_filter(
                 $vars,
