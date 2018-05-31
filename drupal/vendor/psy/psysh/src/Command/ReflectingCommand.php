@@ -14,7 +14,6 @@ namespace Psy\Command;
 use Psy\CodeCleaner\NoReturnValue;
 use Psy\Context;
 use Psy\ContextAware;
-use Psy\Exception\ErrorException;
 use Psy\Exception\RuntimeException;
 use Psy\Util\Mirror;
 
@@ -85,8 +84,6 @@ abstract class ReflectingCommand extends Command implements ContextAware
     /**
      * Resolve a class or function name (with the current shell namespace).
      *
-     * @throws ErrorException when `self` or `static` is used in a non-class scope
-     *
      * @param string $name
      * @param bool   $includeFunctions (default: false)
      *
@@ -94,27 +91,11 @@ abstract class ReflectingCommand extends Command implements ContextAware
      */
     protected function resolveName($name, $includeFunctions = false)
     {
-        $shell = $this->getApplication();
-
-        // While not *technically* 100% accurate, let's treat `self` and `static` as equivalent.
-        if (in_array(strtolower($name), ['self', 'static'])) {
-            if ($boundClass = $shell->getBoundClass()) {
-                return $boundClass;
-            }
-
-            if ($boundObject = $shell->getBoundObject()) {
-                return get_class($boundObject);
-            }
-
-            $msg = sprintf('Cannot use "%s" when no class scope is active', strtolower($name));
-            throw new ErrorException($msg, 0, E_USER_ERROR, "eval()'d code", 1);
-        }
-
         if (substr($name, 0, 1) === '\\') {
             return $name;
         }
 
-        if ($namespace = $shell->getNamespace()) {
+        if ($namespace = $this->getApplication()->getNamespace()) {
             $fullName = $namespace . '\\' . $name;
 
             if (class_exists($fullName) || interface_exists($fullName) || ($includeFunctions && function_exists($fullName))) {

@@ -109,7 +109,6 @@ class ValidClassNamePassTest extends CodeCleanerTestCase
             // static call
             ['Psy\\Test\\CodeCleaner\\ValidClassNamePass\\NotAClass::foo()'],
             ['Psy\\Test\\CodeCleaner\\ValidClassNamePass\\NotAClass::$foo()'],
-            ['Psy\\Test\\CodeCleaner\\ValidClassNamePassTest::notAMethod()'],
         ];
     }
 

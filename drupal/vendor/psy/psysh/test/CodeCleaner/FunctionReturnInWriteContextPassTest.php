@@ -72,20 +72,4 @@ class FunctionReturnInWriteContextPassTest extends CodeCleanerTestCase
 
         $this->traverser->traverse($this->parse('empty(strtolower("A"))'));
     }
-
-    /**
-     * @dataProvider validStatements
-     */
-    public function testValidStatements($code)
-    {
-        $this->parseAndTraverse($code);
-        $this->assertTrue(true);
-    }
-
-    public function validStatements()
-    {
-        return [
-            ['isset($foo)'],
-        ];
-    }
 }

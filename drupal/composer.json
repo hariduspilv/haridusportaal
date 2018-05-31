@@ -37,6 +37,7 @@
         "drupal/google_map_field": "^1.5",
         "drupal/graphql": "^3.0@beta",
         "drupal/hms_field": "^1.0",
+        "drupal/image_style_warmer": "^1.0@alpha",
         "drupal/image_widget_crop": "^2.1",
         "drupal/inline_entity_form": "^1.0@beta",
         "drupal/jsonapi": "^1.15",
