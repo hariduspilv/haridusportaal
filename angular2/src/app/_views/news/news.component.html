@@ -14,9 +14,9 @@
   <div class="row">
     <div class="col-4 sm-12">
       <div class="round-input__wrapper w-100">
-        <span class="round-input__title">{{ 'search.by.keyword' | translate }}</span>
+        <span class="round-input__title">{{ 'search.news.keyword' | translate }}</span>
         <div class="round-input__field-wrapper">
-          <input class="round-input__field" placeholder="Sisesta uudise nimi" formControlName="titleForm" [(ngModel)]="titleValue"/>
+          <input class="round-input__field" placeholder="{{ 'search.news.name' | translate }}" formControlName="titleForm" [(ngModel)]="titleValue"/>
           <button class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
             <mat-icon>close</mat-icon>
           </button>
@@ -34,7 +34,7 @@
       <div class="round-input__wrapper w-100">
         <span class="round-input__title">{{ 'date' | translate }}</span>
         <div class="round-input__field-wrapper">
-          <input class="round-input__field" [matDatepicker]="myDatepicker1" placeholder="Vali alguskuupäev" formControlName="minDateForm"/>
+          <input class="round-input__field" [matDatepicker]="myDatepicker1" placeholder="{{ 'date.from' | translate }}" formControlName="minDateForm"/>
           <!--(click)="myDatepicker1.open()"-->
           <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker1></mat-datepicker>
@@ -50,9 +50,9 @@
         <!-- <div class="col-2"><div class="mat-form-label">kuni</div></div> -->
     <div class="col-3 sm-6">
       <div class="round-input__wrapper w-100">
-        <span class="round-input__title">Kuupäev</span>
+        <span class="round-input__title">{{ 'date' | translate }}</span>
         <div class="round-input__field-wrapper">
-          <input class="round-input__field" [matDatepicker]="myDatepicker2" placeholder="Vali lõpukuupäev" formControlName="maxDateForm"/>
+          <input class="round-input__field" [matDatepicker]="myDatepicker2" placeholder="{{ 'date.to' | translate }}" formControlName="maxDateForm"/>
           <!--(click)="myDatepicker2.open()"-->
           <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker2></mat-datepicker>
@@ -67,7 +67,7 @@
     </div><!--/col-3-->
     <div class="col-2 align-end sm-12">
       <div class="button-row text-right">
-        <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+        <button mat-raised-button color="primary" (click)="newsFilter()">{{ 'search' | translate }}</button>
         <!-- <button mat-raised-button color="primary" (click)="newsFilter()"   [routerLink]="path" [queryParams]="queryParams">Primary</button> -->
       </div>
     </div><!--/col-3-->
