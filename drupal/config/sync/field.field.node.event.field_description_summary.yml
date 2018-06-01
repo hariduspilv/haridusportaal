@@ -9,7 +9,7 @@ id: node.event.field_description_summary
 field_name: field_description_summary
 entity_type: node
 bundle: event
-label: 'Description summary'
+label: Sissejuhatus
 description: ''
 required: true
 translatable: true

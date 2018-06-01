@@ -9,7 +9,7 @@ id: paragraph.contact_section.field_email
 field_name: field_email
 entity_type: paragraph
 bundle: contact_section
-label: Email
+label: E-post
 description: ''
 required: false
 translatable: true

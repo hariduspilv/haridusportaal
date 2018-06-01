@@ -1,7 +1,8 @@
 import { Component, ViewChild, OnInit, HostListener, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SideMenuService, RootScopeService } from './_services';
+import { SideMenuService } from './_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,9 @@ export class AppComponent implements OnInit {
   isSidenavCloseDisabled: boolean;
   routeSub: any;
 
-  constructor(private sidemenu: SideMenuService, private router: Router, private rootScope: RootScopeService, private route: ActivatedRoute) {
-
+  constructor(private sidemenu: SideMenuService, private router: Router, private route: ActivatedRoute, private translate: TranslateService) {
+    
+    translate.use("et");
     this.isSidenavCloseDisabled = true;
 
     this.debounceDelay = 60;
@@ -32,20 +34,24 @@ export class AppComponent implements OnInit {
     var that = this;
     router.events.subscribe( (event: Event) => {
 
-        
-        if (event instanceof NavigationStart) {
-          this.menuStyle();
-        }
+      if (event instanceof RoutesRecognized) {
+        let params = event.state.root.firstChild.params;
+        translate.setDefaultLang(params['lang']);
+      }
+      
+      if (event instanceof NavigationStart) {
+        this.menuStyle();
+      }
 
-        if (event instanceof NavigationEnd) {
-            // Hide loading indicator
-          this.sidemenu.triggerLang();
-        }
+      if (event instanceof NavigationEnd) {
+          // Hide loading indicator
+        this.sidemenu.triggerLang();
+      }
 
-        if (event instanceof NavigationError) {
-            // Hide loading indicator
-            // Present error to user
-        }
+      if (event instanceof NavigationError) {
+          // Hide loading indicator
+          // Present error to user
+      }
         
     });
 

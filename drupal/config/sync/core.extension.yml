@@ -19,6 +19,7 @@ module:
   ctools: 0
   custom_graphql_authentication: 0
   custom_graphql_functions: 0
+  custom_graphql_tags_query: 0
   custom_menu_uri_translation: 0
   custom_rest_functions: 0
   custom_translation_module: 0
@@ -51,6 +52,7 @@ module:
   history: 0
   hms_field: 0
   image: 0
+  image_style_warmer: 0
   image_widget_crop: 0
   import_school_data: 0
   inline_entity_form: 0

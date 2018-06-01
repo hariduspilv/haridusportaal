@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains custom_study_programme_import.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function custom_study_programme_import_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the custom_study_programme_import module.
+    case 'help.page.custom_study_programme_import':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for importing study programmes') . '</p>';
+      return $output;
+
+    default:
+  }
+}
