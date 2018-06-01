@@ -21,7 +21,7 @@ third_party_settings:
     unpublish_enable: false
     unpublish_required: false
     unpublish_revision: false
-name: Üritus
+name: Sündmus
 type: event
 description: 'Create an event that will be displayed in the calendar.'
 help: ''

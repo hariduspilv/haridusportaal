@@ -47,14 +47,9 @@ class InlineEntityForm extends RenderElement {
       '#form_mode' => 'default',
       // Will save entity on submit if set to TRUE.
       '#save_entity' => TRUE,
-      // 'add', 'edit' or 'duplicate'.
+      // 'add' or 'edit'. If NULL, determined by whether the entity is new.
       '#op' => NULL,
       '#process' => [
-        // Core's #process for groups, don't remove it.
-        [$class, 'processGroup'],
-
-        // InlineEntityForm's #process must run after the above ::processGroup
-        // in case any new elements (like groups) were added in alter hooks.
         [$class, 'processEntityForm'],
       ],
       '#element_validate' => [
@@ -64,10 +59,9 @@ class InlineEntityForm extends RenderElement {
         [$class, 'submitEntityForm'],
       ],
       '#theme_wrappers' => ['container'],
-
+      // Allow inline forms to use the #fieldset key.
       '#pre_render' => [
-        // Core's #pre_render for groups, don't remove it.
-        [$class, 'preRenderGroup'],
+        [$class, 'addFieldsetMarkup'],
       ],
     ];
   }
@@ -120,13 +114,7 @@ class InlineEntityForm extends RenderElement {
       $entity_form['#entity'] = $storage->create($values);
     }
     if (!isset($entity_form['#op'])) {
-      // When duplicating entities, the entity is new, but already has a UUID.
-      if ($entity_form['#entity']->isNew() && $entity_form['#entity']->uuid()) {
-        $entity_form['#op'] = 'duplicate';
-      }
-      else {
-        $entity_form['#op'] = $entity_form['#entity']->isNew() ? 'add' : 'edit';
-      }
+      $entity_form['#op'] = $entity_form['#entity']->isNew() ? 'add' : 'edit';
     }
     // Prepare the entity form and the entity itself for translating.
     $entity_form['#entity'] = TranslationHelper::prepareEntity($entity_form['#entity'], $form_state);
@@ -189,6 +177,44 @@ class InlineEntityForm extends RenderElement {
     }
 
     return $inline_form_handler;
+  }
+
+  /**
+   * Pre-render callback for the #fieldset form property.
+   *
+   * Inline forms use #tree = TRUE to keep their values in a hierarchy for
+   * easier storage. Moving the form elements into fieldsets during form
+   * building would break up that hierarchy, so it's not an option for entity
+   * fields. Therefore, we wait until the pre_render stage, where any changes
+   * we make affect presentation only and aren't reflected in $form_state.
+   *
+   * @param array $entity_form
+   *   The entity form.
+   *
+   * @return array
+   *   The modified entity form.
+   */
+  public static function addFieldsetMarkup($entity_form) {
+    $sort = [];
+    foreach (Element::children($entity_form) as $key) {
+      $element = $entity_form[$key];
+      if (isset($element['#fieldset']) && isset($entity_form[$element['#fieldset']])) {
+        $entity_form[$element['#fieldset']][$key] = $element;
+        // Remove the original element this duplicates.
+        unset($entity_form[$key]);
+        // Mark the fieldset for sorting.
+        if (!in_array($key, $sort)) {
+          $sort[] = $element['#fieldset'];
+        }
+      }
+    }
+
+    // Sort all fieldsets, so that element #weight stays respected.
+    foreach ($sort as $key) {
+      uasort($entity_form[$key], '\Drupal\Component\Utility\SortArray::sortByWeightProperty');
+    }
+
+    return $entity_form;
   }
 
 }

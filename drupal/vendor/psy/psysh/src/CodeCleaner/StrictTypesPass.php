@@ -52,7 +52,7 @@ class StrictTypesPass extends CodeCleanerPass
     public function beforeTraverse(array $nodes)
     {
         if (!$this->atLeastPhp7) {
-            return; // @codeCoverageIgnore
+            return;
         }
 
         $prependStrictTypes = $this->strictTypes;

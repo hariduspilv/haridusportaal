@@ -25,7 +25,7 @@ class ExecutionClosure
      */
     public function __construct(Shell $__psysh__)
     {
-        $this->setClosure($__psysh__, function () use ($__psysh__) {
+        $exec = function () use ($__psysh__) {
             try {
                 // Restore execution scope variables
                 extract($__psysh__->getScopeVariables(false));
@@ -66,27 +66,20 @@ class ExecutionClosure
             $__psysh__->setScopeVariables(get_defined_vars());
 
             return $_;
-        });
-    }
+        };
 
-    /**
-     * Set the closure instance.
-     *
-     * @param Shell    $psysh
-     * @param \Closure $closure
-     */
-    protected function setClosure(Shell $shell, \Closure $closure)
-    {
         if (self::shouldBindClosure()) {
-            $that = $shell->getBoundObject();
+            $that = $__psysh__->getBoundObject();
             if (is_object($that)) {
-                $closure = $closure->bindTo($that, get_class($that));
+                $this->closure = $exec->bindTo($that, get_class($that));
             } else {
-                $closure = $closure->bindTo(null, $shell->getBoundClass());
+                $this->closure = $exec->bindTo(null, null);
             }
+
+            return;
         }
 
-        $this->closure = $closure;
+        $this->closure = $exec;
     }
 
     /**
