@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-4 sm-12">
       <div class="round-input__wrapper w-100">
-        <span class="round-input__title">Otsi uudist märksõna järgi</span>
+        <span class="round-input__title">{{ 'search.by.keyword' | translate }}</span>
         <div class="round-input__field-wrapper">
           <input class="round-input__field" placeholder="Sisesta uudise nimi" formControlName="titleForm" [(ngModel)]="titleValue"/>
           <button class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
@@ -32,7 +32,7 @@
     </div><!--/col-3-->
     <div class="col-3 sm-6">
       <div class="round-input__wrapper w-100">
-        <span class="round-input__title">Kuupäev</span>
+        <span class="round-input__title">{{ 'date' | translate }}</span>
         <div class="round-input__field-wrapper">
           <input class="round-input__field" [matDatepicker]="myDatepicker1" placeholder="Vali alguskuupäev" formControlName="minDateForm"/>
           <!--(click)="myDatepicker1.open()"-->
