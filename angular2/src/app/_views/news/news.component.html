@@ -13,7 +13,7 @@
 <div class="row">
   <div class="col-6">
     <h1 class="mt-0">
-      Uudised
+      {{ 'news' | translate }}
     </h1>
   </div><!--/col-6-->
   <div class="col-6 text-right">
@@ -24,7 +24,7 @@
 <form [formGroup]="filterFormGroup" class="row sm-hide">
   <div class="col-3">
     <mat-form-field class="w-100">
-      <mat-placeholder>Otsi uudist märksõna järgi</mat-placeholder>
+      <mat-placeholder>{{ 'search.news.keyword' | translate }}</mat-placeholder>
       <input matInput formControlName="titleForm" [(ngModel)]="titleValue"/>
       <button mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
         <mat-icon>close</mat-icon>
@@ -35,16 +35,16 @@
     <div class="row">
       <div class="col-5">
         <mat-form-field class="w-100">
-          <mat-placeholder>pp/kk/aa</mat-placeholder>
+          <mat-placeholder>{{ 'date.format' | translate }}</mat-placeholder>
           <input matInput [matDatepicker]="myDatepicker1" (click)="myDatepicker1.open()" formControlName="minDateForm">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker1></mat-datepicker>
         </mat-form-field>
       </div><!--/col-5-->
-      <div class="col-2"><div class="mat-form-label">kuni</div></div>
+      <div class="col-2"><div class="mat-form-label">{{ 'to' | translate }}</div></div>
       <div class="col-5">
         <mat-form-field class="w-100">
-          <mat-placeholder>pp/kk/aa</mat-placeholder>
+          <mat-placeholder>{{ 'date.format' | translate }}</mat-placeholder>
           <input matInput [matDatepicker]="myDatepicker2" (click)="myDatepicker2.open()"formControlName="maxDateForm">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker2></mat-datepicker>
@@ -106,10 +106,10 @@
   </div><!--ngFor-->
   
   <div class="text-center mt-30 mb-20" *ngIf="!listEnd">
-    <button mat-raised-button color="primary" (click)="loadMore()" >Lae rohkem</button>
+    <button mat-raised-button color="primary" (click)="loadMore()" >{{ 'load.more' | translate }}</button>
   </div><!--/text-center-->
   <div class="text-center mt-30 mb-20" *ngIf="(list != null && list.length) === 0">
-    <p>No result</p>
+    <p>{{ 'results.none' | translate }}</p>
   </div><!--/text-center-->
   
 </div><!--/ngIf-->
