@@ -44,6 +44,7 @@ use Drupal\user\UserInterface;
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
+ *     "status" = "status"
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/event_reg_entity/{event_reg_entity}",
@@ -294,7 +295,7 @@ class EventRegEntity extends ContentEntityBase implements EventRegEntityInterfac
 			]);
 
 		$fields['participant_idcode'] = BaseFieldDefinition::create('string')
-				->setLabel(t('Comment'))
+				->setLabel(t('IDcode'))
 				->setTranslatable(TRUE)
 				->setDisplayOptions('form', [
 						'type' => 'string_textarea',
@@ -353,6 +354,11 @@ class EventRegEntity extends ContentEntityBase implements EventRegEntityInterfac
     $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('changed'))
       ->setDescription(t('The time that the entity was last updated.'));
+
+		$fields['status'] = BaseFieldDefinition::create('boolean')
+			->setLabel(t('Publishing status'))
+			->setDescription(t('A boolean indicating whether the event is published.'))
+			->setDefaultValue(TRUE);
 
     return $fields;
   }
