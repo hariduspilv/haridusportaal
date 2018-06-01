@@ -1,131 +1,157 @@
-<div class="row sm-hide">
-  <div class="col-12">
-    <ul class="breadcrumb mt-0">
-      <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
-        <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
-          <span>{{ breadcrumbEl.text }}</span>
-        </a>
-        <span *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
-      </li>
-    </ul>
+<div class="news-component">
+  <div class="row sm-hide">
+    <div class="col-12">
+      <ul class="breadcrumb mt-0">
+        <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
+          <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
+            <span>{{ breadcrumbEl.text }}</span>
+          </a>
+          <span *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
-<form [formGroup]="filterFormGroup" class="filter-wrapper">
-  <div class="row">
-    <div class="col-4 sm-12">
-      <div class="round-input__wrapper w-100">
-        <span class="round-input__title">Otsi uudist märksõna järgi</span>
-        <div class="round-input__field-wrapper">
-          <input class="round-input__field" placeholder="Sisesta uudise nimi" formControlName="titleForm" [(ngModel)]="titleValue"/>
-          <button class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
+  <div class="sm-show text-right filter-control">
+    <a href="javascript:void(0);" (click)="hideFilter()">
+      <span *ngIf="!filter">Filtreeri</span>
+      <span *ngIf="filter">Sulge filter</span>
+    </a>
+  </div>
+  <form [formGroup]="filterFormGroup" class="filter-wrapper" *ngIf="filter">
+    <div class="row">
+      <div class="col-4 sm-12">
+        <div class="round-input__wrapper w-100">
+          <span class="round-input__title">Otsi uudist märksõna järgi</span>
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field" placeholder="Sisesta uudise nimi" formControlName="titleForm" [(ngModel)]="titleValue"/>
+            <button class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+        <!-- <mat-form-field class="w-100">
+          <mat-placeholder>Otsi uudist märksõna järgi</mat-placeholder>
+          <input matInput formControlName="titleForm" [(ngModel)]="titleValue"/>
+          <button mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
             <mat-icon>close</mat-icon>
           </button>
+        </mat-form-field> -->
+      </div><!--/col-3-->
+      <div class="col-25 sm-6">
+        <div class="round-input__wrapper w-100">
+          <span class="round-input__title">Kuupäev</span>
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field" [matDatepicker]="myDatepicker1" placeholder="Vali alguskuupäev" formControlName="minDateForm"/>
+            <!--(click)="myDatepicker1.open()"-->
+            <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker1></mat-datepicker>
+          </div>
         </div>
       </div>
-      <!-- <mat-form-field class="w-100">
-        <mat-placeholder>Otsi uudist märksõna järgi</mat-placeholder>
-        <input matInput formControlName="titleForm" [(ngModel)]="titleValue"/>
-        <button mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field> -->
-    </div><!--/col-3-->
-    <div class="col-3 sm-6">
-      <div class="round-input__wrapper w-100">
-        <span class="round-input__title">Kuupäev</span>
-        <div class="round-input__field-wrapper">
-          <input class="round-input__field" [matDatepicker]="myDatepicker1" placeholder="Vali alguskuupäev" formControlName="minDateForm"/>
-          <!--(click)="myDatepicker1.open()"-->
-          <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+        <!-- <mat-form-field class="w-100">
+          <mat-placeholder>pp/kk/aa</mat-placeholder>
+          <input matInput [matDatepicker]="myDatepicker1" (click)="myDatepicker1.open()" formControlName="minDateForm">
+          <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker1></mat-datepicker>
+        </mat-form-field> -->
+          <!-- <div class="col-2"><div class="mat-form-label">kuni</div></div> -->
+      <div class="col-25 sm-6">
+        <div class="round-input__wrapper w-100">
+          <span class="round-input__title">Kuupäev</span>
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field" [matDatepicker]="myDatepicker2" placeholder="Vali lõpukuupäev" formControlName="maxDateForm"/>
+            <!--(click)="myDatepicker2.open()"-->
+            <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+            <mat-datepicker #myDatepicker2></mat-datepicker>
+          </div>
         </div>
-      </div>
-    </div>
-      <!-- <mat-form-field class="w-100">
-        <mat-placeholder>pp/kk/aa</mat-placeholder>
-        <input matInput [matDatepicker]="myDatepicker1" (click)="myDatepicker1.open()" formControlName="minDateForm">
-        <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
-        <mat-datepicker #myDatepicker1></mat-datepicker>
-      </mat-form-field> -->
-        <!-- <div class="col-2"><div class="mat-form-label">kuni</div></div> -->
-    <div class="col-3 sm-6">
-      <div class="round-input__wrapper w-100">
-        <span class="round-input__title">Kuupäev</span>
-        <div class="round-input__field-wrapper">
-          <input class="round-input__field" [matDatepicker]="myDatepicker2" placeholder="Vali lõpukuupäev" formControlName="maxDateForm"/>
-          <!--(click)="myDatepicker2.open()"-->
-          <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+        <!-- <mat-form-field class="w-100">
+          <mat-placeholder>pp/kk/aa</mat-placeholder>
+          <input matInput [matDatepicker]="myDatepicker2" (click)="myDatepicker2.open()" formControlName="maxDateForm">
+          <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker2></mat-datepicker>
+        </mat-form-field> -->
+      </div><!--/col-3-->
+      <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterState">
+        <div class="align-center filter-state sm-hide">       
+          <a href="javascript:void(0);" (click)="changeFilterState()"><span>Täpsem otsing</span></a>
         </div>
-      </div>
-      <!-- <mat-form-field class="w-100">
-        <mat-placeholder>pp/kk/aa</mat-placeholder>
-        <input matInput [matDatepicker]="myDatepicker2" (click)="myDatepicker2.open()" formControlName="maxDateForm">
-        <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
-        <mat-datepicker #myDatepicker2></mat-datepicker>
-      </mat-form-field> -->
-    </div><!--/col-3-->
-    <div class="col-2 align-end sm-12">
-      <div class="button-row text-right">
-        <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
-        <!-- <button mat-raised-button color="primary" (click)="newsFilter()"   [routerLink]="path" [queryParams]="queryParams">Primary</button> -->
-      </div>
-    </div><!--/col-3-->
-  </div>
-  <div class="row sm-hide">
-    <div class="col-10">
-      
-      <ng-select
-      [items]="newsTagObs | async"
-      [multiple]="true"
-      [closeOnSelect]="false"
-      bindLabel="name"
-      placeholder="Select people"
-      [(ngModel)]="selectedTags"
-      formControlName="newsTagsSelectForm"
-      [dropdownPosition]="'bottom'"></ng-select>
-
+        <div class="button-row">
+          <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+          <!-- <button mat-raised-button color="primary" (click)="newsFilter()"   [routerLink]="path" [queryParams]="queryParams">Primary</button> -->
+        </div>
+      </div><!--/col-3-->
+      <div class="col-3 align-end sm-12 sm-show">
+        <div class="button-row">
+          <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+        </div>
+      </div><!--/col-3-->
     </div>
-  </div>
-</form><!--/row-->
+    <div class="row sm-hide" *ngIf="filterState">
+      <div class="col-9">
+        
+        <ng-select
+        [items]="newsTagObs | async"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="name"
+        placeholder="Select people"
+        [(ngModel)]="selectedTags"
+        formControlName="newsTagsSelectForm"
+        [dropdownPosition]="'bottom'"></ng-select>
 
-<mat-spinner *ngIf="!list && !error"></mat-spinner>
-
-<div *ngIf="list">
-  <div *ngFor="let item of list">
-    <mat-card class="mb-20">
-      <mat-card-content>
-        <div class="row">
-          <div class="col-2 sm-12 pointer" *ngIf="item.fieldIntroductionImage" [routerLink]="[item.entityUrl.path]">
-            <img src="{{ item.fieldIntroductionImage.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
-          </div>
-          
-          <div class="col-10 sm-hide">
-            <p class="mt-0"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><b> {{ item.entityLabel }}</b></a></p>
-            
-            <p>{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</p>
-            
-            <mat-chip-list>
-              <span *ngFor="let tag of item.fieldNewsTag" class="mat-chip-wrapper">
-                <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
-              </span>
-            </mat-chip-list>
-            
-            <p class="mb-0">{{ item.fieldShortDescription }}</p>
-          </div>
+      </div>
+      <div class="col-3 align-end text-right sm-12 inline-flex sm-hide">
+        <div class="align-center filter-state sm-hide">       
+          <a href="javascript:void(0);" (click)="changeFilterState()"><span>Kitsam otsing</span></a>
         </div>
-        <div class="sm-show col-12">
-          <p class="mb-0"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><b> {{ item.entityLabel }}</b></a></p>
-        </div><!--/col-12-->
-      </mat-card-content>
-    </mat-card>
-  </div><!--ngFor-->
-  
-  <div class="text-center mt-30 mb-20" *ngIf="!listEnd">
-    <button mat-raised-button color="primary" (click)="loadMore()" >Lae rohkem</button>
-  </div><!--/text-center-->
-  <div class="text-center mt-30 mb-20" *ngIf="(list != null && list.length) === 0">
-    <p>No result</p>
-  </div><!--/text-center-->
-  
-</div><!--/ngIf-->
+        <div class="button-row">
+          <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+        </div>
+      </div><!--/col-3-->
+    </div>
+  </form><!--/row-->
+
+  <mat-spinner *ngIf="!list && !error"></mat-spinner>
+  <div class="news-list" *ngIf="list">
+    <div class="news-title">UUDISED</div>
+    <div>
+      <div *ngFor="let item of list" class="news-item">
+        <mat-card>
+          <mat-card-content>
+            <div class="row">
+              <div class="col-9 sm-hide">
+                <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h2> {{ item.entityLabel }}</h2></a></div>
+                
+                <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                
+                <mat-chip-list>
+                  <span *ngFor="let tag of item.fieldNewsTag" class="mat-chip-wrapper">
+                    <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
+                  </span>
+                </mat-chip-list>
+                
+                <div class="description">{{ item.fieldShortDescription }}</div>
+              </div>
+              <div class="col-3 sm-12 pointer" *ngIf="item.fieldIntroductionImage" [routerLink]="[item.entityUrl.path]">
+                <img src="{{ item.fieldIntroductionImage.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
+              </div>
+            </div>
+            <div class="sm-show col-12">
+              <div class="mb-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h2> {{ item.entityLabel }}</h2></a></div>
+              <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+            </div><!--/col-12-->
+          </mat-card-content>
+        </mat-card>
+      </div><!--ngFor-->
+      
+      <div class="text-center actions" *ngIf="!listEnd">
+        <button mat-raised-button color="primary" (click)="loadMore()" >Lae rohkem</button>
+      </div><!--/text-center-->
+      <div class="text-center actions__error" *ngIf="(list != null && list.length) === 0">
+        <p>No result</p>
+      </div><!--/text-center-->
+      
+    </div><!--/ngIf-->
+  </div>
+</div>
