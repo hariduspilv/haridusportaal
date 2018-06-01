@@ -1,35 +1,54 @@
-.custom-curved-input {
-  .mat-input-flex.mat-form-field-flex {
-    border: 1px solid grey;
-    border-radius: 20px;
+.round-input {
+  &__wrapper {
+    margin-top: -18px;
+    padding-right: 0.125rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    ::placeholder {color: #757575; opacity: 1; font-size: 0.875rem; overflow: hidden;}
+    &:focus-within {
+      .round-input__title {color: #2e3374;}
+      .round-input__field-wrapper {border-color: #2e3374;}
+    }
   }
-  .mat-form-field-infix {
-    border-top: none;
-    padding: 0.625rem 1rem;
+  &__field-wrapper {
+    display: inline-flex;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    width: 100%;
+    border: solid 1px #c7c7c9;
+    border-radius: 1.25rem;
+    background: white;
+    height: 38px;
   }
-  .mat-form-field-underline {
-    display: none;
+  &__field {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.875rem;
+    line-height: 2;
+    height: 22px;
+    padding: 0.5rem 0rem 0.5rem 1rem;
+    border: none;
+    border-radius: 1.25rem;
+    width: stretch;
   }
-  .mat-input-infix .title-label {
+  &__clear {
+    &.mat-icon-button, .mat-icon-button {
+      .mat-datepicker-toggle-default-icon {fill: #d5401a;}
+      height: 38px;
+      width: 38px;
+      &:hover {
+        .mat-button-focus-overlay {background-color: rgba(0,0,0,0);}
+      }
+    }
+  }
+  &__title {
+    top: 9px;
     white-space: nowrap;
-    padding: 5px 5px 0px 5px;
-    position: absolute;
-    top: -12px;
-    background: rgb(250, 250, 250);
-    font-size: 12px;
-    left: 32px;
+    padding: 0.25rem 0.5rem 0 0.5rem;
+    position: relative;
+    background: #ffffff;
+    font-size: 0.75rem;
+    left: 24px;
   }
-  .mat-input-placeholder {
-    padding-left: 1rem;
-    padding-top: 2px;
-  }
-}
-.custom-curved-input.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-  transform: none;
-  display: none;
-}
-.custom-curved-input .mat-form-field-label {
-  overflow: hidden;
-  width: 85%;
-  text-overflow: ellipsis;
 }

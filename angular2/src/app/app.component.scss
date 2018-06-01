@@ -1,7 +1,6 @@
 @import "~@ng-select/ng-select/themes/material.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "../assets/styles/controls.scss";
-@import "../assets/styles/header.scss";
 @import "../assets/styles/sidebar.scss";
 
 /* You can add global styles to this file, and also import other style files */
@@ -17,6 +16,8 @@ h1{font-size:32px; line-height:120%;}
      Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
 }
+
+input:focus {outline: none;}
 
 html{
   height:100%;
@@ -37,9 +38,8 @@ body{height: calc(100% - 64px);}
   img{height:54px; margin-top:5px;}
 } 
 
-.mat-sidenav-content{padding:0 0 40px 40px;
-
-}
+.filter-wrapper {background: #ffffff;padding: 1rem 1.5rem; margin-bottom: 1.5rem;}
+.mat-sidenav-content{padding:0 0 40px 40px;}
 
 .mat-toolbar.header-toolbar{position: fixed; top:0; left:0; width:100%; z-index: 999;}
 
@@ -75,6 +75,7 @@ body{height: calc(100% - 64px);}
 .row{display: flex; width: auto;}
 .row .col{flex-grow: 1; padding:10px;}
 .row .col .mat-card{width:100%; box-sizing: border-box; margin:0; float:none; max-width: 9999px;}
+.row .align-end {align-self: flex-end;}
 
 .breadcrumb{display: block; padding:0; margin:16px 0;}
 .breadcrumb li{margin:0; padding:0; display: inline;}
@@ -86,12 +87,14 @@ body{height: calc(100% - 64px);}
 .mat-sidenav{top:64px !important;}
 .mat-sidenav .mat-menu-item{height:auto; padding-top:14px; padding-bottom:14px; line-height:120%;}
 .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 13px;}
+.mat-raised-button.mat-primary { border-radius: 20px; background-color: #2e3374; font-weight: 300; height: 40px; width: 100%;
+  @media (min-width: 900px) {width: auto;}
+}
 
 article{line-height:150%;}
 article a[href]{color:#3f51b5;}
 
 .menu-burger{cursor: pointer;}
-
 .mat-sidenav-container{padding-top:20px;}
 .side-menu-wrapper{background:#fff; display: block; box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);}
 .ul-styleless{padding:0; margin:0 0 0 0; list-style:none;}
@@ -176,7 +179,7 @@ $grid-columns: 12;
 .inline{max-width:1400px; margin:0 auto; padding:0 40px 0 0;}
 
 .mat-toolbar{ padding:0 !important;
-  .inline{display: flex; align-items:center; width:100%;
+  .inline{display: flex; align-items:center; width:100%; padding-right: 24px;
     .pull-right{float:right;}
   }
 }
@@ -199,7 +202,7 @@ $grid-columns: 12;
   .mat-sidenav-content{padding:0 0 40px 0;}
   .mat-sidenav{top:64px !important;}
   .mat-toolbar.header-toolbar{
-    .inline{padding:0 20px;}
+    .inline{padding-left: 20px; }
   }
   .inline{padding:0;
     .mat-drawer-content{padding:0 20px;}
@@ -208,9 +211,36 @@ $grid-columns: 12;
 
 @media (max-width:599px){
   body{padding-top:56px; height: calc(100% - 64px);}
-  // .header-logo{
-  //   img{height:46px;  margin-top:5px;}
-  // }
   .mat-sidenav{top:56px !important;}
+}
+
+@media print{
+  body{padding-top:0; width:1200px;}
+  .inline{padding:0;}
+  .mat-sidenav-content{padding:0;}
+  app-header, .mat-drawer, .breadcrumb{display: none !important;}
+  .mat-drawer-content{margin-left:0 !important;}
+  .mat-sidenav-container{overflow: visible; height:auto;}
+  article{
+    &>h1,
+    &>h2,
+    &>h3,
+    &>h4,
+    &>h5,
+    &>h6,
+    &>p{
+      &:first-child{margin-top:0;}
+    }
+  }
+
+  .row{display: block;font-size:0; margin:0;
+    &>[class*='col']{display: inline-block; font-size:16px; vertical-align: top;}
+    @for $i from 1 through $grid-columns {
+      .col-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+  }
+  .mat-card{page-break-inside: avoid;}
   
+  .mat-expansion-panel-content{height:auto !important; visibility: visible !important;}
+
 }

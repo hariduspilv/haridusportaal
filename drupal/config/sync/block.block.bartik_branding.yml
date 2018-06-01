@@ -16,7 +16,7 @@ provider: null
 plugin: system_branding_block
 settings:
   id: system_branding_block
-  label: 'Site branding'
+  label: 'Saidi bränding'
   provider: system
   label_display: '0'
   use_site_logo: true

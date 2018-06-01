@@ -8,8 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 
 export class RecentNewsComponent implements OnInit {
-	@Input() nid: number;
-
+	
 	error: boolean;
 	content: any;
 	lang: string;
@@ -32,7 +31,7 @@ export class RecentNewsComponent implements OnInit {
 			}
 		});
 		
-		this.newsService.getRecent(this.nid,function(data){
+		this.newsService.getRecent("",function(data){
 			if ( data['nodeQuery'] == null ) {
 				that.error = true;
 			} else {
