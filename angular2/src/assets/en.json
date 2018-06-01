@@ -2,9 +2,11 @@
   "news": "News",
   "news.all": "All news",
   "frontpage": "Frontpage",
+  "date": "Date",
   "date.format": "dd/mm/yy",
   "search": "Search",
   "search.news.keyword": "Search news by keyword",
+  "search.news.name": "Enter news name",
   "search.events.name": "Search events by name",
   "load.more": "Load more",
 

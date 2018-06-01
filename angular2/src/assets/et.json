@@ -2,10 +2,12 @@
   "news": "Uudised",
   "news.all": "Kõik uudised",
   "frontpage": "Avaleht",
+  "date": "Kuupäev",
   "date.format": "pp/kk/aa",
   "search": "Otsi",
   "search.news.keyword": "Otsi uudist märksõna järgi",
   "search.events.name": "Otsi sündmuse nime järgi",
+  "search.news.name": "Sisesta uudise nimi",
   "load.more": "Lae rohkem",
 
   "events": "Sündmused",
