@@ -113,7 +113,6 @@ export class EventsComponent implements OnInit {
   // QUERY PARAMS FORMAT NEEDED - moment(new Date(this.minDate)).unix().toString();
   
   
-  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -133,23 +132,21 @@ export class EventsComponent implements OnInit {
     });
   }
   
-  // formatDate(d) {
-  //   d = d.substr(0,2)+"/"+d.substr(2,2)+"/"+d.substr(4,2)
-  //   return d
-  // }
-
   onAddDate(event: any) {
-    // if(event.target.value.length == 2) {
-    //   event.target.value + "/";
-    // }
-    // if(event.target.value.length == 5 ) {
-    //   event.target.value + "/";
-    // }
-    // if(event.target.value.length == 10 ) {
-    //   event.target.value;
-    // }
-    // console.log(event.target.value.length)
+    var numChars = event.target.value.length;
+    if(numChars === 2 || numChars === 5){
+      event.target.value = event.target.value + '/';
+    }
   }
+  onDeleteDate(event: any) {
+    var targetVal = event.target.value;    
+    if(event.target.value.substr(targetVal.length-1,1) === "/") {
+      event.stopPropagation()
+      event.preventDefault()
+      event.target.value = targetVal.substr(0,targetVal.length-2);
+    }
+  }
+  
   
   loadMore() {
     this.offset = this.eventList.length;
