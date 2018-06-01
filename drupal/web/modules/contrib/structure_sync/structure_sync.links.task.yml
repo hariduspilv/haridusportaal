@@ -1,0 +1,23 @@
+structure_sync.general:
+  route_name: structure_sync.general.form
+  title: General settings
+  base_route: structure_sync
+  weight: 1
+
+structure_sync.taxonomies:
+  route_name: structure_sync.taxonomies.form
+  title: Taxonomies
+  base_route: structure_sync
+  weight: 2
+
+structure_sync.blocks:
+  route_name: structure_sync.blocks.form
+  title: Custom blocks
+  base_route: structure_sync
+  weight: 3
+
+structure_sync.menu:
+  route_name: structure_sync.menu.form
+  title: Menu links
+  base_route: structure_sync
+  weight: 4
