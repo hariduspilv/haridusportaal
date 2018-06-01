@@ -12,19 +12,28 @@ use Drupal\taxonomy\Entity\Term;
 class StudyProgrammeController extends ControllerBase {
 
   public function import() {
+    // $parents = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents(679);
+    // foreach($parents as $parent){
+    //       kint($parent->id());
+    // }
+    // die();
     // $node_storage = \Drupal::entityManager()->getStorage('node');
     // $node = $node_storage->load('9701');
     // kint($node);
     // die();
     $schools = $this->get_existing_schools();
+    // $taxonomies['iscedf'] = $this->get_taxonomy_outputs('isced_f','field_code');
+    // kint($taxonomies['iscedf']);
+    // die();
     $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
     $programmes = $this->get_programme_data('programme', $schools, $taxonomies['studyprogrammetype']);
     $update_from_ehis_nodes = $this->get_ehis_updateable_nodes();
     $existing_ehis_ids = $this->get_existing_ehis_ids();
+    $taxonomies['iscedf'] = $this->get_taxonomy_outputs('isced_f','field_code');
     $taxonomies['degreeordiploma'] = $this->get_taxonomy_terms('degreeordiploma');
     $taxonomies['teaching_language'] = $this->get_taxonomy_terms('teaching_language');
+    $taxonomies['qual_id'] = $this->get_taxonomy_terms('qualificationstandardid');
     $taxonomies['studyprogrammelevel'] = $this->get_taxonomy_outputs('studyprogrammelevel','field_ehis_output');
-    $taxonomies['iscedf'] = $this->get_taxonomy_outputs('isced_f','field_code');
     foreach($programmes as $programme){
       $programmenode['node_response'] = $this->check_programme_existance($programme, $update_from_ehis_nodes);
       if($programmenode['node_response']['programme_field']['field_update_from_ehis'] === '1'){
@@ -163,9 +172,9 @@ class StudyProgrammeController extends ControllerBase {
       }
 
       foreach($taxonomies['iscedf'] as $iscedf){
-        $key = array_keys($level);
+        $key = array_keys($iscedf);
         if(isset($programme->ryhmaKood)){
-          if($level[$key[0]] === $programme->ryhmaKood){
+          if($iscedf[$key[0]] === $programme->ryhmaKood){
             $iscedfdetailed = $key[0];
             $programmenode['programme_field']['field_iscedf_detailed'] = $iscedfdetailed;
           }
@@ -230,6 +239,24 @@ class StudyProgrammeController extends ControllerBase {
         $programmenode['programme_field']['field_accreditation_valid_until']['value'] = $datefields[2].'-'.$datefields[1].'-'.$datefields[0];
       }
 
+      if(isset($programme->kutsestandardid)){
+        $qualidvalues = [];
+        $qualidtaxonomies = [];
+        foreach($programme->kutsestandardid->kutsestandardiIdentifikaator as $id){
+          if(isset($taxonomies['qual_id'][$id])){
+            $qualidvalues[] = $taxonomies['qual_id'][$id];
+          }else{
+            $qualidtaxonomies[] = $id;
+          }
+        }
+        if(count($qualidvalues) > 0){
+          $programmenode['programme_field']['field_qualification_standard_id'] = $qualidvalues;
+        }
+        if(count($qualidtaxonomies) > 0){
+          $programmenode['programme_taxonomy']['qualificationstandardid'] = $qualidtaxonomies;
+        }
+      }
+
       $programmenode['programme_field']['field_created_from_ehis_datetime'] = REQUEST_TIME;
       $programmenode['programme_field']['field_update_from_ehis'] = '1';
       $programmenode['programme_field']['status'] = '1';
@@ -265,7 +292,7 @@ class StudyProgrammeController extends ControllerBase {
     return $terms_parsed;
   }
 
-  public function save_programme($programme, $iscedftaxonomy){
+  public function save_programme($programme){
     if(isset($programme['programme_field']['nid'])){
       $node_storage = \Drupal::entityManager()->getStorage('node');
       $node = $node_storage->load($programme['programme_field']['nid']);
@@ -278,6 +305,26 @@ class StudyProgrammeController extends ControllerBase {
         'uid' => 1,
         'title' => sprintf('%s', $programme['programme_field']['title']),
       ]);
+    }
+    if(isset($programme['programme_field']['field_iscedf_detailed'])){
+      $detailedparents = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($programme['programme_field']['field_iscedf_detailed']);
+      foreach($detailedparents as $parent){
+        $programme['programme_field']['field_iscedf_narrow'] = $parent->id();
+      }
+      $narrowparents = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($programme['programme_field']['field_iscedf_narrow']);
+      foreach($narrowparents as $parent){
+        $programme['programme_field']['field_iscedf_board'] = $parent->id();
+      }
+    }
+    if(isset($programme['programme_taxonomy']['qualificationstandardid'])){
+      foreach($programme['programme_taxonomy']['qualificationstandardid'] as $id){
+        $qualidterm = Term::create([
+          'name' => $id,
+          'vid' => 'qualificationstandardid',
+        ]);
+        $qualidterm->save();
+        $programme['programme_field']['field_qualification_standard_id'][] = $qualidterm->get('tid')->getValue()[0]['value'];
+      }
     }
     foreach($programme['programme_field'] as $fieldlabel => $fieldvalue){
       $node->set($this->parse_key($fieldlabel), $fieldvalue);
