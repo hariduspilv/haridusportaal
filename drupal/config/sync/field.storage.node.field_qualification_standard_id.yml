@@ -1,17 +1,16 @@
-uuid: 013209d4-0da8-4a5b-9360-3b50f803cd73
+uuid: c137bd8a-50e1-4a31-a154-c00536f5794e
 langcode: et
 status: true
 dependencies:
   module:
     - node
+    - taxonomy
 id: node.field_qualification_standard_id
 field_name: field_qualification_standard_id
 entity_type: node
-type: string
+type: entity_reference
 settings:
-  max_length: 255
-  is_ascii: false
-  case_sensitive: false
+  target_type: taxonomy_term
 module: core
 locked: false
 cardinality: -1
