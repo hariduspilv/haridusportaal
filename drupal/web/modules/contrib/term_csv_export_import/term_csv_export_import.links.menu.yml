@@ -1,0 +1,6 @@
+term_csv_export_import.import:
+  route_name: term_csv_export_import.import
+  parent: system.admin_config_content
+  description: 'Import and Export Taxonomy Terms as CSV'
+  title: Term CSV Export/Import
+  weight: 0

@@ -22,6 +22,7 @@ module:
   custom_graphql_tags_query: 0
   custom_menu_uri_translation: 0
   custom_rest_functions: 0
+  custom_study_programme_import: 0
   custom_translation_module: 0
   datetime: 0
   dblog: 0
@@ -88,6 +89,7 @@ module:
   smtp: 0
   system: 0
   taxonomy: 0
+  taxonomy_manager: 0
   telephone: 0
   text: 0
   token: 0
