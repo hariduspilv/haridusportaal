@@ -1,0 +1,147 @@
+<?php
+
+use GraphQL\Error\Error;
+use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_mail().
+ */
+function htm_custom_event_registration_mail($key, &$message, $params) {
+
+	$options = array(
+			'langcode' => $message['langcode'],
+	);
+ 	switch ($key) {
+ 		case 'event_registration_email':
+			$message['headers']['Content-Type'] = 'text/html;';
+			$message['from'] = \Drupal::config('system.site')->get('mail');
+			$message['subject'] = $params['title'];
+			$message['body'][] = $params['message'];
+	 		break;
+ 	}
+}
+
+/**
+ * Implements hook_theme()
+ */
+function htm_custom_event_registration_theme($existing, $type, $theme, $path){
+	return [
+		'registration_email_template' => [
+			'variables' => ['body' => ''],
+			'template' => 'registration_email_template',
+		]
+	];
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+	if ($entity->getEntityTypeId() === 'event_reg_entity') {
+
+		//$langcode = $entity->language()->getId();
+		$langcode = $entity->language->value;
+		//dump($langcode);
+		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
+		$mailManager = \Drupal::service('plugin.manager.mail');
+		$module = 'htm_custom_event_registration';
+		$key = 'event_registration_email';
+		$to = $entity->participant_email->value;
+
+		$message = [
+			'static_body' => [
+				'first_name' => $entity->participant_first_name->value,
+				'last_name' => $entity->participant_last_name->value,
+			],
+			'dynamic_body' => $translated_reference_event->field_registration_->value,
+			'event_title' => $translated_reference_event->getTitle(),
+			'registration_ent' => $entity,
+			'langcode' => $langcode,
+		];
+
+		$params = _custom_email_content($message);
+		$send = true;
+
+		$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+		if ($result['result'] !== true) {
+			$message = t('There was a problem sending email notification to @email', array('@email' => $to));
+			\Drupal::logger('htm_custom_event_registration')->error($message);
+			throw new Error($message);
+		}else{
+			$message = t('An email notification has been sent to @email', array('@email' => $to));
+			\Drupal::logger('htm_custom_event_registration')->notice($message);
+		}
+		return FALSE;
+	}
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function htm_custom_event_registration_entity_update(Drupal\Core\Entity\EntityInterface $entity) {
+	if ($entity->getEntityTypeId() === 'event_reg_entity') {
+
+		$langcode = $entity->language->value;
+
+		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
+		$mailManager = \Drupal::service('plugin.manager.mail');
+		$module = 'htm_custom_event_registration';
+		$key = 'event_registration_email';
+		$to = $entity->participant_email->value;
+
+		$message = [
+			'static_body' => [
+					'first_name' => $entity->participant_first_name->value,
+					'last_name' => $entity->participant_last_name->value,
+			],
+			'dynamic_body' => $translated_reference_event->field_registration_->value,
+			'event_title' => $translated_reference_event->getTitle(),
+			'registration_ent' => $entity,
+			'langcode' => $langcode,
+		];
+
+		$params = _custom_email_content($message);
+
+		$send = false;
+
+		$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+		if ($result['result'] !== true) {
+			$message = t('There was a problem sending email notification to @email', array('@email' => $to));
+			\Drupal::logger('htm_custom_event_registration')->error($message);
+			//throw new Error($message);
+		}else{
+			$message = t('An email notification has been sent to @email', array('@email' => $to));
+			\Drupal::logger('htm_custom_event_registration')->notice($message);
+		}
+		return FALSE;
+	}
+}
+
+function _custom_email_content($message){
+	//$message['langcode'] = 'et';
+
+	/*TODO MAKE FIELDS CONFIGURABLE AND MAKE HTML TEMPLATE*/
+	/* @var \Drupal\htm_custom_event_registration\Entity\EventRegEntity $reg_ent */
+	$reg_ent = $message['registration_ent'];
+
+	$body = '<h3>' . t('Oled registreerinud üritusele: @event', array('@event' => $message['event_title']), array('langcode' => $message['langcode'])) . '</h3>';
+	$body .= '<p>' . t('Registreerimise andmed:', array(), array('langcode' => $message['langcode'])). '</p>';
+	$body .= '<ul>';
+		foreach($reg_ent as $key => $value){
+			if(preg_match('#^participant#', $key) && !empty($value->value)){
+				//dump($value);
+				$label = $reg_ent->getTranslatedFieldLabel($key, $message['langcode']);
+				//dump($label);
+				$submitted_value = $value->value;
+				$body .= '<li><strong>' . $label .'</strong>: '. $submitted_value . '</li>';
+			}
+		}
+	$body .= '</ul>';
+	$body .= $message['dynamic_body'];
+
+	return[
+		'title' => t('Registreerimise kinnituskiri'),
+		'message'	=> $body,
+	];
+}

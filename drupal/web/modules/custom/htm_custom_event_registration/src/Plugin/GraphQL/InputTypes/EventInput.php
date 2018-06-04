@@ -16,8 +16,7 @@ use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
  *      "organization" = "String",
  *      "email" = "Email!",
  *      "phone" = "String",
- *      "comment" = "String",
- *      "language" = "LanguageId!"
+ *      "comment" = "String"
  *   }
  * )
  */
