@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * This is my module. I will create a view here, and it will be empty.
+ */
+use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\Entity;
+/**
+ * Implements hook_preprocess_page().
+ * Used to add css and js library to forum pages.
+ * 
+ */
+  function taxonomy_import_preprocess_page(&$variables) {
+    $variables['page']['#cache']['contexts'][] = 'route';
+    $route_b = \Drupal::routeMatch()->getRouteName();    
+    /*For custom form*/
+    if(($route_b == 'taxonomy_import.settings')){
+		$variables['#attached']['library'][] = 'taxonomy_import/common-styling';
+	}
+  }

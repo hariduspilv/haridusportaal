@@ -2,23 +2,27 @@
 
 /**
  * @file
- * Contains custom_study_programme_import.module.
+ * Contains custom_study_programme_import.
  */
 
-use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\custom_study_programme_import\Controller\StudyProgrammeController;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
+use Drupal\Core\Database\Database;
 
 /**
  * Implements hook_help().
  */
-function custom_study_programme_import_help($route_name, RouteMatchInterface $route_match) {
-  switch ($route_name) {
-    // Main module help for the custom_study_programme_import module.
-    case 'help.page.custom_study_programme_import':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Module for importing study programmes') . '</p>';
-      return $output;
+function custom_study_programme_import_cron() {
+        $import_controller = new StudyProgrammeController();
 
-    default:
-  }
+        /** @var QueueFactory $queue_factory */
+        $queue_factory = \Drupal::service('queue');
+        /** @var QueueInterface $queue */
+        $queue = $queue_factory->get('cron_custom_study_programme_import');
+
+        $programmenodes = $import_controller->import();
+        foreach($programmenodes as $programmenode){
+          $queue->createItem($programmenode);
+        }
 }

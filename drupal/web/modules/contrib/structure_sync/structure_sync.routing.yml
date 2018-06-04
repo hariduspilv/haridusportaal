@@ -1,0 +1,39 @@
+structure_sync:
+  path: '/admin/structure/structure-sync'
+  defaults:
+    _form: '\Drupal\structure_sync\Form\StructureSyncForm'
+    _title: 'Structure Sync'
+  requirements:
+    _permission: 'administer site configuration'
+
+structure_sync.general.form:
+  path: '/admin/structure/structure-sync/general'
+  defaults:
+    _form: '\Drupal\structure_sync\Form\StructureSyncForm'
+    _title: 'General settings'
+  requirements:
+    _permission: 'administer site configuration'
+
+structure_sync.taxonomies.form:
+  path: '/admin/structure/structure-sync/taxonomies'
+  defaults:
+    _form: '\Drupal\structure_sync\Form\TaxonomiesSyncForm'
+    _title: 'Taxonomies'
+  requirements:
+    _permission: 'administer site configuration'
+
+structure_sync.blocks.form:
+  path: '/admin/structure/structure-sync/blocks'
+  defaults:
+    _form: '\Drupal\structure_sync\Form\BlocksSyncForm'
+    _title: 'Custom blocks'
+  requirements:
+    _permission: 'administer site configuration'
+
+structure_sync.menu.form:
+  path: '/admin/structure/structure-sync/menu-links'
+  defaults:
+    _form: '\Drupal\structure_sync\Form\MenuSyncForm'
+    _title: 'Menu links'
+  requirements:
+    _permission: 'administer site configuration'
