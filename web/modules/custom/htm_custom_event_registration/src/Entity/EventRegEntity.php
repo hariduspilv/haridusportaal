@@ -163,7 +163,16 @@ class EventRegEntity extends ContentEntityBase implements EventRegEntityInterfac
     return $this;
   }
 
-  /**
+	/**
+	 * @inheritDoc
+	 */
+	public function getTranslatedFieldLabel($name, $langcode){
+		$label = $this->{$name}->getFieldDefinition()->getFieldStorageDefinition()->getLabel()->getUntranslatedString();
+		return t($label, [], ['langcode' => $langcode]);
+	}
+
+
+	/**
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
@@ -176,20 +185,20 @@ class EventRegEntity extends ContentEntityBase implements EventRegEntityInterfac
       ->setSetting('handler', 'default')
       ->setTranslatable(TRUE)
 			->setDisplayOptions('view', [
-					'label' => 'hidden',
-					'type' => 'author',
-					'weight' => 0,
+				'label' => 'hidden',
+				'type' => 'author',
+				'weight' => 0,
 			])
 			->setDisplayOptions('form', [
-						'type' => 'entity_reference_autocomplete',
-						'weight' => 5,
-						'settings' => [
-								'match_operator' => 'CONTAINS',
-								'size' => '60',
-								'autocomplete_type' => 'tags',
-								'placeholder' => '',
-						],
-				]);
+				'type' => 'entity_reference_autocomplete',
+				'weight' => 5,
+				'settings' => [
+					'match_operator' => 'CONTAINS',
+					'size' => '60',
+					'autocomplete_type' => 'tags',
+					'placeholder' => '',
+				],
+			]);
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
