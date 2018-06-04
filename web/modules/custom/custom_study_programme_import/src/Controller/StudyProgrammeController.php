@@ -12,19 +12,7 @@ use Drupal\taxonomy\Entity\Term;
 class StudyProgrammeController extends ControllerBase {
 
   public function import() {
-    // $parents = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents(679);
-    // foreach($parents as $parent){
-    //       kint($parent->id());
-    // }
-    // die();
-    // $node_storage = \Drupal::entityManager()->getStorage('node');
-    // $node = $node_storage->load('9701');
-    // kint($node);
-    // die();
     $schools = $this->get_existing_schools();
-    // $taxonomies['iscedf'] = $this->get_taxonomy_outputs('isced_f','field_code');
-    // kint($taxonomies['iscedf']);
-    // die();
     $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
     $programmes = $this->get_programme_data('programme', $schools, $taxonomies['studyprogrammetype']);
     $update_from_ehis_nodes = $this->get_ehis_updateable_nodes();
