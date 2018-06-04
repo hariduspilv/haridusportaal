@@ -5,6 +5,6 @@ dependencies: {  }
 _core:
   default_config_hash: wKD4WsoV_wFgv2vgI4mcAAFSIzrye17ykzdwrnApkfY
 id: html_week
-label: 'HTML Week'
+label: 'HTML Nädal'
 locked: true
 pattern: Y-\WW
