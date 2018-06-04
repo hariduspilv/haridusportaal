@@ -1,0 +1,7 @@
+image_style_warmer.settings:
+  path: '/admin/config/development/performance/image-style-warmer'
+  defaults:
+    _form: '\Drupal\image_style_warmer\Form\ImageStyleWarmerSettingsForm'
+    _title: 'Image Style Warmer'
+  requirements:
+    _permission: 'administer site configuration'

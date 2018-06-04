@@ -53,6 +53,7 @@ module:
   history: 0
   hms_field: 0
   image: 0
+  image_style_warmer: 0
   image_widget_crop: 0
   import_school_data: 0
   inline_entity_form: 0

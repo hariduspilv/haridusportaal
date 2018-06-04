@@ -1,0 +1,5 @@
+image_style_warmer.settings:
+  title: 'Image Style Warmer'
+  parent: system.performance_settings
+  description: 'Image Style Warmer settings.'
+  route_name: image_style_warmer.settings
