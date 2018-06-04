@@ -9,7 +9,7 @@ id: paragraph.accordion.field_accordion_title
 field_name: field_accordion_title
 entity_type: paragraph
 bundle: accordion
-label: 'Accordion title'
+label: Pealkiri
 description: ''
 required: true
 translatable: true
