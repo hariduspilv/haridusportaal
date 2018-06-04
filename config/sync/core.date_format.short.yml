@@ -5,6 +5,6 @@ dependencies: {  }
 _core:
   default_config_hash: AlzeyytA8InBgxIG9H2UDJYs3CG98Zj6yRsDKmlbZwA
 id: short
-label: 'Default short date'
+label: 'Vaikimisi lühike kuupäevaformaat'
 locked: false
-pattern: 'm/d/Y - H:i'
+pattern: 'd/m/Y - H:i'

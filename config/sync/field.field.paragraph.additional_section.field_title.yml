@@ -9,7 +9,7 @@ id: paragraph.additional_section.field_title
 field_name: field_title
 entity_type: paragraph
 bundle: additional_section
-label: title
+label: Pealkiri
 description: ''
 required: false
 translatable: true
