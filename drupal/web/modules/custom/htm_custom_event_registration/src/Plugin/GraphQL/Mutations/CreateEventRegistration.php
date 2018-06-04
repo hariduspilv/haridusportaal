@@ -85,7 +85,7 @@ class CreateEventRegistration extends CreateEntityBase{
 		return [
 			'name' => $args['input']['first_name'] . ' ' . $args['input']['last_name'],
 			'event_reference' => $args['input']['event_id'],
-			'langcode' => $args['input']['language'],
+			'language' => $context->getContext('language', $info),
 			'participant_first_name' => $args['input']['first_name'],
 			'participant_last_name' => $args['input']['last_name'],
 			'participant_organization' => isset($args['input']['participant_organization']) ? $args['input']['participant_organization'] : '',
