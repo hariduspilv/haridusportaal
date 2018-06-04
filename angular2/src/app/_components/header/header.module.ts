@@ -4,7 +4,6 @@ import { HeaderComponent } from './header.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SideMenuService } from '../../_services';
 import { CommonModule } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
 
 
 @NgModule({

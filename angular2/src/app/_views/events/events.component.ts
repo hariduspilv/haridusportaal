@@ -1,219 +1,157 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import * as moment from 'moment';
-
 import { EventsService, RootScopeService } from '../../_services';
 import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
-// import { EventsJson } from '../../_services/events/events.json';
-import { sortEventsByOptions } from '../../_services/events/events.graph';
-
-import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { componentFactoryName } from '@angular/compiler';
+import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/of';
-
-import { Apollo, QueryRef } from 'apollo-angular';
-
-
-
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
-
-export class AppDateAdapter extends NativeDateAdapter {
-  
-  format(date: Date, displayFormat: Object): string {
-    
-    if (displayFormat === 'input') {
-      const day = date.getDate()>10 ? date.getDate() : "0"+date.getDate();
-      const month = (date.getMonth() + 1)>=10 ? (date.getMonth() + 1) : "0"+(date.getMonth() + 1);
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
-    } else {
-      return date.toDateString();
-    }
-  }
-}
-
-export const APP_DATE_FORMATS =
-{
-  parse: {
-    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
-  },
-  display: {
-    dateInput: 'input',
-    monthYearLabel: { year: 'numeric', month: 'numeric' },
-    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
-    monthYearA11yLabel: { year: 'numeric', month: 'long' },
-  }
-};
+import { MomentModule } from 'angular2-moment/moment.module';
+import { Apollo } from 'apollo-angular';
 
 @Component({
-  templateUrl: './events.component.html',
-  providers: [
-    {
-      provide: DateAdapter, useClass: AppDateAdapter
-    },
-    {
-      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
-    }
-  ]
+  templateUrl: './events.component.html'
 })
 
 export class EventsComponent implements OnInit {
   
-  feedRef: QueryRef<any>;
-  feedSub: any;
+  private querySubscription: Subscription;  
+  private path: string;
+  private lang: string;
   
-  path: string;
-  lang: string;
   breadcrumb: any;
-  eventList: any;
   
-  filterFormGroup = new FormGroup({
-    titleForm: new FormControl({ value: null, disabled: false }),
-    minDateForm: new FormControl({ value: null, disabled: false }),
-    maxDateForm: new FormControl({ value: null, disabled: false }),
-    newsTagsSelectForm: new FormControl({ value: [], disabled: false }),
-  });
+  content: any;
+  unix: any;
+  error: boolean;
+  offset: number;
+  limit: number;
+  listEnd: boolean;
   
-  
-  
-  // Events config
-  tagValue: string = "";
-  tagEnabled: boolean = false;
-  tidValue: string = "";
-  tidEnabled: boolean = false;
-  titleValue: string = "";
-  titleEnabled: boolean = false;
-  minDate: string = moment().format('YYYY-MM-DD').toString(); //"1901-00-00" TODAY
-  maxDate: string = "2038-00-00"; //"2038-00-00"
-  
-  datepickerMin = new Date(2000, 1, 1);
-  datepickerMax = new Date(2200, 12, 31);
-  
-  // momentDateTest = "2147483647" + "000";
-  // momentDateTest = "-2147483647" + "000";
-  // console.log(moment(this.momentDateTest.toString(), 'unix').format('YYYY-MM-DD'));
-  // moment().isValid()
-  
-  offset: number = 0;
-  limit: number = 3;
-  
-  showTagsInput: boolean = false;
-  toggleFilter: boolean = false;  
-  listEnd: boolean = false;
-  error: boolean = false;
-  // Events config END  
-  
-  
-  // FORM DATE FORMAT NEEDED - new Date(2000, 1, 1);
-  // GRAPHQL DATE FORMAT NEEDED - moment().format('YYYY-MM-DD').toString();
-  // QUERY PARAMS FORMAT NEEDED - moment(new Date(this.minDate)).unix().toString();
-  
-  
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private apollo: Apollo,
-    private rootScope: RootScopeService,
-    private formBuilder: FormBuilder
-  ) { }
-  
-  toggleTags() {
-    this.showTagsInput = !this.showTagsInput;
-  }
-  
-  setPaths() {
+  constructor(private router: Router, private route: ActivatedRoute, private eventService: EventsService, private rootScope:RootScopeService, private moment: MomentModule, private apollo: Apollo) {
+    
+    this.limit = 10;
+    this.offset = 0;
+    this.listEnd = false;
+    
     this.rootScope.set('langOptions', {
       'en': '/en/events',
       'et': '/et/sundmused'
     });
+    
+    this.route.params.subscribe( params => {
+      
+      this.rootScope.set('langOptions', {
+        'en': '/en/events',
+        'et': '/et/sundmused'
+      });
+      
+      this.content = false;
+      
+      this.error = false;
+      
+      const path = this.router.url;
+      
+      const that = this;
+      
+      eventService.getList(path, function(data) {
+        if ( data['nodeQuery'] == null ) {
+          that.error = true;
+        } else {
+          that.content = that.handleData( data );
+          
+          if( that.content.length < that.limit ){
+            that.listEnd = true;
+          }
+          
+          that.unix = new Date().getTime();
+        }
+      });
+      
+    });
   }
   
-  onAddDate(event: any) {
-    var numChars = event.target.value.length;
-    if(numChars === 2 || numChars === 5){
-      event.target.value = event.target.value + '/';
+  handleData(inputData) {
+    let newData = {};
+    
+    for( let i in inputData['nodeQuery']['entities'] ){
+      let current = inputData['nodeQuery']['entities'][i]['entityTranslation'];
+      
+      let eventDate = current['eventDates'];
+      for( let ii in eventDate ){
+        
+        let queue = parseInt( ii );
+        
+        if( queue > 0 ){ continue; }
+        
+        let currentEventDate = eventDate[ii]['entity'];
+        let unixTimestamp = currentEventDate['fieldEventDate'].unix;
+        let dateObj = new Date(unixTimestamp * 1000);
+        
+        let day:any = dateObj.getDate();
+        let month:any = dateObj.getMonth();
+        
+        if( day < 10 ){ day = "0"+day;}
+        if( month < 10 ){ month = "0"+month;}
+        
+        let key:any = dateObj.getFullYear()+""+month+""+day;
+        
+        key = parseInt(key);
+        
+        let tmpObj = Object.assign({}, current);
+        
+        tmpObj.dateObj = currentEventDate;
+        
+        if( !newData[key] ){
+          newData[key] = {
+            "key": dateObj.getTime(),
+            "timestamp": (dateObj.getTime()/1000)+"",
+            "day": dateObj.getDay(),
+            "list": []
+          };
+        }
+        
+        newData[key].list.push(tmpObj);
+      }
+      
     }
-  }
-  onDeleteDate(event: any) {
-    var targetVal = event.target.value;    
-    if(event.target.value.substr(targetVal.length-1,1) === "/") {
-      event.stopPropagation()
-      event.preventDefault()
-      event.target.value = targetVal.substr(0,targetVal.length-2);
+    
+    let outputData = [];
+    for( let i in newData ){
+      outputData.push(newData[i]);
     }
+    return outputData;
   }
-  
   
   loadMore() {
-    this.offset = this.eventList.length;
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-        this.lang = params['lang'];
+    let that = this;
+    const path = this.router.url;
+    that.offset = that.content.length;
+    
+    that.eventService.getList(path, function(data) {
+      if ( data['nodeQuery'] == null ) {
+        that.error = true;
+      } else {
         
-        this.apollo.watchQuery({
-          query: sortEventsByOptions,
-          variables: {
-            tagValue: this.tagValue, //?
-            tagEnabled: this.tagEnabled, //?
-            tidValue: this.tidValue, //?
-            tidEnabled: this.tidEnabled, //?
-            titleValue: "%" + this.titleValue + "%", //?
-            titleEnabled: this.titleEnabled, //?
-            minDate: this.minDate, //?
-            maxDate: this.maxDate, //?
-            lang: this.lang.toUpperCase(), //?
-            offset: this.offset, //?
-            limit: this.limit, //?   
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        }).valueChanges.subscribe(({data, loading}) => {
-          this.eventList = this.eventList.concat(data['nodeQuery']['entities']);
-          if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.limit) ){
-            this.listEnd = true;
-          }
-        });        
+        let tmpContent = that.handleData( data );
+        that.content = that.content.concat( tmpContent );
+        
+        if( tmpContent.length < that.limit ){
+          that.listEnd = true;
+        }
       }
-    )
+    }, that.offset);
   }
   
+  
   ngOnInit() {
-    
-    this.setPaths();
-    
-    // console.log(moment(new Date(this.minDate)).unix())
-    
-    this.route.queryParams.subscribe(
-      (params) => {
-        console.log(params)
-      }
-    )    
-    
-    this.route.queryParamMap.subscribe(
-      (params) => {
-        console.log(params)
-      }
-    )
-    
     this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
         this.lang = params['lang'];
         
-        // FORM FILTER SUBSCRIPTION
-        this.filterFormGroup.valueChanges.subscribe((data)=>{
-          console.log(data)
-          this.datepickerMin = data.minDateForm;
-          this.datepickerMax = data.maxDateForm;
-        });
-        
-        // GET BREADCRUMB
-        this.apollo.watchQuery({
+        this.querySubscription = this.apollo.watchQuery({
           query: getBreadcrumb,
           variables: {
             path: this.path,
@@ -226,42 +164,7 @@ export class EventsComponent implements OnInit {
         .subscribe(({data}) => {
           this.breadcrumb = data['route']['breadcrumb'];
         });
-        
-        // GET LIST OBSERVABLE
-        this.feedRef = this.apollo.watchQuery<any>({
-          query: sortEventsByOptions,
-          variables: {
-            tagValue: this.tagValue, //?
-            tagEnabled: this.tagEnabled, //?
-            tidValue: this.tidValue, //?
-            tidEnabled: this.tidEnabled, //?
-            titleValue: "%" + this.titleValue + "%", //?
-            titleEnabled: this.titleEnabled, //?
-            minDate: this.minDate, //?
-            maxDate: this.maxDate, //?
-            lang: this.lang.toUpperCase(), //?
-            offset: this.offset, //?
-            limit: this.limit, //?
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        })
-        
-        this.feedSub = this.feedRef.valueChanges.subscribe(({data}) => {
-          this.eventList = data['nodeQuery']['entities'];
-          console.log(this.eventList)
-          if (this.eventList && (this.eventList.length < this.limit)){
-            this.listEnd = true;
-          }
-        });
-        
-        
-        
       }
-    ) // PARAMS END
-    
-    
-    
+    )
   }
-  
 }

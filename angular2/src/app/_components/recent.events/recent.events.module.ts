@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../../_core/shared.module';
 import { RecentEventsComponent } from './recent.events.component';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../_core/material.module';
@@ -11,8 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
     CommonModule,
     MaterialModule,
     AppPipes,
-    RouterModule,
-    SharedModule
+    RouterModule
   ],
   declarations: [
    RecentEventsComponent
