@@ -10,7 +10,7 @@ field_name: field_amount
 entity_type: node
 bundle: study_programme
 label: 'Õppekava maht'
-description: ''
+description: 'Kõrghariduse õppekava korral on ühikuks EAP, kutsehariduse õppekava korral on ühikuks EKAP.'
 required: false
 translatable: false
 default_value: {  }
