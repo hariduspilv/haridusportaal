@@ -10,7 +10,7 @@ id: node.study_programme.field_educational_institution
 field_name: field_educational_institution
 entity_type: node
 bundle: study_programme
-label: 'Educational Institution'
+label: Õppeasutus
 description: ''
 required: false
 translatable: false

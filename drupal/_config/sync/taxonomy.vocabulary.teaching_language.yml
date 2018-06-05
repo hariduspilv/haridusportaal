@@ -1,0 +1,9 @@
+uuid: beaf20c2-5e7b-4b01-92b7-e10a7feb9af2
+langcode: en
+status: true
+dependencies: {  }
+name: 'School teaching language'
+vid: teaching_language
+description: ''
+hierarchy: 0
+weight: -5

@@ -1,0 +1,33 @@
+uuid: e68b7c04-f1eb-4234-b43c-a3fdcaf81beb
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: news_pattern_est
+label: 'News pattern EST'
+type: 'canonical_entities:node'
+pattern: 'uudised/[node:title]'
+selection_criteria:
+  99d1076c-4e0f-4b66-9ad5-f6d0f5fd9fb7:
+    id: node_type
+    bundles:
+      news: news
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 99d1076c-4e0f-4b66-9ad5-f6d0f5fd9fb7
+  85a69204-eb5f-414a-a934-f9794a79270e:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 85a69204-eb5f-414a-a934-f9794a79270e
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

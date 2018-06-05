@@ -9,7 +9,7 @@ id: node.study_programme.field_admission_status
 field_name: field_admission_status
 entity_type: node
 bundle: study_programme
-label: 'Admission Status'
+label: 'Vastuvõtu olek'
 description: ''
 required: false
 translatable: false

@@ -1,0 +1,13 @@
+uuid: cef1a757-3b22-4fd3-b2dd-8ca6b870ac66
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: N0RDBTqiK4dKoN4p4oW2j0SGWycdHyALUe9M-Ofp89U
+id: node_promote_action
+label: 'Sisu tõstmine esilehele'
+type: node
+plugin: node_promote_action
+configuration: {  }

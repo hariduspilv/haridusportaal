@@ -9,7 +9,7 @@ id: node.study_programme.field_specialization
 field_name: field_specialization
 entity_type: node
 bundle: study_programme
-label: Specialization
+label: Spetsialiseerumine
 description: ''
 required: false
 translatable: false

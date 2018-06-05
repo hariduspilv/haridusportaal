@@ -10,7 +10,7 @@ id: node.study_programme.field_study_programme_level
 field_name: field_study_programme_level
 entity_type: node
 bundle: study_programme
-label: 'Study Programme Level'
+label: 'Õppekava tase '
 description: ''
 required: false
 translatable: false

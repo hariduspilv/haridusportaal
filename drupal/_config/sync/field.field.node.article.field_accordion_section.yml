@@ -1,0 +1,52 @@
+uuid: cb2e1ff1-f4a4-44d3-91b3-71d73a76a755
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_accordion_section
+    - node.type.article
+    - paragraphs.paragraphs_type.accordion
+  module:
+    - entity_reference_revisions
+id: node.article.field_accordion_section
+field_name: field_accordion_section
+entity_type: node
+bundle: article
+label: Akordion
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      accordion: accordion
+    target_bundles_drag_drop:
+      accordion:
+        enabled: true
+        weight: 8
+      additional_section:
+        weight: 9
+        enabled: false
+      contact_section:
+        weight: 10
+        enabled: false
+      event_date:
+        weight: 11
+        enabled: false
+      link:
+        weight: 12
+        enabled: false
+      registration_period:
+        weight: 13
+        enabled: false
+      school_location:
+        weight: 14
+        enabled: false
+      right_sidebar_section_info:
+        weight: 15
+        enabled: false
+field_type: entity_reference_revisions

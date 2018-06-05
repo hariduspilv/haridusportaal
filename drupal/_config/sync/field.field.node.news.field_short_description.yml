@@ -1,0 +1,19 @@
+uuid: 411abf6d-2991-4567-8fb1-e03b1797fa7c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_short_description
+    - node.type.news
+id: node.news.field_short_description
+field_name: field_short_description
+entity_type: node
+bundle: news
+label: Sissejuhatus
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

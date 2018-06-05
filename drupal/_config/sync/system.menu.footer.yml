@@ -1,0 +1,10 @@
+uuid: 3ab0afa0-358c-4509-b6df-10278ab0dcf8
+langcode: et
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 7yrlW5z9zdg2eBucB2GPqXKSMQfH9lSRSO4DbWF7AFc
+id: footer
+label: Jalus
+description: 'Saidi info lingid'
+locked: true

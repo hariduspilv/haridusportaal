@@ -1,0 +1,20 @@
+uuid: 293ab76d-64c0-4f26-833e-305115feeeff
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - paragraphs
+id: paragraph.field_registration_last_date
+field_name: field_registration_last_date
+entity_type: paragraph
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

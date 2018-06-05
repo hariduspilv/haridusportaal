@@ -10,7 +10,7 @@ id: node.study_programme.field_iscedf_detailed
 field_name: field_iscedf_detailed
 entity_type: node
 bundle: study_programme
-label: 'ISCEDF Detailed'
+label: Õppekavarühm
 description: ''
 required: false
 translatable: false

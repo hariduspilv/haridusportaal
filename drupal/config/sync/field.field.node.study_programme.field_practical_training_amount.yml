@@ -9,7 +9,7 @@ id: node.study_programme.field_practical_training_amount
 field_name: field_practical_training_amount
 entity_type: node
 bundle: study_programme
-label: 'Practical Training Amount'
+label: 'Praktika maht '
 description: ''
 required: false
 translatable: false

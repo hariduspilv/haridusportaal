@@ -9,7 +9,7 @@ id: node.study_programme.field_amount
 field_name: field_amount
 entity_type: node
 bundle: study_programme
-label: Amount
+label: 'Õppekava maht'
 description: ''
 required: false
 translatable: false

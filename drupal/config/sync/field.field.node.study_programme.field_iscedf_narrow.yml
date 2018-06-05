@@ -10,7 +10,7 @@ id: node.study_programme.field_iscedf_narrow
 field_name: field_iscedf_narrow
 entity_type: node
 bundle: study_programme
-label: 'ISCEDF Narrow'
+label: 'Õppesuund '
 description: ''
 required: false
 translatable: false

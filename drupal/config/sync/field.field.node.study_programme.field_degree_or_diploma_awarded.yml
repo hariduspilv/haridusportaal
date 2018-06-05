@@ -10,7 +10,7 @@ id: node.study_programme.field_degree_or_diploma_awarded
 field_name: field_degree_or_diploma_awarded
 entity_type: node
 bundle: study_programme
-label: 'Degree Or Diploma Awarded'
+label: 'Omistatav kraad või diplom '
 description: ''
 required: false
 translatable: false

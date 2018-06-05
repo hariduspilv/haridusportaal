@@ -10,7 +10,7 @@ id: node.study_programme.field_iscedf_board
 field_name: field_iscedf_board
 entity_type: node
 bundle: study_programme
-label: 'ISCEDF Board'
+label: Õppevaldkond
 description: ''
 required: false
 translatable: false

@@ -9,7 +9,7 @@ id: node.study_programme.field_duration_months
 field_name: field_duration_months
 entity_type: node
 bundle: study_programme
-label: 'Duration Months'
+label: 'Nominaalkestus (kuud)'
 description: ''
 required: false
 translatable: false
