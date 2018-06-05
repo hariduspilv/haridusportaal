@@ -1,41 +1,42 @@
   @import "../../../assets/styles/typography.scss"; 
-  article {padding-bottom: 3rem;
+  article {padding-bottom: $xxl;
     a {color: $blue;
       .mat-icon {color: $blue;}
     }
   } 
   .share-btn .mat-icon {line-height: 1.3;
-    @media (max-width: 900px) {right: 16px;position: relative;}
+    @media (max-width: 900px) {right: $small;position: relative;}
   }
-  .news-title {font-size: 1rem;line-height: 2;color: $dark-gray; padding: 0.75rem 1.5rem 0.5rem 1.5rem;}
+  .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
   .news-list {
-    border-top: .5rem solid $light-blue;
+    border-top: $gutter solid $light-blue;
     background: $white;
-    @media (min-width: 900px) {border-radius: 0.25rem; margin-left: 1.5rem;}
+    @media (min-width: 900px) {border-radius: $half-gutter; margin-left: $medium;}
     &__recent {
       @extend .news-list;
-      border-top: .5rem solid $orange;
-      padding-bottom: 3rem;
+      border-top: $gutter solid $orange;
+      padding-bottom: $xxl;
+      @media (min-width: 900px) {border-radius: $half-gutter; margin-left: 0;}
     }
   }
-  .title {font-size: 1rem;line-height: 2;padding: 0rem 1.5rem;
+  .title {font-size: $small;line-height: 2;padding: 0 $medium;
     h2 {color:$black;}
     &__recent {
-      padding: 1rem 1.5rem 0 1.5rem;
+      padding: $small $medium 0 $medium;
     }
   }
-  .tags { padding: 1rem 1.5rem;
-    .mat-chip {height: .5rem; border-radius: 12.5px; border: solid 1px $gray; background-color: $white;
+  .tags { padding: $small $medium;
+    .mat-chip {height: $gutter; border-radius: 12.5px; border: solid 1px $gray; background-color: $white;
       font-size: .875rem;font-weight: 300;line-height: 1.43;letter-spacing: normal;color: $black;}
   }
-  .author {padding: 0.25rem 1.5rem 0 1.5rem;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;}
-  .description {padding: 1rem 1.5rem; color: $black; line-height: 22px; padding-bottom: 0;}
-  .short {@extend .description; font-weight: 500; padding-bottom: 1rem;}
+  .author {padding: $half-gutter $medium 0 $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;}
+  .description {padding: $small $medium; color: $black; line-height: 22px; padding-bottom: 0;}
+  .short {@extend .description; font-weight: 500; padding-bottom: $small;}
   .article-image {width:100%; max-width:100%; height: auto;
-    @media (min-width: 900px) {width: auto; padding: 0 1.5rem;}
+    @media (min-width: 900px) {width: auto; padding: 0 $medium;}
   }
-  .image-alt-text {font-size: 14px; color:$black; font-style: italic; font-weight: 300; padding: 0 1.5rem 1rem;
-    @media (min-width: 900px) {padding: 0 0 1rem 0;}
+  .image-alt-text {font-size: 14px; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
+    @media (min-width: 900px) {padding: 0 0 $small 0;}
   }
-  .links {padding: 0 1.5rem;}
-  .breadcrumb { padding-bottom: .5rem;}
+  .links {padding: 0 $medium;}
+  .breadcrumb { padding-bottom: $gutter;}
