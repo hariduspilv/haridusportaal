@@ -3,7 +3,6 @@
 namespace Drupal\custom_subscription_administration\Entity;
 
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\RevisionLogInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\user\EntityOwnerInterface;
 
@@ -12,7 +11,7 @@ use Drupal\user\EntityOwnerInterface;
  *
  * @ingroup custom_subscription_administration
  */
-interface SubscriptionEntityInterface extends ContentEntityInterface, RevisionLogInterface, EntityChangedInterface, EntityOwnerInterface {
+interface SubscriptionEntityInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
 
   // Add get/set methods for your configuration properties here.
 
@@ -74,43 +73,5 @@ interface SubscriptionEntityInterface extends ContentEntityInterface, RevisionLo
    *   The called Subscription entity entity.
    */
   public function setPublished($published);
-
-  /**
-   * Gets the Subscription entity revision creation timestamp.
-   *
-   * @return int
-   *   The UNIX timestamp of when this revision was created.
-   */
-  public function getRevisionCreationTime();
-
-  /**
-   * Sets the Subscription entity revision creation timestamp.
-   *
-   * @param int $timestamp
-   *   The UNIX timestamp of when this revision was created.
-   *
-   * @return \Drupal\custom_subscription_administration\Entity\SubscriptionEntityInterface
-   *   The called Subscription entity entity.
-   */
-  public function setRevisionCreationTime($timestamp);
-
-  /**
-   * Gets the Subscription entity revision author.
-   *
-   * @return \Drupal\user\UserInterface
-   *   The user entity for the revision author.
-   */
-  public function getRevisionUser();
-
-  /**
-   * Sets the Subscription entity revision author.
-   *
-   * @param int $uid
-   *   The user ID of the revision author.
-   *
-   * @return \Drupal\custom_subscription_administration\Entity\SubscriptionEntityInterface
-   *   The called Subscription entity entity.
-   */
-  public function setRevisionUserId($uid);
 
 }

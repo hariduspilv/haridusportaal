@@ -16,7 +16,7 @@ function custom_subscription_administration_help($route_name, RouteMatchInterfac
     case 'help.page.custom_subscription_administration':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Module for administrating subscriptions') . '</p>';
+      $output .= '<p>' . t('Module for managing subscriptions') . '</p>';
       return $output;
 
     default:
