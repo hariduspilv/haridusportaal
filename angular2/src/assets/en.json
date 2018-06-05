@@ -5,7 +5,8 @@
   "date": "Date",
   "date.format": "dd/mm/yy",
   "search": "Search",
-  "search.news.keyword": "Search news by keyword",
+  "search.detailed": "Detailed search",
+  "search.by.keyword": "Search by keyword",
   "search.news.name": "Enter news name",
   "search.events.name": "Search events by name",
   "load.more": "Load more",
@@ -20,10 +21,14 @@
   "saturday": "Saturday",
   "sunday": "Sunday",
 
+  "log.in": "Log in",
+  "recent.news": "Recent news",
+  "view.all": "View all",
   "filter": "Filter",
+  "filter.close": "Close filter",
 
-  "occurence": "Event date",
-  "occurence.location": "Event date and location",
+  "occurrence": "Event date",
+  "occurrence.location": "Event date and location",
   "location": "Location",
 
   "to": "To",
