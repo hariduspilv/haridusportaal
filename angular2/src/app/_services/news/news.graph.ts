@@ -236,7 +236,7 @@ query sortByOptions (
     {operator: SMALLER_THAN_OR_EQUAL, field: "created", value: [$maxDate], language: $lang },
     
   ]}) {
-    entities(language: $lang) {
+    entities {
       ... on NodeNews {
         entityLabel
         created

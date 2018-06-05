@@ -15,24 +15,8 @@ import { AppDirectives } from './_directives';
 import { MomentModule } from 'angular2-moment/moment.module';
 import { AgmCoreModule } from '@agm/core';
 
+
 import { NgSelectModule } from '@ng-select/ng-select';
-
-/* Translate module */
-import {HttpClientModule, HttpClient} from '@angular/common/http';
-import {TranslateModule, TranslateLoader, TranslatePipe} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-
-  let localPath = true;
-  let path = ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"];
-
-  if( localPath ){
-    path = ["/assets/", ".json"];
-  }
-
-  return new TranslateHttpLoader(http, path[0], path[1]);
-}
 
 @NgModule({
 
@@ -43,14 +27,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 
   imports: [
     BrowserModule,
-    HttpClientModule,
-    TranslateModule.forRoot({
-        loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-        }
-    }),
     MaterialModule,
     AppModules,
     GraphQLModule,
@@ -74,7 +50,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
 
   exports: [
-    
+
   ],
   bootstrap: [AppComponent]
 })

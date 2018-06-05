@@ -1,0 +1,19 @@
+uuid: 6fe0628b-5c98-463a-8fcd-0c9aba2e4533
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_practical_training_amount
+    - node.type.study_programme
+id: node.study_programme.field_practical_training_amount
+field_name: field_practical_training_amount
+entity_type: node
+bundle: study_programme
+label: 'Practical Training Amount'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

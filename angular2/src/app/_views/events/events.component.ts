@@ -47,8 +47,9 @@ export const MY_FORMATS = {
 
 export class EventsComponent implements OnInit {
   
-  feedRef: QueryRef<any>;
-  feedSub: any;
+  private querySubscription: Subscription;  
+  private path: string;
+  private lang: string;
   
   // TAGS
   eventTagObs: Observable<any[]>;
@@ -122,12 +123,82 @@ export class EventsComponent implements OnInit {
       'en': '/en/events',
       'et': '/et/sundmused'
     });
+    
+    this.route.params.subscribe( params => {
+      
+      this.rootScope.set('langOptions', {
+        'en': '/en/events',
+        'et': '/et/sundmused'
+      });
+      
+      this.content = false;
+      
+      this.error = false;
+      
+      const path = this.router.url;
+      
+      const that = this;
+      
+      eventService.getList(path, function(data) {
+        if ( data['nodeQuery'] == null ) {
+          that.error = true;
+        } else {
+          that.content = that.handleData( data );
+          
+          if( that.content.length < that.limit ){
+            that.listEnd = true;
+          }
+          
+          that.unix = new Date().getTime();
+        }
+      });
+      
+    });
   }
   
-  onAddDate(event: any) {
-    var numChars = event.target.value.length;
-    if(numChars === 2 || numChars === 5){
-      event.target.value = event.target.value + '/';
+  handleData(inputData) {
+    let newData = {};
+    
+    for( let i in inputData['nodeQuery']['entities'] ){
+      let current = inputData['nodeQuery']['entities'][i]['entityTranslation'];
+      
+      let eventDate = current['eventDates'];
+      for( let ii in eventDate ){
+        
+        let queue = parseInt( ii );
+        
+        if( queue > 0 ){ continue; }
+        
+        let currentEventDate = eventDate[ii]['entity'];
+        let unixTimestamp = currentEventDate['fieldEventDate'].unix;
+        let dateObj = new Date(unixTimestamp * 1000);
+        
+        let day:any = dateObj.getDate();
+        let month:any = dateObj.getMonth();
+        
+        if( day < 10 ){ day = "0"+day;}
+        if( month < 10 ){ month = "0"+month;}
+        
+        let key:any = dateObj.getFullYear()+""+month+""+day;
+        
+        key = parseInt(key);
+        
+        let tmpObj = Object.assign({}, current);
+        
+        tmpObj.dateObj = currentEventDate;
+        
+        if( !newData[key] ){
+          newData[key] = {
+            "key": dateObj.getTime(),
+            "timestamp": (dateObj.getTime()/1000)+"",
+            "day": dateObj.getDay(),
+            "list": []
+          };
+        }
+        
+        newData[key].list.push(tmpObj);
+      }
+      
     }
   }
   onDeleteDate(event: any) {
@@ -137,42 +208,29 @@ export class EventsComponent implements OnInit {
       event.preventDefault()
       event.target.value = targetVal.slice(0, targetVal.length-2);
     }
+    return outputData;
   }
-  
   
   loadMore() {
-    this.offset = this.eventList.length;
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-        this.lang = params['lang'];
+    let that = this;
+    const path = this.router.url;
+    that.offset = that.content.length;
+    
+    that.eventService.getList(path, function(data) {
+      if ( data['nodeQuery'] == null ) {
+        that.error = true;
+      } else {
         
-        this.apollo.watchQuery({
-          query: sortEventsByOptions,
-          variables: {
-            tagValue: this.tagValue, //?
-            tagEnabled: this.tagEnabled, //?
-            tidValue: this.tidValue, //?
-            tidEnabled: this.tidEnabled, //?
-            titleValue: "%" + this.titleValue + "%", //?
-            titleEnabled: this.titleEnabled, //?
-            minDate: this.minDate, //?
-            maxDate: this.maxDate, //?
-            lang: this.lang.toUpperCase(), //?
-            offset: this.offset, //?
-            limit: this.limit, //?   
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        }).valueChanges.subscribe(({data, loading}) => {
-          this.eventList = this.eventList.concat(data['nodeQuery']['entities']);
-          if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.limit) ){
-            this.listEnd = true;
-          }
-        });        
+        let tmpContent = that.handleData( data );
+        that.content = that.content.concat( tmpContent );
+        
+        if( tmpContent.length < that.limit ){
+          that.listEnd = true;
+        }
       }
-    )
+    }, that.offset);
   }
+  
   
   ngOnInit() {
     console.log(new Date(this.minDate));
@@ -202,15 +260,7 @@ export class EventsComponent implements OnInit {
         this.path = this.router.url;
         this.lang = params['lang'];
         
-        // FORM FILTER SUBSCRIPTION
-        this.filterFormGroup.valueChanges.subscribe((data)=>{
-          console.log(data)
-          this.datepickerMin = data.minDateForm;
-          this.datepickerMax = data.maxDateForm;
-        });
-        
-        // GET BREADCRUMB
-        this.apollo.watchQuery({
+        this.querySubscription = this.apollo.watchQuery({
           query: getBreadcrumb,
           variables: {
             path: this.path,

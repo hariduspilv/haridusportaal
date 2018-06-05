@@ -1,0 +1,9 @@
+uuid: 24fe0693-adbb-44a1-96f7-a7d4f1fc1c44
+langcode: et
+status: true
+dependencies: {  }
+name: qualificationStandardId
+vid: qualificationstandardid
+description: ''
+hierarchy: 0
+weight: 0
