@@ -1,0 +1,16 @@
+.news-title {font-size: 1rem;line-height: normal;color: #757575; padding: 1rem 1.5rem;}
+.news-list {
+  border-top: 8px solid #f8b243;
+  background: #ffffff;
+  padding-bottom: 3rem;
+  @media (min-width: 900px) {border-radius: 0.25rem; margin-right: 1.5rem;}
+}
+.title {
+  padding: 1rem 1.5rem 0 1.5rem;
+}
+.author {
+  padding: 0.25rem 1.5rem 0 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  color: #757575;
+}

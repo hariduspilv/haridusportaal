@@ -1,0 +1,10 @@
+uuid: e6169b21-3078-4a03-b651-4b30b82f695d
+langcode: et
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: BCM-vV1zzRaLHN18dqAR_CuGOj8AFJvTx7BKl_8Gcxc
+id: tools
+label: Tööriistad
+description: 'User tool links, often added by modules'
+locked: true

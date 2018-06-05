@@ -1,0 +1,17 @@
+label: 'Information about a server'
+tips:
+  search-api-server-introduction:
+    label: 'Information about a server'
+    body: 'This page shows a summary of a search server.'
+  search-api-server-status:
+    label: Status
+    body: 'Shows whether the server is currently enabled or disabled.'
+  search-api-server-backend:
+    label: 'Backend class'
+    body: 'The backend plugin used for this server. The backend plugin determines how items are indexed and searched – for example, using the database or an Apache Solr server.'
+  search-api-server-indexes:
+    label: 'Search indexes'
+    body: 'Lists all search indexes that are attached to this server.'
+  search-api-server-clear:
+    label: 'Delete all indexed data'
+    body: 'This will permanently remove all data currently indexed on this server for indexes that aren''t read-only. Items are queued for reindexing. Until reindexing occurs, searches for the affected indexes will not return any results.'

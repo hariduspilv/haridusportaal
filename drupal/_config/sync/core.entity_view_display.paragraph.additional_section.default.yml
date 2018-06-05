@@ -1,0 +1,29 @@
+uuid: 8f9c8112-e03f-4d94-a976-a1e4063b5193
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.additional_section.field_additional_body
+    - field.field.paragraph.additional_section.field_title
+    - paragraphs.paragraphs_type.additional_section
+id: paragraph.additional_section.default
+targetEntityType: paragraph
+bundle: additional_section
+mode: default
+content:
+  field_additional_body:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_title:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

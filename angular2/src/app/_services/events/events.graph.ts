@@ -370,3 +370,144 @@ export class EventsGraph {
 
   }
 }
+
+export const sortEventsByOptions = gql`
+query sortByOptions (
+  $tagValue: [String],
+  $tagEnabled: Boolean,
+  $tidValue: [String],
+  $tidEnabled: Boolean,
+  $titleValue: String,
+  $titleEnabled: Boolean,
+  $minDate: String,
+  $maxDate: String,
+  $lang: LanguageId!,
+  $offset: Int,
+  $limit: Int ) {
+  nodeQuery(offset: $offset, limit: $limit, sort: {field: "field_event_date.entity.field_event_date.value", direction: ASC},
+  filter: {conjunction: AND, conditions: [
+    {operator: EQUAL, field: "type", value: ["event"], language: $lang},
+  	{operator: IN, field: "field_tag.entity.tid", value: $tagValue, language: $lang, enabled: $tagEnabled },
+		{operator: IN, field: "field_event_type.entity.tid", value: $tidValue, language: $lang, enabled: $tidEnabled },
+    {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled },
+    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_date.entity.field_event_date", value: [$minDate] },
+    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_date.entity.field_event_date", value: [$maxDate] },
+    
+  ]}) {
+    entities(language: $lang) {
+      ... on NodeEvent {
+        title:entityLabel
+        location: fieldEventLocation{
+          lat
+          lon
+          name
+        }
+        fieldEventType{
+          entity{
+            entityId
+            entityLabel            
+          }
+        }
+        eventDates: fieldEventDate{
+          ...eventdates
+        }
+        fieldEntryType
+        registrationDate:fieldRegistrationDate{
+          ...registrationdates
+        }
+        hashTags:fieldTag{
+          entity{
+            entityLabel
+            entityId
+          }
+        }
+        entityUrl{
+          ...url
+        } 
+      }
+    }
+  }
+}
+fragment eventdates on FieldNodeFieldEventDate {
+  entity {
+    fieldEventDate {
+      value
+      date
+      unix
+    }
+    fieldEventStartTime
+    fieldEventEndTime
+  }
+}
+
+fragment registrationdates on FieldNodeFieldRegistrationDate {
+  entity {
+    fieldRegistrationFirstDate {
+      value
+      date
+      unix
+    }
+    fieldRegistrationLastDate{
+      value
+      date
+      unix
+    }
+  }
+}
+
+fragment url on EntityCanonicalUrl{
+  path
+  languageSwitchLinks {
+    active
+    title
+  }
+}
+`;
+
+// {
+//   "lang": "ET",
+//   "offset": 0,
+//   "limit": 10,
+//   "tagValue": ["1271"],
+//   "tagEnabled": false,
+//   "tidValue": ["5","6"],
+//   "tidEnabled": false,
+//   "titleValue": "%%",
+//   "titleEnabled": false,
+//   "minDate": "2018-01-01",
+//   "maxDate": "2038-01-01"
+// }
+
+export const getEventsTags = gql`
+query getEventsTags( $lang: LanguageId!){
+  nodeQuery(filter: {conditions: [
+    {operator: EQUAL, field: "type", value: ["event"], language: $lang}
+  ]}) {
+    entities(language: $lang) {
+      ... on NodeEvent{
+        Tag: fieldTag {
+          entity {
+            entityLabel
+            entityId
+            uuid
+            name
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+export const getEventsTids = gql`
+query getEventsTids {
+  taxonomyTermQuery {
+    entities{
+      ... on TaxonomyTerm {
+        name
+        tid
+      }
+    }
+  }
+}
+`;

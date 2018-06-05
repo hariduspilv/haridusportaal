@@ -1,0 +1,29 @@
+uuid: 8952c87f-c26e-45fd-a295-7a9f5045e4ec
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_study_programme_type
+    - node.type.study_programme
+    - taxonomy.vocabulary.studyprogrammetype
+id: node.study_programme.field_study_programme_type
+field_name: field_study_programme_type
+entity_type: node
+bundle: study_programme
+label: 'Õppekava tüüp'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      studyprogrammetype: studyprogrammetype
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

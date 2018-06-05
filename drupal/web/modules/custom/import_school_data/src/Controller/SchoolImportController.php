@@ -60,6 +60,7 @@ class SchoolImportController extends ControllerBase {
     $schoolnode = [];
     $nid_result = \Drupal::entityQuery('node')
     ->condition('field_ehis_id', $ehisid)
+    ->condition('type', 'school')
     ->execute();
 
     $nid = array_shift($nid_result);
@@ -72,6 +73,7 @@ class SchoolImportController extends ControllerBase {
     $updateablenodes = [];
     $nid_result = \Drupal::entityQuery('node')
     ->condition('field_update_location_from_ehis', '1')
+    ->condition('type', 'school')
     ->execute();
 
     foreach($nid_result as $nodeid){
@@ -95,6 +97,7 @@ class SchoolImportController extends ControllerBase {
     $updateablenodes = [];
     $nid_result = \Drupal::entityQuery('node')
     ->condition('field_update_from_ehis', '1')
+    ->condition('type', 'school')
     ->execute();
 
     foreach($nid_result as $nodeid){
@@ -124,6 +127,7 @@ class SchoolImportController extends ControllerBase {
 
     $nid_result = \Drupal::entityQuery('node')
     ->condition('field_ehis_id', $school->koolId)
+    ->condition('type', 'school')
     ->execute();
 
     if(!empty($nid_result)) {

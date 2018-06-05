@@ -19,7 +19,8 @@ import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
 import { sortByOptions, getNewsTags, getNewsTags2 } from '../../_services/news/news.graph';
 
 @Component({
-  templateUrl: './news.component.html'
+  templateUrl: './news.component.html',
+  styleUrls: ['./news.component.scss']
 })
 
 export class NewsComponent implements OnInit, OnDestroy{
@@ -50,6 +51,8 @@ export class NewsComponent implements OnInit, OnDestroy{
   public list: any;
   public offset: number = 0; 
   public limit: number = 10;
+  public filter: boolean = true;
+  public filterState: boolean = false;
   
   public titleValue: string = "";
   public titleEnabled: boolean = false;
@@ -81,7 +84,14 @@ export class NewsComponent implements OnInit, OnDestroy{
   }
   
   
-  
+  hideFilter() {
+    this.filter = !this.filter
+  }
+
+  changeFilterState() {
+    this.filterState = !this.filterState
+  }
+
   loadMore() {
     this.offset = this.list.length;
     this.route.params.subscribe(

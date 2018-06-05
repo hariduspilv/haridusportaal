@@ -1,0 +1,22 @@
+uuid: 82da85c2-f9b3-40f6-9fae-52cf739b4e4c
+langcode: et
+status: true
+dependencies:
+  theme:
+    - seven
+_core:
+  default_config_hash: ddy1OsBbWxjwEI8VL1viD4I69qcLHOkul4BxbTqLBTs
+id: seven_primary_local_tasks
+theme: seven
+region: header
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Peasakid
+  provider: core
+  label_display: '0'
+  primary: true
+  secondary: false
+visibility: {  }

@@ -1,0 +1,47 @@
+uuid: 218a6505-9466-43e2-a296-e5ed01665e10
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.school_location.field_address
+    - field.field.paragraph.school_location.field_coordinates
+    - field.field.paragraph.school_location.field_location_type
+    - field.field.paragraph.school_location.field_school_location
+    - paragraphs.paragraphs_type.school_location
+  module:
+    - google_map_field
+id: paragraph.school_location.default
+targetEntityType: paragraph
+bundle: school_location
+mode: default
+content:
+  field_address:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_coordinates:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: google_map_field_default
+    region: content
+  field_location_type:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_school_location:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

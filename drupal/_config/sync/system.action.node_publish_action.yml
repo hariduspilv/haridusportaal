@@ -1,0 +1,13 @@
+uuid: 85ae28c6-1d9e-4a54-87d3-688e16dfce37
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: 2B9uF8NL5gutNKSdPRAhhAsDWFZZG1PJOBmx0aBGd_0
+id: node_publish_action
+label: 'Sisu avaldamine'
+type: node
+plugin: 'entity:publish_action:node'
+configuration: {  }

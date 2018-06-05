@@ -1,0 +1,9 @@
+uuid: ed7247fa-c32b-410d-9216-ca4289fce88b
+langcode: en
+status: true
+dependencies: {  }
+name: 'Event Group'
+vid: event_group
+description: ''
+hierarchy: 0
+weight: -8
