@@ -1,31 +1,40 @@
+  @import "../../../assets/styles/typography.scss"; 
   article {padding-bottom: 3rem;
-    a {color: #2e3374;
-      .mat-icon {color: #2e3374;}
+    a {color: $blue;
+      .mat-icon {color: $blue;}
     }
   } 
   .share-btn .mat-icon {line-height: 1.3;
     @media (max-width: 900px) {right: 16px;position: relative;}
   }
-  .news-title {font-size: 1rem;line-height: 2;color: #757575; padding: 0.75rem 1.5rem 0.5rem 1.5rem;}
+  .news-title {font-size: 1rem;line-height: 2;color: $dark-gray; padding: 0.75rem 1.5rem 0.5rem 1.5rem;}
   .news-list {
-    border-top: 8px solid #15adc2;
-    background: #ffffff;
+    border-top: .5rem solid $light-blue;
+    background: $white;
     @media (min-width: 900px) {border-radius: 0.25rem; margin-left: 1.5rem;}
+    &__recent {
+      @extend .news-list;
+      border-top: .5rem solid $orange;
+      padding-bottom: 3rem;
+    }
   }
   .title {font-size: 1rem;line-height: 2;padding: 0rem 1.5rem;
-    h2 {color:#333333;}
+    h2 {color:$black;}
+    &__recent {
+      padding: 1rem 1.5rem 0 1.5rem;
+    }
   }
   .tags { padding: 1rem 1.5rem;
-    .mat-chip {height: .5rem; border-radius: 12.5px; border: solid 1px #c7c7c9; background-color: #ffffff;
-      font-size: .875rem;font-weight: 300;line-height: 1.43;letter-spacing: normal;color: #333333;}
+    .mat-chip {height: .5rem; border-radius: 12.5px; border: solid 1px $gray; background-color: $white;
+      font-size: .875rem;font-weight: 300;line-height: 1.43;letter-spacing: normal;color: $black;}
   }
-  .author {padding: 0.25rem 1.5rem 0 1.5rem;font-size: 0.875rem;line-height: 1.43;color: #757575;}
-  .description {padding: 1rem 1.5rem; color: #333333; line-height: 22px; padding-bottom: 0;}
+  .author {padding: 0.25rem 1.5rem 0 1.5rem;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;}
+  .description {padding: 1rem 1.5rem; color: $black; line-height: 22px; padding-bottom: 0;}
   .short {@extend .description; font-weight: 500; padding-bottom: 1rem;}
   .article-image {width:100%; max-width:100%; height: auto;
     @media (min-width: 900px) {width: auto; padding: 0 1.5rem;}
   }
-  .image-alt-text {font-size: 14px; color:#333333; font-style: italic; font-weight: 300; padding: 0 1.5rem 1rem;
+  .image-alt-text {font-size: 14px; color:$black; font-style: italic; font-weight: 300; padding: 0 1.5rem 1rem;
     @media (min-width: 900px) {padding: 0 0 1rem 0;}
   }
   .links {padding: 0 1.5rem;}
