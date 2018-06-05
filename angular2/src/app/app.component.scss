@@ -5,7 +5,7 @@
 @import "../assets/styles/typography.scss";
 
 /* You can add global styles to this file, and also import other style files */
-body{margin:0; padding:0; padding-top:64px; background:#eeeeee;}
+body{margin:0; padding:0; padding-top:64px; background: $light-gray;}
 
 /* Force Rubik font over material default */
 body [class^='mat-'], body [class*=' mat-'] {font-family: 'Rubik', sans-serif; } 
@@ -39,9 +39,9 @@ body{height: calc(100% - 64px);}
   img{height:54px; margin-top:5px;}
 }
 
-a {color: #2e3374}
+a {color: $blue}
 
-.filter-wrapper {background: #ffffff; padding: 0 1.5rem; margin-bottom: 3rem;
+.filter-wrapper {background: $white; padding: 0 1.5rem; margin-bottom: 3rem;
   .row {
     div.col-4, div.col-3, div.col-25 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
   }
@@ -49,8 +49,8 @@ a {color: #2e3374}
   @media (min-width: 900px) {padding: 1rem 1.5rem; margin-bottom: 1.5rem;}
 }
 .mat-drawer-container {
-  background-color: #ffffff;
-  @media (min-width: 900px) {background-color: #eeeeee}
+  background-color: $white;
+  @media (min-width: 900px) {background-color: $light-gray}
 }
 
 .mat-toolbar.header-toolbar{position: fixed; top:0; left:0; width:100%; z-index: 999;}
@@ -70,9 +70,9 @@ a {color: #2e3374}
 }
 
 .link-list{list-style:none; padding:0; margin:16px 0;
-  a[href]{color:rgba(0,0,0,.87); text-decoration: none; line-height:24px; color:#3f51b5;
+  a[href]{color:rgba(0,0,0,.87); text-decoration: none; line-height:24px; color:$blue;
     &:hover{text-decoration: underline;}
-    .mat-icon{vertical-align: top; margin-right:8px; color:#3f51b5;}
+    .mat-icon{vertical-align: top; margin-right:8px; color:$blue;}
   }
 
   li{margin-bottom:10px;
@@ -99,12 +99,12 @@ a {color: #2e3374}
 .mat-sidenav{top:64px !important;}
 .mat-sidenav .mat-menu-item{height:auto; padding-top:14px; padding-bottom:14px; line-height:120%;}
 .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 13px;}
-.mat-raised-button.mat-primary { border-radius: 20px; background-color: #2e3374; font-weight: 300; height: 40px; width: 100%; padding: 0rem 2.5rem;
+.mat-raised-button.mat-primary { border-radius: 20px; background-color: $blue; font-weight: 300; height: 40px; width: 100%; padding: 0rem 2.5rem;
   @media (min-width: 900px) {width: auto;}
 }
 
 article{line-height:150%;}
-article a[href]{color:#3f51b5;}
+article a[href]{color:$blue;}
 
 .menu-burger{cursor: pointer;}
 .mat-sidenav-container {padding-top: 0;
@@ -167,14 +167,14 @@ $grid-columns: 12;
 
 .button-height{margin:6px 0;}
 .mat-drawer-content{overflow: visible !important;}
-.mat-warn{color:#f44336;}
+.mat-warn{color:$red;}
 
 .event-details{
   .mat-icon{vertical-align: middle;}
 }
 .dateBlock{width:150px; text-decoration: none;
   .dateBlock-inner{background:#E0E0E0; border-radius:4px; font-size: 13px; display: block; text-decoration: none;
-    .dateBlock-title{background:#3F51B5; color:#fff; border-radius:4px 4px 0 0; padding:7px; text-align: center; display: block; }
+    .dateBlock-title{background:$blue; color:#fff; border-radius:4px 4px 0 0; padding:7px; text-align: center; display: block; }
     .dateBlock-date{padding:20px 7px; text-align: center; font-size:28px; display: block; color:rgba(0,0,0,.87); text-decoration: none;}
   }
 }
@@ -211,7 +211,7 @@ $grid-columns: 12;
 }
 
 @media (max-width:900px) {
-  .mat-drawer{background:#fff; }
+  .mat-drawer{background:$white; }
   .sm-hide{display:none !important;}
   .sm-show{display: block !important;}
   .mb-shrink{margin-bottom:0;}

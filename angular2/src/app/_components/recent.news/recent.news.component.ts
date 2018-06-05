@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
 	selector: 'recent-news',
 	templateUrl: './recent.news.component.html',
-	styleUrls: ['./recent.news.component.scss']
+	styleUrls: ['../../_views/news.single/news.single.component.scss']
 })
 
 export class RecentNewsComponent implements OnInit {
