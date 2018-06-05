@@ -12,7 +12,8 @@ import { Apollo } from 'apollo-angular';
 
 
 @Component({
-  templateUrl: './news.single.component.html'
+  templateUrl: './news.single.component.html',
+  styleUrls: ['./news.single.component.scss']
 })
 
 export class NewsSingleComponent implements OnInit {
