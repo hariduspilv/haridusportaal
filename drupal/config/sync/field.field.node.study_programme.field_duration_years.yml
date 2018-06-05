@@ -9,7 +9,7 @@ id: node.study_programme.field_duration_years
 field_name: field_duration_years
 entity_type: node
 bundle: study_programme
-label: 'Duration Years'
+label: 'Nominaalkestus (aastad)'
 description: ''
 required: false
 translatable: false

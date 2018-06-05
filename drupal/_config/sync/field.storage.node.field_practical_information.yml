@@ -1,0 +1,19 @@
+uuid: d21a5416-b2fa-4bd9-b5c4-43781ea91403
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_practical_information
+field_name: field_practical_information
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

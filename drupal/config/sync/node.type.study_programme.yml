@@ -21,7 +21,7 @@ third_party_settings:
     unpublish_enable: false
     unpublish_required: false
     unpublish_revision: false
-name: 'Study Programme'
+name: Õppekava
 type: study_programme
 description: ''
 help: ''

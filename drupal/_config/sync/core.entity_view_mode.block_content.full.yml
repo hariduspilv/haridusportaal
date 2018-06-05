@@ -1,0 +1,12 @@
+uuid: cfb57b31-17cf-4311-8736-348efbcbccf7
+langcode: et
+status: false
+dependencies:
+  module:
+    - block_content
+_core:
+  default_config_hash: 4tedlMuvQjDOdvHdw86_e-2Rt78aR7TGFMfOK8Ejppg
+id: block_content.full
+label: Täielik
+targetEntityType: block_content
+cache: true

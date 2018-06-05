@@ -1,0 +1,13 @@
+uuid: de5dd1ef-3353-4b54-b2d8-6d229687e3eb
+langcode: et
+status: true
+dependencies:
+  module:
+    - comment
+_core:
+  default_config_hash: lfyE_snmvfg_EQ3VDyhUtGAXgmqtEiqa46I3bTMg8DU
+id: comment_save_action
+label: 'Kommentaari salvestamine'
+type: comment
+plugin: 'entity:save_action:comment'
+configuration: {  }

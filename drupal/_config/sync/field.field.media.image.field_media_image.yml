@@ -1,0 +1,43 @@
+uuid: e99b6804-3c7e-4657-95e1-b2f97b232292
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_media_image
+    - media.type.image
+  enforced:
+    module:
+      - media
+  module:
+    - image
+_core:
+  default_config_hash: pzPA-2JwyxlJ3qMb4L9viAnhNhbEhl2couH8A3FO020
+id: media.image.field_media_image
+field_name: field_media_image
+entity_type: media
+bundle: image
+label: Pilt
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  max_resolution: ''
+  min_resolution: ''
+  default_image:
+    uuid: null
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: ''
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image

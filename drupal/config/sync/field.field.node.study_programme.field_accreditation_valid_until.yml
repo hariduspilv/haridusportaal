@@ -11,7 +11,7 @@ id: node.study_programme.field_accreditation_valid_until
 field_name: field_accreditation_valid_until
 entity_type: node
 bundle: study_programme
-label: 'Accreditation Valid Until'
+label: 'Akrediteerimise otsuse kehtivuse lõpp'
 description: ''
 required: false
 translatable: false

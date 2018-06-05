@@ -11,7 +11,7 @@ id: node.study_programme.field_web_page_address
 field_name: field_web_page_address
 entity_type: node
 bundle: study_programme
-label: 'Web Page Address'
+label: 'Õppekava kirjeldava veebilehe aadress'
 description: ''
 required: false
 translatable: false
