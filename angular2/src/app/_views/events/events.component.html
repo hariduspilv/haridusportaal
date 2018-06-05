@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row sm-hide">
   <div class="col-12">
-    <ul class="breadcrumb mt-0 mb-0">
+    <ul class="breadcrumb mt-0">
       <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
         <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
           <span>{{ breadcrumbEl.text }}</span>
@@ -11,38 +11,48 @@
   </div>
 </div>
 
-
 <div class="sm-show mb-20 text-right">
   <a [routerLink]="" (click)="toggleFilter = !toggleFilter" *ngIf="!toggleFilter">Filtreeri</a>
   <a [routerLink]="" (click)="toggleFilter = !toggleFilter"  *ngIf="toggleFilter">Sulge filter</a>
 </div>
 
-<div class="" [ngClass]="{'sm-hide': !toggleFilter}">
+<div class="" [ngClass]="{'sm-hide': !toggleFilter}" class="filter-wrapper">
   <form [formGroup]="filterFormGroup" class="row">
     <div class="col-9 sm-12">
       <div class="row">
         <div class="col-6 sm-12">
-          <mat-form-field class="w-100">
-            <mat-placeholder>Sisesta sündmuse nimi</mat-placeholder>
-            <input matInput formControlName="titleForm" [(ngModel)]="titleValue" maxlength="50"/>
-          </mat-form-field>
+          <div class="round-input__wrapper w-100">
+            <span class="round-input__title">Otsi uudist märksõna järgi</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field" placeholder="Sisesta uudise nimi" formControlName="titleForm" [(ngModel)]="titleValue" maxlength="50"/>
+              <button class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
         </div>
         <div class="col-3 sm-6">
-          <mat-form-field class="w-100">
-            <mat-placeholder>pp/kk/aa</mat-placeholder>
-            <input matInput [matDatepicker]="myDatepicker1" formControlName="minDateForm" [max]="datepickerMax" maxlength="10" dateFormatter>
-            <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker1></mat-datepicker>
-          </mat-form-field>
+          <div class="round-input__wrapper w-100">
+            <span class="round-input__title">Kuupäev</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field"  placeholder="Vali alguskuupäev" [matDatepicker]="myDatepicker1" formControlName="minDateForm" [max]="datepickerMax" maxlength="10" dateFormatter />
+              <!--(click)="myDatepicker1.open()"-->
+              <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
+              <mat-datepicker #myDatepicker1></mat-datepicker>
+            </div>
+          </div>
         </div>
         
         <div class="col-3 sm-6">
-          <mat-form-field class="w-100">
-            <mat-placeholder>pp/kk/aa</mat-placeholder>
-            <input matInput [matDatepicker]="myDatepicker2" formControlName="maxDateForm" [min]="datepickerMin" maxlength="10" dateFormatter>
-            <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker2></mat-datepicker>
-          </mat-form-field>
+          <div class="round-input__wrapper w-100">
+              <span class="round-input__title">Kuupäev</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field"  placeholder="Vali alguskuupäev" [matDatepicker]="myDatepicker2" formControlName="maxDateForm" [min]="datepickerMin" maxlength="10" dateFormatter />
+                <!--(click)="myDatepicker1.open()"-->
+                <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
+                <mat-datepicker #myDatepicker2></mat-datepicker>
+              </div>
+            </div>
         </div>
         
       </div>
@@ -76,6 +86,8 @@
       <button mat-raised-button color="primary" (click)="eventsFilter()">Otsi</button>    
     </div>
   </form>
+
+  <div *ngIf="filterFormGroup.invalid" style="background-color: red;">ERRORS</div>
 </div>
 
 <div class="row">
