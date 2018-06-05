@@ -4,8 +4,7 @@ namespace Drupal\custom_subscription_administration\Entity;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\Core\Entity\RevisionableContentEntityBase;
-use Drupal\Core\Entity\RevisionableInterface;
+use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
@@ -19,7 +18,6 @@ use Drupal\user\UserInterface;
 *   id = "subscription_entity",
 *   label = @Translation("Subscription entity"),
 *   handlers = {
-*     "storage" = "Drupal\custom_subscription_administration\SubscriptionEntityStorage",
 *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
 *     "list_builder" = "Drupal\custom_subscription_administration\SubscriptionEntityListBuilder",
 *     "views_data" = "Drupal\custom_subscription_administration\Entity\SubscriptionEntityViewsData",
@@ -38,13 +36,10 @@ use Drupal\user\UserInterface;
 *   },
 *   base_table = "subscription_entity",
 *   data_table = "subscription_entity_field_data",
-*   revision_table = "subscription_entity_revision",
-*   revision_data_table = "subscription_entity_field_revision",
 *   translatable = TRUE,
 *   admin_permission = "administer subscription entity entities",
 *   entity_keys = {
 *     "id" = "id",
-*     "revision" = "vid",
 *     "label" = "name",
 *     "uuid" = "uuid",
 *     "uid" = "user_id",
@@ -56,17 +51,12 @@ use Drupal\user\UserInterface;
 *     "add-form" = "/admin/structure/subscription_entity/add",
 *     "edit-form" = "/admin/structure/subscription_entity/{subscription_entity}/edit",
 *     "delete-form" = "/admin/structure/subscription_entity/{subscription_entity}/delete",
-*     "version-history" = "/admin/structure/subscription_entity/{subscription_entity}/revisions",
-*     "revision" = "/admin/structure/subscription_entity/{subscription_entity}/revisions/{subscription_entity_revision}/view",
-*     "revision_revert" = "/admin/structure/subscription_entity/{subscription_entity}/revisions/{subscription_entity_revision}/revert",
-*     "revision_delete" = "/admin/structure/subscription_entity/{subscription_entity}/revisions/{subscription_entity_revision}/delete",
-*     "translation_revert" = "/admin/structure/subscription_entity/{subscription_entity}/revisions/{subscription_entity_revision}/revert/{langcode}",
 *     "collection" = "/admin/structure/subscription_entity",
 *   },
 *   field_ui_base_route = "subscription_entity.settings"
 * )
 */
-class SubscriptionEntity extends RevisionableContentEntityBase implements SubscriptionEntityInterface {
+class SubscriptionEntity extends ContentEntityBase implements SubscriptionEntityInterface {
 
   use EntityChangedTrait;
 
@@ -83,44 +73,6 @@ class SubscriptionEntity extends RevisionableContentEntityBase implements Subscr
   /**
   * {@inheritdoc}
   */
-  protected function urlRouteParameters($rel) {
-    $uri_route_parameters = parent::urlRouteParameters($rel);
-
-    if ($rel === 'revision_revert' && $this instanceof RevisionableInterface) {
-      $uri_route_parameters[$this->getEntityTypeId() . '_revision'] = $this->getRevisionId();
-    }
-    elseif ($rel === 'revision_delete' && $this instanceof RevisionableInterface) {
-      $uri_route_parameters[$this->getEntityTypeId() . '_revision'] = $this->getRevisionId();
-    }
-
-    return $uri_route_parameters;
-  }
-
-  /**
-  * {@inheritdoc}
-  */
-  public function preSave(EntityStorageInterface $storage) {
-    parent::preSave($storage);
-
-    foreach (array_keys($this->getTranslationLanguages()) as $langcode) {
-      $translation = $this->getTranslation($langcode);
-
-      // If no owner has been set explicitly, make the anonymous user the owner.
-      if (!$translation->getOwner()) {
-        $translation->setOwnerId(0);
-      }
-    }
-
-    // If no revision author has been set explicitly, make the subscription_entity owner the
-    // revision author.
-    if (!$this->getRevisionUser()) {
-      $this->setRevisionUserId($this->getOwnerId());
-    }
-  }
-
-  /**
-  * {@inheritdoc}
-  */
   public function getName() {
     return $this->get('name')->value;
   }
@@ -130,21 +82,6 @@ class SubscriptionEntity extends RevisionableContentEntityBase implements Subscr
   */
   public function setName($name) {
     $this->set('name', $name);
-    return $this;
-  }
-
-  /**
-  * {@inheritdoc}
-  */
-  public function getEmail() {
-    return $this->get('email')->value;
-  }
-
-  /**
-  * {@inheritdoc}
-  */
-  public function setEmail($email) {
-    $this->set('email', $email);
     return $this;
   }
 
@@ -213,7 +150,6 @@ class SubscriptionEntity extends RevisionableContentEntityBase implements Subscr
   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
-
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
     ->setLabel(t('Authored by'))
     ->setDescription(t('The user ID of author of the Subscription entity entity.'))
@@ -294,7 +230,7 @@ class SubscriptionEntity extends RevisionableContentEntityBase implements Subscr
         'type' => 'entity_reference',
       ))
       ->setDisplayOptions('form', array(
-        'type' => 'entity_reference_autocomplete',
+        'type' => 'entity_reference_autocomplete_tags',
         'settings' => array(
           'match_operator' => 'CONTAINS',
           'size' => '100',
@@ -312,23 +248,23 @@ class SubscriptionEntity extends RevisionableContentEntityBase implements Subscr
       ->setDefaultValue(TRUE)
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
-        'weight' => -3,
       ]);
 
       $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
-      ->setDescription(t('The time that the entity was created.'));
+      ->setDescription(t('The time that the entity was created.'))
+      ->setDisplayOptions('view', array(
+        'label' => 'above',
+        'type' => 'entity_reference',
+      ));
 
       $fields['changed'] = BaseFieldDefinition::create('changed')
       ->setLabel(t('Changed'))
-      ->setDescription(t('The time that the entity was last edited.'));
-
-      $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Revision translation affected'))
-      ->setDescription(t('Indicates if the last edit of a translation belongs to current revision.'))
-      ->setReadOnly(TRUE)
-      ->setRevisionable(TRUE)
-      ->setTranslatable(TRUE);
+      ->setDescription(t('The time that the entity was last edited.'))
+      ->setDisplayOptions('view', array(
+        'label' => 'above',
+        'type' => 'entity_reference',
+      ));
 
       return $fields;
     }
