@@ -45,29 +45,23 @@ export const MY_FORMATS = {
   ]
 })
 
-export class EventsComponent implements OnInit {
+export class EventsComponent implements OnInit, OnDestroy {
   
-  feedRef: QueryRef<any>;
-  feedSub: any;
+  subscriptions: Subscription[] = [];
   
   // TAGS
   eventTagObs: Observable<any[]>;
   eventTags: any[];
   selectedTags: any[];
+
   // TIDS
   eventTidObs: Observable<any[]>;
   eventTids: any[];
   selectedTids: any[];
 
-  // ALL PAGE CONFIG
-  path: string;
-  lang: string;
-  breadcrumb: any;
-  eventList: any;
-
   today = moment();
 
-  
+  // Form controls
   filterFormGroup = new FormGroup({
     titleForm: new FormControl({ value: null, disabled: false }),
     minDateForm: new FormControl({ value: null, disabled: false }),
@@ -75,7 +69,6 @@ export class EventsComponent implements OnInit {
     eventTagsSelectForm: new FormControl({ value: [], disabled: false }),
     eventTidSelectForm: new FormControl({ value: [], disabled: false }),
   });
-  
   
   // Events config
   tagValue: string = "";
@@ -86,24 +79,28 @@ export class EventsComponent implements OnInit {
   titleEnabled: boolean = false;
   minDate: string = moment().format('YYYY-MM-DD').toString(); //"1901-00-00" TODAY
   maxDate: string = moment("2038-01-01").format('YYYY-MM-DD').toString(); //"2038-01-01"
-  // http://test-htm.wiseman.ee:30000/et/admin/config/regional/date-time/formats/add
-  
-  datepickerMin: Date;
-  datepickerMax: Date;
-  
   offset: number = 0;
   limit: number = 3;
   
-  showTagsInput: boolean = false;
-  toggleFilter: boolean = false;  
+  // datepicker validation
+  datepickerMin: Date;
+  datepickerMax: Date;
+
+  // PAGE CONFIG
+  path: string;
+  lang: string;
+  breadcrumb: any;
+  eventList: any;
+  filter: boolean = true;
+  filterState: boolean = false;
   listEnd: boolean = false;
   error: boolean = false;
-  // Events config END  
   
   
   // FORM DATE FORMAT NEEDED - new Date(2000, 1, 1);
   // GRAPHQL DATE FORMAT NEEDED - moment().format('YYYY-MM-DD').toString();
   // QUERY PARAMS FORMAT NEEDED - moment(new Date(this.minDate)).unix().toString();
+  // Events config END  
   
   
   constructor(
@@ -112,9 +109,13 @@ export class EventsComponent implements OnInit {
     private apollo: Apollo,
     private rootScope: RootScopeService
   ) { }
-  
-  toggleTags() {
-    this.showTagsInput = !this.showTagsInput;
+
+  hideFilter() {
+    this.filter = !this.filter
+  }
+
+  changeFilterState() {
+    this.filterState = !this.filterState
   }
   
   setPaths() {
@@ -142,12 +143,12 @@ export class EventsComponent implements OnInit {
   
   loadMore() {
     this.offset = this.eventList.length;
-    this.route.params.subscribe(
+    const paramsSub = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
         this.lang = params['lang'];
         
-        this.apollo.watchQuery({
+        const querySubscription = this.apollo.watchQuery({
           query: sortEventsByOptions,
           variables: {
             tagValue: this.tagValue, //?
@@ -170,18 +171,18 @@ export class EventsComponent implements OnInit {
             this.listEnd = true;
           }
         });        
+        this.subscriptions = [...this.subscriptions, querySubscription];
       }
     )
+    this.subscriptions = [...this.subscriptions, paramsSub];
   }
   
   ngOnInit() {
-    console.log(new Date(this.minDate));
+    this.setPaths();
 
     var currMonthName  = moment().format('MMMM');
     console.log(currMonthName);
 
-    this.today = moment();
-    this.setPaths();
     
     // console.log(moment(new Date(this.minDate)).unix())
     
@@ -197,20 +198,21 @@ export class EventsComponent implements OnInit {
     //   }
     // )
     
-    this.route.params.subscribe(
+    const paramsSub = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
         this.lang = params['lang'];
         
         // FORM FILTER SUBSCRIPTION
-        this.filterFormGroup.valueChanges.subscribe((data)=>{
-          console.log(data)
+        const formSubscription = this.filterFormGroup.valueChanges.subscribe((data)=>{
+          // console.log(data)
           this.datepickerMin = data.minDateForm;
           this.datepickerMax = data.maxDateForm;
         });
+        this.subscriptions = [...this.subscriptions, formSubscription];
         
         // GET BREADCRUMB
-        this.apollo.watchQuery({
+        const breadcrumbSubscription = this.apollo.watchQuery({
           query: getBreadcrumb,
           variables: {
             path: this.path,
@@ -223,9 +225,10 @@ export class EventsComponent implements OnInit {
         .subscribe(({data}) => {
           this.breadcrumb = data['route']['breadcrumb'];
         });
+        this.subscriptions = [...this.subscriptions, breadcrumbSubscription];
         
         // GET LIST OBSERVABLE
-        this.feedRef = this.apollo.watchQuery<any>({
+        const eventsSubscription = this.apollo.watchQuery<any>({
           query: sortEventsByOptions,
           variables: {
             tagValue: this.tagValue, //?
@@ -242,28 +245,23 @@ export class EventsComponent implements OnInit {
           },
           fetchPolicy: 'no-cache',
           errorPolicy: 'all',
-        })
-        
-        this.feedSub = this.feedRef.valueChanges.subscribe(({data}) => {
+        }).valueChanges.subscribe(({data}) => {
           this.eventList = data['nodeQuery']['entities'];
           if (this.eventList && (this.eventList.length < this.limit)){
             this.listEnd = true;
           }
         });
+        this.subscriptions = [...this.subscriptions, eventsSubscription];
         
-
         // get tags
-        this.feedRef = this.apollo.watchQuery({
+        const tagsSubscription = this.apollo.watchQuery({
           query: getEventsTags,
           variables: {
             lang: this.lang.toUpperCase(),
             fetchPolicy: 'no-cache',
             errorPolicy: 'all',
           },
-        })
-        
-
-        this.feedSub = this.feedRef.valueChanges
+        }).valueChanges
         .subscribe(({data}) => {
           this.eventTags = data['nodeQuery']['entities'];
           let newsTagArr = [];
@@ -286,16 +284,14 @@ export class EventsComponent implements OnInit {
           this.eventTagObs = of(newsTagArr).pipe(delay(500));
           // console.log(newsTagArr)
         });
+        this.subscriptions = [...this.subscriptions, tagsSubscription];
 
         // get Tid
-        this.feedRef = this.apollo.watchQuery({
+        const tidsSubscription = this.apollo.watchQuery({
           query: getEventsTids,
           fetchPolicy: 'no-cache',
           errorPolicy: 'all',
-        })
-        
-
-        this.feedSub = this.feedRef.valueChanges
+        }).valueChanges
         .subscribe(({data}) => {
           this.eventTids = data['taxonomyTermQuery']['entities'];
           let newsTidArr = [];
@@ -315,10 +311,10 @@ export class EventsComponent implements OnInit {
           this.eventTidObs = of(newsTidArr).pipe(delay(500));
           // console.log(newsTidArr)
         });
-        
-        
+        this.subscriptions = [...this.subscriptions, tidsSubscription];
       }
-    ) // PARAMS END  
+    ) // PARAMS END
+    this.subscriptions = [...this.subscriptions, paramsSub];
   }
   
   eventsFilter() {
@@ -359,7 +355,7 @@ export class EventsComponent implements OnInit {
     }
         
     
-    this.apollo.watchQuery<any>({
+    const filterSubscription = this.apollo.watchQuery<any>({
       query: sortEventsByOptions,
       variables: {
         tagValue: this.tagValue, //?
@@ -383,7 +379,15 @@ export class EventsComponent implements OnInit {
         this.listEnd = true;
       }
     });
-    
+    this.subscriptions = [...this.subscriptions, filterSubscription];        
+  }
+
+  ngOnDestroy() {
+    for (let sub of this.subscriptions) {
+      if (sub && sub.unsubscribe) {
+        sub.unsubscribe();
+      }
+    }
   }
   
   parseIntoReadableTime(milliseconds){

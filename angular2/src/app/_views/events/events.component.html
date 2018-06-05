@@ -11,9 +11,11 @@
   </div>
 </div>
 
-<div class="sm-show mb-20 text-right">
-  <a [routerLink]="" (click)="toggleFilter = !toggleFilter" *ngIf="!toggleFilter">Filtreeri</a>
-  <a [routerLink]="" (click)="toggleFilter = !toggleFilter"  *ngIf="toggleFilter">Sulge filter</a>
+<div class="sm-show text-right filter-control">
+  <a href="javascript:void(0);" (click)="hideFilter()">
+    <span *ngIf="!filter">Filtreeri</span>
+    <span *ngIf="filter">Sulge filter</span>
+  </a>
 </div>
 
 <div class="" [ngClass]="{'sm-hide': !toggleFilter}" class="filter-wrapper">
@@ -24,7 +26,7 @@
           <div class="round-input__wrapper w-100">
             <span class="round-input__title">Otsi uudist märksõna järgi</span>
             <div class="round-input__field-wrapper">
-              <input class="round-input__field" placeholder="Sisesta uudise nimi" formControlName="titleForm" [(ngModel)]="titleValue" maxlength="50"/>
+              <input class="round-input__field" placeholder="{{ 'search.events.name' | translate }}" formControlName="titleForm" [(ngModel)]="titleValue" maxlength="50"/>
               <button class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
                 <mat-icon>close</mat-icon>
               </button>
@@ -33,9 +35,9 @@
         </div>
         <div class="col-3 sm-6">
           <div class="round-input__wrapper w-100">
-            <span class="round-input__title">Kuupäev</span>
+            <span class="round-input__title">{{ 'date' | translate }}</span>
             <div class="round-input__field-wrapper">
-              <input class="round-input__field"  placeholder="Vali alguskuupäev" [matDatepicker]="myDatepicker1" formControlName="minDateForm" [max]="datepickerMax" maxlength="10" dateFormatter />
+              <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="myDatepicker1" formControlName="minDateForm" [max]="datepickerMax" maxlength="10" dateFormatter />
               <!--(click)="myDatepicker1.open()"-->
               <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
               <mat-datepicker #myDatepicker1></mat-datepicker>
@@ -45,9 +47,9 @@
         
         <div class="col-3 sm-6">
           <div class="round-input__wrapper w-100">
-              <span class="round-input__title">Kuupäev</span>
+              <span class="round-input__title">{{ 'date' | translate }}</span>
               <div class="round-input__field-wrapper">
-                <input class="round-input__field"  placeholder="Vali alguskuupäev" [matDatepicker]="myDatepicker2" formControlName="maxDateForm" [min]="datepickerMin" maxlength="10" dateFormatter />
+                <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="myDatepicker2" formControlName="maxDateForm" [min]="datepickerMin" maxlength="10" dateFormatter />
                 <!--(click)="myDatepicker1.open()"-->
                 <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
                 <mat-datepicker #myDatepicker2></mat-datepicker>
@@ -56,7 +58,7 @@
         </div>
         
       </div>
-      <div class="row" *ngIf="showTagsInput">
+      <div class="row"  *ngIf="filterState">
         <div class="col-12">
           <ng-select
           [items]="eventTagObs | async"
@@ -81,10 +83,12 @@
         </div>
       </div>
     </div>
-    <div class="col-3 sm-12">
-      <a [routerLink]="" (click)="toggleTags()">Täpsem otsing</a>
-      <button mat-raised-button color="primary" (click)="eventsFilter()">Otsi</button>    
-    </div>
+    <div class="col-3 align-end text-right sm-12 inline-flex sm-hide">
+      <div class="align-center filter-state button-row">
+        <a [routerLink]="" (click)="changeFilterState()"><span>Kitsam otsing</span></a>
+        <button mat-raised-button color="primary" (click)="eventsFilter()">{{ 'search' | translate }}</button>
+      </div>
+    </div><!--/col-3-->
   </form>
 
   <div *ngIf="filterFormGroup.invalid" style="background-color: red;">ERRORS</div>
@@ -93,7 +97,7 @@
 <div class="row">
   <div class="col-6">
     <h1 class="mt-0">
-      Events
+      {{ 'events' | translate }}
     </h1>
   </div><!--/col-6-->
   <div class="col-6 text-right">
@@ -146,10 +150,10 @@
   </div><!--/ngFor-->
   
   <div class="text-center mt-30" *ngIf="!listEnd">
-    <button mat-raised-button color="primary" (click)="loadMore()">Load more</button>
+    <button mat-raised-button color="primary" (click)="loadMore()">{{ 'load.more' | translate }}</button>
     <!-- <button mat-raised-button color="primary" (click)="fetchMore()">Refetch</button> -->
   </div><!--/text-center-->
   <div class="text-center actions__error" *ngIf="(eventList != null && eventList.length) === 0">
-    <p>No result</p>
+    <p>{{ 'results.none' | translate }}</p>
   </div><!--/text-center-->
 </div><!--/ngIf-->
