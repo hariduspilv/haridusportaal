@@ -7,8 +7,8 @@ use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 
 /**
- * Class StudyProgrammeController.
- */
+* Class StudyProgrammeController.
+*/
 class StudyProgrammeController extends ControllerBase {
 
   public function import() {
@@ -189,21 +189,11 @@ class StudyProgrammeController extends ControllerBase {
       $programmenode['programme_field']['field_specialization'] = $specializationvalue;
 
       if(isset($programme->maht)){
-        if($programme->oppekavaLiik === 'Kõrghariduse õppekava'){
-          $programmenode['programme_field']['field_amount'] = $programme->maht.' EAP';
-        }
-        if($programme->oppekavaLiik === 'Kutsehariduse õppekava'){
-          $programmenode['programme_field']['field_amount'] = $programme->maht.' EKAP';
-        }
+        $programmenode['programme_field']['field_amount'] = $programme->maht;
       }
 
       if(isset($programme->praktikaMaht)){
-        if($programme->oppekavaLiik === 'Kõrghariduse õppekava'){
-          $programmenode['programme_field']['field_practical_training_amount'] = $programme->praktikaMaht.' EAP';
-        }
-        if($programme->oppekavaLiik === 'Kutsehariduse õppekava'){
-          $programmenode['programme_field']['field_practical_training_amount'] = $programme->praktikaMaht.' EKAP';
-        }
+        $programmenode['programme_field']['field_practical_training_amount'] = $programme->praktikaMaht;
       }
 
       if(isset($programme->nominaalKestusAastad)){
