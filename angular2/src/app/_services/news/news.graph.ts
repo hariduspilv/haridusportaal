@@ -162,7 +162,7 @@ query getNewsTags2( $lang: LanguageId!){
   nodeQuery(filter: {conditions: [
     {operator: EQUAL, field: "type", value: ["news"], language: $lang}
   ]}) {
-    entities {
+    entities(language: $lang) {
       ... on NodeNews{
         Tag: fieldNewsTag {
           entity{
