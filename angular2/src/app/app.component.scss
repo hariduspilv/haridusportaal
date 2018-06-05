@@ -1,8 +1,8 @@
+@import "../assets/styles/typography.scss";
 @import "~@ng-select/ng-select/themes/material.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "../assets/styles/controls.scss";
 @import "../assets/styles/sidebar.scss";
-@import "../assets/styles/typography.scss";
 
 /* You can add global styles to this file, and also import other style files */
 body{margin:0; padding:0; padding-top:64px; background: $light-gray;}
@@ -167,7 +167,7 @@ $grid-columns: 12;
 
 .button-height{margin:6px 0;}
 .mat-drawer-content{overflow: visible !important;}
-.mat-warn{color:$red;}
+.mat-warn{color:$dark-red;}
 
 .event-details{
   .mat-icon{vertical-align: middle;}

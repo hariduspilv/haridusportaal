@@ -2,12 +2,21 @@ $white: #ffffff;
 $light-gray: #eeeeee;
 $gray: #c7c7c9;
 $dark-gray: #757575;
-$black: #333333;
-$blue: #2e3374;
-$light-blue: #15adc2;
 $orange: #f8b243;
-$red: rgba(208, 2, 27, 0.87);
+$dark-orange: #fd8208;
+$red: #d5401a;
+$dark-red: rgba(208, 2, 27, 0.87);
+$light-blue: #15adc2;
+$blue: #2e3374;
+$black: #333333;
 
+$gutter: 0.5rem;
+$half-gutter: $gutter / 2;
+$quarter: $gutter + $half-gutter;
+$small: $gutter * 2;
+$medium: $gutter * 3;
+$large: $gutter * 4;
+$xxl: $gutter * 6;
 
 h2 {
   font-size: 1.5rem;
@@ -17,7 +26,7 @@ h2 {
   line-height: 1.33;
   letter-spacing: normal;
   text-align: left;
-  color: #2e3374;
+  color: $blue;
   margin-top: 0;
   margin-bottom: 0;
 }

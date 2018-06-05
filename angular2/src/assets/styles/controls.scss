@@ -4,10 +4,10 @@
     padding-right: 0.125rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    ::placeholder {color: #757575; opacity: 1; font-size: 0.875rem; overflow: hidden;}
+    ::placeholder {color: $dark-gray; opacity: 1; font-size: 0.875rem; overflow: hidden;}
     &:focus-within {
-      .round-input__title {color: #2e3374;}
-      .round-input__field-wrapper {border-color: #2e3374;}
+      .round-input__title {color: $blue;}
+      .round-input__field-wrapper {border-color: $blue;}
     }
   }
   &__field-wrapper {
@@ -16,9 +16,9 @@
     -ms-flex-align: stretch;
     align-items: stretch;
     width: 100%;
-    border: solid 1px #c7c7c9;
+    border: solid 1px $gray;
     border-radius: 1.25rem;
-    background: white;
+    background: $white;
     height: 38px;
   }
   &__field {
@@ -27,14 +27,14 @@
     font-size: 0.875rem;
     line-height: 2;
     height: 22px;
-    padding: 0.5rem 0rem 0.5rem 1rem;
+    padding: $gutter 0 $gutter $small;
     border: none;
     border-radius: 1.25rem;
     width: stretch;
   }
   &__clear {
     &.mat-icon-button, .mat-icon-button {
-      .mat-datepicker-toggle-default-icon {fill: #d5401a;}
+      .mat-datepicker-toggle-default-icon {fill: $red;}
       height: 38px;
       width: 38px;
       &:hover {
@@ -45,10 +45,10 @@
   &__title {
     top: 9px;
     white-space: nowrap;
-    padding: 0.25rem 0.5rem 0 0.5rem;
+    padding: $half-gutter $gutter 0 $gutter;
     position: relative;
-    background: #ffffff;
-    font-size: 0.75rem;
-    left: 24px;
+    background: $white;
+    font-size: $quarter;
+    left: $medium;
   }
 }
