@@ -64,6 +64,8 @@ export class EventsComponent implements OnInit {
   lang: string;
   breadcrumb: any;
   eventList: any;
+  view: string;
+  calendarDays: any;
 
   today = moment();
 
@@ -110,7 +112,8 @@ export class EventsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private apollo: Apollo,
-    private rootScope: RootScopeService
+    private rootScope: RootScopeService,
+    private eventService: EventsService
   ) { }
   
   toggleTags() {
@@ -174,7 +177,100 @@ export class EventsComponent implements OnInit {
     )
   }
   
+  year: number = 2018;
+  month:any = 7;
+
+  changeMonth(direction:number) {
+    let month = parseInt( this.month );
+
+    if( direction == 1 ){
+      month++;
+    }else{
+      month--;
+    }
+    
+    if( month > 12 ){
+      this.year++;
+      this.month = 1;
+    }
+    else if( month < 1 ){
+      this.year--;
+      this.month = 12;
+    }else{
+      this.month = month;
+    }
+
+
+    this.generateCalendar();
+  }
+
+  generateCalendar() {
+
+
+    this.month = parseInt(this.month);
+
+    if( this.month < 10 ){ this.month = "0"+this.month; }
+
+    let dateObj = moment(this.year+'-'+this.month+'-01');
+    
+    let props = {
+      days: dateObj.daysInMonth(),
+      firstDay: dateObj.day()
+    }
+    
+    let calendar = {};
+
+    let weekCounter = 1;
+    let dayList = [7,1,2,3,4,5,6];
+    let dayCounter = dayList[props.firstDay];
+
+    for( let i = 1; i < props.days+1; i++ ){
+      if( dayCounter > 7 ){ weekCounter++; dayCounter = 1; }
+
+      if( !calendar[weekCounter] ){ calendar[weekCounter] = []; }
+
+      calendar[weekCounter].push(i);
+
+      dayCounter++;
+    }
+
+    this.calendarDays = [];
+
+    for( let i in calendar ){
+      this.calendarDays.push(calendar[i]);
+    }
+
+    let prependDates = (this.calendarDays[0].length - 7) * (-1);
+
+    if( prependDates > 0 ){
+      for( let i = 0; i < prependDates; i++ ){
+        this.calendarDays[0].unshift("");
+      }
+    }
+
+    let appendDates = 7 - dayCounter + 1;
+
+    if( appendDates > 0 ){
+      for( let i = 0; i < appendDates; i++ ){
+        this.calendarDays[ this.calendarDays.length - 1 ].push("");
+      }
+    }
+
+  }
+  
+  changeView(view: any){
+    this.view = view;
+
+    if( view == "calendar" ){
+      this.eventService.getCalendar(2018, 7);
+      this.generateCalendar();
+    }
+  }
+
   ngOnInit() {
+
+    this.changeView("list");
+
     console.log(new Date(this.minDate));
 
     var currMonthName  = moment().format('MMMM');

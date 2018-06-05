@@ -8,10 +8,10 @@
       <p *ngIf="item.fieldDescription">{{ item.fieldDescription.summary }}</p>
       <p>
 
-         <span *ngIf="item.eventDates[0]"><b>Toimumisaeg:</b> {{ item.eventDates[0].entity.fieldEventStartTime | unixToTime }}<br /></span>
-         <span *ngIf="item.location"><b>Asukoht:</b> {{ item.location.name }}</span>
+         <span *ngIf="item.eventDates[0]"><b>{{ 'occurrence' | translate }}:</b> {{ item.eventDates[0].entity.fieldEventStartTime | unixToTime }}<br /></span>
+         <span *ngIf="item.location"><b>{{ 'location' | translate }}:</b> {{ item.location.name }}</span>
       </p>
    </a>
    <mat-divider class="mt-20 mb-20"></mat-divider>
 </div>
-<a href="javascript:void(0);" [routerLink]="allPath" mat-button color="primary">{{ 'news' | translate }}</a>
+<a href="javascript:void(0);" [routerLink]="allPath" mat-button color="primary">{{ 'view.all' | translate }}</a>

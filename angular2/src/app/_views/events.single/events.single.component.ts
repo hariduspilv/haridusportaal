@@ -8,7 +8,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
-import { MomentModule } from 'angular2-moment/moment.module';
 import { Apollo } from 'apollo-angular';
 
 @Component({
@@ -28,7 +27,7 @@ export class EventsSingleComponent {
   error: boolean;
   map: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private eventService: EventsService, private rootScope:RootScopeService, private moment: MomentModule, private apollo: Apollo) {
+  constructor(private router: Router, private route: ActivatedRoute, private eventService: EventsService, private rootScope:RootScopeService, private apollo: Apollo) {
 
     this.route.params.subscribe( params => {
 
