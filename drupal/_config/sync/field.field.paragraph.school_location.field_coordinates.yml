@@ -1,0 +1,21 @@
+uuid: f1693a94-9ceb-4e5e-8633-97a1d4bf3f11
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_coordinates
+    - paragraphs.paragraphs_type.school_location
+  module:
+    - google_map_field
+id: paragraph.school_location.field_coordinates
+field_name: field_coordinates
+entity_type: paragraph
+bundle: school_location
+label: Koordinaadid
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: google_map_field

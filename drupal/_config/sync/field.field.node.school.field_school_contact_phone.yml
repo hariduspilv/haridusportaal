@@ -1,0 +1,19 @@
+uuid: 73eac6d6-ffe0-4be2-b271-d6e617a34c4a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_school_contact_phone
+    - node.type.school
+id: node.school.field_school_contact_phone
+field_name: field_school_contact_phone
+entity_type: node
+bundle: school
+label: Kontakttelefon
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

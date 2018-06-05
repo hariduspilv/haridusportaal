@@ -1,0 +1,23 @@
+uuid: 4e52d003-02ec-4c10-9173-eedbdf69e7f8
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_duration_months
+    - node.type.study_programme
+id: node.study_programme.field_duration_months
+field_name: field_duration_months
+entity_type: node
+bundle: study_programme
+label: 'Nominaalkestus (kuud)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

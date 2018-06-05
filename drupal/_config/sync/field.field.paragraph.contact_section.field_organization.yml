@@ -1,0 +1,19 @@
+uuid: 7f384e85-6ce2-4f07-ada5-3949f31037cb
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_organization
+    - paragraphs.paragraphs_type.contact_section
+id: paragraph.contact_section.field_organization
+field_name: field_organization
+entity_type: paragraph
+bundle: contact_section
+label: Organisatsioon
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

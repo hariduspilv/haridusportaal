@@ -1,0 +1,33 @@
+uuid: 5e9a98dd-1790-4ad9-827e-f692d2bfc701
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: events_pattern_est
+label: 'Events pattern EST'
+type: 'canonical_entities:node'
+pattern: 'sundmused/[node:title]'
+selection_criteria:
+  abd09a81-cc50-47d8-8c9e-a6237752df41:
+    id: node_type
+    bundles:
+      event: event
+    negate: false
+    context_mapping:
+      node: node
+    uuid: abd09a81-cc50-47d8-8c9e-a6237752df41
+  8b6a3fda-020a-4c17-8a9a-7ecf7770ecc3:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 8b6a3fda-020a-4c17-8a9a-7ecf7770ecc3
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

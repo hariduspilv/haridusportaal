@@ -4,7 +4,6 @@ import { SideMenuService, RootScopeService } from '../../_services';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -20,13 +19,7 @@ export class HeaderComponent {
 
   activeLanguage: any;
 
-  constructor(
-    private sidemenu: SideMenuService,
-    private apollo: Apollo,
-    private rootScope: RootScopeService,
-    private router: Router,
-    private changeDetectorRef: ChangeDetectorRef,
-    private translate: TranslateService) {
+  constructor(private sidemenu: SideMenuService, private apollo: Apollo, private rootScope: RootScopeService, private router: Router, private changeDetectorRef: ChangeDetectorRef) {
 
     this.logoLink = '/et';
 
@@ -76,7 +69,6 @@ export class HeaderComponent {
 
   changeLanguage(lang): void{
 
-
     const langOptions = this.rootScope.get('langOptions');
 
     let currentPath = langOptions[lang];
@@ -87,7 +79,6 @@ export class HeaderComponent {
 
     this.activeLanguage = lang;
 
-    this.translate.use(lang)
     this.logoLink = '/'+this.activeLanguage;
     this.changeDetectorRef.detectChanges();
 

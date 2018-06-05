@@ -1,0 +1,45 @@
+uuid: 54349fe4-1987-48cf-a695-45acc598aace
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.event_date.field_event_date
+    - field.field.paragraph.event_date.field_event_end_time
+    - field.field.paragraph.event_date.field_event_start_time
+    - paragraphs.paragraphs_type.event_date
+  module:
+    - datetime
+    - hms_field
+id: paragraph.event_date.default
+targetEntityType: paragraph
+bundle: event_date
+mode: default
+content:
+  field_event_date:
+    weight: 0
+    label: above
+    settings:
+      timezone_override: ''
+      date_format: Y-m-d
+    third_party_settings: {  }
+    type: datetime_custom
+    region: content
+  field_event_end_time:
+    weight: 2
+    label: above
+    settings:
+      format: 'hh:mm'
+      leading_zero: '1'
+    third_party_settings: {  }
+    type: hms_default_formatter
+    region: content
+  field_event_start_time:
+    weight: 1
+    label: above
+    settings:
+      format: 'hh:mm'
+      leading_zero: '1'
+    third_party_settings: {  }
+    type: hms_default_formatter
+    region: content
+hidden: {  }

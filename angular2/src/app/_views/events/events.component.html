@@ -35,7 +35,7 @@
             <mat-datepicker #myDatepicker1></mat-datepicker>
           </mat-form-field>
         </div>
-
+        
         <div class="col-3 sm-6">
           <mat-form-field class="w-100">
             <mat-placeholder>pp/kk/aa</mat-placeholder>
@@ -44,7 +44,7 @@
             <mat-datepicker #myDatepicker2></mat-datepicker>
           </mat-form-field>
         </div>
-
+        
       </div>
       <div class="row" *ngIf="showTagsInput">
         <div class="col-12">
@@ -106,18 +106,16 @@
           <div class="col-12" [routerLink]="event.entityUrl.path" style="cursor: pointer;">
             <h3>{{ event.title }}</h3>
             <div style="background-color: lightblue;">
-                <p>Kuupäevad:
-                  <span *ngFor="let dates of event.eventDates; let index = index;">
-                    <span style="background-color: red;"> {{ dates.entity.fieldEventDate.value | date:'dd.MM' }} </span> &nbsp;
-                  </span> 
-                  | time: {{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}
-                  <b *ngIf="event.eventDates.length > 1">Icon: REPEAT</b>
-                </p>
+              <p>Kuupäevad:
+                <span *ngFor="let dates of event.eventDates; let index = index;">
+                  <span style="background-color: red;"> {{ dates.entity.fieldEventDate.value | date:'dd.MM' }} </span> &nbsp;
+                </span> 
+                <span> | time: {{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }} </span>
+                <b *ngIf="event.eventDates.length > 1">Icon: REPEAT</b>
+              </p>
             </div>
             <div *ngIf="event.location != null" style="background-color: lightsalmon;">
-              <span>Toimumis koht: {{ event.location.name }}</span><br>
-              <!-- <span>Lat: {{ event.location.lat }}</span><br>
-              <span>Lon: {{ event.location.lon }}</span><br> -->
+              <span>Toimumis koht: {{ event.location.name }}</span>
             </div>
             <div *ngIf="event.fieldEntryType != null" style="background-color: lightcoral;">
               <p>Sissepääs: {{ event.fieldEntryType }}</p>

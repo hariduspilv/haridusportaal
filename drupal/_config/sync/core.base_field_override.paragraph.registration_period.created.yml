@@ -1,0 +1,18 @@
+uuid: 8ea6054f-5262-400b-92da-02b970ea10d6
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.registration_period
+id: paragraph.registration_period.created
+field_name: created
+entity_type: paragraph
+bundle: registration_period
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

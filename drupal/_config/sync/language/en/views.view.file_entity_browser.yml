@@ -1,0 +1,50 @@
+label: 'File Entity Browser'
+display:
+  default:
+    display_title: Master
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Apply
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          tags:
+            previous: '‹ previous'
+            next: 'next ›'
+            first: '« first'
+            last: 'last »'
+          expose:
+            items_per_page_label: 'Items per page'
+            items_per_page_options_all_label: '- All -'
+            offset_label: Offset
+      fields:
+        filename:
+          separator: ', '
+        filesize:
+          separator: ', '
+        nothing:
+          alter:
+            text: "<div class=\"grid-item-info\">\n<div class=\"grid-item-info-left\" title=\"{{ filename }}\">{{ filename }}</div>\n<div class=\"grid-item-info-right\">{{ filesize }}</div>\n</div>"
+      filters:
+        filename:
+          expose:
+            label: Filename
+        filemime:
+          expose:
+            label: 'File MIME type'
+      sorts:
+        created:
+          expose:
+            label: 'Created date'
+        filesize:
+          expose:
+            label: 'File size'
+        filename:
+          expose:
+            label: Filename
+  entity_browser_1:
+    display_title: 'Entity browser'

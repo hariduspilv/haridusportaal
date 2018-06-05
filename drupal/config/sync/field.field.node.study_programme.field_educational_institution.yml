@@ -1,0 +1,28 @@
+uuid: f326f240-b2f0-4c8f-a1fd-4e16f7b5286a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_educational_institution
+    - node.type.school
+    - node.type.study_programme
+id: node.study_programme.field_educational_institution
+field_name: field_educational_institution
+entity_type: node
+bundle: study_programme
+label: Õppeasutus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      school: school
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
