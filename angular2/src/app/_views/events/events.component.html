@@ -79,8 +79,8 @@
     <div class="button-list">
       <button mat-button color="primary">Filtreeri</button>
       <mat-button-toggle-group>
-        <mat-button-toggle checked="checked" name="view" value="list"><mat-icon>view_list</mat-icon></mat-button-toggle>
-        <mat-button-toggle name="view" value="grid"><mat-icon>grid_on</mat-icon></mat-button-toggle>
+        <mat-button-toggle checked="checked" name="view" value="list" (click)="changeView('list')"><mat-icon>view_list</mat-icon></mat-button-toggle>
+        <mat-button-toggle name="view" value="grid" (click)="changeView('calendar')"><mat-icon>grid_on</mat-icon></mat-button-toggle>
       </mat-button-toggle-group>
     </div><!--/button-list-->
     
@@ -88,7 +88,7 @@
 </div><!--/row-->
 
 <mat-spinner *ngIf="!content && !error"></mat-spinner>
-<div *ngIf="content">
+<div *ngIf="content && view == 'list'">
   <div *ngFor="let instance of content">
     
     <mat-card class="mb-20">
@@ -169,3 +169,27 @@
     <button mat-raised-button color="primary" (click)="loadMore()">Load more</button>
   </div><!--/text-center-->
 </div><!--/ngIf-->
+
+<div *ngIf="view == 'calendar' && content">
+
+  <div class="text-center">
+    <button mat-button color="primary" (click)="changeMonth(-1);">Eelmine</button>
+    {{ year }} / {{ month }}
+    <button mat-button color="primary" (click)="changeMonth(1);">Järgmine</button>
+  </div><!--/text-center-->
+  
+  <table class="calendar">
+    <tr>
+        <th width="14.2%">{{ 'monday' | translate }}</th>
+        <th width="14.2%">{{ 'tuesday' | translate }}</th>
+        <th width="14.2%">{{ 'wednesday' | translate }}</th>
+        <th width="14.2%">{{ 'thursday' | translate }}</th>
+        <th width="14.2%">{{ 'friday' | translate }}</th>
+        <th width="14.2%">{{ 'saturday' | translate }}</th>
+        <th width="14.2%">{{ 'sunday' | translate }}</th>
+    </tr>
+    <tr *ngFor="let week of calendarDays">
+      <td *ngFor="let day of week">{{ day }}</td>
+    </tr>
+  </table>
+</div><!--/view content-->

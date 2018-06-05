@@ -7,8 +7,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
-import { MomentModule } from 'angular2-moment/moment.module';
 import { Apollo } from 'apollo-angular';
+import * as moment from 'moment';
 
 @Component({
   templateUrl: './events.component.html'
@@ -28,9 +28,14 @@ export class EventsComponent implements OnInit {
   offset: number;
   limit: number;
   listEnd: boolean;
+  view: string;
   
-  constructor(private router: Router, private route: ActivatedRoute, private eventService: EventsService, private rootScope:RootScopeService, private moment: MomentModule, private apollo: Apollo) {
+  calendarDays: any;
+
+  constructor(private router: Router, private route: ActivatedRoute, private eventService: EventsService, private rootScope:RootScopeService, private apollo: Apollo) {
     
+    this.changeView("list");
+
     this.limit = 10;
     this.offset = 0;
     this.listEnd = false;
@@ -144,8 +149,98 @@ export class EventsComponent implements OnInit {
     }, that.offset);
   }
   
+  year: number = 2018;
+  month:any = 7;
+
+  changeMonth(direction:number) {
+    let month = parseInt( this.month );
+
+    if( direction == 1 ){
+      month++;
+    }else{
+      month--;
+    }
+    
+    if( month > 12 ){
+      this.year++;
+      this.month = 1;
+    }
+    else if( month < 1 ){
+      this.year--;
+      this.month = 12;
+    }else{
+      this.month = month;
+    }
+
+
+    this.generateCalendar();
+  }
+
+  generateCalendar() {
+
+
+    this.month = parseInt(this.month);
+
+    if( this.month < 10 ){ this.month = "0"+this.month; }
+
+    let dateObj = moment(this.year+'-'+this.month+'-01');
+    
+    let props = {
+      days: dateObj.daysInMonth(),
+      firstDay: dateObj.day()
+    }
+    
+    let calendar = {};
+
+    let weekCounter = 1;
+    let dayList = [7,1,2,3,4,5,6];
+    let dayCounter = dayList[props.firstDay];
+
+    for( let i = 1; i < props.days+1; i++ ){
+      if( dayCounter > 7 ){ weekCounter++; dayCounter = 1; }
+
+      if( !calendar[weekCounter] ){ calendar[weekCounter] = []; }
+
+      calendar[weekCounter].push(i);
+
+      dayCounter++;
+    }
+
+    this.calendarDays = [];
+
+    for( let i in calendar ){
+      this.calendarDays.push(calendar[i]);
+    }
+
+    let prependDates = (this.calendarDays[0].length - 7) * (-1);
+
+    if( prependDates > 0 ){
+      for( let i = 0; i < prependDates; i++ ){
+        this.calendarDays[0].unshift("");
+      }
+    }
+
+    let appendDates = 7 - dayCounter + 1;
+
+    if( appendDates > 0 ){
+      for( let i = 0; i < appendDates; i++ ){
+        this.calendarDays[ this.calendarDays.length - 1 ].push("");
+      }
+    }
+
+  }
+  
+  changeView(view: any){
+    this.view = view;
+
+    if( view == "calendar" ){
+      this.eventService.getCalendar(2018, 7);
+      this.generateCalendar();
+    }
+  }
   
   ngOnInit() {
+
     this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;

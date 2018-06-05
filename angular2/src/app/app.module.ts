@@ -12,7 +12,6 @@ import { AppModules } from './_components';
 import { AppPipes } from './_pipes';
 import { AppRoutingModule, routedComponents } from './app.routing.module';
 import { AppDirectives } from './_directives';
-import { MomentModule } from 'angular2-moment/moment.module';
 import { AgmCoreModule } from '@agm/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -56,7 +55,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     GraphQLModule,
     AppRoutingModule,
     AppDirectives,
-    MomentModule,
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
