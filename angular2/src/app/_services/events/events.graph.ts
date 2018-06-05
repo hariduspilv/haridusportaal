@@ -471,9 +471,43 @@ fragment url on EntityCanonicalUrl{
 //   "tagValue": ["1271"],
 //   "tagEnabled": false,
 //   "tidValue": ["5","6"],
-//   "tidEnabled": true,
+//   "tidEnabled": false,
 //   "titleValue": "%%",
 //   "titleEnabled": false,
-//   "minDate": "-2147483647",
-//   "maxDate": "2147483647"
+//   "minDate": "2018-01-01",
+//   "maxDate": "2038-01-01"
 // }
+
+export const getEventsTags = gql`
+query getEventsTags( $lang: LanguageId!){
+  nodeQuery(filter: {conditions: [
+    {operator: EQUAL, field: "type", value: ["event"], language: $lang}
+  ]}) {
+    entities(language: $lang) {
+      ... on NodeEvent{
+        Tag: fieldTag {
+          entity {
+            entityLabel
+            entityId
+            uuid
+            name
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+export const getEventsTids = gql`
+query getEventsTids {
+  taxonomyTermQuery {
+    entities{
+      ... on TaxonomyTerm {
+        name
+        tid
+      }
+    }
+  }
+}
+`;
