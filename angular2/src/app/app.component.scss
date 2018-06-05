@@ -194,6 +194,11 @@ $grid-columns: 12;
   }
 }
 
+.calendar{width:100%; border-collapse: collapse;
+  th{font-size:14px; text-align: center; line-height: 24px; font-weight: normal; padding:5px 0;}
+  td{border:#c7c7c9 1px solid; height:137px; vertical-align: top; padding:8px;}
+}
+
 @media (max-width:900px) {
   .mat-drawer{background:#fff; }
   .sm-hide{display:none !important;}
