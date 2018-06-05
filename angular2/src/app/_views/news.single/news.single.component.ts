@@ -6,7 +6,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
-import { MomentModule } from 'angular2-moment/moment.module';
 import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
 import { Apollo } from 'apollo-angular';
 
@@ -33,8 +32,7 @@ export class NewsSingleComponent implements OnInit {
 		private router: Router,
 		private route: ActivatedRoute,
 		private newsService: NewsService,
-		private rootScope:RootScopeService,
-		private moment: MomentModule,
+		private rootScope:RootScopeService, 
 		private apollo: Apollo
    ) {
 
