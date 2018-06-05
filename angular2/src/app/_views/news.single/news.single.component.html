@@ -1,8 +1,8 @@
 <mat-spinner *ngIf="!content && !error"></mat-spinner>
 
-<div class="row">
+<div class="row sm-hide">
   <div class="col-12">
-    <ul class="breadcrumb mt-0">
+    <ul class="breadcrumb mb-0 mt-0">
       <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
         <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
           <span>{{ breadcrumbEl.text }}</span>
@@ -12,94 +12,78 @@
     </ul>
   </div>
 </div>
-
-<article *ngIf="content">
-   <div class="row">
-      <div class="col-10">
-         <h1 class="mt-0 mb-0">{{ content.entityLabel }}</h1>
-      </div><!--/col-10-->
-      <div class="col-2 text-right">
-         <button mat-button><mat-icon>share</mat-icon></button>
-      </div><!--/col-2-->
-   </div><!--/row-->
-
-      
-   <div class="row mb-20">
-      <div class="col-12">
-         {{ content.fieldAuthor }} {{ content.created*1000 | date:"dd.MM.yyyy" }}
-      </div><!--/col-10-->
-   </div><!--/row-->
-
-   <div class="row mb-20" *ngIf="content.fieldNewsTag">
-      <div class="col-12">
-         <mat-chip-list>
-            <span *ngFor="let tag of content.fieldNewsTag" class="mat-chip-wrapper">
-               <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
-            </span>
-         </mat-chip-list>
-      </div><!--/col-10-->
-   </div><!--/row-->
-   
-   <div class="row">
-      <div class="col-8 sm-12">
-         <div class="row">
+<div class="row" *ngIf="content">
+  <div class="col-8 sm-12">
+    <div class="news-list">
+      <div class="news-title">UUDISED</div>
+      <article>
+        <div class="row title">
+            <div class="col-11">
+              <h2 class="mt-0 mb-0">{{ content.entityLabel }}</h2>
+            </div><!--/col-10-->
+            <div class="col-1 text-right share">
+              <a href="javascript:void(0)" class="share-btn"><mat-icon>share</mat-icon></a>
+            </div><!--/col-10-->
+        </div><!--/row-->
+    
+        <div class="author">
+          {{ content.fieldAuthor }} {{ content.created*1000 | date:"dd.MM.yyyy" }}
+        </div>
+        <div class="row">
             <div class="col-12">
-               <mat-card *ngIf="content.fieldIntroductionImage !== null" class="article-image pull-right mt-0 sm-hide" style="width:280px">
-                  <mat-card-content>
-                     <img [src]="content.fieldIntroductionImage.url" [alt]="content.fieldIntroductionImage.alt" [title]="content.fieldIntroductionImage.alt" style="max-width:100%;" />
-                     <p *ngIf="content.fieldIntroductionImage.alt">{{ content.fieldIntroductionImage.alt }}</p>
-                  </mat-card-content>
-               </mat-card>
+              <div class="short" [innerHtml]="content.fieldShortDescription"></div>
+              
+              <div *ngIf="content.fieldIntroductionImage !== null" class="article-image pull-right">
+                <img  src="{{ content.fieldIntroductionImage.url }}" alt="{{ content.fieldIntroductionImage.alt }}" title="{{ content.fieldIntroductionImage.alt }}" style="max-width:100%;" />
+                <div class="image-alt-text" *ngIf="content.fieldIntroductionImage.alt">{{ content.fieldIntroductionImage.alt }}</div>
+              </div>
 
-               <b [innerHtml]="content.fieldShortDescription"></b>
-               
-               <mat-card *ngIf="content.fieldIntroductionImage !== null" class="article-image pull-right mt-20 mb-10 sm-show" style="width:100%; max-width:100%;">
-                  <mat-card-content>
-                     <img  src="{{ content.fieldIntroductionImage.url }}" alt="{{ content.fieldIntroductionImage.alt }}" title="{{ content.fieldIntroductionImage.alt }}" style="max-width:100%;" />
-                     <p *ngIf="content.fieldIntroductionImage.alt">{{ content.fieldIntroductionImage.alt }}</p>
-                  </mat-card-content>
-               </mat-card>
-
-               <div [innerHtml]="content.fieldNewsDescription.value"></div>
+              <div class="description" [innerHtml]="content.fieldNewsDescription.value"></div>
             </div><!--/col-12-->
-         </div><!--/row-->
+        </div><!--/row-->
 
-         <div class="row" *ngIf="content.fieldNewsLink">
+        <div class="row links" *ngIf="content.fieldNewsLink">
             <div class="col-12">
-               <ul class="link-list mt-0">
+              <ul class="link-list mt-0 mb-0">
                   <li *ngFor="let item of content.fieldNewsLink"><a href="{{ item.url.path | url }}" target="_blank" class="link"><mat-icon>launch</mat-icon>{{ item.title }}</a></li>
-               </ul>
+              </ul>
             </div><!--/col-12-->
-         </div> <!--/row-->
+        </div> <!--/row-->
 
-         <div class="row sm-hide" *ngIf="content.fieldAdditionalImages">
+        <!-- <div class="row sm-hide" *ngIf="content.fieldAdditionalImages">
             <div class="col-4" *ngFor="let item of content.fieldAdditionalImages">
-               <mat-card>
+              <mat-card>
                   <img class="mat-card-image" [src]="item.derivative.url" [alt]="item.alt">
                   <mat-card-content>
-                     {{ item.alt }}
+                    {{ item.alt }}
                   </mat-card-content>
-               </mat-card>
-            </div><!--/col-4-->
-         </div> <!--/row-->
+              </mat-card>
+            </div>
+        </div> -->
 
-         <div class="row mt-20 sm-hide">
+        <!-- <div class="row mt-20 sm-hide">
             <div class="col-12">
-               <a href="javascript:void(0);" [routerLink]="allNewsPath" mat-button>{{ 'news.all' | translate }}</a>
-            </div><!--/col-4-->
-         </div> <!--/row-->
-
-         
-      </div><!--/col-8-->
-      <div class="col-4 sm-12">
-         <mat-divider class="mb-20 sm-show"></mat-divider>
-         <recent-news></recent-news>
-      </div><!--/col-4-->
-   </div><!--/row-->
-
-   <div class="row mb-20 sm-show">
-      <div class="col-12">
-         <a href="javascript:void(0);" [routerLink]="allNewsPath" mat-button>{{ 'news.all' | translate }}</a>
-      </div><!--/col-4-->
-   </div> <!--/row-->
-</article>
+              <a href="javascript:void(0);" [routerLink]="allNewsPath" mat-button>{{ 'news.all' | translate }}</a>
+            </div>
+        </div>-->
+        <div class="row tags" *ngIf="content.fieldNewsTag">
+            <div class="col-12">
+              <mat-chip-list>
+                  <span *ngFor="let tag of content.fieldNewsTag" class="mat-chip-wrapper">
+                    <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
+                  </span>
+              </mat-chip-list>
+            </div><!--/col-10-->
+        </div><!--/row-->
+      </article>
+    </div>
+  </div><!--/col-8-->
+  <div class="col-4 sm-12">
+    <recent-news></recent-news>
+  </div><!--/col-4-->
+</div><!--/row-->
+<!-- <div class="row mb-20 sm-show">
+    <div class="col-12">
+      <a href="javascript:void(0);" [routerLink]="allNewsPath" mat-button>{{ 'news.all' | translate }}</a>
+    </div>
+</div> -->

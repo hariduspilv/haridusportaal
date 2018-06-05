@@ -1,0 +1,16 @@
+name: 'Structure Sync'
+description: 'Tool for syncing structural data that is stored as content.'
+# core: 8.x
+configure: structure_sync.general.form
+dependencies:
+  - drupal:taxonomy
+  - menu_link_content
+  - drupal:block
+package: Structure
+type: module
+
+# Information added by Drupal.org packaging script on 2018-04-10
+version: '8.x-1.12'
+core: '8.x'
+project: 'structure_sync'
+datestamp: 1523370186

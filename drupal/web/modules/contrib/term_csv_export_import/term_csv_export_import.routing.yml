@@ -1,0 +1,14 @@
+term_csv_export_import.import:
+  path: '/admin/config/content/term-csv-import'
+  defaults:
+    _form: '\Drupal\term_csv_export_import\Form\ImportForm'
+    _title: 'CSV Term Import'
+  requirements:
+    _permission: 'administer term_csv_export_import'
+term_csv_export_import.export:
+  path: '/admin/config/content/term-csv-export'
+  defaults:
+    _form: '\Drupal\term_csv_export_import\Form\ExportForm'
+    _title: 'CSV Term Export'
+  requirements:
+    _permission: 'administer term_csv_export_import'
