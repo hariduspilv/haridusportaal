@@ -1,4 +1,4 @@
-.news-title {font-size: 1rem;line-height: 2;color: #757575; padding: 0.75rem 1.5rem 0.5rem 1.5rem;}
+.news-title {font-size: 1rem;line-height: normal;color: #757575; padding: 1rem 1.5rem;}
 .news-list {
   border-top: 8px solid #f8b243;
   background: #ffffff;
@@ -7,7 +7,6 @@
 }
 .title {
   padding: 1rem 1.5rem 0 1.5rem;
-  @media (min-width: 900px) {padding-top: 0;}
 }
 .author {
   padding: 0.25rem 1.5rem 0 1.5rem;

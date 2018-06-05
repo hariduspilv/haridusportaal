@@ -5,7 +5,7 @@
 @import "../assets/styles/typography.scss";
 
 /* You can add global styles to this file, and also import other style files */
-body{margin:0; padding:0; padding-top:64px; background:#fafafa;}
+body{margin:0; padding:0; padding-top:64px; background:#eeeeee;}
 
 /* Force Rubik font over material default */
 body [class^='mat-'], body [class*=' mat-'] {font-family: 'Rubik', sans-serif; } 
@@ -50,7 +50,7 @@ a {color: #2e3374}
 }
 .mat-drawer-container {
   background-color: #ffffff;
-  @media (min-width: 900px) {background-color: #fafafa}
+  @media (min-width: 900px) {background-color: #eeeeee}
 }
 
 .mat-toolbar.header-toolbar{position: fixed; top:0; left:0; width:100%; z-index: 999;}
@@ -193,8 +193,10 @@ $grid-columns: 12;
 .inline{max-width:1400px; margin:0 auto; padding:0;}
 
 .mat-toolbar{ padding:0 !important; box-shadow: none;
-  .inline{display: flex; align-items:center; width:100%; padding-right: 24px;
-    .pull-right{float:right;}
+  .inline{display: flex; align-items:center; width:100%;
+    .pull-right{float:right; 
+      @media (min-width:900px) {padding-right: 1.5rem;}
+    }
   }
 }
 
