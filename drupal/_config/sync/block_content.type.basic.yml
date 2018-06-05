@@ -1,0 +1,10 @@
+uuid: 9440e6b1-505e-4d7f-8b90-87701bbc0f0b
+langcode: et
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: zglzjmYxi0G0ag9MZ02y0LSJOdpWRwJxyP_OvFojFyo
+id: basic
+label: 'Lihtne plokk'
+revision: 0
+description: 'Lihtne plokk sisaldab pealkirja ning tekstiosa.'

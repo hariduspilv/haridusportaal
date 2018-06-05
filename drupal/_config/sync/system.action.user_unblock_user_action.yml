@@ -1,0 +1,13 @@
+uuid: c93e6288-a9e7-4037-9cf0-e4c08923374d
+langcode: et
+status: true
+dependencies:
+  module:
+    - user
+_core:
+  default_config_hash: SPsUXsR3Rc8d1y3gewzaAKWa1ncea_ywXX3f7LTn7k0
+id: user_unblock_user_action
+label: 'Tühista blokeering valitud kasutajatelt'
+type: user
+plugin: user_unblock_user_action
+configuration: {  }

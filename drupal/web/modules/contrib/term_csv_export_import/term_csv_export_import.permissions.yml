@@ -1,0 +1,4 @@
+administer term_csv_export_import:
+  title: 'Administer CSV Term Import'
+  description: 'Allows a user to import taxonomy terms.'
+  restrict access: TRUE

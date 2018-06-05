@@ -1,0 +1,20 @@
+uuid: 77428eb1-feb3-4a4f-928c-52c1e1ca2081
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.file
+id: media.file.name
+field_name: name
+entity_type: media
+bundle: file
+label: Name
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: string

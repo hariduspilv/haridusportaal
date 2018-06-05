@@ -1,0 +1,23 @@
+uuid: e236ba2c-0b99-4cc2-9110-83eb4d4bb500
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_web_page_address
+    - node.type.study_programme
+  module:
+    - link
+id: node.study_programme.field_web_page_address
+field_name: field_web_page_address
+entity_type: node
+bundle: study_programme
+label: 'Õppekava kirjeldava veebilehe aadress'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

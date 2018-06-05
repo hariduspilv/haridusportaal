@@ -1,0 +1,60 @@
+uuid: 0b065256-7f81-45d5-bacd-91fc45a92428
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.server.elasticsearch_server
+  module:
+    - search_api
+    - node
+id: elasticsearch_index
+name: 'Elasticsearch Index'
+description: ''
+read_only: false
+field_settings:
+  title:
+    label: Title
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    boost: !!float 8
+  type:
+    label: 'Content type'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - event
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  rendered_item: {  }
+  aggregated_field: {  }
+  add_url: {  }
+  highlight:
+    highlight: always
+    highlight_partial: true
+    excerpt: true
+    excerpt_length: 256
+    exclude_fields: {  }
+    prefix: '<strong>'
+    suffix: '</strong>'
+    weights:
+      postprocess_query: 0
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

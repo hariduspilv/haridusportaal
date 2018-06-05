@@ -1,0 +1,9 @@
+uuid: ea81842c-d001-442b-ae3f-8ecce9e38aff
+langcode: et
+status: true
+dependencies: {  }
+name: ISCED-F
+vid: isced_f
+description: ''
+hierarchy: 1
+weight: 0

@@ -1,0 +1,22 @@
+uuid: 91760390-246b-4913-9d54-9d06ecf08a8d
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.school_location
+id: paragraph.school_location.status
+field_name: status
+entity_type: paragraph
+bundle: school_location
+label: Published
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

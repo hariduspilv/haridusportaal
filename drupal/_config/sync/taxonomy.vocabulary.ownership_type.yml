@@ -1,0 +1,9 @@
+uuid: cc2ca0ec-49eb-4d88-82d0-725b8717d07e
+langcode: en
+status: true
+dependencies: {  }
+name: 'School ownership Type'
+vid: ownership_type
+description: ''
+hierarchy: 0
+weight: -6

@@ -1,0 +1,20 @@
+uuid: 56a12e33-be71-441f-b0c5-19f9aff1d262
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_iscedf_board
+field_name: field_iscedf_board
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
