@@ -1,0 +1,5 @@
+name: 'Custom Subscription Administration'
+type: module
+description: 'Module for administrating subscriptions'
+core: 8.x
+package: 'TWN-Custom'
