@@ -23,6 +23,7 @@ module:
   custom_menu_uri_translation: 0
   custom_rest_functions: 0
   custom_study_programme_import: 0
+  custom_subscription_administration: 0
   custom_translation_module: 0
   datetime: 0
   dblog: 0
