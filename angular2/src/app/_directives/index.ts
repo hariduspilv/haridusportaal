@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 
 import { ToggleClassDirective } from './toggleClass.directive';
+import { DateFormatterDirective } from './dateFormatter.directive';
 
 @NgModule({
     declarations: [
-        ToggleClassDirective
+        ToggleClassDirective,
+        DateFormatterDirective
     ],
     exports: [
-        ToggleClassDirective
+        ToggleClassDirective,
+        DateFormatterDirective
     ]
 })
 export class AppDirectives {}

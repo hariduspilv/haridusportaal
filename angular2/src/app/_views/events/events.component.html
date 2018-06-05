@@ -30,7 +30,7 @@
         <div class="col-3 sm-6">
           <mat-form-field class="w-100">
             <mat-placeholder>pp/kk/aa</mat-placeholder>
-            <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="myDatepicker1" formControlName="minDateForm" [max]="maxDate1" (keydown)="onAddDate($event)" maxlength="10" (keydown.backspace)="onDeleteDate($event)">
+            <input matInput [matDatepicker]="myDatepicker1" formControlName="minDateForm" [max]="datepickerMax" maxlength="10" dateFormatter>
             <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker1></mat-datepicker>
           </mat-form-field>
@@ -39,7 +39,7 @@
         <div class="col-3 sm-6">
           <mat-form-field class="w-100">
             <mat-placeholder>pp/kk/aa</mat-placeholder>
-            <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="myDatepicker2" formControlName="maxDateForm" [min]="minDate1" (keydown)="onAddDate($event)" maxlength="10" (keydown.backspace)="onDeleteDate($event)">
+            <input matInput [matDatepicker]="myDatepicker2" formControlName="maxDateForm" [min]="datepickerMin" maxlength="10" dateFormatter>
             <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
             <mat-datepicker #myDatepicker2></mat-datepicker>
           </mat-form-field>
@@ -49,35 +49,34 @@
       <div class="row" *ngIf="showTagsInput">
         <div class="col-12">
           <ng-select
-          [items]="newsTagObs | async"
+          [items]="eventTagObs | async"
           [multiple]="true"
           [loading]="loading"
           bindLabel="name"
           placeholder="Otsi sündmuse silte"
           [(ngModel)]="selectedTags"
-          formControlName="newsTagsSelectForm"
+          formControlName="eventTagsSelectForm"
           [dropdownPosition]="'bottom'"></ng-select>    
         </div>
         <div class="col-12">
           <ng-select
-          [items]="newsTagObs | async"
+          [items]="eventTidObs | async"
           [multiple]="true"
           [loading]="loading"
           bindLabel="name"
           placeholder="Otsi sündmuse liike"
-          [(ngModel)]="selectedTags"
-          formControlName="newsTagsSelectForm"
+          [(ngModel)]="selectedTids"
+          formControlName="eventTidSelectForm"
           [dropdownPosition]="'bottom'"></ng-select>      
         </div>
       </div>
     </div>
     <div class="col-3 sm-12">
       <a [routerLink]="" (click)="toggleTags()">Täpsem otsing</a>
-      <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>    
+      <button mat-raised-button color="primary" (click)="eventsFilter()">Otsi</button>    
     </div>
   </form>
 </div>
-
 
 <div class="row">
   <div class="col-6">
@@ -104,27 +103,31 @@
     <mat-card class="mb-20">
       <mat-card-content>
         <div class="row">
-          <div class="col-12">
+          <div class="col-12" [routerLink]="event.entityUrl.path" style="cursor: pointer;">
             <h3>{{ event.title }}</h3>
             <div style="background-color: lightblue;">
-              <p>{{ event.eventDates[0].entity.fieldEventDate.value }} <b *ngIf="event.eventDates.length > 1">REPEAT</b></p>
+                <p>Kuupäevad:
+                  <span *ngFor="let dates of event.eventDates; let index = index;">
+                    <span style="background-color: red;"> {{ dates.entity.fieldEventDate.value | date:'dd.MM' }} </span> &nbsp;
+                  </span> 
+                  | time: {{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}
+                  <b *ngIf="event.eventDates.length > 1">Icon: REPEAT</b>
+                </p>
             </div>
             <div *ngIf="event.location != null" style="background-color: lightsalmon;">
-              <p>{{ event.location.name }}</p>
-              <p>{{ event.location.lat }}</p>
-              <p>{{ event.location.lon }}</p>
+              <span>Toimumis koht: {{ event.location.name }}</span><br>
+              <!-- <span>Lat: {{ event.location.lat }}</span><br>
+              <span>Lon: {{ event.location.lon }}</span><br> -->
             </div>
             <div *ngIf="event.fieldEntryType != null" style="background-color: lightcoral;">
-              <p>{{ event.fieldEntryType }}</p>
+              <p>Sissepääs: {{ event.fieldEntryType }}</p>
             </div>
-            <hr>
             <div *ngIf="event.fieldEventType" style="background-color: lightgoldenrodyellow;">
-              <p>{{ event.fieldEventType.entity.entityLabel }}</p>
+              <p>Liik: {{ event.fieldEventType.entity.entityLabel }}</p>
             </div>
             <div *ngFor="let eventTag of event.hashTags" style="background-color: lightgreen;">
-              <p>{{ eventTag.entity.entityLabel }}</p>
+              <span>Sild: {{ eventTag.entity.entityLabel }} </span>
             </div>
-            <hr>
           </div><!--/col-12-->
         </div><!--/row-->
       </mat-card-content>
@@ -135,5 +138,8 @@
   <div class="text-center mt-30" *ngIf="!listEnd">
     <button mat-raised-button color="primary" (click)="loadMore()">Load more</button>
     <!-- <button mat-raised-button color="primary" (click)="fetchMore()">Refetch</button> -->
+  </div><!--/text-center-->
+  <div class="text-center actions__error" *ngIf="(eventList != null && eventList.length) === 0">
+    <p>No result</p>
   </div><!--/text-center-->
 </div><!--/ngIf-->
