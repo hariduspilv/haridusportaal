@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Function for structure_sync uninstall.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function structure_sync_uninstall() {
+
+  Drupal::configFactory()->getEditable('structure_sync.data')
+    ->delete();
+
+}

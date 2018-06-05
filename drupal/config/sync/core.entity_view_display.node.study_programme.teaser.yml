@@ -1,0 +1,37 @@
+uuid: 1cdaf50e-7ecb-4b1e-9636-dc6b24c773cc
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.study_programme.field_degree_or_diploma_awarded
+    - field.field.node.study_programme.field_educational_institution
+    - field.field.node.study_programme.field_ehis_id
+    - field.field.node.study_programme.field_iscedf_board
+    - field.field.node.study_programme.field_iscedf_detailed
+    - field.field.node.study_programme.field_iscedf_narrow
+    - field.field.node.study_programme.field_specialization
+    - field.field.node.study_programme.field_study_programme_level
+    - field.field.node.study_programme.field_study_programme_type
+    - node.type.study_programme
+  module:
+    - user
+id: node.study_programme.teaser
+targetEntityType: node
+bundle: study_programme
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_degree_or_diploma_awarded: true
+  field_educational_institution: true
+  field_ehis_id: true
+  field_iscedf_board: true
+  field_iscedf_detailed: true
+  field_iscedf_narrow: true
+  field_specialization: true
+  field_study_programme_level: true
+  field_study_programme_type: true
+  langcode: true

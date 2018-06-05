@@ -11,7 +11,6 @@
   </div>
 </div>
 
-
 <div class="sm-show mb-20 text-right">
   <a [routerLink]="" (click)="toggleFilter = !toggleFilter" *ngIf="!toggleFilter">Filtreeri</a>
   <a [routerLink]="" (click)="toggleFilter = !toggleFilter"  *ngIf="toggleFilter">Sulge filter</a>
@@ -87,6 +86,7 @@
   <div class="col-6 text-right">
     
     <div class="button-list">
+      <button mat-button color="primary">Filtreeri</button>
       <mat-button-toggle-group>
         <mat-button-toggle checked="checked" name="view" value="list"><mat-icon>view_list</mat-icon></mat-button-toggle>
         <mat-button-toggle name="view" value="grid"><mat-icon>grid_on</mat-icon></mat-button-toggle>
@@ -96,13 +96,14 @@
   </div><!--/col-6-->
 </div><!--/row-->
 
-<mat-spinner *ngIf="!eventList && !error"></mat-spinner>
-<div *ngIf="eventList">
-  <div *ngFor="let event of eventList">
+<mat-spinner *ngIf="!content && !error"></mat-spinner>
+<div *ngIf="content">
+  <div *ngFor="let instance of content">
     
     <mat-card class="mb-20">
       <mat-card-content>
         <div class="row">
+
           <div class="col-12" [routerLink]="event.entityUrl.path" style="cursor: pointer;">
             <h3>{{ event.title }}</h3>
             <div style="background-color: lightblue;">
@@ -137,7 +138,6 @@
   
   <div class="text-center mt-30" *ngIf="!listEnd">
     <button mat-raised-button color="primary" (click)="loadMore()">Load more</button>
-    <!-- <button mat-raised-button color="primary" (click)="fetchMore()">Refetch</button> -->
   </div><!--/text-center-->
   <div class="text-center actions__error" *ngIf="(eventList != null && eventList.length) === 0">
     <p>No result</p>

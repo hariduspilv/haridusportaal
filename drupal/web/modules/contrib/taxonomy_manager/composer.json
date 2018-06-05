@@ -1,0 +1,19 @@
+{
+    "name": "drupal/taxonomy_manager",
+    "description": "Taxonomy_Manager provides a powerful interface for managing taxonomies via a tree view.",
+    "type": "drupal-module",
+    "homepage": "https://drupal.org/project/taxonomy_manager",
+    "authors": [
+        {
+            "name": "Matthias Hutterer (mpdonadio)",
+            "homepage": "https://www.drupal.org/u/mh86",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://drupal.org/project/issues/taxonomy_manager",
+        "source": "http://cgit.drupalcode.org/taxonomy_manager"
+    },
+    "license": "GPL-2.0+",
+    "minimum-stability": "dev"
+}
