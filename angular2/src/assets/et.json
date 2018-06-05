@@ -5,7 +5,8 @@
   "date": "Kuupäev",
   "date.format": "pp/kk/aa",
   "search": "Otsi",
-  "search.news.keyword": "Otsi uudist märksõna järgi",
+  "search.detailed": "Täpsem otsing",
+  "search.by.keyword": "Otsi märksõna järgi",
   "search.events.name": "Otsi sündmuse nime järgi",
   "search.news.name": "Sisesta uudise nimi",
   "load.more": "Lae rohkem",
@@ -20,10 +21,14 @@
   "saturday": "Laupäev",
   "sunday": "Pühapäev",
 
+  "log.in": "Logi sisse",
+  "recent.news": "Viimased uudised",
+  "view.all": "Vaata kõiki",
   "filter": "Filtreeri",
+  "filter.close": "Sulge filter",
 
-  "occurence": "Toimumiseaeg",
-  "occurence.location": "Toimumisaeg ja asukoht",
+  "occurrence": "Toimumiseaeg",
+  "occurrence.location": "Toimumisaeg ja asukoht",
   "location": "Asukoht",
 
   "to": "Kuni",

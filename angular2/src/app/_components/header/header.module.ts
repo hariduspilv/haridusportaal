@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SideMenuService } from '../../_services';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-
+import { SharedModule } from '../../_core/shared.module';
 
 @NgModule({
   providers: [
@@ -14,7 +14,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [
     MaterialModule,
     RouterModule,
-    CommonModule
+    CommonModule,
+    SharedModule
   ],
   declarations: [
     HeaderComponent
