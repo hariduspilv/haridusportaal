@@ -1,0 +1,18 @@
+uuid: 5e7b77cf-ef79-488c-836a-d75f9e709696
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.article
+id: node.article.title
+field_name: title
+entity_type: node
+bundle: article
+label: Pealkiri
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

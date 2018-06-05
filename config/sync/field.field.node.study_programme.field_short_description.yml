@@ -9,7 +9,7 @@ id: node.study_programme.field_short_description
 field_name: field_short_description
 entity_type: node
 bundle: study_programme
-label: 'Short Description'
+label: Lühikirjeldus
 description: ''
 required: false
 translatable: true

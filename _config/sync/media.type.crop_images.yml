@@ -1,0 +1,13 @@
+uuid: 5a8cf528-c21d-4598-abe6-d10ad7d3dfea
+langcode: et
+status: true
+dependencies: {  }
+id: crop_images
+label: 'Crop images'
+description: ''
+source: image
+queue_thumbnail_downloads: false
+new_revision: false
+source_configuration:
+  source_field: field_media_image_1
+field_map: {  }

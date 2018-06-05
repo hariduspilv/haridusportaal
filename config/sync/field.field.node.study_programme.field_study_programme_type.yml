@@ -10,7 +10,7 @@ id: node.study_programme.field_study_programme_type
 field_name: field_study_programme_type
 entity_type: node
 bundle: study_programme
-label: 'Study Programme Type'
+label: 'Õppekava tüüp'
 description: ''
 required: true
 translatable: false

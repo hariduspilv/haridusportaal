@@ -1,0 +1,5 @@
+admin: material_admin
+default: material_admin
+_core:
+  default_config_hash: fOjer9hADYYnbCJVZMFZIIM1azTFWyg84ZkFDHfAbUg
+langcode: et

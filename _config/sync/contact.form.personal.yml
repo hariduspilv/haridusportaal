@@ -1,0 +1,13 @@
+uuid: 9cfde950-e4e1-4a3a-b133-85e13378a4b4
+langcode: et
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: jonvgt3CkUM2eMLTFwWfHileWWDC4YtXCuIlCahTk_I
+id: personal
+label: 'Isiklik kontaktivorm'
+recipients: {  }
+reply: ''
+weight: 0
+message: 'Sinu teade on saadetud.'
+redirect: ''

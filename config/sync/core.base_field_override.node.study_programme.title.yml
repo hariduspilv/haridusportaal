@@ -8,7 +8,7 @@ id: node.study_programme.title
 field_name: title
 entity_type: node
 bundle: study_programme
-label: Name
+label: Nimetus
 description: ''
 required: true
 translatable: true

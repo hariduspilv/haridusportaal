@@ -10,7 +10,7 @@ id: node.study_programme.field_qualification_standard_id
 field_name: field_qualification_standard_id
 entity_type: node
 bundle: study_programme
-label: 'Qualification standard id'
+label: 'Kutsestandardi identifikaator'
 description: ''
 required: false
 translatable: false
