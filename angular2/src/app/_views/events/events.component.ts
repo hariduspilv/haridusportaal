@@ -414,14 +414,6 @@ export class EventsComponent implements OnInit, OnDestroy {
     ) // PARAMS END
     this.subscriptions = [...this.subscriptions, paramsSub];
   }
-
-  toggleFilter() {
-
-  }
-
-  toggleTags() {
-
-  }
   
   eventsFilter() {
     this.tagEnabled = false;
