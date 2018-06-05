@@ -76,6 +76,8 @@ abstract class CreateEntityBase extends MutationPluginBase implements ContainerF
 
     $storage = $this->entityTypeManager->getStorage($entityTypeId);
     $entity = $storage->create($input);
+    dump($entity);
+    die();
     return $this->resolveOutput($entity, $args, $info);
   }
 
