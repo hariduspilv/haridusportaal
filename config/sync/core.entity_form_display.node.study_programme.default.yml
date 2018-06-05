@@ -43,7 +43,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_accreditation_status:
-    weight: 27
+    weight: 26
     settings:
       size: 60
       placeholder: ''
@@ -51,13 +51,13 @@ content:
     type: string_textfield
     region: content
   field_accreditation_valid_until:
-    weight: 28
+    weight: 27
     settings: {  }
     third_party_settings: {  }
     type: datetime_default
     region: content
   field_admission_status:
-    weight: 29
+    weight: 28
     settings:
       size: 60
       placeholder: ''
@@ -65,14 +65,14 @@ content:
     type: string_textfield
     region: content
   field_amount:
-    weight: 23
+    weight: 22
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_created_from_ehis_datetime:
-    weight: 31
+    weight: 30
     settings: {  }
     third_party_settings: {  }
     type: datetime_timestamp
@@ -87,14 +87,14 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_duration_months:
-    weight: 26
+    weight: 25
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_duration_years:
-    weight: 25
+    weight: 24
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -145,21 +145,20 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_practical_training_amount:
-    weight: 24
+    weight: 23
     settings:
-      size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
+    type: number
     region: content
   field_qualification_standard_id:
-    weight: 32
+    weight: 31
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: entity_reference_autocomplete_tags
     region: content
   field_short_description:
     weight: 19
@@ -196,13 +195,13 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_teaching_language:
-    weight: 22
+    weight: 21
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_update_from_ehis:
-    weight: 30
+    weight: 29
     settings: {  }
     third_party_settings: {  }
     type: options_buttons
