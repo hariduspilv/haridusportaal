@@ -23,7 +23,7 @@ third_party_settings:
     unpublish_revision: false
 name: Õppekava
 type: study_programme
-description: ''
+description: 'Õppekavade lisamine'
 help: ''
 new_revision: true
 preview_mode: 1
