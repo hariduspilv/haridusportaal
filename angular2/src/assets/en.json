@@ -1,0 +1,42 @@
+{
+  "news": "News",
+  "news.all": "All news",
+  "frontpage": "Frontpage",
+  "date": "Date",
+  "date.format": "dd/mm/yy",
+  "search": "Search",
+  "search.news.keyword": "Search news by keyword",
+  "search.news.name": "Enter news name",
+  "search.events.name": "Search events by name",
+  "load.more": "Load more",
+
+  "events": "Events",
+
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+
+  "filter": "Filter",
+
+  "occurence": "Event date",
+  "occurence.location": "Event date and location",
+  "location": "Location",
+
+  "to": "To",
+  "results.none": "No results",
+  "read.more": "Read more",
+  "links.files": "Links and files",
+  "show.all": "Show all",
+  "contact": "Contact",
+  "register": "Register",
+  "calendar.add": "Add to calendar",
+  "date.from": "Date from",
+  "date.to": "Date to",
+  "choose.type": "Choose type",
+  "event.tag": "Event tags",
+  "event.status": "Event status"
+}
