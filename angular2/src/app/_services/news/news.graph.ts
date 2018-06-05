@@ -125,6 +125,10 @@ export class NewsGraph {
           ... on NodeNews {
             entityLabel
             created
+            fieldIntroductionImage {
+              url
+              alt
+            }
             fieldShortDescription
             entityUrl {
               ... on EntityCanonicalUrl {

@@ -114,7 +114,7 @@
   
     <mat-spinner *ngIf="!list && !error"></mat-spinner>
     <div class="news-list" *ngIf="list">
-      <div class="news-title">{{ 'news' | translate }}</div>
+      <div class="news-title">{{ 'news' | translate | uppercase }}</div>
       <div>
         <div *ngFor="let item of list" class="news-item">
           <mat-card>
