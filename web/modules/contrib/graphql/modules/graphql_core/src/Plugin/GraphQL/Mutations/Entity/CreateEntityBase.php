@@ -1,7 +1,5 @@
 <?php
-
 namespace Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity;
-
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -13,18 +11,15 @@ use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
 use Drupal\graphql\Plugin\GraphQL\Mutations\MutationPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
-
 abstract class CreateEntityBase extends MutationPluginBase implements ContainerFactoryPluginInterface {
   use DependencySerializationTrait;
   use StringTranslationTrait;
-
   /**
    * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
-
   /**
    * {@inheritdoc}
    */
@@ -36,7 +31,6 @@ abstract class CreateEntityBase extends MutationPluginBase implements ContainerF
       $container->get('entity_type.manager')
     );
   }
-
   /**
    * CreateEntityBase constructor.
    *
@@ -53,34 +47,27 @@ abstract class CreateEntityBase extends MutationPluginBase implements ContainerF
     parent::__construct($configuration, $pluginId, $pluginDefinition);
     $this->entityTypeManager = $entityTypeManager;
   }
-
   /**
    * {@inheritdoc}
    */
   public function resolve($value, array $args, ResolveContext $context, ResolveInfo $info) {
     $entityTypeId = $this->pluginDefinition['entity_type'];
-
     // The raw input needs to be converted to use the proper field and property
     // keys because we usually convert them to camel case when adding them to
     // the schema.
     $input = $this->extractEntityInput($value, $args, $context, $info);
-
     $entityDefinition = $this->entityTypeManager->getDefinition($entityTypeId);
     if ($entityDefinition->hasKey('bundle')) {
       $bundleName = $this->pluginDefinition['entity_bundle'];
       $bundleKey = $entityDefinition->getKey('bundle');
-
       // Add the entity's bundle with the correct key.
       $input[$bundleKey] = $bundleName;
     }
-
     $storage = $this->entityTypeManager->getStorage($entityTypeId);
     $entity = $storage->create($input);
-    dump($entity);
-    die();
+    
     return $this->resolveOutput($entity, $args, $info);
   }
-
   /**
    * Extract entity values from the resolver args.
    *
@@ -99,7 +86,6 @@ abstract class CreateEntityBase extends MutationPluginBase implements ContainerF
    *   The extracted entity values with their proper, internal field names.
    */
   abstract protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info);
-
   /**
    * Formats the output of the mutation.
    *
@@ -123,18 +109,14 @@ abstract class CreateEntityBase extends MutationPluginBase implements ContainerF
         $this->t('You do not have the necessary permissions to create entities of this type.'),
       ]);
     }
-
     if ($entity instanceof ContentEntityInterface) {
       if (($violations = $entity->validate()) && $violations->count()) {
         return new EntityCrudOutputWrapper(NULL, $violations);
       }
     }
-
     if (($status = $entity->save()) && $status === SAVED_NEW) {
       return new EntityCrudOutputWrapper($entity);
     }
-
     return NULL;
   }
-
 }
