@@ -27,7 +27,7 @@
 		{% endfor %}
 	</ul>
 
-	<p>Üritus toimub vahemikus: <strong>{{ body.event_dates.start|date('d/m/Y') }} - {{ body.event_dates.end|date('d/m/Y') }}</strong></p>
+	<p>Üritus toimub vahemikus: <strong>{{ body.event_dates.start|date('d/m/Y') }} - {{ body.event_dates.last|date('d/m/Y') }}</strong></p>
 
 	<div>{{ body.additional|raw }}</div>
 
