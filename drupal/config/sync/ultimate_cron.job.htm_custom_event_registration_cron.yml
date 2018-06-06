@@ -1,0 +1,17 @@
+uuid: dc0b61f8-886e-4a13-a8b6-128c4cfa3a24
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+title: 'Default cron handler'
+id: htm_custom_event_registration_cron
+weight: 0
+module: htm_custom_event_registration
+callback: htm_custom_event_registration_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
