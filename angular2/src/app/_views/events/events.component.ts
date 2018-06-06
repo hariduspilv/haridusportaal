@@ -434,6 +434,10 @@ export class EventsComponent implements OnInit, OnDestroy {
     if(this.filterFormGroup.value.maxDateForm != null) {
       this.maxDate = this.filterFormGroup.value.maxDateForm;
     } else { this.maxDate = moment("2038-01-01").format('YYYY-MM-DD').toString(); }
+
+
+    // console.log(moment(this.maxDate).format('YYYY-MM-DD').toString())
+    // console.log(this.filterFormGroup.value.maxDateForm)
     
     // TAG FILTER
     if(this.filterFormGroup.value.eventTagsSelectForm != null) {  
@@ -456,17 +460,17 @@ export class EventsComponent implements OnInit, OnDestroy {
     const filterSubscription = this.apollo.watchQuery<any>({
       query: sortEventsByOptions,
       variables: {
-        tagValue: this.tagValue, //?
-        tagEnabled: this.tagEnabled, //?
-        tidValue: this.tidValue, //?
-        tidEnabled: this.tidEnabled, //?
-        titleValue: "%" + this.titleValue + "%", //?
-        titleEnabled: this.titleEnabled, //?
-        minDate: this.minDate, //?
-        maxDate: this.maxDate, //?
-        lang: this.lang.toUpperCase(), //?
-        offset: this.offset, //?
-        limit: this.limit, //?
+        tagValue: this.tagValue,
+        tagEnabled: this.tagEnabled,
+        tidValue: this.tidValue,
+        tidEnabled: this.tidEnabled,
+        titleValue: "%" + this.titleValue + "%",
+        titleEnabled: this.titleEnabled,
+        minDate: moment(this.minDate).format('YYYY-MM-DD').toString(),
+        maxDate: moment(this.maxDate).format('YYYY-MM-DD').toString(),
+        lang: this.lang.toUpperCase(),
+        offset: this.offset,
+        limit: this.limit,
       },
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
