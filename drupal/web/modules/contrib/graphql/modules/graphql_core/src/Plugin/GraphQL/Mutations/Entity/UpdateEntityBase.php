@@ -1,7 +1,5 @@
 <?php
-
 namespace Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity;
-
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -11,18 +9,15 @@ use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
 use Drupal\graphql\Plugin\GraphQL\Mutations\MutationPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
-
 abstract class UpdateEntityBase extends MutationPluginBase implements ContainerFactoryPluginInterface {
   use DependencySerializationTrait;
   use StringTranslationTrait;
-
   /**
    * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
-
   /**
    * {@inheritdoc}
    */
@@ -34,7 +29,6 @@ abstract class UpdateEntityBase extends MutationPluginBase implements ContainerF
       $container->get('entity_type.manager')
     );
   }
-
   /**
    * UpdateEntityBase constructor.
    *
@@ -51,7 +45,6 @@ abstract class UpdateEntityBase extends MutationPluginBase implements ContainerF
     parent::__construct($configuration, $pluginId, $pluginDefinition);
     $this->entityTypeManager = $entityTypeManager;
   }
-
   /**
    * {@inheritdoc}
    */
@@ -59,31 +52,26 @@ abstract class UpdateEntityBase extends MutationPluginBase implements ContainerF
     $entityTypeId = $this->pluginDefinition['entity_type'];
     $bundleName = $this->pluginDefinition['entity_bundle'];
     $storage = $this->entityTypeManager->getStorage($entityTypeId);
-
     /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
     if (!$entity = $storage->load($args['id'])) {
       return new EntityCrudOutputWrapper(NULL, NULL, [
         $this->t('The requested @bundle could not be loaded.', ['@bundle' => $bundleName]),
       ]);
     }
-
     if (!$entity->bundle() === $bundleName) {
       return new EntityCrudOutputWrapper(NULL, NULL, [
         $this->t('The requested entity is not of the expected type @bundle.', ['@bundle' => $bundleName]),
       ]);
     }
-
     if (!$entity->access('update')) {
       return new EntityCrudOutputWrapper(NULL, NULL, [
         $this->t('You do not have the necessary permissions to update this @bundle.', ['@bundle' => $bundleName]),
       ]);
     }
-
     // The raw input needs to be converted to use the proper field and property
     // keys because we usually convert them to camel case when adding them to
     // the schema. Allow the other implementations to control this easily.
     $input = $this->extractEntityInput($value, $args, $context, $info);
-
     try {
       foreach ($input as $key => $value) {
         $entity->get($key)->setValue($value);
@@ -94,18 +82,14 @@ abstract class UpdateEntityBase extends MutationPluginBase implements ContainerF
         $this->t('The entity update failed with exception: @exception.', ['@exception' => $exception->getMessage()]),
       ]);
     }
-
     if (($violations = $entity->validate()) && $violations->count()) {
       return new EntityCrudOutputWrapper(NULL, $violations);
     }
-
     if (($status = $entity->save()) && $status === SAVED_UPDATED) {
       return new EntityCrudOutputWrapper($entity);
     }
-
     return NULL;
   }
-
   /**
    * Extract entity values from the resolver args.
    *
@@ -124,5 +108,4 @@ abstract class UpdateEntityBase extends MutationPluginBase implements ContainerF
    *   The extracted entity values with their proper, internal field names.
    */
   abstract protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info);
-
 }
