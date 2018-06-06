@@ -30,6 +30,7 @@ dependencies:
     - datetime
     - link
     - path
+    - readonly_field_widget
     - scheduler
 id: node.study_programme.default
 targetEntityType: node
@@ -73,9 +74,13 @@ content:
     region: content
   field_created_from_ehis_datetime:
     weight: 30
-    settings: {  }
+    settings:
+      label: above
+      formatter_type: null
+      formatter_settings: null
+      show_description: false
     third_party_settings: {  }
-    type: datetime_timestamp
+    type: readonly_field_widget
     region: content
   field_degree_or_diploma_awarded:
     weight: 14
