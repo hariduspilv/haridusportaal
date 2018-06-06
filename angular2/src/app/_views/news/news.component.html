@@ -74,16 +74,16 @@
         </div><!--/col-3-->
         <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterState">
           <div class="align-center filter-state sm-hide">       
-            <a href="javascript:void(0);" (click)="changeFilterState()"><span>Täpsem otsing</span></a>
+            <a href="javascript:void(0);" (click)="changeFilterState()"><span>{{ 'search.detailed' | translate }}</span></a>
           </div>
           <div class="button-row">
-            <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+            <button mat-raised-button color="primary" (click)="newsFilter()">{{ 'search' | translate }}</button>
             <!-- <button mat-raised-button color="primary" (click)="newsFilter()"   [routerLink]="path" [queryParams]="queryParams">Primary</button> -->
           </div>
         </div><!--/col-3-->
         <div class="col-3 align-end sm-12 sm-show">
           <div class="button-row">
-            <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+            <button mat-raised-button color="primary" (click)="newsFilter()">{{ 'search' | translate }}</button>
           </div>
         </div><!--/col-3-->
       </div>
@@ -95,7 +95,7 @@
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="name"
-          placeholder="Select people"
+          placeholder="{{ 'search.people' | translate }}"
           [(ngModel)]="selectedTags"
           formControlName="newsTagsSelectForm"
           [dropdownPosition]="'bottom'"></ng-select>
@@ -103,10 +103,11 @@
         </div>
         <div class="col-3 align-end text-right sm-12 inline-flex sm-hide">
           <div class="align-center filter-state sm-hide">       
-            <a href="javascript:void(0);" (click)="changeFilterState()"><span>Kitsam otsing</span></a>
+            <a href="javascript:void(0);" (click)="changeFilterState()"><span>{{ 'search.close' | translate }}</span></a>
           </div>
+
           <div class="button-row">
-            <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+            <button mat-raised-button color="primary" (click)="newsFilter()">{{ 'search' | translate }}</button>
           </div>
         </div><!--/col-3-->
       </div>
