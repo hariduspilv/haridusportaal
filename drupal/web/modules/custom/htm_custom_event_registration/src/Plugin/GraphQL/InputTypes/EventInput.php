@@ -1,4 +1,5 @@
 <?php
+
 namespace Drupal\htm_custom_event_registration\Plugin\GraphQL\InputTypes;
 
 use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
