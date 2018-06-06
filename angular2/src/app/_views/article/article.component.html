@@ -45,6 +45,9 @@
               <!-- <mat-panel-description></mat-panel-description> -->
             </mat-expansion-panel-header>
             <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
+            <div *ngFor="let articleLink of accordionItem.entity.fieldRelatedArticle">
+              <a href="{{articleLink.url.path}}">{{ articleLink.title }}</a>              
+            </div>
           </mat-expansion-panel>
           <!-- <mat-expansion-panel (opened)="accordionOpenState = true" (closed)="accordionOpenState = false">
             <mat-expansion-panel-header>

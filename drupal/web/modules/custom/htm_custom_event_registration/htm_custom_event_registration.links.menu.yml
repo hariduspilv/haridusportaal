@@ -1,0 +1,14 @@
+
+# Event registration menu items definition
+entity.event_reg_entity.collection:
+  title: 'Event registration list'
+  route_name: entity.event_reg_entity.collection
+  description: 'List Event registration entities'
+  parent: system.admin_structure
+  weight: 100
+
+event_reg_entity.admin.structure.settings:
+  title: 'Event registration settings'
+  description: 'Configure Event registration entities'
+  route_name: event_reg_entity.settings
+  parent: system.admin_structure
