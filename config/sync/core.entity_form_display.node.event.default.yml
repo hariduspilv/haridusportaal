@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.browse_files
     - field.field.node.event.field_attachment_file
     - field.field.node.event.field_contact_email
     - field.field.node.event.field_contact_person
@@ -24,12 +23,13 @@ dependencies:
     - field.field.node.event.field_registration_
     - field.field.node.event.field_registration_date
     - field.field.node.event.field_tag
+    - image.style.thumbnail
     - node.type.event
   module:
     - conditional_fields
-    - entity_browser
     - file
     - google_map_field
+    - image
     - link
     - maxlength
     - paragraphs
@@ -172,15 +172,10 @@ content:
   field_picture:
     weight: 6
     settings:
-      entity_browser: browse_files
-      field_widget_remove: true
-      selection_mode: selection_append
       preview_image_style: thumbnail
-      field_widget_edit: true
-      open: false
-      view_mode: default
+      progress_indicator: throbber
     third_party_settings: {  }
-    type: entity_browser_file
+    type: image_image
     region: content
   field_practical_information:
     weight: 19
