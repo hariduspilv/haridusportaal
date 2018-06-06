@@ -12,11 +12,11 @@ export class DateFormatterDirective {
 			
 			var numChars = evt.target.value.length;
 			
-			if ((evt.which < 48 || evt.which > 57) && evt.which !== 13 && evt.which !==8) {
+			if ((evt.which < 48 || evt.which > 57) && evt.which !== 13 && evt.which !==8  && evt.which !==9) {
 				evt.preventDefault();
 			}
 
-			if ((numChars === 2 || numChars === 5) && evt.which !== 13 && evt.which !==8) {
+			if ((numChars === 2 || numChars === 5) && evt.which !== 13 && evt.which !==8  && evt.which !==9) {
 				evt.preventDefault();
 				evt.target.value = evt.target.value + '/';
 			}
