@@ -14,10 +14,13 @@ function htm_custom_event_registration_mail($key, &$message, $params) {
 	);
  	switch ($key) {
  		case 'event_registration_email':
-			$message['headers']['Content-Type'] = 'text/html;';
+			$message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+			//$message['headers']['Content-Type'] = 'text/html;';
+			//if(!empty($params['bcc'])) $message['headers']['bcc'] = $params['bcc'];
 			$message['from'] = \Drupal::config('system.site')->get('mail');
-			$message['subject'] = $params['title'];
-			$message['body'][] = $params['message'];
+			$message['subject'] = 'test tiitel';//$params['title'];
+			$message['body'][] = \Drupal::service('renderer')->render($params);//['message'];
+			dump($message['body']);
 	 		break;
  	}
 }
@@ -40,27 +43,24 @@ function htm_custom_event_registration_theme($existing, $type, $theme, $path){
 function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
 	if ($entity->getEntityTypeId() === 'event_reg_entity') {
 
-		//$langcode = $entity->language()->getId();
 		$langcode = $entity->language->value;
-		//dump($langcode);
 		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
+
 		$mailManager = \Drupal::service('plugin.manager.mail');
 		$module = 'htm_custom_event_registration';
 		$key = 'event_registration_email';
 		$to = $entity->participant_email->value;
 
 		$message = [
-			'static_body' => [
-				'first_name' => $entity->participant_first_name->value,
-				'last_name' => $entity->participant_last_name->value,
-			],
-			'dynamic_body' => $translated_reference_event->field_registration_->value,
-			'event_title' => $translated_reference_event->getTitle(),
 			'registration_ent' => $entity,
+			'ref_ent' => $translated_reference_event,
 			'langcode' => $langcode,
 		];
 
 		$params = _custom_email_content($message);
+
+		// add event owner to bcc aswell
+		//$params['bcc'] = $translated_reference_event->field_registration_date->entity->field_registration_notification_->value;
 		$send = true;
 
 		$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
@@ -72,48 +72,7 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 			$message = t('An email notification has been sent to @email', array('@email' => $to));
 			\Drupal::logger('htm_custom_event_registration')->notice($message);
 		}
-		return FALSE;
-	}
-}
 
-/**
- * Implements hook_entity_insert().
- */
-function htm_custom_event_registration_entity_update(Drupal\Core\Entity\EntityInterface $entity) {
-	if ($entity->getEntityTypeId() === 'event_reg_entity') {
-
-		$langcode = $entity->language->value;
-
-		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
-		$mailManager = \Drupal::service('plugin.manager.mail');
-		$module = 'htm_custom_event_registration';
-		$key = 'event_registration_email';
-		$to = $entity->participant_email->value;
-
-		$message = [
-			'static_body' => [
-					'first_name' => $entity->participant_first_name->value,
-					'last_name' => $entity->participant_last_name->value,
-			],
-			'dynamic_body' => $translated_reference_event->field_registration_->value,
-			'event_title' => $translated_reference_event->getTitle(),
-			'registration_ent' => $entity,
-			'langcode' => $langcode,
-		];
-
-		$params = _custom_email_content($message);
-
-		$send = false;
-
-		$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-		if ($result['result'] !== true) {
-			$message = t('There was a problem sending email notification to @email', array('@email' => $to));
-			\Drupal::logger('htm_custom_event_registration')->error($message);
-			//throw new Error($message);
-		}else{
-			$message = t('An email notification has been sent to @email', array('@email' => $to));
-			\Drupal::logger('htm_custom_event_registration')->notice($message);
-		}
 		return FALSE;
 	}
 }
@@ -125,23 +84,87 @@ function _custom_email_content($message){
 	/* @var \Drupal\htm_custom_event_registration\Entity\EventRegEntity $reg_ent */
 	$reg_ent = $message['registration_ent'];
 
-	$body = '<h3>' . t('Oled registreerinud üritusele: @event', array('@event' => $message['event_title']), array('langcode' => $message['langcode'])) . '</h3>';
-	$body .= '<p>' . t('Registreerimise andmed:', array(), array('langcode' => $message['langcode'])). '</p>';
-	$body .= '<ul>';
-		foreach($reg_ent as $key => $value){
-			if(preg_match('#^participant#', $key) && !empty($value->value)){
-				//dump($value);
-				$label = $reg_ent->getTranslatedFieldLabel($key, $message['langcode']);
-				//dump($label);
-				$submitted_value = $value->value;
-				$body .= '<li><strong>' . $label .'</strong>: '. $submitted_value . '</li>';
-			}
+	$registration_info = [];
+
+	foreach($reg_ent as $key => $value){
+		if(preg_match('#^participant#', $key) && !empty($value->value)){
+			$label = $reg_ent->getTranslatedFieldLabel($key, $message['langcode']);
+			$submitted_value = $value->value;
+			if(!empty($submitted_value)) $registration_info[] = ['label' => $label , 'value' => $submitted_value];
 		}
-	$body .= '</ul>';
-	$body .= $message['dynamic_body'];
+	}
+
+	$event_title = $message['ref_ent']->getTitle();
+
+	$body['title1'] = $event_title;
+	$body['registration_info'] = $registration_info;
+	$body['additional'] = $message['ref_ent']->field_registration_->value;
+	$body['langcode'] = $message['langcode'];
+
+	$body['event_dates'] = _get_event_dates($message['ref_ent']);
+
+	dump($body);
+
 
 	return[
-		'title' => t('Registreerimise kinnituskiri'),
-		'message'	=> $body,
+		'#theme' => 'registration_email_template',
+		'#body' => $body,
 	];
+}
+
+/*
+ * hook_cron();
+ **/
+function htm_custom_event_registration_cron() {
+	$query = \Drupal::entityQuery('node')
+		->condition('type' , 'event')
+		->condition('status', '1');
+	$nids = $query->execute();
+	//dump($nids);''
+	$nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+	$now = strtotime('now');
+
+	foreach($nodes as $entity){
+		$event_date = _get_event_dates($entity);
+
+		$d1 = $now - $event_date['last'];
+		$d2 = strtotime('30 days') - $now;
+		$d3 = $d2 - $d1;
+
+		if($d3 <= 0){
+			$expired_events[] = $entity->id();
+		}
+	}
+
+	$query = \Drupal::entityQuery('event_reg_entity')
+			->condition('event_reference', $expired_events, 'IN');
+	$rnids = $query->execute();
+	$node_storage = \Drupal::entityTypeManager()->getStorage('event_reg_entity');
+	$registrations = $node_storage->loadMultiple($rnids);
+
+	/* Remove overdue registrations */
+	foreach($registrations as $registration){
+		//$registration->delete();
+	}
+
+}
+
+/**
+ * @param $event \Drupal\node\Entity\Node
+ * @return array
+ */
+function _get_event_dates($event){
+	$last_event_date = 0;
+	$first_event_date = strtotime('now');
+	foreach($event->field_event_date as $event_date){
+		$unix_event_date = strtotime($event_date->entity->field_event_date->value);
+		$last_event_date = ($unix_event_date >= $last_event_date)
+			? $unix_event_date
+			: $last_event_date;
+		$first_event_date = ($first_event_date >= $unix_event_date)
+			? $unix_event_date
+			: $first_event_date;
+	}
+
+	return ['start' => $first_event_date, 'last' => $last_event_date];
 }
