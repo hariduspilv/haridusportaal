@@ -32,6 +32,7 @@ permissions:
   - 'translate news node'
   - 'translate paragraph'
   - 'update content translations'
+  - 'use text format custom_editor'
   - 'view any event content'
   - 'view any news content'
   - 'view event revisions'

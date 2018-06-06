@@ -2,7 +2,7 @@ smtp_on: true
 smtp_host: smtp.office365.com
 smtp_hostbackup: ''
 smtp_port: '587'
-smtp_protocol: tavaline
+smtp_protocol: tls
 smtp_username: teavitus@twn.ee
 smtp_password: Tarkmeesdru123
 smtp_from: teavitus@twn.ee

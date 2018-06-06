@@ -176,7 +176,7 @@ class UserLogin extends MutationPluginBase implements ContainerFactoryPluginInte
 		if ($uid = $this->userAuth->authenticate($credentials['name'], $credentials['password'])) {
 			// If login succeeded, clean flood data.
 			$this->flood->clear('user.http_login', $this->getLoginFloodIdentifier($request, $credentials['name']));
-			/** @var \Drupal\user\UserInterface $user */
+			/* @var \Drupal\user\UserInterface $user */
 			$user = $this->entityTypeManager->getStorage('user')->load($uid);
 			$this->userLoginFinalize($user);
 			dump($this->csrfToken->get('rest'));
