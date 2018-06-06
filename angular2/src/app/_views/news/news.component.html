@@ -29,61 +29,40 @@
               </button>
             </div>
           </div>
-          <!-- <mat-form-field class="w-100">
-            <mat-placeholder>Otsi uudist märksõna järgi</mat-placeholder>
-            <input matInput formControlName="titleForm" [(ngModel)]="titleValue"/>
-            <button mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field> -->
         </div><!--/col-3-->
         <div class="col-25 sm-6">
           <div class="round-input__wrapper w-100">
             <span class="round-input__title">{{ 'date' | translate }}</span>
             <div class="round-input__field-wrapper">
-              <input class="round-input__field" [matDatepicker]="myDatepicker1" placeholder="{{ 'date.from' | translate }}" formControlName="minDateForm"/>
+              <input class="round-input__field" placeholder="{{ 'date.from' | translate }}" [matDatepicker]="myDatepicker1" formControlName="minDateForm" [max]="datepickerMax" maxlength="10" dateFormatter />
               <!--(click)="myDatepicker1.open()"-->
               <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
               <mat-datepicker #myDatepicker1></mat-datepicker>
             </div>
           </div>
         </div>
-          <!-- <mat-form-field class="w-100">
-            <mat-placeholder>pp/kk/aa</mat-placeholder>
-            <input matInput [matDatepicker]="myDatepicker1" (click)="myDatepicker1.open()" formControlName="minDateForm">
-            <mat-datepicker-toggle matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker1></mat-datepicker>
-          </mat-form-field> -->
-            <!-- <div class="col-2"><div class="mat-form-label">kuni</div></div> -->
         <div class="col-25 sm-6">
           <div class="round-input__wrapper w-100">
             <span class="round-input__title">{{ 'date' | translate }}</span>
             <div class="round-input__field-wrapper">
-              <input class="round-input__field" [matDatepicker]="myDatepicker2" placeholder="{{ 'date.to' | translate }}" formControlName="maxDateForm"/>
+              <input class="round-input__field" placeholder="{{ 'date.to' | translate }}" [matDatepicker]="myDatepicker2" formControlName="maxDateForm" [min]="datepickerMin" maxlength="10" dateFormatter />
               <!--(click)="myDatepicker2.open()"-->
               <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
               <mat-datepicker #myDatepicker2></mat-datepicker>
             </div>
           </div>
-          <!-- <mat-form-field class="w-100">
-            <mat-placeholder>pp/kk/aa</mat-placeholder>
-            <input matInput [matDatepicker]="myDatepicker2" (click)="myDatepicker2.open()" formControlName="maxDateForm">
-            <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
-            <mat-datepicker #myDatepicker2></mat-datepicker>
-          </mat-form-field> -->
         </div><!--/col-3-->
         <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterState">
           <div class="align-center filter-state sm-hide">       
-            <a href="javascript:void(0);" (click)="changeFilterState()"><span>{{ 'search.detailed' | translate }}</span></a>
+            <a href="javascript:void(0);" (click)="changeFilterState()"><span>Täpsem otsing</span></a>
           </div>
           <div class="button-row">
-            <button mat-raised-button color="primary" (click)="newsFilter()">{{ 'search' | translate }}</button>
-            <!-- <button mat-raised-button color="primary" (click)="newsFilter()"   [routerLink]="path" [queryParams]="queryParams">Primary</button> -->
+            <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
           </div>
         </div><!--/col-3-->
         <div class="col-3 align-end sm-12 sm-show">
           <div class="button-row">
-            <button mat-raised-button color="primary" (click)="newsFilter()">{{ 'search' | translate }}</button>
+            <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
           </div>
         </div><!--/col-3-->
       </div>
@@ -95,7 +74,7 @@
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="name"
-          placeholder="{{ 'search.people' | translate }}"
+          placeholder="Select people"
           [(ngModel)]="selectedTags"
           formControlName="newsTagsSelectForm"
           [dropdownPosition]="'bottom'"></ng-select>
@@ -103,14 +82,16 @@
         </div>
         <div class="col-3 align-end text-right sm-12 inline-flex sm-hide">
           <div class="align-center filter-state sm-hide">       
-            <a href="javascript:void(0);" (click)="changeFilterState()"><span>{{ 'search.close' | translate }}</span></a>
+            <a href="javascript:void(0);" (click)="changeFilterState()"><span>Kitsam otsing</span></a>
           </div>
-
           <div class="button-row">
-            <button mat-raised-button color="primary" (click)="newsFilter()">{{ 'search' | translate }}</button>
+            <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
           </div>
         </div><!--/col-3-->
       </div>
+      
+      <div *ngIf="filterFormGroup.invalid" style="background-color: red;">ERRORS</div>
+      
     </form><!--/row-->
   
     <mat-spinner *ngIf="!list && !error"></mat-spinner>

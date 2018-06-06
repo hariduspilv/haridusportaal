@@ -103,7 +103,7 @@
     </div><!--/col-8-->
   </div><!--/row-->
   
-  <a href="javascript:void(0);" mat-raised-button class="mr-20" color="primary">Registreeru</a>
+  <a href="javascript:void(0);" mat-raised-button class="mr-20" color="primary" (click)="openDialog()" >Registreeru</a>
   <a href="javascript:void(0);" mat-raised-button>Lisa kalendrisse</a>
   
   <mat-divider class="mt-40 mb-40"  *ngIf="content.entity.fieldEventGroup"></mat-divider>
