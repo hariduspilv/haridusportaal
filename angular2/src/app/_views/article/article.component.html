@@ -6,12 +6,9 @@
 </div><!--/error-->
 
 <div *ngIf="content">
-  
-  <div class="row">
-    
-    <div class="col-8 sm-12" >
-      
-      <ul class="breadcrumb mt-0">
+  <div class="row sm-hide">
+    <div class="col-12">
+      <ul class="breadcrumb mb-0 mt-0">
         <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
           <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
             <span>{{ breadcrumbEl.text }}</span>
@@ -19,97 +16,95 @@
           <span *ngIf="last">{{ content.title | ellipsis:30 }}</span>
         </li>
       </ul>
-      
-      <article>
-        <h1>{{ content.title }}</h1>
-        <p><b *ngIf="content.fieldBody != null">{{ content.fieldBodySummary }}</b></p>
-        
-        <mat-card *ngIf="content.fieldImage" class="article-image">
-          <mat-card-content>
+    </div>
+  </div>
+  <div class="row article-wrapper">
+    <div class="col-8 sm-12">
+      <div class="article">
+        <div class="article-title">KÕRGHARIDUS</div>
+        <article>
+          <div class="row title">
+              <div class="col-11">
+                <h2 class="mt-0 mb-0">{{ content.title }}</h2>
+              </div><!--/col-10-->
+              <div class="col-1 text-right share">
+                <a href="javascript:void(0)" class="share-btn"><mat-icon>share</mat-icon></a>
+              </div><!--/col-10-->
+          </div><!--/row-->
+          <div class="short" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>
+
+          <div *ngIf="content.fieldImage" class="article-image pull-right">
             <img  src="{{ content.fieldImage.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
-            <p>{{ content.fieldImage.alt }}</p>
-          </mat-card-content>
-        </mat-card>
-        
-        <div *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
-      </article>
-      
-      <div *ngIf="accordionSection.length > 0">
-        <h2>Alamosa pealkiri</h2>
-        <mat-accordion multi>
-          <mat-expansion-panel *ngFor="let accordionItem of accordionSection">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{accordionItem.entity.fieldAccordionTitle}}
-              </mat-panel-title>
-              <!-- <mat-panel-description></mat-panel-description> -->
-            </mat-expansion-panel-header>
-            <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
-          </mat-expansion-panel>
-          <!-- <mat-expansion-panel (opened)="accordionOpenState = true" (closed)="accordionOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Self aware panel
-              </mat-panel-title> -->
-              <!-- <mat-panel-description></mat-panel-description> -->
-              <!-- </mat-expansion-panel-header>
-                <p>I'm visible because I am open</p>
-              </mat-expansion-panel> -->
-            </mat-accordion>
+            <div class="image-alt-text" *ngIf="content.fieldImage.alt">{{ content.fieldImage.alt }}</div>
           </div>
           
+          <div class="description" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
+        </article>
+        
+        <div class="accordion" *ngIf="accordionSection.length > 0">
+          <mat-accordion multi>
+            <mat-expansion-panel *ngFor="let accordionItem of accordionSection">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{accordionItem.entity.fieldAccordionTitle}}
+                </mat-panel-title>
+                <!-- <mat-panel-description></mat-panel-description> -->
+              </mat-expansion-panel-header>
+              <div class="accordion__body" [innerHTML]="accordionItem.entity.fieldBody.value"></div>
+            </mat-expansion-panel>
+            <!-- <mat-expansion-panel (opened)="accordionOpenState = true" (closed)="accordionOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Self aware panel
+                </mat-panel-title> -->
+                <!-- <mat-panel-description></mat-panel-description> -->
+                <!-- </mat-expansion-panel-header>
+                  <p>I'm visible because I am open</p>
+                </mat-expansion-panel> -->
+              </mat-accordion>
+            </div>
+            
+          </div>
         </div>
         
         <div class="col-4 sm-12" *ngIf="fieldRightSidebar !== null">
-          
-          <mat-card class="mb-20" *ngIf="fieldAdditional !== null">
-            <mat-card-title>
-              <h2 class="mt-0"><mat-icon>info</mat-icon> {{ fieldAdditionalTitle }}</h2>
-            </mat-card-title>
-            <mat-card-content>
-              <div [innerHTML]="fieldAdditionalBody"></div>
-            </mat-card-content>
-          </mat-card>
-          
-          <mat-card class="mb-20" *ngIf="fieldContactSection !== null">
-            <mat-card-title>
-              <h2 class="mt-0"><mat-icon>mail</mat-icon> Kontakt</h2>
-            </mat-card-title>
-            <address>
-              <mat-card-content>
+          <div class="sidebar">
+            <div class="sidebar__item" *ngIf="fieldAdditional !== null">
+              <h2 class="mt-0 sidebar__title"> {{ fieldAdditionalTitle }}</h2>
+              <div class="sidebar__paragraph" [innerHTML]="fieldAdditionalBody"></div>
+            </div>
+            
+            <div class="sidebar__item" *ngIf="fieldContactSection !== null">
+              <h2 class="mt-0 sidebar__title">Kontakt</h2>
+              <div class="sidebar__paragraph">
                 <div>{{fieldContactOrganization}}</div>
-              </mat-card-content>
-              <mat-card-content>
                 <div>{{fieldContactPerson}}</div>
-              </mat-card-content>
-              <mat-card-content>
                 <div><a href="tel:{{fieldContactPhone}}" alt="" class="sm-show">{{fieldContactPhone}}</a></div>
                 <div class="sm-hide">{{fieldContactPhone}}</div>
-              </mat-card-content>
-              <mat-card-content>
                 <div><a href="mailto:{{fieldContactEmail}}" alt="">{{fieldContactEmail}}</a></div>
-              </mat-card-content>
-            </address>
-          </mat-card>
-          
-          <mat-card class="mb-20" *ngIf="articleLinks.length > 0">
-            <mat-card-title>
-              <h2 class="mt-0"><mat-icon>links</mat-icon> Leia kiiresti</h2>
-            </mat-card-title>
-            <mat-card-content *ngFor="let articleLink of articleLinks">
-              <a href="{{articleLink.url.path}}">{{articleLink.title}}</a>
-            </mat-card-content>
-          </mat-card>
-          
-          <mat-card class="mb-20" *ngIf="relatedArticles.length > 0">
-            <mat-card-title>
-              <h2 class="mt-0"><mat-icon>outlined_flag</mat-icon> Sarnased teemad</h2>
-            </mat-card-title>
-            <mat-card-content *ngFor="let relatedArticle of relatedArticles">
-              <a href="{{relatedArticle.url.path}}">{{relatedArticle.title}}</a>
-            </mat-card-content>
-          </mat-card>
-          
+              </div>
+            </div>
+            
+            <div class="sidebar__item" *ngIf="articleLinks.length > 0">
+              <h2 class="mt-0 sidebar__title">Leia kiiresti</h2>
+              <div class="sidebar__paragraph">
+                <ul class="link-list mt-0 mb-0">
+                    <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="sidebar__item" *ngIf="relatedArticles.length > 0">
+              <h2 class="mt-0 sidebar__title">Sarnased teemad</h2>
+              <div class="sidebar__paragraph">
+                <ul class="link-list mt-0 mb-0">
+                    <li *ngFor="let relatedArticle of relatedArticles"><a href="{{relatedArticle.url.path}}" class="link"><mat-icon>link</mat-icon>{{relatedArticle.title}}</a></li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
         </div>
+
       </div>
     </div><!--/content-->
