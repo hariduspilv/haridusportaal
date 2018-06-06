@@ -9,6 +9,10 @@ import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
+
+import {EventsRegistratonDialog} from '../../_components/dialogs/events.registration/events.registration.dialog'
 
 @Component({
   templateUrl: './events.single.component.html'
@@ -27,7 +31,7 @@ export class EventsSingleComponent {
   error: boolean;
   map: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private eventService: EventsService, private rootScope:RootScopeService, private apollo: Apollo) {
+  constructor(private router: Router, private route: ActivatedRoute, private eventService: EventsService, private rootScope:RootScopeService, private apollo: Apollo, public dialog: MatDialog) {
 
     this.route.params.subscribe( params => {
 
@@ -86,4 +90,19 @@ export class EventsSingleComponent {
     )
   }
 
+
+  animal: string;
+  name: string;
+
+  openDialog(): void {
+    let dialogRef = this.dialog.open(EventsRegistratonDialog, {
+      width: '250px',
+      data: { name: this.name, animal: this.animal }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.animal = result;
+    });
+  }
 }
