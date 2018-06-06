@@ -40,7 +40,7 @@ use Drupal\user\UserInterface;
 *   admin_permission = "administer subscription entity entities",
 *   entity_keys = {
 *     "id" = "id",
-*     "label" = "name",
+*     "label" = "subscriber_email",
 *     "uuid" = "uuid",
 *     "uid" = "user_id",
 *     "langcode" = "langcode",
@@ -173,27 +173,7 @@ class SubscriptionEntity extends ContentEntityBase implements SubscriptionEntity
     ->setDisplayConfigurable('form', TRUE)
     ->setDisplayConfigurable('view', TRUE);
 
-    $fields['name'] = BaseFieldDefinition::create('string')
-    ->setLabel(t('Name'))
-    ->setDescription(t('The name of the Subscription entity entity.'))
-    ->setRevisionable(TRUE)
-    ->setSettings([
-      'max_length' => 50,
-      'text_processing' => 0,
-    ])
-    ->setDefaultValue('')
-    ->setDisplayOptions('view', [
-      'label' => 'above',
-      'type' => 'string',
-    ])
-    ->setDisplayOptions('form', [
-      'type' => 'string_textfield',
-    ])
-    ->setDisplayConfigurable('form', TRUE)
-    ->setDisplayConfigurable('view', TRUE)
-    ->setRequired(TRUE);
-
-    $fields['email'] = BaseFieldDefinition::create('email')
+    $fields['subscriber_email'] = BaseFieldDefinition::create('email')
     ->setLabel(t('Email'))
     ->setDescription(t('Subscribers email.'))
     ->setRevisionable(TRUE)
