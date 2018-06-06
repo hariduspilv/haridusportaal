@@ -119,6 +119,12 @@ query getArticleData($path: String!) {
           fieldAccordionSection {
             entity {
               fieldAccordionTitle
+              fieldRelatedArticle {
+                url {
+                  path
+                }
+                title
+              }
               fieldBody {
                 value
               }
@@ -159,5 +165,4 @@ query getArticleData($path: String!) {
     }
   }
 }
-
 `;
