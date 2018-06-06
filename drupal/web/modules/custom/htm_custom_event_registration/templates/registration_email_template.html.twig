@@ -1,0 +1,36 @@
+{#
+/**
+ * Custom HTML email template for event registration
+ */
+#}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<!--[if !mso]><!-->
+	<link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+	<!--<![endif]-->
+	<style>
+		body {
+			max-width: 800px;
+			font-family: 'Rubik', sans-serif !important;
+		}
+	</style>
+</head>
+<body>
+	<h3>{{ body.title1 }}</h3>
+
+	<ul>
+		{% for registration_info_line in body.registration_info %}
+			<li>{{ registration_info_line.label }} : {{ registration_info_line.value }}</li>
+		{% endfor %}
+	</ul>
+
+	<p>Üritus algab {{ body.event_dates.start|date('d/m/Y') }}</p>
+	<p>Üritus lõppeb {{ body.event_dates.end|date('d/m/Y') }}</p>
+
+	<div>{{ body.additional|raw }}</div>
+
+</body>
+</html>
