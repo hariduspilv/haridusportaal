@@ -1,3 +1,5 @@
+<breadcrumbs [breadcumbsArray]="breadcrumb"></breadcrumbs>
+
 <mat-spinner *ngIf="!content && !error"></mat-spinner>
 
 <div *ngIf="error" class="text-center">
@@ -11,15 +13,7 @@
     
     <div class="col-8 sm-12" >
       
-      <ul class="breadcrumb mt-0">
-        <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
-          <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
-            <span>{{ breadcrumbEl.text }}</span>
-          </a>
-          <span *ngIf="last">{{ content.title | ellipsis:30 }}</span>
-        </li>
-      </ul>
-      
+
       <article>
         <h1>{{ content.title }}</h1>
         <p><b *ngIf="content.fieldBody != null">{{ content.fieldBodySummary }}</b></p>

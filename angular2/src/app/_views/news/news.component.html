@@ -1,16 +1,6 @@
 <div class="news-component">
-    <div class="row sm-hide">
-      <div class="col-12">
-        <ul class="breadcrumb mt-0">
-          <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
-            <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
-              <span>{{ breadcrumbEl.text }}</span>
-            </a>
-            <span *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <breadcrumbs [breadcumbsArray]="breadcrumb"></breadcrumbs>
+
     <div class="sm-show text-right filter-control">
       <a href="javascript:void(0);" (click)="hideFilter()">
         <span *ngIf="!filter">Filtreeri</span>
