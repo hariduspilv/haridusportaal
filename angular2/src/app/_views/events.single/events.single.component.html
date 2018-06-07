@@ -1,17 +1,6 @@
-<mat-spinner *ngIf="!content && !error"></mat-spinner>
+<breadcrumbs [breadcumbsArray]="breadcrumb"></breadcrumbs>
 
-<div class="row">
-  <div class="col-12">
-    <ul class="breadcrumb mt-0">
-      <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
-        <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
-          <span>{{ breadcrumbEl.text }}</span>
-        </a>
-        <span *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
-      </li>
-    </ul>
-  </div>
-</div>
+<mat-spinner *ngIf="!content && !error"></mat-spinner>
 
 <article *ngIf="content">
   <div class="row">
