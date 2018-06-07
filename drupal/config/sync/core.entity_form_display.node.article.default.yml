@@ -4,12 +4,10 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.browse_files
-    - entity_browser.browser.browse_files_custom
     - field.field.node.article.field_accordion_section
     - field.field.node.article.field_body
     - field.field.node.article.field_body_summary
     - field.field.node.article.field_image
-    - field.field.node.article.field_imagee
     - field.field.node.article.field_right_sidebar
     - node.type.article
   module:
@@ -77,20 +75,6 @@ content:
       open: false
       view_mode: default
     third_party_settings: {  }
-  field_imagee:
-    weight: 13
-    settings:
-      entity_browser: browse_files_custom
-      field_widget_display: rendered_entity
-      field_widget_remove: true
-      open: true
-      selection_mode: selection_append
-      field_widget_display_settings:
-        view_mode: default
-      field_widget_edit: false
-    third_party_settings: {  }
-    type: entity_browser_entity_reference
-    region: content
   field_right_sidebar:
     type: entity_reference_paragraphs
     weight: 11
