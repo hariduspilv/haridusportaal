@@ -15,7 +15,7 @@ export class SideMenuService extends SidemenuGraph {
   private langSwitch = new Subject<any>();
 
   data: any;
-
+  force: boolean = false;
   lang: any;
   constructor( private apollo: Apollo, private rootScope: RootScopeService) {
     super();
@@ -33,7 +33,11 @@ export class SideMenuService extends SidemenuGraph {
     return this.subject.asObservable();
   }
 
-  triggerLang() {
+  triggerLang(force:boolean = false) {
+
+    // force language switch on login to load main nav
+    this.force = force;
+
     this.langSwitch.next({ any: Math.random() * 1000000 });
   }
   updateLang(): Observable<any> {
@@ -46,7 +50,9 @@ export class SideMenuService extends SidemenuGraph {
       return false;
     }
 
-    if(  this.rootScope.get('currentLang').toUpperCase() == this.lang ){ return false; }
+    if(  this.rootScope.get('currentLang').toUpperCase() == this.lang && !this.force){ return false; }
+
+    this.force = false;
 
     this.lang = this.rootScope.get('currentLang').toUpperCase();
     

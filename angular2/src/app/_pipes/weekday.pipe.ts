@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class WeekDayPipe implements PipeTransform {
     transform(value: any, trim:any): any {
 
-			let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+			let days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 			if( trim == "unix"){
 				let tmpDate = new Date(value);

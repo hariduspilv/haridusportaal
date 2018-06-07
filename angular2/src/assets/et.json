@@ -23,7 +23,12 @@
   "saturday": "Laupäev",
   "sunday": "Pühapäev",
 
-  "log.in": "Logi sisse",
+  "login": "Logi sisse",
+  "username": "Kasutaja",
+  "password": "Parool",
+  "login.error": "Sisselogimine ebaõnnestus. Palun kontrollige kasutajanime ja parooli.",
+  "logout": "Logi välja",
+
   "recent.news": "Viimased uudised",
   "view.all": "Vaata kõiki",
   "filter": "Filtreeri",
