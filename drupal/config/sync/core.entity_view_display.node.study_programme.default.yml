@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.study_programme.field_iscedf_board
     - field.field.node.study_programme.field_iscedf_detailed
     - field.field.node.study_programme.field_iscedf_narrow
+    - field.field.node.study_programme.field_metatags
     - field.field.node.study_programme.field_practical_training_amount
     - field.field.node.study_programme.field_qualification_standard_id
     - field.field.node.study_programme.field_short_description
@@ -29,6 +30,7 @@ dependencies:
   module:
     - datetime
     - link
+    - metatag
     - user
 id: node.study_programme.default
 targetEntityType: node
@@ -144,6 +146,13 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
+  field_metatags:
+    weight: 127
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_practical_training_amount:
     weight: 126
