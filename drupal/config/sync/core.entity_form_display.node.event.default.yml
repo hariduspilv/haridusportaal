@@ -17,21 +17,23 @@ dependencies:
     - field.field.node.event.field_event_location_link
     - field.field.node.event.field_event_type
     - field.field.node.event.field_max_number_of_participants
+    - field.field.node.event.field_metatags
     - field.field.node.event.field_organizer
     - field.field.node.event.field_picture
     - field.field.node.event.field_practical_information
     - field.field.node.event.field_registration_
     - field.field.node.event.field_registration_date
     - field.field.node.event.field_tag
-    - image.style.thumbnail
+    - image.style.custom_crop_style_16_9_
     - node.type.event
   module:
     - conditional_fields
     - file
     - google_map_field
-    - image
+    - image_widget_crop
     - link
     - maxlength
+    - metatag
     - paragraphs
     - path
     - scheduler
@@ -158,6 +160,12 @@ content:
     third_party_settings: {  }
     type: number
     region: content
+  field_metatags:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
   field_organizer:
     weight: 10
     settings:
@@ -172,10 +180,16 @@ content:
   field_picture:
     weight: 6
     settings:
-      preview_image_style: thumbnail
+      show_default_crop: true
+      warn_multiple_usages: true
+      preview_image_style: custom_crop_style_16_9_
+      crop_preview_image_style: no_style
+      crop_list:
+        - '16_9'
       progress_indicator: throbber
+      show_crop_area: false
     third_party_settings: {  }
-    type: image_image
+    type: image_widget_crop
     region: content
   field_practical_information:
     weight: 19

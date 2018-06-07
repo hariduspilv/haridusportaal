@@ -742,7 +742,7 @@ display:
         menu_name: admin
       tab_options:
         type: normal
-        title: Sisu
+        title: Content
         description: 'Find and manage scheduled content'
         menu_name: admin
         weight: -10
@@ -776,7 +776,7 @@ display:
         menu_name: admin
       tab_options:
         type: normal
-        title: Sisu
+        title: Content
         description: 'Find and manage scheduled content'
         menu_name: admin
         weight: -10
