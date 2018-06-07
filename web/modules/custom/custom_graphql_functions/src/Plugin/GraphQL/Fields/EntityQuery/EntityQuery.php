@@ -140,8 +140,7 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
 	 */
 	protected function getQuery($value, array $args, ResolveContext $context, ResolveInfo $info) {
 		$query = $this->getBaseQuery($value, $args, $context, $info);
-		/*dump($args);
-		if()*/
+
 		if($args['limit']) $query->range($args['offset'], $args['limit']);
 
 		if (array_key_exists('revisions', $args)) {

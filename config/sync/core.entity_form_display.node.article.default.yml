@@ -3,16 +3,18 @@ langcode: et
 status: true
 dependencies:
   config:
-    - entity_browser.browser.browse_files
     - field.field.node.article.field_accordion_section
     - field.field.node.article.field_body
     - field.field.node.article.field_body_summary
     - field.field.node.article.field_image
+    - field.field.node.article.field_metatags
     - field.field.node.article.field_right_sidebar
+    - image.style.custom_crop_style_16_9_
     - node.type.article
   module:
-    - entity_browser
+    - image_widget_crop
     - maxlength
+    - metatag
     - paragraphs
     - scheduler
     - text
@@ -63,18 +65,25 @@ content:
     type: string_textarea
     region: content
   field_image:
-    type: entity_browser_file
+    type: image_widget_crop
     weight: 4
     region: content
     settings:
-      entity_browser: browse_files
-      field_widget_remove: true
-      selection_mode: selection_append
-      preview_image_style: thumbnail
-      field_widget_edit: true
-      open: false
-      view_mode: default
+      show_default_crop: true
+      warn_multiple_usages: true
+      preview_image_style: custom_crop_style_16_9_
+      crop_preview_image_style: no_style
+      crop_list:
+        - '16_9'
+      progress_indicator: throbber
+      show_crop_area: false
     third_party_settings: {  }
+  field_metatags:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
   field_right_sidebar:
     type: entity_reference_paragraphs
     weight: 11

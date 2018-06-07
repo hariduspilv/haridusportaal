@@ -1,0 +1,7 @@
+uuid: 34c39d3a-b092-4461-99d3-f9b41b91ec0b
+langcode: et
+status: true
+dependencies: {  }
+name: no_style
+label: 'No style'
+effects: {  }
