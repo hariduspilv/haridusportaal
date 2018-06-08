@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.study_programme.field_iscedf_board
     - field.field.node.study_programme.field_iscedf_detailed
     - field.field.node.study_programme.field_iscedf_narrow
+    - field.field.node.study_programme.field_metatags
     - field.field.node.study_programme.field_practical_training_amount
     - field.field.node.study_programme.field_qualification_standard_id
     - field.field.node.study_programme.field_short_description
@@ -29,7 +30,9 @@ dependencies:
   module:
     - datetime
     - link
+    - metatag
     - path
+    - readonly_field_widget
     - scheduler
 id: node.study_programme.default
 targetEntityType: node
@@ -73,9 +76,13 @@ content:
     region: content
   field_created_from_ehis_datetime:
     weight: 30
-    settings: {  }
+    settings:
+      label: above
+      formatter_type: null
+      formatter_settings: null
+      show_description: false
     third_party_settings: {  }
-    type: datetime_timestamp
+    type: readonly_field_widget
     region: content
   field_degree_or_diploma_awarded:
     weight: 14
@@ -143,6 +150,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
+  field_metatags:
+    weight: 32
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_firehose
     region: content
   field_practical_training_amount:
     weight: 23

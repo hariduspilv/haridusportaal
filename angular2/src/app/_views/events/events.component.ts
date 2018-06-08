@@ -145,8 +145,7 @@ export class EventsComponent implements OnInit, OnDestroy {
     }
   }
   
-  
-  loadMore() {
+ loadMore() {
     this.offset = this.eventList.length;
     const paramsSub = this.route.params.subscribe(
       (params: ActivatedRoute) => {
@@ -267,8 +266,11 @@ export class EventsComponent implements OnInit, OnDestroy {
     this.view = view;
 
     if( view == "calendar" ){
+      this.limit = 9999;
       this.eventService.getCalendar(2018, 7);
       this.generateCalendar();
+    }else{
+      this.limit = 3;
     }
   }
 
@@ -279,9 +281,6 @@ export class EventsComponent implements OnInit, OnDestroy {
     this.setPaths();
 
     var currMonthName  = moment().format('MMMM');
-    console.log(currMonthName);
-
-    
     // console.log(moment(new Date(this.minDate)).unix())
     
     // this.route.queryParams.subscribe(
@@ -414,14 +413,6 @@ export class EventsComponent implements OnInit, OnDestroy {
     ) // PARAMS END
     this.subscriptions = [...this.subscriptions, paramsSub];
   }
-
-  toggleFilter() {
-
-  }
-
-  toggleTags() {
-
-  }
   
   eventsFilter() {
     this.tagEnabled = false;
@@ -442,6 +433,10 @@ export class EventsComponent implements OnInit, OnDestroy {
     if(this.filterFormGroup.value.maxDateForm != null) {
       this.maxDate = this.filterFormGroup.value.maxDateForm;
     } else { this.maxDate = moment("2038-01-01").format('YYYY-MM-DD').toString(); }
+
+
+    // console.log(moment(this.maxDate).format('YYYY-MM-DD').toString())
+    // console.log(this.filterFormGroup.value.maxDateForm)
     
     // TAG FILTER
     if(this.filterFormGroup.value.eventTagsSelectForm != null) {  
@@ -464,17 +459,17 @@ export class EventsComponent implements OnInit, OnDestroy {
     const filterSubscription = this.apollo.watchQuery<any>({
       query: sortEventsByOptions,
       variables: {
-        tagValue: this.tagValue, //?
-        tagEnabled: this.tagEnabled, //?
-        tidValue: this.tidValue, //?
-        tidEnabled: this.tidEnabled, //?
-        titleValue: "%" + this.titleValue + "%", //?
-        titleEnabled: this.titleEnabled, //?
-        minDate: this.minDate, //?
-        maxDate: this.maxDate, //?
-        lang: this.lang.toUpperCase(), //?
-        offset: this.offset, //?
-        limit: this.limit, //?
+        tagValue: this.tagValue,
+        tagEnabled: this.tagEnabled,
+        tidValue: this.tidValue,
+        tidEnabled: this.tidEnabled,
+        titleValue: "%" + this.titleValue + "%",
+        titleEnabled: this.titleEnabled,
+        minDate: moment(this.minDate).format('YYYY-MM-DD').toString(),
+        maxDate: moment(this.maxDate).format('YYYY-MM-DD').toString(),
+        lang: this.lang.toUpperCase(),
+        offset: this.offset,
+        limit: this.limit,
       },
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',

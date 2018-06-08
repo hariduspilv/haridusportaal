@@ -1,0 +1,35 @@
+<span class="login-wrapper sm-hide">
+
+    <mat-icon class="person">person_outline</mat-icon>
+    <button class="login" (click)="toggleLogin()" *ngIf="!user">{{ 'login' | translate }}</button>
+
+    <button class="login" *ngIf="user" [matMenuTriggerFor]="usermenu" >{{ user.username }}</button>
+
+    <mat-menu #usermenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
+      <button mat-menu-item (click)="logOut()">{{ 'logout' | translate }}</button>
+    </mat-menu>
+
+    <div class="dropdown-menu-overlay" (click)="toggleLogin()" *ngIf="loginVisible"></div>
+    <div class="dropdown-menu" *ngIf="loginVisible">
+
+      <mat-spinner *ngIf="loader"></mat-spinner>
+
+      <form (ngSubmit)="submit()" *ngIf="!loader">
+        <div class="row">
+            <div class="col-12">
+            <input type="text" placeholder="{{ 'username' | translate }}" [(ngModel)]='formModels.username' name="username" />
+          </div><!--/col-12-->
+          <div class="col-12">
+            <input type="password" placeholder="{{ 'password' | translate }}" [(ngModel)]='formModels.password' name="password" />
+          </div><!--/col-12-->
+          <div class="col-12">
+              <button mat-raised-button color="primary">{{ 'login' | translate }}</button>
+          </div><!--/col-12-->
+        </div>
+      </form>
+
+      <div class="error" *ngIf="error">{{ 'login.error' | translate }}</div>
+
+    </div>
+    
+  </span>

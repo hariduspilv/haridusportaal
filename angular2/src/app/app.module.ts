@@ -7,6 +7,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { ArticleService, EventsService, RootScopeService, NewsService } from './_services';
 
+
+import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog'
+
 /* Custom imports */
 import { AppModules } from './_components';
 import { AppPipes } from './_pipes';
@@ -20,6 +23,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader, TranslatePipe} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { BreadcrumbsComponent } from './_components/breadcrumbs/breadcrumbs.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
 
@@ -37,8 +41,12 @@ export function HttpLoaderFactory(http: HttpClient) {
 
   declarations: [
     AppComponent,
-    routedComponents
+    routedComponents,
+    EventsRegistratonDialog,
+    BreadcrumbsComponent
   ],
+
+  entryComponents: [ EventsRegistratonDialog ],
 
   imports: [
     BrowserModule,

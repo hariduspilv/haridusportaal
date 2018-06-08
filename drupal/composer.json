@@ -36,6 +36,7 @@
         "drupal/file_browser": "^1.1",
         "drupal/google_map_field": "^1.5",
         "drupal/graphql": "^3.0@beta",
+        "drupal/graphql_metatag": "1.x-dev",
         "drupal/hms_field": "^1.0",
         "drupal/image_style_warmer": "^1.0@alpha",
         "drupal/image_widget_crop": "^2.1",
