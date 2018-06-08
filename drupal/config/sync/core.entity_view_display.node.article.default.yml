@@ -9,7 +9,7 @@ dependencies:
     - field.field.node.article.field_image
     - field.field.node.article.field_metatags
     - field.field.node.article.field_right_sidebar
-    - image.style.custom_crop_style_16_9_
+    - image.style.crop_small
     - node.type.article
   module:
     - entity_reference_revisions
@@ -26,7 +26,7 @@ mode: default
 content:
   field_accordion_section:
     type: entity_reference_revisions_entity_view
-    weight: 7
+    weight: 2
     label: above
     settings:
       view_mode: default
@@ -34,14 +34,14 @@ content:
     third_party_settings: {  }
     region: content
   field_body:
-    weight: 9
+    weight: 3
     label: above
     settings: {  }
     third_party_settings: {  }
     type: text_default
     region: content
   field_body_summary:
-    weight: 10
+    weight: 4
     label: above
     settings: {  }
     third_party_settings: {  }
@@ -49,15 +49,15 @@ content:
     region: content
   field_image:
     type: image
-    weight: 0
+    weight: 6
     region: content
+    label: above
     settings:
-      image_style: custom_crop_style_16_9_
+      image_style: crop_small
       image_link: ''
     third_party_settings: {  }
-    label: hidden
   field_metatags:
-    weight: 11
+    weight: 5
     label: above
     settings: {  }
     third_party_settings: {  }
@@ -65,7 +65,7 @@ content:
     region: content
   field_right_sidebar:
     type: entity_reference_revisions_entity_view
-    weight: 4
+    weight: 1
     label: above
     settings:
       view_mode: default
@@ -73,7 +73,7 @@ content:
     third_party_settings: {  }
     region: content
   links:
-    weight: 2
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }
