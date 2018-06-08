@@ -12,7 +12,7 @@ dependencies:
     - field.field.node.news.field_news_link
     - field.field.node.news.field_news_tag
     - field.field.node.news.field_short_description
-    - image.style.custom_crop_style_16_9_
+    - image.style.crop_small
     - node.type.news
   module:
     - image_widget_crop
@@ -38,10 +38,10 @@ content:
     settings:
       show_default_crop: true
       warn_multiple_usages: true
-      preview_image_style: ''
+      preview_image_style: crop_small
       crop_preview_image_style: no_style
       crop_list:
-        - '16_9'
+        - 16_9_large
       progress_indicator: throbber
       show_crop_area: false
     third_party_settings: {  }
@@ -63,10 +63,10 @@ content:
     settings:
       show_default_crop: true
       warn_multiple_usages: true
-      preview_image_style: custom_crop_style_16_9_
+      preview_image_style: crop_small
       crop_preview_image_style: no_style
       crop_list:
-        - '16_9'
+        - 16_9_large
       progress_indicator: throbber
       show_crop_area: false
     third_party_settings: {  }

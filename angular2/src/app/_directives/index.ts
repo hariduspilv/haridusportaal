@@ -13,4 +13,5 @@ import { DateFormatterDirective } from './dateFormatter.directive';
         DateFormatterDirective
     ]
 })
+
 export class AppDirectives {}

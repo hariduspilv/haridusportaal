@@ -24,13 +24,11 @@ dependencies:
     - field.field.node.event.field_registration_
     - field.field.node.event.field_registration_date
     - field.field.node.event.field_tag
-    - image.style.custom_crop_style_16_9_
     - node.type.event
   module:
     - entity_reference_revisions
     - file
     - google_map_field
-    - image
     - link
     - metatag
     - options
@@ -174,15 +172,6 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-  field_picture:
-    weight: 3
-    label: above
-    settings:
-      image_style: custom_crop_style_16_9_
-      image_link: ''
-    third_party_settings: {  }
-    type: image
-    region: content
   field_practical_information:
     weight: 15
     label: above
@@ -215,5 +204,6 @@ content:
     type: entity_reference_label
     region: content
 hidden:
+  field_picture: true
   langcode: true
   links: true
