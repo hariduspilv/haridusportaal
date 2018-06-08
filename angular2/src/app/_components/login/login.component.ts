@@ -41,8 +41,11 @@ export class LoginComponent implements OnInit{
   submit() {
 
     this.error = false;
-    
+
     this.loader = true;
+
+    localStorage.removeItem("token");
+    this.user = false;
 
     this.http.post(this.postUrl, this.formModels).subscribe(data => {
 
@@ -52,9 +55,9 @@ export class LoginComponent implements OnInit{
 
       this.data = data;
 
-      localStorage.setItem("token", this.data.token);
-
       if( data['token'] ){
+
+        localStorage.setItem("token", this.data.token);
 
         for( let i in this.formModels ){
           this.formModels[i] = '';
