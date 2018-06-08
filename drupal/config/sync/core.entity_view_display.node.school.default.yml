@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.school.field_created_from_ehis_datetime
     - field.field.node.school.field_educational_institution_ty
     - field.field.node.school.field_ehis_id
+    - field.field.node.school.field_metatags
     - field.field.node.school.field_ownership_type
     - field.field.node.school.field_registration_code
     - field.field.node.school.field_school_contact_email
@@ -22,6 +23,7 @@ dependencies:
     - node.type.school
   module:
     - entity_reference_revisions
+    - metatag
     - text
     - user
 id: node.school.default
@@ -69,6 +71,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_metatags:
+    weight: 121
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_ownership_type:
     weight: 105

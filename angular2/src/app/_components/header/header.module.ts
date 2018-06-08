@@ -6,6 +6,7 @@ import { SideMenuService } from '../../_services';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SharedModule } from '../../_core/shared.module';
+import { LoginModule } from '../login/login.module';
 
 @NgModule({
   providers: [
@@ -15,7 +16,8 @@ import { SharedModule } from '../../_core/shared.module';
     MaterialModule,
     RouterModule,
     CommonModule,
-    SharedModule
+    SharedModule,
+    LoginModule
   ],
   declarations: [
     HeaderComponent

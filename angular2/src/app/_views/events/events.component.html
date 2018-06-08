@@ -1,22 +1,12 @@
-<div class="row sm-hide">
-  <div class="col-12">
-    <ul class="breadcrumb mt-0">
-      <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
-        <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
-          <span>{{ breadcrumbEl.text }}</span>
-        </a>
-        <span *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
-      </li>
-    </ul>
-  </div>
-</div>
+<breadcrumbs [breadcumbsArray]="breadcrumb"></breadcrumbs>
 
-<div class="sm-show mb-20 text-right">
-  <a [routerLink]="" (click)="toggleFilter = !toggleFilter" *ngIf="!toggleFilter">{{ 'filter' | translate }}</a>
-  <a [routerLink]="" (click)="toggleFilter = !toggleFilter"  *ngIf="toggleFilter">{{ 'filter.close' | translate }}</a>
+<div class="sm-show text-right filter-control">
+  <a href="javascript:void(0);" (click)="hideFilter()">
+    <span *ngIf="!filter">Filtreeri</span>
+    <span *ngIf="filter">Sulge filter</span>
+  </a>
 </div>
-
-<div class="" [ngClass]="{'sm-hide': !toggleFilter}" class="filter-wrapper">
+<div [ngClass]="{'sm-hide': !filter}" class="filter-wrapper">
   <form [formGroup]="filterFormGroup" class="row">
     <div class="col-9 sm-12">
       <div class="row">
@@ -25,13 +15,13 @@
             <span class="round-input__title">{{ 'search.by.keyword' | translate }}</span>
             <div class="round-input__field-wrapper">
               <input class="round-input__field" placeholder="{{ 'search.events.name' | translate }} " formControlName="titleForm" [(ngModel)]="titleValue" maxlength="50"/>
-              <button class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
+              <span class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
                 <mat-icon>close</mat-icon>
-              </button>
+              </span>
             </div>
           </div>
         </div>
-        <div class="col-3 sm-6">
+        <div class="col-3 sm-6" *ngIf="view == 'list'">
           <div class="round-input__wrapper w-100">
             <span class="round-input__title">{{ 'date' | translate }}</span>
             <div class="round-input__field-wrapper">
@@ -43,7 +33,7 @@
           </div>
         </div>
         
-        <div class="col-3 sm-6">
+        <div class="col-3 sm-6" *ngIf="view == 'list'">
           <div class="round-input__wrapper w-100">
               <span class="round-input__title">{{ 'date' | translate }}</span>
               <div class="round-input__field-wrapper">
@@ -56,7 +46,7 @@
         </div>
         
       </div>
-      <div class="row" *ngIf="showTagsInput">
+      <div class="row" *ngIf="filterState">
         <div class="col-12">
           <ng-select
           [items]="eventTagObs | async"
@@ -82,7 +72,7 @@
       </div>
     </div>
     <div class="col-3 sm-12">
-      <a [routerLink]="" (click)="toggleTags()">{{ 'search.detailed' | translate }}</a>
+      <a [routerLink]="" (click)="changeFilterState()">{{ 'search.detailed' | translate }}</a>
       <button mat-raised-button color="primary" (click)="eventsFilter()">{{ 'search' | translate }}</button>    
     </div>
   </form>

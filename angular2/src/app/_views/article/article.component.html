@@ -7,16 +7,7 @@
 
 <div *ngIf="content">
   <div class="row sm-hide">
-    <div class="col-12">
-      <ul class="breadcrumb mb-0 mt-0">
-        <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
-          <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
-            <span>{{ breadcrumbEl.text }}</span>
-          </a>
-          <span *ngIf="last">{{ content.title | ellipsis:30 }}</span>
-        </li>
-      </ul>
-    </div>
+    <breadcrumbs [breadcumbsArray]="breadcrumb"></breadcrumbs>
   </div>
   <div class="row article-wrapper">
     <div class="col-8 sm-12">
