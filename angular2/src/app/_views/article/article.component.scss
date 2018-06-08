@@ -26,6 +26,14 @@ article {
     // margin-left: $medium; margin-right: $medium;
   }
   &-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
+  &-image {width:100%; max-width:100%; height: auto;
+    @media (min-width: 900px) {
+      width: stretch;
+      max-width: 100%;
+      margin: 0 1.5rem;
+    }
+    img { width: 100%; }
+  }
 }
 .title {font-size: $small;line-height: 2;padding: 0 $medium;
   h2 {color:$black;}
@@ -33,7 +41,7 @@ article {
 .description {padding: $small $medium; color: $black; line-height: 22px; padding-bottom: 0;}
 .short {@extend .description; font-weight: 500; padding-bottom: $small;}
 .image-alt-text {font-size: 14px; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
-  @media (min-width: 900px) {padding: 0 $medium $small $medium;}
+  @media (min-width: 900px) {padding: 0 0 $small 0;}
 }
 .mat-expansion-panel {box-shadow: none !important;border: 1px solid $gray;
   mat-panel-title {
@@ -41,7 +49,7 @@ article {
   }
   &.mat-expanded {border-left: 3px solid $dark-orange;
     mat-panel-title {
-      @media (max-width: 900px) {text-overflow: initial;overflow: auto;white-space: normal;}
+      @media (min-width: 900px) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
   }
   border-radius: 2px;margin-bottom: $half-gutter;
