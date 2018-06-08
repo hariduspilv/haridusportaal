@@ -1,3 +1,4 @@
+<breadcrumbs [breadcumbsArray]="breadcrumb"></breadcrumbs>
 <mat-spinner *ngIf="!content && !error"></mat-spinner>
 
 <div *ngIf="error" class="text-center">
@@ -6,9 +7,6 @@
 </div><!--/error-->
 
 <div *ngIf="content">
-  <div class="row sm-hide">
-    <breadcrumbs [breadcumbsArray]="breadcrumb"></breadcrumbs>
-  </div>
   <div class="row article-wrapper">
     <div class="col-8 sm-12">
       <div class="article">

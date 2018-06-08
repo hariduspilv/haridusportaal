@@ -45,8 +45,8 @@ a {color: $blue}
   .row {
     div.col-4, div.col-3, div.col-25 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
   }
-  @media (min-width: 1400px) {margin-right: 1.5rem;}
-  @media (min-width: 900px) {padding: 1rem 1.5rem; margin-bottom: 1.5rem;}
+  @media (min-width: 1400px) {margin-right: 1.5rem; margin-top: 1rem;}
+  @media (min-width: 900px) {padding: 1rem 1.5rem; margin-bottom: 1.5rem; margin-top: 1rem;}
 }
 .mat-drawer-container {
   background-color: $white;
