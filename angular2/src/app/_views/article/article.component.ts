@@ -23,7 +23,6 @@ export class ArticleComponent implements OnInit, OnDestroy{
   private lang: string;
   
   content: any;
-  breadcrumb: any;
   error: boolean;
   
   accordionOpenState: boolean = false;
@@ -75,7 +74,6 @@ export class ArticleComponent implements OnInit, OnDestroy{
           //language service
           
           this.content = data['route']['entity'];
-          this.breadcrumb = data['route']['breadcrumb'];
           this.accordionSection = data['route']['entity']['fieldAccordionSection'];
           this.fieldRightSidebar = data['route']['entity']['fieldRightSidebar'];
           
