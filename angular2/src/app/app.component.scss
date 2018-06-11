@@ -5,13 +5,13 @@
 @import "../assets/styles/sidebar.scss";
 
 /* You can add global styles to this file, and also import other style files */
-body{margin:0; padding:0; padding-top:64px; background: $light-gray;}
+body{margin:0; padding:0; padding-top:4rem; background: $light-gray;}
 
 /* Force Rubik font over material default */
 body [class^='mat-'], body [class*=' mat-'] {font-family: 'Rubik', sans-serif; } 
 body .material-icons {font-family: 'Material Icons';}
 
-h1{font-size:32px; line-height:120%;}
+h1{font-size:2rem; line-height:120%;}
 .fill-space {
   /* This fills the remaining space, by using flexbox. 
      Every toolbar row uses a flexbox row layout. */
@@ -21,15 +21,20 @@ h1{font-size:32px; line-height:120%;}
 input:focus {outline: none;}
 
 html{
+  font-size: 16px;
   height:100%;
+  @media (min-width: 1720px) {font-size: 20px;}
+  @media (min-width: 2559px) {font-size: 24px;}
 }
-body{height: calc(100% - 64px);}
+body{height: calc(100% - 4rem);}
 
 .pull-right{
   float:right;
 }
 
 .pointer{cursor: pointer;}
+
+.mat-icon {height: 1.5rem !important; width: 1.5rem !important;}
 
 .indent .mat-menu-item{
   padding-left:30px;
@@ -43,9 +48,8 @@ a {color: $blue}
 
 .filter-wrapper {background: $white; padding: 0 1.5rem; margin-bottom: 3rem;
   .row {
-    div.col-4, div.col-3, div.col-25 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    div.col-9 {padding-top: 0;}
   }
-  @media (min-width: 1400px) {margin-right: 1.5rem; margin-top: 1rem;}
   @media (min-width: 900px) {padding: 1rem 1.5rem; margin-bottom: 1.5rem; margin-top: 1rem;}
 }
 .mat-drawer-container {
@@ -98,10 +102,10 @@ a {color: $blue}
 .breadcrumb li:last-child:after{display: none;}
 .breadcrumb li span{overflow: hidden; display: inline; max-width:200px; text-overflow: ellipsis; white-space: nowrap;}
 
-.mat-sidenav{top:64px !important;}
-.mat-sidenav .mat-menu-item{height:auto; padding-top:14px; padding-bottom:14px; line-height:120%;}
-.mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 13px;}
-.mat-raised-button.mat-primary { border-radius: 20px; background-color: $blue; font-weight: 300; height: 40px; width: 100%; padding: 0rem 2.5rem;
+.mat-sidenav{top:4rem !important;}
+.mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
+.mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
+.mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
   @media (min-width: 900px) {width: auto;}
 }
 
@@ -117,7 +121,7 @@ article a[href]{color:$blue;}
 .ul-styleless li{padding:0; margin:0;}
 .ul-styleless ul a{padding-left:30px;}
 .ul-styleless ul ul a{padding-left:44px;}
-.mat-sidenav li.has-children > .mat-menu-item{position: relative; padding-right:40px;}
+.mat-sidenav li.has-children > .mat-menu-item{position: relative; padding-right:2.5rem;}
 .mat-sidenav li.has-children .mat-icon{position: absolute; top:50%; right:18px; margin-top:-12px; margin-right:0;} 
 .mat-sidenav li ul{display: none;}
 .mat-sidenav li.menu-open > ul{display: block;}
@@ -175,9 +179,9 @@ $grid-columns: 12;
   .mat-icon{vertical-align: middle;}
 }
 .dateBlock{width:150px; text-decoration: none;
-  .dateBlock-inner{background:#E0E0E0; border-radius:4px; font-size: 13px; display: block; text-decoration: none;
+  .dateBlock-inner{background:#E0E0E0; border-radius:4px; font-size: 0.8125rem; display: block; text-decoration: none;
     .dateBlock-title{background:$blue; color:#fff; border-radius:4px 4px 0 0; padding:7px; text-align: center; display: block; }
-    .dateBlock-date{padding:20px 7px; text-align: center; font-size:28px; display: block; color:rgba(0,0,0,.87); text-decoration: none;}
+    .dateBlock-date{padding:20px 7px; text-align: center; font-size: 1.75rem; display: block; color:rgba(0,0,0,.87); text-decoration: none;}
   }
 }
 
@@ -189,10 +193,11 @@ $grid-columns: 12;
 .normal-text{color:rgba(0,0,0,.87); text-decoration:none;}
 .sm-show{display:none !important;}
 
-.clist-item{padding:7px 12px; background:#e0e0e0; border-radius:24px; font-size:13px; line-height:18px;}
+.clist-item{padding:7px 12px; background:#e0e0e0; border-radius:24px; font-size: 0.8125rem; line-height:18px;}
 
-
-.inline{max-width:1400px; margin:0 auto; padding:0;}
+.inline{
+  // max-width:1400px; 
+  margin:0 auto; padding:0;}
 
 .mat-toolbar{ padding:0 !important; box-shadow: none;
   .inline{display: flex; align-items:center; width:100%;
@@ -213,28 +218,30 @@ $grid-columns: 12;
 }
 
 .calendar{width:100%; border-collapse: collapse;
-  th{font-size:14px; text-align: center; line-height: 24px; font-weight: normal; padding:5px 0;}
+  th{font-size: 0.8125rem; text-align: center; line-height: 24px; font-weight: normal; padding:5px 0;}
   td{border:#c7c7c9 1px solid; height:137px; vertical-align: top; padding:8px;}
 }
-
+@media (min-width:900px) {
+  mat-sidenav-content{margin-left: 16.25rem !important;}
+}
 @media (max-width:900px) {
   .mat-drawer{background:$white; }
   .sm-hide{display:none !important;}
   .sm-show{display: block !important;}
   .mb-shrink{margin-bottom:0;}
-  .mat-sidenav-content{padding:0 0 1.5rem 0;}
-  .mat-sidenav{top:64px !important;}
+  .mat-sidenav-content{padding:0 0 1.5rem 0; margin-left: auto;}
+  .mat-sidenav{top:4rem !important;}
   .mat-toolbar.header-toolbar{
     .inline{padding-left: 20px; padding-right: 1rem;}
   }
   .inline{padding:0;
-    .mat-drawer-content{padding:0}
+    .mat-drawer-content{padding:0;}
   }
 }
 
 @media (max-width:599px){
-  body{padding-top:64px; height: calc(100% - 64px);}
-  .mat-sidenav{top:64px !important;}
+  body{padding-top:4rem; height: calc(100% - 4rem);}
+  .mat-sidenav{top:4rem !important;}
 }
 
 @media print{
@@ -257,7 +264,7 @@ $grid-columns: 12;
   }
 
   .row{display: block;font-size:0; margin:0;
-    &>[class*='col']{display: inline-block; font-size:16px; vertical-align: top;}
+    &>[class*='col']{display: inline-block; font-size:1rem; vertical-align: top;}
     @for $i from 1 through $grid-columns {
       .col-#{$i} { width: percentage($i / $grid-columns) !important; }
     }

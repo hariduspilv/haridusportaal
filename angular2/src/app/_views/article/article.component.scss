@@ -22,7 +22,7 @@ article {
 .article {
   border-top: $gutter solid $light-blue;
   background: $white;
-  @media (min-width: 900px) {border-radius: $half-gutter; 
+  @media (min-width: 900px) {border-radius: $half-gutter;height:100%;
     // margin-left: $medium; margin-right: $medium;
   }
   &-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
