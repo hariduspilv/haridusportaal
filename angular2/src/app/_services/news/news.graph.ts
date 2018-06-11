@@ -26,7 +26,9 @@ export class NewsGraph {
               fieldShortDescription
               fieldAuthor
               fieldIntroductionImage {
-                url
+                derivative(style:CROP_SMALL){
+              		url 
+                }
                 alt
               }
               fieldNewsTag {
@@ -73,11 +75,13 @@ export class NewsGraph {
               }
               fieldShortDescription
               fieldIntroductionImage {
-                url
+                derivative(style:CROP_LARGE){
+              		url 
+                }
                 alt
               }
               fieldAdditionalImages{
-                derivative(style:CUSTOM_CROP_STYLE_16_9_){
+                derivative(style:CROP_LARGE){
                   url 
                 }
                 alt

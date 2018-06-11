@@ -2,4 +2,4 @@ name: 'GraphQL custom translation'
 type: module
 description: 'Provide GraphQL function with custom translations'
 core: 8.x
-package: 'Custom'
+package: 'HTM Custom'

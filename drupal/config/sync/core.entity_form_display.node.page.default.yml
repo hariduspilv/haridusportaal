@@ -3,14 +3,22 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.node.page.field_metatags
     - node.type.page
   module:
+    - metatag
     - path
 id: node.page.default
 targetEntityType: node
 bundle: page
 mode: default
 content:
+  field_metatags:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
   langcode:
     type: language_select
     weight: 1
@@ -32,6 +40,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
 hidden:
   created: true
   promote: true
