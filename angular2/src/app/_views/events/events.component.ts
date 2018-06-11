@@ -145,8 +145,7 @@ export class EventsComponent implements OnInit, OnDestroy {
     }
   }
   
-  
-  loadMore() {
+ loadMore() {
     this.offset = this.eventList.length;
     const paramsSub = this.route.params.subscribe(
       (params: ActivatedRoute) => {
@@ -267,8 +266,11 @@ export class EventsComponent implements OnInit, OnDestroy {
     this.view = view;
 
     if( view == "calendar" ){
+      this.limit = 9999;
       this.eventService.getCalendar(2018, 7);
       this.generateCalendar();
+    }else{
+      this.limit = 3;
     }
   }
 

@@ -18,10 +18,9 @@
       </div>
     </span>
     <mat-icon class="search sm-show">search</mat-icon>
-    <mat-icon class="person">person_outline</mat-icon>
-    <span class="login-wrapper sm-hide">
-      <a class="login" href="javascript:void();">{{ 'log.in' | translate }}</a>
-    </span>
+
+    <app-login></app-login>
+
     <div *ngIf="languages" class="pull-right">
       <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
         <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)">{{ item.argument | uppercase }}</button>

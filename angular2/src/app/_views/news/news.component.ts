@@ -264,7 +264,6 @@ export class NewsComponent implements OnInit, OnDestroy{
       }
     }
     
-    
     // TITLE FILTER
     if(this.filterFormGroup.value.titleForm != null) {
       this.titleEnabled = true;

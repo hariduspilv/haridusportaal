@@ -17,6 +17,7 @@ dependencies:
     - field.field.node.event.field_event_location_link
     - field.field.node.event.field_event_type
     - field.field.node.event.field_max_number_of_participants
+    - field.field.node.event.field_metatags
     - field.field.node.event.field_organizer
     - field.field.node.event.field_picture
     - field.field.node.event.field_practical_information
@@ -28,9 +29,10 @@ dependencies:
     - entity_reference_revisions
     - file
     - google_map_field
-    - image
     - link
+    - metatag
     - options
+    - telephone
     - text
     - user
 id: node.event.default
@@ -64,9 +66,10 @@ content:
   field_contact_phone:
     weight: 23
     label: above
-    settings: {  }
+    settings:
+      title: ''
     third_party_settings: {  }
-    type: basic_string
+    type: telephone_link
     region: content
   field_description:
     weight: 21
@@ -154,6 +157,13 @@ content:
     third_party_settings: {  }
     type: number_integer
     region: content
+  field_metatags:
+    weight: 24
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
   field_organizer:
     weight: 8
     label: above
@@ -161,15 +171,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
-    region: content
-  field_picture:
-    weight: 3
-    label: above
-    settings:
-      image_style: ''
-      image_link: ''
-    third_party_settings: {  }
-    type: image
     region: content
   field_practical_information:
     weight: 15
@@ -203,5 +204,6 @@ content:
     type: entity_reference_label
     region: content
 hidden:
+  field_picture: true
   langcode: true
   links: true

@@ -12,7 +12,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 
 @Component({
-  templateUrl: './article.component.html'
+  templateUrl: './article.component.html',
+  styleUrls: ['./article.component.scss']
 })
 
 export class ArticleComponent implements OnInit, OnDestroy{

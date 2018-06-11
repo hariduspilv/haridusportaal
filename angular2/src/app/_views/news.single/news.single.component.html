@@ -1,6 +1,6 @@
 <breadcrumbs [breadcumbsArray]="breadcrumb"></breadcrumbs>
 <mat-spinner *ngIf="!content && !error"></mat-spinner>
-<div class="row" *ngIf="content">
+<div class="row news-single" *ngIf="content">
   <div class="col-8 sm-12">
     <div class="news-list">
       <div class="news-title">{{ 'news' | translate }}</div>
@@ -22,7 +22,7 @@
               <div class="short" [innerHtml]="content.fieldShortDescription"></div>
               
               <div *ngIf="content.fieldIntroductionImage !== null" class="article-image pull-right">
-                <img  src="{{ content.fieldIntroductionImage.url }}" alt="{{ content.fieldIntroductionImage.alt }}" title="{{ content.fieldIntroductionImage.alt }}" style="max-width:100%;" />
+                <img src="{{ content.fieldIntroductionImage.derivative.url }}" alt="{{ content.fieldIntroductionImage.alt }}" title="{{ content.fieldIntroductionImage.alt }}" style="max-width:100%;" />
                 <div class="image-alt-text" *ngIf="content.fieldIntroductionImage.alt">{{ content.fieldIntroductionImage.alt }}</div>
               </div>
 

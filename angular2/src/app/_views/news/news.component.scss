@@ -1,50 +1,51 @@
+@import "../../../assets/styles/typography.scss";
 .news-component {
-  padding-bottom: 3rem;
-  .news-title {font-size: 1rem;line-height: 2;color: #757575; padding: 0.75rem 1.5rem 0.5rem 1.5rem;}
+  padding-bottom: $xxl;
+  .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
   .title {
-    padding: 1rem 1.5rem 0 1.5rem;
+    padding: $small $medium 0 $medium;
     @media (min-width: 900px) {padding: 0;}
   }
   .author {
-    padding: 0.25rem 1.5rem 0 1.5rem;
+    padding: $half-gutter $medium 0 $medium;
     font-size: 0.875rem;
     line-height: 1.43;
-    color: #757575;
-    @media (min-width: 900px) {padding: 0; padding-top: 0.25rem;}
+    color: $dark-gray;
+    @media (min-width: 900px) {padding: 0; padding-top: $half-gutter;}
   }
-  .description {padding-top: 1rem;}
+  .description {padding-top: $small;}
 }
-.filter-control {padding: 1.5rem;}
+.filter-control {padding: $medium;}
 .news-list {
-  border-top: 8px solid #15adc2;
-  background: #ffffff;
-  @media (min-width: 900px) {border-radius: 0.25rem; margin-left: 1.5rem; margin-right: 1.5rem;}
+  border-top: $gutter solid $light-blue;
+  background: $white;
+  @media (min-width: 900px) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;}
 }
 .mat-card {
   box-shadow: none !important;
   @media (max-width: 900px) {padding: 0 !important;}
 }
 .news-item {
-  padding-top: 3rem;
+  padding-top: $xxl;
   &:first-child {padding-top: 0.375rem;}
   &:first-child {.mat-card {padding-top: 0px;}}
-  @media (min-width: 900px) {padding-top: 0rem; border-top: solid 1px #c7c7c9;
+  @media (min-width: 900px) {padding-top: 0; border-top: solid 1px $gray;
     &:first-child { border-top: none; }
   }
 }
 .actions {
-  padding-top: 1.5rem;
-  button { margin: 0 1.5rem; width: stretch;}
+  padding-top: $medium;
+  button { margin: 0 $medium; width: stretch;}
   @media (min-width: 900px) {
-    background: #eeeeee;
-    button { margin: 0 1.5rem; width: auto;}
+    background: $light-gray;
+    button { margin: 0 $medium; width: auto;}
   }
   &__error {
-    padding-bottom: 1rem;
+    padding-bottom: $small;
   }
 }
-.filter-state { padding-right: 1rem;
-  @media (max-width: 1011px) { padding-right: 0rem;}
+.filter-state { padding-right: $small;
+  @media (max-width: 1011px) { padding-right: 0;}
 }
 .col-25 {width: 20.83%;}
 .inline-flex {display: inline-flex;justify-content: flex-end;} 
