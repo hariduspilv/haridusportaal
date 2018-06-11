@@ -6,7 +6,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
-import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
 import { Apollo } from 'apollo-angular';
 
 
@@ -21,7 +20,6 @@ export class NewsSingleComponent implements OnInit {
   private path: string;
   private lang: string;
   
-  breadcrumb: any;
   content: any;
   unix: any;
   error: boolean;
@@ -70,25 +68,6 @@ export class NewsSingleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-        this.lang = params['lang'];
-        
-        this.querySubscription = this.apollo.watchQuery({
-          query: getBreadcrumb,
-          variables: {
-            path: this.path,
-            lang: this.lang.toUpperCase(),
-            fetchPolicy: 'no-cache',
-            errorPolicy: 'all',
-          },
-        })
-        .valueChanges
-        .subscribe(({data}) => {
-          this.breadcrumb = data['route']['breadcrumb'];
-        });
-      }
-    )
+    
   }
 }
