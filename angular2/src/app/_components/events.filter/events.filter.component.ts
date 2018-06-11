@@ -88,7 +88,7 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     
-    // http://localhost:4200/et/sundmused?title=qweqwe&dateFrom=13-06-2018&tags=loomad&type=Kokkutulek&type=Konverents
+    // http://localhost:4200/et/sundmused?title=qweqwe&dateFrom=13-06-2018&tags=1343&tags=1342&type=7&type=5
     let querySubscription = this.route.queryParams.subscribe(
       (params) => {
         this.filterForm.controls.title.setValue(params.title);
@@ -123,6 +123,7 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
     })
     this.subscriptions = [...this.subscriptions, routeSubscription];
     
+    // TAG SUBSCRIPTION
     let tagSubscription = this.apollo.watchQuery({
       query: getEventsTags,
       variables: {
@@ -151,7 +152,7 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
     });
     this.subscriptions = [...this.subscriptions, tagSubscription];
     
-    
+    //TYPE SUBSCRIPTION
     let typeSubscription = this.apollo.watchQuery({
       query: getEventsTypes,
       variables: {
@@ -186,8 +187,9 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
         queryParamsArr[i] = this.filterForm.controls[i].value;
       }
       if( this.filterForm.controls[i].value instanceof Array ) {
-        // queryParamsArr[i] = this.filterForm.controls[i].value.map((data)=>{return data.name}) // NOT FINISHED
-        queryParamsArr[i] = null // NO ARRAYS
+        queryParamsArr[i] = this.filterForm.controls[i].value.map((data)=>{
+          return data.id
+        }).join(',') // TAG1,TAG2,TAG3
       }
       if( i.toLowerCase().match("date") ){
         if(moment(this.filterForm.controls[i].value).isValid()){
