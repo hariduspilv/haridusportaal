@@ -499,9 +499,11 @@ query getEventsTags( $lang: LanguageId!){
 }
 `;
 
-export const getEventsTids = gql`
-query getEventsTids {
-  taxonomyTermQuery {
+export const getEventsTypes = gql`
+query getEventsTypes( $lang: LanguageId!){
+  taxonomyTermQuery(filter: {conditions: [
+    {operator: EQUAL, field: "vid", value: ["event_type"], language: $lang}
+  ]}) {
     entities{
       ... on TaxonomyTerm {
         name
