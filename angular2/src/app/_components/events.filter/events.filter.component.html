@@ -1,0 +1,78 @@
+<div class="sm-show text-right filter-control">
+  <a [routerLink]="" (click)="toggleFilterMob()">
+    <span *ngIf="!filterMob">Filtreeri</span>
+    <span *ngIf="filterMob">Sulge filter</span>
+  </a>
+</div>
+
+<div [ngClass]="{'sm-hide': !filterFull}" class="filter-wrapper">
+  <form [formGroup]="filterForm" class="row">
+    <div class="col-9 sm-12">
+      <div class="row">
+        <div class="col-6 sm-12">
+          <div class="round-input__wrapper w-100">
+            <span class="round-input__title">{{ 'search.by.keyword' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field" placeholder="{{ 'search.events.name' | translate }} " formControlName="title" />
+            </div>
+          </div>
+        </div>
+        <div class="col-3 sm-6">
+          <div class="round-input__wrapper w-100">
+            <span class="round-input__title">{{ 'date' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="datepickerFrom" formControlName="dateFrom" [max]="datepickerMax" maxlength="10" dateFormatter />
+              <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
+              <mat-datepicker #datepickerFrom></mat-datepicker>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-3 sm-6">
+          <div class="round-input__wrapper w-100">
+            <span class="round-input__title">{{ 'date' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="datepickerTo" formControlName="dateTo" [min]="datepickerMin" maxlength="10" dateFormatter />
+              <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
+              <mat-datepicker #datepickerTo></mat-datepicker>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="row" *ngIf="filterFull">
+        <div class="col-12">
+          <ng-select
+          [items]="eventsTagsObs | async"
+          [multiple]="true"
+          [loading]="loading"
+          bindLabel="name"
+          placeholder="{{ 'Otsi sündmuse silte' | translate }}"
+          [(ngModel)]="eventsTagsSel"
+          formControlName="tags"
+          [dropdownPosition]="'bottom'"></ng-select>    
+        </div>
+        <div class="col-12">
+          <ng-select
+          [items]="eventsTypesObs | async"
+          [multiple]="true"
+          [loading]="loading"
+          bindLabel="name"
+          placeholder="{{ 'Otsi sündmuse liike' | translate }}"
+          [(ngModel)]="eventsTypesSel"
+          formControlName="type"
+          [dropdownPosition]="'bottom'"></ng-select>      
+        </div>
+      </div>
+    </div>
+
+    <div class="col-3 sm-12">
+      <a  href="javascript:void(0)" (click)="toggleFilterFull()">{{ 'search.detailed' | translate }}</a>
+      <button mat-raised-button color="primary" type="button" (click)="eventsFilter()">{{ 'search' | translate }}</button>    
+    </div>
+
+  </form>
+  
+  <div *ngIf="filterForm.invalid" style="background-color: red;">{{ 'error' | translate }}</div>
+</div>

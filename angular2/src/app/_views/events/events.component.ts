@@ -8,7 +8,7 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { EventsService, RootScopeService } from '../../_services';
 import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
 // import { EventsJson } from '../../_services/events/events.json';
-import { sortEventsByOptions, getEventsTags, getEventsTids } from '../../_services/events/events.graph';
+import { sortEventsByOptions, getEventsTags, getEventsTypes } from '../../_services/events/events.graph';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -281,20 +281,7 @@ export class EventsComponent implements OnInit, OnDestroy {
     var currMonthName  = moment().format('MMMM');
     console.log(currMonthName);
 
-    
-    // console.log(moment(new Date(this.minDate)).unix())
-    
-    // this.route.queryParams.subscribe(
-    //   (params) => {
-    //     console.log(params)
-    //   }
-    // )    
-    
-    // this.route.queryParamMap.subscribe(
-    //   (params) => {
-    //     console.log(params)
-    //   }
-    // )
+
     
     const paramsSub = this.route.params.subscribe(
       (params: ActivatedRoute) => {
@@ -386,7 +373,10 @@ export class EventsComponent implements OnInit, OnDestroy {
 
         // get Tid
         const tidsSubscription = this.apollo.watchQuery({
-          query: getEventsTids,
+          query: getEventsTypes,
+          variables: {
+            lang: this.lang.toUpperCase(),
+          },
           fetchPolicy: 'no-cache',
           errorPolicy: 'all',
         }).valueChanges

@@ -18,7 +18,7 @@ export class DateFormatterDirective {
 
 			if ((numChars === 2 || numChars === 5) && evt.which !== 13 && evt.which !==8  && evt.which !==9) {
 				evt.preventDefault();
-				evt.target.value = evt.target.value + '/';
+				evt.target.value = evt.target.value + '-';
 			}
 		};
 		
