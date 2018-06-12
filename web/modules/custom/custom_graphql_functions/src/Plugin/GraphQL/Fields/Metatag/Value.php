@@ -8,27 +8,24 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 /**
  * @GraphQLField(
- *   id = "custom_metatag_key",
- *   name = "key",
+ *   id = "custom_metatag_value",
+ *   name = "value",
  *   type = "String",
  *   parents = {"Metatag"},
  *   secure = true
  * )
  */
-class Key extends FieldPluginBase {
+class Value extends FieldPluginBase {
 
 	/**
 	 * {@inheritdoc}
 	 */
 	protected function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 		if (isset($value['#tag']) && $value['#tag'] === 'meta') {
-			if(isset($value['#attributes']['property'])) yield $value['#attributes']['property'];
-			if(isset($value['#attributes']['name'])) yield $value['#attributes']['name'];
-			if(isset($value['#attributes']['http-equiv'])) yield $value['#attributes']['http-equiv'];
-			//yield isset($value['#attributes']['property']) ? $value['#attributes']['property'] : $value['#attributes']['name'];
+			yield $value['#attributes']['content'];
 		}
 		else if (isset($value['#tag']) && $value['#tag'] === 'link') {
-			yield $value['#attributes']['rel'];
+			yield $value['#attributes']['href'];
 		}
 	}
 
