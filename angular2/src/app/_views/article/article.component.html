@@ -14,7 +14,7 @@
         <article>
           <div class="row title">
               <div class="col-11">
-                <h2 class="mt-0 mb-0">{{ content.title }}</h2>
+                <h1 class="mt-0 mb-0">{{ content.title }}</h1>
               </div><!--/col-10-->
               <div class="col-1 text-right share">
                 <a href="javascript:void(0)" class="share-btn"><mat-icon>share</mat-icon></a>
@@ -32,8 +32,8 @@
         
         <div class="accordion" *ngIf="accordionSection.length > 0">
           <mat-accordion multi>
-            <mat-expansion-panel *ngFor="let accordionItem of accordionSection">
-              <mat-expansion-panel-header>
+            <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of accordionSection; let first = first;">
+              <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
                 <mat-panel-title>
                   {{accordionItem.entity.fieldAccordionTitle}}
                 </mat-panel-title>
@@ -59,12 +59,12 @@
         <div class="col-4 sm-12" *ngIf="fieldRightSidebar !== null">
           <div class="sidebar">
             <div class="sidebar__item" *ngIf="fieldAdditional !== null">
-              <h2 class="mt-0 sidebar__title"> {{ fieldAdditionalTitle }}</h2>
+              <h1 class="mt-0 sidebar__title"> {{ fieldAdditionalTitle }}</h1>
               <div class="sidebar__paragraph" [innerHTML]="fieldAdditionalBody"></div>
             </div>
             
             <div class="sidebar__item" *ngIf="fieldContactSection !== null">
-              <h2 class="mt-0 sidebar__title">Kontakt</h2>
+              <h1 class="mt-0 sidebar__title">Kontakt</h1>
               <div class="sidebar__paragraph">
                 <div>{{fieldContactOrganization}}</div>
                 <div>{{fieldContactPerson}}</div>
@@ -75,7 +75,7 @@
             </div>
             
             <div class="sidebar__item" *ngIf="articleLinks.length > 0">
-              <h2 class="mt-0 sidebar__title">Leia kiiresti</h2>
+              <h1 class="mt-0 sidebar__title">Leia kiiresti</h1>
               <div class="sidebar__paragraph">
                 <ul class="link-list mt-0 mb-0">
                     <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
@@ -84,10 +84,15 @@
             </div>
             
             <div class="sidebar__item" *ngIf="relatedArticles.length > 0">
-              <h2 class="mt-0 sidebar__title">Sarnased teemad</h2>
+              <h1 class="mt-0 sidebar__title">Sarnased teemad</h1>
               <div class="sidebar__paragraph">
                 <ul class="link-list mt-0 mb-0">
-                    <li *ngFor="let relatedArticle of relatedArticles"><a href="{{relatedArticle.url.path}}" class="link"><mat-icon>link</mat-icon>{{relatedArticle.title}}</a></li>
+                  <li *ngFor="let relatedArticle of relatedArticles">
+                    <a href="{{relatedArticle.url.path}}" class="link related">
+                      <div><mat-icon>link</mat-icon></div>
+                      <div>{{relatedArticle.title}}</div>
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
