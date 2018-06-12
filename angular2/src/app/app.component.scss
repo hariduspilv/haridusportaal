@@ -79,7 +79,10 @@ a {color: $blue}
     &:last-child{margin-bottom:0;}
   }
 }
-
+.cdk-overlay-pane, #cdk-overlay-0 {
+  @media (max-width: 900px) {max-width: 100% !important;}
+  @media (min-width: 900px) {max-width: 80vw;}
+}
 .sebm-google-map-container{height:200px;}
 .mat-menu-item img{height:24px; vertical-align: middle; margin-right:6px; margin-top:-4px;}
 
