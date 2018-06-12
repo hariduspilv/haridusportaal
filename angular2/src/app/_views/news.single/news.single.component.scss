@@ -26,14 +26,8 @@
       padding: $small $medium 0 $medium;
     }
   }
-  .tags { padding: $small $medium;
-    .mat-chip {height: $gutter; border-radius: 12.5px; border: solid 1px $gray; background-color: $white;
-      &-wrapper {pointer-events: none;}
-      &:not(.mat-basic-chip):focus {box-shadow: none;outline: 0;}
-      font-size: .875rem;font-weight: 300;line-height: 1.43;letter-spacing: normal;color: $black;}
-  }
   .author {padding: $half-gutter $medium 0 $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;}
-  .description {padding: $small $medium; color: $black; line-height: 22px; padding-bottom: 0;}
+  .description {padding: $small $medium; color: $black; line-height: 1.375rem; padding-bottom: 0;}
   .short {@extend .description; font-weight: 500; padding-bottom: $small;}
   .article-image {width:100%; max-width:100%; height: auto;
     @media (min-width: 900px) {
@@ -43,7 +37,7 @@
     }
     img { width: 100%; }
   }
-  .image-alt-text {font-size: 14px; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
+  .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
     @media (min-width: 900px) {padding: 0 0 $small 0;}
   }
   .news-single {
