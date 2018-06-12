@@ -1,7 +1,7 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EventsService, RootScopeService } from '../../_services';
+import { EventsService, RootScopeService, MetaTagsService } from '../../_services';
 
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -11,8 +11,9 @@ import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
-
 import {EventsRegistratonDialog} from '../../_components/dialogs/events.registration/events.registration.dialog'
+
+
 
 @Component({
   templateUrl: './events.single.component.html'
@@ -24,21 +25,19 @@ export class EventsSingleComponent {
   private path: string;
   private lang: string;
   
-
-  
   content: any;
   unix: any;
   error: boolean;
   map: any;
-  
-  
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private eventService: EventsService,
     private rootScope:RootScopeService,
     private apollo: Apollo,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private metaTags: MetaTagsService
   ) {
     
     this.route.params.subscribe( params => {
@@ -51,7 +50,11 @@ export class EventsSingleComponent {
         if ( data['route'] == null ) {
           that.error = true;
         } else {
+
           that.content = data['route'];
+
+          that.metaTags.set(that.content.entity.entityMetaTags);
+
           if( that.content.entity.fieldEventLocation ){
             that.map = {
               "lat": parseFloat(that.content.entity.fieldEventLocation.lat),

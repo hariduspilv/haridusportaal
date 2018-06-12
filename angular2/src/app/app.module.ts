@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { ArticleService, EventsService, RootScopeService, NewsService } from './_services';
+import { ArticleService, EventsService, RootScopeService, NewsService, MetaTagsService } from './_services';
 
 
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog'
@@ -80,7 +80,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ArticleService,
     EventsService,
     RootScopeService,
-    NewsService
+    NewsService,
+    MetaTagsService
   ],
 
   exports: [
