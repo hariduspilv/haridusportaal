@@ -1,5 +1,5 @@
 <div class="news-list__recent">
-  <div class="news-title">{{ 'recent.news' | translate }}</div>
+  <div class="news-title">{{ 'recent.news' | translate | uppercase }}</div>
   <div *ngFor="let item of content">
     <!-- <p>{{ item.created*1000 | date:"dd.MM.yyyy" }}</p>
     <p [innerHtml]="item.fieldShortDescription"></p> -->
