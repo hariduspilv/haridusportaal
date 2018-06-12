@@ -103,12 +103,11 @@ class createTagSubscription extends CreateEntityBase{
 
 		if(count($entity) > 0){
 			$args['id'] = reset($entity)->id();
-		}
-
-		if(count($args['input']['tag']) < 1){
-			reset($entity)->set('status', 0);
-		}else{
-			reset($entity)->set('status', 1);
+			if(count($args['input']['tag']) < 1){
+				reset($entity)->set('status', 0);
+			}else{
+				reset($entity)->set('status', 1);
+			}
 		}
 
 		if(isset($args['id'])){
