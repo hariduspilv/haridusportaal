@@ -7,6 +7,8 @@ import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {ImagePopupDialog} from '../../_components/dialogs/image.popup/image.popup.dialog'
 
 
 @Component({
@@ -31,7 +33,8 @@ export class NewsSingleComponent implements OnInit {
 		private route: ActivatedRoute,
 		private newsService: NewsService,
 		private rootScope:RootScopeService, 
-		private apollo: Apollo
+    private apollo: Apollo,
+    public dialog: MatDialog
    ) {
 
     this.route.params.subscribe( params => {
@@ -69,5 +72,14 @@ export class NewsSingleComponent implements OnInit {
 
   ngOnInit() {
     
+  }
+  openDialog(): void {
+    let dialogRef = this.dialog.open(ImagePopupDialog, {
+      data: {
+        src: this.content.fieldIntroductionImage.derivative.url,
+        title: this.content.fieldIntroductionImage.title,
+        alt: this.content.fieldIntroductionImage.alt
+      }
+    });
   }
 }
