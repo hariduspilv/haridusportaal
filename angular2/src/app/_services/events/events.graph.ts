@@ -106,6 +106,12 @@ export class EventsGraph {
           }
           entity {
             ... on NodeEvent {
+
+              entityMetatags{
+                key
+                value
+              }
+
               entityLabel
               nid
               fieldPicture {
