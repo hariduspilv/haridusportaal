@@ -39,6 +39,9 @@ function custom_subscription_administration_entity_insert(Drupal\Core\Entity\Ent
 		$params['body'] = subscription_email_content($entity->toArray());
 		$params['title'] = t('Uudiskirja tellimuse kinnitamine');
 
+		kint($params);
+die();
+
 		$send = true;
 
 		$result = $mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, $send);
