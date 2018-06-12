@@ -94,7 +94,10 @@ class BaseSettingsRestResource extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
 
-    return new ResourceResponse($values, 200);
+		$response = new ResourceResponse($values, 200);
+    $response->addCacheableDependency($config);
+
+    return $response;
   }
 
 }
