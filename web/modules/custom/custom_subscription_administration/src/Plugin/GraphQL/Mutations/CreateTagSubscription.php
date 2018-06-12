@@ -79,6 +79,7 @@ class createTagSubscription extends CreateEntityBase{
 	protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info){
 		return [
 			'tag' => $args['input']['tag'],
+			'language' => $context->getContext('language', $info),
 			'langcode' => $context->getContext('language', $info),
 			'subscriber_email' => $args['input']['email'],
 		];
