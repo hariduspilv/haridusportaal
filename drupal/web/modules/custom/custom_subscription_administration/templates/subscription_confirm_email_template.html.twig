@@ -1,0 +1,26 @@
+{#
+/**
+ * Custom HTML email template for subscription confirmation
+ */
+#}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<!--[if !mso]><!-->
+	<link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+	<!--<![endif]-->
+	<style>
+		body {
+			max-width: 800px;
+			font-family: 'Rubik', sans-serif !important;
+		}
+	</style>
+</head>
+<body>
+	<p>Tere!</p>
+  <p>Tänud haridusteemade vastu huvi tundmast. Aadressile {{ body.email }} on tellitud teavitused teemadel: [loetelu tellimuses vormistatud siltidest tähestikulises järjestuses A-Z].</p>
+
+</body>
+</html>

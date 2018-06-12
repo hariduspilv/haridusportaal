@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-
+import { EventsConfig } from './events-config.model';
 import { EventsService, RootScopeService } from '../../_services';
 import { sortEventsByOptions, getEventsTags, getEventsTypes } from '../../_services/events/events.graph';
 
@@ -34,25 +34,11 @@ export class EventsComponent implements OnInit, OnDestroy {
   eventList: any;
   view: string;
   calendarDays: any;
+
+
+  eventsConfig: EventsConfig = new EventsConfig();
+
   
-  // Events config
-  tagValue: string = "";
-  tagEnabled: boolean = false;
-  tidValue: string = "";
-  tidEnabled: boolean = false;
-  titleValue: string = "";
-  titleEnabled: boolean = false;
-  minDate: string = moment().format('YYYY-MM-DD').toString(); //"1901-00-00" TODAY
-  maxDate: string = moment("2038-01-01").format('YYYY-MM-DD').toString(); //"2038-01-01"
-  offset: number = 0;
-  limit: number = 3;
-  
-  // datepicker validation
-  datepickerMin: Date;
-  datepickerMax: Date;
-  
-  filter: boolean = true;
-  filterState: boolean = false;
   listEnd: boolean = false;
   error: boolean = false;
   
@@ -72,41 +58,6 @@ export class EventsComponent implements OnInit, OnDestroy {
     });
   }
   
-  loadMore() {
-    this.offset = this.eventList.length;
-    const paramsSub = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-        this.lang = params['lang'];
-        
-        const querySubscription = this.apollo.watchQuery({
-          query: sortEventsByOptions,
-          variables: {
-            tagValue: this.tagValue, //?
-            tagEnabled: this.tagEnabled, //?
-            tidValue: this.tidValue, //?
-            tidEnabled: this.tidEnabled, //?
-            titleValue: "%" + this.titleValue + "%", //?
-            titleEnabled: this.titleEnabled, //?
-            minDate: this.minDate, //?
-            maxDate: this.maxDate, //?
-            lang: this.lang.toUpperCase(), //?
-            offset: this.offset, //?
-            limit: this.limit, //?   
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        }).valueChanges.subscribe(({data, loading}) => {
-          this.eventList = this.eventList.concat(data['nodeQuery']['entities']);
-          if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.limit) ){
-            this.listEnd = true;
-          }
-        });        
-        this.subscriptions = [...this.subscriptions, querySubscription];
-      }
-    )
-    this.subscriptions = [...this.subscriptions, paramsSub];
-  }
   
   year: number = 2018;
   month:any = 7;
@@ -193,12 +144,32 @@ export class EventsComponent implements OnInit, OnDestroy {
     this.view = view;
     
     if( view == "calendar" ){
-      this.limit = 9999;
+      this.eventsConfig.limit = 9999;
       this.eventService.getCalendar(2018, 7);
       this.generateCalendar();
     }else{
-      this.limit = 3;
+      this.eventsConfig.limit = 3;
     }
+  }
+
+
+  loadMore() {
+    this.eventsConfig.offset = this.eventList.length;
+    this.route.queryParams.subscribe(
+      (params: ActivatedRoute) => {
+        this.apollo.watchQuery({
+          query: sortEventsByOptions,
+          variables: this.eventsConfig.getApollo(this.lang.toUpperCase()),
+          fetchPolicy: 'no-cache',
+          errorPolicy: 'all',
+        }).valueChanges.subscribe(({data, loading}) => {
+          this.eventList = this.eventList.concat(data['nodeQuery']['entities']);
+          if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
+            this.listEnd = true;
+          }
+        });        
+      }
+    )
   }
   
   ngOnInit() {
@@ -210,41 +181,56 @@ export class EventsComponent implements OnInit, OnDestroy {
     var currMonthName  = moment().format('MMMM');
     console.log(currMonthName);
     
-    
-    const paramsSub = this.route.params.subscribe(
+    // SUBSCRIBE TO QUERY PARAMS
+    this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
         this.lang = params['lang'];
       }
     )
-    this.subscriptions = [...this.subscriptions, paramsSub];
     
-    // GET LIST OBSERVABLE
-    const eventsSubscription = this.apollo.watchQuery<any>({
-      query: sortEventsByOptions,
-      variables: {
-        tagValue: this.tagValue, //?
-        tagEnabled: this.tagEnabled, //?
-        tidValue: this.tidValue, //?
-        tidEnabled: this.tidEnabled, //?
-        titleValue: "%" + this.titleValue + "%", //?
-        titleEnabled: this.titleEnabled, //?
-        minDate: this.minDate, //?
-        maxDate: this.maxDate, //?
-        lang: this.lang.toUpperCase(), //?
-        offset: this.offset, //?
-        limit: this.limit, //?
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges.subscribe(({data}) => {
-      this.eventList = data['nodeQuery']['entities'];
-      if (this.eventList && (this.eventList.length < this.limit)){
-        this.listEnd = true;
+    this.route.queryParams.subscribe(
+      (params: ActivatedRoute) => {
+        this.eventsConfig = new EventsConfig();
+
+        // TITLE
+        if(params['title']){
+          this.eventsConfig.titleEnabled = true;
+          this.eventsConfig.titleValue = params['title']
+        }
+        // DATE FROM
+        if(params['dateFrom'] && moment(params['dateFrom'], 'DD-MM-YYYY').isValid()){
+          this.eventsConfig.dateFrom = moment(params['dateFrom'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+        }
+        // DATE TO
+        if(params['dateTo'] && moment(params['dateTo'], 'DD-MM-YYYY').isValid()){
+          this.eventsConfig.dateTo = moment(params['dateTo'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+        }
+        // TAGS
+        if(params['tags'] && params['tags'] !== null){
+          this.eventsConfig.tagsEnabled = true;
+          this.eventsConfig.tagsValue = params['tags'].split(',')
+        }
+        // TYPE
+        if(params['types'] && params['types'] !== null){
+          this.eventsConfig.typesEnabled = true;
+          this.eventsConfig.typesValue = params['types'].split(',')
+        }
+        
+        // GET LIST OBSERVABLE
+        const eventsSubscription = this.apollo.watchQuery<any>({
+          query: sortEventsByOptions,
+          variables: this.eventsConfig.getApollo(this.lang.toUpperCase()),
+          fetchPolicy: 'no-cache',
+          errorPolicy: 'all',
+        }).valueChanges.subscribe(({data}) => {
+          this.eventList = data['nodeQuery']['entities'];
+          if (this.eventList && (this.eventList.length < this.eventsConfig.limit)){
+            this.listEnd = true;
+          }
+        });
       }
-    });
-    this.subscriptions = [...this.subscriptions, eventsSubscription];
-  
+    )
   }
   
   ngOnDestroy() {
