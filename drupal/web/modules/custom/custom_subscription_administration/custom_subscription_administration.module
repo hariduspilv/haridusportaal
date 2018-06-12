@@ -22,3 +22,49 @@ function custom_subscription_administration_help($route_name, RouteMatchInterfac
     default:
   }
 }
+
+/**
+ * Implements hook_entity_insert().
+ */
+function custom_subscription_administration_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+	if ($entity->getEntityTypeId() === 'subscription_entity') {
+
+    $langcode = $entity->language->value;
+
+		$mailManager = \Drupal::service('plugin.manager.mail');
+		$module = 'custom_subscription_administration';
+		$key = 'subscription_email';
+		$recipient = $entity->subscriber_email->value;
+
+		$params['body'] = subscription_email_content($entity->toArray());
+		$params['title'] = t('Uudiskirja tellimuse kinnitamine');
+
+		$send = true;
+
+		$result = $mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, $send);
+		if ($result['result'] !== true) {
+			$message = t('There was a problem sending email notification to @email', array('@email' => $to));
+			\Drupal::logger('custom_subscription_administration')->error($message);
+			throw new Error($message);
+		}else{
+			$message = t('An email notification has been sent to @email', array('@email' => $to));
+			\Drupal::logger('custom_subscription_administration')->notice($message);
+		}
+
+		return FALSE;
+	}
+}
+
+function subscription_email_content($message){
+	//$message['langcode'] = 'et';
+
+	/*TODO MAKE FIELDS CONFIGURABLE AND MAKE HTML TEMPLATE*/
+	/* @var \Drupal\htm_custom_event_registration\Entity\EventRegEntity $reg_ent */
+	$body['email'] = $message['subscriber_email'];
+	$body['langcode'] = $message['langcode'];
+
+	return[
+		'#theme' => 'subscription_confirm_email_template',
+		'#body' => $body,
+	];
+}
