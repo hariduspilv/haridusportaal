@@ -1,0 +1,9 @@
+<div class="image" cdkTrapFocus>
+  <div class="row">
+    <div class="col-12">
+      <mat-icon mat-icon-button aria-label="Close" (click)="close()" tabindex="0">close</mat-icon>
+    </div>
+  </div>
+  <img src="{{ data.src }}" alt="{{ data.alt }}" title="{{ data.title }}" style="max-width:100%;" />
+  <div class="image-alt-text" *ngIf="data.title">{{ data.title }}</div>
+</div>

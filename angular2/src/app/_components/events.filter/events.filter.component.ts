@@ -49,12 +49,10 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
   // Tags
   eventsTags: any[];
   eventsTagsObs: Observable<any[]>;
-  eventsTagsSel: any[];
   
   // Types
   eventsTypes: any[];
   eventsTypesObs: Observable<any[]>;
-  eventsTypesSel: any[];
   
   // Datepicker validation
   datepickerMin: any;
@@ -70,7 +68,7 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
     dateFrom: new FormControl({ value: null, disabled: false }),
     dateTo: new FormControl({ value: null, disabled: false }),
     tags: new FormControl({ value: null, disabled: false }),
-    type: new FormControl({ value: null, disabled: false }),
+    types: new FormControl({ value: null, disabled: false }),
   });
   
   constructor(
@@ -88,7 +86,7 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     
-    // http://localhost:4200/et/sundmused?title=qweqwe&dateFrom=13-06-2018&tags=loomad&type=Kokkutulek&type=Konverents
+    // http://localhost:4200/et/sundmused?dateFrom=04-06-2018&dateTo=14-06-2018&tags=1342,1343&typess=5,7
     let querySubscription = this.route.queryParams.subscribe(
       (params) => {
         this.filterForm.controls.title.setValue(params.title);
@@ -99,10 +97,10 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
           this.filterForm.controls.dateTo.setValue(moment(params.dateTo, 'DD-MM-YYYY'));                        
         }
         // if(params.tags){
-        //   this.eventsTagsSel = params.tags
+        //   this.filterForm.controls['tags'].setValue([{id:"1342", name:"poeg"}])
         // }
-        // if(params.type){
-        //   this.eventsTypesSel = params.type
+        // if(params.types){
+        //   this.eventsTypessSel = params.types
         // }
         // Need to assign an object
       }
@@ -123,6 +121,7 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
     })
     this.subscriptions = [...this.subscriptions, routeSubscription];
     
+    // TAG SUBSCRIPTION
     let tagSubscription = this.apollo.watchQuery({
       query: getEventsTags,
       variables: {
@@ -151,8 +150,8 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
     });
     this.subscriptions = [...this.subscriptions, tagSubscription];
     
-    
-    let typeSubscription = this.apollo.watchQuery({
+    //TYPES SUBSCRIPTION
+    let typesSubscription = this.apollo.watchQuery({
       query: getEventsTypes,
       variables: {
         lang: this.lang.toUpperCase(),        
@@ -176,18 +175,19 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
       )))
       this.eventsTypesObs = of(newsTidArr).pipe(delay(500));
     });
-    this.subscriptions = [...this.subscriptions, typeSubscription];
+    this.subscriptions = [...this.subscriptions, typesSubscription];
   }
   
-  eventsFilter() {    
+  eventsFilter() {
     let queryParamsArr = {};
     for( var i in this.filterForm.controls ){
       if( this.filterForm.controls[i].value !== "" ){
         queryParamsArr[i] = this.filterForm.controls[i].value;
       }
       if( this.filterForm.controls[i].value instanceof Array ) {
-        // queryParamsArr[i] = this.filterForm.controls[i].value.map((data)=>{return data.name}) // NOT FINISHED
-        queryParamsArr[i] = null // NO ARRAYS
+        queryParamsArr[i] = this.filterForm.controls[i].value.map((data)=>{
+          return data.id
+        }).join(',') // TAG1,TAG2,TAG3
       }
       if( i.toLowerCase().match("date") ){
         if(moment(this.filterForm.controls[i].value).isValid()){
@@ -201,10 +201,18 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
     
     this.router.navigate([], {
       queryParams: queryParamsArr,
-      relativeTo: this.route
+      // relativeTo: this.route
     });
   }
   
+  onClearTags() {
+    this.filterForm.controls['tags'].setValue(null);
+  }
+
+  onClearTypes() {
+    this.filterForm.controls['types'].setValue(null);
+  }
+
   toggleFilterFull() {
     this.filterFull = !this.filterFull
   }
