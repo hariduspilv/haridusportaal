@@ -193,6 +193,13 @@ class SubscriptionEntity extends ContentEntityBase implements SubscriptionEntity
     ->setDisplayConfigurable('view', TRUE)
     ->setRequired(TRUE);
 
+    $fields['language'] = BaseFieldDefinition::create('language')
+    ->setLabel(t('Language'))
+    ->setTranslatable(TRUE)
+    ->setDisplayOptions('form', [
+      'type' => 'language_select',
+    ]);
+
     $fields['tag'] = BaseFieldDefinition::create('entity_reference')
     ->setLabel(t('Tags'))
     ->setDescription(t('Tags to subscribe to'))
