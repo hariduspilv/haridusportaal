@@ -95,14 +95,6 @@ query getArticleData($path: String!) {
           path
         }
       }
-      breadcrumb {
-        text
-        url {
-          path
-          routed
-        }
-      }
-      
       entity {
         ... on NodeArticle {
           title

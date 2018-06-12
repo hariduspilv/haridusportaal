@@ -15,7 +15,6 @@ import { of } from 'rxjs/observable/of';
 
 import { RootScopeService } from '../../_services';
 import { AppComponent } from '../../app.component';
-import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
 import { sortByOptions, getNewsTags, getNewsTags2 } from '../../_services/news/news.graph';
 
 @Component({
@@ -41,7 +40,6 @@ export class NewsComponent implements OnInit, OnDestroy{
   
   
   public querySubscription: Subscription;  
-  public breadcrumb: any;
   public error: boolean;
   
   public listEnd: boolean = false;
@@ -69,7 +67,6 @@ export class NewsComponent implements OnInit, OnDestroy{
   ) { }
   
   
-  private subBreadcrumbs: Subscription;
   
   paramName: string;
   paramLastName: string
@@ -166,21 +163,6 @@ export class NewsComponent implements OnInit, OnDestroy{
           if (this.list && (this.list.length < this.limit)){
             this.listEnd = true;
           }
-        });
-        
-        // get breadcrumbs
-        this.querySubscription = this.apollo.watchQuery({
-          query: getBreadcrumb,
-          variables: {
-            path: this.path,
-            lang: this.lang.toUpperCase(),
-            fetchPolicy: 'no-cache',
-            errorPolicy: 'all',
-          },
-        })
-        .valueChanges
-        .subscribe(({data}) => {
-          this.breadcrumb = data['route']['breadcrumb'];
         });
         
         // // get tags

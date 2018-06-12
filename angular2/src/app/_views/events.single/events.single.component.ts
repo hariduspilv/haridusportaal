@@ -2,7 +2,7 @@ import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventsService, RootScopeService } from '../../_services';
-import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
+
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
@@ -24,7 +24,7 @@ export class EventsSingleComponent {
   private path: string;
   private lang: string;
   
-  breadcrumb: any;
+
   
   content: any;
   unix: any;
@@ -68,26 +68,6 @@ export class EventsSingleComponent {
   
   
   ngOnInit() {
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-        this.lang = params['lang'];
-        
-        this.querySubscription = this.apollo.watchQuery({
-          query: getBreadcrumb,
-          variables: {
-            path: this.path,
-            lang: this.lang.toUpperCase(),
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        })
-        .valueChanges
-        .subscribe(({data}) => {
-          this.breadcrumb = data['route']['breadcrumb'];
-        });
-      }
-    )
   }
   
   
