@@ -1,0 +1,180 @@
+*** GET DOCUMENTS ***
+"getDocuments_request" :
+{
+	"user_identifier" : "kasutaja isikukood",
+	"represented_person_identifier" : "esindatava isiku isikukood",
+	"represented_organization_identifier" : "esindatava ettevõtte registrikood",
+	"document_names" : ["Masinloetav dokumendivormi koodnimetus", "Masinloetav dokumendivormi koodnimetus", "jne"]
+}
+
+"getDocuments_response" :
+{
+	"documents" : [
+		{
+			"name" : "string, dokumendi vormi kood",
+			"identifier" :  "string, dokumendi unikaalne identifikaator infosüsteemis",
+			"date" : "string, dokumendi koostamise kuupäev ilma kellaajata YYYY-MM-DD",
+			"status" : "string, dokumendi olek infosüsteemis",
+			"description" : "string, lühike lisainfo dokumendi kohta, näiteks kehtivusaeg",
+			"references" : [
+				{
+					"name" : "string, dokumendis viidatava dokumendi vormi kood",
+					"identifier" : "string, dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis",
+					"date" : "string, dokumendis viidatava dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
+				}
+			]
+		}
+	],
+	"drafts" : [
+		{
+			"name" : "string, sisestamisel oleva dokumendi vormi kood",
+			"identifier" :  "string, sisestamisel oleva dokumendi unikaalne identifikaator infosüsteemis",
+			"modified" : "srting, sisestamisel oleva dokumendi viimase muutmise aeg YYYY-MM-DDTHH:MM:SSZ",
+			"deadline" : "string, dokumendi esitamise võimalik viimane kuupäev ilma kellaajata YYYY-MM-DD",
+			"references" : [
+				{
+					"name" : "string, sisestamisel olevas dokumendis viidatava dokumendi vormi kood",
+					"identifier" : "string, sisestamisel olevas dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis",
+					"date" : "string, sisestamisel olevas dokumendis viidatava dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
+				}
+			]
+		}
+	],
+	"acceptable_forms" : [
+		{
+			"name" : "string, võimaliku esitatava dokumendi vormi kood",
+			"deadline" : "string, dokumendi esitamise võimalik viimane kuupäev ilma kellaajata YYYY-MM-DD",
+			"references" : [
+				{
+					"name" : "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi vormi kood",
+					"identifier" :  "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis",
+					"date" : "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
+				}
+			]
+		}
+	],
+	"inquiries" : [
+		{
+			"name" : "string, nõutava dokumendi vormi kood",
+			"date" : "string, nõude esitamise kuupäev ilma kellaajata YYYY-MM-DD",
+			"deadline" : "string, nõutava dokumendi esitamise tähtaja kuupäev ilma kellaajata YYYY-MM-DD",
+			"description" : "string, nõude selgitus",
+			"contact" : "string, kontaktandmed ja/või -isik nõude sisu kohta täpsema info saamiseks",
+			"references" : [
+				{
+					"name" : "string, dokumendi nõudmise aluseks oleva dokumendi vormi kood",
+					"identifier" :  "string, dokumendi nõudmise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis",
+					"date" : "string, dokumendi nõudmise aluseks oleva dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
+				}
+			]
+		}
+	]
+}
+
+*** GET DOCUMENT ***
+"getDocument_request" :
+{
+	"user_identifier" : "Kasutaja isikukood",
+	"represented_person_identifier" : "Esindatava isiku isikukood",
+	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
+	"identifier" : "Dokumendi unikaalne identifikaator"
+}
+
+"getDocument_response" :
+{
+	"document" : { dokumendi sisu },
+	"error" : "Veateade"
+}
+
+*** POST DOCUMENT ***
+"postDocument_request" :
+{
+	"user_identifier" : "Kasutaja isikukood",
+	"represented_person_identifier" : "Esindatava isiku isikukood",
+	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
+	"name" : "Dokumendivormi masinloetev kood"
+}
+
+"postDocument_response" :
+{
+	"document" : { dokumendi sisu },
+	"error" : "Veateade"
+}
+
+*** PUT DOCUMENT ***
+"putDocument_request" :
+{
+	"user_identifier" : "Kasutaja isikukood",
+	"represented_person_identifier" : "Esindatava isiku isikukood",
+	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
+	"document" : { dokumendi sisu },
+}
+
+"putDocument_response" :
+{
+	"document" : { dokumendi sisu },
+	"error" : "Veateade"
+}
+
+*** DELETE DOCUMENT ***
+"deleteDocument_request" :
+{
+	"user_identifier" : "Kasutaja isikukood",
+	"represented_person_identifier" : "Esindatava isiku isikukood",
+	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
+	"identifier" : "Kustutatava dokumendi unikaalne identifikaator"
+}
+
+"deleteDocument_response" :
+{
+	"error" : "Veateade"
+}
+
+*** GET DOCEMENT FILE  ***
+"getDocumentFile_request" :
+{
+	"user_identifier" : "Kasutaja isikukood",
+	"represented_person_identifier" : "Esindatava isiku isikukood",
+	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
+	"document_identifier" : "Dokumendi unikaalne identifikaator",
+	"file_identifier" : "Dokumendifaili unikaalne identifikaator"
+}
+
+"getDocumentFile_response" :
+{
+	"file_name" : "Faili nimi",
+	"file_content" : Faili sisu base64 ,
+	"error" : "Veateade"
+}
+
+*** POST DOCUMENT FILE  ***
+"postDocumentFile_request" :
+{
+	"user_identifier" : "Kasutaja isikukood",
+	"represented_person_identifier" : "Esindatava isiku isikukood",
+	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
+	"document_identifier" : "Dokumendi unikaalne identifikaator",
+	"file_name" : "Faili nimi",
+	"file_content" : Faili sisu base64 ,
+}
+
+"postDocumentFile_response" :
+{
+	"file_identifier" : "Lisatud dokumendifaili unikaalne identifikaator",
+	"error" : "Veateade"
+}
+
+*** DELETE DOCEMENT FILE  ***
+"deleteDocumentFile_request" :
+{
+	"user_identifier" : "Kasutaja isikukood",
+	"represented_person_identifier" : "Esindatava isiku isikukood",
+	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
+	"document_identifier" : "Dokumendi unikaalne identifikaator",
+	"file_identifier" : "Kustutava dokumendifaili unikaalne identifikaator"
+}
+
+"deleteDocumentFile_response" :
+{
+	"error" : "Veateade"
+}
