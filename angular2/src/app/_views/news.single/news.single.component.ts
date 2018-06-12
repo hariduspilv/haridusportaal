@@ -6,8 +6,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
-import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
 import { Apollo } from 'apollo-angular';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {ImagePopupDialog} from '../../_components/dialogs/image.popup/image.popup.dialog'
 
 
 @Component({
@@ -21,7 +22,6 @@ export class NewsSingleComponent implements OnInit {
   private path: string;
   private lang: string;
   
-  breadcrumb: any;
   content: any;
   unix: any;
   error: boolean;
@@ -33,7 +33,8 @@ export class NewsSingleComponent implements OnInit {
 		private route: ActivatedRoute,
 		private newsService: NewsService,
 		private rootScope:RootScopeService, 
-		private apollo: Apollo
+    private apollo: Apollo,
+    public dialog: MatDialog
    ) {
 
     this.route.params.subscribe( params => {
@@ -70,25 +71,15 @@ export class NewsSingleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-        this.lang = params['lang'];
-        
-        this.querySubscription = this.apollo.watchQuery({
-          query: getBreadcrumb,
-          variables: {
-            path: this.path,
-            lang: this.lang.toUpperCase(),
-            fetchPolicy: 'no-cache',
-            errorPolicy: 'all',
-          },
-        })
-        .valueChanges
-        .subscribe(({data}) => {
-          this.breadcrumb = data['route']['breadcrumb'];
-        });
+    
+  }
+  openDialog(): void {
+    let dialogRef = this.dialog.open(ImagePopupDialog, {
+      data: {
+        src: this.content.fieldIntroductionImage.derivative.url,
+        title: this.content.fieldIntroductionImage.title,
+        alt: this.content.fieldIntroductionImage.alt
       }
-    )
+    });
   }
 }

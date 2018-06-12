@@ -9,6 +9,7 @@ import { ArticleService, EventsService, RootScopeService, NewsService } from './
 
 
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog'
+import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog'
 
 /* Custom imports */
 import { AppModules } from './_components';
@@ -44,11 +45,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     routedComponents,
     EventsRegistratonDialog,
+    ImagePopupDialog,
     BreadcrumbsComponent,
     EventsFilterComponent
   ],
 
-  entryComponents: [ EventsRegistratonDialog ],
+  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog ],
 
   imports: [
     BrowserModule,
