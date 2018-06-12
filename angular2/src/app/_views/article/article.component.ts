@@ -39,6 +39,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
   fieldContactPhone: any;
   fieldContactEmail: any;
   fieldContactOrganization: any;
+  accordionHeight: "'2.5rem'";
   
   articleLinks: any[];
   relatedArticles: any[];

@@ -97,7 +97,7 @@
   
   <mat-divider class="mt-40 mb-40"  *ngIf="content.entity.fieldEventGroup"></mat-divider>
   
-  <h2 *ngIf="content.entity.fieldEventGroup">Sarnased sündmused</h2>
+  <h1 *ngIf="content.entity.fieldEventGroup">Sarnased sündmused</h1>
   
   <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
   
