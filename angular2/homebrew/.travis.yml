@@ -1,0 +1,46 @@
+language: c
+cache:
+  directories:
+    - $HOME/Library/Caches/Homebrew/style
+    - $HOME/Library/Caches/Homebrew/tests
+    - Library/Homebrew/vendor/bundle
+branches:
+  only:
+    - master
+matrix:
+  fast_finish: true
+  include:
+    - os: osx
+      compiler: clang
+      osx_image: xcode9.2
+    - os: linux
+      compiler: gcc
+      sudo: false
+
+before_install:
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+      MACOS="1";
+      HOMEBREW_REPOSITORY="$(brew --repo)";
+      sudo chown -R "$USER" "$HOMEBREW_REPOSITORY";
+    else
+      LINUX="1";
+      export PATH="$PWD/bin:$PATH";
+    fi
+  # umask 022 fixes Linux `brew tests` failures;
+  - if [ "$LINUX" ]; then
+      umask 022;
+    fi
+  # trigger vendored ruby installation
+  - brew help
+  - if [ "$MACOS" ]; then
+      mv "$HOMEBREW_REPOSITORY/Library/Taps" "$PWD/Library";
+      sudo rm -rf "$HOMEBREW_REPOSITORY";
+      sudo ln -s "$PWD" "$HOMEBREW_REPOSITORY";
+    fi
+  - travis_retry git clone --depth=1 https://github.com/Homebrew/homebrew-test-bot Library/Taps/homebrew/homebrew-test-bot
+
+script:
+  - brew test-bot
+
+notifications:
+  slack: machomebrew:1XNF7p1JRCdBUuKaeSwsWEc1

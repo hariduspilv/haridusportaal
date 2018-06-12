@@ -1,5 +1,6 @@
 @import "../../../assets/styles/typography.scss";
 .news-component {
+  a:hover { text-decoration: underline; }
   padding-bottom: $xxl;
   .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
   .title {
@@ -13,7 +14,7 @@
     color: $dark-gray;
     @media (min-width: 900px) {padding: 0; padding-top: $half-gutter;}
   }
-  .description {padding-top: $small;}
+  .description {padding-top: $small;font-size: 0.875rem;}
 }
 .filter-control {padding: $medium;}
 .news-list {
