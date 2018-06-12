@@ -13,7 +13,7 @@
   text-align: center;
   color: #ffffff;
   @media (min-width: 900px) {
-    margin-left: 0px;
+    margin-left: 0;
     width: 16.25rem;
   }
 }
@@ -21,7 +21,7 @@
   height: 2.5rem;
   border-radius: 1.25rem;
   background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0);
+  border: .0625rem solid rgba(255, 255, 255, 0);
   color: white;
   padding: 0 1rem 0 2.5rem;
   font-size: 1rem;
@@ -36,6 +36,7 @@
     &::before {
       position: relative;
       font-family: 'Material Icons';
+      font-size: 1.25rem;
       content: 'search';
       color: white;
       left: 2.5rem;
@@ -47,10 +48,20 @@
 mat-icon { 
   &.search { padding-right: 1rem; }
   &.person { padding-right: 0.75rem;
-    @media (min-width: 900px) {padding-right: 0px;}
+    @media (min-width: 900px) {padding-right: 0;}
   }
   &.more {padding-right: 0.75rem;
-    @media (min-width: 900px) {padding-right: 0px;}
+    @media (min-width: 900px) {padding-right: 0;}
   }
 }
-mat-toolbar button {min-width: 24px; width: 24px; padding: 0;}
+mat-toolbar button {min-width: 1.5rem; width: 1.5rem; padding: 0;}
+
+//Placeholder
+::-webkit-input-placeholder { color: white; }
+::-moz-placeholder { color: white; }
+:-ms-input-placeholder { color: white; }
+:-moz-placeholder { color: white; }
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; }
+input:focus::-moz-placeholder { color:transparent; }
+input:focus:-ms-input-placeholder { color:transparent; }
