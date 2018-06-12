@@ -95,7 +95,7 @@
             <mat-card-content>
               <div class="row">
                 <div class="col-9 sm-hide">
-                  <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h2> {{ item.entityLabel }}</h2></a></div>
+                  <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
                   
                   <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                   
@@ -112,7 +112,7 @@
                 </div>
               </div>
               <div class="sm-show col-12">
-                <div class="mb-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h2> {{ item.entityLabel }}</h2></a></div>
+                <div class="mb-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
                 <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
               </div><!--/col-12-->
             </mat-card-content>
