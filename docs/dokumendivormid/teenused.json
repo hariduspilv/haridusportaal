@@ -1,6 +1,7 @@
 *** GET DOCUMENTS ***
 "getDocuments_request" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"user_identifier" : "kasutaja isikukood",
 	"represented_person_identifier" : "esindatava isiku isikukood",
 	"represented_organization_identifier" : "esindatava ettevõtte registrikood",
@@ -11,6 +12,7 @@
 {
 	"documents" : [
 		{
+			"request_ID" : "päringu unikaalne seerianumber",
 			"name" : "string, dokumendi vormi kood",
 			"identifier" :  "string, dokumendi unikaalne identifikaator infosüsteemis",
 			"date" : "string, dokumendi koostamise kuupäev ilma kellaajata YYYY-MM-DD",
@@ -27,6 +29,7 @@
 	],
 	"drafts" : [
 		{
+			"request_ID" : "päringu unikaalne seerianumber",
 			"name" : "string, sisestamisel oleva dokumendi vormi kood",
 			"identifier" :  "string, sisestamisel oleva dokumendi unikaalne identifikaator infosüsteemis",
 			"modified" : "srting, sisestamisel oleva dokumendi viimase muutmise aeg YYYY-MM-DDTHH:MM:SSZ",
@@ -42,6 +45,7 @@
 	],
 	"acceptable_forms" : [
 		{
+			"request_ID" : "päringu unikaalne seerianumber",
 			"name" : "string, võimaliku esitatava dokumendi vormi kood",
 			"deadline" : "string, dokumendi esitamise võimalik viimane kuupäev ilma kellaajata YYYY-MM-DD",
 			"references" : [
@@ -55,6 +59,7 @@
 	],
 	"inquiries" : [
 		{
+			"request_ID" : "päringu unikaalne seerianumber",
 			"name" : "string, nõutava dokumendi vormi kood",
 			"date" : "string, nõude esitamise kuupäev ilma kellaajata YYYY-MM-DD",
 			"deadline" : "string, nõutava dokumendi esitamise tähtaja kuupäev ilma kellaajata YYYY-MM-DD",
@@ -74,6 +79,7 @@
 *** GET DOCUMENT ***
 "getDocument_request" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
@@ -82,6 +88,7 @@
 
 "getDocument_response" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"document" : { dokumendi sisu },
 	"error" : "Veateade"
 }
@@ -89,6 +96,7 @@
 *** POST DOCUMENT ***
 "postDocument_request" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
@@ -97,6 +105,7 @@
 
 "postDocument_response" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"document" : { dokumendi sisu },
 	"error" : "Veateade"
 }
@@ -104,6 +113,7 @@
 *** PUT DOCUMENT ***
 "putDocument_request" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
@@ -112,6 +122,7 @@
 
 "putDocument_response" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"document" : { dokumendi sisu },
 	"error" : "Veateade"
 }
@@ -119,6 +130,7 @@
 *** DELETE DOCUMENT ***
 "deleteDocument_request" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
@@ -127,12 +139,14 @@
 
 "deleteDocument_response" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"error" : "Veateade"
 }
 
 *** GET DOCEMENT FILE  ***
 "getDocumentFile_request" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
@@ -142,6 +156,7 @@
 
 "getDocumentFile_response" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"file_name" : "Faili nimi",
 	"file_content" : Faili sisu base64 ,
 	"error" : "Veateade"
@@ -150,6 +165,7 @@
 *** POST DOCUMENT FILE  ***
 "postDocumentFile_request" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
@@ -160,6 +176,7 @@
 
 "postDocumentFile_response" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"file_identifier" : "Lisatud dokumendifaili unikaalne identifikaator",
 	"error" : "Veateade"
 }
@@ -167,6 +184,7 @@
 *** DELETE DOCEMENT FILE  ***
 "deleteDocumentFile_request" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
@@ -176,5 +194,6 @@
 
 "deleteDocumentFile_response" :
 {
+	"request_ID" : "päringu unikaalne seerianumber",
 	"error" : "Veateade"
 }
