@@ -123,7 +123,7 @@ export class NewsComponent implements OnInit, OnDestroy{
   
   ngOnInit() {
     
-    
+    this.filter = document.documentElement.clientWidth > 900
     
     this.setPaths();
     

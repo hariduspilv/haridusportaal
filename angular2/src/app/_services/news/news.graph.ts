@@ -9,9 +9,8 @@ export class NewsGraph {
     return gql`
     query{
       nodeQuery(offset: ${offset}, limit: ${limit}, sort: {field: "created", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: ${lang}}]}) {
-        entities {
-          entityTranslation(language: ${lang}) {
-            ... on NodeNews {
+        entities(language:${lang}) {
+          ... on NodeNews {
               entityLabel
               created
               entityUrl {
@@ -27,7 +26,7 @@ export class NewsGraph {
               fieldAuthor
               fieldIntroductionImage {
                 derivative(style:CROP_SMALL){
-              		url 
+                  url 
                 }
                 alt
               }
@@ -79,6 +78,7 @@ export class NewsGraph {
               		url 
                 }
                 alt
+                title
               }
               fieldAdditionalImages{
                 derivative(style:CROP_LARGE){
@@ -132,6 +132,7 @@ export class NewsGraph {
             fieldIntroductionImage {
               url
               alt
+              title
             }
             fieldShortDescription
             entityUrl {
@@ -244,7 +245,7 @@ query sortByOptions (
     {operator: SMALLER_THAN_OR_EQUAL, field: "created", value: [$maxDate], language: $lang },
     
   ]}) {
-    entities {
+    entities(language:$lang) {
       ... on NodeNews {
         entityLabel
         created
@@ -262,6 +263,7 @@ query sortByOptions (
         fieldIntroductionImage {
           url
           alt
+          title
         }
         fieldNewsTag {
           entity {
