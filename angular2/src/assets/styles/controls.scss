@@ -37,7 +37,7 @@
   }
   &__clear {
     &.mat-icon-button, .mat-icon-button {
-      .mat-datepicker-toggle-default-icon {fill: $red;}
+      .mat-datepicker-toggle-default-icon {fill:$red;width:$medium;height:$medium;}
       height: 2.375rem;
       width: 2.375rem;
       &:hover {
@@ -59,15 +59,19 @@
 }
 .ng-select {
   border: solid .0625rem #c7c7c9;
-  padding: $half-gutter 0;
+  padding: 0;
   height: 2.5rem;
+  @media (min-width: 1400px) {height: 2.4375rem;}
+  @media (min-width: 1980px) {height: 2.375rem;}
+  @media (min-width: 2580px) {height: 2.3125rem;}
   border-radius: 1.25rem;
   &.exists {height: auto;}
+  &.ng-select-opened {border: solid .0625rem $blue;}
   &.ng-select .ng-select-container {min-height: 1.875rem;
     .ng-value-container {border-top: none;padding: 0 $small;
       .ng-placeholder {display: none;}
-      .ng-input>input {font-size: 0.875rem;}
-      .ng-value {margin: 0;margin-right: 0.5rem;border-radius: 0.8125rem;background-color: $light-gray;
+      .ng-input>input {font-size: 0.875rem;height: 1.875rem;}
+      .ng-value {margin: 0;margin-right: 0.5rem;border-radius: 0.8125rem;background-color: $light-gray;margin-bottom: .3125rem;margin-top: .3125rem;
         span {
           font-size: 0.875rem !important;
           font-weight: 300 !important;
@@ -92,6 +96,7 @@
     font-size: 0.875rem;
     left: $gutter;
     &.exists {
+      color: $blue;
       margin-top: .125rem;
       top: .5625rem;
       font-size: $quarter;
@@ -104,6 +109,7 @@
   &:focus-within {
     color: red;
     .ng-select__title {
+      color: $blue;
       margin-top: .125rem;
       top: .5625rem;
       font-size: $quarter;
@@ -112,7 +118,8 @@
   }
 }
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper {border: none;}
-.ng-select .ng-clear-wrapper .ng-clear {color: rgba(0, 0, 0, .87);font-size: 1.75rem !important;position: relative;right: .5rem;}
+.ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper .ng-clear {top: 0;}
+.ng-select .ng-clear-wrapper .ng-clear {color: rgba(0, 0, 0, .87);font-size: 1.75rem !important;position: relative;right: $gutter; top: 0.3125rem;}
 .ng-select.ng-select-multiple .ng-select-container .ng-arrow-wrapper {display: none;}
 .ng-dropdown-panel.ng-select-bottom {top: 105%;}
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {background: $light-gray; color: $blue;}
