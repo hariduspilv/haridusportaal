@@ -1,13 +1,177 @@
 custom_translation_module.settings:
   type: config_object
-  label: 'Site information custom'
+  label: 'Custom translations'
   mapping:
-    field1:
-      type: label
-      label: 'Site name custom'
-    field2:
-      type: label
-      label: 'ming uus'
-    field3:
-      type: label
-      label: 'ming uus'
+    article_translations:
+      type: mapping
+      label: 'Article translations'
+      mapping:
+        contact:
+          type: label
+          label: 'Content'
+        hyperlinks:
+          type: label
+          label: 'Content'
+        similar_articles:
+          type: label
+          label: 'Content'
+    news_translations:
+      type: mapping
+      label: 'News translations'
+      mapping:
+        news:
+          type: label
+          label: 'Content'
+        news_all:
+          type: label
+          label: 'Content'
+        recent_news:
+          type: label
+          label: 'Content'
+    events_translations:
+      type: mapping
+      label: 'Events translations'
+      mapping:
+        events:
+          type: label
+          label: 'Content'
+        event_tag:
+          type: label
+          label: 'Content'
+        event_status:
+          type: label
+          label: 'Content'
+        occurrence:
+          type: label
+          label: 'Content'
+        occurrence_location:
+          type: label
+          label: 'Content'
+        location:
+          type: label
+          label: 'Content'
+        links_files:
+          type: label
+          label: 'Content'
+    login_translations:
+      type: mapping
+      label: 'Login translations'
+      mapping:
+        username:
+          type: label
+          label: 'Content'
+        password:
+          type: label
+          label: 'Content'
+        login_error:
+          type: text
+          label: 'Content'
+    date_translations:
+      type: mapping
+      label: 'Date translations'
+      mapping:
+        date:
+          type: label
+          label: 'Content'
+        date_format:
+          type: label
+          label: 'Date format'
+        monday:
+          type: label
+          label: 'Content'
+        tuesday:
+          type: label
+          label: 'Content'
+        wednesday:
+          type: label
+          label: 'Content'
+        thursday:
+          type: label
+          label: 'Content'
+        friday:
+          type: label
+          label: 'Content'
+        saturday:
+          type: label
+          label: 'Content'
+        sunday:
+          type: label
+          label: 'Content'
+    search_filter_translations:
+      type: mapping
+      label: 'Search filter translations'
+      mapping:
+        search_news_name:
+          type: label
+          label: 'Content'
+        search_event_tags:
+          type: label
+          label: 'Content'
+        search_event_types:
+          type: label
+          label: 'Content'
+        results_none:
+          type: label
+          label: 'Content'
+        date_from:
+          type: label
+          label: 'Content'
+        date_to:
+          type: label
+          label: 'Content'
+    button_translations:
+      type: mapping
+      label: 'Button translations'
+      mapping:
+        search:
+          type: label
+          label: 'Content'
+        load_more:
+          type: label
+          label: 'Content'
+        read_more:
+          type: label
+          label: 'Content'
+        show_all:
+          type: label
+          label: 'Content'
+        register:
+          type: label
+          label: 'Content'
+        calendar_add:
+          type: label
+          label: 'Content'
+        search_detail:
+          type: label
+          label: 'Content'
+        search_close:
+          type: label
+          label: 'Content'
+        login:
+          type: label
+          label: 'Content'
+        logout:
+          type: label
+          label: 'Content'
+        filter_close:
+          type: label
+          label: 'Content'
+        filter:
+          type: label
+          label: 'Content'
+        choose_type:
+          type: label
+          label: 'Content'
+    form_label_translations:
+      type: mapping
+      label: 'Form label translations'
+      mapping:
+        search_by_keyword:
+          type: label
+          label: 'Content'
+        search_events_name:
+          type: label
+          label: 'Content'
+        search_people:
+          type: label
+          label: 'Content'

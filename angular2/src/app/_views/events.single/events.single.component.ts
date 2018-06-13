@@ -53,7 +53,7 @@ export class EventsSingleComponent {
 
           that.content = data['route'];
 
-          that.metaTags.set(that.content.entity.entityMetaTags);
+          that.metaTags.set(that.content.entity.entityMetatags);
 
           if( that.content.entity.fieldEventLocation ){
             that.map = {

@@ -108,7 +108,7 @@ export class EventsGraph {
             ... on NodeEvent {
 
               entityMetatags{
-                key
+                name:key
                 value
               }
 
@@ -379,25 +379,25 @@ export class EventsGraph {
 
 export const sortEventsByOptions = gql`
 query sortByOptions (
-  $tagValue: [String],
-  $tagEnabled: Boolean,
-  $tidValue: [String],
-  $tidEnabled: Boolean,
+  $tagsValue: [String],
+  $tagsEnabled: Boolean,
+  $typesValue: [String],
+  $typesEnabled: Boolean,
   $titleValue: String,
   $titleEnabled: Boolean,
-  $minDate: String,
-  $maxDate: String,
+  $dateFrom: String,
+  $dateTo: String,
   $lang: LanguageId!,
   $offset: Int,
   $limit: Int ) {
   nodeQuery(offset: $offset, limit: $limit, sort: {field: "field_event_date.entity.field_event_date.value", direction: ASC},
   filter: {conjunction: AND, conditions: [
     {operator: EQUAL, field: "type", value: ["event"], language: $lang},
-  	{operator: IN, field: "field_tag.entity.tid", value: $tagValue, language: $lang, enabled: $tagEnabled },
-		{operator: IN, field: "field_event_type.entity.tid", value: $tidValue, language: $lang, enabled: $tidEnabled },
+  	{operator: IN, field: "field_tag.entity.tid", value: $tagsValue, language: $lang, enabled: $tagsEnabled },
+		{operator: IN, field: "field_event_type.entity.tid", value: $typesValue, language: $lang, enabled: $typesEnabled },
     {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled },
-    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_date.entity.field_event_date", value: [$minDate] },
-    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_date.entity.field_event_date", value: [$maxDate] },
+    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_date.entity.field_event_date", value: [$dateFrom] },
+    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_date.entity.field_event_date", value: [$dateTo] },
     
   ]}) {
     entities(language: $lang) {
@@ -474,14 +474,14 @@ fragment url on EntityCanonicalUrl{
 //   "lang": "ET",
 //   "offset": 0,
 //   "limit": 10,
-//   "tagValue": ["1271"],
-//   "tagEnabled": false,
-//   "tidValue": ["5","6"],
-//   "tidEnabled": false,
+//   "tagsValue": ["1271"],
+//   "tagsEnabled": false,
+//   "typesValue": ["5","6"],
+//   "typesEnabled": false,
 //   "titleValue": "%%",
 //   "titleEnabled": false,
-//   "minDate": "2018-01-01",
-//   "maxDate": "2038-01-01"
+//   "dateFrom": "2018-01-01",
+//   "dateTo": "2038-01-01"
 // }
 
 export const getEventsTags = gql`
