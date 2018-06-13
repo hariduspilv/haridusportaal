@@ -1,0 +1,97 @@
+{
+"header" : {
+	"name" : "ORDER",
+	"acceptable_activity" : "SUBMIT",
+	"current_step" : "step_2",
+	"identifier" : "3465667463XYZ" ,
+	"created"  : "2018-05-24T13:22:11.111Z" ,
+	"modified"  : "2018-05-24T13:26:22.222Z" ,
+	"references" :[
+		{
+			"name" : "CONTRACT",
+			"identifier" : "3465667412ABC",
+			"date" : "2018-02-01"
+		},
+		{
+			"name" : "PRICELIST",
+			"identifier" : "777777412",
+			"date" : "2018-01-01"
+		}
+	],
+},
+"body" : {
+	"steps" : {
+		"step_1" : {
+			"customer_name" : {
+				"value" : "JUHAN JUURIKAS",
+				"messages" : "temp_message_1"
+			},
+
+			"customer_email" : {
+				"value" : "juhan.juurikas@inter.net"
+			},
+
+			"delivery_address" : {
+				"value" : { "ads_id" : "12345", "maakond" : "Harjumaa", "kov" : "Saue vald", "asustusüksus" : "Alliku küla" }
+			},
+
+			"delivery_date" : {
+				"value" : "2018-05-16"
+			},
+
+			"payment_method" : {
+				"value": "DECS"
+			},
+
+			"comments" : {
+				"value": "Laadida maha kuuri kõrvale"
+			},
+
+			"confirmation" : {
+				"value" : true
+			}
+		},
+
+		"step_2" : {
+			"items" : {
+				"table_columns" : {
+					"item_name" :  {
+						"value" : [ "Kruvid", "Liistud", "Klaasid"]
+					},
+					"quantity" : {
+						"value" : [ 20, 12, 55 ]
+					},
+					"measurement_unit" : {
+							"value" : [ "TK", "KG", "TK"]
+					},
+					"fragile" : {
+						"value" : [ , , true]
+					},
+					"instruction" : {
+						"value" : [ , , { "file_name" : "juhend.pdf" , "file_identifier" : "3465667463XYZ-222" } ]
+					}
+				}
+			},
+
+			"contract" : {
+				"value" : [
+					{ "file_name" : "leping.pdf" , "file_identifier" : "3465667463XYZ-001" },
+					{ "file_name" : "lepingu lisa A.pdf" , "file_identifier" : "3465667463XYZ-002" }
+					{ "file_name" : "leping.bdoc" , "file_identifier" : "3465667463XYZ-002" }
+				]
+			},
+			"messages" : "message_OS"
+		}
+	}
+},
+
+"messages" : {
+	"temp_message_1" : {
+		"message_type" : "NOTICE",
+		"message_text" : {
+			"et" : "Naljakas nimi",
+			"en" : "Funny name"
+		}
+	}
+}
+}
