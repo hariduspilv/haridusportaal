@@ -17,11 +17,11 @@ filters:
       allowed_html: '<a href hreflang title target data-entity-type data-entity-uuid> <em> <strong> <cite> <blockquote cite> <ul type> <ol start type> <li> <dl> <dt> <dd> <caption> <h3> <p>'
       filter_html_help: true
       filter_html_nofollow: false
-  entity_embed:
-    id: entity_embed
-    provider: entity_embed
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
+    provider: filter
     status: true
-    weight: 0
+    weight: 10
     settings: {  }
   filter_caption:
     id: filter_caption
@@ -29,9 +29,9 @@ filters:
     status: true
     weight: 0
     settings: {  }
-  filter_htmlcorrector:
-    id: filter_htmlcorrector
-    provider: filter
+  entity_embed:
+    id: entity_embed
+    provider: entity_embed
     status: true
-    weight: 10
+    weight: 0
     settings: {  }
