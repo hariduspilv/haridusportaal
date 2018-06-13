@@ -1,0 +1,31 @@
+{#
+/**
+ * Custom HTML email template for subscription update
+ */
+#}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<!--[if !mso]><!-->
+	<link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+	<!--<![endif]-->
+	<style>
+		body {
+			max-width: 800px;
+			font-family: 'Rubik', sans-serif !important;
+		}
+	</style>
+</head>
+<body>
+	<p>Tere!</p>
+  <p>Aadressile {{ body.email }} on tellitud teavitused teemadel: {{ body.oldtags }}.</p>
+  <p>Muudetud tellimus sisaldab teemasid: {{ body.tags }}.</p>
+  <p>Varasema tellimuse muutmiseks palun vajutage seda linki [kinnita minu e-posti aadress].</p>
+
+</body>
+<footer>
+  <p>Kui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki [Siia unsubscribe link].</p>
+</footer>
+</html>
