@@ -95,15 +95,16 @@
             <mat-card-content>
               <div class="row">
                 <div class="col-9 sm-hide">
-                  <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h2> {{ item.entityLabel }}</h2></a></div>
+                  <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
                   
                   <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
-                  
-                  <mat-chip-list>
-                    <span *ngFor="let tag of item.fieldNewsTag" class="mat-chip-wrapper">
-                      <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
-                    </span>
-                  </mat-chip-list>
+                  <div class="tags" *ngIf="item.fieldNewsTag">
+                    <mat-chip-list>
+                        <span *ngFor="let tag of item.fieldNewsTag" class="mat-chip-wrapper">
+                          <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
+                        </span>
+                    </mat-chip-list>
+                  </div><!--/row-->
                   
                   <div class="description">{{ item.fieldShortDescription }}</div>
                 </div>
@@ -112,7 +113,7 @@
                 </div>
               </div>
               <div class="sm-show col-12">
-                <div class="mb-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h2> {{ item.entityLabel }}</h2></a></div>
+                <div class="mb-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
                 <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
               </div><!--/col-12-->
             </mat-card-content>

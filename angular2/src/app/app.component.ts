@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   constructor(private sidemenu: SideMenuService, private router: Router, private route: ActivatedRoute, private translate: TranslateService) {
     
     translate.use("et");
+
     this.isSidenavCloseDisabled = true;
 
     this.debounceDelay = 60;
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
     });
 
     var that = this;
+
     router.events.subscribe( (event: Event) => {
 
       if (event instanceof RoutesRecognized) {
