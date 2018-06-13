@@ -1,5 +1,5 @@
 name: 'HTM Custom event registration module'
 type: module
-description: 'My Awesome Module'
+description: 'Event registration & management module with GraphQL mutations'
 core: 8.x
-package: 'Custom'
+package: 'HTM Custom'
