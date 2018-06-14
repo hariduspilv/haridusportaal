@@ -10,8 +10,8 @@ dependencies:
     - field.field.node.news.field_metatags
     - field.field.node.news.field_news_description
     - field.field.node.news.field_news_link
-    - field.field.node.news.field_news_tag
     - field.field.node.news.field_short_description
+    - field.field.node.news.field_tag
     - image.style.crop_small
     - node.type.news
   module:
@@ -95,15 +95,6 @@ content:
     third_party_settings: {  }
     type: link_default
     region: content
-  field_news_tag:
-    weight: 11
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete_tags
-    region: content
   field_short_description:
     weight: 6
     settings:
@@ -116,6 +107,15 @@ content:
         maxlength_js_enforce: false
         maxlength_js_truncate_html: false
     type: string_textarea
+    region: content
+  field_tag:
+    weight: 27
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete_tags
     region: content
   langcode:
     type: language_select
