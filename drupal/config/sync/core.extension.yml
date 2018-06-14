@@ -24,7 +24,6 @@ module:
   custom_rest_functions: 0
   custom_study_programme_import: 0
   custom_subscription_administration: 0
-  custom_subscription_notification: 0
   custom_translation_module: 0
   datetime: 0
   dblog: 0
