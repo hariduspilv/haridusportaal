@@ -140,6 +140,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         ),
         'E' => 
         array (
+            'Eluceo\\iCal\\' => 12,
             'Elasticsearch\\' => 14,
         ),
         'D' => 
@@ -438,6 +439,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Eluceo\\iCal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/eluceo/ical/src',
         ),
         'Elasticsearch\\' => 
         array (

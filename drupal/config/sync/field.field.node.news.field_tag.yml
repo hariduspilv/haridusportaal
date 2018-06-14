@@ -1,13 +1,13 @@
-uuid: 287179cc-aa1f-414b-a0e3-cd65ac4001d6
-langcode: en
+uuid: 45bf8b74-d4cd-4234-b57e-078fec4e6cb5
+langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_news_tag
+    - field.storage.node.field_tag
     - node.type.news
     - taxonomy.vocabulary.tags
-id: node.news.field_news_tag
-field_name: field_news_tag
+id: node.news.field_tag
+field_name: field_tag
 entity_type: node
 bundle: news
 label: Sildid
