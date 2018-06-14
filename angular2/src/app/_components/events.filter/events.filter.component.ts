@@ -32,6 +32,7 @@ export const DATEPICKER_FORMAT = {
 @Component({
   selector: 'events-filter',
   templateUrl: 'events.filter.component.html',
+  styleUrls: ['events.filter.scss'],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     
@@ -86,6 +87,8 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     
+    this.filterFull = !(document.documentElement.clientWidth > 900)
+    this.filterMob = document.documentElement.clientWidth > 900
     // http://localhost:4200/et/sundmused?dateFrom=04-06-2018&dateTo=14-06-2018&tags=1342,1343&typess=5,7
     let querySubscription = this.route.queryParams.subscribe(
       (params) => {
@@ -218,6 +221,7 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
   }
   
   toggleFilterMob() {
+    this.filterFull = document.documentElement.clientWidth < 900
     this.filterMob = !this.filterMob
   }
   

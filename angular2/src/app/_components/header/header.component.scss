@@ -1,3 +1,4 @@
+@import "../../../assets/styles/typography.scss"; 
 .mat-toolbar.mat-primary {
   background:#2e3374;
   height: 4rem;
@@ -12,7 +13,7 @@
   line-height: 1.4;
   text-align: center;
   color: #ffffff;
-  @media (min-width: 900px) {
+  @include break-on(sm, min) {
     margin-left: 0;
     width: 16.25rem;
   }
@@ -43,15 +44,15 @@
       top: .25rem;
     }
   }
-  @media (max-width: 900px) {display: none;}
+  @include break-on(sm, max) {display: none;}
 }
 mat-icon { 
   &.search { padding-right: 1rem; }
   &.person { padding-right: 0.75rem;
-    @media (min-width: 900px) {padding-right: 0;}
+    @include break-on(sm, min) {padding-right: 0;}
   }
   &.more {padding-right: 0.75rem;
-    @media (min-width: 900px) {padding-right: 0;}
+    @include break-on(sm, min) {padding-right: 0;}
   }
 }
 mat-toolbar button {min-width: 1.5rem; width: 1.5rem; padding: 0;}
