@@ -49,9 +49,6 @@ class NotificationController extends ControllerBase {
       $tags = $this->get_node_tags($node->toArray()['field_tag']);
       $nodes[$node->id()] = $tags;
     }
-    foreach($nodes as $key => $node){
-      array_push($tagsnodes, $node => $key);
-    }
     kint($tagsnodes);
     die();
     return $tagsnodes;
