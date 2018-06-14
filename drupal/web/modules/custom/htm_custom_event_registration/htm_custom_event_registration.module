@@ -61,9 +61,10 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 
 		// add event owner to bcc aswell
 		//$params['bcc'] = $translated_reference_event->field_registration_date->entity->field_registration_notification_->value;
-		$send = true;
+		$send = false;
 
 		$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+
 		if ($result['result'] !== true) {
 			$message = t('There was a problem sending email notification to @email', array('@email' => $to));
 			\Drupal::logger('htm_custom_event_registration')->error($message);
@@ -100,7 +101,8 @@ function _custom_email_content($message){
 	$body['registration_info'] = $registration_info;
 	$body['additional'] = $message['ref_ent']->field_registration_->value;
 	$body['langcode'] = $message['langcode'];
-
+	dump(_get_event_dates($message['ref_ent']));
+	//die();
 	$body['event_dates'] = _get_event_dates($message['ref_ent']);
 
 	return[
