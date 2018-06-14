@@ -12,7 +12,7 @@ export class MetaTagsService{
     private meta: Meta,
     private title: Title
   ){
-    this.specialTags = ["title"]
+    this.specialTags = ["title", "fb:pages", "fb:admins", "og:site_name", "twitter:description"]
   }
 
   clearTags() {
@@ -32,7 +32,7 @@ export class MetaTagsService{
     
     switch( tag['name'] ){
       case "title": {
-        this.title.setTitle(tag['value']);
+        this.title.setTitle(tag['content']);
       }
       default: {
         
