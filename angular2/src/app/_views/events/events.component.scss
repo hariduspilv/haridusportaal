@@ -1,0 +1,73 @@
+@import "../../../assets/styles/typography.scss";
+.events {
+  background: $white;
+  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;}
+  border-top: $gutter solid $light-blue;
+  &__list-head {
+    margin-top: 0;
+  }
+  &__list-body {
+    @include break-on(sm, min) {
+      padding-bottom: $medium;
+    }
+    & > *:last-child .events__content {
+      margin-bottom: 0;
+      @include break-on(sm, max) {margin-bottom: $medium;}
+      @include break-on(sm, min) {border: none;}
+    }
+  }
+  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $half-gutter $medium $small $medium;}
+  &__month {padding: 0 $medium;
+    h1{color: $black;}}
+  &__header {display: flex;}
+  &__datetime {padding: $small $medium 0 $medium;color: $red;
+    .day {font-size: .875rem;line-height: 2.29;}
+    .date {font-size: $medium;line-height: 1.33;font-weight: 500;}
+  }
+  &__separator {position: relative;top: .625rem;
+    .dot {height: 0.6875rem;width: 0.6875rem;background-color: $black;border-radius: 50%;position: relative;bottom: .375rem;right: .375rem;
+      &__highlighted {
+        @extend .dot;
+        background-color: $red;
+      }
+    }
+    .border {height: .0625rem; background: $black;
+      &__highlighted {
+        @extend .border;
+        background: $red;
+      }
+    }
+  }
+  &__content {
+    margin: 0 $medium $small 6.5rem;
+    border-radius: 1.625rem;
+    padding: $gutter $small;
+    background-color: $aqua;
+    font-size: .875rem;
+    line-height: 1.125rem;
+    color: $blue;
+    .title {font-weight: 500;
+      @include break-on(sm, min) {font-size: 1.5rem; color: $blue; padding-bottom: $gutter;}
+    }
+    @include break-on(sm, min) {
+      color: $dark-gray;
+      background-color: $white;
+      border-radius: 0;
+      border-bottom: .0625rem solid $gray;
+      padding: $gutter $small $gutter 0;
+      margin: 0 0 $small 8.5rem;
+    }
+  }
+}
+.actions {padding-bottom: $xxl;
+  button {margin: 0 $medium; width: stretch;}
+  @include break-on(sm, min) {background: $light-gray;padding-top: $medium;
+    button { margin: 0 $medium; width: auto;}
+  }
+  &__error {
+    padding-bottom: $small;
+  }
+}
+.col-25 {width: 20.83%;}
+.center {align-items: center;}
+.tags {padding-left: 0;}

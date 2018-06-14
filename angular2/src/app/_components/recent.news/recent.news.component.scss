@@ -3,7 +3,7 @@
   border-top: 8px solid #f8b243;
   background: #ffffff;
   padding-bottom: 3rem;
-  @media (min-width: 900px) {border-radius: 0.25rem; margin-right: 1.5rem;}
+  @include break-on(sm, min) {border-radius: 0.25rem; margin-right: 1.5rem;}
 }
 .title {
   padding: 1rem 1.5rem 0 1.5rem;

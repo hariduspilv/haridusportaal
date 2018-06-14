@@ -22,6 +22,7 @@ const moment = _moment;
 
 @Component({
   templateUrl: './events.component.html',
+  styleUrls: ['./events.component.scss'],
 })
 
 export class EventsComponent implements OnInit, OnDestroy {
