@@ -13,6 +13,12 @@ query getBreadcrumbs($path: String!) {
           path
         }
       }
+      entity{
+        entityMetatags{
+          name:key
+          content:value
+        }
+      }
       breadcrumb {
         text
         url {
@@ -23,5 +29,4 @@ query getBreadcrumbs($path: String!) {
     }
   }
 }
-
 `;

@@ -14,7 +14,6 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {EventsRegistratonDialog} from '../../_components/dialogs/events.registration/events.registration.dialog'
 
 
-
 @Component({
   templateUrl: './events.single.component.html'
 })
@@ -25,10 +24,16 @@ export class EventsSingleComponent {
   private path: string;
   private lang: string;
   
+  participants: Array<any>;
+  participantsSortOrder: object = {};
+
   content: any;
   unix: any;
   error: boolean;
   map: any;
+
+
+  sortedParticipants: any;
 
   constructor(
     private router: Router,
@@ -47,13 +52,18 @@ export class EventsSingleComponent {
       const that = this;
       
       eventService.getSingle(path, function(data) {
+
         if ( data['route'] == null ) {
           that.error = true;
         } else {
 
           that.content = data['route'];
 
-          that.metaTags.set(that.content.entity.entityMetatags);
+          that.participants = JSON.parse(JSON.stringify(that.content.entity.EventRegistrations));
+
+          if( that.participants ){
+            that.organizeParticipants();
+          }
 
           if( that.content.entity.fieldEventLocation ){
             that.map = {
@@ -69,6 +79,42 @@ export class EventsSingleComponent {
     });
   }
   
+  sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+  }
+  organizeParticipants(key:string = "created"){
+
+    let tmpParticipants = JSON.parse(JSON.stringify(this.participants));
+
+    tmpParticipants = this.sortByKey(tmpParticipants['entities'], key);
+
+    for( let i in tmpParticipants ){
+      tmpParticipants[i]['index'] = parseInt(i)+1;
+    }
+
+
+    if( !this.participantsSortOrder[key] ){
+      this.participantsSortOrder[key] = 'desc';
+    }
+
+    for( var i in this.participantsSortOrder ){
+      if( key == i ){
+        this.participantsSortOrder[i] = this.participantsSortOrder[i] == 'asc' ? 'desc' : 'asc';
+      }else{
+        this.participantsSortOrder[i] = '';
+      }
+    }
+
+    if( this.participantsSortOrder[key] == 'desc'){
+      tmpParticipants.reverse();
+    }
+
+    this.sortedParticipants = tmpParticipants;
+
+  }
   
   ngOnInit() {
   }

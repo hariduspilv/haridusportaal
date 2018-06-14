@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 
 import { getBreadcrumb } from '../../_services/breadcrumb/breadcrumb.graph';
-
+import { MetaTagsService } from '../../_services/metaTags/metaTags.service';
 @Component({
   selector: 'breadcrumbs',
   templateUrl: 'breadcrumbs.component.html',
@@ -22,6 +22,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private apollo: Apollo,
+    private metaTags: MetaTagsService
   ) {}
   
   ngOnInit() {
@@ -44,6 +45,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     })
     .valueChanges
     .subscribe(({data}) => {
+      this.metaTags.set(data['route']['entity']['entityMetatags']);
       this.breadcrumb = data['route']['breadcrumb'];
     });
     this.subscriptions = [...this.subscriptions, breadcrumbSubscription];

@@ -33,6 +33,46 @@
   <p *ngIf="content.entity.fieldDescription"><b [innerHTML]="content.entity.fieldDescriptionSummary"></b></p>
   <div [innerHTML]="content.entity.fieldDescription.value" *ngIf="content.entity.fieldDescription"></div>
   
+  <mat-divider style="clear:both;"></mat-divider>
+  <!-- styles at: app.component.scss-->
+
+
+  <button *ngIf="participants && !showParticipants" (click)="showParticipants = !showParticipants">Show participants</button>
+  <button *ngIf="showParticipants" (click)="showParticipants = !showParticipants">Hide participants</button>
+
+
+  <div *ngIf="showParticipants">
+    <h3>Participants: {{ sortedParticipants.length }}</h3>
+    
+    <table *ngIf="showParticipants" class="participantsTable">
+      <thead>
+        <tr>
+          <th (click)="organizeParticipants('index')" >jrk nr <span class="participantsTable-arrow-{{ participantsSortOrder['index'] }}"></span></th>
+          <th (click)="organizeParticipants('participantFirstName')">Eesnimi  <span class="participantsTable-arrow-{{ participantsSortOrder['participantFirstName'] }}"></span></th>
+          <th (click)="organizeParticipants('participantLastName')">Perenimi  <span class="participantsTable-arrow-{{ participantsSortOrder['participantLastName'] }}"></span></th>
+          <th (click)="organizeParticipants('participantOrganization')">Ettevõte/Asutus  <span class="participantsTable-arrow-{{ participantsSortOrder['participantOrganization'] }}"></span></th>
+          <th (click)="organizeParticipants('participantEmail')">E-post  <span class="participantsTable-arrow-{{ participantsSortOrder['participantEmail'] }}"></span></th>
+          <th (click)="organizeParticipants('participantPhone')">Telefon  <span class="participantsTable-arrow-{{ participantsSortOrder['participantPhone'] }}"></span></th>
+          <th (click)="organizeParticipants('created')">Reg date  <span class="participantsTable-arrow-{{ participantsSortOrder['created'] }}"></span></th>
+          <th (click)="organizeParticipants('participantComment')">Märkused  <span class="participantsTable-arrow-{{ participantsSortOrder['participantComment'] }}"></span></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of sortedParticipants;">
+          <td>{{ item.index }}</td>
+          <td>{{ item.participantFirstName }}</td>
+          <td>{{ item.participantLastName }}</td>
+          <td>{{ item.participantOrganization }}</td>
+          <td>{{ item.participantEmail }}</td>
+          <td>{{ item.participantPhone }}</td>
+          <td>{{ item.created*1000 | date: 'dd.MM.yyyy HH:mm' }}</td>
+          <td>{{ item.participantComment }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <mat-divider></mat-divider>
   
   <div *ngIf="content.entity.fieldAttachmentFile">
@@ -56,7 +96,7 @@
         </span>
       </div>
       
-      <p>{{ content.entity.fieldEventLocation.name }}</p>
+      <p *ngIf="content.entity.fieldEventLocation">{{ content.entity.fieldEventLocation.name }}</p>
       
       <div class="map-wrapper" *ngIf="map">
         <agm-map [latitude]="map.lat" [longitude]="map.lon" [zoom]="map.zoom"></agm-map>
