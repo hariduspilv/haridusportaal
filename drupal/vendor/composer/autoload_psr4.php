@@ -69,6 +69,7 @@ return array(
     'GraphQL\\' => array($vendorDir . '/webonyx/graphql-php/src'),
     'Goutte\\' => array($vendorDir . '/fabpot/goutte/Goutte'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
+    'Eluceo\\iCal\\' => array($vendorDir . '/eluceo/ical/src'),
     'Elasticsearch\\' => array($vendorDir . '/elasticsearch/elasticsearch/src/Elasticsearch'),
     'Drush\\Internal\\' => array($vendorDir . '/drush/drush/internal-copy'),
     'Drush\\' => array($vendorDir . '/drush/drush/src'),
