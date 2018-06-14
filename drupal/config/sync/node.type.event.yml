@@ -23,7 +23,7 @@ third_party_settings:
     unpublish_revision: false
 name: Sündmus
 type: event
-description: 'Create an event that will be displayed in the calendar.'
+description: 'Loo sündmus, mida kuvatakse kalendris'
 help: ''
 new_revision: true
 preview_mode: 1

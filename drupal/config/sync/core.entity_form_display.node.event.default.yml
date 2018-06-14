@@ -19,6 +19,7 @@ dependencies:
     - field.field.node.event.field_max_number_of_participants
     - field.field.node.event.field_metatags
     - field.field.node.event.field_organizer
+    - field.field.node.event.field_organizer_idcode
     - field.field.node.event.field_picture
     - field.field.node.event.field_practical_information
     - field.field.node.event.field_registration_
@@ -52,7 +53,7 @@ content:
     type: file_generic
     region: content
   field_contact_email:
-    weight: 14
+    weight: 15
     settings:
       size: 60
       placeholder: ''
@@ -60,7 +61,7 @@ content:
     type: email_default
     region: content
   field_contact_person:
-    weight: 11
+    weight: 12
     settings:
       size: 60
       placeholder: ''
@@ -71,7 +72,7 @@ content:
     type: string_textfield
     region: content
   field_contact_phone:
-    weight: 13
+    weight: 14
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -99,14 +100,14 @@ content:
     type: string_textarea
     region: content
   field_entry_type:
-    weight: 15
+    weight: 16
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_event_date:
     type: entity_reference_paragraphs
-    weight: 20
+    weight: 21
     region: content
     settings:
       title: Paragraph
@@ -117,7 +118,7 @@ content:
       default_paragraph_type: event_date
     third_party_settings: {  }
   field_event_group:
-    weight: 21
+    weight: 22
     settings:
       match_operator: CONTAINS
       size: 60
@@ -154,7 +155,7 @@ content:
     type: options_select
     region: content
   field_max_number_of_participants:
-    weight: 18
+    weight: 19
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -177,6 +178,14 @@ content:
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
     type: string_textfield
     region: content
+  field_organizer_idcode:
+    weight: 11
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_picture:
     weight: 6
     settings:
@@ -192,7 +201,7 @@ content:
     type: image_widget_crop
     region: content
   field_practical_information:
-    weight: 19
+    weight: 20
     settings:
       rows: 5
       placeholder: ''
@@ -200,7 +209,7 @@ content:
     type: text_textarea
     region: content
   field_registration_:
-    weight: 17
+    weight: 18
     settings:
       rows: 5
       placeholder: ''
@@ -227,7 +236,7 @@ content:
     region: content
   field_registration_date:
     type: entity_reference_paragraphs
-    weight: 16
+    weight: 17
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -283,13 +292,13 @@ content:
     region: content
   path:
     type: path
-    weight: 24
+    weight: 25
     region: content
     settings: {  }
     third_party_settings: {  }
   publish_on:
     type: datetime_timestamp_no_default
-    weight: 22
+    weight: 23
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -305,13 +314,13 @@ content:
         maxlength_js: 50
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
   translation:
-    weight: 12
+    weight: 13
     region: content
     settings: {  }
     third_party_settings: {  }
   unpublish_on:
     type: datetime_timestamp_no_default
-    weight: 23
+    weight: 24
     region: content
     settings: {  }
     third_party_settings: {  }
