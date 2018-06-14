@@ -11,9 +11,6 @@ export class ImagePopupDialog {
     public dialogRef: MatDialogRef<ImagePopupDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-  ngOnInit() {
-    console.log(this.data)
-  }
   close() {
     this.dialogRef.close();
   }
