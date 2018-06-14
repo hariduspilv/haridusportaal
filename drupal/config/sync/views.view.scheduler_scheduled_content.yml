@@ -30,11 +30,11 @@ display:
         options:
           submit_button: Filtreeri
           reset_button: true
-          reset_button_label: Tühista
-          exposed_sorts_label: 'Sorteerimise alus'
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
           expose_sort_order: true
-          sort_asc_label: Kasvav
-          sort_desc_label: Kahanev
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       pager:
         type: full
         options:
@@ -715,7 +715,7 @@ display:
           2: OR
       display_extenders: {  }
     display_plugin: default
-    display_title: Peamine
+    display_title: Master
     id: default
     position: 0
     cache_metadata:
@@ -742,7 +742,7 @@ display:
         menu_name: admin
       tab_options:
         type: normal
-        title: Content
+        title: Sisu
         description: 'Find and manage scheduled content'
         menu_name: admin
         weight: -10
@@ -776,7 +776,7 @@ display:
         menu_name: admin
       tab_options:
         type: normal
-        title: Content
+        title: Sisu
         description: 'Find and manage scheduled content'
         menu_name: admin
         weight: -10
