@@ -1,0 +1,12 @@
+
+htm_custom_event_registration.calendar_export_controller_calendarexport:
+  path: '/htm_custom_event_registration/calendarexport/{event_node_id}'
+  defaults:
+    _controller: '\Drupal\htm_custom_event_registration\Controller\CalendarExportController::calendarexport'
+    _title: 'Calendar Export'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      event_node_id:
+        type: entity:node
