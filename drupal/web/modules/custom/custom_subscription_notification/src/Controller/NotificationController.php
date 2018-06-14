@@ -16,15 +16,22 @@ class NotificationController extends ControllerBase {
    *   Return Hello string.
    */
   public function notify() {
-    $news_nodes = $this->get_latest_nodes('news');
-    $event_nodes = $this->get_latest_nodes('event');
+    $content_nodes['news'] = $this->get_notification_nodes('news');
+    $content_nodes['event'] = $this->get_notification_nodes('event');
     $subscription_nodes = $this->get_subscriptions('subscription_entity');
-    kint($subscription_nodes);
+    foreach($subscription_nodes as $subscription){
+      $notifications[] = $this->get_notifications($content_nodes, $subscription);
+    }
+  }
+
+  public function get_notifications($nodes, $subscription){
+    kint($nodes);
     die();
   }
 
-  public function get_latest_nodes($content_type){
-    $node = [];
+  public function get_notification_nodes($content_type){
+    $nodes = [];
+    $tagsnodes = [];
     $query = \Drupal::entityQuery('node');
 
     $group = $query
@@ -38,28 +45,46 @@ class NotificationController extends ControllerBase {
     ->execute();
 
     foreach($nid_result as $nid){
-      $node['nid'][] = $nid;
+      $node = \Drupal::entityManager()->getStorage('node')->load($nid);
+      $tags = $this->get_node_tags($node->toArray()['field_tag']);
+      $nodes[$node->id()] = $tags;
     }
+    foreach($nodes as $key => $node){
+      array_push($tagsnodes, $node => $key);
+    }
+    kint($tagsnodes);
+    die();
+    return $tagsnodes;
+  }
 
-    return $node;
+  public function get_node_tags($tags){
+    foreach($tags as $tag){
+      $nodetags[] = $tag['target_id'];
+    }
+    return $nodetags;
   }
 
   public function get_subscriptions($entity_type){
-    $fields = [];
+    $entities = [];
     $query = \Drupal::entityQuery($entity_type);
     $query->condition('status', 1);
-    $entity_ids = $query->execute();
+    $result_ids = $query->execute();
 
-    foreach($entity_ids as $nid){
-      $node = \Drupal::entityTypeManager()->getStorage($entity_type)->load($nid);
-      $fields[$nid] = $node->toArray()['tag'];
+    foreach($result_ids as $nid){
+      $entity_ids[] = $nid;
+      $node = \Drupal::entityTypeManager()->getStorage($entity_type)->load($nid)->toArray();
+      foreach($node['tag'] as $tag){
+        $entities[$nid]['tag'][] = $tag['target_id'];
+      }
+      $entities[$nid]['subscriber_email'] = $node['subscriber_email'];
+      $entities[$nid]['langcode'] = $node['langcode'];
     }
-    foreach($fields['144'] as $jou){
-      kint($jou);
-    }
-    die();
 
-    return $entity_ids;
+    return $entities;
+  }
+
+  private function parse_key($key){
+    return mb_strtolower(str_replace(' ', '_', $key));
   }
 
 }
