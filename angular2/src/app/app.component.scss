@@ -227,6 +227,18 @@ $grid-columns: 12;
   th{font-size: 0.8125rem; text-align: center; line-height: $medium; font-weight: normal; padding:.3125rem 0;}
   td{border:#c7c7c9 .0625rem solid; height:8.5625rem; vertical-align: top; padding:$gutter;}
 }
+.participantsTable{
+  .participantsTable-arrow-{
+    &:before{display: inline-block; content:"<>";}
+  }
+
+  .participantsTable-arrow-asc{
+    &:before{display: inline-block; content:"<";}
+  }
+  .participantsTable-arrow-desc{
+    &:before{display: inline-block; content:">";}
+  }
+}
 @media (min-width:900px) {
   mat-sidenav-content{margin-left: 16.25rem !important;}
 }

@@ -8,7 +8,7 @@ export class EventsGraph {
 
     return gql`
       query{
-        nodeQuery(offset:${offset}, limit:${limit}, sort: {field:"field_event_date.entity.field_event_date", direction:ASC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language:${lang}}]}) {
+        nodeQuery(offset:${offset}, limit:${limit}, sort: {field:"field_event_date.entity.field_event_date", direction:ASC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language:${lang}}] } ) {
           entities{
             entityTranslation(language:${lang}){
               ... on NodeEvent{
@@ -107,11 +107,6 @@ export class EventsGraph {
           entity {
             ... on NodeEvent {
 
-              entityMetatags{
-                name:key
-                value
-              }
-
               entityLabel
               nid
               fieldPicture {
@@ -120,6 +115,19 @@ export class EventsGraph {
                 height
                 alt
                 title
+              }
+              EventRegistrations{
+                entities{
+                  ... on EventRegEntity{
+                    created
+                    participantEmail
+                    participantPhone
+                    participantLastName
+                    participantFirstName
+                    participantOrganization
+                    participantComment
+                  }
+                }
               }
               fieldAttachmentFile {
                 entity {
