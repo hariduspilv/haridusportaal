@@ -25,22 +25,19 @@ class CalendarExportController extends ControllerBase {
   /**
    * Calendarexport.
    *
-   * @return string
-   *   Return Hello string.
+   * @return Response
+	 * Cal file
    */
   public function calendarexport(Request $request, NodeInterface $event_node_id) {
 
   	if($event_node_id->bundle() === 'event'){
-			/*TODO make calendar prodid configurable*/
+
+  		/*TODO make calendar prodid configurable*/
 			$vCalendar = new Calendar('www.htm.ee');
-			#$vCalendar->setTimezone(new Timezone($site_timezone['default']));
 
 			$event_title  = $event_node_id->getTitle();
 			$event_description = $event_node_id->field_description_summary->value;
-			$event_location = $event_node_id->field_event_location->getValue()[0];
-
-			/*dump($event_node_id->field_event_location->first());
-			die();*/
+			$event_location = ($location = $event_node_id->field_event_location->getValue()) ? $location[0] : NULL;
 
   		foreach($event_node_id->referencedEntities() as $i => $refEnt){
   			if($refEnt instanceof Paragraph && $refEnt->bundle() === 'event_date'){
@@ -58,8 +55,9 @@ class CalendarExportController extends ControllerBase {
 					$vEvent->setDtStart($d1)
 							->setDtEnd($d2)
 							->setSummary($event_title)
-							->setDescription($event_description)
-							->setLocation($event_location['name'], $event_location['name'], $event_location['lat'] . ',' . $event_location['lon']);
+							->setDescription($event_description);
+					if($event_location) $vEvent->setLocation($event_location['name'], $event_location['name'], $event_location['lat'] . ',' . $event_location['lon']);
+
 					$vCalendar->addComponent($vEvent);
 				}
 			}
