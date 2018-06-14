@@ -1,6 +1,6 @@
 {#
 /**
- * Custom HTML email template for subscription confirmation
+ * Custom HTML email template for subscription update
  */
 #}
 <!DOCTYPE html>
@@ -20,8 +20,9 @@
 </head>
 <body>
 	<p>Tere!</p>
-  <p>Tänud haridusteemade vastu huvi tundmast. Aadressile {{ body.email }} on tellitud teavitused teemadel: {{ body.tags }}.</p>
-  <p>Tellimuse kinnitamiseks palun vajutage seda linki [kinnita minu e-posti aadress].</p>
+  <p>Aadressile {{ body.email }} on tellitud teavitused teemadel: {{ body.oldtags }}.</p>
+  <p>Muudetud tellimus sisaldab teemasid: {{ body.tags }}.</p>
+  <p>Varasema tellimuse muutmiseks palun vajutage seda linki [kinnita minu e-posti aadress].</p>
 
 </body>
 <footer>

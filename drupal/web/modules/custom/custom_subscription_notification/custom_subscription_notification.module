@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains custom_subscription_notification.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function custom_subscription_notification_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the custom_subscription_notification module.
+    case 'help.page.custom_subscription_notification':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for sending out notifications to subscribers') . '</p>';
+      return $output;
+
+    default:
+  }
+}
