@@ -116,6 +116,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         ),
         'L' => 
         array (
+            'League\\Csv\\' => 11,
             'League\\Container\\' => 17,
         ),
         'I' => 
@@ -391,6 +392,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'MakinaCorpus\\Lucene\\' => 
         array (
             0 => __DIR__ . '/..' . '/makinacorpus/php-lucene/src',
+        ),
+        'League\\Csv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/csv/src',
         ),
         'League\\Container\\' => 
         array (

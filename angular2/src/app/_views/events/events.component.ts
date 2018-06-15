@@ -22,6 +22,7 @@ const moment = _moment;
 
 @Component({
   templateUrl: './events.component.html',
+  styleUrls: ['./events.component.scss'],
 })
 
 export class EventsComponent implements OnInit, OnDestroy {
@@ -58,9 +59,10 @@ export class EventsComponent implements OnInit, OnDestroy {
     });
   }
   
-  
-  year: number = 2018;
-  month:any = 7;
+  date: any = new Date();
+  year: number = this.date.getFullYear();
+  month: any = this.date.getMonth() + 1;
+  monthName: string = moment(this.date).format('MMMM');
   
   changeMonth(direction:number) {
     let month = parseInt( this.month );
@@ -81,8 +83,7 @@ export class EventsComponent implements OnInit, OnDestroy {
     }else{
       this.month = month;
     }
-    
-    
+    this.monthName = moment(new Date(`${this.year}/${this.month}`)).format('MMMM');
     this.generateCalendar();
   }
   
