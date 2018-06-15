@@ -142,12 +142,14 @@ function subscription_email_content($message){
 		sort($body['tags']);
 		$body['tags'] = implode(', ',$body['tags']);
 	}
-	if(isset($message['oldtags'])){
+	if(count($message['oldtags']) > 0){
 		foreach($message['oldtags'] as $tag){
 			$body['oldtags'][] = $taxonomy_terms[$tag['target_id']];
 		}
-		sort($body['oldtags']);
-		$body['oldtags'] = implode(', ',$body['oldtags']);
+		if(count($body['oldtags']) > 0){
+			sort($body['oldtags']);
+			$body['oldtags'] = implode(', ',$body['oldtags']);
+		}
 	}
 	$body['email'] = $message['subscriber_email'][0]['value'];
 	$body['langcode'] = $message['langcode'][0]['value'];

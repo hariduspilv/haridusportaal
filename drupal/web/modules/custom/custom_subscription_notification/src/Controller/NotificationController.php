@@ -17,14 +17,14 @@ class NotificationController extends ControllerBase {
    */
   public function notify() {
     $content_nodes = [];
+    $notifications = [];
     $content_nodes = $this->get_notification_tags($content_nodes, 'news');
     $content_nodes = $this->get_notification_tags($content_nodes, 'event');
     $subscription_nodes = $this->get_subscriptions('subscription_entity');
     foreach($subscription_nodes as $subscription){
       $notifications[] = $this->get_notifications($content_nodes, $subscription);
     }
-    kint($notifications);
-    die();
+    return $notifications;
   }
 
   public function get_notifications($nodes, $subscription){
@@ -33,7 +33,9 @@ class NotificationController extends ControllerBase {
         $subscription['notification_nodes'] = $node;
       }
     }
-    return $subscription;
+    if(isset($subscription['notification_nodes'])){
+      return $subscription;
+    }
   }
 
   public function get_notification_tags($content_nodes, $content_type){
@@ -81,11 +83,13 @@ class NotificationController extends ControllerBase {
     foreach($result_ids as $nid){
       $entity_ids[] = $nid;
       $node = \Drupal::entityTypeManager()->getStorage($entity_type)->load($nid)->toArray();
-      foreach($node['tag'] as $tag){
-        $entities[$nid]['tag'][] = $tag['target_id'];
+      if(count($node['tag']) > 0){
+        foreach($node['tag'] as $tag){
+          $entities[$nid]['tag'][] = $tag['target_id'];
+        }
+        $entities[$nid]['subscriber_email'] = $node['subscriber_email'];
+        $entities[$nid]['langcode'] = $node['langcode'];
       }
-      $entities[$nid]['subscriber_email'] = $node['subscriber_email'];
-      $entities[$nid]['langcode'] = $node['langcode'];
     }
 
     return $entities;
