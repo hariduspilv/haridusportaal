@@ -76,9 +76,6 @@ function custom_subscription_administration_entity_insert(Drupal\Core\Entity\Ent
 		$params['body'] = subscription_email_content($fields);
 		$params['title'] = t('Uudiskirja tellimuse kinnitamine');
 
-		kint($params);
-die();
-
 		$send = true;
 
 		$result = $mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, $send);
@@ -130,8 +127,6 @@ function custom_subscription_administration_entity_update(Drupal\Core\Entity\Ent
 
 function subscription_email_content($message){
 
-	/*TODO MAKE FIELDS CONFIGURABLE AND MAKE HTML TEMPLATE*/
-	/* @var \Drupal\htm_custom_event_registration\Entity\EventRegEntity $reg_ent */
 	$taxonomy_terms = get_taxonomy_terms('tags');
 	foreach($message['tag'] as $tag){
 		if(isset($taxonomy_terms[$tag['target_id']])){
