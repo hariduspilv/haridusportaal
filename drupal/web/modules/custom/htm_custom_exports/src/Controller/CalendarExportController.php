@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\htm_custom_event_registration\Controller;
+namespace Drupal\htm_custom_exports\Controller;
 
 use Drupal\Component\Datetime\Time;
 use Drupal\Console\Bootstrap\Drupal;
