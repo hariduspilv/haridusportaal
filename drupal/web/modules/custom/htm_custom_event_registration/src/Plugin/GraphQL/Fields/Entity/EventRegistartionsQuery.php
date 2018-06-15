@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @GraphQLField(
  *   id = "event_registration_query",
  *   name = "EventRegistrations",
- *   secure = false,
+ *   secure = true,
  *   type = "EntityQueryResult",
  *   parents = {"Entity"},
  * )
