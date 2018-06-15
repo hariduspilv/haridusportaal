@@ -119,7 +119,7 @@ export class EventsGraph {
               EventRegistrations{
                 entities{
                   ... on EventRegEntity{
-                    created
+                    participantCreated:created
                     participantEmail
                     participantPhone
                     participantLastName

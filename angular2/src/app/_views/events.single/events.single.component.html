@@ -37,36 +37,40 @@
   <!-- styles at: app.component.scss-->
 
 
+  <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
+
   <button *ngIf="participants && !showParticipants" (click)="showParticipants = !showParticipants">Show participants</button>
   <button *ngIf="showParticipants" (click)="showParticipants = !showParticipants">Hide participants</button>
 
 
   <div *ngIf="showParticipants">
     <h3>Participants: {{ sortedParticipants.length }}</h3>
-    
+
+    <a (click)="getCSV()" mat-raised-button>DOWNLOAD participants list</a>
+
     <table *ngIf="showParticipants" class="participantsTable">
       <thead>
         <tr>
-          <th (click)="organizeParticipants('index')" >jrk nr <span class="participantsTable-arrow-{{ participantsSortOrder['index'] }}"></span></th>
-          <th (click)="organizeParticipants('participantFirstName')">Eesnimi  <span class="participantsTable-arrow-{{ participantsSortOrder['participantFirstName'] }}"></span></th>
-          <th (click)="organizeParticipants('participantLastName')">Perenimi  <span class="participantsTable-arrow-{{ participantsSortOrder['participantLastName'] }}"></span></th>
-          <th (click)="organizeParticipants('participantOrganization')">Ettevõte/Asutus  <span class="participantsTable-arrow-{{ participantsSortOrder['participantOrganization'] }}"></span></th>
-          <th (click)="organizeParticipants('participantEmail')">E-post  <span class="participantsTable-arrow-{{ participantsSortOrder['participantEmail'] }}"></span></th>
-          <th (click)="organizeParticipants('participantPhone')">Telefon  <span class="participantsTable-arrow-{{ participantsSortOrder['participantPhone'] }}"></span></th>
-          <th (click)="organizeParticipants('created')">Reg date  <span class="participantsTable-arrow-{{ participantsSortOrder['created'] }}"></span></th>
-          <th (click)="organizeParticipants('participantComment')">Märkused  <span class="participantsTable-arrow-{{ participantsSortOrder['participantComment'] }}"></span></th>
+          <th>{{ 'participantIndex' | translate }}</th>
+          <th (click)="organizeParticipants('participantFirstName')">{{ 'participantFirstName' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantFirstName'] }}"></span></th>
+          <th (click)="organizeParticipants('participantLastName')">{{ 'participantLastName' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantLastName'] }}"></span></th>
+          <th (click)="organizeParticipants('participantOrganization')">{{ 'participantOrganization' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantOrganization'] }}"></span></th>
+          <th>{{ 'participantEmail' | translate }} </th>
+          <th>{{ 'participantPhone' | translate }}</th>
+          <th (click)="organizeParticipants('participantCreated')">{{ 'participantCreated' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantCreated'] }}"></span></th>
+          <th>{{ 'participantComment' | translate }}</th>
         </tr>
       </thead>
 
       <tbody>
         <tr *ngFor="let item of sortedParticipants;">
-          <td>{{ item.index }}</td>
+          <td>{{ item.participantIndex }}</td>
           <td>{{ item.participantFirstName }}</td>
           <td>{{ item.participantLastName }}</td>
           <td>{{ item.participantOrganization }}</td>
           <td>{{ item.participantEmail }}</td>
           <td>{{ item.participantPhone }}</td>
-          <td>{{ item.created*1000 | date: 'dd.MM.yyyy HH:mm' }}</td>
+          <td>{{ item.participantCreated*1000 | date: 'dd.MM.yyyy HH:mm' }}</td>
           <td>{{ item.participantComment }}</td>
         </tr>
       </tbody>

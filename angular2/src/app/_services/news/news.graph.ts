@@ -121,10 +121,17 @@ export class NewsGraph {
   buildRecent(nid, lang) {
     
     lang = lang.toUpperCase();
-    
+
     return gql`
     query {
-      nodeQuery(limit: 1, sort: {field: "created", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: ${lang}}]}) {
+      nodeQuery(limit: 1, sort: {field: "created", direction: DESC},
+        filter: {
+          conditions: [
+            {operator: EQUAL, field: "type", value: ["news"], language: ${lang}}
+            {operator: NOT_EQUAL, field: "nid", value: ["${nid}"], language: ${lang}}
+          ]
+        }
+      ){
         entities {
           ... on NodeNews {
             entityLabel
