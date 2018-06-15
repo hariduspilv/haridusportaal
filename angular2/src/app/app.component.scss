@@ -241,6 +241,19 @@ $grid-columns: 12;
     &:last-child {border-right: none;}
   }
 }
+
+.participantsTable{
+  .participantsTable-arrow-{
+    &:before{display: inline-block; content:"<>";}
+  }
+
+  .participantsTable-arrow-asc{
+    &:before{display: inline-block; content:"<";}
+  }
+  .participantsTable-arrow-desc{
+    &:before{display: inline-block; content:">";}
+  }
+}
 @include break-on(sm, min) {
   mat-sidenav-content{margin-left: 16.25rem !important;}
 }

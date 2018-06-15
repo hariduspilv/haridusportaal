@@ -37,3 +37,4 @@ permissions:
   - 'view own news content'
   - 'view own page content'
   - 'view own school content'
+  - 'view published event registration entities'
