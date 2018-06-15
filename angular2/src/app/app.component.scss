@@ -236,7 +236,10 @@ $grid-columns: 12;
 
 .calendar{width:100%; border-collapse: collapse;
   th{font-size: 0.8125rem; text-align: center; line-height: $medium; font-weight: normal; padding:.3125rem 0;}
-  td{border:#c7c7c9 .0625rem solid; height:8.5625rem; vertical-align: top; padding:$gutter;}
+  td{border:#c7c7c9 .0625rem solid; height:8.5625rem; vertical-align: top; padding:$gutter;font-size: .875rem;
+    &:first-child {border-left: none;}
+    &:last-child {border-right: none;}
+  }
 }
 @include break-on(sm, min) {
   mat-sidenav-content{margin-left: 16.25rem !important;}
