@@ -5,36 +5,60 @@ namespace Drupal\custom_subscription_notification\Controller;
 use Drupal\Core\Controller\ControllerBase;
 
 /**
- * Class NotificationController.
- */
+* Class NotificationController.
+*/
 class NotificationController extends ControllerBase {
 
   /**
-   * Notify.
-   *
-   * @return string
-   *   Return Hello string.
-   */
+  * Notify.
+  *
+  * @return string
+  *   Return Hello string.
+  */
   public function notify() {
     $content_nodes = [];
     $notifications = [];
+    $mailitems = [];
     $content_nodes = $this->get_notification_tags($content_nodes, 'news');
     $content_nodes = $this->get_notification_tags($content_nodes, 'event');
     $subscription_nodes = $this->get_subscriptions('subscription_entity');
     foreach($subscription_nodes as $subscription){
       $notifications[] = $this->get_notifications($content_nodes, $subscription);
     }
-    return $notifications;
+    foreach($notifications as $notification){
+      $mailitems[] = $this->create_mail_item($notification);
+    }
+    return $mailitems;
+  }
+
+  public function create_mail_item($notification){
+    $params['body'] = $this->notification_email_content($notification);
+    $params['title'] = t('Haridusteemalised uudised');
+
+    return $params;
   }
 
   public function get_notifications($nodes, $subscription){
-    foreach($nodes as $tag => $node){
-      if(in_array($tag, $subscription['tag'])){
-        $subscription['notification_nodes'] = $node;
+
+    foreach($nodes as $key => $tags){
+      $notification_node = $this->add_node_to_notification($key, $tags, $subscription);
+      if($notification_node != NULL){
+        $subscription['notification_nodes'][$key] = $notification_node;
       }
     }
     if(isset($subscription['notification_nodes'])){
       return $subscription;
+    }
+  }
+
+  public function add_node_to_notification($content_type, $tags, $subscription){
+    foreach($tags as $tag => $node){
+      if(in_array($tag, $subscription['tag'])){
+        $notifynodes[$content_type] = $node;
+      }
+    }
+    if(count($notifynodes) > 0){
+      return $notifynodes[$content_type];
     }
   }
 
@@ -55,14 +79,14 @@ class NotificationController extends ControllerBase {
     foreach($nid_result as $nid){
       $node = \Drupal::entityManager()->getStorage('node')->load($nid);
       $tags = $this->get_node_tags($node->toArray()['field_tag']);
-      $content_nodes = $this->node_to_tag($content_nodes, $nid, $tags);
+      $content_nodes = $this->node_to_tag($content_nodes, $nid, $tags, $content_type);
     }
     return $content_nodes;
   }
 
-  public function node_to_tag($tagsnodes, $nid, $tags){
+  public function node_to_tag($tagsnodes, $nid, $tags, $type){
     foreach($tags as $tag){
-      $tagsnodes[$tag][] = $nid;
+      $tagsnodes[$type][$tag][] = $nid;
     }
     return $tagsnodes;
   }
@@ -93,6 +117,34 @@ class NotificationController extends ControllerBase {
     }
 
     return $entities;
+  }
+
+  public function notification_email_content($message){
+    $body = [];
+
+    if(isset($message['notification_nodes']['news'])){
+      foreach($message['notification_nodes']['news'] as $nid){
+        $nodeitem = \Drupal\node\Entity\Node::load($nid);
+        $title = $nodeitem->getTitle();
+        $url = $nodeitem->toUrl()->toString();
+        $body['news'][$url] = $title;
+      }
+    }
+    if(isset($message['notification_nodes']['event'])){
+      foreach($message['notification_nodes']['event'] as $nid){
+        $nodeitem = \Drupal\node\Entity\Node::load($nid);
+        $title = $nodeitem->getTitle();
+        $url = $nodeitem->toUrl()->toString();
+        $body['event'][$url] = $title;
+      }
+    }
+    $body['email'] = $message['subscriber_email'][0]['value'];
+    $body['langcode'] = $message['langcode'][0]['value'];
+
+    return[
+      '#theme' => 'newsletter_notification_email_template',
+      '#body' => $body,
+    ];
   }
 
   private function parse_key($key){
