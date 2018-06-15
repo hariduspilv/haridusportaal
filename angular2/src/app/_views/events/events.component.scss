@@ -3,6 +3,10 @@
   background: $white;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;}
   border-top: $gutter solid $light-blue;
+  &__block {cursor: pointer;}
+  &__head {display: flex;
+    @include break-on(sm, min) {border-bottom: .0625rem solid $gray;}
+  }
   &__list-head {
     margin-top: 0;
   }
@@ -16,10 +20,11 @@
       @include break-on(sm, min) {border: none;}
     }
   }
-  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $half-gutter $medium $small $medium;}
+  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $small $medium $small $medium; flex-basis: 50%;}
   &__month {padding: 0 $medium;
+    @include break-on(sm, min) {padding-top:$small; padding-left: 8.5rem;}
     h1{color: $black;}}
-  &__header {display: flex;}
+  &__header {display: flex;margin-bottom:-$gutter;}
   &__datetime {padding: $small $medium 0 $medium;color: $red;
     .day {font-size: .875rem;line-height: 2.29;}
     .date {font-size: $medium;line-height: 1.33;font-weight: 500;}
@@ -47,7 +52,7 @@
     line-height: 1.125rem;
     color: $blue;
     .title {font-weight: 500;
-      @include break-on(sm, min) {font-size: 1.5rem; color: $blue; padding-bottom: $gutter;}
+      @include break-on(sm, min) {font-size: 1.5rem; color: $blue; padding-bottom: $gutter;line-height:1.33;}
     }
     @include break-on(sm, min) {
       color: $dark-gray;
@@ -56,6 +61,11 @@
       border-bottom: .0625rem solid $gray;
       padding: $gutter $small $gutter 0;
       margin: 0 0 $small 8.5rem;
+      .info {display:flex;
+        &.block span.time{width: 25%;}
+        &.block span.location{width: 50%;}
+        &.block span.entrance{width: 25%;}
+      }
     }
   }
 }
@@ -68,6 +78,26 @@
     padding-bottom: $small;
   }
 }
+.calendar__elem {padding-bottom: $xxl;
+  .cal__event {
+    .content {color: $blue;line-height:1.25rem;font-size: .875rem;padding-top:$gutter;
+      .location {font-weight: 500;}
+      .marker {width: .4375rem;height: .4375rem;background-color:$aqua; border-radius: 50%; display: inline-block;}
+    }
+  }
+  .more {padding-top: $gutter; padding-left: .625rem;}
+}
+.navigation {padding-top: $small; padding-bottom: $medium;display: flex;align-items: center;justify-content: center;
+  .month {h1{color: $black;}}
+  .mat-icon {cursor: pointer; padding: 0 $small;}
+}
 .col-25 {width: 20.83%;}
 .center {align-items: center;}
 .tags {padding-left: 0;}
+.view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;cursor:pointer;color:$blue;
+  .mat-icon{margin-top: $gutter;}
+  .title {font-size: .875rem;}
+  &.active {color: $black;
+    &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
+}
+.button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}

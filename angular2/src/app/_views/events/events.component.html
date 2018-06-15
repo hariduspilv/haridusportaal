@@ -1,21 +1,23 @@
 <breadcrumbs></breadcrumbs>
 <events-filter></events-filter>
 <div class="events">
-  <div class="events__list-head row">
-    <div class="col-6 sm-12">
-      <div class="events__title">{{ 'events' | translate | uppercase }}</div>
-    </div>
-    <div class="col-6 text-right sm-hide">
-      <div class="button-list">
-        <mat-button-toggle-group>
-          <mat-button-toggle checked="checked" name="view" value="list" (click)="changeView('list')"><mat-icon>view_list</mat-icon></mat-button-toggle>
-          <mat-button-toggle name="view" value="grid" (click)="changeView('calendar')"><mat-icon>grid_on</mat-icon></mat-button-toggle>
-        </mat-button-toggle-group>
+  <div class="events__list-head">
+    <div class="events__head">
+      <div class="events__title text-left">{{ 'events' | translate | uppercase }}</div>
+      <div class="button-list text-right sm-hide">
+        <div class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
+          <mat-icon>list</mat-icon>
+          <div class="title">List</div>
+        </div>
+        <div class="view-item" (click)="changeView('calendar')" [class.active]="view === 'calendar'">
+          <mat-icon>calendar_today</mat-icon>
+          <div class="title">Kalender</div>
+        </div>
       </div><!--/button-list-->
-    </div><!--/col-6-->
+    </div>
   </div><!--/row-->
 
-  <div class="events__month"><h1>Mai</h1></div>
+  <div *ngIf="view === 'list'" class="events__month"><h1>{{monthName}}</h1></div>
 
   <mat-spinner *ngIf="!eventList && !error"></mat-spinner>
 
@@ -30,17 +32,17 @@
         <div class="dot__highlighted"></div>
       </div>
     </div>
-    <div class="events__block" *ngFor="let event of eventList">
-      <div class="events__content" [routerLink]="event.entityUrl.path" style="cursor: pointer;">
+    <div class="events__block" *ngFor="let event of eventList" [routerLink]="event.entityUrl.path">
+      <div class="events__content">
         <div class="title">{{ event.title }}</div>
-        <div class="info" class="sm-show">
+        <div class="sm-show info">
           <span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
           <span>{{ event.location ? event.location.name : '' }}</span>
         </div>
-        <div class="info" class="sm-hide">
-          <span>Algusaeg: <strong>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</strong></span>
-          <span *ngIf="event.location">Toimumiskoht: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
-          <span *ngIf="event.fieldEntryType">Sissepääs: <strong>{{ event.fieldEntryType}}</strong></span>
+        <div class="sm-hide info block">
+          <span class="time">Algusaeg: <strong>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</strong></span>
+          <span class="location" *ngIf="event.location">Toimumiskoht: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
+          <span class="entrance" *ngIf="event.fieldEntryType">Sissepääs: <strong>{{ event.fieldEntryType}}</strong></span>
         </div>
         <div class="tags sm-hide">
           <mat-chip-list>
@@ -59,12 +61,12 @@
     <p>No result</p>
   </div><!--/text-center-->
 
-  <div *ngIf="view == 'calendar'">
+  <div class="calendar__elem" *ngIf="view == 'calendar'">
 
-    <div class="text-center">
-      <button mat-button color="primary" (click)="changeMonth(-1);">Eelmine</button>
-      {{ year }} / {{ month }}
-      <button mat-button color="primary" (click)="changeMonth(1);">Järgmine</button>
+    <div class="navigation text-center">
+      <mat-icon (click)="changeMonth(-1);">chevron_left</mat-icon>
+      <span class="month"><h1>{{ monthName }}</h1></span>
+      <mat-icon (click)="changeMonth(1);">chevron_right</mat-icon>
     </div><!--/text-center-->
     
     <table class="calendar">
@@ -78,7 +80,17 @@
           <th width="14.2%">{{ 'sunday' | translate }}</th>
       </tr>
       <tr *ngFor="let week of calendarDays">
-        <td *ngFor="let day of week">{{ day }}</td>
+        <td *ngFor="let day of week; let last = last">
+          <span>{{ day }}</span>
+          <div class="cal__event" *ngFor="let event of eventList; let i = index">
+            <div class="content" *ngIf="last && i < 3">
+              <span><div class="marker"></div></span>
+              <span class="time">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
+              <span class="location">{{ event.location ? event.location.name : '' }}</span>
+            </div>
+          </div>
+          <div class="more"><a *ngIf="last" href="javascript:void(0)">2 veel</a></div>
+        </td>
       </tr>
     </table>
   </div><!--/view content-->
