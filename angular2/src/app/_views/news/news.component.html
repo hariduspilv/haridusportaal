@@ -44,7 +44,10 @@
         </div><!--/col-3-->
         <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterState">
           <div class="align-center filter-state sm-hide">       
-            <a href="javascript:void(0);" (click)="changeFilterState()"><span>Täpsem otsing</span></a>
+            <a href="javascript:void(0);" (click)="changeFilterState()">
+              <span class="md-hide">Täpsem otsing</span>
+              <span class="md-show">Täpne</span>
+            </a>
           </div>
           <div class="button-row">
             <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
@@ -74,7 +77,10 @@
         </div>
         <div class="col-3 align-end text-right sm-12 inline-flex sm-hide">
           <div class="align-center filter-state sm-hide">       
-            <a href="javascript:void(0);" (click)="changeFilterState()"><span>Kitsam otsing</span></a>
+            <a href="javascript:void(0);" (click)="changeFilterState()">
+              <span class="md-hide">Kitsam otsing</span>
+              <span class="md-show">Kitsas</span>
+            </a>
           </div>
           <div class="button-row">
             <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>

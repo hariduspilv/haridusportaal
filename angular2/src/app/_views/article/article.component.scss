@@ -1,7 +1,7 @@
 @import "../../../assets/styles/typography.scss"; 
 .article-wrapper {
   // padding-bottom: $xxl;
-  @media (min-width: 900px) {padding: $gutter $medium $medium $medium;}
+  @include break-on(sm, min) {padding: $gutter $medium $medium $medium;}
 }
 article {
   // padding-bottom: $xxl;
@@ -11,7 +11,7 @@ article {
 }
 .sidebar {background: $light-gray;
   &__item {border-top: $gutter solid $orange;background: $white;padding: $small $medium $medium $medium;margin-bottom: 0;
-    @media (min-width: 900px) {border-radius: $half-gutter; margin-bottom: $small;}}
+    @include break-on(sm, min) {border-radius: $half-gutter; margin-bottom: $small;}}
   &__title {font-size: 1.25rem; color: $black; padding-bottom: $small;}
   &__paragraph {font-size: $small; color: $black; line-height: 1.375rem;}
   .mat-card-content:last-child{margin-bottom: 0}
@@ -23,12 +23,12 @@ article {
 .article {
   border-top: $gutter solid $light-blue;
   background: $white;
-  @media (min-width: 900px) {border-radius: $half-gutter;height:100%;
+  @include break-on(sm, min) {border-radius: $half-gutter;height:100%;
     // margin-left: $medium; margin-right: $medium;
   }
   &-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
   &-image {width:100%; max-width:100%; height: auto;
-    @media (min-width: 900px) {
+    @include break-on(sm, min) {
       width: stretch;
       max-width: 100%;
       margin: 0 1.5rem;
@@ -43,15 +43,15 @@ article {
 ::ng-deep .description > *:last-child {margin-bottom: 0;}
 .short {@extend .description; font-weight: 500; padding-bottom: $small;}
 .image-alt-text {font-size: 0.875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
-  @media (min-width: 900px) {padding: 0 0 $small 0;}
+  @include break-on(sm, min) {padding: 0 0 $small 0;}
 }
 .mat-expansion-panel {box-shadow: none !important;border: .0625rem solid $gray;
   mat-panel-title {
-    @media (max-width: 900px) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+    @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
   }
   &.mat-expanded {border-left: .1875rem solid $dark-orange;
     mat-panel-title {
-      @media (min-width: 900px) {text-overflow: initial;overflow: auto;white-space: normal;}
+      @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
   }
   border-radius: .125rem;margin-bottom: $half-gutter;

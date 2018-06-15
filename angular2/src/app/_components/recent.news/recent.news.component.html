@@ -6,7 +6,7 @@
     <div class="pointer field-image" *ngIf="item.fieldIntroductionImage" [routerLink]="[item.entityUrl.path]">
       <img src="{{ item.fieldIntroductionImage.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
     </div>
-    <div class="title__recent"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h2> {{ item.entityLabel }}</h2></a></div>
+    <div class="title__recent"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
     <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
     <!-- <mat-divider class="mt-20 mb-20"></mat-divider> -->
   </div>

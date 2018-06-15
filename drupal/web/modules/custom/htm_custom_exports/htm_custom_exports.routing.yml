@@ -1,0 +1,23 @@
+htm_custom_exports.calendar_export_controller_calendarexport:
+  path: '/calendarexport/{event_node_id}'
+  defaults:
+    _controller: '\Drupal\htm_custom_exports\Controller\CalendarExportController::calendarexport'
+    _title: 'Calendar Export'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      event_node_id:
+        type: entity:node
+
+htm_custom_exports.registrations_export:
+  path: '/registrations/{event_node_id}'
+  defaults:
+    _controller: '\Drupal\htm_custom_exports\Controller\RegistrationsExportCsvController::exportcsv'
+    _title: 'Registrations CSV Export'
+  requirements:
+    _custom_access: '\Drupal\htm_custom_exports\Controller\RegistrationsExportCsvController::access'
+  options:
+    parameters:
+      event_node_id:
+        type: entity:node

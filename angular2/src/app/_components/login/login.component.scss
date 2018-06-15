@@ -1,3 +1,4 @@
+@import "../../../assets/styles/typography.scss"; 
 :host{position: relative; z-index: 2;}
 
 .login-wrapper { position: relative;
@@ -17,7 +18,7 @@
 
   mat-icon {vertical-align: middle; position: relative; z-index: 2;
     &.person { padding-right: 0.75rem;
-      @media (min-width: 900px) {padding-right: 0px;}
+      @include break-on(sm, min) {padding-right: 0px;}
     }
   }
   .error{
