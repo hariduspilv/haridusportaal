@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { RecentNewsComponent } from './recent.news.component';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../_core/material.module';

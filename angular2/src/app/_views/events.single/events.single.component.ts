@@ -12,7 +12,12 @@ import { Apollo } from 'apollo-angular';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import {EventsRegistratonDialog} from '../../_components/dialogs/events.registration/events.registration.dialog'
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { TranslateService } from '@ngx-translate/core';
 
+import * as _moment from 'moment';
+
+const moment = _moment;
 
 @Component({
   templateUrl: './events.single.component.html'
@@ -27,6 +32,9 @@ export class EventsSingleComponent {
   participants: Array<any>;
   participantsSortOrder: object = {};
 
+  iCalUrl: string = "http://test-htm.wiseman.ee:30000/calendarexport/";
+  participantsUrl: string = "http://test-htm.wiseman.ee:30000/htm_custom_event_registration/registrations/";
+  
   content: any;
   unix: any;
   error: boolean;
@@ -42,7 +50,8 @@ export class EventsSingleComponent {
     private rootScope:RootScopeService,
     private apollo: Apollo,
     public dialog: MatDialog,
-    private metaTags: MetaTagsService
+    private metaTags: MetaTagsService,
+    private translate: TranslateService
   ) {
     
     this.route.params.subscribe( params => {
@@ -92,7 +101,7 @@ export class EventsSingleComponent {
     tmpParticipants = this.sortByKey(tmpParticipants['entities'], key);
 
     for( let i in tmpParticipants ){
-      tmpParticipants[i]['index'] = parseInt(i)+1;
+      tmpParticipants[i]['participantIndex'] = parseInt(i)+1;
     }
 
 
@@ -116,9 +125,44 @@ export class EventsSingleComponent {
 
   }
   
-  ngOnInit() {
+  getCSV() {
+    
+    let exportData = JSON.parse( JSON.stringify( this.sortedParticipants ) );
+
+    
+    let exportLabels = [];
+
+    for( var i in exportData ){
+      delete exportData[i]['__typename'];
+      delete exportData[i]['created'];
+
+      exportData[i]['participantIndex'] = i+1;
+
+      for( var ii in exportData[i] ){
+
+        let translatedLabel = this.translate.get(ii)['value'];
+
+        if( !exportLabels.includes(translatedLabel) ){
+          exportLabels.push(translatedLabel);
+        }
+
+        if( exportData[i][ii] == null ){
+          exportData[i][ii] = '';
+        }
+        else if( ii == "participantCreated" ){
+          exportData[i][ii] = moment(exportData[i][ii] * 1000).format("DD.MM.YYYY HH:mm");
+        }
+      }
+    }
+
+    new Angular2Csv(exportData, this.content.entity.entityLabel, {
+      fieldSeparator: ";",
+      showLabels: true,
+      headers: exportLabels
+    });
+
+     
   }
-  
   
   openDialog(): void {
     let dialogRef = this.dialog.open(EventsRegistratonDialog, {

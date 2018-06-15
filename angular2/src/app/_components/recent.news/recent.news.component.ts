@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild, Input, OnInit, ElementRef} from '@angular/core';
 import { NewsService, RootScopeService } from '../../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -14,12 +14,13 @@ export class RecentNewsComponent implements OnInit {
 	content: any;
 	lang: string;
 	allPath: any;
-	
+	@Input('nid') nid: string = "";
+
 	constructor(private newsService: NewsService, private router: Router, private route: ActivatedRoute) {
 		
 	}
 	ngOnInit() {
-		
+
 		this.lang = this.router.url;
 		let that = this;
 		
@@ -32,7 +33,7 @@ export class RecentNewsComponent implements OnInit {
 			}
 		});
 		
-		this.newsService.getRecent("",function(data){
+		this.newsService.getRecent(this.nid, function(data){
 			if ( data['nodeQuery'] == null ) {
 				that.error = true;
 			} else {
