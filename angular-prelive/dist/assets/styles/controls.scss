@@ -61,9 +61,9 @@
   border: solid .0625rem #c7c7c9;
   padding: 0;
   height: 2.5rem;
-  @media (min-width: 1400px) {height: 2.4375rem;}
-  @media (min-width: 1980px) {height: 2.375rem;}
-  @media (min-width: 2580px) {height: 2.3125rem;}
+  @include break-on(lg, min) {height: 2.4375rem;}
+  @include break-on(xl, min) {height: 2.375rem;}
+  @include break-on(xxl, min) {height: 2.3125rem;}
   border-radius: 1.25rem;
   &.exists {height: auto;}
   &.ng-select-opened {border: solid .0625rem $blue;}
@@ -106,6 +106,7 @@
 }
 .ng-select__wrapper {
   margin-top: -.3125rem;
+  &__second {margin-top: -$quarter}
   &:focus-within {
     color: red;
     .ng-select__title {
