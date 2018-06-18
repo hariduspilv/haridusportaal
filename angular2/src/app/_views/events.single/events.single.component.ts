@@ -15,6 +15,8 @@ import {EventsRegistratonDialog} from '../../_components/dialogs/events.registra
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { TranslateService } from '@ngx-translate/core';
 
+import { SettingsService } from '../../_core/settings';
+
 import * as _moment from 'moment';
 
 const moment = _moment;
@@ -32,8 +34,8 @@ export class EventsSingleComponent {
   participants: Array<any>;
   participantsSortOrder: object = {};
 
-  iCalUrl: string = "http://test-htm.wiseman.ee:30000/calendarexport/";
-  participantsUrl: string = "http://test-htm.wiseman.ee:30000/htm_custom_event_registration/registrations/";
+  iCalUrl: string;
+  participantsUrl: string;
   
   content: any;
   unix: any;
@@ -51,9 +53,13 @@ export class EventsSingleComponent {
     private apollo: Apollo,
     public dialog: MatDialog,
     private metaTags: MetaTagsService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private settings: SettingsService
   ) {
     
+    this.iCalUrl = this.settings.url+"/calendarexport/";
+    this.participantsUrl = this.settings.url+"/htm_custom_event_registration/registrations/";
+
     this.route.params.subscribe( params => {
       this.content = false;
       this.error = false;
