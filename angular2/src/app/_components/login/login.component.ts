@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
+import { SettingsService } from '../../_core/settings';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class LoginComponent implements OnInit{
   
   loginVisible: boolean;
-  postUrl:string = "http://test-htm.wiseman.ee:30000/et/api/v1/token?_format=json";
+  postUrl:string;
   formModels: object = {};
   data: any;
 
@@ -31,8 +32,11 @@ export class LoginComponent implements OnInit{
     private router: Router,
     private translate: TranslateService,
     private http: HttpClient,
-    private sidemenu: SideMenuService
-  ) {}
+    private sidemenu: SideMenuService,
+    private settings: SettingsService
+  ) {
+    this.postUrl = this.settings.url+this.settings.login;
+  }
 
   toggleLogin() {
     this.loginVisible = !this.loginVisible;

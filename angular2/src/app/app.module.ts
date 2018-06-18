@@ -26,12 +26,29 @@ import {TranslateModule, TranslateLoader, TranslatePipe} from '@ngx-translate/co
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BreadcrumbsComponent } from './_components/breadcrumbs/breadcrumbs.component';
 import { EventsFilterComponent } from './_components/events.filter/events.filter.component';
+
+import { SettingsService } from './_core/settings';
+
 // AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
+export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
+
+  let urlTemplates = {
+    "localhost": "http://test-htm.wiseman.ee:30000",
+    "htm.twn.ee": "http://test-htm.wiseman.ee:30000",
+    "otherwise": "https://api.test.edu.ee"
+  }
+
+  let url = "";
+  
+  if( urlTemplates[document.domain] ) {
+    url = urlTemplates[document.domain];
+  }else{
+    url = urlTemplates.localhost;
+  }
 
   let localPath = true;
-  let path = ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"];
 
+  let path = [url, "/base_settings?_format=json"];
   if( localPath ){
     path = ["/assets/", ".json"];
   }
@@ -81,7 +98,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EventsService,
     RootScopeService,
     NewsService,
-    MetaTagsService
+    MetaTagsService,
+    SettingsService
   ],
 
   exports: [
