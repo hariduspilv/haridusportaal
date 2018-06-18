@@ -2,23 +2,60 @@
 
 /**
  * @file
- * Contains custom_subscription_notification.module.
+ * Contains custom_subscription_notification.
  */
 
-use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\custom_subscription_notification\Controller\NotificationController;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
+use Drupal\Core\Database\Database;
+use Drupal\Component\Utility\Unicode;
 
 /**
  * Implements hook_help().
  */
-function custom_subscription_notification_help($route_name, RouteMatchInterface $route_match) {
-  switch ($route_name) {
-    // Main module help for the custom_subscription_notification module.
-    case 'help.page.custom_subscription_notification':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Module for sending out notifications to subscribers') . '</p>';
-      return $output;
+function custom_subscription_notification_cron() {
+        $notification_controller = new NotificationController();
 
-    default:
+        /** @var QueueFactory $queue_factory */
+        $queue_factory = \Drupal::service('queue');
+        /** @var QueueInterface $queue */
+        $queue = $queue_factory->get('cron_custom_subscription_notification');
+
+        $notificationnodes = $notification_controller->notify();
+        foreach($notificationnodes as $notificationnode){
+          $queue->createItem($notificationnode);
+        }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function custom_subscription_notification_mail($key, &$message, $params) {
+
+  $options = array(
+      'langcode' => $message['langcode'],
+  );
+  switch ($key) {
+    case 'notification_email':
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = Unicode::mimeHeaderEncode($params['title']);
+      $message['body'][] = \Drupal::service('renderer')->render($params['body']);
+
+      break;
   }
+
+}
+
+/**
+ * Implements hook_theme()
+ */
+function custom_subscription_notification_theme($existing, $type, $theme, $path){
+  return [
+    'newsletter_notification_email_template' => [
+      'variables' => ['body' => ''],
+      'template' => 'newsletter_notification_email_template',
+    ]
+  ];
 }
