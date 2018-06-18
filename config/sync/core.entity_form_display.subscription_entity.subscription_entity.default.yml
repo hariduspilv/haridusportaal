@@ -16,6 +16,13 @@ content:
     settings:
       include_locked: true
     third_party_settings: {  }
+  language:
+    type: language_select
+    region: content
+    weight: 6
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   subscriber_email:
     type: email_default
     region: content
