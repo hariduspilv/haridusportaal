@@ -7,11 +7,11 @@
       <div class="button-list text-right sm-hide">
         <div class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
-          <div class="title">List</div>
+          <div class="title">{{ 'list' | translate }}</div>
         </div>
         <div class="view-item" (click)="changeView('calendar')" [class.active]="view === 'calendar'">
           <mat-icon>calendar_today</mat-icon>
-          <div class="title">Kalender</div>
+          <div class="title">{{ 'calendar' | translate }}</div>
         </div>
       </div><!--/button-list-->
     </div>
@@ -24,7 +24,7 @@
   <div class="events__list-body" *ngIf="eventList && view == 'list' ">
     <div class="events__header center">
       <div class="events__datetime">
-        <div class="day">Teisipäev</div>
+        <div class="day">{{ 'tuesday' | translate }}</div>
         <div class="date">11.05</div>
       </div>
       <div class="events__separator w-100">
@@ -40,9 +40,9 @@
           <span>{{ event.location ? event.location.name : '' }}</span>
         </div>
         <div class="sm-hide info block">
-          <span class="time">Algusaeg: <strong>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</strong></span>
-          <span class="location" *ngIf="event.location">Toimumiskoht: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
-          <span class="entrance" *ngIf="event.fieldEntryType">Sissepääs: <strong>{{ event.fieldEntryType}}</strong></span>
+          <span class="time">{{ 'start.time' | translate }}: <strong>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</strong></span>
+          <span class="location" *ngIf="event.location">{{ 'location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
+          <span class="entrance" *ngIf="event.fieldEntryType">{{ 'entrance' | translate }}: <strong>{{ event.fieldEntryType}}</strong></span>
         </div>
         <div class="tags sm-hide">
           <mat-chip-list>
@@ -79,17 +79,55 @@
           <th width="14.2%">{{ 'saturday' | translate }}</th>
           <th width="14.2%">{{ 'sunday' | translate }}</th>
       </tr>
-      <tr *ngFor="let week of calendarDays">
-        <td *ngFor="let day of week; let last = last">
-          <span>{{ day }}</span>
-          <div class="cal__event" *ngFor="let event of eventList; let i = index">
-            <div class="content" *ngIf="last && i < 3">
+      <tr *ngFor="let week of calendarDays; let firstWeek = first">
+        <td *ngFor="let day of week; let last = last" [class.today]="day == 20" [class.disableMore]="morePopup === day">
+          <div class="cal__day more__hidden">{{ day }}</div>
+          <div class="cal__event more__hidden" *ngFor="let event of eventList; let i = index">
+            <div class="content" [class.active]="popup === i" *ngIf="firstWeek && last && i < 3" (click)="togglePopup(i)">
               <span><div class="marker"></div></span>
-              <span class="time">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
-              <span class="location">{{ event.location ? event.location.name : '' }}</span>
+              <span class="content__medium">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
+              <span class="content__strong">{{ event.title }}</span>
+            </div>
+            <div class="popup" *ngIf="firstWeek && last && i < 3 && popup === i">
+              <div class="popupcontent">
+                <div class="event__block">
+                  <div class="title">
+                    <span class="title__strong">{{ event.title }}</span>
+                    <span class="close"><a (click)="closePopup()"><mat-icon>close</mat-icon></a></span>
+                  </div>
+                  <div><span>{{ 'date' | translate }}: </span>{{day}}. {{monthName}}</div>
+                  <div *ngIf="event.eventDates"><span>{{ 'start.time' | translate }}: </span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</div>
+                  <div *ngIf="event.location"><span>{{ 'location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
+                  <div *ngIf="event.fieldEntryType"><span>{{ 'entrance' | translate }}: </span>{{ event.fieldEntryType}}</div>
+                </div>
+                <div class="line"></div>
+                <div class="event__more"><a href="javascript:void(0)" [routerLink]="event.entityUrl.path">Vaata lähemalt</a></div>
+              </div>
             </div>
           </div>
-          <div class="more"><a *ngIf="last" href="javascript:void(0)">2 veel</a></div>
+          <div class="cal__event__more">
+            <div class="more more__hidden"><a *ngIf="firstWeek && last" href="javascript:void(0)" (click)="toggleMore(day)" >2 veel</a></div>
+            <div class="popup" *ngIf="firstWeek && last && morePopup === day">
+              <div class="popupcontent additional">
+                <div class="event__block event__block__more">
+                  <div class="title">
+                    <div class="header">
+                      <div class="header__medium">{{ 'sunday' | translate }}</div>
+                      <div class="header__strong">{{day}}. {{monthName}}</div>
+                    </div>
+                    <span class="close more"><a (click)="closeMore()"><mat-icon>close</mat-icon></a></span>
+                  </div>
+                  <div class="cal__event" *ngFor="let event of eventList" [routerLink]="event.entityUrl.path">
+                    <div class="content content__more">
+                      <span><div class="marker"></div></span>
+                      <span class="content__medium">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
+                      <span class="content__strong">{{ event.title }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </td>
       </tr>
     </table>
