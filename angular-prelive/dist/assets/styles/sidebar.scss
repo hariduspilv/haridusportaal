@@ -1,5 +1,6 @@
+@import "../assets/styles/typography.scss";
 .mat-sidenav {
-  @media (max-width:900px) {
+  @include break-on(sm, max) {
     margin-left: 0;
   }
   .side-menu-wrapper { 
