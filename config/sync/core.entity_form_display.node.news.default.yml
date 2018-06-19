@@ -12,9 +12,11 @@ dependencies:
     - field.field.node.news.field_news_link
     - field.field.node.news.field_short_description
     - field.field.node.news.field_tag
+    - field.field.node.news.field_youtube
     - image.style.crop_result_thumb
     - node.type.news
   module:
+    - htm_custom_video_field
     - image_widget_crop
     - link
     - maxlength
@@ -116,6 +118,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete_tags
+    region: content
+  field_youtube:
+    weight: 28
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: custom_video_widget_type
     region: content
   langcode:
     type: language_select
