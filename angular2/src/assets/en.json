@@ -63,5 +63,7 @@
   "calendar": "Calendar",
   "list": "List",
   "entrance": "Entrance",
-  "start.time": "Start time"
+  "start.time": "Start time",
+  "events.related": "Related events",
+  "practical.info": "Practical info"
 }

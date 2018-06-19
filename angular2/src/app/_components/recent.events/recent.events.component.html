@@ -1,4 +1,53 @@
-<div *ngFor="let item of content">
+<div class="events__list__recent">
+  <div class="events__list__item register">
+    <div class="title"><h1>{{'entrance' | translate}}</h1></div>
+    <div class="events__list__item__body"><span class="child">Registreerumisega alates 22.05.2018 kuni 30.05.2018</span></div>
+    <button mat-raised-button color="primary" (click)="openDialog()">{{'register' | translate}}</button>
+    <!-- <a href="javascript:void(0);" mat-raised-button>Lisa kalendrisse</a> -->
+  </div>
+</div>
+
+<div class="events__list__recent">
+  <div class="map-wrapper" *ngIf="map">
+    <agm-map [latitude]="map.lat" [longitude]="map.lon" [zoom]="map.zoom"></agm-map>
+    <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>Vaata kaarti lähemalt</span></a>
+  </div>
+  <div class="events__list__item">
+    <div class="title"><h1>{{'occurrence.location' | translate}}</h1></div>
+    <div class="events__list__item__body">
+      <div *ngFor="let item of content.entity.fieldEventDate" class="child">
+        <span *ngIf="content.entity.fieldEventLocation">
+          {{ item.entity.fieldEventDate.unix*1000 | weekday: "unix"}}
+          {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
+          Kell
+          {{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}
+        </span>
+      </div>
+    </div>
+    <div class="events__list__item__footer">{{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}</div>
+  </div>
+</div>
+
+<div class="events__list__recent">
+  <div class="events__list__item">
+    <div class="title"><h1>{{'contact' | translate}}</h1></div>
+    <div class="events__list__item__body">
+      <div class="child">{{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}</div>
+      <div class="child">{{ content.entity.fieldContactPerson }}</div>
+      <div class="child">{{ content.entity.fieldContactPhone }}</div>
+      <a href="javascript:void(0)" class="child">{{ content.entity.fieldContactEmail }}</a>
+    </div>
+  </div>
+</div>
+
+<div class="events__list__recent" *ngIf="content.entity.fieldPracticalInformation">
+  <div class="events__list__item">
+    <div class="title"><h1>{{'practical.info' | translate}}</h1></div>
+    <div class="events__list__item__body" *ngIf="content.entity.fieldPracticalInformation" [innerHtml]="content.entity.fieldPracticalInformation.value"></div>
+  </div>
+</div>
+
+<!-- <div *ngFor="let item of content">
    <h2 *ngIf="item.eventDates[0]">
       {{ item.eventDates[0].entity.fieldEventDate.unix*1000 | weekday: "unix"}}
       {{ item.eventDates[0].entity.fieldEventDate.unix*1000 | date: "dd. MMMM yyy "}}
@@ -13,5 +62,5 @@
       </p>
    </a>
    <mat-divider class="mt-20 mb-20"></mat-divider>
-</div>
-<a href="javascript:void(0);" [routerLink]="allPath" mat-button color="primary">{{ 'view.all' | translate }}</a>
+</div> -->
+<!-- <a href="javascript:void(0);" [routerLink]="allPath" mat-button color="primary">{{ 'view.all' | translate }}</a> -->

@@ -22,7 +22,8 @@ import * as _moment from 'moment';
 const moment = _moment;
 
 @Component({
-  templateUrl: './events.single.component.html'
+  templateUrl: './events.single.component.html',
+  styleUrls: ['./events.single.component.scss']
 })
 
 export class EventsSingleComponent {
@@ -128,6 +129,7 @@ export class EventsSingleComponent {
     }
 
     this.sortedParticipants = tmpParticipants;
+    console.log(this.sortedParticipants)
 
   }
   

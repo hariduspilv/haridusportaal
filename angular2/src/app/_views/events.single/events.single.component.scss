@@ -1,0 +1,64 @@
+@import "../../../assets/styles/typography.scss"; 
+article {padding-bottom: $xxl;
+  a {color: $blue;
+    .mat-icon {color: $blue;}
+  }
+}
+.tags {padding-bottom: 0;}
+.share-btn .mat-icon {line-height: 1.3;
+  @include break-on(sm, max) {right: $small;position: relative;}
+}
+.events__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
+.events__list {
+  border-top: $gutter solid $light-blue;
+  background: $white;
+  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium;}
+  &__recent {
+    @extend .events__list;
+    a:hover { text-decoration: underline; }
+    border-top: $gutter solid $orange;
+    margin-bottom: $small;
+    .map-wrapper {position: relative;
+      a {position:absolute;bottom:0;width:stretch;background-color: rgba(0, 0, 0, 0.6);color:$white;align-items: center;justify-content: center;
+        font-weight: normal;line-height: 1.25;font-size: $small;display: flex; padding: $small;text-decoration:none;
+        .mat-icon {font-size: 1.25rem;height: 1.25rem !important;}
+      }  
+    }
+    @include break-on(sm, min) {border-radius: $half-gutter; margin-left: 0;}
+  }
+  &.second {margin-top:$small;}
+  &__item {
+    
+    padding: $medium;padding-top: $small;padding-bottom:$xxl;
+    .title {padding: 0;padding-bottom: $gutter;}
+    &.register {padding-bottom:$medium;}
+    .child {line-height: 1.375rem;}
+    button {width: stretch; margin-top: $small;}
+    &__footer {padding-top:$gutter;}
+  }
+}
+.title {font-size: $small;line-height: 2;padding: 0 $medium;
+  h1 {color:$black;}
+  &__recent {
+    padding: $small $medium 0 $medium;
+  }
+}
+.author {padding: $half-gutter $medium 0 $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;}
+.description {padding: $small $medium; color: $black; line-height: 1.375rem; padding-bottom: 0;}
+.short {@extend .description; font-weight: 500; padding-bottom: $small;}
+.article-image {width:100%; max-width:100%; height: auto;
+  @include break-on(sm, min) {
+    width: stretch;
+    max-width: 100%;
+    margin: 0 1.5rem;
+  }
+  img { width: 100%; }
+}
+.image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
+  @include break-on(sm, min) {padding: 0 0 $small 0;}
+}
+.events__single {
+  @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}
+}
+.links {padding: 0 $medium;}
+.breadcrumb { padding-bottom: $gutter;}
