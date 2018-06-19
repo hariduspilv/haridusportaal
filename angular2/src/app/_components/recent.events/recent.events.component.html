@@ -3,6 +3,10 @@
     <div class="title"><h1>{{'entrance' | translate}}</h1></div>
     <div class="events__list__item__body"><span class="child">Registreerumisega alates 22.05.2018 kuni 30.05.2018</span></div>
     <button mat-raised-button color="primary" (click)="openDialog()">{{'register' | translate}}</button>
+    <!-- <div *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity">
+      <span *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">Registreerumisega kuni {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}</span>
+      <span *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 < unix">Registreerimine lõppenud</span>
+    </div> -->
     <!-- <a href="javascript:void(0);" mat-raised-button>Lisa kalendrisse</a> -->
   </div>
 </div>
@@ -46,21 +50,3 @@
     <div class="events__list__item__body" *ngIf="content.entity.fieldPracticalInformation" [innerHtml]="content.entity.fieldPracticalInformation.value"></div>
   </div>
 </div>
-
-<!-- <div *ngFor="let item of content">
-   <h2 *ngIf="item.eventDates[0]">
-      {{ item.eventDates[0].entity.fieldEventDate.unix*1000 | weekday: "unix"}}
-      {{ item.eventDates[0].entity.fieldEventDate.unix*1000 | date: "dd. MMMM yyy "}}
-   </h2>
-   <a [routerLink]="[item.entityUrl.path]" href="javascript:void(0);" class="normal-text">
-      <b>{{ item.title }}</b>
-      <p *ngIf="item.fieldDescription">{{ item.fieldDescription.summary }}</p>
-      <p>
-
-         <span *ngIf="item.eventDates[0]"><b>{{ 'occurrence' | translate }}:</b> {{ item.eventDates[0].entity.fieldEventStartTime | unixToTime }}<br /></span>
-         <span *ngIf="item.location"><b>{{ 'location' | translate }}:</b> {{ item.location.name }}</span>
-      </p>
-   </a>
-   <mat-divider class="mt-20 mb-20"></mat-divider>
-</div> -->
-<!-- <a href="javascript:void(0);" [routerLink]="allPath" mat-button color="primary">{{ 'view.all' | translate }}</a> -->

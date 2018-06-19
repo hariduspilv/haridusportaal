@@ -17,7 +17,7 @@
         <div class="row">
           <div class="col-12">
             <div class="short" *ngIf="content.entity.fieldDescription" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
-            <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openDialog()">
+            <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openImage()">
               <img src="{{ content.entity.fieldPicture.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
               <div class="image-alt-text" *ngIf="content.entity.fieldPicture.alt">{{ content.entity.fieldPicture.alt }}</div>
             </div>
@@ -87,61 +87,9 @@
             </table>
           </div>
         </div><!-- participants -->
-      
-        <!-- <div class="row mb-20">
-          <div class="col-4 sm-12">
-            <p><b>Toimumisaeg ja asukoht</b></p>
-            
-            <div *ngFor="let item of content.entity.fieldEventDate">
-              <span *ngIf="content.entity.fieldEventLocation">
-                {{ item.entity.fieldEventDate.unix*1000 | weekday: "unix"}}
-                {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
-                Kell
-                {{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}
-              </span>
-            </div>
-            
-            <p *ngIf="content.entity.fieldEventLocation">{{ content.entity.fieldEventLocation.name }}</p>
-            
-            <div class="map-wrapper" *ngIf="map">
-              <agm-map [latitude]="map.lat" [longitude]="map.lon" [zoom]="map.zoom"></agm-map>
-              <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank" mat-button class="mt-20">Vaata kaarti lähemalt <mat-icon>launch</mat-icon></a>
-            </div>
-          </div>
-          <div class="col-8 sm-12">
-            <div class="row">
-              <div class="col-6 sm-12">
-                <p><b>Sündmuse staatus</b></p>
-                <div *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity">
-                  <span *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">Registreerumisega kuni {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}</span>
-                  <span *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 < unix">Registreerimine lõppenud</span>
-                </div>
-                
-              </div>
-              <div class="col-6 sm-12">
-                <p><b>Kontakt</b></p>
-                <p>
-                  <span *ngIf="content.entity.fieldContactPerson">{{ content.entity.fieldContactPerson }}<br /></span>
-                  <span *ngIf="content.entity.fieldContactPhone">{{ content.entity.fieldContactPhone }}<br /></span>
-                  <span *ngIf="content.entity.fieldContactEmail">{{ content.entity.fieldContactEmail }}</span>
-                </p>
-              </div>
-            </div>
-            
-            <div class="row" *ngIf="content.entity.fieldPracticalInformation && content.entity.fieldPracticalInformation.value">
-              <div class="col-12">
-                <p><b>Praktiline info</b></p>
-                <div [innerHTML]="content.entity.fieldPracticalInformation.value"></div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <!-- <a href="javascript:void(0);" mat-raised-button class="mr-20" color="primary" (click)="openDialog()" >Registreeru</a> -->
-        <!-- <a href="javascript:void(0);" mat-raised-button>Lisa kalendrisse</a> -->
-        
       </article>
     </div>
-    <div class="events__list second" *ngIf="content.entity.fieldEventGroup">
+    <div class="events__list second sm-hide" *ngIf="content.entity.fieldEventGroup">
       <div class="events__title">{{ 'events.related' | translate | uppercase }}</div>
       <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
     </div>
@@ -149,14 +97,10 @@
   <div class="col-4 sm-12">
     <recent-events [map]="map" [content]="content"></recent-events>
   </div><!--/col-4-->
+  <div class="col-8 sm-12 sm-show">
+    <div class="events__list" *ngIf="content.entity.fieldEventGroup">
+      <div class="events__title">{{ 'events.related' | translate | uppercase }}</div>
+      <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
+    </div>
+  </div><!--/col-4-->
 </div><!--/row-->
-  <!-- <mat-chip-list>
-    <span class="mat-chip-wrapper">
-      <mat-chip class="primary" selected="selected" *ngIf="content.entity.fieldEventType && content.entity.fieldEventType.entity.entityLabel">{{ content.entity.fieldEventType.entity.entityLabel }}</mat-chip>
-    </span>
-    
-    <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-wrapper">
-      <mat-chip *ngIf="tag.entity !== null">#{{ tag.entity.entityTranslation.entityLabel }}</mat-chip>
-    </span>
-  </mat-chip-list>
-   -->
