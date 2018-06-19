@@ -19,7 +19,7 @@ export class SettingsService {
     if( this.urlTemplates[document.domain] ) {
       this.url = this.urlTemplates[document.domain];
     }else{
-      this.url = this.urlTemplates.localhost;
+      this.url = this.urlTemplates.otherwise;
     }
     console.log( document.domain + " -> " + this.url );
   }
