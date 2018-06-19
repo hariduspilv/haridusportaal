@@ -34,11 +34,11 @@ class CalendarExportController extends ControllerBase {
 
   		/*TODO make calendar prodid configurable*/
 			$vCalendar = new Calendar('www.htm.ee');
-
 			$event_title  = $event_node_id->getTitle();
 			$event_description = $event_node_id->field_description_summary->value;
 			$event_location = ($location = $event_node_id->field_event_location->getValue()) ? $location[0] : NULL;
 
+			$vCalendar->setName($event_title);
   		foreach($event_node_id->referencedEntities() as $i => $refEnt){
   			if($refEnt instanceof Paragraph && $refEnt->bundle() === 'event_date'){
 					$start_time = $refEnt->field_event_start_time->value;
@@ -66,6 +66,7 @@ class CalendarExportController extends ControllerBase {
 			header('Content-Disposition: attachment; filename="cal.ics"');
 
 			$response = new Response();
+			$response->sendHeaders();
 			$response->setContent($vCalendar->render());
 
 			return $response;
