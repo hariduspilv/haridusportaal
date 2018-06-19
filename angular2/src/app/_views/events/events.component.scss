@@ -78,14 +78,70 @@
     padding-bottom: $small;
   }
 }
+.calendar{width:100%; border-collapse: collapse;table-layout: fixed;
+  th{font-size: 0.8125rem; text-align: center; line-height: $medium; font-weight: normal; padding:.3125rem 0;}
+  td{border:$gray .0625rem solid; height:8.5625rem; vertical-align: top; padding:$gutter;font-size: .875rem;
+    &:first-child {border-left: none;}
+    &:last-child {border-right: none;}
+  }
+  td.today, td.disableMore {background-color: $light-gray;border-right: .0625rem solid $gray;border-right: .0625rem solid $gray;
+    .cal__day {background-color: $red; border-radius: 50%;color: $white;font-weight: 300;}
+  }
+}
 .calendar__elem {padding-bottom: $xxl;
-  .cal__event {
-    .content {color: $blue;line-height:1.25rem;font-size: .875rem;padding-top:$gutter;
-      .location {font-weight: 500;}
+  .cal__day {width: $medium; padding-top: $half-gutter; padding-bottom: $half-gutter; text-align: center;position: relative;left: -.3125rem;top: -0.3125rem;}
+  .cal__event {cursor: pointer;
+    .content {color: $blue;line-height:1.25rem;font-size: .875rem;margin-top: $half-gutter;padding: .125rem;margin-left: -$half-gutter;padding-left: .375rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &__strong {font-weight: 500 !important;}
       .marker {width: .4375rem;height: .4375rem;background-color:$aqua; border-radius: 50%; display: inline-block;}
+      &.active {box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);}
+      &:hover {color: $dark-gray; text-decoration: underline;}
+      &__more {margin-left: 0; padding: 0;}
     }
   }
-  .more {padding-top: $gutter; padding-left: .625rem;}
+  .more {padding-top: $gutter; padding-left: .625rem;
+    a:hover {color: $dark-gray;}
+  }
+  .disableMore {.more__hidden {display: none;}}
+}
+.popup {position: relative;display: block;
+  .popupcontent {
+    cursor: auto;
+    font-size: $small;
+    line-height: 1.25rem;
+    font-weight: 500;
+    border-top: $gutter solid $orange;
+    box-shadow: 0 .125rem .25rem 0 rgba(0, 0, 0, 0.5);
+    width: 15rem;
+    background-color: #ffffff;
+    color: #333333;
+    border-radius: $half-gutter;;
+    position: absolute;
+    z-index: 1;
+    left: -15.3rem;
+    top: -3rem;
+    .event__block {padding: $small $medium $small $medium;
+      span {font-weight: 400;}
+      .title {font-size: 1.25rem; padding-bottom: $medium;display: flex;
+        &__strong {font-weight: 500;}
+        .header {
+          &__medium {font-size: $small;font-weight: 400;}
+          &__strong {font-weight: 500;}
+        }
+        .close {align-self: center;text-align: right;
+          &.more {width: 100%;}
+        }
+        a {color:black; cursor: pointer;}
+      }
+      &.event__block__more {padding-bottom: $medium;}
+    }
+    .event__more {padding-top:$small;padding-bottom: $medium;text-align: center;font-size: $small;font-weight: 400;}
+    .line {width: 100%; height: .0625rem; background-color: $gray;}
+    &.additional {left: -12rem;bottom: -3rem;top: auto;}
+  }
 }
 .navigation {padding-top: $small; padding-bottom: $medium;display: flex;align-items: center;justify-content: center;
   .month {h1{color: $black;}}

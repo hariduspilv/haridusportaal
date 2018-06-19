@@ -7,8 +7,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { setContext } from 'apollo-link-context';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-const uri = 'http://test-htm.wiseman.ee:30000/graphql';
-// const uri = 'http://localhost:300000/graphql';
+import { SettingsService } from './settings';
 
 @NgModule({
   exports: [
@@ -20,10 +19,12 @@ const uri = 'http://test-htm.wiseman.ee:30000/graphql';
 export class GraphQLModule {
   constructor(
     apollo: Apollo,
-    httpLink: HttpLink
+    httpLink: HttpLink,
+    private settings: SettingsService
   ) {
 
-    const http = httpLink.create({uri: 'http://test-htm.wiseman.ee:30000/graphql'});
+
+    const http = httpLink.create({uri: this.settings.url+'/graphql'});
 
     const auth = setContext((request, previousContext) => {
       // get the authentication token from local storage if it exists

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SettingsService } from '../../_core/settings';
 
 @Component({
   templateUrl: './personalData.component.html'
@@ -21,7 +22,9 @@ export class PersonalDataComponent {
   constructor(
     private snackbar: MatSnackBar,
     public viewContainerRef: ViewContainerRef,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private settings: SettingsService
+    ) {
 
     let that = this;
     this.submitCounter = 0;
@@ -31,7 +34,7 @@ export class PersonalDataComponent {
       error: []
     };
 
-    let tokenUrl = "http://test-htm.wiseman.ee:30000/et/rest/session/token";
+    let tokenUrl = this.settings.url+"/et/rest/session/token";
 
     var headers = new Headers();
     headers.set('Content-Type', 'text/html');
@@ -55,7 +58,7 @@ export class PersonalDataComponent {
   submit(form:any): void{
 
     let that = this;
-    let endPoint = "http://test-htm.wiseman.ee:30000/personal-card?_format=json";
+    let endPoint = this.settings.url+"/personal-card?_format=json";
 
     let regex = new RegExp(/([1,3,4,5,6]\d{10})$/);
     let personalCode = form.personalCode || "false";

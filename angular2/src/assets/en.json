@@ -58,6 +58,10 @@
   "participantOrganization": "Organization",
   "participantCreated": "Register date",
   "participantComment": "Comments",
-  "participantIndex": "No."
+  "participantIndex": "No.",
 
+  "calendar": "Calendar",
+  "list": "List",
+  "entrance": "Entrance",
+  "start.time": "Start time"
 }

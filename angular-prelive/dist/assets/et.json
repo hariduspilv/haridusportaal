@@ -50,5 +50,18 @@
   "date.to": "Aeg kuni",
   "choose.type": "Vali liik",
   "event.tag": "Sündmuse sildid",
-  "event.status": "Sündmuse staatus"
+  "event.status": "Sündmuse staatus",
+  "participantEmail": "E-post",
+  "participantPhone": "Telefon",
+  "participantLastName": "Perekonnanimi",
+  "participantFirstName": "Eesnimi",
+  "participantOrganization": "Ettevõte/Asutus",
+  "participantCreated": "Registreerimise aeg",
+  "participantComment": "Märkused",
+  "participantIndex": "jrk nr",
+
+  "calendar": "Kalender",
+  "list": "List",
+  "entrance": "Sissepääs",
+  "start.time": "Algusaeg"
 }
