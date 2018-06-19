@@ -66,7 +66,7 @@ class CalendarExportController extends ControllerBase {
 				}
 			}
 
-			$filename = preg_replace('[^a-zA-Z0-9\\.\\- ]', "_", $event_title);
+			$filename = preg_replace('/[^a-zA-Z0-9õäöüÕÄÖÜ]/i', "_", $event_title);
 
 			header('Content-Type: text/calendar; charset=utf-8');
 			header('Content-Disposition: attachment; filename="'.$filename.'.ics"');
