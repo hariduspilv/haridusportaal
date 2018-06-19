@@ -18,7 +18,7 @@
   "monday": "Monday",
   "tuesday": "Tuesday",
   "wednesday": "Wednesday",
-  "thursday": "Thursday",
+  "thursday": "Thursday", 
   "friday": "Friday",
   "saturday": "Saturday",
   "sunday": "Sunday",
@@ -49,5 +49,19 @@
   "date.to": "Date to",
   "choose.type": "Choose type",
   "event.tag": "Event tags",
-  "event.status": "Event status"
+  "event.status": "Event status",
+  
+  "participantEmail": "E-mail",
+  "participantPhone": "Phone",
+  "participantLastName": "Last name",
+  "participantFirstName": "First name",
+  "participantOrganization": "Organization",
+  "participantCreated": "Register date",
+  "participantComment": "Comments",
+  "participantIndex": "No.",
+
+  "calendar": "Calendar",
+  "list": "List",
+  "entrance": "Entrance",
+  "start.time": "Start time"
 }

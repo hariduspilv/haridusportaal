@@ -63,7 +63,14 @@ export class EventsComponent implements OnInit, OnDestroy {
   year: number = this.date.getFullYear();
   month: any = this.date.getMonth() + 1;
   monthName: string = moment(this.date).format('MMMM');
+  popup: number = null;
+  morePopup: number = null;
   
+  togglePopup(i) {this.morePopup = null;this.popup = i;}
+  closePopup() {this.popup = null;}
+  toggleMore(day) {this.popup = null;this.morePopup = day;}
+  closeMore() {this.morePopup = null;}
+
   changeMonth(direction:number) {
     let month = parseInt( this.month );
     

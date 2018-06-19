@@ -89,7 +89,7 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
     
     this.filterFull = !(document.documentElement.clientWidth > 900)
     this.filterMob = document.documentElement.clientWidth > 900
-    // http://localhost:4200/et/sundmused?dateFrom=04-06-2018&dateTo=14-06-2018&tags=1342,1343&typess=5,7
+
     let querySubscription = this.route.queryParams.subscribe(
       (params) => {
         this.filterForm.controls.title.setValue(params.title);

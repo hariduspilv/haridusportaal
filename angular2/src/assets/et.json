@@ -58,5 +58,10 @@
   "participantOrganization": "Ettevõte/Asutus",
   "participantCreated": "Registreerimise aeg",
   "participantComment": "Märkused",
-  "participantIndex": "jrk nr"
+  "participantIndex": "jrk nr",
+
+  "calendar": "Kalender",
+  "list": "List",
+  "entrance": "Sissepääs",
+  "start.time": "Algusaeg"
 }
