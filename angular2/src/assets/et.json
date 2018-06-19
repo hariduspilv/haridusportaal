@@ -63,5 +63,7 @@
   "calendar": "Kalender",
   "list": "List",
   "entrance": "Sissepääs",
-  "start.time": "Algusaeg"
+  "start.time": "Algusaeg",
+  "events.related": "Sarnased sündmused",
+  "practical.info": "Praktiline info"
 }

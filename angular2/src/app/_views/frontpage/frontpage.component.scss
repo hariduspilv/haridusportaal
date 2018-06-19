@@ -1,0 +1,4 @@
+@import "../../../assets/styles/typography.scss"; 
+.frontpage {
+  @include break-on(sm, min) {padding: $gutter $medium $medium $medium;}
+}

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../_core/material.module';
 import { AppPipes } from '../../_pipes';
 import { RouterModule, Routes } from '@angular/router';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { RouterModule, Routes } from '@angular/router';
     MaterialModule,
     AppPipes,
     RouterModule,
-    SharedModule
+    SharedModule,
+    AgmCoreModule
   ],
   declarations: [
    RecentEventsComponent
