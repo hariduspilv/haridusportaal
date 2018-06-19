@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2347795349d7d3b96a94b65b57586d7",
+    "content-hash": "cc577b768ef25b555ade1754a3857a39",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3160,57 +3160,6 @@
             "homepage": "https://www.drupal.org/project/file_browser",
             "support": {
                 "source": "http://cgit.drupalcode.org/file_browser"
-            }
-        },
-        {
-            "name": "drupal/focal_point",
-            "version": "1.0.0-beta6",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/focal_point",
-                "reference": "8.x-1.0-beta6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/focal_point-8.x-1.0-beta6.zip",
-                "reference": "8.x-1.0-beta6",
-                "shasum": "b06d3540ee49113e266191b2dba3af5d82990f38"
-            },
-            "require": {
-                "drupal/core": "*",
-                "drupal/crop": "*"
-            },
-            "require-dev": {
-                "drupal/crop": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.0-beta6",
-                    "datestamp": "1519932484",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "bleen",
-                    "homepage": "https://www.drupal.org/user/77375"
-                }
-            ],
-            "description": "Allows users to specify the focal point of an image for use during cropping.",
-            "homepage": "https://www.drupal.org/project/focal_point",
-            "support": {
-                "source": "http://cgit.drupalcode.org/focal_point"
             }
         },
         {
@@ -10946,7 +10895,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/dropzonejs": 15,
-        "drupal/focal_point": 10,
         "drupal/graphql": 10,
         "drupal/graphql_metatag": 20,
         "drupal/image_style_warmer": 15,
