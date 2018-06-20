@@ -30,7 +30,7 @@ export class NewsGraph {
                 }
                 alt
               }
-              fieldNewsTag {
+              fieldTag {
                 entity {
                   entityLabel
                 }
@@ -92,7 +92,7 @@ export class NewsGraph {
                 }
                 title
               }
-              fieldNewsTag{
+              fieldTag{
                 entity{
                   entityLabel
                   tid
@@ -121,10 +121,11 @@ export class NewsGraph {
   buildRecent(nid, lang) {
     
     lang = lang.toUpperCase();
+    if (!nid) {nid = 1}
 
     return gql`
     query {
-      nodeQuery(limit: 1, sort: {field: "created", direction: DESC},
+      nodeQuery(limit: 3, sort: {field: "created", direction: DESC},
         filter: {
           conditions: [
             {operator: EQUAL, field: "type", value: ["news"], language: ${lang}}
@@ -136,10 +137,13 @@ export class NewsGraph {
           ... on NodeNews {
             entityLabel
             created
+            fieldAuthor
             fieldIntroductionImage {
-              url
-              alt
+              derivative(style:CROP_SMALL){
+                url 
+              }
               title
+              alt
             }
             fieldShortDescription
             entityUrl {
@@ -180,7 +184,7 @@ query getNewsTags2( $lang: LanguageId!){
   ]}) {
     entities(language: $lang) {
       ... on NodeNews{
-        Tag: fieldNewsTag {
+        Tag: fieldTag {
           entity{
             entityId
             entityLabel
@@ -272,7 +276,7 @@ query sortByOptions (
           alt
           title
         }
-        fieldNewsTag {
+        fieldTag {
           entity {
             entityLabel
             tid

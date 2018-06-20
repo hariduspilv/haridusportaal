@@ -45,8 +45,7 @@
           </div><!--/col-10-->
         </div><!--/row-->
         
-        <!-- Disable participants until design is done -->
-        <div class="participants" *ngIf="false">
+        <div class="participants mt-20" style="overflow:scroll;">
           <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
         
           <button *ngIf="participants && !showParticipants" (click)="showParticipants = !showParticipants">Show participants</button>
