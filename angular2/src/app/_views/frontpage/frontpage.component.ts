@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RootScopeService, MetaTagsService} from '../../_services';
+import { RootScopeService, MetaTagsService, NewsService} from '../../_services';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 @Component({
@@ -8,8 +8,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 
 export class FrontpageComponent {
+
+  error: boolean;
+	content: any;
+	lang: string;
+  allPath: any;
+  
   constructor (
     private rootScope:RootScopeService,
+    private newsService: NewsService,
     private metaTags: MetaTagsService,
     private translate: TranslateService,
     private router: Router,
@@ -38,4 +45,27 @@ export class FrontpageComponent {
       'et': '/et',
     });
   }
+  ngOnInit() {
+
+		this.lang = this.router.url;
+		let that = this;
+		
+		this.route.params.subscribe( params => {
+			if( this.lang == "/en" ){
+				this.allPath = "/en/news";
+			}
+			else if( this.lang == "/et" ){
+				this.allPath = "/et/uudised";
+			}
+		});
+		
+		this.newsService.getRecent(null, function(data){
+			if ( data['nodeQuery'] == null ) {
+				that.error = true;
+			} else {
+				that.content = data['nodeQuery']['entities'];
+			}
+		});
+		
+	}
 }
