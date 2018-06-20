@@ -40,6 +40,7 @@
   <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
 
   <button *ngIf="participants && !showParticipants" (click)="showParticipants = !showParticipants">Show participants</button>
+
   <button *ngIf="showParticipants" (click)="showParticipants = !showParticipants">Hide participants</button>
 
 

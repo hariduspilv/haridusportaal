@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-title>{{ 'newsletter.title' | translate }}</mat-card-title>
+  <mat-card-content>
+    <p>{{ 'newsletter.intro' | translate }}</p>
+    <mat-spinner *ngIf="!data"></mat-spinner>
+
+    <div *ngIf="data">
+
+      <form>
+        <input type="text" placeholder="E-mail" />
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

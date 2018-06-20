@@ -63,5 +63,8 @@
   "calendar": "Calendar",
   "list": "List",
   "entrance": "Entrance",
-  "start.time": "Start time"
+  "start.time": "Start time",
+  "newsletter.title": "Uudiskiri - telli endale huvitavad lood",
+  "newsletter.intro": "Sissejuhatus: Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.",
+  "newsletter.submit": "Kinnita tellimus"
 }
