@@ -67,6 +67,15 @@
   "events.related": "Sarnased sündmused",
   "practical.info": "Praktiline info",
   "title": "Pealkiri",
-  "author": "Autor"
-  
+  "author": "Autor",
+  "event.group": "Ürituse grupp",
+  "share": "Jaga",
+  "description": "Kokkuvõte",
+  "description.short": "Lühikokkuvõte",
+  "sendEmail": "Saada email",
+  "startCall": "Helista",
+  "organization.name": "Organisatsioon",
+  "organization.contact": "Kontakt",
+  "link.outer": "Väline link",
+  "breadcrumbs": "Leivapuru"
 }

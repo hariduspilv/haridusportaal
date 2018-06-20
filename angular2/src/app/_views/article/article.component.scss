@@ -67,6 +67,11 @@ mat-panel-title {font-size: $small;}
   padding-top: $gutter;
   p {margin: 0;}
 }
+::ng-deep .accordion__links {
+  line-height: 1.375rem;
+  font-size: $small;
+  padding-top: $small;
+}
 ::ng-deep .mat-expansion-indicator::after {
   font-family: 'Material Icons';
   content: 'expand_more' !important;
