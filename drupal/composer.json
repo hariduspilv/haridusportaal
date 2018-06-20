@@ -60,6 +60,7 @@
         "drupal/structure_sync": "^1.12",
         "drupal/taxonomy_import": "^1.0",
         "drupal/taxonomy_manager": "^1.0",
+        "drupal/taxonomy_multidelete_terms": "^1.1",
         "drupal/term_csv_export_import": "^1.0",
         "drupal/ultimate_cron": "^2.0",
         "drush/drush": "^9.0.0",
