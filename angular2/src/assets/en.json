@@ -65,5 +65,7 @@
   "entrance": "Entrance",
   "start.time": "Start time",
   "events.related": "Related events",
-  "practical.info": "Practical info"
+  "practical.info": "Practical info",
+  "title": "Title",
+  "author": "Author"
 }

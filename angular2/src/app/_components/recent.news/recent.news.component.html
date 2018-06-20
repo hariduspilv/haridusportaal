@@ -1,15 +1,12 @@
 <div class="news-list__recent" [class.horizontal]="frontpage">
-  <div class="news-title">{{ title | translate | uppercase }} <a *ngIf="frontpage" href="javascript:void(0);" [routerLink]="allPath">{{ 'view.all' | translate | uppercase }}</a></div>
+  <div class="news-title" attr.aria-label="{{ title | translate }}">{{ title | translate }} <a attr.aria-label="{{ 'view.all' | translate }}" *ngIf="frontpage" href="javascript:void(0);" [routerLink]="allPath">{{ 'view.all' | translate | uppercase }}</a></div>
   <div class="news-list__recent__block">
-    <div class="news-list__recent__elem" *ngFor="let item of content">
-      <!-- <p>{{ item.created*1000 | date:"dd.MM.yyyy" }}</p>
-      <p [innerHtml]="item.fieldShortDescription"></p> -->
+    <article class="news-list__recent__elem" *ngFor="let item of content">
       <div class="pointer field-image" *ngIf="item.fieldIntroductionImage" [routerLink]="[item.entityUrl.path]">
         <img src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
       </div>
-      <div class="title__recent"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
-      <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
-      <!-- <mat-divider class="mt-20 mb-20"></mat-divider> -->
-    </div>
+      <div class="title__recent" attr.aria-label="{{ 'title' | translate }}" ><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
+      <div class="author" attr.aria-label="{{ 'author' | translate }}">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+    </article>
   </div>
 </div>
