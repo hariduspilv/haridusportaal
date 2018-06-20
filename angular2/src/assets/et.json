@@ -65,5 +65,8 @@
   "entrance": "Sissepääs",
   "start.time": "Algusaeg",
   "events.related": "Sarnased sündmused",
-  "practical.info": "Praktiline info"
+  "practical.info": "Praktiline info",
+  "title": "Pealkiri",
+  "author": "Autor"
+  
 }
