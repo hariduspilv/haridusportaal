@@ -14,17 +14,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Simple mutation for creating a new article node.
  *
  * @GraphQLMutation(
- *   id = "activate_tag_subscription",
+ *   id = "deactivate_tag_subscription",
  *   entity_type = "subscription_entity",
  *   secure = true,
- *   name = "activateTagSubscription",
+ *   name = "deactivateTagSubscription",
  *   type = "EntityCrudOutput!",
  *   arguments = {
  *     "input" = "SubscriptionUpdate",
  *   }
  * )
  */
-class ActivateTagSubscription extends UpdateEntityBase{
+class DeactivateTagSubscription extends UpdateEntityBase{
 	/**
 	 * The entity type manager.
 	 *
@@ -55,17 +55,9 @@ class ActivateTagSubscription extends UpdateEntityBase{
 		$entityTypeId = $this->pluginDefinition['entity_type'];
 		$storage = $this->entityTypeManager->getStorage($entityTypeId);
 		$entity = $storage->loadByProperties(['uuid' => $args['input']['uuid']]);
-		$tagfields = [];
 
 		if(count($entity) > 0){
 			$args['id'] = reset($entity)->id();
-
-			if(count(reset($entity)->toArray()['newtags']) > 0){
-				$newtags = explode(", ", reset($entity)->toArray()['newtags'][0]['value']);
-				foreach($newtags as $tag){
-					$tagfields['tag'][] = ['target_id' => $tag];
-				}
-			}
 		}
 
 		if(isset($args['id'])){
@@ -88,15 +80,8 @@ class ActivateTagSubscription extends UpdateEntityBase{
 	    }
 
 	    try {
-				if(isset($tagfields['tag']) || count($entity->toArray()['tag']) > 0){
-					$entity->get('status')->setValue(1);
-				}else{
-					$entity->get('status')->setValue(0);
-				}
+				$entity->get('status')->setValue(0);
 				$entity->get('newtags')->setValue('');
-				foreach($tagfields as $key => $value){
-					$entity->get($key)->setValue($value);
-				}
 	    }
 	    catch (\InvalidArgumentException $exception) {
 	      return new EntityCrudOutputWrapper(NULL, NULL, [
