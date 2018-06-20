@@ -10,65 +10,28 @@ use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\UpdateEntityBase;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
 use GraphQL\Type\Definition\ResolveInfo;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator;
-use Drupal\Core\Language\LanguageManager;
 /**
  * Simple mutation for creating a new article node.
  *
  * @GraphQLMutation(
- *   id = "create_tag_subscription",
+ *   id = "activate_tag_subscription",
  *   entity_type = "subscription_entity",
  *   secure = true,
- *   name = "createTagSubscription",
+ *   name = "activateTagSubscription",
  *   type = "EntityCrudOutput!",
  *   arguments = {
- *     "input" = "SubscriptionInput",
- * 		 "language" = "LanguageId!"
+ *     "input" = "SubscriptionUpdate",
  *   }
  * )
  */
-class CreateTagSubscription extends CreateEntityBase{
+class ActivateTagSubscription extends UpdateEntityBase{
 	/**
 	 * The entity type manager.
 	 *
 	 * @var \Drupal\Core\Entity\EntityTypeManagerInterface
 	 */
 	protected $entityTypeManager;
-	/**
-	 * The Custom Language Negotiator.
-	 *
-	 * @var \Drupal\custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator
-	 */
-	protected $CustomGraphqlLanguageNegotiator;
-	/**
-	 * @inheritDoc
-	 */
-	public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition)
-	{
-		return new static(
-			$configuration,
-			$pluginId,
-			$pluginDefinition,
-			$container->get('entity_type.manager'),
-			$container->get('custom_graphql_functions.language_negotiator'),
-			$container->get('language_manager'));
-	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(
-		array $configuration,
-		$pluginId,
-		$pluginDefinition,
-		EntityTypeManagerInterface $entityTypeManager,
-		CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
-		LanguageManager $languageManager)
-	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
-		$this->CustomGraphqlLanguageNegotiator = $CustomGraphqlLanguageNegotiator;
-		$this->languageManager = $languageManager;
-	}
 	/**
 	 * @param $value
 	 * @param array $args
@@ -78,10 +41,7 @@ class CreateTagSubscription extends CreateEntityBase{
 	 */
 	protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info){
 		return [
-			'language' => $context->getContext('language', $info),
-			'langcode' => $context->getContext('language', $info),
-			'subscriber_email' => $args['input']['email'],
-			'newtags' => $args['input']['newtags'],
+			'uuid' => $args['input']['uuid'],
 		];
 	}
 	/**
@@ -89,24 +49,26 @@ class CreateTagSubscription extends CreateEntityBase{
 	 */
 	public function resolve($value, array $args, ResolveContext $context, ResolveInfo $info)
 	{
-		$this->languageManager->setNegotiator($this->CustomGraphqlLanguageNegotiator);
-		//dump($args);
 		// Set new language by its langcode.
 		// Needed to re-run language negotiation.
-		$this->languageManager->reset();
-		$this->languageManager->getNegotiator()->setLanguageCode($args['language']);
-		$context->setContext('language', $args['language'], $info);
 
 		$entityTypeId = $this->pluginDefinition['entity_type'];
 		$storage = $this->entityTypeManager->getStorage($entityTypeId);
-		$entity = $storage->loadByProperties(['subscriber_email' => $args['input']['email']]);
+		$entity = $storage->loadByProperties(['uuid' => $args['input']['uuid']]);
+		$tagfields = [];
 
 		if(count($entity) > 0){
 			$args['id'] = reset($entity)->id();
+
+			if(count(reset($entity)->toArray()['newtags']) > 0){
+				$newtags = explode(", ", reset($entity)->toArray()['newtags'][0]['value']);
+				foreach($newtags as $tag){
+					$tagfields['tag'][] = ['target_id' => $tag];
+				}
+			}
 		}
 
 		if(isset($args['id'])){
-
 
 			/** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
 	    if (!$entity = $storage->load($args['id'])) {
@@ -124,14 +86,17 @@ class CreateTagSubscription extends CreateEntityBase{
 	        $this->t('You do not have the necessary permissions to update this @bundle.', ['@bundle' => $bundleName]),
 	      ]);
 	    }
-	    // The raw input needs to be converted to use the proper field and property
-	    // keys because we usually convert them to camel case when adding them to
-	    // the schema. Allow the other implementations to control this easily.
-	    $input = $this->extractEntityInput($value, $args, $context, $info);
+
 	    try {
-	      foreach ($input as $key => $value) {
+				if(isset($tagfields['tag']) || count($entity->toArray()['tag']) > 0){
+					$entity->get('status')->setValue(1);
+				}else{
+					$entity->get('status')->setValue(0);
+				}
+				$entity->get('newtags')->setValue('');
+				foreach($tagfields as $key => $value){
 					$entity->get($key)->setValue($value);
-	      }
+				}
 	    }
 	    catch (\InvalidArgumentException $exception) {
 	      return new EntityCrudOutputWrapper(NULL, NULL, [
@@ -146,8 +111,6 @@ class CreateTagSubscription extends CreateEntityBase{
 	    }
 	    return NULL;
 
-		}else{
-			return CreateEntityBase::resolve($value, $args, $context, $info);  // TODO: Change the autogenerated stub
 		}
 	}
 }

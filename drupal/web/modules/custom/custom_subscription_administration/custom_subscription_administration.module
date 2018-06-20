@@ -1,51 +1,51 @@
 <?php
 
 /**
- * @file
- * Contains custom_subscription_administration.module.
- */
+* @file
+* Contains custom_subscription_administration.module.
+*/
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Component\Utility\Unicode;
 
 /**
- * Implements hook_mail().
- */
+* Implements hook_mail().
+*/
 function custom_subscription_administration_mail($key, &$message, $params) {
 
 	$options = array(
-			'langcode' => $message['langcode'],
+		'langcode' => $message['langcode'],
 	);
- 	switch ($key) {
- 		case 'subscription_email':
-			$message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
-			$message['from'] = \Drupal::config('system.site')->get('mail');
-			$message['subject'] = Unicode::mimeHeaderEncode($params['title']);
-			$message['body'][] = \Drupal::service('renderer')->render($params['body']);
-	 		break;
- 	}
+	switch ($key) {
+		case 'subscription_email':
+		$message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+		$message['from'] = \Drupal::config('system.site')->get('mail');
+		$message['subject'] = Unicode::mimeHeaderEncode($params['title']);
+		$message['body'][] = \Drupal::service('renderer')->render($params['body']);
+		break;
+	}
 }
 
-function get_taxonomy_terms($taxonomy){
-  $query = \Drupal::entityQuery('taxonomy_term');
-  $query->condition('vid', $taxonomy);
-  $tids = $query->execute();
-  $terms = \Drupal\taxonomy\Entity\Term::loadMultiple($tids);
-  $terms_parsed = [];
-  foreach($terms as $term){
-    $terms_parsed[$term->id()] = $term->getName();
-  }
+function get_taxonomy_terms($taxonomies){
+	$query = \Drupal::entityQuery('taxonomy_term');
+	$query->condition('vid', $taxonomies, 'IN');
+	$tids = $query->execute();
+	$terms = \Drupal\taxonomy\Entity\Term::loadMultiple($tids);
+	$terms_parsed = [];
+	foreach($terms as $term){
+		$terms_parsed[$term->id()] = $term->getName();
+	}
 
-  return $terms_parsed;
+	return $terms_parsed;
 }
 
 function parse_key($key){
-  return mb_strtolower(str_replace(' ', '_', $key));
+	return mb_strtolower(str_replace(' ', '_', $key));
 }
 
 /**
- * Implements hook_theme()
- */
+* Implements hook_theme()
+*/
 function custom_subscription_administration_theme($existing, $type, $theme, $path){
 	return [
 		'subscription_confirm_email_template' => [
@@ -60,18 +60,31 @@ function custom_subscription_administration_theme($existing, $type, $theme, $pat
 }
 
 /**
- * Implements hook_entity_insert().
- */
+* Implements hook_entity_insert().
+*/
 function custom_subscription_administration_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
 	if ($entity->getEntityTypeId() === 'subscription_entity') {
 
-    $langcode = $entity->language->value;
+		$langcode = $entity->language->value;
 
 		$mailManager = \Drupal::service('plugin.manager.mail');
 		$module = 'custom_subscription_administration';
 		$key = 'subscription_email';
 		$recipient = $entity->subscriber_email->value;
 		$fields = $entity->toArray();
+		if(isset($fields['newtags'][0]['value'])){
+			$newtags = explode(", ", $fields['newtags'][0]['value']);
+		}
+
+		unset($fields['newtags']);
+		if(count($newtags) > 0){
+			foreach($newtags as $tag){
+				$fields['newtags'][] = ['target_id' => $tag];
+			}
+		}else{
+			$fields['newtags'] = [];
+		}
+
 		$fields['action'] = 'insert';
 		$params['body'] = subscription_email_content($fields);
 		$params['title'] = t('Uudiskirja tellimuse kinnitamine');
@@ -92,73 +105,100 @@ function custom_subscription_administration_entity_insert(Drupal\Core\Entity\Ent
 }
 
 /**
- * Implements hook_entity_update().
- */
+* Implements hook_entity_update().
+*/
 function custom_subscription_administration_entity_update(Drupal\Core\Entity\EntityInterface $entity) {
 	if ($entity->getEntityTypeId() === 'subscription_entity') {
 
-    $langcode = $entity->language->value;
+		$langcode = $entity->language->value;
+		$newtags = [];
 
 		$mailManager = \Drupal::service('plugin.manager.mail');
 		$module = 'custom_subscription_administration';
 		$key = 'subscription_email';
 		$recipient = $entity->subscriber_email->value;
 		$fields = $entity->toArray();
-		$fields['oldtags'] = $entity->original->toArray()['tag'];
-		if($fields['tag'] !== $fields['oldtags']){
-			$fields['action'] = 'update';
-			$params['body'] = subscription_email_content($fields);
-			$params['title'] = t('Uudiskirja tellimuse kinnitamine');
 
-			$send = true;
+		if(isset($fields['newtags'][0]['value'])){
+			$newtags = explode(", ", $fields['newtags'][0]['value']);
+		}
 
-			$result = $mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, $send);
-			if ($result['result'] !== true) {
-				$message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
-				\Drupal::logger('custom_subscription_administration')->error($message);
-				throw new Error($message);
-			}else{
-				$message = t('An email notification has been sent to @email', array('@email' => $recipient));
-				\Drupal::logger('custom_subscription_administration')->notice($message);
+		unset($fields['newtags']);
+		if(count($newtags) > 0){
+			foreach($newtags as $tag){
+				$fields['newtags'][] = ['target_id' => $tag];
+			}
+		}else{
+			$fields['newtags'] = [];
+		}
+		$commontags = count(array_intersect($fields['tag'], $fields['newtags']));
+		if(count($fields['newtags']) > 0){
+			if($commontags != count($fields['tag']) || $commontags != count($fields['newtags'])){
+				if(count($fields['tag']) > 0 && $fields['status'][0]['value'] != '0'){
+					$fields['action'] = 'update';
+				}else{
+					$fields['action'] = 'insert';
+				}
+				if(isset($fields['action'])){
+					$params['body'] = subscription_email_content($fields);
+					$params['title'] = t('Uudiskirja tellimuse kinnitamine');
+
+					$send = true;
+
+					$result = $mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, $send);
+					if ($result['result'] !== true) {
+						$message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
+						\Drupal::logger('custom_subscription_administration')->error($message);
+					}else{
+						$message = t('An email notification has been sent to @email', array('@email' => $recipient));
+						\Drupal::logger('custom_subscription_administration')->notice($message);
+					}
+				}
 			}
 		}
 	}
 }
 
 function subscription_email_content($message){
+	if(isset($message['action'])){
+		$taxonomies = array('tags', 'event_tags');
 
-	$taxonomy_terms = get_taxonomy_terms('tags');
-	foreach($message['tag'] as $tag){
-		if(isset($taxonomy_terms[$tag['target_id']])){
-			$body['tags'][] = $taxonomy_terms[$tag['target_id']];
+		$taxonomy_terms = get_taxonomy_terms($taxonomies);
+		foreach($message['newtags'] as $tag){
+			if(isset($taxonomy_terms[$tag['target_id']])){
+				$body['tags'][] = $taxonomy_terms[$tag['target_id']];
+			}
 		}
-	}
-	if(isset($body['tags'])){
-		sort($body['tags']);
-		$body['tags'] = implode(', ',$body['tags']);
-	}
-	if(count($message['oldtags']) > 0){
-		foreach($message['oldtags'] as $tag){
-			$body['oldtags'][] = $taxonomy_terms[$tag['target_id']];
+		if(isset($body['tags'])){
+			sort($body['tags']);
+			$body['tags'] = implode(', ',$body['tags']);
 		}
-		if(count($body['oldtags']) > 0){
-			sort($body['oldtags']);
-			$body['oldtags'] = implode(', ',$body['oldtags']);
+		if(isset($message['tag'])){
+			if(count($message['tag']) > 0){
+				foreach($message['tag'] as $tag){
+					$body['oldtags'][] = $taxonomy_terms[$tag['target_id']];
+				}
+				if(count($body['oldtags']) > 0){
+					sort($body['oldtags']);
+					$body['oldtags'] = implode(', ',$body['oldtags']);
+				}
+			}
 		}
-	}
-	$body['email'] = $message['subscriber_email'][0]['value'];
-	$body['langcode'] = $message['langcode'][0]['value'];
+		$body['email'] = $message['subscriber_email'][0]['value'];
+		$body['langcode'] = $message['langcode'][0]['value'];
+		$body['uuid'] = $message['uuid'][0]['value'];
 
-	if($message['action'] === 'insert'){
-		return[
-			'#theme' => 'subscription_confirm_email_template',
-			'#body' => $body,
-		];
-	}
-	if($message['action'] === 'update'){
-		return[
-			'#theme' => 'subscription_update_email_template',
-			'#body' => $body,
-		];
+		if($message['action'] === 'insert'){
+			return[
+				'#theme' => 'subscription_confirm_email_template',
+				'#body' => $body,
+			];
+		}
+		if($message['action'] === 'update'){
+			return[
+				'#theme' => 'subscription_update_email_template',
+				'#body' => $body,
+			];
+		}
 	}
 }
