@@ -1,0 +1,9 @@
+taxonomy_multidelete_terms.delete:
+  path: '/admin/structure/taxonomy/manage/{taxonomy_vocabulary}/overview/delete'
+  defaults:
+    _form: 'Drupal\taxonomy_multidelete_terms\Form\DeleteTermsConfirm'
+    _title: 'Delete Terms'
+  requirements:
+    _permission: 'access taxonomy multidelete terms'
+taxonomy_multidelete_terms.overview_form:
+  path: '/admin/structure/taxonomy/manage/{taxonomy_vocabulary}/overview'
