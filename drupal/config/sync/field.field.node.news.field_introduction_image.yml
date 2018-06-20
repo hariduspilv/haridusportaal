@@ -6,7 +6,14 @@ dependencies:
     - field.storage.node.field_introduction_image
     - node.type.news
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: '0'
 id: node.news.field_introduction_image
 field_name: field_introduction_image
 entity_type: node
@@ -22,7 +29,7 @@ settings:
   file_extensions: 'png gif jpg jpeg'
   max_filesize: ''
   max_resolution: ''
-  min_resolution: ''
+  min_resolution: 1208x680
   alt_field: true
   alt_field_required: true
   title_field: true

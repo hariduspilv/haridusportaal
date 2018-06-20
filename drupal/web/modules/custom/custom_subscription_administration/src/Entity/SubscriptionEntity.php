@@ -229,11 +229,18 @@ class SubscriptionEntity extends ContentEntityBase implements SubscriptionEntity
       ->setDisplayConfigurable('form', TRUE)
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
+      $fields['newtags'] = BaseFieldDefinition::create('string_long')
+        ->setLabel(t('Suggested tags'))
+        ->setDescription(t('Latest suggested tags.'))
+        ->setDisplayOptions('form', [
+          'type' => 'readonly_field_widget',
+        ]);
+
       $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
       ->setDescription(t('A boolean indicating whether the Subscription entity is published.'))
       ->setRevisionable(TRUE)
-      ->setDefaultValue(TRUE)
+      ->setDefaultValue(FALSE)
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
       ]);
