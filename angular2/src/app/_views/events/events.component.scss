@@ -3,7 +3,9 @@
   background: $white;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;}
   border-top: $gutter solid $light-blue;
-  &__block {cursor: pointer;}
+  &__block {cursor: pointer;
+    &:hover {.title {text-decoration: underline;}}
+  }
   &__head {display: flex;
     @include break-on(sm, min) {border-bottom: .0625rem solid $gray;}
   }
