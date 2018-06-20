@@ -5370,6 +5370,58 @@
         }
     },
     {
+        "name": "drupal/taxonomy_multidelete_terms",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/taxonomy_multidelete_terms",
+            "reference": "8.x-1.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/taxonomy_multidelete_terms-8.x-1.1.zip",
+            "reference": "8.x-1.1",
+            "shasum": "567e61b404b64c262ab6a9617a52f1c08f7fca6c"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.1",
+                "datestamp": "1490103483",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Jeetendra Kumar",
+                "homepage": "https://www.drupal.org/u/jeetendrakumar",
+                "email": "jeetendra.j2006@gmail.com",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "This module help to delete multiple terms at one time.",
+        "homepage": "https://www.drupal.org/project/taxonomy_multidelete_terms",
+        "support": {
+            "source": "https://cgit.drupalcode.org/taxonomy_multidelete_terms",
+            "issues": "https://www.drupal.org/project/issues/taxonomy_multidelete_terms"
+        }
+    },
+    {
         "name": "drupal/term_csv_export_import",
         "version": "1.0.0-alpha6",
         "version_normalized": "1.0.0.0-alpha6",
