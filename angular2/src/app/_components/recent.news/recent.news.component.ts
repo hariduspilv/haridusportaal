@@ -15,6 +15,8 @@ export class RecentNewsComponent implements OnInit {
 	lang: string;
 	allPath: any;
 	@Input('nid') nid: string = "";
+	@Input() title: string; 
+	@Input() frontpage: boolean = false; 
 
 	constructor(private newsService: NewsService, private router: Router, private route: ActivatedRoute) {
 		
