@@ -17,7 +17,6 @@ class NotificationQueue extends QueueWorkerBase {
    * {@inheritdoc}
    */
   public function processItem($notification) {
-    $import_controller = new NotificationController();
 
     $mailManager = \Drupal::service('plugin.manager.mail');
     $module = 'custom_subscription_notification';
