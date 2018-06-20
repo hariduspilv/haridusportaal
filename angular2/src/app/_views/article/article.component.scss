@@ -46,18 +46,18 @@ article {
   @include break-on(sm, min) {padding: 0 0 $small 0;}
 }
 .mat-expansion-panel {box-shadow: none !important;border: .0625rem solid $gray;
-  mat-panel-title {
+  mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
   }
   &.mat-expanded {border-left: .1875rem solid $dark-orange;
-    mat-panel-title {
+    mat-panel-title {white-space: normal;
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
   }
   border-radius: .125rem;margin-bottom: $half-gutter;
   &-spacing {margin: 0 0 $half-gutter 0;}
   &-header {height: 2.5rem !important;padding-right:$small;
-    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;}}
+    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: $gutter;}}
 }
 mat-panel-title {font-size: $small;}
 .accordion {padding: $medium;}
