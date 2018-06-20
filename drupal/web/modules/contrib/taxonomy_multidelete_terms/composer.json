@@ -1,0 +1,20 @@
+{
+  "name": "drupal/taxonomy_multidelete_terms",
+  "description": "This module help to delete multiple terms at one time.",
+  "type": "drupal-module",
+  "homepage": "https://www.drupal.org/project/taxonomy_multidelete_terms",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Jeetendra Kumar",
+      "email": "jeetendra.j2006@gmail.com",
+      "homepage": "https://www.drupal.org/u/jeetendrakumar",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+        "issues": "https://www.drupal.org/project/issues/taxonomy_multidelete_terms",
+        "source": "https://cgit.drupalcode.org/taxonomy_multidelete_terms"
+    },
+  "minimum-stability": "dev"
+}

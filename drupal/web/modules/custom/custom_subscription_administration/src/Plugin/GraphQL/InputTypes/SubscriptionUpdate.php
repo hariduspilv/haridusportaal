@@ -7,13 +7,12 @@ use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
  * The input type for article mutations.
  *
  * @GraphQLInputType(
- *   id = "subscription_input",
- *   name = "SubscriptionInput",
+ *   id = "subscription_update",
+ *   name = "SubscriptionUpdate",
  *   fields = {
- *      "newtags" = "String!",
- *      "email" = "Email!",
+ *      "uuid" = "String!",
  *   }
  * )
  */
-class SubscriptionInput extends InputTypePluginBase {
+class SubscriptionUpdate extends InputTypePluginBase {
 }

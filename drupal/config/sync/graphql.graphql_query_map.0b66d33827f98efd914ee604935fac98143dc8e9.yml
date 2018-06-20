@@ -1,0 +1,7 @@
+uuid: fc03be5b-0f41-4ba8-ae19-05990c491b6e
+langcode: et
+status: true
+dependencies: {  }
+version: 0b66d33827f98efd914ee604935fac98143dc8e9
+map:
+  newsletterTags: "query newsletterTags($lang: LanguageId!){\n    taxonomyTermQuery(filter:{conditions:{field: \"vid\", value: [\"tags\", \"event_tags\"], operator: IN, language:$lang}}){\n    entities(language:$lang){\n    entityLabel\n    entityId\n    ... on TaxonomyTermTags{\n    reverseFieldTagNode{\n    count\n    }\n    }\n    ... on TaxonomyTermEventTags{\n    reverseFieldTagNode{\n    count\n    }\n    }\n    }\n    }\n"
