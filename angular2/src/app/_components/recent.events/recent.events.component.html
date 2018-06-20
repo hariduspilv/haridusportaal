@@ -1,12 +1,16 @@
 <div class="events__list__recent">
   <div class="events__list__item register">
     <div class="title"><h1>{{'entrance' | translate}}</h1></div>
-    <div class="events__list__item__body"><span class="child">Registreerumisega alates 22.05.2018 kuni 30.05.2018</span></div>
-    <button mat-raised-button color="primary" (click)="openDialog()">{{'register' | translate}}</button>
-    <!-- <div *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity">
-      <span *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">Registreerumisega kuni {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}</span>
-      <span *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 < unix">Registreerimine lõppenud</span>
-    </div> -->
+    <div class="events__list__item__body" *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity">
+      <span class="child" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">
+        Registreerumisega alates {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} kuni {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}
+      </span>
+      <span class="error" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 < unix">Registreerimine lõppenud</span>
+    </div>
+    <div class="events__list__item__body error" *ngIf="content.entity.fieldEntryType !== 'register'">
+      <span class="error">Sündmus on möödunud</span>
+    </div>
+    <button *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity && content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix" mat-raised-button color="primary" (click)="openDialog()">{{'register' | translate}}</button>
     <!-- <a href="javascript:void(0);" mat-raised-button>Lisa kalendrisse</a> -->
   </div>
 </div>

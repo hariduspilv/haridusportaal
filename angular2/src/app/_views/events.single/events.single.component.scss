@@ -34,7 +34,10 @@ article {padding-bottom: $xxl;
     &.register {padding-bottom:$medium;}
     .child {line-height: 1.375rem;}
     button {width: stretch; margin-top: $small;}
-    &__body {overflow: hidden;text-overflow: ellipsis;}
+    &__body {overflow: hidden;text-overflow: ellipsis;
+      &.error {padding-bottom: $medium;}
+      .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
+    }
     &__footer {padding-top:$gutter;}
     @include break-on(sm, min) {padding-bottom: $xxl;}
   }
