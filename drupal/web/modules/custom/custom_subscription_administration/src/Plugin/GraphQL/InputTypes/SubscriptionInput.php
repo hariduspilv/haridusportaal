@@ -10,7 +10,7 @@ use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
  *   id = "subscription_input",
  *   name = "SubscriptionInput",
  *   fields = {
- *      "tag" = "[Int]!",
+ *      "newtags" = "String!",
  *      "email" = "Email!",
  *   }
  * )

@@ -73,5 +73,4 @@ export class NewsService extends NewsGraph {
     });
 
   }
-
 }

@@ -76,5 +76,17 @@
   "newsletter.modal.close": "Sulge aken",
 
   "newsletter.unsubscribe.title": "UUDISKIRJAST LOOBUMINE",
-  "newsletter.unsubscribe.content": "<p><b>Tänud haridusteemade vastu huvi tundmast. </b></p><p>Olete loobunud haridusteemalisest uudiskirjast. <br />Külastage jätkuvalt veebiaadressi <a href='http://www.eduportaal.ee' target='_blank'>www.eduportaal.ee</a>.</p>"
+  "newsletter.unsubscribe.content": "<p><b>Tänud haridusteemade vastu huvi tundmast. </b></p><p>Olete loobunud haridusteemalisest uudiskirjast. <br />Külastage jätkuvalt veebiaadressi <a href='http://www.eduportaal.ee' target='_blank'>www.eduportaal.ee</a>.</p>",
+  "title": "Pealkiri",
+  "author": "Autor",
+  "event.group": "Ürituse grupp",
+  "share": "Jaga",
+  "description": "Kokkuvõte",
+  "description.short": "Lühikokkuvõte",
+  "sendEmail": "Saada email",
+  "startCall": "Helista",
+  "organization.name": "Organisatsioon",
+  "organization.contact": "Kontakt",
+  "link.outer": "Väline link",
+  "breadcrumbs": "Leivapuru"
 }

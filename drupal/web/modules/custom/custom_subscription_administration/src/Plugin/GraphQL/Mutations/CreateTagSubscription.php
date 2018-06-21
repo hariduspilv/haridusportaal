@@ -27,7 +27,7 @@ use Drupal\Core\Language\LanguageManager;
  *   }
  * )
  */
-class createTagSubscription extends CreateEntityBase{
+class CreateTagSubscription extends CreateEntityBase{
 	/**
 	 * The entity type manager.
 	 *
@@ -78,10 +78,10 @@ class createTagSubscription extends CreateEntityBase{
 	 */
 	protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info){
 		return [
-			'tag' => $args['input']['tag'],
 			'language' => $context->getContext('language', $info),
 			'langcode' => $context->getContext('language', $info),
 			'subscriber_email' => $args['input']['email'],
+			'newtags' => $args['input']['newtags'],
 		];
 	}
 	/**
@@ -103,14 +103,10 @@ class createTagSubscription extends CreateEntityBase{
 
 		if(count($entity) > 0){
 			$args['id'] = reset($entity)->id();
-			if(count($args['input']['tag']) < 1){
-				reset($entity)->set('status', 0);
-			}else{
-				reset($entity)->set('status', 1);
-			}
 		}
 
 		if(isset($args['id'])){
+
 
 			/** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
 	    if (!$entity = $storage->load($args['id'])) {
@@ -134,7 +130,7 @@ class createTagSubscription extends CreateEntityBase{
 	    $input = $this->extractEntityInput($value, $args, $context, $info);
 	    try {
 	      foreach ($input as $key => $value) {
-	        $entity->get($key)->setValue($value);
+					$entity->get($key)->setValue($value);
 	      }
 	    }
 	    catch (\InvalidArgumentException $exception) {
