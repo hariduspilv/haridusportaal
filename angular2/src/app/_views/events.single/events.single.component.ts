@@ -182,7 +182,7 @@ export class EventsSingleComponent {
       }
     });
   }
-  share () {
-    return this.shareService.facebookShare()
+  share (facebook) {
+    return this.shareService.share(facebook)
   }
 }
