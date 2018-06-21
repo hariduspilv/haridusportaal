@@ -9,7 +9,7 @@ dependencies:
     - field.field.node.article.field_image
     - field.field.node.article.field_metatags
     - field.field.node.article.field_right_sidebar
-    - field.field.node.article.field_youtube
+    - field.field.node.article.field_video
     - image.style.crop_result_thumb
     - node.type.article
   module:
@@ -98,7 +98,7 @@ content:
       default_paragraph_type: _none
     third_party_settings: {  }
     region: content
-  field_youtube:
+  field_video:
     weight: 27
     settings:
       size: 60
