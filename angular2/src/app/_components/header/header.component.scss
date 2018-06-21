@@ -3,6 +3,7 @@
   background:#2e3374;
   height: 4rem;
 }
+.close {cursor: pointer;margin-left: $medium;}
 .header-logo {
   margin-left: 1.25rem;
   span {font-weight: 300;}
@@ -11,11 +12,10 @@
   letter-spacing: 0.5px;
   font-size: 1.25rem;
   line-height: 1.4;
-  text-align: center;
   color: #ffffff;
   @include break-on(sm, min) {
-    margin-left: 0;
-    width: 16.25rem;
+    margin-left: 1.75rem;
+    width: 11.5rem;
   }
 }
 .search-input  {

@@ -54,8 +54,8 @@
     }
     img { width: 100%; }
   }
-  .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
-    @include break-on(sm, min) {padding: 0 0 $small 0;}
+  .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small; overflow: hidden;
+    @include break-on(sm, min) {padding: 0 0 $small 0; white-space: nowrap; text-overflow: ellipsis;}
   }
   .news-single {
     @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}
