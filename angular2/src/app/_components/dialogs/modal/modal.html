@@ -1,0 +1,7 @@
+<button style="position: absolute; top: 0; right: 0;" mat-icon-button aria-label="Close" (click)="closeModal()" tabindex="0"> <!-- need to add some absolute class-->
+  <mat-icon>close</mat-icon>
+</button>
+<h1>{{ data.title }}</h1>
+<div [innerHtml]="data.content"></div>
+<hr />
+<button (click)="closeModal()">{{ data.close }}</button>
