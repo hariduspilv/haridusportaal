@@ -2,7 +2,7 @@ import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Params, Router, ActivatedRoute } from '@angular/router';
-import { ArticleService, RootScopeService } from '../../_services';
+import { ArticleService, RootScopeService, ShareService } from '../../_services';
 import { getArticleData } from '../../_services/article/article.graph';
 
 
@@ -44,7 +44,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
   articleLinks: any[];
   relatedArticles: any[];
   
-  constructor(private router: Router, private route: ActivatedRoute, private articleService: ArticleService, private rootScope: RootScopeService, private apollo: Apollo) {}
+  constructor(private router: Router, private route: ActivatedRoute, private articleService: ArticleService, private rootScope: RootScopeService, private shareService: ShareService, private apollo: Apollo) {}
   
   ngOnInit() {
     
@@ -111,6 +111,9 @@ export class ArticleComponent implements OnInit, OnDestroy{
   
   ngOnDestroy() {
     this.querySubscription.unsubscribe();
+  }
+  share (facebook) {
+    return this.shareService.share(facebook)
   }
   
 }
