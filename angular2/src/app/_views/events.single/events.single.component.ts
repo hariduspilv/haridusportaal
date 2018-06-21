@@ -1,7 +1,7 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EventsService, RootScopeService, MetaTagsService } from '../../_services';
+import { EventsService, RootScopeService, MetaTagsService, ShareService } from '../../_services';
 
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -54,6 +54,7 @@ export class EventsSingleComponent {
     private apollo: Apollo,
     public dialog: MatDialog,
     private metaTags: MetaTagsService,
+    private shareService: ShareService,
     private translate: TranslateService,
     private settings: SettingsService
   ) {
@@ -180,5 +181,8 @@ export class EventsSingleComponent {
         alt: this.content.entity.fieldPicture.url
       }
     });
+  }
+  share () {
+    return this.shareService.facebookShare()
   }
 }
