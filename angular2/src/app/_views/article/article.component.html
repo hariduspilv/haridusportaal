@@ -17,8 +17,14 @@
                 <h1 class="mt-0 mb-0" attr.aria-label="{{'title' | translate}}">{{ content.title }}</h1>
               </div><!--/col-10-->
               <div class="col-1 text-right share">
-                <a href="javascript:void(0)" attr.aria-label="{{'share' | translate}}" class="share-btn"><mat-icon>share</mat-icon></a>
-              </div><!--/col-10-->
+                <div class="share-btn">
+                  <mat-menu #appMenu="matMenu" attr.aria-label="{{'share' | translate}}" overlapTrigger="false" direction="right" xPosition="before">
+                    <button mat-menu-item (click)="share(1)" >Facebook</button>
+                    <button mat-menu-item (click)="share()" >Twitter</button>
+                  </mat-menu>
+                  <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">share</mat-icon></button>
+                </div>
+              </div><!--/col-1-->
           </div><!--/row-->
           <div class="short" attr.aria-label="{{'description.short' | translate}}" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>
 
