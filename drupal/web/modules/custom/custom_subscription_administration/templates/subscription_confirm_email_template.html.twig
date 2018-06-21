@@ -21,10 +21,10 @@
 <body>
 	<p>Tere!</p>
   <p>Tänud haridusteemade vastu huvi tundmast. Aadressile {{ body.email }} on tellitud teavitused teemadel: {{ body.tags }}.</p>
-  <p>Tellimuse kinnitamiseks palun vajutage seda linki: <a href="{{ 'http://htm.twn.ee/confirmsubscription/' ~ body.uuid }}">kinnita minu tellimus</a>.</p>
+  <p>Tellimuse kinnitamiseks palun vajutage seda linki: <a href="{{ 'http://htm.twn.ee?confirmsubscription=' ~ body.uuid }}">kinnita minu tellimus</a>.</p>
 
 </body>
 <footer>
-  <p>Kui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: <a href="{{ 'http://htm.twn.ee/unsubscribe/' ~ body.uuid }}">tühista minu tellimus</a>.</p>
+  <p>Kui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: <a href="{{ 'http://htm.twn.ee?unsubscribe=' ~ body.uuid }}">tühista minu tellimus</a>.</p>
 </footer>
 </html>
