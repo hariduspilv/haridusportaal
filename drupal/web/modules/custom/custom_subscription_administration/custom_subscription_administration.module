@@ -122,7 +122,6 @@ function custom_subscription_administration_entity_update(Drupal\Core\Entity\Ent
 		if(isset($fields['newtags'][0]['value'])){
 			$newtags = explode(", ", $fields['newtags'][0]['value']);
 		}
-
 		unset($fields['newtags']);
 		if(count($newtags) > 0){
 			foreach($newtags as $tag){
@@ -131,28 +130,25 @@ function custom_subscription_administration_entity_update(Drupal\Core\Entity\Ent
 		}else{
 			$fields['newtags'] = [];
 		}
-		$commontags = count(array_intersect($fields['tag'], $fields['newtags']));
 		if(count($fields['newtags']) > 0){
-			if($commontags != count($fields['tag']) || $commontags != count($fields['newtags'])){
-				if(count($fields['tag']) > 0 && $fields['status'][0]['value'] != '0'){
-					$fields['action'] = 'update';
+			if(count($fields['tag']) > 0 && $fields['status'][0]['value'] != '0'){
+				$fields['action'] = 'update';
+			}else{
+				$fields['action'] = 'insert';
+			}
+			if(isset($fields['action'])){
+				$params['body'] = subscription_email_content($fields);
+				$params['title'] = t('Uudiskirja tellimuse kinnitamine');
+
+				$send = true;
+
+				$result = $mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, $send);
+				if ($result['result'] !== true) {
+					$message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
+					\Drupal::logger('custom_subscription_administration')->error($message);
 				}else{
-					$fields['action'] = 'insert';
-				}
-				if(isset($fields['action'])){
-					$params['body'] = subscription_email_content($fields);
-					$params['title'] = t('Uudiskirja tellimuse kinnitamine');
-
-					$send = true;
-
-					$result = $mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, $send);
-					if ($result['result'] !== true) {
-						$message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
-						\Drupal::logger('custom_subscription_administration')->error($message);
-					}else{
-						$message = t('An email notification has been sent to @email', array('@email' => $recipient));
-						\Drupal::logger('custom_subscription_administration')->notice($message);
-					}
+					$message = t('An email notification has been sent to @email', array('@email' => $recipient));
+					\Drupal::logger('custom_subscription_administration')->notice($message);
 				}
 			}
 		}
