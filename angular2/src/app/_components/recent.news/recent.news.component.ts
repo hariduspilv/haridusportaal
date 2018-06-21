@@ -27,20 +27,23 @@ export class RecentNewsComponent implements OnInit {
 		let that = this;
 		
 		this.route.params.subscribe( params => {
+
+			this.content = false;
+
 			if( this.lang == "/en" ){
 				this.allPath = "/en/news";
 			}
 			else if( this.lang == "/et" ){
 				this.allPath = "/et/uudised";
 			}
-		});
-		
-		this.newsService.getRecent(this.nid, function(data){
-			if ( data['nodeQuery'] == null ) {
-				that.error = true;
-			} else {
-				that.content = data['nodeQuery']['entities'];
-			}
+
+			this.newsService.getRecent(this.nid, function(data){
+				if ( data['nodeQuery'] == null ) {
+					that.error = true;
+				} else {
+					that.content = data['nodeQuery']['entities'];
+				}
+			});
 		});
 		
 		
