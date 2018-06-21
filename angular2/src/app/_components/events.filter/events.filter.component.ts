@@ -138,11 +138,13 @@ export class EventsFilterComponent implements OnInit, OnDestroy {
       let newsTagArr = [];
       this.eventsTags.map((tag)=>{
         tag['Tag'].filter((tagItem, index, array) => {
-          let tmp = {
-            id: tagItem['entity']['entityId'],
-            name: tagItem['entity']['entityLabel'],
-          };
-          newsTagArr.push(tmp);
+          if( tagItem['entity'] ){
+            let tmp = {
+              id: tagItem['entity']['entityId'],
+              name: tagItem['entity']['entityLabel'],
+            };
+            newsTagArr.push(tmp);
+          }
         });
       });
       newsTagArr = newsTagArr.filter((thing, index, self) =>
