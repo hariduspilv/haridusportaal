@@ -69,5 +69,24 @@
   "newsletter.intro": "Sissejuhatus: Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.",
   "newsletter.submit": "Kinnita tellimus",
   "events.related": "Sarnased sündmused",
-  "practical.info": "Praktiline info"
+  "practical.info": "Praktiline info",
+  
+  "newsletter.modal.title": "UUDISKIRJA TELLIMINE",
+  "newsletter.modal.content": "Tänud haridusteemade vastu huvi tundmast! Olete edukalt liitunud uudiskirjaga.",
+  "newsletter.modal.close": "Sulge aken",
+
+  "newsletter.unsubscribe.title": "UUDISKIRJAST LOOBUMINE",
+  "newsletter.unsubscribe.content": "<p><b>Tänud haridusteemade vastu huvi tundmast. </b></p><p>Olete loobunud haridusteemalisest uudiskirjast. <br />Külastage jätkuvalt veebiaadressi <a href='http://www.eduportaal.ee' target='_blank'>www.eduportaal.ee</a>.</p>",
+  "title": "Pealkiri",
+  "author": "Autor",
+  "event.group": "Ürituse grupp",
+  "share": "Jaga",
+  "description": "Kokkuvõte",
+  "description.short": "Lühikokkuvõte",
+  "sendEmail": "Saada email",
+  "startCall": "Helista",
+  "organization.name": "Organisatsioon",
+  "organization.contact": "Kontakt",
+  "link.outer": "Väline link",
+  "breadcrumbs": "Leivapuru"
 }
