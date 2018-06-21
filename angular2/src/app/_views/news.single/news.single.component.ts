@@ -1,7 +1,7 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NewsService, RootScopeService } from '../../_services';
+import { NewsService, RootScopeService, ShareService } from '../../_services';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
@@ -33,6 +33,7 @@ export class NewsSingleComponent implements OnInit {
 		private route: ActivatedRoute,
 		private newsService: NewsService,
 		private rootScope:RootScopeService, 
+		private shareService:ShareService, 
     private apollo: Apollo,
     public dialog: MatDialog
    ) {
@@ -81,5 +82,8 @@ export class NewsSingleComponent implements OnInit {
         alt: this.content.fieldIntroductionImage.alt
       }
     });
+  }
+  share (facebook) {
+    return this.shareService.share(facebook)
   }
 }
