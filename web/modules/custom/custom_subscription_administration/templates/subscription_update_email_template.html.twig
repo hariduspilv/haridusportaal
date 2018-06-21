@@ -22,10 +22,10 @@
 	<p>Tere!</p>
   <p>Aadressile {{ body.email }} on tellitud teavitused teemadel: {{ body.oldtags }}.</p>
   <p>Muudetud tellimus sisaldab teemasid: {{ body.tags }}.</p>
-  <p>Varasema tellimuse muutmiseks palun vajutage seda linki: <a href="{{ 'http://htm.twn.ee/confirmsubscription/' ~ body.uuid }}">kinnita minu tellimus</a>.</p>
+  <p>Varasema tellimuse muutmiseks palun vajutage seda linki: <a href="{{ 'http://htm.twn.ee?confirmsubscription=' ~ body.uuid }}">kinnita minu tellimus</a>.</p>
 
 </body>
 <footer>
-  <p>Kui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: <a href="{{ 'http://htm.twn.ee/unsubscribe/' ~ body.uuid }}">tühista minu tellimus</a>.</p>
+  <p>Kui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: <a href="{{ 'http://htm.twn.ee?unsubscribe=' ~ body.uuid }}">tühista minu tellimus</a>.</p>
 </footer>
 </html>
