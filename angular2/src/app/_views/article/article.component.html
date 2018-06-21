@@ -10,24 +10,24 @@
   <div class="row article-wrapper">
     <div class="col-8 sm-12">
       <div class="article">
-        <div class="article-title">KÕRGHARIDUS</div>
+        <div class="article-title" attr.aria-label="{{'event.group' | translate}}">KÕRGHARIDUS</div>
         <article>
           <div class="row title">
               <div class="col-11">
-                <h1 class="mt-0 mb-0">{{ content.title }}</h1>
+                <h1 class="mt-0 mb-0" attr.aria-label="{{'title' | translate}}">{{ content.title }}</h1>
               </div><!--/col-10-->
               <div class="col-1 text-right share">
-                <a href="javascript:void(0)" class="share-btn"><mat-icon>share</mat-icon></a>
+                <a href="javascript:void(0)" attr.aria-label="{{'share' | translate}}" class="share-btn"><mat-icon>share</mat-icon></a>
               </div><!--/col-10-->
           </div><!--/row-->
-          <div class="short" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>
+          <div class="short" attr.aria-label="{{'description.short' | translate}}" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>
 
           <div *ngIf="content.fieldImage" class="article-image pull-right">
             <img  src="{{ content.fieldImage.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
             <div class="image-alt-text" *ngIf="content.fieldImage.alt">{{ content.fieldImage.alt }}</div>
           </div>
           
-          <div class="description" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
+          <div class="description" attr.aria-label="{{'description' | translate}}" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
         </article>
         
         <div class="accordion" *ngIf="accordionSection.length > 0">
@@ -40,65 +40,61 @@
                 <!-- <mat-panel-description></mat-panel-description> -->
               </mat-expansion-panel-header>
               <div class="accordion__body" [innerHTML]="accordionItem.entity.fieldBody.value"></div>
+              <div class="accordion__links" *ngIf="accordionItem.entity.fieldRelatedArticle">
+                <ul class="link-list mt-0 mb-0">
+                  <li *ngFor="let articleLink of accordionItem.entity.fieldRelatedArticle"><a href="{{articleLink.url.path}}" attr.aria-label="{{'link.outer' | translate}}"class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
+                </ul>
+              </div>
             </mat-expansion-panel>
-            <!-- <mat-expansion-panel (opened)="accordionOpenState = true" (closed)="accordionOpenState = false">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Self aware panel
-                </mat-panel-title> -->
-                <!-- <mat-panel-description></mat-panel-description> -->
-                <!-- </mat-expansion-panel-header>
-                  <p>I'm visible because I am open</p>
-                </mat-expansion-panel> -->
-              </mat-accordion>
-            </div>
+          </mat-accordion>
+        </div>
             
+      </div>
+    </div>
+        
+    <div class="col-4 sm-12" *ngIf="fieldRightSidebar !== null">
+      <aside class="sidebar">
+        <div class="sidebar__item" *ngIf="fieldAdditional !== null">
+          <h1 class="mt-0 sidebar__title"> {{ fieldAdditionalTitle }}</h1>
+          <div class="sidebar__paragraph" [innerHTML]="fieldAdditionalBody"></div>
+        </div>
+        
+        <div class="sidebar__item" *ngIf="fieldContactSection !== null">
+          <h1 class="mt-0 sidebar__title">Kontakt</h1>
+          <div class="sidebar__paragraph">
+            <div attr.aria-label="{{'organization.name' | translate}}">{{fieldContactOrganization}}</div>
+            <div attr.aria-label="{{'organization.contact' | translate}}">{{fieldContactPerson}}</div>
+            <div attr.aria-label="{{'participantPhone' | translate}}"><a attr.aria-label="{{'startCall' | translate}}" href="tel:{{fieldContactPhone}}" alt="" class="sm-show">{{fieldContactPhone}}</a></div>
+            <div attr.aria-label="{{'participantPhone' | translate}}" class="sm-hide">{{fieldContactPhone}}</div>
+            <div><a attr.aria-label="{{'sendEmail' | translate}}" href="mailto:{{fieldContactEmail}}" alt="">{{fieldContactEmail}}</a></div>
           </div>
         </div>
         
-        <div class="col-4 sm-12" *ngIf="fieldRightSidebar !== null">
-          <div class="sidebar">
-            <div class="sidebar__item" *ngIf="fieldAdditional !== null">
-              <h1 class="mt-0 sidebar__title"> {{ fieldAdditionalTitle }}</h1>
-              <div class="sidebar__paragraph" [innerHTML]="fieldAdditionalBody"></div>
-            </div>
-            
-            <div class="sidebar__item" *ngIf="fieldContactSection !== null">
-              <h1 class="mt-0 sidebar__title">Kontakt</h1>
-              <div class="sidebar__paragraph">
-                <div>{{fieldContactOrganization}}</div>
-                <div>{{fieldContactPerson}}</div>
-                <div><a href="tel:{{fieldContactPhone}}" alt="" class="sm-show">{{fieldContactPhone}}</a></div>
-                <div class="sm-hide">{{fieldContactPhone}}</div>
-                <div><a href="mailto:{{fieldContactEmail}}" alt="">{{fieldContactEmail}}</a></div>
-              </div>
-            </div>
-            
-            <div class="sidebar__item" *ngIf="articleLinks.length > 0">
-              <h1 class="mt-0 sidebar__title">Leia kiiresti</h1>
-              <div class="sidebar__paragraph">
-                <ul class="link-list mt-0 mb-0">
-                    <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
-                </ul>
-              </div>
-            </div>
-            
-            <div class="sidebar__item" *ngIf="relatedArticles.length > 0">
-              <h1 class="mt-0 sidebar__title">Sarnased teemad</h1>
-              <div class="sidebar__paragraph">
-                <ul class="link-list mt-0 mb-0">
-                  <li *ngFor="let relatedArticle of relatedArticles">
-                    <a href="{{relatedArticle.url.path}}" class="link related">
-                      <div><mat-icon>link</mat-icon></div>
-                      <div>{{relatedArticle.title}}</div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
+        <div class="sidebar__item" *ngIf="articleLinks.length > 0">
+          <h1 class="mt-0 sidebar__title">Leia kiiresti</h1>
+          <div class="sidebar__paragraph">
+            <ul class="link-list mt-0 mb-0">
+                <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" attr.aria-label="{{'link.outer' | translate}}"class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="sidebar__item" *ngIf="relatedArticles.length > 0">
+          <h1 class="mt-0 sidebar__title">Sarnased teemad</h1>
+          <div class="sidebar__paragraph">
+            <ul class="link-list mt-0 mb-0">
+              <li *ngFor="let relatedArticle of relatedArticles">
+                <a href="{{relatedArticle.url.path}}" attr.aria-label="{{'link.outer' | translate}}" class="link related">
+                  <div><mat-icon>link</mat-icon></div>
+                  <div>{{relatedArticle.title}}</div>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-      </div>
-    </div><!--/content-->
+      </aside>
+    </div>
+
+  </div>
+</div><!--/content-->
