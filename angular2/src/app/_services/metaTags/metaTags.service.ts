@@ -12,14 +12,14 @@ export class MetaTagsService{
     private meta: Meta,
     private title: Title
   ){
-    this.specialTags = ["title", "fb:pages", "fb:admins", "og:site_name", "twitter:description"]
+    this.specialTags = ["title"]
   }
 
   clearTags() {
 
     for( var i in this.activeTags ){
       let tag = this.activeTags[i];
-      this.meta.removeTag("name="+tag);
+      this.meta.removeTag("name='"+tag+"'");
     }
     this.activeTags = [];
   }
