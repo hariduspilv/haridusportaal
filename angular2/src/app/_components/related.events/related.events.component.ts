@@ -5,6 +5,7 @@ import { EventsService, RootScopeService } from '../../_services';
 @Component({
 	selector: 'related-events',
 	templateUrl: './related.events.component.html',
+	styleUrls: ['./related.events.component.scss']
 })
 
 export class RelatedEventsComponent implements OnInit {

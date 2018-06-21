@@ -9,9 +9,11 @@ dependencies:
     - field.field.node.article.field_image
     - field.field.node.article.field_metatags
     - field.field.node.article.field_right_sidebar
-    - image.style.crop_large
+    - field.field.node.article.field_youtube
+    - image.style.crop_result_thumb
     - node.type.article
   module:
+    - htm_custom_video_field
     - image_widget_crop
     - maxlength
     - metatag
@@ -71,7 +73,7 @@ content:
     settings:
       show_default_crop: true
       warn_multiple_usages: true
-      preview_image_style: crop_large
+      preview_image_style: crop_result_thumb
       crop_preview_image_style: crop_thumbnail
       crop_list:
         - 16_9_large
@@ -95,6 +97,14 @@ content:
       form_display_mode: default
       default_paragraph_type: _none
     third_party_settings: {  }
+    region: content
+  field_youtube:
+    weight: 27
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: custom_video_widget_type
     region: content
   langcode:
     type: language_select

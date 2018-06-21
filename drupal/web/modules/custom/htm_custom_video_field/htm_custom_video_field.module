@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_video_field.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function htm_custom_video_field_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the htm_custom_video_field module.
+    case 'help.page.htm_custom_video_field':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('My Awesome Module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Extracts the video_id from the submitted field value.
+ *
+ * @param string $input
+ *   The input submitted to the field.
+ *
+ * @return array|bool
+ *   Returns the domain and video_id if available, or FALSE if not.
+ */
+function youtube_get_video_id($input) {
+	// See README.txt for accepted URL formats.
+	//^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)?.*(?:youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).
+	//preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'<> ]+)/", $input, $matches);
+
+	//custom regex for testing
+	preg_match("/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+).*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*/", $input, $matches);
+
+	if (!empty($matches[1]) && !empty($matches[3])) {
+		$domain = $matches[1];
+		$video_id = $matches[3];
+		return [$domain, $video_id];
+	}
+
+	return FALSE;
+}

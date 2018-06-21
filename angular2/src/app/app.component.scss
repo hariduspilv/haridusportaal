@@ -19,13 +19,13 @@ h1{font-size:2rem; line-height:120%;}
 }
 
 input:focus {outline: none;}
-
+a {text-decoration: underline; &:hover {text-decoration: none;}}
 html{
   font-size: 100%;
   height:100%;
-  @include break-on(lg, min) {font-size: 18px;}
-  @include break-on(xl, min) {font-size: 20px;}
-  @include break-on(xxl, min) {font-size: 24px;}
+  @include break-on(lg, min) {font-size: 16px;}
+  @include break-on(xl, min) {font-size: 18px;}
+  @include break-on(xxl, min) {font-size: 22px;}
 }
 body{height: calc(100% - 4rem);}
 
@@ -87,8 +87,8 @@ a {color: $blue}
 }
 
 .link-list{list-style:none; padding:0; margin:$small 0;
-  a[href]{color:rgba(0,0,0,.87); text-decoration: none; line-height:$medium; color:$blue;
-    &:hover{text-decoration: underline;}
+  a[href]{color:rgba(0,0,0,.87); text-decoration: underline; line-height:$medium; color:$blue;
+    &:hover {text-decoration: none;}
     .mat-icon{vertical-align: top; margin-right:$gutter; color:$blue;}
   }
 

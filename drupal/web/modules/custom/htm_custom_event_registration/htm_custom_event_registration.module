@@ -68,7 +68,7 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 		if ($result['result'] !== true) {
 			$message = t('There was a problem sending email notification to @email', array('@email' => $to));
 			\Drupal::logger('htm_custom_event_registration')->error($message);
-			throw new Error($message);
+			//throw new Error($message);
 		}else{
 			$message = t('An email notification has been sent to @email', array('@email' => $to));
 			\Drupal::logger('htm_custom_event_registration')->notice($message);

@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
-import {EventsRegistratonDialog} from '../../_components/dialogs/events.registration/events.registration.dialog'
+import {ImagePopupDialog} from '../../_components/dialogs/image.popup/image.popup.dialog'
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -22,7 +22,8 @@ import * as _moment from 'moment';
 const moment = _moment;
 
 @Component({
-  templateUrl: './events.single.component.html'
+  templateUrl: './events.single.component.html',
+  styleUrls: ['./events.single.component.scss']
 })
 
 export class EventsSingleComponent {
@@ -128,6 +129,7 @@ export class EventsSingleComponent {
     }
 
     this.sortedParticipants = tmpParticipants;
+    console.log(this.sortedParticipants)
 
   }
   
@@ -169,18 +171,14 @@ export class EventsSingleComponent {
 
      
   }
-  
-  openDialog(): void {
-    let dialogRef = this.dialog.open(EventsRegistratonDialog, {
-      // width: '500px',
+
+  openImage(): void {
+    let dialogRef = this.dialog.open(ImagePopupDialog, {
       data: {
-        eventTitle: this.content.entity.entityLabel,
-        eventStartDate: this.content.entity.fieldEventDate[0].entity
+        src: this.content.entity.fieldPicture.url,
+        title: this.content.entity.fieldPicture.title,
+        alt: this.content.entity.fieldPicture.url
       }
-    });
-    
-    dialogRef.afterClosed().subscribe(result => {
-      // this.registrationData = result;
     });
   }
 }

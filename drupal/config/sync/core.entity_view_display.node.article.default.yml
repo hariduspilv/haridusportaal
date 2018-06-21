@@ -9,10 +9,12 @@ dependencies:
     - field.field.node.article.field_image
     - field.field.node.article.field_metatags
     - field.field.node.article.field_right_sidebar
-    - image.style.crop_small
+    - field.field.node.article.field_youtube
+    - image.style.crop_large
     - node.type.article
   module:
     - entity_reference_revisions
+    - htm_custom_video_field
     - image
     - metatag
     - text
@@ -53,7 +55,7 @@ content:
     region: content
     label: above
     settings:
-      image_style: crop_small
+      image_style: crop_large
       image_link: ''
     third_party_settings: {  }
   field_metatags:
@@ -71,6 +73,13 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
+  field_youtube:
+    weight: 7
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: custom_video_formatter_type
     region: content
   links:
     weight: 0

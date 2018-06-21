@@ -30,7 +30,6 @@ export class GraphQLModule {
       // get the authentication token from local storage if it exists
       const token = localStorage.getItem('token');
       
-      
       let output = {};
       if (token){
 
