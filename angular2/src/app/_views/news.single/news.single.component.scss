@@ -7,7 +7,8 @@
   .share-btn .mat-icon {line-height: 1.3;
     @include break-on(sm, max) {right: $small;position: relative;}
   }
-  .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
+  .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;
+    a {float: right;}}
   .news-list {
     border-top: $gutter solid $light-blue;
     background: $white;
@@ -15,9 +16,25 @@
     &__recent {
       @extend .news-list;
       a:hover { text-decoration: underline; }
+      .news-title { a:hover{text-decoration: none;}}
       border-top: $gutter solid $orange;
-      padding-bottom: $xxl;
       @include break-on(sm, min) {border-radius: $half-gutter; margin-left: 0;}
+      &__elem {padding-bottom: $xxl;}
+      &.horizontal {border-top: none;
+        .news-title {padding-top: $medium;}
+        .news-list__recent__elem {flex: 1;padding: 0 0 $xxl 0;
+          @include break-on(md, min) {padding: 0 $gutter $xxl $gutter;}
+        }
+        .news-list__recent__block {display: flex;flex: 3;flex-direction: column;padding: $gutter 0 0 0;overflow: hidden;
+          @include break-on(md, min) {padding: $gutter $small 0 $small;flex-direction: row;}
+        }
+        .title__recent {
+          @include break-on(md, min) {padding: 0;padding-top:$small;}
+        }
+        .author {
+          @include break-on(md, min) {padding: 0; padding-top: $half-gutter;}
+        }
+      }
     }
   }
   .title {font-size: $small;line-height: 2;padding: 0 $medium;
@@ -37,8 +54,8 @@
     }
     img { width: 100%; }
   }
-  .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
-    @include break-on(sm, min) {padding: 0 0 $small 0;}
+  .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small; overflow: hidden;
+    @include break-on(sm, min) {padding: 0 0 $small 0; white-space: nowrap; text-overflow: ellipsis;}
   }
   .news-single {
     @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}

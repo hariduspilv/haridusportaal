@@ -86,7 +86,7 @@
     &:first-child {border-left: none;}
     &:last-child {border-right: none;}
   }
-  td.today, td.disableMore {background-color: $light-gray;border-right: .0625rem solid $gray;border-right: .0625rem solid $gray;
+  td.today {background-color: $light-gray;border-right: .0625rem solid $gray;border-left: .0625rem solid $gray;
     .cal__day {background-color: $red; border-radius: 50%;color: $white;font-weight: 300;}
   }
 }
@@ -101,7 +101,7 @@
       .marker {width: .4375rem;height: .4375rem;background-color:$aqua; border-radius: 50%; display: inline-block;}
       &.active {box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);}
       &:hover {color: $dark-gray; text-decoration: underline;}
-      &__more {margin-left: 0; padding: 0;}
+      &__more {display:flex; margin-left: 0; padding: 0;white-space: normal;}
     }
   }
   .more {padding-top: $gutter; padding-left: .625rem;
@@ -117,19 +117,19 @@
     font-weight: 500;
     border-top: $gutter solid $orange;
     box-shadow: 0 .125rem .25rem 0 rgba(0, 0, 0, 0.5);
-    width: 15rem;
+    width: 17rem;
     background-color: #ffffff;
     color: #333333;
     border-radius: $half-gutter;;
     position: absolute;
     z-index: 1;
-    left: -15.3rem;
+    left: -17.3rem;
     top: -3rem;
     .event__block {padding: $small $medium $small $medium;
-      span {font-weight: 400;}
+      span {font-weight: 400;padding-left: .125rem;padding-right: .125rem;}
       .title {font-size: 1.25rem; padding-bottom: $medium;display: flex;
-        &__strong {font-weight: 500;}
-        .header {
+        &__strong {font-weight: 500;line-height: 1.875rem;}
+        .header {line-height: 1.875rem;
           &__medium {font-size: $small;font-weight: 400;}
           &__strong {font-weight: 500;}
         }
@@ -142,9 +142,11 @@
     }
     .event__more {padding-top:$small;padding-bottom: $medium;text-align: center;font-size: $small;font-weight: 400;}
     .line {width: 100%; height: .0625rem; background-color: $gray;}
-    &.additional {left: -12rem;bottom: -3rem;top: auto;}
+    // &.additional {position: absolute;left: -1.5625rem;}
   }
 }
+.disableMore .popup {position:relative;bottom:10%;left:100%;margin-left: $quarter;}
+.disableMore.firstTwo .popup .popupcontent {left: auto;margin-left: -.25rem;}
 .navigation {padding-top: $small; padding-bottom: $medium;display: flex;align-items: center;justify-content: center;
   .month {h1{color: $black;}}
   .mat-icon {cursor: pointer; padding: 0 $small;}

@@ -1,0 +1,19 @@
+add favorite entity entities:
+  title: 'Create new Favorite entity entities'
+
+administer favorite entity entities:
+  title: 'Administer Favorite entity entities'
+  description: 'Allow to access the administration form to configure Favorite entity entities.'
+  restrict access: true
+
+delete favorite entity entities:
+  title: 'Delete Favorite entity entities'
+
+edit favorite entity entities:
+  title: 'Edit Favorite entity entities'
+
+view published favorite entity entities:
+  title: 'View published Favorite entity entities'
+
+view unpublished favorite entity entities:
+  title: 'View unpublished Favorite entity entities'
