@@ -10,7 +10,13 @@
             <h1 class="mt-0 mb-0">{{ content.entity.entityLabel }}</h1>
           </div><!--/col-10-->
           <div class="col-1 text-right share">
-            <a href="javascript:void(0)" class="share-btn"><mat-icon>share</mat-icon></a>
+            <div class="share-btn">
+              <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
+                <button mat-menu-item (click)="share(1)" >Facebook</button>
+                <button mat-menu-item (click)="share()" >Twitter</button>
+              </mat-menu>
+              <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">share</mat-icon></button>
+            </div>
           </div><!--/col-10-->
         </div><!--/row-->
     
@@ -45,11 +51,8 @@
           </div><!--/col-10-->
         </div><!--/row-->
         
-        <!-- Disable participants until design is done -->
-        <div class="participants">
-          <ng-container *ngIf="content.entity.fieldEntryType">
-            <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
-          </ng-container>
+        <div class="participants mt-20" style="overflow:scroll;">
+          <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
         
           <button *ngIf="participants && !showParticipants" (click)="showParticipants = !showParticipants">Show participants</button>
           <button *ngIf="showParticipants" (click)="showParticipants = !showParticipants">Hide participants</button>

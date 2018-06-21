@@ -5,8 +5,11 @@ article {padding-bottom: $xxl;
   }
 }
 .tags {padding-bottom: 0;}
-.share-btn .mat-icon {line-height: 1.3;
-  @include break-on(sm, max) {right: $small;position: relative;}
+.share-btn {
+  .mat-button {min-width: $medium;width: $medium;padding: 0;position: relative;bottom: 0.3125rem;}
+  .mat-icon {line-height: 1.3;
+    @include break-on(sm, max) {right: $small;position: relative;}
+  }
 }
 .events__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
 .events__list {
