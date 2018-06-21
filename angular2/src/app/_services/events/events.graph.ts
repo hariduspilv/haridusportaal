@@ -228,6 +228,7 @@ export class EventsGraph {
             entityTranslation(language: ${lang}) {
               ... on NodeEvent {
                 title: entityLabel
+                created
                 nid
                 location: fieldEventLocation {
                   lat
@@ -239,6 +240,7 @@ export class EventsGraph {
                     entityLabel
                   }
                 }
+                fieldContactPerson
                 eventDates: fieldEventDate {
                   ...eventdates
                 }

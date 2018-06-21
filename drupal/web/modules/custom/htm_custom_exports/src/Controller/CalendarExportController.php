@@ -34,11 +34,13 @@ class CalendarExportController extends ControllerBase {
 
   		/*TODO make calendar prodid configurable*/
 			$vCalendar = new Calendar('www.htm.ee');
-
 			$event_title  = $event_node_id->getTitle();
 			$event_description = $event_node_id->field_description_summary->value;
 			$event_location = ($location = $event_node_id->field_event_location->getValue()) ? $location[0] : NULL;
 
+			$alias = \Drupal::service('path.alias_manager')->getAliasByPath('/node/'.$event_node_id->id());
+			//dump('http://htm.twn.ee'.$alias);
+			$vCalendar->setName($event_title);
   		foreach($event_node_id->referencedEntities() as $i => $refEnt){
   			if($refEnt instanceof Paragraph && $refEnt->bundle() === 'event_date'){
 					$start_time = $refEnt->field_event_start_time->value;
@@ -55,6 +57,8 @@ class CalendarExportController extends ControllerBase {
 					$vEvent->setDtStart($d1)
 							->setDtEnd($d2)
 							->setSummary($event_title)
+							/*TODO make all htm paths configurable*/
+							->setUrl('http://htm.twn.ee' . $alias)
 							->setDescription($event_description);
 					if($event_location) $vEvent->setLocation($event_location['name'], $event_location['name'], $event_location['lat'] . ',' . $event_location['lon']);
 
@@ -62,10 +66,13 @@ class CalendarExportController extends ControllerBase {
 				}
 			}
 
+			$filename = preg_replace('/[^a-zA-Z0-9õäöüÕÄÖÜ]/i', "_", $event_title);
+
 			header('Content-Type: text/calendar; charset=utf-8');
-			header('Content-Disposition: attachment; filename="cal.ics"');
+			header('Content-Disposition: attachment; filename="'.$filename.'.ics"');
 
 			$response = new Response();
+			$response->sendHeaders();
 			$response->setContent($vCalendar->render());
 
 			return $response;

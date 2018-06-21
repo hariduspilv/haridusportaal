@@ -1,149 +1,106 @@
 <breadcrumbs></breadcrumbs>
-
 <mat-spinner *ngIf="!content && !error"></mat-spinner>
-
-<article *ngIf="content">
-  <div class="row">
-    <div class="col-10">
-      <h1 class="mt-0">{{ content.entity.entityLabel }} <mat-icon *ngIf="content.entity.fieldEventDate.length > 1">repeat</mat-icon></h1>
-    </div><!--/col-10-->
-    <div class="col-2 text-right">
-      
-      <button mat-button><mat-icon>share</mat-icon></button>
-    </div><!--/col-2-->
-  </div><!--/row-->
-  
-  <mat-chip-list>
-    <span class="mat-chip-wrapper">
-      <mat-chip class="primary" selected="selected" *ngIf="content.entity.fieldEventType && content.entity.fieldEventType.entity.entityLabel">{{ content.entity.fieldEventType.entity.entityLabel }}</mat-chip>
-    </span>
+<div class="row events__single" *ngIf="content">
+  <div class="col-8 sm-12">
+    <div class="events__list">
+      <div class="events__title">{{ 'events' | translate | uppercase }}</div>
+      <article>
+        <div class="row title">
+          <div class="col-11">
+            <h1 class="mt-0 mb-0">{{ content.entity.entityLabel }}</h1>
+          </div><!--/col-10-->
+          <div class="col-1 text-right share">
+            <a href="javascript:void(0)" class="share-btn"><mat-icon>share</mat-icon></a>
+          </div><!--/col-10-->
+        </div><!--/row-->
     
-    <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-wrapper">
-      <mat-chip *ngIf="tag.entity !== null">#{{ tag.entity.entityTranslation.entityLabel }}</mat-chip>
-    </span>
-  </mat-chip-list>
-  
-  <mat-card *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right">
-    <mat-card-content>
-      <img  src="{{ content.entity.fieldPicture.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
-      <p *ngIf="content.entity.fieldPicture.alt">{{ content.entity.fieldPicture.alt }}</p>
-    </mat-card-content>
-  </mat-card>
-  
-  <p *ngIf="content.entity.fieldDescription"><b [innerHTML]="content.entity.fieldDescriptionSummary"></b></p>
-  <div [innerHTML]="content.entity.fieldDescription.value" *ngIf="content.entity.fieldDescription"></div>
-  
-  <mat-divider style="clear:both;"></mat-divider>
-  <!-- styles at: app.component.scss-->
+        <div class="row">
+          <div class="col-12">
+            <div class="short" *ngIf="content.entity.fieldDescription" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
+            <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openImage()">
+              <img src="{{ content.entity.fieldPicture.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
+              <div class="image-alt-text" *ngIf="content.entity.fieldPicture.alt">{{ content.entity.fieldPicture.alt }}</div>
+            </div>
 
-
-  <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
-
-  <button *ngIf="participants && !showParticipants" (click)="showParticipants = !showParticipants">Show participants</button>
-
-  <button *ngIf="showParticipants" (click)="showParticipants = !showParticipants">Hide participants</button>
-
-
-  <div *ngIf="showParticipants">
-    <h3>Participants: {{ sortedParticipants.length }}</h3>
-
-    <a (click)="getCSV()" mat-raised-button>DOWNLOAD participants list</a>
-
-    <table *ngIf="showParticipants" class="participantsTable">
-      <thead>
-        <tr>
-          <th>{{ 'participantIndex' | translate }}</th>
-          <th (click)="organizeParticipants('participantFirstName')">{{ 'participantFirstName' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantFirstName'] }}"></span></th>
-          <th (click)="organizeParticipants('participantLastName')">{{ 'participantLastName' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantLastName'] }}"></span></th>
-          <th (click)="organizeParticipants('participantOrganization')">{{ 'participantOrganization' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantOrganization'] }}"></span></th>
-          <th>{{ 'participantEmail' | translate }} </th>
-          <th>{{ 'participantPhone' | translate }}</th>
-          <th (click)="organizeParticipants('participantCreated')">{{ 'participantCreated' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantCreated'] }}"></span></th>
-          <th>{{ 'participantComment' | translate }}</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let item of sortedParticipants;">
-          <td>{{ item.participantIndex }}</td>
-          <td>{{ item.participantFirstName }}</td>
-          <td>{{ item.participantLastName }}</td>
-          <td>{{ item.participantOrganization }}</td>
-          <td>{{ item.participantEmail }}</td>
-          <td>{{ item.participantPhone }}</td>
-          <td>{{ item.participantCreated*1000 | date: 'dd.MM.yyyy HH:mm' }}</td>
-          <td>{{ item.participantComment }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <mat-divider></mat-divider>
-  
-  <div *ngIf="content.entity.fieldAttachmentFile">
-    <p class="mb-0">Lingid ja failid:</p>
-    <ul class="link-list mt-0">
-      <li *ngFor="let item of content.entity.fieldEventLink"><a href="{{ item.url.path | url }}" target="_blank"><mat-icon>launch</mat-icon>{{ item.title }}</a></li>
-      <li *ngFor="let item of content.entity.fieldAttachmentFile"><a href="{{ item.entity.url }}" target="_blank"><mat-icon>attachment</mat-icon>{{ item.entity.entityLabel }}</a></li>
-    </ul>
-  </div>
-  
-  <div class="row mb-20">
-    <div class="col-4 sm-12">
-      <p><b>Toimumisaeg ja asukoht</b></p>
-      
-      <div *ngFor="let item of content.entity.fieldEventDate">
-        <span *ngIf="content.entity.fieldEventLocation">
-          {{ item.entity.fieldEventDate.unix*1000 | weekday: "unix"}}
-          {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
-          Kell
-          {{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}
-        </span>
-      </div>
-      
-      <p *ngIf="content.entity.fieldEventLocation">{{ content.entity.fieldEventLocation.name }}</p>
-      
-      <div class="map-wrapper" *ngIf="map">
-        <agm-map [latitude]="map.lat" [longitude]="map.lon" [zoom]="map.zoom"></agm-map>
-        <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank" mat-button class="mt-20">Vaata kaarti lähemalt <mat-icon>launch</mat-icon></a>
-      </div>
-    </div>
-    <div class="col-8 sm-12">
-      <div class="row">
-        <div class="col-6 sm-12">
-          <p><b>Sündmuse staatus</b></p>
-          <div *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity">
-            <span *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">Registreerumisega kuni {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}</span>
-            <span *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 < unix">Registreerimine lõppenud</span>
+            <div class="description" [innerHTML]="content.entity.fieldDescription.value" *ngIf="content.entity.fieldDescription"></div>
           </div>
-          
         </div>
-        <div class="col-6 sm-12">
-          <p><b>Kontakt</b></p>
-          <p>
-            <span *ngIf="content.entity.fieldContactPerson">{{ content.entity.fieldContactPerson }}<br /></span>
-            <span *ngIf="content.entity.fieldContactPhone">{{ content.entity.fieldContactPhone }}<br /></span>
-            <span *ngIf="content.entity.fieldContactEmail">{{ content.entity.fieldContactEmail }}</span>
-          </p>
-        </div><!--/col-6-->
-      </div><!--/row-->
-      
-      <div class="row" *ngIf="content.entity.fieldPracticalInformation && content.entity.fieldPracticalInformation.value">
-        <div class="col-12">
-          <p><b>Praktiline info</b></p>
-          <div [innerHTML]="content.entity.fieldPracticalInformation.value"></div>
-        </div><!--/col-12-->
-      </div>
-    </div><!--/col-8-->
-  </div><!--/row-->
-  
-  <a href="javascript:void(0);" mat-raised-button class="mr-20" color="primary" (click)="openDialog()" >Registreeru</a>
-  <a href="javascript:void(0);" mat-raised-button>Lisa kalendrisse</a>
-  
-  <mat-divider class="mt-40 mb-40"  *ngIf="content.entity.fieldEventGroup"></mat-divider>
-  
-  <h1 *ngIf="content.entity.fieldEventGroup">Sarnased sündmused</h1>
-  
-  <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
-  
-</article>
+
+        <div class="row links" *ngIf="content.entity.fieldAttachmentFile">
+          <div class="col-12">
+            <ul class="link-list mt-0 mb-0">
+              <li *ngFor="let item of content.entity.fieldEventLink"><a href="{{ item.url.path | url }}" target="_blank"><mat-icon>launch</mat-icon>{{ item.title }}</a></li>
+              <li *ngFor="let item of content.entity.fieldAttachmentFile"><a href="{{ item.entity.url }}" target="_blank"><mat-icon>file_copy</mat-icon>{{ item.entity.entityLabel }}</a></li>
+            </ul>
+          </div><!--/col-12-->
+        </div>
+
+        <div class="row tags" *ngIf="content.entity.fieldTag">
+          <div class="col-12">
+            <mat-chip-list>
+                <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-wrapper">
+                  <mat-chip *ngIf="tag.entity">{{ tag.entity.entityTranslation.entityLabel }}</mat-chip>
+                </span>
+            </mat-chip-list>
+          </div><!--/col-10-->
+        </div><!--/row-->
+        
+        <!-- Disable participants until design is done -->
+        <div class="participants">
+          <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
+        
+          <button *ngIf="participants && !showParticipants" (click)="showParticipants = !showParticipants">Show participants</button>
+          <button *ngIf="showParticipants" (click)="showParticipants = !showParticipants">Hide participants</button>
+        
+        
+          <div *ngIf="showParticipants">
+            <h3>Participants: {{ sortedParticipants.length }}</h3>
+        
+            <a (click)="getCSV()" mat-raised-button>DOWNLOAD participants list</a>
+        
+            <table *ngIf="showParticipants" class="participantsTable">
+              <thead>
+                <tr>
+                  <th>{{ 'participantIndex' | translate }}</th>
+                  <th (click)="organizeParticipants('participantFirstName')">{{ 'participantFirstName' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantFirstName'] }}"></span></th>
+                  <th (click)="organizeParticipants('participantLastName')">{{ 'participantLastName' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantLastName'] }}"></span></th>
+                  <th (click)="organizeParticipants('participantOrganization')">{{ 'participantOrganization' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantOrganization'] }}"></span></th>
+                  <th>{{ 'participantEmail' | translate }} </th>
+                  <th>{{ 'participantPhone' | translate }}</th>
+                  <th (click)="organizeParticipants('participantCreated')">{{ 'participantCreated' | translate }}  <span class="participantsTable-arrow-{{ participantsSortOrder['participantCreated'] }}"></span></th>
+                  <th>{{ 'participantComment' | translate }}</th>
+                </tr>
+              </thead>
+        
+              <tbody>
+                <tr *ngFor="let item of sortedParticipants;">
+                  <td>{{ item.participantIndex }}</td>
+                  <td>{{ item.participantFirstName }}</td>
+                  <td>{{ item.participantLastName }}</td>
+                  <td>{{ item.participantOrganization }}</td>
+                  <td>{{ item.participantEmail }}</td>
+                  <td>{{ item.participantPhone }}</td>
+                  <td>{{ item.participantCreated*1000 | date: 'dd.MM.yyyy HH:mm' }}</td>
+                  <td>{{ item.participantComment }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div><!-- participants -->
+      </article>
+    </div>
+    <div class="events__list second sm-hide" *ngIf="content.entity.fieldEventGroup">
+      <div class="events__title">{{ 'events.related' | translate | uppercase }}</div>
+      <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
+    </div>
+  </div><!--/col-8-->
+  <div class="col-4 sm-12">
+    <recent-events [map]="map" [content]="content"></recent-events>
+  </div><!--/col-4-->
+  <div class="col-8 sm-12 sm-show">
+    <div class="events__list" *ngIf="content.entity.fieldEventGroup">
+      <div class="events__title">{{ 'events.related' | translate | uppercase }}</div>
+      <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
+    </div>
+  </div><!--/col-4-->
+</div><!--/row-->
