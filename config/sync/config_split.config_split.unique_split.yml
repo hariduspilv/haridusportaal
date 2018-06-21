@@ -1,0 +1,14 @@
+uuid: 713a1b89-e0cd-4de2-a409-aeef28d0774d
+langcode: et
+status: true
+dependencies: {  }
+id: unique_split
+label: 'Unique Split'
+folder: /data/conf
+module: {  }
+theme: {  }
+blacklist: {  }
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0
