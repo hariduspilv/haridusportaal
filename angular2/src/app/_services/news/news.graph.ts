@@ -134,24 +134,26 @@ export class NewsGraph {
         }
       ){
         entities {
-          ... on NodeNews {
-            entityLabel
-            created
-            fieldAuthor
-            fieldIntroductionImage {
-              derivative(style:CROP_SMALL){
-                url 
+          entityTranslation(language:${lang}){
+            ... on NodeNews {
+              entityLabel
+              created
+              fieldAuthor
+              fieldIntroductionImage {
+                derivative(style:CROP_SMALL){
+                  url 
+                }
+                title
+                alt
               }
-              title
-              alt
-            }
-            fieldShortDescription
-            entityUrl {
-              ... on EntityCanonicalUrl {
-                path
-                languageSwitchLinks {
-                  url {
-                    path
+              fieldShortDescription
+              entityUrl {
+                ... on EntityCanonicalUrl {
+                  path
+                  languageSwitchLinks {
+                    url {
+                      path
+                    }
                   }
                 }
               }

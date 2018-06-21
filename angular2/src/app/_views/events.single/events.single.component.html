@@ -10,7 +10,7 @@
             <h1 class="mt-0 mb-0">{{ content.entity.entityLabel }}</h1>
           </div><!--/col-10-->
           <div class="col-1 text-right share">
-            <a href="javascript:void(0)" (click)="share()" class="share-btn"><mat-icon>share</mat-icon></a>
+            <a href="javascript:void(0)" class="share-btn"><mat-icon>share</mat-icon></a>
           </div><!--/col-10-->
         </div><!--/row-->
     
@@ -45,8 +45,11 @@
           </div><!--/col-10-->
         </div><!--/row-->
         
-        <div class="participants mt-20" style="overflow:scroll;">
-          <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
+        <!-- Disable participants until design is done -->
+        <div class="participants">
+          <ng-container *ngIf="content.entity.fieldEntryType">
+            <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
+          </ng-container>
         
           <button *ngIf="participants && !showParticipants" (click)="showParticipants = !showParticipants">Show participants</button>
           <button *ngIf="showParticipants" (click)="showParticipants = !showParticipants">Hide participants</button>

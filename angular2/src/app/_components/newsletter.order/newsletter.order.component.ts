@@ -10,7 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'newsletter-order',
-	templateUrl: './newsletter.order.component.html',
+  templateUrl: './newsletter.order.component.html',
+  
 })
 
 export class NewsletterOrderComponent implements OnInit, OnDestroy{
