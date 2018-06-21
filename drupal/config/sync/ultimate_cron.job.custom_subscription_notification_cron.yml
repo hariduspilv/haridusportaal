@@ -1,0 +1,17 @@
+uuid: 8918cca8-9960-4cdf-83cc-2716b9ea0161
+langcode: et
+status: true
+dependencies:
+  module:
+    - custom_subscription_notification
+title: 'Default cron handler'
+id: custom_subscription_notification_cron
+weight: 0
+module: custom_subscription_notification
+callback: custom_subscription_notification_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

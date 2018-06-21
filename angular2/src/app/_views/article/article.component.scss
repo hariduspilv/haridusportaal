@@ -41,6 +41,7 @@ article {
     }
     img { width: 100%; }
   }
+  _:-ms-lang(x), .article-image {width: auto;}
 }
 .title {font-size: $small;line-height: 2;padding: 0 $medium;
   h1 {color:$black;}

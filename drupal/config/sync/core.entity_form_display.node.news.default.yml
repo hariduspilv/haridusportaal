@@ -12,7 +12,7 @@ dependencies:
     - field.field.node.news.field_news_link
     - field.field.node.news.field_short_description
     - field.field.node.news.field_tag
-    - field.field.node.news.field_youtube
+    - field.field.node.news.field_video
     - image.style.crop_result_thumb
     - node.type.news
   module:
@@ -63,6 +63,7 @@ content:
   field_introduction_image:
     weight: 8
     settings:
+      show_crop_area: true
       show_default_crop: true
       warn_multiple_usages: true
       preview_image_style: crop_result_thumb
@@ -70,7 +71,6 @@ content:
       crop_list:
         - 16_9_large
       progress_indicator: throbber
-      show_crop_area: false
     third_party_settings: {  }
     type: image_widget_crop
     region: content
@@ -119,7 +119,7 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete_tags
     region: content
-  field_youtube:
+  field_video:
     weight: 28
     settings:
       size: 60
