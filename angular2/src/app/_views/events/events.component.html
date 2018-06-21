@@ -10,7 +10,7 @@
           <div class="title">{{ 'list' | translate }}</div>
         </div>
         <div class="view-item" (click)="changeView('calendar')" [class.active]="view === 'calendar'">
-          <mat-icon>calendar_today</mat-icon>
+          <mat-icon>today</mat-icon>
           <div class="title">{{ 'calendar' | translate }}</div>
         </div>
       </div><!--/button-list-->
@@ -44,11 +44,13 @@
           <span class="location" *ngIf="event.location">{{ 'location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
           <span class="entrance" *ngIf="event.fieldEntryType">{{ 'entrance' | translate }}: <strong>{{ event.fieldEntryType}}</strong></span>
         </div>
-        <div class="tags sm-hide">
+        <div class="tags sm-hide" *ngIf="event.hashTags && event.hashTags.length">
           <mat-chip-list>
-              <span *ngFor="let eventTag of event.hashTags" class="mat-chip-wrapper">
+            <span *ngFor="let eventTag of event.hashTags">
+              <span *ngIf="eventTag.entity" class="mat-chip-wrapper">
                 <mat-chip>{{ eventTag.entity.entityLabel }}</mat-chip>
               </span>
+            </span>
           </mat-chip-list>
         </div><!--/row-->
       </div>
@@ -80,7 +82,7 @@
           <th width="14.2%">{{ 'sunday' | translate }}</th>
       </tr>
       <tr *ngFor="let week of calendarDays; let firstWeek = first">
-        <td *ngFor="let day of week; let last = last" [class.today]="day == 20" [class.disableMore]="morePopup === day">
+        <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day == 20" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2">
           <div class="cal__day more__hidden">{{ day }}</div>
           <div class="cal__event more__hidden" *ngFor="let event of eventList; let i = index">
             <div class="content" [class.active]="popup === i" *ngIf="firstWeek && last && i < 3" (click)="togglePopup(i)">
@@ -107,22 +109,22 @@
           </div>
           <div class="cal__event__more">
             <div class="more more__hidden"><a *ngIf="firstWeek && last" href="javascript:void(0)" (click)="toggleMore(day)" >2 veel</a></div>
-            <div class="popup" *ngIf="firstWeek && last && morePopup === day">
-              <div class="popupcontent additional">
-                <div class="event__block event__block__more">
-                  <div class="title">
-                    <div class="header">
-                      <div class="header__medium">{{ 'sunday' | translate }}</div>
-                      <div class="header__strong">{{day}}. {{monthName}}</div>
-                    </div>
-                    <span class="close more"><a (click)="closeMore()"><mat-icon>close</mat-icon></a></span>
+          </div>
+          <div class="popup" *ngIf="firstWeek && last && morePopup === day">
+            <div class="popupcontent additional">
+              <div class="event__block event__block__more">
+                <div class="title">
+                  <div class="header">
+                    <div class="header__medium">{{ 'sunday' | translate }}</div>
+                    <div class="header__strong">{{day}}. {{monthName}}</div>
                   </div>
-                  <div class="cal__event" *ngFor="let event of eventList" [routerLink]="event.entityUrl.path">
-                    <div class="content content__more">
-                      <span><div class="marker"></div></span>
-                      <span class="content__medium">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
-                      <span class="content__strong">{{ event.title }}</span>
-                    </div>
+                  <span class="close more"><a (click)="closeMore()"><mat-icon>close</mat-icon></a></span>
+                </div>
+                <div class="cal__event" *ngFor="let event of eventList" [routerLink]="event.entityUrl.path">
+                  <div class="content content__more">
+                    <span><div class="marker"></div></span>
+                    <span class="content__medium">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
+                    <span class="content__strong">{{ event.title }}</span>
                   </div>
                 </div>
               </div>

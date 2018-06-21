@@ -65,5 +65,17 @@
   "entrance": "Entrance",
   "start.time": "Start time",
   "events.related": "Related events",
-  "practical.info": "Practical info"
+  "practical.info": "Practical info",
+  "title": "Title",
+  "author": "Author",
+  "event.group": "Event group",
+  "share": "Share",
+  "description": "Description",
+  "description.short": "Short description",
+  "sendEmail": "Send email",
+  "startCall": "Start call",
+  "organization.name": "Organization name",
+  "organization.contact": "Organization contact",
+  "link.outer": "Outer link",
+  "breadcrumbs": "Breadcrumbs"
 }
