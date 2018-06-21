@@ -53,10 +53,10 @@
               <a href="javascript:void(0);" [routerLink]="allNewsPath" mat-button>{{ 'news.all' | translate }}</a>
             </div>
         </div>-->
-        <div class="row tags" *ngIf="content.fieldNewsTag">
+        <div class="row tags" *ngIf="content.fieldTag">
             <div class="col-12">
               <mat-chip-list>
-                  <span *ngFor="let tag of content.fieldNewsTag" class="mat-chip-wrapper">
+                  <span *ngFor="let tag of content.fieldTag" class="mat-chip-wrapper">
                     <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
                   </span>
               </mat-chip-list>
