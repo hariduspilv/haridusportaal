@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const getTags = gql`
 query newsletterTags($lang: LanguageId!){
-  CustomTagsQuery(filter:{conditions:{field:"type", value:["news", "events"], operator:IN, language:$lang}}){
+  CustomTagsQuery(filter:{conditions:{field:"type", value:["news", "event"], operator:IN, language:$lang}}){
     count
     entities(language:$lang){
       entityLabel
