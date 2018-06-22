@@ -108,10 +108,13 @@ $notifynodes = [];
     foreach($result_ids as $nid){
       $entity_ids[] = $nid;
       $node = \Drupal::entityTypeManager()->getStorage($entity_type)->load($nid)->toArray();
+      kint($node);
+      die();
       if(count($node['tag']) > 0){
         foreach($node['tag'] as $tag){
           $entities[$nid]['tag'][] = $tag['target_id'];
         }
+        $entities[$nid]['uuid'] = $node['uuid'];
         $entities[$nid]['subscriber_email'] = $node['subscriber_email'];
         $entities[$nid]['langcode'] = $node['langcode'];
       }
@@ -139,6 +142,7 @@ $notifynodes = [];
         $body['event'][$url] = $title;
       }
     }
+    $body['uuid'] = $message['uuid'][0]['value'];
     $body['email'] = $message['subscriber_email'][0]['value'];
     $body['langcode'] = $message['langcode'][0]['value'];
 
