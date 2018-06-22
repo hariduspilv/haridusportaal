@@ -108,8 +108,6 @@ $notifynodes = [];
     foreach($result_ids as $nid){
       $entity_ids[] = $nid;
       $node = \Drupal::entityTypeManager()->getStorage($entity_type)->load($nid)->toArray();
-      kint($node);
-      die();
       if(count($node['tag']) > 0){
         foreach($node['tag'] as $tag){
           $entities[$nid]['tag'][] = $tag['target_id'];
