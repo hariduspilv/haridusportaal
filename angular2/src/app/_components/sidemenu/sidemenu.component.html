@@ -18,7 +18,7 @@
 
       
       
-      <ul class="ul-styleless" *ngIf="item.links">
+      <ul class="ul-styleless submenu" *ngIf="item.links">
         <li *ngFor="let item2 of item.links" [class.has-children]="item2.links.length > 0">
           
           <!-- Dropdown link -->
@@ -31,7 +31,7 @@
           <a href="javascript:void(0);" [routerLink]="[item2.url.path]" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.links.length == 0">
             <span>{{ item2.label }}</span>
           </a>
-          <ul class="ul-styleless" *ngIf="item2.links">
+          <ul class="ul-styleless submenu" *ngIf="item2.links">
             <li *ngFor="let item3 of item2.links">
               
               <!-- Internal link -->

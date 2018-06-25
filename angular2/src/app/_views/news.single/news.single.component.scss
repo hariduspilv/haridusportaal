@@ -60,6 +60,8 @@
   .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small; overflow: hidden;
     @include break-on(sm, min) {padding: 0 0 $small 0; white-space: nowrap; text-overflow: ellipsis;}
   }
+  _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
+  _:-ms-lang(x), .article-image {width: 100%;margin:0;}
   .news-single {
     @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}
   }

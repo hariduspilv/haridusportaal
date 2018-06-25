@@ -63,10 +63,10 @@
       border-bottom: .0625rem solid $gray;
       padding: $gutter $small $gutter 0;
       margin: 0 0 $small 8.5rem;
-      .info {display:flex;
-        &.block span.time{width: 25%;}
-        &.block span.location{width: 50%;}
-        &.block span.entrance{width: 25%;}
+      .info {
+        &.block span.time{padding-right: $large;}
+        &.block span.location{padding-right: $large;}
+        // &.block span.entrance{}
       }
     }
   }
@@ -101,7 +101,11 @@
       .marker {width: .4375rem;height: .4375rem;background-color:$aqua; border-radius: 50%; display: inline-block;}
       &.active {box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);}
       &:hover {color: $dark-gray; text-decoration: underline;}
-      &__more {display:flex; margin-left: 0; padding: 0;white-space: normal;}
+      &__more {display:flex; margin-left: 0; padding: 0;white-space: normal;
+        &:hover {color: $blue; text-decoration: none;
+          .content__strong {color: $dark-gray; text-decoration: underline;}
+        }
+      }
     }
   }
   .more {padding-top: $gutter; padding-left: .625rem;
@@ -133,8 +137,8 @@
           &__medium {font-size: $small;font-weight: 400;}
           &__strong {font-weight: 500;}
         }
-        .close {align-self: center;text-align: right;
-          &.more {width: 100%;}
+        .close {align-self: baseline;text-align: right;
+          &.more {width: 100%;align-self: center;}
         }
         a {color:black; cursor: pointer;}
       }
