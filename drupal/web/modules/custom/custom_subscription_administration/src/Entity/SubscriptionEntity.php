@@ -209,8 +209,7 @@ class SubscriptionEntity extends ContentEntityBase implements SubscriptionEntity
     ->setSetting('handler_settings',
     array(
       'target_bundles' => array(
-        'tags' => 'tags',
-        'event_tags' => 'event_tags'
+        'tags' => 'tags'
       )))
       ->setTranslatable(TRUE)
       ->setDisplayOptions('view', array(
