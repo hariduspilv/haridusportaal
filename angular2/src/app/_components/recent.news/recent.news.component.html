@@ -1,4 +1,4 @@
-<div class="news-list__recent" [class.horizontal]="true">
+<div class="news-list__recent" [class.horizontal]="frontpage">
   <div class="news-title" attr.aria-label="{{ title | translate }}">{{ title | translate }} <a attr.aria-label="{{ 'view.all' | translate }}" *ngIf="frontpage" href="javascript:void(0);" [routerLink]="allPath">{{ 'view.all' | translate | uppercase }}</a></div>
   <div class="news-list__recent__block">
 
