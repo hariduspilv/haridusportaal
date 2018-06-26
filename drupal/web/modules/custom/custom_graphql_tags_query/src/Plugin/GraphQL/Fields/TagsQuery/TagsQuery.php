@@ -115,7 +115,7 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
 				}
 			}
 		}
-
+		#dump($taxonomy_tids); 
 		$categories = $this->entityTypeManager->getStorage("taxonomy_term");
 		$taxonomy_query = $categories->getQuery();
 		$taxonomy_query->accessCheck(TRUE);

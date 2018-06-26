@@ -14,9 +14,9 @@
             <span class="round-input__title" [class.exists]="titleValue">{{ 'search.news.name' | translate }}</span>
             <div class="round-input__field-wrapper" [class.spacing]="titleValue">
               <input class="round-input__field" placeholder="{{ 'search.news.name' | translate }}" formControlName="titleForm" [(ngModel)]="titleValue"/>
-              <button class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
+              <a class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
                 <mat-icon>close</mat-icon>
-              </button>
+              </a>
             </div>
           </div>
         </div><!--/col-3-->
@@ -100,13 +100,13 @@
           <mat-card>
             <mat-card-content>
               <div class="row">
-                <div class="col-9 sm-hide">
+                <div class="col-8 sm-hide">
                   <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
                   
                   <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
-                  <div class="tags" *ngIf="item.fieldNewsTag">
+                  <div class="tags" *ngIf="item.fieldTag">
                     <mat-chip-list>
-                        <span *ngFor="let tag of item.fieldNewsTag" class="mat-chip-wrapper">
+                        <span *ngFor="let tag of item.fieldTag" class="mat-chip-wrapper">
                           <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
                         </span>
                     </mat-chip-list>
@@ -114,7 +114,7 @@
                   
                   <div class="description">{{ item.fieldShortDescription }}</div>
                 </div>
-                <div class="col-3 sm-12 pointer" *ngIf="item.fieldIntroductionImage">
+                <div class="col-4 sm-12 pointer" *ngIf="item.fieldIntroductionImage">
                   <img src="{{ item.fieldIntroductionImage.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
                 </div>
               </div>

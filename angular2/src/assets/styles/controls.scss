@@ -61,11 +61,8 @@
   border: solid .0625rem #c7c7c9;
   padding: 0;
   height: 2.5rem;
-  @include break-on(lg, min) {height: 2.4375rem;}
-  @include break-on(xl, min) {height: 2.375rem;}
-  @include break-on(xxl, min) {height: 2.3125rem;}
   border-radius: 1.25rem;
-  &.exists {height: auto;}
+  &.exists {height: auto;min-height: 2.5rem;}
   &.ng-select-opened {border: solid .0625rem $blue;}
   &.ng-select .ng-select-container {min-height: 1.875rem;
     .ng-value-container {border-top: none;padding: 0 $small;
@@ -104,9 +101,8 @@
     }
   }
 }
-.ng-select__wrapper {
+.ng-select__wrapper, .ng-select__wrapper__second {
   margin-top: -.3125rem;
-  &__second {margin-top: -$quarter}
   &:focus-within {
     color: red;
     .ng-select__title {
@@ -118,6 +114,7 @@
     }
   }
 }
+.ng-select__wrapper__second {margin-top: -$quarter}
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper {border: none;}
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper .ng-clear {top: 0;}
 .ng-select .ng-clear-wrapper .ng-clear {color: rgba(0, 0, 0, .87);font-size: 1.75rem !important;position: relative;right: $gutter; top: 0.3125rem;}

@@ -14,7 +14,7 @@
     color: $dark-gray;
     @include break-on(sm, min) {padding: 0; padding-top: $half-gutter; padding-bottom: $gutter;}
   }
-  .description {padding-top: .625rem;font-size: 0.875rem;max-height: 3.125rem;overflow: hidden;}
+  .description {padding-top: .625rem;font-size: $small;max-height: 3.75rem;overflow: hidden;}
 }
 .news-list {
   border-top: $gutter solid $light-blue;

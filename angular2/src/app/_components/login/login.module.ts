@@ -7,6 +7,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { SharedModule } from '../../_core/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 
+
 @NgModule({
   providers: [],
   imports: [
@@ -15,7 +16,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule
   ],
   declarations: [
     LoginComponent

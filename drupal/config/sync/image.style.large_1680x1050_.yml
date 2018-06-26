@@ -1,0 +1,15 @@
+uuid: 0f4e8724-61a8-4068-88c3-bdd7577809b0
+langcode: et
+status: true
+dependencies: {  }
+name: large_1680x1050_
+label: 'Large (1680x1050)'
+effects:
+  a2cc357b-b3c8-4d4d-8ac2-ab1b53eec680:
+    uuid: a2cc357b-b3c8-4d4d-8ac2-ab1b53eec680
+    id: image_scale
+    weight: 1
+    data:
+      width: 1680
+      height: 1050
+      upscale: true

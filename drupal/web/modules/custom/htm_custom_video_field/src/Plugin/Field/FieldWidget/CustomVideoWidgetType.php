@@ -68,28 +68,40 @@ class CustomVideoWidgetType extends WidgetBase {
 	 * {@inheritdoc}
 	 */
 	public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-		$element['input'] = $element + array(
+		$instance_delta = $items->getName() . '-' . $delta;
+		$element += [
+				'#type' => 'fieldset',
+				'#title' => $this->t('Map'),
+		];
+		$element['input'] = [
 			'#type' => 'textfield',
 			'#placeholder' => $this->getSetting('placeholder_url'),
 			'#default_value' => isset($items[$delta]->input) ? $items[$delta]->input : NULL,
 			'#maxlength' => 255,
 			'#element_validate' => array(array($this, 'validateInput')),
-		);
+		];
 
-		if ($element['input']['#description'] == '') {
+		#if ($element['input']['#description'] == '') {
 			$element['input']['#description'] = t('Enter the YouTube URL. Valid URL
       formats include: http://www.youtube.com/watch?v=1SqBdS0XkV4 and
       http://youtu.be/1SqBdS0XkV4');
-		}
+		#}
+
+		$element['video_description'] = [
+			'#title' => $this->t('Video description'),
+			'#size' => 60,
+			'#type' => 'textfield',
+			'#default_value' => isset($items[$delta]->video_description) ? $items[$delta]->video_description : NULL,
+		];
 
 		if (isset($items->get($delta)->video_id)) {
 			$element['video_id'] = array(
-				'#prefix' => '<div class="youtube-video-id">',
-				'#markup' => t('YouTube video ID: @video_id', array('@video_id' => $items->get($delta)->video_id)),
-				'#suffix' => '</div>',
+				'#prefix' => '<span><strong>' . t('Video id  -  ') . '</strong></span>',
+				'#markup' => t('@video_id', array('@video_id' => $items->get($delta)->video_id)),
 				'#weight' => 1,
 			);
 		}
+
 		return $element;
 	}
 

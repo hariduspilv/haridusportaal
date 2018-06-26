@@ -10,8 +10,14 @@
               <h1 class="mt-0 mb-0">{{ content.entityLabel }}</h1>
             </div><!--/col-10-->
             <div class="col-1 text-right share">
-              <a href="javascript:void(0)" class="share-btn"><mat-icon>share</mat-icon></a>
-            </div><!--/col-10-->
+              <div class="share-btn">
+                <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
+                  <button mat-menu-item (click)="share(1)" >Facebook</button>
+                  <button mat-menu-item (click)="share()" >Twitter</button>
+                </mat-menu>
+                <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">share</mat-icon></button>
+              </div>
+            </div><!--/col-1-->
         </div><!--/row-->
     
         <div class="author">
@@ -53,10 +59,10 @@
               <a href="javascript:void(0);" [routerLink]="allNewsPath" mat-button>{{ 'news.all' | translate }}</a>
             </div>
         </div>-->
-        <div class="row tags" *ngIf="content.fieldNewsTag">
+        <div class="row tags" *ngIf="content.fieldTag">
             <div class="col-12">
               <mat-chip-list>
-                  <span *ngFor="let tag of content.fieldNewsTag" class="mat-chip-wrapper">
+                  <span *ngFor="let tag of content.fieldTag" class="mat-chip-wrapper">
                     <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
                   </span>
               </mat-chip-list>

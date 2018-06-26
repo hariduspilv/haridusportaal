@@ -52,12 +52,13 @@ class NotificationController extends ControllerBase {
   }
 
   public function add_node_to_notification($content_type, $tags, $subscription){
+$notifynodes = [];
     foreach($tags as $tag => $node){
       if(in_array($tag, $subscription['tag'])){
         $notifynodes[$content_type] = $node;
       }
     }
-    if(count($notifynodes) > 0){
+    if(isset($notifynodes[$content_type])){
       return $notifynodes[$content_type];
     }
   }
@@ -111,6 +112,7 @@ class NotificationController extends ControllerBase {
         foreach($node['tag'] as $tag){
           $entities[$nid]['tag'][] = $tag['target_id'];
         }
+        $entities[$nid]['uuid'] = $node['uuid'];
         $entities[$nid]['subscriber_email'] = $node['subscriber_email'];
         $entities[$nid]['langcode'] = $node['langcode'];
       }
@@ -138,6 +140,7 @@ class NotificationController extends ControllerBase {
         $body['event'][$url] = $title;
       }
     }
+    $body['uuid'] = $message['uuid'][0]['value'];
     $body['email'] = $message['subscriber_email'][0]['value'];
     $body['langcode'] = $message['langcode'][0]['value'];
 

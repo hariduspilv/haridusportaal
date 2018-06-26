@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-content>
+    <mat-spinner *ngIf="!data && !subscribedStatus"></mat-spinner>
+
+    <div *ngIf="data">
+      <h3>{{ 'newsletter.title' | translate }}</h3>
+      <p>{{ 'newsletter.intro' | translate }}</p>
+      <form (ngSubmit)="submit()">
+
+        <div *ngIf="errors.items" style="color:red; font-weight: bold;">Võiksid vähemalt ühe valida...</div>
+        <div *ngFor="let item of data">
+          <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" > {{ item.entityLabel }}
+        </div>
+
+        <div class="row">
+          <div class="col-8">
+            <input type="text" placeholder="E-mail" [(ngModel)]="email" name="email"  style="width:100%;" />  
+            <div *ngIf="errors.email" style="color:red; font-weight: bold;">Email vigane!</div>
+          </div><!--/col-8-->
+          <div class="col-4">
+            <button style="width:100%;">Kinnita tellimus</button>
+          </div><!--/col-4-->
+        </div>
+
+      </form>
+    </div>
+
+    <div *ngIf="subscribedStatus">
+      <h1>ALLES KLAR!</h1>
+    </div>
+  </mat-card-content>
+</mat-card>

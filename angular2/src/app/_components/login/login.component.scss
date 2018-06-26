@@ -16,7 +16,7 @@
     button{width:100% !important;}
   }
 
-  mat-icon {vertical-align: middle; position: relative; z-index: 2;
+  mat-icon {vertical-align: middle; position: relative; z-index: 2; cursor: pointer;
     &.person { padding-right: 0.75rem;
       @include break-on(sm, min) {padding-right: 0px;}
     }
