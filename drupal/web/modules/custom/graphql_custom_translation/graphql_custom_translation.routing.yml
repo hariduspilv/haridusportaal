@@ -1,8 +1,0 @@
-
-graphql_custom_translation.kafka_custom_controller_hello:
-  path: '/graphql_custom_translation/hello'
-  defaults:
-    _controller: '\Drupal\graphql_custom_translation\Controller\KafkaCustomController::hello'
-    _title: 'Meetod tiitel'
-  requirements:
-    _permission: 'access content'
