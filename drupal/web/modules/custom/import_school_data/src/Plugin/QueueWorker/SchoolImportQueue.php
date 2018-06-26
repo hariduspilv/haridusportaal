@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\mymodule\Plugin\QueueWorker\EmailQueue.
+ * Contains \Drupal\import_school_data\Plugin\QueueWorker\SchoolImportQueue.
  */
 namespace Drupal\import_school_data\Plugin\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
@@ -22,6 +22,18 @@ class SchoolImportQueue extends QueueWorkerBase {
   public function processItem($school) {
     $import_controller = new SchoolImportController();
     $loctaxonomy = $import_controller->get_taxonomy_terms('educational_institution_location');
-    $import_controller->save_school($school, $loctaxonomy);
+    $action = $import_controller->save_school($school, $loctaxonomy);
+    if($action === 'update'){
+      $message = t('Uuendatud kooli @school', array('@school' => $school['school_field']['title']));
+      \Drupal::logger('import_school_data')->notice($message);
+    }
+    if($action === 'create'){
+      $message = t('Loodud kool @school', array('@school' => $school['school_field']['title']));
+      \Drupal::logger('import_school_data')->notice($message);
+    }
+    if($action === 'unpublish'){
+      $message = t('Avaldamine lõpetatud koolil @school', array('@school' => $school['school_field']['title']));
+      \Drupal::logger('import_school_data')->notice($message);
+    }
   }
 }

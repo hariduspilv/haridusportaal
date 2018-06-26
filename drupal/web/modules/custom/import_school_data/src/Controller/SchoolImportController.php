@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\paragraphs\Entity\Paragraph;
+use GuzzleHttp\Exception\RequestException;
 
 /**
 * Class SchoolImportController.
@@ -48,11 +49,24 @@ class SchoolImportController extends ControllerBase {
     }
 
     $client = \Drupal::httpClient();
+    try{
+      $response = $client->request('GET', $json_url);
+    }
+    catch(RequestException $e){
+      $message = t('EHIS avaandmete päringu viga: @error', array('@error' => $e));
+      \Drupal::logger('EHIS avaandmetest õppeasutuste uuendamine')->error($message);
+    }
 
-    $response = $client->request('GET', $json_url);
     $data = $response->getBody();
     $data_from_json = json_decode($data->getContents());
     $schools = $data_from_json->body->oppeasutused->oppeasutus;
+    foreach($schools as $key => $school){
+      if(!isset($school->regNr) || !isset($school->nimetus)){
+        unset($schools[$key]);
+        $message = t('Puuduvad kohustuslikud andmed: @ehisid', array('@ehisid' => $school->koolId));
+        \Drupal::logger('EHIS avaandmetest õppeasutuste uuendamine')->error($message);
+      }
+    }
     return $schools;
   }
 
@@ -283,9 +297,15 @@ class SchoolImportController extends ControllerBase {
   }
   public function save_school($school, $loctaxonomy){
     if(isset($school['school_field']['nid'])){
+      if($school['school_field']['status'] == '1'){
+        $action = 'update';
+      }else{
+        $action = 'unpublish';
+      }
       $node_storage = \Drupal::entityManager()->getStorage('node');
       $node = $node_storage->load($school['school_field']['nid']);
     }else if(!isset($school['school_field']['nid'])){
+      $action = 'create';
       $node = Node::create([
         'type' => 'school',
         'langcode' => 'et',
@@ -383,6 +403,7 @@ class SchoolImportController extends ControllerBase {
       $node->set($this->parse_key($fieldlabel), $fieldvalue);
     }
     $node->save();
+    return $action;
   }
 
   public function get_taxonomy_terms($taxonomy){
