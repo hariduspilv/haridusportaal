@@ -108,6 +108,7 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
 
 		$entities = $this->entityTypeManager->getStorage('node')->loadMultiple($query->execute());
 		foreach($entities as $node){
+			$node = $node->getTranslation($args['filter']['conditions'][0]['language']);
 			foreach($node->referencedEntities() as $ref){
 				if($ref instanceof TermInterface){
 					$taxonomy_tids[] = $ref->tid->value;
