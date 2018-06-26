@@ -6,7 +6,7 @@ dependencies:
     - field.storage.paragraph.field_event_date
     - paragraphs.paragraphs_type.event_date
   module:
-    - custom_datetime_unix_value
+    - datetime
 id: paragraph.event_date.field_event_date
 field_name: field_event_date
 entity_type: paragraph
