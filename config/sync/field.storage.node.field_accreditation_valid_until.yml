@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies:
   module:
-    - graphql_custom_translation
+    - custom_datetime_unix_value
     - node
 id: node.field_accreditation_valid_until
 field_name: field_accreditation_valid_until
@@ -11,7 +11,7 @@ entity_type: node
 type: datetime
 settings:
   datetime_type: date
-module: graphql_custom_translation
+module: custom_datetime_unix_value
 locked: false
 cardinality: 1
 translatable: true

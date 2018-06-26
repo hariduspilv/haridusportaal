@@ -6,7 +6,7 @@ dependencies:
     - field.storage.paragraph.field_event_date
     - paragraphs.paragraphs_type.event_date
   module:
-    - graphql_custom_translation
+    - custom_datetime_unix_value
 id: paragraph.event_date.field_event_date
 field_name: field_event_date
 entity_type: paragraph
