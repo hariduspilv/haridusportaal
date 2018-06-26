@@ -15,12 +15,13 @@ use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
  * Plugin implementation of the 'datetime_unix' field type.
  *
  * @FieldType(
- *   id = "datetime_unix",
+ *   id = "datetime",
  *   label = @Translation("Datetime Unix timestamp"),
  *   description = @Translation("Create and store date values."),
  *   default_widget = "datetime_default",
  *   default_formatter = "datetime_default",
- *   list_class = "\Drupal\datetime\Plugin\Field\FieldType\DateTimeFieldItemList"
+ *   list_class = "\Drupal\datetime\Plugin\Field\FieldType\DateTimeFieldItemList",
+ *   constraints = {"DateTimeFormat" = {}}
  * )
  */
 class CustomDateFieldType extends DateTimeItem {
