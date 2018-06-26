@@ -1,14 +1,5 @@
-name: ''
-email: ''
-langcode: et
-default_langcode: et
-_core:
-  default_config_hash: YPL-xoni85FNIVpcg_yqIAUzSteFOyPlV5wk7iMSRCg
-field1: 'Tekstiväli number 1'
-field2: 'Tekstiväli number 2'
-field3: 'Tekstiväli number 3'
 article_translations:
-  contact: Kontakt
+  contact: ''
   hyperlinks: ''
   similar_articles: ''
 news_translations:
@@ -62,3 +53,9 @@ form_label_translations:
   search_by_keyword: ''
   search_events_name: ''
   search_people: ''
+name: ''
+email: ''
+langcode: et
+default_langcode: et
+_core:
+  default_config_hash: HC8EBkTuUgIzuLMB_tbaaZCMIupgUnVwrCwINQgC0mY
