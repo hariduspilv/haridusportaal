@@ -6,7 +6,7 @@ dependencies:
     - field.storage.node.field_accreditation_valid_until
     - node.type.study_programme
   module:
-    - custom_datetime_unix_value
+    - datetime
 id: node.study_programme.field_accreditation_valid_until
 field_name: field_accreditation_valid_until
 entity_type: node

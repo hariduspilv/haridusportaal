@@ -6,7 +6,7 @@ dependencies:
     - field.storage.paragraph.field_registration_last_date
     - paragraphs.paragraphs_type.registration_period
   module:
-    - custom_datetime_unix_value
+    - datetime
 id: paragraph.registration_period.field_registration_last_date
 field_name: field_registration_last_date
 entity_type: paragraph
