@@ -10,13 +10,12 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 
 /**
  * Plugin implementation of the 'datetime_unix' field type.
  *
  * @FieldType(
- *   id = "datetime",
+ *   id = "datetime_unix",
  *   label = @Translation("Datetime Unix timestamp"),
  *   description = @Translation("Create and store date values."),
  *   default_widget = "datetime_default",
@@ -24,7 +23,7 @@ use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
  *   list_class = "\Drupal\datetime\Plugin\Field\FieldType\DateTimeFieldItemList"
  * )
  */
-class CustomDateFieldType extends FieldItemBase implements DateTimeItemInterface {
+class CustomDateFieldType extends DateTimeItem {
 
 
 	public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
@@ -37,24 +36,6 @@ class CustomDateFieldType extends FieldItemBase implements DateTimeItemInterface
 			->setClass('\Drupal\custom_datetime_unix_value\UnixDateTime')
 			->setSetting('date source', 'value');
 		return $properties;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public static function schema(FieldStorageDefinitionInterface $field_definition) {
-		return [
-			'columns' => [
-				'value' => [
-					'description' => 'The date value.',
-					'type' => 'varchar',
-					'length' => 20,
-				],
-			],
-			'indexes' => [
-				'value' => ['value'],
-			],
-		];
 	}
 
 }
