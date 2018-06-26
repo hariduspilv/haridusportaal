@@ -46,7 +46,7 @@ content:
     type: string
     region: content
   field_accreditation_valid_until:
-    weight: 121
+    weight: 128
     label: above
     settings:
       format_type: medium
