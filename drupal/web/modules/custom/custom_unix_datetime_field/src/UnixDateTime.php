@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\graphql_custom_translation;
+namespace Drupal\custom_unix_datetime_field;
 
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\Core\Datetime\DrupalDateTime;
