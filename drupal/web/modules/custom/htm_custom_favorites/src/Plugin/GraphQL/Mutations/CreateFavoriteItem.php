@@ -91,14 +91,15 @@ class CreateFavoriteItem extends CreateEntityBase{
 	 */
 	protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info){
 		//dump($this->currentUser);
-		//dump($value);
+		//dump($args);
+		//die();
 		return [
 			'user_idcode' => $this->getCurrentUserIdCode(),
 			'favorites' => [
-				'field_favorite_title' => 'Para tiitel',
-				'field_page' => 4581,
-				'field_search' => 'parameetrid&otsing?jounnn',
-				'field_type' => 'page',
+				'field_favorite_title' => $args['input']['favorite_title'],
+				'field_page' => $args['input']['page_id'],
+				'field_search' => $args['input']['search'],
+				'field_type' => $args['input']['type'],
 			]
 		];
 	}
@@ -133,7 +134,7 @@ class CreateFavoriteItem extends CreateEntityBase{
 			$input[$bundleKey] = $bundleName;
 		}
 		$storage = $this->entityTypeManager->getStorage($entityTypeId);
-		$entity = $storage->loadByProperties(['user_idcode' => '999']);
+		$entity = $storage->loadByProperties(['user_idcode' => $this->getCurrentUserIdCode()]);
 
 		if(!$entity){
 			$entity = $storage->create($input);
