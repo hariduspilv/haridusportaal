@@ -5,11 +5,12 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { ArticleService, EventsService, RootScopeService, NewsService, MetaTagsService } from './_services';
+import { ArticleService, EventsService, RootScopeService, NewsService, MetaTagsService, ShareService } from './_services';
 
 
-import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog'
-import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog'
+import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog';
+import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
+import { Modal } from './_components/dialogs/modal/modal';
 
 /* Custom imports */
 import { AppModules } from './_components';
@@ -64,10 +65,11 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     EventsRegistratonDialog,
     ImagePopupDialog,
     BreadcrumbsComponent,
-    EventsFilterComponent
+    EventsFilterComponent,
+    Modal
   ],
 
-  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog ],
+  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal ],
 
   imports: [
     BrowserModule,
@@ -99,6 +101,7 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     RootScopeService,
     NewsService,
     MetaTagsService,
+    ShareService,
     SettingsService
   ],
 

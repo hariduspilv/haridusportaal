@@ -4,8 +4,11 @@
       .mat-icon {color: $blue;}
     }
   } 
-  .share-btn .mat-icon {line-height: 1.3;
-    @include break-on(sm, max) {right: $small;position: relative;}
+  .share-btn {
+    .mat-button {min-width: $medium;width: $medium;padding: 0;position: relative;bottom: 0.3125rem;}
+    .mat-icon {line-height: 1.3;
+      @include break-on(sm, max) {right: $small;position: relative;}
+    }
   }
   .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;
     a {float: right;}}
@@ -54,9 +57,11 @@
     }
     img { width: 100%; }
   }
-  .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
-    @include break-on(sm, min) {padding: 0 0 $small 0;}
+  .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small; overflow: hidden;
+    @include break-on(sm, min) {padding: 0 0 $small 0; white-space: nowrap; text-overflow: ellipsis;}
   }
+  _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
+  _:-ms-lang(x), .article-image {width: 100%;margin:0;}
   .news-single {
     @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}
   }

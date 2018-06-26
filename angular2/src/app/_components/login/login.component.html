@@ -1,5 +1,6 @@
 <span class="login-wrapper">
 
+
     <mat-icon class="person" *ngIf="user" [matMenuTriggerFor]="usermenu">person_outline</mat-icon>
 
     <button class="login sm-hide" *ngIf="user" [matMenuTriggerFor]="usermenu" >{{ user.username }}</button>

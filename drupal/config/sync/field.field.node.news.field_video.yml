@@ -1,20 +1,20 @@
-uuid: e0479914-a241-4cf2-9803-a64177da89f0
+uuid: 9542535e-a3cb-4384-abdb-3407d273ad46
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_youtube
-    - node.type.article
+    - field.storage.node.field_video
+    - node.type.news
   module:
     - htm_custom_video_field
-id: node.article.field_youtube
-field_name: field_youtube
+id: node.news.field_video
+field_name: field_video
 entity_type: node
-bundle: article
-label: youtube
+bundle: news
+label: Video
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }

@@ -5,8 +5,11 @@ article {padding-bottom: $xxl;
   }
 }
 .tags {padding-bottom: 0;}
-.share-btn .mat-icon {line-height: 1.3;
-  @include break-on(sm, max) {right: $small;position: relative;}
+.share-btn {
+  .mat-button {min-width: $medium;width: $medium;padding: 0;position: relative;bottom: 0.3125rem;}
+  .mat-icon {line-height: 1.3;
+    @include break-on(sm, max) {right: $small;position: relative;}
+  }
 }
 .events__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
 .events__list {
@@ -63,6 +66,8 @@ article {padding-bottom: $xxl;
 .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
   @include break-on(sm, min) {padding: 0 0 $small 0;}
 }
+_:-ms-lang(x), .image-alt-text {padding-left: $medium;}
+_:-ms-lang(x), .article-image {width: 100%;margin:0;}
 .events__single {
   @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}
 }
