@@ -1,0 +1,6 @@
+<div class="row video" *ngIf="videoUrl">
+  <div class="col-12">
+    <div class="video-container"[innerHtml]="videoUrl"></div>
+    <div *ngIf="videoObject.videoDescription" class="video-alt-text">{{videoObject.videoDescription}}</div>
+  </div><!--/col-12-->
+</div> <!--/row-->

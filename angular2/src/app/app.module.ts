@@ -11,6 +11,9 @@ import { ArticleService, EventsService, RootScopeService, NewsService, MetaTagsS
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog';
 import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
 import { Modal } from './_components/dialogs/modal/modal';
+import { VideoComponent } from './_components/video/video.component';
+import { HttpModule } from '@angular/http';
+import { EmbedVideo } from 'ngx-embed-video';
 
 /* Custom imports */
 import { AppModules } from './_components';
@@ -66,10 +69,11 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     ImagePopupDialog,
     BreadcrumbsComponent,
     EventsFilterComponent,
-    Modal
+    Modal,
+    VideoComponent
   ],
 
-  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal ],
+  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent],
 
   imports: [
     BrowserModule,
@@ -92,7 +96,9 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     AppPipes,
     AgmCoreModule.forRoot({
       apiKey: ' AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E'
-    })
+    }),
+    HttpModule,
+    EmbedVideo.forRoot()
   ],
 
   providers: [
