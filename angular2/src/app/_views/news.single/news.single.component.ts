@@ -8,7 +8,8 @@ import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {ImagePopupDialog} from '../../_components/dialogs/image.popup/image.popup.dialog'
+import {ImagePopupDialog} from '../../_components/dialogs/image.popup/image.popup.dialog';
+import {VideoComponent} from '../../_components/video/video.component';
 
 
 @Component({

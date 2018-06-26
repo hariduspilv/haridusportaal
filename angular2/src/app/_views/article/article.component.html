@@ -29,12 +29,14 @@
           <div class="short" attr.aria-label="{{'description.short' | translate}}" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>
 
           <div *ngIf="content.fieldImage" class="article-image pull-right">
-            <img  src="{{ content.fieldImage.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
+            <img  src="{{ content.fieldImage.derivative.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
             <div class="image-alt-text" *ngIf="content.fieldImage.alt">{{ content.fieldImage.alt }}</div>
           </div>
           
           <div class="description" attr.aria-label="{{'description' | translate}}" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
         </article>
+
+        <video-component *ngIf="content.fieldVideo && content.fieldVideo[0]" [videoObject]="content.fieldVideo[0]"></video-component>
         
         <div class="accordion" *ngIf="accordionSection.length > 0">
           <mat-accordion multi>
