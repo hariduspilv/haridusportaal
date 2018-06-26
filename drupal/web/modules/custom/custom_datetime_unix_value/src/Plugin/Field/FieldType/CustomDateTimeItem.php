@@ -2,21 +2,16 @@
 
 namespace Drupal\custom_datetime_unix_value\Plugin\Field\FieldType;
 
-use Drupal\Component\Utility\Random;
-use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 
 /**
- * Plugin implementation of the 'datetime_unix' field type.
+ * Plugin implementation of the 'datetime' field type.
  *
  * @FieldType(
- *   id = "datetime",
- *   label = @Translation("Datetime Unix timestamp"),
+ *   id = "datetime_unix",
+ *   label = @Translation("Date with unix field"),
  *   description = @Translation("Create and store date values."),
  *   default_widget = "datetime_default",
  *   default_formatter = "datetime_default",
@@ -24,9 +19,12 @@ use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
  *   constraints = {"DateTimeFormat" = {}}
  * )
  */
-class CustomDateFieldType extends DateTimeItem {
 
+class CustomDateTimeItem extends DateTimeItem {
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
 		$properties = parent::propertyDefinitions($field_definition);
 
@@ -40,3 +38,4 @@ class CustomDateFieldType extends DateTimeItem {
 	}
 
 }
+
