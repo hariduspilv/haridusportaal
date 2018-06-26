@@ -68,7 +68,6 @@ class UnixDateTime extends TypedData {
 			// @todo Handle this.
 		}
 
-
 		return $this->date->format('U');
 	}
 
