@@ -7,20 +7,20 @@ use Drupal\Core\TypedData\DataDefinition;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 
 /**
- * Plugin implementation of the 'datetime' field type.
+ * Plugin implementation of the 'datetime_c' field type.
  *
  * @FieldType(
- *   id = "datetime_unix",
+ *   id = "datetime",
  *   label = @Translation("Date with unix field"),
  *   description = @Translation("Create and store date values."),
  *   default_widget = "datetime_default",
  *   default_formatter = "datetime_default",
- *   list_class = "\Drupal\datetime\Plugin\Field\FieldType\DateTimeFieldItemList",
  *   constraints = {"DateTimeFormat" = {}}
  * )
  */
 
 class CustomDateTimeItem extends DateTimeItem {
+
 
 	/**
 	 * {@inheritdoc}
@@ -36,6 +36,12 @@ class CustomDateTimeItem extends DateTimeItem {
 			->setSetting('date source', 'value');
 		return $properties;
 	}
+
+	public static function schema(FieldStorageDefinitionInterface $field_definition) {
+		return parent::schema($field_definition);
+	}
+
+
 
 }
 
