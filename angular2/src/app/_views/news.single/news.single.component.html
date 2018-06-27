@@ -35,7 +35,7 @@
             </div><!--/col-12-->
         </div><!--/row-->
 
-        <video-component *ngIf="content.fieldVideo && content.fieldVideo[0]" [videoObject]="content.fieldVideo[0]"></video-component>
+        <video-component *ngIf="content.fieldVideo" [videos]="content.fieldVideo"></video-component>
 
         <div class="row links" *ngIf="content.fieldNewsLink">
             <div class="col-12">
