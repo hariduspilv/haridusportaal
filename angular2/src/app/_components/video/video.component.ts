@@ -11,11 +11,20 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class VideoComponent {
 
   @Input() videos: any;
+  embedFailed: boolean = false;
 
   constructor(private embedService: EmbedVideoService, private sanitizer: DomSanitizer){}
-  
-  videoUrl(url) {
-    return this.embedService.embed(url);
+
+  ngOnInit() {
+    try {
+      this.videos = this.videos.map((vid) => {
+        vid.embeddedInput = this.embedService.embed(vid.input)
+      })
+    } catch {
+      this.embedFailed = true;
+    } finally {
+      console.log(this.videos)
+    }
   }
 
   fallbackUrl(domain, id) {
