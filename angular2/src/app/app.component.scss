@@ -151,7 +151,7 @@ article a[href]{color:$blue;}
 .mat-chip-list{margin:0 -$half-gutter; display:block !important;;
   .mat-chip{cursor: pointer !important; margin:0 $half-gutter;}
   .mat-chip-list-wrapper{margin-bottom:-.625rem;
-    .mat-chip-wrapper{margin-bottom:.625rem !important;}
+    .mat-chip-wrapper{margin-bottom:.625rem !important; overflow: hidden;}
   }
 }
 

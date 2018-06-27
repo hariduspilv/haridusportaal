@@ -24,7 +24,7 @@
     <div class="title"><h1>{{'occurrence.location' | translate}}</h1></div>
     <div class="events__list__item__body">
       <div *ngFor="let item of content.entity.fieldEventDate" class="child">
-        <span *ngIf="content.entity.fieldEventLocation">
+        <span>
           {{ item.entity.fieldEventDate.unix*1000 | weekday: "unix"}}
           {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
           Kell

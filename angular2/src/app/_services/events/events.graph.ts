@@ -9,36 +9,34 @@ export class EventsGraph {
     return gql`
       query{
         nodeQuery(offset:${offset}, limit:${limit}, sort: {field:"field_event_date.entity.field_event_date", direction:ASC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language:${lang}}] } ) {
-          entities{
-            entityTranslation(language:${lang}){
-              ... on NodeEvent{
-                title:entityLabel
-                location: fieldEventLocation{
-                  lat
-                  lon
-                  name
+          entities (language:${lang}){
+            ... on NodeEvent{
+              title:entityLabel
+              location: fieldEventLocation{
+                lat
+                lon
+                name
+              }
+              fieldEventType{
+                entity{
+                  entityLabel
                 }
-                fieldEventType{
-                  entity{
-                    entityLabel
-                  }
+              }
+              eventDates: fieldEventDate{
+                ...eventdates
+              }
+              fieldEntryType
+              registrationDate:fieldRegistrationDate{
+                ...registrationdates
+              }
+              
+              hashTags:fieldTag{
+                entity{
+                  entityLabel
                 }
-                eventDates: fieldEventDate{
-                  ...eventdates
-                }
-                fieldEntryType
-                registrationDate:fieldRegistrationDate{
-                  ...registrationdates
-                }
-                
-                hashTags:fieldTag{
-                  entity{
-                    entityLabel
-                  }
-                }
-                entityUrl{
-                  ...url
-                }
+              }
+              entityUrl{
+                ...url
               }
             }
           }
@@ -110,7 +108,9 @@ export class EventsGraph {
               entityLabel
               nid
               fieldPicture {
-                url
+                derivative(style:CROP_LARGE){
+                  url
+                }
                 width
                 height
                 alt
@@ -197,9 +197,7 @@ export class EventsGraph {
               }
               fieldTag {
                 entity {
-                  entityTranslation(language: ${lang}) {
-                    entityLabel
-                  }
+                  entityLabel
                 }
               }
               fieldEventType {
@@ -224,40 +222,36 @@ export class EventsGraph {
           {operator: EQUAL, field: "field_event_group.target_id", value: ["${groupID}"], language: ${lang} }
           {operator: NOT_EQUAL, field: "nid", value: ["${nid}"], language: ${lang} }
         ]}) {
-          entities {
-            entityTranslation(language: ${lang}) {
-              ... on NodeEvent {
-                title: entityLabel
-                created
-                nid
-                location: fieldEventLocation {
-                  lat
-                  lon
-                  name
+          entities(language: ${lang}) {
+            ... on NodeEvent {
+              title: entityLabel
+              created
+              nid
+              location: fieldEventLocation {
+                lat
+                lon
+                name
+              }
+              fieldEventType {
+                entity {
+                  entityLabel
                 }
-                fieldEventType {
-                  entity {
-                    entityLabel
-                  }
+              }
+              fieldContactPerson
+              eventDates: fieldEventDate {
+                ...eventdates
+              }
+              fieldEntryType
+              registrationDate: fieldRegistrationDate {
+                ...registrationdates
+              }
+              hashTags: fieldTag {
+                entity {
+                  entityLabel
                 }
-                fieldContactPerson
-                eventDates: fieldEventDate {
-                  ...eventdates
-                }
-                fieldEntryType
-                registrationDate: fieldRegistrationDate {
-                  ...registrationdates
-                }
-                hashTags: fieldTag {
-                  entity {
-                    entityTranslation(language: ${lang}) {
-                      entityLabel
-                    }
-                  }
-                }
-                entityUrl {
-                  ...url
-                }
+              }
+              entityUrl {
+                ...url
               }
             }
           }
