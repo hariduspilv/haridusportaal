@@ -1,9 +1,9 @@
-<div class="row video" *ngIf="videoObject">
-  <div class="col-12">
-    <div class="video-container" *ngIf="videoUrl" [innerHtml]="videoUrl"></div>
-    <div class="video-container" *ngIf="!videoUrl && videoObject.videoId">
-      <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(fallbackUrl(videoObject.videoDomain, videoObject.videoId))" frameborder="0" allowfullscreen></iframe>
+<div class="row video" *ngIf="videos">
+  <div class="col-12" *ngFor="let video of videos">
+    <div class="video-container" *ngIf="videoUrl(video.input)" [innerHtml]="videoUrl(video.input)"></div>
+    <div class="video-container" *ngIf="!videoUrl(video.input) && video.videoId">
+      <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(fallbackUrl(video.videoDomain, video.videoId))" frameborder="0" allowfullscreen></iframe>
     </div>
-    <div *ngIf="videoObject.videoDescription" class="video-alt-text">{{videoObject.videoDescription}}</div>
+    <div *ngIf="video.videoDescription" class="video-alt-text">{{video.videoDescription}}</div>
   </div><!--/col-12-->
 </div> <!--/row-->
