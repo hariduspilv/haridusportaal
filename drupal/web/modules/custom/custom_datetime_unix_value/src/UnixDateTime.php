@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\custom_graphql_functions;
+namespace Drupal\custom_datetime_unix_value;
 
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -67,7 +67,6 @@ class UnixDateTime extends TypedData {
 		catch (\Exception $e) {
 			// @todo Handle this.
 		}
-
 
 		return $this->date->format('U');
 	}
