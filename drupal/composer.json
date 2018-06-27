@@ -41,6 +41,7 @@
         "drupal/image_style_warmer": "^1.0@alpha",
         "drupal/image_widget_crop": "^2.1",
         "drupal/inline_entity_form": "^1.0@beta",
+        "drupal/json_feed": "^1.1",
         "drupal/jsonapi": "^1.15",
         "drupal/jwt": "^1.0@alpha",
         "drupal/kafka": "1.x-dev",
