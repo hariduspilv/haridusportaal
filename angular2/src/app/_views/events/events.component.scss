@@ -64,8 +64,8 @@
       padding: $gutter $small $gutter 0;
       margin: 0 0 $small 8.5rem;
       .info {
-        &.block span.time{padding-right: $large;}
-        &.block span.location{padding-right: $large;}
+        &.block span.time{padding-right: $xxl;}
+        &.block span.location{padding-right: $xxl;}
         // &.block span.entrance{}
       }
     }
@@ -121,13 +121,13 @@
     font-weight: 500;
     border-top: $gutter solid $orange;
     box-shadow: 0 .125rem .25rem 0 rgba(0, 0, 0, 0.5);
-    width: 17rem;
+    width: 19rem;
     background-color: #ffffff;
     color: #333333;
     border-radius: $half-gutter;;
     position: absolute;
     z-index: 1;
-    left: -17.3rem;
+    left: -19.3rem;
     top: -3rem;
     .event__block {padding: $small $medium $small $medium;
       span {font-weight: 400;padding-left: .125rem;padding-right: .125rem;}
