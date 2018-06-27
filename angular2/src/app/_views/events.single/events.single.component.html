@@ -51,7 +51,9 @@
           </div><!--/col-10-->
         </div><!--/row-->
         
-        <div class="participants mt-20" style="overflow:scroll;">
+        <!-- ADD TO A DIFFERENT LOCATION-->
+
+        <!-- <div class="participants mt-20" style="overflow:scroll;">
           <a href="{{ iCalUrl }}{{ content.entity.nid }}" mat-raised-button>DOWNLOAD iCAL</a>
         
           <button *ngIf="participants && !showParticipants" (click)="showParticipants = !showParticipants">Show participants</button>
@@ -91,7 +93,8 @@
               </tbody>
             </table>
           </div>
-        </div><!-- participants -->
+        </div>participants -->
+        
       </article>
     </div>
     <div class="events__list second sm-hide" *ngIf="content.entity.fieldEventGroup">
