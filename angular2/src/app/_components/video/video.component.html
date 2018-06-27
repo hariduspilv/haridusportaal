@@ -1,7 +1,7 @@
 <div class="row video" *ngIf="videos">
   <div class="col-12" *ngFor="let video of videos">
-    <div class="video-container" *ngIf="videoUrl(video.input)" [innerHtml]="videoUrl(video.input)"></div>
-    <div class="video-container" *ngIf="!videoUrl(video.input) && video.videoId">
+    <div class="video-container" *ngIf="!embedFailed && video.embeddedInput" [innerHtml]="video.embeddedInput"></div>
+    <div class="video-container" *ngIf="embedFailed && video.videoId">
       <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(fallbackUrl(video.videoDomain, video.videoId))" frameborder="0" allowfullscreen></iframe>
     </div>
     <div *ngIf="video.videoDescription" class="video-alt-text">{{video.videoDescription}}</div>
