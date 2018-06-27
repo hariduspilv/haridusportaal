@@ -1,9 +1,9 @@
 <div class="related" *ngIf="content && content.length">
   <article class="row">
-    <div class="col-6 sm-12" *ngFor="let item of content" [routerLink]="[item.entityTranslation.entityUrl.path]">
-      <span class="author" *ngIf="item.entityTranslation.eventDates[0]">{{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | weekday: "unix" }}, {{ item.entityTranslation.eventDates[0].entity.fieldEventDate.unix*1000 | date: "dd.MM" }}</span>
-      <h1>{{ item.entityTranslation.title }}</h1>
-      <span class="author" *ngIf="item.entityTranslation.fieldContactPerson">{{ item.entityTranslation.fieldContactPerson }}</span>
+    <div class="col-6 sm-12" *ngFor="let item of content" [routerLink]="[item.entityUrl.path]">
+      <span class="author" *ngIf="item.eventDates[0] && item.eventDates[0].entity.fieldEventDate">{{ item.eventDates[0].entity.fieldEventDate.unix*1000 | weekday: "unix" }}, {{ item.eventDates[0].entity.fieldEventDate.unix*1000 | date: "dd.MM" }}</span>
+      <h1>{{ item.title }}</h1>
+      <span class="author" *ngIf="item.fieldContactPerson">{{ item.fieldContactPerson }}</span>
     </div>
   </article>
 </div>

@@ -24,7 +24,7 @@
           <div class="col-12">
             <div class="short" *ngIf="content.entity.fieldDescription" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
             <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openImage()">
-              <img src="{{ content.entity.fieldPicture.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
+              <img src="{{ content.entity.fieldPicture.derivative.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
               <div class="image-alt-text" *ngIf="content.entity.fieldPicture.alt">{{ content.entity.fieldPicture.alt }}</div>
             </div>
 
@@ -45,7 +45,7 @@
           <div class="col-12">
             <mat-chip-list>
                 <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-wrapper">
-                  <mat-chip *ngIf="tag.entity">{{ tag.entity.entityTranslation.entityLabel }}</mat-chip>
+                  <mat-chip *ngIf="tag.entity && tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
                 </span>
             </mat-chip-list>
           </div><!--/col-10-->
