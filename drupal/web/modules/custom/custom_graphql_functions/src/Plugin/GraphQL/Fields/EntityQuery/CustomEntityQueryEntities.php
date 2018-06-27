@@ -14,6 +14,7 @@ use Drupal\graphql\GraphQL\Buffers\EntityBuffer;
 use Drupal\graphql\GraphQL\Cache\CacheableValue;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
+use Drupal\paragraphs\ParagraphInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
 
@@ -191,9 +192,13 @@ class CustomEntityQueryEntities extends FieldPluginBase implements ContainerFact
 	 */
 	protected function resolveEntities(array $entities, $metadata, array $args, ResolveContext $context, ResolveInfo $info) {
 		$language = $this->negotiateLanguage($metadata, $args, $context, $info);
-
+		$filtered_nodes = $context->getContext('nodes', $info);
 		/** @var \Drupal\Core\Entity\EntityInterface $entity */
 		foreach ($entities as $entity) {
+			if($entity instanceof ParagraphInterface){
+				if(!$entity->getParentEntity()) continue;
+				if(!in_array($entity->getParentEntity()->id(), $filtered_nodes)) continue;
+			}
 			$access = $entity->access('view', NULL, TRUE);
 			// Translate the entity if it is translatable and a language was given.
 			if ($language && $entity instanceof TranslatableInterface && $entity->isTranslatable()) {
