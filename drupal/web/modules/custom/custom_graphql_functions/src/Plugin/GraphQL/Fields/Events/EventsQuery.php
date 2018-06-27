@@ -55,6 +55,9 @@ class EventsQuery extends EntityQuery {
 		// The context object can e.g. transport the parent entity language.
 		$query->addMetaData('graphql_context', $this->getQueryContext($value, $args, $context, $info));
 
+		//add filtered nodes in context
+		$context->setContext('nodes', $this->getNodeQuery($value, $args, $context, $info)->execute(), $info);
+
 		return $query;
 	}
 
@@ -75,6 +78,59 @@ class EventsQuery extends EntityQuery {
 	 */
 	protected function getEntityType($value, array $args, ResolveContext $context, ResolveInfo $info) {
 		return 'paragraph';
+	}
+
+	/**
+	 * Create the basic entity query for the plugin's entity type.
+	 *
+	 * @param mixed $value
+	 *   The parent entity type.
+	 * @param array $args
+	 *   The field arguments array.
+	 * @param \Drupal\graphql\GraphQL\Execution\ResolveContext $context
+	 *   The resolve context.
+	 * @param \GraphQL\Type\Definition\ResolveInfo $info
+	 *   The resolve info object.
+	 *
+	 * @return \Drupal\Core\Entity\Query\QueryInterface
+	 *   The entity query object.
+	 */
+	protected function getNodeBaseQuery($value, array $args, ResolveContext $context, ResolveInfo $info){
+		$entityStorage = $this->entityTypeManager->getStorage('node');
+		$query = $entityStorage->getQuery();
+		$query->accessCheck(TRUE);
+		$query->condition('type', 'event');
+
+		// The context object can e.g. transport the parent entity language.
+		$query->addMetaData('graphql_context', $this->getQueryContext($value, $args, $context, $info));
+
+		return $query;
+	}
+
+	/**
+	 * Create the full entity query for the plugin's entity type.
+	 *
+	 * @param mixed $value
+	 *   The parent entity type.
+	 * @param array $args
+	 *   The field arguments array.
+	 * @param \Drupal\graphql\GraphQL\Execution\ResolveContext $context
+	 *   The resolve context.
+	 * @param \GraphQL\Type\Definition\ResolveInfo $info
+	 *   The resolve info object.
+	 *
+	 * @return \Drupal\Core\Entity\Query\QueryInterface
+	 *   The entity query object.
+	 */
+	protected function getNodeQuery($value, array $args, ResolveContext $context, ResolveInfo $info) {
+		$query = $this->getNodeBaseQuery($value, $args, $context, $info);
+
+		if(array_key_exists('node_filter', $args)){
+			$query = $this->applyFilter($query, $args['node_filter']);
+		}
+
+
+		return $query;
 	}
 
 }
