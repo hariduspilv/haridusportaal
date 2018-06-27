@@ -1,6 +1,9 @@
-<div class="row video" *ngIf="videoUrl">
+<div class="row video" *ngIf="videoObject">
   <div class="col-12">
-    <div class="video-container"[innerHtml]="videoUrl"></div>
+    <div class="video-container" *ngIf="videoUrl" [innerHtml]="videoUrl"></div>
+    <div class="video-container" *ngIf="!videoUrl && videoObject.videoId">
+      <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(fallbackUrl(videoObject.videoDomain, videoObject.videoId))" frameborder="0" allowfullscreen></iframe>
+    </div>
     <div *ngIf="videoObject.videoDescription" class="video-alt-text">{{videoObject.videoDescription}}</div>
   </div><!--/col-12-->
 </div> <!--/row-->
