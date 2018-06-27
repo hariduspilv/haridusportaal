@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\graphql_custom_translation\Plugin\Field\FieldType;
+namespace Drupal\custom_unix_datetime_field\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\TypedData\DataDefinition;
@@ -42,7 +42,7 @@ class CustomDateTimeItem extends DateTimeItem {
 				->setLabel(t('Computed date'))
 				->setDescription(t('The computed DateTime object.'))
 				->setComputed(TRUE)
-				->setClass('\Drupal\graphql_custom_translation\UnixDateTime')
+				->setClass('\Drupal\custom_unix_datetime_field\UnixDateTime')
 				->setSetting('date source', 'value');
 
 		return $properties;
