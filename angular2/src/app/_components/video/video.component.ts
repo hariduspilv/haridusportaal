@@ -12,18 +12,17 @@ export class VideoComponent {
 
   @Input() videos: any;
   embedFailed: boolean = false;
+  embeddedInputs: any = [];
 
   constructor(private embedService: EmbedVideoService, private sanitizer: DomSanitizer){}
 
   ngOnInit() {
     try {
-      this.videos = this.videos.map((vid) => {
-        vid.embeddedInput = this.embedService.embed(vid.input)
+      return this.videos.forEach((vid) => {
+        return this.embeddedInputs.push(this.embedService.embed(vid.input))
       })
     } catch {
       this.embedFailed = true;
-    } finally {
-      console.log(this.videos)
     }
   }
 
