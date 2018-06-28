@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 id: school_location
-label: 'School location'
+label: 'Kooli asukoht'
 icon_uuid: null
 description: ''
 behavior_plugins: {  }
