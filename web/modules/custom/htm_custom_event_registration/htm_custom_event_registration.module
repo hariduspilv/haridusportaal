@@ -1,9 +1,7 @@
 <?php
 
-use GraphQL\Error\Error;
-use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
-use Drupal\field\Entity\FieldConfig;
 use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Render\BubbleableMetadata;
 
 /**
  * Implements hook_mail().
@@ -44,6 +42,19 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 
 		$langcode = $entity->language->value;
 		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
+
+		$config = _set_config_language('et');
+		#dump($config);
+		$title = $config->get('emails.email_event_registration.registration_email_subject');
+		$body = $config->get('emails.email_event_registration.registration_email_body');
+
+		//dump($title);
+		$token_service = \Drupal::token();
+		/*$token_service->re*/
+		dump($token_service->replace($title, ['event_reg_entity' => $entity]));
+		dump($token_service->replace($body, ['event_reg_entity' => $entity]));
+		//$email_auth =
+
 
 		$mailManager = \Drupal::service('plugin.manager.mail');
 		$module = 'htm_custom_event_registration';
@@ -101,7 +112,7 @@ function _custom_email_content($message){
 	$body['registration_info'] = $registration_info;
 	$body['additional'] = $message['ref_ent']->field_registration_->value;
 	$body['langcode'] = $message['langcode'];
-	dump(_get_event_dates($message['ref_ent']));
+	#dump(_get_event_dates($message['ref_ent']));
 	//die();
 	$body['event_dates'] = _get_event_dates($message['ref_ent']);
 
@@ -166,4 +177,23 @@ function _get_event_dates($event){
 	}
 
 	return ['start' => $first_event_date, 'last' => $last_event_date];
+}
+
+function _set_config_language($langcode){
+	$language_manager = \Drupal::service('language_manager');
+
+	$language = $language_manager->getLanguage($langcode);
+
+	// Remember original language before this operation.
+	$original_language = $language_manager->getConfigOverrideLanguage();
+	// Set the translation target language on the configuration factory.
+	$language_manager->setConfigOverrideLanguage($language);
+
+	// load config
+	$config  = \Drupal::config('htm_custom_admin_form.customadmin');
+
+	// Set the configuration language back.
+	$language_manager->setConfigOverrideLanguage($original_language);
+
+	return $config;
 }
