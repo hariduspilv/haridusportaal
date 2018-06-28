@@ -26,7 +26,9 @@ class StudyProgrammeController extends ControllerBase {
       $programmenode['node_response'] = $this->check_programme_existance($programme, $update_from_ehis_nodes);
       if($programmenode['node_response']['programme_field']['field_update_from_ehis'] === '1'){
         $programmenode['edited_node'] = $this->add_programme_fields($programme, $programmenode['node_response'], $schools, $taxonomies);
-        $programmenodes[] = $programmenode['edited_node'];
+        if(isset($programmenode['edited_node']['programme_field']['field_educational_institution'])){
+          $programmenodes[] = $programmenode['edited_node'];
+        }
       }
     }
     return $programmenodes;
@@ -45,12 +47,24 @@ class StudyProgrammeController extends ControllerBase {
     $client = \Drupal::httpClient();
 
     foreach($json_urls as $url){
-      $response = $client->request('GET', $url);
+      try{
+        $response = $client->request('GET', $url);
+      }
+      catch(RequestException $e){
+        $message = t('EHIS avaandmete päringu viga: @error', array('@error' => $e));
+        \Drupal::service('custom_logging_to_file.write')->write('error', 'EHIS avaandmetest õppekava uuendamine', $message);
+      }
+
       $data = $response->getBody();
       $data_from_json = json_decode($data->getContents());
       foreach($data_from_json->body->oppekavad->oppekava as $oppekava){
-        if($oppekava->vastuvott != 'Vastuvõttu ei toimu, õppimine keelatud' && isset($programmetype[$this->parse_key($oppekava->oppekavaLiik)]) && isset($schools[$oppekava->koolId]) && isset($oppekava->oppekavaNimetus) && $oppekava->oppekavaNimetus != "" && isset($oppekava->oppekavaKood) && $oppekava->oppekavaKood != "" && isset($oppekava->oppekavaLiik) && $oppekava->oppekavaLiik != ""){
-          $programmes[] = $oppekava;
+        if($oppekava->vastuvott != 'Vastuvõttu ei toimu, õppimine keelatud' && isset($programmetype[$this->parse_key($oppekava->oppekavaLiik)])){
+          if(isset($schools[$oppekava->koolId]) && isset($oppekava->oppekavaNimetus) && $oppekava->oppekavaNimetus != "" && isset($oppekava->oppekavaKood) && $oppekava->oppekavaKood != "" && isset($oppekava->oppekavaLiik) && $oppekava->oppekavaLiik != ''){
+            $programmes[] = $oppekava;
+          }else{
+            $message = t('Puuduvad kohustuslikud andmed õppekavas: @code', array('@code' => $oppekava->oppekavaKood));
+            \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
+          }
         }
       }
     }
@@ -80,7 +94,9 @@ class StudyProgrammeController extends ControllerBase {
     if(count($nid_result) > 0){
       foreach($nid_result as $nodeid){
         $programmeitem = entity_load('node', $nodeid);
-        $programmeehisids[$nodeid] = $programmeitem->get('field_ehis_id')->getValue()[0]['value'];
+        if(count($programmeitem->get('field_ehis_id')->getValue()) > 0){
+          $programmeehisids[$nodeid] = $programmeitem->get('field_ehis_id')->getValue()[0]['value'];
+        }
       }
     }
 
@@ -135,17 +151,26 @@ class StudyProgrammeController extends ControllerBase {
       }
       if(isset($schools[$programme->koolId])){
         $programmenode['programme_field']['field_educational_institution'] = $schools[$programme->koolId];
+      }else{
+        $message = t('Puudub õppekavas @programme viidatud õppeasutus @schoolcode.', array('@programme' => $programme->oppekavaKood, '@schoolcode' => $programme->koolId));
+        \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
       }
 
       if(isset($taxonomies['studyprogrammetype'][$this->parse_key($programme->oppekavaLiik)])){
         $programmetypevalue = $taxonomies['studyprogrammetype'][$this->parse_key($programme->oppekavaLiik)];
         $programmenode['programme_field']['field_study_programme_type'] = $programmetypevalue;
+      }else{
+        $message = t('Õppekavas @programmecode on portaali loendis puuduv väärtus @taxonomyvalue', array('@programmecode' => $programme->oppekavaKood, '@taxonomyvalue' => $programme->oppekavaLiik));
+        \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
       }
 
       if(isset($programme->akadKraadDiplom)){
         if(isset($taxonomies['degreeordiploma'][$this->parse_key($programme->akadKraadDiplom)])){
           $degreeordiplomavalue = $taxonomies['degreeordiploma'][$this->parse_key($programme->akadKraadDiplom)];
           $programmenode['programme_field']['field_degree_or_diploma_awarded'] = $degreeordiplomavalue;
+        }else{
+          $message = t('Õppekavas @programmecode on portaali loendis puuduv väärtus @taxonomyvalue', array('@programmecode' => $programme->oppekavaKood, '@taxonomyvalue' => $programme->akadKraadDiplom));
+          \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
         }
       }
 
@@ -174,6 +199,9 @@ class StudyProgrammeController extends ControllerBase {
         foreach($programme->oppeKeeled->oppeKeel as $ehislanguage){
           if(isset($taxonomies['teaching_language'][$this->parse_key($ehislanguage)])){
             $langvalues[] = $taxonomies['teaching_language'][$this->parse_key($ehislanguage)];
+          }else{
+            $message = t('Õppekavas @programmecode on portaali loendis puuduv väärtus @taxonomyvalue', array('@programmecode' => $programme->oppekavaKood, '@taxonomyvalue' => $ehislanguage));
+            \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
           }
         }
       }

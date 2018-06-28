@@ -39,6 +39,6 @@ function import_school_data_cron() {
           }
         }
         $elapsedtime = time() - $starttime;
-        $message = t('Tekitatud uued kirjed koolide lisamise/muutmise järjekorda. Lisamisele: @added, Uuendamisele: @updated, Avaldamise lõpetamisele: @unpublished, Kulunud aeg (sekundid): @elapsedtime', array('@added' => $added, '@updated' => $updated, '@unpublished' => $unpublished, '@elapsedtime' => $elapsedtime));
-        \Drupal::logger('EHIS avaandmetest õppeasutuste uuendamine')->notice($message);
+        $message = t('Tekitatud uued kirjed koolide järjekorda. Lisamisele: @added, Uuendamisele: @updated, Avaldamise lõpetamisele: @unpublished, Kulunud aeg (sekundid): @elapsedtime', array('@added' => $added, '@updated' => $updated, '@unpublished' => $unpublished, '@elapsedtime' => $elapsedtime));
+        \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
 }

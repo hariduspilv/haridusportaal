@@ -55,6 +55,7 @@ return array(
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
     'MakinaCorpus\\Lucene\\' => array($vendorDir . '/makinacorpus/php-lucene/src'),
     'League\\Csv\\' => array($vendorDir . '/league/csv/src'),

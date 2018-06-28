@@ -68,6 +68,7 @@
         "drush/drush": "^9.0.0",
         "eluceo/ical": "^0.14.0",
         "league/csv": "^8.0",
+        "monolog/monolog": "^1.23",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3"
