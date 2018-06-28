@@ -88,5 +88,10 @@
   "organization.name": "Organisatsioon",
   "organization.contact": "Kontakt",
   "link.outer": "Väline link",
-  "breadcrumbs": "Leivapuru"
+  "breadcrumbs": "Leivapuru",
+  
+  "from": "Alates",
+  "event.passed": "Sündmus on möödunud",
+  "register.ended": "Registreerimine lõppenud",
+  "map.closer": "Vaata kaarti lähemalt"
 }

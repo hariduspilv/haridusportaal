@@ -10,15 +10,22 @@ import {DomSanitizer} from '@angular/platform-browser';
 
 export class VideoComponent {
 
-  @Input() videoObject: any;
-  videoUrl: string = "";
+  @Input() videos: any;
+  embedFailed: boolean = false;
+  embeddedInputs: any = [];
 
   constructor(private embedService: EmbedVideoService, private sanitizer: DomSanitizer){}
-  
+
   ngOnInit() {
-    this.videoUrl = this.embedService.embed(this.videoObject.input);
+    try {
+      return this.videos.forEach((vid) => {
+        return this.embeddedInputs.push(this.embedService.embed(vid.input))
+      })
+    } catch {
+      this.embedFailed = true;
+    }
   }
-  
+
   fallbackUrl(domain, id) {
     switch (domain) {
       case 'youtube.com':
