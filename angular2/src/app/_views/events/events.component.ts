@@ -187,7 +187,6 @@ export class EventsComponent implements OnInit, OnDestroy {
     this.setPaths();
     
     var currMonthName  = moment().format('MMMM');
-    console.log(currMonthName);
     
     // SUBSCRIBE TO QUERY PARAMS
     this.route.params.subscribe(
