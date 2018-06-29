@@ -1,6 +1,6 @@
 {
 "header" : {
-	"name" : "Masinloetav vormi koodnimetus",
+	"form_name" : "Masinloetav vormi koodnimetus",
 	"endpoint": "infosüsteemi koodnimetus nt EHIS",
 	"number_of_steps": "sammude arv vormil numbrina",
 },
@@ -21,271 +21,273 @@
 				"keele 2-täheline kood " : "Sammu päises kuvatav selgitav tekst"
 			},
 
-			"data_element_name" : {
-				"type": "heading",
-				"title" : {
-					"keele 2-täheline kood": "Pealkirja tekst"
-				}
-			},
-
-			"data_element_name" : {
-				"type": "helpertext",
-				"title" : {
-					"keele 2-täheline kood": "Selgitav tekst"
-				}
-			},
-
-			"data_element_name" : {
-				"type": "text - Andmeelemendi andmetüüp",
-				"title" : {
-					"keele 2-täheline kood": "Andmeelemendi nimetus"
-				},
-				"placeholder" : {
-					"keele 2-täheline kood": "Välja sees kuvatav tekst, mis väärtuse sisestamisel kaob; mittekohustuslik"
-				},
-				"helpertext" : {
-					"keele 2-täheline kood": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
-				},
-				"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
-				"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-				"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
-				"width" : "Kuvatava andmevälja laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik; vaikimisi 20",
-				"maxlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 200",
-				"minlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 0"
-			},
-
-			"data_element_name" : {
-				"type": "textarea",
-				"title" : {
-					"keele 2-täheline kood" :  "Andmeelemendi nimetus"
-				},
-				"placeholder" : {
-					"keele 2-täheline kood" : "Välja sees kuvatav tekst, mis väärtuse sisestamisel kaob; mittekohustuslik"
-				},
-				"helpertext" : {
-					"keele 2-täheline kood":  "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
-				},
-				"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
-				"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-				"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
-				"width" : "Kuvatava andmevälja laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik; vaikimisi 50",
-				"height" : "Kuvatava andmevälja kõrgus ridadaes; mittekohustuslik; vaikimisi 3",
-				"maxlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 500",
-				"minlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 0"
-			},
-
-			"data_element_name" : {
-				"type": "number",
-				"title" : 	{
-					"keele 2-täheline kood" : "Andmeelemendi nimetus"
-				},
-				"helpertext" : {
-					"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
-				},
-				"required": "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
-				"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-				"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
-				"max" : "Maksimaalne väärtus; mittekohustuslik; vaikimisi väärtust pole",
-				"min" : "Minimaalne väärtus; mittekohustuslik; vaikimisi väärtust pole"
-			},
-
-			"data_element_name" : {
-				"type": "date",
-				"title" : {
-					"keele 2-täheline kood" : "Andmeelemendi nimetus"
-				},
-				"helpertext" : {
-					"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
-				},
-				"required": "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
-				"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-				"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
-				"max" : "Maksimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik; vaikimisi väärtust pole",
-				"min" : "Minimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik; vaikimisi väärtust pole"
-			},
-
-			"data_element_name" : {
-				"type": "checkbox",
-				"title" : {
-					"keele 2-täheline kood"  : "Andmeelemendi nimetus"
-				},
-				"helpertext" : {
-					"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
-				},
-				"required": "Kas märkeruudu täitmine on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
-				"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-				"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false"
-			},
-
-			"data_element_name" : {
-				"type": "selectlist",
-				"title" : {
-					"keele 2-täheline kood" : "Andmeelemendi nimetus"
-				},
-				"empty_option" : {
-					"keele 2-täheline kood" : "Valimata väärtuse kohta kuvatav tekst, mittekohustuslik"
-				},
-				"options" : {
-					"option_name" : {
-						"keele 2-täheline kood" : "Valiku kuvatav tekstiline väärtus"
-					},
-					"option_name" : {
-						"keele 2-täheline kood" : "Ülemise taseme (grupi) valiku kuvatav tekstiline väärtus",
-						"options" : {
-							"option_name": {
-								"keele 2-täheline kood" : "Alumise taseme valiku kuvatav tekstiline väärtus"
-							}
-						}
+			"data_elements" : {
+				"data_element_name" : {
+					"type": "heading",
+					"title" : {
+						"keele 2-täheline kood": "Pealkirja tekst"
 					}
 				},
-				"helpertext" : {
-					"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
-				},
-				"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
-				"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-				"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
-				"multiple" : "Kas saab valida ühe väärtuse (false) või mitu väärtust (true); mittekohustuslik; vaikimisi false",
-				"width" : "Kuvatava andmevälja laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik; vaikimisi pikim option"
-			},
 
-			"data_element_name" : {
-				"type": "email",
-				"title" : {
-					"keele 2-täheline kood" : "Andmeelemendi nimetus"
+				"data_element_name" : {
+					"type": "helpertext",
+					"title" : {
+						"keele 2-täheline kood": "Selgitav tekst"
+					}
 				},
-				"placeholder" : {
-					"keele 2-täheline kood" : "Välja sees kuvatav tekst, mis väärtuse sisestamisel kaob; mittekohustuslik"
-				},
-				"helpertext" : {
-					"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
-				},
-				"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
-				"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-				"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false"
-			},
 
-			"data_element_name" : {
-				"type": "file",
-				"title" : {
-					"keele 2-täheline kood" : "Andmeelemendi nimetus"
-				},
-				"helpertext" : {
-					"keele 2-täheline kood" : "Välja juures kuvatav tekst; mittekohustuslik"
-				},
-				"required":  "Kas faili väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
-				"hidden" : "Kas fail on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-				"readonly" : "Kas fail muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
-				"multiple" : "Kas saab sisestada ühe faili (false) või mitu faili (true); mittekohustuslik; vaikimisi false"
-			},
-
-			"data_element_name" : {
-				"type": "address",
-				"title" : {
-					"keele 2-täheline kood" : "Andmeelemendi nimetus"
-				},
-				"helpertext" : {
-					"keele 2-täheline kood"  : "Välja juures kuvatav tekst; mittekohustuslik"
-				},
-				"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
-				"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-				"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
-				"multiple" : "Kas saab sisestada ühe väärtuse (false) või mitu väärtust (true); mittekohustuslik; vaikimisi false"
-			},
-
-			"data_element_name" : {
-				"type": "table",
-				"title" : {
-					"keele 2-täheline kood" : "Andmeelemendi nimetus"
-				},
-				"helpertext" : {
-					"keele 2-täheline kood" : "Tabeli juures kuvatav tekst; mittekohustuslik"
-				},
-				"add_del_rows" : "Kas ridu saab (true) või ei saa (false) lisada ja kustutada. Vaikimi false",
-				"table_columns" : {
-
-					"table_column_name" : {
-						"title" : {
-							"keele 2-täheline kood"  : "Tabeli veeru pealkiri nimetus"
-						},
-						"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-						"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
-						"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-						"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
-						"type" : "text - Tabeli väljades olevate väärtuste andmetüüp",
-						"maxlength" : "Tabeli väljade väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 200",
-						"minlength" : "Tabeli väljade väärtuse maksimaalne sümbolite arv; mittekohustuslik",
-						"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
+				"data_element_name" : {
+					"type": "text - Andmeelemendi andmetüüp",
+					"title" : {
+						"keele 2-täheline kood": "Andmeelemendi nimetus"
 					},
-
-					"table_column_name" : {
-						"title" : {
-							"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
-						},
-						"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-						"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
-						"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-						"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
-						"type" : "number - Tabeli väljades olevate väärtuste andmetüüp",
-						"max" : "Tabeli väljade maksimaalne väärtus; mittekohustuslike",
-						"min" : "Tabeli väljade minimaalne väärtus; mittekohustuslik",
-						"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
+					"placeholder" : {
+						"keele 2-täheline kood": "Välja sees kuvatav tekst, mis väärtuse sisestamisel kaob; mittekohustuslik"
 					},
-
-					"table_column_name" : {
-						"title" : {
-							"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
-						},
-						"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-						"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
-						"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-						"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
-						"type" : "date - Tabeli väljades olevate väärtuste andmetüüp",
-						"max" : "Tabeli väljade maksimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik",
-						"min" : "Tabeli väljade minimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik",
-						"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus; formaat YYYY-MM-DD"
+					"helpertext" : {
+						"keele 2-täheline kood": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
 					},
+					"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
+					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
+					"width" : "Kuvatava andmevälja laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik; vaikimisi 20",
+					"maxlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 200",
+					"minlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 0"
+				},
 
-					"table_column_name" : {
-						"title" : 	{
-							"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
-						},
-						"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-						"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
-						"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-						"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
-						"type" : "checkbox  - Tabeli veerus olevate väärtuste andmetüüp",
-						"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
+				"data_element_name" : {
+					"type": "textarea",
+					"title" : {
+						"keele 2-täheline kood" :  "Andmeelemendi nimetus"
 					},
+					"placeholder" : {
+						"keele 2-täheline kood" : "Välja sees kuvatav tekst, mis väärtuse sisestamisel kaob; mittekohustuslik"
+					},
+					"helpertext" : {
+						"keele 2-täheline kood":  "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+					},
+					"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
+					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
+					"width" : "Kuvatava andmevälja laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik; vaikimisi 50",
+					"height" : "Kuvatava andmevälja kõrgus ridadaes; mittekohustuslik; vaikimisi 3",
+					"maxlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 500",
+					"minlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 0"
+				},
 
-					"table_column_name" : {
-						"title" : {
-							"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
+				"data_element_name" : {
+					"type": "number",
+					"title" : 	{
+						"keele 2-täheline kood" : "Andmeelemendi nimetus"
+					},
+					"helpertext" : {
+						"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+					},
+					"required": "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
+					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
+					"max" : "Maksimaalne väärtus; mittekohustuslik; vaikimisi väärtust pole",
+					"min" : "Minimaalne väärtus; mittekohustuslik; vaikimisi väärtust pole"
+				},
+
+				"data_element_name" : {
+					"type": "date",
+					"title" : {
+						"keele 2-täheline kood" : "Andmeelemendi nimetus"
+					},
+					"helpertext" : {
+						"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+					},
+					"required": "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
+					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
+					"max" : "Maksimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik; vaikimisi väärtust pole",
+					"min" : "Minimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik; vaikimisi väärtust pole"
+				},
+
+				"data_element_name" : {
+					"type": "checkbox",
+					"title" : {
+						"keele 2-täheline kood"  : "Andmeelemendi nimetus"
+					},
+					"helpertext" : {
+						"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+					},
+					"required": "Kas märkeruudu täitmine on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
+					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false"
+				},
+
+				"data_element_name" : {
+					"type": "selectlist",
+					"title" : {
+						"keele 2-täheline kood" : "Andmeelemendi nimetus"
+					},
+					"empty_option" : {
+						"keele 2-täheline kood" : "Valimata väärtuse kohta kuvatav tekst, mittekohustuslik"
+					},
+					"options" : {
+						"option_name" : {
+							"keele 2-täheline kood" : "Valiku kuvatav tekstiline väärtus"
 						},
-						"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-						"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
-						"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-						"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
-						"type" : "selectlist - Tabeli veerus olevate väärtuste andmetüüp",
-						"emtpy_option" : {
-							"keele 2-täheline kood" : "Valimata väärtuse kohta kuvatav tekst, mittekohustuslik"
-						},
-						"options" : {
-							"option_name" : {
-								"keele 2-täheline kood" : "Valiku kuvatav tekstiline väärtus"
+						"option_name" : {
+							"keele 2-täheline kood" : "Ülemise taseme (grupi) valiku kuvatav tekstiline väärtus",
+							"options" : {
+								"option_name": {
+									"keele 2-täheline kood" : "Alumise taseme valiku kuvatav tekstiline väärtus"
+								}
 							}
-						},
-						"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
+						}
 					},
+					"helpertext" : {
+						"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+					},
+					"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
+					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
+					"multiple" : "Kas saab valida ühe väärtuse (false) või mitu väärtust (true); mittekohustuslik; vaikimisi false",
+					"width" : "Kuvatava andmevälja laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik; vaikimisi pikim option"
+				},
 
-					"table_column_name" : {
-						"title" : {
-							"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
+				"data_element_name" : {
+					"type": "email",
+					"title" : {
+						"keele 2-täheline kood" : "Andmeelemendi nimetus"
+					},
+					"placeholder" : {
+						"keele 2-täheline kood" : "Välja sees kuvatav tekst, mis väärtuse sisestamisel kaob; mittekohustuslik"
+					},
+					"helpertext" : {
+						"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+					},
+					"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
+					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false"
+				},
+
+				"data_element_name" : {
+					"type": "file",
+					"title" : {
+						"keele 2-täheline kood" : "Andmeelemendi nimetus"
+					},
+					"helpertext" : {
+						"keele 2-täheline kood" : "Välja juures kuvatav tekst; mittekohustuslik"
+					},
+					"required":  "Kas faili väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
+					"hidden" : "Kas fail on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+					"readonly" : "Kas fail muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
+					"multiple" : "Kas saab sisestada ühe faili (false) või mitu faili (true); mittekohustuslik; vaikimisi false"
+				},
+
+				"data_element_name" : {
+					"type": "address",
+					"title" : {
+						"keele 2-täheline kood" : "Andmeelemendi nimetus"
+					},
+					"helpertext" : {
+						"keele 2-täheline kood"  : "Välja juures kuvatav tekst; mittekohustuslik"
+					},
+					"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
+					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
+					"multiple" : "Kas saab sisestada ühe väärtuse (false) või mitu väärtust (true); mittekohustuslik; vaikimisi false"
+				},
+
+				"data_element_name" : {
+					"type": "table",
+					"title" : {
+						"keele 2-täheline kood" : "Andmeelemendi nimetus"
+					},
+					"helpertext" : {
+						"keele 2-täheline kood" : "Tabeli juures kuvatav tekst; mittekohustuslik"
+					},
+					"add_del_rows" : "Kas ridu saab (true) või ei saa (false) lisada ja kustutada. Vaikimi false",
+					"table_columns" : {
+
+						"table_column_name" : {
+							"title" : {
+								"keele 2-täheline kood"  : "Tabeli veeru pealkiri nimetus"
+							},
+							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
+							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
+							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
+							"type" : "text - Tabeli väljades olevate väärtuste andmetüüp",
+							"maxlength" : "Tabeli väljade väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 200",
+							"minlength" : "Tabeli väljade väärtuse maksimaalne sümbolite arv; mittekohustuslik",
+							"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
 						},
-						"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
-						"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
-						"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-						"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
-						"type" : "file - Tabeli veerus olevate väärtuste andmetüüp",
+
+						"table_column_name" : {
+							"title" : {
+								"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
+							},
+							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
+							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
+							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
+							"type" : "number - Tabeli väljades olevate väärtuste andmetüüp",
+							"max" : "Tabeli väljade maksimaalne väärtus; mittekohustuslike",
+							"min" : "Tabeli väljade minimaalne väärtus; mittekohustuslik",
+							"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
+						},
+
+						"table_column_name" : {
+							"title" : {
+								"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
+							},
+							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
+							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
+							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
+							"type" : "date - Tabeli väljades olevate väärtuste andmetüüp",
+							"max" : "Tabeli väljade maksimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik",
+							"min" : "Tabeli väljade minimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik",
+							"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus; formaat YYYY-MM-DD"
+						},
+
+						"table_column_name" : {
+							"title" : 	{
+								"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
+							},
+							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
+							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
+							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
+							"type" : "checkbox  - Tabeli veerus olevate väärtuste andmetüüp",
+							"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
+						},
+
+						"table_column_name" : {
+							"title" : {
+								"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
+							},
+							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
+							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
+							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
+							"type" : "selectlist - Tabeli veerus olevate väärtuste andmetüüp",
+							"emtpy_option" : {
+								"keele 2-täheline kood" : "Valimata väärtuse kohta kuvatav tekst, mittekohustuslik"
+							},
+							"options" : {
+								"option_name" : {
+									"keele 2-täheline kood" : "Valiku kuvatav tekstiline väärtus"
+								}
+							},
+							"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
+						},
+
+						"table_column_name" : {
+							"title" : {
+								"keele 2-täheline kood" : "Tabeli veeru pealkiri nimetus"
+							},
+							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
+							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
+							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
+							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
+							"type" : "file - Tabeli veerus olevate väärtuste andmetüüp",
+						}
 					}
 				}
 			}
