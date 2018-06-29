@@ -1,8 +1,8 @@
 {
 	"header" : {
 		"form_name" : "VPT_TAOTLUS",
-		"acceptable_activity" : "SAVE",
-		"current_step" : "step_1",
+		"acceptable_activity" : kui pole ühtegi errorMessage-t siis "SAVE" ja kui on vähemalt üks errorMessage siis "VIEW",
+		"current_step" : kui pole ühtegi errorMessage-t siis "step_1" ja kui on vähemalt üks errorMessage siis "step_0",
 		"identifier" : vpTaotlusIsikudResponse.taotlus_id
 	},
 	"body" : {
