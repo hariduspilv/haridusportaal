@@ -14,7 +14,7 @@ htm_custom_admin_form.customadmin:
               type: label
               label: 'Registration email subject'
             registration_email_body:
-              type: label
+              type: text
               label: 'Registration email body'
             organizer_email_subject:
               type: label
