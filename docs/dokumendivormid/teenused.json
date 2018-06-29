@@ -13,14 +13,14 @@
 	"documents" : [
 		{
 			"request_ID" : "päringu unikaalne seerianumber",
-			"name" : "string, dokumendi vormi kood",
+			"form_name" : "string, dokumendi vormi kood",
 			"identifier" :  "string, dokumendi unikaalne identifikaator infosüsteemis",
 			"date" : "string, dokumendi koostamise kuupäev ilma kellaajata YYYY-MM-DD",
 			"status" : "string, dokumendi olek infosüsteemis",
 			"description" : "string, lühike lisainfo dokumendi kohta, näiteks kehtivusaeg",
 			"references" : [
 				{
-					"name" : "string, dokumendis viidatava dokumendi vormi kood",
+					"form_name" : "string, dokumendis viidatava dokumendi vormi kood",
 					"identifier" : "string, dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis",
 					"date" : "string, dokumendis viidatava dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
 				}
@@ -30,13 +30,13 @@
 	"drafts" : [
 		{
 			"request_ID" : "päringu unikaalne seerianumber",
-			"name" : "string, sisestamisel oleva dokumendi vormi kood",
+			"form_name" : "string, sisestamisel oleva dokumendi vormi kood",
 			"identifier" :  "string, sisestamisel oleva dokumendi unikaalne identifikaator infosüsteemis",
 			"modified" : "srting, sisestamisel oleva dokumendi viimase muutmise aeg YYYY-MM-DDTHH:MM:SSZ",
 			"deadline" : "string, dokumendi esitamise võimalik viimane kuupäev ilma kellaajata YYYY-MM-DD",
 			"references" : [
 				{
-					"name" : "string, sisestamisel olevas dokumendis viidatava dokumendi vormi kood",
+					"form_name" : "string, sisestamisel olevas dokumendis viidatava dokumendi vormi kood",
 					"identifier" : "string, sisestamisel olevas dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis",
 					"date" : "string, sisestamisel olevas dokumendis viidatava dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
 				}
@@ -46,11 +46,11 @@
 	"acceptable_forms" : [
 		{
 			"request_ID" : "päringu unikaalne seerianumber",
-			"name" : "string, võimaliku esitatava dokumendi vormi kood",
+			"form_name" : "string, võimaliku esitatava dokumendi vormi kood",
 			"deadline" : "string, dokumendi esitamise võimalik viimane kuupäev ilma kellaajata YYYY-MM-DD",
 			"references" : [
 				{
-					"name" : "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi vormi kood",
+					"form_name" : "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi vormi kood",
 					"identifier" :  "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis",
 					"date" : "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
 				}
@@ -60,14 +60,14 @@
 	"inquiries" : [
 		{
 			"request_ID" : "päringu unikaalne seerianumber",
-			"name" : "string, nõutava dokumendi vormi kood",
+			"form_name" : "string, nõutava dokumendi vormi kood",
 			"date" : "string, nõude esitamise kuupäev ilma kellaajata YYYY-MM-DD",
 			"deadline" : "string, nõutava dokumendi esitamise tähtaja kuupäev ilma kellaajata YYYY-MM-DD",
 			"description" : "string, nõude selgitus",
 			"contact" : "string, kontaktandmed ja/või -isik nõude sisu kohta täpsema info saamiseks",
 			"references" : [
 				{
-					"name" : "string, dokumendi nõudmise aluseks oleva dokumendi vormi kood",
+					"form_name" : "string, dokumendi nõudmise aluseks oleva dokumendi vormi kood",
 					"identifier" :  "string, dokumendi nõudmise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis",
 					"date" : "string, dokumendi nõudmise aluseks oleva dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
 				}
@@ -90,7 +90,7 @@
 {
 	"request_ID" : "päringu unikaalne seerianumber",
 	"document" : { dokumendi sisu },
-	"error" : "Veateade"
+	"error" : "Tehniline veateade, kui document-i ei saa väljastada"
 }
 
 *** POST DOCUMENT ***
@@ -100,14 +100,14 @@
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
-	"name" : "Dokumendivormi masinloetev kood"
+	"form_name" : "Dokumendivormi masinloetev kood"
 }
 
 "postDocument_response" :
 {
 	"request_ID" : "päringu unikaalne seerianumber",
 	"document" : { dokumendi sisu },
-	"error" : "Veateade"
+	"error" : "Tehniline veateadee, kui document-i ei saa väljastada"
 }
 
 *** PUT DOCUMENT ***
@@ -117,14 +117,14 @@
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
-	"document" : { dokumendi sisu },
+	"document" : { dokumendi sisu }
 }
 
 "putDocument_response" :
 {
 	"request_ID" : "päringu unikaalne seerianumber",
 	"document" : { dokumendi sisu },
-	"error" : "Veateade"
+	"error" : "Tehniline veateadee, kui document-i ei saa väljastada"
 }
 
 *** DELETE DOCUMENT ***
@@ -140,7 +140,7 @@
 "deleteDocument_response" :
 {
 	"request_ID" : "päringu unikaalne seerianumber",
-	"error" : "Veateade"
+	"error" : "Tehniline veateadee, kui document-i ei saa kustutada"
 }
 
 *** GET DOCEMENT FILE  ***
@@ -159,7 +159,7 @@
 	"request_ID" : "päringu unikaalne seerianumber",
 	"file_name" : "Faili nimi",
 	"file_content" : Faili sisu base64 ,
-	"error" : "Veateade"
+	"error" : "Tehniline veateadee, kui faili ei saa väljastada"
 }
 
 *** POST DOCUMENT FILE  ***
@@ -178,7 +178,7 @@
 {
 	"request_ID" : "päringu unikaalne seerianumber",
 	"file_identifier" : "Lisatud dokumendifaili unikaalne identifikaator",
-	"error" : "Veateade"
+	"error" : "Tehniline veateadee, kui faili ei saa salvestada"
 }
 
 *** DELETE DOCEMENT FILE  ***
@@ -195,5 +195,5 @@
 "deleteDocumentFile_response" :
 {
 	"request_ID" : "päringu unikaalne seerianumber",
-	"error" : "Veateade"
+	"error" : "Tehniline veateadee, kui faili ei saa kustutada"
 }
