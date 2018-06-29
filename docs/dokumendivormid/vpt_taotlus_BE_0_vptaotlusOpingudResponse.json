@@ -1,0 +1,56 @@
+"header" : {
+	"form_name" : "VPT_TAOTLUS",
+	"acceptable_activity" : "CONTINUE",
+	"current_step" : "step_0",
+	"identifier" :  vpTaotlusIsikudResponse.taotlus_id 
+	"agents" : [
+		{ "person_id" : taolteja isikukood, "role" : "TAOTLEJA" },
+	],
+},
+"body" : {
+	"steps": {
+		"step_0" : {
+			"data_elements" : {
+				"studies" : {
+					"value" : [
+						{ "institution_id": oppimineDtos.asutuseId,
+						  "institution_name" : oppimineDtos.asutuseNimi ,
+							"type" : oppimineDtos.oppeTyyp ,
+							"type_coded" : oppimineDtos.oppeTyypKl ,
+							"study_programme" : oppimineDtos.oppekavaNimi ,
+							"study_programme_EHISid" : oppimineDtosoppekavaKood. ,
+							"start_date" : oppimineDtos.alustamiseKuupaev ,
+							"learning_load" : oppimineDtos.oppekoormusTyyp ,
+							"learning_load_code" : oppimineDtos.oppekoormusTyypKl ,
+							"completion_rate" : oppimineDtos.taitmiseProtsent,
+							"academic_leave_start" : oppimineDtos.akadeemilisePuhkuseAlustamiseKuupaev,
+							"first_semester_end" :oppimineDtos.esimeseSemestriLoppKp
+						}
+					]
+				}
+			}
+		}
+	},
+	"messages" : ["temp_message_ca", "temp_message_cb", "temp_message_cc" ],
+},
+"messages" : {
+	"temp_message_ca" : {
+		"message_type" : "ERROR",
+		"message_text" : {
+			"et" : "vpTaotlusIsikudResponse.hoiatusDto.ErrorMessages.kirjeldus"
+		}
+	},
+	"temp_message_cb" : {
+		"message_type" : "WARNING",
+		"message_text" : {
+			"et" : "vpTaotlusIsikudResponse.hoiatusDto.WarningMessages.kirjeldus"
+		}
+	},
+	"temp_message_cc" : {
+		"message_type" : "NOTICE",
+		"message_text" : {
+			"et" : "vpTaotlusIsikudResponse.hoiatusDto.NoticeMessages.kirjeldus"
+		}
+	}
+}
+}

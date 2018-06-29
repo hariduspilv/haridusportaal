@@ -1,0 +1,76 @@
+{
+	"header" : {
+		"form_name" : "VPT_TAOTLUS",
+		"acceptable_activity" : "SAVE",
+		"current_step" : "step_1",
+		"identifier" : vpTaotlusIsikudResponse.taotlus_id
+	},
+	"body" : {
+		"steps": {
+			"step_0" : {
+				ei muutu, kantakse edasi putDocumentRequest-st
+			},
+
+			"step_1" : {
+				"data_elements" : {
+					"family_members_population_register" : {
+						"value" : [
+							{ "personal_id" : isikInfoDtos.isikukood,
+							  "last_name" : isikInfoDtos.eesnimi,
+							  "first_name" : isikInfoDtos.perenimi,
+							  "birth_date" : isikInfoDtos.synniaeg,
+							  "relationship" : isikInfoDtos.sugulusaste,
+							  "family_member" : isikInfoDtos.arvestatudPereliikmeks,
+							  "studies" : isikInfoDtos.omandabHaridust,
+							  "data_from_population_register" :  isikInfoDtos.rahvastikuRegistrist,
+							  "data_from_tax_register" : isikInfoDtos.emtaRegistrist,
+							  "non_resident" :  isikInfoDtos.emtaMitteResident
+							}
+						]
+					},
+
+					"family_members_entered" : {
+						"value" : [
+							{ "personal_id" : isikInfoDtos.isikukood,
+							  "last_name" : isikInfoDtos.eesnimi,
+							  "first_name" : isikInfoDtos.perenimi,
+							  "birth_date" : isikInfoDtos.synniaeg,
+							  "relationship" : isikInfoDtos.sugulusaste,
+							  "family_member" : isikInfoDtos.arvestatudPereliikmeks,
+							  "studies" : isikInfoDtos.omandabHaridust,
+							  "data_from_population_register" :  isikInfoDtos.rahvastikuRegistrist,
+							  "data_from_tax_register" : isikInfoDtos.emtaRegistrist,
+							  "non_resident" :  isikInfoDtos.emtaMitteResident
+							}
+						]
+					},
+
+					"custody" : {
+						"value" : hoolealuneKuva
+					}
+				}
+			}
+		},
+		"messages" : ["temp_message_ca","temp_message_cb","temp_message_cc"]
+	},
+	"messages" : {
+		"temp_message_ca" : {
+			"message_type" : "ERROR",
+			"message_text" : {
+				"et" : "vpTaotlusIsikudResponse.hoiatusDto.ErrorMessages.kirjeldus"
+			}
+		},
+		"temp_message_cb" : {
+			"message_type" : "WARNING",
+			"message_text" : {
+				"et" : "vpTaotlusIsikudResponse.hoiatusDto.WarningMessages.kirjeldus"
+			}
+		},
+		"temp_message_cc" : {
+			"message_type" : "NOTICE",
+			"message_text" : {
+				"et" : "vpTaotlusIsikudResponse.hoiatusDto.NoticeMessages.kirjeldus"
+			}
+		}
+	}
+}
