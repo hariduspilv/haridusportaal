@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Test maxlength module.
@@ -77,25 +78,25 @@ class MaxlengthTestCase extends DrupalWebTestCase {
     // Check the maxlength html attributes.
     $elements = $this->xpath('//input[@id=:id]', array(':id' => 'edit-title'));
 
-//     foreach ($elements[0]->attributes() as $key => $value) {
-//       switch ($key) {
-//         case 'class':
-//           $this->assertTrue(strpos($value, 'maxlength'), 'Take sure the maxlength class is existant');
-//           break;
-//         case 'maxlength_js':
-//           $this->assertTrue($value, 'Take sure that the maxlenght_js attribute is set.');
-//           break;
-//         case 'maxlength_js_label':
-//           $this->assertEqual($edit['maxlength_js_label'], $value, 'Take sure that the maxlenght_js_label is the defined one.');
-//           break;
-//         case 'maxlength':
-//           $this->assertEqual($edit['maxlenght_js'], $value);
-//           break;
-//       }
-//     }
+    //     foreach ($elements[0]->attributes() as $key => $value) {
+    //       switch ($key) {
+    //         case 'class':
+    //           $this->assertTrue(strpos($value, 'maxlength'), 'Take sure the maxlength class is existant');
+    //           break;
+    //         case 'maxlength_js':
+    //           $this->assertTrue($value, 'Take sure that the maxlenght_js attribute is set.');
+    //           break;
+    //         case 'maxlength_js_label':
+    //           $this->assertEqual($edit['maxlength_js_label'], $value, 'Take sure that the maxlenght_js_label is the defined one.');
+    //           break;
+    //         case 'maxlength':
+    //           $this->assertEqual($edit['maxlenght_js'], $value);
+    //           break;
+    //       }
+    //     }
   }
 
-   /**
+  /**
     * Test general api.
     */
 

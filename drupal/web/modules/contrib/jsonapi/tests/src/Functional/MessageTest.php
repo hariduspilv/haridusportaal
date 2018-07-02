@@ -2,9 +2,11 @@
 
 namespace Drupal\Tests\jsonapi\Functional;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\contact\Entity\ContactForm;
 use Drupal\contact\Entity\Message;
 use Drupal\Core\Url;
+use GuzzleHttp\RequestOptions;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
@@ -151,11 +153,26 @@ class MessageTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function testGetRelationships() {
+  public function testRelationships() {
     // Contact Message entities are not stored, so they cannot be retrieved.
     $this->setExpectedException(RouteNotFoundException::class, 'Route "jsonapi.contact_message--camelids.relationship" does not exist.');
 
     Url::fromRoute('jsonapi.contact_message--camelids.relationship')->toString(TRUE);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function testCollection() {
+    $collection_url = Url::fromRoute(sprintf('jsonapi.%s.collection', static::$resourceTypeName))->setAbsolute(TRUE);
+    $request_options = [];
+    $request_options[RequestOptions::HEADERS]['Accept'] = 'application/vnd.api+json';
+    $request_options = NestedArray::mergeDeep($request_options, $this->getAuthenticationRequestOptions());
+
+    // 405 because Message entities are not stored, so they cannot be retrieved,
+    // yet the same URL can be used to POST them.
+    $response = $this->request('GET', $collection_url, $request_options);
+    $this->assertResourceErrorResponse(405, 'No route found for "GET /jsonapi/contact_message/camelids": Method Not Allowed (Allow: POST)', $response);
   }
 
 }

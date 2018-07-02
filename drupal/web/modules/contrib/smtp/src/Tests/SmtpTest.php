@@ -16,7 +16,7 @@ class SmtpTest extends WebTestBase {
    *
    * @var array
    */
-  public static $modules = array('smtp');
+  public static $modules = ['smtp'];
 
   /**
    * Perform any initial set up tasks that run before every test method

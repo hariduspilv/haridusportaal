@@ -4,8 +4,7 @@ namespace Drupal\jsonapi\EventSubscriber;
 
 use Drupal\Core\Cache\CacheableResponse;
 use Drupal\Core\Cache\CacheableResponseInterface;
-use Drupal\Core\Render\RenderContext;
-use Drupal\Core\Render\RendererInterface;
+use Drupal\jsonapi\Normalizer\Value\JsonApiDocumentTopLevelNormalizerValue;
 use Drupal\jsonapi\ResourceResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,9 +28,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  *    injected instead of @serializer
  * 2. It has the @current_route_match service no longer injected
  * 3. It hardcodes the format to 'api_json'
- * 4. In the call to the serializer, it passes in the request and cacheable
- *    metadata as serialization context.
- *    https://www.drupal.org/project/jsonapi/issues/2948666 will change this.
+ * 4. It adds the JsonApiDocumentTopLevelNormalizerValue value object returned
+ *    by JSON API normalization to the response object.
  * 5. It flattens only to a cacheable response if the HTTP method is cacheable.
  */
 class ResourceResponseSubscriber implements EventSubscriberInterface {
@@ -44,23 +42,13 @@ class ResourceResponseSubscriber implements EventSubscriberInterface {
   protected $serializer;
 
   /**
-   * The renderer.
-   *
-   * @var \Drupal\Core\Render\RendererInterface
-   */
-  protected $renderer;
-
-  /**
    * Constructs a ResourceResponseSubscriber object.
    *
    * @param \Symfony\Component\Serializer\SerializerInterface $serializer
    *   The serializer.
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The renderer.
    */
-  public function __construct(SerializerInterface $serializer, RendererInterface $renderer) {
+  public function __construct(SerializerInterface $serializer) {
     $this->serializer = $serializer;
-    $this->renderer = $renderer;
   }
 
   /**
@@ -121,32 +109,18 @@ class ResourceResponseSubscriber implements EventSubscriberInterface {
 
     // If there is data to send, serialize and set it as the response body.
     if ($data !== NULL) {
-      $context = new RenderContext();
-      $render_function = function () use ($serializer, $data, $format, $request, $response) {
-        // The serializer receives the response's cacheability metadata object
-        // as serialization context. Normalizers called by the serializer then
-        // refine this cacheability metadata, and thus they are effectively
-        // updating the response object's cacheability.
-        // @todo In principle JSON API uses normalizer value objects to achieve
-        // this, and hence normalizers should not rely on this global context.
-        // https://www.drupal.org/project/jsonapi/issues/2940342 brought us a
-        // long way, but not yet 100%. We will go all the way in
-        // https://www.drupal.org/project/jsonapi/issues/2948666.
-        // Note that \Drupal\jsonapi\Controller\RequestHandler::handle() calls
-        // a method on EntityResource in a render context.
-        return $serializer->serialize($data, $format, [
-          'request' => $request,
-          'cacheable_metadata' => $response->getCacheableMetadata(),
-          'resource_type' => $request->get('resource_type'),
-        ]);
-      };
-      $output = $this->renderer->executeInRenderContext($context, $render_function);
-
-      if ($response instanceof CacheableResponseInterface && !$context->isEmpty()) {
-        $response->addCacheableDependency($context->pop());
-      }
-
-      $response->setContent($output);
+      // First normalize the data.
+      $jsonapi_doc_object = $serializer->normalize($data, $format, [
+        'request' => $request,
+        'resource_type' => $request->get('resource_type'),
+      ]);
+      // Having just normalized the data, we can associate its cacheability with
+      // the response object.
+      assert($jsonapi_doc_object instanceof JsonApiDocumentTopLevelNormalizerValue);
+      $response->addCacheableDependency($jsonapi_doc_object);
+      // Finally, encode the normalized data (JSON API's encoder rasterizes it
+      // automatically).
+      $response->setContent($serializer->encode($jsonapi_doc_object, $format));
       $response->headers->set('Content-Type', $request->getMimeType($format));
     }
   }

@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\jsonapi\Functional;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
@@ -59,9 +60,9 @@ class MediaTest extends ResourceTestBase {
       case 'POST':
         // @todo Remove this modification when JSON API requires Drupal 8.5 or newer, and do an early return above instead.
         if (floatval(\Drupal::VERSION) < 8.5) {
-          $this->grantPermissionsToTestedRole(['create media']);
+          $this->grantPermissionsToTestedRole(['create media', 'access content']);
         }
-        $this->grantPermissionsToTestedRole(['create camelids media']);
+        $this->grantPermissionsToTestedRole(['create camelids media', 'access content']);
         break;
 
       case 'PATCH':
@@ -115,6 +116,13 @@ class MediaTest extends ResourceTestBase {
     $file->setPermanent();
     $file->save();
 
+    // @see \Drupal\Tests\jsonapi\Functional\MediaTest::testPostIndividual()
+    $post_file = File::create([
+      'uri' => 'public://llama2.txt',
+    ]);
+    $post_file->setPermanent();
+    $post_file->save();
+
     // Create a "Llama" media item.
     // @todo Remove this modification when JSON API requires Drupal 8.5 or newer, and do an early return above instead.
     $file_field_name = floatval(\Drupal::VERSION) >= 8.5 ? 'field_media_file' : 'field_media_file_1';
@@ -140,7 +148,7 @@ class MediaTest extends ResourceTestBase {
    */
   protected function getExpectedDocument() {
     $file = File::load(1);
-    $thumbnail = File::load(2);
+    $thumbnail = File::load(3);
     $author = User::load($this->entity->getOwnerId());
     $self_url = Url::fromUri('base:/jsonapi/media/camelids/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
     $normalization = [
@@ -202,8 +210,8 @@ class MediaTest extends ResourceTestBase {
               'id' => $thumbnail->uuid(),
               'meta' => [
                 'alt' => 'Thumbnail',
-                'width' => '180',
-                'height' => '180',
+                'width' => 180,
+                'height' => 180,
                 'title' => 'Llama',
               ],
               'type' => 'file--file',
@@ -261,11 +269,24 @@ class MediaTest extends ResourceTestBase {
    * {@inheritdoc}
    */
   protected function getPostDocument() {
+    $file = File::load(2);
     return [
       'data' => [
         'type' => 'media--camelids',
         'attributes' => [
           'name' => 'Dramallama',
+        ],
+        'relationships' => [
+          'field_media_file' => [
+            'data' => [
+              'id' => $file->uuid(),
+              'meta' => [
+                'description' => 'This file is better!',
+                'display' => NULL,
+              ],
+              'type' => 'file--file',
+            ],
+          ],
         ],
       ],
     ];
@@ -278,6 +299,9 @@ class MediaTest extends ResourceTestBase {
     switch ($method) {
       case 'GET';
         return "The 'view media' permission is required and the media item must be published.";
+
+      case 'POST':
+        return "The following permissions are required: 'administer media' OR 'create media' OR 'create camelids media'.";
 
       case 'PATCH':
         // @todo Make this unconditional when JSON API requires Drupal 8.6 or newer.
@@ -305,26 +329,30 @@ class MediaTest extends ResourceTestBase {
       ->addCacheTags(['media:1']);
   }
 
+  // @codingStandardsIgnoreStart
   /**
    * {@inheritdoc}
    */
   public function testPostIndividual() {
-    $this->markTestSkipped('POSTing File Media items is not supported until https://www.drupal.org/node/1927648 is solved.');
+    // @todo Mimic \Drupal\Tests\rest\Functional\EntityResource\Media\MediaResourceTestBase::testPost()
+    // @todo Later, use https://www.drupal.org/project/jsonapi/issues/2958554 to upload files rather than the REST module.
+    parent::testPostIndividual();
   }
+  // @codingStandardsIgnoreEnd
 
   /**
    * {@inheritdoc}
    *
    * @todo Determine if this override should be removed in https://www.drupal.org/project/jsonapi/issues/2952522
    */
-  protected function getExpectedGetRelationshipDocumentData($relationship_field_name) {
-    $data = parent::getExpectedGetRelationshipDocumentData($relationship_field_name);
+  protected function getExpectedGetRelationshipDocumentData($relationship_field_name, EntityInterface $entity = NULL) {
+    $data = parent::getExpectedGetRelationshipDocumentData($relationship_field_name, $entity);
     switch ($relationship_field_name) {
       case 'thumbnail':
         $data['meta'] = [
           'alt' => 'Thumbnail',
-          'width' => '180',
-          'height' => '180',
+          'width' => 180,
+          'height' => 180,
           'title' => 'Llama',
         ];
         return $data;
@@ -339,6 +367,16 @@ class MediaTest extends ResourceTestBase {
       default:
         return $data;
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @todo Remove this in https://www.drupal.org/node/2824851.
+   */
+  protected function doTestRelationshipPost(array $request_options) {
+    $this->grantPermissionsToTestedRole(['access content']);
+    parent::doTestRelationshipPost($request_options);
   }
 
 }

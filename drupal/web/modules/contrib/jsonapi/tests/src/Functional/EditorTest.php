@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\jsonapi\Functional;
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\editor\Entity\Editor;
 use Drupal\filter\Entity\FilterFormat;
@@ -195,6 +197,53 @@ class EditorTest extends ResourceTestBase {
    */
   protected function getExpectedUnauthorizedAccessMessage($method) {
     return "The 'administer filters' permission is required.";
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function createAnotherEntity($key) {
+    FilterFormat::create([
+      'name' => 'Pachyderm',
+      'format' => 'pachyderm',
+      'langcode' => 'fr',
+      'filters' => [
+        'filter_html' => [
+          'status' => TRUE,
+          'settings' => [
+            'allowed_html' => '<p> <a> <b> <lo>',
+          ],
+        ],
+      ],
+    ])->save();
+
+    $entity = Editor::create([
+      'format' => 'pachyderm',
+      'editor' => 'ckeditor',
+    ]);
+
+    $entity->setImageUploadSettings([
+      'status' => FALSE,
+      'scheme' => file_default_scheme(),
+      'directory' => 'inline-images',
+      'max_size' => '',
+      'max_dimensions' => [
+        'width' => '',
+        'height' => '',
+      ],
+    ])->save();
+
+    return $entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static function entityAccess(EntityInterface $entity, $operation, AccountInterface $account) {
+    // Also reset the 'filter_format' entity access control handler because
+    // editor access also depends on access to the configured filter format.
+    \Drupal::entityTypeManager()->getAccessControlHandler('filter_format')->resetCache();
+    return parent::entityAccess($entity, $operation, $account);
   }
 
 }
