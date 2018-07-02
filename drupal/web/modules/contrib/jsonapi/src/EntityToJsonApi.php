@@ -4,7 +4,6 @@ namespace Drupal\jsonapi;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\jsonapi\Resource\JsonApiDocumentTopLevel;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
 use Drupal\jsonapi\Serializer\Serializer;
@@ -47,6 +46,13 @@ class EntityToJsonApi {
   protected $requestStack;
 
   /**
+   * The JSON API base path.
+   *
+   * @var string
+   */
+  protected $jsonApiBasePath;
+
+  /**
    * EntityToJsonApi constructor.
    *
    * @param \Drupal\jsonapi\Serializer\Serializer $serializer
@@ -57,12 +63,18 @@ class EntityToJsonApi {
    *   The currently logged in user.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack.
+   * @param string $jsonapi_base_path
+   *   The JSON API base path.
    */
-  public function __construct(Serializer $serializer, ResourceTypeRepositoryInterface $resource_type_repository, AccountInterface $current_user, RequestStack $request_stack) {
+  public function __construct(Serializer $serializer, ResourceTypeRepositoryInterface $resource_type_repository, AccountInterface $current_user, RequestStack $request_stack, $jsonapi_base_path) {
     $this->serializer = $serializer;
     $this->resourceTypeRepository = $resource_type_repository;
     $this->currentUser = $current_user;
     $this->requestStack = $request_stack;
+    assert(is_string($jsonapi_base_path));
+    assert($jsonapi_base_path[0] === '/');
+    assert(substr($jsonapi_base_path, -1) !== '/');
+    $this->jsonApiBasePath = $jsonapi_base_path;
   }
 
   /**
@@ -95,7 +107,7 @@ class EntityToJsonApi {
     return $this->serializer->normalize(new JsonApiDocumentTopLevel($entity),
       'api_json',
       $this->calculateContext($entity)
-    );
+    )->rasterizeValue();
   }
 
   /**
@@ -109,18 +121,16 @@ class EntityToJsonApi {
    */
   protected function calculateContext(EntityInterface $entity) {
     // TODO: Supporting includes requires adding the 'include' query string.
-    $path_prefix = $this->resourceTypeRepository->getPathPrefix();
     $resource_type = $this->resourceTypeRepository->get(
       $entity->getEntityTypeId(),
       $entity->bundle()
     );
     $resource_path = $resource_type->getPath();
-    $path = sprintf('/%s/%s/%s', $path_prefix, $resource_path, $entity->uuid());
+    $path = sprintf('%s%s/%s', $this->jsonApiBasePath, $resource_path, $entity->uuid());
     $master_request = $this->requestStack->getMasterRequest();
     $request = Request::create($master_request->getSchemeAndHttpHost() . $master_request->getBaseUrl() . $path, 'GET');
     return [
       'account' => $this->currentUser,
-      'cacheable_metadata' => new CacheableMetadata(),
       'resource_type' => $resource_type,
       'request' => $request,
     ];

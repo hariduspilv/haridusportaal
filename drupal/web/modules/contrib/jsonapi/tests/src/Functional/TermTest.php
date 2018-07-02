@@ -5,7 +5,9 @@ namespace Drupal\Tests\jsonapi\Functional;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Url;
+use Drupal\jsonapi\ResourceResponse;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
@@ -124,9 +126,23 @@ class TermTest extends ResourceTestBase {
     $expected_parent_normalization = FALSE;
     switch ($parent_term_ids) {
       case [0]:
-        // @todo This is missing the root parent, fix this in https://www.drupal.org/project/jsonapi/issues/2940339
         $expected_parent_normalization = [
-          'data' => [],
+          'data' => [
+            [
+              'id' => 'virtual',
+              'type' => 'taxonomy_term--camelids',
+              'meta' => [
+                'links' => [
+                  'help' => [
+                    'href' => 'https://www.drupal.org/docs/8/modules/json-api/core-concepts#virtual',
+                    'meta' => [
+                      'about' => "Usage and meaning of the 'virtual' resource identifier.",
+                    ],
+                  ],
+                ],
+              ],
+            ],
+          ],
           'links' => [
             'related' => $self_url . '/parent',
             'self' => $self_url . '/relationships/parent',
@@ -152,7 +168,20 @@ class TermTest extends ResourceTestBase {
       case [0, 2]:
         $expected_parent_normalization = [
           'data' => [
-            // @todo This is missing the root parent, fix this in https://www.drupal.org/project/jsonapi/issues/2940339
+            [
+              'id' => 'virtual',
+              'type' => 'taxonomy_term--camelids',
+              'meta' => [
+                'links' => [
+                  'help' => [
+                    'href' => 'https://www.drupal.org/docs/8/modules/json-api/core-concepts#virtual',
+                    'meta' => [
+                      'about' => "Usage and meaning of the 'virtual' resource identifier.",
+                    ],
+                  ],
+                ],
+              ],
+            ],
             [
               'id' => Term::load(2)->uuid(),
               'type' => 'taxonomy_term--camelids',
@@ -255,6 +284,54 @@ class TermTest extends ResourceTestBase {
       unset($document['data']['attributes']['description']['processed']);
     }
     return $document;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getExpectedGetRelationshipDocumentData($relationship_field_name, EntityInterface $entity = NULL) {
+    $data = parent::getExpectedGetRelationshipDocumentData($relationship_field_name, $entity);
+    if ($relationship_field_name === 'parent' && floatval(\Drupal::VERSION) >= 8.6) {
+      $data = [
+        0 => [
+          'id' => 'virtual',
+          'type' => 'taxonomy_term--camelids',
+          'meta' => [
+            'links' => [
+              'help' => [
+                'href' => 'https://www.drupal.org/docs/8/modules/json-api/core-concepts#virtual',
+                'meta' => [
+                  'about' => "Usage and meaning of the 'virtual' resource identifier.",
+                ],
+              ],
+            ],
+          ],
+        ],
+      ];
+    }
+    return $data;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getExpectedRelatedResponses(array $relationship_field_names, array $request_options, EntityInterface $entity = NULL) {
+    $responses = parent::getExpectedRelatedResponses($relationship_field_names, $request_options, $entity);
+    if ($responses['parent']->getStatusCode() === 404 && floatval(\Drupal::VERSION) >= 8.6) {
+      $responses['parent'] = new ResourceResponse([
+        'data' => [],
+        'jsonapi' => [
+          'meta' => [
+            'links' => [
+              'self' => 'http://jsonapi.org/format/1.0/',
+            ],
+          ],
+          'version' => '1.0',
+        ],
+        'links' => ['self' => static::getRelatedLink(static::toResourceIdentifier($this->entity), 'parent')],
+      ]);
+    }
+    return $responses;
   }
 
   /**

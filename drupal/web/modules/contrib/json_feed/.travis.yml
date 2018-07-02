@@ -1,0 +1,25 @@
+language: php
+
+php:
+  - 7.1
+
+env:
+  global:
+    - PATH="$PATH:$HOME/.composer/vendor/bin"
+    - TRAVIS_NODE_VERSION="6"
+
+install:
+# Remove xdebug. We aren't generating code coverage, and it slows down Composer.
+- phpenv config-rm xdebug.ini || true
+- composer global require drupal/coder 8.*
+- phpcs --config-set installed_paths $HOME/.composer/vendor/drupal/coder/coder_sniffer
+# Install correct node version, since this is a non-node (PHP) project.
+# @see: http://austinpray.com/ops/2015/09/20/change-travis-node-version.html
+- rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+- npm install -g eslint
+
+script:
+  # Validate Drupal PHP standards with PHPCS.
+  - phpcs . -pv --standard=Drupal --colors
+  # Validate Drupal JS standards with ESLint.
+  - eslint .

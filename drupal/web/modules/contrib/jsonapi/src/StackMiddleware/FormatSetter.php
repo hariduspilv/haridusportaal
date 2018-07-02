@@ -21,13 +21,26 @@ class FormatSetter implements HttpKernelInterface {
   protected $httpKernel;
 
   /**
+   * The JSON API base path.
+   *
+   * @var string
+   */
+  protected $jsonApiBasePath;
+
+  /**
    * Constructs a FormatSetter object.
    *
    * @param \Symfony\Component\HttpKernel\HttpKernelInterface $http_kernel
    *   The decorated kernel.
+   * @param string $jsonapi_base_path
+   *   The JSON API base path.
    */
-  public function __construct(HttpKernelInterface $http_kernel) {
+  public function __construct(HttpKernelInterface $http_kernel, $jsonapi_base_path) {
     $this->httpKernel = $http_kernel;
+    assert(is_string($jsonapi_base_path));
+    assert($jsonapi_base_path[0] === '/');
+    assert(substr($jsonapi_base_path, -1) !== '/');
+    $this->jsonApiBasePath = $jsonapi_base_path;
   }
 
   /**
@@ -61,7 +74,7 @@ class FormatSetter implements HttpKernelInterface {
     // Check if the path indicates that the request intended to target a JSON
     // API route (but may not have because of an incorrect parameter or minor
     // typo).
-    $jsonapi_route_intended = strpos($request->getPathInfo(), "/jsonapi/") !== FALSE;
+    $jsonapi_route_intended = strpos($request->getPathInfo(), "{$this->jsonApiBasePath}/") !== FALSE;
     // Check if the 'Accept' header includes the JSON API MIME type.
     $request_has_jsonapi_media_type = count(array_filter($request->getAcceptableContentTypes(), function ($accept) {
       return strpos($accept, 'application/vnd.api+json') === 0;

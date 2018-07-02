@@ -744,7 +744,7 @@ class JsonApiFunctionalTest extends JsonApiFunctionalTestBase {
       'headers' => ['Content-Type' => 'application/vnd.api+json'],
     ]);
     $updated_response = Json::decode($response->getBody()->__toString());
-    $this->assertEquals(201, $response->getStatusCode());
+    $this->assertEquals(200, $response->getStatusCode());
     $this->assertEquals(3, count($updated_response['data']));
     $this->assertEquals('taxonomy_term--tags', $updated_response['data'][2]['type']);
     $this->assertEquals($this->tags[2]->uuid(), $updated_response['data'][2]['id']);
@@ -762,13 +762,9 @@ class JsonApiFunctionalTest extends JsonApiFunctionalTestBase {
       'auth' => [$this->user->getUsername(), $this->user->pass_raw],
       'headers' => ['Content-Type' => 'application/vnd.api+json'],
     ]);
-    $updated_response = Json::decode($response->getBody()->__toString());
-    $this->assertEquals(200, $response->getStatusCode());
-    $this->assertCount(1, $updated_response['data']);
-    $this->assertEquals('taxonomy_term--tags', $updated_response['data'][0]['type']);
-    $this->assertEquals($this->tags[1]->uuid(), $updated_response['data'][0]['id']);
+    $this->assertEquals(204, $response->getStatusCode());
+    $this->assertEmpty($response->getBody()->__toString());
     // 11. Successful DELETE to related endpoint.
-    $payload = $updated_response;
     $response = $this->request('DELETE', $relationship_url, [
       // Send a request with no body.
       'auth' => [$this->user->getUsername(), $this->user->pass_raw],
@@ -785,19 +781,18 @@ class JsonApiFunctionalTest extends JsonApiFunctionalTestBase {
     $this->assertEquals(400, $response->getStatusCode());
     $response = $this->request('DELETE', $relationship_url, [
       // Send a request with no authentication.
-      'body' => Json::encode($payload),
+      'body' => Json::encode($body),
       'headers' => ['Content-Type' => 'application/vnd.api+json'],
     ]);
     $this->assertEquals(403, $response->getStatusCode());
     $response = $this->request('DELETE', $relationship_url, [
       // Remove the existing relationship item.
-      'body' => Json::encode($payload),
+      'body' => Json::encode($body),
       'auth' => [$this->user->getUsername(), $this->user->pass_raw],
       'headers' => ['Content-Type' => 'application/vnd.api+json'],
     ]);
-    $updated_response = Json::decode($response->getBody()->__toString());
-    $this->assertEquals(201, $response->getStatusCode());
-    $this->assertCount(0, $updated_response['data']);
+    $this->assertEquals(204, $response->getStatusCode());
+    $this->assertEmpty($response->getBody()->__toString());
     // 12. PATCH with invalid title and body format.
     $body = [
       'data' => [

@@ -48,7 +48,7 @@ class TokenAutocompleteController extends ControllerBase {
   public function autocomplete($token_type, $filter, Request $request) {
     $filter = substr($filter, strrpos($filter, '['));
 
-    $matches = array();
+    $matches = [];
 
     if (!Unicode::strlen($filter)) {
       $matches["[{$token_type}:"] = 0;

@@ -93,7 +93,7 @@ class CronJobInstallTest extends WebTestBase {
 
     $element = ultimate_cron_requirements('runtime')['cron_jobs'];
     $this->assertEqual($element['value'], '1 job is behind schedule', '"1 job is behind schedule." is displayed');
-    $this->assertEqual($element['description'], 'Some jobs are behind their schedule. Please check if <a href="' .
+    $this->assertEqual($element['description']['#markup'], 'Some jobs are behind their schedule. Please check if <a href="' .
       Url::fromRoute('system.cron', ['key' => \Drupal::state()->get('system.cron_key')])->toString() .
       '">Cron</a> is running properly.', 'Description is correct.');
     $this->assertEqual($element['severity'], REQUIREMENT_WARNING, 'Severity is of level "Error"');

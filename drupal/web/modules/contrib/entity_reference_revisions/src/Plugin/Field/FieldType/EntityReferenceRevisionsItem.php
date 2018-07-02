@@ -2,8 +2,10 @@
 
 namespace Drupal\entity_reference_revisions\Plugin\Field\FieldType;
 
+use Drupal\Component\Utility\Random;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\TranslatableRevisionableInterface;
 use Drupal\Core\Entity\TypedData\EntityDataDefinition;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
@@ -253,24 +255,37 @@ class EntityReferenceRevisionsItem extends EntityReferenceItem implements Option
     // If it is a new entity, parent will save it.
     parent::preSave();
 
+    $is_affected = TRUE;
     if (!$has_new) {
       // Create a new revision if it is a composite entity in a host with a new
       // revision.
 
       $host = $this->getEntity();
       $needs_save = $this->entity instanceof EntityNeedsSaveInterface && $this->entity->needsSave();
-      if (!$host->isNew() && $host->isNewRevision() && $this->entity && $this->entity->getEntityType()->get('entity_revision_parent_id_field')) {
-        $this->entity->setNewRevision();
-        if ($host->isDefaultRevision()) {
-          $this->entity->isDefaultRevision(TRUE);
+
+      // The item is considered to be affected if the field is either
+      // untranslatable or there are translation changes. This ensures that for
+      // translatable fields, a new revision of the referenced entity is only
+      // created for the affected translations and that the revision ID does not
+      // change on the unaffected translations. In turn, the host entity is not
+      // marked as affected for these translations.
+      $is_affected = !$this->getFieldDefinition()->isTranslatable() || ($host instanceof TranslatableRevisionableInterface && $host->hasTranslationChanges());
+      if ($is_affected && !$host->isNew() && $this->entity && $this->entity->getEntityType()->get('entity_revision_parent_id_field')) {
+        if ($host->isNewRevision()) {
+          $this->entity->setNewRevision();
+          $needs_save = TRUE;
         }
-        $needs_save = TRUE;
+        // Additionally ensure that the default revision state is kept in sync.
+        if ($this->entity && $host->isDefaultRevision() != $this->entity->isDefaultRevision()) {
+          $this->entity->isDefaultRevision($host->isDefaultRevision());
+          $needs_save = TRUE;
+        }
       }
       if ($needs_save) {
         $this->entity->save();
       }
     }
-    if ($this->entity) {
+    if ($this->entity && $is_affected) {
       $this->target_revision_id = $this->entity->getRevisionId();
     }
   }
@@ -297,6 +312,22 @@ class EntityReferenceRevisionsItem extends EntityReferenceItem implements Option
       // If parent field name has changed then set it.
       if ($entity->get($parent_field_name)->value != $this->getFieldDefinition()->getName()) {
         $entity->set($parent_field_name, $this->getFieldDefinition()->getName());
+        $needs_save = TRUE;
+      }
+    }
+
+    // Keep in sync the translation languages between the parent and the child.
+    // For non translatable fields we have to do this in ::preSave but for
+    // translatable fields we have all the information we need in ::delete.
+    if (isset($parent_entity->original) && !$this->getFieldDefinition()->isTranslatable()) {
+      $langcodes = array_keys($parent_entity->getTranslationLanguages());
+      $original_langcodes = array_keys($parent_entity->original->getTranslationLanguages());
+      if ($removed_langcodes = array_diff($original_langcodes, $langcodes)) {
+        foreach ($removed_langcodes as $removed_langcode) {
+          if ($entity->hasTranslation($removed_langcode)) {
+            $entity->removeTranslation($removed_langcode);
+          }
+        }
         $needs_save = TRUE;
       }
     }
@@ -328,8 +359,11 @@ class EntityReferenceRevisionsItem extends EntityReferenceItem implements Option
    */
   public function deleteRevision() {
     $child = $this->entity;
-    if ($child->isDefaultRevision()) {
-      // Do not delete if it is the default revision.
+    // Return early, and do not delete the child revision, when the child
+    // revision is either:
+    // 1: Missing.
+    // 2: A default revision.
+    if (!$child || $child->isDefaultRevision()) {
       return;
     }
 

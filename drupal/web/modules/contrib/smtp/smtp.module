@@ -31,11 +31,11 @@ function smtp_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_menu().
  */
 function smtp_menu() {
-  $items['admin/config/system/smtp'] = array(
+  $items['admin/config/system/smtp'] = [
     'title' => 'SMTP Authentication Support',
     'description' => 'Allow for site emails to be sent through an SMTP server of your choice.',
     'route_name' => 'smtp.config',
-  );
+  ];
   return $items;
 }
 
@@ -53,12 +53,12 @@ function smtp_mail($key, &$message, $params) {
  * Implementation of hook_queue_info().
  */
 function smtp_queue_info() {
-  $queues['smtp_send_queue'] = array(
+  $queues['smtp_send_queue'] = [
     'worker callback' => 'smtp_send_queue_runner',
-    'cron' => array(
+    'cron' => [
       'time' => 60, // This is the max run time per cron run in seconds.
-    ),
-  );
+    ],
+  ];
   return $queues;
 }
 
@@ -82,11 +82,11 @@ function _smtp_mailer_send($variables) {
   $logger = \Drupal::logger('smtp');
 
   // Let the people know what is going on.
-  $logger->info('Sending mail to: @to', array('@to' => $to));
+  $logger->info('Sending mail to: @to', ['@to' => $to]);
 
   // Try to send e-mail. If it fails, set watchdog entry.
   if (!$mailer->Send()) {
-    $logger->error('Error sending e-mail from @from to @to: @error_message', array('@from' => $from, '@to' => $to, '@error_message' => $mailer->ErrorInfo));
+    $logger->error('Error sending e-mail from @from to @to: @error_message', ['@from' => $from, '@to' => $to, '@error_message' => $mailer->ErrorInfo]);
     return FALSE;
   }
 
