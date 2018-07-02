@@ -1,0 +1,5 @@
+htm_custom_admin_form:
+  title: 'Administration configurations'
+  base_route_name: htm_custom_admin_form.custom_admin_form
+  names:
+    - htm_custom_admin_form.customadmin

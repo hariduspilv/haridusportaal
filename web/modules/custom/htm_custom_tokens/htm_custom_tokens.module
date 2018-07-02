@@ -1,0 +1,50 @@
+<?php
+
+use Drupal\Core\Render\BubbleableMetadata;
+/**
+ * @file
+ * Contains htm_custom_tokens.module.
+ */
+
+/**
+ * Implements hook_token_info().
+ */
+function htm_custom_tokens_token_info() {
+	$type = [
+		'name' => t('HTM custom event tokens'),
+		'description' => t('Tokens for events.'),
+	];
+
+	$token['event_start_end'] = [
+		'name' => t('Event start and end date'),
+		'description' => t('Get referencing event start and end date'),
+	];
+
+	return [
+		'types' => ['htm_custom_event_tokens' => $type],
+		'tokens' => ['htm_custom_event_tokens' => $token]
+	];
+}
+
+/**
+ * Implements hook_tokens()
+ */
+function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata){
+
+	$replacements = [];
+
+	if($type === 'htm_custom_event_tokens' && !empty($data['event_reg_entity'])){
+		foreach($tokens as $name => $original){
+			switch ($name){
+				case 'event_start_end':
+					$entity = $data['event_reg_entity'];
+					$replacements[$original] = $entity->getReferenceEventDates('d.m.Y');
+					break;
+			}
+		}
+	}
+
+
+	return $replacements;
+
+}
