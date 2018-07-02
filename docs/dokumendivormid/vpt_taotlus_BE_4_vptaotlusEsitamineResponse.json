@@ -1,0 +1,68 @@
+"header" : {
+	"form_name" : "VPT_TAOTLUS",
+	"acceptable_activity" : kui pole ühtegi errorMessage-t siis "VIEW" ja kui on vähemalt üks errorMessage siis "SAVE",
+	"current_step" : kui pole ühtegi errorMessage-t siis "step_submit_result" ja kui on vähemalt üks errorMessage siis "step_3",
+	"identifier" : taotlus_id
+},
+"body" : {
+	"steps": {
+		"step_0" : {
+			ei muutu, kantakse edasi putDocumentRequest-st
+		},
+
+		"step_1" : {
+			ei muutu, kantakse edasi putDocumentRequest-st
+		},
+
+		"step_2" : {
+			ei muutu, kantakse edasi putDocumentRequest-st
+		},
+
+		"step_3" : {
+			ei muutu, kantakse edasi putDocumentRequest-st
+		},
+
+		"step_step_submit_result" : {
+			"data_elements" : {
+				"id" : {
+					"value" : vpTaotlusEsitamineResponse.taotlusInfoDto.id
+				},
+				"submit_date" : {
+					"value" : vpTaotlusEsitamineResponse.taotlusInfoDto.esitamiseKuupaev,
+					"hidden" : true kui vpTaotlusEsitamineResponse.taotlusInfoDto.esitamiseKuupaev on tühi,
+				},
+				"status" : {
+					"value" : vpTaotlusEsitamineResponse.taotlusInfoDto.olek
+				},
+				"application_file" : {
+					"value" : { "file_name" : "taotlus.zip" , "file_identifier" : "VPT_TAOTLUS_ZIP"+vpTaotlusEsitamineResponse.taotlusInfoDto.id}
+				},
+				"application_file" : {
+					"value" : { "file_name" : "otsus.bdoc" , "file_identifier" : "VPT_OTSUS_DDOC"+vpTaotlusEsitamineResponse.taotlusInfoDto.id},
+					"hidden" : true kui vpTaotlusEsitamineResponse.taotlusInfoDto.olek = "Menetluses"
+				}
+			}
+		}
+	},
+	"messages" : ["temp_message_cc"],
+},
+"messages" : {
+	"temp_message_cc" : {
+		"message_type" : "ERROR",
+		"message_text" : {
+			"et" : vpTaotlusEsitamineResponse.hoiatusDto.ErrorMessages.kirjeldus,
+		}
+	},
+	"temp_message_cc" : {
+		"message_type" : "WARNING",
+		"message_text" : {
+			"et" : vpTaotlusEsitamineResponse.hoiatusDto.WarningMessages.kirjeldus,
+		}
+	},
+	"temp_message_cc" : {
+		"message_type" : "NOTICE",
+		"message_text" : {
+			"et" : vpTaotlusEsitamineResponse.hoiatusDto.NoticeMessages.kirjeldus,
+		}
+	}
+}
