@@ -32,9 +32,11 @@ class ConfigEntityNormalizerTest extends UnitTestCase {
   public function setUp() {
     $link_manager = $this->prophesize(LinkManager::class);
 
+    $resource_type = new ResourceType('dolor', 'sid', NULL);
+    $resource_type->setRelatableResourceTypes([]);
     $resource_type_repository = $this->prophesize(ResourceTypeRepository::class);
     $resource_type_repository->get(Argument::type('string'), Argument::type('string'))
-      ->willReturn(new ResourceType('dolor', 'sid', NULL));
+      ->willReturn($resource_type);
 
     $this->normalizer = new ConfigEntityNormalizer(
       $link_manager->reveal(),

@@ -3,6 +3,7 @@
 namespace Drupal\Tests\jsonapi\Functional;
 
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\node\Entity\NodeType;
@@ -118,6 +119,36 @@ class ContentLanguageSettingsTest extends ResourceTestBase {
    */
   protected function getExpectedCacheContexts(array $sparse_fieldset = NULL) {
     return Cache::mergeContexts(parent::getExpectedCacheContexts(), ['languages:language_interface']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function createAnotherEntity($key) {
+    NodeType::create([
+      'name' => 'Llamaids',
+      'type' => 'llamaids',
+    ])->save();
+
+    $entity = ContentLanguageSettings::create([
+      'target_entity_type_id' => 'node',
+      'target_bundle' => 'llamaids',
+    ]);
+    $entity->setDefaultLangcode('site_default');
+    $entity->save();
+
+    return $entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static function getExpectedCollectionCacheability(array $collection, array $sparse_fieldset = NULL, AccountInterface $account) {
+    $cacheability = parent::getExpectedCollectionCacheability($collection, $sparse_fieldset, $account);
+    if (static::entityAccess(reset($collection), 'view', $account)->isAllowed()) {
+      $cacheability->addCacheContexts(['languages:language_interface']);
+    }
+    return $cacheability;
   }
 
 }

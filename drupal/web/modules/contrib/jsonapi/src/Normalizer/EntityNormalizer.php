@@ -7,6 +7,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\TypedData\TypedDataInternalPropertiesHelper;
 use Drupal\jsonapi\Normalizer\Value\EntityNormalizerValue;
 use Drupal\jsonapi\Normalizer\Value\FieldNormalizerValueInterface;
+use Drupal\jsonapi\Normalizer\Value\IncludeOnlyRelationshipNormalizerValue;
+use Drupal\jsonapi\Normalizer\Value\NullFieldNormalizerValue;
 use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi\LinkManager\LinkManager;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
@@ -92,12 +94,26 @@ class EntityNormalizer extends NormalizerBase implements DenormalizerInterface {
     }
     /* @var Value\FieldNormalizerValueInterface[] $normalizer_values */
     $normalizer_values = [];
+    $relationship_field_names = array_keys($resource_type->getRelatableResourceTypes());
     foreach ($this->getFields($entity, $bundle, $resource_type) as $field_name => $field) {
-      if (!in_array($field_name, $field_names)) {
-        continue;
-      }
       $normalized_field = $this->serializeField($field, $context, $format);
       assert($normalized_field instanceof FieldNormalizerValueInterface);
+
+      $in_sparse_fieldset = in_array($field_name, $field_names);
+      $is_relationship_field = in_array($field_name, $relationship_field_names);
+      // Omit fields not listed in sparse fieldsets, except if they're fields
+      // modeling relationships; despite a relationship field being omitted,
+      // using `?include` to include related resources is still allowed.
+      if (!$in_sparse_fieldset) {
+        if ($is_relationship_field) {
+          $is_null_field = $field instanceof NullFieldNormalizerValue;
+          $has_includes = !empty($normalized_field->getIncludes());
+          if (!$is_null_field && $has_includes) {
+            $normalizer_values[$field_name] = new IncludeOnlyRelationshipNormalizerValue($normalized_field);
+          }
+        }
+        continue;
+      }
       $normalizer_values[$field_name] = $normalized_field;
     }
 

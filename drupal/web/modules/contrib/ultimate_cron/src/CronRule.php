@@ -408,7 +408,8 @@ class CronRule {
     }
 
     reset($ranges);
-    while (list($type, $range) = each($ranges)) {
+    while ($type = key($ranges)) {
+      next($ranges);
       $idx[$type]--;
       if ($idx[$type] < 0) {
         $found = array_keys($intervals[$type], end($intervals[$type]));
@@ -436,16 +437,16 @@ class CronRule {
             !isset($intervals['weekdays'][$date_array['wday']])
           ) {
             reset($ranges);
-            each($ranges);
-            each($ranges);
+            next($ranges);
+            next($ranges);
             continue;
           }
         }
         else {
           if (!isset($intervals['weekdays'][$date_array['wday']])) {
             reset($ranges);
-            each($ranges);
-            each($ranges);
+            next($ranges);
+            next($ranges);
             continue;
           }
         }

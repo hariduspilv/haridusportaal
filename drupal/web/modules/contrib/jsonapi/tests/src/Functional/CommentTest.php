@@ -9,6 +9,7 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\entity_test\Entity\EntityTest;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
@@ -404,11 +405,11 @@ class CommentTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function entityFieldAccess(EntityInterface $entity, $field_name, $operation) {
+  protected static function entityAccess(EntityInterface $entity, $operation, AccountInterface $account) {
     // Also reset the 'entity_test' entity access control handler because
     // comment access also depends on access to the commented entity type.
     \Drupal::entityTypeManager()->getAccessControlHandler('entity_test')->resetCache();
-    return parent::entityFieldAccess($entity, $field_name, $operation);
+    return parent::entityAccess($entity, $operation, $account);
   }
 
   /**
@@ -416,6 +417,16 @@ class CommentTest extends ResourceTestBase {
    */
   public function testRelated() {
     $this->markTestSkipped('Remove this in https://www.drupal.org/project/jsonapi/issues/2940339');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static function getIncludePermissions() {
+    return [
+      'type' => ['administer comment types'],
+      'uid' => ['access user profiles'],
+    ];
   }
 
 }

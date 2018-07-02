@@ -3,8 +3,6 @@
 namespace Drupal\ultimate_cron\Tests;
 
 use Drupal\simpletest\WebTestBase;
-use Drupal\Component\Utility\SafeMarkup;
-use Drupal\ultimate_cron\CronJobInterface;
 use Drupal\ultimate_cron\Entity\CronJob;
 
 /**
@@ -19,7 +17,7 @@ class CronJobFormTest extends WebTestBase {
    *
    * @var array
    */
-  public static $modules = array('ultimate_cron', 'block');
+  public static $modules = array('ultimate_cron', 'block', 'cron_queue_test');
 
   /**
    * A user with permission to create and edit books and to administer blocks.
@@ -192,6 +190,20 @@ class CronJobFormTest extends WebTestBase {
     // The message logged depends on timing, do not hardcode that.
     $this->assertEqual((string) $xpath[0]->td[3], $log_entry->message ?: $log_entry->formatInitMessage());
     $this->assertEqual((string) $xpath[0]->td[4], '00:00');
+
+    // Asssert queue cron jobs.
+    $this->config('ultimate_cron.settings')
+      ->set('queue.enabled', TRUE)
+      ->save();
+
+    \Drupal::service('ultimate_cron.discovery')->discoverCronJobs();
+    $this->drupalGet('admin/config/system/cron/jobs');
+    $this->assertText('Queue: Broken queue test');
+
+    $this->drupalGet('admin/config/system/cron/jobs/manage/ultimate_cron_queue_cron_queue_test_broken_queue');
+    $this->assertFieldByName('title', 'Queue: Broken queue test');
+    $this->drupalPostForm(NULL, [], 'Save');
+    $this->assertText('job Queue: Broken queue test has been updated.');
   }
 
 }
