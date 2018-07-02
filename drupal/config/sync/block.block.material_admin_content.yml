@@ -3,6 +3,7 @@ langcode: et
 status: true
 dependencies:
   module:
+    - ctools
     - system
   theme:
     - material_admin
@@ -11,12 +12,24 @@ _core:
 id: material_admin_content
 theme: material_admin
 region: content
-weight: 0
+weight: 5
 provider: null
 plugin: system_main_block
 settings:
   id: system_main_block
-  label: 'Lehekülje sisuosa'
+  label: 'Main page content'
   provider: system
   label_display: '0'
-visibility: {  }
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      article: article
+      event: event
+      news: news
+      page: page
+      school: school
+      study_programme: study_programme
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
