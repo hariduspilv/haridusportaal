@@ -1,0 +1,13 @@
+field.widget.settings.text_textarea_custom_widget:
+  type: mapping
+  label: 'Text area custom widget'
+  mapping:
+    rows:
+      type: integer
+      label: 'Rows'
+    summary_rows:
+      type: integer
+      label: 'Number of summary rows'
+    placeholder:
+      type: label
+      label: 'Placeholder'

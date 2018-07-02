@@ -79,6 +79,8 @@ class JsonApiDocumentTopLevelNormalizerValue implements ValueExtractorInterface,
     $this->addCacheContexts(array_map(function ($query_parameter_name) {
       return sprintf('url.query_args:%s', $query_parameter_name);
     }, JsonApiSpec::getReservedQueryParameters()));
+    // Every JSON API document contains absolute URLs.
+    $this->addCacheContexts(['url.site']);
 
     $this->context = $context;
     $this->isCollection = $is_collection;
@@ -112,6 +114,7 @@ class JsonApiDocumentTopLevelNormalizerValue implements ValueExtractorInterface,
           'links' => ['self' => JsonApiSpec::SUPPORTED_SPECIFICATION_PERMALINK],
         ],
       ],
+      'links' => [],
     ];
 
     foreach ($this->values as $normalizer_value) {
@@ -121,20 +124,26 @@ class JsonApiDocumentTopLevelNormalizerValue implements ValueExtractorInterface,
         $rasterized['meta']['errors'] = array_merge($previous_errors, $normalizer_value->rasterizeValue());
       }
       else {
-        $rasterized['data'][] = $normalizer_value->rasterizeValue();
+        $rasterized_value = $normalizer_value->rasterizeValue();
+        if (array_key_exists('data', $rasterized_value) && array_key_exists('links', $rasterized_value)) {
+          $rasterized['data'][] = $rasterized_value['data'];
+          $rasterized['links'] = NestedArray::mergeDeep($rasterized['links'], $rasterized_value['links']);
+        }
+        else {
+          $rasterized['data'][] = $rasterized_value;
+        }
       }
     }
-    $rasterized['data'] = array_filter($rasterized['data']);
     // Deal with the single entity case.
     $rasterized['data'] = $this->isCollection ?
-      $rasterized['data'] :
+      array_filter($rasterized['data']) :
       reset($rasterized['data']);
 
     // Add the self link.
     if ($this->context['request']) {
       /* @var \Symfony\Component\HttpFoundation\Request $request */
       $request = $this->context['request'];
-      $rasterized['links'] = [
+      $rasterized['links'] += [
         'self' => $this->linkManager->getRequestLink($request),
       ];
       // If this is a collection we need to append the pager data.
@@ -151,6 +160,27 @@ class JsonApiDocumentTopLevelNormalizerValue implements ValueExtractorInterface,
         }
       }
     }
+
+    // This is the top-level JSON API document, therefore the rasterized value
+    // must include the rasterized includes: there is no further level to bubble
+    // them to!
+    $included = array_filter($this->rasterizeIncludes());
+    if (!empty($included)) {
+      foreach ($included as $included_item) {
+        if ($included_item['data'] === FALSE) {
+          unset($included_item['data']);
+          $rasterized = NestedArray::mergeDeep($rasterized, $included_item);
+        }
+        else {
+          $rasterized['included'][] = $included_item['data'];
+        }
+      }
+    }
+
+    if (empty($rasterized['links'])) {
+      unset($rasterized['links']);
+    }
+
     return $rasterized;
   }
 

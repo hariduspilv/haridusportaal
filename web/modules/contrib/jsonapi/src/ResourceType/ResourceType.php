@@ -269,10 +269,12 @@ class ResourceType {
    * Get the resource path.
    *
    * @return string
-   *   The path to access this resource type. Defaults to entity_type_id/bundle.
+   *   The path to access this resource type. Default: /entity_type_id/bundle.
+   *
+   * @see jsonapi.base_path
    */
   public function getPath() {
-    return sprintf('%s/%s', $this->getEntityTypeId(), $this->getBundle());
+    return sprintf('/%s/%s', $this->getEntityTypeId(), $this->getBundle());
   }
 
 }

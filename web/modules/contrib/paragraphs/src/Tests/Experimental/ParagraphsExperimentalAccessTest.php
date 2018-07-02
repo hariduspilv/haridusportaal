@@ -34,7 +34,7 @@ class ParagraphsExperimentalAccessTest extends ParagraphsExperimentalTestBase {
   }
 
   /**
-   * Tests the paragraph translation.
+   * Tests the Paragraph access and permissions.
    */
   public function testParagraphAccessCheck() {
     $permissions = [
@@ -68,7 +68,7 @@ class ParagraphsExperimentalAccessTest extends ParagraphsExperimentalTestBase {
     // Create a new demo node.
     $this->drupalGet('node/add/paragraphed_content_demo');
 
-    // Add a new paragraphs images item.
+    // Add a new Paragraphs images item.
     $this->drupalPostForm(NULL, NULL, t('Add Images'));
 
     $images = $this->drupalGetTestFiles('image');
@@ -139,5 +139,68 @@ class ParagraphsExperimentalAccessTest extends ParagraphsExperimentalTestBase {
     $this->drupalPostForm(NULL, [], t('Save'));
     $node = $this->getNodeByTitle('delete_permissions');
     $this->assertUrl('node/' . $node->id());
+
+    // Create an unpublished Paragraph and assert if it is displayed for the
+    // user.
+    $permissions = [
+      'create paragraphed_content_demo content',
+      'edit any paragraphed_content_demo content',
+      'view unpublished paragraphs',
+      'administer paragraph form display',
+    ];
+    $this->loginAsAdmin($permissions);
+    $edit = [
+      'fields[status][region]' => 'content',
+      'fields[status][type]' => 'boolean_checkbox'
+    ];
+    $this->drupalPostForm('admin/structure/paragraphs_type/text/form-display', $edit, 'Save');
+    $this->drupalGet('node/add/paragraphed_content_demo');
+    $this->drupalPostForm(NULL, NULL, t('Add Text'));
+    $this->assertText('Text');
+    $edit = [
+      'title[0][value]' => 'unpublished_permissions',
+      'field_paragraphs_demo[0][subform][field_text_demo][0][value]' => 'recognizable_test',
+      'field_paragraphs_demo[0][subform][status][value]' => FALSE
+    ];
+    $this->drupalPostForm(NULL, $edit, t('Save'));
+    $this->assertText('recognizable_test');
+    $this->assertRaw('paragraph--unpublished');
+    $this->drupalLogout();
+    $node = $this->drupalGetNodeByTitle('unpublished_permissions');
+
+    // Login as an user without the view unpublished Paragraph permission.
+    $user = $this->drupalCreateUser([
+      'administer nodes',
+      'edit any paragraphed_content_demo content',
+    ]);
+    $this->drupalLogin($user);
+    // Assert that the Paragraph is not displayed.
+    $this->drupalGet('node/' . $node->id());
+    $this->assertNoText('recognizable_test');
+    $this->assertNoRaw('paragraph--unpublished');
+    // Grant to the user the view unpublished Paragraph permission.
+    $this->grantPermissions(Role::load(Role::AUTHENTICATED_ID), ['view unpublished paragraphs']);
+    // Assert that the Paragraph is displayed.
+    $this->drupalGet('node/' . $node->id());
+    $this->assertText('recognizable_test');
+    $this->assertRaw('paragraph--unpublished');
+
+    // Grant to the user the administer Paragraphs settings permission.
+    $this->grantPermissions(Role::load(Role::AUTHENTICATED_ID), ['administer paragraphs settings']);
+    // Disable the show unpublished Paragraphs setting.
+    $this->drupalPostForm('admin/config/content/paragraphs', ['show_unpublished' => FALSE], 'Save configuration');
+    // Assert that the Paragraph is not displayed even if the user has the
+    // permission to do so.
+    $this->drupalGet('node/' . $node->id());
+    $this->assertNoText('recognizable_test');
+    $this->assertNoRaw('paragraph--unpublished');
+    // Enable the show unpublished Paragraphs setting.
+    $this->drupalPostForm('admin/config/content/paragraphs', ['show_unpublished' => TRUE], 'Save configuration');
+    // Assert that the Paragraph is displayed when the user has the permission
+    // to do so.
+    $this->drupalGet('node/' . $node->id());
+    $this->assertText('recognizable_test');
+    $this->assertRaw('paragraph--unpublished');
   }
+
 }

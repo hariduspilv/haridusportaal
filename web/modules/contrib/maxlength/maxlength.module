@@ -18,7 +18,7 @@ function maxlength_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     case 'help.page.maxlength':
       $output = '<p>' . t('Maxlength creates a new Form Property: #maxlength_js which in conjunction with #maxlength will enforce, via JavaScript, the maxlength of a textfield or textarea and will show the number of characters left.') . '</p>';
-      $output .= '<p>' . t('Using the field setting page, you can limit textfields and textareas. For textfields this module will use the "<strong>Maximum length</strong>" value set in the <strong>field settings</strong>.') . '</p>';
+      $output .= '<p>' . t('Using the form display page, you can limit textfields and textareas. For textfields this module will use the "<strong>Maximum length</strong>" value set in the <strong>field plugin settings</strong>.') . '</p>';
       return $output;
   }
 }
@@ -138,7 +138,8 @@ function maxlength_field_widget_settings_summary_alter(&$summary, $context) {
     if (!empty($allowed_settings['truncate_setting'])) {
       if ($context['widget']->getThirdPartySetting('maxlength', 'maxlength_js_truncate_html')) {
         $summary [] = t('Max length - Safe truncate html');
-      } elseif ($context['widget']->getThirdPartySetting('maxlength', 'maxlength_js_enforce')) {
+      }
+      elseif ($context['widget']->getThirdPartySetting('maxlength', 'maxlength_js_enforce')) {
         $summary [] = t('Max length - Force truncate');
       }
     }

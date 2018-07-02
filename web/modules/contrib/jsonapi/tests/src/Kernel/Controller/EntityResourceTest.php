@@ -691,7 +691,7 @@ class EntityResourceTest extends JsonapiKernelTestBase {
     $this->assertInstanceOf(EntityReferenceFieldItemListInterface::class, $field_list);
     $this->assertSame('field_relationships', $field_list->getName());
     $this->assertEquals([['target_id' => 1]], $field_list->getValue());
-    $this->assertEquals(201, $response->getStatusCode());
+    $this->assertEquals(204, $response->getStatusCode());
   }
 
   /**
@@ -720,7 +720,7 @@ class EntityResourceTest extends JsonapiKernelTestBase {
     $this->assertInstanceOf(EntityReferenceFieldItemListInterface::class, $field_list);
     $this->assertSame('field_relationships', $field_list->getName());
     $this->assertEquals($relationships, $field_list->getValue());
-    $this->assertEquals(200, $response->getStatusCode());
+    $this->assertEquals(204, $response->getStatusCode());
   }
 
   /**
@@ -764,7 +764,7 @@ class EntityResourceTest extends JsonapiKernelTestBase {
     $this->assertInstanceOf(EntityReferenceFieldItemListInterface::class, $field_list);
     $this->assertSame('field_relationships', $field_list->getName());
     $this->assertEquals($kept_rels, $field_list->getValue());
-    $this->assertEquals(201, $response->getStatusCode());
+    $this->assertEquals(204, $response->getStatusCode());
   }
 
   /**

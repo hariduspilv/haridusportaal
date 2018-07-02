@@ -11,8 +11,6 @@ class WidgetSettings implements WidgetSettingsInterface {
    * {@inheritdoc}
    */
   public function getAllowedSettingsForAll() {
-    // @todo: find a more flexible way to specify these settings, not hardcoded
-    // here.
     $settings = array(
       'string_textfield' => array(
         'maxlength_setting' => TRUE,
@@ -40,11 +38,15 @@ class WidgetSettings implements WidgetSettingsInterface {
         'truncate_setting' => TRUE,
       ),
     );
-    return $settings;
+
+    $additional_widget_settings = \Drupal::moduleHandler()->invokeAll('maxlength_widget_settings') ?: [];
+
+    return $settings + $additional_widget_settings;
   }
 
   /**
    * {@inheritdoc}
+   *
    * @see \Drupal\maxlength\WidgetSettingsInterface::getAllowedSettings()
    */
   public function getAllowedSettings($widget_plugin_id) {

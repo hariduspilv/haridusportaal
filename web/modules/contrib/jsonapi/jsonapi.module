@@ -57,3 +57,19 @@ function jsonapi_entity_base_field_info(EntityTypeInterface $entity_type) {
   }
   return $fields;
 }
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function jsonapi_entity_bundle_field_info(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
+  $fields = [];
+
+  if (floatval(\Drupal::VERSION) < 8.6 && $entity_type->id() == 'taxonomy_term') {
+    // Only terms in the same bundle can be a parent.
+    $fields['parent'] = clone $base_field_definitions['parent'];
+    $fields['parent']->setSetting('handler_settings', ['target_bundles' => [$bundle]]);
+    return $fields;
+  }
+
+  return $fields;
+}

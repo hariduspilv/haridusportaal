@@ -189,4 +189,23 @@ class EntityFormDisplayTest extends ResourceTestBase {
     return parent::testGetIndividual();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function createAnotherEntity($key) {
+    NodeType::create([
+      'name' => 'Llamaids',
+      'type' => 'llamaids',
+    ])->save();
+
+    $entity = EntityFormDisplay::create([
+      'targetEntityType' => 'node',
+      'bundle' => 'llamaids',
+      'mode' => 'default',
+    ]);
+    $entity->save();
+
+    return $entity;
+  }
+
 }

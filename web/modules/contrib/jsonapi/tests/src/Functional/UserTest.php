@@ -100,10 +100,11 @@ class UserTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function createAnotherEntity() {
+  protected function createAnotherEntity($key) {
     /** @var \Drupal\user\UserInterface $user */
-    $user = $this->entity->createDuplicate();
-    $user->setUsername($user->label() . '_dupe');
+    $user = $this->getEntityDuplicate($this->entity, $key);
+    $user->setUsername($user->label() . '_' . $key);
+    $user->setEmail("$key@example.com");
     $user->save();
     return $user;
   }
@@ -430,7 +431,7 @@ class UserTest extends ResourceTestBase {
     $response = $this->request('GET', $collection_url, $request_options);
     $doc = Json::decode((string) $response->getBody());
     $this->assertArrayHasKey('mail', $doc['data'][1]['attributes']);
-    $this->assertArrayNotHasKey('mail', $doc['data'][3]['attributes']);
+    $this->assertArrayNotHasKey('mail', $doc['data'][count($doc['data']) - 1]['attributes']);
 
     // Now request the same URLs, but as user B (same roles/permissions).
     $this->account = $user_b;
@@ -443,7 +444,7 @@ class UserTest extends ResourceTestBase {
     $response = $this->request('GET', $collection_url, $request_options);
     $doc = Json::decode((string) $response->getBody());
     $this->assertArrayNotHasKey('mail', $doc['data'][1]['attributes']);
-    $this->assertArrayHasKey('mail', $doc['data'][3]['attributes']);
+    $this->assertArrayHasKey('mail', $doc['data'][count($doc['data']) - 1]['attributes']);
   }
 
   /**

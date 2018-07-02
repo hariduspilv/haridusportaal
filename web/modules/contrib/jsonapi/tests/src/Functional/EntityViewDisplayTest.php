@@ -147,4 +147,36 @@ class EntityViewDisplayTest extends ResourceTestBase {
     return parent::testGetIndividual();
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function testCollection() {
+    // @todo Remove when JSON API requires Drupal 8.5 or newer.
+    // @see https://www.drupal.org/project/drupal/issues/2866666
+    if (floatval(\Drupal::VERSION) < 8.5) {
+      $this->markTestSkipped('EntityViewisplay entities had a dysfunctional access control handler until 8.5, this is necessary for this test coverage to work.');
+    }
+    return parent::testCollection();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function createAnotherEntity($key) {
+    NodeType::create([
+      'name' => 'Pachyderms',
+      'type' => 'pachyderms',
+    ])->save();
+
+    $entity = EntityViewDisplay::create([
+      'targetEntityType' => 'node',
+      'bundle' => 'pachyderms',
+      'mode' => 'default',
+      'status' => TRUE,
+    ]);
+    $entity->save();
+
+    return $entity;
+  }
+
 }
