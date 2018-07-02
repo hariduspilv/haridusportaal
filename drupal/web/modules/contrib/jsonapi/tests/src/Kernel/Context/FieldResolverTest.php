@@ -33,6 +33,13 @@ class FieldResolverTest extends JsonapiKernelTestBase {
   protected $sut;
 
   /**
+   * The JSON API resource type repository.
+   *
+   * @var \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface
+   */
+  protected $resourceTypeRepository;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -60,20 +67,97 @@ class FieldResolverTest extends JsonapiKernelTestBase {
 
     // Add a field with multiple properties.
     $this->makeField('text', 'field_test_text', 'entity_test_with_bundle', ['bundle1', 'bundle2']);
+
+    $this->resourceTypeRepository = $this->container->get('jsonapi.resource_type.repository');
   }
 
   /**
-   * @covers ::resolveInternal
-   * @dataProvider resolveInternalProvider
+   * @covers ::resolveInternalEntityQueryPath
+   * @dataProvider resolveInternalIncludePathProvider
    */
-  public function testResolveInternal($expect, $external_path, $entity_type_id = 'entity_test_with_bundle', $bundle = 'bundle1') {
-    $this->assertEquals($expect, $this->sut->resolveInternal($entity_type_id, $bundle, $external_path));
+  public function testResolveInternalIncludePath($expect, $external_path, $entity_type_id = 'entity_test_with_bundle', $bundle = 'bundle1') {
+    $path_parts = explode('.', $external_path);
+    $resource_type = $this->resourceTypeRepository->get($entity_type_id, $bundle);
+    $this->assertEquals($expect, $this->sut->resolveInternalIncludePath($resource_type, $path_parts));
   }
 
   /**
-   * Provides test cases for field resolution.
+   * Provides test cases for resolveInternalEntityQueryPath.
    */
-  public function resolveInternalProvider() {
+  public function resolveInternalIncludePathProvider() {
+    return [
+      'entity reference' => [[['field_test_ref2']], 'field_test_ref2'],
+      'entity reference with multi target bundles' => [[['field_test_ref1']], 'field_test_ref1'],
+      'entity reference then another entity reference' => [
+         [['field_test_ref1', 'field_test_ref3']],
+        'field_test_ref1.field_test_ref3',
+      ],
+    ];
+  }
+
+  /**
+   * Expects an error when an invalid field is provided for include.
+   *
+   * @param string $entity_type
+   *   The entity type for which to test field resolution.
+   * @param string $bundle
+   *   The entity bundle for which to test field resolution.
+   * @param string $external_path
+   *   The external field path to resolve.
+   * @param string $expected_message
+   *   (optional) An expected exception message.
+   *
+   * @covers ::resolveInternalIncludePath
+   * @dataProvider resolveInternalIncludePathErrorProvider
+   */
+  public function testResolveInternalIncludePathError($entity_type, $bundle, $external_path, $expected_message = '') {
+    $path_parts = explode('.', $external_path);
+    $this->setExpectedException(BadRequestHttpException::class, $expected_message);
+    $resource_type = $this->resourceTypeRepository->get($entity_type, $bundle);
+    $this->sut->resolveInternalIncludePath($resource_type, $path_parts);
+  }
+
+  /**
+   * Provides test cases for ::testResolveInternalIncludePathError.
+   */
+  public function resolveInternalIncludePathErrorProvider() {
+    return [
+      // Should fail because none of these bundles have these fields.
+      ['entity_test_with_bundle', 'bundle1', 'host.fail!!.deep'],
+      ['entity_test_with_bundle', 'bundle2', 'field_test_ref2'],
+      ['entity_test_with_bundle', 'bundle1', 'field_test_ref3'],
+      // Should fail because the nested fields don't exist on the targeted
+      // resource types.
+      ['entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test1'],
+      ['entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test2'],
+      ['entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test_ref1'],
+      ['entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test_ref2'],
+      // Should fail because the nested fields is not a valid relationship
+      // field name.
+      [
+        'entity_test_with_bundle', 'bundle1', 'field_test1',
+        '`field_test1` is not a valid relationship field name.',
+      ],
+      // Should fail because the nested fields is not a valid include path.
+      [
+        'entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test3',
+        '`field_test_ref1.field_test3` is not a valid include path.',
+      ],
+    ];
+  }
+
+  /**
+   * @covers ::resolveInternalEntityQueryPath
+   * @dataProvider resolveInternalEntityQueryPathProvider
+   */
+  public function testResolveInternalEntityQueryPath($expect, $external_path, $entity_type_id = 'entity_test_with_bundle', $bundle = 'bundle1') {
+    $this->assertEquals($expect, $this->sut->resolveInternalEntityQueryPath($entity_type_id, $bundle, $external_path));
+  }
+
+  /**
+   * Provides test cases for ::testResolveInternalEntityQueryPath.
+   */
+  public function resolveInternalEntityQueryPathProvider() {
     return [
       'config entity as base' => [
         'uuid', 'uuid', 'entity_test_bundle', 'entity_test_bundle',
@@ -102,6 +186,9 @@ class FieldResolverTest extends JsonapiKernelTestBase {
       'entity reference then no reference property and a complex field with property specifier `format`' => ['field_test_ref1.entity:entity_test_with_bundle.field_test_text.format', 'field_test_ref1.field_test_text.format'],
       'entity reference then a reference property and a complex field with property specifier `format`' => ['field_test_ref1.entity.field_test_text.format', 'field_test_ref1.entity.field_test_text.format'],
 
+      'entity reference then property specifier `entity:entity_test_with_bundle` then a complex field' => ['field_test_ref1.entity:entity_test_with_bundle.field_test_text', 'field_test_ref1.entity:entity_test_with_bundle.field_test_text'],
+      'entity reference then property specifier `entity:entity_test_with_bundle` then a complex field with property specifier `value`' => ['field_test_ref1.entity:entity_test_with_bundle.field_test_text.value', 'field_test_ref1.entity:entity_test_with_bundle.field_test_text.value'],
+
       'entity reference with a delta and no reference property then a complex field and property specifier `value`' => ['field_test_ref1.0.entity:entity_test_with_bundle.field_test_text.value', 'field_test_ref1.0.field_test_text.value'],
       'entity reference with a delta and a reference property then a complex field and property specifier `value`' => ['field_test_ref1.0.entity.field_test_text.value', 'field_test_ref1.0.entity.field_test_text.value'],
 
@@ -109,11 +196,32 @@ class FieldResolverTest extends JsonapiKernelTestBase {
       'entity reference with a reference property then another entity reference with no reference property a complex field with property specifier `value`' => ['field_test_ref1.entity.field_test_ref3.entity:entity_test_with_bundle.field_test_text.value', 'field_test_ref1.entity.field_test_ref3.field_test_text.value'],
       'entity reference with no reference property then another entity reference with a reference property a complex field with property specifier `value`' => ['field_test_ref1.entity:entity_test_with_bundle.field_test_ref3.entity.field_test_text.value', 'field_test_ref1.field_test_ref3.entity.field_test_text.value'],
       'entity reference with a reference property then another entity reference with a reference property a complex field with property specifier `value`' => ['field_test_ref1.entity.field_test_ref3.entity.field_test_text.value', 'field_test_ref1.entity.field_test_ref3.entity.field_test_text.value'],
+
+      'entity reference with target bundles then property specifier `entity:entity_test_with_bundle` then a primitive field on multiple bundles' => [
+        'field_test_ref1.entity:entity_test_with_bundle.field_test3',
+        'field_test_ref1.entity:entity_test_with_bundle.field_test3',
+      ],
+      'entity reference without target bundles then property specifier `entity:entity_test_with_bundle` then a primitive field on a single bundle' => [
+        'field_test_ref2.entity:entity_test_with_bundle.field_test1',
+        'field_test_ref2.entity:entity_test_with_bundle.field_test1',
+      ],
+      'entity reference without target bundles then property specifier `entity:entity_test_with_bundle` then a primitive field on multiple bundles' => [
+        'field_test_ref3.entity:entity_test_with_bundle.field_test3',
+        'field_test_ref3.entity:entity_test_with_bundle.field_test3',
+        'entity_test_with_bundle', 'bundle2',
+      ],
+      'entity reference without target bundles then property specifier `entity:entity_test_with_bundle` then a primitive field on a single bundle starting from a different resource type' => [
+        'field_test_ref3.entity:entity_test_with_bundle.field_test2',
+        'field_test_ref3.entity:entity_test_with_bundle.field_test2',
+        'entity_test_with_bundle', 'bundle3',
+      ],
+
+      'entity reference then property specifier `entity:entity_test_with_bundle` then another entity reference before a primitive field' => ['field_test_ref1.entity:entity_test_with_bundle.field_test_ref3.entity:entity_test_with_bundle.field_test2', 'field_test_ref1.entity:entity_test_with_bundle.field_test_ref3.field_test2'],
     ];
   }
 
   /**
-   * Expects an error when an invalid field is provided.
+   * Expects an error when an invalid field is provided for filter and sort.
    *
    * @param string $entity_type
    *   The entity type for which to test field resolution.
@@ -121,30 +229,58 @@ class FieldResolverTest extends JsonapiKernelTestBase {
    *   The entity bundle for which to test field resolution.
    * @param string $external_path
    *   The external field path to resolve.
+   * @param string $expected_message
+   *   (optional) An expected exception message.
    *
-   * @covers ::resolveInternal
-   * @dataProvider resolveInternalErrorProvider
+   * @covers ::resolveInternalEntityQueryPath
+   * @dataProvider resolveInternalEntityQueryPathErrorProvider
    */
-  public function testResolveInternalError($entity_type, $bundle, $external_path) {
-    $this->setExpectedException(BadRequestHttpException::class);
-    $this->sut->resolveInternal($entity_type, $bundle, $external_path);
+  public function testResolveInternalEntityQueryPathError($entity_type, $bundle, $external_path, $expected_message = '') {
+    $this->setExpectedException(BadRequestHttpException::class, $expected_message);
+    $this->sut->resolveInternalEntityQueryPath($entity_type, $bundle, $external_path);
   }
 
   /**
-   * Provides test cases for ::testResolveInternalError.
+   * Provides test cases for ::testResolveInternalEntityQueryPathError.
    */
-  public function resolveInternalErrorProvider() {
+  public function resolveInternalEntityQueryPathErrorProvider() {
     return [
-      // Should fail because none of these bundles have these fields.
-      ['entity_test_with_bundle', 'bundle1', 'host.fail!!.deep'],
-      ['entity_test_with_bundle', 'bundle2', 'field_test_ref2'],
-      ['entity_test_with_bundle', 'bundle1', 'field_test_ref3'],
-      // Should fail because the nested fields don't exist on the targeted
-      // resource types.
-      ['entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test1'],
-      ['entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test2'],
-      ['entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test_ref1'],
-      ['entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test_ref2'],
+      'nested fields' => [
+        'entity_test_with_bundle', 'bundle1', 'none.of.these.exist',
+      ],
+      'field does not exist on bundle' => [
+        'entity_test_with_bundle', 'bundle2', 'field_test_ref2',
+      ],
+      'field does not exist on different bundle' => [
+        'entity_test_with_bundle', 'bundle1', 'field_test_ref3',
+      ],
+      'field does not exist on targeted bundle' => [
+        'entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test1',
+      ],
+      'different field does not exist on same targeted bundle' => [
+        'entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test2',
+      ],
+      'entity reference field does not exist on targeted bundle' => [
+        'entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test_ref1',
+      ],
+      'different entity reference field does not exist on same targeted bundle' => [
+        'entity_test_with_bundle', 'bundle1', 'field_test_ref1.field_test_ref2',
+      ],
+      'message correctly identifies missing field' => [
+        'entity_test_with_bundle', 'bundle1',
+        'field_test_ref1.entity:entity_test_with_bundle.field_test1',
+        'Invalid nested filtering. The field `field_test1`, given in the path `field_test_ref1.entity:entity_test_with_bundle.field_test1`, does not exist.',
+      ],
+      'message correctly identifies different missing field' => [
+        'entity_test_with_bundle', 'bundle1',
+        'field_test_ref1.entity:entity_test_with_bundle.field_test2',
+        'Invalid nested filtering. The field `field_test2`, given in the path `field_test_ref1.entity:entity_test_with_bundle.field_test2`, does not exist.',
+      ],
+      'message correctly identifies missing entity reference field' => [
+        'entity_test_with_bundle', 'bundle2',
+        'field_test_ref1.entity:entity_test_with_bundle.field_test2',
+        'Invalid nested filtering. The field `field_test_ref1`, given in the path `field_test_ref1.entity:entity_test_with_bundle.field_test2`, does not exist.',
+      ],
     ];
   }
 

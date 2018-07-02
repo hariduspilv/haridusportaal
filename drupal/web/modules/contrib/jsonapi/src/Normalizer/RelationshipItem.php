@@ -22,7 +22,7 @@ class RelationshipItem {
   /**
    * The target entity.
    *
-   * @var \Drupal\Core\Entity\EntityInterface
+   * @var \Drupal\Core\Entity\EntityInterface|null
    */
   protected $targetEntity;
 
@@ -52,8 +52,8 @@ class RelationshipItem {
    *
    * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resource_type_repository
    *   The JSON API resource type repository.
-   * @param \Drupal\Core\Entity\EntityInterface $target_entity
-   *   The entity this relationship points to.
+   * @param \Drupal\Core\Entity\EntityInterface|null $target_entity
+   *   The entity this relationship points to, if any.
    * @param \Drupal\jsonapi\Normalizer\Relationship $parent
    *   The parent of this item.
    * @param string $target_key
@@ -61,11 +61,25 @@ class RelationshipItem {
    * @param array $metadata
    *   The list of metadata associated with this relationship item value.
    */
-  public function __construct(ResourceTypeRepositoryInterface $resource_type_repository, EntityInterface $target_entity, Relationship $parent, $target_key = 'target_id', array $metadata = []) {
-    $this->targetResourceType = $resource_type_repository->get(
-      $target_entity->getEntityTypeId(),
-      $target_entity->bundle()
-    );
+  public function __construct(ResourceTypeRepositoryInterface $resource_type_repository, $target_entity, Relationship $parent, $target_key = 'target_id', array $metadata = []) {
+    assert($target_entity === NULL || $target_entity instanceof EntityInterface);
+    if ($target_entity === NULL) {
+      $host_entity = $parent->getHostEntity();
+      $relatable_resource_types = $resource_type_repository->get(
+        $host_entity->getEntityTypeId(),
+        $host_entity->bundle()
+      )->getRelatableResourceTypes()[$parent->getPropertyName()];
+      if (count($relatable_resource_types) !== 1) {
+        throw new \RuntimeException('Relationships to virtual resources are possible only if a single resource type is relatable.');
+      }
+      $this->targetResourceType = reset($relatable_resource_types);
+    }
+    else {
+      $this->targetResourceType = $resource_type_repository->get(
+        $target_entity->getEntityTypeId(),
+        $target_entity->bundle()
+      );
+    }
     $this->targetKey = $target_key;
     $this->targetEntity = $target_entity;
     $this->parent = $parent;
@@ -75,7 +89,7 @@ class RelationshipItem {
   /**
    * Gets the target entity.
    *
-   * @return \Drupal\Core\Entity\EntityInterface
+   * @return \Drupal\Core\Entity\EntityInterface|null
    *   The target entity of this relationship item.
    */
   public function getTargetEntity() {
@@ -101,8 +115,12 @@ class RelationshipItem {
    *   The value of this relationship item.
    */
   public function getValue() {
+    $target_uuid = $this->targetEntity === NULL
+      ? 'virtual'
+      : $this->getTargetEntity()->uuid();
+
     return [
-      'target_uuid' => $this->getTargetEntity()->uuid(),
+      'target_uuid' => $target_uuid,
       'meta' => $this->metadata,
     ];
   }

@@ -12,7 +12,7 @@ id: node.event.field_event_date
 field_name: field_event_date
 entity_type: node
 bundle: event
-label: 'Ürituse kuupäev'
+label: 'Sündmuse kuupäev'
 description: ''
 required: true
 translatable: false
@@ -36,5 +36,17 @@ settings:
         enabled: false
       school_location:
         weight: 8
+        enabled: false
+      accordion:
+        weight: 9
+        enabled: false
+      additional_section:
+        weight: 10
+        enabled: false
+      contact_section:
+        weight: 11
+        enabled: false
+      right_sidebar_section_info:
+        weight: 15
         enabled: false
 field_type: entity_reference_revisions

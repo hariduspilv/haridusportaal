@@ -69,7 +69,7 @@ class RelationshipNormalizerValue extends FieldNormalizerValue {
    * {@inheritdoc}
    */
   public function rasterizeValue() {
-    $links = $this->getLinks($this->resourceType->getPublicName($this->fieldName));
+    $links = $this->getLinks($this->fieldName);
     // Empty 'to-one' relationships must be NULL.
     // Empty 'to-many' relationships must be an empty array.
     // @link http://jsonapi.org/format/#document-resource-object-linkage
@@ -143,14 +143,14 @@ class RelationshipNormalizerValue extends FieldNormalizerValue {
    * Gets the links for the relationship.
    *
    * @param string $field_name
-   *   The public field name for the relationship.
+   *   The field name for the relationship.
    *
    * @return array
    *   An array of links to be rasterized.
    */
   protected function getLinks($field_name) {
     $route_parameters = [
-      'related' => $field_name,
+      'related' => $this->resourceType->getPublicName($field_name),
     ];
     $links['self'] = $this->linkManager->getEntityLink(
       $this->hostEntityId,

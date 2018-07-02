@@ -10,11 +10,10 @@ weight: 0
 module: import_school_data
 callback: import_school_data_cron
 scheduler:
-  id: crontab
+  id: simple
   configuration:
     rules:
-      - '0 0 * * *'
-    catch_up: 0
+      - '0+@ 0 * * *'
 launcher:
   id: serial
   configuration:

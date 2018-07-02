@@ -6,22 +6,22 @@ smtp.settings:
       type: boolean
       label: 'Turn this module on or off'
     smtp_host:
-      type: text
+      type: string
       label: 'SMTP server'
     smtp_hostbackup:
-      type: text
+      type: string
       label: 'SMTP backup server'
     smtp_port:
-      type: text
+      type: string
       label: 'SMTP port'
     smtp_protocol:
-      type: text
+      type: string
       label: 'Use encrypted protocol'
     smtp_username:
-      type: text
+      type: string
       label: 'Username'
     smtp_password:
-      type: text
+      type: string
       label: 'Password'
     smtp_from:
       type: email
@@ -30,13 +30,13 @@ smtp.settings:
       type: text
       label: 'E-mail from name'
     smtp_client_hostname:
-      type: text
+      type: string
       label: 'Hostname'
     smtp_client_helo:
-      type: text
+      type: string
       label: 'HELO'
     smtp_allowhtml:
-      type: text
+      type: string
       label: 'Allow to send e-mails formated as HTML'
     smtp_test_address:
       type: email
@@ -45,5 +45,5 @@ smtp.settings:
       type: boolean
       label: 'Enable debugging'
     prev_mail_system:
-      type: text
+      type: string
       label: 'Previous mail system'

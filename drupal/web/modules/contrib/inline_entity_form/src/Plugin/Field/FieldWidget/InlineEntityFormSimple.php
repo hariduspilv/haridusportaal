@@ -36,12 +36,16 @@ class InlineEntityFormSimple extends InlineEntityFormBase {
     $form_state->set(['inline_entity_form', $ief_id], []);
 
     $element = [
-      '#type' => 'fieldset',
+      '#type' => $this->getSetting('collapsible') ? 'details' : 'fieldset',
       '#field_title' => $this->fieldDefinition->getLabel(),
       '#after_build' => [
         [get_class($this), 'removeTranslatabilityClue'],
       ],
     ] + $element;
+    if ($element['#type'] == 'details') {
+      $element['#open'] = !$this->getSetting('collapsed');
+    }
+
     $item = $items->get($delta);
     if ($item->target_id && !$item->entity) {
       $element['warning']['#markup'] = $this->t('Unable to load the referenced entity.');
@@ -55,7 +59,7 @@ class InlineEntityFormSimple extends InlineEntityFormBase {
       $delta,
       'inline_entity_form'
     ]);
-    $bundle = !empty($this->getFieldSetting('handler_settings')['target_bundles']) ? reset($this->getFieldSetting('handler_settings')['target_bundles']) : NULL;
+    $bundle = $this->getBundle();
     $element['inline_entity_form'] = $this->getInlineEntityForm($op, $bundle, $langcode, $delta, $parents, $entity);
 
     if ($op == 'edit') {
@@ -194,6 +198,18 @@ class InlineEntityFormSimple extends InlineEntityFormBase {
     }
 
     return TRUE;
+  }
+
+  /**
+   * Gets the bundle for the inline entity.
+   *
+   * @return string|null
+   *   The bundle, or NULL if not known.
+   */
+  protected function getBundle() {
+    if (!empty($this->getFieldSetting('handler_settings')['target_bundles'])) {
+      return reset($this->getFieldSetting('handler_settings')['target_bundles']);
+    }
   }
 
 }

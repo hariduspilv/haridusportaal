@@ -10,9 +10,9 @@ dependencies:
     - field.field.node.news.field_metatags
     - field.field.node.news.field_news_description
     - field.field.node.news.field_news_link
+    - field.field.node.news.field_news_video
     - field.field.node.news.field_short_description
     - field.field.node.news.field_tag
-    - field.field.node.news.field_video
     - node.type.news
   module:
     - htm_custom_video_field
@@ -66,6 +66,13 @@ content:
     third_party_settings: {  }
     type: link
     region: content
+  field_news_video:
+    weight: 114
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: custom_video_formatter_type
+    region: content
   field_short_description:
     weight: 111
     label: above
@@ -80,13 +87,6 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
-    region: content
-  field_video:
-    weight: 114
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: custom_video_formatter_type
     region: content
   links:
     weight: 100

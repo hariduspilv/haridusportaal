@@ -21,6 +21,7 @@ module:
   custom_graphql_authentication: 0
   custom_graphql_functions: 0
   custom_graphql_tags_query: 0
+  custom_logging_to_file: 0
   custom_menu_uri_translation: 0
   custom_rest_functions: 0
   custom_study_programme_import: 0
@@ -55,8 +56,10 @@ module:
   help: 0
   history: 0
   hms_field: 0
+  htm_custom_admin_form: 0
   htm_custom_event_registration: 0
   htm_custom_exports: 0
+  htm_custom_tokens: 0
   htm_custom_video_field: 0
   image: 0
   image_style_warmer: 0
