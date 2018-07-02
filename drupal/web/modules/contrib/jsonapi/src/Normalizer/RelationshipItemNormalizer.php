@@ -5,14 +5,12 @@ namespace Drupal\jsonapi\Normalizer;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\jsonapi\Normalizer\Value\RelationshipItemNormalizerValue;
+use Drupal\jsonapi\Resource\JsonApiDocumentTopLevel;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
 use Drupal\jsonapi\Controller\EntityResource;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Converts the Drupal entity reference item object to a JSON API structure.
- *
- * @todo Remove the dependency on \Drupal\jsonapi\Normalizer\JsonApiDocumentTopLevelNormalizer
  *
  * @internal
  */
@@ -33,33 +31,13 @@ class RelationshipItemNormalizer extends FieldItemNormalizer {
   protected $resourceTypeRepository;
 
   /**
-   * The JSON API document top level normalizer.
-   *
-   * @var \Drupal\jsonapi\Normalizer\JsonApiDocumentTopLevelNormalizer
-   */
-  protected $jsonapiDocumentToplevelNormalizer;
-
-  /**
    * Instantiates a RelationshipItemNormalizer object.
    *
    * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resource_type_repository
    *   The JSON API resource type repository.
-   * @param \Drupal\jsonapi\Normalizer\JsonApiDocumentTopLevelNormalizer $jsonapi_document_toplevel_normalizer
-   *   The document root normalizer for the include.
    */
-  public function __construct(ResourceTypeRepositoryInterface $resource_type_repository, JsonApiDocumentTopLevelNormalizer $jsonapi_document_toplevel_normalizer) {
+  public function __construct(ResourceTypeRepositoryInterface $resource_type_repository) {
     $this->resourceTypeRepository = $resource_type_repository;
-    $this->jsonapiDocumentToplevelNormalizer = $jsonapi_document_toplevel_normalizer;
-  }
-
-  /**
-   * {@inheritdoc}
-   *
-   * @todo Remove this override when the dependency on \Drupal\jsonapi\Normalizer\JsonApiDocumentTopLevelNormalizer is removed.
-   */
-  public function setSerializer(SerializerInterface $serializer) {
-    parent::setSerializer($serializer);
-    $this->jsonapiDocumentToplevelNormalizer->setSerializer($serializer);
   }
 
   /**
@@ -79,12 +57,10 @@ class RelationshipItemNormalizer extends FieldItemNormalizer {
     }
 
     $host_field_name = $relationship_item->getParent()->getPropertyName();
-    if (!empty($context['include']) && in_array($host_field_name, $context['include'])) {
+    if (!empty($context['include']) && in_array($host_field_name, $context['include']) && $target_entity !== NULL) {
       $context = $this->buildSubContext($context, $target_entity, $host_field_name);
       $entity_and_access = EntityResource::getEntityAndAccess($target_entity);
-      $included_normalizer_value = $this
-        ->jsonapiDocumentToplevelNormalizer
-        ->buildNormalizerValue($entity_and_access['entity'], $format, $context);
+      $included_normalizer_value = $this->serializer->normalize(new JsonApiDocumentTopLevel($entity_and_access['entity']), $format, $context);
     }
     else {
       $included_normalizer_value = NULL;
@@ -123,6 +99,7 @@ class RelationshipItemNormalizer extends FieldItemNormalizer {
     $context['include'] = array_map(function ($include) use ($host_field_name) {
       return str_replace($host_field_name . '.', '', $include);
     }, $include_candidates);
+    $context['is_include_normalization'] = TRUE;
     return $context;
   }
 

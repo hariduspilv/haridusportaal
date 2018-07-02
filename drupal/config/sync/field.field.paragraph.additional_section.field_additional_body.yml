@@ -11,7 +11,7 @@ entity_type: paragraph
 bundle: additional_section
 label: 'Alamlehe sisu'
 description: ''
-required: false
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''

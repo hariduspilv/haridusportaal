@@ -67,16 +67,18 @@ class EntityNormalizerValue implements ValueExtractorInterface, CacheableDepende
   public function __construct(array $values, array $context, EntityInterface $entity, array $link_context) {
     $this->setCacheability(static::mergeCacheableDependencies(array_merge([$entity], $values)));
 
+    // Gather includes from all normalizer values, before filtering away null
+    // and include-only normalizer values.
+    $this->includes = array_map(function ($value) {
+      return $value->getIncludes();
+    }, $values);
+
     $this->values = array_filter($values, function ($value) {
-      return !($value instanceof NullFieldNormalizerValue);
+      return !($value instanceof NullFieldNormalizerValue || $value instanceof IncludeOnlyRelationshipNormalizerValue);
     });
     $this->context = $context;
     $this->entity = $entity;
     $this->linkManager = $link_context['link_manager'];
-    // Get an array of arrays of includes.
-    $this->includes = array_map(function ($value) {
-      return $value->getIncludes();
-    }, $values);
     // Flatten the includes.
     $this->includes = array_reduce($this->includes, function ($carry, $includes) {
       return array_merge($carry, $includes);

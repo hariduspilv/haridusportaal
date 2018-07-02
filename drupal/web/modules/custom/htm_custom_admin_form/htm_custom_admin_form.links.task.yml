@@ -1,0 +1,4 @@
+htm_custom_admin_form.custom_admin_form:
+  route_name: htm_custom_admin_form.custom_admin_form
+  title: Settings
+  base_route: htm_custom_admin_form.custom_admin_form

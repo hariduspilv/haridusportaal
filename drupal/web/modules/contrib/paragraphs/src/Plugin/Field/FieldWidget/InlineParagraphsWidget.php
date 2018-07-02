@@ -44,7 +44,7 @@ class InlineParagraphsWidget extends WidgetBase {
    *
    * @var bool
    */
-  private $isTranslating;
+  protected $isTranslating;
 
   /**
    * Id to name ajax buttons that includes field parents and field name.
@@ -270,6 +270,7 @@ class InlineParagraphsWidget extends WidgetBase {
       $paragraphs_entity = $entity_manager->getStorage($target_type)->create(array(
         $bundle_key => $widget_state['selected_bundle'],
       ));
+      $paragraphs_entity->setParentEntity($items->getEntity(), $field_name);
 
       $item_mode = 'edit';
     }
@@ -358,6 +359,7 @@ class InlineParagraphsWidget extends WidgetBase {
       $element += array(
         '#type' => 'container',
         '#element_validate' => array(array($this, 'elementValidate')),
+        '#paragraph_type' => $paragraphs_entity->bundle(),
         'subform' => array(
           '#type' => 'container',
           '#parents' => $element_parents,
@@ -445,9 +447,6 @@ class InlineParagraphsWidget extends WidgetBase {
               '#paragraphs_show_warning' => TRUE,
             );
           }
-
-          // Hide the button when translating.
-          $button_access = $paragraphs_entity->access('delete') && !$this->isTranslating;
 
           $info['edit_button_info'] = array(
             '#type' => 'container',
@@ -766,6 +765,7 @@ class InlineParagraphsWidget extends WidgetBase {
         $paragraphs_entity = $entity_type_manager->getStorage($target_type)->create([
           'type' => $default_type,
         ]);
+        $paragraphs_entity->setParentEntity($items->getEntity(), $field_name);
         $field_state['selected_bundle'] = $default_type;
         $display = EntityFormDisplay::collectRenderDisplay($paragraphs_entity, $this->getSetting('form_display_mode'));
         $field_state['paragraphs'][0] = [

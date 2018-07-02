@@ -35,11 +35,11 @@ class TokenMenuTest extends TokenTestBase {
     // Make sure we have a body field on the node type.
     $this->drupalCreateContentType(['type' => 'page']);
     // Add a menu.
-    $menu = entity_create('menu', array(
+    $menu = entity_create('menu', [
       'id' => 'main-menu',
       'label' => 'Main menu',
       'description' => 'The <em>Main</em> menu is used on many sites to show the major sections of the site, often in a top navigation bar.',
-    ));
+    ]);
     $menu->save();
 
     // Place the menu block.
@@ -47,25 +47,25 @@ class TokenMenuTest extends TokenTestBase {
 
     // Add a root link.
     /** @var \Drupal\menu_link_content\Plugin\Menu\MenuLinkContent $root_link */
-    $root_link = entity_create('menu_link_content', array(
+    $root_link = entity_create('menu_link_content', [
       'link' => ['uri' => 'internal:/admin'],
       'title' => 'Administration',
       'menu_name' => 'main-menu',
-    ));
+    ]);
     $root_link->save();
 
     // Add another link with the root link as the parent.
     /** @var \Drupal\menu_link_content\Plugin\Menu\MenuLinkContent $parent_link */
-    $parent_link = entity_create('menu_link_content', array(
+    $parent_link = entity_create('menu_link_content', [
       'link' => ['uri' => 'internal:/admin/config'],
       'title' => 'Configuration',
       'menu_name' => 'main-menu',
       'parent' => $root_link->getPluginId(),
-    ));
+    ]);
     $parent_link->save();
 
     // Test menu link tokens.
-    $tokens = array(
+    $tokens = [
       'id' => $parent_link->getPluginId(),
       'title' => 'Configuration',
       'menu' => 'Main menu',
@@ -73,13 +73,13 @@ class TokenMenuTest extends TokenTestBase {
       'menu:machine-name' => $menu->id(),
       'menu:description' => 'The <em>Main</em> menu is used on many sites to show the major sections of the site, often in a top navigation bar.',
       'menu:menu-link-count' => '2',
-      'menu:edit-url' => Url::fromRoute('entity.menu.edit_form', ['menu' => 'main-menu'], array('absolute' => TRUE))->toString(),
-      'url' => Url::fromRoute('system.admin_config', [], array('absolute' => TRUE))->toString(),
-      'url:absolute' => Url::fromRoute('system.admin_config', [], array('absolute' => TRUE))->toString(),
-      'url:relative' => Url::fromRoute('system.admin_config', [], array('absolute' => FALSE))->toString(),
+      'menu:edit-url' => Url::fromRoute('entity.menu.edit_form', ['menu' => 'main-menu'], ['absolute' => TRUE])->toString(),
+      'url' => Url::fromRoute('system.admin_config', [], ['absolute' => TRUE])->toString(),
+      'url:absolute' => Url::fromRoute('system.admin_config', [], ['absolute' => TRUE])->toString(),
+      'url:relative' => Url::fromRoute('system.admin_config', [], ['absolute' => FALSE])->toString(),
       'url:path' => '/admin/config',
       'url:alias' => '/admin/config',
-      'edit-url' => Url::fromRoute('entity.menu_link_content.canonical', ['menu_link_content' => $parent_link->id()], array('absolute' => TRUE))->toString(),
+      'edit-url' => Url::fromRoute('entity.menu_link_content.canonical', ['menu_link_content' => $parent_link->id()], ['absolute' => TRUE])->toString(),
       'parent' => 'Administration',
       'parent:id' => $root_link->getPluginId(),
       'parent:title' => 'Administration',
@@ -92,32 +92,32 @@ class TokenMenuTest extends TokenTestBase {
       'root:id' => $root_link->getPluginId(),
       'root:parent' => NULL,
       'root:root' => NULL,
-    );
-    $this->assertTokens('menu-link', array('menu-link' => $parent_link), $tokens);
+    ];
+    $this->assertTokens('menu-link', ['menu-link' => $parent_link], $tokens);
 
     // Add a node.
     $node = $this->drupalCreateNode();
 
     // Allow main menu for this node type.
-    //$this->config('menu.entity.node.' . $node->getType())->set('available_menus', array('main-menu'))->save();
+    //$this->config('menu.entity.node.' . $node->getType())->set('available_menus', ['main-menu'])->save();
 
     // Add a node menu link.
     /** @var \Drupal\menu_link_content\Plugin\Menu\MenuLinkContent $node_link */
-    $node_link = entity_create('menu_link_content', array(
+    $node_link = entity_create('menu_link_content', [
       'link' => ['uri' =>'entity:node/' . $node->id()],
       'title' => 'Node link',
       'parent' => $parent_link->getPluginId(),
       'menu_name' => 'main-menu',
-    ));
+    ]);
     $node_link->save();
 
     // Test [node:menu] tokens.
-    $tokens = array(
+    $tokens = [
       'menu-link' => 'Node link',
       'menu-link:id' => $node_link->getPluginId(),
       'menu-link:title' => 'Node link',
       'menu-link:menu' => 'Main menu',
-      'menu-link:url' => $node->url('canonical', ['absolute' => TRUE]),
+      'menu-link:url' => $node->toUrl('canonical', ['absolute' => TRUE])->toString(),
       'menu-link:url:path' => '/node/' . $node->id(),
       'menu-link:edit-url' => $node_link->url('edit-form', ['absolute' => TRUE]),
       'menu-link:parent' => 'Configuration',
@@ -127,12 +127,12 @@ class TokenMenuTest extends TokenTestBase {
       'menu-link:parents:keys' => $root_link->getPluginId() . ', ' . $parent_link->getPluginId(),
       'menu-link:root' => 'Administration',
       'menu-link:root:id' => $root_link->getPluginId(),
-    );
-    $this->assertTokens('node', array('node' => $node), $tokens);
+    ];
+    $this->assertTokens('node', ['node' => $node], $tokens);
 
     // Reload the node which will not have $node->menu defined and re-test.
     $loaded_node = Node::load($node->id());
-    $this->assertTokens('node', array('node' => $loaded_node), $tokens);
+    $this->assertTokens('node', ['node' => $loaded_node], $tokens);
 
     // Regression test for http://drupal.org/node/1317926 to ensure the
     // original node object is not changed when calling menu_node_prepare().
@@ -148,11 +148,11 @@ class TokenMenuTest extends TokenTestBase {
       'access administration pages',
     ]));
     // Setup node type menu options.
-    $edit = array(
+    $edit = [
       'menu_options[main-menu]' => 1,
       'menu_options[main]' => 1,
       'menu_parent' => 'main-menu:',
-    );
+    ];
     $this->drupalPostForm('admin/structure/types/manage/page', $edit, t('Save content type'));
 
     // Use a menu-link token in the body.
@@ -306,7 +306,7 @@ class TokenMenuTest extends TokenTestBase {
     ]);
     $node_type->save();
 
-    $permissions = array(
+    $permissions = [
       'access administration pages',
       'administer content translation',
       'administer content types',
@@ -316,18 +316,18 @@ class TokenMenuTest extends TokenTestBase {
       'edit any article content',
       'translate any entity',
       'administer menu',
-    );
+    ];
     $this->drupalLogin($this->drupalCreateUser($permissions));
 
     // Enable translation for articles and menu links.
     $this->drupalGet('admin/config/regional/content-language');
-    $edit = array(
+    $edit = [
       'entity_types[node]' => TRUE,
       'entity_types[menu_link_content]' => TRUE,
       'settings[node][article][translatable]' => TRUE,
       'settings[node][article][fields][title]' => TRUE,
       'settings[menu_link_content][menu_link_content][translatable]' => TRUE,
-    );
+    ];
     $this->drupalPostForm(NULL, $edit, t('Save configuration'));
     $this->assertText('Settings successfully updated.');
 
@@ -411,10 +411,10 @@ class TokenMenuTest extends TokenTestBase {
     // - parent
     //   - child-1
     //      - child-1-1
-    Menu::create(array(
+    Menu::create([
       'id' => 'menu_test',
       'label' => 'Test menu',
-    ))->save();
+    ])->save();
     $base_options = [
       'provider' => 'menu_test',
       'menu_name' => 'menu_test',

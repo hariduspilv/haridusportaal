@@ -5,8 +5,6 @@ namespace Drupal\jsonapi\Controller;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
-use Drupal\Core\Render\RenderContext;
-use Drupal\Core\Render\RendererInterface;
 use Drupal\jsonapi\LinkManager\LinkManager;
 use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
@@ -30,13 +28,6 @@ class RequestHandler {
    * @var \Drupal\jsonapi\Serializer\Serializer
    */
   protected $serializer;
-
-  /**
-   * The renderer.
-   *
-   * @var \Drupal\Core\Render\RendererInterface
-   */
-  protected $renderer;
 
   /**
    * The JSON API resource type repository.
@@ -78,8 +69,6 @@ class RequestHandler {
    *
    * @param \Symfony\Component\Serializer\SerializerInterface $serializer
    *   The JSON API serializer.
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The renderer.
    * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resource_type_repository
    *   The resource type repository.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -91,9 +80,8 @@ class RequestHandler {
    * @param \Drupal\jsonapi\LinkManager\LinkManager $link_manager
    *   The JSON API link manager.
    */
-  public function __construct(SerializerInterface $serializer, RendererInterface $renderer, ResourceTypeRepositoryInterface $resource_type_repository, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, FieldTypePluginManagerInterface $field_type_manager, LinkManager $link_manager) {
+  public function __construct(SerializerInterface $serializer, ResourceTypeRepositoryInterface $resource_type_repository, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, FieldTypePluginManagerInterface $field_type_manager, LinkManager $link_manager) {
     $this->serializer = $serializer;
-    $this->renderer = $renderer;
     $this->resourceTypeRepository = $resource_type_repository;
     $this->entityTypeManager = $entity_type_manager;
     $this->fieldManager = $field_manager;
@@ -135,22 +123,7 @@ class RequestHandler {
     // Only add the unserialized data if there is something there.
     $extra_parameters = $unserialized ? [$unserialized, $request] : [$request];
 
-    // @todo Remove this in https://www.drupal.org/project/jsonapi/issues/2952714.
-    // Note that \Drupal\jsonapi\EventSubscriber\ResourceResponseSubscriber::renderResponseBody
-    // does normalization within a render context. This only calls a method on
-    // EntityResource in a render context. Because some methods generate URLs
-    // there, rather than during normalization. Ideally, that would not happen,
-    // then this would not be necessary.
-    $context = new RenderContext();
-    $response = $this->renderer
-      ->executeInRenderContext($context, function () use ($resource, $action, $parameters, $extra_parameters) {
-        return call_user_func_array([$resource, $action], array_merge($parameters, $extra_parameters));
-      });
-    if (!$context->isEmpty()) {
-      $response->addCacheableDependency($context->pop());
-    }
-
-    return $response;
+    return call_user_func_array([$resource, $action], array_merge($parameters, $extra_parameters));
   }
 
   /**

@@ -12,3 +12,4 @@ langcode: et
 default_langcode: et
 _core:
   default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
+mail_notification: ''

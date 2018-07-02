@@ -1,0 +1,7 @@
+htm_custom_admin_form.custom_admin_form:
+  title: 'HTM custom configurations'
+  route_name: htm_custom_admin_form.custom_admin_form
+  description: 'A description for the menu entry'
+  parent: system.admin_config_system
+  weight: 99
+

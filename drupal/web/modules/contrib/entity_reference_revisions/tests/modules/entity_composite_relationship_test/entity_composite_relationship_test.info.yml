@@ -7,8 +7,8 @@ package: Testing
 dependencies:
  - entity_reference_revisions
  - entity_test
-# Information added by Drupal.org packaging script on 2018-01-05
-version: '8.x-1.4'
+# Information added by Drupal.org packaging script on 2018-05-25
+version: '8.x-1.5'
 core: '8.x'
 project: 'entity_reference_revisions'
-datestamp: 1515143887
+datestamp: 1527241086

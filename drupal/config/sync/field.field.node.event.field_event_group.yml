@@ -10,7 +10,7 @@ id: node.event.field_event_group
 field_name: field_event_group
 entity_type: node
 bundle: event
-label: 'Event Group'
+label: 'Sündmuse grupp'
 description: ''
 required: false
 translatable: true
