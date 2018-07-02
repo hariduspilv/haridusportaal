@@ -11,7 +11,7 @@ use Drupal\Core\Queue\QueueInterface;
 use Drupal\Core\Database\Database;
 
 /**
- * Implements hook_help().
+ * Implements hook_cron().
  */
 function custom_study_programme_import_cron() {
         $import_controller = new StudyProgrammeController();
