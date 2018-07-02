@@ -19,6 +19,10 @@ function htm_custom_tokens_token_info() {
 		'name' => t('Event start and end date'),
 		'description' => t('Get referencing event start and end date'),
 	];
+	$token['custom_event_link'] = [
+		'name' => t('Link to event'),
+		'description' => t('Get referencing event link'),
+	];
 
 	return [
 		'types' => ['htm_custom_event_tokens' => $type],
@@ -39,6 +43,13 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 				case 'event_start_end':
 					$entity = $data['event_reg_entity'];
 					$replacements[$original] = $entity->getReferenceEventDates('d.m.Y');
+					break;
+				case 'custom_event_link':
+					if($path = $options['custom_link_path']){
+						$alias = \Drupal::service('path.alias_manager')->getAliasByPath('/node/'.$data['ref_event']->id());
+						//dump($alias);
+						$replacements[$original] = $path .'/'. $options['langcode'] . $alias;
+					}
 					break;
 			}
 		}
