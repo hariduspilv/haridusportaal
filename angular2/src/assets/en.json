@@ -96,5 +96,15 @@
   "from": "From",
   "event.passed": "Event has passed",
   "register.ended": "Registration period over",
-  "map.closer": "Closer"
+  "map.closer": "Closer",
+  "form.registration": "Registration form",
+  "required.fields": "Required fields",
+  "required.field": "Required field",
+  "time.at": "At",
+  "cancel": "Cancel",
+  "enter.valid.email": "Enter a valid email",
+  "send": "Send",
+  "modal.close": "Close",
+  "registration.thanks": "Thank you for your registration!",
+  "registration.add.to.calendar": "Add event to your calendar"
 }
