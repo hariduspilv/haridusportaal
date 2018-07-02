@@ -26,16 +26,9 @@ class NotificationController extends ControllerBase {
       $notifications[] = $this->get_notifications($content_nodes, $subscription);
     }
     foreach($notifications as $notification){
-      $mailitems[] = $this->create_mail_item($notification);
+      $mailitems[] = $this->notification_email_content($notification);
     }
     return $mailitems;
-  }
-
-  public function create_mail_item($notification){
-    $params['body'] = $this->notification_email_content($notification);
-    $params['title'] = t('Haridusteemalised uudised');
-
-    return $params;
   }
 
   public function get_notifications($nodes, $subscription){
@@ -123,6 +116,9 @@ $notifynodes = [];
 
   public function notification_email_content($message){
     $body = [];
+    $config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+    kint($config);
+    die();
 
     if(isset($message['notification_nodes']['news'])){
       foreach($message['notification_nodes']['news'] as $nid){
@@ -143,11 +139,9 @@ $notifynodes = [];
     $body['uuid'] = $message['uuid'][0]['value'];
     $body['email'] = $message['subscriber_email'][0]['value'];
     $body['langcode'] = $message['langcode'][0]['value'];
+    $body['link_root'] = $config->get('general.fe_url');
 
-    return[
-      '#theme' => 'newsletter_notification_email_template',
-      '#body' => $body,
-    ];
+    return $body;
   }
 
   private function parse_key($key){
