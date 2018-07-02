@@ -77,7 +77,7 @@ function custom_subscription_administration_entity_insert(Drupal\Core\Entity\Ent
 		}
 
 		unset($fields['newtags']);
-		if(count($newtags) > 0){
+		if(isset($newtags) && count($newtags) > 0){
 			foreach($newtags as $tag){
 				$fields['newtags'][] = ['target_id' => $tag];
 			}
@@ -196,5 +196,21 @@ function subscription_email_content($message){
 				'#body' => $body,
 			];
 		}
+	}
+}
+
+/*
+ * hook_cron();
+ **/
+function custom_subscription_administration_cron() {
+	$expirydate = strtotime('-30 days');
+	$eids = \Drupal::entityQuery('subscription_entity')
+			->condition('status', 0)
+			->condition('changed', $expirydate, '<=')
+			->execute();
+	$node_storage = \Drupal::entityTypeManager()->getStorage('subscription_entity');
+	$nodes = $node_storage->loadMultiple($eids);
+	foreach($nodes as $node){
+		$node->delete();
 	}
 }

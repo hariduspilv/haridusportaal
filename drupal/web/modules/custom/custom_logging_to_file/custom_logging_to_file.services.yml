@@ -1,0 +1,4 @@
+services:
+  custom_logging_to_file.write:
+    class: Drupal\custom_logging_to_file\WriteService
+    arguments: []
