@@ -1054,7 +1054,8 @@ class PHPMailer {
     $result = '';
 
     // Set the boundaries
-    $uniq_id = md5(uniqid(REQUEST_TIME));
+    $request_time = \Drupal::time()->getRequestTime();
+    $uniq_id = md5(uniqid($request_time));
     $this->boundary[1] = 'b1_' . $uniq_id;
     $this->boundary[2] = 'b2_' . $uniq_id;
 
@@ -2288,7 +2289,7 @@ class PHPMailer {
     $DKIMsignatureType    = 'rsa-sha1'; // Signature & hash algorithms
     $DKIMcanonicalization = 'relaxed/simple'; // Canonicalization of header/body
     $DKIMquery            = 'dns/txt'; // Query method
-    $DKIMtime             = REQUEST_TIME; // Signature Timestamp = seconds since 00:00:00 - Jan 1, 1970 (UTC time zone)
+    $DKIMtime             = \Drupal::time()->getRequestTime(); // Signature Timestamp = seconds since 00:00:00 - Jan 1, 1970 (UTC time zone)
     $subject_header       = "Subject: $subject";
     $headers              = explode("\r\n", $headers_line);
     foreach ($headers as $header) {

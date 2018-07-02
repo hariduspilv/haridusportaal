@@ -1,0 +1,9 @@
+<div class="row video" *ngIf="videos">
+  <div class="col-12" *ngFor="let video of videos; let i = index">
+    <div class="video-container" *ngIf="embeddedInputs && embeddedInputs.length" [innerHtml]="embeddedInputs[i]"></div>
+    <div class="video-container" *ngIf="embedFailed && video.videoId">
+      <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(fallbackUrl(video.videoDomain, video.videoId))" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div *ngIf="video.videoDescription" class="video-alt-text">{{video.videoDescription}}</div>
+  </div><!--/col-12-->
+</div> <!--/row-->

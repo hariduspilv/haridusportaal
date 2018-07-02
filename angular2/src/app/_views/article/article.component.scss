@@ -82,6 +82,8 @@ mat-panel-title {font-size: $small;}
   padding-top: $small;
 }
 ::ng-deep .mat-expansion-indicator::after {
+  font-feature-settings: 'liga';
+  -ms-font-feature-settings: 'liga';
   font-family: 'Material Icons';
   content: 'expand_more' !important;
   border: none !important;

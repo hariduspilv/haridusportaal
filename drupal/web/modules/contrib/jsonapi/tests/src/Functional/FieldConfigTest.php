@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\jsonapi\Functional;
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
@@ -134,6 +136,42 @@ class FieldConfigTest extends ResourceTestBase {
    */
   protected function getExpectedUnauthorizedAccessMessage($method) {
     return "The 'administer node fields' permission is required.";
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function createAnotherEntity($key) {
+    NodeType::create([
+      'name' => 'Pachyderms',
+      'type' => 'pachyderms',
+    ])->save();
+
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => 'field_pachyderm',
+      'entity_type' => 'node',
+      'type' => 'text',
+    ]);
+    $field_storage->save();
+
+    $entity = FieldConfig::create([
+      'field_storage' => $field_storage,
+      'bundle' => 'pachyderms',
+    ]);
+    $entity->save();
+
+    return $entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static function entityAccess(EntityInterface $entity, $operation, AccountInterface $account) {
+    // Also clear the 'field_storage_config' entity access handler cache because
+    // the 'field_config' access handler delegates access to it.
+    // @see \Drupal\field\FieldConfigAccessControlHandler::checkAccess()
+    \Drupal::entityTypeManager()->getAccessControlHandler('field_storage_config')->resetCache();
+    return parent::entityAccess($entity, $operation, $account);
   }
 
 }

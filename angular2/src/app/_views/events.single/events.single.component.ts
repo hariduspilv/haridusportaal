@@ -176,7 +176,7 @@ export class EventsSingleComponent {
   openImage(): void {
     let dialogRef = this.dialog.open(ImagePopupDialog, {
       data: {
-        src: this.content.entity.fieldPicture.url,
+        src: this.content.entity.fieldPicture.derivative.url,
         title: this.content.entity.fieldPicture.title,
         alt: this.content.entity.fieldPicture.url
       }

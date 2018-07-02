@@ -1,6 +1,6 @@
 {
 "header" : {
-	"name" : "ORDER",
+	"form_name" : "ORDER",
 	"acceptable_activity" : "SUBMIT",
 	"current_step" : "step_2",
 	"identifier" : "3465667463XYZ" ,
@@ -22,63 +22,69 @@
 "body" : {
 	"steps" : {
 		"step_1" : {
-			"customer_name" : {
-				"value" : "JUHAN JUURIKAS",
-				"messages" : "temp_message_1"
-			},
+			"data_elements" : {
+				"customer_name" : {
+					"value" : "JUHAN JUURIKAS",
+					"messages" : "temp_message_1"
+				},
 
-			"customer_email" : {
-				"value" : "juhan.juurikas@inter.net"
-			},
+				"customer_email" : {
+					"value" : "juhan.juurikas@inter.net"
+				},
 
-			"delivery_address" : {
-				"value" : { "ads_id" : "12345", "maakond" : "Harjumaa", "kov" : "Saue vald", "asustusüksus" : "Alliku küla" }
-			},
+				"delivery_address" : {
+					"value" : { "ads_id" : "12345", "maakond" : "Harjumaa", "kov" : "Saue vald", "asustusüksus" : "Alliku küla" }
+				},
 
-			"delivery_date" : {
-				"value" : "2018-05-16"
-			},
+				"delivery_date" : {
+					"value" : "2018-05-16"
+				},
 
-			"payment_method" : {
-				"value": "DECS"
-			},
+				"payment_method" : {
+					"value": "DECS"
+				},
 
-			"comments" : {
-				"value": "Laadida maha kuuri kõrvale"
-			},
+				"comments" : {
+					"value": "Laadida maha kuuri kõrvale"
+				},
 
-			"confirmation" : {
-				"value" : true
+				"confirmation" : {
+					"value" : true
+				}
 			}
 		},
 
 		"step_2" : {
-			"items" : {
-				"table_columns" : {
-					"item_name" :  {
-						"value" : [ "Kruvid", "Liistud", "Klaasid"]
-					},
-					"quantity" : {
-						"value" : [ 20, 12, 55 ]
-					},
-					"measurement_unit" : {
-							"value" : [ "TK", "KG", "TK"]
-					},
-					"fragile" : {
-						"value" : [ , , true]
-					},
-					"instruction" : {
-						"value" : [ , , { "file_name" : "juhend.pdf" , "file_identifier" : "3465667463XYZ-222" } ]
-					}
-				}
-			},
+			"data_elements" : {
+				"items" : {
+					"value" : [
+						{
+							"item_name" :	"Kruvid",
+							"quantity" : 20,
+							"measurement_unit" : "TK"
+						},
+						{
+							"item_name" :	"Liistud",
+							"quantity" : 12,
+							"measurement_unit" : "KG",
+							"fragile" : false
+						},
+						{
+							"item_name" :	"Klaasid",
+							"quantity" : 55 ,
+							"measurement_unit" : "TK" ,
+							"instruction" : { "file_name" : "juhend.pdf" , "file_identifier" : "3465667463XYZ-222" }
+						}
+					]
+				},
 
-			"contract" : {
-				"value" : [
-					{ "file_name" : "leping.pdf" , "file_identifier" : "3465667463XYZ-001" },
-					{ "file_name" : "lepingu lisa A.pdf" , "file_identifier" : "3465667463XYZ-002" }
-					{ "file_name" : "leping.bdoc" , "file_identifier" : "3465667463XYZ-002" }
-				]
+				"contract" : {
+					"value" : [
+						{ "file_name" : "leping.pdf" , "file_identifier" : "3465667463XYZ-001" },
+						{ "file_name" : "lepingu lisa A.pdf" , "file_identifier" : "3465667463XYZ-002" }
+						{ "file_name" : "leping.bdoc" , "file_identifier" : "3465667463XYZ-002" }
+					]
+				},
 			},
 			"messages" : "message_OS"
 		}

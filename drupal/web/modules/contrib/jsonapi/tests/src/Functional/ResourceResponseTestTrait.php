@@ -3,10 +3,13 @@
 namespace Drupal\Tests\jsonapi\Functional;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Access\AccessResultReasonInterface;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Url;
+use Drupal\jsonapi\Normalizer\HttpExceptionNormalizer;
 use Drupal\jsonapi\ResourceResponse;
 use Psr\Http\Message\ResponseInterface;
 
@@ -26,8 +29,8 @@ trait ResourceResponseTestTrait {
    *
    * @param array $responses
    *   An array or ResourceResponses to be merged.
-   * @param string $self_link
-   *   The self link for the merged document.
+   * @param string|null $self_link
+   *   The self link for the merged document if one should be set.
    * @param bool $is_multiple
    *   Whether the responses are for a multiple cardinality field. This cannot
    *   be deduced from the number of responses, because a multiple cardinality
@@ -42,18 +45,24 @@ trait ResourceResponseTestTrait {
     $merged_cacheability = new CacheableMetadata();
     foreach ($responses as $response) {
       $response_document = $response->getResponseData();
-      if (!empty($response_document['errors'])) {
-        // If any of the response documents had top-level errors, we should
-        // later expect the document to have 'meta' errors too.
-        foreach ($response_document['errors'] as $error) {
+      $merge_errors = function ($errors) use (&$merged_document, $is_multiple) {
+        foreach ($errors as $error) {
           if ($is_multiple) {
-            unset($error['source']['pointer']);
             $merged_document['meta']['errors'][] = $error;
           }
           else {
             $merged_document['errors'][] = $error;
           }
         }
+      };
+      // If any of the response documents had top-level or meta errors, we
+      // should later expect the merged document to have all these errors
+      // under the 'meta' member.
+      if (!empty($response_document['errors'])) {
+        $merge_errors($response_document['errors']);
+      }
+      if (!empty($response_document['meta']['errors'])) {
+        $merge_errors($response_document['meta']['errors']);
       }
       elseif (isset($response_document['data'])) {
         $response_data = $response_document['data'];
@@ -118,6 +127,55 @@ trait ResourceResponseTestTrait {
       }
     }, NULL);
     return (new ResourceResponse($merged_document, $merged_response_code))->addCacheableDependency($merged_cacheability);
+  }
+
+  /**
+   * Gets an array of expected ResourceResponses for the given include paths.
+   *
+   * @param array $include_paths
+   *   The list of relationship include paths for which to get expected data.
+   * @param array $request_options
+   *   Request options to apply.
+   *
+   * @return \Drupal\jsonapi\ResourceResponse
+   *   The expected ResourceResponse.
+   *
+   * @see \GuzzleHttp\ClientInterface::request()
+   */
+  protected function getExpectedIncludedResourceResponse(array $include_paths, array $request_options) {
+    $resource_data = array_reduce($include_paths, function ($data, $path) use ($request_options) {
+      $field_names = explode('.', $path);
+      $entity = $this->entity;
+      foreach ($field_names as $field_name) {
+        $collected_responses = [];
+        $field_access = static::entityFieldAccess($entity, $field_name, 'view', $this->account);
+        if (!$field_access->isAllowed()) {
+          $collected_responses[] = static::getAccessDeniedResponse($entity, $field_access, $field_name, 'The current user is not allowed to view this relationship.');
+          break;
+        }
+        if ($target_entity = $entity->{$field_name}->entity) {
+          $target_access = static::entityAccess($target_entity, 'view', $this->account);
+          if (!$target_access->isAllowed()) {
+            $resource_identifier = static::toResourceIdentifier($target_entity);
+            if (!static::collectionHasResourceIdentifier($resource_identifier, $data['already_checked'])) {
+              $data['already_checked'][] = $resource_identifier;
+              // @todo remove this in https://www.drupal.org/project/jsonapi/issues/2943176
+              $error_id = '/' . $resource_identifier['type'] . '/' . $resource_identifier['id'];
+              $collected_responses[] = static::getAccessDeniedResponse($entity, $target_access, NULL, NULL, '/data', $error_id);
+            }
+            break;
+          }
+        }
+        $psr_responses = $this->getResponses([static::getRelatedLink(static::toResourceIdentifier($entity), $field_name)], $request_options);
+        $collected_responses[] = static::toCollectionResourceResponse(static::toResourceResponses($psr_responses), NULL, TRUE);
+        $entity = $entity->{$field_name}->entity;
+      }
+      if (!empty($collected_responses)) {
+        $data['responses'][$path] = static::toCollectionResourceResponse($collected_responses, NULL, TRUE);
+      }
+      return $data;
+    }, ['responses' => [], 'already_checked' => []]);
+    return static::toCollectionResourceResponse($resource_data['responses'], NULL, TRUE);
   }
 
   /**
@@ -336,15 +394,18 @@ trait ResourceResponseTestTrait {
    *   The list of relationship field names for which to get responses.
    * @param array $request_options
    *   Request options to apply.
+   * @param \Drupal\Core\Entity\EntityInterface|null $entity
+   *   (optional) The entity for which to get expected related responses.
    *
    * @return array
    *   The related responses, keyed by relationship field names.
    *
    * @see \GuzzleHttp\ClientInterface::request()
    */
-  protected function getRelatedResponses(array $relationship_field_names, array $request_options) {
-    $links = array_map(function ($relationship_field_name) {
-      return static::getRelatedLink(static::toResourceIdentifier($this->entity), $relationship_field_name);
+  protected function getRelatedResponses(array $relationship_field_names, array $request_options, EntityInterface $entity = NULL) {
+    $entity = $entity ?: $this->entity;
+    $links = array_map(function ($relationship_field_name) use ($entity) {
+      return static::getRelatedLink(static::toResourceIdentifier($entity), $relationship_field_name);
     }, array_combine($relationship_field_names, $relationship_field_names));
     return $this->getResponses($links, $request_options);
   }
@@ -387,6 +448,52 @@ trait ResourceResponseTestTrait {
       $related_responses[$key] = $this->request('GET', Url::fromUri($links[$key]), $request_options);
       return $related_responses;
     }, []);
+  }
+
+  /**
+   * Gets a generic forbidden response.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity for which to generate the forbidden response.
+   * @param \Drupal\Core\Access\AccessResultInterface $access
+   *   The denied AccessResult. This can carry a reason and cacheability data.
+   * @param string|null $relationship_field_name
+   *   (optional) The field name to which the forbidden result applies. Useful
+   *   for testing related/relationship routes and includes.
+   * @param string|null $detail
+   *   (optional) Details for the JSON API error object.
+   * @param string|null $pointer
+   *   (optional) Document pointer for the JSON API error object.
+   * @param string|null $id
+   *   (optional) ID for the JSON API error object.
+   *
+   * @return \Drupal\jsonapi\ResourceResponse
+   *   The forbidden ResourceResponse.
+   */
+  protected static function getAccessDeniedResponse(EntityInterface $entity, AccessResultInterface $access, $relationship_field_name = NULL, $detail = NULL, $pointer = NULL, $id = NULL) {
+    $detail = ($detail) ? $detail : 'The current user is not allowed to GET the selected resource.';
+    if ($access instanceof AccessResultReasonInterface && ($reason = $access->getReason())) {
+      $detail .= ' ' . $reason;
+    }
+    $resource_identifier = static::toResourceIdentifier($entity);
+    $error = [
+      'status' => 403,
+      'title' => 'Forbidden',
+      'detail' => $detail,
+      'links' => [
+        'info' => HttpExceptionNormalizer::getInfoUrl(403),
+      ],
+      'code' => 0,
+      // @todo uncomment in https://www.drupal.org/project/jsonapi/issues/2943176
+      /* 'id' => '/' . $resource_identifier['type'] . '/' . $resource_identifier['id'], */
+    ];
+    if (!is_null($id)) {
+      $error['id'] = $id;
+    }
+    if ($relationship_field_name || $pointer) {
+      $error['source']['pointer'] = ($pointer) ? $pointer : $relationship_field_name;
+    }
+    return (new ResourceResponse(['errors' => [$error]], 403))->addCacheableDependency($access);
   }
 
 }

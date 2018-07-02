@@ -1,0 +1,8 @@
+emails:
+  email_event_registration:
+    registration_email_subject: 'testing'
+    registration_email_body: 'emaili body'
+    organizer_email_subject: 'Organizer title'
+    organizer_email_body: 'Organizer body'
+langcode: et
+default_langcode: et

@@ -63,7 +63,7 @@ class LinkManager {
       $resource_type->getEntityTypeId() => $entity_id,
     ];
     $route_key = sprintf('jsonapi.%s.%s', $resource_type->getTypeName(), $key);
-    return $this->urlGenerator->generateFromRoute($route_key, $route_parameters, ['absolute' => TRUE]);
+    return $this->urlGenerator->generateFromRoute($route_key, $route_parameters, ['absolute' => TRUE], TRUE)->getGeneratedUrl();
   }
 
   /**

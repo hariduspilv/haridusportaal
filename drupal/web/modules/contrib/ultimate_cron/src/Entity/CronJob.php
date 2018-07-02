@@ -692,7 +692,8 @@ class CronJob extends ConfigEntityBase implements CronJobInterface {
    *   Data blob for the given action.
    */
   public function sendMessage($action, $data = array()) {
-    if (\Drupal::moduleHandler()->moduleExists('nodejs')) {
+    // @TODO: Nodejs integration has not been ported to 8.x yet.
+    if (FALSE && \Drupal::moduleHandler()->moduleExists('nodejs')) {
       $settings = ultimate_cron_plugin_load('settings', 'general')->getDefaultSettings();
       if (empty($settings['nodejs'])) {
         return;

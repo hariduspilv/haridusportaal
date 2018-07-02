@@ -1,9 +1,7 @@
 <?php
 
-use GraphQL\Error\Error;
-use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
-use Drupal\field\Entity\FieldConfig;
 use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Render\BubbleableMetadata;
 
 /**
  * Implements hook_mail().
@@ -15,12 +13,17 @@ function htm_custom_event_registration_mail($key, &$message, $params) {
 	);
  	switch ($key) {
  		case 'event_registration_email':
+			$token_service = \Drupal::token();
+			$entity = $params['entity'];
+ 			$title = $token_service->replace($params['subject'], ['event_reg_entity' => $entity], ['clear' => TRUE, 'langcode' => $message['langcode']]);
+ 			$body = $token_service->replace($params['body'], ['event_reg_entity' => $entity], ['clear' => TRUE, 'langcode' => $message['langcode']]);
+
 			$message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
 			$message['from'] = \Drupal::config('system.site')->get('mail');
-			$message['subject'] = Unicode::mimeHeaderEncode($params['title']);
-			$message['body'][] = \Drupal::service('renderer')->render($params['body']);
+			$message['subject'] = Unicode::mimeHeaderEncode($title);
+			$message['body'][] = nl2br($body);
 
-	 		break;
+			break;
  	}
 }
 
@@ -43,25 +46,23 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 	if ($entity->getEntityTypeId() === 'event_reg_entity') {
 
 		$langcode = $entity->language->value;
-		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
 
 		$mailManager = \Drupal::service('plugin.manager.mail');
 		$module = 'htm_custom_event_registration';
 		$key = 'event_registration_email';
 		$to = $entity->participant_email->value;
 
-		$message = [
-			'registration_ent' => $entity,
-			'ref_ent' => $translated_reference_event,
-			'langcode' => $langcode,
-		];
 
-		$params['body'] = _custom_email_content($message);
+		// load email config
+		$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+
+		$params['subject'] = $config->get('emails.email_event_registration.registration_email_subject');
+		$params['body'] = $config->get('emails.email_event_registration.registration_email_body');
+		$params['entity'] = $entity;
+		// I think we do not need this one!
 		$params['title'] = 'Üritusele registreerumise kinnitus';
 
-		// add event owner to bcc aswell
-		//$params['bcc'] = $translated_reference_event->field_registration_date->entity->field_registration_notification_->value;
-		$send = false;
+		$send = true;
 
 		$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
 
@@ -74,41 +75,29 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 			\Drupal::logger('htm_custom_event_registration')->notice($message);
 		}
 
+		// Now send to organizer aswell
+		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
+		$to = $translated_reference_event->field_contact_email->value;
+
+		if(!empty($to)){
+			$params['subject'] = $config->get('emails.email_event_registration.organizer_email_subject');
+			$params['body'] = $config->get('emails.email_event_registration.organizer_email_body');
+			$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+
+			if ($result['result'] !== true) {
+				$message = t('There was a problem sending email notification to @email', array('@email' => $to));
+				\Drupal::logger('htm_custom_event_registration')->error($message);
+				//throw new Error($message);
+			}else{
+				$message = t('An email notification has been sent to @email', array('@email' => $to));
+				\Drupal::logger('htm_custom_event_registration')->notice($message);
+			}
+		}
+
+
+
 		return FALSE;
 	}
-}
-
-function _custom_email_content($message){
-	//$message['langcode'] = 'et';
-
-	/*TODO MAKE FIELDS CONFIGURABLE AND MAKE HTML TEMPLATE*/
-	/* @var \Drupal\htm_custom_event_registration\Entity\EventRegEntity $reg_ent */
-	$reg_ent = $message['registration_ent'];
-
-	$registration_info = [];
-
-	foreach($reg_ent as $key => $value){
-		if(preg_match('#^participant#', $key) && !empty($value->value)){
-			$label = $reg_ent->getTranslatedFieldLabel($key, $message['langcode']);
-			$submitted_value = $value->value;
-			if(!empty($submitted_value)) $registration_info[] = ['label' => $label , 'value' => $submitted_value];
-		}
-	}
-
-	$event_title = $message['ref_ent']->getTitle();
-
-	$body['title1'] = $event_title;
-	$body['registration_info'] = $registration_info;
-	$body['additional'] = $message['ref_ent']->field_registration_->value;
-	$body['langcode'] = $message['langcode'];
-	dump(_get_event_dates($message['ref_ent']));
-	//die();
-	$body['event_dates'] = _get_event_dates($message['ref_ent']);
-
-	return[
-		'#theme' => 'registration_email_template',
-		'#body' => $body,
-	];
 }
 
 /*
@@ -119,7 +108,6 @@ function htm_custom_event_registration_cron() {
 		->condition('type' , 'event')
 		->condition('status', '1');
 	$nids = $query->execute();
-	//dump($nids);''
 	$nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
 	$now = strtotime('now');
 
@@ -141,6 +129,7 @@ function htm_custom_event_registration_cron() {
 	$node_storage = \Drupal::entityTypeManager()->getStorage('event_reg_entity');
 	$registrations = $node_storage->loadMultiple($rnids);
 
+	/*TODO delete registrations that have no reference to event anymore*/
 	/* Remove overdue registrations */
 	foreach($registrations as $registration){
 		$registration->delete();
@@ -153,6 +142,7 @@ function htm_custom_event_registration_cron() {
  * @return array
  */
 function _get_event_dates($event){
+	#dump($event);
 	$last_event_date = 0;
 	$first_event_date = strtotime('now');
 	foreach($event->field_event_date as $event_date){
@@ -166,4 +156,23 @@ function _get_event_dates($event){
 	}
 
 	return ['start' => $first_event_date, 'last' => $last_event_date];
+}
+
+function _get_config($langcode, $config_name){
+	$language_manager = \Drupal::service('language_manager');
+
+	$language = $language_manager->getLanguage($langcode);
+
+	// Remember original language before this operation.
+	$original_language = $language_manager->getConfigOverrideLanguage();
+	// Set the translation target language on the configuration factory.
+	$language_manager->setConfigOverrideLanguage($language);
+
+	// load config
+	$config  = \Drupal::config($config_name);
+
+	// Set the configuration language back.
+	$language_manager->setConfigOverrideLanguage($original_language);
+
+	return $config;
 }

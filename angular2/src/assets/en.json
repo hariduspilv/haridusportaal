@@ -91,5 +91,10 @@
   "organization.name": "Organization name",
   "organization.contact": "Organization contact",
   "link.outer": "Outer link",
-  "breadcrumbs": "Breadcrumbs"
+  "breadcrumbs": "Breadcrumbs",
+
+  "from": "From",
+  "event.passed": "Event has passed",
+  "register.ended": "Registration period over",
+  "map.closer": "Closer"
 }

@@ -128,4 +128,17 @@ class BaseFieldOverrideTest extends ResourceTestBase {
     return "The 'administer node fields' permission is required.";
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function createAnotherEntity($key) {
+    $entity = BaseFieldOverride::create([
+      'field_name' => 'status',
+      'entity_type' => 'node',
+      'bundle' => 'camelids',
+    ]);
+    $entity->save();
+    return $entity;
+  }
+
 }

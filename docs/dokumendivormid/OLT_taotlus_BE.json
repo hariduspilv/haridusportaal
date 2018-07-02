@@ -1,0 +1,51 @@
+"header" : {
+	"form_name" : "OLT_TAOTLUS",
+	"acceptable_activity" : ["SAVE", "SUBMIT"],
+	"current_step" : "step_1",
+	"identifier" :  taotlus_id ,
+	"created"  : "2018-05-24T13:22:11.111Z" ,
+	"modified" : "2018-05-24T13:26:22.222Z" ,
+	"agents" : [
+		{ "person_id" : isikukood, "role" : "TAOTLEJA" }
+	],
+	"activity" : "SUMBIT" -- HP annab selle EHIS-le tagasi
+},
+"body" : {
+	"steps": {
+		"step_1" : {
+			"data_elements" : {
+				"first_name" : {
+					"value" : miskiväärtusEHIS
+				},
+				"last_name" : {
+					"value" : miskiväärtusEHIS
+				},
+				"email_address" : {
+					"value" : miskiväärtusEHIS
+				},
+				"workplace" : {
+					"value" : [
+						[ { "educational_institution_id" : miskiväärtus } ,
+							{ "educational_institution_name" : miskiväärtus } ,
+							{ "position" :  miskiväärtus      } ,
+           	],
+						[
+							{ "educational_institution_id" : miskiväärtus } ,
+							{ "educational_institution_name" : miskiväärtus } ,
+							{ "position" :  miskiväärtus      } ,
+						]
+					]
+				}
+			}
+		}
+	},
+	"messages" : ["temp_message_cc"],
+},
+"messages" : {
+	"temp_message_cc" : {
+		"message_type" : "ERROR",
+		"message_text" : {
+			"et" : "misiganes veatekst",
+		}
+	}
+}
