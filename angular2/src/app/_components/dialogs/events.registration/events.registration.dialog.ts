@@ -1,11 +1,12 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 
 @Component({
   selector: 'events-registration-dialog',
   templateUrl: 'events.registration.dialog.html',
+  styleUrls: ['events.registration.dialog.scss']
 })
 export class EventsRegistratonDialog {
   
@@ -17,6 +18,7 @@ export class EventsRegistratonDialog {
   email: string;
   telephone: string;
   marked: string;
+  step: number = 0;
   
   constructor(
     private fb: FormBuilder,
@@ -37,17 +39,13 @@ export class EventsRegistratonDialog {
     });
     this.form.valueChanges.subscribe(
       (data) => {
-        console.log(this.form.controls)
+        // console.log(this.form.controls)
       }
     )
   }  
   
   save() {
-    if(this.form.valid) {
-      this.dialogRef.close(this.form.value);
-    } else {
-      console.log(this.form)
-    }
+    this.step = 1
   }
   
   close() {
@@ -58,22 +56,7 @@ export class EventsRegistratonDialog {
     this.form.reset();
   }
 
-  isInvalidFirstname(): boolean {
-    if(this.form.controls.firstName.invalid && (this.form.controls.firstName.dirty || this.form.controls.firstName.touched)) {
-      return true
-    }
-    return false
-  }
-  isInvalidLastname(): boolean {
-    if(this.form.controls.lastName.invalid && (this.form.controls.lastName.dirty || this.form.controls.lastName.touched)) {
-      return true
-    }
-    return false
-  }
-  isInvalidEmail(): boolean {
-    if(this.form.controls.email.invalid && (this.form.controls.email.dirty || this.form.controls.email.touched)) {
-      return true
-    }
-    return false
+  isInvalidField(field): boolean {
+    return this.form.controls[field].invalid && this.form.controls[field].value && this.form.controls[field].dirty
   }
 }

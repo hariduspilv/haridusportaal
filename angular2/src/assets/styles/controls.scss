@@ -1,3 +1,4 @@
+@import "../assets/styles/typography.scss";
 .round-input {
   &__wrapper {
     margin-top: -1.125rem;
@@ -9,6 +10,16 @@
       ::placeholder {color: transparent;}
       .round-input__title {color: $blue; display: inline-block;}
       .round-input__field-wrapper {border-color: $blue; margin-top: 0;}
+    }
+    &.error {
+      ::placeholder {color: transparent;}
+      .round-input__title {color: $red; display: inline-block;}
+      .round-input__field-wrapper {border-color: $red; margin-top: 0;}
+    }
+    &.complete {
+      ::placeholder {color: transparent;}
+      .round-input__title {color: $success; display: inline-block;}
+      .round-input__field-wrapper {border-color: $success; margin-top: 0;}
     }
   }
   &__field-wrapper {
@@ -55,6 +66,25 @@
     font-size: $quarter;
     left: $medium;
     &.exists {display: inline-block;}
+  }
+  &__error {color: $red;margin-bottom: .3875rem;
+    &--text {position: absolute;padding-left: $small;font-size: 0.875rem; line-height: $medium;}
+  }
+  &__area {width: 100%;padding-top: .125rem;
+    &__elem {
+      min-height: 5.125rem;
+      width: stretch;
+      line-height: 1.71;
+      font-size: .875rem;
+      resize: none;
+      border-radius: $half-gutter;;
+      border: solid 0.0625rem $gray;
+      padding: $gutter $small;
+      &:focus {border-color: $blue;}
+    }
+    &:focus-within {
+      ::placeholder {color: transparent;}
+    }
   }
 }
 .ng-select {

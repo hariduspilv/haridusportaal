@@ -21,7 +21,7 @@ import { AppPipes } from './_pipes';
 import { AppRoutingModule, routedComponents } from './app.routing.module';
 import { AppDirectives } from './_directives';
 import { AgmCoreModule } from '@agm/core';
-
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 /* Translate module */
@@ -98,7 +98,8 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
       apiKey: ' AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E'
     }),
     HttpModule,
-    EmbedVideo.forRoot()
+    EmbedVideo.forRoot(),
+    TextareaAutosizeModule
   ],
 
   providers: [
