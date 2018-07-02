@@ -1,0 +1,17 @@
+uuid: 11b34295-7999-4ffc-97a0-5ae2bf1a7e7f
+langcode: et
+status: true
+dependencies:
+  module:
+    - custom_subscription_administration
+title: 'Default cron handler'
+id: custom_subscription_administration_cron
+weight: 0
+module: custom_subscription_administration
+callback: custom_subscription_administration_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
