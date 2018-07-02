@@ -137,13 +137,17 @@ class EntityResource {
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity object.
+   * @param string[] $field_names
+   *   (optional) An array of field names. If specified, filters the violations
+   *   list to include only this set of fields. Defaults to NULL,
+   *   which means that all violations will be reported.
    *
    * @throws \Drupal\jsonapi\Exception\EntityAccessDeniedHttpException
    *   If validation errors are found.
    *
    * @see \Drupal\rest\Plugin\rest\resource\EntityResourceValidationTrait::validate()
    */
-  protected function validate(EntityInterface $entity) {
+  protected function validate(EntityInterface $entity, array $field_names = NULL) {
     if (!$entity instanceof FieldableEntityInterface) {
       return;
     }
@@ -153,6 +157,13 @@ class EntityResource {
     // Remove violations of inaccessible fields as they cannot stem from our
     // changes.
     $violations->filterByFieldAccess();
+
+    // Filter violations based on the given fields.
+    if ($field_names !== NULL) {
+      $violations->filterByFields(
+        array_diff(array_keys($entity->getFieldDefinitions()), $field_names)
+      );
+    }
 
     if (count($violations) > 0) {
       // Instead of returning a generic 400 response we use the more specific
@@ -283,12 +294,13 @@ class EntityResource {
     }
     $data += ['attributes' => [], 'relationships' => []];
     $field_names = array_merge(array_keys($data['attributes']), array_keys($data['relationships']));
+
     array_reduce($field_names, function (EntityInterface $destination, $field_name) use ($parsed_entity) {
       $this->updateEntityField($parsed_entity, $destination, $field_name);
       return $destination;
     }, $entity);
 
-    $this->validate($entity);
+    $this->validate($entity, $field_names);
     $entity->save();
     return $this->buildWrappedResponse($entity);
   }
@@ -543,13 +555,59 @@ class EntityResource {
       $field_name = $field_list->getName();
       throw new EntityAccessDeniedHttpException($entity, $field_access, '/data/relationships/' . $field_name, sprintf('The current user is not allowed to PATCH the selected field (%s).', $field_name));
     }
+    $original_field_list = clone $field_list;
     // Time to save the relationship.
     foreach ($parsed_field_list as $field_item) {
       $field_list->appendItem($field_item->getValue());
     }
     $this->validate($entity);
     $entity->save();
-    return $this->getRelationship($entity, $related_field, $request, 201);
+    $status = static::relationshipArityIsAffected($original_field_list, $field_list)
+      ? 200
+      : 204;
+    return $this->getRelationship($entity, $related_field, $request, $status);
+  }
+
+  /**
+   * Checks whether relationship arity is affected.
+   *
+   * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $old
+   *   The old (stored) entity references.
+   * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $new
+   *   The new (updated) entity references.
+   *
+   * @return bool
+   *   Whether entities already being referenced now have additional references.
+   *
+   * @see \Drupal\jsonapi\Normalizer\Value\RelationshipNormalizerValue::ensureUniqueResourceIdentifierObjects()
+   */
+  protected static function relationshipArityIsAffected(EntityReferenceFieldItemListInterface $old, EntityReferenceFieldItemListInterface $new) {
+    $old_targets = static::toTargets($old);
+    $new_targets = static::toTargets($new);
+    $relationship_count_changed = count($old_targets) !== count($new_targets);
+    $existing_relationships_updated = !empty(array_unique(array_intersect($old_targets, $new_targets)));
+    return $relationship_count_changed && $existing_relationships_updated;
+  }
+
+  /**
+   * Maps a list of entity reference field objects to a list of targets.
+   *
+   * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $relationship_list
+   *   A list of entity reference field objects.
+   *
+   * @return string[]|int[]
+   *   A list of targets.
+   */
+  protected static function toTargets(EntityReferenceFieldItemListInterface $relationship_list) {
+    $main_property_name = $relationship_list->getFieldDefinition()
+      ->getFieldStorageDefinition()
+      ->getMainPropertyName();
+
+    $values = [];
+    foreach ($relationship_list->getIterator() as $relationship) {
+      $values[] = $relationship->getValue()[$main_property_name];
+    }
+    return $values;
   }
 
   /**
@@ -588,7 +646,7 @@ class EntityResource {
     $this->{$method}($entity, $parsed_field_list);
     $this->validate($entity);
     $entity->save();
-    return $this->getRelationship($entity, $related_field, $request);
+    return $this->getRelationship($entity, $related_field, $request, 204);
   }
 
   /**
@@ -681,7 +739,7 @@ class EntityResource {
     // Save the entity and return the response object.
     $this->validate($entity);
     $entity->save();
-    return $this->getRelationship($entity, $related_field, $request, 201);
+    return $this->getRelationship($entity, $related_field, $request, 204);
   }
 
   /**

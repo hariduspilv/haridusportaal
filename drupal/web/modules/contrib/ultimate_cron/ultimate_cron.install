@@ -185,10 +185,11 @@ function ultimate_cron_requirements($phase) {
           '@count job is behind schedule',
           '@count jobs are behind schedule'
         );
-        $requirements['cron_jobs']['description'] = t(
-          'Some jobs are behind their schedule. Please check if @link is running properly.', array(
-          '@link' => \Drupal::l(t('Cron'), Url::fromRoute('system.cron', ['key' => \Drupal::state()->get('system.cron_key')])),
-        ));
+        $requirements['cron_jobs']['description'] = [
+          '#markup' => t('Some jobs are behind their schedule. Please check if <a href=":system_cron_url">Cron</a> is running properly.', [
+            ':system_cron_url' => Url::fromRoute('system.cron', ['key' => \Drupal::state()->get('system.cron_key')])->toString()
+          ])
+        ];
       }
       else {
         $requirements['cron_jobs']['value'] = t('Cron is running properly.');

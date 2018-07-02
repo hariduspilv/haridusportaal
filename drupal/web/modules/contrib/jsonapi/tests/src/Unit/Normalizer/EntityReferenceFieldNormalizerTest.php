@@ -34,9 +34,23 @@ class EntityReferenceFieldNormalizerTest extends UnitTestCase {
   protected $normalizer;
 
   /**
+   * The base resource type for testing.
+   *
+   * @var \Drupal\jsonapi\ResourceType\ResourceType
+   */
+  protected $resourceType;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
+    $target_resource_type = new ResourceType('lorem', 'dummy_bundle', NULL);
+    $this->resourceType = new ResourceType('fake_entity_type', 'dummy_bundle', NULL);
+    $this->resourceType->setRelatableResourceTypes([
+      'field_dummy' => [$target_resource_type],
+      'field_dummy_single' => [$target_resource_type],
+    ]);
+
     $link_manager = $this->prophesize(LinkManager::class);
     $field_manager = $this->prophesize(EntityFieldManagerInterface::class);
     $field_definition = $this->prophesize(FieldConfig::class);
@@ -71,8 +85,7 @@ class EntityReferenceFieldNormalizerTest extends UnitTestCase {
       Argument::type('array')
     )->willReturnArgument(2);
     $resource_type_repository = $this->prophesize(ResourceTypeRepository::class);
-    $resource_type_repository->get('fake_entity_type', 'dummy_bundle')
-      ->willReturn(new ResourceType('lorem', 'dummy_bundle', NULL));
+    $resource_type_repository->get('fake_entity_type', 'dummy_bundle')->willReturn($this->resourceType);
 
     $entity = $this->prophesize(EntityInterface::class);
     $entity->uuid()->willReturn('4e6cb61d-4f04-437f-99fe-42c002393658');
@@ -97,7 +110,7 @@ class EntityReferenceFieldNormalizerTest extends UnitTestCase {
   public function testDenormalize($input, $field_name, $expected) {
     $entity = $this->prophesize(FieldableEntityInterface::class);
     $context = [
-      'resource_type' => new ResourceType('fake_entity_type', 'dummy_bundle', NULL),
+      'resource_type' => $this->resourceType,
       'related' => $field_name,
       'target_entity' => $entity->reveal(),
     ];
@@ -137,7 +150,7 @@ class EntityReferenceFieldNormalizerTest extends UnitTestCase {
    */
   public function testDenormalizeInvalidResource($data, $field_name) {
     $context = [
-      'resource_type' => new ResourceType('fake_entity_type', 'dummy_bundle', NULL),
+      'resource_type' => $this->resourceType,
       'related' => $field_name,
       'target_entity' => $this->prophesize(FieldableEntityInterface::class)->reveal(),
     ];

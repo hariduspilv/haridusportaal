@@ -12,7 +12,7 @@
         ml.ckeditor();
       }
 
-      $context.find('.maxlength').once('maxlength').each(function () {
+      $context.find('.maxlength').not('.description').once('maxlength').each(function () {
         var options = {};
         var $this = $(this);
         options['counterText'] = $this.attr('maxlength_js_label');
@@ -40,7 +40,7 @@
    *   Character Count Plugin - jQuery plugin
    *   Dynamic character count for text areas and input fields
    *   written by Alen Grakalic
-   *   http://cssglobe.com/post/7161/jquery-plugin-simplest-twitterlike-dynamic-character-count-for-textareas
+   *   https://gist.github.com/Fabax/4724890
    *
    *  @param obj
    *    a jQuery object for input elements
@@ -79,7 +79,7 @@
         if (wysiwyg != undefined) {
           if (typeof ml[getter] == 'function' && typeof ml[setter] == 'function') {
               if (options.truncateHtml) {
-                var new_html = ml.truncate_html(ml[getter](wysiwyg), limit)
+                var new_html = ml.truncate_html(ml[getter](wysiwyg), limit);
                 ml[setter](wysiwyg, new_html);
                 count = ml.strip_tags(new_html).length;
               } else {
@@ -120,6 +120,8 @@
   };
 
   ml.strip_tags = function(input, allowed) {
+    // Remove all newlines, spaces and tabs from the beginning and end of html.
+    input = $.trim(input);
     // making the lineendings with two chars
     input = ml.twochar_lineending(input);
     // We do want that the space characters to count as 1, not 6...
@@ -263,9 +265,15 @@
     }
 
     var counterElement = $('<' + options.counterElement + ' id="' + $(this).attr('id') + '-' + options.css + '" class="' + options.css + '"></' + options.counterElement + '>');
-    if ($(this).next('div.grippie').length) {
+    // Use there is a description element use it to place the counterElement.
+    var describedBy = $(this).attr('aria-describedby');
+    if (describedBy && $('#' + describedBy).length) {
+      $('#' + describedBy).after(counterElement);
+    }
+    else if ($(this).next('div.grippie').length) {
       $(this).next('div.grippie').after(counterElement);
-    } else {
+    }
+    else {
       $(this).after(counterElement);
     }
 
@@ -279,15 +287,17 @@
 
   };
 
+  ml.ckeditorOnce = false;
+
   /**
    * Integrate with ckEditor
    * Detect changes on editors and invoke ml.calculate()
    */
   ml.ckeditor = function() {
-    // We only run it once
-    var onlyOnce = false;
-    if (!onlyOnce) {
-      onlyOnce = true;
+    // Since Drupal.attachBehaviors() can be called more than once, and
+    // ml.ckeditor() is being called in maxlength behavior, only run this once.
+    if (!ml.ckeditorOnce) {
+      ml.ckeditorOnce = true;
       CKEDITOR.on('instanceReady', function(e) {
         var editor = $('#' + e.editor.name + '.maxlength');
         if (editor.length == 1) {
@@ -335,7 +345,15 @@
 
   // Sets the data into a ckeditor.
   ml.ckeditorSetData = function(e, data) {
-    e.editor.setData(data);
+    // Calling setData() will place the cursor at the beginning, so we need to
+    // implement a callback to place it at the end, which is where the text is
+    // being truncated.
+    e.editor.setData(data, {callback: function() {
+      e.editor.focus();
+      var range = e.editor.createRange();
+      range.moveToElementEditablePosition(e.editor.editable(), true);
+      e.editor.getSelection().selectRanges([range]);
+    }});
   }
 
 })(jQuery);

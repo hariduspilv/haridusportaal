@@ -108,6 +108,17 @@ class FileTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
+  protected function createAnotherEntity($key) {
+    /* @var \Drupal\file\FileInterface $duplicate */
+    $duplicate = parent::createAnotherEntity($key);
+    $duplicate->setFileUri("public://$key.txt");
+    $duplicate->save();
+    return $duplicate;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getExpectedDocument() {
     $self_url = Url::fromUri('base:/jsonapi/file/file/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
     $normalization = [

@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Maxlength custom widget test module file.
+ */
+
+/**
+ * Implements hook_maxlength_widget_settings().
+ */
+function maxlength_custom_widget_test_maxlength_widget_settings() {
+  return [
+    'text_textarea_custom_widget' => [
+      'maxlength_setting' => TRUE,
+      'summary_maxlength_setting' => TRUE,
+      'truncate_setting' => TRUE,
+    ],
+  ];
+}

@@ -56,8 +56,9 @@ class CronJobForm extends EntityForm {
       '#title' => $this->t('Module'),
       '#markup' => $job->getModule(),
     );
+
     $callback = $job->getCallback();
-    if(is_array($callback)){
+    if (is_array($callback)) {
       $callback = get_class($callback[0]) . '::' . $callback[1];
     }
 

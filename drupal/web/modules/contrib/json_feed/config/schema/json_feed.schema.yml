@@ -1,0 +1,68 @@
+views.display.json_feed:
+ type: views_display
+ label: 'JSON Feed display options'
+ mapping:
+  sitename_title:
+    type: boolean
+    label: 'Use the site name for the title'
+  path:
+    type: string
+    label: 'Feed display path'
+
+views.style.json_feed_serializer:
+  type: views_style
+  label: 'JSON Feed style options'
+  mapping:
+    description:
+      type: string
+      label: 'Feed description'
+
+views.row.json_feed_fields:
+  type: views_row
+  label: 'JSON Feed field options'
+  mapping:
+    id_field:
+      type: string
+      label: 'ID field'
+    title_field:
+      type: string
+      label: 'Title field'
+    url_field:
+      type: string
+      label: 'URL field'
+    external_url_field:
+      type: string
+      label: 'external_url field'
+    content_html_field:
+      type: string
+      label: 'content_html field'
+    content_text_field:
+      type: string
+      label: 'content_text field'
+    summary_field:
+      type: string
+      label: 'summary field'
+    image_field:
+      type: string
+      label: 'image field'
+    banner_image_field:
+      type: string
+      label: 'banner_image field'
+    date_published_field:
+      type: string
+      label: 'date_published field'
+    date_modified_field:
+      type: string
+      label: 'date_modified field'
+    tags_field:
+      type: string
+      label: 'tags field'
+    author_name_field:
+      type: string
+      label: 'author_name field'
+    author_url_field:
+      type: string
+      label: 'author_url field'
+    author_avatar_field:
+      type: string
+      label: 'author_avatar field'

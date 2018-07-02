@@ -185,7 +185,7 @@ class FilterNormalizer implements DenormalizerInterface {
     }
 
     if (isset($filter_item[static::CONDITION_KEY][EntityConditionNormalizer::PATH_KEY])) {
-      $filter_item[static::CONDITION_KEY][EntityConditionNormalizer::PATH_KEY] = $this->fieldResolver->resolveInternal(
+      $filter_item[static::CONDITION_KEY][EntityConditionNormalizer::PATH_KEY] = $this->fieldResolver->resolveInternalEntityQueryPath(
         $context['entity_type_id'],
         $context['bundle'],
         $filter_item[static::CONDITION_KEY][EntityConditionNormalizer::PATH_KEY]
