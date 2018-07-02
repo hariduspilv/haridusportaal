@@ -77,7 +77,7 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 
 		// Now send to organizer aswell
 		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
-		$to = $translated_reference_event->field_registration_date->entity->field_registration_notification_->value;
+		$to = $translated_reference_event->field_contact_email->value;
 
 		if(!empty($to)){
 			$params['subject'] = $config->get('emails.email_event_registration.organizer_email_subject');
@@ -129,6 +129,7 @@ function htm_custom_event_registration_cron() {
 	$node_storage = \Drupal::entityTypeManager()->getStorage('event_reg_entity');
 	$registrations = $node_storage->loadMultiple($rnids);
 
+	/*TODO delete registrations that have no reference to event anymore*/
 	/* Remove overdue registrations */
 	foreach($registrations as $registration){
 		$registration->delete();
