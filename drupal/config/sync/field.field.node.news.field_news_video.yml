@@ -1,17 +1,17 @@
-uuid: 9542535e-a3cb-4384-abdb-3407d273ad46
+uuid: 725f5b78-942c-4923-a0f7-0a7d8957f1d6
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_video
+    - field.storage.node.field_news_video
     - node.type.news
   module:
     - htm_custom_video_field
-id: node.news.field_video
-field_name: field_video
+id: node.news.field_news_video
+field_name: field_news_video
 entity_type: node
 bundle: news
-label: Video
+label: 'Uudise video'
 description: ''
 required: false
 translatable: true
