@@ -18,6 +18,7 @@ dependencies:
     - maxlength
     - metatag
     - paragraphs
+    - path
     - scheduler
     - text
 _core:
@@ -42,7 +43,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: accordion
+      default_paragraph_type: _none
     third_party_settings: {  }
     region: content
   field_body:
@@ -81,7 +82,7 @@ content:
       show_crop_area: false
     third_party_settings: {  }
   field_metatags:
-    weight: 26
+    weight: 13
     settings: {  }
     third_party_settings: {  }
     type: metatag_firehose
@@ -99,7 +100,7 @@ content:
     third_party_settings: {  }
     region: content
   field_video:
-    weight: 27
+    weight: 14
     settings:
       size: 60
       placeholder: ''
@@ -112,6 +113,12 @@ content:
     region: content
     settings:
       include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 15
+    region: content
+    settings: {  }
     third_party_settings: {  }
   publish_on:
     type: datetime_timestamp_no_default
@@ -158,6 +165,5 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
-  path: true
   promote: true
   sticky: true
