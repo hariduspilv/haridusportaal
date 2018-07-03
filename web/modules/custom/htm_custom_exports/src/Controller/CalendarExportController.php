@@ -32,14 +32,18 @@ class CalendarExportController extends ControllerBase {
 
   	if($event_node_id->bundle() === 'event'){
 
-  		/*TODO make calendar prodid configurable*/
-			$vCalendar = new Calendar('www.htm.ee');
+			$config  = \Drupal::config('htm_custom_admin_form.customadmin');
+			$language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+			$url = $config->get('general.fe_url');
+
+			$vCalendar = new Calendar($url);
 			$event_title  = $event_node_id->getTitle();
 			$event_description = $event_node_id->field_description_summary->value;
 			$event_location = ($location = $event_node_id->field_event_location->getValue()) ? $location[0] : NULL;
 
 			$alias = \Drupal::service('path.alias_manager')->getAliasByPath('/node/'.$event_node_id->id());
-			//dump('http://htm.twn.ee'.$alias);
+
 			$vCalendar->setName($event_title);
   		foreach($event_node_id->referencedEntities() as $i => $refEnt){
   			if($refEnt instanceof Paragraph && $refEnt->bundle() === 'event_date'){
@@ -57,8 +61,7 @@ class CalendarExportController extends ControllerBase {
 					$vEvent->setDtStart($d1)
 							->setDtEnd($d2)
 							->setSummary($event_title)
-							/*TODO make all htm paths configurable*/
-							->setUrl('http://htm.twn.ee' . $alias)
+							->setUrl($url .'/' . $language . $alias)
 							->setDescription($event_description);
 					if($event_location) $vEvent->setLocation($event_location['name'], $event_location['name'], $event_location['lat'] . ',' . $event_location['lon']);
 
