@@ -93,5 +93,15 @@
   "from": "Alates",
   "event.passed": "Sündmus on möödunud",
   "register.ended": "Registreerimine lõppenud",
-  "map.closer": "Vaata kaarti lähemalt"
+  "map.closer": "Vaata kaarti lähemalt",
+  "form.registration": "Registreerimisvorm",
+  "required.fields": "Märgitud väljad on kohustuslikud",
+  "required.field": "Kohustuslik väli",
+  "time.at": "Kell",
+  "cancel": "Tühista",
+  "enter.valid.email": "Sisesta korrektne email",
+  "send": "Saada",
+  "modal.close": "Sulge aken",
+  "registration.thanks": "Täname sündmusele registreerimise eest!",
+  "registration.add.to.calendar": "Lisa sündmus enda kalendrisse"
 }

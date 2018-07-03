@@ -17,8 +17,9 @@ h1{font-size:2rem; line-height:120%;}
      Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
 }
-
-input:focus {outline: none;}
+.capitalize {text-transform: capitalize;}
+.mat-dialog-container {padding: 0 !important;border-radius:$half-gutter !important;}
+input:focus, textarea:focus {outline: none;}
 a {text-decoration: underline; &:hover {text-decoration: none;}}
 html{
   font-size: 100%;
