@@ -128,17 +128,16 @@ function htm_custom_event_registration_cron() {
 		}
 	}
 
-	$query = \Drupal::entityQuery('event_reg_entity')
-			->condition('event_reference', $expired_events, 'IN');
-	$rnids = $query->execute();
+	$rnids = \Drupal::entityQuery('event_reg_entity')->execute();
+
 	$node_storage = \Drupal::entityTypeManager()->getStorage('event_reg_entity');
 	$registrations = $node_storage->loadMultiple($rnids);
 
-	/*TODO delete registrations that have no reference to event anymore*/
-	/* Remove overdue registrations */
 	foreach($registrations as $registration){
-		$registration->delete();
+		$ref = $registration->get('event_reference')->entity;
+		if(!$ref || in_array($ref->id(), $expired_events)) $registration->delete();
 	}
+
 
 }
 
