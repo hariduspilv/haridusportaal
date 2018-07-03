@@ -61,6 +61,7 @@
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "ngx-embed-video": "^0.3.0",
+    "ngx-textarea-autosize": "^2.0.0",
     "node-sass": "^4.9.0",
     "protractor": "~5.1.2",
     "raw-loader": "^0.5.1",
