@@ -37,6 +37,10 @@ export class EventsSingleComponent {
 
   iCalUrl: string;
   participantsUrl: string;
+  participantsListActiveState: boolean = false;
+  createdVisible: boolean = false;
+  commentVisible: boolean = false;
+  routerSubscription: any;
   
   content: any;
   unix: any;
@@ -90,12 +94,22 @@ export class EventsSingleComponent {
             }
           }
           that.unix = new Date().getTime();
+          that.participantsListActiveState = that.participants && location.hash === "#osalejad";
         }
       });
-      
     });
   }
-  
+
+  ngOnInit() {
+    this.routerSubscription = this.router.events.subscribe((event) => {
+      this.participantsListActiveState = this.participants && location.hash === "#osalejad"
+    });
+  }
+
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe();
+  }
+
   sortByKey(array, key) {
     return array.sort(function(a, b) {
         var x = a[key]; var y = b[key];
@@ -130,7 +144,6 @@ export class EventsSingleComponent {
     }
 
     this.sortedParticipants = tmpParticipants;
-    console.log(this.sortedParticipants)
 
   }
   
@@ -172,7 +185,15 @@ export class EventsSingleComponent {
 
      
   }
-
+  
+  onViewChange(change) {
+    this.participantsListActiveState = change;
+  }
+  
+  revertParticipantsListState() {
+    location.hash = ''
+  }
+  
   openImage(): void {
     let dialogRef = this.dialog.open(ImagePopupDialog, {
       data: {
@@ -182,6 +203,7 @@ export class EventsSingleComponent {
       }
     });
   }
+  
   share (facebook) {
     return this.shareService.share(facebook)
   }
