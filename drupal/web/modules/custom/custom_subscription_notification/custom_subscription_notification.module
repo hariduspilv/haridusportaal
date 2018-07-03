@@ -33,22 +33,16 @@ function custom_subscription_notification_cron() {
  */
 function custom_subscription_notification_mail($key, &$message, $params) {
 
-  $options = array(
-      'langcode' => $message['langcode'],
-  );
   switch ($key) {
     case 'notification_email':
-      $token_service = \Drupal::token();
-      $link_root = $params['body']['link_root'];
-      $news = $params['body'];
 
-      $title = $token_service->replace($params['subject'], ['clear' => TRUE, 'langcode' => $message['langcode']]);
-      $body = $token_service->replace($params['body'], ['clear' => TRUE, 'langcode' => $message['langcode'], 'custom_link_path' => $link_root]);
+      $title = $params['subject'];
+      $body = $params['body'];
 
       $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
       $message['from'] = \Drupal::config('system.site')->get('mail');
       $message['subject'] = Unicode::mimeHeaderEncode($title);
-			$message['body'][] = nl2br($body);
+      $message['body'][] = $body;
 
       break;
   }

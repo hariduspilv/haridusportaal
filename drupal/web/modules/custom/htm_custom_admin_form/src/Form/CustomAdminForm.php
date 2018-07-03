@@ -195,10 +195,8 @@ class CustomAdminForm extends ConfigFormBase {
 
     ->set('emails.email_subscription.create_email_subject', $form_state->getValue('email_subscription_create_subject'))
     ->set('emails.email_subscription.create_email_body', $form_state->getValue('email_subscription_create_body'))
-
     ->set('emails.email_subscription.update_email_subject', $form_state->getValue('email_subscription_update_subject'))
     ->set('emails.email_subscription.update_email_body', $form_state->getValue('email_subscription_update_body'))
-
     ->set('emails.email_subscription.notify_email_subject', $form_state->getValue('email_subscription_notify_subject'))
     ->set('emails.email_subscription.notify_email_body', $form_state->getValue('email_subscription_notify_body'))
 

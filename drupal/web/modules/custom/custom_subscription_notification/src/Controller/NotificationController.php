@@ -16,48 +16,17 @@ class NotificationController extends ControllerBase {
   *   Return Hello string.
   */
   public function notify() {
-    $content_nodes = [];
-    $notifications = [];
-    $mailitems = [];
-    $content_nodes = $this->get_notification_tags($content_nodes, 'news');
-    $content_nodes = $this->get_notification_tags($content_nodes, 'event');
-    $subscription_nodes = $this->get_subscriptions('subscription_entity');
-    foreach($subscription_nodes as $subscription){
-      $notifications[] = $this->get_notifications($content_nodes, $subscription);
-    }
-    foreach($notifications as $notification){
-      $mailitems[] = $this->notification_email_content($notification);
+    $content_types = ['news', 'event'];
+    $notification_tags = $this->get_notification_tags($content_types);
+    $subscription_entities = $this->get_subscription_entities('subscription_entity', $notification_tags);
+    foreach($subscription_entities as $entity){
+      $mailitems[] = $this->notification_email_content($notification_tags, $entity, $content_types);
     }
     return $mailitems;
   }
 
-  public function get_notifications($nodes, $subscription){
-
-    foreach($nodes as $key => $tags){
-      $notification_node = $this->add_node_to_notification($key, $tags, $subscription);
-      if($notification_node != NULL){
-        $subscription['notification_nodes'][$key] = $notification_node;
-      }
-    }
-    if(isset($subscription['notification_nodes'])){
-      return $subscription;
-    }
-  }
-
-  public function add_node_to_notification($content_type, $tags, $subscription){
-$notifynodes = [];
-    foreach($tags as $tag => $node){
-      if(in_array($tag, $subscription['tag'])){
-        $notifynodes[$content_type] = $node;
-      }
-    }
-    if(isset($notifynodes[$content_type])){
-      return $notifynodes[$content_type];
-    }
-  }
-
-  public function get_notification_tags($content_nodes, $content_type){
-    $nodes = [];
+  public function get_notification_tags($content_types){
+    $tags = [];
     $query = \Drupal::entityQuery('node');
 
     $group = $query
@@ -66,86 +35,76 @@ $notifynodes = [];
     ->condition('changed', time()-86400, '>=');
 
     $nid_result = $query
-    ->condition('type', $content_type)
+    ->condition('type', $content_types, 'IN')
     ->condition($group)
     ->execute();
 
-    foreach($nid_result as $nid){
-      $node = \Drupal::entityManager()->getStorage('node')->load($nid);
-      $tags = $this->get_node_tags($node->toArray()['field_tag']);
-      $content_nodes = $this->node_to_tag($content_nodes, $nid, $tags, $content_type);
-    }
-    return $content_nodes;
-  }
-
-  public function node_to_tag($tagsnodes, $nid, $tags, $type){
-    foreach($tags as $tag){
-      $tagsnodes[$type][$tag][] = $nid;
-    }
-    return $tagsnodes;
-  }
-
-  public function get_node_tags($tags){
-    foreach($tags as $tag){
-      $nodetags[] = $tag['target_id'];
-    }
-    return $nodetags;
-  }
-
-  public function get_subscriptions($entity_type){
-    $entities = [];
-    $query = \Drupal::entityQuery($entity_type);
-    $query->condition('status', 1);
-    $result_ids = $query->execute();
-
-    foreach($result_ids as $nid){
-      $entity_ids[] = $nid;
-      $node = \Drupal::entityTypeManager()->getStorage($entity_type)->load($nid)->toArray();
-      if(count($node['tag']) > 0){
-        foreach($node['tag'] as $tag){
-          $entities[$nid]['tag'][] = $tag['target_id'];
-        }
-        $entities[$nid]['uuid'] = $node['uuid'];
-        $entities[$nid]['subscriber_email'] = $node['subscriber_email'];
-        $entities[$nid]['langcode'] = $node['langcode'];
+    $nodes = \Drupal::entityManager()->getStorage('node')->loadMultiple($nid_result);
+    foreach($nodes as $node){
+      $nodetags = $node->toArray()['field_tag'];
+      foreach($nodetags as $tag){
+        $tags[] = $tag['target_id'];
       }
     }
+
+    return array_unique($tags);
+  }
+
+  public function get_subscription_entities($entity_type, $tags){
+    $query = \Drupal::entityQuery($entity_type);
+    $result_ids = $query
+    ->condition('status', 1)
+    ->condition('tag', $tags, 'IN')
+    ->execute();
+
+    $entities = \Drupal::entityTypeManager()->getStorage($entity_type)->loadMultiple($result_ids);
 
     return $entities;
   }
 
-  public function notification_email_content($message){
-    $body = [];
-    $config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
-    kint($config);
-    die();
+  public function get_content_by_tag($tag, $content_types){
+    $query = \Drupal::entityQuery('node');
 
-    if(isset($message['notification_nodes']['news'])){
-      foreach($message['notification_nodes']['news'] as $nid){
-        $nodeitem = \Drupal\node\Entity\Node::load($nid);
-        $title = $nodeitem->getTitle();
-        $url = $nodeitem->toUrl()->toString();
-        $body['news'][$url] = $title;
-      }
-    }
-    if(isset($message['notification_nodes']['event'])){
-      foreach($message['notification_nodes']['event'] as $nid){
-        $nodeitem = \Drupal\node\Entity\Node::load($nid);
-        $title = $nodeitem->getTitle();
-        $url = $nodeitem->toUrl()->toString();
-        $body['event'][$url] = $title;
-      }
-    }
-    $body['uuid'] = $message['uuid'][0]['value'];
-    $body['email'] = $message['subscriber_email'][0]['value'];
-    $body['langcode'] = $message['langcode'][0]['value'];
-    $body['link_root'] = $config->get('general.fe_url');
+    $group = $query
+    ->orConditionGroup()
+    ->condition('created', time()-86400, '>=')
+    ->condition('changed', time()-86400, '>=');
 
-    return $body;
+    $nid_result = $query
+    ->condition('type', $content_types, 'IN')
+    ->condition('field_tag', $tag['target_id'])
+    ->condition($group)
+    ->execute();
+
+    $querynodes = \Drupal::entityManager()->getStorage('node')->loadMultiple($nid_result);
+    foreach($querynodes as $node){
+      $nodes[$node->toArray()['type'][0]['target_id']][] = $node;
+    }
+
+    return $nodes;
   }
 
-  private function parse_key($key){
-    return mb_strtolower(str_replace(' ', '_', $key));
+  public function notification_email_content($tags, $entity, $content_types){
+    $token_service = \Drupal::token();
+    $langcode = $entity->language->value;
+    $config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+    $link_root = $config->get('general.fe_url');
+    $tags = $entity->toArray()['tag'];
+    foreach($tags as $tag){
+      $contents = $this->get_content_by_tag($tag, $content_types);
+    }
+    $news = $contents['news'];
+    $events = $contents['event'];
+
+    $template['subject'] = $config->get('emails.email_subscription.notify_email_subject');
+		$template['body'] = $config->get('emails.email_subscription.notify_email_body');
+
+    $email['subject'] = $token_service->replace($template['subject'], ['subscription_entity' => $entity, 'news' => $news, 'events' => $events], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+    $email['body'] = $token_service->replace($template['body'], ['subscription_entity' => $entity, 'news' => $news, 'events' => $events], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+    $email['entity'] = $entity;
+
+    return $email;
+
   }
 
 }
