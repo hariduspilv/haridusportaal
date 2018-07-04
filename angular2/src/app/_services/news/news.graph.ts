@@ -257,7 +257,7 @@ query sortByOptions (
   nodeQuery(offset: $offset, limit: $limit, sort: {field: "created", direction: DESC},
   filter: {conjunction: AND, conditions: [
     {operator: EQUAL, field: "type", value: ["news"], language: $lang},
-    {operator: IN, field: "field_news_tag.entity.tid", value: $tagValue, language: $lang, enabled: $tagEnabled },
+    {operator: IN, field: "field_tag.entity.tid", value: $tagValue, language: $lang, enabled: $tagEnabled },
     {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled },
     {operator: GREATER_THAN_OR_EQUAL, field: "created", value: [$minDate], language: $lang },
     {operator: SMALLER_THAN_OR_EQUAL, field: "created", value: [$maxDate], language: $lang },
