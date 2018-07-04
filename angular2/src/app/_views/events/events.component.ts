@@ -1,3 +1,4 @@
+import { NgSelectModule } from '@ng-select/ng-select';
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -18,24 +19,12 @@ import { Apollo, QueryRef } from 'apollo-angular';
 
 
 
-import { FiltersService } from '../../_services/filters/filters.service';
+import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
 
 import * as _moment from 'moment';
 const moment = _moment;
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
-export const DATEPICKER_FORMAT = {
-  parse: {
-    dateInput: 'DD-MM-YYYY',
-  },
-  display: {
-    dateInput: 'DD-MM-YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   templateUrl: './events.component.html',
@@ -358,13 +347,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         this.filterFormItems['tags'] = [];
 
         for( let i in newsTagArr ){
-          
           if( splitParams.indexOf(newsTagArr[i]['id']) !== -1 ){
             this.filterFormItems['tags'].push(newsTagArr[i]);
           }
-        }
-        for( let i in splitParams ){
-
         }
       }
 

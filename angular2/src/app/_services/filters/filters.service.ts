@@ -18,7 +18,10 @@ export const DATEPICKER_FORMAT = {
 
 export class FiltersService {
 
-  filterFormItems: object = {};
+  filterFormItems: any= {
+  };
+
+  filterFull:any;
 
   constructor(
     public router: Router,
