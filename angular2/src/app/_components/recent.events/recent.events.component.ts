@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { EventsService, RootScopeService } from '../../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -19,6 +19,7 @@ export class RecentEventsComponent implements OnInit {
 	@Input() groupID: number;
 	@Input() map: any;
 	@Input() content: any;
+	@Output() viewChange = new EventEmitter<boolean>();
 	
 	error: boolean;
   lang: any;
@@ -29,9 +30,14 @@ export class RecentEventsComponent implements OnInit {
 	
 	ngOnInit() {
     this.lang = this.router.url;
-    this.unix = new Date().getTime();
+		this.unix = new Date().getTime();
 	}
 
+	toggleParticipants (status) {
+		this.viewChange.emit(status)
+		location.hash = 'osalejad'
+	}
+	
 	openDialog(): void {
 		let dialogRef = this.dialog.open(EventsRegistratonDialog, {
 		  // width: '500px',

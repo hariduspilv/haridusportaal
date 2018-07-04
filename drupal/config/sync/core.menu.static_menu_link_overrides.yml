@@ -1,6 +1,6 @@
 definitions:
   standard__front_page:
-    weight: -50
+    weight: 3
     menu_name: main
     parent: ''
     enabled: true
