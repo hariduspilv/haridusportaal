@@ -1,18 +1,28 @@
 <div class="events__list__recent">
   <div class="events__list__item register">
-    <div class="title"><h1>{{'entrance' | translate}}</h1></div>
-    <div class="events__list__item__body" *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity">
-      <span class="child" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">
-        {{'register' | translate}} {{'from' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} {{'to' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}
-      </span>
-      <span class="error" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 < unix">{{'register.ended' | translate}}</span>
+    <div *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity && !content.entity.EventRegistrations">
+      <div class="title"><h1>{{'entrance' | translate}}</h1></div>
+      <div class="events__list__item__body">
+        <span class="child" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">
+          {{'register' | translate}} {{'from' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} {{'to' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}
+        </span>
+        <span class="error" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 < unix">{{'register.ended' | translate}}</span>
+      </div>
+      <ng-container *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity && content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">
+        <button mat-raised-button color="primary" (click)="openDialog()">{{'register' | translate}}</button>
+        <div class="calendar__add"><a href="javascript:void(0);">{{'calendar.add' | translate}}</a></div>
+      </ng-container>
     </div>
-    <div class="events__list__item__body error" *ngIf="content.entity.fieldEntryType !== 'register'">
-      <span class="error">{{'event.passed' | translate}}</span>
+    <div *ngIf="content.entity.fieldEntryType && content.entity.fieldEntryType == 'free' && !content.entity.EventRegistrations">
+      <div class="title"><h1>{{'entrance' | translate}}</h1></div>
+      <div class="events__list__item__body">
+        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix">{{'free' | translate}}</span>
+        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix">{{'event.passed' | translate}}</span>
+      </div>
     </div>
-    <ng-container *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity && content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">
-      <button mat-raised-button color="primary" (click)="openDialog()">{{'register' | translate}}</button>
-      <div class="calendar__add"><a href="javascript:void(0);">{{'calendar.add' | translate}}</a></div>
+    <ng-container *ngIf="content.entity.EventRegistrations">
+      <div class="title"><h1>{{'participantList' | translate}}</h1></div>
+      <button mat-raised-button color="primary" (click)="toggleParticipants(true)">{{'participants.list.go' | translate}}</button>
     </ng-container>
   </div>
 </div>

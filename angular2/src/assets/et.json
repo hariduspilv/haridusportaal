@@ -59,6 +59,8 @@
   "participantCreated": "Registreerimise aeg",
   "participantComment": "Märkused",
   "participantIndex": "jrk nr",
+  "participantList": "Osalejate nimekiri",
+  "participantsNr": "Osalejat",
 
   "calendar": "Kalender",
   "list": "List",
@@ -103,5 +105,8 @@
   "send": "Saada",
   "modal.close": "Sulge aken",
   "registration.thanks": "Täname sündmusele registreerimise eest!",
-  "registration.add.to.calendar": "Lisa sündmus enda kalendrisse"
+  "registration.add.to.calendar": "Lisa sündmus enda kalendrisse",
+  "participants.list.go": "Vaata osalejate nimekirja",
+  "free": "Tasuta",
+  "back": "Tagasi"
 }
