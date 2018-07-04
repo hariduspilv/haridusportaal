@@ -243,7 +243,6 @@ query getNewsTags2( $lang: LanguageId!){
 //   }
 // }
 
-
 export const sortByOptions = gql`
 query sortByOptions (
   $tagValue: [String],

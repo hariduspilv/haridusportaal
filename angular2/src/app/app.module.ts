@@ -29,7 +29,6 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader, TranslatePipe} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BreadcrumbsComponent } from './_components/breadcrumbs/breadcrumbs.component';
-import { EventsFilterComponent } from './_components/events.filter/events.filter.component';
 
 import { SettingsService } from './_core/settings';
 
@@ -68,7 +67,6 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     EventsRegistratonDialog,
     ImagePopupDialog,
     BreadcrumbsComponent,
-    EventsFilterComponent,
     Modal,
     VideoComponent
   ],

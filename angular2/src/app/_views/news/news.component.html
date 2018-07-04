@@ -1,98 +1,87 @@
 <div class="news-component">
     <breadcrumbs></breadcrumbs>
 
-    <div class="sm-show text-right filter-control">
-      <a href="javascript:void(0);" (click)="hideFilter()">
-        <span *ngIf="!filter">Filtreeri</span>
-        <span *ngIf="filter">Sulge filter</span>
-      </a>
-    </div>
-    <form [formGroup]="filterFormGroup" class="filter-wrapper" *ngIf="filter">
+    <form (submit)="filterSubmit()" class="filter-wrapper" >
       <div class="row">
         <div class="col-4 sm-12">
           <div class="round-input__wrapper">
-            <span class="round-input__title" [class.exists]="titleValue">{{ 'search.news.name' | translate }}</span>
-            <div class="round-input__field-wrapper" [class.spacing]="titleValue">
-              <input class="round-input__field" placeholder="{{ 'search.news.name' | translate }}" formControlName="titleForm" [(ngModel)]="titleValue"/>
-              <a class="round-input__clear" mat-button *ngIf="titleValue" matSuffix mat-icon-button aria-label="Clear" (click)="titleValue=''">
-                <mat-icon>close</mat-icon>
-              </a>
+            <span class="round-input__title">{{ 'search.news.name' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field" placeholder="{{ 'search.news.name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
             </div>
-          </div>
-        </div><!--/col-3-->
+          </div><!--/round-inpuit__wrapper-->
+        </div><!--/col-4-->
         <div class="col-25 sm-6">
           <div class="round-input__wrapper">
-            <span class="round-input__title" [class.exists]="filterFormGroup.value.minDateForm">{{ 'date.from' | translate }}</span>
-            <div class="round-input__field-wrapper" [class.spacing]="filterFormGroup.value.minDateForm">
-              <input class="round-input__field" placeholder="{{ 'date.from' | translate }}" [matDatepicker]="myDatepicker1" formControlName="minDateForm" [max]="datepickerMax" maxlength="10" dateFormatter />
-              <!--(click)="myDatepicker1.open()"-->
-              <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker1"></mat-datepicker-toggle>
-              <mat-datepicker #myDatepicker1></mat-datepicker>
+            <span class="round-input__title">{{ 'date' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom" [max]="filterFormItems.dateTo" name="dateFrom" maxlength="10" dateFormatter />
+              <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
+              <mat-datepicker #datepickerFrom></mat-datepicker>
             </div>
           </div>
         </div>
+        
         <div class="col-25 sm-6">
           <div class="round-input__wrapper">
-            <span class="round-input__title" [class.exists]="filterFormGroup.value.maxDateForm">{{ 'date.to' | translate }}</span>
-            <div class="round-input__field-wrapper" [class.spacing]="filterFormGroup.value.maxDateForm">
-              <input class="round-input__field" placeholder="{{ 'date.to' | translate }}" [matDatepicker]="myDatepicker2" formControlName="maxDateForm" [min]="datepickerMin" maxlength="10" dateFormatter />
-              <!--(click)="myDatepicker2.open()"-->
-              <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
-              <mat-datepicker #myDatepicker2></mat-datepicker>
+            <span class="round-input__title">{{ 'date' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="datepickerTo" [(ngModel)]="filterFormItems.dateTo" [min]="filterFormItems.dateFrom" name="dateTo" maxlength="10" dateFormatter />
+              <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
+              <mat-datepicker #datepickerTo></mat-datepicker>
             </div>
           </div>
-        </div><!--/col-3-->
-        <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterState">
+        </div>
+    
+        <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
           <div class="align-center filter-state sm-hide">       
-            <a href="javascript:void(0);" (click)="changeFilterState()">
+            <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
               <span class="md-hide">Täpsem otsing</span>
               <span class="md-show">Täpne</span>
             </a>
           </div>
           <div class="button-row">
-            <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+            <button mat-raised-button color="primary">Otsi</button>
           </div>
         </div><!--/col-3-->
-        <div class="col-3 align-end sm-12 sm-show">
-          <div class="button-row">
-            <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
-          </div>
-        </div><!--/col-3-->
-      </div>
-      <div class="row sm-hide" *ngIf="filterState">
-        <div class="col-9">
+      </div><!--/row-->
+    
+      <div class="row" *ngIf="filterFull">
+        <div class="col-9 sm-12">
+    
           <div class="ng-select__wrapper">
-            <span class="ng-select__title" [class.exists]="filterFormGroup.value.newsTagsSelectForm && filterFormGroup.value.newsTagsSelectForm.length">Uudiste sildid</span>
+            <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">{{ 'news.tag' | translate }}</span>
             <ng-select
-            [class.exists]="filterFormGroup.value.newsTagsSelectForm && filterFormGroup.value.newsTagsSelectForm.length"
-            [items]="newsTagObs | async"
+            [class.exists]="filterFormItems.types && filterFormItems.types.length"
+            [items]="tags | async"
             [multiple]="true"
-            [closeOnSelect]="false"
+            [loading]="loading"
             bindLabel="name"
-            placeholder="Select people"
-            [(ngModel)]="selectedTags"
-            formControlName="newsTagsSelectForm"
-            [dropdownPosition]="'bottom'"></ng-select>
+    
+            name="types"
+            [(ngModel)]="filterFormItems.types"
+            placeholder="{{ 'news.tag' | translate }}"
+            (clear)="clearField('types')"
+            [dropdownPosition]="'bottom'"></ng-select>      
           </div>
+          
         </div>
-        <div class="col-3 align-end text-right sm-12 inline-flex sm-hide">
+        <div class="col-3 align-end text-right sm-12 inline-flex">
           <div class="align-center filter-state sm-hide">       
-            <a href="javascript:void(0);" (click)="changeFilterState()">
+            <a href="javascript:void(0);" (click)="filterFull = !filterFull">
               <span class="md-hide">Kitsam otsing</span>
               <span class="md-show">Kitsas</span>
             </a>
           </div>
           <div class="button-row">
-            <button mat-raised-button color="primary" (click)="newsFilter()">Otsi</button>
+            <button mat-raised-button color="primary">Otsi</button>
           </div>
         </div><!--/col-3-->
-      </div>
-      
-      <div *ngIf="filterFormGroup.invalid" style="background-color: red;">ERRORS</div>
-      
-    </form><!--/row-->
+      </div><!--/row-->
+    
+    </form>
   
-    <mat-spinner *ngIf="!list && !error"></mat-spinner>
+    <mat-spinner *ngIf="!list"></mat-spinner>
     <div class="news-list" *ngIf="list">
       <div class="news-title">{{ 'news' | translate | uppercase }}</div>
       <div>
@@ -125,9 +114,12 @@
             </mat-card-content>
           </mat-card>
         </div><!--ngFor-->
-        
+
         <div class="text-center actions" *ngIf="!listEnd">
-          <button mat-raised-button color="primary" (click)="loadMore()" >Lae rohkem</button>
+          <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
+          <button mat-raised-button color="primary" (click)="loadMore()"  *ngIf="!loading">
+            Lae rohkem
+          </button>
         </div><!--/text-center-->
         <div class="text-center actions__error" *ngIf="(list != null && list.length) === 0">
           <p>{{ 'results.none' | translate }}</p>
