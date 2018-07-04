@@ -81,7 +81,7 @@
     
     </form>
   
-    <mat-spinner *ngIf="!list && !error"></mat-spinner>
+    <mat-spinner *ngIf="!list"></mat-spinner>
     <div class="news-list" *ngIf="list">
       <div class="news-title">{{ 'news' | translate | uppercase }}</div>
       <div>
