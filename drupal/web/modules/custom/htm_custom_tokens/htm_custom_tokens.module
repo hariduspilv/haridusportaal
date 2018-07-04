@@ -10,23 +10,47 @@ use Drupal\Core\Render\BubbleableMetadata;
  * Implements hook_token_info().
  */
 function htm_custom_tokens_token_info() {
-	$type = [
+	$eventtype = [
 		'name' => t('HTM custom event tokens'),
 		'description' => t('Tokens for events.'),
 	];
-
-	$token['event_start_end'] = [
+	$eventtoken['event_start_end'] = [
 		'name' => t('Event start and end date'),
 		'description' => t('Get referencing event start and end date'),
 	];
-	$token['custom_event_link'] = [
+	$eventtoken['custom_event_link'] = [
 		'name' => t('Link to event'),
 		'description' => t('Get referencing event link'),
 	];
 
+	$subscriptiontype = [
+		'name' => t('HTM custom subscription tokens'),
+		'description' => t('Tokens for subscriptions.'),
+	];
+	$subscriptiontoken['news'] = [
+		'name' => t('News item'),
+		'description' => t('Get referencing news item.'),
+	];
+	$subscriptiontoken['events'] = [
+		'name' => t('Event item'),
+		'description' => t('Get referencing event item.'),
+	];
+	$subscriptiontoken['newtags'] = [
+		'name' => t('New tags'),
+		'description' => t('Get new tags to subscribe to.'),
+	];
+	$subscriptiontoken['tags'] = [
+		'name' => t('Current tags'),
+		'description' => t('Get current subscribed tags.'),
+	];
+	$subscriptiontoken['subscribe_link'] = [
+		'name' => t('Subscription confirmation link'),
+		'description' => t('Get link for confirming your subscription.'),
+	];
+
 	return [
-		'types' => ['htm_custom_event_tokens' => $type],
-		'tokens' => ['htm_custom_event_tokens' => $token]
+		'types' => ['htm_custom_event_tokens' => $eventtype, 'htm_custom_subscription_tokens' => $subscriptiontype],
+		'tokens' => ['htm_custom_event_tokens' => $eventtoken, 'htm_custom_subscription_tokens' => $subscriptiontoken]
 	];
 }
 
@@ -50,6 +74,50 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 						//dump($alias);
 						$replacements[$original] = $path .'/'. $options['langcode'] . $alias;
 					}
+					break;
+			}
+		}
+	}
+
+
+	if($type === 'htm_custom_subscription_tokens'){
+		foreach($tokens as $name => $original){
+			switch ($name){
+				case 'subscribe_link':
+					$entity = $data['subscription_entity'];
+					$langcode = $entity->language->value;
+					$uuid = $entity->uuid();
+					$replacements[$original] = '<a href="'.$options['custom_link_path'].'/'.$langcode.'?confirmsubscription='.$uuid.'">kinnita minu tellimus</a>';
+					break;
+				case 'unsubscribe_link':
+					$entity = $data['subscription_entity'];
+					$langcode = $entity->language->value;
+					$uuid = $entity->uuid();
+					$replacements[$original] = '<a href="'.$options['custom_link_path'].'/'.$langcode.'?unsubscribe='.$uuid.'">tühista minu tellimus</a>';
+					break;
+				case 'newtags':
+					foreach($data['newtags'] as $tag){
+						$newtaglabels[] = $tag->label();
+					}
+					$replacements[$original] = implode(', ', $newtaglabels);
+					break;
+				case 'tags':
+					foreach($data['tags'] as $tag){
+						$taglabels[] = $tag->label();
+					}
+					$replacements[$original] = implode(', ', $taglabels);
+					break;
+				case 'news':
+					foreach($data['news'] as $node){
+						$newslinks[] = ('<a href="'.$options['custom_link_path'].$node->url().'">'.$node->label().'</a>');
+					}
+					$replacements[$original] = implode('<br>', $newslinks);
+					break;
+				case 'events':
+					foreach($data['events'] as $node){
+						$eventlinks[] = ('<a href="'.$options['custom_link_path'].$node->url().'">'.$node->label().'</a>');
+					}
+					$replacements[$original] = implode('<br>', $eventlinks);
 					break;
 			}
 		}

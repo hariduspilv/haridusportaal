@@ -33,29 +33,18 @@ function custom_subscription_notification_cron() {
  */
 function custom_subscription_notification_mail($key, &$message, $params) {
 
-  $options = array(
-      'langcode' => $message['langcode'],
-  );
   switch ($key) {
     case 'notification_email':
+
+      $title = $params['subject'];
+      $body = $params['body'];
+
       $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
       $message['from'] = \Drupal::config('system.site')->get('mail');
-      $message['subject'] = Unicode::mimeHeaderEncode($params['title']);
-      $message['body'][] = \Drupal::service('renderer')->render($params['body']);
+      $message['subject'] = Unicode::mimeHeaderEncode($title);
+      $message['body'][] = $body;
 
       break;
   }
 
-}
-
-/**
- * Implements hook_theme()
- */
-function custom_subscription_notification_theme($existing, $type, $theme, $path){
-  return [
-    'newsletter_notification_email_template' => [
-      'variables' => ['body' => ''],
-      'template' => 'newsletter_notification_email_template',
-    ]
-  ];
 }
