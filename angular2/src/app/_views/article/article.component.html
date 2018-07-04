@@ -50,7 +50,7 @@
               <div class="accordion__body" [innerHTML]="accordionItem.entity.fieldBody.value"></div>
               <div class="accordion__links" *ngIf="accordionItem.entity.fieldRelatedArticle">
                 <ul class="link-list mt-0 mb-0">
-                  <li *ngFor="let articleLink of accordionItem.entity.fieldRelatedArticle"><a href="{{articleLink.url.path}}" attr.aria-label="{{'link.outer' | translate}}"class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
+                  <li *ngFor="let articleLink of accordionItem.entity.fieldRelatedArticle"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}"class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
                 </ul>
               </div>
             </mat-expansion-panel>
@@ -82,7 +82,7 @@
           <h1 class="mt-0 sidebar__title">Leia kiiresti</h1>
           <div class="sidebar__paragraph">
             <ul class="link-list mt-0 mb-0">
-                <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" attr.aria-label="{{'link.outer' | translate}}"class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
+                <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}"class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
             </ul>
           </div>
         </div>
@@ -92,7 +92,7 @@
           <div class="sidebar__paragraph">
             <ul class="link-list mt-0 mb-0">
               <li *ngFor="let relatedArticle of relatedArticles">
-                <a href="{{relatedArticle.url.path}}" attr.aria-label="{{'link.outer' | translate}}" class="link related">
+                <a href="{{relatedArticle.url.path}}" [attr.target]="relatedArticle.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link related">
                   <div><mat-icon>link</mat-icon></div>
                   <div>{{relatedArticle.title}}</div>
                 </a>

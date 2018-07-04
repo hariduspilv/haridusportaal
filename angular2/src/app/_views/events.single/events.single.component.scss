@@ -106,3 +106,12 @@ _:-ms-lang(x), .article-image {width: 100%;margin:0;}
     }
   }
 }
+::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {
+  font-feature-settings: 'liga';
+  -ms-font-feature-settings: 'liga';
+  font-family: 'Material Icons';
+  content: 'launch' !important;
+  position: relative;
+  top: 0.1875rem;
+}
+::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}

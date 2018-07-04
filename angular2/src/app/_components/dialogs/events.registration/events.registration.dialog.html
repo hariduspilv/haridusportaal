@@ -1,19 +1,19 @@
-<div class="dialog__reg" cdkTrapFocus>
+<div class="dialog" cdkTrapFocus>
   <div class="row">
     <div class="col-12" style="position: relative;">
-      <span class="dialog__reg__text--medium">{{ 'form.registration' | translate | uppercase }}</span>
-      <mat-icon class="dialog__reg__close" aria-label="Close" (click)="close()" tabindex="0">close</mat-icon>
+      <span class="dialog__text--medium">{{ 'form.registration' | translate | uppercase }}</span>
+      <mat-icon class="dialog__close" aria-label="Close" (click)="close()" tabindex="0">close</mat-icon>
     </div>
     <div class="col-12" *ngIf="step === 0">
       <h1>{{ data.eventTitle }}</h1>
-      <div class="dialog__reg__time"> 
+      <div class="dialog__time"> 
         <span class="capitalize">{{ data.eventStartDate.fieldEventDate.unix*1000 | weekday: "unix"}} {{ data.eventStartDate.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
         <span>{{ 'time.at' | translate }}</span>
         <span>{{ data.eventStartDate.fieldEventStartTime | unixToTime }} - {{ data.eventStartDate.fieldEventEndTime | unixToTime }}</span>
       </div>
-      <div class="dialog__reg__required">* {{ 'required.fields' | translate }}</div>
+      <div class="dialog__required">* {{ 'required.fields' | translate }}</div>
     </div>
-    <form [formGroup]="form" class="dialog__reg__form col-12" *ngIf="step === 0">
+    <form [formGroup]="form" class="dialog__form col-12" *ngIf="step === 0">
       <div class="dialog-content">
         <div class="row">
           <div class="col-6 sm-12">
@@ -105,7 +105,7 @@
         </div>
       </div>
       
-      <div class="dialog__reg__actions row" *ngIf="step === 0">
+      <div class="dialog__actions row" *ngIf="step === 0">
         <div class="col-12 text-right">
           <a class="sm-hide" href="javascript:void(0)" (click)="clear()">{{ 'cancel' | translate }}</a>
           <button mat-raised-button color="primary" (click)="save()">{{ 'send' | translate }}</button>
@@ -114,16 +114,16 @@
         </div>
       </div>
     </form>
-    <div class="dialog__reg__success" *ngIf="step === 1">
-      <div class="dialog__reg__success__title">
+    <div class="dialog__success" *ngIf="step === 1">
+      <div class="dialog__success__title">
         <h1>{{ 'registration.thanks' | translate }}</h1>
       </div>
-      <div class="dialog__reg__actions--success">
+      <div class="dialog__actions--success">
         <div class="row text-center">
           <div class="col-12">
             <button mat-raised-button color="primary" (click)="close()">{{ 'registration.add.to.calendar' | translate }}</button>
           </div>
-          <div class="dialog__reg__actions--success__close col-12"><a href="javascript:void(0)" (click)="close()">{{ 'modal.close' | translate }}</a></div>
+          <div class="dialog__actions--success__close col-12"><a href="javascript:void(0)" (click)="close()">{{ 'modal.close' | translate }}</a></div>
         </div>
       </div>
     </div>
