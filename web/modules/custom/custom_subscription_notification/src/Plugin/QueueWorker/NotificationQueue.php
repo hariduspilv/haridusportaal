@@ -21,8 +21,8 @@ class NotificationQueue extends QueueWorkerBase {
     $mailManager = \Drupal::service('plugin.manager.mail');
     $module = 'custom_subscription_notification';
     $key = 'notification_email';
-    $recipient = $notification['body']['#body']['email'];
-    $langcode = $notification['body']['#body']['langcode'];
+    $recipient = $notification['entity']->subscriber_email->value;
+    $langcode = $notification['entity']->language->value;
     $params = $notification;
     $send = true;
 
