@@ -25,10 +25,15 @@ function custom_subscription_administration_mail($key, &$message, $params) {
 			$title = $token_service->replace($params['subject'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
 			$body = $token_service->replace($params['body'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
 
+			$render = [
+				'#theme' => 'registration_email_template',
+				'#body' => nl2br(html_entity_decode($body))
+			];
+
       $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
       $message['from'] = \Drupal::config('system.site')->get('mail');
       $message['subject'] = Unicode::mimeHeaderEncode($title);
-      $message['body'][] = nl2br($body);
+      $message['body'][] = \Drupal::service('renderer')->render($render);
 
       break;
   }
