@@ -121,6 +121,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         ),
         'M' => 
         array (
+            'Monolog\\' => 8,
             'Masterminds\\' => 12,
             'MakinaCorpus\\Lucene\\' => 20,
         ),
@@ -401,6 +402,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
         'Masterminds\\' => 
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
@@ -653,6 +658,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         ),
         'D' => 
         array (
+            'Drupal\\Monolog' => 
+            array (
+                0 => __DIR__ . '/../..' . '/web/modules/contrib/monolog/src',
+            ),
             'Doctrine\\Common\\Lexer\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
