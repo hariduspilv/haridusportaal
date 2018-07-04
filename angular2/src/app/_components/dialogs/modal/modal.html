@@ -1,7 +1,16 @@
-<button style="position: absolute; top: 0; right: 0;" mat-icon-button aria-label="Close" (click)="closeModal()" tabindex="0"> <!-- need to add some absolute class-->
-  <mat-icon>close</mat-icon>
-</button>
-<h1>{{ data.title }}</h1>
-<div [innerHtml]="data.content"></div>
-<hr />
-<button (click)="closeModal()">{{ data.close }}</button>
+<div class="dialog" cdkTrapFocus>
+  <div class="row">
+    <div class="col-12" style="position: relative;">
+      <span class="dialog__text--medium">{{ data.title }}</span>
+      <mat-icon class="dialog__close" aria-label="Close" (click)="closeModal()" tabindex="0">close</mat-icon>
+    </div>
+  </div>
+  <div class="dialog__success--modal">
+    <div class="dialog__success--content" [innerHtml]="data.content"></div>
+    <div class="dialog__actions--success">
+      <div class="text-center">
+        <div class="dialog__actions--success__close"><a href="javascript:void(0)" (click)="closeModal()">{{ data.close }}</a></div>
+      </div>
+    </div>
+  </div>
+</div>
