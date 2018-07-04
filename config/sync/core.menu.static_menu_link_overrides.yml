@@ -1,8 +1,8 @@
 definitions:
   standard__front_page:
-    weight: 3
+    weight: 1
+    parent: 'menu_link_content:6d8f74f2-d525-4b98-8d5a-16c41fd373e6'
     menu_name: main
-    parent: ''
     enabled: true
     expanded: false
   config__conditional_field:
