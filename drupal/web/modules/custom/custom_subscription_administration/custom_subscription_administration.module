@@ -13,50 +13,25 @@ use Drupal\Component\Utility\Unicode;
 */
 function custom_subscription_administration_mail($key, &$message, $params) {
 
-	$options = array(
-		'langcode' => $message['langcode'],
-	);
 	switch ($key) {
-		case 'subscription_email':
-		$message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
-		$message['from'] = \Drupal::config('system.site')->get('mail');
-		$message['subject'] = Unicode::mimeHeaderEncode($params['title']);
-		$message['body'][] = \Drupal::service('renderer')->render($params['body']);
-		break;
-	}
-}
+    case 'subscription_email':
 
-function get_taxonomy_terms($taxonomies){
-	$query = \Drupal::entityQuery('taxonomy_term');
-	$query->condition('vid', $taxonomies, 'IN');
-	$tids = $query->execute();
-	$terms = \Drupal\taxonomy\Entity\Term::loadMultiple($tids);
-	$terms_parsed = [];
-	foreach($terms as $term){
-		$terms_parsed[$term->id()] = $term->getName();
-	}
+			$entity = $params['entity'];
+			$token_service = \Drupal::token();
+			$langcode = $entity->language->value;
+			$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+			$link_root = $config->get('general.fe_url');
 
-	return $terms_parsed;
-}
+			$title = $token_service->replace($params['subject'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+			$body = $token_service->replace($params['body'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
 
-function parse_key($key){
-	return mb_strtolower(str_replace(' ', '_', $key));
-}
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = Unicode::mimeHeaderEncode($title);
+      $message['body'][] = nl2br($body);
 
-/**
-* Implements hook_theme()
-*/
-function custom_subscription_administration_theme($existing, $type, $theme, $path){
-	return [
-		'subscription_confirm_email_template' => [
-			'variables' => ['body' => ''],
-			'template' => 'subscription_confirm_email_template',
-		],
-		'subscription_update_email_template' => [
-			'variables' => ['body' => ''],
-			'template' => 'subscription_update_email_template',
-		],
-	];
+      break;
+  }
 }
 
 /**
@@ -65,8 +40,7 @@ function custom_subscription_administration_theme($existing, $type, $theme, $pat
 function custom_subscription_administration_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
 	if ($entity->getEntityTypeId() === 'subscription_entity') {
 
-		$langcode = $entity->language->value;
-
+		$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
 		$mailManager = \Drupal::service('plugin.manager.mail');
 		$module = 'custom_subscription_administration';
 		$key = 'subscription_email';
@@ -74,20 +48,14 @@ function custom_subscription_administration_entity_insert(Drupal\Core\Entity\Ent
 		$fields = $entity->toArray();
 		if(isset($fields['newtags'][0]['value'])){
 			$newtags = explode(", ", $fields['newtags'][0]['value']);
-		}
-
-		unset($fields['newtags']);
-		if(isset($newtags) && count($newtags) > 0){
-			foreach($newtags as $tag){
-				$fields['newtags'][] = ['target_id' => $tag];
-			}
+			$params['newtags'] = \Drupal\taxonomy\Entity\Term::loadMultiple($newtags);
 		}else{
-			$fields['newtags'] = [];
+			$params['newtags'] = '';
 		}
+		$params['entity'] = $entity;
 
-		$fields['action'] = 'insert';
-		$params['body'] = subscription_email_content($fields);
-		$params['title'] = t('Uudiskirja tellimuse kinnitamine');
+		$params['subject'] = $config->get('emails.email_subscription.create_email_subject');
+		$params['body'] = $config->get('emails.email_subscription.create_email_body');
 
 		$send = true;
 
@@ -95,7 +63,6 @@ function custom_subscription_administration_entity_insert(Drupal\Core\Entity\Ent
 		if ($result['result'] !== true) {
 			$message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
 			\Drupal::logger('custom_subscription_administration')->error($message);
-			throw new Error($message);
 		}else{
 			$message = t('An email notification has been sent to @email', array('@email' => $recipient));
 			\Drupal::logger('custom_subscription_administration')->notice($message);
@@ -110,9 +77,7 @@ function custom_subscription_administration_entity_insert(Drupal\Core\Entity\Ent
 function custom_subscription_administration_entity_update(Drupal\Core\Entity\EntityInterface $entity) {
 	if ($entity->getEntityTypeId() === 'subscription_entity') {
 
-		$langcode = $entity->language->value;
-		$newtags = [];
-
+		$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
 		$mailManager = \Drupal::service('plugin.manager.mail');
 		$module = 'custom_subscription_administration';
 		$key = 'subscription_email';
@@ -121,24 +86,27 @@ function custom_subscription_administration_entity_update(Drupal\Core\Entity\Ent
 
 		if(isset($fields['newtags'][0]['value'])){
 			$newtags = explode(", ", $fields['newtags'][0]['value']);
-		}
-		unset($fields['newtags']);
-		if(count($newtags) > 0){
-			foreach($newtags as $tag){
-				$fields['newtags'][] = ['target_id' => $tag];
-			}
+			$params['newtags'] = \Drupal\taxonomy\Entity\Term::loadMultiple($newtags);
 		}else{
-			$fields['newtags'] = [];
+			$params['newtags'] = '';
 		}
-		if(count($fields['newtags']) > 0){
+		foreach($entity->tag as $tag){
+			$params['tags'][] = $tag->getValue()['target_id'];
+		}
+		if(isset($params['tags'])){
+			$params['tags'] = \Drupal\taxonomy\Entity\Term::loadMultiple($params['tags']);
+		}
+
+		if(count($params['newtags']) > 0){
+			$params['entity'] = $entity;
 			if(count($fields['tag']) > 0 && $fields['status'][0]['value'] != '0'){
-				$fields['action'] = 'update';
+				$params['subject'] = $config->get('emails.email_subscription.update_email_subject');
+				$params['body'] = $config->get('emails.email_subscription.update_email_body');
 			}else{
-				$fields['action'] = 'insert';
+				$params['subject'] = $config->get('emails.email_subscription.create_email_subject');
+				$params['body'] = $config->get('emails.email_subscription.create_email_body');
 			}
-			if(isset($fields['action'])){
-				$params['body'] = subscription_email_content($fields);
-				$params['title'] = t('Uudiskirja tellimuse kinnitamine');
+			if(isset($params['subject'])){
 
 				$send = true;
 
@@ -151,50 +119,6 @@ function custom_subscription_administration_entity_update(Drupal\Core\Entity\Ent
 					\Drupal::logger('custom_subscription_administration')->notice($message);
 				}
 			}
-		}
-	}
-}
-
-function subscription_email_content($message){
-	if(isset($message['action'])){
-		$taxonomies = array('tags', 'event_tags');
-
-		$taxonomy_terms = get_taxonomy_terms($taxonomies);
-		foreach($message['newtags'] as $tag){
-			if(isset($taxonomy_terms[$tag['target_id']])){
-				$body['tags'][] = $taxonomy_terms[$tag['target_id']];
-			}
-		}
-		if(isset($body['tags'])){
-			sort($body['tags']);
-			$body['tags'] = implode(', ',$body['tags']);
-		}
-		if(isset($message['tag'])){
-			if(count($message['tag']) > 0){
-				foreach($message['tag'] as $tag){
-					$body['oldtags'][] = $taxonomy_terms[$tag['target_id']];
-				}
-				if(count($body['oldtags']) > 0){
-					sort($body['oldtags']);
-					$body['oldtags'] = implode(', ',$body['oldtags']);
-				}
-			}
-		}
-		$body['email'] = $message['subscriber_email'][0]['value'];
-		$body['langcode'] = $message['langcode'][0]['value'];
-		$body['uuid'] = $message['uuid'][0]['value'];
-
-		if($message['action'] === 'insert'){
-			return[
-				'#theme' => 'subscription_confirm_email_template',
-				'#body' => $body,
-			];
-		}
-		if($message['action'] === 'update'){
-			return[
-				'#theme' => 'subscription_update_email_template',
-				'#body' => $body,
-			];
 		}
 	}
 }

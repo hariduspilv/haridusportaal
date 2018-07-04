@@ -51,6 +51,13 @@ class CustomAdminForm extends ConfigFormBase {
       '#description' => $this->t('Subscription email settings'),
       '#group' => 'emails',
     ];
+    $form['email_subscription']['token_tree'] = [
+      '#theme' => 'token_tree_link',
+      '#token_types' => array('subscription_entity'),
+      '#show_restricted' => TRUE,
+      '#global_types' => FALSE,
+      '#weight' => 90,
+    ];
     $form['email_subscription']['fieldset'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Subscription create confirmation')
@@ -179,11 +186,19 @@ class CustomAdminForm extends ConfigFormBase {
   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
+
     $this->config('htm_custom_admin_form.customadmin')
     ->set('emails.email_event_registration.registration_email_subject', $form_state->getValue('email_event_registration_subject'))
     ->set('emails.email_event_registration.registration_email_body', $form_state->getValue('email_event_registration_body'))
     ->set('emails.email_event_registration.organizer_email_subject', $form_state->getValue('email_event_notice_subject'))
     ->set('emails.email_event_registration.organizer_email_body', $form_state->getValue('email_event_notice_body'))
+
+    ->set('emails.email_subscription.create_email_subject', $form_state->getValue('email_subscription_create_subject'))
+    ->set('emails.email_subscription.create_email_body', $form_state->getValue('email_subscription_create_body'))
+    ->set('emails.email_subscription.update_email_subject', $form_state->getValue('email_subscription_update_subject'))
+    ->set('emails.email_subscription.update_email_body', $form_state->getValue('email_subscription_update_body'))
+    ->set('emails.email_subscription.notify_email_subject', $form_state->getValue('email_subscription_notify_subject'))
+    ->set('emails.email_subscription.notify_email_body', $form_state->getValue('email_subscription_notify_body'))
 
     ->set('general.fe_url', $form_state->getValue('fe_url'))
     ->save();
