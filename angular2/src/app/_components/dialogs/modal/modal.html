@@ -1,8 +1,16 @@
-
-<div mat-dialog-title>{{ data.title }} <button mat-button (click)="closeModal()"><mat-icon>close</mat-icon></button></div>
-<mat-dialog-content>
-  <div class="mat-dialog-inline">
-    <div [innerHtml]="data.content"></div>
-    <p class="font-xs" *ngIf="data.close"><a href="javascript:void(0);" (click)="closeModal()">{{ data.close }}</a></p>
-  </div><!--/mat-dialog-inline-->
-</mat-dialog-content>
+<div class="dialog" cdkTrapFocus>
+  <div class="row">
+    <div class="col-12" style="position: relative;">
+      <span class="dialog__text--medium">{{ data.title }}</span>
+      <mat-icon class="dialog__close" aria-label="Close" (click)="closeModal()" tabindex="0">close</mat-icon>
+    </div>
+  </div>
+  <div class="dialog__success--modal">
+    <div class="dialog__success--content" [innerHtml]="data.content"></div>
+    <div class="dialog__actions--success">
+      <div class="text-center">
+        <div class="dialog__actions--success__close"><a href="javascript:void(0)" (click)="closeModal()">{{ data.close }}</a></div>
+      </div>
+    </div>
+  </div>
+</div>

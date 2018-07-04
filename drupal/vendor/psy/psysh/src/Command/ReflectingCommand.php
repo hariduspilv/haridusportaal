@@ -14,6 +14,7 @@ namespace Psy\Command;
 use Psy\CodeCleaner\NoReturnValue;
 use Psy\Context;
 use Psy\ContextAware;
+use Psy\Exception\ErrorException;
 use Psy\Exception\RuntimeException;
 use Psy\Util\Mirror;
 
@@ -84,6 +85,8 @@ abstract class ReflectingCommand extends Command implements ContextAware
     /**
      * Resolve a class or function name (with the current shell namespace).
      *
+     * @throws ErrorException when `self` or `static` is used in a non-class scope
+     *
      * @param string $name
      * @param bool   $includeFunctions (default: false)
      *
@@ -91,11 +94,27 @@ abstract class ReflectingCommand extends Command implements ContextAware
      */
     protected function resolveName($name, $includeFunctions = false)
     {
+        $shell = $this->getApplication();
+
+        // While not *technically* 100% accurate, let's treat `self` and `static` as equivalent.
+        if (in_array(strtolower($name), ['self', 'static'])) {
+            if ($boundClass = $shell->getBoundClass()) {
+                return $boundClass;
+            }
+
+            if ($boundObject = $shell->getBoundObject()) {
+                return get_class($boundObject);
+            }
+
+            $msg = sprintf('Cannot use "%s" when no class scope is active', strtolower($name));
+            throw new ErrorException($msg, 0, E_USER_ERROR, "eval()'d code", 1);
+        }
+
         if (substr($name, 0, 1) === '\\') {
             return $name;
         }
 
-        if ($namespace = $this->getApplication()->getNamespace()) {
+        if ($namespace = $shell->getNamespace()) {
             $fullName = $namespace . '\\' . $name;
 
             if (class_exists($fullName) || interface_exists($fullName) || ($includeFunctions && function_exists($fullName))) {
@@ -250,7 +269,8 @@ abstract class ReflectingCommand extends Command implements ContextAware
                 break;
 
             case 'ReflectionProperty':
-            case 'Psy\Reflection\ReflectionConstant':
+            case 'ReflectionClassConstant':
+            case 'Psy\Reflection\ReflectionClassConstant':
                 $classReflector = $reflector->getDeclaringClass();
                 $vars['__class'] = $classReflector->name;
                 if ($classReflector->inNamespace()) {
@@ -260,6 +280,12 @@ abstract class ReflectingCommand extends Command implements ContextAware
                 if ($fileName = $reflector->getDeclaringClass()->getFileName()) {
                     $vars['__file'] = $fileName;
                     $vars['__dir']  = dirname($fileName);
+                }
+                break;
+
+            case 'Psy\Reflection\ReflectionConstant_':
+                if ($reflector->inNamespace()) {
+                    $vars['__namespace'] = $reflector->getNamespaceName();
                 }
                 break;
         }

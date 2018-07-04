@@ -127,7 +127,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
 
     // Defines the From value to what we expect.
     $mailer->From = $from;
-    $mailer->FromName = $from_name;
+    $mailer->FromName = Unicode::mimeHeaderEncode($from_name);
     $mailer->Sender = $from;
 
     $hostname = $this->smtpConfig->get('smtp_client_hostname');
@@ -215,8 +215,8 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
             break;
             default:
               // Everything else is unsuppored by PHPMailer.
-              drupal_set_message(t('The %header of your message is not supported by PHPMailer and will be sent as text/plain instead.', array('%header' => "Content-Type: $value")), 'error');
-              $this->logger->error(t('The %header of your message is not supported by PHPMailer and will be sent as text/plain instead.', array('%header' => "Content-Type: $value")));
+              drupal_set_message(t('The %header of your message is not supported by PHPMailer and will be sent as text/plain instead.', ['%header' => "Content-Type: $value"]), 'error');
+              $this->logger->error(t('The %header of your message is not supported by PHPMailer and will be sent as text/plain instead.', ['%header' => "Content-Type: $value"]));
 
               // Force the Content-Type to be text/plain.
               $mailer->IsHTML(FALSE);
@@ -228,7 +228,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
           // Only add a "reply-to" if it's not the same as "return-path".
           if ($value != $headers['Return-Path']) {
             $reply_to_comp = $this->_get_components($value);
-            $mailer->AddReplyTo($reply_to_comp['email'], $reply_to_comp['name']);
+            $mailer->AddReplyTo($reply_to_comp['email'], Unicode::mimeHeaderEncode($reply_to_comp['name']));
           }
           break;
 
@@ -253,7 +253,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
           $ccrecipients = explode(',', $value);
           foreach ($ccrecipients as $ccrecipient) {
             $cc_comp = $this->_get_components($ccrecipient);
-            $mailer->AddCC($cc_comp['email'], $cc_comp['name']);
+            $mailer->AddCC($cc_comp['email'], Unicode::mimeHeaderEncode($cc_comp['name']));
           }
           break;
 
@@ -261,7 +261,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
           $bccrecipients = explode(',', $value);
           foreach ($bccrecipients as $bccrecipient) {
             $bcc_comp = $this->_get_components($bccrecipient);
-            $mailer->AddBCC($bcc_comp['email'], $bcc_comp['name']);
+            $mailer->AddBCC($bcc_comp['email'], Unicode::mimeHeaderEncode($bcc_comp['name']));
           }
           break;
 
@@ -287,7 +287,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
      * }
      */
     // Add the message's subject.
-    $mailer->Subject = $subject;
+    $mailer->Subject = Unicode::mimeHeaderEncode($subject);
 
     // Processes the message's body.
     switch ($content_type) {
@@ -489,13 +489,13 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     $mailer->Port = $this->smtpConfig->get('smtp_port');
     $mailer->Mailer = 'smtp';
 
-    $mailerArr = array(
+    $mailerArr = [
       'mailer' => $mailer,
       'to' => $to,
       'from' => $from,
-    );
+    ];
     if ($this->smtpConfig->get('smtp_queue')) {
-      $this->logger->info(t('Queue sending mail to: @to', array('@to' => $to)));
+      $this->logger->info(t('Queue sending mail to: @to', ['@to' => $to]));
       smtp_send_queue($mailerArr);
     }
     else {
@@ -519,7 +519,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    *   An array containing the resulting mime parts
    */
   protected function _boundary_split($input, $boundary) {
-    $parts       = array();
+    $parts       = [];
     $bs_possible = substr($boundary, 2, -2);
     $bs_check    = '\"' . $bs_possible . '\"';
 
@@ -549,35 +549,35 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
   protected function _remove_headers($input) {
     $part_array = explode("\n", $input);
 
-    // will strip these headers according to RFC2045
-    $headers_to_strip = array( 'Content-Type', 'Content-Transfer-Encoding', 'Content-ID', 'Content-Disposition');
+    // Will strip these headers according to RFC2045.
+    $headers_to_strip = ['Content-Type', 'Content-Transfer-Encoding', 'Content-ID', 'Content-Disposition'];
     $pattern = '/^(' . implode('|', $headers_to_strip) . '):/';
 
     while (count($part_array) > 0) {
 
-      // ignore trailing spaces/newlines
+      // Ignore trailing spaces/newlines.
       $line = rtrim($part_array[0]);
 
-      // if the line starts with a known header string
+      // If the line starts with a known header string.
       if (preg_match($pattern, $line)) {
         $line = rtrim(array_shift($part_array));
-        // remove line containing matched header.
+        // Remove line containing matched header.
 
-        // if line ends in a ';' and the next line starts with four spaces, it's a continuation
+        // If line ends in a ';' and the next line starts with four spaces, it's a continuation
         // of the header split onto the next line. Continue removing lines while we have this condition.
         while (substr($line, -1) == ';' && count($part_array) > 0 && substr($part_array[0], 0, 4) == '    ') {
           $line = rtrim(array_shift($part_array));
         }
       }
       else {
-        // no match header, must be past headers; stop searching.
+        // No match header, must be past headers; stop searching.
         break;
       }
     }
 
     $output = implode("\n", $part_array);
     return $output;
-  }  //  End of _smtp_remove_headers().
+  }
 
   /**
    * Returns a string that is contained within another string.
@@ -609,7 +609,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     }
 
     return $substring;
-  }  //  End of _smtp_get_substring().
+  }
 
   /**
    * Returns an array of name and email address from a string.
@@ -621,11 +621,11 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    *  An array containing a name and an email address.
    */
   protected function _get_components($input) {
-    $components = array(
+    $components = [
       'input' => $input,
       'name' => '',
       'email' => '',
-    );
+    ];
 
     // If the input is a valid email address in its entirety, then there is
     // nothing to do, just return that.

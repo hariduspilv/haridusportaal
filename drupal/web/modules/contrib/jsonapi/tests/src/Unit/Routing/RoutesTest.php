@@ -46,9 +46,9 @@ class RoutesTest extends UnitTestCase {
     $type_3->setRelatableResourceTypes([]);
     $resource_type_repository = $this->prophesize(ResourceTypeRepository::class);
     $resource_type_repository->all()->willReturn([$type_1, $type_2, $type_3]);
-    $resource_type_repository->getPathPrefix()->willReturn('jsonapi');
     $container = $this->prophesize(ContainerInterface::class);
     $container->get('jsonapi.resource_type.repository')->willReturn($resource_type_repository->reveal());
+    $container->getParameter('jsonapi.base_path')->willReturn('/jsonapi');
     $container->getParameter('authentication_providers')->willReturn([
       'lorem' => [],
       'ipsum' => [],

@@ -17,15 +17,16 @@ h1{font-size:2rem; line-height:120%;}
      Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
 }
-
-input:focus {outline: none;}
+.capitalize {text-transform: capitalize;}
+.mat-dialog-container {padding: 0 !important;border-radius:$half-gutter !important;}
+input:focus, textarea:focus {outline: none;}
 a {text-decoration: underline; &:hover {text-decoration: none;}}
 html{
   font-size: 100%;
   height:100%;
   @include break-on(lg, min) {font-size: 16px;}
-  @include break-on(xl, min) {font-size: 18px;}
-  @include break-on(xxl, min) {font-size: 22px;}
+  @include break-on(xl, min) {font-size: 20px;}
+  @include break-on(xxl, min) {font-size: 24px;}
 }
 body{height: calc(100% - 4rem);}
 
@@ -42,7 +43,7 @@ body{height: calc(100% - 4rem);}
 
 .pointer{cursor: pointer;}
 
-strong { font-weight: 500; }
+strong, b { font-weight: 500; }
 
 .mat-icon {height: 1.5rem !important; width: 1.5rem !important;}
 
@@ -118,7 +119,7 @@ a {color: $blue}
 .breadcrumb li:last-child:after{display: none;}
 .breadcrumb li span{overflow: hidden; display: inline; max-width:12.5rem; text-overflow: ellipsis; white-space: nowrap;}
 
-.mat-sidenav{top:4rem !important;}
+.mat-sidenav{top:4rem !important;-ms-overflow-style: none;}
 .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
 .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
 .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
@@ -133,7 +134,9 @@ article a[href]{color:$blue;}
   @include break-on(sm, min) {padding-top:1rem;}
 }
 .side-menu-wrapper{background:#fff; display: block; box-shadow:0 .1875rem .0625rem -.125rem rgba(0,0,0,.2),0 .125rem .125rem 0 rgba(0,0,0,.14),0 .0625rem .3125rem 0 rgba(0,0,0,.12);}
-.ul-styleless{padding:0; margin:0 0 0 0; list-style:none;}
+.ul-styleless{padding:0; margin:0 0 0 0; list-style:none;
+  &.submenu span{position: relative; left: $small; padding-right: $small;}
+}
 .ul-styleless li{padding:0; margin:0;}
 .ul-styleless ul a{padding-left:1.875rem;}
 .ul-styleless ul ul a{padding-left:2.75rem;}
@@ -149,7 +152,7 @@ article a[href]{color:$blue;}
 .mat-chip-list{margin:0 -$half-gutter; display:block !important;;
   .mat-chip{cursor: pointer !important; margin:0 $half-gutter;}
   .mat-chip-list-wrapper{margin-bottom:-.625rem;
-    .mat-chip-wrapper{margin-bottom:.625rem !important;}
+    .mat-chip-wrapper{margin-bottom:.625rem !important; overflow: hidden;}
   }
 }
 

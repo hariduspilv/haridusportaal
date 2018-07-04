@@ -3,4 +3,6 @@ maxlength:
   js:
     js/maxlength.js: {}
   dependencies:
+    - core/drupal
+    - core/jquery.once
     - core/jquery

@@ -94,3 +94,7 @@ field.widget.settings.paragraphs:
       type: string
     default_paragraph_type:
       type: string
+    features:
+      type: sequence
+      sequence:
+        type: string

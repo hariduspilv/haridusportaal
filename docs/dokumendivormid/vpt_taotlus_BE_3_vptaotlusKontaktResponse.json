@@ -1,0 +1,50 @@
+"header" : {
+	"form_name" : "VPT_TAOTLUS",
+	"acceptable_activity" : kui pole ühtegi errorMessage-t siis "SUBMIT" ja kui on vähemalt üks errorMessage siis "SAVE",
+	"current_step" : kui pole ühtegi errorMessage-t siis "step_3" ja kui on vähemalt üks errorMessage siis "step_2",,
+	"identifier" : taotlus_id
+},
+"body" : {
+	"steps": {
+		"step_0" : {
+			ei muutu, kantakse edasi putDocumentRequest-st
+		},
+
+		"step_1" : {
+			ei muutu, kantakse edasi putDocumentRequest-st
+		},
+
+		"step_2" : {
+			ei muutu, kantakse edasi putDocumentRequest-st
+		},
+
+		"step_3" : {
+			"data_elements" : {
+				"confirmation_2" : {
+					"value" : failiOigsuseKinnitus
+				}
+			}
+		}
+	},
+	"messages" : ["temp_message_cc"],
+},
+"messages" : {
+	"temp_message_cc" : {
+		"message_type" : "ERROR",
+		"message_text" : {
+			"et" : vpTaotlusKontaktResponse.hoiatusDto.ErrorMessages.kirjeldus,
+		}
+	},
+	"temp_message_cc" : {
+		"message_type" : "WARNING",
+		"message_text" : {
+			"et" : vpTaotlusKontaktResponse.hoiatusDto.WarningMessages.kirjeldus,
+		}
+	},
+	"temp_message_cc" : {
+		"message_type" : "NOTICE",
+		"message_text" : {
+			"et" : vpTaotlusKontaktResponse.hoiatusDto.NoticeMessages.kirjeldus,
+		}
+	}
+}

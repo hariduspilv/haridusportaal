@@ -1,32 +1,53 @@
-<mat-card>
-  <mat-card-content>
-    <mat-spinner *ngIf="!data && !subscribedStatus"></mat-spinner>
+<div class="block">
+  <mat-spinner *ngIf="!data && !subscribedStatus"></mat-spinner>
+  <div class="block__content" *ngIf="data">
+    <div class="block__content--header">
+      <h1>{{ 'newsletter.title' | translate }}</h1>
+      <div class="intro">{{ 'newsletter.intro' | translate }}</div>
+    </div>
+    <form class="block__content--form" (ngSubmit)="submit()">
 
-    <div *ngIf="data">
-      <h3>{{ 'newsletter.title' | translate }}</h3>
-      <p>{{ 'newsletter.intro' | translate }}</p>
-      <form (ngSubmit)="submit()">
-
-        <div *ngIf="errors.items" style="color:red; font-weight: bold;">Võiksid vähemalt ühe valida...</div>
-        <div *ngFor="let item of data">
-          <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" > {{ item.entityLabel }}
+      <div class="block__content--form__checklist">
+        <div class="block__content--form__checklist__elem" *ngFor="let item of data">
+          <label class="checkbox__container">
+            <span class="label">{{ item.entityLabel }}</span>
+            <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" >
+            <span class="checkmark"></span>
+          </label>
         </div>
+      </div><!--block__content--form__checklist-->
 
+      <div class="block__content--form__input">
         <div class="row">
-          <div class="col-8">
-            <input type="text" placeholder="E-mail" [(ngModel)]="email" name="email"  style="width:100%;" />  
-            <div *ngIf="errors.email" style="color:red; font-weight: bold;">Email vigane!</div>
+          <div class="col-8 sm-12">
+            <div class="round-input__wrapper" [class.error]="errors.email && !emailFocus">
+              <span class="round-input__title" [class.exists]="email">{{ 'participantEmail' | translate }}</span>
+              <div class="round-input__field-wrapper" [class.spacing]="email">
+                <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' name="email" placeholder="{{ 'participantEmail' | translate }}" [(ngModel)]="email"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" *ngIf="!emailFocus">
+                  <span *ngIf="errors.items">{{ 'subscription.choose.one' | translate }}</span>
+                  <span *ngIf="errors.email && !errors.items">{{ 'enter.valid.email' | translate }}</span>
+                </div>
+              </div>
+            </div>
           </div><!--/col-8-->
-          <div class="col-4">
-            <button style="width:100%;">Kinnita tellimus</button>
+          <div class="col-4 sm-12">
+            <button mat-raised-button color="primary">{{ 'newsletter.submit' | translate }} </button>
           </div><!--/col-4-->
         </div>
+      </div><!--block__content--form__input-->
 
-      </form>
-    </div>
+    </form><!--block__content--form-->
+  </div><!--block__content-->
 
-    <div *ngIf="subscribedStatus">
-      <h1>ALLES KLAR!</h1>
-    </div>
-  </mat-card-content>
-</mat-card>
+  <div class="block__content--message" *ngIf="subscribedStatus && !subscribedFailure">
+    <div class="block__content--message__content">{{ 'newsletter.subscription.thanks.content' | translate }}</div>
+    <div class="block__content--message__subcontent">{{ 'newsletter.subscription.thanks.subcontent' | translate }} <b>{{email}}</b>.</div>
+  </div>
+  <div class="block__content--message" *ngIf="subscribedStatus && subscribedFailure">
+    <div class="block__content--message__content">{{ 'subscription.failed' | translate }}</div>
+    <div class="block__content--message__subcontent">{{ subscribedFailure }}</div>
+  </div>
+</div><!--block-->

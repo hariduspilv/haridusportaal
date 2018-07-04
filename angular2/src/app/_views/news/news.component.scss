@@ -14,7 +14,7 @@
     color: $dark-gray;
     @include break-on(sm, min) {padding: 0; padding-top: $half-gutter; padding-bottom: $gutter;}
   }
-  .description {padding-top: .625rem;font-size: $small;max-height: 3.75rem;overflow: hidden;}
+  .description {padding-top: .625rem;font-size: $small;max-height: 3.5rem;overflow: hidden;}
 }
 .news-list {
   border-top: $gutter solid $light-blue;
@@ -52,3 +52,13 @@
 }
 .col-25 {width: 20.83%;}
 .inline-flex {display: inline-flex;justify-content: flex-end;} 
+
+::ng-deep .description a[target="_blank"]:before {
+  font-feature-settings: 'liga';
+  -ms-font-feature-settings: 'liga';
+  font-family: 'Material Icons';
+  content: 'launch' !important;
+  position: relative;
+  top: 0.1875rem;
+}
+::ng-deep .description a[target="_blank"] {text-decoration: none;}

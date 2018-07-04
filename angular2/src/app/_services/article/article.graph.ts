@@ -36,10 +36,18 @@ export class ArticleGraph {
                 format
               }
               fieldImage {
-                url
+                derivative(style:CROP_LARGE){
+                  url
+                }
                 targetId
                 alt
                 title
+              }
+              fieldVideo {
+                input
+                videoDomain
+                videoDescription
+                videoId
               }
             }
           }
@@ -103,10 +111,18 @@ query getArticleData($path: String!) {
           }
           fieldBodySummary
           fieldImage {
-            url
+            derivative(style:CROP_LARGE){
+              url
+            }
             targetId
             alt
             title
+          }
+          fieldVideo {
+            input
+            videoDomain
+            videoDescription
+            videoId
           }
           fieldAccordionSection {
             entity {

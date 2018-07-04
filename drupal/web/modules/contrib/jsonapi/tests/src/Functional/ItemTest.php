@@ -87,15 +87,11 @@ class ItemTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function createAnotherEntity() {
-    $entity = $this->entity->createDuplicate();
-    $entity->setLink('https://www.example.org/');
-    $label_key = $entity->getEntityType()->getKey('label');
-    if ($label_key) {
-      $entity->set($label_key, $entity->label() . '_dupe');
-    }
-    $entity->save();
-    return $entity;
+  protected function createAnotherEntity($key) {
+    $duplicate = $this->getEntityDuplicate($this->entity, $key);
+    $duplicate->setLink('https://www.example.org/');
+    $duplicate->save();
+    return $duplicate;
   }
 
   /**
@@ -137,6 +133,13 @@ class ItemTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
+  public function testCollection() {
+    $this->markTestSkipped('Remove this override in https://www.drupal.org/project/drupal/issues/2149851');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function testRelated() {
     $this->markTestSkipped('Remove this override in https://www.drupal.org/project/drupal/issues/2149851');
   }
@@ -144,7 +147,7 @@ class ItemTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function testGetRelationships() {
+  public function testRelationships() {
     $this->markTestSkipped('Remove this override in https://www.drupal.org/project/drupal/issues/2149851');
   }
 
