@@ -135,7 +135,7 @@ article a[href]{color:$blue;}
 }
 .side-menu-wrapper{background:#fff; display: block; box-shadow:0 .1875rem .0625rem -.125rem rgba(0,0,0,.2),0 .125rem .125rem 0 rgba(0,0,0,.14),0 .0625rem .3125rem 0 rgba(0,0,0,.12);}
 .ul-styleless{padding:0; margin:0 0 0 0; list-style:none;
-  &.submenu span{position: relative; left: $small; padding-right: $small;}
+  &.submenu.deep span{position: relative; left: $small; padding-right: $small;}
 }
 .ul-styleless li{padding:0; margin:0;}
 .ul-styleless ul a{padding-left:1.875rem;}
@@ -279,13 +279,6 @@ $grid-columns: 12;
     &-wrapper {pointer-events: none;}
     &:not(.mat-basic-chip):focus {box-shadow: none;outline: 0;}
     font-size: .875rem;font-weight: 300;line-height: 1.43;letter-spacing: normal;color: $black;
-  }
-}
-
-.cdk-overlay-container{
-  .cdk-overlay-backdrop{  background-color: rgba(51, 51, 51, 0.9); }
-  .mat-dialog-container{max-width:870px; width:100%; padding:0;
-
   }
 }
 

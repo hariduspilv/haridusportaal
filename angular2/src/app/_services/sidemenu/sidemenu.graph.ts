@@ -22,10 +22,16 @@ export class SidemenuGraph {
         }
         
         fragment Item on MenuLink{
+          description
           label
           url{
             path
             internal:routed
+            ... on EntityCanonicalUrl{
+              entity{
+                entityAccess(operation:"view content")
+              }
+            }
           }
         }
     `;
