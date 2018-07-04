@@ -1,0 +1,11 @@
+myform:
+  version: 1.x
+  css:
+    theme:
+      js/jsoneditor/dist/jsoneditor.css: {}
+  js:
+    js/jsoneditor/dist/jsoneditor.js: {}
+    js/my_js.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
