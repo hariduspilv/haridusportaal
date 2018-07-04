@@ -10,8 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'newsletter-order',
-  templateUrl: './newsletter.order.component.html',
-  
+  templateUrl: './newsletter.order.component.html'
 })
 
 export class NewsletterOrderComponent implements OnInit, OnDestroy{
@@ -38,7 +37,6 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
 
-    console.log(this.route.snapshot.queryParams);
     if( this.route.snapshot.queryParams['confirmsubscription'] ){
       this.subscriptionModal(this.route.snapshot.queryParams['confirmsubscription']);
     }

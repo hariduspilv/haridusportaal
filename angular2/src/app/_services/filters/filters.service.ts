@@ -1,9 +1,8 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as _moment from 'moment';
-import { getEventsTags, getEventsTypes } from '../../_services/events/events.graph';
 
 export const DATEPICKER_FORMAT = {
   parse: {
@@ -17,32 +16,14 @@ export const DATEPICKER_FORMAT = {
   },
 };
 
-@Component({
-  selector: 'events-filter',
-  templateUrl: 'events.filter.component.html',
-  styleUrls: ['events.filter.scss'],
-  providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: DATEPICKER_FORMAT},
-  ]
-})
-
-export class EventsFilterComponent implements OnInit {
+export class FiltersService {
 
   filterFormItems: object = {};
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
+    public router: Router,
+    public route: ActivatedRoute,
   ) {
-
-  }
-
-  ngOnInit() {
-
-    this.activatedRoute.queryParams.subscribe( (params: Params) => {
-      this.filterRetrieveParams( params );
-    });
 
   }
 
@@ -68,12 +49,19 @@ export class EventsFilterComponent implements OnInit {
 
       if( i.match("date") ){
         this.filterFormItems[i] = _moment(params[i], "DD-MM-YYYY");
-      }else{
+      }
+      else if( i == "tags" || i == "types" ){
+        // skip it and leave it to tags code to retrieve it
+      }
+      else{
         this.filterFormItems[i] = params[i];
       }
     }
   }
 
+  clearField(name:any){
+    this.filterFormItems[name] = '';
+  }
   filterSubmit() {
 
     let urlParams = {};
@@ -83,9 +71,17 @@ export class EventsFilterComponent implements OnInit {
         delete this.filterFormItems[i];
       }
       else if( i.match("date") && typeof( this.filterFormItems[i] ) == 'object' && this.filterFormItems[i] !== null){
-        console.log(this.filterFormItems[i]);
         urlParams[i] = this.filterParseDate( this.filterFormItems[i] );
-      }else{
+      }
+      else if( typeof( this.filterFormItems[i] ) == 'object' ){
+        let values = '';
+        for( let ii in this.filterFormItems[i] ){
+          if( values !== '' ){ values+= ','}
+          values+= this.filterFormItems[i][ii].id;
+        }
+        urlParams[i] = values;
+      }
+      else{
         urlParams[i] = this.filterFormItems[i];
       }
     }

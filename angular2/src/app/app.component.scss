@@ -279,6 +279,13 @@ $grid-columns: 12;
   }
 }
 
+.cdk-overlay-container{
+  .cdk-overlay-backdrop{  background-color: rgba(51, 51, 51, 0.9); }
+  .mat-dialog-container{max-width:870px; width:100%; padding:0;
+
+  }
+}
+
 @media print{
   body{padding-top:0; width:1200px;}
   .inline{padding:0;}

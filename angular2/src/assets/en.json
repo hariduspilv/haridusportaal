@@ -73,7 +73,7 @@
 
 
   "newsletter.modal.title": "UUDISKIRJA TELLIMINE",
-  "newsletter.modal.content": "Tänud haridusteemade vastu huvi tundmast! Olete edukalt liitunud uudiskirjaga.",
+  "newsletter.modal.content": "<p><b>Tänud haridusteemade vastu huvi tundmast! Olete edukalt liitunud uudiskirjaga.</b></p>",
   "newsletter.modal.close": "Sulge aken",
 
   "newsletter.unsubscribe.title": "UUDISKIRJAST LOOBUMINE",
