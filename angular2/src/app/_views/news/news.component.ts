@@ -1,296 +1,225 @@
-import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { componentFactoryName } from '@angular/compiler';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
 import { Apollo, QueryRef } from 'apollo-angular';
-
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-
-import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { delay, map } from 'rxjs/operators';
+import { delay } from 'rxjs/operators/delay';
+
 import { of } from 'rxjs/observable/of';
 
-import { RootScopeService } from '../../_services';
-import { AppComponent } from '../../app.component';
-import { sortByOptions, getNewsTags, getNewsTags2 } from '../../_services/news/news.graph';
+import 'rxjs/add/operator/map';
+
+import { Observable } from 'rxjs/Observable';
+
+import { RootScopeService } from '../../_services/rootScope/rootScope.service';
+import { getNewsTags2, sortByOptions } from '../../_services/news/news.graph';
+
+/* Datepicker Imports */
+import * as _moment from 'moment';
+const moment = _moment;
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 @Component({
   templateUrl: './news.component.html',
-  styleUrls: ['./news.component.scss']
+  styleUrls: ['./news.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: DATEPICKER_FORMAT},
+  ]
 })
 
-export class NewsComponent implements OnInit, OnDestroy{
-  
-  // TAGS
-  newsTagObs: Observable<any[]>;
-  newsTags: any[];
-  newsTags2: any[];
-  selectedTags: any[];
-  
-  // for datepicker
-  filterFormGroup = new FormGroup({
-    titleForm: new FormControl({ value: null, disabled: false }),
-    minDateForm: new FormControl({ value: null, disabled: false }),
-    maxDateForm: new FormControl({ value: null, disabled: false }),
-    newsTagsSelectForm: new FormControl({ value: [], disabled: false }),
-  });
-  
-  
-  public querySubscription: Subscription;  
-  public error: boolean;
-  
-  public listEnd: boolean = false;
-  public path: string;
-  public lang: string;
-  
-  public list: any;
-  public offset: number = 0; 
-  public limit: number = 10;
-  public filter: boolean = true;
-  public filterState: boolean = false;
-  
-  public titleValue: string = "";
-  public titleEnabled: boolean = false;
-  public tagValue: Array<string> = [];
-  public tagEnabled: boolean = false;
-  public minDate: String = "-2147483647";
-  public maxDate: String = "2147483647";
-  
-  constructor ( 
-    private router: Router,
-    private route: ActivatedRoute,
+export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
+
+  subscriptions: Subscription[] = [];
+
+  limit = 5;
+  path: any;
+  lang: any;
+  tags: any;
+  params: any;
+  listSubscription: any;
+  list: any = false;
+  offset: number = 0;
+  listEnd: boolean = false;
+  dataSubscription: any;
+  loading = false;
+
+  constructor(
     private rootScope: RootScopeService,
+    public router: Router,
+    public route: ActivatedRoute,
     private apollo: Apollo
-  ) { }
-  
-  
-  
-  paramName: string;
-  paramLastName: string
-  
-  
-  
+  ) {
+    super(null, null);
+  }
+
+  pathWatcher() { 
+    let subscribe = this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.path = this.router.url;
+        this.lang = params['lang'];
+      }
+    );
+
+    this.subscriptions = [...this.subscriptions, subscribe];
+  }
+
   setPaths() {
     this.rootScope.set('langOptions', {
       'en': '/en/news',
       'et': '/et/uudised'
     });
   }
-  
-  
-  hideFilter() {
-    this.filter = !this.filter
+
+  processTags(tags: Array<object>) {
+    //Process tags JSON for ng-select
+    let output = [];
+    
+    for( let i in tags ){
+      let current = tags[i];
+      if( current['Tag'].length == 0 ){ continue; }
+
+      for( let ii in current['Tag'] ){
+        output.push({
+          id: current['Tag'][ii]['entity']['entityId'],
+          name: current['Tag'][ii]['entity']['entityLabel']
+        });
+      }
+    }
+
+    return output;
   }
 
-  changeFilterState() {
-    this.filterState = !this.filterState
+  getTags() {
+    let subscribe = this.apollo.watchQuery({
+      query: getNewsTags2,
+      variables: {
+        lang: this.lang.toUpperCase(),        
+      },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    }).valueChanges
+    .subscribe(({data}) => {
+      let entities = data['nodeQuery']['entities'];
+      let tags = this.processTags( entities );
+
+      if( this.params.types !== undefined ){
+        let splitParams = this.params.types.split(",");
+
+        this.filterFormItems['types'] = [];
+
+        for( let i in tags ){
+          if( splitParams.indexOf(tags[i]['id']) !== -1 ){
+            this.filterFormItems['types'].push(tags[i]);
+          }
+        }
+      }
+
+      this.tags = of(tags).pipe(delay(500));
+
+      subscribe.unsubscribe();
+
+    });
+
+  }
+
+  watchSearch() {
+
+    let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
+      this.params = params;
+      this.offset = 0;
+      this.list = false;
+      this.listEnd = false;
+      this.getData();
+    });
+
+    this.filterRetrieveParams( this.params );
+
+    // Add subscription to main array for destroying
+    this.subscriptions = [ ...this.subscriptions, subscribe];
   }
 
   loadMore() {
     this.offset = this.list.length;
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-        this.lang = params['lang'];
-        
-        this.apollo.watchQuery({
-          query: sortByOptions,
-          variables: {
-            tagValue: this.tagValue,
-            tagEnabled: false,
-            titleValue: "%" + this.titleValue + "%",
-            titleEnabled: false,
-            minDate: "-2147483647",
-            maxDate: "2147483647",
-            lang: this.lang.toUpperCase(),
-            offset: this.offset,
-            limit: this.limit            
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        }).valueChanges.subscribe(({data, loading}) => {
-          this.list = this.list.concat(data['nodeQuery']['entities']);
-          if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.limit) ){
-            this.listEnd = true;
-          }
-        });        
-      }
-    )
+    this.loading = true;
+    this.getData();
   }
-  
-  ngOnInit() {
-    
-    this.filter = document.documentElement.clientWidth > 900
-    
-    this.setPaths();
-    
-    // query parameters observable
-    this.route.queryParams.subscribe(params => {
-      this.titleValue = params.title;
-      if(this.titleValue != null) {
-        this.titleEnabled = true;
-      }
-      // console.log(this.titleValue)
-    });
-    
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        
-        this.path = this.router.url;
-        this.lang = params['lang'];     
-        
-        // get news list
-        this.querySubscription = this.apollo.watchQuery({
-          query: sortByOptions,
-          variables: {
-            tagValue: this.tagValue,
-            tagEnabled: false,
-            titleValue: "%" + this.titleValue + "%",
-            titleEnabled: false,
-            minDate: "-2147483647",
-            maxDate: "2147483647",
-            lang: this.lang.toUpperCase(),
-            offset: this.offset,
-            limit: this.limit            
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        }).valueChanges.subscribe(({data, loading}) => {
-          this.list = data['nodeQuery']['entities'];
-          if (this.list && (this.list.length < this.limit)){
-            this.listEnd = true;
-          }
-        });
-        
-        // // get tags
-        // this.querySubscription = this.apollo.watchQuery({
-        //   query: getNewsTags,
-        //   variables: {
-        //     lang: this.lang.toUpperCase(),
-        //     fetchPolicy: 'no-cache',
-        //     errorPolicy: 'all',
-        //   },
-        // })
-        // .valueChanges
-        // .subscribe(({data}) => {
-        //   this.newsTags = data['taxonomyTermQuery']['entities'];
-        
-        //   let newsTagArr = [];
-        
-        //   for( let i in this.newsTags ){
-        //     let current = this.newsTags[i];
-        //     let tmp = {
-        //       name: current['entityLabel'],
-        //       id: current['entityId']
-        //     };
-        //     newsTagArr.push(tmp);
-        //   }
-        //   this.newsTagObs = of(newsTagArr).pipe(delay(500));
-        //   // console.log(this.newsTagObs)
-        //   // console.log(newsTagArr)
-        // });
-        
-        // get tags
-        this.querySubscription = this.apollo.watchQuery({
-          query: getNewsTags2,
-          variables: {
-            lang: this.lang.toUpperCase(),
-            fetchPolicy: 'no-cache',
-            errorPolicy: 'all',
-          },
-        })
-        .valueChanges
-        .subscribe(({data}) => {
-          this.newsTags2 = data['nodeQuery']['entities'];
-          let newsTagArr = [];
-          this.newsTags2.map((tag)=>{
 
-            tag['Tag'].filter((tagItem, index, array) => {
-              if( tagItem['entity'] ){
-                let tmp = {
-                  id: tagItem['entity']['entityId'],
-                  name: tagItem['entity']['entityLabel'],
-                };
-                newsTagArr.push(tmp);
-              }
-              
-            });            
-          });
+  getData() {
 
-          newsTagArr = newsTagArr.filter((thing, index, self) =>
-            index === self.findIndex((t) => (
-              t.id === thing.id && t.name === thing.name
-            ))
-          )
-          this.newsTagObs = of(newsTagArr).pipe(delay(500));
-          // console.log(newsTagArr)
-        });
-        
-      }
-    )
-    
-  }
-  
-  newsFilter() {
-    this.tagEnabled = false;
-    this.titleEnabled = false;
-    
-    console.log(this.filterFormGroup);
-    
-    // TAG FILTER
-    if(this.filterFormGroup.value.newsTagsSelectForm != null) {  
-      if(this.filterFormGroup.value.newsTagsSelectForm.length > 0) {  
-        this.tagValue = this.filterFormGroup.value.newsTagsSelectForm.map((item) => { return item.id; })
-        this.tagEnabled = true;
-        // console.log(this.tagValue);
-      }
+    if( this.params.dateFrom ){
+      let splitDate = this.params.dateFrom.split("-");
+      var dateFromUnix:any = new Date(splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0] + "T00:00:00Z").getTime()/1000;
+      dateFromUnix = dateFromUnix.toString();
+    }
+
+    if( this.params.dateTo ){
+      let splitDate = this.params.dateTo.split("-");
+      var dateToUnix:any = new Date(splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0] + "T23:59:59Z").getTime()/1000;
+      dateToUnix = dateToUnix.toString();
     }
     
-    // TITLE FILTER
-    if(this.filterFormGroup.value.titleForm != null) {
-      this.titleEnabled = true;
-    }
-    
-    // DATE FILTER
-    if(this.filterFormGroup.value.minDateForm != null) { 
-      this.minDate = (this.filterFormGroup.value.minDateForm.getTime()/1000).toString();
-    } else { this.minDate = "-2147483647"; }
-    if(this.filterFormGroup.value.maxDateForm != null) {
-      this.maxDate = (this.filterFormGroup.value.maxDateForm.getTime()/1000 + 86399).toString();
-    } else { this.maxDate = "2147483647"; }
-    // console.log(this.minDate)
-    // console.log(this.maxDate)
-    
-    
-    this.offset = 0;
-    this.apollo.watchQuery({
+    let subscribe = this.apollo.watchQuery({
       query: sortByOptions,
       variables: {
-        tagValue: this.tagValue,
-        tagEnabled: this.tagEnabled,
-        titleValue: "%" + this.filterFormGroup.value.titleForm + "%",
-        titleEnabled: this.titleEnabled,
-        minDate: this.minDate,
-        maxDate: this.maxDate,
+        tagValue: this.params.types ? this.params.types.split(",") : "",
+        tagEnabled: this.params.types ? true : false,
+        titleValue: "%"+(this.params.title || '')+"%",
+        titleEnabled: this.params.title ? true : false,
+        minDate: this.params.dateFrom ? dateFromUnix : "-2147483647",
+        maxDate: this.params.dateTo ? dateToUnix :"2147483647",
         lang: this.lang.toUpperCase(),
         offset: this.offset,
-        limit: this.limit            
+        limit: this.limit
       },
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
-    }).valueChanges.subscribe(({data, loading}) => {
-      this.list = data['nodeQuery']['entities'];
-      this.listEnd = false;      
-      if (  data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.limit) ){
+    }).valueChanges.subscribe( ({data}) => {
+
+      this.loading = false;
+      if( data['nodeQuery']['entities'].length == 0 ){
+        if( !this.list || this.list.length == 0 ){
+          this.list = [];
+        }
         this.listEnd = true;
+        return false;
       }
+      if( data['nodeQuery']['entities'].length < this.limit ){ this.listEnd = true; }
+
+      if( this.list ){
+        this.list = [...this.list, ...data['nodeQuery']['entities']];
+      }
+      else{
+        this.list = data['nodeQuery']['entities'];
+      }
+
+
+      subscribe.unsubscribe();
+
     });
+
   }
-  
+
+  ngOnInit() {
+
+    this.pathWatcher();
+
+    this.setPaths();
+
+    this.getTags();
+
+    this.watchSearch();
+
+  }
+
   ngOnDestroy() {
-    this.querySubscription.unsubscribe();
+    /* Clear all subscriptions */
+    for (let sub of this.subscriptions) {
+      if (sub && sub.unsubscribe) {
+        sub.unsubscribe();
+      }
+    }
   }
+
 }
