@@ -60,8 +60,20 @@
   .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small; overflow: hidden;
     @include break-on(sm, min) {padding: 0 0 $small 0; white-space: nowrap; text-overflow: ellipsis;}
   }
+  _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
+  _:-ms-lang(x), .article-image {width: 100%;margin:0;}
   .news-single {
     @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}
   }
   .links {padding: 0 $medium;}
   .breadcrumb { padding-bottom: $gutter;}
+
+  ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {
+    font-feature-settings: 'liga';
+    -ms-font-feature-settings: 'liga';
+    font-family: 'Material Icons';
+    content: 'launch' !important;
+    position: relative;
+    top: 0.1875rem;
+  }
+  ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}

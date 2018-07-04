@@ -59,6 +59,8 @@
   "participantCreated": "Register date",
   "participantComment": "Comments",
   "participantIndex": "No.",
+  "participantList": "Participants",
+  "participantsNr": "Participants",
 
   "calendar": "Calendar",
   "list": "List",
@@ -73,12 +75,13 @@
 
 
   "newsletter.modal.title": "UUDISKIRJA TELLIMINE",
-  "newsletter.modal.content": "<p><b>Tänud haridusteemade vastu huvi tundmast! Olete edukalt liitunud uudiskirjaga.</b></p>",
+  "newsletter.modal.content": "<p>Tänud haridusteemade vastu huvi tundmast!</p><p>Olete edukalt liitunud uudiskirjaga.</p>",
   "newsletter.modal.close": "Sulge aken",
 
   "newsletter.unsubscribe.title": "UUDISKIRJAST LOOBUMINE",
-  "newsletter.unsubscribe.content": "<p><b>Tänud haridusteemade vastu huvi tundmast. </b></p><p>Olete loobunud haridusteemalisest uudiskirjast. <br />Külastage jätkuvalt veebiaadressi <a href='http://www.eduportaal.ee' target='_blank'>www.eduportaal.ee</a>.</p>",
-
+  "newsletter.unsubscribe.content": "<p>Tänud haridusteemade vastu huvi tundmast.</p><br /><p>Olete loobunud haridusteemalisest uudiskirjast.</p> <span>Külastage jätkuvalt veebiaadressi <a href='http://www.eduportaal.ee' target='_blank'>www.eduportaal.ee</a>.</span>",
+  "newsletter.subscription.thanks.content": "Tänud haridusteemade vastu huvi tundmast!",
+  "newsletter.subscription.thanks.subcontent": "Palume kinnitada uudiskirjaga liitumise soov lingi kaudu, mille edastasime tellimusega seotud e-posti aadressile",
 
   "title": "Title",
   "author": "Author",
@@ -91,5 +94,25 @@
   "organization.name": "Organization name",
   "organization.contact": "Organization contact",
   "link.outer": "Outer link",
-  "breadcrumbs": "Breadcrumbs"
+  "breadcrumbs": "Breadcrumbs",
+
+  "from": "From",
+  "event.passed": "Event has passed",
+  "register.ended": "Registration period over",
+  "map.closer": "Closer",
+  "form.registration": "Registration form",
+  "required.fields": "Required fields",
+  "required.field": "Required field",
+  "time.at": "At",
+  "cancel": "Cancel",
+  "enter.valid.email": "Enter a valid email",
+  "send": "Send",
+  "modal.close": "Close",
+  "registration.thanks": "Thank you for your registration!",
+  "registration.add.to.calendar": "Add event to your calendar",
+  "participants.list.go": "See participants list",
+  "free": "Free",
+  "back": "Back",
+  "subscription.choose.one": "Choose at least one subscription",
+  "subscription.failed": "Subscription failed"
 }

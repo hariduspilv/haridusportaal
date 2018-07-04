@@ -12,7 +12,7 @@ id: paragraph.right_sidebar_section_info.field_contact_section
 field_name: field_contact_section
 entity_type: paragraph
 bundle: right_sidebar_section_info
-label: 'Contact section'
+label: 'Kontakti sektsioon'
 description: ''
 required: false
 translatable: true

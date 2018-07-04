@@ -59,6 +59,8 @@
   "participantCreated": "Registreerimise aeg",
   "participantComment": "Märkused",
   "participantIndex": "jrk nr",
+  "participantList": "Osalejate nimekiri",
+  "participantsNr": "Osalejat",
 
   "calendar": "Kalender",
   "list": "List",
@@ -72,11 +74,13 @@
   "practical.info": "Praktiline info",
   
   "newsletter.modal.title": "UUDISKIRJA TELLIMINE",
-  "newsletter.modal.content": "<p><b>Tänud haridusteemade vastu huvi tundmast! Olete edukalt liitunud uudiskirjaga.</b></p>",
+  "newsletter.modal.content": "<p>Tänud haridusteemade vastu huvi tundmast!</p><p>Olete edukalt liitunud uudiskirjaga.</p>",
   "newsletter.modal.close": "Sulge aken",
 
   "newsletter.unsubscribe.title": "UUDISKIRJAST LOOBUMINE",
-  "newsletter.unsubscribe.content": "<p><b>Tänud haridusteemade vastu huvi tundmast. </b></p><p>Olete loobunud haridusteemalisest uudiskirjast. <br />Külastage jätkuvalt veebiaadressi <a href='http://www.eduportaal.ee' target='_blank'>www.eduportaal.ee</a>.</p>",
+  "newsletter.unsubscribe.content": "<p>Tänud haridusteemade vastu huvi tundmast.</p><br /><p>Olete loobunud haridusteemalisest uudiskirjast.</p> <span>Külastage jätkuvalt veebiaadressi <a href='http://www.eduportaal.ee' target='_blank'>www.eduportaal.ee</a>.</span>",
+  "newsletter.subscription.thanks.content": "Tänud haridusteemade vastu huvi tundmast!",
+  "newsletter.subscription.thanks.subcontent": "Palume kinnitada uudiskirjaga liitumise soov lingi kaudu, mille edastasime tellimusega seotud e-posti aadressile",
   "title": "Pealkiri",
   "author": "Autor",
   "event.group": "Ürituse grupp",
@@ -88,5 +92,25 @@
   "organization.name": "Organisatsioon",
   "organization.contact": "Kontakt",
   "link.outer": "Väline link",
-  "breadcrumbs": "Leivapuru"
+  "breadcrumbs": "Leivapuru",
+  
+  "from": "Alates",
+  "event.passed": "Sündmus on möödunud",
+  "register.ended": "Registreerimine lõppenud",
+  "map.closer": "Vaata kaarti lähemalt",
+  "form.registration": "Registreerimisvorm",
+  "required.fields": "Märgitud väljad on kohustuslikud",
+  "required.field": "Kohustuslik väli",
+  "time.at": "Kell",
+  "cancel": "Tühista",
+  "enter.valid.email": "Sisesta korrektne email",
+  "send": "Saada",
+  "modal.close": "Sulge aken",
+  "registration.thanks": "Täname sündmusele registreerimise eest!",
+  "registration.add.to.calendar": "Lisa sündmus enda kalendrisse",
+  "participants.list.go": "Vaata osalejate nimekirja",
+  "free": "Tasuta",
+  "back": "Tagasi",
+  "subscription.choose.one": "Vali vähemalt üks uudiskiri",
+  "subscription.failed": "Tellimuse saatmine ebaõnnestus"
 }

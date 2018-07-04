@@ -1,122 +1,131 @@
-<div class="row" cdkTrapFocus>
-  <div class="col-12" style="position: relative;">
-    <p>{{ 'form.registration' | translate | uppercase }}</p>
-    <h2>{{ data.eventTitle }}</h2>
-    <p> {{ 'start.from' | translate }} : 
-      {{ data.eventStartDate.fieldEventDate.unix*1000 | weekday: "unix"}}
-      {{ data.eventStartDate.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
-      {{ 'at' | translate }}
-      {{ data.eventStartDate.fieldEventStartTime | unixToTime }}
-    </p>
-    <p>* {{ 'require.fields' | translate }}</p>
-    <button style="position: absolute; top: 0; right: 0;" mat-icon-button aria-label="Close" (click)="close()" tabindex="0"> <!-- need to add some absolute class-->
-      <mat-icon>close</mat-icon>
-    </button>
-    <br>
-    <form [formGroup]="form">
-      <mat-dialog-content>
+<div class="dialog" cdkTrapFocus>
+  <div class="row">
+    <div class="col-12" style="position: relative;">
+      <span class="dialog__text--medium">{{ 'form.registration' | translate | uppercase }}</span>
+      <mat-icon class="dialog__close" aria-label="Close" (click)="close()" tabindex="0">close</mat-icon>
+    </div>
+    <div class="col-12" *ngIf="step === 0">
+      <h1>{{ data.eventTitle }}</h1>
+      <div class="dialog__time"> 
+        <span class="capitalize">{{ data.eventStartDate.fieldEventDate.unix*1000 | weekday: "unix"}} {{ data.eventStartDate.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
+        <span>{{ 'time.at' | translate }}</span>
+        <span>{{ data.eventStartDate.fieldEventStartTime | unixToTime }} - {{ data.eventStartDate.fieldEventEndTime | unixToTime }}</span>
+      </div>
+      <div class="dialog__required">* {{ 'required.fields' | translate }}</div>
+    </div>
+    <form [formGroup]="form" class="dialog__form col-12" *ngIf="step === 0">
+      <div class="dialog-content">
+        <div class="row">
+          <div class="col-6 sm-12">
+            <div class="round-input__wrapper">
+              <span class="round-input__title">{{ 'participantFirstName' | translate }} *</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" placeholder="{{ 'participantFirstName' | translate }} *" formControlName="firstName"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" *ngIf="isInvalidField('firstName') && form.controls.firstName.errors.required">
+                  {{ 'required.field' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-6 sm-12">
+            <div class="round-input__wrapper">
+              <span class="round-input__title">{{ 'participantLastName' | translate }} *</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" placeholder="{{ 'participantLastName' | translate }} *" formControlName="lastName"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" *ngIf="isInvalidField('lastName') && form.controls.lastName.errors.required">
+                  {{ 'required.field' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
         
-        <div class="col-12">
-          
-          <div class="row">
-            <div class="col-6 sm-12">
-              <div class="round-input__wrapper w-100">
-                <span class="round-input__title">{{ 'participant.firstname' | translate }} *</span>
-                <div class="round-input__field-wrapper">
-                  <input class="round-input__field" placeholder="{{ 'add.participant.firstname' | translate }}" formControlName="firstName"/>
-                </div>
+          <div class="col-12 sm-12">
+            <div class="round-input__wrapper">
+              <span class="round-input__title">{{ 'participantOrganization' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" placeholder="{{ 'participantOrganization' | translate }}" formControlName="companyName"/>
               </div>
-              <div *ngIf="isInvalidFirstname()" style="color: red;">
-                <div *ngIf="form.controls.firstName.errors.required">
-                  {{ 'participant.firstname.required' | translate }}
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-6 sm-12">
-              <div class="round-input__wrapper w-100">
-                <span class="round-input__title">{{ 'participant.lastname' | translate }} *</span>
-                <div class="round-input__field-wrapper">
-                  <input class="round-input__field" placeholder="{{ 'add.participant.lastname' | translate }}" formControlName="lastName"/>
-                </div>
-              </div>
-              <div *ngIf="isInvalidLastname()" style="color: red;">
-                <div *ngIf="form.controls.lastName.errors.required">
-                  {{ 'participant.lastname.required' | translate }}
-                </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text"></div>
               </div>
             </div>
           </div>
-          
-          <br>
-          
-          <div class="row">
-            <div class="col-12 sm-12">
-              <div class="round-input__wrapper w-100">
-                <span class="round-input__title">{{ 'company.name' | translate }}</span>
-                <div class="round-input__field-wrapper">
-                  <input class="round-input__field" placeholder="{{ 'add.company.name' | translate }}" formControlName="companyName"/>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <br>
-          
-          <div class="row">
-            <div class="col-6 sm-12">
-              <div class="round-input__wrapper w-100">
-                <span class="round-input__title">{{ 'email' | translate }} *</span>
-                <div class="round-input__field-wrapper">
-                  <input class="round-input__field" placeholder="{{ 'add.email' | translate }}" formControlName="email"/>
-                </div>
-                <div *ngIf="isInvalidEmail()" style="color: red;">
-                  <div *ngIf="form.controls.email.errors.required">
-                    {{ 'participant.firstname.required' | translate }}
-                  </div>
-                  <div *ngIf="form.controls.email.errors.email">
-                    {{ 'participant.firstname.email' | translate }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-6 sm-12">
-              <div class="round-input__wrapper w-100">
-                <span class="round-input__title">{{ 'telephone' | translate }}</span>
-                <div class="round-input__field-wrapper">
-                  <input class="round-input__field" placeholder="{{ 'add.telephone' | translate }}" formControlName="telephone"/>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <br>
-          
-          <div class="row">
-            <div class="col-12 sm-12">
-              <div class="round-input__wrapper w-100">
-                <span class="round-input__title">{{ 'marked' | translate }}</span>
-                <div class="round-input__field-wrapper">
-                  <input class="round-input__field" placeholder="{{ 'add.marked' | translate }}" formControlName="marked"/>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div>
         
-      </mat-dialog-content>
-      
-      <mat-dialog-actions>
-        <div class="row w-100">
-          <div class="col-12 text-right">
-            <a [routerLink]="" (click)="clear()">{{ 'clear' | translate }}</a>
-            <button class="mat-raised-button mat-primary" (click)="save()" [disabled]="form.invalid">{{ 'send' | translate }}</button>
+          <div class="col-6 sm-12">
+            <div class="round-input__wrapper" 
+              [class.error]="isInvalidField('email') && form.controls.email.errors.email && !emailFocus" 
+              [class.complete]="!isInvalidField('email') && form.controls.email.value && !emailFocus">
+              <span class="round-input__title">{{ 'participantEmail' | translate }} *</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'participantEmail' | translate }} *" formControlName="email"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">
+                  {{ 'enter.valid.email' | translate }}
+                </div>
+              </div>
+            </div>
           </div>
+          
+          <div class="col-6 sm-12">
+            <div class="round-input__wrapper" [class.complete]="form.controls.telephone.value && !phoneFocus">
+              <span class="round-input__title">{{ 'participantPhone' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" (focus)="phoneFocus = true" (blur)="phoneFocus = false" [class.focused]='phoneFocus' placeholder="{{ 'participantPhone' | translate }}" formControlName="telephone"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="col-12 sm-12">
+            <div class="round-input__wrapper">
+              <span class="round-input__title">{{ 'participantComment' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" placeholder="{{ 'participantComment' | translate }}" formControlName="marked"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text"></div>
+              </div>
+            </div>
+          </div> -->
+          
+          <div class="col-12 sm-12">
+            <div class="round-input__area">
+              <textarea class="round-input__area__elem" autosize placeholder="{{ 'participantComment' | translate }}" formControlName="marked"></textarea>
+            </div>
+          </div>
+
         </div>
-      </mat-dialog-actions>
+      </div>
       
+      <div class="dialog__actions row" *ngIf="step === 0">
+        <div class="col-12 text-right">
+          <a class="sm-hide" href="javascript:void(0)" (click)="clear()">{{ 'cancel' | translate }}</a>
+          <button mat-raised-button color="primary" (click)="save()">{{ 'send' | translate }}</button>
+          <a class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'cancel' | translate }}</a>
+          <!-- [disabled]="form.invalid" -->
+        </div>
+      </div>
     </form>
+    <div class="dialog__success" *ngIf="step === 1">
+      <div class="dialog__success__title">
+        <h1>{{ 'registration.thanks' | translate }}</h1>
+      </div>
+      <div class="dialog__actions--success">
+        <div class="row text-center">
+          <div class="col-12">
+            <button mat-raised-button color="primary" (click)="close()">{{ 'registration.add.to.calendar' | translate }}</button>
+          </div>
+          <div class="dialog__actions--success__close col-12"><a href="javascript:void(0)" (click)="close()">{{ 'modal.close' | translate }}</a></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

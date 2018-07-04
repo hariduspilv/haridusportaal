@@ -16,7 +16,45 @@ use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
- * Service which resolves public field names to and from Drupal field names.
+ * A service that evaluates external path expressions against Drupal fields.
+ *
+ * This class performs 3 essential functions, path resolution, path validation
+ * and path expansion.
+ *
+ * Path resolution:
+ * Path resolution refers to the ability to map a set of external field names to
+ * their internal counterparts. This is necessary because a resource type can
+ * provide aliases for its field names. For example, the resource type @code
+ * node--article @endcode might "alias" the internal field name @code
+ * uid @endcode to the external field name @code author @endcode. This permits
+ * an API consumer to request @code
+ * /jsonapi/node/article?include=author @endcode for a better developer
+ * experience.
+ *
+ * Path validation:
+ * Path validation refers to the ability to ensure that a requested path
+ * corresponds to a valid set of internal fields. For example, if an API
+ * consumer may send a @code GET @endcode request to @code
+ * /jsonapi/node/article?sort=author.field_first_name @endcode. The field
+ * resolver ensures that @code uid @endcode (which would have been resolved
+ * from @code author @endcode) exists on article nodes and that @code
+ * field_first_name @endcode exists on user entities. However, in the case of
+ * an @code include @endcode path, the field resolver would raise a client error
+ * because @code field_first_name @endcode is not an entity reference field,
+ * meaning it does not identify any related resources that can be included in a
+ * compound document.
+ *
+ * Path expansion:
+ * Path expansion refers to the ability to expand a path to an entity query
+ * compatible field expression. For example, a request URL might have a query
+ * string like @code ?filter[field_tags.name]=aviation @endcode, before
+ * constructing the appropriate entity query, the entity query system needs the
+ * path expression to be "expanded" into @code field_tags.entity.name @endcode.
+ * In some rare cases, the entity query system needs this to be expanded to
+ * @code field_tags.entity:taxonomy_term.name @endcode; the field resolver
+ * simply does this by default for every path.
+ *
+ * *Note:* path expansion is *not* performed for @code include @endcode paths.
  *
  * @internal
  */
@@ -70,7 +108,98 @@ class FieldResolver {
   }
 
   /**
-   * Resolves external field expressions into internal field expressions.
+   * Validates and resolves an include path into its internal possibilities.
+   *
+   * Each resource type may define its own external names for its internal
+   * field names. As a result, a single external include path may target
+   * multiple internal paths.
+   *
+   * This can happen when an entity reference field has different allowed entity
+   * types *per bundle* (as is possible with comment entities) or when
+   * different resource types share an external field name but resolve to
+   * different internal fields names.
+   *
+   * Example 1:
+   * An installation may have three comment types for three different entity
+   * types, two of which have a file field and one of which does not. In that
+   * case, a path like @code field_comments.entity_id.media @endcode might be
+   * resolved to both @code field_comments.entity_id.field_audio @endcode
+   * and @code field_comments.entity_id.field_image @endcode.
+   *
+   * Example 2:
+   * A path of @code field_author_profile.account @endcode might
+   * resolve to @code field_author_profile.uid @endcode and @code
+   * field_author_profile.field_user @endcode if @code
+   * field_author_profile @endcode can relate to two different JSON API resource
+   * types (like `node--profile` and `node--migrated_profile`) which have the
+   * external field name @code account @endcode aliased to different internal
+   * field names.
+   *
+   * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
+   *   The resource type for which the path should be validated.
+   * @param string[] $path_parts
+   *   The include path as an array of strings. For example, the include query
+   *   parameter string of @code field_tags.uid @endcode should be given
+   *   as @code ['field_tags', 'uid'] @endcode.
+   * @param int $depth
+   *   (internal) Used to track recursion depth in order to generate better
+   *   exception messages.
+   *
+   * @return string[]
+   *   The resolved internal include paths.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+   *   Thrown if the path contains invalid specifiers.
+   */
+  public static function resolveInternalIncludePath(ResourceType $resource_type, array $path_parts, $depth = 0) {
+    if (empty($path_parts)) {
+      throw new BadRequestHttpException('Empty include path.');
+    }
+    $internal_field_name = $resource_type->getInternalName($path_parts[0]);
+    $relatable_resource_types = $resource_type->getRelatableResourceTypesByField($internal_field_name);
+    if (empty($relatable_resource_types)) {
+      $message = "`$internal_field_name` is not a valid relationship field name.";
+      if (!empty(($possible = implode(', ', array_keys($resource_type->getRelatableResourceTypes()))))) {
+        $message .= " Possible values: $possible.";
+      }
+      throw new BadRequestHttpException($message);
+    }
+    $remaining_parts = array_slice($path_parts, 1);
+    if (empty($remaining_parts)) {
+      return [[$internal_field_name]];
+    }
+    $exceptions = [];
+    $resolved = [];
+    foreach ($relatable_resource_types as $relatable_resource_type) {
+      try {
+        // Each resource type may resolve the path differently and may return
+        // multiple possible resolutions.
+        $resolved += static::resolveInternalIncludePath($relatable_resource_type, $remaining_parts, $depth + 1);
+      }
+      catch (BadRequestHttpException $e) {
+        $exceptions[] = $e;
+      }
+    }
+    if (!empty($exceptions) && count($exceptions) === count($relatable_resource_types)) {
+      $previous_messages = implode(' ', array_unique(array_map(function (BadRequestHttpException $e) {
+        return $e->getMessage();
+      }, $exceptions)));
+      // Only add the full include path on the first level of recursion so that
+      // the invalid path phrase isn't repeated at every level.
+      throw new BadRequestHttpException($depth === 0
+        ? sprintf("`%s` is not a valid include path. $previous_messages", implode('.', $path_parts))
+        : $previous_messages
+      );
+    }
+    // The resolved internal paths do not include the current field name because
+    // resolution happens in a recursive process.
+    return array_map(function ($possibility) use ($internal_field_name) {
+      return array_merge([$internal_field_name], $possibility);
+    }, $resolved);
+  }
+
+  /**
+   * Resolves external field expressions into entity query compatible paths.
    *
    * It is often required to reference data which may exist across a
    * relationship. For example, you may want to sort a list of articles by
@@ -105,7 +234,7 @@ class FieldResolver {
    *
    * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
    */
-  public function resolveInternal($entity_type_id, $bundle, $external_field_name) {
+  public function resolveInternalEntityQueryPath($entity_type_id, $bundle, $external_field_name) {
     $resource_type = $this->resourceTypeRepository->get($entity_type_id, $bundle);
     if (empty($external_field_name)) {
       throw new BadRequestHttpException('No field name was provided for the filter.');
@@ -115,6 +244,7 @@ class FieldResolver {
     // 'uid.entity.field_category.entity.name'. This may be too simple, but it
     // works for the time being.
     $parts = explode('.', $external_field_name);
+    $unresolved_path_parts = $parts;
     $reference_breadcrumbs = [];
     /* @var \Drupal\jsonapi\ResourceType\ResourceType[] $resource_types */
     $resource_types = [$resource_type];
@@ -177,7 +307,7 @@ class FieldResolver {
         //
         // For example, the path `uid.name` for a `node--article` resource type
         // will be resolved into `uid.entity.name`.
-        $reference_breadcrumbs[] = static::getDataReferencePropertyName($candidate_definitions, $parts);
+        $reference_breadcrumbs[] = static::getDataReferencePropertyName($candidate_definitions, $parts, $unresolved_path_parts);
       }
       else {
         // If the property is not a reference property, then all
@@ -368,11 +498,13 @@ class FieldResolver {
    *   A list of targeted field item definitions specified by the path.
    * @param string[] $remaining_parts
    *   The remaining path parts.
+   * @param string[] $unresolved_path_parts
+   *   The unresolved path parts.
    *
    * @return string
    *   The reference name.
    */
-  protected static function getDataReferencePropertyName(array $candidate_definitions, array $remaining_parts) {
+  protected static function getDataReferencePropertyName(array $candidate_definitions, array $remaining_parts, array $unresolved_path_parts) {
     $reference_property_names = array_reduce($candidate_definitions, function (array $reference_property_names, ComplexDataDefinitionInterface $definition) {
       $property_definitions = $definition->getPropertyDefinitions();
       foreach ($property_definitions as $property_name => $property_definition) {
@@ -386,10 +518,12 @@ class FieldResolver {
     }, []);
     $unique_reference_names = array_unique($reference_property_names);
     if (count($unique_reference_names) > 1) {
-      $choices = implode(', ', $unique_reference_names);
-      $given = implode('.', $remaining_parts);
+      $choices = array_map(function ($reference_name) use ($unresolved_path_parts, $remaining_parts) {
+        $prior_parts = array_slice($unresolved_path_parts, 0, count($unresolved_path_parts) - count($remaining_parts));
+        return implode('.', array_merge($prior_parts, [$reference_name], $remaining_parts));
+      }, $unique_reference_names);
       // @todo Add test coverage for this in https://www.drupal.org/project/jsonapi/issues/2971281
-      $message = sprintf('Ambiguous path. Try one of the following: %s, before the given path: %s', $choices, $given);
+      $message = sprintf('Ambiguous path. Try one of the following: %s, in place of the given path: %s', implode(', ', $choices), implode('.', $unresolved_path_parts));
       throw new BadRequestHttpException($message);
     }
     return $unique_reference_names[0];
@@ -422,6 +556,7 @@ class FieldResolver {
    *   otherwise.
    */
   protected static function isCandidateDefinitionProperty($part, array $candidate_definitions) {
+    $part = static::getPathPartPropertyName($part);
     foreach ($candidate_definitions as $definition) {
       if ($definition->getPropertyDefinition($part)) {
         return TRUE;
@@ -444,6 +579,7 @@ class FieldResolver {
    *   otherwise.
    */
   protected static function isCandidateDefinitionReferenceProperty($part, array $candidate_definitions) {
+    $part = static::getPathPartPropertyName($part);
     foreach ($candidate_definitions as $definition) {
       $property = $definition->getPropertyDefinition($part);
       if ($property && $property instanceof DataReferenceDefinitionInterface) {
@@ -451,6 +587,24 @@ class FieldResolver {
       }
     }
     return FALSE;
+  }
+
+  /**
+   * Gets the property name from an entity typed or untyped path part.
+   *
+   * A path part may contain an entity type specifier like `entity:node`. This
+   * extracts the actual property name. If an entity type is not specified, then
+   * the path part is simply returned. For example, both `foo` and `foo:bar`
+   * will return `foo`.
+   *
+   * @param string $part
+   *   A path part.
+   *
+   * @return string
+   *   The property name from a path part.
+   */
+  protected static function getPathPartPropertyName($part) {
+    return strpos($part, ':') !== FALSE ? explode(':', $part)[0] : $part;
   }
 
 }

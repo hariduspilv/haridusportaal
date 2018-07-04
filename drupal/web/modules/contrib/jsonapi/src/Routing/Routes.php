@@ -59,16 +59,29 @@ class Routes implements ContainerInjectionInterface {
   protected $providerIds;
 
   /**
+   * The JSON API base path.
+   *
+   * @var string
+   */
+  protected $jsonApiBasePath;
+
+  /**
    * Instantiates a Routes object.
    *
    * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resource_type_repository
    *   The JSON API resource type repository.
    * @param string[] $authentication_providers
    *   The authentication providers, keyed by ID.
+   * @param string $jsonapi_base_path
+   *   The JSON API base path.
    */
-  public function __construct(ResourceTypeRepositoryInterface $resource_type_repository, array $authentication_providers) {
+  public function __construct(ResourceTypeRepositoryInterface $resource_type_repository, array $authentication_providers, $jsonapi_base_path) {
     $this->resourceTypeRepository = $resource_type_repository;
     $this->providerIds = array_keys($authentication_providers);
+    assert(is_string($jsonapi_base_path));
+    assert($jsonapi_base_path[0] === '/');
+    assert(substr($jsonapi_base_path, -1) !== '/');
+    $this->jsonApiBasePath = $jsonapi_base_path;
   }
 
   /**
@@ -77,7 +90,8 @@ class Routes implements ContainerInjectionInterface {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('jsonapi.resource_type.repository'),
-      $container->getParameter('authentication_providers')
+      $container->getParameter('authentication_providers'),
+      $container->getParameter('jsonapi.base_path')
     );
   }
 
@@ -87,14 +101,11 @@ class Routes implements ContainerInjectionInterface {
   public function routes() {
     $routes = new RouteCollection();
 
-    // Every JSON API route is prefixed.
-    $path_prefix = $this->resourceTypeRepository->getPathPrefix();
-
     // JSON API's routes: entry point + routes for every resource type.
     foreach ($this->resourceTypeRepository->all() as $resource_type) {
-      $routes->addCollection(static::getRoutesForResourceType($resource_type, $path_prefix));
+      $routes->addCollection(static::getRoutesForResourceType($resource_type, $this->jsonApiBasePath));
     }
-    $routes->add('jsonapi.resource_list', static::getEntryPointRoute($path_prefix));
+    $routes->add('jsonapi.resource_list', static::getEntryPointRoute($this->jsonApiBasePath));
 
     // Enable all available authentication providers.
     $routes->addOptions(['_auth' => $this->providerIds]);

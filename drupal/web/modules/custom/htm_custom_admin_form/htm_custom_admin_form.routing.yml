@@ -1,0 +1,11 @@
+
+htm_custom_admin_form.custom_admin_form:
+  path: '/admin/config/htm_custom_admin_form/custom_admin_configuration'
+  defaults:
+    _form: '\Drupal\htm_custom_admin_form\Form\CustomAdminForm'
+    _title: 'CustomAdminForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+

@@ -10,7 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'newsletter-order',
-  templateUrl: './newsletter.order.component.html'
+  templateUrl: './newsletter.order.component.html',
+  styleUrls: ['./newsletter.order.component.scss']
 })
 
 export class NewsletterOrderComponent implements OnInit, OnDestroy{
@@ -25,7 +26,9 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
   email: string = "";
   errors: object = {};
 
+  subscriptionSuccessContent: string = "";
   subscribedStatus: boolean = false;
+  subscribedFailure: string = "";
 
   constructor(
     private apollo: Apollo,
@@ -117,6 +120,9 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     })
     .subscribe(({data}) => {
       this.subscribedStatus = true;
+    }, (data) => {
+      this.subscribedStatus = true;
+      this.subscribedFailure = data;
     });
     this.subscriptions = [...this.subscriptions, tagsSignup];
   }
@@ -145,10 +151,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
         fetchPolicy: 'no-cache',
         errorPolicy: 'all'
       },
-    })
-    .subscribe(({data}) => {
-      console.log(data);
-    });
+    }).subscribe();
     this.subscriptions = [...this.subscriptions, subscribe];
   }
 
@@ -176,10 +179,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
         fetchPolicy: 'no-cache',
         errorPolicy: 'all'
       },
-    })
-    .subscribe(({data}) => {
-      console.log(data);
-    });
+    }).subscribe();
     this.subscriptions = [...this.subscriptions, unsubscribe];
   }
 

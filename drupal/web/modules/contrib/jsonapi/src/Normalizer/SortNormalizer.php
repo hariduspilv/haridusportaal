@@ -48,7 +48,7 @@ class SortNormalizer implements DenormalizerInterface {
   public function denormalize($data, $class, $format = NULL, array $context = []) {
     $expanded = $this->expand($data);
     $expanded = array_map(function ($item) use ($context) {
-      $item[Sort::PATH_KEY] = $this->fieldResolver->resolveInternal(
+      $item[Sort::PATH_KEY] = $this->fieldResolver->resolveInternalEntityQueryPath(
         $context['entity_type_id'],
         $context['bundle'],
         $item[Sort::PATH_KEY]

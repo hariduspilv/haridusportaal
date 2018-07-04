@@ -3,8 +3,8 @@
   background:#2e3374;
   height: 4rem;
 }
-.close {cursor: pointer;margin-left: $medium;}
 .header-logo {
+  text-align: center;
   margin-left: 1.25rem;
   span {font-weight: 300;}
   span.bold {font-weight: 500;}
@@ -14,8 +14,8 @@
   line-height: 1.4;
   color: #ffffff;
   @include break-on(sm, min) {
-    margin-left: 1.75rem;
-    width: 11.5rem;
+    width: 16.25rem;
+    margin-left: 0;
   }
 }
 .search-input  {

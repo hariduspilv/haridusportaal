@@ -56,7 +56,8 @@ class WatchdogLogger implements PsrLoggerInterface {
       // Remove any backtraces since they may contain an unserializable variable.
       unset($context['backtrace']);
 
-      // Convert PSR3-style messages to SafeMarkup::format() style, so they can be
+      // Convert PSR3-style messages to
+      // \Drupal\Component\Render\FormattableMarkup style, so they can be
       // translated too in runtime.
       $message_placeholders = $this->parser->parseMessagePlaceholders($message, $context);
 

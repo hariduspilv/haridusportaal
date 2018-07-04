@@ -1,0 +1,24 @@
+htm_custom_admin_form.customadmin:
+  type: config_object
+  label: 'Admin configurations'
+  mapping:
+    emails:
+      type: mapping
+      label: 'Email translations'
+      mapping:
+        email_event_registration:
+          type: mapping
+          label: 'Event registration email'
+          mapping:
+            registration_email_subject:
+              type: label
+              label: 'Registration email subject'
+            registration_email_body:
+              type: text
+              label: 'Registration email body'
+            organizer_email_subject:
+              type: label
+              label: 'Organizer email subject'
+            organizer_email_body:
+              type: label
+              label: 'Organizer email body'

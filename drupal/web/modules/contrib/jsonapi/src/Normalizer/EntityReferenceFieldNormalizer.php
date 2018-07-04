@@ -7,9 +7,9 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
-use Drupal\Core\Field\TypedData\FieldItemDataDefinition;
 use Drupal\Core\TypedData\TypedDataInternalPropertiesHelper;
 use Drupal\jsonapi\Normalizer\Value\NullFieldNormalizerValue;
+use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
 use Drupal\jsonapi\Resource\EntityCollection;
 use Drupal\jsonapi\LinkManager\LinkManager;
@@ -96,13 +96,28 @@ class EntityReferenceFieldNormalizer extends FieldNormalizer implements Denormal
     $cardinality = $definition
       ->getFieldStorageDefinition()
       ->getCardinality();
-    /** @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem[] $entity_reference_item_list */
-    $entity_reference_item_list = array_filter(iterator_to_array($field), function ($item) {
-      return (bool) $item->get('entity')->getValue();
-    });
     $entity_list_metadata = [];
     $entity_list = [];
-    foreach ($entity_reference_item_list as $item) {
+    foreach ($field as $item) {
+      // A non-empty entity reference field that refers to a non-existent entity
+      // is not a data integrity problem. For example, Term entities' "parent"
+      // entity reference field uses target_id zero to refer to the non-existent
+      // "<root>" term.
+      if (!$item->isEmpty() && $item->get('entity')->getValue() === NULL) {
+        $entity_list[] = NULL;
+        $entity_list_metadata[] = [
+          'links' => [
+            'help' => [
+              'href' => 'https://www.drupal.org/docs/8/modules/json-api/core-concepts#virtual',
+              'meta' => [
+                'about' => "Usage and meaning of the 'virtual' resource identifier.",
+              ],
+            ],
+          ],
+        ];
+        continue;
+      }
+
       // Prepare a list of additional properties stored by the field.
       $metadata = [];
       /** @var \Drupal\Core\TypedData\TypedDataInterface[] $properties */
@@ -112,7 +127,7 @@ class EntityReferenceFieldNormalizer extends FieldNormalizer implements Denormal
         : TypedDataInternalPropertiesHelper::getNonInternalProperties($item);
       foreach ($properties as $property_key => $property) {
         if ($property_key !== $main_property) {
-          $metadata[$property_key] = $property->getValue();
+          $metadata[$property_key] = $this->serializer->normalize($property, $format, $context);
         }
       }
       $entity_list_metadata[] = $metadata;
@@ -152,18 +167,21 @@ class EntityReferenceFieldNormalizer extends FieldNormalizer implements Denormal
     // This is typically 'target_id'.
     $item_definition = $field_definition->getItemDefinition();
     $property_key = $item_definition->getMainPropertyName();
-    $target_resources = $this->getAllowedResourceTypes($item_definition);
+    $target_resource_types = $resource_type->getRelatableResourceTypesByField($context['related']);
+    $target_resource_type_names = array_map(function (ResourceType $resource_type) {
+      return $resource_type->getTypeName();
+    }, $target_resource_types);
 
     $is_multiple = $field_definition->getFieldStorageDefinition()->isMultiple();
     $data = $this->massageRelationshipInput($data, $is_multiple);
-    $values = array_map(function ($value) use ($property_key, $target_resources) {
+    $values = array_map(function ($value) use ($property_key, $target_resource_type_names) {
       // Make sure that the provided type is compatible with the targeted
       // resource.
-      if (!in_array($value['type'], $target_resources)) {
+      if (!in_array($value['type'], $target_resource_type_names)) {
         throw new BadRequestHttpException(sprintf(
           'The provided type (%s) does not mach the destination resource types (%s).',
           $value['type'],
-          implode(', ', $target_resources)
+          implode(', ', $target_resource_type_names)
         ));
       }
 
@@ -237,29 +255,6 @@ class EntityReferenceFieldNormalizer extends FieldNormalizer implements Denormal
       $entity->getEntityTypeId(),
       $entity->bundle()
     )) && $resource_type->isInternal();
-  }
-
-  /**
-   * Build the list of resource types supported by this entity reference field.
-   *
-   * @param \Drupal\Core\Field\TypedData\FieldItemDataDefinition $item_definition
-   *   The field item definition.
-   *
-   * @return string[]
-   *   List of resource types.
-   */
-  protected function getAllowedResourceTypes(FieldItemDataDefinition $item_definition) {
-    // Build the list of allowed resources.
-    $target_entity_id = $item_definition->getSetting('target_type');
-    $handler_settings = $item_definition->getSetting('handler_settings');
-    $target_bundles = empty($handler_settings['target_bundles']) ?
-      [] :
-      $handler_settings['target_bundles'];
-    return array_map(function ($target_bundle) use ($target_entity_id) {
-      return $this->resourceTypeRepository
-        ->get($target_entity_id, $target_bundle)
-        ->getTypeName();
-    }, $target_bundles);
   }
 
 }

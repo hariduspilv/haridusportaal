@@ -98,6 +98,12 @@ export class NewsGraph {
                   tid
                 }
               }
+              fieldVideo {
+                input
+                videoDomain
+                videoDescription
+                videoId
+              }
               entityUrl {
                 ... on EntityCanonicalUrl {
                   languageSwitchLinks {
@@ -273,7 +279,9 @@ query sortByOptions (
         fieldShortDescription
         fieldAuthor
         fieldIntroductionImage {
-          url
+          derivative(style:CROP_SMALL){
+            url
+          }
           alt
           title
         }

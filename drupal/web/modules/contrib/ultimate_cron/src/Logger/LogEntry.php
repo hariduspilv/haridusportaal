@@ -2,8 +2,7 @@
 
 namespace Drupal\ultimate_cron\Logger;
 
-use Drupal\Component\Utility\SafeMarkup;
-use Drupal\Component\Utility\Unicode;
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\user\Entity\User;
 
@@ -121,15 +120,15 @@ class LogEntry {
       $this->severity = $level;
     }
     // Make sure that message doesn't become too big.
-    if (Unicode::strlen($this->message) > $this->log_entry_size) {
-      while (Unicode::strlen($this->message) > $this->log_entry_size) {
-        $firstline = Unicode::strpos(rtrim($this->message, "\n"), "\n");
-        if ($firstline === FALSE || $firstline == Unicode::strlen($this->message)) {
+    if (mb_strlen($this->message) > $this->log_entry_size) {
+      while (mb_strlen($this->message) > $this->log_entry_size) {
+        $firstline = mb_strpos(rtrim($this->message, "\n"), "\n");
+        if ($firstline === FALSE || $firstline == mb_strlen($this->message)) {
           // Only one line? That's a big line ... truncate it without mercy!
-          $this->message = Unicode::substr($this->message, -$this->log_entry_size);
+          $this->message = mb_substr($this->message, -$this->log_entry_size);
           break;
         }
-        $this->message = Unicode::substr($this->message, $firstline + 1);
+        $this->message = mb_substr($this->message, $firstline + 1);
       }
       $this->message = '.....' . $this->message;
     }
@@ -190,7 +189,7 @@ class LogEntry {
     $username = t('anonymous') . ' (0)';
     if ($this->uid) {
       $user = User::load($this->uid);
-      $username = $user ? SafeMarkup::format('@username (@uid)', array('@username' => $user->getUsername(), '@uid' => $user->id())) : t('N/A');
+      $username = $user ? new FormattableMarkup('@username (@uid)', array('@username' => $user->getUsername(), '@uid' => $user->id())) : t('N/A');
     }
     return $username;
   }

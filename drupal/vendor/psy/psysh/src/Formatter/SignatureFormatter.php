@@ -11,7 +11,8 @@
 
 namespace Psy\Formatter;
 
-use Psy\Reflection\ReflectionConstant;
+use Psy\Reflection\ReflectionClassConstant;
+use Psy\Reflection\ReflectionConstant_;
 use Psy\Reflection\ReflectionLanguageConstruct;
 use Psy\Util\Json;
 use Symfony\Component\Console\Formatter\OutputFormatter;
@@ -41,14 +42,18 @@ class SignatureFormatter implements Formatter
             case $reflector instanceof \ReflectionClass:
                 return self::formatClass($reflector);
 
-            case $reflector instanceof ReflectionConstant:
-                return self::formatConstant($reflector);
+            case $reflector instanceof ReflectionClassConstant:
+            case $reflector instanceof \ReflectionClassConstant:
+                return self::formatClassConstant($reflector);
 
             case $reflector instanceof \ReflectionMethod:
                 return self::formatMethod($reflector);
 
             case $reflector instanceof \ReflectionProperty:
                 return self::formatProperty($reflector);
+
+            case $reflector instanceof ReflectionConstant_:
+                return self::formatConstant($reflector);
 
             default:
                 throw new \InvalidArgumentException('Unexpected Reflector class: ' . get_class($reflector));
@@ -70,14 +75,20 @@ class SignatureFormatter implements Formatter
     /**
      * Print the method, property or class modifiers.
      *
-     * Technically this should be a trait. Can't wait for 5.4 :)
-     *
      * @param \Reflector $reflector
      *
      * @return string Formatted modifiers
      */
     private static function formatModifiers(\Reflector $reflector)
     {
+        if ($reflector instanceof \ReflectionClass && $reflector->isTrait()) {
+            // For some reason, PHP 5.x returns `abstract public` modifiers for
+            // traits. Let's just ignore that business entirely.
+            if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+                return [];
+            }
+        }
+
         return implode(' ', array_map(function ($modifier) {
             return sprintf('<keyword>%s</keyword>', $modifier);
         }, \Reflection::getModifierNames($reflector->getModifiers())));
@@ -127,11 +138,11 @@ class SignatureFormatter implements Formatter
     /**
      * Format a constant signature.
      *
-     * @param ReflectionConstant $reflector
+     * @param ReflectionClassConstant|\ReflectionClassConstant $reflector
      *
      * @return string Formatted signature
      */
-    private static function formatConstant(ReflectionConstant $reflector)
+    private static function formatClassConstant($reflector)
     {
         $value = $reflector->getValue();
         $style = self::getTypeStyle($value);
@@ -139,6 +150,27 @@ class SignatureFormatter implements Formatter
         return sprintf(
             '<keyword>const</keyword> <const>%s</const> = <%s>%s</%s>',
             self::formatName($reflector),
+            $style,
+            OutputFormatter::escape(Json::encode($value)),
+            $style
+        );
+    }
+
+    /**
+     * Format a constant signature.
+     *
+     * @param ReflectionConstant_ $reflector
+     *
+     * @return string Formatted signature
+     */
+    private static function formatConstant($reflector)
+    {
+        $value = $reflector->getValue();
+        $style = self::getTypeStyle($value);
+
+        return sprintf(
+            '<keyword>define</keyword>(<string>%s</string>, <%s>%s</%s>)',
+            OutputFormatter::escape(Json::encode($reflector->getName())),
             $style,
             OutputFormatter::escape(Json::encode($value)),
             $style
@@ -161,7 +193,7 @@ class SignatureFormatter implements Formatter
         } elseif (is_bool($value) || is_null($value)) {
             return 'bool';
         } else {
-            return 'strong';
+            return 'strong'; // @codeCoverageIgnore
         }
     }
 
@@ -238,11 +270,14 @@ class SignatureFormatter implements Formatter
                 // come to think of it, the only time I've seen this is with the intl extension.
 
                 // Hax: we'll try to extract it :P
+
+                // @codeCoverageIgnoreStart
                 $chunks = explode('$' . $param->getName(), (string) $param);
                 $chunks = explode(' ', trim($chunks[0]));
                 $guess  = end($chunks);
 
                 $hint = sprintf('<urgent>%s</urgent> ', $guess);
+                // @codeCoverageIgnoreEnd
             }
 
             if ($param->isOptional()) {

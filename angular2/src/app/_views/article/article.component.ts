@@ -10,6 +10,7 @@ import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
 
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
+import {VideoComponent} from '../../_components/video/video.component';
 
 @Component({
   templateUrl: './article.component.html',
