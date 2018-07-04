@@ -1,18 +1,25 @@
-<form (submit)="filterSubmit()" class="filter-wrapper" >
+<div class="sm-show text-right filter-control">
+  <a href="javascript:void(0)" (click)="toggleFilterMob()">
+    <span *ngIf="!filterMob">Filtreeri</span>
+    <span *ngIf="filterMob">Sulge filter</span>
+  </a>
+</div>
+
+<form [ngClass]="{'sm-hide': !filterMob}" class="filter-wrapper" [formGroup]="filterForm">
   <div class="row">
     <div class="col-4 sm-12">
       <div class="round-input__wrapper">
         <span class="round-input__title">{{ 'search.by.keyword' | translate }}</span>
         <div class="round-input__field-wrapper">
-          <input class="round-input__field" placeholder="{{ 'search.events.name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
+          <input class="round-input__field" placeholder="{{ 'search.events.name' | translate }} " formControlName="title"/>
         </div>
-      </div><!--/round-inpuit__wrapper-->
-    </div><!--/col-4-->
+      </div>
+    </div>
     <div class="col-25 sm-6">
       <div class="round-input__wrapper">
         <span class="round-input__title">{{ 'date' | translate }}</span>
         <div class="round-input__field-wrapper">
-          <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom" name="dateFrom" maxlength="10" dateFormatter />
+          <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="datepickerFrom" formControlName="dateFrom" [max]="datepickerMax" maxlength="10" dateFormatter />
           <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
           <mat-datepicker #datepickerFrom></mat-datepicker>
         </div>
@@ -23,7 +30,7 @@
       <div class="round-input__wrapper">
         <span class="round-input__title">{{ 'date' | translate }}</span>
         <div class="round-input__field-wrapper">
-          <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="datepickerTo" [(ngModel)]="filterFormItems.dateTo" name="dateTo" maxlength="10" dateFormatter />
+          <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="datepickerTo" formControlName="dateTo" [min]="datepickerMin" maxlength="10" dateFormatter />
           <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
           <mat-datepicker #datepickerTo></mat-datepicker>
         </div>
@@ -32,47 +39,52 @@
 
     <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
       <div class="align-center filter-state sm-hide">       
-        <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
+        <a href="javascript:void(0);" (click)="toggleFilterFull()">
           <span class="md-hide">Täpsem otsing</span>
           <span class="md-show">Täpne</span>
         </a>
       </div>
       <div class="button-row">
-        <button mat-raised-button color="primary">Otsi</button>
+        <button mat-raised-button color="primary" (click)="eventsFilter()">Otsi</button>
       </div>
     </div><!--/col-3-->
-  </div><!--/row-->
+    
+  </div>
 
   <div class="row" *ngIf="filterFull">
     <div class="col-9 sm-12">
       <div class="ng-select__wrapper">
-        <span class="ng-select__title">Sündmuse liigid</span>
+        <span class="ng-select__title" [class.exists]="filterForm.value.types && filterForm.value.types.length">Sündmuse liigid</span>
         <ng-select
+        [class.exists]="filterForm.value.types && filterForm.value.types.length"
         [items]="eventsTypesObs | async"
         [multiple]="true"
         [loading]="loading"
         bindLabel="name"
         placeholder="{{ 'Otsi sündmuse liike' | translate }}"
+        formControlName="types"
         (clear)="onClearTypes()"
         [dropdownPosition]="'bottom'"></ng-select>      
       </div>
     </div>
     <div class="col-9 sm-12">
       <div class="ng-select__wrapper__second">
-        <span class="ng-select__title">Sündmuse sildid</span>
+        <span class="ng-select__title" [class.exists]="filterForm.value.tags && filterForm.value.tags.length">Sündmuse sildid</span>
         <ng-select
+        [class.exists]="filterForm.value.tags && filterForm.value.tags.length"
         [items]="eventsTagsObs | async"
         [multiple]="true"
         [loading]="loading"
         bindLabel="name"
         placeholder="{{ 'Otsi sündmuse silte' | translate }}"
+        formControlName="tags"
         (clear)="onClearTags()"
         [dropdownPosition]="'bottom'"></ng-select>
       </div>
     </div>
     <div class="col-3 align-end text-right sm-12 inline-flex">
       <div class="align-center filter-state sm-hide">       
-        <a href="javascript:void(0);" (click)="filterFull = !filterFull">
+        <a href="javascript:void(0);" (click)="toggleFilterFull()">
           <span class="md-hide">Kitsam otsing</span>
           <span class="md-show">Kitsas</span>
         </a>
@@ -83,4 +95,9 @@
     </div><!--/col-3-->
   </div><!--/row-->
 
+    <!-- <div class="col-3 sm-12">
+      <a  href="javascript:void(0)" (click)="toggleFilterFull()">{{ 'search.detailed' | translate }}</a>
+      <button mat-raised-button color="primary" role="button" (click)="eventsFilter()">{{ 'search' | translate }}</button>    
+    </div> -->
+  <div *ngIf="filterForm.invalid" style="background-color: red;">{{ 'error' | translate }}</div>
 </form>

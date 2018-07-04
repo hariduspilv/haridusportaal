@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -16,16 +16,37 @@ import 'rxjs/add/observable/of';
 
 import { Apollo, QueryRef } from 'apollo-angular';
 
-import * as _moment from 'moment';
 
+
+import { FiltersService } from '../../_services/filters/filters.service';
+
+import * as _moment from 'moment';
 const moment = _moment;
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
+export const DATEPICKER_FORMAT = {
+  parse: {
+    dateInput: 'DD-MM-YYYY',
+  },
+  display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: DATEPICKER_FORMAT},
+  ]
 })
 
-export class EventsComponent implements OnInit, OnDestroy {
+export class EventsComponent extends FiltersService implements OnInit, OnDestroy{
   
   subscriptions: Subscription[] = [];
   
@@ -36,6 +57,11 @@ export class EventsComponent implements OnInit, OnDestroy {
   view: string;
   calendarDays: any;
 
+  eventsTags: any;
+  eventsTagsObs: any;
+
+  eventsTypes: any;
+  eventsTypesObs: any;
 
   eventsConfig: EventsConfig = new EventsConfig();
 
@@ -45,12 +71,14 @@ export class EventsComponent implements OnInit, OnDestroy {
   
   
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
+    public router: Router,
+    public route: ActivatedRoute,
     private apollo: Apollo,
     private rootScope: RootScopeService,
     private eventService: EventsService
-  ) { }
+  ) {
+    super(null, null);
+  }
   
   setPaths() {
     this.rootScope.set('langOptions', {
@@ -65,7 +93,8 @@ export class EventsComponent implements OnInit, OnDestroy {
   monthName: string = moment(this.date).format('MMMM');
   popup: number = null;
   morePopup: number = null;
-  
+  params: any;
+
   togglePopup(i) {this.morePopup = null;this.popup = i;}
   closePopup() {this.popup = null;}
   toggleMore(day) {this.popup = null;this.morePopup = day;}
@@ -187,16 +216,24 @@ export class EventsComponent implements OnInit, OnDestroy {
     this.setPaths();
     
     var currMonthName  = moment().format('MMMM');
-    console.log(currMonthName);
-    
+
     // SUBSCRIBE TO QUERY PARAMS
     this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
         this.lang = params['lang'];
       }
-    )
-    
+    );
+
+    this.route.queryParams.subscribe( (params: Params) => {
+      this.params = params;
+    });
+
+    this.getTags();
+    this.getTypes();
+
+    this.filterRetrieveParams( this.params );
+
     this.route.queryParams.subscribe(
       (params: ActivatedRoute) => {
         this.eventsConfig = new EventsConfig();
@@ -239,6 +276,108 @@ export class EventsComponent implements OnInit, OnDestroy {
         });
       }
     )
+  }
+
+  getTypes() {
+    let typesSubscription = this.apollo.watchQuery({
+      query: getEventsTypes,
+      variables: {
+        lang: this.lang.toUpperCase(),        
+      },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    }).valueChanges
+    .subscribe(({data}) => {
+      this.eventsTypes = data['taxonomyTermQuery']['entities'];
+      let newsTidArr = [];
+      this.eventsTypes.filter((tagItem, index, array) => {
+        let tmp = {
+          id: tagItem['tid'].toString(),
+          name: tagItem['name'],
+        };
+        newsTidArr.push(tmp);           
+      });
+
+      if( this.params.types !== undefined ){
+        let splitParams = this.params.types.split(",");
+
+        this.filterFormItems['types'] = [];
+
+        for( let i in newsTidArr ){
+          
+          if( splitParams.indexOf(newsTidArr[i]['id']) !== -1 ){
+            this.filterFormItems['types'].push(newsTidArr[i]);
+          }
+        }
+        for( let i in splitParams ){
+
+        }
+      }
+
+      newsTidArr = newsTidArr.filter((thing, index, self) =>
+      index === self.findIndex((t) => (
+        t.id === thing.id && t.name === thing.name
+      )))
+      this.eventsTypesObs = of(newsTidArr).pipe(delay(500));
+    });
+
+    this.subscriptions = [...this.subscriptions, typesSubscription];
+
+  }
+
+  getTags() {
+    let tagSubscription = this.apollo.watchQuery({
+      query: getEventsTags,
+      variables: {
+        lang: this.lang.toUpperCase(),
+      },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    }).valueChanges
+    .subscribe(({data}) => {
+      
+      this.eventsTags = data['nodeQuery']['entities'];
+      
+      let newsTagArr = [];
+
+      this.eventsTags.map((tag)=>{
+        tag['Tag'].filter((tagItem, index, array) => {
+          if( tagItem['entity'] ){
+            let tmp = {
+              id: tagItem['entity']['entityId'],
+              name: tagItem['entity']['entityLabel'],
+            };
+            newsTagArr.push(tmp);
+          }
+        });
+      });
+
+      if( this.params.tags !== undefined ){
+        let splitParams = this.params.tags.split(",");
+
+        this.filterFormItems['tags'] = [];
+
+        for( let i in newsTagArr ){
+          
+          if( splitParams.indexOf(newsTagArr[i]['id']) !== -1 ){
+            this.filterFormItems['tags'].push(newsTagArr[i]);
+          }
+        }
+        for( let i in splitParams ){
+
+        }
+      }
+
+      newsTagArr = newsTagArr.filter((thing, index, self) =>
+      index === self.findIndex((t) => (
+        t.id === thing.id && t.name === thing.name
+      )))
+      this.eventsTagsObs = of(newsTagArr).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
+
+      console.log(this.eventsTypesObs);
+    });
+
+    this.subscriptions = [...this.subscriptions, tagSubscription];
   }
   
   ngOnDestroy() {
