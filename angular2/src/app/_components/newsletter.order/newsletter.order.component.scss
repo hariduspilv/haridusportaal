@@ -4,8 +4,8 @@
   &__content {
     &--header {
       h1 {text-align: center; color: $black;line-height: $large;}
-      .intro {line-height: 1.375rem;font-size: $small; padding-top: $small;
-        @include break-on(sm, min) {padding: $small $small 0 $small;}
+      .intro {line-height: 1.375rem;font-size: $small; padding-top: $small;text-align: center;
+        @include break-on(sm, min) {padding: $small $medium 0 $medium;}
       }
     }
     &--form {
@@ -17,7 +17,7 @@
         @include break-on(sm, min) {padding: $medium 0;flex-flow: row wrap;}
       }
       &__input {
-        @include break-on(sm, min) {padding: 0 $small;}
+        @include break-on(sm, min) {padding: 0 $medium;}
       }
     }
     &--message {display: flex;flex-direction: column;align-items: center;justify-content: center;min-height: 20vh;
@@ -25,9 +25,7 @@
       &__subcontent {text-align: center;line-height: 1.375rem;}
     }
   }
-  button {width: stretch;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: $gutter;
-    @include break-on(sm, min) {margin-top: 0;}
-  }
+  button {width: stretch;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 }
 .checkbox {
   &__container {display: block;position: relative;padding-left: 1.75rem;cursor: pointer;//margin-bottom: .75rem;
