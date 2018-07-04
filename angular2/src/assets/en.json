@@ -59,6 +59,8 @@
   "participantCreated": "Register date",
   "participantComment": "Comments",
   "participantIndex": "No.",
+  "participantList": "Participants",
+  "participantsNr": "Participants",
 
   "calendar": "Calendar",
   "list": "List",
@@ -106,5 +108,8 @@
   "send": "Send",
   "modal.close": "Close",
   "registration.thanks": "Thank you for your registration!",
-  "registration.add.to.calendar": "Add event to your calendar"
+  "registration.add.to.calendar": "Add event to your calendar",
+  "participants.list.go": "See participants list",
+  "free": "Free",
+  "back": "Back"
 }
