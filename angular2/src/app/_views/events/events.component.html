@@ -1,7 +1,7 @@
 <breadcrumbs></breadcrumbs>
 <form (submit)="filterSubmit()" class="filter-wrapper" >
   <div class="row">
-    <div class="col-4 sm-12">
+    <div class="col-4 sm-12" [class.col-9]="view == 'calendar'" style="padding:0.5rem;">
       <div class="round-input__wrapper">
         <span class="round-input__title">{{ 'search.by.keyword' | translate }}</span>
         <div class="round-input__field-wrapper">
@@ -9,22 +9,23 @@
         </div>
       </div><!--/round-inpuit__wrapper-->
     </div><!--/col-4-->
-    <div class="col-25 sm-6">
+
+    <div class="col-25 sm-6" *ngIf="view == 'list'">
       <div class="round-input__wrapper">
         <span class="round-input__title">{{ 'date' | translate }}</span>
         <div class="round-input__field-wrapper">
-          <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom" [max]="filterFormItems.dateTo" name="dateFrom" maxlength="10" dateFormatter />
+          <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom"  (change)="dateminmax()" (dateChange)="dateminmax()" [max]="maxDate" [min]="absMinDate" name="dateFrom" maxlength="10" dateFormatter />
           <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
           <mat-datepicker #datepickerFrom></mat-datepicker>
         </div>
       </div>
     </div>
     
-    <div class="col-25 sm-6">
+    <div class="col-25 sm-6" *ngIf="view == 'list'">
       <div class="round-input__wrapper">
         <span class="round-input__title">{{ 'date' | translate }}</span>
         <div class="round-input__field-wrapper">
-          <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="datepickerTo" [(ngModel)]="filterFormItems.dateTo" [min]="filterFormItems.dateFrom" name="dateTo" maxlength="10" dateFormatter />
+          <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="datepickerTo" [(ngModel)]="filterFormItems.dateTo" (change)="dateminmax()" (dateChange)="dateminmax()" [min]="minDate" [max]="absMaxDate" name="dateTo" maxlength="10" dateFormatter />
           <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
           <mat-datepicker #datepickerTo></mat-datepicker>
         </div>
@@ -114,7 +115,7 @@
 
   <div *ngIf="view === 'list'" class="events__month"><h1>{{monthName}}</h1></div>
 
-  <mat-spinner *ngIf="!eventList && !error"></mat-spinner>
+  <mat-spinner *ngIf="!eventList && !error && view !== 'calendar'"></mat-spinner>
 
   <div class="events__list-body" *ngIf="eventList && view == 'list' ">
     <div class="events__header center">
@@ -178,10 +179,12 @@
           <th width="14.2%">{{ 'sunday' | translate }}</th>
       </tr>
       <tr *ngFor="let week of calendarDays; let firstWeek = first">
-        <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day == 20" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2">
-          <div class="cal__day more__hidden">{{ day }}</div>
-          <div class="cal__event more__hidden" *ngFor="let event of eventList; let i = index">
-            <div class="content" [class.active]="popup === i" *ngIf="firstWeek && last && i < 3" (click)="togglePopup(i)">
+        <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day.i == current.day && month == current.month" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2">
+          
+          <div class="cal__day more__hidden">{{ day.i }}</div>
+
+          <div class="cal__event more__hidden" *ngFor="let event of day.events; let i = index">
+            <div class="content" [class.active]="popup === i" (click)="togglePopup(i)" *ngIf="i < 3">
               <span><div class="marker"></div></span>
               <span class="content__medium">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
               <span class="content__strong">{{ event.title }}</span>
@@ -203,10 +206,10 @@
               </div>
             </div>
           </div>
-          <div class="cal__event__more">
-            <div class="more more__hidden"><a *ngIf="firstWeek && last" href="javascript:void(0)" (click)="toggleMore(day)" >2 veel</a></div>
+          <div class="cal__event__more" *ngIf="day.events && day.events.length > 3">
+            <div class="more more__hidden"><a  href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - 3 }} veel</a></div>
           </div>
-          <div class="popup" *ngIf="firstWeek && last && morePopup === day">
+          <div class="popup" *ngIf="morePopup === day">
             <div class="popupcontent additional">
               <div class="event__block event__block__more">
                 <div class="title">

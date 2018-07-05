@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as _moment from 'moment';
+const moment = _moment;
 
 export const DATEPICKER_FORMAT = {
   parse: {
@@ -21,6 +22,12 @@ export class FiltersService {
   filterFormItems: any= {
   };
 
+
+  maxDate: any;
+  absMaxDate: any = moment("01-01-2099", "DD-MM-YYYY");
+  minDate: any;
+  absMinDate: any = moment("01-01-2000", "DD-MM-YYYY");
+
   filterFull:any;
 
   constructor(
@@ -29,6 +36,25 @@ export class FiltersService {
   ) {
 
   }
+
+
+  dateminmax() {
+    var minDate = this.filterFormItems.dateFrom;
+    var maxDate = this.filterFormItems.dateTo;
+
+    if( !moment(minDate, "DD-MM-YYYY").isValid() ){
+      minDate = moment("01-01-2000", "DD-MM-YYYY");
+    }
+    if( !moment(maxDate, "DD-MM-YYYY").isValid() ){
+      maxDate = moment("01-01-2099", "DD-MM-YYYY");
+    }
+
+    this.minDate = minDate;
+    this.maxDate = maxDate;
+
+    //console.log(this.minDate, this.maxDate);
+  }
+
 
   filterParseDate(dateString: string){
     var tmpDate = new Date( dateString );
