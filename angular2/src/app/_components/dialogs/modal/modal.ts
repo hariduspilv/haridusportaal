@@ -5,7 +5,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 @Component({
   selector: 'modal',
   templateUrl: 'modal.html',
-  styleUrls: ['../events.registration/events.registration.dialog.scss']
+  styleUrls: ['modal.scss']
 
 })
 

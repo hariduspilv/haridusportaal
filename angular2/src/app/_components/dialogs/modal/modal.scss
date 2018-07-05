@@ -1,25 +1,28 @@
 @import "../../../../assets/styles/typography.scss";
-.cdk-overlay-container{
-  .cdk-overlay-backdrop{  background-color: rgba(51, 51, 51, 0.9); }
-}
-
-:host{border-top:#f8b243 0.625rem solid; border-radius:4px; padding:0; display: block;
-
-  .mat-dialog-title{line-height:2rem; font-size:1rem; color:#757575; padding:0.81rem 1.5rem 0 1.5rem; font-weight: normal; margin:0; position: relative;
-    .mat-button{padding-left:0.875rem !important; padding-right:0.875rem !important; min-width: 0; position: absolute; top:0.63rem; right:0.312rem;}
-  }
-
-  .mat-dialog-content{padding:1rem 1.5rem 2.5rem 1.5rem; box-sizing: border-box; margin:0; line-height:1.875rem; font-size:1.5rem; color:#333333; text-align:center;
-    *{box-sizing: border-box; }
-    p{margin:2rem 0;}
-    b{font-weight: 500;}
-    .mat-dialog-inline{padding: 0 7rem;
-    
+.dialog {padding: $medium;padding-top:$small;border-top: $gutter solid $orange;padding-bottom: $xxl;
+  h1 {color: $black;}
+  &__text {&--medium {color: $dark-gray; line-height: 2;}}
+  &__close {position: absolute;top: 0.6875rem;right: $half-gutter;}
+  &__time {padding: $half-gutter 0 $small 0;line-height: 1.38rem;}
+  &__required {line-height: 1.88rem;}
+  &__form {padding-top: 0; .dialog-content {padding-top: $gutter;}}
+  &__actions {padding-top: $small;
+    a {margin-top: $medium;line-height:$medium;text-align: center;
+      @include break-on(sm, min) {margin-right: $medium; margin-top: 0;}
     }
-    @include break-on(md, max) {
-      .mat-dialog-inline{padding-left:0; padding-right:0;}
+    &--success {
+      .mat-raised-button.mat-primary {width: 100%; padding: 0 $small;}
+      a {margin-top: $medium;line-height:$medium;text-align: center;}
+      &__close {padding-top: $small;}
     }
-    .font-xs{font-size:1rem; line-height:1.5rem;}
   }
-
+  &__success {display: flex;flex-direction: column;justify-content: center;align-items: center;margin: 0 auto; min-height: 40vh;padding: 0 $gutter;
+    &__title {padding-bottom: $xxl;}
+    &--content {padding-bottom: $small;
+      ::ng-deep p {font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:500;}
+      ::ng-deep span {font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:normal;}
+    }
+    &--modal {@extend .dialog__success; min-height: 20vh;}
+  }
+  @include break-on(sm, min) {width:68vw;max-width: 68vw;}
 }
