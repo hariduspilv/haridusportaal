@@ -54,10 +54,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   eventsConfig: EventsConfig = new EventsConfig();
 
+  dataSubscription: any;
   
+  status: boolean = false;
+
   listEnd: boolean = false;
   error: boolean = false;
   
+  current: object;
   
   constructor(
     public router: Router,
@@ -83,6 +87,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   popup: number = null;
   morePopup: number = null;
   params: any;
+  
 
   togglePopup(i) {this.morePopup = null;this.popup = i;}
   closePopup() {this.popup = null;}
@@ -108,8 +113,13 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }else{
       this.month = month;
     }
-    this.monthName = moment(new Date(`${this.year}/${this.month}`)).format('MMMM');
+
+    
+    this.monthName = moment(this.year+"/"+this.month, "YYYY/M").format('MMMM');
+
     this.generateCalendar();
+
+    this.getData();
   }
   
   generateCalendar() {
@@ -137,7 +147,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       
       if( !calendar[weekCounter] ){ calendar[weekCounter] = []; }
       
-      calendar[weekCounter].push(i);
+      calendar[weekCounter].push({
+        i: i,
+        events: []
+      });
       
       dayCounter++;
     }
@@ -166,7 +179,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
   }
   
-  changeView(view: any){
+  changeView(view: any, update: boolean = true){
     this.view = view;
     
     if( view == "calendar" ){
@@ -174,14 +187,20 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.eventService.getCalendar(2018, 7);
       this.generateCalendar();
     }else{
-      this.eventsConfig.limit = 3;
+      this.eventsConfig.limit = 5;
+    }
+
+    if( update ){
+      this.status = false;
+      this.eventList = false;
+      this.getData();
     }
   }
 
 
   loadMore() {
     this.eventsConfig.offset = this.eventList.length;
-    this.route.queryParams.subscribe(
+    var subscriber = this.route.queryParams.subscribe(
       (params: ActivatedRoute) => {
         this.apollo.watchQuery({
           query: sortEventsByOptions,
@@ -189,6 +208,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           fetchPolicy: 'no-cache',
           errorPolicy: 'all',
         }).valueChanges.subscribe(({data, loading}) => {
+          subscriber.unsubscribe();
           this.eventList = this.eventList.concat(data['nodeQuery']['entities']);
           if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
             this.listEnd = true;
@@ -200,11 +220,18 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     
-    this.changeView("list");
+    this.changeView("list", false);
     
     this.setPaths();
     
     var currMonthName  = moment().format('MMMM');
+
+    let month:any = moment().format("M");
+    if( month < 10 ){ month = "0"+month;}
+    this.current = {
+      day: moment().format("D"),
+      month: month
+    }
 
     // SUBSCRIBE TO QUERY PARAMS
     this.route.params.subscribe(
@@ -216,6 +243,11 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     this.route.queryParams.subscribe( (params: Params) => {
       this.params = params;
+      this.eventList = false;
+      this.listEnd = false;
+      this.status = false;
+      this.getData();
+      
     });
 
     this.getTags();
@@ -223,48 +255,97 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     this.filterRetrieveParams( this.params );
 
-    this.route.queryParams.subscribe(
-      (params: ActivatedRoute) => {
+    //this.getData();
+  }
+
+  dataToCalendar(list:Array<object>) {
+    for( let i in list ){
+      let current = list[i];
+      let eventDate = current['eventDates'][0]['entity']['fieldEventDate']['value'];
+      let dateString = this.year+"-"+this.month+"-";
+      
+      for( var o in this.calendarDays ){
+        for( var oo in this.calendarDays[o] ){
+          if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
+            this.calendarDays[o][oo]['events'].push( current );
+          }
+        }
+      }
+    }
+
+    //console.log(this.calendarDays);
+  }
+
+  getData() {
+    
         this.eventsConfig = new EventsConfig();
 
+        console.log("I NEED DATA");
         // TITLE
-        if(params['title']){
+        if(this.params['title']){
           this.eventsConfig.titleEnabled = true;
-          this.eventsConfig.titleValue = params['title']
+          this.eventsConfig.titleValue = this.params['title']
         }
-        // DATE FROM
-        if(params['dateFrom'] && moment(params['dateFrom'], 'DD-MM-YYYY').isValid()){
-          this.eventsConfig.dateFrom = moment(params['dateFrom'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
-        }
-        // DATE TO
-        if(params['dateTo'] && moment(params['dateTo'], 'DD-MM-YYYY').isValid()){
-          this.eventsConfig.dateTo = moment(params['dateTo'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+
+        if( this.view == "list" ){
+
+          // DATE FROM
+          if(this.params['dateFrom'] && moment(this.params['dateFrom'], 'DD-MM-YYYY').isValid()){
+            this.eventsConfig.dateFrom = moment(this.params['dateFrom'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+          }
+          // DATE TO
+          if(this.params['dateTo'] && moment(this.params['dateTo'], 'DD-MM-YYYY').isValid()){
+            this.eventsConfig.dateTo = moment(this.params['dateTo'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+          }
+        }else{
+          this.eventsConfig.dateFrom = moment("01-"+this.month+"-"+this.year, 'DD-MM-YYYY').startOf("month").format('YYYY-MM-DD').toString();
+          this.eventsConfig.dateTo = moment("01-"+this.month+"-"+this.year, 'DD-MM-YYYY').endOf("month").format('YYYY-MM-DD').toString();
+          this.eventsConfig.limit = 999;
+          this.eventsConfig.offset = 0;
         }
         // TAGS
-        if(params['tags'] && params['tags'] !== null){
+        if(this.params['tags'] && this.params['tags'] !== null){
           this.eventsConfig.tagsEnabled = true;
-          this.eventsConfig.tagsValue = params['tags'].split(',')
+          this.eventsConfig.tagsValue = this.params['tags'].split(',')
         }
         // TYPE
-        if(params['types'] && params['types'] !== null){
+        if(this.params['types'] && this.params['types'] !== null){
           this.eventsConfig.typesEnabled = true;
-          this.eventsConfig.typesValue = params['types'].split(',')
+          this.eventsConfig.typesValue = this.params['types'].split(',')
         }
         
+        if( this.dataSubscription ){
+          this.dataSubscription.unsubscribe();
+        }
+
         // GET LIST OBSERVABLE
-        const eventsSubscription = this.apollo.watchQuery<any>({
+        this.dataSubscription= this.apollo.watchQuery<any>({
           query: sortEventsByOptions,
           variables: this.eventsConfig.getApollo(this.lang.toUpperCase()),
           fetchPolicy: 'no-cache',
           errorPolicy: 'all',
         }).valueChanges.subscribe(({data}) => {
-          this.eventList = data['nodeQuery']['entities'];
-          if (this.eventList && (this.eventList.length < this.eventsConfig.limit)){
-            this.listEnd = true;
+
+
+          if( this.status ){ return false; }
+
+          this.status = true;
+
+          this.dataSubscription.unsubscribe();
+          this.dataSubscription = false;
+
+          console.log(data['nodeQuery']['entities'].length);
+          if( this.view == "list" ){
+            this.eventList = data['nodeQuery']['entities'];
+            if (this.eventList && (this.eventList.length < this.eventsConfig.limit)){
+              this.listEnd = true;
+            }
+          }else{
+            this.dataToCalendar(data['nodeQuery']['entities']);
           }
+          
+          
         });
-      }
-    )
   }
 
   getTypes() {
@@ -359,7 +440,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       )))
       this.eventsTagsObs = of(newsTagArr).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
 
-      console.log(this.eventsTypesObs);
+      //console.log(this.eventsTypesObs);
     });
 
     this.subscriptions = [...this.subscriptions, tagSubscription];
