@@ -138,7 +138,7 @@
         <div class="sm-hide info block">
           <span class="time">{{ 'start.time' | translate }}: <strong>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</strong></span>
           <span class="location" *ngIf="event.location">{{ 'location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
-          <span class="entrance" *ngIf="event.fieldEntryType">{{ 'entrance' | translate }}: <strong>{{ event.fieldEntryType}}</strong></span>
+          <span class="entrance" *ngIf="event.fieldEntryType">{{ 'entrance' | translate }}: <strong>{{ event.fieldEntryType | translate }}</strong></span>
         </div>
         <div class="tags sm-hide" *ngIf="event.hashTags && event.hashTags.length">
           <mat-chip-list>
