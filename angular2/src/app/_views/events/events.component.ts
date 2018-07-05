@@ -179,7 +179,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
   }
   
-  changeView(view: any){
+  changeView(view: any, update: boolean = true){
     this.view = view;
     
     if( view == "calendar" ){
@@ -188,6 +188,12 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.generateCalendar();
     }else{
       this.eventsConfig.limit = 5;
+    }
+
+    if( update ){
+      this.status = false;
+      this.eventList = false;
+      this.getData();
     }
   }
 
@@ -214,7 +220,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     
-    this.changeView("list");
+    this.changeView("list", false);
     
     this.setPaths();
     
@@ -267,13 +273,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       }
     }
 
-    console.log(this.calendarDays);
+    //console.log(this.calendarDays);
   }
 
   getData() {
     
         this.eventsConfig = new EventsConfig();
 
+        console.log("I NEED DATA");
         // TITLE
         if(this.params['title']){
           this.eventsConfig.titleEnabled = true;
@@ -281,6 +288,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         }
 
         if( this.view == "list" ){
+
           // DATE FROM
           if(this.params['dateFrom'] && moment(this.params['dateFrom'], 'DD-MM-YYYY').isValid()){
             this.eventsConfig.dateFrom = moment(this.params['dateFrom'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
@@ -292,6 +300,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         }else{
           this.eventsConfig.dateFrom = moment("01-"+this.month+"-"+this.year, 'DD-MM-YYYY').startOf("month").format('YYYY-MM-DD').toString();
           this.eventsConfig.dateTo = moment("01-"+this.month+"-"+this.year, 'DD-MM-YYYY').endOf("month").format('YYYY-MM-DD').toString();
+          this.eventsConfig.limit = 999;
+          this.eventsConfig.offset = 0;
         }
         // TAGS
         if(this.params['tags'] && this.params['tags'] !== null){
@@ -307,7 +317,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         if( this.dataSubscription ){
           this.dataSubscription.unsubscribe();
         }
-        console.log("getting datra", Math.random());
+
         // GET LIST OBSERVABLE
         this.dataSubscription= this.apollo.watchQuery<any>({
           query: sortEventsByOptions,
@@ -324,9 +334,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           this.dataSubscription.unsubscribe();
           this.dataSubscription = false;
 
+          console.log(data['nodeQuery']['entities'].length);
           if( this.view == "list" ){
             this.eventList = data['nodeQuery']['entities'];
-            console.log(this.eventList.length);
             if (this.eventList && (this.eventList.length < this.eventsConfig.limit)){
               this.listEnd = true;
             }
@@ -430,7 +440,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       )))
       this.eventsTagsObs = of(newsTagArr).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
 
-      console.log(this.eventsTypesObs);
+      //console.log(this.eventsTypesObs);
     });
 
     this.subscriptions = [...this.subscriptions, tagSubscription];
