@@ -12,9 +12,9 @@
     font-size: 0.875rem;
     line-height: 1.43;
     color: $dark-gray;
-    @include break-on(sm, min) {padding: 0; padding-top: $half-gutter; padding-bottom: $gutter;}
+    @include break-on(sm, min) {padding: 0; padding-top: $gutter; padding-bottom: $small;}
   }
-  .description {padding-top: .625rem;font-size: $small;max-height: 3.5rem;overflow: hidden;}
+  .description {padding-top: $small;font-size: $small;max-height: 3.5rem;overflow: hidden;}
 }
 .news-list {
   border-top: $gutter solid $light-blue;
