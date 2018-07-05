@@ -57,4 +57,5 @@ class JsonItem extends FieldItemBase {
 
 		return $properties;
 	}
+
 }
