@@ -116,5 +116,6 @@
   "free": "Free",
   "back": "Back",
   "subscription.choose.one": "Choose at least one subscription",
-  "subscription.failed": "Subscription failed"
+  "subscription.failed": "Subscription failed",
+  "map.failed": "Map not found"
 }

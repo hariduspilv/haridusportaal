@@ -4,7 +4,7 @@
   @include break-on(sm, min) {padding: $gutter $medium $medium $medium;}
 }
 article {
-  // padding-bottom: $xxl;
+  padding-bottom: $small;
   a {color: $blue;font-weight:500;
     .mat-icon {color: $blue;}
   }
@@ -69,7 +69,7 @@ _:-ms-lang(x), .article-image {width: 100%;margin:0;}
     &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: $gutter;}}
 }
 mat-panel-title {font-size: $small;}
-.accordion {padding: $medium;}
+.accordion {padding: $medium; padding-top: $small;}
 ::ng-deep .accordion__body {
   line-height: 1.375rem;
   font-size: $small;
