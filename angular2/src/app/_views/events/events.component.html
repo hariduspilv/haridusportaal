@@ -1,7 +1,7 @@
 <breadcrumbs></breadcrumbs>
 <form (submit)="filterSubmit()" class="filter-wrapper" >
   <div class="row">
-    <div class="col-4 sm-12">
+    <div class="col-4 sm-12" [class.col-9]="view == 'calendar'" style="padding:0.5rem;">
       <div class="round-input__wrapper">
         <span class="round-input__title">{{ 'search.by.keyword' | translate }}</span>
         <div class="round-input__field-wrapper">
@@ -9,7 +9,8 @@
         </div>
       </div><!--/round-inpuit__wrapper-->
     </div><!--/col-4-->
-    <div class="col-25 sm-6">
+
+    <div class="col-25 sm-6" *ngIf="view == 'list'">
       <div class="round-input__wrapper">
         <span class="round-input__title">{{ 'date' | translate }}</span>
         <div class="round-input__field-wrapper">
@@ -20,7 +21,7 @@
       </div>
     </div>
     
-    <div class="col-25 sm-6">
+    <div class="col-25 sm-6" *ngIf="view == 'list'">
       <div class="round-input__wrapper">
         <span class="round-input__title">{{ 'date' | translate }}</span>
         <div class="round-input__field-wrapper">
