@@ -22,8 +22,13 @@ function custom_subscription_administration_mail($key, &$message, $params) {
 			$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
 			$link_root = $config->get('general.fe_url');
 
-			$title = $token_service->replace($params['subject'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
-			$body = $token_service->replace($params['body'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+			if(isset($params['tags'])){
+				$title = $token_service->replace($params['subject'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+				$body = $token_service->replace($params['body'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+			}else{
+				$title = $token_service->replace($params['subject'], ['subscription_entity' => $entity, 'newtags' => $params['newtags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+				$body = $token_service->replace($params['body'], ['subscription_entity' => $entity, 'newtags' => $params['newtags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+			}
 
 			$render = [
 				'#theme' => 'registration_email_template',
@@ -51,6 +56,7 @@ function custom_subscription_administration_entity_insert(Drupal\Core\Entity\Ent
 		$key = 'subscription_email';
 		$recipient = $entity->subscriber_email->value;
 		$fields = $entity->toArray();
+		$langcode = $entity->language->value;
 		if(isset($fields['newtags'][0]['value'])){
 			$newtags = explode(", ", $fields['newtags'][0]['value']);
 			$params['newtags'] = \Drupal\taxonomy\Entity\Term::loadMultiple($newtags);
