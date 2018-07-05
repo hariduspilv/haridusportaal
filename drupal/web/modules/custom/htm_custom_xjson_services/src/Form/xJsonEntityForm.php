@@ -59,7 +59,7 @@ class xJsonEntityForm extends ContentEntityForm {
 		];
 		#dump(serialize(json_encode($array)));
 		$entity = $this->entity;
-		dump(json_decode('{"_id": 123456, "age": 32, "name": "Johnnn"}', TRUE));
+		#dump(json_decode('{"_id": 123456, "age": 32, "name": "Johnnn"}', TRUE));
 		#dump($entity->get('metatage')->value);
 		#dump($entity);
 
