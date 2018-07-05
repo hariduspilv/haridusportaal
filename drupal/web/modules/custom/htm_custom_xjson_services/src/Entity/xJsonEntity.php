@@ -274,14 +274,16 @@ class xJsonEntity extends RevisionableContentEntityBase implements xJsonEntityIn
 			->setLabel(t('test map'))
 			->setDescription(t('Some map def'));*/
 
-		/*$fields['metatage'] = BaseFieldDefinition::create('string')
-				->setLabel(t('Metatagsee'))
+		$fields['metatages'] = BaseFieldDefinition::create('map')
+				->setLabel(t('Metatagseee'))
 				->setDescription(t('The meta tags for the entity.'))
-				#->setClass('\Drupal\htm_custom_xjson_services\Plugin\Field\JsonEntityFieldItemList')
+				->setClass('\Drupal\Core\Field\FieldItemList')
+				->setRevisionable(TRUE)
+				->setDefaultValue(json_decode('{"_id": 123456, "age": 32, "name": "Johnnn"}', TRUE));
 				#->setQueryable(FALSE)
 				#->setComputed(TRUE)
 				#->setTargetEntityTypeId($entity_type->id())
-				->setDisplayOptions('form', [
+				/*->setDisplayOptions('form', [
 						'type' => 'string_textfield',
 						'weight' => 10,
 				]);*/

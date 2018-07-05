@@ -48,4 +48,5 @@ class JsonbItem extends JsonItem {
 
 		return $properties;
 	}
+
 }
