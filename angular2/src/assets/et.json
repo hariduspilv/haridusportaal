@@ -114,5 +114,6 @@
   "free": "Tasuta",
   "back": "Tagasi",
   "subscription.choose.one": "Vali vähemalt üks uudiskiri",
-  "subscription.failed": "Tellimuse saatmine ebaõnnestus"
+  "subscription.failed": "Tellimuse saatmine ebaõnnestus",
+  "map.failed": "Kaarti ei leitud"
 }

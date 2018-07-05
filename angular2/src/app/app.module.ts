@@ -93,7 +93,7 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     ReactiveFormsModule,
     AppPipes,
     AgmCoreModule.forRoot({
-      apiKey: ' AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E'
+      apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E'
     }),
     HttpModule,
     EmbedVideo.forRoot(),
