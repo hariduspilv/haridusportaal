@@ -113,7 +113,7 @@
     </div>
   </div><!--/row-->
 
-  <div *ngIf="view === 'list'" class="events__month"><h1>{{monthName}}</h1></div>
+  <div *ngIf="view === 'list'" class="events__month"><h1>{{monthName | lowercase | translate }}</h1></div>
 
   <mat-spinner *ngIf="!eventList && !error && view !== 'calendar'"></mat-spinner>
 
@@ -164,7 +164,7 @@
 
     <div class="navigation text-center">
       <mat-icon (click)="changeMonth(-1);">chevron_left</mat-icon>
-      <span class="month"><h1>{{ monthName }}</h1></span>
+      <span class="month"><h1>{{ monthName | lowercase | translate }}</h1></span>
       <mat-icon (click)="changeMonth(1);">chevron_right</mat-icon>
     </div><!--/text-center-->
     
@@ -196,7 +196,7 @@
                     <span class="title__strong">{{ event.title }}</span>
                     <span class="close"><a (click)="closePopup()"><mat-icon>close</mat-icon></a></span>
                   </div>
-                  <div><span>{{ 'date' | translate }}: </span>{{day}}. {{monthName}}</div>
+                  <div><span>{{ 'date' | translate }}: </span>{{day}}. {{monthName | lowercase | translate}}</div>
                   <div *ngIf="event.eventDates"><span>{{ 'start.time' | translate }}: </span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</div>
                   <div *ngIf="event.location"><span>{{ 'location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
                   <div *ngIf="event.fieldEntryType"><span>{{ 'entrance' | translate }}: </span>{{ event.fieldEntryType}}</div>
@@ -215,7 +215,7 @@
                 <div class="title">
                   <div class="header">
                     <div class="header__medium">{{ 'sunday' | translate }}</div>
-                    <div class="header__strong">{{day}}. {{monthName}}</div>
+                    <div class="header__strong">{{day}}. {{monthName | lowercase | translate}}</div>
                   </div>
                   <span class="close more"><a (click)="closeMore()"><mat-icon>close</mat-icon></a></span>
                 </div>

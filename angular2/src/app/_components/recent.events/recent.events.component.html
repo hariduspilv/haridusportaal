@@ -58,7 +58,10 @@
   </div>
 </div>
 
-<div class="events__list__recent">
+<div class="events__list__recent" *ngIf="content.entity.fieldOrganizer ||
+  content.entity.fieldContactPerson ||
+  content.entity.fieldContactPhone ||
+  content.entity.fieldContactEmail">
   <div class="events__list__item">
     <div class="title"><h1>{{'contact' | translate}}</h1></div>
     <div class="events__list__item__body">
