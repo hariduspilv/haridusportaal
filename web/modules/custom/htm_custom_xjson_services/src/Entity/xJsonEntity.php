@@ -252,16 +252,6 @@ class xJsonEntity extends RevisionableContentEntityBase implements xJsonEntityIn
         'weight' => -3,
       ]);
 
-		/*$fields['status_2'] = BaseFieldDefinition::create('boolean')
-			->setLabel(t('Mingi uus asi igaksjuhuks'))
-			->setDescription(t('A boolean indicating whether the xJson entity is published.'))
-			->setRevisionable(TRUE)
-			->setDefaultValue(TRUE)
-			->setDisplayOptions('form', [
-					'type' => 'boolean_checkbox',
-					'weight' => -3,
-			])*/;
-
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));
@@ -270,27 +260,8 @@ class xJsonEntity extends RevisionableContentEntityBase implements xJsonEntityIn
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the entity was last edited.'));
 
-		/*$fields['metatag'] = BaseFieldDefinition::create('map')
-			->setLabel(t('test map'))
-			->setDescription(t('Some map def'));*/
-
-		$fields['metatages'] = BaseFieldDefinition::create('map')
-				->setLabel(t('Metatagseee'))
-				->setDescription(t('The meta tags for the entity.'))
-				->setClass('\Drupal\Core\Field\FieldItemList')
-				->setRevisionable(TRUE)
-				->setDefaultValue(json_decode('{"_id": 123456, "age": 32, "name": "Johnnn"}', TRUE));
-				#->setQueryable(FALSE)
-				#->setComputed(TRUE)
-				#->setTargetEntityTypeId($entity_type->id())
-				/*->setDisplayOptions('form', [
-						'type' => 'string_textfield',
-						'weight' => 10,
-				]);*/
-
 		$fields['metatage'] = BaseFieldDefinition::create('jsonb')
 				->setLabel(t('metatage'))
-				#->setClass('\Drupal\htm_custom_xjson_services\Plugin\Field\JsonEntityFieldItemList')
 				->setDescription(t('metatage'))
 				->setRevisionable(TRUE)
 				->setDefaultValue('')
