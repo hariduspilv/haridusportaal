@@ -1,5 +1,6 @@
 @import "../../../assets/styles/typography.scss"; 
 .related {padding: $gutter $medium $xxl $medium;
+  &--item {cursor: pointer;}
   h1 {font-size: 1.25rem;}
   .author {padding-bottom: $gutter;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;}
 }

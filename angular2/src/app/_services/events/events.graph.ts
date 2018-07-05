@@ -147,6 +147,11 @@ export class EventsGraph {
                 lon
                 zoom
               }
+              fieldEventLocationLink{
+                title
+                uri
+              }
+              fieldOrganizer
               fieldEventDate {
                 entity {
                   fieldEventDate {
@@ -231,6 +236,10 @@ export class EventsGraph {
                 lat
                 lon
                 name
+              }
+              fieldEventLocationLink{
+                uri
+                title
               }
               fieldEventType {
                 entity {
