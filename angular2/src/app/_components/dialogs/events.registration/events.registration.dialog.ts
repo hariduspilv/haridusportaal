@@ -6,7 +6,7 @@ import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 @Component({
   selector: 'events-registration-dialog',
   templateUrl: 'events.registration.dialog.html',
-  styleUrls: ['events.registration.dialog.scss']
+  styleUrls: ['../modal/modal.scss']
 })
 export class EventsRegistratonDialog {
   
