@@ -16,12 +16,32 @@
   "events": "Events",
 
   "monday": "Monday",
+  "monday.short": "Mo",
   "tuesday": "Tuesday",
+  "tuesday.short": "Tu",
   "wednesday": "Wednesday",
+  "wednesday.short": "We",
   "thursday": "Thursday", 
+  "thursday.short": "Th",
   "friday": "Friday",
+  "friday.short": "Fr",
   "saturday": "Saturday",
+  "saturday.short": "Sa",
   "sunday": "Sunday",
+  "sunday.short": "Su",
+
+  "january": "January",
+  "february": "February",
+  "march": "March",
+  "april": "April",
+  "may": "May",
+  "june": "June",
+  "july": "July",
+  "august": "August",
+  "september": "September",
+  "october": "October",
+  "november": "November",
+  "december": "December",
 
   "login": "Log in",
   "username": "Username",
@@ -114,7 +134,9 @@
   "registration.add.to.calendar": "Add event to your calendar",
   "participants.list.go": "See participants list",
   "free": "Free",
+  "invite": "Invitations",
   "back": "Back",
   "subscription.choose.one": "Choose at least one subscription",
-  "subscription.failed": "Subscription failed"
+  "subscription.failed": "Subscription failed",
+  "map.failed": "Map not found"
 }
