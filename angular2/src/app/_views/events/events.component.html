@@ -183,11 +183,16 @@
           
           <div class="cal__day more__hidden">{{ day.i }}</div>
 
+          
           <div class="cal__event more__hidden" *ngFor="let event of day.events; let i = index">
-            <div class="content" [class.active]="popup === i" (click)="togglePopup(i)" *ngIf="i < 3">
-              <span><div class="marker"></div></span>
-              <span class="content__medium">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
-              <span class="content__strong">{{ event.title }}</span>
+            <div class="content" [class.active]="popup === i" (click)="togglePopup(i)" *ngIf="i < 3"  [routerLink]="event.entityUrl.path">
+              <ng-container *ngFor="let item of event.eventDates">
+                <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
+                  <span><div class="marker"></div></span>
+                  <span class="content__medium">{{ parseIntoReadableTime(item.entity.fieldEventStartTime*1000) }}</span>
+                  <span class="content__strong">{{ event.title }}</span>
+                </ng-container>
+              </ng-container>
             </div>
             <div class="popup" *ngIf="firstWeek && last && i < 3 && popup === i">
               <div class="popupcontent">
@@ -215,17 +220,24 @@
                 <div class="title">
                   <div class="header">
                     <div class="header__medium">{{ 'sunday' | translate }}</div>
-                    <div class="header__strong">{{day}}. {{monthName}}</div>
+                    <div class="header__strong">{{ day.i }}. {{monthName}}</div>
                   </div>
                   <span class="close more"><a (click)="closeMore()"><mat-icon>close</mat-icon></a></span>
                 </div>
-                <div class="cal__event" *ngFor="let event of eventList" [routerLink]="event.entityUrl.path">
-                  <div class="content content__more">
-                    <span><div class="marker"></div></span>
-                    <span class="content__medium">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
-                    <span class="content__strong">{{ event.title }}</span>
+                <ng-container *ngFor="let event of day.events; let i = index;">
+                  <div class="cal__event" [routerLink]="event.entityUrl.path">
+                    <ng-container *ngFor="let item of event.eventDates">
+                      <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
+                        <div class="content content__more">
+                          <span><div class="marker"></div></span>
+                          <span class="content__medium">{{ parseIntoReadableTime(item.entity.fieldEventStartTime*1000) }}</span>
+                          <span class="content__strong">{{ event.title }}</span>
+                        </div>
+                      </ng-container>
+                    </ng-container>
                   </div>
-                </div>
+                </ng-container>
+                
               </div>
             </div>
           </div>

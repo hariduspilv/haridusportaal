@@ -117,6 +117,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
     this.monthName = moment(this.year+"/"+this.month, "YYYY/M").format('MMMM');
 
+    this.status = false;
+    this.calendarDays = false;
     this.generateCalendar();
 
     this.getData();
@@ -220,7 +222,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     
-    this.changeView("list", false);
+    this.changeView("calendar", false);
     
     this.setPaths();
     
@@ -259,21 +261,42 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   }
 
   dataToCalendar(list:Array<object>) {
+
+    var sort = function (prop, arr) {
+        prop = prop.split('.');
+        var len = prop.length;
+    
+        arr.sort(function (a, b) {
+            var i = 0;
+            while( i < len ) { a = a[prop[i]]; b = b[prop[i]]; i++; }
+            if (a < b) {
+                return -1;
+            } else if (a > b) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        return arr;
+    };
+    
     for( let i in list ){
       let current = list[i];
       let eventDate = current['eventDates'][0]['entity']['fieldEventDate']['value'];
       let dateString = this.year+"-"+this.month+"-";
       
-      for( var o in this.calendarDays ){
-        for( var oo in this.calendarDays[o] ){
-          if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
-            this.calendarDays[o][oo]['events'].push( current );
+      for( var ii in current['eventDates'] ){
+        let eventDate = current['eventDates'][ii]['entity']['fieldEventDate']['value'];
+
+        for( var o in this.calendarDays ){
+          for( var oo in this.calendarDays[o] ){
+            if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
+              this.calendarDays[o][oo]['events'].push( current );
+            }
           }
         }
       }
     }
-
-    //console.log(this.calendarDays);
   }
 
   getData() {
