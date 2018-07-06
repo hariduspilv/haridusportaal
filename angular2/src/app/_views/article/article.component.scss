@@ -2,11 +2,15 @@
 .article-wrapper {
   // padding-bottom: $xxl;
   @include break-on(sm, min) {padding: $gutter $medium $medium $medium;}
+  @include break-on(lg, min) {padding-left: 0;padding-right: 0;}
 }
 article {
   padding-bottom: $small;
   a {color: $blue;font-weight:500;
     .mat-icon {color: $blue;}
+  }
+  &.extraBottom {
+    @include break-on(sm, max) {padding-bottom: 4.5rem;}
   }
 }
 .share-btn {
