@@ -1,7 +1,7 @@
+<breadcrumbs></breadcrumbs>
 <div class="news-component">
-    <breadcrumbs></breadcrumbs>
-
-    <form (submit)="filterSubmit()" class="filter-wrapper" >
+  <form (submit)="filterSubmit()" class="filter-wrapper">
+    <div class="main-container">
       <div class="row">
         <div class="col-4 sm-12">
           <div class="round-input__wrapper">
@@ -78,53 +78,53 @@
           </div>
         </div><!--/col-3-->
       </div><!--/row-->
-    
-    </form>
-  
-    <mat-spinner *ngIf="!list"></mat-spinner>
-    <div class="news-list" *ngIf="list">
-      <div class="news-title">{{ 'news' | translate | uppercase }}</div>
-      <div>
-        <div *ngFor="let item of list" class="news-item" [routerLink]="[item.entityUrl.path]">
-          <mat-card>
-            <mat-card-content>
-              <div class="row">
-                <div class="col-8 sm-hide">
-                  <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
-                  
-                  <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
-                  <div class="tags" *ngIf="item.fieldTag">
-                    <mat-chip-list>
-                        <span *ngFor="let tag of item.fieldTag" class="mat-chip-wrapper">
-                          <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
-                        </span>
-                    </mat-chip-list>
-                  </div><!--/row-->
-                  
-                  <div class="description">{{ item.fieldShortDescription }}</div>
-                </div>
-                <div class="col-4 sm-12 pointer" *ngIf="item.fieldIntroductionImage">
-                  <img src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
-                </div>
-              </div>
-              <div class="sm-show col-12">
-                <div class="mb-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
-                <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
-              </div><!--/col-12-->
-            </mat-card-content>
-          </mat-card>
-        </div><!--ngFor-->
-
-        <div class="text-center actions" *ngIf="!listEnd">
-          <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-          <button mat-raised-button color="primary" (click)="loadMore()"  *ngIf="!loading">
-            Lae rohkem
-          </button>
-        </div><!--/text-center-->
-        <div class="text-center actions__error" *ngIf="(list != null && list.length) === 0">
-          <p>{{ 'results.none' | translate }}</p>
-        </div><!--/text-center-->
-        
-      </div><!--/ngIf-->
     </div>
+  </form>
+
+  <mat-spinner *ngIf="!list"></mat-spinner>
+  <div class="news-list main-container" *ngIf="list">
+    <div class="news-title">{{ 'news' | translate | uppercase }}</div>
+    <div>
+      <div *ngFor="let item of list" class="news-item" [routerLink]="[item.entityUrl.path]">
+        <mat-card>
+          <mat-card-content>
+            <div class="row">
+              <div class="col-8 sm-hide">
+                <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
+                
+                <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                <div class="tags" *ngIf="item.fieldTag">
+                  <mat-chip-list>
+                      <span *ngFor="let tag of item.fieldTag" class="mat-chip-wrapper">
+                        <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
+                      </span>
+                  </mat-chip-list>
+                </div><!--/row-->
+                
+                <div class="description">{{ item.fieldShortDescription }}</div>
+              </div>
+              <div class="col-4 sm-12 pointer" *ngIf="item.fieldIntroductionImage">
+                <img src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
+              </div>
+            </div>
+            <div class="sm-show col-12">
+              <div class="mb-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
+              <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+            </div><!--/col-12-->
+          </mat-card-content>
+        </mat-card>
+      </div><!--ngFor-->
+
+      <div class="text-center actions" *ngIf="!listEnd">
+        <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
+        <button mat-raised-button color="primary" (click)="loadMore()"  *ngIf="!loading">
+          Lae rohkem
+        </button>
+      </div><!--/text-center-->
+      <div class="text-center actions__error" *ngIf="(list != null && list.length) === 0">
+        <p>{{ 'results.none' | translate }}</p>
+      </div><!--/text-center-->
+      
+    </div><!--/ngIf-->
   </div>
+</div>
