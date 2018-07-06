@@ -132,6 +132,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   generateCalendar() {
     
     
+    if( this.filterFormItems.dateFrom ){
+      console.log(this.filterFormItems.dateFrom);
+    }
     this.month = parseInt(this.month);
     
     if( this.month < 10 ){ this.month = "0"+this.month; }

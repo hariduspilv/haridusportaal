@@ -14,7 +14,7 @@ export const DATEPICKER_FORMAT = {
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
-  },
+  }
 };
 
 export class FiltersService {
