@@ -37,11 +37,7 @@ export class EventsRegistratonDialog {
       email: [this.email, [Validators.required, Validators.email]],
       marked: [this.marked, []]
     });
-    this.form.valueChanges.subscribe(
-      (data) => {
-        // console.log(this.form.controls)
-      }
-    )
+    // this.form.valueChanges.subscribe()
   }  
   
   save() {

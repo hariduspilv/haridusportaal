@@ -2,7 +2,7 @@
 .dialog {padding: $medium;padding-top:$small;border-top: $gutter solid $orange;padding-bottom: $xxl;
   h1 {color: $black;}
   &__text {&--medium {color: $dark-gray; line-height: 2;}}
-  &__close {position: absolute;top: 0.6875rem;right: $half-gutter;}
+  &__close {position: absolute;top: 0.6875rem;right: $half-gutter;cursor:pointer;}
   &__time {padding: $half-gutter 0 $small 0;line-height: 1.38rem;}
   &__required {line-height: 1.88rem;}
   &__form {padding-top: 0; .dialog-content {padding-top: $gutter;}}
