@@ -20,6 +20,7 @@ article {padding-bottom: $xxl;
   border-top: $gutter solid $light-blue;
   background: $white;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium;}
+  @include break-on(lg, min) {margin-left: 0;}
   &__recent {
     @extend .events__list;
     a:hover { text-decoration: none; }
@@ -74,6 +75,7 @@ _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
 _:-ms-lang(x), .article-image {width: 100%;margin:0;}
 .events__single {
   @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}
+  @include break-on(lg, min) {padding-right: 0;}
   &--participants {@extend .events__single;}
 }
 .links {padding: 0 $medium;}
