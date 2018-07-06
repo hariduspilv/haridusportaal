@@ -32,7 +32,7 @@ export class FiltersService {
 
   constructor(
     public router: Router,
-    public route: ActivatedRoute,
+    public route: ActivatedRoute
   ) {
 
   }
