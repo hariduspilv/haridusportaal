@@ -7,6 +7,7 @@
 
 namespace Drupal\htm_custom_xjson_services\Plugin\Field\FieldWidget;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\Plugin\Field\FieldWidget\StringTextareaWidget;
 use Drupal\Core\Form\FormStateInterface;
@@ -32,6 +33,30 @@ class JsonbWidget extends StringTextareaWidget {
 	 */
 	public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
 		$widget = parent::formElement($items, $delta, $element, $form, $form_state);
+
+		$widget[1]['value']['test'] = [
+			'#markup' => new FormattableMarkup('<div id="jsoneditor" style="width: 100%; height: 800px;"></div>', []),
+			'#prefix' => '<div class="test">',
+			'#suffix' => '</div>',
+		];
+
+		$widget[1]['value']['#attached']['library'] = [
+				'htm_custom_xjson_services/myform',
+		];
+		#dump(json_decode($items->value, TRUE));
+		$widget[1]['#attached']['drupalSettings']['json_object'] = $items->value;
+
+		$widget[1]['value']['validate'] = array(
+				'#type' => 'button',
+				'#value' => $this->t('validate'),
+				'#attributes' => [
+					'id' => 'getJSON'
+				]
+		);
+
+
+		#$entity = $this->entity;
+
 		$widget['#element_validate'][] = array(get_called_class(), 'validateJsonStructure');
 		return $widget;
 	}
