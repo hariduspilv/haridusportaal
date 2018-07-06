@@ -14,9 +14,10 @@ import {EventsRegistratonDialog} from '../../_components/dialogs/events.registra
 	styleUrls: ['../../_views/events.single/events.single.component.scss']
 })
 
-export class RecentEventsComponent implements OnInit {
+export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	@Input() groupID: number;
+	@Input() nid: number;
 	@Input() map: any;
 	@Input() content: any;
 	@Output() viewChange = new EventEmitter<boolean>();
@@ -26,11 +27,20 @@ export class RecentEventsComponent implements OnInit {
   unix: any;
 	allPath: any;
 
+	paramsSub: any;
+
 	constructor(private eventService: EventsService, private router: Router, private route: ActivatedRoute, public dialog: MatDialog) {}
 	
 	ngOnInit() {
-    this.lang = this.router.url;
+
+		this.paramsSub = this.route.params.subscribe( params => {
+			this.lang = params['lang'];
+		});
+
 		this.unix = new Date().getTime();
+	}
+	ngOnDestroy() {
+		this.paramsSub.unsubscribe();
 	}
 
 	toggleParticipants (status) {
@@ -43,7 +53,9 @@ export class RecentEventsComponent implements OnInit {
 		  // width: '500px',
 		  data: {
 			eventTitle: this.content.entity.entityLabel,
-			eventStartDate: this.content.entity.fieldEventDate[0].entity
+			eventStartDate: this.content.entity.fieldEventDate[0].entity,
+			nid: this.nid,
+			lang: this.lang
 		  }
 		});
 		
