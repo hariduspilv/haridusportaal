@@ -125,7 +125,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   }
 
   getDayName(day:any) {
-    return moment(this.year+"-"+this.month+"-"+day, "").format("dddd").toLowerCase();
+
+    return moment(this.year+"-"+this.month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
   }
   
   generateCalendar() {
