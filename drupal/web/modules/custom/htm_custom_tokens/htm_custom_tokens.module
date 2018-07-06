@@ -72,7 +72,8 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 					if($path = $options['custom_link_path']){
 						$alias = \Drupal::service('path.alias_manager')->getAliasByPath('/node/'.$data['ref_event']->id());
 						//dump($alias);
-						$replacements[$original] = $path .'/'. $options['langcode'] . $alias;
+						$link = $path .'/'. $options['langcode'] . $alias;
+						$replacements[$original] = '<a href="'.$link.'">' . t('link üritusele', [], ['langcode' => $options['langcode']]) . '</a>';
 					}
 					break;
 			}
