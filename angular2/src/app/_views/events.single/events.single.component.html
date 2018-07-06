@@ -1,144 +1,146 @@
 <breadcrumbs></breadcrumbs>
-<mat-spinner *ngIf="!content && !error"></mat-spinner>
-<div class="row events__single" *ngIf="content && !participantsListActiveState">
-  <div class="col-8 sm-12">
-    <div class="events__list">
-      <div class="events__title">{{ 'events' | translate | uppercase }}</div>
-      <article>
-        <div class="row title">
-          <div class="col-11">
-            <h1 class="mt-0 mb-0">{{ content.entity.entityLabel }}</h1>
-          </div><!--/col-10-->
-          <div class="col-1 text-right share">
-            <div class="share-btn">
-              <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
-                <button mat-menu-item (click)="share(1)" >Facebook</button>
-                <button mat-menu-item (click)="share()" >Twitter</button>
-              </mat-menu>
-              <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">share</mat-icon></button>
-            </div>
-          </div><!--/col-10-->
-        </div><!--/row-->
-    
-        <div class="row">
-          <div class="col-12">
-            <div class="short" *ngIf="content.entity.fieldDescription" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
-            <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openImage()">
-              <img src="{{ content.entity.fieldPicture.derivative.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
-              <div class="image-alt-text" *ngIf="content.entity.fieldPicture.alt">{{ content.entity.fieldPicture.alt }}</div>
-            </div>
-
-            <div class="description" [innerHTML]="content.entity.fieldDescription.value" *ngIf="content.entity.fieldDescription"></div>
-          </div>
-        </div>
-
-        <div class="row links" *ngIf="content.entity.fieldAttachmentFile">
-          <div class="col-12">
-            <ul class="link-list mt-0 mb-0">
-              <li *ngFor="let item of content.entity.fieldEventLink"><a href="{{ item.url.path | url }}" target="_blank"><mat-icon>launch</mat-icon>{{ item.title }}</a></li>
-              <li *ngFor="let item of content.entity.fieldAttachmentFile"><a href="{{ item.entity.url }}" target="_blank"><mat-icon>file_copy</mat-icon>{{ item.entity.entityLabel }}</a></li>
-            </ul>
-          </div><!--/col-12-->
-        </div>
-
-        <div class="row tags" *ngIf="content.entity.fieldTag">
-          <div class="col-12">
-            <mat-chip-list>
-                <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-wrapper">
-                  <mat-chip *ngIf="tag.entity && tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
-                </span>
-            </mat-chip-list>
-          </div><!--/col-10-->
-        </div><!--/row-->
-      </article>
-    </div>
-    <div class="events__list second sm-hide" *ngIf="content.entity.fieldEventGroup">
-      <div class="events__title">{{ 'events.related' | translate | uppercase }}</div>
-      <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
-    </div>
-  </div><!--/col-8-->
-  <div class="col-4 sm-12">
-    <recent-events (viewChange)="onViewChange($event)" [map]="map" [content]="content"></recent-events>
-  </div><!--/col-4-->
-  <div class="col-8 sm-12 sm-show">
-    <div class="events__list" *ngIf="content.entity.fieldEventGroup">
-      <div class="events__title">{{ 'events.related' | translate | uppercase }}</div>
-      <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
-    </div>
-  </div><!--/col-4-->
-</div><!--/row-->
-
-<div class="row events__single--participants" *ngIf="content && sortedParticipants && participantsListActiveState">
-  <div class="col-12">
-    <div class="events__list">
-      <div class="events__title">
-        <span>{{ 'events' | translate | uppercase }}</span>
-        <a href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'back' | translate }}</a>
-      </div>
-      <article>
-        <div class="row title">
-          <div class="col-11">
-            <h1 class="mt-0 mb-0">{{ 'participantList' | translate }}: {{ sortedParticipants.length }} {{ 'participantsNr' | translate | lowercase }}</h1>
-          </div><!--/col-10-->
-          <div class="col-1 text-right share">
-            <div class="share-btn--participants">
-              <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
-                <a mat-menu-item href="{{ iCalUrl }}{{ content.entity.nid }}" >iCAL</a>
-                <a mat-menu-item (click)="getCSV()">CSV</a>
-              </mat-menu>
-              <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">get_app</mat-icon></button>
-            </div>
-          </div><!--/col-10-->
-        </div><!--/row-->
-        <div class="participants">  
-          <table class="participantsTable">
-            <thead>
-              <tr>
-                <th>{{ 'participantIndex' | translate }}</th>
-                <th (click)="organizeParticipants('participantFirstName')"><span class="sortable">{{ 'participantFirstName' | translate }}</span></th>
-                <th (click)="organizeParticipants('participantLastName')"><span class="sortable">{{ 'participantLastName' | translate }}</span></th>
-                <th (click)="organizeParticipants('participantOrganization')"><span class="sortable">{{ 'participantOrganization' | translate }}</span></th>
-
-                <!--<span class="participantsTable-arrow-{{ participantsSortOrder['participantFirstName'] }}"></span>-->
-
-                <th>{{ 'participantEmail' | translate }} </th>
-                <th>{{ 'participantPhone' | translate }}</th>
-                <th [class.hidden]="!createdVisible">
-                  <span *ngIf="createdVisible" class="sortable" (click)="organizeParticipants('participantCreated')">{{ 'participantCreated' | translate }}</span>
-                  <span *ngIf="createdVisible"><mat-icon (click)="createdVisible = !createdVisible">skip_previous</mat-icon></span>
-                  <span *ngIf="!createdVisible"><mat-icon (click)="createdVisible = !createdVisible">skip_next</mat-icon></span>
-                </th>
-                <th class="separator" *ngIf="!commentVisible && !createdVisible"></th>
-                <th [class.hidden]="!commentVisible">
-                  <span *ngIf="commentVisible">{{ 'participantComment' | translate }}</span>
-                  <span *ngIf="commentVisible"><mat-icon (click)="commentVisible = !commentVisible">skip_previous</mat-icon></span>
-                  <span *ngIf="!commentVisible"><mat-icon (click)="commentVisible = !commentVisible">skip_next</mat-icon></span>
-                </th>
-              </tr>
-            </thead>
+<div class="main-container">
+  <mat-spinner *ngIf="!content && !error"></mat-spinner>
+  <div class="row events__single" *ngIf="content && !participantsListActiveState">
+    <div class="col-8 sm-12">
+      <div class="events__list">
+        <div class="events__title">{{ 'events' | translate | uppercase }}</div>
+        <article>
+          <div class="row title">
+            <div class="col-11">
+              <h1 class="mt-0 mb-0">{{ content.entity.entityLabel }}</h1>
+            </div><!--/col-10-->
+            <div class="col-1 text-right share">
+              <div class="share-btn">
+                <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
+                  <button mat-menu-item (click)="share(1)" >Facebook</button>
+                  <button mat-menu-item (click)="share()" >Twitter</button>
+                </mat-menu>
+                <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">share</mat-icon></button>
+              </div>
+            </div><!--/col-10-->
+          </div><!--/row-->
       
-            <tbody>
-              <tr *ngFor="let item of sortedParticipants; let first = first;">
-                <td>{{ item.participantIndex }}</td>
-                <td>{{ item.participantFirstName }}</td>
-                <td>{{ item.participantLastName }}</td>
-                <td>{{ item.participantOrganization }}</td>
-                <td>{{ item.participantEmail }}</td>
-                <td>{{ item.participantPhone }}</td>
-                <td [class.hidden]="!createdVisible" [class.vertical]="!createdVisible && first">
-                  <span class="vertical__text" *ngIf="!createdVisible && first">{{ 'participantCreated' | translate }}</span>
-                  <span *ngIf="createdVisible">{{ item.participantCreated*1000 | date: 'dd.MM.yyyy HH:mm' }}</span>  
-                </td>
-                <td class="separator" *ngIf="!commentVisible && !createdVisible"></td>
-                <td [class.hidden]="!commentVisible" [class.vertical]="!commentVisible && first">
-                  <span class="vertical__text" *ngIf="!commentVisible && first">{{ 'participantComment' | translate }}</span>
-                  <span *ngIf="commentVisible">{{ item.participantComment }}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="row">
+            <div class="col-12">
+              <div class="short" *ngIf="content.entity.fieldDescription" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
+              <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openImage()">
+                <img src="{{ content.entity.fieldPicture.derivative.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
+                <div class="image-alt-text" *ngIf="content.entity.fieldPicture.alt">{{ content.entity.fieldPicture.alt }}</div>
+              </div>
+
+              <div class="description" [innerHTML]="content.entity.fieldDescription.value" *ngIf="content.entity.fieldDescription"></div>
+            </div>
+          </div>
+
+          <div class="row links" *ngIf="content.entity.fieldAttachmentFile">
+            <div class="col-12">
+              <ul class="link-list mt-0 mb-0">
+                <li *ngFor="let item of content.entity.fieldEventLink"><a href="{{ item.url.path | url }}" target="_blank"><mat-icon>launch</mat-icon>{{ item.title }}</a></li>
+                <li *ngFor="let item of content.entity.fieldAttachmentFile"><a href="{{ item.entity.url }}" target="_blank"><mat-icon>file_copy</mat-icon>{{ item.entity.entityLabel }}</a></li>
+              </ul>
+            </div><!--/col-12-->
+          </div>
+
+          <div class="row tags" *ngIf="content.entity.fieldTag">
+            <div class="col-12">
+              <mat-chip-list>
+                  <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-wrapper">
+                    <mat-chip *ngIf="tag.entity && tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
+                  </span>
+              </mat-chip-list>
+            </div><!--/col-10-->
+          </div><!--/row-->
+        </article>
+      </div>
+      <div class="events__list second sm-hide" *ngIf="content.entity.fieldEventGroup">
+        <div class="events__title">{{ 'events.related' | translate | uppercase }}</div>
+        <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
+      </div>
+    </div><!--/col-8-->
+    <div class="col-4 sm-12">
+      <recent-events (viewChange)="onViewChange($event)" [map]="map" [nid]="content.entity.nid" [content]="content"></recent-events>
+    </div><!--/col-4-->
+    <div class="col-8 sm-12 sm-show">
+      <div class="events__list" *ngIf="content.entity.fieldEventGroup">
+        <div class="events__title">{{ 'events.related' | translate | uppercase }}</div>
+        <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
+      </div>
+    </div><!--/col-4-->
+  </div><!--/row-->
+
+  <div class="row events__single--participants" *ngIf="content && sortedParticipants && participantsListActiveState">
+    <div class="col-12">
+      <div class="events__list">
+        <div class="events__title">
+          <span>{{ 'events' | translate | uppercase }}</span>
+          <a href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'back' | translate }}</a>
         </div>
-      </article>
+        <article>
+          <div class="row title">
+            <div class="col-11">
+              <h1 class="mt-0 mb-0">{{ 'participantList' | translate }}: {{ sortedParticipants.length }} {{ 'participantsNr' | translate | lowercase }}</h1>
+            </div><!--/col-10-->
+            <div class="col-1 text-right share">
+              <div class="share-btn--participants">
+                <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
+                  <a mat-menu-item href="{{ iCalUrl }}{{ content.entity.nid }}" >iCAL</a>
+                  <a mat-menu-item (click)="getCSV()">CSV</a>
+                </mat-menu>
+                <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">get_app</mat-icon></button>
+              </div>
+            </div><!--/col-10-->
+          </div><!--/row-->
+          <div class="participants">  
+            <table class="participantsTable">
+              <thead>
+                <tr>
+                  <th>{{ 'participantIndex' | translate }}</th>
+                  <th (click)="organizeParticipants('participantFirstName')"><span class="sortable">{{ 'participantFirstName' | translate }}</span></th>
+                  <th (click)="organizeParticipants('participantLastName')"><span class="sortable">{{ 'participantLastName' | translate }}</span></th>
+                  <th (click)="organizeParticipants('participantOrganization')"><span class="sortable">{{ 'participantOrganization' | translate }}</span></th>
+
+                  <!--<span class="participantsTable-arrow-{{ participantsSortOrder['participantFirstName'] }}"></span>-->
+
+                  <th>{{ 'participantEmail' | translate }} </th>
+                  <th>{{ 'participantPhone' | translate }}</th>
+                  <th [class.hidden]="!createdVisible">
+                    <span *ngIf="createdVisible" class="sortable" (click)="organizeParticipants('participantCreated')">{{ 'participantCreated' | translate }}</span>
+                    <span *ngIf="createdVisible"><mat-icon (click)="createdVisible = !createdVisible">skip_previous</mat-icon></span>
+                    <span *ngIf="!createdVisible"><mat-icon (click)="createdVisible = !createdVisible">skip_next</mat-icon></span>
+                  </th>
+                  <th class="separator" *ngIf="!commentVisible && !createdVisible"></th>
+                  <th [class.hidden]="!commentVisible">
+                    <span *ngIf="commentVisible">{{ 'participantComment' | translate }}</span>
+                    <span *ngIf="commentVisible"><mat-icon (click)="commentVisible = !commentVisible">skip_previous</mat-icon></span>
+                    <span *ngIf="!commentVisible"><mat-icon (click)="commentVisible = !commentVisible">skip_next</mat-icon></span>
+                  </th>
+                </tr>
+              </thead>
+        
+              <tbody>
+                <tr *ngFor="let item of sortedParticipants; let first = first;">
+                  <td>{{ item.participantIndex }}</td>
+                  <td>{{ item.participantFirstName }}</td>
+                  <td>{{ item.participantLastName }}</td>
+                  <td>{{ item.participantOrganization }}</td>
+                  <td>{{ item.participantEmail }}</td>
+                  <td>{{ item.participantPhone }}</td>
+                  <td [class.hidden]="!createdVisible" [class.vertical]="!createdVisible && first">
+                    <span class="vertical__text" *ngIf="!createdVisible && first">{{ 'participantCreated' | translate }}</span>
+                    <span *ngIf="createdVisible">{{ item.participantCreated*1000 | date: 'dd.MM.yyyy HH:mm' }}</span>  
+                  </td>
+                  <td class="separator" *ngIf="!commentVisible && !createdVisible"></td>
+                  <td [class.hidden]="!commentVisible" [class.vertical]="!commentVisible && first">
+                    <span class="vertical__text" *ngIf="!commentVisible && first">{{ 'participantComment' | translate }}</span>
+                    <span *ngIf="commentVisible">{{ item.participantComment }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
     </div>
   </div>
 </div>

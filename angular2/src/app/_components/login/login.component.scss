@@ -1,8 +1,10 @@
 @import "../../../assets/styles/typography.scss"; 
-:host{position: relative; z-index: 2;}
+:host{position: relative; z-index: 2; 
+  @include break-on(sm, min) {top: .1875rem;}
+}
 
 .login-wrapper { position: relative;
-  .login {position: relative; z-index: 2; appearance: none; border:none; background:none;padding: 0 $gutter;
+  .login {position: relative; z-index: 2; appearance: none; border:none; background:none;padding: 0 $gutter;top: .0625rem;
     text-decoration: none;
     color: white;
     font-size: $small;
@@ -22,7 +24,7 @@
     }
     button{width:100% !important;}
     .header {font-size: $small;line-height: $large;text-align: left;color: $dark-gray;font-weight: 400;}
-    @include break-on(sm, min) {margin-top: .8125rem;}
+    @include break-on(sm, min) {margin-top: .875rem;}
     @include break-on(xl, min) {margin-top: .9375rem;}
   }
   .error{color: $red;white-space: normal;font-size: .875rem;line-height: 120%;font-weight: normal;margin-top: $small;}

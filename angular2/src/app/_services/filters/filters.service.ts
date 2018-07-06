@@ -14,7 +14,7 @@ export const DATEPICKER_FORMAT = {
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
-  },
+  }
 };
 
 export class FiltersService {
@@ -32,7 +32,7 @@ export class FiltersService {
 
   constructor(
     public router: Router,
-    public route: ActivatedRoute,
+    public route: ActivatedRoute
   ) {
 
   }
