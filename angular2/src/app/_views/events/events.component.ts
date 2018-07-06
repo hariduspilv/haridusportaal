@@ -117,14 +117,24 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
     this.monthName = moment(this.year+"/"+this.month, "YYYY/M").format('MMMM');
 
+    this.status = false;
+    this.calendarDays = false;
     this.generateCalendar();
 
     this.getData();
+  }
+
+  getDayName(day:any) {
+
+    return moment(this.year+"-"+this.month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
   }
   
   generateCalendar() {
     
     
+    if( this.filterFormItems.dateFrom ){
+      console.log(this.filterFormItems.dateFrom);
+    }
     this.month = parseInt(this.month);
     
     if( this.month < 10 ){ this.month = "0"+this.month; }
@@ -230,7 +240,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     if( month < 10 ){ month = "0"+month;}
     this.current = {
       day: moment().format("D"),
-      month: month
+      dayString: moment().format("DD"),
+      month: month,
+      year: moment().format("YYYY")
     }
 
     // SUBSCRIBE TO QUERY PARAMS
@@ -257,23 +269,80 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     //this.getData();
   }
+  sort(prop:any, arr:any) {
+    prop = prop.split('.');
+    var len = prop.length;
 
-  dataToCalendar(list:Array<object>) {
+    arr.sort(function (a, b) {
+        var i = 0;
+        while( i < len ) { a = a[prop[i]]; b = b[prop[i]]; i++; }
+        if (a < b) {
+            return -1;
+        } else if (a > b) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+    return arr;
+  }
+
+  dataToCalendar(list:any) {
+
+    list = JSON.parse( list );
+    
     for( let i in list ){
       let current = list[i];
       let eventDate = current['eventDates'][0]['entity']['fieldEventDate']['value'];
       let dateString = this.year+"-"+this.month+"-";
       
-      for( var o in this.calendarDays ){
-        for( var oo in this.calendarDays[o] ){
-          if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
-            this.calendarDays[o][oo]['events'].push( current );
+      let set = false;
+
+      for( var ii in current['eventDates'] ){
+        let eventDate = current['eventDates'][ii]['entity']['fieldEventDate']['value'];
+        if( set ){ break; }
+        for( var o in this.calendarDays ){
+          if( set ){ break; }
+          for( var oo in this.calendarDays[o] ){
+            if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
+              this.calendarDays[o][oo]['events'].push( current );
+              set = true;
+              break;
+            }
           }
         }
       }
     }
+  }
 
-    //console.log(this.calendarDays);
+  parseDay(day:any){
+
+    if( day.events && day.events.length > 0 ){
+
+      for( var i in day.events ){
+        let current = day.events[i];
+        current['startTime'] = 0;
+
+        var eventDates = current.eventDates;
+        for( var ii in eventDates ){
+          let entity = eventDates[ii]['entity'];
+
+          if( entity['fieldEventDate']['value'] == this.year+"-"+this.month+"-"+day['i'] ){
+            if( entity['fieldEventStartTime'] > current['startTime'] ){
+              current['startTime'] = eventDates[ii]['entity']['fieldEventStartTime'];
+            }
+          }
+          
+        }
+
+      }
+
+      day.events = this.sort("startTime", day.events);
+      return day.events;
+    }else{
+      return day.events;
+    }
+
   }
 
   getData() {
@@ -334,14 +403,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           this.dataSubscription.unsubscribe();
           this.dataSubscription = false;
 
-          console.log(data['nodeQuery']['entities'].length);
+
           if( this.view == "list" ){
             this.eventList = data['nodeQuery']['entities'];
             if (this.eventList && (this.eventList.length < this.eventsConfig.limit)){
               this.listEnd = true;
             }
           }else{
-            this.dataToCalendar(data['nodeQuery']['entities']);
+            this.dataToCalendar( JSON.stringify( data['nodeQuery']['entities'] ) );
           }
           
           
