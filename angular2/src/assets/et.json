@@ -22,6 +22,19 @@
   "friday": "Reede",
   "saturday": "Laupäev",
   "sunday": "Pühapäev",
+  
+  "january": "Jaanuar",
+  "february": "Veebruar",
+  "march": "Märts",
+  "april": "Aprill",
+  "may": "Mai",
+  "june": "Juuni",
+  "july": "Juuli",
+  "august": "August",
+  "september": "September",
+  "october": "Oktoober",
+  "november": "November",
+  "december": "Detsember",
 
   "login": "Logi sisse",
   "username": "Kasutaja",
@@ -112,7 +125,9 @@
   "registration.add.to.calendar": "Lisa sündmus enda kalendrisse",
   "participants.list.go": "Vaata osalejate nimekirja",
   "free": "Tasuta",
+  "invite": "Kutsetega",
   "back": "Tagasi",
   "subscription.choose.one": "Vali vähemalt üks uudiskiri",
-  "subscription.failed": "Tellimuse saatmine ebaõnnestus"
+  "subscription.failed": "Tellimuse saatmine ebaõnnestus",
+  "map.failed": "Kaarti ei leitud"
 }

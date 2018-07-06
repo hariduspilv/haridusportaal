@@ -20,6 +20,13 @@
         <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix">{{'event.passed' | translate}}</span>
       </div>
     </div>
+    <div *ngIf="content.entity.fieldEntryType && content.entity.fieldEntryType == 'invite' && !content.entity.EventRegistrations">
+      <div class="title"><h1>{{'entrance' | translate}}</h1></div>
+      <div class="events__list__item__body">
+        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix">{{'invite' | translate}}</span>
+        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix">{{'event.passed' | translate}}</span>
+      </div>
+    </div>
     <ng-container *ngIf="content.entity.EventRegistrations">
       <div class="title"><h1>{{'participantList' | translate}}</h1></div>
       <button mat-raised-button color="primary" (click)="toggleParticipants(true)">{{'participants.list.go' | translate}}</button>
@@ -37,22 +44,28 @@
     <div class="events__list__item__body">
       <div *ngFor="let item of content.entity.fieldEventDate" class="child">
         <span>
-          {{ item.entity.fieldEventDate.unix*1000 | weekday: "unix"}}
+          {{ item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase | translate }}
           {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
           Kell
           {{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}
         </span>
       </div>
     </div>
-    <div class="events__list__item__footer">{{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}</div>
+    <div class="events__list__item__footer">
+      {{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}
+      <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri">{{ content.entity.fieldEventLocationLink.uri }}</a></div>
+    </div> 
   </div>
 </div>
 
-<div class="events__list__recent">
+<div class="events__list__recent" *ngIf="content.entity.fieldOrganizer ||
+  content.entity.fieldContactPerson ||
+  content.entity.fieldContactPhone ||
+  content.entity.fieldContactEmail">
   <div class="events__list__item">
     <div class="title"><h1>{{'contact' | translate}}</h1></div>
     <div class="events__list__item__body">
-      <div class="child">{{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}</div>
+      <div class="child">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
       <div class="child">{{ content.entity.fieldContactPerson }}</div>
       <div class="child">{{ content.entity.fieldContactPhone }}</div>
       <a href="javascript:void(0)" class="child">{{ content.entity.fieldContactEmail }}</a>

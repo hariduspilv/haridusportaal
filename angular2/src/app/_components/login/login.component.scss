@@ -9,8 +9,8 @@
     font-weight: 300;
     cursor: pointer;
   }
-  .dropdown-menu{position:absolute;background:#fff;right:$small;top:100%;padding:$medium;padding-top:$small;width:13.125rem;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12); margin-top: $quarter;
-    border-top: $gutter solid $red;border-radius: $half-gutter;
+  .dropdown-menu{position:absolute;background:#fff;right:$small;top:100%;padding:$medium;padding-top:$small;width:13.125rem;box-shadow:0 .1875rem .0625rem -.125rem rgba(0,0,0,.2),0 .125rem .125rem 0 rgba(0,0,0,.14),0 .0625rem .3125rem 0 rgba(0,0,0,.12);
+    border-top: $gutter solid $red;border-radius: $half-gutter;margin-top: $quarter;
     .round-input__wrapper:focus-within .round-input__title {color: $blue;display: block;width: fit-content;font-weight: 400;line-height: 1.2rem;}
     .round-input__wrapper.complete {
       .round-input__title {color: $blue;display: block;width: fit-content;font-weight: 400;line-height: 1.2rem;}
@@ -22,6 +22,8 @@
     }
     button{width:100% !important;}
     .header {font-size: $small;line-height: $large;text-align: left;color: $dark-gray;font-weight: 400;}
+    @include break-on(sm, min) {margin-top: .8125rem;}
+    @include break-on(xl, min) {margin-top: .9375rem;}
   }
   .error{color: $red;white-space: normal;font-size: .875rem;line-height: 120%;font-weight: normal;margin-top: $small;}
   mat-icon {vertical-align: middle; position: relative; z-index: 2; cursor: pointer;bottom: .0625rem;

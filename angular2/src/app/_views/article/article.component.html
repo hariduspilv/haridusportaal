@@ -36,7 +36,7 @@
           <div class="description" attr.aria-label="{{'description' | translate}}" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
         </article>
 
-        <video-component *ngIf="content.fieldVideo" [videos]="content.fieldVideo"></video-component>
+        <video-component *ngIf="content.fieldVideo && content.fieldVideo.length > 0" [videos]="content.fieldVideo"></video-component>
         
         <div class="accordion" *ngIf="accordionSection.length > 0">
           <mat-accordion multi>
