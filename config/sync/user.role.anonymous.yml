@@ -12,6 +12,7 @@ permissions:
   - 'access comments'
   - 'access content'
   - 'access site-wide contact form'
+  - 'add event registration entities'
   - 'add subscription entity entities'
   - 'edit subscription entity entities'
   - 'execute graphql requests'
