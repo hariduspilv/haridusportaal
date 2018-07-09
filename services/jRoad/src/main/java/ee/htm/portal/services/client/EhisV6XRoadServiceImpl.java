@@ -5,8 +5,18 @@ import com.nortal.jroad.client.service.XRoadDatabaseService;
 import ee.htm.portal.services.database.EhisXRoadDatabase;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartDocument.EeIsikukaart;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentDocument.VpTaotlusDokument;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentResponseDocument.VpTaotlusDokumentResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusEsitamineDocument.VpTaotlusEsitamine;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusEsitamineResponseDocument.VpTaotlusEsitamineResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusIsikudDocument.VpTaotlusIsikud;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusIsikudResponseDocument.VpTaotlusIsikudResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusKontaktDocument.VpTaotlusKontakt;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusKontaktResponseDocument.VpTaotlusKontaktResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusOpingudDocument.VpTaotlusOpingud;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusOpingudResponseDocument.VpTaotlusOpingudResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudDocument.VpTaotlusSissetulekud;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudResponseDocument.VpTaotlusSissetulekudResponse;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +26,10 @@ public class EhisV6XRoadServiceImpl extends XRoadDatabaseService implements Ehis
   @Resource
   private EhisXRoadDatabase ehisXRoadDatabase;
 
-  public EeIsikukaartResponse eeIsikukaart(String isikukood, String format, String userId)
+  public EeIsikukaartResponse eeIsikukaart(String personalCode, String format, String userId)
       throws XRoadServiceConsumptionException {
     EeIsikukaart request = EeIsikukaart.Factory.newInstance();
-    request.setIsikukood(isikukood);
+    request.setIsikukood(personalCode);
     request.setFormat(format);
 
     if (userId == null || userId.equalsIgnoreCase("-")) {
@@ -29,13 +39,13 @@ public class EhisV6XRoadServiceImpl extends XRoadDatabaseService implements Ehis
     return ehisXRoadDatabase.eeIsikukaartV1(request, userId);
   }
 
-  public VpTaotlusOpingudResponse vptOpingud(String isikukood, Object taotlusId, String userId)
+  public VpTaotlusOpingudResponse vptOpingud(String personalCode, Object applicationId, String userId)
       throws XRoadServiceConsumptionException {
     VpTaotlusOpingud request = VpTaotlusOpingud.Factory.newInstance();
-    request.setTaotlejaIsikukood(isikukood);
+    request.setTaotlejaIsikukood(personalCode);
 
-    if (taotlusId != null) {
-      request.setTaotluseId(taotlusId);
+    if (applicationId != null) {
+      request.setTaotluseId(applicationId);
     }
 
     if (userId == null || userId.equalsIgnoreCase("-")) {
@@ -43,5 +53,50 @@ public class EhisV6XRoadServiceImpl extends XRoadDatabaseService implements Ehis
     }
 
     return ehisXRoadDatabase.vpTaotlusOpingudV1(request, userId);
+  }
+
+  public VpTaotlusIsikudResponse vpTaotlusIsikud(VpTaotlusIsikud request, String userId)
+      throws XRoadServiceConsumptionException {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return ehisXRoadDatabase.vpTaotlusIsikudV1(request);
+    }
+
+    return ehisXRoadDatabase.vpTaotlusIsikudV1(request, userId);
+  }
+
+  public VpTaotlusSissetulekudResponse vpTaotlusSissetulekud(VpTaotlusSissetulekud request,
+      String userId) throws XRoadServiceConsumptionException {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return ehisXRoadDatabase.vpTaotlusSissetulekudV1(request);
+    }
+
+    return ehisXRoadDatabase.vpTaotlusSissetulekudV1(request, userId);
+  }
+
+  public VpTaotlusKontaktResponse vpTaotlusKontakt(VpTaotlusKontakt request, String userId)
+      throws XRoadServiceConsumptionException {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return ehisXRoadDatabase.vpTaotlusKontaktV1(request);
+    }
+
+    return ehisXRoadDatabase.vpTaotlusKontaktV1(request, userId);
+  }
+
+  public VpTaotlusEsitamineResponse vpTaotlusEsitamine(VpTaotlusEsitamine request, String userId)
+      throws XRoadServiceConsumptionException {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return ehisXRoadDatabase.vpTaotlusEsitamineV1(request);
+    }
+
+    return ehisXRoadDatabase.vpTaotlusEsitamineV1(request, userId);
+  }
+
+  public VpTaotlusDokumentResponse vpTaotlusDokument(VpTaotlusDokument request, String userId)
+      throws XRoadServiceConsumptionException {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return ehisXRoadDatabase.vpTaotlusDokumentV1(request);
+    }
+
+    return ehisXRoadDatabase.vpTaotlusDokumentV1(request, userId);
   }
 }

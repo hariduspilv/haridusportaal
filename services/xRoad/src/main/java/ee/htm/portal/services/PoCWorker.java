@@ -1,6 +1,6 @@
 package ee.htm.portal.services;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.client.EhisV6XRoadService;
 import ee.htm.portal.services.kafka.producers.Sender;
@@ -11,6 +11,7 @@ import ee.htm.portal.services.model.Logs;
 import ee.htm.portal.services.storage.RequestStorage;
 import ee.htm.portal.services.storage.ResponseStorage;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument;
+import java.io.IOException;
 import java.sql.Timestamp;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
@@ -51,8 +52,13 @@ public class PoCWorker {
       xRoadService = "eeIsikukaart";
     }
 
-    Gson gson = new Gson();
-    EeIsikukaartRequest request = gson.fromJson(value, EeIsikukaartRequest.class);
+    ObjectMapper mapper = new ObjectMapper();
+    EeIsikukaartRequest request = null;
+    try {
+      request = mapper.readValue(value, EeIsikukaartRequest.class);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     sender.send(responseTopic, key, messageWorker(request, xRoadService), xRoadService);
   }
