@@ -1,0 +1,18 @@
+uuid: 2c2a70e3-68cb-45dc-9900-b78912e67eb0
+langcode: et
+status: true
+dependencies:
+  module:
+    - custom_mobile_id_authentication
+    - serialization
+    - user
+id: mobile_id_rest_resource
+plugin_id: mobile_id_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - cookie
