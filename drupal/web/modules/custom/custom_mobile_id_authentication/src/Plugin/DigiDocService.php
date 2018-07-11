@@ -71,15 +71,16 @@ final class DigiDocService {
      * In here the SOAP Client is initiated for communication with DigiDocService.
      */
     private function __construct () {
-        $options = array('socket' => array('bindto' => '217.146.70.154:0'));
-        $context = stream_context_create($options);
+        $opts = array(
+          'ssl' => array('verify_peer' => false, 'verify_peer_name' => false)
+        );
         $this->client = new \SoapClient(
             null,
             array (
                 'location' => DDS_ENDPOINT_URL,
                 'uri'      => 'http://www.sk.ee/DigiDocService/DigiDocService_2_3.wsdl',
                 'use'      => SOAP_LITERAL,
-                'stream_context' => $context,
+                'stream_context' => stream_context_create($opts),
                 'trace'    => true
             )
         );

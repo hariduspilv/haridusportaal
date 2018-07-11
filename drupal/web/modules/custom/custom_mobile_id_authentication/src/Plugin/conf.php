@@ -8,7 +8,7 @@
 /**
  * Service name for the MID services in DDS (Will be displayed to users mobile phones screen during signing process)
  */
-define('DDS_MID_SERVICE_NAME', 'Haridusportaal');
+define('DDS_MID_SERVICE_NAME', 'MOBILE-ID DEMO');
 
 /**
  * Explanatory message for the MID services in DDS. (Will be displayed to users mobile phones screen during signing
