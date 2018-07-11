@@ -74,70 +74,106 @@
       <div class="events__list">
         <div class="events__title">
           <span>{{ 'events' | translate | uppercase }}</span>
-          <a href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'back' | translate }}</a>
         </div>
         <article>
           <div class="row title">
-            <div class="col-11">
+            <div class="col-6 sm-7">
               <h1 class="mt-0 mb-0">{{ 'participantList' | translate }}: {{ sortedParticipants.length }} {{ 'participantsNr' | translate | lowercase }}</h1>
             </div><!--/col-10-->
-            <div class="col-1 text-right share">
+            <div class="col-6 sm-5 text-right share">
               <div class="share-btn--participants">
+                <a class="sm-show" href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'back' | translate | uppercase }}</a>
+                <a class="sm-hide" href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'back.to.event' | translate | uppercase }}</a>
                 <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
                   <a mat-menu-item href="{{ iCalUrl }}{{ content.entity.nid }}" >iCAL</a>
                   <a mat-menu-item (click)="getCSV()">CSV</a>
                 </mat-menu>
-                <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">get_app</mat-icon></button>
+                <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more" [attr.title]="viewTranslations.download">get_app</mat-icon></button>
               </div>
             </div><!--/col-10-->
           </div><!--/row-->
-          <div class="participants">  
-            <table class="participantsTable">
-              <thead>
-                <tr>
-                  <th>{{ 'participantIndex' | translate }}</th>
-                  <th (click)="organizeParticipants('participantFirstName')"><span class="sortable">{{ 'participantFirstName' | translate }}</span></th>
-                  <th (click)="organizeParticipants('participantLastName')"><span class="sortable">{{ 'participantLastName' | translate }}</span></th>
-                  <th (click)="organizeParticipants('participantOrganization')"><span class="sortable">{{ 'participantOrganization' | translate }}</span></th>
+          <div class="participants" id="participantsElem" (scroll)="isOverflown($event)">
+            <div class="participants__rectangle sm-show" *ngIf="tableOverflown" (touchstart)="scrollStart()" (mousedown)="scrollStart()" (touchend)="scrollEnd()" (mouseup)="scrollEnd()">
+              <mat-icon>keyboard_arrow_right</mat-icon>
+            </div>
+            <div class="participants__table">
+              <table class="participantsTable">
+                <thead>
+                  <tr>
+                    <th>{{ 'participantIndex' | translate }}</th>
+                    <th>
+                      <span>{{ 'participantFirstName' | translate }}</span>
+                      <span class="sortable" (click)="organizeParticipants('participantFirstName')">
+                        <mat-icon *ngIf="participantsSortOrder['participantFirstName'] !== 'desc'
+                          && participantsSortOrder['participantFirstName'] !== ''
+                          && participantsSortOrder['participantFirstName']"
+                          [attr.title]="viewTranslations.sort">keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="participantsSortOrder['participantFirstName'] !== 'asc'"
+                          [attr.title]="viewTranslations.sort">keyboard_arrow_up</mat-icon>
+                      </span>
+                    </th>
+                    <th>
+                      <span>{{ 'participantLastName' | translate }}</span>
+                      <span class="sortable" (click)="organizeParticipants('participantLastName')">
+                        <mat-icon *ngIf="participantsSortOrder['participantLastName'] !== 'desc'
+                          && participantsSortOrder['participantLastName'] !== ''
+                          && participantsSortOrder['participantLastName']"
+                          [attr.title]="viewTranslations.sort">keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="participantsSortOrder['participantLastName'] !== 'asc'"
+                          [attr.title]="viewTranslations.sort">keyboard_arrow_up</mat-icon>
+                      </span>
+                    </th>
+                    <th>
+                      <span>{{ 'participantOrganization' | translate }}</span>
+                      <span class="sortable" (click)="organizeParticipants('participantOrganization')">
+                        <mat-icon *ngIf="participantsSortOrder['participantOrganization'] !== 'desc'
+                          && participantsSortOrder['participantOrganization'] !== ''
+                          && participantsSortOrder['participantOrganization']"
+                          [attr.title]="viewTranslations.sort">keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="participantsSortOrder['participantOrganization'] !== 'asc'"
+                          [attr.title]="viewTranslations.sort">keyboard_arrow_up</mat-icon>
+                      </span>
+                    </th>
 
-                  <!--<span class="participantsTable-arrow-{{ participantsSortOrder['participantFirstName'] }}"></span>-->
-
-                  <th>{{ 'participantEmail' | translate }} </th>
-                  <th>{{ 'participantPhone' | translate }}</th>
-                  <th [class.hidden]="!createdVisible">
-                    <span *ngIf="createdVisible" class="sortable" (click)="organizeParticipants('participantCreated')">{{ 'participantCreated' | translate }}</span>
-                    <span *ngIf="createdVisible"><mat-icon (click)="createdVisible = !createdVisible">skip_previous</mat-icon></span>
-                    <span *ngIf="!createdVisible"><mat-icon (click)="createdVisible = !createdVisible">skip_next</mat-icon></span>
-                  </th>
-                  <th class="separator" *ngIf="!commentVisible && !createdVisible"></th>
-                  <th [class.hidden]="!commentVisible">
-                    <span *ngIf="commentVisible">{{ 'participantComment' | translate }}</span>
-                    <span *ngIf="commentVisible"><mat-icon (click)="commentVisible = !commentVisible">skip_previous</mat-icon></span>
-                    <span *ngIf="!commentVisible"><mat-icon (click)="commentVisible = !commentVisible">skip_next</mat-icon></span>
-                  </th>
-                </tr>
-              </thead>
-        
-              <tbody>
-                <tr *ngFor="let item of sortedParticipants; let first = first;">
-                  <td>{{ item.participantIndex }}</td>
-                  <td>{{ item.participantFirstName }}</td>
-                  <td>{{ item.participantLastName }}</td>
-                  <td>{{ item.participantOrganization }}</td>
-                  <td>{{ item.participantEmail }}</td>
-                  <td>{{ item.participantPhone }}</td>
-                  <td [class.hidden]="!createdVisible" [class.vertical]="!createdVisible && first">
-                    <span class="vertical__text" *ngIf="!createdVisible && first">{{ 'participantCreated' | translate }}</span>
-                    <span *ngIf="createdVisible">{{ item.participantCreated*1000 | date: 'dd.MM.yyyy HH:mm' }}</span>  
-                  </td>
-                  <td class="separator" *ngIf="!commentVisible && !createdVisible"></td>
-                  <td [class.hidden]="!commentVisible" [class.vertical]="!commentVisible && first">
-                    <span class="vertical__text" *ngIf="!commentVisible && first">{{ 'participantComment' | translate }}</span>
-                    <span *ngIf="commentVisible">{{ item.participantComment }}</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    <th>{{ 'participantEmail' | translate }} </th>
+                    <th>{{ 'participantPhone' | translate }}</th>
+                    <th class="separator" *ngIf="!createdVisible"></th>
+                    <th [class.hidden]="!createdVisible">
+                      <span *ngIf="createdVisible">{{ 'participantCreated' | translate }}</span>
+                      <span *ngIf="createdVisible"><mat-icon [attr.title]="viewTranslations['column.close']" (click)="createdVisible = !createdVisible">skip_previous</mat-icon></span>
+                      <span *ngIf="!createdVisible"><mat-icon [attr.title]="viewTranslations['column.open']" (click)="createdVisible = !createdVisible">skip_next</mat-icon></span>
+                    </th>
+                    <th class="separator" *ngIf="!commentVisible"></th>
+                    <th [class.hidden]="!commentVisible">
+                      <span *ngIf="commentVisible">{{ 'participantComment' | translate }}</span>
+                      <span *ngIf="commentVisible"><mat-icon [attr.title]="viewTranslations['column.close']" (click)="commentVisible = !commentVisible">skip_previous</mat-icon></span>
+                      <span *ngIf="!commentVisible"><mat-icon [attr.title]="viewTranslations['column.open']" (click)="commentVisible = !commentVisible">skip_next</mat-icon></span>
+                    </th>
+                  </tr>
+                </thead>
+          
+                <tbody>
+                  <tr *ngFor="let item of sortedParticipants; let first = first; let last = last;">
+                    <td>{{ item.participantIndex }}</td>
+                    <td>{{ item.participantFirstName }}</td>
+                    <td>{{ item.participantLastName }}</td>
+                    <td>{{ item.participantOrganization }}</td>
+                    <td>{{ item.participantEmail }}</td>
+                    <td>{{ item.participantPhone }}</td>
+                    <td class="separator" *ngIf="!createdVisible"></td>
+                    <td [class.hidden]="!createdVisible" [class.last]="last" [class.vertical]="!createdVisible && first">
+                      <span class="vertical__text" *ngIf="!createdVisible && first">{{ 'participantCreated' | translate }}</span>
+                      <span *ngIf="createdVisible">{{ item.participantCreated*1000 | date: 'dd.MM.yyyy HH:mm' }}</span>  
+                    </td>
+                    <td class="separator" *ngIf="!commentVisible"></td>
+                    <td [class.hidden]="!commentVisible" [class.last]="last" [class.vertical]="!commentVisible && first">
+                      <span class="vertical__text" *ngIf="!commentVisible && first">{{ 'participantComment' | translate }}</span>
+                      <span *ngIf="commentVisible">{{ item.participantComment }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </article>
       </div>

@@ -1,17 +1,24 @@
 @import "../../../assets/styles/typography.scss"; 
 article {padding-bottom: $xxl;
   a {color: $blue;
+    padding-right: $small;
     .mat-icon {color: $blue;}
+    @include break-on(sm, min) {padding-right: 0;}
   }
 }
 .tags {padding-bottom: 0;}
 .share-btn {
-  .mat-button {min-width: $medium;width: $medium;padding: 0;position: relative;bottom: 0.3125rem;}
+  .mat-button {min-width: $medium;width: $medium;padding-left: $small;padding-right: 0;position: relative;bottom: 0.3125rem;
+    @include break-on(sm, min) {padding-right: $small;}
+  }
   .mat-icon {line-height: 1.3;
     @include break-on(sm, max) {right: $small;position: relative;}
   }
-  &--participants {@extend.share-btn;color: $blue;}
+  &--participants {@extend.share-btn;color: $blue;padding-right: $half-gutter;
+    @include break-on(sm, max) {display: inline-flex;padding-right: 0;}
+  }
 }
+::ng-deep .mat-button-focus-overlay, ::ng-deep .mat-button-ripple {display: none;}
 ::ng-deep .mat-button:hover .mat-button-focus-overlay, .mat-stroked-button:hover .mat-button-focus-overlay {opacity: 0;transition: none;}
 .events__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;
   a {float: right;}
@@ -46,7 +53,7 @@ article {padding-bottom: $xxl;
       .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
     }
     &__footer {padding-top:$gutter;line-height: 1.375rem;}
-    @include break-on(sm, min) {padding-bottom: $xxl;
+    @include break-on(sm, min) {padding-bottom: $medium;
       &.register {padding-bottom:$medium;}
     }
   } 
@@ -80,33 +87,43 @@ _:-ms-lang(x), .article-image {width: 100%;margin:0;}
 }
 .links {padding: 0 $medium;}
 .breadcrumb {padding-bottom: $gutter;}
-.calendar__add {margin-top: 1rem;}
+.calendar__add {margin-top: 1rem;text-align: center;}
 
-.participants {padding: $small $medium 0 $medium;overflow: scroll;
+.participants {padding: $small $medium 0 $medium;
+  @include break-on(sm, max) {overflow:scroll;}
+  &__table {
+    @include break-on(sm, min) {overflow:scroll;}
+  }
+  &__rectangle {width: 4rem;height: 4rem;border-radius: 50%;background-color: $blue;position: absolute;right: $medium;top: 50%;z-index: 5;cursor: pointer;
+    box-shadow: 0 .125rem .125rem 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    .mat-icon {position: relative;top: $quarter;left: $quarter;font-size: 2.5rem;color: $white;}
+  }
 }
 .participantsTable {width: 100%;border-collapse: collapse;
-  thead {background: $gray;
+  thead {background: $light-gray;
     .sortable {cursor: pointer;&:hover { color: $dark-gray;}}
     .mat-icon {position: relative; top: $half-gutter; font-size: 1.12rem;cursor: pointer;&:hover { color: $dark-gray;}}
   }
-  th, td {line-height: 1.38rem;font-size: 1rem;font-weight: 500;padding: $gutter;text-align:left;
-    &:first-child {padding-left: $small;}
+  th {white-space: nowrap;}
+  th, td {line-height: 1.38rem;font-size: 1rem;font-weight: 500;padding: $gutter $medium;text-align:left;border: .0625rem solid $gray;
+    // &:first-child {padding-left: $small;}
     // &:last-child {padding-right: $small;}
   }
-  td.hidden, th.hidden {min-width:2.75rem;width: 2.75rem; background: $light-gray;}
-  th.hidden {text-align: center;}
+  td.hidden, th.hidden {min-width:2.75rem;width: 2.75rem; background: $light-gray;padding:$gutter;}
+  th.hidden {text-align: center;border-bottom: none;}
   td {font-weight: 400;
-    &.hidden {
+    &.hidden {border-top: none;border-bottom: none;
+      &.last {border-bottom: .0625rem solid $gray;}
       &.vertical {position: relative;}
       .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;}
     }
   }
-  .separator {padding: 0;min-width: $half-gutter;width: $half-gutter;background: #fff;}
-  tbody {
-    tr:nth-child(2n) {
-      background: #f4f4f4;
-    }
-  }
+  .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
+  // tbody {
+  //   tr:nth-child(2n) {
+  //     background: #f4f4f4;
+  //   }
+  // }
 }
 ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {
   font-feature-settings: 'liga';
