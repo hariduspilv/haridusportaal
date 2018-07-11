@@ -25,7 +25,6 @@ module:
   custom_graphql_tags_query: 0
   custom_logging_to_file: 0
   custom_menu_uri_translation: 0
-  custom_mobile_id_authentication: 0
   custom_rest_functions: 0
   custom_study_programme_import: 0
   custom_subscription_administration: 0
