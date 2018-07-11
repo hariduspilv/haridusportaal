@@ -9,9 +9,9 @@ import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import {ImagePopupDialog} from '../../_components/dialogs/image.popup/image.popup.dialog'
+import { ImagePopupDialog } from '../../_components/dialogs/image.popup/image.popup.dialog'
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -41,6 +41,9 @@ export class EventsSingleComponent {
   createdVisible: boolean = false;
   commentVisible: boolean = false;
   routerSubscription: any;
+  viewTranslations: any;
+  tableOverflown = true;
+  slide: any;
   
   content: any;
   unix: any;
@@ -104,8 +107,12 @@ export class EventsSingleComponent {
     this.routerSubscription = this.router.events.subscribe((event) => {
       this.participantsListActiveState = this.participants && location.hash === "#osalejad"
     });
+    let values = ['download','column.close','column.open','sort']
+    this.translate.get(values).subscribe(translations => {
+      this.viewTranslations = translations
+    })
   }
-
+  
   ngOnDestroy() {
     this.routerSubscription.unsubscribe();
   }
@@ -206,5 +213,21 @@ export class EventsSingleComponent {
   
   share (facebook) {
     return this.shareService.share(facebook)
+  }
+  scrollStart() {
+    this.slide = setInterval(() => {
+      const element = document.getElementById('participantsElem');
+      element.scrollLeft += 24;
+      if ((element.scrollWidth - element.scrollLeft) <= element.clientWidth) {
+        this.scrollEnd()
+      }
+    }, 50);
+  }
+  scrollEnd() {
+    window.clearInterval(this.slide);
+  }
+  isOverflown(event) {
+    const element = event.target || event.srcElement || event.currentTarget;
+    this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
   }
 }

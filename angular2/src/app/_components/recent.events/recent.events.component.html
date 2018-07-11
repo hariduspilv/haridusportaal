@@ -36,7 +36,7 @@
 
 <div class="events__list__recent">
   <div class="map-wrapper" *ngIf="map">
-    <agm-map [latitude]="map.lat" [longitude]="map.lon" [zoom]="map.zoom"></agm-map>
+    <agm-map [zoomControl]="false" [streetViewControl]="false" [latitude]="map.lat" [longitude]="map.lon" [zoom]="map.zoom"></agm-map>
     <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
   </div>
   <div class="events__list__item">

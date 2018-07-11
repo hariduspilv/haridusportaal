@@ -1,5 +1,5 @@
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -60,6 +60,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   listEnd: boolean = false;
   error: boolean = false;
+  showFilter = true;
   
   current: object;
   
@@ -268,6 +269,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     this.filterRetrieveParams( this.params );
 
     //this.getData();
+    if (window.innerWidth <= 900) {
+      this.filterFull = true;
+      this.showFilter = false;
+    }
   }
   sort(prop:any, arr:any) {
     prop = prop.split('.');
@@ -513,6 +518,12 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     });
 
     this.subscriptions = [...this.subscriptions, tagSubscription];
+  }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event){
+    this.showFilter = event.target.innerWidth > 900;
+    this.filterFull = event.target.innerWidth < 900;
   }
   
   ngOnDestroy() {

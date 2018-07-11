@@ -165,3 +165,4 @@
     &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
 }
 .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
+::ng-deep .mat-calendar-body-selected {background-color: $blue;}

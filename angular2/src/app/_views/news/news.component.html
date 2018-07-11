@@ -1,10 +1,16 @@
 <breadcrumbs></breadcrumbs>
 <div class="news-component">
-  <form (submit)="filterSubmit()" class="filter-wrapper">
+  <div class="sm-show text-right filter-control">
+    <a href="javascript:void(0);" (click)="showFilter = !showFilter">
+      <span *ngIf="!showFilter">Filtreeri</span>
+      <span *ngIf="showFilter">Sulge filter</span>
+    </a> 
+  </div>
+  <form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
     <div class="main-container">
       <div class="row">
         <div class="col-4 sm-12">
-          <div class="round-input__wrapper">
+          <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
             <span class="round-input__title">{{ 'search.news.name' | translate }}</span>
             <div class="round-input__field-wrapper">
               <input class="round-input__field" placeholder="{{ 'search.news.name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
@@ -12,8 +18,8 @@
           </div><!--/round-inpuit__wrapper-->
         </div><!--/col-4-->
         <div class="col-25 sm-6">
-          <div class="round-input__wrapper">
-            <span class="round-input__title">{{ 'date' | translate }}</span>
+          <div class="round-input__wrapper" [class.complete]="filterFormItems.dateFrom">
+            <span class="round-input__title">{{ 'date.from' | translate }}</span>
             <div class="round-input__field-wrapper">
               <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom" [max]="filterFormItems.dateTo" name="dateFrom" maxlength="10" dateFormatter />
               <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
@@ -23,8 +29,8 @@
         </div>
         
         <div class="col-25 sm-6">
-          <div class="round-input__wrapper">
-            <span class="round-input__title">{{ 'date' | translate }}</span>
+          <div class="round-input__wrapper" [class.complete]="filterFormItems.dateTo">
+            <span class="round-input__title">{{ 'date.from' | translate }}</span>
             <div class="round-input__field-wrapper">
               <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="datepickerTo" [(ngModel)]="filterFormItems.dateTo" [min]="filterFormItems.dateFrom" name="dateTo" maxlength="10" dateFormatter />
               <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>

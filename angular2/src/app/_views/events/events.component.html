@@ -1,10 +1,16 @@
 <breadcrumbs></breadcrumbs>
-<form (submit)="filterSubmit()" class="filter-wrapper" >
+<div class="sm-show text-right filter-control">
+  <a href="javascript:void(0);" (click)="showFilter = !showFilter">
+    <span *ngIf="!showFilter">Filtreeri</span>
+    <span *ngIf="showFilter">Sulge filter</span>
+  </a> 
+</div>
+<form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
   <div class="main-container">
     <div class="row">
       <div class="col-4 sm-12" [class.col-9]="view == 'calendar'" style="padding:0.5rem;">
-        <div class="round-input__wrapper">
-          <span class="round-input__title">{{ 'search.by.keyword' | translate }}</span>
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
+          <span class="round-input__title">{{ 'search.events.name' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input class="round-input__field" placeholder="{{ 'search.events.name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
           </div>
@@ -12,8 +18,8 @@
       </div><!--/col-4-->
 
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper">
-          <span class="round-input__title">{{ 'date' | translate }}</span>
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.dateFrom">
+          <span class="round-input__title">{{ 'date.from' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom"  (change)="dateminmax()" (dateChange)="dateminmax()" [max]="maxDate" [min]="absMinDate" name="dateFrom" maxlength="10" dateFormatter />
             <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
@@ -23,8 +29,8 @@
       </div>
       
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper">
-          <span class="round-input__title">{{ 'date' | translate }}</span>
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.dateTo">
+          <span class="round-input__title">{{ 'date.to' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="datepickerTo" [(ngModel)]="filterFormItems.dateTo" (change)="dateminmax()" (dateChange)="dateminmax()" [min]="minDate" [max]="absMaxDate" name="dateTo" maxlength="10" dateFormatter />
             <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
@@ -48,9 +54,25 @@
 
     <div class="row" *ngIf="filterFull">
       <div class="col-9 sm-12">
-
         <div class="ng-select__wrapper">
-          <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">Sündmuse liigid</span>
+          <span class="ng-select__title"  [class.exists]="filterFormItems.tags && filterFormItems.tags.length">{{ 'event.tag' | translate }}</span>
+          <ng-select
+          [class.exists]="filterFormItems.tags && filterFormItems.tags.length"
+          [items]="eventsTagsObs | async"
+          [multiple]="true"
+          [loading]="loading"
+          bindLabel="name"
+          placeholder="{{ 'event.tag' | translate }}"
+          (clear)="clearField('tags')"
+          [(ngModel)]="filterFormItems.tags"
+          name="labels"
+          [dropdownPosition]="'bottom'"></ng-select>
+        </div>
+      </div>
+      <div class="col-9 sm-12">
+
+        <div class="ng-select__wrapper__second">
+          <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">{{ 'event.types' | translate }} </span>
           <ng-select
           [class.exists]="filterFormItems.types && filterFormItems.types.length"
           [items]="eventsTypesObs | async"
@@ -60,27 +82,11 @@
 
           name="types"
           [(ngModel)]="filterFormItems.types"
-          placeholder="{{ 'Otsi sündmuse liike' | translate }}"
+          placeholder="{{ 'event.types' | translate }}"
           (clear)="clearField('types')"
           [dropdownPosition]="'bottom'"></ng-select>      
         </div>
         
-      </div>
-      <div class="col-9 sm-12">
-        <div class="ng-select__wrapper__second">
-          <span class="ng-select__title"  [class.exists]="filterFormItems.tags && filterFormItems.tags.length">Sündmuse sildid</span>
-          <ng-select
-          [class.exists]="filterFormItems.tags && filterFormItems.tags.length"
-          [items]="eventsTagsObs | async"
-          [multiple]="true"
-          [loading]="loading"
-          bindLabel="name"
-          placeholder="{{ 'Otsi sündmuse silte' | translate }}"
-          (clear)="clearField('tags')"
-          [(ngModel)]="filterFormItems.tags"
-          name="labels"
-          [dropdownPosition]="'bottom'"></ng-select>
-        </div>
       </div>
       <div class="col-3 align-end text-right sm-12 inline-flex">
         <div class="align-center filter-state sm-hide">       
