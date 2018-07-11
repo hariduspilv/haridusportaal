@@ -9,18 +9,17 @@
 
     Drupal.behaviors.JsonValidatorBehavior = {
         attach: function (context, settings) {
-            //dump(settings.json_object);
             editor.set(JSON.parse(settings.json_object));
         }
     };
 
-    $('#getJSON').click(function(){
-        console.log('je');
-        event.preventDefault();
-        var response = '';
+    $('.form-submit').click(function(){
+        //event.preventDefault();
         try {
-            alert('OK');
+            var json = editor.get();
+            $('#edit-metatage-0-value').val(JSON.stringify(json));
         }catch(err){
+            event.preventDefault();
             alert(err.message);
         }
     });
