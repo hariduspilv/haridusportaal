@@ -31,4 +31,6 @@ define('DDS_LANG', 'EST');
  * If this is set to TRUE, then all SOAP envelopes used for communication with DigiDocService are logged.
  */
 define('LOG_ALL_DDS_REQUESTS_RESPONSES', false);
+
+define('DDS_TELNO_RETURN_FIELDS', array('Sesscode', 'UserIDCode', 'UserGivenname', 'UserSurname', 'ChallengeID'))
 ?>
