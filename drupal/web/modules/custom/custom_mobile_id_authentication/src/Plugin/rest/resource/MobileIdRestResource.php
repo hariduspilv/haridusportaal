@@ -87,54 +87,107 @@ class MobileIdRestResource extends ResourceBase {
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
-    $dds = DigiDocService::Instance();
-    $data['telno'] = str_replace(' ', '', $data['telno']);
-    if (substr($data['telno'], 0, 1) != '+') {
-      $data['telno'] = '+372'.$data['telno'];
-    }
-    if (!empty($data) && $data['telno'] != "") {
-  		$params = array(
-  			"IDCode" => $idcode,
-  			"CountryCode" => "",
-  			"PhoneNo" => $data['telno'],
-  			"Language" => DDS_LANG,
-  			"ServiceName" => DDS_MID_SERVICE_NAME,
-  			"MessageToDisplay" => DDS_MID_INTRODUCTION_STRING,
-  			"SPChallenge" => getToken(10),
-  			"MessagingMode" => "asynchClientServer",
-  			"AsyncConfiguration" => NULL,
-  			"ReturnCertData" => false,
-  			"ReturnRevocationData" => FALSE
-  		);
-    	$result = $dds->MobileAuthenticate($params);
-      if(isset($result['Status']) && $result['Status'] === 'OK'){
-        return new ResourceResponse($result);
-      }else{
-        switch ($result['Code']) {
-          case 101:
-            $message = $this->t('Invalid phone number.');
-            break;
-          case 104:
-            $message = $this->t('Access denied, error authorizing user.');
-            break;
-          case 301:
-            $message = $this->t('User is not a Mobile-ID client.');
-            break;
-          case 400:
-            $message = $this->t('Could not connect to host.');
-            break;
-          default:
-            $message = $result['message'];
-            \Drupal::logger('tk_custom_auth')->error($message);
-            throw new HttpException(500, $this->t('Authorizing failed, please try again.'));
-        }
-        throw new HttpException(400, $message);
+    if(isset($data['telno'])){
+      $dds = DigiDocService::Instance();
+      $data['telno'] = str_replace(' ', '', $data['telno']);
+      if (substr($data['telno'], 0, 1) != '+') {
+        $data['telno'] = '+372'.$data['telno'];
       }
-  	} else {
-  		throw new HttpException(400, 'Empty mobile number.');
-  	}
+      if (!empty($data) && $data['telno'] != "") {
+        $params = array(
+          "CountryCode" => "",
+          "PhoneNo" => $data['telno'],
+          "Language" => DDS_LANG,
+          "ServiceName" => DDS_MID_SERVICE_NAME,
+          "MessageToDisplay" => DDS_MID_INTRODUCTION_STRING,
+          "SPChallenge" => getToken(10),
+          "MessagingMode" => "asynchClientServer",
+          "AsyncConfiguration" => NULL,
+          "ReturnCertData" => false,
+          "ReturnRevocationData" => FALSE
+        );
+        $result = $dds->MobileAuthenticate($params);
+        if(isset($result['Status']) && $result['Status'] === 'OK'){
+          $keys = DDS_TELNO_RETURN_FIELDS;
+          foreach($keys as $reqfield){
+            if(!array_key_exists($reqfield, $result)){
+              $message = $this->t('Missing required fields in response.');
+              throw new HttpException(400, $message);
+            }
+          }
+          $result = array_intersect_key($result, array_flip($keys));
+          return new ResourceResponse($result);
+        }else{
+          switch ($result['Code']) {
+            case 101:
+              $message = $this->t('Invalid phone number.');
+              break;
+            case 104:
+              $message = $this->t('Access denied, error authorizing user.');
+              break;
+            case 301:
+              $message = $this->t('User is not a Mobile-ID client.');
+              break;
+            case 400:
+              $message = $this->t('Could not connect to host.');
+              break;
+            default:
+              $message = $result['message'];
+              \Drupal::logger('custom_mobile_id_authentication')->error($message);
+              throw new HttpException(500, $this->t('Authorizing failed, please try again.'));
+          }
+          throw new HttpException(400, $message);
+        }
+      } else {
+        throw new HttpException(400, 'Empty mobile number.');
+      }
+    }
+    if(isset($data['Sesscode'])){
+      $dds = DigiDocService::Instance();
+      if(!empty($data) && $data['Sesscode'] != ""){
+        $params = array(
+          "Sesscode" => $data['Sesscode'],
+          "WaitSignature" => false
+        );
+        while($result['Status'] != 'USER_AUTHENTICATED'){
+          try{
+            $result = $dds->GetMobileAuthenticateStatus($params);
+          } catch (\Exception $e){
+            switch($e->getMessage()){
+              case 'SIM_ERROR':
+                $message = $this->t('SIM application error.');
+                break;
+              case 'PHONE_ABSENT':
+                $message = $this->t('Phone is not in coverage area.');
+                break;
+              case 'NOT_VALID':
+                $message = $this->t('Mobile-ID certificates are revoked or suspended.');
+                break;
+              case 'SENDING_ERROR':
+                $message = $this->t('Sending authentication request to phone failed.');
+                break;
+              case 'USER_CANCEL':
+                $message = $this->t('Authentication has been canceled.');
+                break;
+              case 'EXPIRED_TRANSACTION':
+                $message = $this->t('Authentication has been expired.');
+                break;
+              default:
+                $message = $e->getMessage();
+                \Drupal::logger('tk_custom_auth')->error($message);
+                $result = ['Status' => 'error', 'Code' => 500, 'message' => $this->t('Authorizing failed, please try again.')];
+                return new ResourceResponse($result);
+            }
+            $result = ['Status' => 'error', 'Code' => 400, 'message' => $message];
+            return new ResourceResponse($result);
+          }
+        }
+        if($result['Status'] === 'USER_AUTHENTICATED'){
 
-    return new ModifiedResourceResponse('jou', 200);
+        }
+        return new ResourceResponse($result);
+      }
+    }
   }
 
 }
