@@ -472,7 +472,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           id: tagItem['tid'].toString(),
           name: tagItem['name'],
         };
-        newsTidArr.push(tmp);           
+        if (tmp.name) {
+          newsTidArr.push(tmp);
+        } 
       });
 
       if( this.params.types !== undefined ){
