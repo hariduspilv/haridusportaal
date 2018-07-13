@@ -11,7 +11,7 @@ id: node.event.field_description
 field_name: field_description
 entity_type: node
 bundle: event
-label: Description
+label: Kirjeldus
 description: ''
 required: true
 translatable: true

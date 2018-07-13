@@ -1,8 +1,0 @@
-name: 'HTM GraphQL authentication module'
-type: module
-description: 'HTM authentication JWT token provider with REST endpoint'
-core: 8.x
-package: 'HTM Custom'
-dependencies:
-- jwt
-- rest

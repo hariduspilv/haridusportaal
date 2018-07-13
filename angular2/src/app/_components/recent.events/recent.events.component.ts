@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { EventsService, RootScopeService } from '../../_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -14,30 +14,48 @@ import {EventsRegistratonDialog} from '../../_components/dialogs/events.registra
 	styleUrls: ['../../_views/events.single/events.single.component.scss']
 })
 
-export class RecentEventsComponent implements OnInit {
+export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	@Input() groupID: number;
+	@Input() nid: number;
 	@Input() map: any;
 	@Input() content: any;
+	@Output() viewChange = new EventEmitter<boolean>();
 	
 	error: boolean;
   lang: any;
   unix: any;
 	allPath: any;
 
+	paramsSub: any;
+
 	constructor(private eventService: EventsService, private router: Router, private route: ActivatedRoute, public dialog: MatDialog) {}
 	
 	ngOnInit() {
-    this.lang = this.router.url;
-    this.unix = new Date().getTime();
+
+		this.paramsSub = this.route.params.subscribe( params => {
+			this.lang = params['lang'];
+		});
+
+		this.unix = new Date().getTime();
+	}
+	ngOnDestroy() {
+		this.paramsSub.unsubscribe();
 	}
 
+	toggleParticipants (status) {
+		this.viewChange.emit(status)
+		location.hash = 'osalejad'
+	}
+	
 	openDialog(): void {
 		let dialogRef = this.dialog.open(EventsRegistratonDialog, {
 		  // width: '500px',
 		  data: {
 			eventTitle: this.content.entity.entityLabel,
-			eventStartDate: this.content.entity.fieldEventDate[0].entity
+			eventStartDate: this.content.entity.fieldEventDate[0].entity,
+			nid: this.nid,
+			lang: this.lang
 		  }
 		});
 		

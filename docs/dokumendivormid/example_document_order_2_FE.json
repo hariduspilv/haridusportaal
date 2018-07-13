@@ -33,7 +33,6 @@
 
 	"steps" : {
 		"step_1" : {
-			"step_no" : 1,
 			"title" : {
 				"et" : "Klient ja tarnetingimused",
 				"en" : "Customer and terms of delivery "
@@ -55,10 +54,6 @@
 				"customer_name" : {
 					"type": "text",
 					"title" : {
-						"et": "Kliendi nimi" ,
-						"en": "Customer name"
-					},
-					"placeholder" : {
 						"et": "Kliendi nimi" ,
 						"en": "Customer name"
 					},
@@ -179,7 +174,6 @@
 		},
 
 		"step_2" : {
-			"step_no" : 2,
 			"title" : {
 				"et" : "Kaubad",
 				"en" : "Items"
@@ -266,7 +260,7 @@
 
 						}
 					},
-					
+
 					"value" : [
 						{
 							"item_name" :	"Kruvid",

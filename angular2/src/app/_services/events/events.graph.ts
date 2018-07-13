@@ -147,6 +147,11 @@ export class EventsGraph {
                 lon
                 zoom
               }
+              fieldEventLocationLink{
+                title
+                uri
+              }
+              fieldOrganizer
               fieldEventDate {
                 entity {
                   fieldEventDate {
@@ -231,6 +236,10 @@ export class EventsGraph {
                 lat
                 lon
                 name
+              }
+              fieldEventLocationLink{
+                uri
+                title
               }
               fieldEventType {
                 entity {
@@ -520,6 +529,39 @@ query getEventsTypes( $lang: LanguageId!){
         tid
       }
     }
+  }
+}
+`;
+
+export const eventsRegister = gql`
+mutation(
+  $event_id: Int!,
+  $firstName: String!,
+  $lastName: String!,
+  $companyName: String,
+  $telephone: String,
+  $email: String!,
+  $marked: String,
+  $lang: LanguageId!,
+){
+  createEventRegistration(input
+  :{event_id:$event_id, first_name:$firstName, last_name: $lastName, email:$email, phone:$telephone, comment: $marked, organization: $companyName}, language:$lang){
+    entity {
+      entityLabel
+      entityType
+      entityUuid
+      entityBundle
+      entityChanged
+      entityId
+      entityCreated
+      
+    }
+    violations {
+      message
+      path
+      code
+    }
+    
   }
 }
 `;
