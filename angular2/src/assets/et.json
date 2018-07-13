@@ -56,7 +56,7 @@
 
   "occurrence": "Toimumiseaeg",
   "occurrence.place": "Toimumiskoht",
-  "occurrence.location": "Toimumisaeg ja asukoht",
+  "occurrence.location": "Toimumisaeg ja -koht",
   "location": "Asukoht",
 
   "to": "Kuni",
@@ -143,5 +143,5 @@
   "download": "Lae alla",
   "column.open": "Ava tulp",
   "column.close": "Sulge tulp",
-  "sort": "Sorteeri"
+  "sort": "Sorteeri väljad A-Z"
 }
