@@ -1,0 +1,14 @@
+
+# xJson entity menu items definition
+entity.x_json_entity.collection:
+  title: 'xJson entity list'
+  route_name: entity.x_json_entity.collection
+  description: 'List xJson entity entities'
+  parent: system.admin_structure
+  weight: 100
+
+x_json_entity.admin.structure.settings:
+  title: 'xJson entity settings'
+  description: 'Configure xJson entity entities'
+  route_name: x_json_entity.settings
+  parent: system.admin_structure
