@@ -55,6 +55,7 @@
   "filter.close": "Sulge filter",
 
   "occurrence": "Toimumiseaeg",
+  "occurrence.place": "Toimumiskoht",
   "occurrence.location": "Toimumisaeg ja asukoht",
   "location": "Asukoht",
 

@@ -15,6 +15,9 @@ h1{font-size:2rem; line-height:120%;}
 .capitalize {text-transform: capitalize;}
 .mat-dialog-container {padding: 0 !important;border-radius:$half-gutter !important;}
 input:focus, textarea:focus {outline: none;}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 24px white inset;
+}
 a {text-decoration: underline; &:hover {text-decoration: none;}}
 html{
   font-size: 100%;
@@ -49,10 +52,6 @@ strong, b { font-weight: 500; }
 .indent .mat-menu-item{
   padding-left:1.875rem;
 }
-
-// .header-logo{
-//   img{height:54px; margin-top:5px;}
-// }
 
 a {color: $blue}
 

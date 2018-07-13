@@ -54,6 +54,7 @@
   "filter.close": "Close filter",
 
   "occurrence": "Event date",
+  "occurrence.place": "Event location",
   "occurrence.location": "Event date and location",
   "location": "Location",
 
