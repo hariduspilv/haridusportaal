@@ -119,7 +119,7 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
 		$categories = $this->entityTypeManager->getStorage("taxonomy_term");
 		$taxonomy_query = $categories->getQuery();
 		$taxonomy_query->accessCheck(TRUE);
-		$taxonomy_query->condition('vid', ['tags','event_tags'], 'IN');
+		$taxonomy_query->condition('vid', ['tags','event_tags', 'event_type'], 'IN');
 		$taxonomy_query->condition('tid', $taxonomy_tids, 'IN');
 		$taxonomy_query->condition('langcode', $args['filter']['conditions'][0]['language']);
 
