@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\custom_graphql_authentication\Plugin\rest\resource;
+namespace Drupal\custom_mobile_id_authentication\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\jwt\Authentication\Event\JwtAuthEvents;
@@ -92,7 +92,7 @@ class JwtTokenRestResource extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('custom_graphql_authentication'),
+      $container->get('logger.factory')->get('custom_mobile_id_authentication'),
       $container->get('current_user'),
 			$container->get('jwt.transcoder'),
 			$container->get('event_dispatcher')
@@ -111,27 +111,23 @@ class JwtTokenRestResource extends ResourceBase {
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
-  public function post() {
+  public function post($data) {
 
   	if($this->currentUser->isAnonymous()){
-  		$data['message'] = $this->t('Login failed');
+  		$response['message'] = $this->t('Login failed');
 		}else{
-  		$data['message'] = $this->t('Login succeeded');
-  		$data['token'] = $this->generateToken();
+  		$response['message'] = $this->t('Login succeeded');
+  		$response['token'] = $this->generateMobileIdToken($data);
 		}
 
-    // You must to implement the logic of your REST Resource here.
-    // Use current user after pass authentication to validate access.
-    /*if (!$this->currentUser->hasPermission('access content')) {
-      throw new AccessDeniedHttpException();
-    }*/
-
-    return new ModifiedResourceResponse($data, 200);
+    return new ModifiedResourceResponse($response, 200);
   }
 
-  protected function generateToken(){
+  protected function generateMobileIdToken($data){
 		$event = new JwtAuthGenerateEvent(new JsonWebToken());
-		$event->addClaim('username', $this->currentUser->getDisplayName());
+    $event->addClaim('first_name', $data['first_name']);
+		$event->addClaim('last_name', $data['last_name']);
+    $event->addClaim('id_code', $data['id_code']);
 		$this->eventDispatcher->dispatch(JwtAuthEvents::GENERATE, $event);
 		$jwt = $event->getToken();
 		return $this->transcoder->encode($jwt);
