@@ -8,6 +8,7 @@ use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -20,7 +21,7 @@ use Drupal\custom_mobile_id_authentication\Plugin\DigiDocService;
  *   id = "mobile_id_rest_resource",
  *   label = @Translation("Mobile id rest resource"),
  *   uri_paths = {
- *     "https://www.drupal.org/link-relations/create" = "/custom/login/mobile_id"
+ *     "create" = "/custom/login/mobile_id"
  *   }
  * )
  */
@@ -32,6 +33,20 @@ class MobileIdRestResource extends ResourceBase {
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
+
+  /**
+   * The event dispatcher.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $eventDispatcher;
+
+  /**
+   * The JWT Transcoder service.
+   *
+   * @var \Drupal\jwt\Transcoder\JwtTranscoderInterface
+   */
+  protected $transcoder;
 
   /**
    * Constructs a new MobileIdRestResource object.
@@ -70,7 +85,7 @@ class MobileIdRestResource extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('custom_mobile_id_authentication'),
+      $container->get('logger.factory')->get('tk_custom_auth'),
       $container->get('current_user')
     );
   }
@@ -78,15 +93,16 @@ class MobileIdRestResource extends ResourceBase {
   /**
    * Responds to POST requests.
    *
-   * Returns a list of bundles for specified entity.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity object.
+   *
+   * @return \Drupal\rest\ModifiedResourceResponse
+   *   The HTTP response object.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
   public function post($data) {
-    if (!$this->currentUser->hasPermission('access content')) {
-      throw new AccessDeniedHttpException();
-    }
     if(isset($data['telno'])){
       $dds = DigiDocService::Instance();
       $data['telno'] = str_replace(' ', '', $data['telno']);
@@ -141,52 +157,8 @@ class MobileIdRestResource extends ResourceBase {
       } else {
         throw new HttpException(400, 'Empty mobile number.');
       }
-    }
-    if(isset($data['Sesscode'])){
-      $dds = DigiDocService::Instance();
-      if(!empty($data) && $data['Sesscode'] != ""){
-        $params = array(
-          "Sesscode" => $data['Sesscode'],
-          "WaitSignature" => false
-        );
-        while($result['Status'] != 'USER_AUTHENTICATED'){
-          try{
-            $result = $dds->GetMobileAuthenticateStatus($params);
-          } catch (\Exception $e){
-            switch($e->getMessage()){
-              case 'SIM_ERROR':
-                $message = $this->t('SIM application error.');
-                break;
-              case 'PHONE_ABSENT':
-                $message = $this->t('Phone is not in coverage area.');
-                break;
-              case 'NOT_VALID':
-                $message = $this->t('Mobile-ID certificates are revoked or suspended.');
-                break;
-              case 'SENDING_ERROR':
-                $message = $this->t('Sending authentication request to phone failed.');
-                break;
-              case 'USER_CANCEL':
-                $message = $this->t('Authentication has been canceled.');
-                break;
-              case 'EXPIRED_TRANSACTION':
-                $message = $this->t('Authentication has been expired.');
-                break;
-              default:
-                $message = $e->getMessage();
-                \Drupal::logger('tk_custom_auth')->error($message);
-                $result = ['Status' => 'error', 'Code' => 500, 'message' => $this->t('Authorizing failed, please try again.')];
-                return new ResourceResponse($result);
-            }
-            $result = ['Status' => 'error', 'Code' => 400, 'message' => $message];
-            return new ResourceResponse($result);
-          }
-        }
-        if($result['Status'] === 'USER_AUTHENTICATED'){
-
-        }
-        return new ResourceResponse($result);
-      }
+    }else{
+      throw new HttpException(400, 'Missing necessary keys.');
     }
   }
 
