@@ -1,10 +1,23 @@
 @import "../../../assets/styles/typography.scss";
 .events {
+  padding-bottom: $xxl;
   background: $white;
-  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;}
+  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0;}
   border-top: $gutter solid $light-blue;
+  .months {
+    margin-top: $medium;
+    @include break-on(sm, min) {
+      margin-top:-$medium;
+    }
+  }
+  & > *:nth-child(2) {
+    margin-top: 0;
+  }
   &__block {cursor: pointer;
     &:hover {.title {text-decoration: underline;}}
+    &:last-child {
+      .events__content {padding-bottom: $gutter;}
+    }
   }
   &__head {display: flex;
     @include break-on(sm, min) {border-bottom: .0625rem solid $gray;}
@@ -13,13 +26,19 @@
     margin-top: 0;
   }
   &__list-body {
-    @include break-on(sm, min) {
-      padding-bottom: $medium;
-    }
     & > *:last-child .events__content {
       margin-bottom: 0;
-      @include break-on(sm, max) {margin-bottom: $medium;}
       @include break-on(sm, min) {border: none;}
+    }
+    &:last-child {
+      @include break-on(sm, min) {
+        padding-bottom: $medium;
+        .events__block:last-child {
+          @include break-on(sm, min) {
+            padding-bottom: $medium;
+          }
+        }
+      }
     }
   }
   &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $small $medium $small $medium; flex-basis: 50%;}
@@ -27,9 +46,10 @@
     @include break-on(sm, min) {padding-top:$small; padding-left: 8.5rem;}
     h1{color: $black;}}
   &__header {display: flex;margin-bottom:-$gutter;}
-  &__datetime {padding: $small $medium 0 $medium;color: $red;
+  &__datetime {padding: $small $medium 0 $medium;min-width: 4.5rem;
     .day {font-size: .875rem;line-height: 2.29;}
     .date {font-size: $medium;line-height: 1.33;font-weight: 500;}
+    &.highlighted {color: $red;}
   }
   &__separator {position: relative;top: .625rem;
     .dot {height: 0.6875rem;width: 0.6875rem;background-color: $black;border-radius: 50%;position: relative;bottom: .375rem;right: .375rem;
@@ -46,7 +66,7 @@
     }
   }
   &__content {
-    margin: 0 $medium $small 6.5rem;
+    margin: 0 $medium $small 7.5rem;
     border-radius: 1.625rem;
     padding: $gutter $small;
     background-color: $aqua;
@@ -61,19 +81,20 @@
       background-color: $white;
       border-radius: 0;
       border-bottom: .0625rem solid $gray;
-      padding: $gutter $small $gutter 0;
-      margin: 0 0 $small 8.5rem;
+      padding: $gutter $small $medium 0;
+      margin: 0 0 $small 9.25rem;
       .info {
         &.block span.time{padding-right: $xxl;}
         &.block span.location{padding-right: $xxl;}
+        .repeat {position: relative;top: .375rem;}
         // &.block span.entrance{}
       }
     }
   }
 }
-.actions {padding-bottom: $xxl;
+.actions {padding-top: $medium;
   button {margin: 0 $medium; width: stretch;}
-  @include break-on(sm, min) {background: $light-gray;padding-top: $medium;
+  @include break-on(sm, min) {background: $light-gray;padding-bottom: 0;
     button { margin: 0 $medium; width: auto;}
   }
   &__error {

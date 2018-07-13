@@ -16,6 +16,7 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/of';
 
 import { Apollo, QueryRef } from 'apollo-angular';
+import { GroupByPipe } from '../../_pipes/groupBy.pipe';
 
 
 
@@ -43,6 +44,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   path: string;
   lang: string;
   eventList: any;
+  eventListByDates: any;
   view: string;
   calendarDays: any;
 
@@ -130,6 +132,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     return moment(this.year+"-"+this.month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
   }
   
+  getDay(date:any) {
+    return moment(date, "DD.MM.YYYY").format("dddd").toLowerCase();
+  }
+  
   generateCalendar() {
     
     
@@ -203,7 +209,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     if( update ){
       this.status = false;
+      this.listEnd = false;
       this.eventList = false;
+      this.eventListByDates = false;
       this.getData();
     }
   }
@@ -221,6 +229,20 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         }).valueChanges.subscribe(({data, loading}) => {
           subscriber.unsubscribe();
           this.eventList = this.eventList.concat(data['nodeQuery']['entities']);
+          this.eventListByDates = this.eventList.filter(event => {
+            const dates = event.eventDates.map(d => moment(d.entity.fieldEventDate.unix * 1000))
+            return moment(moment.min(dates)).isAfter()
+          }).map((event) => { 
+            const dates = event.eventDates
+              .map(d => moment(d.entity.fieldEventDate.unix * 1000))
+            const dateUnix = moment.min(dates)
+            return {
+              day: moment(dateUnix).format("DD.MM"),
+              monthYear: moment(dateUnix).format("MMMM.YYYY"),
+              date: moment(dateUnix).format("DD.MM.YYYY"),
+              event
+            }
+          });
           if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
             this.listEnd = true;
           }
@@ -240,6 +262,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     let month:any = moment().format("M");
     if( month < 10 ){ month = "0"+month;}
     this.current = {
+      date: moment().format("DD.MM.YYYY"),
       day: moment().format("D"),
       dayString: moment().format("DD"),
       month: month,
@@ -257,10 +280,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     this.route.queryParams.subscribe( (params: Params) => {
       this.params = params;
       this.eventList = false;
+      this.eventListByDates = false;
       this.listEnd = false;
       this.status = false;
       this.getData();
-      
     });
 
     this.getTags();
@@ -400,7 +423,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           errorPolicy: 'all',
         }).valueChanges.subscribe(({data}) => {
 
-
           if( this.status ){ return false; }
 
           this.status = true;
@@ -411,14 +433,25 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
           if( this.view == "list" ){
             this.eventList = data['nodeQuery']['entities'];
+            this.eventListByDates = this.eventList.filter(event => {
+              const dates = event.eventDates.map(d => moment(d.entity.fieldEventDate.unix * 1000))
+              return moment(moment.min(dates)).isAfter()
+            }).map((event) => {
+              const dates = event.eventDates.map(d => moment(d.entity.fieldEventDate.unix * 1000))
+              const dateUnix = moment.min(dates)
+              return {
+                day: moment(dateUnix).format("DD.MM"),
+                monthYear: moment(dateUnix).format("MMMM.YYYY"),
+                date: moment(dateUnix).format("DD.MM.YYYY"),
+                event
+              }
+            });
             if (this.eventList && (this.eventList.length < this.eventsConfig.limit)){
               this.listEnd = true;
             }
           }else{
             this.dataToCalendar( JSON.stringify( data['nodeQuery']['entities'] ) );
           }
-          
-          
         });
   }
 
