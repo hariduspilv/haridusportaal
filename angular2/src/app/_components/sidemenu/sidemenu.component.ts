@@ -34,4 +34,9 @@ export class SideMenuComponent {
 
   }
 
+  routeIncludes(path) {
+    const current = this.router.url;
+    return (path.match(/\//g) || []).length > 1 && current.includes(path) && current !== path;
+  }
+
 }
