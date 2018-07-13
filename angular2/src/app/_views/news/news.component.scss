@@ -12,9 +12,9 @@
     font-size: 0.875rem;
     line-height: 1.43;
     color: $dark-gray;
-    @include break-on(sm, min) {padding: 0; padding-top: $half-gutter; padding-bottom: $gutter;}
+    @include break-on(sm, min) {padding: 0; padding-top: $gutter; padding-bottom: $small;}
   }
-  .description {padding-top: .625rem;font-size: $small;max-height: 3.5rem;overflow: hidden;}
+  .description {padding-top: $small;font-size: $small;max-height: 3.5rem;overflow: hidden;}
 }
 .news-list {
   border-top: $gutter solid $light-blue;
@@ -52,3 +52,14 @@
 }
 .col-25 {width: 20.83%;}
 .inline-flex {display: inline-flex;justify-content: flex-end;} 
+
+::ng-deep .description a[target="_blank"]:before {
+  font-feature-settings: 'liga';
+  -ms-font-feature-settings: 'liga';
+  font-family: 'Material Icons';
+  content: 'launch' !important;
+  position: relative;
+  top: 0.1875rem;
+}
+::ng-deep .description a[target="_blank"] {text-decoration: none;}
+::ng-deep .mat-calendar-body-selected {background-color: $blue;}

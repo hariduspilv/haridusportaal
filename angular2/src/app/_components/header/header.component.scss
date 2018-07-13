@@ -26,13 +26,10 @@
   color: white;
   padding: 0 1rem 0 2.5rem;
   font-size: 1rem;
+  width: stretch;
 }
 .searchbar {
-  justify-content: flex-start;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+  flex: 3;
   .search {flex-basis: 75%;
     &::before {
       position: relative;
@@ -46,8 +43,14 @@
   }
   @include break-on(sm, max) {display: none;}
 }
+.languages {position: relative;top: .125rem;}
+.loginbar {margin-left: $xxl;
+  @include break-on(xl, min) {position: relative;top: .1875rem;}
+}
 mat-icon { 
-  &.search { padding-right: 1rem; }
+  &.search { padding-right: 1rem;
+    @include break-on(sm, max) {position:relative; top: .0625rem;}
+  }
   &.person { padding-right: 0.75rem;
     @include break-on(sm, min) {padding-right: 0;}
   }
@@ -66,3 +69,14 @@ input:focus::-webkit-input-placeholder { color:transparent; }
 input:focus:-moz-placeholder { color:transparent; }
 input:focus::-moz-placeholder { color:transparent; }
 input:focus:-ms-input-placeholder { color:transparent; }
+
+.fill-space {
+  /* This fills the remaining space, by using flexbox. 
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+  margin: 0 auto;
+  max-width: 1177px;
+  @include break-on(xl, min) {max-width: 1177px;}
+  &__flex {display: flex;}
+}
+.mob-space {flex: 1 1 auto;}

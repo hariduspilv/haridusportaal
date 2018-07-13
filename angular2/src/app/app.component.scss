@@ -12,21 +12,23 @@ body [class^='mat-'], body [class*=' mat-'] {font-family: 'Rubik', sans-serif; }
 body .material-icons {font-family: 'Material Icons';font-size: $medium;}
 
 h1{font-size:2rem; line-height:120%;}
-.fill-space {
-  /* This fills the remaining space, by using flexbox. 
-     Every toolbar row uses a flexbox row layout. */
-  flex: 1 1 auto;
-}
 .capitalize {text-transform: capitalize;}
 .mat-dialog-container {padding: 0 !important;border-radius:$half-gutter !important;}
 input:focus, textarea:focus {outline: none;}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 24px white inset;
+}
 a {text-decoration: underline; &:hover {text-decoration: none;}}
 html{
   font-size: 100%;
   height:100%;
   @include break-on(lg, min) {font-size: 16px;}
-  @include break-on(xl, min) {font-size: 20px;}
-  @include break-on(xxl, min) {font-size: 24px;}
+  @include break-on(xl, min) {font-size: 18px;}
+  @include break-on(xxl, min) {font-size: 20px;}
+}
+.main-container {
+  @include break-on(lg, min) {max-width: 1130px;margin-left: auto !important;margin-right: auto !important;}
+  // @include break-on(xl, min) {max-width: 1540px;margin-left: auto !important;margin-right: auto !important;}
 }
 body{height: calc(100% - 4rem);}
 
@@ -43,17 +45,13 @@ body{height: calc(100% - 4rem);}
 
 .pointer{cursor: pointer;}
 
-strong { font-weight: 500; }
+strong, b { font-weight: 500; }
 
 .mat-icon {height: 1.5rem !important; width: 1.5rem !important;}
 
 .indent .mat-menu-item{
   padding-left:1.875rem;
 }
-
-// .header-logo{
-//   img{height:54px; margin-top:5px;}
-// }
 
 a {color: $blue}
 
@@ -135,7 +133,7 @@ article a[href]{color:$blue;}
 }
 .side-menu-wrapper{background:#fff; display: block; box-shadow:0 .1875rem .0625rem -.125rem rgba(0,0,0,.2),0 .125rem .125rem 0 rgba(0,0,0,.14),0 .0625rem .3125rem 0 rgba(0,0,0,.12);}
 .ul-styleless{padding:0; margin:0 0 0 0; list-style:none;
-  &.submenu span{position: relative; left: $small; padding-right: $small;}
+  &.submenu.deep span{position: relative; left: $small; padding-right: $small;}
 }
 .ul-styleless li{padding:0; margin:0;}
 .ul-styleless ul a{padding-left:1.875rem;}

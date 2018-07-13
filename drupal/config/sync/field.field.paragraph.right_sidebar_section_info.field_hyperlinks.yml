@@ -11,7 +11,7 @@ id: paragraph.right_sidebar_section_info.field_hyperlinks
 field_name: field_hyperlinks
 entity_type: paragraph
 bundle: right_sidebar_section_info
-label: Hyperlinks
+label: Lingid
 description: ''
 required: false
 translatable: false

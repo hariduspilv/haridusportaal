@@ -10,19 +10,32 @@
       <!-- <img src="assets/logo.png" /> -->
     </a>
     <!-- This fills the remaining space of the current row -->
-    <span class="fill-space">
-      <div class="searchbar">
-        <span class="search">
-          <mat-icon class="search sm-show">search</mat-icon>
-          <input class="search-input w-100 round-input" placeholder="Otsi" />
-        </span>
+    <!-- <div class="head-container"> -->
+    <span class="fill-space sm-hide">
+      <div class="fill-space__flex">
+        <div class="searchbar">
+          <span class="search">
+            <input class="search-input round-input" placeholder="Otsi" />
+          </span>
+        </div>
+        <div class="loginbar">
+          <app-login></app-login>
+
+          <div *ngIf="languages" class="languages pull-right">
+            <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
+              <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)">{{ item.argument | uppercase }}</button>
+            </mat-menu>
+            <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">more_vert</mat-icon></button>
+          </div>
+        </div>
       </div>
     </span>
+    <span class="mob-space sm-show"></span>
     <mat-icon class="search sm-show">search</mat-icon>
 
-    <app-login></app-login>
+    <app-login class="sm-show"></app-login>
 
-    <div *ngIf="languages" class="pull-right">
+    <div *ngIf="languages" class="sm-show pull-right">
       <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
         <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)">{{ item.argument | uppercase }}</button>
       </mat-menu>

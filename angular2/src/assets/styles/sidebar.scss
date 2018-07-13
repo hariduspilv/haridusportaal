@@ -16,6 +16,11 @@
       border-left: .3125rem solid $dark-orange;
     }
   }
+  .active {
+    font-weight: 500 !important;
+    border-left: .3125rem solid $dark-orange;
+    transition: border-left .3s cubic-bezier(.55,0,.55,.2);
+  }
   .mat-menu-item-active {
     font-weight: 500 !important;
     border-left: .3125rem solid $dark-orange;
@@ -34,5 +39,6 @@
   }
   .ul-styleless.category {
     border-bottom: solid .0625rem $gray;
+    &.empty-parent {border: none;}
   }
 }

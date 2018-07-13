@@ -2,7 +2,7 @@
 "header" : {
 	"form_name" : "Masinloetav vormi koodnimetus",
 	"endpoint": "infosüsteemi koodnimetus nt EHIS",
-	"number_of_steps": "sammude arv vormil numbrina",
+	"number_of_steps": "sammude arv vormil numbrina"
 },
 "body" : {
 	"title": {
@@ -13,7 +13,6 @@
 	},
 	"steps" : {
 		"step_1" : {
-			"step_no" : 1,
 			"title" : {
 				"keele 2-täheline kood" : "Sammu nimetus"
 			},
@@ -41,9 +40,6 @@
 					"title" : {
 						"keele 2-täheline kood": "Andmeelemendi nimetus"
 					},
-					"placeholder" : {
-						"keele 2-täheline kood": "Välja sees kuvatav tekst, mis väärtuse sisestamisel kaob; mittekohustuslik"
-					},
 					"helpertext" : {
 						"keele 2-täheline kood": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
 					},
@@ -59,9 +55,6 @@
 					"type": "textarea",
 					"title" : {
 						"keele 2-täheline kood" :  "Andmeelemendi nimetus"
-					},
-					"placeholder" : {
-						"keele 2-täheline kood" : "Välja sees kuvatav tekst, mis väärtuse sisestamisel kaob; mittekohustuslik"
 					},
 					"helpertext" : {
 						"keele 2-täheline kood":  "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
@@ -153,9 +146,6 @@
 					"type": "email",
 					"title" : {
 						"keele 2-täheline kood" : "Andmeelemendi nimetus"
-					},
-					"placeholder" : {
-						"keele 2-täheline kood" : "Välja sees kuvatav tekst, mis väärtuse sisestamisel kaob; mittekohustuslik"
 					},
 					"helpertext" : {
 						"keele 2-täheline kood" : "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
