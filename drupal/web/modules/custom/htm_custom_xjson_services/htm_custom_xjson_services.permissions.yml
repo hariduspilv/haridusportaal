@@ -1,0 +1,30 @@
+add xjson entity entities:
+  title: 'Create new xJson entity entities'
+
+administer xjson entity entities:
+  title: 'Administer xJson entity entities'
+  description: 'Allow to access the administration form to configure xJson entity entities.'
+  restrict access: true
+
+delete xjson entity entities:
+  title: 'Delete xJson entity entities'
+
+edit xjson entity entities:
+  title: 'Edit xJson entity entities'
+
+view published xjson entity entities:
+  title: 'View published xJson entity entities'
+
+view unpublished xjson entity entities:
+  title: 'View unpublished xJson entity entities'
+
+view all xjson entity revisions:
+  title: 'View all xJson entity revisions'
+
+revert all xjson entity revisions:
+  title: 'Revert all xJson entity revisions'
+  description: 'Role requires permission <em>view xJson entity revisions</em> and <em>edit rights</em> for xjson entity entities in question or <em>administer xjson entity entities</em>.'
+
+delete all xjson entity revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view xJson entity revisions</em> and <em>delete rights</em> for xjson entity entities in question or <em>administer xjson entity entities</em>.'
