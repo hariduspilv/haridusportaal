@@ -8,6 +8,7 @@
 namespace Drupal\htm_custom_xjson_services\Plugin\Field\FieldWidget;
 
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\Plugin\Field\FieldWidget\StringTextareaWidget;
 use Drupal\Core\Form\FormStateInterface;
@@ -83,25 +84,24 @@ class JsonbWidget extends StringTextareaWidget {
 
 			if(isset($value['body']) && !empty($value['body'])){
 				(isset($value['body']['title'])) ? $this->checkTextLanguages($value['body']['title'], 'body.title') : $this->setErrorMessage(t("body.title missing or not array"));
-				(isset($value['body']['introduction'])) ? $this->checkTextLanguages($value['body']['introduction'], 'body.introduction') : $this->setErrorMessage(t("body.introduction missing or not array")) ;
+			if(isset($value['body']['introduction'])) $this->checkTextLanguages($value['body']['introduction'], 'body.introduction') ;
 
 				if(isset($value['body']['steps']) && !empty($value['body']['steps'])){
-					$step_keys = array_keys($value['body']['steps']);
-					$valid_steps = preg_grep('/step_\d/', $step_keys);
-					$steps_count = count($valid_steps);
+					$steps = array_keys($value['body']['steps']);
+					$steps_count = count($steps);
 
 					if($steps_count != $value['header']['number_of_steps']) $this->setErrorMessage(t('header.number_of_steps and body.steps count is different'));
 
-					foreach($valid_steps as $step){
+					foreach($steps as $step){
 						if(!empty($value['body']['steps'][$step])){
 							$step_item = $value['body']['steps'][$step];
 
-							(isset($step_item['title'])) ? $this->checkTextLanguages($step_item['title'], "body.steps.$step.title") :  $this->setErrorMessage(t("body.steps.$step.title"));
-							(isset($step_item['introduction'])) ? $this->checkTextLanguages($step_item['introduction'], "body.steps.$step.introduction") : $this->setErrorMessage(t("body.steps.$step.introduction"))  ;
+							(isset($step_item['title'])) ? $this->checkTextLanguages($step_item['title'], "body.steps.$step.title") :  $this->setErrorMessage(t("body.steps.$step.title missing"));
+							if(isset($step_item['introduction'])) $this->checkTextLanguages($step_item['introduction'], "body.steps.$step.introduction");
 
 							if(isset($step_item['data_elements']) && !empty($step_item['data_elements'])){
 								foreach($step_item['data_elements'] as $key => $data_element){
-									$this->validateDataElement($data_element);
+									$this->validateDataElement($data_element, $step, $key, NULL);
 								}
 							}else{
 								$this->setErrorMessage(t("body.steps.$step.data_elements is missing or empty"));
@@ -110,9 +110,7 @@ class JsonbWidget extends StringTextareaWidget {
 						}else{
 							$this->setErrorMessage(t("body.steps.$step is empty"));
 						}
-						#dump($step);
 					}
-					#dump($value['body']['steps']);
 				}else{
 					$this->setErrorMessage(t('body.steps missing or empty'));
 				}
@@ -121,18 +119,19 @@ class JsonbWidget extends StringTextareaWidget {
 				$this->setErrorMessage(t('body element missing or empty'));
 			}
 
-			/*if(isset($value['body']) || empty($value['body'])){
-				$this->setErrorMessage(t('Body element missing or empty');
-			} else {
-				dump($value['body']['title']);
-				if(self::checkLanguages(array_keys($value['body']['title']), array_keys($this->langs)))
-				if(!isset($value['body']['title']) || (empty($value['body']['title']))){
-					$this->setErrorMessage(t('body title missing');
+			if(isset($value['messages'])){
+				foreach($value['messages'] as $key => $message){
+					if(isset($message['message_type'])){
+						$available_message_types = ['NOTICE', 'WARNING', 'ERROR'];
+						if(!in_array($message['message_type'], $available_message_types)) $this->setErrorMessage("message $key message_type not allowed");
+					}else{
+						$this->setErrorMessage("message $key type missing");
+					}
+					(isset($message['message_text'])) ? $this->checkTextLanguages($message['message_text'], "message $key") : $this->setErrorMessage("Message $key message_text required") ;
 				}
-				#if(!isset($value['body']['title']))
-				// body excists now check body items here
-			}*/
-			/*if(!empty($error_messages))*/ $form_state->setError($element, $this->getErrorMessages());
+			}
+
+			if(!empty($error_messages)) $form_state->setError($element, $this->getErrorMessages());
 		}
 	}
 
@@ -174,89 +173,115 @@ class JsonbWidget extends StringTextareaWidget {
 		}
 	}
 
-	private function validateDataElement($element){
-		dump($element);
-		if(is_array($element) && isset($element['type'])){
-			// BASE VALIDATIONS
+	private function validateDataElement($element, $step = 0, $parent_key = NULL, $key){
 
-			if(isset($element['hidden']) ){
+		#$step =
+
+		if(is_array($element) && isset($element['type'])){
+			$type = $element['type'];
+			if(isset($element['title']) && !isset($element['hidden'])){
+				$this->checkTextLanguages($element['title'], "$step.data_elements.$parent_key.$key title");
+			}elseif(isset($element['hidden'])){
 				if(is_bool($element['hidden'])){
-					if(!$element['hidden']){
-						(isset($element['title']))  ? $this->checkTextLanguages($element['title'], 'error vaja kirjutada text vale formaat') : $this->setErrorMessage(t("Tiitel on required")) ;
-					}
+					if(!$element['hidden']) $this->checkTextLanguages($element['title'], "$step.data_elements.$parent_key.$key title");
 				}else{
-					$this->setErrorMessage('hidden has to be bool');
+					$this->setErrorMessage('Hidden has to be bool');
 				}
 			}
-
-			if(isset($element['heading'])) $this->checkTextLanguages($element['heading'], 'Heading katki');
-			if(isset($element['helpertext'])) $this->checkTextLanguages($element['helpertext'], 'helpertext katki');
-			if(isset($element['required']) && !is_bool($element['required'])) $this->setErrorMessage('Required has to be bool');
-			if(isset($element['readonly']) && !is_bool($element['readonly'])) $this->setErrorMessage('Readonly has to be bool');
-			if(isset($element['width']) && !is_numeric($element['width'])) $this->setErrorMessage('Width has to be numeric');
-			if(isset($element['height']) && !is_numeric($element['height'])) $this->setErrorMessage('Height has to be numeric');
-
-			if(isset($element['min']) && !is_numeric($element['min'])) $this->setErrorMessage('Min has to be numeric');
-			if(isset($element['max']) && !is_numeric($element['max'])) $this->setErrorMessage('Max has to be numeric');
-			if(isset($element['minlength']) && !is_numeric($element['minlength'])) $this->setErrorMessage('Minlength has to be numeric');
-			if(isset($element['maxlenght']) && !is_numeric($element['maxlenght'])) $this->setErrorMessage('Maxlength has to be numeric');
-			if(isset($element['multiple']) && !is_bool($element['multiple'])) $this->setErrorMessage('Multiple has to be bool');
+			else{
+				$this->setErrorMessage(t("$type Tiitel on required")) ;
+			}
 
 
-			if(isset($element['heading'])) $this->checkTextLanguages($element['heading'], 'Heading katki');
-			if(isset($element['heading'])) $this->checkTextLanguages($element['heading'], 'Heading katki');
-			if(isset($element['heading'])) $this->checkTextLanguages($element['heading'], 'Heading katki');
+			if(isset($element['heading'])) $this->checkTextLanguages($element['heading'], "$step.data_elements.$parent_key.$key.heading has no translation");
+			if(isset($element['helpertext'])) $this->checkTextLanguages($element['helpertext'], "$step.data_elements.$parent_key.$key.helpertext has no translation");
+			if(isset($element['required']) && !is_bool($element['required'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.required has to be bool");
+			if(isset($element['readonly']) && !is_bool($element['readonly'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.readonly has to be bool");
+			if(isset($element['width']) && !is_numeric($element['width'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.width has to be numeric");
+			if(isset($element['height']) && !is_numeric($element['height'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.height has to be numeric");
 
+			if(isset($element['min']) && !is_numeric($element['min'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.min has to be numeric");
+			if(isset($element['max']) && !is_numeric($element['max'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.max has to be numeric");
+			if(isset($element['minlength']) && !is_numeric($element['minlength'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.minlength has to be numeric");
+			if(isset($element['maxlenght']) && !is_numeric($element['maxlenght'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.maxlength has to be numeric");
+			if(isset($element['multiple']) && !is_bool($element['multiple'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.multiple has to be bool");
 
-
-
-			$type = $element['type'];
-			switch ($element['type']){
+			$default_acceptable_keys = ['type', 'title', 'helpertext', 'required', 'hidden', 'readonly', 'default_value'];
+			switch ($type){
 				case 'heading':
 				case 'helpertext':
-					(isset($element['title'])) ? $this->checkTextLanguages($element['title'], 'Headingu title format wrong') : $this->setErrorMessage("$type element title required") ;
-					return TRUE;
+					$acceptable_keys = ['type', 'title'];
+					(isset($element['title'])) ? $this->checkTextLanguages($element['title'], 'Headingu title format wrong') : $this->setErrorMessage("$step.data_elements.$parent_key.$key.title required") ;
 					break;
 				case 'text':
-					return TRUE;
-					break;
 				case 'textarea':
-					return TRUE;
-					break;
-				case 'number':
-					return TRUE;
+					$additional_keys = ['width', 'maxlength', 'minlength'];
 					break;
 				case 'date':
-					return TRUE;
+					$additional_keys = ['min', 'max'];
+					if(isset($element['default_value'])) $this->validateDate($element['default_value']);
 					break;
-				case 'checkbox':
-					return TRUE;
+				case 'number':
+					$additional_keys = ['min', 'max'];
 					break;
 				case 'selectlist':
-					return TRUE;
-					break;
-				case 'email':
-					return TRUE;
+					$additional_keys = ['multiple', 'empty_option', 'options'];
+					if(isset($element['options']) && count($element['options']) >= 1){
+						$option_keys = array_keys($element['options']);
+						foreach($element['options'] as $option){
+							$this->checkTextLanguages($option, 'Option text');
+						}
+						if(isset($element['default_value']) && !in_array($element['default_value'], $option_keys)) $this->setErrorMessage("$step.data_elements.$parent_key.$key.default_value does not match options");
+					}else{
+						$this->setErrorMessage("$step.data_elements.$parent_key.$key.selectlist missing options attribute");
+					}
 					break;
 				case 'file':
-					return TRUE;
+					$additional_keys = ['multiple', 'acceptable_extensions'];
 					break;
 				case 'table':
-					return TRUE;
+					$additional_keys = ['add_del_rows', 'table_columns'];
+					if(isset($element['add_del_rows']) && !is_bool($element['add_del_rows'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.add_del_rows has to be bool");
+					foreach($element['table_columns'] as $key => $column_element){
+						$this->validateDataElement($column_element, $step, $parent_key, 'table_columns.'.$key);
+					}
 					break;
 				case 'address':
-					return TRUE;
+					$additional_keys = ['multiple'];
+					break;
+				case 'checkbox':
+					$additional_keys = [];
+					if(isset($element['default_value']) && !is_bool($element['default_value'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.checkbox default_value has to be bool");
+					break;
+				case 'email':
+					$additional_keys = [];
+					if(isset($element['default_value']) && !\Drupal::service('email.validator')->isValid($element['default_value'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.email not valid");
 					break;
 				default:
-					$this->setErrorMessage('DATAELEMENT type not found (' . $element['type'] . ')');
-					return FALSE;
+					$this->setErrorMessage("$step.data_elements.$parent_key.$key.DATAELEMENT type not found ($type)");
 					break;
 			}
+			if(!isset($acceptable_keys)) $acceptable_keys = array_merge($default_acceptable_keys, $additional_keys);
+			$element_keys = array_keys($element);
+
+			foreach($element_keys as $key){
+				if(!in_array($key, $acceptable_keys, TRUE)) $this->setErrorMessage("$key not acceptable in element type: $step.data_elements.$parent_key.$key");
+			}
+
 		} else{
-			$this->setErrorMessage('DATAELEMENT WRONG');
-			return FALSE;
+			$this->setErrorMessage("$step.data_elements.$parent_key.$key ERROR");
 		}
-		#dump($element);
+	}
+
+	private function validateDate($date, $format = 'Y-m-d'){
+		try{
+			$d = DrupalDateTime::createFromFormat($format, $date);
+			// The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+			return $d && $d->format($format) === $date;
+		}catch (\Exception $e){
+			$this->setErrorMessage('date format not recognized');
+		}
+
 	}
 
 }
