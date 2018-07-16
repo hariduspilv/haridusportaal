@@ -17,7 +17,7 @@
         //event.preventDefault();
         try {
             var json = editor.get();
-            $('#edit-metatage-0-value').val(JSON.stringify(json));
+            $('#edit-xjson-definition-0-value').val(JSON.stringify(json));
         }catch(err){
             event.preventDefault();
             alert(err.message);

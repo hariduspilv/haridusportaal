@@ -131,7 +131,7 @@ class JsonbWidget extends StringTextareaWidget {
 				}
 			}
 
-			if(!empty($error_messages)) $form_state->setError($element, $this->getErrorMessages());
+			if(!empty($this->getErrorMessages())) $form_state->setError($element, $this->getErrorMessages());
 		}
 	}
 
@@ -229,7 +229,7 @@ class JsonbWidget extends StringTextareaWidget {
 					if(isset($element['options']) && count($element['options']) >= 1){
 						$option_keys = array_keys($element['options']);
 						foreach($element['options'] as $option){
-							$this->checkTextLanguages($option, 'Option text');
+							$this->checkTextLanguages($option, "$step.data_elements.$parent_key.$key Option text");
 						}
 						if(isset($element['default_value']) && !in_array($element['default_value'], $option_keys)) $this->setErrorMessage("$step.data_elements.$parent_key.$key.default_value does not match options");
 					}else{
