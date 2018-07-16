@@ -10,10 +10,11 @@ weight: 0
 module: custom_study_programme_import
 callback: custom_study_programme_import_cron
 scheduler:
-  id: simple
+  id: crontab
   configuration:
     rules:
-      - '0+@ 0 * * *'
+      - '0 2 * * *'
+    catch_up: 0
 launcher:
   id: serial
   configuration:
