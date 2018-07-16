@@ -10,7 +10,6 @@
 	},
 	"steps" : {
 		"step_1" : {
-			"step_no" : 1,
 			"title" : {
 				"keele 2-täheline kood" : "Taotleja ja töökoha andmed"
 			},
@@ -82,7 +81,6 @@
 			}
 		},
 		"step_submit_result" : {
-			"step_no" : 100,
 			"title" : {
 				"et" : "Esitamise tulemus"
 			},
