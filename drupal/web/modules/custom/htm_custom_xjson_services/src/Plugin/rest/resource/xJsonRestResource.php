@@ -8,6 +8,7 @@ use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Drupal\user\Entity\User;
+use GuzzleHttp\Exception\RequestException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -88,21 +89,39 @@ class xJsonRestResource extends ResourceBase {
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
-  public function post($data = []) {
+  public function post($data) {
 
+  	#dump($data);
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->isAuthenticated()) {
       throw new AccessDeniedHttpException();
     }
-    $user = $this->getUserEntity();
-    #dump($user);
-		#dump($this->xJsonService->getBasexJsonForm(TRUE));
-    $this->xJsonService->getBasexJsonForm();
-    #dump($this->currentUser->getAccount()->get);
+    #dump($data);
+    if(isset($data['form_info'])){
+			$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
+		}else{
+			$request_body = $this->xJsonService->getBasexJsonForm(true);
+		}
 
-    return new ModifiedResourceResponse($this->xJsonService->getBasexJsonForm(TRUE), 200);
-  }
+		if(empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
+
+		$client = \Drupal::httpClient();
+		try {
+			/*TODO make post URL configurable*/
+			$request = $client->post('http://test-htm.wiseman.ee:30080/api/postDocument', [
+					'json' => $request_body,
+			]);
+			$response = json_decode($request->getBody(), TRUE);
+			$builded_response = $this->xJsonService->buildFormBody($response);
+			#dump($response);
+			return new ModifiedResourceResponse($builded_response, 200);
+		}catch (RequestException $e){
+			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
+		}
+			#return new ModifiedResourceResponse($request_body, 200);
+
+	}
 
   private function buildHeader(){
 
