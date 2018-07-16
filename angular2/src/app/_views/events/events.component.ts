@@ -62,6 +62,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   error: boolean = false;
   
   current: object;
+
+  visibleEntries = 3;
   
   constructor(
     public router: Router,
@@ -114,9 +116,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.month = month;
     }
 
-    
-    this.monthName = moment(this.year+"/"+this.month, "YYYY/M").format('MMMM');
-
     this.status = false;
     this.calendarDays = false;
     this.generateCalendar();
@@ -129,13 +128,15 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     return moment(this.year+"-"+this.month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
   }
   
-  generateCalendar() {
+  generateCalendar(urlDate:boolean = false) {
     
-    
-    if( this.filterFormItems.dateFrom ){
-      console.log(this.filterFormItems.dateFrom);
+    if( this.filterFormItems.dateFrom && urlDate){
+      this.month = moment(this.filterFormItems.dateFrom, "DD-MM-YYYY").format("M");
+    }else{
+      this.month = parseInt(this.month);
     }
-    this.month = parseInt(this.month);
+
+    this.monthName = moment(this.year+"/"+this.month, "YYYY/M").format('MMMM');
     
     if( this.month < 10 ){ this.month = "0"+this.month; }
     
@@ -194,8 +195,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
     if( view == "calendar" ){
       this.eventsConfig.limit = 9999;
-      this.eventService.getCalendar(2018, 7);
-      this.generateCalendar();
+      this.generateCalendar(true);
     }else{
       this.eventsConfig.limit = 5;
     }
@@ -230,7 +230,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     
-    this.changeView("list", false);
+    this.changeView("calendar", false);
     
     this.setPaths();
     
@@ -242,7 +242,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       day: moment().format("D"),
       dayString: moment().format("DD"),
       month: month,
-      year: moment().format("YYYY")
+      year: parseInt(moment().format("YYYY"))
     }
 
     // SUBSCRIBE TO QUERY PARAMS
@@ -258,6 +258,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.eventList = false;
       this.listEnd = false;
       this.status = false;
+      this.generateCalendar();
       this.getData();
       
     });
@@ -299,8 +300,11 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       let set = false;
 
       for( var ii in current['eventDates'] ){
+        
         let eventDate = current['eventDates'][ii]['entity']['fieldEventDate']['value'];
+
         if( set ){ break; }
+
         for( var o in this.calendarDays ){
           if( set ){ break; }
           for( var oo in this.calendarDays[o] ){
@@ -312,7 +316,22 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           }
         }
       }
+
+
+
     }
+    
+  }
+
+  maxEntries( day:any ){
+    
+    let max = this.visibleEntries;
+    let total = day.events.length;
+    let amount = max;
+    if( total > max ){
+      amount = max - 1;
+    }
+    return amount;
   }
 
   parseDay(day:any){
@@ -321,14 +340,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
       for( var i in day.events ){
         let current = day.events[i];
-        current['startTime'] = 0;
+        current['startTime'] = 999999999;
 
         var eventDates = current.eventDates;
         for( var ii in eventDates ){
           let entity = eventDates[ii]['entity'];
 
           if( entity['fieldEventDate']['value'] == this.year+"-"+this.month+"-"+day['i'] ){
-            if( entity['fieldEventStartTime'] > current['startTime'] ){
+            if( entity['fieldEventStartTime'] <= current['startTime'] ){
               current['startTime'] = eventDates[ii]['entity']['fieldEventStartTime'];
             }
           }
@@ -338,6 +357,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       }
 
       day.events = this.sort("startTime", day.events);
+
       return day.events;
     }else{
       return day.events;

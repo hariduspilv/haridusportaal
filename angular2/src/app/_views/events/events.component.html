@@ -113,7 +113,7 @@
     </div>
   </div><!--/row-->
 
-  <div *ngIf="view === 'list'" class="events__month"><h1>{{monthName | lowercase | translate }}</h1></div>
+  <div *ngIf="view === 'list'" class="events__month"><h1>{{ monthName | lowercase | translate }}</h1></div>
 
   <mat-spinner *ngIf="!eventList && !error && view !== 'calendar'"></mat-spinner>
 
@@ -164,7 +164,7 @@
 
     <div class="navigation text-center">
       <mat-icon (click)="changeMonth(-1);">chevron_left</mat-icon>
-      <span class="month"><h1>{{ monthName | lowercase | translate }}</h1></span>
+      <span class="month"><h1>{{ monthName | lowercase | translate }} <ng-container *ngIf="year !== current.year">{{ year }}</ng-container></h1></span>
       <mat-icon (click)="changeMonth(1);">chevron_right</mat-icon>
     </div><!--/text-center-->
     
@@ -179,40 +179,58 @@
           <th width="14.2%">{{ 'sunday' | translate }}</th>
       </tr>
       <tr *ngFor="let week of calendarDays; let firstWeek = first">
-        <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day.i == current.day && month == current.month" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2">
+        <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day.i == current.day && month == current.month && year == current.year" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2">
           
           <div class="cal__day more__hidden">{{ day.i }}</div>
 
           
           <div class="cal__event more__hidden" *ngFor="let event of parseDay( day ); let i = index">
-            <div class="content" [class.active]="popup === i" (click)="togglePopup(i)" *ngIf="i < 3"  [routerLink]="event.entityUrl.path">
-              <ng-container *ngFor="let item of event.eventDates">
-                <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
-                  <span><div class="marker"></div></span>
-                  <span class="content__medium">{{ parseIntoReadableTime(item.entity.fieldEventStartTime*1000) }}</span>
-                  <span class="content__strong">{{ event.title }}</span>
+
+            <ng-container *ngIf="i < maxEntries(day) && visibleEntries == maxEntries(day)">
+              <div class="content" [class.active]="popup === i" (click)="togglePopup(i)" [routerLink]="event.entityUrl.path">
+                <ng-container *ngFor="let item of event.eventDates">
+                  <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
+                    <span><div class="marker"></div></span>
+                    <span class="content__medium">{{ parseIntoReadableTime(item.entity.fieldEventStartTime*1000) }}</span>
+                    <span class="content__strong">{{ event.title }}</span>
+                  </ng-container>
                 </ng-container>
-              </ng-container>
-            </div>
-            <div class="popup" *ngIf="firstWeek && last && i < 3 && popup === i">
-              <div class="popupcontent">
-                <div class="event__block">
-                  <div class="title">
-                    <span class="title__strong">{{ event.title }}</span>
-                    <span class="close"><a (click)="closePopup()"><mat-icon>close</mat-icon></a></span>
-                  </div>
-                  <div><span>{{ 'date' | translate }}: </span>{{day}}. {{monthName | lowercase | translate}}</div>
-                  <div *ngIf="event.eventDates"><span>{{ 'start.time' | translate }}: </span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</div>
-                  <div *ngIf="event.location"><span>{{ 'location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
-                  <div *ngIf="event.fieldEntryType"><span>{{ 'entrance' | translate }}: </span>{{ event.fieldEntryType}}</div>
-                </div>
-                <div class="line"></div>
-                <div class="event__more"><a href="javascript:void(0)" [routerLink]="event.entityUrl.path">Vaata lähemalt</a></div>
               </div>
-            </div>
+            </ng-container>
+
+            <ng-container *ngIf="i < maxEntries(day) && visibleEntries > maxEntries(day)">
+              <div class="content"  [class.active]="popup === i" (click)="togglePopup(i)" [routerLink]="event.entityUrl.path">
+                <ng-container *ngFor="let item of event.eventDates">
+                  <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
+                    <span><div class="marker"></div></span>
+                    <span class="content__medium">{{ parseIntoReadableTime(item.entity.fieldEventStartTime*1000) }}</span>
+                    <span class="content__strong">{{ event.title }}</span>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </ng-container>
+            
+            <ng-container *ngIf="i < maxEntries(day)">
+              <div class="popup" *ngIf="firstWeek && last && i < maxEntries(day) && popup === i">
+                <div class="popupcontent">
+                  <div class="event__block">
+                    <div class="title">
+                      <span class="title__strong">{{ event.title }}</span>
+                      <span class="close"><a (click)="closePopup()"><mat-icon>close</mat-icon></a></span>
+                    </div>
+                    <div><span>{{ 'date' | translate }}: </span>{{day}}. {{monthName | lowercase | translate}}</div>
+                    <div *ngIf="event.eventDates"><span>{{ 'start.time' | translate }}: </span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</div>
+                    <div *ngIf="event.location"><span>{{ 'location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
+                    <div *ngIf="event.fieldEntryType"><span>{{ 'entrance' | translate }}: </span>{{ event.fieldEntryType}}</div>
+                  </div>
+                  <div class="line"></div>
+                  <div class="event__more"><a href="javascript:void(0)" [routerLink]="event.entityUrl.path">Vaata lähemalt</a></div>
+                </div>
+              </div>
+            </ng-container>
           </div>
-          <div class="cal__event__more" *ngIf="day.events && day.events.length > 3">
-            <div class="more more__hidden"><a  href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - 3 }} veel</a></div>
+          <div class="cal__event__more" *ngIf="day.events && day.events.length > maxEntries(day)">
+            <div class="more more__hidden"><a  href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - maxEntries(day) }} veel</a></div>
           </div>
           <div class="popup" *ngIf="morePopup === day">
             <div class="popupcontent additional">
