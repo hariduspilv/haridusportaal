@@ -68,10 +68,10 @@ class CustomMenuLinks extends FieldPluginBase implements ContainerFactoryPluginI
 			$tree = $this->menuLinkTree->load($value->id(), new MenuTreeParameters());
 
 			$manipulators = [
-					['callable' => 'menu.default_tree_manipulators:checkAccess'],
-					['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
-					//add custom menuLink manipulator
-					['callable' => 'custom_graphql_functions.custom_tree_manipulators:OverrideLinks']
+					['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
+					/*['callable' => 'custom_graphql_functions.custom_tree_manipulators:OverrideLinks'],*/
+					['callable' => 'custom_graphql_functions.custom_tree_manipulators:checkAccess'],
+					['callable' => 'menu.default_tree_manipulators:generateIndexAndSort']
 			];
 
 			foreach (array_filter($this->menuLinkTree->transform($tree, $manipulators), function (MenuLinkTreeElement $item) {

@@ -1,12 +1,13 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-
-
+import { Apollo } from 'apollo-angular';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { eventsRegister } from '../../../_services/events/events.graph';
 @Component({
   selector: 'events-registration-dialog',
   templateUrl: 'events.registration.dialog.html',
-  styleUrls: ['events.registration.dialog.scss']
+  styleUrls: ['../modal/modal.scss']
 })
 export class EventsRegistratonDialog {
   
@@ -19,11 +20,14 @@ export class EventsRegistratonDialog {
   telephone: string;
   marked: string;
   step: number = 0;
-  
+  lang: any;
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EventsRegistratonDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private apollo: Apollo,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public router: Router,
+    public route: ActivatedRoute
   ) { }
   
   
@@ -37,15 +41,32 @@ export class EventsRegistratonDialog {
       email: [this.email, [Validators.required, Validators.email]],
       marked: [this.marked, []]
     });
-    this.form.valueChanges.subscribe(
-      (data) => {
-        // console.log(this.form.controls)
-      }
-    )
+    // this.form.valueChanges.subscribe()
   }  
   
   save() {
-    this.step = 1
+
+    const register = this.apollo.mutate({
+      mutation: eventsRegister,
+      variables: {
+        event_id: this.data.nid,
+        lang: this.data.lang.toUpperCase(),
+        firstName: this.firstName,
+        lastName: this.lastName,
+        companyName: this.companyName,
+        telephone: this.telephone,
+        email: this.email,
+        marked: this.marked,
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all'
+      },
+    })
+    .subscribe(({data}) => {
+      this.step = 1;
+    }, (data) => {
+      console.log(data);
+    });
+
   }
   
   close() {

@@ -1,6 +1,108 @@
 <breadcrumbs></breadcrumbs>
-<events-filter></events-filter>
-<div class="events">
+<div class="sm-show text-right filter-control">
+  <a href="javascript:void(0);" (click)="showFilter = !showFilter">
+    <span *ngIf="!showFilter">Filtreeri</span>
+    <span *ngIf="showFilter">Sulge filter</span>
+  </a> 
+</div>
+<form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
+  <div class="main-container">
+    <div class="row">
+      <div class="col-4 sm-12" [class.col-9]="view == 'calendar'" style="padding:0.5rem;">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
+          <span class="round-input__title">{{ 'search.events.name' | translate }}</span>
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field" placeholder="{{ 'search.events.name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
+          </div>
+        </div><!--/round-inpuit__wrapper-->
+      </div><!--/col-4-->
+
+      <div class="col-25 sm-6" *ngIf="view == 'list'">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.dateFrom">
+          <span class="round-input__title">{{ 'date.from' | translate }}</span>
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field"  placeholder="{{ 'date.from' | translate }}" [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom"  (change)="dateminmax()" (dateChange)="dateminmax()" [max]="maxDate" [min]="absMinDate" name="dateFrom" maxlength="10" dateFormatter />
+            <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
+            <mat-datepicker #datepickerFrom></mat-datepicker>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-25 sm-6" *ngIf="view == 'list'">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.dateTo">
+          <span class="round-input__title">{{ 'date.to' | translate }}</span>
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field"  placeholder="{{ 'date.to' | translate }}" [matDatepicker]="datepickerTo" [(ngModel)]="filterFormItems.dateTo" (change)="dateminmax()" (dateChange)="dateminmax()" [min]="minDate" [max]="absMaxDate" name="dateTo" maxlength="10" dateFormatter />
+            <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
+            <mat-datepicker #datepickerTo></mat-datepicker>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
+        <div class="align-center filter-state sm-hide">       
+          <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
+            <span class="md-hide">Täpsem otsing</span>
+            <span class="md-show">Täpne</span>
+          </a>
+        </div>
+        <div class="button-row">
+          <button mat-raised-button color="primary">Otsi</button>
+        </div>
+      </div><!--/col-3-->
+    </div><!--/row-->
+
+    <div class="row" *ngIf="filterFull">
+      <div class="col-9 sm-12">
+        <div class="ng-select__wrapper">
+          <span class="ng-select__title"  [class.exists]="filterFormItems.tags && filterFormItems.tags.length">{{ 'event.tag' | translate }}</span>
+          <ng-select
+          [class.exists]="filterFormItems.tags && filterFormItems.tags.length"
+          [items]="eventsTagsObs | async"
+          [multiple]="true"
+          [loading]="loading"
+          bindLabel="name"
+          placeholder="{{ 'event.tag' | translate }}"
+          (clear)="clearField('tags')"
+          [(ngModel)]="filterFormItems.tags"
+          name="labels"
+          [dropdownPosition]="'bottom'"></ng-select>
+        </div>
+      </div>
+      <div class="col-9 sm-12">
+
+        <div class="ng-select__wrapper__second">
+          <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">{{ 'event.types' | translate }} </span>
+          <ng-select
+          [class.exists]="filterFormItems.types && filterFormItems.types.length"
+          [items]="eventsTypesObs | async"
+          [multiple]="true"
+          [loading]="loading"
+          bindLabel="name"
+
+          name="types"
+          [(ngModel)]="filterFormItems.types"
+          placeholder="{{ 'event.types' | translate }}"
+          (clear)="clearField('types')"
+          [dropdownPosition]="'bottom'"></ng-select>      
+        </div>
+        
+      </div>
+      <div class="col-3 align-end text-right sm-12 inline-flex">
+        <div class="align-center filter-state sm-hide">       
+          <a href="javascript:void(0);" (click)="filterFull = !filterFull">
+            <span class="md-hide">Kitsam otsing</span>
+            <span class="md-show">Kitsas</span>
+          </a>
+        </div>
+        <div class="button-row">
+          <button mat-raised-button color="primary">Otsi</button>
+        </div>
+      </div><!--/col-3-->
+    </div><!--/row-->
+  </div>
+</form>
+<div class="events main-container">
   <div class="events__list-head">
     <div class="events__head">
       <div class="events__title text-left">{{ 'events' | translate | uppercase }}</div>
@@ -17,57 +119,63 @@
     </div>
   </div><!--/row-->
 
-  <div *ngIf="view === 'list'" class="events__month"><h1>{{monthName}}</h1></div>
-
-  <mat-spinner *ngIf="!eventList && !error"></mat-spinner>
-
-  <div class="events__list-body" *ngIf="eventList && view == 'list' ">
-    <div class="events__header center">
-      <div class="events__datetime">
-        <div class="day">{{ 'tuesday' | translate }}</div>
-        <div class="date">11.05</div>
-      </div>
-      <div class="events__separator w-100">
-        <div class="border__highlighted"></div>
-        <div class="dot__highlighted"></div>
-      </div>
-    </div>
-    <div class="events__block" *ngFor="let event of eventList" [routerLink]="event.entityUrl.path">
-      <div class="events__content">
-        <div class="title">{{ event.title }}</div>
-        <div class="sm-show info">
-          <span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
-          <span>{{ event.location ? event.location.name : '' }}</span>
+  <mat-spinner *ngIf="!eventList && !error && view !== 'calendar'"></mat-spinner>
+  <ng-container *ngIf="eventListByDates && view == 'list'">
+    <div class="months" *ngFor="let monthEvents of eventListByDates | groupBy: 'monthYear'">
+      <div class="events__month"><h1>{{ monthEvents.key.split('.')[0] | lowercase | translate }} {{ monthEvents.key.split('.')[1] !== current.year ? monthEvents.key.split('.')[1] : '' }}</h1></div>
+      <div class="events__list-body" *ngFor="let dayEvents of monthEvents.value | groupBy: 'date'">
+        <div class="events__header center">
+          <div class="events__datetime" [class.highlighted]="dayEvents.key === current.date">
+            <div class="day">{{ getDay(dayEvents.key) | translate }}</div>
+            <div class="date">{{ dayEvents.key.substring(0, dayEvents.key.lastIndexOf('.')) }}</div>
+          </div>
+          <div class="events__separator w-100">
+            <div class="border" [class.border__highlighted]="dayEvents.key === current.date"></div>
+            <div class="dot" [class.dot__highlighted]="dayEvents.key === current.date"></div>
+          </div>
         </div>
-        <div class="sm-hide info block">
-          <span class="time">{{ 'start.time' | translate }}: <strong>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</strong></span>
-          <span class="location" *ngIf="event.location">{{ 'location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
-          <span class="entrance" *ngIf="event.fieldEntryType">{{ 'entrance' | translate }}: <strong>{{ event.fieldEntryType}}</strong></span>
-        </div>
-        <div class="tags sm-hide" *ngIf="event.hashTags && event.hashTags.length">
-          <mat-chip-list>
-            <span *ngFor="let eventTag of event.hashTags">
-              <span *ngIf="eventTag.entity" class="mat-chip-wrapper">
-                <mat-chip>{{ eventTag.entity.entityLabel }}</mat-chip>
+        <div class="events__block" *ngFor="let eventObj of dayEvents.value" [routerLink]="eventObj.event.entityUrl.path">
+          <div class="events__content">
+            <div class="title">{{ eventObj.event.title }}</div>
+            <div class="sm-show info">
+              <span>{{ parseIntoReadableTime(eventObj.event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
+              <span>{{ eventObj.event.location ? eventObj.event.location.name : '' }}</span>
+            </div>
+            <div class="sm-hide info block">
+              <span class="time">{{ 'start.time' | translate }}: 
+                <strong>{{ parseIntoReadableTime(eventObj.event.eventDates[0].entity.fieldEventStartTime*1000) }}</strong>
+                <mat-icon class="repeat" *ngIf="eventObj.event.eventDates.length > 1">update</mat-icon>
               </span>
-            </span>
-          </mat-chip-list>
-        </div><!--/row-->
-      </div>
+              <span class="location" *ngIf="eventObj.event.location">{{ 'occurrence.place' | translate }}: <strong>{{ eventObj.event.location ? eventObj.event.location.name : '' }}</strong></span>
+              <span class="entrance" *ngIf="eventObj.event.fieldEntryType">{{ 'entrance' | translate }}: <strong>{{ eventObj.event.fieldEntryType | translate }}</strong></span>
+            </div>
+            <div class="tags sm-hide" *ngIf="eventObj.event.hashTags && eventObj.event.hashTags.length">
+              <mat-chip-list>
+                <span *ngFor="let eventTag of eventObj.event.hashTags">
+                  <span *ngIf="eventTag.entity" class="mat-chip-wrapper">
+                    <mat-chip>{{ eventTag.entity.entityLabel }}</mat-chip>
+                  </span>
+                </span>
+              </mat-chip-list>
+            </div><!-- /row -->
+          </div>
+        </div>
+      </div><!--/ngIf-->
     </div>
-  </div><!--/ngIf-->
+  </ng-container>
+  
   <div class="text-center actions" *ngIf="!listEnd && view !== 'calendar'">
     <button mat-raised-button color="primary" (click)="loadMore()" >{{ 'load.more' | translate }}</button>
   </div><!--/text-center-->
   <div class="text-center actions__error" *ngIf="(eventList != null && eventList.length) === 0">
-    <p>No result</p>
+    <p>{{ 'results.none' | translate }}</p>
   </div><!--/text-center-->
 
   <div class="calendar__elem" *ngIf="view == 'calendar'">
 
     <div class="navigation text-center">
       <mat-icon (click)="changeMonth(-1);">chevron_left</mat-icon>
-      <span class="month"><h1>{{ monthName }}</h1></span>
+      <span class="month"><h1>{{ monthName | lowercase | translate }}</h1></span>
       <mat-icon (click)="changeMonth(1);">chevron_right</mat-icon>
     </div><!--/text-center-->
     
@@ -82,13 +190,20 @@
           <th width="14.2%">{{ 'sunday' | translate }}</th>
       </tr>
       <tr *ngFor="let week of calendarDays; let firstWeek = first">
-        <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day == 20" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2">
-          <div class="cal__day more__hidden">{{ day }}</div>
-          <div class="cal__event more__hidden" *ngFor="let event of eventList; let i = index">
-            <div class="content" [class.active]="popup === i" *ngIf="firstWeek && last && i < 3" (click)="togglePopup(i)">
-              <span><div class="marker"></div></span>
-              <span class="content__medium">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
-              <span class="content__strong">{{ event.title }}</span>
+        <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day.i == current.day && month == current.month" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2">
+          
+          <div class="cal__day more__hidden">{{ day.i }}</div>
+
+          
+          <div class="cal__event more__hidden" *ngFor="let event of parseDay( day ); let i = index">
+            <div class="content" [class.active]="popup === i" (click)="togglePopup(i)" *ngIf="i < 3"  [routerLink]="event.entityUrl.path">
+              <ng-container *ngFor="let item of event.eventDates">
+                <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
+                  <span><div class="marker"></div></span>
+                  <span class="content__medium">{{ parseIntoReadableTime(item.entity.fieldEventStartTime*1000) }}</span>
+                  <span class="content__strong">{{ event.title }}</span>
+                </ng-container>
+              </ng-container>
             </div>
             <div class="popup" *ngIf="firstWeek && last && i < 3 && popup === i">
               <div class="popupcontent">
@@ -97,7 +212,7 @@
                     <span class="title__strong">{{ event.title }}</span>
                     <span class="close"><a (click)="closePopup()"><mat-icon>close</mat-icon></a></span>
                   </div>
-                  <div><span>{{ 'date' | translate }}: </span>{{day}}. {{monthName}}</div>
+                  <div><span>{{ 'date' | translate }}: </span>{{day}}. {{monthName | lowercase | translate}}</div>
                   <div *ngIf="event.eventDates"><span>{{ 'start.time' | translate }}: </span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</div>
                   <div *ngIf="event.location"><span>{{ 'location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
                   <div *ngIf="event.fieldEntryType"><span>{{ 'entrance' | translate }}: </span>{{ event.fieldEntryType}}</div>
@@ -107,26 +222,35 @@
               </div>
             </div>
           </div>
-          <div class="cal__event__more">
-            <div class="more more__hidden"><a *ngIf="firstWeek && last" href="javascript:void(0)" (click)="toggleMore(day)" >2 veel</a></div>
+          <div class="cal__event__more" *ngIf="day.events && day.events.length > 3">
+            <div class="more more__hidden"><a  href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - 3 }} veel</a></div>
           </div>
-          <div class="popup" *ngIf="firstWeek && last && morePopup === day">
+          <div class="popup" *ngIf="morePopup === day">
             <div class="popupcontent additional">
               <div class="event__block event__block__more">
                 <div class="title">
                   <div class="header">
-                    <div class="header__medium">{{ 'sunday' | translate }}</div>
-                    <div class="header__strong">{{day}}. {{monthName}}</div>
+                    <div class="header__medium">{{ getDayName(day.i) | translate }}</div>
+
+                    <div class="header__strong">{{day.i}}. {{ monthName | lowercase | translate}}</div>
+
                   </div>
                   <span class="close more"><a (click)="closeMore()"><mat-icon>close</mat-icon></a></span>
                 </div>
-                <div class="cal__event" *ngFor="let event of eventList" [routerLink]="event.entityUrl.path">
-                  <div class="content content__more">
-                    <span><div class="marker"></div></span>
-                    <span class="content__medium">{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</span>
-                    <span class="content__strong">{{ event.title }}</span>
+                <ng-container *ngFor="let event of parseDay( day ); let i = index;">
+                  <div class="cal__event" [routerLink]="event.entityUrl.path">
+                    <ng-container *ngFor="let item of event.eventDates">
+                      <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
+                        <div class="content content__more">
+                          <span><div class="marker"></div></span>
+                          <span class="content__medium">{{ parseIntoReadableTime(item.entity.fieldEventStartTime*1000) }}</span>
+                          <span class="content__strong">{{ event.title }}</span>
+                        </div>
+                      </ng-container>
+                    </ng-container>
                   </div>
-                </div>
+                </ng-container>
+                
               </div>
             </div>
           </div>
