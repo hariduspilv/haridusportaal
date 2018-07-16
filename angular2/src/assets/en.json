@@ -54,6 +54,7 @@
   "filter.close": "Close filter",
 
   "occurrence": "Event date",
+  "occurrence.place": "Event location",
   "occurrence.location": "Event date and location",
   "location": "Location",
 
@@ -69,6 +70,7 @@
   "date.to": "Date to",
   "choose.type": "Choose type",
   "event.tag": "Event tags",
+  "event.types": "Event types",
   "event.status": "Event status",
   
   "news.tag": "Uudiste sildid",
@@ -136,7 +138,12 @@
   "free": "Free",
   "invite": "Invitations",
   "back": "Back",
+  "back.to.event": "Back to the event",
   "subscription.choose.one": "Choose at least one subscription",
   "subscription.failed": "Subscription failed",
-  "map.failed": "Map not found"
+  "map.failed": "Map not found",
+  "download": "Download",
+  "column.open": "Open column",
+  "column.close": "Close column",
+  "sort": "Sort"
 }

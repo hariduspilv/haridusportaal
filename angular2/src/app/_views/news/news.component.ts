@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
 import { Apollo, QueryRef } from 'apollo-angular';
@@ -44,6 +44,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   listEnd: boolean = false;
   dataSubscription: any;
   loading = false;
+  showFilter = true;
 
   constructor(
     private rootScope: RootScopeService,
@@ -211,6 +212,16 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
 
     this.watchSearch();
 
+    if (window.innerWidth <= 900) {
+      this.filterFull = true;
+      this.showFilter = false;
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event){
+    this.showFilter = event.target.innerWidth > 900;
+    this.filterFull = event.target.innerWidth < 900;
   }
 
   ngOnDestroy() {
