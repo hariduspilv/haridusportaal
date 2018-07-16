@@ -200,8 +200,13 @@ class JsonbWidget extends StringTextareaWidget {
 			if(isset($element['width']) && !is_numeric($element['width'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.width has to be numeric");
 			if(isset($element['height']) && !is_numeric($element['height'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.height has to be numeric");
 
-			if(isset($element['min']) && !is_numeric($element['min'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.min has to be numeric");
-			if(isset($element['max']) && !is_numeric($element['max'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.max has to be numeric");
+			if($type != 'date'){
+				if(isset($element['min']) && !is_numeric($element['min'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.min has to be numeric");
+				if(isset($element['max']) && !is_numeric($element['max'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.max has to be numeric");
+			}else{
+				if(isset($element['min']) && !$this->validateDate($element['min'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.min format has to be YYYY-MM-DD");
+				if(isset($element['max']) && !$this->validateDate($element['max'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.max format has to be YYYY-MM-DD");
+			}
 			if(isset($element['minlength']) && !is_numeric($element['minlength'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.minlength has to be numeric");
 			if(isset($element['maxlenght']) && !is_numeric($element['maxlenght'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.maxlength has to be numeric");
 			if(isset($element['multiple']) && !is_bool($element['multiple'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.multiple has to be bool");
@@ -214,12 +219,14 @@ class JsonbWidget extends StringTextareaWidget {
 					(isset($element['title'])) ? $this->checkTextLanguages($element['title'], 'Headingu title format wrong') : $this->setErrorMessage("$step.data_elements.$parent_key.$key.title required") ;
 					break;
 				case 'text':
-				case 'textarea':
 					$additional_keys = ['width', 'maxlength', 'minlength'];
+					break;
+				case 'textarea':
+					$additional_keys = ['width', 'height', 'maxlength', 'minlength'];
 					break;
 				case 'date':
 					$additional_keys = ['min', 'max'];
-					if(isset($element['default_value'])) $this->validateDate($element['default_value']);
+					if(isset($element['default_value']) && !$this->validateDate($element['default_value'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.date format has to be YYYY-MM-DD");
 					break;
 				case 'number':
 					$additional_keys = ['min', 'max'];
@@ -229,7 +236,7 @@ class JsonbWidget extends StringTextareaWidget {
 					if(isset($element['options']) && count($element['options']) >= 1){
 						$option_keys = array_keys($element['options']);
 						foreach($element['options'] as $option){
-							$this->checkTextLanguages($option, 'Option text');
+							$this->checkTextLanguages($option, "$step.data_elements.$parent_key.$key Option text");
 						}
 						if(isset($element['default_value']) && !in_array($element['default_value'], $option_keys)) $this->setErrorMessage("$step.data_elements.$parent_key.$key.default_value does not match options");
 					}else{
@@ -263,9 +270,8 @@ class JsonbWidget extends StringTextareaWidget {
 			}
 			if(!isset($acceptable_keys)) $acceptable_keys = array_merge($default_acceptable_keys, $additional_keys);
 			$element_keys = array_keys($element);
-
-			foreach($element_keys as $key){
-				if(!in_array($key, $acceptable_keys, TRUE)) $this->setErrorMessage("$key not acceptable in element type: $step.data_elements.$parent_key.$key");
+			foreach($element_keys as $element_key){
+				if(!in_array($element_key, $acceptable_keys, TRUE)) $this->setErrorMessage("$step.data_elements.$parent_key.$key.$element_key not acceptable");
 			}
 
 		} else{
@@ -279,7 +285,8 @@ class JsonbWidget extends StringTextareaWidget {
 			// The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
 			return $d && $d->format($format) === $date;
 		}catch (\Exception $e){
-			$this->setErrorMessage('date format not recognized');
+			return false;
+			#$this->setErrorMessage('date format not recognized');
 		}
 
 	}
