@@ -130,7 +130,8 @@ class xJsonService implements xJsonServiceInterface {
 			}
 		}
 
-		return ($response_body);
+
+		return $response_body;
 	}
 
 
