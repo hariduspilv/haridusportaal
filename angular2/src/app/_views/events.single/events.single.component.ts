@@ -9,9 +9,9 @@ import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '../../app.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import {ImagePopupDialog} from '../../_components/dialogs/image.popup/image.popup.dialog'
+import { ImagePopupDialog } from '../../_components/dialogs/image.popup/image.popup.dialog'
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -37,6 +37,13 @@ export class EventsSingleComponent {
 
   iCalUrl: string;
   participantsUrl: string;
+  participantsListActiveState: boolean = false;
+  createdVisible: boolean = false;
+  commentVisible: boolean = false;
+  routerSubscription: any;
+  viewTranslations: any;
+  tableOverflown = true;
+  slide: any;
   
   content: any;
   unix: any;
@@ -90,12 +97,26 @@ export class EventsSingleComponent {
             }
           }
           that.unix = new Date().getTime();
+          that.participantsListActiveState = that.participants && location.hash === "#osalejad";
         }
       });
-      
     });
   }
+
+  ngOnInit() {
+    this.routerSubscription = this.router.events.subscribe((event) => {
+      this.participantsListActiveState = this.participants && location.hash === "#osalejad"
+    });
+    let values = ['download','column.close','column.open','sort']
+    this.translate.get(values).subscribe(translations => {
+      this.viewTranslations = translations
+    })
+  }
   
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe();
+  }
+
   sortByKey(array, key) {
     return array.sort(function(a, b) {
         var x = a[key]; var y = b[key];
@@ -130,7 +151,6 @@ export class EventsSingleComponent {
     }
 
     this.sortedParticipants = tmpParticipants;
-    console.log(this.sortedParticipants)
 
   }
   
@@ -172,7 +192,15 @@ export class EventsSingleComponent {
 
      
   }
-
+  
+  onViewChange(change) {
+    this.participantsListActiveState = change;
+  }
+  
+  revertParticipantsListState() {
+    location.hash = ''
+  }
+  
   openImage(): void {
     let dialogRef = this.dialog.open(ImagePopupDialog, {
       data: {
@@ -182,7 +210,24 @@ export class EventsSingleComponent {
       }
     });
   }
+  
   share (facebook) {
     return this.shareService.share(facebook)
+  }
+  scrollStart() {
+    this.slide = setInterval(() => {
+      const element = document.getElementById('participantsElem');
+      element.scrollLeft += 24;
+      if ((element.scrollWidth - element.scrollLeft) <= element.clientWidth) {
+        this.scrollEnd()
+      }
+    }, 50);
+  }
+  scrollEnd() {
+    window.clearInterval(this.slide);
+  }
+  isOverflown(event) {
+    const element = event.target || event.srcElement || event.currentTarget;
+    this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
   }
 }

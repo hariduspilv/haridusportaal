@@ -19,17 +19,6 @@
 	</style>
 </head>
 <body>
-	<h3>{{ body.title1 }}</h3>
-
-	<ul>
-		{% for registration_info_line in body.registration_info %}
-			<li>{{ registration_info_line.label }} : {{ registration_info_line.value }}</li>
-		{% endfor %}
-	</ul>
-
-	<p>Üritus toimub vahemikus: <strong>{{ body.event_dates.start|date('d/m/Y') }} - {{ body.event_dates.last|date('d/m/Y') }}</strong></p>
-
-	<div>{{ body.additional|raw }}</div>
-
+	{{ body|raw }}
 </body>
 </html>

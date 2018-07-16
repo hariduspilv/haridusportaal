@@ -4,11 +4,20 @@ import { SideMenuService } from './_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'et'},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ],
+  
 })
 export class AppComponent implements OnInit {
 
@@ -20,9 +29,14 @@ export class AppComponent implements OnInit {
   isSidenavCloseDisabled: boolean;
   routeSub: any;
 
-  constructor(private sidemenu: SideMenuService, private router: Router, private route: ActivatedRoute, private translate: TranslateService) {
+  constructor(
+    private sidemenu: SideMenuService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private translate: TranslateService,
+    private adapter: DateAdapter<Date>
+  ) {
     
-    translate.use("et");
 
     this.isSidenavCloseDisabled = true;
 
@@ -40,6 +54,7 @@ export class AppComponent implements OnInit {
         let params = event.state.root.firstChild.params;
 
         translate.setDefaultLang(params['lang']);
+
       }
       
       if (event instanceof NavigationStart) {

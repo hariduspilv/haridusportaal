@@ -1,9 +1,9 @@
-uuid: d157b1fc-8b74-4b5d-b67d-aa4300342ac4
+uuid: 55ff8b9f-18f8-4dd9-a248-67b696b80e99
 langcode: et
 status: true
 dependencies:
   module:
-    - custom_graphql_authentication
+    - custom_mobile_id_authentication
     - serialization
 id: jwt_token_rest_resource
 plugin_id: jwt_token_rest_resource

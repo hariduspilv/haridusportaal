@@ -13,7 +13,7 @@ export class EventsConfig {
     public dateFrom: string = moment().format('YYYY-MM-DD').toString(), //"1901-00-00" TODAY
     public dateTo: string = moment("2038-01-01").format('YYYY-MM-DD').toString(), //"2038-01-01"
     public offset: number = 0,
-    public limit: number = 3
+    public limit: number = 5
   ) {
     this.tagsValue = tagsValue;
     this.tagsEnabled = tagsEnabled;

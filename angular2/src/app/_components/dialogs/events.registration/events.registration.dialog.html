@@ -1,26 +1,26 @@
-<div class="dialog__reg" cdkTrapFocus>
+<div class="dialog" cdkTrapFocus>
   <div class="row">
     <div class="col-12" style="position: relative;">
-      <span class="dialog__reg__text--medium">{{ 'form.registration' | translate | uppercase }}</span>
-      <mat-icon class="dialog__reg__close" aria-label="Close" (click)="close()" tabindex="0">close</mat-icon>
+      <span class="dialog__text--medium">{{ 'form.registration' | translate | uppercase }}</span>
+      <mat-icon class="dialog__close" aria-label="Close" (click)="close()" tabindex="0">close</mat-icon>
     </div>
     <div class="col-12" *ngIf="step === 0">
       <h1>{{ data.eventTitle }}</h1>
-      <div class="dialog__reg__time"> 
-        <span class="capitalize">{{ data.eventStartDate.fieldEventDate.unix*1000 | weekday: "unix"}} {{ data.eventStartDate.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
+      <div class="dialog__time"> 
+        <span class="capitalize">{{ data.eventStartDate.fieldEventDate.unix*1000 | weekday: "unix" | lowercase | translate }} {{ data.eventStartDate.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
         <span>{{ 'time.at' | translate }}</span>
         <span>{{ data.eventStartDate.fieldEventStartTime | unixToTime }} - {{ data.eventStartDate.fieldEventEndTime | unixToTime }}</span>
       </div>
-      <div class="dialog__reg__required">* {{ 'required.fields' | translate }}</div>
+      <div class="dialog__required">* {{ 'required.fields' | translate }}</div>
     </div>
-    <form [formGroup]="form" class="dialog__reg__form col-12" *ngIf="step === 0">
+    <form [formGroup]="form" class="dialog__form col-12" *ngIf="step === 0">
       <div class="dialog-content">
         <div class="row">
           <div class="col-6 sm-12">
-            <div class="round-input__wrapper">
+            <div class="round-input__wrapper" [class.complete]="form.controls.firstName.value">
               <span class="round-input__title">{{ 'participantFirstName' | translate }} *</span>
               <div class="round-input__field-wrapper">
-                <input class="round-input__field" placeholder="{{ 'participantFirstName' | translate }} *" formControlName="firstName"/>
+                <input maxlength="30" class="round-input__field" placeholder="{{ 'participantFirstName' | translate }} *" formControlName="firstName"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text" *ngIf="isInvalidField('firstName') && form.controls.firstName.errors.required">
@@ -31,10 +31,10 @@
           </div>
           
           <div class="col-6 sm-12">
-            <div class="round-input__wrapper">
+            <div class="round-input__wrapper" [class.complete]="form.controls.lastName.value">
               <span class="round-input__title">{{ 'participantLastName' | translate }} *</span>
               <div class="round-input__field-wrapper">
-                <input class="round-input__field" placeholder="{{ 'participantLastName' | translate }} *" formControlName="lastName"/>
+                <input maxlength="30" class="round-input__field" placeholder="{{ 'participantLastName' | translate }} *" formControlName="lastName"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text" *ngIf="isInvalidField('lastName') && form.controls.lastName.errors.required">
@@ -45,10 +45,10 @@
           </div>
         
           <div class="col-12 sm-12">
-            <div class="round-input__wrapper">
+            <div class="round-input__wrapper" [class.complete]="form.controls.companyName.value">
               <span class="round-input__title">{{ 'participantOrganization' | translate }}</span>
               <div class="round-input__field-wrapper">
-                <input class="round-input__field" placeholder="{{ 'participantOrganization' | translate }}" formControlName="companyName"/>
+                <input maxlength="60" class="round-input__field" placeholder="{{ 'participantOrganization' | translate }}" formControlName="companyName"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text"></div>
@@ -59,10 +59,10 @@
           <div class="col-6 sm-12">
             <div class="round-input__wrapper" 
               [class.error]="isInvalidField('email') && form.controls.email.errors.email && !emailFocus" 
-              [class.complete]="!isInvalidField('email') && form.controls.email.value && !emailFocus">
+              [class.success]="!isInvalidField('email') && form.controls.email.value && !emailFocus">
               <span class="round-input__title">{{ 'participantEmail' | translate }} *</span>
               <div class="round-input__field-wrapper">
-                <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'participantEmail' | translate }} *" formControlName="email"/>
+                <input maxlength="30" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'participantEmail' | translate }} *" formControlName="email"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">
@@ -73,10 +73,10 @@
           </div>
           
           <div class="col-6 sm-12">
-            <div class="round-input__wrapper" [class.complete]="form.controls.telephone.value && !phoneFocus">
+            <div class="round-input__wrapper" [class.complete]="form.controls.telephone.value">
               <span class="round-input__title">{{ 'participantPhone' | translate }}</span>
               <div class="round-input__field-wrapper">
-                <input class="round-input__field" (focus)="phoneFocus = true" (blur)="phoneFocus = false" [class.focused]='phoneFocus' placeholder="{{ 'participantPhone' | translate }}" formControlName="telephone"/>
+                <input maxlength="30" class="round-input__field" placeholder="{{ 'participantPhone' | translate }}" formControlName="telephone"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text"></div>
@@ -105,25 +105,25 @@
         </div>
       </div>
       
-      <div class="dialog__reg__actions row" *ngIf="step === 0">
+      <div class="dialog__actions row" *ngIf="step === 0">
         <div class="col-12 text-right">
           <a class="sm-hide" href="javascript:void(0)" (click)="clear()">{{ 'cancel' | translate }}</a>
-          <button mat-raised-button color="primary" (click)="save()">{{ 'send' | translate }}</button>
+          <button [disabled]="form.status === 'INVALID'" mat-raised-button color="primary" (click)="save()">{{ 'send' | translate }}</button>
           <a class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'cancel' | translate }}</a>
           <!-- [disabled]="form.invalid" -->
         </div>
       </div>
     </form>
-    <div class="dialog__reg__success" *ngIf="step === 1">
-      <div class="dialog__reg__success__title">
+    <div class="dialog__success" *ngIf="step === 1">
+      <div class="dialog__success__title">
         <h1>{{ 'registration.thanks' | translate }}</h1>
       </div>
-      <div class="dialog__reg__actions--success">
+      <div class="dialog__actions--success">
         <div class="row text-center">
           <div class="col-12">
             <button mat-raised-button color="primary" (click)="close()">{{ 'registration.add.to.calendar' | translate }}</button>
           </div>
-          <div class="dialog__reg__actions--success__close col-12"><a href="javascript:void(0)" (click)="close()">{{ 'modal.close' | translate }}</a></div>
+          <div class="dialog__actions--success__close col-12"><a href="javascript:void(0)" (click)="close()">{{ 'modal.close' | translate }}</a></div>
         </div>
       </div>
     </div>
