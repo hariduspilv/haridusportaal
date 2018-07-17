@@ -170,6 +170,7 @@ class JsonbWidget extends StringTextareaWidget {
 
 	private function checkTextLanguages($element, $element_name){
 		if($element && is_array($element)){
+			if(isset($element['options'])) unset($element['options']);
 			if(!$this->checkLanguages($element, array_keys($this->langs))) $this->setErrorMessage(t("$element_name langcode not recognized or et langcode missing or not text"));
 		}else{
 			$this->setErrorMessage(t("$element_name missing or not array"));
@@ -228,20 +229,17 @@ class JsonbWidget extends StringTextareaWidget {
 					$additional_keys = ['width', 'height', 'maxlength', 'minlength'];
 					break;
 				case 'date':
-					$additional_keys = ['min', 'max'];
+					$additional_keys = ['width', 'min', 'max'];
 					if(isset($element['default_value']) && !$this->validateDate($element['default_value'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.date format has to be YYYY-MM-DD");
 					break;
 				case 'number':
-					$additional_keys = ['min', 'max'];
+					$additional_keys = ['width', 'min', 'max'];
 					if(isset($element['default_value']) && !is_numeric($element['default_value'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.number default_value has to be numeric");
 					break;
 				case 'selectlist':
-					$additional_keys = ['multiple', 'empty_option', 'options'];
+					$additional_keys = ['width', 'multiple', 'empty_option', 'options'];
 					if(isset($element['options']) && count($element['options']) >= 1){
-						$option_keys = array_keys($element['options']);
-						foreach($element['options'] as $option){
-							$this->checkTextLanguages($option, "$step.data_elements.$parent_key.$key Option text");
-						}
+						$option_keys = $this->ValidateOptionElement($element['options'], null, $step, $parent_key, $key);
 						if(isset($element['default_value']) && !in_array($element['default_value'], $option_keys)) $this->setErrorMessage("$step.data_elements.$parent_key.$key.default_value does not match options");
 					}else{
 						$this->setErrorMessage("$step.data_elements.$parent_key.$key.selectlist missing options attribute");
@@ -249,7 +247,7 @@ class JsonbWidget extends StringTextareaWidget {
 					break;
 				case 'file':
 					if($table){
-						$additional_keys = ['acceptable_extensions'];
+						$additional_keys = ['width', 'acceptable_extensions'];
 					}else{
 						$additional_keys = ['multiple', 'acceptable_extensions'];
 					}
@@ -274,7 +272,7 @@ class JsonbWidget extends StringTextareaWidget {
 					$additional_keys = ['multiple'];
 					break;
 				case 'checkbox':
-					$additional_keys = [];
+					$additional_keys = ['width'];
 					if(isset($element['default_value']) && !is_bool($element['default_value'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.checkbox default_value has to be bool");
 					break;
 				case 'email':
@@ -298,6 +296,14 @@ class JsonbWidget extends StringTextareaWidget {
 		}
 	}
 
+	protected function validateOptionElement($options, $option_keys = [], $step, $parent_key, $key){
+		foreach($options as $option_key => $option){
+			$option_keys[] = $option_key;
+			$this->checkTextLanguages($option, "$step.data_elements.$parent_key.$key Option text");
+			if(isset($option['options'])) $this->validateOptionElement($option['options'], $option_keys, $step, $parent_key, $key);
+		}
+		return $option_keys;
+	}
 	private function validateDate($date, $format = 'Y-m-d'){
 		try{
 			$d = DrupalDateTime::createFromFormat($format, $date);

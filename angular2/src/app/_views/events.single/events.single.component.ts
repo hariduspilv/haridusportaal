@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventsService, RootScopeService, MetaTagsService, ShareService } from '../../_services';
@@ -26,7 +26,7 @@ const moment = _moment;
   styleUrls: ['./events.single.component.scss']
 })
 
-export class EventsSingleComponent {
+export class EventsSingleComponent implements AfterViewChecked {
   
   private querySubscription: Subscription;  
   private path: string;
@@ -38,11 +38,14 @@ export class EventsSingleComponent {
   iCalUrl: string;
   participantsUrl: string;
   participantsListActiveState: boolean = false;
+  phoneVisible: boolean = false;
   createdVisible: boolean = false;
   commentVisible: boolean = false;
   routerSubscription: any;
   viewTranslations: any;
-  tableOverflown = true;
+  tableOverflown: boolean = false;
+  elemAtStart: boolean = true;
+  initialized: boolean = false;
   slide: any;
   
   content: any;
@@ -112,7 +115,11 @@ export class EventsSingleComponent {
       this.viewTranslations = translations
     })
   }
-  
+  ngAfterViewChecked() {
+    if (!this.initialized) {
+      this.isElemOverflown()
+    }
+  }
   ngOnDestroy() {
     this.routerSubscription.unsubscribe();
   }
@@ -214,19 +221,42 @@ export class EventsSingleComponent {
   share (facebook) {
     return this.shareService.share(facebook)
   }
-  scrollStart() {
+
+  scrollStart(right) {
     this.slide = setInterval(() => {
       const element = document.getElementById('participantsElem');
-      element.scrollLeft += 24;
-      if ((element.scrollWidth - element.scrollLeft) <= element.clientWidth) {
+      if (right) {
+        element.scrollLeft += 24;
+      } else {
+        element.scrollLeft -= 24;
+      }
+      if ((element.scrollWidth - element.scrollLeft) <= element.clientWidth || element.scrollLeft === 0) {
         this.scrollEnd()
       }
     }, 50);
   }
+
   scrollEnd() {
     window.clearInterval(this.slide);
   }
+
+  isElemOverflown() {
+    const element = document.getElementById('participantsElem');
+    if (element) {
+      setTimeout(_ => {
+        this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+        this.initialized = true;
+      }, 50)
+    }
+  }
+
+  isElemAtStart() {
+    const element = document.getElementById('participantsElem');
+    this.elemAtStart = !(element && element.scrollLeft)
+  }
+
   isOverflown(event) {
+    this.isElemAtStart()
     const element = event.target || event.srcElement || event.currentTarget;
     this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
   }
