@@ -120,6 +120,7 @@ function htm_custom_event_registration_cron() {
 	$nids = $query->execute();
 	$nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
 	$now = strtotime('now');
+	$expired_events = [];
 
 	foreach($nodes as $entity){
 		$event_date = _get_event_dates($entity);
