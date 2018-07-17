@@ -229,15 +229,27 @@ class JsonbWidget extends StringTextareaWidget {
 					$additional_keys = ['width', 'height', 'maxlength', 'minlength'];
 					break;
 				case 'date':
-					$additional_keys = ['width', 'min', 'max'];
+					if($table){
+						$additional_keys = ['width', 'min', 'max'];
+					}else{
+						$additional_keys = ['min', 'max'];
+					}
 					if(isset($element['default_value']) && !$this->validateDate($element['default_value'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.date format has to be YYYY-MM-DD");
 					break;
 				case 'number':
-					$additional_keys = ['width', 'min', 'max'];
+					if($table){
+						$additional_keys = ['width', 'min', 'max'];
+					}else{
+						$additional_keys = ['min', 'max'];
+					}
 					if(isset($element['default_value']) && !is_numeric($element['default_value'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.number default_value has to be numeric");
 					break;
 				case 'selectlist':
-					$additional_keys = ['width', 'multiple', 'empty_option', 'options'];
+					if($table){
+						$additional_keys = ['width', 'multiple', 'empty_option', 'options'];
+					}else{
+						$additional_keys = ['multiple', 'empty_option', 'options'];
+					}
 					if(isset($element['options']) && count($element['options']) >= 1){
 						$option_keys = $this->ValidateOptionElement($element['options'], null, $step, $parent_key, $key);
 						if(isset($element['default_value']) && !in_array($element['default_value'], $option_keys)) $this->setErrorMessage("$step.data_elements.$parent_key.$key.default_value does not match options");
