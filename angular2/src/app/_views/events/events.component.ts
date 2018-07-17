@@ -7,7 +7,7 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 import { EventsConfig } from './events-config.model';
 import { EventsService, RootScopeService } from '../../_services';
-import { sortEventsByOptions, getEventsTags, getEventsTypes } from '../../_services/events/events.graph';
+import { sortEventsByOptions, getEventsTags } from '../../_services/events/events.graph';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -287,7 +287,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     });
 
     this.getTags();
-    this.getTypes();
 
     this.filterRetrieveParams( this.params );
 
@@ -455,55 +454,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         });
   }
 
-  getTypes() {
-    let typesSubscription = this.apollo.watchQuery({
-      query: getEventsTypes,
-      variables: {
-        lang: this.lang.toUpperCase(),        
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges
-    .subscribe(({data}) => {
-      this.eventsTypes = data['taxonomyTermQuery']['entities'];
-      let newsTidArr = [];
-      this.eventsTypes.filter((tagItem, index, array) => {
-        let tmp = {
-          id: tagItem['tid'].toString(),
-          name: tagItem['name'],
-        };
-        if (tmp.name) {
-          newsTidArr.push(tmp);
-        } 
-      });
-
-      if( this.params.types !== undefined ){
-        let splitParams = this.params.types.split(",");
-
-        this.filterFormItems['types'] = [];
-
-        for( let i in newsTidArr ){
-          
-          if( splitParams.indexOf(newsTidArr[i]['id']) !== -1 ){
-            this.filterFormItems['types'].push(newsTidArr[i]);
-          }
-        }
-        for( let i in splitParams ){
-
-        }
-      }
-
-      newsTidArr = newsTidArr.filter((thing, index, self) =>
-      index === self.findIndex((t) => (
-        t.id === thing.id && t.name === thing.name
-      )))
-      this.eventsTypesObs = of(newsTidArr).pipe(delay(500));
-    });
-
-    this.subscriptions = [...this.subscriptions, typesSubscription];
-
-  }
-
   getTags() {
     let tagSubscription = this.apollo.watchQuery({
       query: getEventsTags,
@@ -515,41 +465,43 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }).valueChanges
     .subscribe(({data}) => {
       
-      this.eventsTags = data['nodeQuery']['entities'];
-      
-      let newsTagArr = [];
-
-      this.eventsTags.map((tag)=>{
-        tag['Tag'].filter((tagItem, index, array) => {
-          if( tagItem['entity'] ){
-            let tmp = {
-              id: tagItem['entity']['entityId'],
-              name: tagItem['entity']['entityLabel'],
-            };
-            newsTagArr.push(tmp);
-          }
-        });
-      });
+      this.eventsTags = data['CustomTagsQuery']['entities']
+        .filter(entity => entity.entityBundle === 'tags')
+        .map((entity) => {return { id: entity.entityId, name: entity.entityLabel }});
+      this.eventsTypes = data['CustomTagsQuery']['entities']
+        .filter(entity => entity.entityBundle === 'event_type')
+        .map((entity) => {return { id: entity.entityId, name: entity.entityLabel }});
 
       if( this.params.tags !== undefined ){
         let splitParams = this.params.tags.split(",");
-
         this.filterFormItems['tags'] = [];
-
-        for( let i in newsTagArr ){
-          if( splitParams.indexOf(newsTagArr[i]['id']) !== -1 ){
-            this.filterFormItems['tags'].push(newsTagArr[i]);
+        for( let i in this.eventsTags ){
+          if( splitParams.includes(this.eventsTags[i]['id'])){
+            this.filterFormItems['tags'].push(this.eventsTags[i]);
           }
         }
       }
-
-      newsTagArr = newsTagArr.filter((thing, index, self) =>
+      let tags = this.eventsTags.filter((thing, index, self) =>
       index === self.findIndex((t) => (
         t.id === thing.id && t.name === thing.name
       )))
-      this.eventsTagsObs = of(newsTagArr).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
 
-      //console.log(this.eventsTypesObs);
+      if( this.params.types !== undefined ){
+        let splitParams = this.params.types.split(",");
+        this.filterFormItems['types'] = [];
+        for( let i in this.eventsTypes ){
+          if( splitParams.includes(this.eventsTypes[i]['id'])){
+            this.filterFormItems['types'].push(this.eventsTypes[i]);
+          }
+        }
+      }
+      let types = this.eventsTypes.filter((thing, index, self) =>
+      index === self.findIndex((t) => (
+        t.id === thing.id && t.name === thing.name
+      )))
+
+      this.eventsTagsObs = of(tags).pipe();
+      this.eventsTypesObs = of(types).pipe();
     });
 
     this.subscriptions = [...this.subscriptions, tagSubscription];

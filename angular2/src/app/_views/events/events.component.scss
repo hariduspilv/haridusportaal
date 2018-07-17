@@ -103,7 +103,7 @@
 }
 .calendar{width:100%; border-collapse: collapse;table-layout: fixed;
   th{font-size: 0.8125rem; text-align: center; line-height: $medium; font-weight: normal; padding:.3125rem 0;}
-  td{border:$gray .0625rem solid; height:8.5625rem; vertical-align: top; padding:$gutter;font-size: .875rem;
+  td{border:$gray .0625rem solid; height:6.75rem; vertical-align: top; padding:$gutter;font-size: .875rem;
     &:first-child {border-left: none;}
     &:last-child {border-right: none;}
   }
@@ -121,16 +121,16 @@
       &__strong {font-weight: 500 !important;}
       .marker {width: .4375rem;height: .4375rem;background-color:$aqua; border-radius: 50%; display: inline-block;}
       &.active {box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);}
-      &:hover {color: $dark-gray; text-decoration: underline;}
+      &:hover {text-decoration: underline;}
       &__more {display:flex; margin-left: 0; padding: 0;white-space: normal;
         &:hover {color: $blue; text-decoration: none;
-          .content__strong {color: $dark-gray; text-decoration: underline;}
+          .content__strong {text-decoration: underline;}
         }
       }
     }
   }
   .more {padding-top: $gutter; padding-left: .625rem;
-    a:hover {color: $dark-gray;}
+    // a:hover {color: $dark-gray;}
   }
   .disableMore {.more__hidden {display: none;}}
 }
@@ -156,10 +156,12 @@
         &__strong {font-weight: 500;line-height: 1.875rem;}
         .header {line-height: 1.875rem;
           &__medium {font-size: $small;font-weight: 400;}
-          &__strong {font-weight: 500;}
+          &__strong {font-weight: 500;white-space: nowrap;}
         }
         .close {align-self: baseline;text-align: right;
-          &.more {width: 100%;align-self: center;}
+          &.more {width: 100%;padding-right: 0;padding-left: 0;
+            a .mat-icon {color: $dark-gray;}
+          }
         }
         a {color:black; cursor: pointer;}
       }
@@ -171,6 +173,7 @@
   }
 }
 .disableMore .popup {position:relative;bottom:10%;left:100%;margin-left: $quarter;}
+.lastOnes .disableMore .popup {bottom: 200%;}
 .disableMore.firstTwo .popup .popupcontent {left: auto;margin-left: -.25rem;}
 .navigation {padding-top: $small; padding-bottom: $medium;display: flex;align-items: center;justify-content: center;
   .month {h1{color: $black;}}
@@ -187,3 +190,4 @@
 }
 .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
 ::ng-deep .mat-calendar-body-selected {background-color: $blue;}
+::ng-deep .mat-calendar-table-header {color: $dark-gray;}

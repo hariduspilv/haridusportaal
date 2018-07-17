@@ -189,14 +189,14 @@
           <th width="14.2%">{{ 'saturday' | translate }}</th>
           <th width="14.2%">{{ 'sunday' | translate }}</th>
       </tr>
-      <tr *ngFor="let week of calendarDays; let firstWeek = first">
+      <tr *ngFor="let week of calendarDays; let firstWeek = first; let weekIndex = index" [class.lastOnes]="weekIndex > 2">
         <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day.i == current.day && month == current.month" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2">
           
           <div class="cal__day more__hidden">{{ day.i }}</div>
 
           
           <div class="cal__event more__hidden" *ngFor="let event of parseDay( day ); let i = index">
-            <div class="content" [class.active]="popup === i" (click)="togglePopup(i)" *ngIf="i < 3"  [routerLink]="event.entityUrl.path">
+            <div class="content" [class.active]="popup === i" (click)="togglePopup(i)" *ngIf="i < 2"  [routerLink]="event.entityUrl.path">
               <ng-container *ngFor="let item of event.eventDates">
                 <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
                   <span><div class="marker"></div></span>
@@ -205,7 +205,7 @@
                 </ng-container>
               </ng-container>
             </div>
-            <div class="popup" *ngIf="firstWeek && last && i < 3 && popup === i">
+            <div class="popup" *ngIf="firstWeek && last && i < 2 && popup === i">
               <div class="popupcontent">
                 <div class="event__block">
                   <div class="title">
@@ -222,8 +222,8 @@
               </div>
             </div>
           </div>
-          <div class="cal__event__more" *ngIf="day.events && day.events.length > 3">
-            <div class="more more__hidden"><a  href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - 3 }} veel</a></div>
+          <div class="cal__event__more" *ngIf="day.events && day.events.length > 2">
+            <div class="more more__hidden"><a  href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - 2 }} veel</a></div>
           </div>
           <div class="popup" *ngIf="morePopup === day">
             <div class="popupcontent additional">

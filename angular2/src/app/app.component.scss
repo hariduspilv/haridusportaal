@@ -6,6 +6,7 @@
 
 /* You can add global styles to this file, and also import other style files */
 body{margin:0; padding:0; padding-top:4rem; background: $light-gray;}
+.gm-style-cc { display:none; }
 
 /* Force Rubik font over material default */
 body [class^='mat-'], body [class*=' mat-'] {font-family: 'Rubik', sans-serif; } 
@@ -109,7 +110,7 @@ a {color: $blue}
 .row .align-end {align-self: flex-end;}
 .row .align-center {align-self: center;}
 
-.breadcrumb{display: none; padding:0; margin:1rem 0;margin-left: 1.5rem; margin-right: 1.5rem;
+.breadcrumb{display: none; padding:0; margin:1rem 0;margin-left: 1.5rem; margin-right: 1.5rem;font-size: .875rem;
   @include break-on(sm, min) {display: block;}
 }
 .breadcrumb li{margin:0; padding:0; display: inline;}
@@ -121,6 +122,7 @@ a {color: $blue}
 .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
 .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
 .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
+  &:disabled, &[disabled] {color: $black;background-color: $gray;}
   @include break-on(sm, min) {width: auto;}
 }
 
