@@ -132,7 +132,7 @@ class JsonbWidget extends StringTextareaWidget {
 				}
 			}
 
-			/*if(!empty($this->getErrorMessages())) */$form_state->setError($element, $this->getErrorMessages());
+			if(!empty($this->getErrorMessages())) $form_state->setError($element, $this->getErrorMessages());
 		}
 	}
 
