@@ -6,12 +6,13 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
-use Drupal\rest\ResourceResponse;
 use Drupal\user\Entity\User;
 use GuzzleHttp\Exception\RequestException;
+use PhpParser\Node\Expr\AssignOp\Mod;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -90,7 +91,6 @@ class xJsonRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-
   	#dump($data);
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
@@ -113,24 +113,13 @@ class xJsonRestResource extends ResourceBase {
 					'json' => $request_body,
 			]);
 			$response = json_decode($request->getBody(), TRUE);
-			$builded_response = $this->xJsonService->buildFormBody($response);
-			#dump($response);
+			$builded_response = $this->xJsonService->buildFormBodyv2($response);
+
+			if(empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
+
 			return new ModifiedResourceResponse($builded_response, 200);
 		}catch (RequestException $e){
 			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
 		}
-			#return new ModifiedResourceResponse($request_body, 200);
-
 	}
-
-  private function buildHeader(){
-
-	}
-
-	protected function getUserEntity(){
-  	return User::load($this->currentUser->id());
-	}
-
-
-
 }
