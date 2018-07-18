@@ -63,6 +63,7 @@ class xJsonService implements xJsonServiceInterface {
 		if($first && !empty($this->getEntityJsonObject())){
 			$definition_header = $this->getxJsonHeader();
 			$baseJson['header'] = $definition_header +[
+				'first' => TRUE,
 				'current_step' => null,
 				'identifier' => null,
 				'agents' => [
@@ -81,15 +82,15 @@ class xJsonService implements xJsonServiceInterface {
 
 		} elseif(!empty($response_info) && !empty($this->getEntityJsonObject())){
 			$baseJson = $response_info;
+			unset($baseJson['header']['first']);
 			$definition_header = $this->getxJsonHeader();
 			// set definition header and add server-side idCode
-			$baseJson['header'] = $definition_header = [
+			$baseJson['header'] = $definition_header + [
 				'agents' => [
 					['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
 				]
 			] + $baseJson['header'];
 		}
-
 		return $baseJson;
 	}
 
@@ -127,7 +128,7 @@ class xJsonService implements xJsonServiceInterface {
 	 * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
 	 * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
 	 */
-	public function buildFormBody($response_body){
+	public function buildForm($response_body){
 		$definition = $this->getEntityJsonObject()['body'];
 
 		$response_json['header'] = $response_body['header'];
@@ -155,19 +156,22 @@ class xJsonService implements xJsonServiceInterface {
 		return $response_body;
 	}
 
+
 	/**
 	 * @param $response
 	 * @return array
 	 * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
 	 * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
 	 */
-	public function buildFormBodyv2($response){
-		#dump($response);
+	public function buildFormv2($response){
+		$return = [];
+
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
 		$definition = $this->getEntityJsonObject()['body'];
-		$return = [];
+
+		$this->validatexJsonHeader($response_header);
 
 		if($response_header) $return['header'] = $response_header;
 		if($response_messages) $return['messages'] = $response_messages;
@@ -177,31 +181,69 @@ class xJsonService implements xJsonServiceInterface {
 				if(isset($response_body['steps'][$step_key])){
 					foreach($response_body['steps'][$step_key]['data_elements'] as $element_key => $element){
 						if(isset($definition['steps'][$step_key]['data_elements'][$element_key])){
-							if($definition['steps'][$step_key]['data_elements'][$element_key]['type'] === 'table'){
-								$table_definition_keys = array_keys($definition['steps'][$step_key]['data_elements'][$element_key]['table_columns']);
-								foreach($element['value'] as $value){
-									foreach($value as $value_key => $item){
-										if(!in_array($value_key, $table_definition_keys)) throw new HttpException('400', "steps.$step_key.$element.$value_key missing from definition");
-									}
-								}
-							}
-							if(is_array($element)){
-								$return['body']['steps'][$step_key]['data_elements'][$element_key] = $definition['steps'][$step_key]['data_elements'][$element_key] + $element;
-							}else{
-								$return['body']['steps'][$step_key]['data_elements'][$element_key] = $definition['steps'][$step_key]['data_elements'][$element_key]['value'] + $element;
+							$element_def = $definition['steps'][$step_key]['data_elements'][$element_key];
+							if(!empty($this->mergeElementValue($element_def, $element))){
+								$return['body']['steps'][$step_key]['data_elements'][$element_key] = $this->mergeElementValue($element_def, $element);
 							}
 						}else{
 							throw new HttpException('400', "$element_key missing from definition");
 						}
 					}
+					//Add step non data_elements
+					unset($definition['steps'][$step_key]['data_elements']);
+					$return['body']['steps'][$step_key] += $definition['steps'][$step_key];
 				}
 			}
 		}else{
 			$return['body'] = $response_body;
 		}
+		//Add body information
+		unset($definition['steps']);
+		$return['body'] += $definition;
 
 		return $return;
 	}
 
 
+	/**
+	 * @param $header
+	 */
+	public function validatexJsonHeader($header){
+		$required_keys = ['form_name', 'endpoint'];
+		$acceptable_activity_keys = ['SAVE', 'SUBMIT', 'VIEW'];
+
+		if(!$header['first']) array_push($required_keys, ...['identifier', 'acceptable_activity']);
+		foreach ($required_keys as $key){
+			if(!$header[$key]) throw new HttpException('400', "$key missing");
+			if(!$header['first']){
+				if(!in_array($aa = $header['acceptable_activity'], $acceptable_activity_keys)) throw new HttpException("400","acceptable_activity $aa value not acceptable");
+			}
+		}
+	}
+
+	public function validateDataElement($element){
+	}
+
+	public function mergeElementValue($element_def, $value){
+		$element_type = $element_def['type'];
+
+		if($element_type === 'table'){
+			$element_column_keys = array_keys($element_def['table_columns']);
+			foreach($value['value'] as $item){
+				foreach ($item as $table_key => $element){
+					if(!in_array($table_key, $element_column_keys)){
+						throw new HttpException('400', "$table_key missing from table definition");
+					}
+				}
+			}
+		}
+
+		if(is_array($value)){
+			$element_def += $value;
+		}else{
+			$element_def['value'] = $value;
+		}
+
+		return $element_def;
+	}
 }
