@@ -102,17 +102,25 @@ class xJsonService implements xJsonServiceInterface {
 	}
 
 	/**
+	 * @param null $form_name
 	 * @return mixed|null
 	 * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
 	 * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
 	 */
-	protected function getEntityJsonObject(){
+	public function getEntityJsonObject($form_name = NULL){
+		$id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
 		$entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
+
 		$connection = \Drupal::database();
-		$query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id", array(':id' => $this->getFormNameFromRequest()));
+		$query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id", array(':id' => $id));
 		$result = $query->fetchField();
-		$entity = $entityStorage->load($result);
-		return ($entity) ? Json::decode($entity->get('xjson_definition')->value) : NULL;
+		if($result){
+			$entity = $entityStorage->load($result);
+			return ($entity) ? Json::decode($entity->get('xjson_definition')->value) : NULL;
+		}else{
+			return NULL;
+		}
+
 	}
 
 	/**
@@ -184,6 +192,8 @@ class xJsonService implements xJsonServiceInterface {
 							$element_def = $definition['steps'][$step_key]['data_elements'][$element_key];
 							if(!empty($this->mergeElementValue($element_def, $element))){
 								$return['body']['steps'][$step_key]['data_elements'][$element_key] = $this->mergeElementValue($element_def, $element);
+							}else{
+								throw new HttpException('400', "$step_key.$element_key values cannot be merged");
 							}
 						}else{
 							throw new HttpException('400', "$element_key missing from definition");
@@ -221,9 +231,6 @@ class xJsonService implements xJsonServiceInterface {
 		}
 	}
 
-	public function validateDataElement($element){
-	}
-
 	public function mergeElementValue($element_def, $value){
 		$element_type = $element_def['type'];
 
@@ -243,7 +250,96 @@ class xJsonService implements xJsonServiceInterface {
 		}else{
 			$element_def['value'] = $value;
 		}
+		$this->validateDataElement($element_def);
+		return ($this->validateDataElement($element_def)) ? $element_def : [];
+	}
 
-		return $element_def;
+	public function validateDataElement($element, $table = false){
+		$valid = true;
+		$element_type = $element['type'];
+		$default_acceptable_keys = ['type', 'title', 'helpertext', 'required', 'hidden', 'readonly', 'default_value', 'value'];
+		$additional_keys = [];
+		switch ($element_type){
+			case 'heading':
+			case 'helpertext':
+				$acceptable_keys = ['type', 'title'];
+				break;
+			case 'text':
+				$additional_keys = ['width', 'maxlength', 'minlength'];
+				break;
+			case 'textarea':
+				$additional_keys = ['width', 'height', 'maxlength', 'minlength'];
+				break;
+			case 'date':
+				if($table) $additional_keys = ['width', 'min', 'max'];
+				else $additional_keys = ['min', 'max'];
+				break;
+			case 'number':
+				if($table) $additional_keys = ['width', 'min', 'max'];
+				else $additional_keys = ['min', 'max'];
+				break;
+			case 'selectlist':
+				if($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options'];
+				else $additional_keys = ['multiple', 'empty_option', 'options'];
+
+				$recfunc = function($options, $keys = []) use (&$recfunc) {
+					foreach($options as $key => $option){
+						$keys[] = $key;
+						if($option['options']){
+							return $recfunc($option['options'], $keys);
+						}
+					}
+					return $keys;
+				};
+				$option_keys = $recfunc($element['options']);
+				if($element['value'] && !in_array($element['value'], $option_keys)) $valid = false;
+
+				break;
+			case 'file':
+				if($table) $additional_keys = ['width', 'acceptable_extensions'];
+				else $additional_keys = ['multiple', 'acceptable_extensions'];
+				if($element['value']){
+					if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
+						$valid = false;
+					}
+				}
+				break;
+			case 'table':
+				$additional_keys = ['add_del_rows', 'table_columns'];
+				if(isset($element['add_del_rows']) && !is_bool($element['add_del_rows'])) $valid = false;
+				if(isset($element['table_columns'])){
+					foreach($element['table_columns'] as $key => $column_element){
+						if(($is_table = $column_element['type'] === 'table') || ($is_textarea = $column_element['type'] === 'textarea')){
+							if(isset($is_table) && $is_table) $valid = false;
+							if(isset($is_textarea) && $is_textarea) $valid = false;
+						}else{
+							if(!$this->validateDataElement($column_element, TRUE)) $valid = false;
+						}
+					}
+				}else{
+					$valid = false;
+				}
+				break;
+			case 'address':
+				$additional_keys = ['multiple'];
+				break;
+			case 'checkbox':
+				$additional_keys = ['width'];
+				break;
+			case 'email':
+				$additional_keys = [];
+				break;
+			default:
+				$additional_keys = [];
+				throw new HttpException('400', 'some error');
+				break;
+		}
+		#dump($valid);
+		if(!isset($acceptable_keys)) $acceptable_keys = array_merge($default_acceptable_keys, $additional_keys);
+		$element_keys = array_keys($element);
+		foreach($element_keys as $element_key){
+			if(!in_array($element_key, $acceptable_keys, TRUE)) $valid = false; continue;
+		}
+		return $valid;
 	}
 }
