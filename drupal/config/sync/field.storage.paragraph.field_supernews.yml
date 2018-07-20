@@ -1,16 +1,17 @@
-uuid: d5dd444e-ef27-4394-8906-ba34e8a2d007
+uuid: a0c17add-377f-4e1f-9699-6155765a11ce
 langcode: et
 status: true
 dependencies:
   module:
-    - link
+    - node
     - paragraphs
-id: paragraph.field_topic_link
-field_name: field_topic_link
+id: paragraph.field_supernews
+field_name: field_supernews
 entity_type: paragraph
-type: link
-settings: {  }
-module: link
+type: entity_reference
+settings:
+  target_type: node
+module: core
 locked: false
 cardinality: 1
 translatable: true

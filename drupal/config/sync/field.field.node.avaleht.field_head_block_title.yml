@@ -1,4 +1,4 @@
-uuid: 2b2bb096-469b-4515-bb35-efcd705381f7
+uuid: 3744a191-3ac0-487d-898b-5798b698f0fd
 langcode: et
 status: true
 dependencies:
@@ -9,11 +9,13 @@ id: node.avaleht.field_head_block_title
 field_name: field_head_block_title
 entity_type: node
 bundle: avaleht
-label: 'Head block title'
+label: 'Peaploki pealkiri'
 description: ''
 required: true
 translatable: false
-default_value: {  }
+default_value:
+  -
+    value: 'Mis on Eduportaal?'
 default_value_callback: ''
 settings: {  }
 field_type: string

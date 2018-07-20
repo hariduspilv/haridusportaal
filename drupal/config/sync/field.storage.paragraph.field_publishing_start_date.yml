@@ -1,13 +1,13 @@
-uuid: df245246-f81c-4bbc-91a8-fc54526cc044
+uuid: ed34c2d7-35bb-4b2a-be52-79cb6f3ccde2
 langcode: et
 status: true
 dependencies:
   module:
     - datetime
-    - node
-id: node.field_supernews_publish_date
-field_name: field_supernews_publish_date
-entity_type: node
+    - paragraphs
+id: paragraph.field_publishing_start_date
+field_name: field_publishing_start_date
+entity_type: paragraph
 type: datetime
 settings:
   datetime_type: datetime
