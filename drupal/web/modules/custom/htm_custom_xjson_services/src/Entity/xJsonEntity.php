@@ -260,7 +260,7 @@ class xJsonEntity extends RevisionableContentEntityBase implements xJsonEntityIn
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the entity was last edited.'));
 
-		$fields['xjson_definition'] = BaseFieldDefinition::create('jsonb')
+		$fields['xjson_definition'] = BaseFieldDefinition::create('json')
 				->setLabel(t('xJson definition'))
 				->setDescription(t('xJson definition field'))
 				->setRevisionable(TRUE)

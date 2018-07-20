@@ -177,7 +177,7 @@ class xJsonService implements xJsonServiceInterface {
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
-		$definition = $this->getEntityJsonObject()['body'];
+		$definition_body = $this->getEntityJsonObject()['body'];
 
 		$this->validatexJsonHeader($response_header);
 
@@ -185,31 +185,30 @@ class xJsonService implements xJsonServiceInterface {
 		if($response_messages) $return['messages'] = $response_messages;
 
 		if($response_body && !empty($response_body['steps'])){
-			foreach($definition['steps'] as $step_key => $step){
+			foreach($definition_body['steps'] as $step_key => $step){
 				if(isset($response_body['steps'][$step_key])){
-					foreach($response_body['steps'][$step_key]['data_elements'] as $element_key => $element){
-						if(isset($definition['steps'][$step_key]['data_elements'][$element_key])){
-							$element_def = $definition['steps'][$step_key]['data_elements'][$element_key];
-							if(!empty($this->mergeElementValue($element_def, $element))){
-								$return['body']['steps'][$step_key]['data_elements'][$element_key] = $this->mergeElementValue($element_def, $element);
-							}else{
-								throw new HttpException('400', "$step_key.$element_key values cannot be merged");
+					foreach($definition_body['steps'][$step_key]['data_elements'] as $element_key => $element){
+						$return_element = $element;
+						if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
+							$response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
+							if(!empty($this->mergeElementValue($element, $response_element))) {
+								$return_element = $this->mergeElementValue($element, $response_element);
 							}
-						}else{
-							throw new HttpException('400', "$element_key missing from definition");
 						}
+
+						$return['body']['steps'][$step_key]['data_elements'][$element_key] = $return_element;
 					}
 					//Add step non data_elements
-					unset($definition['steps'][$step_key]['data_elements']);
-					$return['body']['steps'][$step_key] += $definition['steps'][$step_key];
+					unset($definition_body['steps'][$step_key]['data_elements']);
+					$return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
 				}
 			}
 		}else{
 			$return['body'] = $response_body;
 		}
 		//Add body information
-		unset($definition['steps']);
-		$return['body'] += $definition;
+		unset($definition_body['steps']);
+		$return['body'] += $definition_body;
 
 		return $return;
 	}
