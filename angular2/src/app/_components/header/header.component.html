@@ -19,7 +19,7 @@
           </span>
         </div>
         <div class="loginbar">
-          <app-login></app-login>
+          
 
           <div *ngIf="languages" class="languages pull-right">
             <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
@@ -27,6 +27,7 @@
             </mat-menu>
             <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">more_vert</mat-icon></button>
           </div>
+          <app-login></app-login>
         </div>
       </div>
     </span>

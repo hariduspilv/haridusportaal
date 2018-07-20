@@ -181,7 +181,6 @@ query getNewsTags($lang: LanguageId!){
     }
   }
 }
-
 `;
 
 
