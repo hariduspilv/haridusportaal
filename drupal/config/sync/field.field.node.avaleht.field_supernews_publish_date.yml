@@ -1,0 +1,21 @@
+uuid: 4514f85a-e0f7-4c05-801e-ba66785adab3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_supernews_publish_date
+    - node.type.avaleht
+  module:
+    - datetime
+id: node.avaleht.field_supernews_publish_date
+field_name: field_supernews_publish_date
+entity_type: node
+bundle: avaleht
+label: 'Supernews publish date'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -1,0 +1,21 @@
+uuid: 32fad6e9-9428-4d8f-988b-5493a5c7ae57
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_supernews_unpublish_date
+    - node.type.avaleht
+  module:
+    - datetime
+id: node.avaleht.field_supernews_unpublish_date
+field_name: field_supernews_unpublish_date
+entity_type: node
+bundle: avaleht
+label: 'Supernews unpublish date'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

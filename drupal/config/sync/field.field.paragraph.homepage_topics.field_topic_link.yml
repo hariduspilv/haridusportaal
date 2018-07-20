@@ -1,0 +1,23 @@
+uuid: ebee58e5-c974-46df-b972-20b33321601e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_topic_link
+    - paragraphs.paragraphs_type.homepage_topics
+  module:
+    - link
+id: paragraph.homepage_topics.field_topic_link
+field_name: field_topic_link
+entity_type: paragraph
+bundle: homepage_topics
+label: 'Topic link'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

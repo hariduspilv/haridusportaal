@@ -1,0 +1,16 @@
+uuid: bde7ebef-e0c5-46da-91a0-4032a4867f50
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.avaleht
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.avaleht
+target_entity_type_id: node
+target_bundle: avaleht
+default_langcode: site_default
+language_alterable: true

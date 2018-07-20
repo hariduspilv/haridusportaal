@@ -6,11 +6,13 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
-use Drupal\rest\ResourceResponse;
 use Drupal\user\Entity\User;
+use GuzzleHttp\Exception\RequestException;
+use PhpParser\Node\Expr\AssignOp\Mod;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -88,30 +90,37 @@ class xJsonRestResource extends ResourceBase {
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
-  public function post($data = []) {
-
+  public function post($data) {
+  	#dump($data);
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->isAuthenticated()) {
       throw new AccessDeniedHttpException();
     }
-    $user = $this->getUserEntity();
-    #dump($user);
-		#dump($this->xJsonService->getBasexJsonForm(TRUE));
-    $this->xJsonService->getBasexJsonForm();
-    #dump($this->currentUser->getAccount()->get);
+    #dump($data);
+    if($data['form_info']){
+			$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
+		}else{
+			$request_body = $this->xJsonService->getBasexJsonForm(true);
+		}
 
-    return new ModifiedResourceResponse($this->xJsonService->getBasexJsonForm(TRUE), 200);
-  }
+		if(empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
 
-  private function buildHeader(){
+		$client = \Drupal::httpClient();
+		try {
+			/*TODO make post URL configurable*/
+			$request = $client->post('http://test-htm.wiseman.ee:30080/api/postDocument', [
+					'json' => $request_body,
+			]);
+			$response = json_decode($request->getBody(), TRUE);
+			#dump($response);
+			$builded_response = $this->xJsonService->buildFormv2($response);
 
+			if(empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
+
+			return new ModifiedResourceResponse($builded_response, 200);
+		}catch (RequestException $e){
+			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
+		}
 	}
-
-	protected function getUserEntity(){
-  	return User::load($this->currentUser->id());
-	}
-
-
-
 }
