@@ -55,7 +55,8 @@
   "filter.close": "Sulge filter",
 
   "occurrence": "Toimumiseaeg",
-  "occurrence.location": "Toimumisaeg ja asukoht",
+  "occurrence.place": "Toimumiskoht",
+  "occurrence.location": "Toimumisaeg ja -koht",
   "location": "Asukoht",
 
   "to": "Kuni",
@@ -66,10 +67,11 @@
   "contact": "Kontakt",
   "register": "Registreeru",
   "calendar.add": "Lisa kalendrisse",
-  "date.from": "Aeg alates",
-  "date.to": "Aeg kuni",
+  "date.from": "Alguskuupäev",
+  "date.to": "Lõppkuupäev",
   "choose.type": "Vali liik",
   "event.tag": "Sündmuse sildid",
+  "event.types": "Sündmuse liigid",
   "event.status": "Sündmuse staatus",
 
   "news.tag": "Uudiste sildid",
@@ -134,7 +136,14 @@
   "free": "Tasuta",
   "invite": "Kutsetega",
   "back": "Tagasi",
+  "back.to.event": "Tagasi sündmuse vaatesse",
   "subscription.choose.one": "Vali vähemalt üks uudiskiri",
   "subscription.failed": "Tellimuse saatmine ebaõnnestus",
-  "map.failed": "Kaarti ei leitud"
+  "map.failed": "Kaarti ei leitud",
+  "download": "Lae alla",
+  "column.open": "Ava tulp",
+  "column.close": "Sulge tulp",
+  "sort": "Sorteeri väljad A-Z",
+  "schools": "Õppeasutused",
+  "map": "Kaart"
 }

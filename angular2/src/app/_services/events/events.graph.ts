@@ -415,6 +415,7 @@ query sortByOptions (
   ]}) {
     entities(language: $lang) {
       ... on NodeEvent {
+        nid
         title:entityLabel
         location: fieldEventLocation{
           lat
@@ -499,12 +500,35 @@ fragment url on EntityCanonicalUrl{
 
 export const getEventsTags = gql`
 query getEventsTags( $lang: LanguageId!){
-  CustomTagsQuery(filter:{conditions:{field:"type", value:["event"], operator:IN, language:$lang}}){
-    count
-    entities(language:$lang){
-      entityBundle
-      entityLabel
-      entityId
+  nodeQuery(filter: {conditions: [
+    {operator: EQUAL, field: "type", value: ["event"], language: $lang}
+  ]}) {
+    entities(language: $lang) {
+      ... on NodeEvent{
+        Tag: fieldTag {
+          entity {
+            entityLabel
+            entityId
+            uuid
+            name
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+export const getEventsTypes = gql`
+query getEventsTypes( $lang: LanguageId!){
+  taxonomyTermQuery(filter: {conditions: [
+    {operator: EQUAL, field: "vid", value: ["event_type"], language: $lang}
+  ]}) {
+    entities{
+      ... on TaxonomyTerm {
+        name
+        tid
+      }
     }
   }
 }

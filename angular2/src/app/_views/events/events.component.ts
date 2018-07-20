@@ -1,5 +1,5 @@
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -36,13 +36,17 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 })
 
 export class EventsComponent extends FiltersService implements OnInit, OnDestroy{
-  
+
+  objectKeys = Object.keys;
+  parseInt = parseInt;
+
   subscriptions: Subscription[] = [];
   
   // ALL PAGE CONFIG
   path: string;
   lang: string;
-  eventList: any;
+  eventList: any = false;
+  eventListRaw: any;
   view: string;
   calendarDays: any;
 
@@ -96,6 +100,13 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   toggleMore(day) {this.popup = null;this.morePopup = day;}
   closeMore() {this.morePopup = null;}
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event){
+    if( window.innerWidth < 900 && this.view == "calendar" ){
+      this.changeView("list");
+    }
+  }
+
   changeMonth(direction:number) {
     let month = parseInt( this.month );
     
@@ -123,9 +134,18 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     this.getData();
   }
 
-  getDayName(day:any) {
+  getMonthName(month:any) {
+    return moment("2018-"+month+"-01", "YYYY-M-DD").format("MMMM").toLowerCase();
+  }
 
-    return moment(this.year+"-"+this.month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
+  getDayName(day:any, isUnix:boolean = false) {
+
+    
+    if( isUnix ){
+      return moment.unix(day/1000).format("dddd").toLowerCase();
+    }else{
+      return moment(this.year+"-"+this.month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
+    }
   }
   
   generateCalendar(urlDate:boolean = false) {
@@ -200,16 +220,20 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.eventsConfig.limit = 5;
     }
 
+    localStorage.setItem("events.view", view);
+
     if( update ){
       this.status = false;
       this.eventList = false;
       this.getData();
     }
+
   }
 
 
   loadMore() {
-    this.eventsConfig.offset = this.eventList.length;
+    this.eventsConfig.offset = this.eventListRaw.length;
+
     var subscriber = this.route.queryParams.subscribe(
       (params: ActivatedRoute) => {
         this.apollo.watchQuery({
@@ -219,7 +243,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           errorPolicy: 'all',
         }).valueChanges.subscribe(({data, loading}) => {
           subscriber.unsubscribe();
-          this.eventList = this.eventList.concat(data['nodeQuery']['entities']);
+
+          this.eventListRaw = this.eventListRaw.concat(data['nodeQuery']['entities']);
+          this.eventList = this.organizeList( this.eventListRaw );
+
           if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
             this.listEnd = true;
           }
@@ -230,7 +257,12 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     
-    this.changeView("calendar", false);
+    if( localStorage.getItem("events.view") ){
+      this.changeView(localStorage.getItem("events.view"), false);
+    }else{
+      this.changeView("list", false);
+    }
+    
     
     this.setPaths();
     
@@ -286,6 +318,59 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         }
     });
     return arr;
+  }
+
+  organizeList(data:any) {
+    
+    let list = JSON.parse( JSON.stringify(data) );
+
+    let tmpList = {};
+
+    for( var i in list ){
+      let entry = list[i];
+
+      let earliest;
+      let timeEarliest;
+
+      for( var ii in entry['eventDates'] ){
+        let event = entry['eventDates'][ii]['entity'];
+        let unix = parseInt( event['fieldEventDate']['unix'] );
+        let time = parseInt( event.fieldEventStartTime );
+
+        if( !earliest ){ earliest = unix; }
+        else if( earliest > unix ){ earliest = unix; }
+
+        if( !timeEarliest ){ timeEarliest = time; }
+        else if( timeEarliest > time ){ timeEarliest = time; }
+      }
+      
+      entry['firstEventTime'] = timeEarliest;
+      entry['firstEventUnix'] = earliest;
+     
+      let year = moment.unix( earliest ).format("YYYY");
+      let month = moment.unix( earliest ).format("MM");
+      let day = moment.unix( earliest ).format("D");
+
+      if( !tmpList[year] ){ tmpList[year] = {}; }
+      if( !tmpList[year][month] ){ tmpList[year][month] = {}; }
+      if( !tmpList[year][month][day] ){ tmpList[year][month][day] = []; }
+      tmpList[year][month][day].push(entry);
+
+    }
+
+    /*
+    for( let year in tmpList ){// loop through years
+      for( let month in tmpList[year] ){// loop through months
+        for( let day in tmpList[year][month] ){// loop through days
+          tmpList[year][month][day] = this.sort("firstEventUnix", tmpList[year][month][day]);
+        }
+      }
+    }
+    */
+
+    console.log(tmpList);
+    
+    return tmpList;
   }
 
   dataToCalendar(list:any) {
@@ -358,6 +443,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
       day.events = this.sort("startTime", day.events);
 
+      console.log(day.events);
       return day.events;
     }else{
       return day.events;
@@ -381,6 +467,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           // DATE FROM
           if(this.params['dateFrom'] && moment(this.params['dateFrom'], 'DD-MM-YYYY').isValid()){
             this.eventsConfig.dateFrom = moment(this.params['dateFrom'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+          }else{
+            this.eventsConfig.dateFrom = moment().format("YYYY-MM-DD").toString();
           }
           // DATE TO
           if(this.params['dateTo'] && moment(this.params['dateTo'], 'DD-MM-YYYY').isValid()){
@@ -425,8 +513,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
 
           if( this.view == "list" ){
-            this.eventList = data['nodeQuery']['entities'];
-            if (this.eventList && (this.eventList.length < this.eventsConfig.limit)){
+            this.eventListRaw = data['nodeQuery']['entities'];
+            this.eventList = this.organizeList( this.eventListRaw );
+            if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
               this.listEnd = true;
             }
           }else{
