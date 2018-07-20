@@ -1,9 +1,9 @@
-uuid: 032bca16-704b-45d3-bb34-838abe7ec6b5
+uuid: fda6333f-6dde-4b25-a4b2-9f7581ae7326
 langcode: et
 status: true
 dependencies: {  }
-id: homepage_topics
-label: 'Homepage topics'
+id: homepage_supernews
+label: 'Homepage Supernews'
 icon_uuid: null
 description: ''
 behavior_plugins: {  }
