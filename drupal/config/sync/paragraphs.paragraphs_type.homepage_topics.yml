@@ -1,0 +1,9 @@
+uuid: 032bca16-704b-45d3-bb34-838abe7ec6b5
+langcode: et
+status: true
+dependencies: {  }
+id: homepage_topics
+label: 'Homepage topics'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

@@ -1,0 +1,25 @@
+uuid: 3d94c41b-4aee-4f2b-8b33-5f4b90cf5584
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.avaleht.field_head_block_title
+    - field.field.node.avaleht.field_supernews
+    - field.field.node.avaleht.field_topics
+    - node.type.avaleht
+  module:
+    - user
+id: node.avaleht.teaser
+targetEntityType: node
+bundle: avaleht
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_head_block_title: true
+  field_supernews: true
+  field_topics: true
+  langcode: true

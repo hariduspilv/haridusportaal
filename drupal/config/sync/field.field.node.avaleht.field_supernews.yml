@@ -1,0 +1,58 @@
+uuid: 8a725926-6090-4307-8ca5-82edddc4a820
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_supernews
+    - node.type.avaleht
+    - paragraphs.paragraphs_type.homepage_supernews
+  module:
+    - entity_reference_revisions
+id: node.avaleht.field_supernews
+field_name: field_supernews
+entity_type: node
+bundle: avaleht
+label: Supernews
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      homepage_supernews: homepage_supernews
+    target_bundles_drag_drop:
+      homepage_supernews:
+        enabled: true
+        weight: 11
+      accordion:
+        weight: 12
+        enabled: false
+      additional_section:
+        weight: 13
+        enabled: false
+      contact_section:
+        weight: 14
+        enabled: false
+      event_date:
+        weight: 15
+        enabled: false
+      homepage_topics:
+        weight: 16
+        enabled: false
+      link:
+        weight: 17
+        enabled: false
+      registration_period:
+        weight: 18
+        enabled: false
+      right_sidebar_section_info:
+        weight: 19
+        enabled: false
+      school_location:
+        weight: 20
+        enabled: false
+field_type: entity_reference_revisions
