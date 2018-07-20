@@ -63,6 +63,7 @@ class xJsonService implements xJsonServiceInterface {
 		if($first && !empty($this->getEntityJsonObject())){
 			$definition_header = $this->getxJsonHeader();
 			$baseJson['header'] = $definition_header +[
+				'first' => TRUE,
 				'current_step' => null,
 				'identifier' => null,
 				'agents' => [
@@ -81,15 +82,15 @@ class xJsonService implements xJsonServiceInterface {
 
 		} elseif(!empty($response_info) && !empty($this->getEntityJsonObject())){
 			$baseJson = $response_info;
+			unset($baseJson['header']['first']);
 			$definition_header = $this->getxJsonHeader();
 			// set definition header and add server-side idCode
-			$baseJson['header'] = $definition_header = [
+			$baseJson['header'] = $definition_header + [
 				'agents' => [
 					['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
 				]
 			] + $baseJson['header'];
 		}
-
 		return $baseJson;
 	}
 
@@ -101,17 +102,25 @@ class xJsonService implements xJsonServiceInterface {
 	}
 
 	/**
+	 * @param null $form_name
 	 * @return mixed|null
 	 * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
 	 * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
 	 */
-	protected function getEntityJsonObject(){
+	public function getEntityJsonObject($form_name = NULL){
+		$id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
 		$entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
+
 		$connection = \Drupal::database();
-		$query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id", array(':id' => $this->getFormNameFromRequest()));
+		$query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id", array(':id' => $id));
 		$result = $query->fetchField();
-		$entity = $entityStorage->load($result);
-		return ($entity) ? Json::decode($entity->get('xjson_definition')->value) : NULL;
+		if($result){
+			$entity = $entityStorage->load($result);
+			return ($entity) ? Json::decode($entity->get('xjson_definition')->value) : NULL;
+		}else{
+			return NULL;
+		}
+
 	}
 
 	/**
@@ -127,7 +136,7 @@ class xJsonService implements xJsonServiceInterface {
 	 * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
 	 * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
 	 */
-	public function buildFormBody($response_body){
+	public function buildForm($response_body){
 		$definition = $this->getEntityJsonObject()['body'];
 
 		$response_json['header'] = $response_body['header'];
@@ -155,53 +164,181 @@ class xJsonService implements xJsonServiceInterface {
 		return $response_body;
 	}
 
+
 	/**
 	 * @param $response
 	 * @return array
 	 * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
 	 * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
 	 */
-	public function buildFormBodyv2($response){
-		#dump($response);
+	public function buildFormv2($response){
+		$return = [];
+
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
-		$definition = $this->getEntityJsonObject()['body'];
-		$return = [];
+		$definition_body = $this->getEntityJsonObject()['body'];
+
+		$this->validatexJsonHeader($response_header);
 
 		if($response_header) $return['header'] = $response_header;
 		if($response_messages) $return['messages'] = $response_messages;
 
 		if($response_body && !empty($response_body['steps'])){
-			foreach($definition['steps'] as $step_key => $step){
+			foreach($definition_body['steps'] as $step_key => $step){
 				if(isset($response_body['steps'][$step_key])){
-					foreach($response_body['steps'][$step_key]['data_elements'] as $element_key => $element){
-						if(isset($definition['steps'][$step_key]['data_elements'][$element_key])){
-							if($definition['steps'][$step_key]['data_elements'][$element_key]['type'] === 'table'){
-								$table_definition_keys = array_keys($definition['steps'][$step_key]['data_elements'][$element_key]['table_columns']);
-								foreach($element['value'] as $value){
-									foreach($value as $value_key => $item){
-										if(!in_array($value_key, $table_definition_keys)) throw new HttpException('400', "steps.$step_key.$element.$value_key missing from definition");
-									}
-								}
+					foreach($definition_body['steps'][$step_key]['data_elements'] as $element_key => $element){
+						$return_element = $element;
+						if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
+							$response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
+							if(!empty($this->mergeElementValue($element, $response_element))) {
+								$return_element = $this->mergeElementValue($element, $response_element);
 							}
-							if(is_array($element)){
-								$return['body']['steps'][$step_key]['data_elements'][$element_key] = $definition['steps'][$step_key]['data_elements'][$element_key] + $element;
-							}else{
-								$return['body']['steps'][$step_key]['data_elements'][$element_key] = $definition['steps'][$step_key]['data_elements'][$element_key]['value'] + $element;
-							}
-						}else{
-							throw new HttpException('400', "$element_key missing from definition");
 						}
+
+						$return['body']['steps'][$step_key]['data_elements'][$element_key] = $return_element;
 					}
+					//Add step non data_elements
+					unset($definition_body['steps'][$step_key]['data_elements']);
+					$return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
 				}
 			}
 		}else{
 			$return['body'] = $response_body;
 		}
+		//Add body information
+		unset($definition_body['steps']);
+		$return['body'] += $definition_body;
 
 		return $return;
 	}
 
 
+	/**
+	 * @param $header
+	 */
+	public function validatexJsonHeader($header){
+		$required_keys = ['form_name', 'endpoint'];
+		$acceptable_activity_keys = ['SAVE', 'SUBMIT', 'VIEW'];
+
+		if(!$header['first']) array_push($required_keys, ...['identifier', 'acceptable_activity']);
+		foreach ($required_keys as $key){
+			if(!$header[$key]) throw new HttpException('400', "$key missing");
+			if(!$header['first']){
+				if(!in_array($aa = $header['acceptable_activity'], $acceptable_activity_keys)) throw new HttpException("400","acceptable_activity $aa value not acceptable");
+			}
+		}
+	}
+
+	public function mergeElementValue($element_def, $value){
+		$element_type = $element_def['type'];
+
+		if($element_type === 'table'){
+			$element_column_keys = array_keys($element_def['table_columns']);
+			foreach($value['value'] as $item){
+				foreach ($item as $table_key => $element){
+					if(!in_array($table_key, $element_column_keys)){
+						throw new HttpException('400', "$table_key missing from table definition");
+					}
+				}
+			}
+		}
+
+		if(is_array($value)){
+			$element_def += $value;
+		}else{
+			$element_def['value'] = $value;
+		}
+		$this->validateDataElement($element_def);
+		return ($this->validateDataElement($element_def)) ? $element_def : [];
+	}
+
+	public function validateDataElement($element, $table = false){
+		$valid = true;
+		$element_type = $element['type'];
+		$default_acceptable_keys = ['type', 'title', 'helpertext', 'required', 'hidden', 'readonly', 'default_value', 'value'];
+		$additional_keys = [];
+		switch ($element_type){
+			case 'heading':
+			case 'helpertext':
+				$acceptable_keys = ['type', 'title'];
+				break;
+			case 'text':
+				$additional_keys = ['width', 'maxlength', 'minlength'];
+				break;
+			case 'textarea':
+				$additional_keys = ['width', 'height', 'maxlength', 'minlength'];
+				break;
+			case 'date':
+				if($table) $additional_keys = ['width', 'min', 'max'];
+				else $additional_keys = ['min', 'max'];
+				break;
+			case 'number':
+				if($table) $additional_keys = ['width', 'min', 'max'];
+				else $additional_keys = ['min', 'max'];
+				break;
+			case 'selectlist':
+				if($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options'];
+				else $additional_keys = ['multiple', 'empty_option', 'options'];
+
+				$recfunc = function($options, $keys = []) use (&$recfunc) {
+					foreach($options as $key => $option){
+						$keys[] = $key;
+						if($option['options']){
+							return $recfunc($option['options'], $keys);
+						}
+					}
+					return $keys;
+				};
+				$option_keys = $recfunc($element['options']);
+				if($element['value'] && !in_array($element['value'], $option_keys)) $valid = false;
+
+				break;
+			case 'file':
+				if($table) $additional_keys = ['width', 'acceptable_extensions'];
+				else $additional_keys = ['multiple', 'acceptable_extensions'];
+				if($element['value']){
+					if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
+						$valid = false;
+					}
+				}
+				break;
+			case 'table':
+				$additional_keys = ['add_del_rows', 'table_columns'];
+				if(isset($element['add_del_rows']) && !is_bool($element['add_del_rows'])) $valid = false;
+				if(isset($element['table_columns'])){
+					foreach($element['table_columns'] as $key => $column_element){
+						if(($is_table = $column_element['type'] === 'table') || ($is_textarea = $column_element['type'] === 'textarea')){
+							if(isset($is_table) && $is_table) $valid = false;
+							if(isset($is_textarea) && $is_textarea) $valid = false;
+						}else{
+							if(!$this->validateDataElement($column_element, TRUE)) $valid = false;
+						}
+					}
+				}else{
+					$valid = false;
+				}
+				break;
+			case 'address':
+				$additional_keys = ['multiple'];
+				break;
+			case 'checkbox':
+				$additional_keys = ['width'];
+				break;
+			case 'email':
+				$additional_keys = [];
+				break;
+			default:
+				$additional_keys = [];
+				throw new HttpException('400', 'some error');
+				break;
+		}
+		#dump($valid);
+		if(!isset($acceptable_keys)) $acceptable_keys = array_merge($default_acceptable_keys, $additional_keys);
+		$element_keys = array_keys($element);
+		foreach($element_keys as $element_key){
+			if(!in_array($element_key, $acceptable_keys, TRUE)) $valid = false; continue;
+		}
+		return $valid;
+	}
 }
