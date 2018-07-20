@@ -1,7 +1,0 @@
-uuid: 95134162-a910-40a8-a294-fa9dbb97c99e
-langcode: et
-status: true
-dependencies: {  }
-version: 5614579959995c3034e3cfbcddcd37b23a9db567
-map:
-  tags: "query tagsQuery($name: String!){\n   CustomTagsQuery(filter:{conditions:{field:\"type\", value:[$name], operator:EQUAL, language:ET}}){\n    count\n    entities(language:ET){\n      entityLabel\n      entityUrl {\n        routed\n        path\n      }\n      entityBundle\n      entityLanguage {\n        id\n      }\n      entityId\n    }\n  }\n}"

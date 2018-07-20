@@ -1,16 +1,17 @@
-uuid: d5dd444e-ef27-4394-8906-ba34e8a2d007
+uuid: a6e6e4fc-7ecd-4a35-a43e-603b4d188440
 langcode: et
 status: true
 dependencies:
   module:
-    - link
+    - datetime
     - paragraphs
-id: paragraph.field_topic_link
-field_name: field_topic_link
+id: paragraph.field_publishing_end_date
+field_name: field_publishing_end_date
 entity_type: paragraph
-type: link
-settings: {  }
-module: link
+type: datetime
+settings:
+  datetime_type: datetime
+module: datetime
 locked: false
 cardinality: 1
 translatable: true

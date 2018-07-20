@@ -1,9 +1,8 @@
-uuid: 9caa5604-c5f1-4b30-a209-f7890e35ecbb
+uuid: a85cfd05-98ab-4b8c-b9ef-75d2ebdb50d6
 langcode: et
 status: true
 dependencies:
   config:
-    - field.field.node.avaleht.body
     - field.field.node.avaleht.field_head_block_title
     - field.field.node.avaleht.field_supernews
     - field.field.node.avaleht.field_supernews_publish_date
@@ -11,7 +10,6 @@ dependencies:
     - field.field.node.avaleht.field_topics
     - node.type.avaleht
   module:
-    - datetime
     - paragraphs
     - path
 id: node.avaleht.default
@@ -21,7 +19,7 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 4
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -34,25 +32,16 @@ content:
     type: string_textfield
     region: content
   field_supernews:
+    type: entity_reference_paragraphs
     weight: 11
     settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
-  field_supernews_publish_date:
-    weight: 12
-    settings: {  }
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
-  field_supernews_unpublish_date:
-    weight: 13
-    settings: {  }
-    third_party_settings: {  }
-    type: datetime_default
     region: content
   field_topics:
     type: entity_reference_paragraphs
@@ -109,7 +98,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   translation:
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -123,6 +112,7 @@ content:
     region: content
     third_party_settings: {  }
 hidden:
-  body: true
+  field_supernews_publish_date: true
+  field_supernews_unpublish_date: true
   publish_on: true
   unpublish_on: true

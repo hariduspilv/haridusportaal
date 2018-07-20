@@ -1,0 +1,21 @@
+uuid: e1dbb2e6-f128-4a70-a86c-908881cae197
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_publishing_end_date
+    - paragraphs.paragraphs_type.homepage_supernews
+  module:
+    - datetime
+id: paragraph.homepage_supernews.field_publishing_end_date
+field_name: field_publishing_end_date
+entity_type: paragraph
+bundle: homepage_supernews
+label: 'Publishing end date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

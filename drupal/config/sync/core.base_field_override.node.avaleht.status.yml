@@ -1,20 +1,20 @@
-uuid: 42544895-6c9a-40be-85e4-e25b77252240
+uuid: 5ae22659-a1b8-4fc4-84ad-393a95338116
 langcode: et
 status: true
 dependencies:
   config:
     - node.type.avaleht
-id: node.avaleht.promote
-field_name: promote
+id: node.avaleht.status
+field_name: status
 entity_type: node
 bundle: avaleht
-label: 'Promoted to front page'
+label: Avaldatud
 description: ''
 required: false
 translatable: true
 default_value:
   -
-    value: 0
+    value: 1
 default_value_callback: ''
 settings:
   on_label: Sees

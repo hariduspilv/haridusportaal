@@ -1,4 +1,4 @@
-uuid: be66f5b0-b9d1-464a-8fcb-a76b1b48e0dc
+uuid: 8b22718c-39c0-43bd-98c9-23407734d390
 langcode: et
 status: true
 dependencies:
@@ -11,7 +11,7 @@ entity_type: paragraph
 bundle: homepage_topics
 label: 'Topic title'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
