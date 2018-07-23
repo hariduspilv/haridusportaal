@@ -1,4 +1,4 @@
-uuid: 74d8493a-f191-4487-b2be-8db905b21bc5
+uuid: 76766e59-33ef-4150-bcaf-3cdabe2df5b6
 langcode: et
 status: true
 dependencies:
@@ -14,8 +14,8 @@ entity_type: node
 bundle: avaleht
 label: Topics
 description: ''
-required: true
-translatable: true
+required: false
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
