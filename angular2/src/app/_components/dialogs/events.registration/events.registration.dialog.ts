@@ -21,6 +21,8 @@ export class EventsRegistratonDialog {
   marked: string;
   step: number = 0;
   lang: any;
+  loader: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EventsRegistratonDialog>,
@@ -45,28 +47,29 @@ export class EventsRegistratonDialog {
   }  
   
   save() {
-
+    this.loader = true;
     const register = this.apollo.mutate({
       mutation: eventsRegister,
       variables: {
         event_id: this.data.nid,
         lang: this.data.lang.toUpperCase(),
-        firstName: this.firstName,
-        lastName: this.lastName,
-        companyName: this.companyName,
-        telephone: this.telephone,
-        email: this.email,
-        marked: this.marked,
+        firstName: this.form.controls.firstName.value,
+        lastName: this.form.controls.lastName.value,
+        companyName: this.form.controls.companyName.value,
+        telephone: this.form.controls.telephone.value,
+        email: this.form.controls.email.value,
+        marked: this.form.controls.marked.value,
         fetchPolicy: 'no-cache',
         errorPolicy: 'all'
       },
     })
     .subscribe(({data}) => {
       this.step = 1;
+      this.loader = false;
     }, (data) => {
       console.log(data);
+      this.loader = false;
     });
-
   }
   
   close() {

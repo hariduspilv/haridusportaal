@@ -16,7 +16,7 @@
   &__block {cursor: pointer;
     &:hover {.title {text-decoration: underline;}}
     &:last-child {
-      .events__content {padding-bottom: $gutter;}
+      .events__content {padding-bottom: $gutter; border-bottom:none;}
     }
   }
   &__head {display: flex;
@@ -26,10 +26,7 @@
     margin-top: 0;
   }
   &__list-body {
-    & > *:last-child .events__content {
-      margin-bottom: 0;
-      @include break-on(sm, min) {border: none;}
-    }
+    
     &:last-child {
       @include break-on(sm, min) {
         padding-bottom: $medium;
@@ -37,6 +34,7 @@
           @include break-on(sm, min) {
             padding-bottom: $medium;
           }
+          .events__content{border-bottom:none;}
         }
       }
     }
@@ -45,7 +43,12 @@
   &__month {padding: 0 $medium;
     @include break-on(sm, min) {padding-top:$small; padding-left: 8.5rem;}
     h1{color: $black;}}
-  &__header {display: flex;margin-bottom:-$gutter;}
+  &__header {display: flex;margin-bottom:-$gutter;
+    &.highlighted{
+      .day, .date{color:$red;}
+      .dot, .border{background-color:$red;}
+    }
+  }
   &__datetime {padding: $small $medium 0 $medium;min-width: 4.5rem;
     .day {font-size: .875rem;line-height: 2.29;}
     .date {font-size: $medium;line-height: 1.33;font-weight: 500;}
@@ -84,7 +87,9 @@
       padding: $gutter $small $medium 0;
       margin: 0 0 $small 9.25rem;
       .info {
-        &.block span.time{padding-right: $xxl;}
+        &.block span.time{padding-right: $xxl;
+          .mat-icon{vertical-align: middle;}
+        }
         &.block span.location{padding-right: $xxl;}
         .repeat {position: relative;top: .375rem;}
         // &.block span.entrance{}
@@ -111,10 +116,10 @@
     .cal__day {background-color: $red; border-radius: 50%;color: $white;font-weight: 300;}
   }
 }
-.calendar__elem {padding-bottom: $xxl;
+.calendar__elem {padding-bottom: $xxl; padding:0 1.5rem;
   .cal__day {width: $medium; padding-top: $half-gutter; padding-bottom: $half-gutter; text-align: center;position: relative;left: -.3125rem;top: -0.3125rem;}
-  .cal__event {cursor: pointer;
-    .content {color: $blue;line-height:1.25rem;font-size: .875rem;margin-top: $half-gutter;padding: .125rem;margin-left: -$half-gutter;padding-left: .375rem;
+  .cal__event {cursor: pointer; text-decoration: none;
+    .content {color: $blue; display:block; text-decoration:none; line-height:1.25rem;font-size: .875rem;margin-top: $half-gutter;padding: .125rem;margin-left: -$half-gutter;padding-left: .375rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -135,6 +140,7 @@
   .disableMore {.more__hidden {display: none;}}
 }
 .popup {position: relative;display: block;
+  &__scroll{max-height:150px; overflow: auto;}
   .popupcontent {
     cursor: auto;
     font-size: $small;
@@ -172,9 +178,20 @@
     // &.additional {position: absolute;left: -1.5625rem;}
   }
 }
+.lastWeek{
+  .popup .popupcontent{top:auto; bottom:-160px;}
+  .cal__event .popup .popupcontent{bottom:-70px;}
+}
+.almostLastWeek{
+  .popup .popupcontent{top:auto; bottom:-260px;}
+  .cal__event .popup .popupcontent{bottom:-170px;}
+}
+
 .disableMore .popup {position:relative;bottom:10%;left:100%;margin-left: $quarter;}
 .lastOnes .disableMore .popup {bottom: 200%;}
 .disableMore.firstTwo .popup .popupcontent {left: auto;margin-left: -.25rem;}
+.popup.holdRight .popupcontent{left:100%;}
+.popup.holdLeft .popupcontent{left:auto; right:100%;}
 .navigation {padding-top: $small; padding-bottom: $medium;display: flex;align-items: center;justify-content: center;
   .month {h1{color: $black;}}
   .mat-icon {cursor: pointer; padding: 0 $small;}

@@ -7,7 +7,7 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 import { EventsConfig } from './events-config.model';
 import { EventsService, RootScopeService } from '../../_services';
-import { sortEventsByOptions, getEventsTags } from '../../_services/events/events.graph';
+import { sortEventsByOptions, getEventsTags, getEventsTypes } from '../../_services/events/events.graph';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -16,7 +16,6 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/of';
 
 import { Apollo, QueryRef } from 'apollo-angular';
-import { GroupByPipe } from '../../_pipes/groupBy.pipe';
 
 
 
@@ -37,14 +36,17 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 })
 
 export class EventsComponent extends FiltersService implements OnInit, OnDestroy{
-  
+
+  objectKeys = Object.keys;
+  parseInt = parseInt;
+
   subscriptions: Subscription[] = [];
   
   // ALL PAGE CONFIG
   path: string;
   lang: string;
-  eventList: any;
-  eventListByDates: any;
+  eventList: any = false;
+  eventListRaw: any;
   view: string;
   calendarDays: any;
 
@@ -62,9 +64,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   listEnd: boolean = false;
   error: boolean = false;
-  showFilter = true;
   
   current: object;
+
+  visibleEntries = 3;
   
   constructor(
     public router: Router,
@@ -97,6 +100,13 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   toggleMore(day) {this.popup = null;this.morePopup = day;}
   closeMore() {this.morePopup = null;}
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event){
+    if( window.innerWidth < 900 && this.view == "calendar" ){
+      this.changeView("list");
+    }
+  }
+
   changeMonth(direction:number) {
     let month = parseInt( this.month );
     
@@ -117,9 +127,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.month = month;
     }
 
-    
-    this.monthName = moment(this.year+"/"+this.month, "YYYY/M").format('MMMM');
-
     this.status = false;
     this.calendarDays = false;
     this.generateCalendar();
@@ -127,22 +134,29 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     this.getData();
   }
 
-  getDayName(day:any) {
+  getMonthName(month:any) {
+    return moment("2018-"+month+"-01", "YYYY-M-DD").format("MMMM").toLowerCase();
+  }
 
-    return moment(this.year+"-"+this.month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
-  }
-  
-  getDay(date:any) {
-    return moment(date, "DD.MM.YYYY").format("dddd").toLowerCase();
-  }
-  
-  generateCalendar() {
+  getDayName(day:any, isUnix:boolean = false) {
+
     
-    
-    if( this.filterFormItems.dateFrom ){
-      console.log(this.filterFormItems.dateFrom);
+    if( isUnix ){
+      return moment.unix(day/1000).format("dddd").toLowerCase();
+    }else{
+      return moment(this.year+"-"+this.month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
     }
-    this.month = parseInt(this.month);
+  }
+  
+  generateCalendar(urlDate:boolean = false) {
+    
+    if( this.filterFormItems.dateFrom && urlDate){
+      this.month = moment(this.filterFormItems.dateFrom, "DD-MM-YYYY").format("M");
+    }else{
+      this.month = parseInt(this.month);
+    }
+
+    this.monthName = moment(this.year+"/"+this.month, "YYYY/M").format('MMMM');
     
     if( this.month < 10 ){ this.month = "0"+this.month; }
     
@@ -201,24 +215,25 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
     if( view == "calendar" ){
       this.eventsConfig.limit = 9999;
-      this.eventService.getCalendar(2018, 7);
-      this.generateCalendar();
+      this.generateCalendar(true);
     }else{
       this.eventsConfig.limit = 5;
     }
 
+    localStorage.setItem("events.view", view);
+
     if( update ){
       this.status = false;
-      this.listEnd = false;
       this.eventList = false;
-      this.eventListByDates = false;
       this.getData();
     }
+
   }
 
 
   loadMore() {
-    this.eventsConfig.offset = this.eventList.length;
+    this.eventsConfig.offset = this.eventListRaw.length;
+
     var subscriber = this.route.queryParams.subscribe(
       (params: ActivatedRoute) => {
         this.apollo.watchQuery({
@@ -228,21 +243,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           errorPolicy: 'all',
         }).valueChanges.subscribe(({data, loading}) => {
           subscriber.unsubscribe();
-          this.eventList = this.eventList.concat(data['nodeQuery']['entities']);
-          this.eventListByDates = this.eventList.filter(event => {
-            const dates = event.eventDates.map(d => moment(d.entity.fieldEventDate.unix * 1000))
-            return moment(moment.min(dates)).isAfter()
-          }).map((event) => { 
-            const dates = event.eventDates
-              .map(d => moment(d.entity.fieldEventDate.unix * 1000))
-            const dateUnix = moment.min(dates)
-            return {
-              day: moment(dateUnix).format("DD.MM"),
-              monthYear: moment(dateUnix).format("MMMM.YYYY"),
-              date: moment(dateUnix).format("DD.MM.YYYY"),
-              event
-            }
-          });
+
+          this.eventListRaw = this.eventListRaw.concat(data['nodeQuery']['entities']);
+          this.eventList = this.organizeList( this.eventListRaw );
+
           if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
             this.listEnd = true;
           }
@@ -253,7 +257,12 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     
-    this.changeView("list", false);
+    if( localStorage.getItem("events.view") ){
+      this.changeView(localStorage.getItem("events.view"), false);
+    }else{
+      this.changeView("list", false);
+    }
+    
     
     this.setPaths();
     
@@ -262,11 +271,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     let month:any = moment().format("M");
     if( month < 10 ){ month = "0"+month;}
     this.current = {
-      date: moment().format("DD.MM.YYYY"),
       day: moment().format("D"),
       dayString: moment().format("DD"),
       month: month,
-      year: moment().format("YYYY")
+      year: parseInt(moment().format("YYYY"))
     }
 
     // SUBSCRIBE TO QUERY PARAMS
@@ -280,21 +288,19 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     this.route.queryParams.subscribe( (params: Params) => {
       this.params = params;
       this.eventList = false;
-      this.eventListByDates = false;
       this.listEnd = false;
       this.status = false;
+      this.generateCalendar();
       this.getData();
+      
     });
 
     this.getTags();
+    this.getTypes();
 
     this.filterRetrieveParams( this.params );
 
     //this.getData();
-    if (window.innerWidth <= 900) {
-      this.filterFull = true;
-      this.showFilter = false;
-    }
   }
   sort(prop:any, arr:any) {
     prop = prop.split('.');
@@ -314,6 +320,59 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     return arr;
   }
 
+  organizeList(data:any) {
+    
+    let list = JSON.parse( JSON.stringify(data) );
+
+    let tmpList = {};
+
+    for( var i in list ){
+      let entry = list[i];
+
+      let earliest;
+      let timeEarliest;
+
+      for( var ii in entry['eventDates'] ){
+        let event = entry['eventDates'][ii]['entity'];
+        let unix = parseInt( event['fieldEventDate']['unix'] );
+        let time = parseInt( event.fieldEventStartTime );
+
+        if( !earliest ){ earliest = unix; }
+        else if( earliest > unix ){ earliest = unix; }
+
+        if( !timeEarliest ){ timeEarliest = time; }
+        else if( timeEarliest > time ){ timeEarliest = time; }
+      }
+      
+      entry['firstEventTime'] = timeEarliest;
+      entry['firstEventUnix'] = earliest;
+     
+      let year = moment.unix( earliest ).format("YYYY");
+      let month = moment.unix( earliest ).format("MM");
+      let day = moment.unix( earliest ).format("D");
+
+      if( !tmpList[year] ){ tmpList[year] = {}; }
+      if( !tmpList[year][month] ){ tmpList[year][month] = {}; }
+      if( !tmpList[year][month][day] ){ tmpList[year][month][day] = []; }
+      tmpList[year][month][day].push(entry);
+
+    }
+
+    /*
+    for( let year in tmpList ){// loop through years
+      for( let month in tmpList[year] ){// loop through months
+        for( let day in tmpList[year][month] ){// loop through days
+          tmpList[year][month][day] = this.sort("firstEventUnix", tmpList[year][month][day]);
+        }
+      }
+    }
+    */
+
+    console.log(tmpList);
+    
+    return tmpList;
+  }
+
   dataToCalendar(list:any) {
 
     list = JSON.parse( list );
@@ -326,8 +385,11 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       let set = false;
 
       for( var ii in current['eventDates'] ){
+        
         let eventDate = current['eventDates'][ii]['entity']['fieldEventDate']['value'];
+
         if( set ){ break; }
+
         for( var o in this.calendarDays ){
           if( set ){ break; }
           for( var oo in this.calendarDays[o] ){
@@ -339,7 +401,22 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           }
         }
       }
+
+
+
     }
+    
+  }
+
+  maxEntries( day:any ){
+    
+    let max = this.visibleEntries;
+    let total = day.events.length;
+    let amount = max;
+    if( total > max ){
+      amount = max - 1;
+    }
+    return amount;
   }
 
   parseDay(day:any){
@@ -348,14 +425,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
       for( var i in day.events ){
         let current = day.events[i];
-        current['startTime'] = 0;
+        current['startTime'] = 999999999;
 
         var eventDates = current.eventDates;
         for( var ii in eventDates ){
           let entity = eventDates[ii]['entity'];
 
           if( entity['fieldEventDate']['value'] == this.year+"-"+this.month+"-"+day['i'] ){
-            if( entity['fieldEventStartTime'] > current['startTime'] ){
+            if( entity['fieldEventStartTime'] <= current['startTime'] ){
               current['startTime'] = eventDates[ii]['entity']['fieldEventStartTime'];
             }
           }
@@ -365,6 +442,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       }
 
       day.events = this.sort("startTime", day.events);
+
+      console.log(day.events);
       return day.events;
     }else{
       return day.events;
@@ -388,6 +467,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           // DATE FROM
           if(this.params['dateFrom'] && moment(this.params['dateFrom'], 'DD-MM-YYYY').isValid()){
             this.eventsConfig.dateFrom = moment(this.params['dateFrom'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+          }else{
+            this.eventsConfig.dateFrom = moment().format("YYYY-MM-DD").toString();
           }
           // DATE TO
           if(this.params['dateTo'] && moment(this.params['dateTo'], 'DD-MM-YYYY').isValid()){
@@ -422,6 +503,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           errorPolicy: 'all',
         }).valueChanges.subscribe(({data}) => {
 
+
           if( this.status ){ return false; }
 
           this.status = true;
@@ -431,27 +513,64 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
 
           if( this.view == "list" ){
-            this.eventList = data['nodeQuery']['entities'];
-            this.eventListByDates = this.eventList.filter(event => {
-              const dates = event.eventDates.map(d => moment(d.entity.fieldEventDate.unix * 1000))
-              return moment(moment.min(dates)).isAfter()
-            }).map((event) => {
-              const dates = event.eventDates.map(d => moment(d.entity.fieldEventDate.unix * 1000))
-              const dateUnix = moment.min(dates)
-              return {
-                day: moment(dateUnix).format("DD.MM"),
-                monthYear: moment(dateUnix).format("MMMM.YYYY"),
-                date: moment(dateUnix).format("DD.MM.YYYY"),
-                event
-              }
-            });
-            if (this.eventList && (this.eventList.length < this.eventsConfig.limit)){
+            this.eventListRaw = data['nodeQuery']['entities'];
+            this.eventList = this.organizeList( this.eventListRaw );
+            if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
               this.listEnd = true;
             }
           }else{
             this.dataToCalendar( JSON.stringify( data['nodeQuery']['entities'] ) );
           }
+          
+          
         });
+  }
+
+  getTypes() {
+    let typesSubscription = this.apollo.watchQuery({
+      query: getEventsTypes,
+      variables: {
+        lang: this.lang.toUpperCase(),        
+      },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    }).valueChanges
+    .subscribe(({data}) => {
+      this.eventsTypes = data['taxonomyTermQuery']['entities'];
+      let newsTidArr = [];
+      this.eventsTypes.filter((tagItem, index, array) => {
+        let tmp = {
+          id: tagItem['tid'].toString(),
+          name: tagItem['name'],
+        };
+        newsTidArr.push(tmp);           
+      });
+
+      if( this.params.types !== undefined ){
+        let splitParams = this.params.types.split(",");
+
+        this.filterFormItems['types'] = [];
+
+        for( let i in newsTidArr ){
+          
+          if( splitParams.indexOf(newsTidArr[i]['id']) !== -1 ){
+            this.filterFormItems['types'].push(newsTidArr[i]);
+          }
+        }
+        for( let i in splitParams ){
+
+        }
+      }
+
+      newsTidArr = newsTidArr.filter((thing, index, self) =>
+      index === self.findIndex((t) => (
+        t.id === thing.id && t.name === thing.name
+      )))
+      this.eventsTypesObs = of(newsTidArr).pipe(delay(500));
+    });
+
+    this.subscriptions = [...this.subscriptions, typesSubscription];
+
   }
 
   getTags() {
@@ -465,52 +584,44 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }).valueChanges
     .subscribe(({data}) => {
       
-      this.eventsTags = data['CustomTagsQuery']['entities']
-        .filter(entity => entity.entityBundle === 'tags')
-        .map((entity) => {return { id: entity.entityId, name: entity.entityLabel }});
-      this.eventsTypes = data['CustomTagsQuery']['entities']
-        .filter(entity => entity.entityBundle === 'event_type')
-        .map((entity) => {return { id: entity.entityId, name: entity.entityLabel }});
+      this.eventsTags = data['nodeQuery']['entities'];
+      
+      let newsTagArr = [];
+
+      this.eventsTags.map((tag)=>{
+        tag['Tag'].filter((tagItem, index, array) => {
+          if( tagItem['entity'] ){
+            let tmp = {
+              id: tagItem['entity']['entityId'],
+              name: tagItem['entity']['entityLabel'],
+            };
+            newsTagArr.push(tmp);
+          }
+        });
+      });
 
       if( this.params.tags !== undefined ){
         let splitParams = this.params.tags.split(",");
+
         this.filterFormItems['tags'] = [];
-        for( let i in this.eventsTags ){
-          if( splitParams.includes(this.eventsTags[i]['id'])){
-            this.filterFormItems['tags'].push(this.eventsTags[i]);
+
+        for( let i in newsTagArr ){
+          if( splitParams.indexOf(newsTagArr[i]['id']) !== -1 ){
+            this.filterFormItems['tags'].push(newsTagArr[i]);
           }
         }
       }
-      let tags = this.eventsTags.filter((thing, index, self) =>
+
+      newsTagArr = newsTagArr.filter((thing, index, self) =>
       index === self.findIndex((t) => (
         t.id === thing.id && t.name === thing.name
       )))
+      this.eventsTagsObs = of(newsTagArr).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
 
-      if( this.params.types !== undefined ){
-        let splitParams = this.params.types.split(",");
-        this.filterFormItems['types'] = [];
-        for( let i in this.eventsTypes ){
-          if( splitParams.includes(this.eventsTypes[i]['id'])){
-            this.filterFormItems['types'].push(this.eventsTypes[i]);
-          }
-        }
-      }
-      let types = this.eventsTypes.filter((thing, index, self) =>
-      index === self.findIndex((t) => (
-        t.id === thing.id && t.name === thing.name
-      )))
-
-      this.eventsTagsObs = of(tags).pipe();
-      this.eventsTypesObs = of(types).pipe();
+      //console.log(this.eventsTypesObs);
     });
 
     this.subscriptions = [...this.subscriptions, tagSubscription];
-  }
-  
-  @HostListener('window:resize', ['$event'])
-  onResize(event){
-    this.showFilter = event.target.innerWidth > 900;
-    this.filterFull = event.target.innerWidth < 900;
   }
   
   ngOnDestroy() {
