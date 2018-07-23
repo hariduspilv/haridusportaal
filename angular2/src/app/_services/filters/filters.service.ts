@@ -19,8 +19,7 @@ export const DATEPICKER_FORMAT = {
 
 export class FiltersService {
 
-  filterFormItems: any= {
-  };
+  filterFormItems: any = {};
 
 
   maxDate: any;

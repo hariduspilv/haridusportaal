@@ -92,10 +92,6 @@ export class EventsService extends EventsGraph {
     });
 
   }
-
-  getCalendar(year, month) {
-    console.log(year);
-  }
   
 
 }

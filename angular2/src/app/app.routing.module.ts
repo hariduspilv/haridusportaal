@@ -1,7 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ArticleComponent, FrontpageComponent, EventsComponent, PersonalDataComponent, EventsSingleComponent, NewsComponent, NewsSingleComponent } from './_views';
+import {
+  ArticleComponent,
+  FrontpageComponent,
+  EventsComponent,
+  PersonalDataComponent,
+  EventsSingleComponent,
+  NewsComponent,
+  NewsSingleComponent,
+  SchoolsComponent
+} from './_views';
 
 const appRoutes: Routes = [
   { path: ':lang/artiklid/:id', component: ArticleComponent },
@@ -15,6 +24,9 @@ const appRoutes: Routes = [
   { path: ':lang/sundmused', component: EventsComponent },
   { path: ':lang/sundmused/:id', component: EventsSingleComponent },
   { path: ':lang', component: FrontpageComponent },
+
+  { path: ':lang/school', component: SchoolsComponent },
+  { path: ':lang/kool', component: SchoolsComponent },
 
   { path: ':lang/isikukaart', component: PersonalDataComponent },
   { path: '**', redirectTo: '/et', pathMatch: 'full' }
@@ -33,6 +45,7 @@ export const routedComponents = [
   EventsSingleComponent,
   PersonalDataComponent,
   NewsComponent,
-  NewsSingleComponent
+  NewsSingleComponent,
+  SchoolsComponent
 ];
 
