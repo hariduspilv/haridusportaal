@@ -1,8 +1,9 @@
-uuid: 8c5e9cdc-6216-453d-983c-2377f01f6330
+uuid: 954462da-0620-46aa-a783-a477a727030f
 langcode: et
 status: true
 dependencies:
   config:
+    - field.field.node.avaleht.body
     - field.field.node.avaleht.field_head_block_title
     - field.field.node.avaleht.field_supernews
     - field.field.node.avaleht.field_supernews_publish_date
@@ -12,12 +13,20 @@ dependencies:
   module:
     - datetime
     - entity_reference_revisions
+    - text
     - user
 id: node.avaleht.default
 targetEntityType: node
 bundle: avaleht
 mode: default
 content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
   field_head_block_title:
     weight: 102
     label: above
@@ -27,13 +36,12 @@ content:
     type: string
     region: content
   field_supernews:
-    type: entity_reference_revisions_entity_view
     weight: 104
     label: above
     settings:
-      view_mode: default
-      link: ''
+      link: true
     third_party_settings: {  }
+    type: entity_reference_label
     region: content
   field_supernews_publish_date:
     weight: 105
