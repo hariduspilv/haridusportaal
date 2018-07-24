@@ -10,7 +10,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss', '../../node_modules/snazzy-info-window/dist/snazzy-info-window.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'et'},
