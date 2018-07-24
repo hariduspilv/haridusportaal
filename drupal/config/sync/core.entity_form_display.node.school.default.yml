@@ -25,7 +25,6 @@ dependencies:
     - metatag
     - paragraphs
     - readonly_field_widget
-    - shs
 id: node.school.default
 targetEntityType: node
 bundle: school
@@ -51,13 +50,9 @@ content:
     region: content
   field_educational_institution_ty:
     weight: 2
-    settings:
-      display_node_count: false
-      create_new_items: false
-      create_new_levels: false
-      force_deepest: false
+    settings: {  }
     third_party_settings: {  }
-    type: options_shs
+    type: options_select
     region: content
   field_ehis_id:
     weight: 14

@@ -1,4 +1,4 @@
-uuid: 32fad6e9-9428-4d8f-988b-5493a5c7ae57
+uuid: 287d771b-56fe-4f54-84fd-baa12656fd5d
 langcode: et
 status: true
 dependencies:
@@ -13,7 +13,7 @@ entity_type: node
 bundle: avaleht
 label: 'Supernews unpublish date'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

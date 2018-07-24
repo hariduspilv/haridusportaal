@@ -1,4 +1,4 @@
-uuid: 42544895-6c9a-40be-85e4-e25b77252240
+uuid: af2eb123-ccf0-4fd9-9df1-56176600c5f7
 langcode: et
 status: true
 dependencies:
@@ -8,7 +8,7 @@ id: node.avaleht.promote
 field_name: promote
 entity_type: node
 bundle: avaleht
-label: 'Promoted to front page'
+label: 'Ülendatud esilehele'
 description: ''
 required: false
 translatable: true
