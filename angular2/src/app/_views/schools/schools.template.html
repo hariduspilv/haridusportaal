@@ -113,21 +113,24 @@
   <ng-container *ngIf="view == 'map'">
     <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" >
       <agm-marker-cluster [styles]="mapOptions.clusterStyles">>
-        <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lat)"  [longitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lon)" (markerClick)="showInfoWindow(infoWindow)">
-          <agm-info-window [disableAutoPan]="false" #infoWindow>
-            <h1>{{ marker.entityLabel }}</h1>
-            <p *ngIf="marker.fieldSchoolLocation[0]">Juriidiline aadress: <b>{{ marker.fieldSchoolLocation[0].entity.fieldAddress }}</b></p>
-            <p *ngIf="marker.fieldSchoolWebpageAddress">Veebileht: <a href="{{ marker.fieldSchoolWebpageAddress }}">{{ marker.fieldSchoolWebpageAddress }}</a></p>
-            <p *ngIf="marker.fieldEducationalInstitutionTy.length > 0 ">
-                Õppeasutuse tüüp:
-                <b>
-                  <ng-container *ngFor="let type of marker.fieldEducationalInstitutionTy">
-                    {{ type.entity.entityLabel }}
-                  </ng-container>
-                </b>
-              </p>
-            <p *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactPhone" >Kontaktinfo: <b *ngIf="marker.fieldSchoolContactPhone">{{ marker.fieldSchoolContactPhone }}</b><span *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactEmail">,</span> <a *ngIf="marker.fieldSchoolContactEmail" href="mailto:{{ marker.fieldSchoolContactEmail}}">{{ marker.fieldSchoolContactEmail}}</a></p>
-          </agm-info-window>
+        <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lat)"  [longitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lon)">
+          <agm-snazzy-info-window [closeWhenOthersOpen]="true">
+            <ng-template>
+              <p class="title">{{ marker.entityLabel }}</p>
+              <p *ngIf="marker.fieldSchoolLocation[0]">Juriidiline aadress: <b>{{ marker.fieldSchoolLocation[0].entity.fieldAddress }}</b></p>
+              <p *ngIf="marker.fieldSchoolWebpageAddress">Veebileht: <a href="{{ marker.fieldSchoolWebpageAddress }}">{{ marker.fieldSchoolWebpageAddress }}</a></p>
+              <p *ngIf="marker.fieldEducationalInstitutionTy.length > 0 ">
+                  Õppeasutuse tüüp:
+                  <b>
+                    <ng-container *ngFor="let type of marker.fieldEducationalInstitutionTy">
+                      {{ type.entity.entityLabel }}
+                    </ng-container>
+                  </b>
+                </p>
+              <p *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactPhone" >Kontaktinfo: <b *ngIf="marker.fieldSchoolContactPhone">{{ marker.fieldSchoolContactPhone }}</b><span *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactEmail">,</span> <a *ngIf="marker.fieldSchoolContactEmail" href="mailto:{{ marker.fieldSchoolContactEmail}}">{{ marker.fieldSchoolContactEmail}}</a></p>
+              <a [routerLink]="marker.entityUrl.path" class="button">Vaata lähemalt</a>
+            </ng-template>
+          </agm-snazzy-info-window>
         </agm-marker>
       </agm-marker-cluster>
     </agm-map>

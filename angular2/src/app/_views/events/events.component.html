@@ -113,7 +113,7 @@
     </div>
   </div><!--/row-->
 
-  <mat-spinner *ngIf="!eventList && !error && view !== 'calendar'"></mat-spinner>
+  <mat-spinner *ngIf="!eventList && !error && view !== 'calendar'" style="margin-top:1.5rem;"></mat-spinner>
 
   <div class="events__list-body" *ngIf="eventList && view == 'list' ">
 
