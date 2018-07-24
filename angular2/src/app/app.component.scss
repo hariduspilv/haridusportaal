@@ -313,6 +313,8 @@ $grid-columns: 12;
 
 }
 
+
+// Units are in pixels. Because of google maps
 .si-float-wrapper{
   .si-wrapper-top{width:443px; position: relative;
     @include break-on(sm, max) {width:327px;}
@@ -326,6 +328,6 @@ $grid-columns: 12;
     }
     .title{margin-top:0; font-weight: bold; font-size:20px; color:#333;}
     .si-content{max-width:100% !important; max-height:99999px !important; overflow: visible !important;}
-    .button{height:62px; line-height:62px; margin:0 -24px -24px -24px; text-align: center; display: block; border-top:#c7c7c9 1px solid;}
+    .button{height:62px; line-height:62px; margin:0 -24px -24px -24px; text-align: center; display: block; border-top:#c7c7c9 1px solid; font-size:16px;}
   }
 }
