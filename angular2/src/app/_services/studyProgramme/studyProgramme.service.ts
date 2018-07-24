@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 
+
 export const ListQuery = gql`
 query(
     $lang: LanguageId!,
