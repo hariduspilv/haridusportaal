@@ -1,0 +1,43 @@
+<breadcrumbs></breadcrumbs>
+
+
+<div class="studyProgramme main-container">
+  <div class="studyProgramme__list-head">
+    <div class="studyProgramme__head">
+      <div class="studyProgramme__title text-left">{{ 'erialad' | translate | uppercase }}</div>
+    </div>
+  </div><!--/studyProgramme__list-head-->
+
+  
+  <div class="spinner-wrapper" *ngIf="!list"><mat-spinner></mat-spinner></div>
+
+  <div *ngIf="list && list.length > 0">
+    <ng-container *ngFor="let item of list">
+      <div class="studyProgramme__item">
+          <a [routerLink]="item.entityUrl.path" class="studyProgramme__item__title">{{ item.entityLabel }}</a>
+          
+          <div class="studyProgramme__item__col sm-hide">
+            <p *ngIf="item.fieldstudyProgrammeLevel">Õppekava tase: <b>{{ item.fieldstudyProgrammeLevel }}</b></p>
+            <p *ngIf="item.fieldstudyProgrammeAccreditation">Akrediteering: <b>{{ item.fieldstudyProgrammeAccreditation }}</b></p>
+          </div><!--/scools__item__col-->
+          <div class="studyProgramme__item__col sm-hide">
+              <p *ngIf="item.fieldstudyProgrammeLanguages">
+                Õppekeeled: 
+                <b *ngFor="let language of item.fieldstudyProgrammeLanguages; let last = last">
+                  <span *ngIf="!last">{{ language }},</span>
+                  <span *ngIf="last">{{ language }}</span>
+                </b>
+              </p>            
+            <p *ngIf="item.fieldstudyProgrammePeriod">Õppe kestus: <b>{{ item.fieldstudyProgrammePeriod }}</b></p>
+          </div><!--/scools__item__col-->
+          <div class="studyProgramme__item__col sm-hide">
+              <p *ngIf="item.fieldstudyProgrammeStudyGroup">
+                Õppekava rühm: <b>{{item.fieldstudyProgrammeStudyGroup}}</b>
+              </p>            
+            <p *ngIf="item.fieldstudyProgrammeAcceptance">Vastuvõtu olek: <b>{{ item.fieldstudyProgrammeAcceptance }}</b></p>
+          </div><!--/scools__item__col-->
+      </div><!--/studyProgramme__item-->
+    </ng-container><!--/list repeat-->
+  </div><!--/list-->
+
+</div><!--/studyProgramme-->
