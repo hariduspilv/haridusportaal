@@ -312,3 +312,20 @@ $grid-columns: 12;
   .mat-expansion-panel-content{height:auto !important; visibility: visible !important;}
 
 }
+
+.si-float-wrapper{
+  .si-wrapper-top{width:443px; position: relative;
+    @include break-on(sm, max) {width:327px;}
+    &:before{ content:" "; display: block; height:7px; background:$orange; top:0; left:0; width:100%; position: absolute; z-index: 3; border-radius:4px 4px 0 0;}
+  }
+  .si-close-button{width: 14px; height: 14px;  padding: 0; right: 24px; top: 24px; line-height: 14px;}
+  .si-content-wrapper{font-size:14px; line-height:20px; padding:24px;
+    p, h1{
+      &:first-child{margin-top:0;}
+      &:last-child{margin-bottom:0;}
+    }
+    .title{margin-top:0; font-weight: bold; font-size:20px; color:#333;}
+    .si-content{max-width:100% !important; max-height:99999px !important; overflow: visible !important;}
+    .button{height:62px; line-height:62px; margin:0 -24px -24px -24px; text-align: center; display: block; border-top:#c7c7c9 1px solid;}
+  }
+}

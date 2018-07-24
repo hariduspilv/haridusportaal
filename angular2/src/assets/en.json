@@ -145,5 +145,8 @@
   "download": "Download",
   "column.open": "Open column",
   "column.close": "Close column",
-  "sort": "Sort"
+  "sort": "Sort",
+
+  "schools": "Schools",
+  "map": "Map"
 }

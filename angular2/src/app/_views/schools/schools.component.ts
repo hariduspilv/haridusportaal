@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
 import { ListQuery } from '../../_services/school/school.service';
@@ -21,6 +21,7 @@ import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } fro
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { AgmCoreModule } from '@agm/core';
+
 
 @Component({
   templateUrl: './schools.template.html',
@@ -75,7 +76,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     minLon: "0",
     maxLon: "99"
   }
-  infoWindowOpened = null;
 
   subscriptions: Subscription[] = [];
 
@@ -83,7 +83,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute,
-    private apollo: Apollo
+    private apollo: Apollo,
+    private cdr: ChangeDetectorRef
   ) {
     super(null, null);
   }
@@ -120,18 +121,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       that.reset(true);
     });
 
-  }
-
-  showInfoWindow(infoWindow) {
-    if (this.infoWindowOpened === infoWindow) {
-        return;
-    }
-
-    if (this.infoWindowOpened !== null) {
-        this.infoWindowOpened.close();
-    }
-    
-    this.infoWindowOpened = infoWindow;
   }
 
 
@@ -232,6 +221,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
       if( mapRefresh ){
         this.list = data['nodeQuery']['entities'];
+        this.cdr.detectChanges();
+
       }else{
         this.list = this.list ? [...this.list, ...data['nodeQuery']['entities']] : data['nodeQuery']['entities'];
       }
@@ -243,11 +234,13 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   ngOnInit() {
 
+    this.setPaths();
     this.onResize();
     this.pathWatcher();
     this.watchSearch();
 
   }
+  
   ngOnDestroy() {
     /* Clear all subscriptions */
     for (let sub of this.subscriptions) {
