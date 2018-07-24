@@ -1,4 +1,4 @@
-uuid: 4514f85a-e0f7-4c05-801e-ba66785adab3
+uuid: 130dcfbf-bf04-408a-bde6-f69256b8b713
 langcode: et
 status: true
 dependencies:
@@ -13,7 +13,7 @@ entity_type: node
 bundle: avaleht
 label: 'Supernews publish date'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
