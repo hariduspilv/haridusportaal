@@ -148,5 +148,15 @@
   "sort": "Sort",
 
   "schools": "Schools",
-  "map": "Map"
+  "map": "Map",
+
+  "studyProgramme": "Study programmes",
+  "studyProgramme.level": "Degree",
+  "studyProgramme.accreditation": "Accreditation",
+  "studyProgramme.languages": "Study languages",
+  "studyProgramme.period": "Duration",
+  "studyProgramme.studygroup": "Curriculum Group",
+  "studyProgramme.admission": "Admission status",
+  "studyProgramme.search.name": "search name",
+  "studyProgramme.search.type": "search type"
 }

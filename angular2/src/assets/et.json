@@ -145,5 +145,19 @@
   "column.close": "Sulge tulp",
   "sort": "Sorteeri väljad A-Z",
   "schools": "Õppeasutused",
-  "map": "Kaart"
+  "map": "Kaart",
+
+  "studyProgramme": "Erialad",
+  "studyProgramme.level": "Õppekava tase",
+  "studyProgramme.accreditation": "Akrediteering",
+  "studyProgramme.languages": "Õppekeeled",
+  "studyProgramme.period": "Õppe kestus",
+  "studyProgramme.studygroup": "Õppekava rühm",
+  "studyProgramme.admission": "Vastuvõtu olek",
+  "studyProgramme.search.name": "Eriala nimi",
+  "studyProgramme.search.type": "Eriala tüüp"
+  
+
+  
+
 }
