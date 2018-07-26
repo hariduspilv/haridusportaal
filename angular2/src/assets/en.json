@@ -145,5 +145,23 @@
   "download": "Download",
   "column.open": "Open column",
   "column.close": "Close column",
-  "sort": "Sort"
+  "sort": "Sort",
+
+  "schools": "Schools",
+  "map": "Map",
+
+  "studyProgramme": "Study programmes",
+  "studyProgramme.level": "Degree",
+  "studyProgramme.accreditation": "Accreditation",
+  "studyProgramme.languages": "Study languages",
+  "studyProgramme.period": "Duration",
+  "studyProgramme.studygroup": "Curriculum Group",
+  "studyProgramme.admission": "Admission status",
+  "studyProgramme.search.name": "search name",
+  "studyProgramme.search.type": "search type",
+
+  "duration.year.singular": "year",
+  "duration.year.plural": "years",
+  "duration.month.singular": "month",
+  "duration.month.plural": "months"
 }

@@ -1,8 +1,6 @@
 export class RootScopeService{
-  data: any;
-  constructor (){
-    this.data = {};
-  }
+  data: Object = {};
+  constructor (){}
   set(key, value) {
     this.data[key] = value;
   }
