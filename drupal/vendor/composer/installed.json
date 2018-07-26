@@ -1897,6 +1897,61 @@
         }
     },
     {
+        "name": "drupal/bulkdelete",
+        "version": "dev-1.x",
+        "version_normalized": "dev-1.x",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/bulkdelete",
+            "reference": "24499e0f069301d605ab0691e2d6e17ecbcb4060"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.x-dev",
+                "datestamp": "1495565583",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Dev releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Kars-T",
+                "homepage": "https://www.drupal.org/user/224499"
+            },
+            {
+                "name": "Rahul Seth",
+                "homepage": "https://www.drupal.org/user/2694359"
+            },
+            {
+                "name": "adriancid",
+                "homepage": "https://www.drupal.org/user/1962106"
+            },
+            {
+                "name": "robertDouglass",
+                "homepage": "https://www.drupal.org/user/5449"
+            }
+        ],
+        "description": "Adds an administrative option to bulk delete nodes by content type using the batch API.",
+        "homepage": "https://www.drupal.org/project/bulkdelete",
+        "support": {
+            "source": "http://cgit.drupalcode.org/bulkdelete"
+        }
+    },
+    {
         "name": "drupal/coder",
         "version": "8.2.12",
         "version_normalized": "8.2.12.0",
