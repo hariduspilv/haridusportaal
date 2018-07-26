@@ -91,6 +91,7 @@ class EventRegistartionsQuery extends EntityQuery {
 			// The context object can e.g. transport the parent entity language.
 			$query->addMetaData('graphql_context', $this->getQueryContext($value, $args, $context, $info));
 			$query->condition('event_reference', $value->get('nid')->value, '=');
+
 			#return false;
 			return $query;
 		}

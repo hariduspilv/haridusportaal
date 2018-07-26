@@ -5,6 +5,7 @@ namespace Drupal\custom_study_programme_import\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
+use Elasticsearch\ClientBuilder;
 
 /**
 * Class StudyProgrammeController.
@@ -12,6 +13,47 @@ use Drupal\taxonomy\Entity\Term;
 class StudyProgrammeController extends ControllerBase {
 
   public function import() {
+
+    $hosts = [
+      [
+          'host' => 'elasticsearch',
+          'user' => 'elastic',
+          'pass' => 'changeme'
+      ]
+    ];
+
+    $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
+
+    $params = [
+    'scroll' => "30s",
+    'size' => 50,
+    'index' => 'elasticsearch_index_drupaldb_school_loc_index'
+    ];
+
+    $response = $client->search($params);
+    $items = [];
+
+    while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+
+        foreach($response['hits']['hits'] as $item){
+          $items[] = $item['_source'];
+        }
+        // $items = array_merge($items, $response['hits']['hits']);
+
+        // When done, get the new scroll_id
+        // You must always refresh your _scroll_id!  It can change sometimes
+        $scroll_id = $response['_scroll_id'];
+
+        // Execute a Scroll request and repeat
+        $response = $client->scroll([
+                "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
+                "scroll" => "30s"           // and the same timeout window
+            ]
+        );
+    }
+
+    kint($items);
+    die();
 
     $schools = $this->get_existing_schools();
     $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
