@@ -7,16 +7,17 @@ query studyProgrammeList (
   $offset: Int,
   $limit: Int,
   $title: String,
-  $filterOptions: {},
-  $searchStudyProgrammeType: [String],
-  $searchStudyProgrammeTypeEnabled: Boolean) {
+  $type: [String],
+  $typeEnabled: Boolean,
+  $level: [String],
+  $levelEnabled: Boolean) {
   nodeQuery(offset: $offset, limit: $limit, sort: {field: "title", direction: ASC},
       filter: {
       conjunction: AND,
       conditions: [
         {operator: LIKE, field: "title", value: [$title], language: $lang}
-        {operator: IN, field: "field_study_programme_level", value: $filterOptions.level.value, language: $lang, enabled: $filterOptions.level.enabled}
-        {operator: IN, field: "field_study_programme_type", value: $searchStudyProgrammeType, language: $lang, enabled: $searchStudyProgrammeTypeEnabled}
+        {operator: IN, field: "field_study_programme_level", value: $level, language: $lang, enabled: $levelEnabled}
+        {operator: IN, field: "field_study_programme_type", value: $type, language: $lang, enabled: $typeEnabled}
         {operator: EQUAL, field: "type", value: ["study_programme"], language: $lang}
       ]
     }

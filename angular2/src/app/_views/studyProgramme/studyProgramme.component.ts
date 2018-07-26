@@ -36,7 +36,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private subscriptions: Subscription[] = [];
 
   private FilterOptions: Object = {};
-  private searchParams = ['type','level','location'];
+  private filterParams = ['type','level'];
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
 
   constructor (
@@ -75,12 +75,12 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       //this.StudyProgrammeType = data['studyProgrammeType']['entities'];
       //this.StudyProgrammeLevel= data['studyProgrammeLevel']['entities'];
       //console.log(this.StudyProgrammeLevel)
-      for(let i in this.searchParams){
-        if( this.params[this.searchParams[i]] !== undefined ){
-          this.filterFormItems[this.searchParams[i]] = parseInt(this.params[this.searchParams[i]]);
+      for(let i in this.filterParams){
+        if( this.params[this.filterParams[i]] !== undefined ){
+          this.filterFormItems[this.filterParams[i]] = parseInt(this.params[this.filterParams[i]]);
         }
-        if(data[this.searchParams[i]]) {
-          this.FilterOptions[this.searchParams[i]] = data[this.searchParams[i]]['entities'];
+        if(data[this.filterParams[i]]) {
+          this.FilterOptions[this.filterParams[i]] = data[this.filterParams[i]]['entities'];
         }
       }
 
@@ -151,13 +151,11 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       offset: this.offset,
       limit: this.limit,
       title: this.params['title'] ? "%"+this.params['title']+"%" : "%%",
-      //type: this.params['type'] ? this.params['type'].split(",") : undefined,
-      //typeEnabled: this.params['type'] ? true : false
     }
     
-    for(let i in this.searchParams){
+    for(let i in this.filterParams){
       //this.searchParams[i]
-      let key = this.searchParams[i];
+      let key = this.filterParams[i];
       queryVars[key] = this.params[key] ? this.params[key].split(",") : undefined,
       queryVars[key + "Enabled"] = this.params[key] ? true : false
     }
