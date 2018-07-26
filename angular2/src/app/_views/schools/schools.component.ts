@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
-import { ListQuery } from '../../_services/school/school.service';
+import { ListQuery, OptionsQuery } from '../../_services/school/school.service';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
@@ -52,6 +52,10 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   view: any = localStorage.getItem("schools.view") || "list";
 
   loading: boolean = true;
+
+  languageOptions = [];
+  ownershipOptions = [];
+  typeOptions = [];
 
   map: any;
   
@@ -209,7 +213,19 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
         minLat: this.bounds.minLat,
         maxLat: this.bounds.maxLat,
         minLon: this.bounds.minLon,
-        maxLon: this.bounds.maxLon
+        maxLon: this.bounds.maxLon,
+        location: this.params['location'] ? "%"+this.params['location']+"%" : "%%",
+        locationEnabled: this.params['location'] ? true : false,
+        type: this.params['type'] ? this.params['type'].split(",") :  [],
+        typeEnabled: this.params['type'] ? true : false,
+        language: this.params['language'] ? this.params['language'].split(",") :  [],
+        languageEnabled: this.params['language'] ? true : false,
+        ownership: this.params['ownership'] ? this.params['ownership'].split(",") :  [],
+        ownershipEnabled: this.params['ownership'] ? true : false,
+        specialClass: this.params['specialClass'] ? "1" :  "",
+        specialClassEnabled: this.params['specialClass'] ? true : false,
+        studentHome: this.params['studentHome'] ? "1" :  "",
+        studentHomeEnabled: this.params['studentHome'] ? true : false,
       },
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
@@ -232,13 +248,61 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     });
   }
 
+  getOptions() {
+    let subscription = this.apollo.watchQuery({
+      query: OptionsQuery,
+      variables: {
+        "lang": this.lang.toUpperCase()
+      },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'none',
+    }).valueChanges.subscribe( ({data}) => {
+      let entities = data['taxonomyTermQuery']['entities'];
+      this.parseOptions(entities);
+      subscription.unsubscribe();
+    });
+  }
+
+  parseOptions(entities:any){
+
+    entities = JSON.parse( JSON.stringify( entities ) );
+
+    let options = {
+      "reverseFieldTeachingLanguageNode": [],
+      "reverseFieldOwnershipTypeNode": [],
+      "reverseFieldEducationalInstitutionTyNode": []
+    }
+
+    for( let i in entities ){
+      for( let key of Object.keys(entities[i]) ){
+        if( options[key] ){
+          if( entities[i][key]['count'] == 1231230 ){ continue; }
+          entities[i]['count'] = entities[i][key]['count'];
+          delete entities[i][key];
+          delete entities[i]['__typename'];
+          options[key].push(entities[i]);
+        }
+      }
+    }
+
+    this.languageOptions = options.reverseFieldTeachingLanguageNode;
+    this.ownershipOptions = options.reverseFieldOwnershipTypeNode;
+    this.typeOptions = options.reverseFieldEducationalInstitutionTyNode;
+
+    this.filterFormItems.languages = this.params['languages'] || '';
+    this.filterFormItems.types = this.params['types'] || '';
+    this.filterFormItems.ownership = this.params['ownership'] || '';
+  }
+
   ngOnInit() {
 
     this.setPaths();
     this.onResize();
     this.pathWatcher();
     this.watchSearch();
+    this.getOptions();
 
+    this.filterFull = true;
   }
   
   ngOnDestroy() {
