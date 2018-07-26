@@ -26,4 +26,9 @@ content:
     weight: 100
     region: content
 hidden:
+  field_head_block_title: true
+  field_supernews: true
+  field_supernews_publish_date: true
+  field_supernews_unpublish_date: true
+  field_topics: true
   langcode: true
