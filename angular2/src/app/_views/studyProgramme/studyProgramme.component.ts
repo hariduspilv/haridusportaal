@@ -25,7 +25,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private lang: string;
   private path: string;
   private params: object;
-  private limit: number = 50;
+  private limit: number = 5;
   private offset: number = 0;
 
   private showFilter: boolean = true;
@@ -36,7 +36,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private subscriptions: Subscription[] = [];
 
   private FilterOptions: Object = {};
-  private filterParams = ['type','level'];
+  private filterOptionKeys = ['type','level','language','iscedf_board','iscedf_narrow','iscedf_detailed'];
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
 
   constructor (
@@ -50,7 +50,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
   populateFilterOptions(){
     this.loading = true;
-    console.log('what');
     if( this.filterOptionsSubscription !== undefined ){
       this.filterOptionsSubscription.unsubscribe();
     }
@@ -65,27 +64,18 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     }).valueChanges.subscribe( ({data}) => {
       
       this.loading = false;
-      /*
-      this.FilterOptions = {
-        StudyProgrammeType: data['studyProgrammeType']['entities'],
-        StudyProgrammeLevel: data['studyProgrammeLevel']['entities'],
-        EducationalInstitutionLocation: data['educationalInstitutionLocation']['entities'],
-        EducationalInstitution: data['educationalInstitution']['entities']
-      }*/
-      //this.StudyProgrammeType = data['studyProgrammeType']['entities'];
-      //this.StudyProgrammeLevel= data['studyProgrammeLevel']['entities'];
-      //console.log(this.StudyProgrammeLevel)
-      for(let i in this.filterParams){
-        if( this.params[this.filterParams[i]] !== undefined ){
-          this.filterFormItems[this.filterParams[i]] = parseInt(this.params[this.filterParams[i]]);
+    
+      for(let i in this.filterOptionKeys){
+        if( this.params[this.filterOptionKeys[i]] !== undefined ){
+          this.filterFormItems[this.filterOptionKeys[i]] = parseInt(this.params[this.filterOptionKeys[i]]);
         }
-        if(data[this.filterParams[i]]) {
-          this.FilterOptions[this.filterParams[i]] = data[this.filterParams[i]]['entities'];
+        if(data[this.filterOptionKeys[i]]) {
+          this.FilterOptions[this.filterOptionKeys[i]] = data[this.filterOptionKeys[i]]['entities'];
         }
       }
 
      
-      console.log(this.FilterOptions);
+     
       this.filterOptionsSubscription.unsubscribe();
 
     });
@@ -93,7 +83,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   compareChange(id, $event){
     $event.checked === true? this.compare[id] = true : delete this.compare[id];
     localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
-    console.log(localStorage.getItem("studyProgramme.compare"));
+   
   }
   setPaths() {
     this.rootScope.set('langOptions', {
@@ -141,21 +131,25 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   getData() {
     
     this.loading = true;
-
+console.log(this.params['school']);
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
     //todo: automate searchParams injection
     let queryVars = {
-      lang: "ET",
+      lang: this.lang.toUpperCase(),
       offset: this.offset,
       limit: this.limit,
       title: this.params['title'] ? "%"+this.params['title']+"%" : "%%",
+      school: this.params['school'] ? "%"+this.params['school']+"%" : "%%",
+      schoolEnabled: this.params['school'] ? true: false,
+      location: this.params['location'] ? "%"+this.params['location']+"%" : "%%",
+      locationEnabled: false
     }
     
-    for(let i in this.filterParams){
+    for(let i in this.filterOptionKeys){
       //this.searchParams[i]
-      let key = this.filterParams[i];
+      let key = this.filterOptionKeys[i];
       queryVars[key] = this.params[key] ? this.params[key].split(",") : undefined,
       queryVars[key + "Enabled"] = this.params[key] ? true : false
     }
