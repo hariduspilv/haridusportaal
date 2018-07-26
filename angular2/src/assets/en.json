@@ -158,5 +158,10 @@
   "studyProgramme.studygroup": "Curriculum Group",
   "studyProgramme.admission": "Admission status",
   "studyProgramme.search.name": "search name",
-  "studyProgramme.search.type": "search type"
+  "studyProgramme.search.type": "search type",
+
+  "duration.year.singular": "year",
+  "duration.year.plural": "years",
+  "duration.month.singular": "month",
+  "duration.month.plural": "months"
 }

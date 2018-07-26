@@ -155,8 +155,12 @@
   "studyProgramme.studygroup": "Õppekava rühm",
   "studyProgramme.admission": "Vastuvõtu olek",
   "studyProgramme.search.name": "Eriala nimi",
-  "studyProgramme.search.type": "Eriala tüüp"
+  "studyProgramme.search.type": "Eriala tüüp",
   
+  "duration.year.singular": "aasta",
+  "duration.year.plural": "aastat",
+  "duration.month.singular": "kuu",
+  "duration.month.plural": "kuud"
 
   
 
