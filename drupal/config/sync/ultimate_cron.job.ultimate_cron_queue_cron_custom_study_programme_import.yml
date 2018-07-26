@@ -1,6 +1,6 @@
 uuid: 4e0f385f-db9d-46fb-ab85-5403eddd0e5c
 langcode: et
-status: false
+status: true
 dependencies:
   module:
     - custom_study_programme_import
