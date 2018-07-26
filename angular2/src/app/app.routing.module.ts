@@ -9,7 +9,8 @@ import {
   EventsSingleComponent,
   NewsComponent,
   NewsSingleComponent,
-  SchoolsComponent
+  SchoolsComponent,
+  StudyProgrammeComponent
 } from './_views';
 
 const appRoutes: Routes = [
@@ -28,6 +29,9 @@ const appRoutes: Routes = [
   { path: ':lang/school', component: SchoolsComponent },
   { path: ':lang/kool', component: SchoolsComponent },
 
+  { path: ':lang/erialad', component: StudyProgrammeComponent},
+  { path: ':lang/study-programmes', component: StudyProgrammeComponent},
+  
   { path: ':lang/isikukaart', component: PersonalDataComponent },
   { path: '**', redirectTo: '/et', pathMatch: 'full' }
 ];
@@ -46,6 +50,7 @@ export const routedComponents = [
   PersonalDataComponent,
   NewsComponent,
   NewsSingleComponent,
-  SchoolsComponent
+  SchoolsComponent,
+  StudyProgrammeComponent
 ];
 

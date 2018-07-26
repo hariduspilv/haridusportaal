@@ -49,6 +49,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
       this.metaTags.set(data['route']['entity']['entityMetatags']);
       this.breadcrumb = data['route']['breadcrumb'];
     });
+    
     this.subscriptions = [...this.subscriptions, breadcrumbSubscription];
   }
 

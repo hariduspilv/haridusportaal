@@ -6,8 +6,6 @@ import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { ArticleService, EventsService, RootScopeService, NewsService, MetaTagsService, ShareService } from './_services';
-
-
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog';
 import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
 import { Modal } from './_components/dialogs/modal/modal';
@@ -22,6 +20,8 @@ import { AppRoutingModule, routedComponents } from './app.routing.module';
 import { AppDirectives } from './_directives';
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -97,6 +97,7 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E'
     }),
+    AgmSnazzyInfoWindowModule,
     HttpModule,
     EmbedVideo.forRoot(),
     TextareaAutosizeModule

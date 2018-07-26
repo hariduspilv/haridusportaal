@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const ListQuery = gql`
-query sortByOptions (
+query(
   $lang: LanguageId!,
   $offset: Int,
   $limit: Int,
