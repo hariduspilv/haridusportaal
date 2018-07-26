@@ -1,6 +1,6 @@
 uuid: 4e0f385f-db9d-46fb-ab85-5403eddd0e5c
 langcode: et
-status: true
+status: false
 dependencies:
   module:
     - custom_study_programme_import
@@ -16,5 +16,14 @@ scheduler:
       - '* * * * *'
 launcher:
   id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
 logger:
   id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000
