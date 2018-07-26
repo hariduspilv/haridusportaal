@@ -302,7 +302,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.watchSearch();
     this.getOptions();
 
-    this.filterFull = true;
   }
   
   ngOnDestroy() {

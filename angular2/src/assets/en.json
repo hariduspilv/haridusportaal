@@ -163,5 +163,21 @@
   "duration.year.singular": "year",
   "duration.year.plural": "years",
   "duration.month.singular": "month",
-  "duration.month.plural": "months"
+  "duration.month.plural": "months",
+
+  "view.more": "See more",
+
+  "legal_address": "Juriidiline aadress",
+  "website": "Veebileht",
+  "type_of_educational_institution": "Õppeasutuse tüüp",
+  "contact_info": "Kontaktinfo",
+  "school.name": "Kooli nimi",
+  "school.institution.type": "Õppeasutuse tüüp",
+  "school.teachingLanguage": "Õppekeel",
+  "school.ownership": "Omandivorm",
+  "search.narrow": "Kitsam otsing",
+  "specialClass": "HEV",
+  "school.home": "Õpilaskodu/Ühiselamu olemas",
+  "all": "Kõik"
+
 }

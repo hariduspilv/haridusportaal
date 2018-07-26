@@ -83,6 +83,7 @@
       </div><!--/col-5-->
 
       <div class="col-9">
+        <div class="form-spacer-20"></div>
         <div class="custom-checkbox">
           <mat-checkbox [(ngModel)]="filterFormItems.specialClass" name="specialClass">HEV</mat-checkbox>
         </div><!--/custom-checkbox-->
@@ -130,19 +131,19 @@
       <div class="schools__item">
           <a [routerLink]="item.entityUrl.path" class="schools__item__title">{{ item.entityLabel }}</a>
           <div class="schools__item__col sm-hide">
-              <p *ngIf="item.fieldSchoolLocation[0]">Juriidiline aadress: <b>{{ item.fieldSchoolLocation[0].entity.fieldAddress }}</b></p>
-              <p *ngIf="item.fieldSchoolWebpageAddress">Veebileht: <a href="{{ item.fieldSchoolWebpageAddress }}">{{ item.fieldSchoolWebpageAddress }}</a></p>
+              <p *ngIf="item.fieldSchoolLocation[0]">{{ 'legal_address' | translate }}: <b>{{ item.fieldSchoolLocation[0].entity.fieldAddress }}</b></p>
+              <p *ngIf="item.fieldSchoolWebpageAddress">{{ 'website' | translate }}: <a href="{{ item.fieldSchoolWebpageAddress }}">{{ item.fieldSchoolWebpageAddress }}</a></p>
           </div><!--/scools__item__col-->
           <div class="schools__item__col sm-hide">
             <p *ngIf="item.fieldEducationalInstitutionTy.length > 0 ">
-              Õppeasutuse tüüp:
+              {{ 'type_of_educational_institution' | translate }}:
               <b>
                 <ng-container *ngFor="let type of item.fieldEducationalInstitutionTy">
                   {{ type.entity.entityLabel }}
                 </ng-container>
               </b>
             </p>
-            <p *ngIf="item.fieldSchoolContactPhone && item.fieldSchoolContactPhone" >Kontaktinfo: <b *ngIf="item.fieldSchoolContactPhone">{{ item.fieldSchoolContactPhone }}</b><span *ngIf="item.fieldSchoolContactPhone && item.fieldSchoolContactEmail">,</span> <a *ngIf="item.fieldSchoolContactEmail" href="mailto:{{ item.fieldSchoolContactEmail}}">{{ item.fieldSchoolContactEmail}}</a></p>
+            <p *ngIf="item.fieldSchoolContactPhone && item.fieldSchoolContactPhone" >{{ 'contact_info' | translate }}: <b *ngIf="item.fieldSchoolContactPhone">{{ item.fieldSchoolContactPhone }}</b><span *ngIf="item.fieldSchoolContactPhone && item.fieldSchoolContactEmail">,</span> <a *ngIf="item.fieldSchoolContactEmail" href="mailto:{{ item.fieldSchoolContactEmail}}">{{ item.fieldSchoolContactEmail}}</a></p>
           </div><!--/scools__item__col-->
       </div><!--/schools__item-->
     </ng-container><!--/list repeat-->
@@ -155,18 +156,19 @@
           <agm-snazzy-info-window [closeWhenOthersOpen]="true">
             <ng-template>
               <p class="title">{{ marker.entityLabel }}</p>
-              <p *ngIf="marker.fieldSchoolLocation[0]">Juriidiline aadress: <b>{{ marker.fieldSchoolLocation[0].entity.fieldAddress }}</b></p>
-              <p *ngIf="marker.fieldSchoolWebpageAddress">Veebileht: <a href="{{ marker.fieldSchoolWebpageAddress }}">{{ marker.fieldSchoolWebpageAddress }}</a></p>
+              <p *ngIf="marker.fieldSchoolLocation[0]">{{ 'legal_address' | translate }}: <b>{{ marker.fieldSchoolLocation[0].entity.fieldAddress }}</b></p>
+              
               <p *ngIf="marker.fieldEducationalInstitutionTy.length > 0 ">
-                  Õppeasutuse tüüp:
+                  {{ 'type_of_educational_institution' | translate }}:
                   <b>
                     <ng-container *ngFor="let type of marker.fieldEducationalInstitutionTy">
                       {{ type.entity.entityLabel }}
                     </ng-container>
                   </b>
-                </p>
-              <p *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactPhone" >Kontaktinfo: <b *ngIf="marker.fieldSchoolContactPhone">{{ marker.fieldSchoolContactPhone }}</b><span *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactEmail">,</span> <a *ngIf="marker.fieldSchoolContactEmail" href="mailto:{{ marker.fieldSchoolContactEmail}}">{{ marker.fieldSchoolContactEmail}}</a></p>
-              <a [routerLink]="marker.entityUrl.path" class="button">Vaata lähemalt</a>
+              </p>
+              <p *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactPhone" >{{ 'contact_info' | translate }}: <b *ngIf="marker.fieldSchoolContactPhone">{{ marker.fieldSchoolContactPhone }}</b><span *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactEmail">,</span> <a *ngIf="marker.fieldSchoolContactEmail" href="mailto:{{ marker.fieldSchoolContactEmail}}"><b>{{ marker.fieldSchoolContactEmail}}</b></a></p>
+              <p *ngIf="marker.fieldSchoolWebpageAddress">{{ 'website' | translate }}: <a href="{{ marker.fieldSchoolWebpageAddress }}"><b>{{ marker.fieldSchoolWebpageAddress }}</b></a></p>
+              <a [routerLink]="marker.entityUrl.path" class="button">{{ 'view.more' | translate }}</a>
             </ng-template>
           </agm-snazzy-info-window>
         </agm-marker>
@@ -182,4 +184,3 @@
     {{ "load.more" | translate }}
   </button>
 </div><!--/text-center-->
-

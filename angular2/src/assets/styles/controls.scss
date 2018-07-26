@@ -175,3 +175,16 @@
 .ng-dropdown-panel.ng-select-bottom {top: 105%;}
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {background: $light-gray; color: $blue;}
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {background: $light-gray;}
+
+.form-spacer-20{height:1.25rem;
+  &+.custom-checkbox{margin-top:-6px;}
+}
+.custom-checkbox{margin-bottom:0.375rem; color:$dark-gray; font-size:0.88rem;}
+.mat-checkbox{
+  .mat-checkbox-frame{border:#c7c7c9 1px solid;}
+  .mat-checkbox-background{background:transparent !important;}
+  .mat-checkbox-checkmark-path{stroke:$blue !important;}
+  .mat-checkbox-ripple{display:none !important;}
+  .mat-checkbox-checkmark{left:5px !important;}
+  input:focus~.mat-checkbox-frame{border-color:$blue !important;}
+}
