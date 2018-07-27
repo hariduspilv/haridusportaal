@@ -25,7 +25,7 @@ class QueryOutput extends FieldPluginBase {
 	 */
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 
-		yield $value['_source']['lon'][0];
+		yield $value;
 		//yield $value['_source']['lat'][0];
 	}
 

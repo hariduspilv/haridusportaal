@@ -70,17 +70,14 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 	 */
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 		$elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
-		#$index_path = \Drupal::config('search_api.index'.$args)->;
-		if(isset($args['filter']['index'])){
-			#$index_path = \Drupal::config('search_api.index.'.$args['filter']['index']);
-			$index_path = \Drupal::config('search_api.settings');
-		}
+    $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
+    $elasticsearch_pass = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['password'];
 
 		$hosts = [
 			[
-					'host' => 'elasticsearch',
-					'user' => 'elastic',
-					'pass' => 'changeme'
+					'host' => parse_url($elasticsearch_path)['host'],
+					'user' => $elasticsearch_user,
+					'pass' => $elasticsearch_pass
 			]
 		];
 
@@ -89,7 +86,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 		$params = [
 		'scroll' => "30s",
 		'size' => 50,
-		'index' => 'elasticsearch_index_drupaldb_school_loc_index'
+		'index' => $args['filter']['index']
 		];
 
 		$response = $client->search($params);
@@ -111,7 +108,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 				);
 		}
 		foreach($responsevalues as $value){
-			//$value = json_encode($value);
+			$value = json_encode($value);
 			yield $value;
 		}
 		//yield $this->getQuery($value, $args, $context, $info);
