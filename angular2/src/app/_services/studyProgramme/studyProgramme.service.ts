@@ -168,5 +168,16 @@ query studyProgrammeFilterOptions( $lang: LanguageId!){
       }
     }
   }
+  location: taxonomyTermQuery(filter: {conditions: [
+    
+    {operator: EQUAL, field: "vid", value: ["educational_institution_location"], language: $lang}
+  	]}) {
+    entities{
+      ... on TaxonomyTerm {
+        id: tid
+        entityLabel
+      }
+    }
+  }
 }
 `;

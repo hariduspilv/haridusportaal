@@ -37,6 +37,8 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
   private FilterOptions: Object = {};
   private filterOptionKeys = ['type','level','language','iscedf_board','iscedf_narrow','iscedf_detailed'];
+  private FilterLocations: any = [];
+
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
 
   constructor (
@@ -74,7 +76,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         }
       }
 
-     
+      this.FilterLocations = data['location']['entities'];
      
       this.filterOptionsSubscription.unsubscribe();
 
