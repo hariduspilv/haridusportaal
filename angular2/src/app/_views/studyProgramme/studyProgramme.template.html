@@ -122,13 +122,20 @@
         
         <div class="row" >
           <div class="col-4 sm-12" >
-            <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
-              <span class="round-input__title">{{ 'studyProgramme.search.location' | translate }}</span>
-              <div class="round-input__field-wrapper">
-                <input class="round-input__field" placeholder="{{ 'studyProgramme.search.location' | translate }} " [(ngModel)]='filterFormItems.location' name="location" />
+            <div class="ng-select__wrapper">
+                <span class="ng-select__title" [class.exists]="filterFormItems.location && filterFormItems.location.length">{{ 'studyProgramme.search.location' | translate }}</span>
+                <ng-select
+                [class.exists]="FilterLocations && FilterLocations.length"
+                [items]="FilterLocations"
+                [multiple]="true"
+                [loading]="loading"
+                bindLabel="entityLabel"
+                name="location"
+                [(ngModel)]="filterFormItems.location"
+                placeholder="{{ 'studyProgramme.search.location' | translate }}"
+                (clear)="clearField('location')"
+                [dropdownPosition]="'bottom'"></ng-select>      
               </div>
-            </div><!--/round-inpuit__wrapper-->
-            
           </div><!--/col-4-->
           <div class="col-4 sm-12" >
               <div class="custom-checkbox" style="margin-top: 0.5rem">
