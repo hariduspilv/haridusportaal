@@ -21,6 +21,7 @@ module:
   crop: 0
   ctools: 0
   custom_datetime_unix_value: 0
+  custom_graphql_elasticsearch_query: 0
   custom_graphql_functions: 0
   custom_graphql_tags_query: 0
   custom_logging_to_file: 0
