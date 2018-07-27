@@ -7,8 +7,8 @@ name: 'Elasticsearch Cluster'
 url: 'http://elasticsearch:9200'
 options:
   multiple_nodes_connection: false
-  use_authentication: 0
+  use_authentication: 1
   authentication_type: Basic
-  username: ''
-  password: ''
+  username: elastic
+  password: changeme
   timeout: '3'

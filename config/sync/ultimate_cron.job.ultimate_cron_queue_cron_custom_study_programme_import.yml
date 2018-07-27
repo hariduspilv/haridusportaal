@@ -1,4 +1,4 @@
-uuid: 4e0f385f-db9d-46fb-ab85-5403eddd0e5c
+uuid: 3eec70e2-99b2-4ab9-bb62-f053116a87c3
 langcode: et
 status: true
 dependencies:
@@ -16,14 +16,5 @@ scheduler:
       - '* * * * *'
 launcher:
   id: serial
-  configuration:
-    timeouts:
-      lock_timeout: 3600
-    launcher:
-      thread: 0
 logger:
   id: database
-  configuration:
-    method: '3'
-    expire: 1209600
-    retain: 1000
