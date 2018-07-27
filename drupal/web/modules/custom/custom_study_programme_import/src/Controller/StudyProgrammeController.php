@@ -5,7 +5,6 @@ namespace Drupal\custom_study_programme_import\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
-use Elasticsearch\ClientBuilder;
 
 /**
 * Class StudyProgrammeController.
