@@ -17,8 +17,6 @@ import 'rxjs/add/observable/of';
 
 import { Apollo, QueryRef } from 'apollo-angular';
 
-
-
 import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
 
 import * as _moment from 'moment';
