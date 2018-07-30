@@ -157,8 +157,16 @@
   "studyProgramme.period": "Duration",
   "studyProgramme.studygroup": "Curriculum Group",
   "studyProgramme.admission": "Admission status",
-  "studyProgramme.search.name": "search name",
-  "studyProgramme.search.type": "search type",
+
+  "studyProgramme.search.name": "Name",
+  "studyProgramme.search.type": "Type",
+  "studyProgramme.search.language": "Language",
+  "studyProgramme.search.school": "Institution",
+  "studyProgramme.search.location": "Location",
+  "studyProgramme.search.iscedf_board": "Study field",
+  "studyProgramme.search.iscedf_narrow": "Speciality",
+  "studyProgramme.search.iscedf_detailed": "Study group",
+  "studyProgramme.search.open_admission": "Admission is open",
 
   "duration.year.singular": "year",
   "duration.year.plural": "years",

@@ -15,16 +15,16 @@
         </div><!--/col-4-->
 
         <div class="col-4 sm-12" >
-         
-          <mat-form-field *ngIf="FilterOptions" >
-            <mat-select placeholder="{{ 'studyProgramme.search.type' | translate }}" [(ngModel)]='filterFormItems.type' name="type">
-              <mat-option>Tühjenda väli</mat-option>
-              <mat-option *ngFor="let type of FilterOptions.type" [value]="type.tid">
-                {{type.entityLabel}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          
+          <div class="round-input__wrapper">
+            <mat-form-field *ngIf="FilterOptions" >
+              <mat-select placeholder="{{ 'studyProgramme.search.type' | translate }}" [(ngModel)]='filterFormItems.type' name="type">
+                <mat-option>Kõik</mat-option>
+                <mat-option *ngFor="let type of FilterOptions.type" [value]="type.tid">
+                  {{type.entityLabel}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div><!--/col-4-->
 
         <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
@@ -42,38 +42,105 @@
       <ng-container *ngIf="filterFull">
         <div class="row" >
             <div class="col-4 sm-12" >
+              <div class="round-input__wrapper">
+                <mat-form-field *ngIf="FilterOptions" >
+                  <mat-select placeholder="õppekava tase" [(ngModel)]='filterFormItems.level' name="level">
+                    <mat-option>Kõik</mat-option>
+                    <mat-option  *ngFor="let level of FilterOptions.level" [value]="level.tid">
+                      {{level.entityLabel}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div><!--/col-4-->
+
+            <div class="col-4 sm-12">
+              <div class="round-input__wrapper">
+                <mat-form-field *ngIf="FilterOptions" >
+                  <mat-select placeholder="{{ 'studyProgramme.search.iscedf_board' | translate }}" [(ngModel)]='filterFormItems.iscedf_board' name="iscedf_board">
+                    <mat-option>Kõik</mat-option>
+                    <mat-option  *ngFor="let iscedf_board of FilterOptions.iscedf_board" [value]="iscedf_board.tid">
+                      {{iscedf_board.entityLabel}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div><!--/col-4-->
+        </div>
+        <div class="row" >
+            <div class="col-4 sm-12" >
+              <div class="round-input__wrapper">
+                <mat-form-field *ngIf="FilterOptions" >
+                  <mat-select placeholder="{{ 'studyProgramme.search.language' | translate }}" [(ngModel)]='filterFormItems.language' name="language">
+                    <mat-option>Kõik</mat-option>
+                    <mat-option  *ngFor="let language of FilterOptions.language" [value]="language.tid">
+                      {{language.entityLabel}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div><!--/col-4-->
+             
+            <div class="col-4 sm-12">
+              <div class="round-input__wrapper">
+                <mat-form-field *ngIf="FilterOptions" >
+                  <mat-select placeholder="{{ 'studyProgramme.search.iscedf_narrow' | translate }}" [(ngModel)]='filterFormItems.iscedf_narrow' name="iscedf_narrow">
+                    <mat-option>Kõik</mat-option>
+                    <mat-option  *ngFor="let iscedf_narrow of FilterOptions.iscedf_narrow" [value]="iscedf_narrow.tid">
+                      {{iscedf_narrow.entityLabel}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div><!--/col-4-->
+        </div>
+        <div class="row" >
+            <div class="col-4 sm-12" >
               
-              <mat-form-field *ngIf="FilterOptions" >
-                <mat-select placeholder="õppekava tase" [(ngModel)]='filterFormItems.level' name="level">
-                  <mat-option>Tühjenda väli</mat-option>
-                  <mat-option  *ngFor="let level of FilterOptions.level" [value]="level.tid">
-                    {{level.entityLabel}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+              <div class="round-input__wrapper" [class.complete]="filterFormItems.school">
+                <span class="round-input__title">{{ 'studyProgramme.search.school' | translate }}</span>
+                <div class="round-input__field-wrapper">
+                  <input class="round-input__field" placeholder="{{ 'studyProgramme.search.school' | translate }} " [(ngModel)]='filterFormItems.school' name="school" />
+                </div>
+              </div><!--/round-inpuit__wrapper-->
               
             </div><!--/col-4-->
 
             <div class="col-4 sm-12">
-              
+              <div class="round-input__wrapper">
+                <mat-form-field *ngIf="FilterOptions" >
+                  <mat-select placeholder="{{ 'studyProgramme.search.iscedf_detailed' | translate }}" [(ngModel)]='filterFormItems.iscedf_detailed' name="iscedf_detailed">
+                    <mat-option>Kõik</mat-option>
+                    <mat-option  *ngFor="let iscedf_detailed of FilterOptions.iscedf_detailed" [value]="iscedf_detailed.tid">
+                      {{iscedf_detailed.entityLabel}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div><!--/col-4-->
         </div>
         
-        
         <div class="row" >
           <div class="col-4 sm-12" >
-          
-            <mat-form-field *ngIf="FilterOptions">
-              <mat-select placeholder="asukoht" [(ngModel)]='filterFormItems.location' name="location">
-                <mat-option *ngFor="let location of FilterOptions.location" [value]="location.tid">
-                  {{location.entityLabel}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            
+            <div class="ng-select__wrapper">
+                <span class="ng-select__title" [class.exists]="filterFormItems.location && filterFormItems.location.length">{{ 'studyProgramme.search.location' | translate }}</span>
+                <ng-select
+                [class.exists]="FilterLocations && FilterLocations.length"
+                [items]="FilterLocations"
+                [multiple]="true"
+                [loading]="loading"
+                bindLabel="entityLabel"
+                name="location"
+                [(ngModel)]="filterFormItems.location"
+                placeholder="{{ 'studyProgramme.search.location' | translate }}"
+                (clear)="clearField('location')"
+                [dropdownPosition]="'bottom'"></ng-select>      
+              </div>
           </div><!--/col-4-->
           <div class="col-4 sm-12" >
-          
+              <div class="custom-checkbox" style="margin-top: 0.5rem">
+                  <mat-checkbox > {{ 'studyProgramme.search.open_admission' | translate }}</mat-checkbox>
+              </div>
             
           </div><!--/col-4-->
           <div class="col-3 align-end text-right sm-12 inline-flex">
@@ -111,7 +178,9 @@
               <div class="studyProgramme__item__subtitle" *ngIf="item.fieldEducationalInstitution">{{ item.fieldEducationalInstitution.entity.entityLabel }}</div>      
             </div><!--col-9-->
             <div class="col">
-                <mat-checkbox [checked]="compare[item.nid]" (change)="compareChange(item.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
+                <div class="custom-checkbox">
+                  <mat-checkbox [checked]="compare[item.nid]" (change)="compareChange(item.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
+                </div>
             </div><!--/col-3-->
           </div>
           

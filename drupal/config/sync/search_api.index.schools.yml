@@ -1,0 +1,45 @@
+uuid: 084416bc-6e0d-41e7-873a-afc65bff6d23
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ehis_id
+    - search_api.server.elasticsearch_server
+  module:
+    - search_api
+    - node
+id: schools
+name: Schools
+description: ''
+read_only: false
+field_settings:
+  field_ehis_id:
+    label: 'EHIS id'
+    datasource_id: 'entity:node'
+    property_path: field_ehis_id
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_ehis_id
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - school
+    languages:
+      default: false
+      selected:
+        - et
+        - en
+processor_settings:
+  rendered_item: {  }
+  aggregated_field: {  }
+  add_url: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server
