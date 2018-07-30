@@ -1,0 +1,39 @@
+<div *ngIf="programmes.length > 0" class="block padding-block">
+  <div *ngFor="let programme of programmes">
+    <h2>{{ programme.title }}</h2>
+    <div>
+      {{ programme.fieldSchoolAddress }}, 
+      <a href="{{ programme.fieldSchoolWebsite }}">{{ programme.fieldSchoolWebsite }}</a>
+    </div>
+    <ul class="study.programme.properties">
+      <li>
+        {{ 'study.programme.level' | translate }}:
+        <strong *ngIf="programme.fieldStudyProgrammeLevel">{{ programme.fieldStudyProgrammeLevel.entity.name }}</strong>
+      </li>
+      <li>
+        {{ 'teaching.languages' | translate }}:
+        <strong *ngIf="programme.fieldTeachingLanguage">
+          <span *ngFor="let language of programme.fieldTeachingLanguage; let last = last">
+            {{ language.entity.name }}{{last ? '' : ', '}}
+          </span>
+        </strong>
+      </li>
+      <li>
+        {{ 'study.programme.group' | translate }}:
+        <strong *ngIf="programme.fieldIscedfDetailed">{{ programme.fieldIscedfDetailed.entity.name }}</strong>
+      </li>
+      <li>
+        {{ 'accreditation' | translate }}:
+        <strong *ngIf="programme.fieldAccreditationStatus">{{ programme.fieldAccreditationStatus }}</strong>
+      </li>
+      <li>
+        {{ 'study.duration' | translate }}:
+        <strong *ngIf="programme.fieldDurationYears">{{ programme.fieldDurationYears }} {{ 'years' | translate }}</strong>
+      </li>
+      <li>
+        {{ 'admission.status' | translate }}:
+        <strong *ngIf="programme.fieldAdmissionStatus">{{ programme.fieldAdmissionStatus }}</strong>
+      </li>
+    </ul>
+  </div>
+</div>

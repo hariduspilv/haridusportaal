@@ -70,13 +70,19 @@ export const SingleQuery = gql`
       ... on EntityCanonicalUrl {
         entity {
           ... on NodeSchool {
+            nid
             title
             fieldRegistrationCode
             fieldOwnershipType {
               entity {
                 name
               }
-            },
+            }
+            fieldEducationalInstitutionTy {
+              entity {
+                name
+              }
+            }
             fieldTeachingLanguage {
               entity {
                 name
@@ -100,10 +106,6 @@ export const SingleQuery = gql`
                   lat
                   lon
                   zoom
-                  type
-                  marker
-                  controls
-                  infowindow
                 }
               }
             }
