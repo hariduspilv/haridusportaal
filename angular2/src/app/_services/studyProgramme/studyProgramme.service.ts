@@ -1,21 +1,62 @@
 import gql from 'graphql-tag';
 
-
+const studyProgrammeListTestArgs = {
+  "lang": "ET",
+  "title": "%%",
+  "limit": 20,
+  "offset": 0,
+  "type": ["1289"],
+  "typeEnabled": false,
+  "level": ["1287"],
+  "levelEnabled": false,
+  "location": "%%",
+  "locationEnabled": false,
+  "language": ["1296"],
+  "languageEnabled": false,
+  "school": "%tallinn%",
+  "schoolEnabled": true,
+  "iscedf_board": ["43379"],
+  "iscedf_boardEnabled": false,
+  "iscedf_narrow": ["43379"],
+  "iscedf_narrowEnabled": false,
+  "iscedf_detailed": ["43379"],
+  "iscedf_detailedEnabled": false
+}
 export const ListQuery = gql`
 query studyProgrammeList (
   $lang: LanguageId!,
   $offset: Int,
   $limit: Int,
   $title: String,
+  $location: String,
+  $locationEnabled: Boolean,
   $type: [String],
   $typeEnabled: Boolean,
   $level: [String],
-  $levelEnabled: Boolean) {
+  $levelEnabled: Boolean,
+	$language: [String],
+  $languageEnabled: Boolean,
+	$school: String,
+  $schoolEnabled: Boolean,
+	$iscedf_board: [String],
+  $iscedf_boardEnabled: Boolean,
+	$iscedf_narrow: [String],
+  $iscedf_narrowEnabled: Boolean,
+	$iscedf_detailed: [String],
+  $iscedf_detailedEnabled: Boolean) {
   nodeQuery(offset: $offset, limit: $limit, sort: {field: "title", direction: ASC},
       filter: {
       conjunction: AND,
       conditions: [
         {operator: LIKE, field: "title", value: [$title], language: $lang}
+        {operator: LIKE, field:"", value: [$location], language:$lang enabled: $locationEnabled},
+        {operator: LIKE, field:"field_educational_institution.entity.title", value: [$school], language: $lang enabled: $schoolEnabled},
+
+        {operator: IN, field:"field_iscedf_board", value: $iscedf_board, language: $lang enabled: $iscedf_boardEnabled},
+        {operator: IN, field:"field_iscedf_narrow", value: $iscedf_narrow, language: $lang enabled: $iscedf_narrowEnabled},
+        {operator: IN, field:"field_iscedf_detailed", value: $iscedf_detailed, language: $lang enabled: $iscedf_detailedEnabled},
+        
+        {operator: IN, field:"field_teaching_language", value: $language, language: $lang enabled: $languageEnabled},
         {operator: IN, field: "field_study_programme_level", value: $level, language: $lang, enabled: $levelEnabled}
         {operator: IN, field: "field_study_programme_type", value: $type, language: $lang, enabled: $typeEnabled}
         {operator: EQUAL, field: "type", value: ["study_programme"], language: $lang}
@@ -52,7 +93,17 @@ query studyProgrammeList (
             entityLabel
           }
         }
+        fieldIscedfBoard{
+          entity {
+            entityLabel
+          }
+        }
         fieldIscedfDetailed {
+          entity {
+            entityLabel
+          }
+        }
+        fieldIscedfNarrow {
           entity {
             entityLabel
           }
@@ -106,22 +157,24 @@ query studyProgrammeFilterOptions( $lang: LanguageId!){
       }
     }
   }
-  school : nodeQuery(offset: 0, limit: 50, sort: {field: "title", direction: ASC}, filter: {conditions: [
-    {operator: EQUAL, field: "type", value: ["school"], language: $lang}
+  iscedf_board: taxonomyTermQuery(filter: {conditions: [
+    
+    {operator: EQUAL, field: "vid", value: ["isced_f"], language: $lang}
   	]}) {
     entities{
-      ... on NodeSchool {
-        nid
+      ... on TaxonomyTerm {
+        tid
         entityLabel
       }
     }
   }
   location: taxonomyTermQuery(filter: {conditions: [
+    
     {operator: EQUAL, field: "vid", value: ["educational_institution_location"], language: $lang}
   	]}) {
     entities{
       ... on TaxonomyTerm {
-        tid
+        id: tid
         entityLabel
       }
     }
