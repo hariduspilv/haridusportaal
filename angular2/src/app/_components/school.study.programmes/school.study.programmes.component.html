@@ -3,7 +3,7 @@
     <h2>{{ programme.title }}</h2>
     <div>
       {{ programme.fieldSchoolAddress }}, 
-      <a href="{{ programme.fieldSchoolWebsite }}">{{ programme.fieldSchoolWebsite }}</a>
+      <a href="{{ programme.fieldSchoolWebsite | url }}">{{ programme.fieldSchoolWebsite | removeProtocol }}</a>
     </div>
     <ul class="study.programme.properties">
       <li>

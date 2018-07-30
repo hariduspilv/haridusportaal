@@ -58,7 +58,7 @@
                 <ul>
                     <li>{{ data.fieldSchoolContactPhone }}</li>
                     <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
-                    <li><a href="http://{{ data.fieldSchoolWebpageAddress }}">{{ data.fieldSchoolWebpageAddress }}</a></li>
+                    <li><a href="{{ data.fieldSchoolWebpageAddress | url }}">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
                 </ul>
             </div>
             <div *ngFor="let location of schoolLocations" class="block">
