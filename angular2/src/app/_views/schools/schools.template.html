@@ -132,7 +132,7 @@
           <a [routerLink]="item.entityUrl.path" class="schools__item__title">{{ item.entityLabel }}</a>
           <div class="schools__item__col sm-hide">
               <p *ngIf="item.fieldSchoolLocation[0]">{{ 'legal_address' | translate }}: <b>{{ item.fieldSchoolLocation[0].entity.fieldAddress }}</b></p>
-              <p *ngIf="item.fieldSchoolWebpageAddress">{{ 'website' | translate }}: <a href="{{ item.fieldSchoolWebpageAddress }}">{{ item.fieldSchoolWebpageAddress }}</a></p>
+              <p *ngIf="item.fieldSchoolWebpageAddress">{{ 'website' | translate }}: <a href="{{ item.fieldSchoolWebpageAddress | url }}" target="_blank">{{ item.fieldSchoolWebpageAddress | removeProtocol }}</a></p>
           </div><!--/scools__item__col-->
           <div class="schools__item__col sm-hide">
             <p *ngIf="item.fieldEducationalInstitutionTy.length > 0 ">
@@ -167,7 +167,7 @@
                   </b>
               </p>
               <p *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactPhone" >{{ 'contact_info' | translate }}: <b *ngIf="marker.fieldSchoolContactPhone">{{ marker.fieldSchoolContactPhone }}</b><span *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactEmail">,</span> <a *ngIf="marker.fieldSchoolContactEmail" href="mailto:{{ marker.fieldSchoolContactEmail}}"><b>{{ marker.fieldSchoolContactEmail}}</b></a></p>
-              <p *ngIf="marker.fieldSchoolWebpageAddress">{{ 'website' | translate }}: <a href="{{ marker.fieldSchoolWebpageAddress }}"><b>{{ marker.fieldSchoolWebpageAddress }}</b></a></p>
+              <p *ngIf="marker.fieldSchoolWebpageAddress">{{ 'website' | translate }}: <a href="{{ marker.fieldSchoolWebpageAddress }}" target="_blank"><b>{{ marker.fieldSchoolWebpageAddress | removeProtocol }}</b></a></p>
               <a [routerLink]="marker.entityUrl.path" class="button">{{ 'view.more' | translate }}</a>
             </ng-template>
           </agm-snazzy-info-window>
