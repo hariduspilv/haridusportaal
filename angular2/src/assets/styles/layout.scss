@@ -1,15 +1,24 @@
+.block {
+    background: white;
+    border-top: $gutter solid $gray;
+    @include break-on(sm, min) {border-radius: $half-gutter;}
+    margin-bottom: 1.3em;
+}
 #left-col .block {
     border-top-color: $light-blue;
 }
 #right-col .block {
     border-top-color: $orange;
 }
-.block {
-    background: white;
-    border-top: $gutter solid $gray;
-    @include break-on(sm, min) {border-radius: $half-gutter;}
-    margin-bottom: 1rem;
+.block-title {
+    font-size: 1em;
+    text-transform: uppercase;
+    color: #757575;
+    margin-bottom: 0.8em;
+}
+.block h1 {
+    color: black;
 }
 .padding-block {
-    padding: 24px;
+    padding: 1em;
 }
