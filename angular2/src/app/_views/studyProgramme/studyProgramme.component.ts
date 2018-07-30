@@ -29,7 +29,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private offset: number = 0;
 
   private showFilter: boolean = true;
-  private filterFullProperties = ['location', 'language', 'level', 'school', 'open_admission','iscedf_board','iscedf_narrow','iscedf_detailed']
+  private filterFullProperties = ['location', 'language', 'level', 'school', /* default = true 'open_admission',*/'iscedf_board','iscedf_narrow','iscedf_detailed']
 
   filterFull: boolean = false;
 
@@ -183,6 +183,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
 
   ngOnInit() {
+    this.filterFormItems.open_admission = true; //default
+    this.filterSubmit();
+
     this.populateFilterOptions();
     this.setPaths()
     this.pathWatcher();
