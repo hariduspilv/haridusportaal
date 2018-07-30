@@ -117,7 +117,7 @@ query studyProgrammeList (
     }
   }
 }
-`
+`;
 
 export const FilterOptions = gql`
 query studyProgrammeFilterOptions( $lang: LanguageId!){
@@ -173,6 +173,7 @@ query studyProgrammeFilterOptions( $lang: LanguageId!){
       }
     }
   }
+}
 `;
 
 export const SchoolStudyProgrammes = gql`
