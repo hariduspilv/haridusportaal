@@ -29,7 +29,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private offset: number = 0;
 
   private showFilter: boolean = true;
-  private filterFullProperties = ['location', 'language', 'level', 'school', /* default = true 'open_admission',*/'iscedf_board','iscedf_narrow','iscedf_detailed']
+  private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_board','iscedf_narrow','iscedf_detailed']
 
   filterFull: boolean = false;
 
@@ -39,7 +39,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
   private FilterOptions: Object = {};
   private filterOptionKeys = ['type','level','language','iscedf_board','iscedf_narrow','iscedf_detailed'];
-  
 
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
 
@@ -154,7 +153,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       onlyOpenAdmission: this.params['open_admission'] ? true: false,
   
     }
-    console.log(queryVars);
     for(let i in this.filterOptionKeys){
       //this.searchParams[i]
       let key = this.filterOptionKeys[i];
@@ -183,14 +181,14 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
 
   ngOnInit() {
-    this.filterFormItems.open_admission = true; //default
-    this.filterSubmit();
+    
 
     this.populateFilterOptions();
-    this.setPaths()
+    this.setPaths();
     this.pathWatcher();
     this.watchSearch();
-
+    this.filterFormItems.open_admission = true; //default
+    this.filterSubmit();
   }
   ngOnDestroy() {
     /* Clear all subscriptions */
