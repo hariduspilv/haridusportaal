@@ -44,7 +44,7 @@
             <div class="col-4 sm-12" >
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
-                  <mat-select placeholder="õppekava tase" [(ngModel)]='filterFormItems.level' name="level">
+                  <mat-select placeholder="{{ 'studyProgramme.level' | translate }}" [(ngModel)]='filterFormItems.level' name="level">
                     <mat-option>{{ 'all' | translate }}</mat-option>
                     <mat-option  *ngFor="let level of FilterOptions.level" [value]="level.tid">
                       {{level.entityLabel}}
