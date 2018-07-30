@@ -8,7 +8,7 @@
                 <div class="block-title">{{ 'schools' | translate }}</div>
                 <h1>{{ data.title }}</h1>
 
-                <table>
+                <table id="school-data">
                     <tr>
                         <td>{{ 'reg.code' | translate }}</td>
                         <td>{{ data.fieldRegistrationCode }}</td>
@@ -53,7 +53,7 @@
         </div>
         <!-- /col-8 -->
         <div class="col-4 sm-12" id="right-col">
-            <div class="block padding-block">
+            <div class="block padding-block" id="school-contact-block">
                 <h2>{{ 'contact' | translate }}</h2>
                 <ul>
                     <li>{{ data.fieldSchoolContactPhone }}</li>
@@ -61,7 +61,7 @@
                     <li><a href="{{ data.fieldSchoolWebpageAddress | url }}">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
                 </ul>
             </div>
-            <div *ngFor="let location of schoolLocations" class="block">
+            <div *ngFor="let location of schoolLocations" class="block location-block">
                 <agm-map [zoomControl]="false" [streetViewControl]="false" [latitude]="location.lat" [longitude]="location.lon" [zoom]="location.zoom">
                     <agm-marker [latitude]="location.lat" [longitude]="location.lon"></agm-marker>
                 </agm-map>
