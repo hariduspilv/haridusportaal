@@ -29,7 +29,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private offset: number = 0;
 
   private showFilter: boolean = true;
-  filterFull: boolean = true;
+  private filterFullProperties = ['location', 'language', 'level', 'school', 'open_admission','iscedf_board','iscedf_narrow','iscedf_detailed']
+
+  filterFull: boolean = false;
 
   private dataSubscription: Subscription;
   private filterOptionsSubscription: Subscription;
@@ -37,7 +39,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
   private FilterOptions: Object = {};
   private filterOptionKeys = ['type','level','language','iscedf_board','iscedf_narrow','iscedf_detailed'];
-  private FilterLocations: any = [];
+  
 
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
 
@@ -75,9 +77,12 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
           this.FilterOptions[this.filterOptionKeys[i]] = data[this.filterOptionKeys[i]]['entities'];
         }
       }
-
-      this.FilterLocations = data['location']['entities'];
-     
+      for(let i in this.filterFullProperties){
+        if(this.params[this.filterFullProperties[i]] !== undefined ){
+          this.filterFull = true;
+          break;
+        }
+      }
       this.filterOptionsSubscription.unsubscribe();
 
     });
@@ -129,11 +134,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     this.loading = true;
     this.getData();
   }
-  
   getData() {
     
     this.loading = true;
-console.log(this.params['school']);
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
@@ -143,12 +146,15 @@ console.log(this.params['school']);
       offset: this.offset,
       limit: this.limit,
       title: this.params['title'] ? "%"+this.params['title']+"%" : "%%",
+      titleEnabled: this.params['title'] ? true: false,
       school: this.params['school'] ? "%"+this.params['school']+"%" : "%%",
       schoolEnabled: this.params['school'] ? true: false,
       location: this.params['location'] ? "%"+this.params['location']+"%" : "%%",
-      locationEnabled: false
+      locationEnabled: this.params['location'] ? true: false,
+      onlyOpenAdmission: this.params['open_admission'] ? true: false,
+  
     }
-    
+    console.log(queryVars);
     for(let i in this.filterOptionKeys){
       //this.searchParams[i]
       let key = this.filterOptionKeys[i];
