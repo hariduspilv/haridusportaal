@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { ArticleService, EventsService, RootScopeService, NewsService, MetaTagsService, ShareService } from './_services';
+import { RootScopeService, NewsService, MetaTagsService, ShareService } from './_services';
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog';
 import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
 import { Modal } from './_components/dialogs/modal/modal';
@@ -104,8 +104,6 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
   ],
 
   providers: [
-    ArticleService,
-    EventsService,
     RootScopeService,
     NewsService,
     MetaTagsService,
