@@ -54,7 +54,7 @@
         <!-- /col-8 -->
         <div class="col-4 sm-12" id="right-col">
             <div class="block padding-block">
-                <h1>{{ 'contact' | translate }}</h1>
+                <h2>{{ 'contact' | translate }}</h2>
                 <ul>
                     <li>{{ data.fieldSchoolContactPhone }}</li>
                     <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
@@ -67,8 +67,8 @@
                 </agm-map>
                 <a href="http://www.google.com/maps/place/{{ location.lat }},{{ location.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
                 <div class=" padding-block">
-                    <h1 *ngIf="location.entity.fieldLocationType == 'L'">{{ 'official.address' | translate }}</h1>
-                    <h1 *ngIf="location.entity.fieldLocationType == 'V'">{{ 'activity.location' | translate }}</h1>
+                    <h2 *ngIf="location.entity.fieldLocationType == 'L'">{{ 'official.address' | translate }}</h2>
+                    <h2 *ngIf="location.entity.fieldLocationType == 'V'">{{ 'activity.location' | translate }}</h2>
                     <div>{{ location.entity.fieldAddress }}</div>
                 </div>
             </div>
