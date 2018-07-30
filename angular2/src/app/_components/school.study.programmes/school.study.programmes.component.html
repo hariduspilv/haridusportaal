@@ -1,12 +1,12 @@
-<div *ngIf="programmes.length > 0" class="block padding-block">
+<div *ngIf="programmes.length > 0" class="block" id="school-study-programmes">
   <div class="block-title">{{'study.programmes' | translate}}</div>
-  <div *ngFor="let programme of programmes">
+  <div *ngFor="let programme of programmes" class="programme padding-block">
     <h2>{{ programme.title }}</h2>
-    <div>
+    <div id="programme-address">
       {{ programme.fieldSchoolAddress }}, 
       <a href="{{ programme.fieldSchoolWebsite | url }}">{{ programme.fieldSchoolWebsite | removeProtocol }}</a>
     </div>
-    <ul class="study.programme.properties">
+    <ul class="study-programme-properties">
       <li>
         {{ 'study.programme.level' | translate }}:
         <strong *ngIf="programme.fieldStudyProgrammeLevel">{{ programme.fieldStudyProgrammeLevel.entity.name }}</strong>

@@ -9,4 +9,46 @@
         margin-left: -$gutter;
         margin-right: -$gutter;
     }
+
+    h1 {
+        color: #333333;
+        margin-bottom: 0.8em;
+        font-size: 1.3em;
+    }
+    #school-data {
+        border-collapse: collapse;
+        width: 100%;
+        tr {
+            &:first-child td {
+                background-color: #eeeeee;
+            }
+            td {
+                padding: 0.8em;
+                &:first-child {
+                    width: 40%;
+                }
+                &:last-child {
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+    #school-data, #school-data th, #school-data td {
+        border: 1px solid #c7c7c9;
+    }
+
+    #school-contact-block {
+        h2 {
+            font-size: 1.2em;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+    }
+    .location-block {
+        h2 {
+            font-size: 1.2em;
+        }
+    }
 }
