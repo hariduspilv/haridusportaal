@@ -1,0 +1,12 @@
+@import "../../../assets/styles/typography.scss";
+#schools-single {
+    margin-top: $gutter;
+    @include break-on(sm, min) {
+        margin-left: $small;
+        margin-right: $small;
+    }
+    @include break-on(lg, min) {
+        margin-left: -$gutter;
+        margin-right: -$gutter;
+    }
+}

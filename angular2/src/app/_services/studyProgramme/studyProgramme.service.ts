@@ -45,4 +45,54 @@ query(
       }
     }
   }
-`
+`;
+
+export const SchoolStudyProgrammes = gql`
+  query($lang: LanguageId!, $schoolId: String!) {
+    nodeQuery(
+      filter: {
+        conditions: {
+          field: "field_educational_institution"
+          value: [$schoolId]
+          language: $lang
+        }
+      }
+      sort: [{
+        field: "title"
+        direction: ASC
+      }]
+    ) {
+      entities(language:$lang) {
+        ... on NodeStudyProgramme {
+          title
+          fieldSchoolAddress
+          fieldSchoolWebsite
+          fieldStudyProgrammeType {
+            entity {
+              name
+            }
+          }
+          fieldStudyProgrammeLevel {
+            entity {
+              name
+            }
+          }
+          fieldTeachingLanguage {
+            entity {
+              name
+            }
+          }
+          fieldIscedfDetailed {
+            entity {
+              name
+            }
+          }
+          fieldAccreditationStatus
+          fieldDurationYears
+          fieldDurationMonths
+          fieldAdmissionStatus
+        }
+      }
+    }
+  }
+`;

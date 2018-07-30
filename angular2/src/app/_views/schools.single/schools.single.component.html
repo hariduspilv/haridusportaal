@@ -1,3 +1,80 @@
 <breadcrumbs></breadcrumbs>
+<div class="main-container">
 
-<br/> {{ data | json }}
+    <mat-spinner *ngIf="loading"></mat-spinner>
+    <div *ngIf="!loading" class="row" id="schools-single">
+        <div class="col-8 sm-12" id="left-col">
+            <div class="block padding-block">
+                <div class="schools-title">{{ 'schools' | translate }}</div>
+                <h1>{{ data.title }}</h1>
+
+                <table>
+                    <tr>
+                        <td>{{ 'reg.code' | translate }}</td>
+                        <td>{{ data.fieldRegistrationCode }}</td>
+                    </tr>
+                    <tr *ngIf="data.fieldEducationalInstitutionTy.length">
+                        <td>{{ 'type' | translate }}</td>
+                        <td>
+                            <div *ngFor="let type of data.fieldEducationalInstitutionTy">
+                                {{ type.entity.name }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="data.fieldOwnershipType">
+                        <td>{{ 'ownership.type' | translate }}</td>
+                        <td>{{ data.fieldOwnershipType.entity.name }}</td>
+                    </tr>
+                    <tr *ngIf="data.fieldTeachingLanguage.length">
+                        <td>{{ 'teaching.language' | translate }}</td>
+                        <td>
+                            <div *ngFor="let language of data.fieldTeachingLanguage">
+                                {{ language.entity.name }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'special.class' | translate }}</td>
+                        <td>
+                            <span *ngIf="data.fieldSpecialClass; else elseSpecialClass">{{ 'exists' | translate }}</span>
+                            <ng-template #elseSpecialClass>{{ 'missing' | translate }}</ng-template>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'student.home' | translate }}</td>
+                        <td>
+                            <span *ngIf="data.fieldStudentHome; else elseStudentHome">{{ 'exists' | translate }}</span>
+                            <ng-template #elseStudentHome>{{ 'missing' | translate }}</ng-template>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <school-study-programmes [schoolId]="data.nid"></school-study-programmes>
+        </div>
+        <!-- /col-8 -->
+        <div class="col-4 sm-12" id="right-col">
+            <div class="block padding-block">
+                <h1>{{ 'contact' | translate }}</h1>
+                <ul>
+                    <li>{{ data.fieldSchoolContactPhone }}</li>
+                    <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
+                    <li><a href="http://{{ data.fieldSchoolWebpageAddress }}">{{ data.fieldSchoolWebpageAddress }}</a></li>
+                </ul>
+            </div>
+            <div *ngFor="let location of schoolLocations" class="block">
+                <agm-map [zoomControl]="false" [streetViewControl]="false" [latitude]="location.lat" [longitude]="location.lon" [zoom]="location.zoom">
+                    <agm-marker [latitude]="location.lat" [longitude]="location.lon"></agm-marker>
+                </agm-map>
+                <a href="http://www.google.com/maps/place/{{ location.lat }},{{ location.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
+                <div class=" padding-block">
+                    <h1 *ngIf="location.entity.fieldLocationType == 'L'">{{ 'official.address' | translate }}</h1>
+                    <h1 *ngIf="location.entity.fieldLocationType == 'V'">{{ 'activity.location' | translate }}</h1>
+                    <div>{{ location.entity.fieldAddress }}</div>
+                </div>
+            </div>
+        </div>
+        <!-- /col-4 -->
+    </div>
+    <!-- /row -->
+
+</div>
