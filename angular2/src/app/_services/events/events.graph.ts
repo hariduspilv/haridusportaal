@@ -1,394 +1,301 @@
 import gql from 'graphql-tag';
 
-export class EventsGraph {
-
-  buildList(lang, offset, limit) {
-
-    lang = lang.toUpperCase();
-
-    return gql`
-      query{
-        nodeQuery(offset:${offset}, limit:${limit}, sort: {field:"field_event_date.entity.field_event_date", direction:ASC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language:${lang}}] } ) {
-          entities (language:${lang}){
-            ... on NodeEvent{
-              title:entityLabel
-              location: fieldEventLocation{
-                lat
-                lon
-                name
-              }
-              fieldEventType{
-                entity{
-                  entityLabel
-                }
-              }
-              eventDates: fieldEventDate{
-                ...eventdates
-              }
-              fieldEntryType
-              registrationDate:fieldRegistrationDate{
-                ...registrationdates
-              }
-              
-              hashTags:fieldTag{
-                entity{
-                  entityLabel
-                }
-              }
-              entityUrl{
-                ...url
-              }
-            }
-          }
+export const recentQuery = gql`
+query(
+  $lang: LanguageId!
+){
+  nodeQuery(limit: 1, sort: {field: "field_event_date.entity.field_event_date", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language: $lang }]}) {
+    entities {
+      ... on NodeEvent {
+        title: entityLabel
+        location: fieldEventLocation {
+          lat
+          lon
+          name
         }
-      }
-      
-      fragment eventdates on FieldNodeFieldEventDate {
-        entity {
-          fieldEventDate {
-            value
-            date
-            unix
-          }
-          fieldEventStartTime
-          fieldEventEndTime
-        }
-      }
-      
-      fragment registrationdates on FieldNodeFieldRegistrationDate {
-        entity {
-          fieldRegistrationFirstDate {
-            value
-            date
-            unix
-          }
-          fieldRegistrationLastDate{
-            value
-            date
-            unix
-          }
-        }
-      }
-      
-      fragment url on EntityCanonicalUrl{
-        path
-        languageSwitchLinks {
-          active
-          title
-        }
-      }
-    
-    `;
-  }
-
-  buildSingle(lang, path){
-
-    lang = lang.toUpperCase();
-
-    return gql`
-    query{
-      route(path: "${path}") {
-        ... on EntityCanonicalUrl {
-          languageSwitchLinks {
-            active
-            title
-            language {
-              id
-            }
-            url {
-              path
-              routed
-              pathAlias
-              pathInternal
-            }
-          }
+        fieldEventType {
           entity {
-            ... on NodeEvent {
-
-              entityLabel
-              nid
-              fieldPicture {
-                derivative(style:CROP_LARGE){
-                  url
-                }
-                width
-                height
-                alt
-                title
-              }
-              EventRegistrations{
-                entities{
-                  ... on EventRegEntity{
-                    participantCreated:created
-                    participantEmail
-                    participantPhone
-                    participantLastName
-                    participantFirstName
-                    participantOrganization
-                    participantComment
-                  }
-                }
-              }
-              fieldAttachmentFile {
-                entity {
-                  entityLabel
-                  entityType
-                  entityChanged
-                  entityBundle
-                  entityCreated
-                  url
-                  filename
-                  filemime
-                }
-              }
-              fieldEventLocation{
-                name
-                lat
-                lon
-                zoom
-              }
-              fieldEventLocationLink{
-                title
-                uri
-              }
-              fieldOrganizer
-              fieldEventDate {
-                entity {
-                  fieldEventDate {
-                    value
-                    date
-                    unix
-                  }
-                  fieldEventStartTime
-                  fieldEventEndTime
-                }
-              }
-              fieldEntryType
-              fieldRegistrationDate{
-                entity {
-                  fieldRegistrationFirstDate {
-                    value
-                    date
-                    unix
-                  }
-                  fieldRegistrationLastDate{
-                    value
-                    date
-                    unix
-                  }
-                }
-              }
-              fieldEventLink {
-                url {
-                  routed
-                  path
-                }
-                title
-              }
-              fieldDescription {
-                value
-              }
-              fieldDescriptionSummary
-              fieldContactPerson
-              fieldContactPhone
-              fieldContactEmail
-							fieldPracticalInformation {
-							  value
-							  format
-							  processed
-              }
-              fieldEventGroup {
-                targetId
-              }
-              fieldTag {
-                entity {
-                  entityLabel
-                }
-              }
-              fieldEventType {
-                entity {
-                  entityLabel
-                }
-              }
-            }
+            entityLabel
           }
+        }
+        eventDates: fieldEventDate {
+          ...eventdates
+        }
+        fieldEntryType
+        fieldDescription {
+          value
+          format
+          processed
+        }
+        registrationDate: fieldRegistrationDate {
+          ...registrationdates
+        }
+        hashTags: fieldTag {
+          entity {
+            entityLabel
+          }
+        }
+        entityUrl {
+          ...url
         }
       }
-    }`;
-  }
-
-  buildRelated(lang, nid, groupID){
-
-    lang = lang.toUpperCase();
-
-    return gql`
-      query{
-        nodeQuery(limit: 3, sort: {field: "field_event_date.entity.field_event_date", direction: ASC}, filter: {conditions: [
-          {operator: EQUAL, field: "field_event_group.target_id", value: ["${groupID}"], language: ${lang} }
-          {operator: NOT_EQUAL, field: "nid", value: ["${nid}"], language: ${lang} }
-        ]}) {
-          entities(language: ${lang}) {
-            ... on NodeEvent {
-              title: entityLabel
-              created
-              nid
-              location: fieldEventLocation {
-                lat
-                lon
-                name
-              }
-              fieldEventLocationLink{
-                uri
-                title
-              }
-              fieldEventType {
-                entity {
-                  entityLabel
-                }
-              }
-              fieldContactPerson
-              eventDates: fieldEventDate {
-                ...eventdates
-              }
-              fieldEntryType
-              registrationDate: fieldRegistrationDate {
-                ...registrationdates
-              }
-              hashTags: fieldTag {
-                entity {
-                  entityLabel
-                }
-              }
-              entityUrl {
-                ...url
-              }
-            }
-          }
-        }
-      }
-      
-      fragment eventdates on FieldNodeFieldEventDate {
-        entity {
-          fieldEventDate {
-            value
-            date
-            unix
-          }
-          fieldEventStartTime
-          fieldEventEndTime
-        }
-      }
-      
-      fragment registrationdates on FieldNodeFieldRegistrationDate {
-        entity {
-          fieldRegistrationFirstDate {
-            value
-            date
-            unix
-          }
-          fieldRegistrationLastDate {
-            value
-            date
-            unix
-          }
-        }
-      }
-      
-      fragment url on EntityCanonicalUrl {
-        path
-        languageSwitchLinks {
-          active
-          title
-        }
-      }
-      
-    `;
-
-  }
-
-  buildRecent(lang){
-
-    lang = lang.toUpperCase();
-
-    return gql`
-      query{
-        nodeQuery(limit: 1, sort: {field: "field_event_date.entity.field_event_date", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language: ${lang} }]}) {
-          entities {
-            ... on NodeEvent {
-              title: entityLabel
-              location: fieldEventLocation {
-                lat
-                lon
-                name
-              }
-              fieldEventType {
-                entity {
-                  entityLabel
-                }
-              }
-              eventDates: fieldEventDate {
-                ...eventdates
-              }
-              fieldEntryType
-              fieldDescription {
-                value
-                format
-                processed
-              }
-              registrationDate: fieldRegistrationDate {
-                ...registrationdates
-              }
-              hashTags: fieldTag {
-                entity {
-                  entityLabel
-                }
-              }
-              entityUrl {
-                ...url
-              }
-            }
-          }
-        }
-      }
-      
-      fragment eventdates on FieldNodeFieldEventDate {
-        entity {
-          fieldEventDate {
-            value
-            date
-            unix
-          }
-          fieldEventStartTime
-          fieldEventEndTime
-        }
-      }
-      
-      fragment registrationdates on FieldNodeFieldRegistrationDate {
-        entity {
-          fieldRegistrationFirstDate {
-            value
-            date
-            unix
-          }
-          fieldRegistrationLastDate {
-            value
-            date
-            unix
-          }
-        }
-      }
-      
-      fragment url on EntityCanonicalUrl {
-        path
-        languageSwitchLinks {
-          active
-          title
-        }
-      }      
-    `;
-
+    }
   }
 }
+
+fragment eventdates on FieldNodeFieldEventDate {
+  entity {
+    fieldEventDate {
+      value
+      date
+      unix
+    }
+    fieldEventStartTime
+    fieldEventEndTime
+  }
+}
+
+fragment registrationdates on FieldNodeFieldRegistrationDate {
+  entity {
+    fieldRegistrationFirstDate {
+      value
+      date
+      unix
+    }
+    fieldRegistrationLastDate {
+      value
+      date
+      unix
+    }
+  }
+}
+
+fragment url on EntityCanonicalUrl {
+  path
+  languageSwitchLinks {
+    active
+    title
+  }
+}      
+`;
+
+export const relatedQuery = gql`
+query(
+  $groupID: String,
+  $lang: LanguageId!,
+  $nid: String
+){
+  nodeQuery(limit: 3, sort: {field: "field_event_date.entity.field_event_date", direction: ASC}, filter: {conditions: [
+    {operator: EQUAL, field: "field_event_group.target_id", value: [$groupID], language: $lang }
+    {operator: NOT_EQUAL, field: "nid", value: [$nid], language: $lang }
+  ]}) {
+    entities(language: $lang) {
+      ... on NodeEvent {
+        title: entityLabel
+        created
+        nid
+        location: fieldEventLocation {
+          lat
+          lon
+          name
+        }
+        fieldEventLocationLink{
+          uri
+          title
+        }
+        fieldEventType {
+          entity {
+            entityLabel
+          }
+        }
+        fieldContactPerson
+        eventDates: fieldEventDate {
+          ...eventdates
+        }
+        fieldEntryType
+        registrationDate: fieldRegistrationDate {
+          ...registrationdates
+        }
+        hashTags: fieldTag {
+          entity {
+            entityLabel
+          }
+        }
+        entityUrl {
+          ...url
+        }
+      }
+    }
+  }
+}
+fragment eventdates on FieldNodeFieldEventDate {
+  entity {
+    fieldEventDate {
+      value
+      date
+      unix
+    }
+    fieldEventStartTime
+    fieldEventEndTime
+  }
+}
+
+fragment registrationdates on FieldNodeFieldRegistrationDate {
+  entity {
+    fieldRegistrationFirstDate {
+      value
+      date
+      unix
+    }
+    fieldRegistrationLastDate {
+      value
+      date
+      unix
+    }
+  }
+}
+
+fragment url on EntityCanonicalUrl {
+  path
+  languageSwitchLinks {
+    active
+    title
+  }
+}
+`
+
+export const singleQuery = gql`
+query(
+  $path: String!
+){
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        title
+        language {
+          id
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+        }
+      }
+      entity {
+        ... on NodeEvent {
+
+          entityLabel
+          nid
+          fieldPicture {
+            derivative(style:CROP_LARGE){
+              url
+            }
+            width
+            height
+            alt
+            title
+          }
+          EventRegistrations{
+            entities{
+              ... on EventRegEntity{
+                participantCreated:created
+                participantEmail
+                participantPhone
+                participantLastName
+                participantFirstName
+                participantOrganization
+                participantComment
+              }
+            }
+          }
+          fieldAttachmentFile {
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+            }
+          }
+          fieldEventLocation{
+            name
+            lat
+            lon
+            zoom
+          }
+          fieldEventLocationLink{
+            title
+            uri
+          }
+          fieldOrganizer
+          fieldEventDate {
+            entity {
+              fieldEventDate {
+                value
+                date
+                unix
+              }
+              fieldEventStartTime
+              fieldEventEndTime
+            }
+          }
+          fieldEntryType
+          fieldRegistrationDate{
+            entity {
+              fieldRegistrationFirstDate {
+                value
+                date
+                unix
+              }
+              fieldRegistrationLastDate{
+                value
+                date
+                unix
+              }
+            }
+          }
+          fieldEventLink {
+            url {
+              routed
+              path
+            }
+            title
+          }
+          fieldDescription {
+            value
+          }
+          fieldDescriptionSummary
+          fieldContactPerson
+          fieldContactPhone
+          fieldContactEmail
+          fieldPracticalInformation {
+            value
+            format
+            processed
+          }
+          fieldEventGroup {
+            targetId
+          }
+          fieldTag {
+            entity {
+              entityLabel
+            }
+          }
+          fieldEventType {
+            entity {
+              entityLabel
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
 
 export const sortEventsByOptions = gql`
 query sortByOptions (

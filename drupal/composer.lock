@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "03579fa201b25c82ccf02f92e5a6be55",
+    "content-hash": "0ee0f1f48bbe1248a65e03022b83c82d",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1555,6 +1555,60 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/better_exposed_filters"
             }
+        },
+        {
+            "name": "drupal/bulkdelete",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/bulkdelete",
+                "reference": "24499e0f069301d605ab0691e2d6e17ecbcb4060"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.x-dev",
+                    "datestamp": "1495565583",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Kars-T",
+                    "homepage": "https://www.drupal.org/user/224499"
+                },
+                {
+                    "name": "Rahul Seth",
+                    "homepage": "https://www.drupal.org/user/2694359"
+                },
+                {
+                    "name": "adriancid",
+                    "homepage": "https://www.drupal.org/user/1962106"
+                },
+                {
+                    "name": "robertDouglass",
+                    "homepage": "https://www.drupal.org/user/5449"
+                }
+            ],
+            "description": "Adds an administrative option to bulk delete nodes by content type using the batch API.",
+            "homepage": "https://www.drupal.org/project/bulkdelete",
+            "support": {
+                "source": "http://cgit.drupalcode.org/bulkdelete"
+            },
+            "time": "2017-05-23T18:49:48+00:00"
         },
         {
             "name": "drupal/conditional_fields",
@@ -11290,6 +11344,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/bulkdelete": 20,
         "drupal/dropzonejs": 15,
         "drupal/graphql": 10,
         "drupal/graphql_metatag": 20,

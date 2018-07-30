@@ -6,7 +6,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { EventsConfig } from './events-config.model';
-import { EventsService, RootScopeService } from '../../_services';
+import { RootScopeService } from '../../_services';
 import { sortEventsByOptions, getEventsTags, getEventsTypes } from '../../_services/events/events.graph';
 
 import { Observable } from 'rxjs/Observable';
@@ -71,8 +71,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     public router: Router,
     public route: ActivatedRoute,
     private apollo: Apollo,
-    private rootScope: RootScopeService,
-    private eventService: EventsService
+    private rootScope: RootScopeService
   ) {
     super(null, null);
   }

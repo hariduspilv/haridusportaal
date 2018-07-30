@@ -1,7 +1,9 @@
 import { Component, OnDestroy, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { EventsService, RootScopeService, MetaTagsService, ShareService } from '../../_services';
+import { RootScopeService, MetaTagsService, ShareService } from '../../_services';
+
+import { singleQuery } from '../../_services/events/events.graph';
 
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -59,7 +61,6 @@ export class EventsSingleComponent implements AfterViewChecked {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private eventService: EventsService,
     private rootScope:RootScopeService,
     private apollo: Apollo,
     public dialog: MatDialog,
@@ -72,20 +73,39 @@ export class EventsSingleComponent implements AfterViewChecked {
     this.iCalUrl = this.settings.url+"/calendarexport/";
     this.participantsUrl = this.settings.url+"/htm_custom_event_registration/registrations/";
 
+  }
+
+  ngOnInit() {
+    this.routerSubscription = this.router.events.subscribe((event) => {
+      this.participantsListActiveState = this.participants && location.hash === "#osalejad"
+    });
+    let values = ['download','column.close','column.open','sort']
+    this.translate.get(values).subscribe(translations => {
+      this.viewTranslations = translations
+    })
+
+
     this.route.params.subscribe( params => {
       this.content = false;
       this.error = false;
       const path = this.router.url;
       const that = this;
       
-      eventService.getSingle(path, function(data) {
-
+      let subscribe = this.apollo.watchQuery({
+        query: singleQuery,
+        variables: {
+          path: path
+        },
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+      }).valueChanges.subscribe( ({data}) => {
         if ( data['route'] == null ) {
           that.error = true;
         } else {
 
           that.content = data['route'];
 
+          console.log(that.route);
           that.participants = JSON.parse(JSON.stringify(that.content.entity.EventRegistrations));
 
           if( that.participants ){
@@ -102,18 +122,11 @@ export class EventsSingleComponent implements AfterViewChecked {
           that.unix = new Date().getTime();
           that.participantsListActiveState = that.participants && location.hash === "#osalejad";
         }
+        subscribe.unsubscribe();
       });
-    });
-  }
 
-  ngOnInit() {
-    this.routerSubscription = this.router.events.subscribe((event) => {
-      this.participantsListActiveState = this.participants && location.hash === "#osalejad"
+        
     });
-    let values = ['download','column.close','column.open','sort']
-    this.translate.get(values).subscribe(translations => {
-      this.viewTranslations = translations
-    })
   }
   ngAfterViewChecked() {
     if (!this.initialized) {
