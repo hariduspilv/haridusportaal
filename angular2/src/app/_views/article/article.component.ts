@@ -2,8 +2,8 @@ import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Params, Router, ActivatedRoute } from '@angular/router';
-import { ArticleService, RootScopeService, ShareService } from '../../_services';
-import { getArticleData } from '../../_services/article/article.graph';
+import { RootScopeService, ShareService } from '../../_services';
+import { singleQuery } from '../../_services/article.graph';
 
 
 import { Apollo } from 'apollo-angular';
@@ -30,7 +30,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
   accordionSection: any[];
   
   fieldRightSidebar: any;
-  
+
   fieldAdditional: any;
   fieldAdditionalTitle: any;
   fieldAdditionalBody: any;
@@ -45,7 +45,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
   articleLinks: any[];
   relatedArticles: any[];
   
-  constructor(private router: Router, private route: ActivatedRoute, private articleService: ArticleService, private rootScope: RootScopeService, private shareService: ShareService, private apollo: Apollo) {}
+  constructor(private router: Router, private route: ActivatedRoute, private rootScope: RootScopeService, private shareService: ShareService, private apollo: Apollo) {}
   
   ngOnInit() {
     
@@ -55,7 +55,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
         this.lang = params['lang'];
         
         this.querySubscription = this.apollo.watchQuery({
-          query: getArticleData,
+          query: singleQuery,
           variables: {
             path: this.path,
             lang: this.lang.toUpperCase(),
@@ -65,6 +65,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
         })
         .valueChanges
         .subscribe(({data, loading}) => {
+          
           
           //language service
           const langOptions = data['route']['languageSwitchLinks'];

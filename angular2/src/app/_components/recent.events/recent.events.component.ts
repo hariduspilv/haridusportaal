@@ -1,7 +1,8 @@
 import { Component, OnDestroy, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { EventsService, RootScopeService } from '../../_services';
+import { RootScopeService } from '../../_services';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Apollo } from 'apollo-angular';
+import { Subscription } from 'rxjs/Subscription'; 
 
 import { AgmCoreModule } from '@agm/core';
 
@@ -29,7 +30,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 
 	paramsSub: any;
 
-	constructor(private eventService: EventsService, private router: Router, private route: ActivatedRoute, public dialog: MatDialog) {}
+	constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog) {}
 	
 	ngOnInit() {
 
