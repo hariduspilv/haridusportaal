@@ -1,4 +1,5 @@
 <div *ngIf="programmes.length > 0" class="block padding-block">
+  <div class="block-title">{{'study.programmes' | translate}}</div>
   <div *ngFor="let programme of programmes">
     <h2>{{ programme.title }}</h2>
     <div>
