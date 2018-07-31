@@ -1,0 +1,77 @@
+<breadcrumbs></breadcrumbs>
+<div class="main-container">
+
+    <mat-spinner *ngIf="loading"></mat-spinner>
+    <div *ngIf="!loading" class="row" id="schools-single">
+        <div class="col-8 sm-12" id="left-col">
+            <div class="block padding-block">
+                <div class="block-title">{{ 'schools' | translate }}</div>
+                <h1>{{ data.title }}</h1>
+
+                <table id="school-data">
+                    <tr>
+                        <td>{{ 'reg.code' | translate }}</td>
+                        <td>{{ data.fieldRegistrationCode }}</td>
+                    </tr>
+                    <tr *ngIf="data.fieldEducationalInstitutionTy.length">
+                        <td>{{ 'type' | translate }}</td>
+                        <td>
+                            <div *ngFor="let type of data.fieldEducationalInstitutionTy">
+                                {{ type.entity.name }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="data.fieldOwnershipType">
+                        <td>{{ 'ownership.type' | translate }}</td>
+                        <td>{{ data.fieldOwnershipType.entity.name }}</td>
+                    </tr>
+                    <tr *ngIf="data.fieldTeachingLanguage.length">
+                        <td>{{ 'teaching.language' | translate }}</td>
+                        <td>
+                            <div *ngFor="let language of data.fieldTeachingLanguage">
+                                {{ language.entity.name }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'special.class' | translate }}</td>
+                        <td>
+                            <span *ngIf="data.fieldSpecialClass; else elseSpecialClass">{{ 'exists' | translate }}</span>
+                            <ng-template #elseSpecialClass>{{ 'missing' | translate }}</ng-template>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'student.home' | translate }}</td>
+                        <td>
+                            <span *ngIf="data.fieldStudentHome; else elseStudentHome">{{ 'exists' | translate }}</span>
+                            <ng-template #elseStudentHome>{{ 'missing' | translate }}</ng-template>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <school-study-programmes [schoolId]="data.nid"></school-study-programmes>
+        </div>
+        <!-- /col-8 -->
+        <div class="col-4 sm-12" id="right-col">
+            <div class="block padding-block" id="school-contact-block">
+                <h2>{{ 'contact' | translate }}</h2>
+                <ul>
+                    <li>{{ data.fieldSchoolContactPhone }}</li>
+                    <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
+                    <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
+                </ul>
+            </div>
+            <div *ngFor="let location of data.fieldSchoolLocation" class="block location-block">
+                <map-wrapper [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
+                <div class=" padding-block">
+                    <h2 *ngIf="location.entity.fieldLocationType == 'L'">{{ 'official.address' | translate }}</h2>
+                    <h2 *ngIf="location.entity.fieldLocationType == 'V'">{{ 'activity.location' | translate }}</h2>
+                    <div>{{ location.entity.fieldAddress }}</div>
+                </div>
+            </div>
+        </div>
+        <!-- /col-4 -->
+    </div>
+    <!-- /row -->
+
+</div>
