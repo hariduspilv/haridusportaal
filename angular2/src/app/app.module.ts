@@ -44,19 +44,27 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     "otherwise": "https://api.test.edu.ee"
   }
 
+  let translateUrls = {
+    "localhost": ["/assets/", ".json"],
+    //"localhost": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
+    "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
+    "otherwise": ["https://api.test.edu.ee/", "/base_settings?_format=json"]
+  }
+
   let url = "";
   
   if( urlTemplates[document.domain] ) {
     url = urlTemplates[document.domain];
   }else{
-    url = urlTemplates.localhost;
+    url = urlTemplates.otherwise;
   }
 
-  let localPath = true;
-
-  let path = [url, "/base_settings?_format=json"];
-  if( localPath ){
-    path = ["/assets/", ".json"];
+  let path;
+  
+  if( translateUrls[document.domain] ) {
+    path = translateUrls[document.domain];
+  }else{
+    path = translateUrls.otherwise;
   }
 
   return new TranslateHttpLoader(http, path[0], path[1]);

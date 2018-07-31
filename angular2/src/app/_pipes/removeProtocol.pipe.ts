@@ -8,7 +8,11 @@ export class RemoveProtocolPipe implements PipeTransform {
 
   transform(value: any): any {
     
-    return value.replace(/.*\s*:\/\/\s*/, "");
+    if( value == undefined ){
+      return '';
+    }else{
+      return value.replace(/.*\s*:\/\/\s*/, "");
+    }
 
   }
 
