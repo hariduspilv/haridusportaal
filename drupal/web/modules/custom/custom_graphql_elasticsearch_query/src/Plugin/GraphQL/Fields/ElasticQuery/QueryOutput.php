@@ -11,9 +11,9 @@ use Drupal\graphql\Utility\StringHelper;
  * Retrieve a Drupal menu's description.
  *
  * @GraphQLField(
- *   id = "custom_elasticquery_output",
  *   secure = true,
  *   parents = {"CustomElastic"},
+ *   id = "custom_elasticquery_output",
  *	 deriver = "Drupal\custom_graphql_elasticsearch_query\Plugin\GraphQL\Derivers\ElasticFieldDeriver"
  * )
  */

@@ -1,22 +1,41 @@
 <?php
 
 namespace Drupal\custom_graphql_elasticsearch_query\Plugin\GraphQL\Derivers;
+
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Elasticsearch\ClientBuilder;
 use Drupal\graphql\Utility\StringHelper;
 /**
- * Provides GraphQL Field plugin definitions for Search API fields.
+ * Provides GraphQL Field plugin definitions for Elasticsearch index fields.
  */
 class ElasticFieldDeriver extends DeriverBase {
+
   /**
-   * Constructs a new Search API field.
+   * List of derivative definitions.
+   *
+   * @var array
    */
-  public function __construct() {
-  }
+  protected $derivatives = [];
+
   /**
    * {@inheritdoc}
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
+
+    $fields = $this->getFields();
+
+    foreach($fields as $field){
+      $field = $derivative['type'] = StringHelper::camelCase($field);
+      $this->derivatives[$field] = $base_plugin_definition;
+      $this->derivatives[$field]['name'] = $field;
+      $this->derivatives[$field]['type'] = 'String';
+    }
+
+    return $this->derivatives;
+  }
+
+  public function getFields(){
+    $fields = [];
 
     $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
     $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
@@ -32,22 +51,17 @@ class ElasticFieldDeriver extends DeriverBase {
 
     $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
     $elasticindexes = $client->indices()->getAliases();
-    foreach($elasticindexes as $index => $value){
-      if(substr($index, 0, 1) !== "."){
-        $indexfields = reset(reset(reset($client->indices()->getMapping()[$index])));
-        foreach($indexfields as $key => $value){
-          $fields[] = $key;
+    $elasticmapping = $client->indices()->getMapping();
+
+    foreach($elasticindexes as $elasticindex => $indexval){
+      if(substr($elasticindex, 0, 1) !== "."){
+        $fieldsitem = reset($elasticmapping[$elasticindex]['mappings']);
+        foreach($fieldsitem['properties'] as $field => $type){
+          $fields[] = $field;
         }
       }
     }
-
-    foreach($fields as $field){
-      $field = $derivative['type'] = StringHelper::camelCase($field);
-      $this->derivatives[$field] = $base_plugin_definition;
-      $this->derivatives[$field]['name'] = $field;
-      $this->derivatives[$field]['type'] = 'String';
-    }
-
-    return $this->derivatives;
+    return array_unique($fields);
   }
+
 }
