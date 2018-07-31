@@ -4,7 +4,7 @@
     <h2>{{ programme.title }}</h2>
     <div id="programme-address">
       {{ programme.fieldSchoolAddress }}, 
-      <a href="{{ programme.fieldSchoolWebsite | url }}">{{ programme.fieldSchoolWebsite | removeProtocol }}</a>
+      <a href="{{ programme.fieldSchoolWebsite | url }}" target="_blank">{{ programme.fieldSchoolWebsite | removeProtocol }}</a>
     </div>
     <ul class="study-programme-properties">
       <li>
