@@ -96,7 +96,7 @@ class RoleFilterTest extends UnitTestCase {
    * Tests preprocessing search items with an inclusive filter.
    */
   public function testFilterInclusive() {
-    $configuration['roles'] = ['authenticated' => 'authenticated'];
+    $configuration['roles'] = ['authenticated'];
     $configuration['default'] = 0;
     $this->processor->setConfiguration($configuration);
 
@@ -111,7 +111,7 @@ class RoleFilterTest extends UnitTestCase {
    * Tests preprocessing search items with an exclusive filter.
    */
   public function testFilterExclusive() {
-    $configuration['roles'] = ['editor' => 'editor'];
+    $configuration['roles'] = ['editor'];
     $configuration['default'] = 1;
     $this->processor->setConfiguration($configuration);
 

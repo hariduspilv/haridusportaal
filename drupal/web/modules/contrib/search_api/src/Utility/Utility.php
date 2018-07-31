@@ -3,12 +3,11 @@
 namespace Drupal\search_api\Utility;
 
 use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Config\ConfigFactoryOverrideInterface;
+use Drupal\Core\Config\Config;
 use Drupal\Core\Config\Entity\ConfigEntityTypeInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\search_api\IndexInterface;
 use Drupal\search_api\Plugin\search_api\data_type\value\TextToken;
-use Symfony\Component\DependencyInjection\TaggedContainerInterface;
 
 /**
  * Contains utility methods for the Search API.
@@ -167,31 +166,43 @@ class Utility {
     }
 
     $config_key = $entity_type->getConfigPrefix() . '.' . $entity->id();
-    $overrides = [];
-
-    // Overrides from tagged services.
-    $container = \Drupal::getContainer();
-    if ($container instanceof TaggedContainerInterface) {
-      $tags = $container->findTaggedServiceIds('config.factory.override');
-      foreach (array_keys($tags) as $service_id) {
-        $override = $container->get($service_id);
-        if ($override instanceof ConfigFactoryOverrideInterface) {
-          $service_overrides = $override->loadOverrides([$config_key]);
-          if (!empty($service_overrides[$config_key])) {
-            // Existing overrides take precedence since these will have been
-            // added by events with a higher priority.
-            $arrays = [$service_overrides[$config_key], $overrides];
-            $overrides = NestedArray::mergeDeepArray($arrays, TRUE);
-          }
-        }
-      }
+    $config = \Drupal::config($config_key);
+    if (!$config->hasOverrides()) {
+      return [];
     }
 
-    // Overrides from settings.php. (This takes precedence over overrides from
-    // services.)
-    if (isset($GLOBALS['config'][$config_key])) {
-      $arrays = [$overrides, $GLOBALS['config'][$config_key]];
-      $overrides = NestedArray::mergeDeepArray($arrays, TRUE);
+    return static::collectOverrides($config, $config->get());
+  }
+
+  /**
+   * Collects overrides from a config object.
+   *
+   * @param \Drupal\Core\Config\Config $config
+   *   The config object.
+   * @param array $values
+   *   The array of values for the given $prefix.
+   * @param array $overrides
+   *   (optional) The overrides collected so far. Internal use only.
+   * @param string $prefix
+   *   (optional) The config key prefix for the current call level.  Internal
+   *   use only.
+   *
+   * @return array
+   *   An associative array mapping property names to their overridden values.
+   */
+  protected static function collectOverrides(Config $config, array $values, array $overrides = [], $prefix = '') {
+    foreach ($values as $key => $value) {
+      $key = "$prefix$key";
+      if (!$config->hasOverrides($key)) {
+        continue;
+      }
+      if (is_array($value)) {
+        NestedArray::setValue($overrides, explode('.', $key), []);
+        $overrides = static::collectOverrides($config, $value, $overrides, "$key.");
+      }
+      else {
+        NestedArray::setValue($overrides, explode('.', $key), $value);
+      }
     }
 
     return $overrides;

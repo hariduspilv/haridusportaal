@@ -74,6 +74,8 @@ class BackendTest extends BackendTestBase {
     $this->checkMultiValuedInfo();
     $this->editServerPartial();
     $this->searchSuccessPartial();
+    $this->editServerStartsWith();
+    $this->searchSuccessStartsWith();
     $this->editServerMinChars();
     $this->searchSuccessMinChars();
     $this->checkUnknownOperator();
@@ -207,14 +209,11 @@ class BackendTest extends BackendTestBase {
 
   /**
    * Edits the server to enable partial matches.
-   *
-   * @param bool $enable
-   *   (optional) Whether partial matching should be enabled or disabled.
    */
-  protected function editServerPartial($enable = TRUE) {
+  protected function editServerPartial() {
     $server = $this->getServer();
     $backend_config = $server->getBackendConfig();
-    $backend_config['partial_matches'] = $enable;
+    $backend_config['matching'] = 'partial';
     $server->setBackendConfig($backend_config);
     $this->assertTrue((bool) $server->save(), 'The server was successfully edited.');
     $this->resetEntityCache();
@@ -243,7 +242,7 @@ class BackendTest extends BackendTestBase {
     $this->assertResults([], $results, 'Partial search for »foo nonexistent«');
 
     $results = $this->buildSearch('bar nonexistent')->execute();
-    $this->assertResults([], $results, 'Partial search for »foo nonexistent«');
+    $this->assertResults([], $results, 'Partial search for »bar nonexistent«');
 
     $keys = [
       '#conjunction' => 'AND',
@@ -272,13 +271,76 @@ class BackendTest extends BackendTestBase {
   }
 
   /**
+   * Edits the server to enable prefix matching.
+   */
+  protected function editServerStartsWith() {
+    $server = $this->getServer();
+    $backend_config = $server->getBackendConfig();
+    $backend_config['matching'] = 'prefix';
+    $server->setBackendConfig($backend_config);
+    $this->assertTrue((bool) $server->save(), 'The server was successfully edited.');
+    $this->resetEntityCache();
+  }
+
+  /**
+   * Tests whether prefix matching works.
+   */
+  protected function searchSuccessStartsWith() {
+    $results = $this->buildSearch('foobaz')->range(0, 1)->execute();
+    $this->assertResults([1], $results, 'Prefix search for »foobaz«');
+
+    $results = $this->buildSearch('foo', [], [], FALSE)
+      ->sort('search_api_relevance', QueryInterface::SORT_DESC)
+      ->sort('id')
+      ->execute();
+    $this->assertResults([1, 2, 4, 3, 5], $results, 'Prefix search for »foo«');
+
+    $results = $this->buildSearch('foo tes')->execute();
+    $this->assertResults([1, 2, 3, 4], $results, 'Prefix search for »foo tes«');
+
+    $results = $this->buildSearch('oob est')->execute();
+    $this->assertResults([], $results, 'Prefix search for »oob est«');
+
+    $results = $this->buildSearch('foo nonexistent')->execute();
+    $this->assertResults([], $results, 'Prefix search for »foo nonexistent«');
+
+    $results = $this->buildSearch('bar nonexistent')->execute();
+    $this->assertResults([], $results, 'Prefix search for »bar nonexistent«');
+
+    $keys = [
+      '#conjunction' => 'AND',
+      'foob',
+      [
+        '#conjunction' => 'OR',
+        'tes',
+        'nonexistent',
+      ],
+    ];
+    $results = $this->buildSearch($keys)->execute();
+    $this->assertResults([1, 2, 3], $results, 'Prefix search for complex keys');
+
+    $results = $this->buildSearch('foo', ['category,item_category'], [], FALSE)
+      ->sort('id', QueryInterface::SORT_DESC)
+      ->execute();
+    $this->assertResults([2, 1], $results, 'Prefix search for »foo« with additional filter');
+
+    $query = $this->buildSearch();
+    $conditions = $query->createConditionGroup('OR');
+    $conditions->addCondition('name', 'test');
+    $conditions->addCondition('body', 'test');
+    $query->addConditionGroup($conditions);
+    $results = $query->execute();
+    $this->assertResults([1, 2, 3, 4], $results, 'Prefix search with multi-field fulltext filter');
+  }
+
+  /**
    * Edits the server to change the "Minimum word length" setting.
    */
   protected function editServerMinChars() {
     $server = $this->getServer();
     $backend_config = $server->getBackendConfig();
     $backend_config['min_chars'] = 4;
-    $backend_config['partial_matches'] = FALSE;
+    $backend_config['matching'] = 'words';
     $server->setBackendConfig($backend_config);
     $success = (bool) $server->save();
     $this->assertTrue($success, 'The server was successfully edited.');
