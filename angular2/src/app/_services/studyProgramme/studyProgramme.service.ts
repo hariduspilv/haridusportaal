@@ -70,6 +70,9 @@ query studyProgrammeList (
       ... on NodeStudyProgramme {
         nid
         entityLabel
+        entityUrl{
+          path
+        }
         fieldSchoolAddress
         fieldSchoolWebsite
         fieldEducationalInstitution {
