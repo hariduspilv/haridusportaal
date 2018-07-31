@@ -1,0 +1,29 @@
+.map-wrapper {
+    position: relative;
+    .map-link {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 50px;
+        line-height: 50px;
+        background: rgba($color: #000000, $alpha: 0.5);
+        color: white;
+        text-align: center;
+        a {
+            color: white;
+            vertical-align: middle;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 1rem;
+            * {
+                vertical-align: middle;
+            }
+            .mat-icon {
+                font-size: 1.23rem;
+                display: inline;
+                padding-right: 5px;
+            }
+        }
+    }
+}

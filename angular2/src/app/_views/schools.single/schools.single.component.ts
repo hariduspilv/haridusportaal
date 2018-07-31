@@ -14,7 +14,6 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy {
   loading = true;
   data: any;
   path: String;
-  schoolLocations = [];
 
   private querySubscription: Subscription;
 
@@ -38,17 +37,6 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy {
         this.loading = loading;
         if (data) {
           this.data = data.route.entity;
-          for (let i = 0; i < this.data.fieldSchoolLocation.length; i++) {
-            this.schoolLocations[i] = {};
-            this.schoolLocations[i].entity = this.data.fieldSchoolLocation[i].entity;
-            this.schoolLocations[i].lat = parseFloat(this.data.fieldSchoolLocation[i].entity.fieldCoordinates.lat);
-            this.schoolLocations[i].lon = parseFloat(this.data.fieldSchoolLocation[i].entity.fieldCoordinates.lon);
-            if (this.data.fieldSchoolLocation[i].entity.fieldCoordinates.zoom != 'null') {
-              this.schoolLocations[i].zoom = parseInt(this.data.fieldSchoolLocation[i].entity.fieldCoordinates.zoom);
-            } else {
-              this.schoolLocations[i].zoom = 12;
-            }
-          }
         }
       });
   }
