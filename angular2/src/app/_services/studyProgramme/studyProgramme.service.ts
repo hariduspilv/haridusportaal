@@ -122,6 +122,47 @@ query studyProgrammeList (
 }
 `
 
+export const SingleQuery = gql`
+query(
+  $path: String!
+){
+  route(path: $path){
+    ... on EntityCanonicalUrl{
+      entity{
+        ... on NodeStudyProgramme{
+          nid
+          entityLabel
+          fieldStudyProgrammeLevel {
+            entity{
+              entityLabel
+            }
+          }
+          fieldEducationalInstitution {
+            entity{
+              entityLabel
+              entityId
+            }
+          }
+        }
+      }
+      languageSwitchLinks {
+        active
+        title
+        language {
+          id
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+        }
+      }
+    }
+  }
+}
+`
+
 export const FilterOptions = gql`
 query studyProgrammeFilterOptions( $lang: LanguageId!){
   type: taxonomyTermQuery(filter: {conditions: [

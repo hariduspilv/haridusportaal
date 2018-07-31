@@ -1,1 +1,39 @@
 <breadcrumbs></breadcrumbs>
+
+<div class="main-container">
+  <mat-spinner *ngIf="!data && !error"></mat-spinner>
+
+  <div class="row" *ngIf="data">
+    <div class="col-8 sm-12">
+      <div class="block">
+
+        <div class="block__title">ERIALAD</div>
+        <article>
+          <div class="row title">
+            <div class="col-8">
+              <h1>{{ data.entityLabel }}</h1>
+            </div><!--/col-8-->
+          </div><!--/row-->
+
+          <div class="row">
+            <div class="col-12">
+              <table width="100%" border="1">
+                <tr>
+                  <th>Õppeasutuse nimi</th>
+                  <th>{{ data.fieldEducationalInstitution.entity.entityLabel }}</th>
+                </tr>
+                <tr>
+                  <td>Õppekava tase</td>
+                  <td>{{ data.fieldEducationalInstitution.entity.entityLabel }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </article>
+      </div><!--/block-->
+    </div><!--/col-8-->
+    <div class="col-4 sm-12">
+      
+    </div><!--/col-4-->
+  </div><!--/row-->
+</div>
