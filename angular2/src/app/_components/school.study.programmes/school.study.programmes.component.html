@@ -1,7 +1,7 @@
 <div *ngIf="programmes.length > 0" class="block" id="school-study-programmes">
   <div class="block-title">{{'study.programmes' | translate}}</div>
   <div *ngFor="let programme of programmes" class="programme padding-block">
-    <h2>{{ programme.title }}</h2>
+    <h2><a href="{{programme.entityUrl.path}}">{{ programme.title }}</a></h2>
     <div id="programme-address">
       {{ programme.fieldSchoolAddress }}, 
       <a href="{{ programme.fieldSchoolWebsite | url }}" target="_blank">{{ programme.fieldSchoolWebsite | removeProtocol }}</a>
