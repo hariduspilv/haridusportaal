@@ -139,4 +139,58 @@ query(
     }
   }
 }
-`
+`;
+
+export const SingleQuery = gql`
+  query(
+    $path: String!
+  ) {
+    route(path: $path) {
+      ... on EntityCanonicalUrl {
+        entity {
+          ... on NodeSchool {
+            nid
+            title
+            fieldRegistrationCode
+            fieldOwnershipType {
+              entity {
+                name
+              }
+            }
+            fieldEducationalInstitutionTy {
+              entity {
+                name
+              }
+            }
+            fieldTeachingLanguage {
+              entity {
+                name
+              }
+            }
+            fieldSpecialClass
+            fieldStudentHome
+            fieldSchoolContactPhone
+            fieldSchoolContactEmail
+            fieldSchoolWebpageAddress
+            fieldSchoolLocation {
+              entity {
+                fieldAddress
+                fieldLocationType
+                fieldSchoolLocation {
+                  entity {
+                    name
+                  }
+                }
+                fieldCoordinates {
+                  lat
+                  lon
+                  zoom
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
