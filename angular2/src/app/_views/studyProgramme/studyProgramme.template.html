@@ -18,7 +18,7 @@
           <div class="round-input__wrapper">
             <mat-form-field *ngIf="FilterOptions" >
               <mat-select placeholder="{{ 'studyProgramme.search.type' | translate }}" [(ngModel)]='filterFormItems.type' name="type">
-                <mat-option>Kõik</mat-option>
+                <mat-option>{{ 'all' | translate }}</mat-option>
                 <mat-option *ngFor="let type of FilterOptions.type" [value]="type.tid">
                   {{type.entityLabel}}
                 </mat-option>
@@ -44,8 +44,8 @@
             <div class="col-4 sm-12" >
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
-                  <mat-select placeholder="õppekava tase" [(ngModel)]='filterFormItems.level' name="level">
-                    <mat-option>Kõik</mat-option>
+                  <mat-select placeholder="{{ 'studyProgramme.level' | translate }}" [(ngModel)]='filterFormItems.level' name="level">
+                    <mat-option>{{ 'all' | translate }}</mat-option>
                     <mat-option  *ngFor="let level of FilterOptions.level" [value]="level.tid">
                       {{level.entityLabel}}
                     </mat-option>
@@ -58,7 +58,7 @@
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select placeholder="{{ 'studyProgramme.search.iscedf_board' | translate }}" [(ngModel)]='filterFormItems.iscedf_board' name="iscedf_board">
-                    <mat-option>Kõik</mat-option>
+                    <mat-option>{{ 'all' | translate }}</mat-option>
                     <mat-option  *ngFor="let iscedf_board of FilterOptions.iscedf_board" [value]="iscedf_board.tid">
                       {{iscedf_board.entityLabel}}
                     </mat-option>
@@ -72,7 +72,7 @@
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select placeholder="{{ 'studyProgramme.search.language' | translate }}" [(ngModel)]='filterFormItems.language' name="language">
-                    <mat-option>Kõik</mat-option>
+                    <mat-option>{{ 'all' | translate }}</mat-option>
                     <mat-option  *ngFor="let language of FilterOptions.language" [value]="language.tid">
                       {{language.entityLabel}}
                     </mat-option>
@@ -85,7 +85,7 @@
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select placeholder="{{ 'studyProgramme.search.iscedf_narrow' | translate }}" [(ngModel)]='filterFormItems.iscedf_narrow' name="iscedf_narrow">
-                    <mat-option>Kõik</mat-option>
+                    <mat-option>{{ 'all' | translate }}</mat-option>
                     <mat-option  *ngFor="let iscedf_narrow of FilterOptions.iscedf_narrow" [value]="iscedf_narrow.tid">
                       {{iscedf_narrow.entityLabel}}
                     </mat-option>
@@ -110,7 +110,7 @@
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select placeholder="{{ 'studyProgramme.search.iscedf_detailed' | translate }}" [(ngModel)]='filterFormItems.iscedf_detailed' name="iscedf_detailed">
-                    <mat-option>Kõik</mat-option>
+                    <mat-option>{{ 'all' | translate }}</mat-option>
                     <mat-option  *ngFor="let iscedf_detailed of FilterOptions.iscedf_detailed" [value]="iscedf_detailed.tid">
                       {{iscedf_detailed.entityLabel}}
                     </mat-option>
@@ -122,24 +122,16 @@
         
         <div class="row" >
           <div class="col-4 sm-12" >
-            <div class="ng-select__wrapper">
-                <span class="ng-select__title" [class.exists]="filterFormItems.location && filterFormItems.location.length">{{ 'studyProgramme.search.location' | translate }}</span>
-                <ng-select
-                [class.exists]="FilterLocations && FilterLocations.length"
-                [items]="FilterLocations"
-                [multiple]="true"
-                [loading]="loading"
-                bindLabel="entityLabel"
-                name="location"
-                [(ngModel)]="filterFormItems.location"
-                placeholder="{{ 'studyProgramme.search.location' | translate }}"
-                (clear)="clearField('location')"
-                [dropdownPosition]="'bottom'"></ng-select>      
-              </div>
+              <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
+                <span class="round-input__title">{{ 'studyProgramme.search.location' | translate }}</span>
+                <div class="round-input__field-wrapper">
+                  <input class="round-input__field" placeholder="{{ 'studyProgramme.search.location' | translate }} " [(ngModel)]='filterFormItems.location' name="location" />
+                </div>
+              </div><!--/round-inpuit__wrapper-->
           </div><!--/col-4-->
           <div class="col-4 sm-12" >
               <div class="custom-checkbox" style="margin-top: 0.5rem">
-                  <mat-checkbox > {{ 'studyProgramme.search.open_admission' | translate }}</mat-checkbox>
+                  <mat-checkbox [(ngModel)]="filterFormItems.open_admission" name="open_admission"> {{ 'studyProgramme.search.open_admission' | translate }}</mat-checkbox>
               </div>
             
           </div><!--/col-4-->
@@ -175,7 +167,11 @@
           <div class="studyProgramme__item__titlebox">
             <div class="col-grow">
               <div class="studyProgramme__item__title">{{ item.entityLabel }}</div>
-              <div class="studyProgramme__item__subtitle" *ngIf="item.fieldEducationalInstitution">{{ item.fieldEducationalInstitution.entity.entityLabel }}</div>      
+              <div class="studyProgramme__item__subtitle" *ngIf="item.fieldEducationalInstitution">
+                {{ item.fieldEducationalInstitution.entity.entityLabel }},
+                {{ item.fieldSchoolAddress }}
+                <a href="{{ item.fieldSchoolWebsite }}">{{  item.fieldSchoolWebsite | removeProtocol }}</a>
+              </div>      
             </div><!--col-9-->
             <div class="col">
                 <div class="custom-checkbox">

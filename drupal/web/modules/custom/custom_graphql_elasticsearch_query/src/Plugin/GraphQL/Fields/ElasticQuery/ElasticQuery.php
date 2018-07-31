@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
 use Elasticsearch\ClientBuilder;
 use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
+use Drupal\graphql\Utility\StringHelper;
 
 
 /**
@@ -69,7 +70,9 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 	 * {@inheritdoc}
 	 */
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
-		$elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
+    $responsevalues = [];
+
+    $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
     $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
     $elasticsearch_pass = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['password'];
 
@@ -90,7 +93,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 		];
 
 		$response = $client->search($params);
-		$responsevalues = [];
 
 		while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
 
@@ -108,8 +110,11 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 				);
 		}
 		foreach($responsevalues as $value){
-			$value = json_encode($value);
-			yield $value;
+      foreach($value['_source'] as $key => $keyvalue){
+        $value['_source'][StringHelper::camelCase($key)] = $keyvalue;
+        unset($value['_source'][$key]);
+      }
+			yield $value['_source'];
 		}
 		//yield $this->getQuery($value, $args, $context, $info);
 	}
