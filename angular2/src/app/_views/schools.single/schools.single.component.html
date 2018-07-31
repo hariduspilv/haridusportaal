@@ -61,11 +61,8 @@
                     <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
                 </ul>
             </div>
-            <div *ngFor="let location of schoolLocations" class="block location-block">
-                <agm-map [zoomControl]="false" [streetViewControl]="false" [latitude]="location.lat" [longitude]="location.lon" [zoom]="location.zoom">
-                    <agm-marker [latitude]="location.lat" [longitude]="location.lon"></agm-marker>
-                </agm-map>
-                <a href="http://www.google.com/maps/place/{{ location.lat }},{{ location.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
+            <div *ngFor="let location of data.fieldSchoolLocation" class="block location-block">
+                <map-wrapper [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
                 <div class=" padding-block">
                     <h2 *ngIf="location.entity.fieldLocationType == 'L'">{{ 'official.address' | translate }}</h2>
                     <h2 *ngIf="location.entity.fieldLocationType == 'V'">{{ 'activity.location' | translate }}</h2>

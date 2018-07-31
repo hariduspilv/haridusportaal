@@ -33,6 +33,7 @@ import { BreadcrumbsComponent } from './_components/breadcrumbs/breadcrumbs.comp
 
 import { SettingsService } from './_core/settings';
 import { SchoolStudyProgrammesComponent } from './_components/school.study.programmes/school.study.programmes.component';
+import { MapWrapperComponent } from './_components/map.wrapper/map.wrapper.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
@@ -71,7 +72,8 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     BreadcrumbsComponent,
     Modal,
     VideoComponent,
-    SchoolStudyProgrammesComponent
+    SchoolStudyProgrammesComponent,
+    MapWrapperComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent],
