@@ -1,22 +1,22 @@
 queue_ui.overview_form:
   path: admin/config/system/queue-ui
   defaults:
-    _form: '\Drupal\queue_ui\Form\QueueUIOverviewForm'
+    _form: '\Drupal\queue_ui\Form\OverviewForm'
     _title: 'Queue manager'
   requirements:
     _permission: 'admin queue_ui'
 
-queue_ui.confirm_delete_form:
-  path: admin/config/system/queue-ui/delete
+queue_ui.confirm_clear_form:
+  path: admin/config/system/queue-ui/clear
   defaults:
-    _form: '\Drupal\queue_ui\Form\QueueUIConfirmDeleteForm'
+    _form: '\Drupal\queue_ui\Form\ConfirmClearForm'
   requirements:
     _permission: 'admin queue_ui'
 
 queue_ui.inspect:
   path: admin/config/system/queue-ui/inspect/{queue_name}
   defaults:
-    _form: '\Drupal\queue_ui\Form\QueueUIInspectForm'
+    _form: '\Drupal\queue_ui\Form\InspectForm'
     _title: 'Inspect queue'
   requirements:
     _permission: 'admin queue_ui'
@@ -24,7 +24,7 @@ queue_ui.inspect:
 queue_ui.inspect.view:
   path: admin/config/system/queue-ui/{queue_name}/view/{queue_item}
   defaults:
-    _form: '\Drupal\queue_ui\Form\QueueUIItemDetailForm'
+    _form: '\Drupal\queue_ui\Form\ItemDetailForm'
     _title: 'Queue item details'
   requirements:
     _permission: 'admin queue_ui'
@@ -32,13 +32,13 @@ queue_ui.inspect.view:
 queue_ui.inspect.release:
   path: admin/config/system/queue-ui/{queue_name}/release/{queue_item}
   defaults:
-    _form: '\Drupal\queue_ui\Form\QueueUIConfirmItemReleaseForm'
+    _form: '\Drupal\queue_ui\Form\ConfirmItemReleaseForm'
   requirements:
     _permission: 'admin queue_ui'
 
 queue_ui.inspect.delete:
   path: admin/config/system/queue-ui/{queue_name}/delete/{queue_item}
   defaults:
-    _form: '\Drupal\queue_ui\Form\QueueUIConfirmItemDeleteForm'
+    _form: '\Drupal\queue_ui\Form\ConfirmItemDeleteForm'
   requirements:
     _permission: 'admin queue_ui'

@@ -37,9 +37,6 @@ class FormatSetter implements HttpKernelInterface {
    */
   public function __construct(HttpKernelInterface $http_kernel, $jsonapi_base_path) {
     $this->httpKernel = $http_kernel;
-    assert(is_string($jsonapi_base_path));
-    assert($jsonapi_base_path[0] === '/');
-    assert(substr($jsonapi_base_path, -1) !== '/');
     $this->jsonApiBasePath = $jsonapi_base_path;
   }
 
