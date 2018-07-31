@@ -161,16 +161,18 @@
   
   <div class="spinner-wrapper" *ngIf="!list"><mat-spinner></mat-spinner></div>
 
+
   <div *ngIf="list && list.length > 0">
+
     <ng-container *ngFor="let item of list; let i = index">
-      <div class="studyProgramme__item">
+      <div class="studyProgramme__item" [routerLink]="[item.entityUrl.path]">
           <div class="studyProgramme__item__titlebox">
             <div class="col-grow">
               <div class="studyProgramme__item__title">{{ item.entityLabel }}</div>
               <div class="studyProgramme__item__subtitle" *ngIf="item.fieldEducationalInstitution">
-                {{ item.fieldEducationalInstitution.entity.entityLabel }},
-                {{ item.fieldSchoolAddress }}
-                <a href="{{ item.fieldSchoolWebsite }}">{{  item.fieldSchoolWebsite | removeProtocol }}</a>
+                  <ng-container *ngIf="item.fieldEducationalInstitution.entity">{{ item.fieldEducationalInstitution.entity.entityLabel }},</ng-container>
+                  <ng-container *ngIf="item.fieldSchoolAddress">{{ item.fieldSchoolAddress }}</ng-container>
+                  <a href="{{ item.fieldSchoolWebsite }}" *ngIf="item.fieldSchoolWebsite">{{  item.fieldSchoolWebsite | removeProtocol }}</a>
               </div>      
             </div><!--col-9-->
             <div class="col">
