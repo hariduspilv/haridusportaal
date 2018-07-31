@@ -197,6 +197,9 @@ export const SchoolStudyProgrammes = gql`
       entities(language:$lang) {
         ... on NodeStudyProgramme {
           title
+          entityUrl {
+            path
+          }
           fieldSchoolAddress
           fieldSchoolWebsite
           fieldStudyProgrammeType {
