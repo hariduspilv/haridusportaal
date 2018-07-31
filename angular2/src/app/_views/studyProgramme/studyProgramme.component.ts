@@ -173,7 +173,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       } else this.listEnd = false;
 
       this.list = this.list ? [...this.list, ...data['nodeQuery']['entities']] : data['nodeQuery']['entities'];
-
+      console.log(this.list);
       this.dataSubscription.unsubscribe();
 
     });
