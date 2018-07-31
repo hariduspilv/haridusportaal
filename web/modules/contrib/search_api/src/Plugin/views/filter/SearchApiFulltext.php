@@ -2,7 +2,6 @@
 
 namespace Drupal\search_api\Plugin\views\filter;
 
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\search_api\Entity\Index;
@@ -272,7 +271,7 @@ class SearchApiFulltext extends FilterPluginBase {
 
     $words = preg_split('/\s+/', $input);
     foreach ($words as $i => $word) {
-      if (Unicode::strlen($word) < $this->options['min_length']) {
+      if (mb_strlen($word) < $this->options['min_length']) {
         unset($words[$i]);
       }
     }

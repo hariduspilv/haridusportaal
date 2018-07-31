@@ -733,19 +733,6 @@ class Query implements QueryInterface {
       $this->indexId = NULL;
     }
 
-    // Sanitize the service IDs saved by the serialization trait to guard
-    // against incomplete service containers. Doesn't need to happen when the
-    // trait's __wakeup() method will return early anyways, though.
-    // @todo Remove once #2909164 gets fixed in Core (and we depend on that Core
-    //   version).
-    if (!isset($GLOBALS['__PHPUNIT_BOOTSTRAP']) || \Drupal::hasContainer()) {
-      $container = \Drupal::getContainer();
-      foreach ($this->_serviceIds as $key => $service_id) {
-        if (!$container->has($service_id)) {
-          unset($this->_serviceIds[$key]);
-        }
-      }
-    }
     $this->traitWakeup();
   }
 
