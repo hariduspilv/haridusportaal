@@ -67,6 +67,9 @@ query studyProgrammeList (
       ... on NodeStudyProgramme {
         nid
         entityLabel
+        entityUrl{
+          path
+        }
         fieldEducationalInstitution {
           entity{
             entityLabel
