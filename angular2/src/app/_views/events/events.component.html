@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-4 sm-12" [class.col-9]="view == 'calendar'" style="padding:0.5rem;">
         <div class="round-input__wrapper">
-          <span class="round-input__title">{{ 'search.by.keyword' | translate }}</span>
+          <span class="round-input__title">{{ search.events.name | translate }}</span>
           <div class="round-input__field-wrapper">
             <input class="round-input__field" placeholder="{{ 'search.events.name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
           </div>
