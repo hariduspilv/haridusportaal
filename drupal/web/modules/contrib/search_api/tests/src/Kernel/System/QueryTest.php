@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\search_api\Kernel\System;
 
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Entity\Server;
@@ -102,18 +103,15 @@ class QueryTest extends KernelTestBase {
     $this->assertEquals($level, $query->getProcessingLevel());
     $query->addTag('andrew_hill');
 
-    // @todo Use \Drupal::messenger() once we depend on Drupal 8.5+. See
-    //   #2931730.
-    drupal_get_messages();
+    \Drupal::messenger()->deleteAll();
     $query->execute();
-    $messages = drupal_get_messages();
+    $messages = \Drupal::messenger()->all();
+    \Drupal::messenger()->deleteAll();
 
     $methods = $this->getCalledMethods('processor');
     if ($hooks_and_processors_invoked) {
-      // @todo Replace "status" with MessengerInterface::TYPE_STATUS once we
-      //   depend on Drupal 8.5+. See #2931730.
       $expected = [
-        'status' => [
+        MessengerInterface::TYPE_STATUS => [
           'Funky blue note',
           'Search id: ',
           'Stepping into tomorrow',
