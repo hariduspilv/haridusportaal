@@ -13,10 +13,10 @@
         font-size: 1.2em;
     }
 }
-#left-col .block {
+.left-col .block, .blue-container .block, .blue-block {
     border-top-color: $light-blue;
 }
-#right-col .block {
+.right-col .block, .orange-container .block, .orange-block {
     border-top-color: $orange;
 }
 .block-title {

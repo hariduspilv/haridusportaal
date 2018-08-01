@@ -1,55 +1,67 @@
 @import "../../../assets/styles/typography.scss";
 #schools-single {
-  margin-top: $gutter;
-  @include break-on(sm, min) {
-    margin-left: $small;
-    margin-right: $small;
-  }
-  @include break-on(lg, min) {
-    margin-left: -$gutter;
-    margin-right: -$gutter;
-  }
-  h1 {
-    color: #333333;
-    margin-bottom: 0.8em;
-    font-size: 1.3em;
-  }
-  #school-data {
-    border-collapse: collapse;
-    width: 100%;
-    tr {
-      &:first-child td {
-        background-color: #eeeeee;
-      }
-      td {
-        padding: 0.8em;
-        &:first-child {
-          width: 40%;
+    margin-top: $gutter;
+    @include break-on(sm, min) {
+        margin-left: $small;
+        margin-right: $small;
+    }
+    @include break-on(lg, min) {
+        margin-left: -$gutter;
+        margin-right: -$gutter;
+    }
+
+    h1 {
+        color: #333333;
+        margin-bottom: 0.8em;
+        font-size: 1.3em;
+    }
+    #school-data {
+        border-collapse: collapse;
+        width: 100%;
+        tr {
+            &:first-child td {
+                background-color: #eeeeee;
+            }
+            td {
+                padding: 0.8em;
+                &:first-child {
+                    width: 40%;
+                }
+                &:last-child {
+                    font-weight: 400;
+                }
+            }
         }
-        &:last-child {
-          font-weight: 400;
+    }
+    #school-data, #school-data th, #school-data td {
+        border: 1px solid #c7c7c9;
+    }
+
+    #school-contact-block {
+        h2 {
+            font-size: 1.2em;
         }
-      }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
     }
-  }
-  #school-data,
-  #school-data th,
-  #school-data td {
-    border: 1px solid #c7c7c9;
-  }
-  #school-contact-block {
-    h2 {
-      font-size: 1.2em;
+    .location-block {
+        h2 {
+            font-size: 1.2em;
+        }
     }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+
+    #contacts {
+        @include break-on(sm, max) {
+            display: none;
+        }
     }
-  }
-  .location-block {
-    h2 {
-      font-size: 1.2em;
+    #contacts-mobile {
+        margin-bottom: 3rem;
+        @include break-on(sm, min) {
+            display: none;
+        }
     }
-  }
 }

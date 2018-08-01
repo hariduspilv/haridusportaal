@@ -87,12 +87,12 @@
       padding: $gutter $small $medium 0;
       margin: 0 0 $small 9.25rem;
       .info {
-        &.details span.time{padding-right: $xxl;
+        &.bar span.time{padding-right: $xxl;
           .mat-icon{vertical-align: middle;}
         }
-        &.details span.location{padding-right: $xxl;}
+        &.bar span.location{padding-right: $xxl;}
         .repeat {position: relative;top: .375rem;}
-        // &.block span.entrance{}
+        // &.bar span.entrance{}
       }
     }
   }
