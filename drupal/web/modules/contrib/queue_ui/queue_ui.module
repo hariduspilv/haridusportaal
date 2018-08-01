@@ -1,52 +1,20 @@
 <?php
 
 /**
- * @file queue_ui.module
- */
-
-use Drupal\queue_ui\QueueUI;
-
-define('QUEUE_UI_BASE', 'admin/config/system/queue-ui');
-
-/**
- * Retrieve the QueueUI object for the class a particular queue is implemented as.
- *
- * @param $queue_name
- *  The name of the queue to retrieve the QueueUI class for.
- * @return mixed
- *  The QueueUI object for the relevant queue class, or FALSE if not found.
- */
-function _queue_ui_queueclass($queue_name) {
-  $queue = Drupal::queue($queue_name);
-  $class = get_class($queue);
-
-  // Get the classname from the full namespace
-  $namespace = explode('\\', $class);
-  $class_name = array_pop($namespace);
-
-  return QueueUI::get('Drupal\queue_ui\QueueUI' . $class_name);
-}
-
-/**
- * Get queues defined by QueueWorker plugins.
- *
- * @return Array of queues indexed by name and containing
- */
-function queue_ui_defined_queues() {
-  return \Drupal::service('plugin.manager.queue_worker')->getDefinitions();
-}
-
-/**
  * hook_queue_info_alter()
  */
 function queue_ui_queue_info_alter(&$queues) {
   foreach ($queues as $queue_name => $definition) {
-
     // Check if a time limit override exists for this queue.
-    $time_limit = \Drupal::state()->get('queue_ui_cron_' . $queue_name);
-    if (!is_null($time_limit)) {
+    if ($time_limit = \Drupal::state()->get('queue_ui_cron_' . $queue_name)) {
       // Override the original definition.
       $queues[$queue_name]['cron']['time'] = $time_limit;
+    }
+
+    // Only set the weight when the queue_order module is available.
+    if (\Drupal::service('module_handler')->moduleExists('queue_order') && $weight = \Drupal::state()->get('queue_ui_weight_' . $queue_name)) {
+      // Override the original definition.
+      $queues[$queue_name]['weight'] = $weight;
     }
   }
 }
