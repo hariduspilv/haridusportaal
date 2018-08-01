@@ -8,14 +8,14 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 /**
  * @GraphQLField(
- *   id = "custom_taxonomy_parent",
+ *   id = "custom_taxonomy_parentname",
  *   secure = true,
- *   name = "parent",
+ *   name = "parentName",
  *   type = "String",
  *   parents = {"Entity"},
  * )
  */
- class TaxonomyParent extends FieldPluginBase {
+ class TaxonomyParentName extends FieldPluginBase {
 
  	/**
  	 * {@inheritdoc}

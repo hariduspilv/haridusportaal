@@ -1,5 +1,0 @@
-name: 'Custom GraphQL Taxonomy Query'
-type: module
-description: 'Module for querying taxonomies via graphql'
-core: 8.x
-package: 'TWN-Custom'
