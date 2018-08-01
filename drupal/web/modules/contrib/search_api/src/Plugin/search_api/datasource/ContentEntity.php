@@ -809,12 +809,8 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
    * {@inheritdoc}
    */
   public function getViewModes($bundle = NULL) {
-    if (isset($bundle) && $this->hasBundles()) {
-      return $this->getEntityDisplayRepository()->getViewModeOptionsByBundle($this->getEntityTypeId(), $bundle);
-    }
-    else {
-      return $this->getEntityDisplayRepository()->getViewModeOptions($this->getEntityTypeId());
-    }
+    return $this->getEntityDisplayRepository()
+      ->getViewModeOptions($this->getEntityTypeId());
   }
 
   /**
@@ -841,7 +837,8 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
    */
   public function viewMultipleItems(array $items, $view_mode, $langcode = NULL) {
     try {
-      $view_builder = $this->getEntityTypeManager()->getViewBuilder($this->getEntityTypeId());
+      $view_builder = $this->getEntityTypeManager()
+        ->getViewBuilder($this->getEntityTypeId());
       // Langcode passed, use that for viewing.
       if (isset($langcode)) {
         $entities = [];
@@ -858,8 +855,8 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
       // Otherwise, separate the items by language, keeping the keys.
       $items_by_language = [];
       foreach ($items as $i => $item) {
-        if ($item instanceof EntityInterface) {
-          $items_by_language[$item->language()->getId()][$i] = $item;
+        if ($entity = $this->getEntity($item)) {
+          $items_by_language[$entity->language()->getId()][$i] = $entity;
         }
       }
       // Then build the items for each language. We initialize $build beforehand

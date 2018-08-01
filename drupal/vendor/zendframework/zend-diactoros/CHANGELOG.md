@@ -2,6 +2,92 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.8.3 - 2018-07-24
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#321](https://github.com/zendframework/zend-diactoros/pull/321) updates the logic in `Uri::withPort()` to ensure that it checks that the
+  value provided is either an integer or a string integer, as only those values
+  may be cast to integer without data loss.
+
+- [#320](https://github.com/zendframework/zend-diactoros/pull/320) adds checking within `Response` to ensure that the provided reason
+  phrase is a string; an `InvalidArgumentException` is now raised if it is not. This change
+  ensures the class adheres strictly to the PSR-7 specification.
+
+- [#319](https://github.com/zendframework/zend-diactoros/pull/319) provides a fix to `Zend\Diactoros\Response` that ensures that the status
+  code returned is _always_ an integer (and never a string containing an
+  integer), thus ensuring it strictly adheres to the PSR-7 specification.
+
+## 1.8.2 - 2018-07-19
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#318](https://github.com/zendframework/zend-diactoros/pull/318) fixes the logic for discovering whether an HTTPS scheme is in play
+  to be case insensitive when comparing header and SAPI values, ensuring no
+  false negative lookups occur.
+
+- [#314](https://github.com/zendframework/zend-diactoros/pull/314) modifies error handling around opening a file resource within
+  `Zend\Diactoros\Stream::setStream()` to no longer use the second argument to
+  `set_error_handler()`, and instead check the error type in the handler itself;
+  this fixes an issue when the handler is nested inside another error handler,
+  which currently has buggy behavior within the PHP engine.
+
+## 1.8.1 - 2018-07-09
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#313](https://github.com/zendframework/zend-diactoros/pull/313) changes the reason phrase associated with the status code 425
+  to "Too Early", corresponding to a new definition of the code as specified by the IANA.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#312](https://github.com/zendframework/zend-diactoros/pull/312) fixes how the `normalizeUploadedFiles()` utility function handles nested trees of
+  uploaded files, ensuring it detects them properly.
+
 ## 1.8.0 - 2018-06-27
 
 ### Added

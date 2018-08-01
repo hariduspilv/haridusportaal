@@ -11,7 +11,7 @@ services:
 
   paramconverter.search_api:
     class: Drupal\search_api\ParamConverter\SearchApiConverter
-    arguments: ['@entity.manager', '@user.shared_tempstore', '@current_user']
+    arguments: ['@entity.manager', '@tempstore.shared', '@current_user']
     tags:
       - { name: paramconverter, priority: 10 }
     lazy: true
@@ -86,7 +86,7 @@ services:
 
   search_api.task_manager:
     class: Drupal\search_api\Task\TaskManager
-    arguments: ['@entity_type.manager', '@event_dispatcher', '@string_translation']
+    arguments: ['@entity_type.manager', '@event_dispatcher', '@string_translation', '@messenger']
 
   search_api.vbo_view_data_provider:
     class: Drupal\search_api\Contrib\ViewsBulkOperationsEventSubscriber
