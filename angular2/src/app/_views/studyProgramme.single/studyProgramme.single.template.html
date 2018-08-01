@@ -5,27 +5,38 @@
 
   <div class="row" *ngIf="data">
     <div class="col-8 sm-12">
-      <div class="block">
+      <div class="block padding-block">
 
-        <div class="block__title">ERIALAD</div>
+        <div class="block-title">ERIALAD</div>
         <article>
           <div class="row title">
             <div class="col-8">
               <h1>{{ data.entityLabel }}</h1>
             </div><!--/col-8-->
+
+            <div class="col-4 flex">
+              <div class="custom-checkbox">
+                <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
+              </div>
+              <share></share>
+            </div>
           </div><!--/row-->
 
           <div class="row">
             <div class="col-12">
-              <table width="100%" border="1">
-                <tr>
-                  <th>Õppeasutuse nimi</th>
-                  <th>{{ data.fieldEducationalInstitution.entity.entityLabel }}</th>
-                </tr>
-                <tr>
-                  <td>Õppekava tase</td>
-                  <td>{{ data.fieldEducationalInstitution.entity.entityLabel }}</td>
-                </tr>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Õppeasutuse nimi</th>
+                    <th>{{ data.fieldEducationalInstitution.entity.entityLabel }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Õppekava tase</td>
+                    <td>{{ data.fieldEducationalInstitution.entity.entityLabel }}</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -33,6 +44,46 @@
       </div><!--/block-->
     </div><!--/col-8-->
     <div class="col-4 sm-12">
+      <div class="block padding-block border-orange">
+        <h2>Kontakt</h2>
+        <p>
+          Eesti Maaülikool<br />
+          +372 5555 5555<br />
+          <a href="mailto:klm@htm.ee">klm@htm.ee</a><br />
+          <a href="">www.koolinimi.ee</a>
+        </p>
+      </div><!--/block-->
+
+      <div class="block padding-block border-orange">
+        <div class="map-wrapper">
+          <agm-map (mapReady)="mapReady($event)" style="height:173px" >
+          </agm-map>
+          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
+        </div><!--/map-wrapper-->
+        <h2>Juriidiline aadress</h2>
+        <p>Pargi 32, Räpina, 64505, Põlva maakond</p>
+      </div><!--/block-->
+      
+      <div class="block padding-block border-orange">
+        <div class="map-wrapper">
+          <agm-map (mapReady)="mapReady($event)" style="height:173px" >
+          </agm-map>
+          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
+        </div><!--/map-wrapper-->
+        <h2>Juriidiline aadress</h2>
+        <p>Pargi 32, Räpina, 64505, Põlva maakond</p>
+      </div><!--/block-->
+      
+      <div class="block padding-block border-orange">
+        <div class="map-wrapper">
+          <agm-map (mapReady)="mapReady($event)" style="height:173px" >
+          </agm-map>
+          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
+        </div><!--/map-wrapper-->
+        <h2>Juriidiline aadress</h2>
+        <p>Pargi 32, Räpina, 64505, Põlva maakond</p>
+      </div><!--/block-->
+      
       
     </div><!--/col-4-->
   </div><!--/row-->

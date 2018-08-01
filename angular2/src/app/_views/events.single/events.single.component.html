@@ -11,13 +11,7 @@
               <h1 class="mt-0 mb-0">{{ content.entity.entityLabel }}</h1>
             </div><!--/col-10-->
             <div class="col-1 text-right share">
-              <div class="share-btn">
-                <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
-                  <button mat-menu-item (click)="share(1)" >Facebook</button>
-                  <button mat-menu-item (click)="share()" >Twitter</button>
-                </mat-menu>
-                <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">share</mat-icon></button>
-              </div>
+              <share></share>
             </div><!--/col-10-->
           </div><!--/row-->
       

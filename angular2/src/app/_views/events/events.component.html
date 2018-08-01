@@ -150,7 +150,7 @@
                     <span>{{ event.firstEventTime | unixToTime }}</span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
                   </div>
-                  <div class="sm-hide info block">
+                  <div class="sm-hide info detaiös">
                     <span class="time">{{ 'start.time' | translate }}: <strong>{{ event.firstEventTime | unixToTime }}</strong> <span *ngIf="event.eventDates.length > 1"><mat-icon>update</mat-icon></span></span>
                     <span class="location" *ngIf="event.location">{{ 'location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
                     <span class="entrance" *ngIf="event.fieldEntryType">{{ 'entrance' | translate }}: <strong>{{ event.fieldEntryType | translate }}</strong></span>
