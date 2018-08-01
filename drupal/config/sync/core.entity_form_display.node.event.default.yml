@@ -15,6 +15,9 @@ dependencies:
     - field.field.node.event.field_event_link
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_location_link
+    - field.field.node.event.field_event_main_date
+    - field.field.node.event.field_event_main_end_time
+    - field.field.node.event.field_event_main_start_time
     - field.field.node.event.field_event_type
     - field.field.node.event.field_max_number_of_participants
     - field.field.node.event.field_metatags
@@ -29,8 +32,10 @@ dependencies:
     - node.type.event
   module:
     - conditional_fields
+    - datetime
     - file
     - google_map_field
+    - hms_field
     - image_widget_crop
     - link
     - maxlength
@@ -147,6 +152,30 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
+    region: content
+  field_event_main_date:
+    weight: 27
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_event_main_end_time:
+    weight: 29
+    settings:
+      format: 'h:mm'
+      default_placeholder: 1
+      placeholder: ''
+    third_party_settings: {  }
+    type: hms_default
+    region: content
+  field_event_main_start_time:
+    weight: 28
+    settings:
+      format: 'h:mm'
+      default_placeholder: 1
+      placeholder: ''
+    third_party_settings: {  }
+    type: hms_default
     region: content
   field_event_type:
     weight: 1
