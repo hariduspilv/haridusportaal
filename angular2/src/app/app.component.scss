@@ -166,6 +166,9 @@ $grid-columns: 12;
     @include break-on(sm, max) {
       .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
     }
+    @include break-on(md, max) {
+      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
   }
   [class*='col']{padding:$gutter; box-sizing: border-box;}
   .col{flex-grow: 1; flex-shrink: 1;}
