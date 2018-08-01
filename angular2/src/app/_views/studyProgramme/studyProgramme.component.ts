@@ -17,8 +17,8 @@ import { Observable } from 'rxjs/Observable';
 })
 
 export class StudyProgrammeComponent extends FiltersService implements OnInit, OnDestroy{
-  private list:any = false;
-  private listEnd: boolean;
+  public list:any = false;
+  public listEnd: boolean;
 
   private loading: boolean = true;
 
@@ -28,7 +28,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private limit: number = 5;
   private offset: number = 0;
 
-  private showFilter: boolean = true;
+  public showFilter: boolean = true;
   private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_board','iscedf_narrow','iscedf_detailed']
 
   filterFull: boolean = false;

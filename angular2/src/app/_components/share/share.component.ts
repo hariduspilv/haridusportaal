@@ -1,8 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Component } from '@angular/core';
 
-@Injectable()
-export class ShareService{
-  constructor(){}
+@Component({
+  selector: "share",
+  templateUrl: "share.template.html",
+  styleUrls: ["share.styles.scss"]
+})
+
+export class ShareComponent{
   share (facebook) {
     const url = location.href
     const link = facebook ? `https://www.facebook.com/sharer/sharer.php?u=${url}` : `https://twitter.com/intent/tweet?text=${url}`

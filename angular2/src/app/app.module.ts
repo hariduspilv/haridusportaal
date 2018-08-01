@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-import { RootScopeService, NewsService, MetaTagsService, ShareService } from './_services';
+import { RootScopeService, NewsService, MetaTagsService } from './_services';
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog';
 import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
 import { Modal } from './_components/dialogs/modal/modal';
@@ -30,6 +30,7 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {TranslateModule, TranslateLoader, TranslatePipe} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BreadcrumbsComponent } from './_components/breadcrumbs/breadcrumbs.component';
+import { ShareComponent } from './_components/share/share.component';
 
 import { SettingsService } from './_core/settings';
 import { SchoolStudyProgrammesComponent } from './_components/school.study.programmes/school.study.programmes.component';
@@ -47,7 +48,8 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
   let translateUrls = {
     "localhost": ["/assets/", ".json"],
     //"localhost": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
-    "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
+    "htm.twn.ee": ["/assets/", ".json"],
+    //"htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     "otherwise": ["https://api.test.edu.ee/", "/base_settings?_format=json"]
   }
 
@@ -78,6 +80,7 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     EventsRegistratonDialog,
     ImagePopupDialog,
     BreadcrumbsComponent,
+    ShareComponent,
     Modal,
     VideoComponent,
     SchoolStudyProgrammesComponent,
@@ -119,7 +122,6 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     RootScopeService,
     NewsService,
     MetaTagsService,
-    ShareService,
     SettingsService
   ],
 
