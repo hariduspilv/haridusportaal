@@ -120,6 +120,47 @@ query studyProgrammeList (
     }
   }
 }
+`;
+
+export const SingleQuery = gql`
+query(
+  $path: String!
+){
+  route(path: $path){
+    ... on EntityCanonicalUrl{
+      entity{
+        ... on NodeStudyProgramme{
+          nid
+          entityLabel
+          fieldStudyProgrammeLevel {
+            entity{
+              entityLabel
+            }
+          }
+          fieldEducationalInstitution {
+            entity{
+              entityLabel
+              entityId
+            }
+          }
+        }
+      }
+      languageSwitchLinks {
+        active
+        title
+        language {
+          id
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+        }
+      }
+    }
+  }
+}
 `
 
 export const FilterOptions = gql`
@@ -177,4 +218,57 @@ query studyProgrammeFilterOptions( $lang: LanguageId!){
     }
   }
 }
+`;
+
+export const SchoolStudyProgrammes = gql`
+  query($lang: LanguageId!, $schoolId: String!) {
+    nodeQuery(
+      filter: {
+        conditions: {
+          field: "field_educational_institution"
+          value: [$schoolId]
+          language: $lang
+        }
+      }
+      sort: [{
+        field: "title"
+        direction: ASC
+      }]
+    ) {
+      entities(language:$lang) {
+        ... on NodeStudyProgramme {
+          title
+          entityUrl {
+            path
+          }
+          fieldSchoolAddress
+          fieldSchoolWebsite
+          fieldStudyProgrammeType {
+            entity {
+              name
+            }
+          }
+          fieldStudyProgrammeLevel {
+            entity {
+              name
+            }
+          }
+          fieldTeachingLanguage {
+            entity {
+              name
+            }
+          }
+          fieldIscedfDetailed {
+            entity {
+              name
+            }
+          }
+          fieldAccreditationStatus
+          fieldDurationYears
+          fieldDurationMonths
+          fieldAdmissionStatus
+        }
+      }
+    }
+  }
 `;

@@ -78,9 +78,6 @@ class Routes implements ContainerInjectionInterface {
   public function __construct(ResourceTypeRepositoryInterface $resource_type_repository, array $authentication_providers, $jsonapi_base_path) {
     $this->resourceTypeRepository = $resource_type_repository;
     $this->providerIds = array_keys($authentication_providers);
-    assert(is_string($jsonapi_base_path));
-    assert($jsonapi_base_path[0] === '/');
-    assert(substr($jsonapi_base_path, -1) !== '/');
     $this->jsonApiBasePath = $jsonapi_base_path;
   }
 

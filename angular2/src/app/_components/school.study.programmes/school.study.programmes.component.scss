@@ -1,0 +1,44 @@
+@import "../../../assets/styles/typography.scss";
+#school-study-programmes {
+    .block-title {
+        padding: 1.2em;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    .programme {
+        &:not(:last-child) {
+            border-bottom: 1px solid #c7c7c9;
+        }
+        h2 {
+            font-size: 1.2em;
+            color: #2e3374;
+            a {
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+        #programme-address {
+            font-size: 0.9em;
+            color: #757575;
+            font-weight: 500;
+        }
+        .study-programme-properties {
+            @include break-on(sm, max) {
+                display: none;
+            }
+            margin: 0;
+            margin-top: 1em;
+            padding: 0;
+            list-style: none;
+            width: 100%;
+            li {
+                display: inline-block;
+                width: 32%;
+                color: #757575;
+                font-size: 0.8em;
+            }
+        }
+    }
+}

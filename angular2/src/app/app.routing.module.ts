@@ -10,6 +10,7 @@ import {
   NewsComponent,
   NewsSingleComponent,
   SchoolsComponent,
+  SchoolsSingleComponent,
   StudyProgrammeComponent,
   StudyProgrammeSingleComponent
 } from './_views';
@@ -29,6 +30,8 @@ const appRoutes: Routes = [
 
   { path: ':lang/school', component: SchoolsComponent },
   { path: ':lang/kool', component: SchoolsComponent },
+  { path: ':lang/school/:id', component: SchoolsSingleComponent },
+  { path: ':lang/kool/:id', component: SchoolsSingleComponent },
 
   { path: ':lang/erialad', component: StudyProgrammeComponent},
   { path: ':lang/erialad/:id', component: StudyProgrammeSingleComponent},
@@ -54,6 +57,7 @@ export const routedComponents = [
   NewsComponent,
   NewsSingleComponent,
   SchoolsComponent,
+  SchoolsSingleComponent,
   StudyProgrammeComponent,
   StudyProgrammeSingleComponent
 ];

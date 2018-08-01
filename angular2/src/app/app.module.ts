@@ -11,7 +11,7 @@ import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.
 import { Modal } from './_components/dialogs/modal/modal';
 import { VideoComponent } from './_components/video/video.component';
 import { HttpModule } from '@angular/http';
-import { EmbedVideo } from 'ngx-embed-video';
+import { EmbedVideo } from 'ngx-embed-video/dist';
 
 /* Custom imports */
 import { AppModules } from './_components';
@@ -32,6 +32,8 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BreadcrumbsComponent } from './_components/breadcrumbs/breadcrumbs.component';
 
 import { SettingsService } from './_core/settings';
+import { SchoolStudyProgrammesComponent } from './_components/school.study.programmes/school.study.programmes.component';
+import { MapWrapperComponent } from './_components/map.wrapper/map.wrapper.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
@@ -77,7 +79,9 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     ImagePopupDialog,
     BreadcrumbsComponent,
     Modal,
-    VideoComponent
+    VideoComponent,
+    SchoolStudyProgrammesComponent,
+    MapWrapperComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent],
