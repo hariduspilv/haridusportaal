@@ -109,7 +109,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     });
   }
   isValidAccreditation(date){
-    //console.log('date: %s is after %s: %s', date, this.today, moment(date).isAfter(this.today));
+    //necessity pending on business logic decision #147
     return moment(date).isAfter(this.today);
   }
   compareChange(id, $event){
