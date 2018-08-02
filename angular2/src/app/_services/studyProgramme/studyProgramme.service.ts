@@ -62,7 +62,8 @@ query studyProgrammeList (
         {operator: IN, field:"field_teaching_language", value: $language, language: $lang enabled: $languageEnabled},
         {operator: IN, field: "field_study_programme_level", value: $level, language: $lang, enabled: $levelEnabled}
         {operator: IN, field: "field_study_programme_type", value: $type, language: $lang, enabled: $typeEnabled}
-        {operator: EQUAL, field: "type", value: ["study_programme"], language: $lang}
+        {operator: EQUAL, field: "type", value: ["study_programme"], language: $lang},
+        {operator: EQUAL, field:"status", value: "1"}
       ]
     }
   ) {
