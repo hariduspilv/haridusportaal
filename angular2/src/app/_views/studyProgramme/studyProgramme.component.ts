@@ -8,8 +8,10 @@ import { FiltersService } from '../../_services/filters/filters.service';
 import { of } from 'rxjs/observable/of';
 import { RootScopeService } from '../../_services/rootScope/rootScope.service';
 import 'rxjs/add/operator/map';
-
+import * as _moment from 'moment';
+const moment = _moment;
 import { Observable } from 'rxjs/Observable';
+import { identifierModuleUrl } from '../../../../node_modules/@angular/compiler';
 
 @Component({
   styleUrls: ['studyProgramme.styles.scss'],
@@ -17,9 +19,10 @@ import { Observable } from 'rxjs/Observable';
 })
 
 export class StudyProgrammeComponent extends FiltersService implements OnInit, OnDestroy{
+  private today = moment().format('YYYY-MM-DD');
   private list:any = false;
   private listEnd: boolean;
-
+  
   private loading: boolean = true;
 
   private lang: string;
@@ -37,9 +40,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private filterOptionsSubscription: Subscription;
   private subscriptions: Subscription[] = [];
 
-  private FilterOptions: Object = {};
+  private FilterOptions: object = {};
   private filterOptionKeys = ['type','level','language','iscedf_board','iscedf_narrow','iscedf_detailed'];
-
+  private isceList: object = {};
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
 
   constructor (
@@ -65,45 +68,79 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
     }).valueChanges.subscribe( ({data}) => {
+
       
-      this.loading = false;
-    
+      if(data['isced_f'] !== undefined ){
+        let iscedf_all = data['isced_f']['entities'];
+        this.isceList['iscedf_board'] = allocateIsceOptions(null, iscedf_all),
+        this.isceList['iscedf_narrow'] = allocateIsceOptions(this.isceList['iscedf_board'], iscedf_all),
+        this.isceList['iscedf_detailed'] = allocateIsceOptions(this.isceList['iscedf_narrow'], iscedf_all),
+        
+        this.FilterOptions['iscedf_board'] = this.isceList['iscedf_board'];
+      }
       for(let i in this.filterOptionKeys){
+        //if URL params contains valid key
         if( this.params[this.filterOptionKeys[i]] !== undefined ){
-          this.filterFormItems[this.filterOptionKeys[i]] = parseInt(this.params[this.filterOptionKeys[i]]);
+          //if valid key includes iscedf
+          if(this.filterOptionKeys[i].includes('iscedf') && data['isced_f'] !== undefined) {
+            //populate options 
+            this.isceChange(parseInt(this.params[this.filterOptionKeys[i]]), this.filterOptionKeys[i])
+            //set selected isce option
+            this.filterFormItems[this.filterOptionKeys[i]] = this.params[this.filterOptionKeys[i]];
+          } else {
+            //set selected option
+            this.filterFormItems[this.filterOptionKeys[i]] = parseInt(this.params[this.filterOptionKeys[i]]);
+          }
         }
-        if(data[this.filterOptionKeys[i]]) {
+        //Populate FilterOptions
+        if( data[this.filterOptionKeys[i]] ) {
           this.FilterOptions[this.filterOptionKeys[i]] = data[this.filterOptionKeys[i]]['entities'];
         }
       }
-      for(let i in this.filterFullProperties){
-        if(this.params[this.filterFullProperties[i]] !== undefined ){
-          this.filterFull = true;
-          break;
-        }
-      }
-      this.filterOptionsSubscription.unsubscribe();
+      //Determine whether to open detailed filter view or not based on what URL params we have
+      this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
 
+      function allocateIsceOptions (parent, list){
+       if(!parent) return list.filter(entity => entity.parentId == null);
+       else return list.filter(entity => parent.some(parent => parent.entityId == entity.parentId) );
+      } 
+      this.loading = false;
+      this.filterOptionsSubscription.unsubscribe();
     });
+  }
+  isValidAccreditation(date){
+    //console.log('date: %s is after %s: %s', date, this.today, moment(date).isAfter(this.today));
+    return moment(date).isAfter(this.today);
   }
   compareChange(id, $event){
     $event.checked === true? this.compare[id] = true : delete this.compare[id];
     localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
-   
   }
+  
+  isceChange(id: number, level: string){
+    //Update options
+    if(level == 'iscedf_board'){
+      this.clearField('iscedf_narrow');
+      this.clearField('iscedf_detailed');
+      if(id) this.FilterOptions['iscedf_narrow'] = this.isceList['iscedf_narrow'].filter(entity => entity.parentId == id );
+      
+    } else if ( level == 'iscedf_narrow'){
+      this.clearField('iscedf_detailed');
+      if(id) this.FilterOptions['iscedf_detailed'] = this.isceList['iscedf_detailed'].filter(entity => entity.parentId == id );
+    }   
+  }
+
   setPaths() {
     this.rootScope.set('langOptions', {
       'en': '/en/study-programmes',
       'et': '/et/erialad'
     });
   }
+  
   reset() {
-
     this.offset = 0;
     this.list = false;
     this.getData();
-    
-    
   }
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
@@ -116,9 +153,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     this.subscriptions = [...this.subscriptions, subscribe];
   }
   watchSearch() {
-
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
-      //console.log(params)
       this.params = params;
       this.reset();
     });
@@ -173,7 +208,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       } else this.listEnd = false;
 
       this.list = this.list ? [...this.list, ...data['nodeQuery']['entities']] : data['nodeQuery']['entities'];
-      console.log(this.list);
+      //console.log(this.list);
       this.dataSubscription.unsubscribe();
 
     });

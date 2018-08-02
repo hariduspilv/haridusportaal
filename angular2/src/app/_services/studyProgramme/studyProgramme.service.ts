@@ -96,6 +96,9 @@ query studyProgrammeList (
         fieldDurationMonths
         fieldAdmissionStatus
         fieldAccreditationStatus
+        fieldAccreditationValidUntil{
+          value
+        }
         fieldStudyProgrammeLevel {
           entity {
             entityLabel
@@ -206,15 +209,12 @@ query studyProgrammeFilterOptions( $lang: LanguageId!){
       }
     }
   }
-  iscedf_board: taxonomyTermQuery(filter: {conditions: [
-    
-    {operator: EQUAL, field: "vid", value: ["isced_f"], language: $lang}
-  	]}) {
+  isced_f: taxonomyTermQuery(filter:{conditions:{operator:EQUAL,field:"vid",value:"isced_f"}}) {
     entities{
-      ... on TaxonomyTerm {
-        tid
-        entityLabel
-      }
+      entityId
+      entityLabel
+      parentId
+      parentName
     }
   }
 }
