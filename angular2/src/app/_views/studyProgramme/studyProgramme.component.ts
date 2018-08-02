@@ -19,10 +19,16 @@ import { identifierModuleUrl } from '../../../../node_modules/@angular/compiler'
 })
 
 export class StudyProgrammeComponent extends FiltersService implements OnInit, OnDestroy{
+<<<<<<< HEAD
   private today = moment().format('YYYY-MM-DD');
   private list:any = false;
   private listEnd: boolean;
   
+=======
+  public list:any = false;
+  public listEnd: boolean;
+
+>>>>>>> 60f88628a84b659a6ee69f5864566d3106b0624c
   private loading: boolean = true;
 
   private lang: string;
@@ -31,7 +37,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private limit: number = 5;
   private offset: number = 0;
 
-  private showFilter: boolean = true;
+  public showFilter: boolean = true;
   private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_board','iscedf_narrow','iscedf_detailed']
 
   filterFull: boolean = false;

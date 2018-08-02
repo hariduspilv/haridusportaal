@@ -1,7 +1,7 @@
 import { Component, OnDestroy, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RootScopeService, MetaTagsService, ShareService } from '../../_services';
+import { RootScopeService, MetaTagsService } from '../../_services';
 
 import { singleQuery } from '../../_services/events/events.graph';
 
@@ -65,7 +65,6 @@ export class EventsSingleComponent implements AfterViewChecked {
     private apollo: Apollo,
     public dialog: MatDialog,
     private metaTags: MetaTagsService,
-    private shareService: ShareService,
     private translate: TranslateService,
     private settings: SettingsService
   ) {
@@ -231,9 +230,6 @@ export class EventsSingleComponent implements AfterViewChecked {
     });
   }
   
-  share (facebook) {
-    return this.shareService.share(facebook)
-  }
 
   scrollStart(right) {
     this.slide = setInterval(() => {

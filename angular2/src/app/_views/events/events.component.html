@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-4 sm-12" [class.col-9]="view == 'calendar'" style="padding:0.5rem;">
         <div class="round-input__wrapper">
-          <span class="round-input__title">{{ search.events.name | translate }}</span>
+          <span class="round-input__title">{{ 'search.events.name' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input class="round-input__field" placeholder="{{ 'search.events.name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
           </div>
@@ -150,7 +150,7 @@
                     <span>{{ event.firstEventTime | unixToTime }}</span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
                   </div>
-                  <div class="sm-hide info block">
+                  <div class="sm-hide info bar">
                     <span class="time">{{ 'start.time' | translate }}: <strong>{{ event.firstEventTime | unixToTime }}</strong> <span *ngIf="event.eventDates.length > 1"><mat-icon>update</mat-icon></span></span>
                     <span class="location" *ngIf="event.location">{{ 'location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
                     <span class="entrance" *ngIf="event.fieldEntryType">{{ 'entrance' | translate }}: <strong>{{ event.fieldEntryType | translate }}</strong></span>
