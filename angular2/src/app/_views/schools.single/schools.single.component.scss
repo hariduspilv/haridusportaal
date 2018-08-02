@@ -52,4 +52,16 @@
             font-size: 1.2em;
         }
     }
+
+    #contacts {
+        @include break-on(sm, max) {
+            display: none;
+        }
+    }
+    #contacts-mobile {
+        margin-bottom: 3rem;
+        @include break-on(sm, min) {
+            display: none;
+        }
+    }
 }

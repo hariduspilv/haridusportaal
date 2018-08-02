@@ -391,19 +391,19 @@ fragment url on EntityCanonicalUrl{
 }
 `;
 
-// {
-//   "lang": "ET",
-//   "offset": 0,
-//   "limit": 10,
-//   "tagsValue": ["1271"],
-//   "tagsEnabled": false,
-//   "typesValue": ["5","6"],
-//   "typesEnabled": false,
-//   "titleValue": "%%",
-//   "titleEnabled": false,
-//   "dateFrom": "2018-01-01",
-//   "dateTo": "2038-01-01"
-// }
+const listVariables = {
+  "lang": "ET",
+  "offset": 0,
+  "limit": 10,
+  "tagsValue": ["1271"],
+  "tagsEnabled": false,
+  "typesValue": ["5","6"],
+  "typesEnabled": false,
+  "titleValue": "%%",
+  "titleEnabled": false,
+  "dateFrom": "2018-01-01",
+  "dateTo": "2038-01-01"
+}
 
 export const getEventsTags = gql`
 query getEventsTags( $lang: LanguageId!){
