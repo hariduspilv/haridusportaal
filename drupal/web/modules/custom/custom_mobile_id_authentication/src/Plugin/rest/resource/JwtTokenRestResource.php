@@ -112,12 +112,15 @@ class JwtTokenRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-
   	if($this->currentUser->isAnonymous()){
   		$response['message'] = $this->t('Login failed');
 		}else{
   		$response['message'] = $this->t('Login succeeded');
-  		$response['token'] = $this->generateMobileIdToken($data);
+      if(isset($data['id_code'])){
+        $response['token'] = $this->generateMobileIdToken($data);
+      }else{
+        $response['token'] = $this->generateToken();
+      }
 		}
 
     return new ModifiedResourceResponse($response, 200);
@@ -132,5 +135,13 @@ class JwtTokenRestResource extends ResourceBase {
 		$jwt = $event->getToken();
 		return $this->transcoder->encode($jwt);
 	}
+
+  protected function generateToken(){
+    $event = new JwtAuthGenerateEvent(new JsonWebToken());
+    $event->addClaim('username', $this->currentUser->getDisplayName());
+    $this->eventDispatcher->dispatch(JwtAuthEvents::GENERATE, $event);
+    $jwt = $event->getToken();
+    return $this->transcoder->encode($jwt);
+  }
 
 }
