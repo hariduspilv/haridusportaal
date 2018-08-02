@@ -47,7 +47,7 @@ query studyProgrammeList (
 	$iscedf_detailed: [String],
   $iscedf_detailedEnabled: Boolean,
 	$onlyOpenAdmission: Boolean) {
-  nodeQuery(offset: $offset, limit: $limit, sort: {field: "title", direction: ASC},
+  nodeQuery(offset: $offset, limit: $limit, sort: [{field: "title", direction: ASC}, {field:"field_educational_institution.entity.title", direction: ASC}],
       filter: {
       conjunction: AND,
       conditions: [
