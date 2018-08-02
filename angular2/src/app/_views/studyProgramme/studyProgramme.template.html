@@ -182,7 +182,7 @@
           
           <div class="studyProgramme__item__col sm-hide">
             <p *ngIf="item.fieldStudyProgrammeLevel">{{ 'studyProgramme.level' | translate }} : <b>{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</b></p>
-            <p *ngIf="item.fieldAccreditationStatus && isValidAccreditation(item.fieldAccreditationValidUntil.value)">
+            <p *ngIf="item.fieldAccreditationStatus">
               {{ 'studyProgramme.accreditation' | translate }}: <b>{{ 'studyProgrammes.valid_accreditation' | translate }}</b></p>
           </div><!--/scools__item__col-->
           <div class="studyProgramme__item__col sm-hide">
