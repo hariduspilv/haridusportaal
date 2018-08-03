@@ -142,7 +142,7 @@
   <div class="spinner-wrapper" *ngIf="!list"><mat-spinner></mat-spinner></div>
 
   <div *ngIf="list && list.length == 0 && view == 'list'" class="no-results">
-    {{ 'results.none' | translate }}
+    Otsingu tingimustele vastavaid õppeasutusi ei leitud
   </div>
 
   <div *ngIf="list && list.length > 0 && view == 'list'">
@@ -169,7 +169,7 @@
   </div><!--/list-->
 
   <ng-container *ngIf="view == 'map'">
-    <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" >
+    <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list">
       <agm-marker-cluster [styles]="mapOptions.clusterStyles">>
         <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lat)"  [longitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lon)">
           <agm-snazzy-info-window [closeWhenOthersOpen]="true">
