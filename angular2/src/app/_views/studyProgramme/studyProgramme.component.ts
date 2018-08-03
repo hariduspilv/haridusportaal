@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ListQuery, FilterOptions } from '../../_services/studyProgramme/studyProgramme.service';
+import { ListQuery, FilterOptions, SchoolAutoComplete} from '../../_services/studyProgramme/studyProgramme.service';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
@@ -23,7 +23,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   public list:any = false;
   public listEnd: boolean;
 
-  private loading: boolean = true;
+  public loading: boolean = true;
 
   private lang: string;
   private path: string;
@@ -32,16 +32,16 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private offset: number = 0;
 
   public showFilter: boolean = true;
-  private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_board','iscedf_narrow','iscedf_detailed']
+  private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed']
 
-  filterFull: boolean = false;
+  filterFull: boolean = true;
 
   private dataSubscription: Subscription;
   private filterOptionsSubscription: Subscription;
   private subscriptions: Subscription[] = [];
 
   private FilterOptions: object = {};
-  private filterOptionKeys = ['type','level','language','iscedf_board','iscedf_narrow','iscedf_detailed'];
+  private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed'];
   private isceList: object = {};
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
 
@@ -54,6 +54,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   ) {
     super(null, null);
   }
+  
   populateFilterOptions(){
     this.loading = true;
     if( this.filterOptionsSubscription !== undefined ){
@@ -63,7 +64,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     this.filterOptionsSubscription = this.apollo.watchQuery({
       query: FilterOptions,
       variables: {
-        lang: "ET"
+        lang: this.lang.toUpperCase()
       },
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
@@ -72,11 +73,11 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       
       if(data['isced_f'] !== undefined ){
         let iscedf_all = data['isced_f']['entities'];
-        this.isceList['iscedf_board'] = allocateIsceOptions(null, iscedf_all),
-        this.isceList['iscedf_narrow'] = allocateIsceOptions(this.isceList['iscedf_board'], iscedf_all),
+        this.isceList['iscedf_broad'] = allocateIsceOptions(null, iscedf_all),
+        this.isceList['iscedf_narrow'] = allocateIsceOptions(this.isceList['iscedf_broad'], iscedf_all),
         this.isceList['iscedf_detailed'] = allocateIsceOptions(this.isceList['iscedf_narrow'], iscedf_all),
         
-        this.FilterOptions['iscedf_board'] = this.isceList['iscedf_board'];
+        this.FilterOptions['iscedf_broad'] = this.isceList['iscedf_broad'];
       }
       for(let i in this.filterOptionKeys){
         //if URL params contains valid key
@@ -109,7 +110,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     });
   }
   isValidAccreditation(date){
-    //console.log('date: %s is after %s: %s', date, this.today, moment(date).isAfter(this.today));
+    //necessity pending on business logic decision #147
     return moment(date).isAfter(this.today);
   }
   compareChange(id, $event){
@@ -119,7 +120,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   
   isceChange(id: number, level: string){
     //Update options
-    if(level == 'iscedf_board'){
+    if(level == 'iscedf_broad'){
       this.clearField('iscedf_narrow');
       this.clearField('iscedf_detailed');
       if(id) this.FilterOptions['iscedf_narrow'] = this.isceList['iscedf_narrow'].filter(entity => entity.parentId == id );
@@ -218,10 +219,12 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   ngOnInit() {
     
 
-    this.populateFilterOptions();
+    
     this.setPaths();
     this.pathWatcher();
     this.watchSearch();
+    
+    this.populateFilterOptions();
     this.filterFormItems.open_admission = true; //default
     this.filterSubmit();
   }
