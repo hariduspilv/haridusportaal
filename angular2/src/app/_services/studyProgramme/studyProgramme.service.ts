@@ -132,17 +132,70 @@ query(
         ... on NodeStudyProgramme{
           nid
           entityLabel
+          fieldEducationalInstitution {
+            entity{
+              entityLabel
+              fieldRegistrationCode
+            }
+          }
+          
           fieldStudyProgrammeLevel {
             entity{
               entityLabel
             }
           }
-          fieldEducationalInstitution {
+          
+          fieldDegreeOrDiplomaAwarded {
             entity{
               entityLabel
-              entityId
             }
           }
+          
+          fieldSpecialization
+          
+          fieldIscedfBoard {
+            entity{
+              entityLabel
+            }
+          }
+          
+          fieldIscedfDetailed {
+            entity{
+              entityLabel
+            }
+          }
+          
+          fieldShortDescription
+          
+          fieldTeachingLanguage {
+            entity{
+              entityLabel
+            }
+          }
+          
+          fieldAmount
+          fieldPracticalTrainingAmount
+          fieldDurationYears
+          fieldDurationMonths
+          fieldAdmissionStatus
+          fieldAccreditationStatus
+          
+          fieldAccreditationValidUntil {
+            value
+            date
+            unix
+          }
+          
+          fieldWebPageAddress {
+            uri
+          }
+          
+          fieldQualificationStandardId {
+            entity{
+              entityLabel
+            }
+          }
+          
         }
       }
       languageSwitchLinks {

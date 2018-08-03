@@ -1,7 +1,7 @@
 <div class="share-btn">
   <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
     <button mat-menu-item (click)="share(1)" >Facebook</button>
-    <button mat-menu-item (click)="share()" >Twitter</button>
+    <button mat-menu-item (click)="share(1)" >Twitter</button>
   </mat-menu>
   <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">share</mat-icon></button>
 </div>

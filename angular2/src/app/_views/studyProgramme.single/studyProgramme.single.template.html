@@ -15,6 +15,7 @@
             </div><!--/col-8-->
 
             <div class="col-4 flex">
+              <div class="fill"></div>
               <div class="custom-checkbox">
                 <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
               </div>
@@ -32,16 +33,103 @@
                   </tr>
                 </thead>
                 <tbody>
+
+                  <tr>
+                    <td>Registrikood</td>
+                    <td>{{ data.fieldEducationalInstitution.entity.fieldRegistrationCode }}</td>
+                  </tr>
+
                   <tr>
                     <td>Õppekava tase</td>
-                    <td>{{ data.fieldEducationalInstitution.entity.entityLabel }}</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
                   </tr>
+
+                  <tr>
+                    <td>Omistatav kraad või diplom</td>
+                    <td>{{ data.fieldDegreeOrDiplomaAwarded.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Spetsialiseerumine</td>
+                    <td>{{ data.fieldSpecialization }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Õppevaldkond</td>
+                    <td>{{ data.fieldIscedfBoard.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Õppesuund</td>
+                    <td>{{ data.fieldIscedfNarrow.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Õppekavarühm</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Lühikirjeldus</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Õppekeel(ed)</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Õppekava maht</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Praktika maht</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Nominaalkestus</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Vastuvõtu olek</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Akrediteerimise otsus</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Akrediteerimise otsuse kehtivuse lõpp</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Õppekava kirjeldava veebilehe aadress</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Kutsestandard(id)</td>
+                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                  </tr>
+
                 </tbody>
               </table>
             </div>
           </div>
         </article>
       </div><!--/block-->
+
+      <div class="text-center actions">
+        <button mat-raised-button color="primary" >{{ 'studyProgramme.btn' | translate }}</button>
+      </div><!--/text-center-->
+      
     </div><!--/col-8-->
     <div class="col-4 sm-12">
       <div class="block padding-block border-orange">

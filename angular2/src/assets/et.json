@@ -202,6 +202,8 @@
     "school.ownership": "Omandivorm",
     "search.narrow": "Kitsam otsing",
     "specialClass": "HEV",
-    "school.home": "Õpilaskodu/Ühiselamu olemas",
-    "all": "Kõik"
+    "school.home": "Õpilaskodu",
+    "all": "Kõik",
+
+    "studyProgramme.btn": "Vaata sarnaseid erialasid"
 }

@@ -58,7 +58,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   typeOptions = [];
 
   map: any;
-  
+
   mapOptions = {
     lat: 58.8754705,
     lng: 24.5567241,
@@ -93,6 +93,19 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     super(null, null);
   }
 
+  getSubTypes(){
+    let output = [];
+    
+    if( this.filterFormItems.type && this.filterFormItems.type !== "" ){
+      for( let i in this.typeOptions ){
+        if( this.typeOptions[i].parentId == this.filterFormItems.type ){
+          output.push( this.typeOptions[i] );
+        }
+      }
+    }
+
+    return output;
+  }
   mapReady(map){
 
     let that = this;
@@ -301,6 +314,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.pathWatcher();
     this.watchSearch();
     this.getOptions();
+
+    this.filterFull = true;
 
   }
   

@@ -46,15 +46,30 @@
           <mat-form-field>
             <mat-select placeholder="{{ 'school.institution.type' | translate }}" [(ngModel)]="filterFormItems.type" name="type">
               <mat-option>{{ 'all' | translate }}</mat-option>
-              <mat-option *ngFor="let item of typeOptions" [value]="item.entityId">
-                {{ item.entityLabel }}
-              </mat-option>
+              <ng-container *ngFor="let item of typeOptions">
+                <mat-option *ngIf="item.parentId == null" [value]="item.entityId">
+                  {{ item.entityLabel }}
+                </mat-option>
+              </ng-container>
             </mat-select>
           </mat-form-field>
         </div><!--/round-input__wrapper-->
         
       </div>
-      <div class="col-5 sm-hide"></div>
+
+      <div class="col-5 sm-12">
+        <div class="round-input__wrapper" [class.disabled]="getSubTypes().length == 0">
+          <mat-form-field>
+            <mat-select [placeholder]="getSubTypes().length !== 0 ? 'Õppeasutuse alamtase' : 'Vali esmalt õppeasutuse tüüp'" [(ngModel)]="filterFormItems.subtype" name="subtype">
+              <mat-option *ngIf="getSubTypes().length !== 0">{{ 'all' | translate }}</mat-option>
+              <mat-option *ngFor="let item of getSubTypes()" [value]="item.entityId">
+                {{ item.entityLabel }}
+              </mat-option>
+
+            </mat-select>
+          </mat-form-field>
+        </div><!--/round-input__wrapper-->
+      </div><!--/col-5-->
 
       <div class="col-4 sm-12">
         <div class="round-input__wrapper">
@@ -88,7 +103,7 @@
           <mat-checkbox [(ngModel)]="filterFormItems.specialClass" name="specialClass">HEV</mat-checkbox>
         </div><!--/custom-checkbox-->
         <div class="custom-checkbox">
-          <mat-checkbox [(ngModel)]="filterFormItems.studentHome" name="studentHome">Õpilaskodu/Ühiselamu olemas</mat-checkbox>
+          <mat-checkbox [(ngModel)]="filterFormItems.studentHome" name="studentHome">Õpilaskodu</mat-checkbox>
         </div><!--/custom-checkbox-->
       </div><!--/col-9-->
       <div class="col-3 align-end text-right sm-12 inline-flex">
@@ -125,6 +140,10 @@
 
   
   <div class="spinner-wrapper" *ngIf="!list"><mat-spinner></mat-spinner></div>
+
+  <div *ngIf="list && list.length == 0 && view == 'list'" class="no-results">
+    {{ 'results.none' | translate }}
+  </div>
 
   <div *ngIf="list && list.length > 0 && view == 'list'">
     <ng-container *ngFor="let item of list">

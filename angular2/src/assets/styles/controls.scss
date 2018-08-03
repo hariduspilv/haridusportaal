@@ -42,6 +42,7 @@
         .mat-form-field-label{left:0.4375rem; padding:0 0.625rem; width:auto; background:$white; color: $dark-gray; font-size:0.75rem; top:3px;}
       }
     }
+    &.disabled .mat-form-field{background:#eee !important;}
   }
   &__field-wrapper {
     display: inline-flex;
@@ -66,6 +67,10 @@
     border: none;
     border-radius: 1.25rem;
     width: stretch;
+    &::placeholder{
+      @include break-on(sm, max) {font-size:1rem;}  
+    }
+    @include break-on(sm, max) {font-size:1rem;}
   }
   &__clear {
     &.mat-icon-button, .mat-icon-button {
