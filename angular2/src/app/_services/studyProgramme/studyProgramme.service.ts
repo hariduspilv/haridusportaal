@@ -15,8 +15,8 @@ const studyProgrammeListTestArgs = {
   "languageEnabled": false,
   "school": "%tallinn%",
   "schoolEnabled": false,
-  "iscedf_board": ["43379"],
-  "iscedf_boardEnabled": false,
+  "iscedf_broad": ["43379"],
+  "iscedf_broadEnabled": false,
   "iscedf_narrow": ["43379"],
   "iscedf_narrowEnabled": false,
   "iscedf_detailed": ["43379"],
@@ -40,8 +40,8 @@ query studyProgrammeList (
   $languageEnabled: Boolean,
 	$school: String,
   $schoolEnabled: Boolean,
-	$iscedf_board: [String],
-  $iscedf_boardEnabled: Boolean,
+	$iscedf_broad: [String],
+  $iscedf_broadEnabled: Boolean,
 	$iscedf_narrow: [String],
   $iscedf_narrowEnabled: Boolean,
 	$iscedf_detailed: [String],
@@ -55,14 +55,15 @@ query studyProgrammeList (
         {operator: LIKE, field:"field_school_address", value: [$location], language:$lang, enabled:$locationEnabled},
         {operator: LIKE, field:"field_educational_institution.entity.title", value: [$school], language: $lang enabled: $schoolEnabled},
 
-        {operator: IN, field:"field_iscedf_board", value: $iscedf_board, language: $lang enabled: $iscedf_boardEnabled},
+        {operator: IN, field:"field_iscedf_board", value: $iscedf_broad, language: $lang enabled: $iscedf_broadEnabled},
         {operator: IN, field:"field_iscedf_narrow", value: $iscedf_narrow, language: $lang enabled: $iscedf_narrowEnabled},
         {operator: IN, field:"field_iscedf_detailed", value: $iscedf_detailed, language: $lang enabled: $iscedf_detailedEnabled},
         {operator: EQUAL, field: "field_admission_status", value: "Avatud", language: $lang, enabled: $onlyOpenAdmission}
         {operator: IN, field:"field_teaching_language", value: $language, language: $lang enabled: $languageEnabled},
         {operator: IN, field: "field_study_programme_level", value: $level, language: $lang, enabled: $levelEnabled}
         {operator: IN, field: "field_study_programme_type", value: $type, language: $lang, enabled: $typeEnabled}
-        {operator: EQUAL, field: "type", value: ["study_programme"], language: $lang}
+        {operator: EQUAL, field: "type", value: ["study_programme"], language: $lang},
+        {operator: EQUAL, field:"status", value: "1"}
       ]
     }
   ) {
@@ -271,4 +272,17 @@ export const SchoolStudyProgrammes = gql`
       }
     }
   }
+`;
+export const SchoolAutoComplete = gql`
+query schoolAutocomplete ($lang: LanguageId!,
+  $searchString: String){
+  type: nodeQuery(filter: {conditions: [
+    {operator: LIKE, field: "title", value: [$searchString], language: $lang}
+    {operator: EQUAL, field: "type", value: "school", language: $lang}
+  ]}){
+    entities{
+      entityLabel
+    }
+  }
+}
 `;
