@@ -20,7 +20,7 @@ const moment = _moment;
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule, MapsAPILoader } from '@agm/core';
 
 
 @Component({
@@ -58,7 +58,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   typeOptions = [];
 
   map: any;
-  
+
   mapOptions = {
     lat: 58.8754705,
     lng: 24.5567241,
@@ -83,25 +83,36 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   subscriptions: Subscription[] = [];
 
+  latlngBounds: any;
+
   constructor(
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute,
     private apollo: Apollo,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private mapsAPILoader: MapsAPILoader
   ) {
     super(null, null);
   }
 
+  getSubTypes(){
+    let output = [];
+    
+    if( this.filterFormItems.type && this.filterFormItems.type !== "" ){
+      for( let i in this.typeOptions ){
+        if( this.typeOptions[i].parentId == this.filterFormItems.type ){
+          output.push( this.typeOptions[i] );
+        }
+      }
+    }
+
+    return output;
+  }
   mapReady(map){
 
     let that = this;
     this.map = map;
-
-    this.map.setCenter({
-      lat: this.mapOptions.lat,
-      lng: this.mapOptions.lng
-    });
 
     this.map.setZoom(this.mapOptions.zoom);
 
@@ -125,11 +136,40 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       that.reset(true);
     });
 
+    if (this.list) {
+
+      this.latlngBounds = new window['google'].maps.LatLngBounds();
+
+      for( let i in this.list ){
+        if( this.list[i].fieldSchoolLocation[0] ){
+          this.latlngBounds.extend(new window['google'].maps.LatLng(this.list[i].fieldSchoolLocation[0].entity.fieldCoordinates.lat, this.list[i].fieldSchoolLocation[0].entity.fieldCoordinates.lon));
+        }
+      };
+
+      if( this.latlngBounds.f.f !== -1 ){
+        this.map.fitBounds(this.latlngBounds);
+      }else{
+        this.map.setCenter({
+          lat: this.mapOptions.lat,
+          lng: this.mapOptions.lng
+        });
+      }
+
+    }else{
+      this.map.setCenter({
+        lat: this.mapOptions.lat,
+        lng: this.mapOptions.lng
+      });
+    }
+
+
   }
 
 
   @HostListener('window:resize', ['$event'])
   onResize(){
+
+
     this.showFilter = window.innerWidth > 900;
     this.filterFull = window.innerWidth < 900;
   }
@@ -201,6 +241,11 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
+    
+    let types = this.params['type'].split(",");
+    if( this.params['subtype'] ){
+      types.push(this.params['subtype'].split(",")[0]);
+    }
 
     this.dataSubscription = this.apollo.watchQuery({
       query: ListQuery,
@@ -216,7 +261,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
         maxLon: this.bounds.maxLon,
         location: this.params['location'] ? "%"+this.params['location']+"%" : "%%",
         locationEnabled: this.params['location'] ? true : false,
-        type: this.params['type'] ? this.params['type'].split(",") :  [],
+        type: this.params['type'] ? types :  [],
         typeEnabled: this.params['type'] ? true : false,
         language: this.params['language'] ? this.params['language'].split(",") :  [],
         languageEnabled: this.params['language'] ? true : false,
@@ -301,6 +346,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.pathWatcher();
     this.watchSearch();
     this.getOptions();
+
+    //this.filterFull = true;
 
   }
   

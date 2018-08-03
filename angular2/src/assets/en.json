@@ -178,7 +178,7 @@
     "studyProgramme.studygroup": "Curriculum Group",
     "studyProgramme.admission": "Admission status",
 
-    "studyProgramme.search.name": "Name",
+    "studyProgramme.search.label": "Name",
     "studyProgramme.search.type": "Type",
     "studyProgramme.search.language": "Language",
     "studyProgramme.search.school": "Institution",
@@ -206,5 +206,8 @@
     "search.narrow": "Kitsam otsing",
     "specialClass": "HEV",
     "school.home": "Õpilaskodu/Ühiselamu olemas",
-    "all": "Kõik"
+    "all": "Kõik",
+
+
+    "studyProgramme.btn": "Vaata sarnaseid erialasid"
 }
