@@ -34,7 +34,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   public showFilter: boolean = true;
   private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed']
 
-  filterFull: boolean = true;
+  filterFull: boolean;
 
   private dataSubscription: Subscription;
   private filterOptionsSubscription: Subscription;
