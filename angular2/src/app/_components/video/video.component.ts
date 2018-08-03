@@ -23,6 +23,8 @@ export class VideoComponent {
       })
     } catch {
       this.embedFailed = true;
+    } finally {
+      console.log(this.embeddedInputs)
     }
   }
 
