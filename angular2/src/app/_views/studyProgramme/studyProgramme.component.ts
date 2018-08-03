@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ListQuery, FilterOptions, SchoolAutoComplete} from '../../_services/studyProgramme/studyProgramme.service';
+import { ListQuery, FilterOptions} from '../../_services/studyProgramme/studyProgramme.service';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
