@@ -11,12 +11,11 @@
       margin-top:-$medium;
     }
   }
-
+  
   &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $small $medium $small $medium; flex-basis: 50%;}
 
   &__head {display: flex; border-bottom: .0625rem solid $gray;
   }
-  
   
   .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;cursor:pointer;color:$blue;
     .mat-icon{margin-top: $gutter;}
@@ -54,3 +53,7 @@
 }
 .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
 .actions{margin-bottom:2rem; padding:0 1.5rem;}
+
+
+ 
+  

@@ -1,7 +1,5 @@
 <breadcrumbs></breadcrumbs>
-
-
-  
+ 
   <form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
     <div class="main-container">
       <div class="row">
@@ -57,10 +55,10 @@
             <div class="col-4 sm-12">
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
-                  <mat-select placeholder="{{ 'studyProgramme.search.iscedf_board' | translate }}" [(ngModel)]='filterFormItems.iscedf_board' name="iscedf_board">
+                  <mat-select placeholder="{{ 'studyProgramme.search.iscedf_broad' | translate }}" (change)="isceChange(filterFormItems.iscedf_broad, 'iscedf_broad')" [(ngModel)]='filterFormItems.iscedf_broad' name="iscedf_broad">
                     <mat-option>{{ 'all' | translate }}</mat-option>
-                    <mat-option  *ngFor="let iscedf_board of FilterOptions.iscedf_board" [value]="iscedf_board.tid">
-                      {{iscedf_board.entityLabel}}
+                    <mat-option *ngFor="let iscedf_broad of FilterOptions.iscedf_broad" [value]="iscedf_broad.entityId">
+                      {{iscedf_broad.entityLabel}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -82,11 +80,11 @@
             </div><!--/col-4-->
              
             <div class="col-4 sm-12">
-              <div class="round-input__wrapper">
+              <div class="round-input__wrapper" [class.disabled]="!filterFormItems.iscedf_broad">
                 <mat-form-field *ngIf="FilterOptions" >
-                  <mat-select placeholder="{{ 'studyProgramme.search.iscedf_narrow' | translate }}" [(ngModel)]='filterFormItems.iscedf_narrow' name="iscedf_narrow">
+                  <mat-select [disabled]="!filterFormItems.iscedf_broad" placeholder="{{ 'studyProgramme.search.iscedf_narrow' | translate }}" (change)="isceChange(filterFormItems.iscedf_narrow, 'iscedf_narrow')" [(ngModel)]='filterFormItems.iscedf_narrow' name="iscedf_narrow">
                     <mat-option>{{ 'all' | translate }}</mat-option>
-                    <mat-option  *ngFor="let iscedf_narrow of FilterOptions.iscedf_narrow" [value]="iscedf_narrow.tid">
+                    <mat-option *ngFor="let iscedf_narrow of FilterOptions.iscedf_narrow" [value]="iscedf_narrow.entityId">
                       {{iscedf_narrow.entityLabel}}
                     </mat-option>
                   </mat-select>
@@ -96,22 +94,25 @@
         </div>
         <div class="row" >
             <div class="col-4 sm-12" >
-              
+           
               <div class="round-input__wrapper" [class.complete]="filterFormItems.school">
                 <span class="round-input__title">{{ 'studyProgramme.search.school' | translate }}</span>
                 <div class="round-input__field-wrapper">
+                 
                   <input class="round-input__field" placeholder="{{ 'studyProgramme.search.school' | translate }} " [(ngModel)]='filterFormItems.school' name="school" />
+                 
+
                 </div>
-              </div><!--/round-inpuit__wrapper-->
+              </div><!--round-inpuit__wrapper-->
               
             </div><!--/col-4-->
 
             <div class="col-4 sm-12">
-              <div class="round-input__wrapper">
-                <mat-form-field *ngIf="FilterOptions" >
-                  <mat-select placeholder="{{ 'studyProgramme.search.iscedf_detailed' | translate }}" [(ngModel)]='filterFormItems.iscedf_detailed' name="iscedf_detailed">
+              <div class="round-input__wrapper" [class.disabled]="!filterFormItems.iscedf_narrow">
+                <mat-form-field *ngIf="FilterOptions">
+                  <mat-select  [disabled]="!filterFormItems.iscedf_narrow" placeholder="{{ 'studyProgramme.search.iscedf_detailed' | translate }}" (change)="isceChange(filterFormItems.iscedf_detailed, 'iscedf_detailed')" [(ngModel)]='filterFormItems.iscedf_detailed' name="iscedf_detailed">
                     <mat-option>{{ 'all' | translate }}</mat-option>
-                    <mat-option  *ngFor="let iscedf_detailed of FilterOptions.iscedf_detailed" [value]="iscedf_detailed.tid">
+                    <mat-option  *ngFor="let iscedf_detailed of FilterOptions.iscedf_detailed" [value]="iscedf_detailed.entityId">
                       {{iscedf_detailed.entityLabel}}
                     </mat-option>
                   </mat-select>
@@ -180,14 +181,15 @@
             </div><!--col-9-->
             <div class="col">
                 <div class="custom-checkbox">
-                  <mat-checkbox [checked]="compare[item.nid]" (change)="compareChange(item.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
+                  <mat-checkbox [checked]="compare[item.nid]" (change)="compareChange(item.nid, $event)">Lisa võrdlusesse</mat-checkbox>
                 </div>
             </div><!--/col-3-->
           </div>
           
           <div class="studyProgramme__item__col sm-hide">
             <p *ngIf="item.fieldStudyProgrammeLevel">{{ 'studyProgramme.level' | translate }} : <b>{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</b></p>
-            <p *ngIf="item.fieldAccreditationStatus">{{ 'studyProgramme.accreditation' | translate }}: <b>{{ item.fieldAccreditationStatus }}</b></p>
+            <p *ngIf="item.fieldAccreditationStatus">
+              {{ 'studyProgramme.accreditation' | translate }}: <b>{{ 'studyProgrammes.valid_accreditation' | translate }}</b></p>
           </div><!--/scools__item__col-->
           <div class="studyProgramme__item__col sm-hide">
               <p *ngIf="item.fieldTeachingLanguage">

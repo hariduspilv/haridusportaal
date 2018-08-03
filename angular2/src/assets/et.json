@@ -174,16 +174,18 @@
     "studyProgramme.period": "Õppe kestus",
     "studyProgramme.studygroup": "Õppekava rühm",
     "studyProgramme.admission": "Vastuvõtu olek",
-
     "studyProgramme.search.name": "Eriala nimi",
     "studyProgramme.search.type": "Eriala tüüp",
     "studyProgramme.search.language": "Õppekeel",
     "studyProgramme.search.school": "Õppeasutus",
     "studyProgramme.search.location": "Asukoht",
-    "studyProgramme.search.iscedf_board": "Õppevaldkond",
+    "studyProgramme.search.iscedf_broad": "Õppevaldkond",
     "studyProgramme.search.iscedf_narrow": "Õppesuund",
     "studyProgramme.search.iscedf_detailed": "Õppekavarühm",
     "studyProgramme.search.open_admission": "Ainult avatud vastuvõtuga",
+    "studyProgrammes": {
+        "valid_accreditation": "Kehtiv akrediteering"
+    },
 
     "duration.year.singular": "aasta",
     "duration.year.plural": "aastat",
