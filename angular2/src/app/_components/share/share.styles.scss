@@ -1,7 +1,7 @@
 @import "../../../assets/styles/typography.scss"; 
 :host{margin-top:-0.1875rem;}
 .share {
-  &__wrapper {position: relative;
+  &__wrapper {position: relative;cursor:pointer;
     @include break-on(sm, max) {right: $small;}
   }
   position: absolute;
@@ -29,7 +29,7 @@
     &--elem {width: $large;height: $large;padding-top: $gutter;background: white;border-radius: 50%;
       &:last-child {padding-top: $half-gutter;}
     }
-    img {width: $large;height: $large;cursor: pointer;}
+    img {width: $large;height: $large;}
   }
   &:hover {
     background-color: $black;
