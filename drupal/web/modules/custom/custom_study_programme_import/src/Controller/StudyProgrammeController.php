@@ -146,7 +146,7 @@ class StudyProgrammeController extends ControllerBase {
   public function add_programme_fields($programme, $programmenode, $schools, $taxonomies){
     if($programmenode['programme_field']['field_update_from_ehis'] == '1'){
       if(isset($programme->oppekavaNimetus)){
-        $programmenode['programme_field']['title'] = html_entity_decode(htmlspecialchars_decode($programme->oppekavaNimetus), ENT_QUOTES | ENT_HTML5);
+        $programmenode['programme_field']['title'] = trim(html_entity_decode(htmlspecialchars_decode($programme->oppekavaNimetus), ENT_QUOTES | ENT_HTML5));
       }
       if(isset($programme->oppekavaKood)){
         $programmenode['programme_field']['field_ehis_id'] = $programme->oppekavaKood;
