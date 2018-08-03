@@ -34,89 +34,93 @@
                 </thead>
                 <tbody>
 
-                  <tr>
+                  <tr *ngIf="data.fieldEducationalInstitution">
                     <td>Registrikood</td>
                     <td>{{ data.fieldEducationalInstitution.entity.fieldRegistrationCode }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldStudyProgrammeLevel">
                     <td>Õppekava tase</td>
                     <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldDegreeOrDiplomaAwarded">
                     <td>Omistatav kraad või diplom</td>
                     <td>{{ data.fieldDegreeOrDiplomaAwarded.entity.entityLabel }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldSpecialization">
                     <td>Spetsialiseerumine</td>
                     <td>{{ data.fieldSpecialization }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldIscedfBoard">
                     <td>Õppevaldkond</td>
                     <td>{{ data.fieldIscedfBoard.entity.entityLabel }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldIscedfNarrow">
                     <td>Õppesuund</td>
                     <td>{{ data.fieldIscedfNarrow.entity.entityLabel }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldIscedfDetailed">
                     <td>Õppekavarühm</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td>{{ data.fieldIscedfDetailed.entity.entityLabel }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldShortDescription">
                     <td>Lühikirjeldus</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td>{{ data.fieldShortDescription }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldTeachingLanguage">
                     <td>Õppekeel(ed)</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td>
+                      <ng-container *ngFor="let item of data.fieldTeachingLanguage">
+                        {{ item.entity.entityLabel }}
+                      </ng-container>
+                    </td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldAmount">
                     <td>Õppekava maht</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td>{{ data.fieldAmount }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldPracticalTrainingAmount">
                     <td>Praktika maht</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td>{{ data.fieldPracticalTrainingAmount }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldDurationYears">
                     <td>Nominaalkestus</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td>{{ data.fieldDurationYears }} aastat <ng-container *ngIf="data.fieldDurationMonths && data.fieldDurationMonths !== 0">{{ data.fieldDurationMonths }} kuud</ng-container></td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldAdmissionStatus">
                     <td>Vastuvõtu olek</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td>{{ data.fieldAdmissionStatus }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldAccreditationStatus">
                     <td>Akrediteerimise otsus</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td>{{ data.fieldAccreditationStatus }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldAccreditationValidUntil">
                     <td>Akrediteerimise otsuse kehtivuse lõpp</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td>{{ data.fieldAccreditationValidUntil.unix }}</td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldWebPageAddress.url">
                     <td>Õppekava kirjeldava veebilehe aadress</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td><a href="{{ data.fieldWebPageAddress.url }}" target="_blank">Vaata õppekava kirjeldust õppeasutuse veebilehel</a></td>
                   </tr>
 
-                  <tr>
+                  <tr *ngIf="data.fieldQualificationStandardId">
                     <td>Kutsestandard(id)</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    <td><a href="">{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</a></td>
                   </tr>
 
                 </tbody>

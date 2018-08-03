@@ -242,10 +242,14 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       this.dataSubscription.unsubscribe();
     }
     
-    let types = this.params['type'].split(",");
-    if( this.params['subtype'] ){
-      types.push(this.params['subtype'].split(",")[0]);
+    let types = [];
+    if( this.params['type'] ){
+      types = this.params['type'].split(",");
+      if( this.params['subtype'] ){
+        types.push(this.params['subtype'].split(",")[0]);
+      }
     }
+    
 
     this.dataSubscription = this.apollo.watchQuery({
       query: ListQuery,
