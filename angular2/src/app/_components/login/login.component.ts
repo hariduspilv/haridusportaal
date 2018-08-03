@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit{
       this.loader = false;
 
       this.data = data;
-      this.data.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1MzI0MjQxMjIsImV4cCI6MTUzMjQyNzcyMiwiZHJ1cGFsIjp7InVpZCI6IjEifX0.tpi41BIuk7-xPmy1MHfvuXPqu0ziXiFDn2awdQviMWj-G8Ee-GJyQuXtlpdAUZ5e8onOD5Bn-6FRuYK-gwOWyQ";
+      
       if( data['token'] ){
         
         localStorage.setItem("token", this.data.token);
