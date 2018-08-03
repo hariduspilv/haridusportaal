@@ -121,6 +121,7 @@ query(
     entities(language:$lang){
       entityLabel
       entityId
+      parentId
       ... on TaxonomyTermTeachingLanguage{
         reverseFieldTeachingLanguageNode{
           count
