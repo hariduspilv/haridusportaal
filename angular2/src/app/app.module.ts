@@ -11,7 +11,7 @@ import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.
 import { Modal } from './_components/dialogs/modal/modal';
 import { VideoComponent } from './_components/video/video.component';
 import { HttpModule } from '@angular/http';
-import { EmbedVideo } from 'ngx-embed-video/dist';
+import { EmbedVideo } from 'ngx-embed-video';
 
 /* Custom imports */
 import { AppModules } from './_components';

@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 id: event_date
-label: 'Sündmuse kuupäev'
+label: 'Sündmuse lisakuupäevad'
 icon_uuid: null
 description: ''
 behavior_plugins: {  }
