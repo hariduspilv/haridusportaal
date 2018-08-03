@@ -11,7 +11,7 @@
         <article>
           <div class="row title">
             <div class="col-8">
-              <h1>{{ data.entityLabel }}</h1>
+              <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
             </div><!--/col-8-->
 
             <div class="col-4 flex">
@@ -27,7 +27,7 @@
             <div class="col-12">
               <table>
                 <thead>
-                  <tr>
+                  <tr *ngIf="data.fieldEducationalInstitution">
                     <th>Õppeasutuse nimi</th>
                     <th>{{ data.fieldEducationalInstitution.entity.entityLabel }}</th>
                   </tr>
@@ -113,14 +113,14 @@
                     <td>{{ data.fieldAccreditationValidUntil.unix }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldWebPageAddress.url">
+                  <tr *ngIf="data.fieldWebPageAddress">
                     <td>Õppekava kirjeldava veebilehe aadress</td>
                     <td><a href="{{ data.fieldWebPageAddress.url }}" target="_blank">Vaata õppekava kirjeldust õppeasutuse veebilehel</a></td>
                   </tr>
 
                   <tr *ngIf="data.fieldQualificationStandardId">
                     <td>Kutsestandard(id)</td>
-                    <td><a href="">{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</a></td>
+                    <td><a href="{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}">Vaata kutsestandardit</a></td>
                   </tr>
 
                 </tbody>
@@ -131,7 +131,7 @@
       </div><!--/block-->
 
       <div class="text-center actions">
-        <button mat-raised-button color="primary" >{{ 'studyProgramme.btn' | translate }}</button>
+        <button mat-raised-button color="primary" >Vaata kutsestandardit</button>
       </div><!--/text-center-->
       
     </div><!--/col-8-->
