@@ -174,7 +174,7 @@
     "studyProgramme.period": "Õppe kestus",
     "studyProgramme.studygroup": "Õppekava rühm",
     "studyProgramme.admission": "Vastuvõtu olek",
-    "studyProgramme.search.name": "Eriala nimi",
+    "studyProgramme.search.label": "Eriala",
     "studyProgramme.search.type": "Eriala tüüp",
     "studyProgramme.search.language": "Õppekeel",
     "studyProgramme.search.school": "Õppeasutus",
@@ -204,6 +204,8 @@
     "school.ownership": "Omandivorm",
     "search.narrow": "Kitsam otsing",
     "specialClass": "HEV",
-    "school.home": "Õpilaskodu/Ühiselamu olemas",
-    "all": "Kõik"
+    "school.home": "Õpilaskodu",
+    "all": "Kõik",
+
+    "studyProgramme.btn": "Vaata sarnaseid erialasid"
 }
