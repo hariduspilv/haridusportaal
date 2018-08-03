@@ -51,21 +51,28 @@ query studyProgrammeList (
       filter: {
       conjunction: AND,
       conditions: [
-        {operator: LIKE, field: "title", value: [$title], language: $lang, enabled: $titleEnabled}
         {operator: LIKE, field:"field_school_address", value: [$location], language:$lang, enabled:$locationEnabled},
         {operator: LIKE, field:"field_educational_institution.entity.title", value: [$school], language: $lang enabled: $schoolEnabled},
-
         {operator: IN, field:"field_iscedf_board", value: $iscedf_broad, language: $lang enabled: $iscedf_broadEnabled},
         {operator: IN, field:"field_iscedf_narrow", value: $iscedf_narrow, language: $lang enabled: $iscedf_narrowEnabled},
         {operator: IN, field:"field_iscedf_detailed", value: $iscedf_detailed, language: $lang enabled: $iscedf_detailedEnabled},
         {operator: EQUAL, field: "field_admission_status", value: "Avatud", language: $lang, enabled: $onlyOpenAdmission}
         {operator: IN, field:"field_teaching_language", value: $language, language: $lang enabled: $languageEnabled},
-        {operator: IN, field: "field_study_programme_level", value: $level, language: $lang, enabled: $levelEnabled}
-        {operator: IN, field: "field_study_programme_type", value: $type, language: $lang, enabled: $typeEnabled}
+        {operator: IN, field: "field_study_programme_level", value: $level, language: $lang, enabled: $levelEnabled},
+        {operator: IN, field: "field_study_programme_type", value: $type, language: $lang, enabled: $typeEnabled},
         {operator: EQUAL, field: "type", value: ["study_programme"], language: $lang},
         {operator: EQUAL, field:"status", value: "1"}
-      ]
-    }
+      ],
+        groups:[{
+          conjunction: OR,
+          conditions: [
+            {operator: LIKE, field: "field_short_description", value: [$title], language: $lang, enabled: $titleEnabled},
+            {operator: LIKE, field: "title", value: [$title], language: $lang, enabled: $titleEnabled},
+            {operator: LIKE, field: "field_degree_or_diploma_awarded.entity.name", value: [$title], language: $lang, enabled: $titleEnabled},
+            {operator: LIKE, field: "field_specialization", value: [$title], language: $lang, enabled: $titleEnabled},
+          ]
+        }]
+      }
   ) {
     entities(language:$lang) {
       ... on NodeStudyProgramme {
@@ -74,6 +81,13 @@ query studyProgrammeList (
         entityUrl{
           path
         }
+        fieldSpecialization
+        fieldDegreeOrDiplomaAwarded {
+          entity {
+            entityLabel
+          }
+        }
+        fieldShortDescription
         fieldSchoolAddress
         fieldSchoolWebsite
         fieldEducationalInstitution {
