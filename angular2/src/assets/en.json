@@ -178,7 +178,7 @@
     "studyProgramme.studygroup": "Curriculum Group",
     "studyProgramme.admission": "Admission status",
 
-    "studyProgramme.search.name": "Name",
+    "studyProgramme.search.label": "Name",
     "studyProgramme.search.type": "Type",
     "studyProgramme.search.language": "Language",
     "studyProgramme.search.school": "Institution",
