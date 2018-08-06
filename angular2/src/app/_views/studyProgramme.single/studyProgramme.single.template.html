@@ -10,15 +10,18 @@
         <div class="block-title">ERIALAD</div>
         <article>
           <div class="row title">
-            <div class="col-8">
-              <h1 *ngIf="data.entityLabel">{{ data.entityLabel }} </h1>
+            <div class="col-7">
+              <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
             </div><!--/col-8-->
 
-            <div class="col-4 flex">
+            <div class="col-3 flex">
               <div class="fill"></div>
               <div class="custom-checkbox">
                 <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
               </div>
+            </div>
+
+            <div class="col-2 flex text-right">
               <share></share>
             </div>
           </div><!--/row-->
@@ -118,9 +121,9 @@
                     <td><a href="{{ data.fieldWebPageAddress.url }}" target="_blank">Vaata õppekava kirjeldust õppeasutuse veebilehel</a></td>
                   </tr>
 
-                  <tr *ngIf="data.fieldQualificationStandardId && data.fieldQualificationStandardId[0]">
+                  <tr *ngIf="data.fieldQualificationStandardId">
                     <td>Kutsestandard(id)</td>
-                    <td><a href="javascript:void(0);">Vaata kutsestandardit</a></td>
+                    <td><a href="{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}">Vaata kutsestandardit</a></td>
                   </tr>
 
                 </tbody>
@@ -136,13 +139,13 @@
       
     </div><!--/col-8-->
     <div class="col-4 sm-12">
-      <div class="block padding-block border-orange" *ngIf="data.fieldSchoolContactPhone || data.fieldSchoolContactEmail || data.fieldSchoolWebsite">
+      <div class="block padding-block border-orange">
         <h2>Kontakt</h2>
         <p>
-          {{ data.fieldEducationalInstitution.entity.entityLabel }}<br />
-          <ng-container *ngIf="data.fieldSchoolContactPhone">{{ data.fieldSchoolContactPhone }}<br /></ng-container>
-          <ng-container *ngIf="data.fieldSchoolContactEmail"><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a><br /></ng-container>
-          <a href="">{{ data.fieldSchoolWebsite }}</a>
+          Eesti Maaülikool<br />
+          +372 5555 5555<br />
+          <a href="mailto:klm@htm.ee">klm@htm.ee</a><br />
+          <a href="">www.koolinimi.ee</a>
         </p>
       </div><!--/block-->
 
@@ -150,7 +153,7 @@
         <div class="map-wrapper">
           <agm-map (mapReady)="mapReady($event)" style="height:173px" >
           </agm-map>
-          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>Vaata kaarti lähemalt</span></a>
+          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
         </div><!--/map-wrapper-->
         <h2>Juriidiline aadress</h2>
         <p>Pargi 32, Räpina, 64505, Põlva maakond</p>
@@ -160,7 +163,7 @@
         <div class="map-wrapper">
           <agm-map (mapReady)="mapReady($event)" style="height:173px" >
           </agm-map>
-          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>Vaata kaarti lähemalt</span></a>
+          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
         </div><!--/map-wrapper-->
         <h2>Juriidiline aadress</h2>
         <p>Pargi 32, Räpina, 64505, Põlva maakond</p>
@@ -170,7 +173,7 @@
         <div class="map-wrapper">
           <agm-map (mapReady)="mapReady($event)" style="height:173px" >
           </agm-map>
-          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>Vaata kaarti lähemalt</span></a>
+          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
         </div><!--/map-wrapper-->
         <h2>Juriidiline aadress</h2>
         <p>Pargi 32, Räpina, 64505, Põlva maakond</p>

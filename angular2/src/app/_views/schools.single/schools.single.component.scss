@@ -28,7 +28,7 @@
                     width: 40%;
                 }
                 &:last-child {
-                    font-weight: 400;
+                    font-weight: 500;
                 }
             }
         }
@@ -45,6 +45,14 @@
             list-style: none;
             padding: 0;
             margin: 0;
+            li {
+                line-height: 1.4rem;
+                .tel {
+                    text-decoration: none;
+                    color: #333333;
+                    cursor: default;
+                }
+            }
         }
     }
     .location-block {

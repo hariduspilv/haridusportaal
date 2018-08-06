@@ -2,7 +2,7 @@
     <div class="block padding-block" id="school-contact-block">
         <h2>{{ 'contact' | translate }}</h2>
         <ul>
-            <li>{{ data.fieldSchoolContactPhone }}</li>
+            <li><a href="tel:{{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
             <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
             <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
         </ul>
