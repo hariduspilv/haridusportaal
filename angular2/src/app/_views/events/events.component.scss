@@ -108,7 +108,7 @@
 }
 .calendar{width:100%; border-collapse: collapse;table-layout: fixed;
   th{font-size: 0.8125rem; text-align: center; line-height: $medium; font-weight: normal; padding:.3125rem 0;}
-  td{border:$gray .0625rem solid; height:6.75rem; vertical-align: top; padding:$gutter;font-size: .875rem;
+  td{border:$gray .0625rem solid; height:6rem; vertical-align: top; padding:$gutter;font-size: .875rem;
     &:first-child {border-left: none;}
     &:last-child {border-right: none;}
   }
@@ -116,13 +116,15 @@
     .cal__day {background-color: $red; border-radius: 50%;color: $white;font-weight: 300;}
   }
 }
-.calendar__elem {padding-bottom: $xxl; padding:0 1.5rem;
-  .cal__day {width: $medium; padding-top: $half-gutter; padding-bottom: $half-gutter; text-align: center;position: relative;left: -.3125rem;top: -0.3125rem;}
+.calendar__elem {padding: 0;
+  .cal__day {width: $medium; padding-bottom: $half-gutter; text-align: center;position: relative;left: -.3125rem;padding-bottom: .125rem;padding-top: .125rem;}
   .cal__event {cursor: pointer; text-decoration: none;
     .content {color: $blue; display:block; text-decoration:none; line-height:1.25rem;font-size: .875rem;margin-top: $half-gutter;padding: .125rem;margin-left: -$half-gutter;padding-left: .375rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      padding-bottom: 0;
+      padding-top: .0625rem;
       &__strong {font-weight: 500 !important;}
       .marker {width: .4375rem;height: .4375rem;background-color:$aqua; border-radius: 50%; display: inline-block;}
       &.active {box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);}
@@ -134,7 +136,7 @@
       }
     }
   }
-  .more {padding-top: $gutter; padding-left: .625rem;
+  .more {padding-top: $half-gutter; padding-left: .625rem;
     // a:hover {color: $dark-gray;}
   }
   .disableMore {.more__hidden {display: none;}}
