@@ -19,8 +19,8 @@ use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\SerializerAwareInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -180,7 +180,7 @@ class AbstractObjectNormalizerDummy extends AbstractObjectNormalizer
 
     protected function isAllowedAttribute($classOrObject, $attribute, $format = null, array $context = array())
     {
-        return in_array($attribute, array('foo', 'baz'));
+        return \in_array($attribute, array('foo', 'baz'));
     }
 
     public function instantiateObject(array &$data, $class, array &$context, \ReflectionClass $reflectionClass, $allowedAttributes, $format = null)

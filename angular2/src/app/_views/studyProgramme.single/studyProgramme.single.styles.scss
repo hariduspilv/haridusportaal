@@ -5,8 +5,6 @@
   }
 }
 
-
-
 table {width: 100%;border-collapse: collapse; margin:1rem 0 0 0;
   thead {background: $light-gray;
     .sortable {cursor: pointer;&:hover { color: $dark-gray;}}
@@ -36,10 +34,9 @@ table {width: 100%;border-collapse: collapse; margin:1rem 0 0 0;
   h2{font-size:1.25rem; line-height:100%; margin:0 0 -7px 0;}
   
   &.border-orange{border-top-color:$orange;}
-  .flex{display:flex;
-    .custom-checkbox{flex-grow: 1;}
+    .flex{display:flex;
   }
-  share{margin-left:1rem; flex-shrink: 0; min-width:3rem;}
+  // share{margin-right:-1.2rem; margin-left:1rem;}
 
   .map-wrapper {position: relative; margin:-1.2rem -1.2rem 1.5rem -1.2rem; display: block;
     a {position:absolute;bottom:0;width:stretch;background-color: rgba(0, 0, 0, 0.6);color:$white;align-items: center;justify-content: center;
