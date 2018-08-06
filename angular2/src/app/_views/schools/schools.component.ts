@@ -20,7 +20,7 @@ const moment = _moment;
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
-import { AgmCoreModule, MapsAPILoader } from '@agm/core';
+import { AgmCoreModule } from '@agm/core';
 
 
 @Component({
@@ -90,18 +90,17 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     public router: Router,
     public route: ActivatedRoute,
     private apollo: Apollo,
-    private cdr: ChangeDetectorRef,
-    private mapsAPILoader: MapsAPILoader
+    private cdr: ChangeDetectorRef
   ) {
     super(null, null);
   }
 
-  getSubTypes(){
+  getSubTypes(key:any){
     let output = [];
     
-    if( this.filterFormItems.type && this.filterFormItems.type !== "" ){
+    if( this.filterFormItems[key] && this.filterFormItems[key] !== "" ){
       for( let i in this.typeOptions ){
-        if( this.typeOptions[i].parentId == this.filterFormItems.type ){
+        if( this.typeOptions[i].parentId == this.filterFormItems[key] ){
           output.push( this.typeOptions[i] );
         }
       }
@@ -116,7 +115,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
     this.map.setZoom(this.mapOptions.zoom);
 
-    this.map.addListener("dragend", function () {
+    function getCoords(){
       let bounds = that.map.getBounds();
       that.bounds.minLat = bounds['f']['b'].toString();
       that.bounds.maxLat = bounds['f']['f'].toString();
@@ -124,16 +123,13 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       that.bounds.maxLon = bounds['b']['f'].toString();
 
       that.reset(true);
+    }
+    this.map.addListener("dragend", function () {
+      getCoords();
     });
     
     this.map.addListener("zoom_changed", function () {
-      let bounds = that.map.getBounds();
-      that.bounds.minLat = bounds['f']['b'].toString();
-      that.bounds.maxLat = bounds['f']['f'].toString();
-      that.bounds.minLon = bounds['b']['b'].toString();
-      that.bounds.maxLon = bounds['b']['f'].toString();
-
-      that.reset(true);
+      getCoords();
     });
 
     if (this.list) {
@@ -141,13 +137,14 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       this.latlngBounds = new window['google'].maps.LatLngBounds();
 
       for( let i in this.list ){
-        if( this.list[i].fieldSchoolLocation[0] ){
+        if( this.list[i].fieldSchoolLocation[0] && this.list[i].fieldSchoolLocation[0].entity.fieldCoordinates ){
           this.latlngBounds.extend(new window['google'].maps.LatLng(this.list[i].fieldSchoolLocation[0].entity.fieldCoordinates.lat, this.list[i].fieldSchoolLocation[0].entity.fieldCoordinates.lon));
         }
       };
 
       if( this.latlngBounds.f.f !== -1 ){
         this.map.fitBounds(this.latlngBounds);
+        this.map.zoom(11);
       }else{
         this.map.setCenter({
           lat: this.mapOptions.lat,
@@ -350,8 +347,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.pathWatcher();
     this.watchSearch();
     this.getOptions();
-
-    //this.filterFull = true;
 
   }
   
