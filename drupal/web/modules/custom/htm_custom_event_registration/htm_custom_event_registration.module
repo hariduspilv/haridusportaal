@@ -74,6 +74,7 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 
 		$send = true;
 
+		ob_start();
 		$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
 
 		if ($result['result'] !== true) {
@@ -104,9 +105,8 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 			}
 		}
 
+		$output = ob_get_clean();
 
-
-		return FALSE;
 	}
 }
 
