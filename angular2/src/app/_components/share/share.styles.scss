@@ -11,7 +11,6 @@
   font-size: $medium;
   height: $xxl;
   width: $xxl;
-  background-color: $white;
   &__component {
     position: absolute;
     height: $medium;
@@ -28,11 +27,11 @@
     width: $large;
     height: $large;
     top: $xxl;
-    left: .5rem;
-    &--elem {width: $large;height: $large;padding-top: $gutter;background: white;border-radius: 50%;
+    left: $gutter;
+    &--elem {width: $large;height: $large;padding-top: $gutter;
       &:last-child {padding-top: $half-gutter;}
     }
-    img {width: $large;height: $large;}
+    img {width: $large;height: $large;background-color: $white;border-radius: 50%;}
   }
   &:hover {
     background-color: $black;
