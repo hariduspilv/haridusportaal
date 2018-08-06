@@ -1,0 +1,1 @@
+{"{\n  nodeQuery(filter: {conditions: {field: \"type\", value: \"school\"}}) {\n    entities {\n      entityLabel\n    }\n  }\n}\n":1,"query test($lang: LanguageId!) {\n  type: nodeQuery(filter: {conditions: [{operator: EQUAL, field: \"type\", value: \"school\", language: $lang}]}) {\n    entities {\n      entityLabel\n    }\n  }\n}\n":2}

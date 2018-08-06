@@ -1,0 +1,9 @@
+query test($lang: LanguageId!){
+  type: nodeQuery(filter: {conditions: [
+    {operator: EQUAL, field: "type", value:"school", language: $lang}
+  ]}){
+    entities{
+      entityLabel
+    }
+  }
+}
