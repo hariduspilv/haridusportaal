@@ -19,7 +19,7 @@ export class StudyProgrammeSingleComponent implements OnInit{
   mapOptions = {
     lat: 58.8754705,
     lng: 24.5567241,
-    zoom: 8
+    zoom: 11
   }
 
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
@@ -64,7 +64,6 @@ export class StudyProgrammeSingleComponent implements OnInit{
     }).valueChanges.subscribe( ({data}) => {
 
       this.data = data['route']['entity'];
-
       subscription.unsubscribe();
     });
   }

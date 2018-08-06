@@ -1,0 +1,32 @@
+.block {
+    background: white;
+    border-top: $gutter solid $gray;
+    @include break-on(sm, min) {border-radius: $half-gutter;}
+    margin-bottom: 1.3em;
+    h1 {
+        color: #333333;
+        font-size: 1.3em;
+    }
+    h2 {
+        margin-top: 0;
+        color: #333333;
+        font-size: 1.2em;
+    }
+
+}
+.no-results{padding:2rem 0; text-align: center;}
+.left-col .block, .blue-container .block, .blue-block {
+    border-top-color: $light-blue;
+}
+.right-col .block, .orange-container .block, .orange-block {
+    border-top-color: $orange;
+}
+.block-title {
+    font-size: 1em;
+    text-transform: uppercase;
+    color: #757575;
+    margin-bottom: 1em;
+}
+.padding-block {
+    padding: 1.2em;
+}

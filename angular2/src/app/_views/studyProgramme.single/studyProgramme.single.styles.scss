@@ -39,9 +39,7 @@ table {width: 100%;border-collapse: collapse; margin:1rem 0 0 0;
   .flex{display:flex;
     .custom-checkbox{flex-grow: 1;}
   }
-  share{margin-right:-1.2rem; margin-left:1rem;
-    
-  }
+  share{margin-left:1rem; flex-shrink: 0; min-width:3rem;}
 
   .map-wrapper {position: relative; margin:-1.2rem -1.2rem 1.5rem -1.2rem; display: block;
     a {position:absolute;bottom:0;width:stretch;background-color: rgba(0, 0, 0, 0.6);color:$white;align-items: center;justify-content: center;
