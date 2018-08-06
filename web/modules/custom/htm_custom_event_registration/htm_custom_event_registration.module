@@ -76,6 +76,7 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 
 		ob_start();
 		$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+		ob_clean();
 
 		if ($result['result'] !== true) {
 			$message = t('There was a problem sending email notification to @email', array('@email' => $to));
@@ -93,7 +94,10 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 		if(!empty($to)){
 			$params['subject'] = $config->get('emails.email_event_registration.organizer_email_subject');
 			$params['body'] = $config->get('emails.email_event_registration.organizer_email_body');
+
+			ob_start();
 			$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+			ob_clean();
 
 			if ($result['result'] !== true) {
 				$message = t('There was a problem sending email notification to @email', array('@email' => $to));
@@ -104,8 +108,6 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 				\Drupal::logger('htm_custom_event_registration')->notice($message);
 			}
 		}
-
-		$output = ob_get_clean();
 
 	}
 }
