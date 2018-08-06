@@ -10,15 +10,18 @@
         <div class="block-title">ERIALAD</div>
         <article>
           <div class="row title">
-            <div class="col-8">
+            <div class="col-7">
               <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
             </div><!--/col-8-->
 
-            <div class="col-4 flex">
+            <div class="col-3 flex">
               <div class="fill"></div>
               <div class="custom-checkbox">
                 <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
               </div>
+            </div>
+
+            <div class="col-2 flex text-right">
               <share></share>
             </div>
           </div><!--/row-->
