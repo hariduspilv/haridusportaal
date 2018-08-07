@@ -2,6 +2,7 @@
 .main-container{padding-top:1rem; clear:both; margin:0 1rem;
   @include break-on(sm, max) {
     margin:0;
+    padding-top:0;
   }
 }
 
@@ -38,14 +39,19 @@ table {width: 100%;border-collapse: collapse; margin:1rem 0 0 0;
   }
   // share{margin-right:-1.2rem; margin-left:1rem;}
 
-  .map-wrapper {position: relative; margin:-1.2rem -1.2rem 1.5rem -1.2rem; display: block;
-    a {position:absolute;bottom:0;width:stretch;background-color: rgba(0, 0, 0, 0.6);color:$white;align-items: center;justify-content: center;
-      font-weight: normal;line-height: 1.25;font-size: $small;display: flex; padding: $small;text-decoration:none;
-      .mat-icon {font-size: 1.25rem;height: 1.25rem !important;}
+  .map-wrapper {position: relative; margin:-1.2rem -1.2rem 1.5rem -1.2rem; display: block; padding-bottom:56%; min-height:173px; box-sizing: border-box;
+    &:after{content:" "; display: block; top:0; left:0; width:100%; height:100%;  z-index: 5; position: absolute;}
+    .sebm-google-map-container{position: absolute; top:0; left:0; width:100%; height:100%;}
+    a {position:absolute;bottom:0;width:stretch;background-color: rgba(0, 0, 0, 0.6);color:$white;align-items: center;justify-content: center; z-index: 6; text-decoration: underline;
+      font-weight: normal;line-height: 1.25;font-size: $small;display: flex; padding: $small; 
+      .mat-icon {font-size: 1.25rem;height: 1.25rem !important; text-decoration: none; display: inline-block;}
     }  
   }
 
 }
+
+.actions{margin-bottom:3rem;}
+.table-wrapper{overflow: auto;}
 
 .title {font-size: $small;line-height: 2;
   h1 {color:$black;}
@@ -55,3 +61,5 @@ table {width: 100%;border-collapse: collapse; margin:1rem 0 0 0;
 }
 
 .fill{flex-grow: 1;}
+
+.mat-raised-button.mat-primary{width:auto;}
