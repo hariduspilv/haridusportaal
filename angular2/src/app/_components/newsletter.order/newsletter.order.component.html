@@ -21,20 +21,20 @@
         <div class="row">
           <div class="col-8 sm-12">
             <div class="round-input__wrapper" [class.error]="errors.email && !emailFocus">
-              <span class="round-input__title" [class.exists]="email">{{ 'participantEmail' | translate }}</span>
+              <span class="round-input__title" [class.exists]="email">{{ 'newsletter.email' | translate }}</span>
               <div class="round-input__field-wrapper" [class.spacing]="email">
-                <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' name="email" placeholder="{{ 'participantEmail' | translate }}" [(ngModel)]="email"/>
+                <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' name="email" placeholder="{{ 'newsletter.email' | translate }}" [(ngModel)]="email"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text" *ngIf="!emailFocus">
-                  <span *ngIf="errors.items">{{ 'subscription.choose.one' | translate }}</span>
-                  <span *ngIf="errors.email && !errors.items">{{ 'enter.valid.email' | translate }}</span>
+                  <span *ngIf="errors.items">{{ 'newsletter.subscription_choose_one' | translate }}</span>
+                  <span *ngIf="errors.email && !errors.items">{{ 'newsletter.valid_email' | translate }}</span>
                 </div>
               </div>
             </div>
           </div><!--/col-8-->
           <div class="col-4 sm-12">
-            <button mat-raised-button color="primary">{{ 'newsletter.submit' | translate }} </button>
+            <button mat-raised-button color="primary">{{ 'button.newsletter_submit' | translate }} </button>
           </div><!--/col-4-->
         </div>
       </div><!--block__content--form__input-->
@@ -43,11 +43,11 @@
   </div><!--block__content-->
 
   <div class="block__content--message" *ngIf="subscribedStatus && !subscribedFailure">
-    <div class="block__content--message__content">{{ 'newsletter.subscription.thanks.content' | translate }}</div>
-    <div class="block__content--message__subcontent">{{ 'newsletter.subscription.thanks.subcontent' | translate }} <b>{{email}}</b>.</div>
+    <div class="block__content--message__content">{{ 'newsletter.subscription_thanks_content' | translate }}</div>
+    <div class="block__content--message__subcontent">{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{email}}</b>.</div>
   </div>
   <div class="block__content--message" *ngIf="subscribedStatus && subscribedFailure">
-    <div class="block__content--message__content">{{ 'subscription.failed' | translate }}</div>
+    <div class="block__content--message__content">{{ 'newsletter.subscription_failed' | translate }}</div>
     <div class="block__content--message__subcontent">{{ subscribedFailure }}</div>
   </div>
 </div><!--block-->
