@@ -58,11 +58,11 @@
       </div>
 
       <div class="col-5 sm-12">
-        <div class="round-input__wrapper" [class.disabled]="getSubTypes().length == 0">
+        <div class="round-input__wrapper" [class.disabled]="getSubTypes('type').length == 0">
           <mat-form-field>
-            <mat-select [placeholder]="getSubTypes().length !== 0 ? 'Õppeasutuse alamtase' : 'Vali esmalt õppeasutuse tüüp'" [(ngModel)]="filterFormItems.subtype" name="subtype">
-              <mat-option *ngIf="getSubTypes().length !== 0">{{ 'all' | translate }}</mat-option>
-              <mat-option *ngFor="let item of getSubTypes()" [value]="item.entityId">
+            <mat-select [placeholder]="getSubTypes('type').length !== 0 ? 'Õppeasutuse alamtase' : 'Vali esmalt õppeasutuse tüüp'" [(ngModel)]="filterFormItems.subtype" name="subtype">
+              <mat-option *ngIf="getSubTypes('type').length !== 0">{{ 'all' | translate }}</mat-option>
+              <mat-option *ngFor="let item of getSubTypes('type')" [value]="item.entityId">
                 {{ item.entityLabel }}
               </mat-option>
 
@@ -169,8 +169,9 @@
   </div><!--/list-->
 
   <ng-container *ngIf="view == 'map'">
-    <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list">
-      <agm-marker-cluster [styles]="mapOptions.clusterStyles">>
+
+    <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" minZoom="10">
+      <agm-marker-cluster [styles]="mapOptions.clusterStyles">
         <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lat)"  [longitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lon)">
           <agm-snazzy-info-window [closeWhenOthersOpen]="true">
             <ng-template>
@@ -193,6 +194,7 @@
         </agm-marker>
       </agm-marker-cluster>
     </agm-map>
+
   </ng-container>
 
 </div><!--/schools-->

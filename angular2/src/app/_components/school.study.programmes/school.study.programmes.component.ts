@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Apollo } from 'apollo-angular';
+import { RootScopeService } from '../../_services/rootScope/rootScope.service';
 import { Subscription } from 'rxjs/Subscription';
 
 import { SchoolStudyProgrammes } from '../../_services/studyProgramme/studyProgramme.service';
@@ -17,6 +18,7 @@ export class SchoolStudyProgrammesComponent implements OnInit {
   private querySubscription: Subscription;
 
   constructor(
+		private rootScope: RootScopeService,
     private apollo: Apollo
   ) { }
 
@@ -25,7 +27,7 @@ export class SchoolStudyProgrammesComponent implements OnInit {
       query: SchoolStudyProgrammes,
       variables: {
         schoolId: this.schoolId.toString(),
-        lang: 'ET'
+        lang: this.rootScope.get('currentLang').toUpperCase()
       },
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
