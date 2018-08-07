@@ -1,7 +1,0 @@
-uuid: d65736ef-b535-4207-8019-3d6b67761cbd
-langcode: et
-status: true
-dependencies: {  }
-version: 5fc4def6c7ef33081f057feaef2c61936ca5fb6c
-map:
-  menu: "query test($name: String!) {\n   menu: menuByName(name: $name) {\n    links {\n      ...Item\n      links {\n        ...Item\n        links {\n          ...Item\n        }\n      }\n    }\n  }\n}\nfragment Item on MenuLink {\n  url {\n    path\n  }\n}"
