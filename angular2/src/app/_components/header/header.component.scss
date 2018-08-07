@@ -75,8 +75,9 @@ input:focus:-ms-input-placeholder { color:transparent; }
      Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
   margin: 0 auto;
-  max-width: 1177px;
-  @include break-on(xl, min) {max-width: 1177px;}
+  max-width: 1180px;
+  @include break-on(xl, min) {max-width: 1485px;}
+  @include break-on(xxl, min) {max-width: 1965px;}
   &__flex {display: flex;}
 }
 .mob-space {flex: 1 1 auto;}
