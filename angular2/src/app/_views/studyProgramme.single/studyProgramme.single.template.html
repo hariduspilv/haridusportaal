@@ -10,11 +10,11 @@
         <div class="block-title">ERIALAD</div>
         <article>
           <div class="row title">
-            <div class="col-7">
+            <div class="col-7 sm-10">
               <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
             </div><!--/col-8-->
 
-            <div class="col-3 flex">
+            <div class="col-3 flex sm-hide">
               <div class="fill"></div>
               <div class="custom-checkbox">
                 <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
@@ -22,119 +22,129 @@
             </div>
 
             <div class="col-2 flex text-right">
+              <div class="fill"></div>
               <share></share>
             </div>
+
+            <div class="col-12 flex sm-show">
+              <div class="custom-checkbox">
+                <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
+              </div>
+            </div>
+
           </div><!--/row-->
 
           <div class="row">
             <div class="col-12">
-              <table>
-                <thead>
-                  <tr *ngIf="data.fieldEducationalInstitution">
-                    <th>Õppeasutuse nimi</th>
-                    <th>{{ data.fieldEducationalInstitution.entity.entityLabel }}</th>
-                  </tr>
-                </thead>
-                <tbody>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr *ngIf="data.fieldEducationalInstitution">
+                      <th>Õppeasutuse nimi</th>
+                      <th>{{ data.fieldEducationalInstitution.entity.entityLabel }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
 
-                  <tr *ngIf="data.fieldEducationalInstitution">
-                    <td>Registrikood</td>
-                    <td>{{ data.fieldEducationalInstitution.entity.fieldRegistrationCode }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldEducationalInstitution">
+                      <td>Registrikood</td>
+                      <td>{{ data.fieldEducationalInstitution.entity.fieldRegistrationCode }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldStudyProgrammeLevel">
-                    <td>Õppekava tase</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldStudyProgrammeLevel">
+                      <td>Õppekava tase</td>
+                      <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldDegreeOrDiplomaAwarded">
-                    <td>Omistatav kraad või diplom</td>
-                    <td>{{ data.fieldDegreeOrDiplomaAwarded.entity.entityLabel }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldDegreeOrDiplomaAwarded">
+                      <td>Omistatav kraad või diplom</td>
+                      <td>{{ data.fieldDegreeOrDiplomaAwarded.entity.entityLabel }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldSpecialization">
-                    <td>Spetsialiseerumine</td>
-                    <td>{{ data.fieldSpecialization }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldSpecialization">
+                      <td>Spetsialiseerumine</td>
+                      <td>{{ data.fieldSpecialization }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldIscedfBoard">
-                    <td>Õppevaldkond</td>
-                    <td>{{ data.fieldIscedfBoard.entity.entityLabel }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldIscedfBoard">
+                      <td>Õppevaldkond</td>
+                      <td>{{ data.fieldIscedfBoard.entity.entityLabel }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldIscedfNarrow">
-                    <td>Õppesuund</td>
-                    <td>{{ data.fieldIscedfNarrow.entity.entityLabel }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldIscedfNarrow">
+                      <td>Õppesuund</td>
+                      <td>{{ data.fieldIscedfNarrow.entity.entityLabel }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldIscedfDetailed">
-                    <td>Õppekavarühm</td>
-                    <td>{{ data.fieldIscedfDetailed.entity.entityLabel }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldIscedfDetailed">
+                      <td>Õppekavarühm</td>
+                      <td>{{ data.fieldIscedfDetailed.entity.entityLabel }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldShortDescription">
-                    <td>Lühikirjeldus</td>
-                    <td>{{ data.fieldShortDescription }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldShortDescription">
+                      <td>Lühikirjeldus</td>
+                      <td>{{ data.fieldShortDescription }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldTeachingLanguage">
-                    <td>Õppekeel(ed)</td>
-                    <td>
-                      <ng-container *ngFor="let item of data.fieldTeachingLanguage">
-                        {{ item.entity.entityLabel }}
-                      </ng-container>
-                    </td>
-                  </tr>
+                    <tr *ngIf="data.fieldTeachingLanguage">
+                      <td>Õppekeel(ed)</td>
+                      <td>
+                        <ng-container *ngFor="let item of data.fieldTeachingLanguage">
+                          {{ item.entity.entityLabel }}
+                        </ng-container>
+                      </td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldAmount">
-                    <td>Õppekava maht</td>
-                    <td>{{ data.fieldAmount }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldAmount">
+                      <td>Õppekava maht</td>
+                      <td>{{ data.fieldAmount }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldPracticalTrainingAmount">
-                    <td>Praktika maht</td>
-                    <td>{{ data.fieldPracticalTrainingAmount }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldPracticalTrainingAmount">
+                      <td>Praktika maht</td>
+                      <td>{{ data.fieldPracticalTrainingAmount }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldDurationYears">
-                    <td>Nominaalkestus</td>
-                    <td>{{ data.fieldDurationYears }} aastat <ng-container *ngIf="data.fieldDurationMonths && data.fieldDurationMonths !== 0">{{ data.fieldDurationMonths }} kuud</ng-container></td>
-                  </tr>
+                    <tr *ngIf="data.fieldDurationYears">
+                      <td>Nominaalkestus</td>
+                      <td>{{ data.fieldDurationYears }} aastat <ng-container *ngIf="data.fieldDurationMonths && data.fieldDurationMonths !== 0">{{ data.fieldDurationMonths }} kuud</ng-container></td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldAdmissionStatus">
-                    <td>Vastuvõtu olek</td>
-                    <td>{{ data.fieldAdmissionStatus }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldAdmissionStatus">
+                      <td>Vastuvõtu olek</td>
+                      <td>{{ data.fieldAdmissionStatus }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldAccreditationStatus">
-                    <td>Akrediteerimise otsus</td>
-                    <td>{{ data.fieldAccreditationStatus }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldAccreditationStatus">
+                      <td>Akrediteerimise otsus</td>
+                      <td>{{ data.fieldAccreditationStatus }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldAccreditationValidUntil">
-                    <td>Akrediteerimise otsuse kehtivuse lõpp</td>
-                    <td>{{ data.fieldAccreditationValidUntil.unix }}</td>
-                  </tr>
+                    <tr *ngIf="data.fieldAccreditationValidUntil">
+                      <td>Akrediteerimise otsuse kehtivuse lõpp</td>
+                      <td>{{ data.fieldAccreditationValidUntil.unix }}</td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldWebPageAddress">
-                    <td>Õppekava kirjeldava veebilehe aadress</td>
-                    <td><a href="{{ data.fieldWebPageAddress.url }}" target="_blank">Vaata õppekava kirjeldust õppeasutuse veebilehel</a></td>
-                  </tr>
+                    <tr *ngIf="data.fieldWebPageAddress">
+                      <td>Õppekava kirjeldava veebilehe aadress</td>
+                      <td><a href="{{ data.fieldWebPageAddress.url }}" target="_blank">Vaata õppekava kirjeldust õppeasutuse veebilehel</a></td>
+                    </tr>
 
-                  <tr *ngIf="data.fieldQualificationStandardId">
-                    <td>Kutsestandard(id)</td>
-                    <td><a href="{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}">Vaata kutsestandardit</a></td>
-                  </tr>
+                    <tr *ngIf="data.fieldQualificationStandardId">
+                      <td>Kutsestandard(id)</td>
+                      <td><a href="{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}">Vaata kutsestandardit</a></td>
+                    </tr>
 
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div><!--/table-wrapper-->
             </div>
           </div>
         </article>
       </div><!--/block-->
 
-      <div class="text-center actions">
-        <button mat-raised-button color="primary" >Vaata kutsestandardit</button>
+      <div class="text-center actions sm-hide">
+        <button mat-raised-button color="primary" >Vaata sarnaseid erialasid</button>
       </div><!--/text-center-->
       
     </div><!--/col-8-->
@@ -142,43 +152,31 @@
       <div class="block padding-block border-orange">
         <h2>Kontakt</h2>
         <p>
-          Eesti Maaülikool<br />
-          +372 5555 5555<br />
-          <a href="mailto:klm@htm.ee">klm@htm.ee</a><br />
-          <a href="">www.koolinimi.ee</a>
+          <ng-container *ngIf="data.fieldEducationalInstitution.entity">{{ data.fieldEducationalInstitution.entity.entityLabel }}<br /></ng-container>
+          <ng-container *ngIf="data.fieldSchoolContactPhone">{{ data.fieldSchoolContactPhone }}<br /></ng-container>
+          <ng-container *ngIf="data.fieldSchoolContactEmail"><a href="mailto:data.fieldSchoolContactEmail">{{ data.fieldSchoolContactEmail }}</a><br /></ng-container>
+          <ng-container *ngIf="data.fieldSchoolWebsite"><a href="{{ data.fieldSchoolWebsite | url }}" target="_blank">{{ data.fieldSchoolWebsite | removeProtocol }}</a></ng-container>
         </p>
       </div><!--/block-->
 
-      <div class="block padding-block border-orange">
-        <div class="map-wrapper">
-          <agm-map (mapReady)="mapReady($event)" style="height:173px" >
-          </agm-map>
-          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
-        </div><!--/map-wrapper-->
-        <h2>Juriidiline aadress</h2>
-        <p>Pargi 32, Räpina, 64505, Põlva maakond</p>
-      </div><!--/block-->
+      <ng-container *ngFor="let item of data.fieldEducationalInstitution.entity.fieldSchoolLocation; let i = index">
+        <div class="block padding-block border-orange">
+          <div class="map-wrapper">
+            <agm-map (mapReady)="mapReady($event)" [zoomControl]="false"  [streetViewControl]="false" [latitude]="parseFloat(item.entity.fieldCoordinates.lat)"  [longitude]="parseFloat(item.entity.fieldCoordinates.lon)">
+              <agm-marker *ngIf="item.entity.fieldCoordinates" [iconUrl]="mapOptions.icon" [latitude]="parseFloat(item.entity.fieldCoordinates.lat)"  [longitude]="parseFloat(item.entity.fieldCoordinates.lon)">
+              </agm-marker>
+            </agm-map>
+            <a href="http://www.google.com/maps/place/{{ item.entity.fieldCoordinates.lat }},{{ item.entity.fieldCoordinates.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>Vaata lähemalt</span></a>
+          </div><!--/map-wrapper-->
+          <h2 *ngIf="item.entity.fieldLocationType == 'L'">Juriidiline aadress</h2>
+          <h2 *ngIf="item.entity.fieldLocationType == 'V'">Tegutsemise asukoht {{ i }}</h2>
+          <p>{{ item.entity.fieldAddress }}</p>
+        </div><!--/block-->
+      </ng-container>
       
-      <div class="block padding-block border-orange">
-        <div class="map-wrapper">
-          <agm-map (mapReady)="mapReady($event)" style="height:173px" >
-          </agm-map>
-          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
-        </div><!--/map-wrapper-->
-        <h2>Juriidiline aadress</h2>
-        <p>Pargi 32, Räpina, 64505, Põlva maakond</p>
-      </div><!--/block-->
-      
-      <div class="block padding-block border-orange">
-        <div class="map-wrapper">
-          <agm-map (mapReady)="mapReady($event)" style="height:173px" >
-          </agm-map>
-          <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'map.closer' | translate}}</span></a>
-        </div><!--/map-wrapper-->
-        <h2>Juriidiline aadress</h2>
-        <p>Pargi 32, Räpina, 64505, Põlva maakond</p>
-      </div><!--/block-->
-      
+      <div class="text-center actions sm-show">
+        <button mat-raised-button color="primary" >Vaata sarnaseid erialasid</button>
+      </div><!--/text-center-->
       
     </div><!--/col-4-->
   </div><!--/row-->

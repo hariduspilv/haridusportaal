@@ -153,10 +153,23 @@ query(
           fieldSchoolWebsite
           fieldSchoolContactEmail
           fieldSchoolContactPhone
+          
           fieldEducationalInstitution {
             entity{
               entityLabel
               fieldRegistrationCode
+              fieldSchoolLocation{
+                entity{
+                  ... on ParagraphSchoolLocation{
+                    fieldAddress
+                    fieldLocationType
+                    fieldCoordinates{
+                      lat
+                      lon
+                    }
+                  }
+                }
+              }
             }
           }
           
