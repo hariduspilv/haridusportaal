@@ -7,7 +7,7 @@
     <div class="col-8 sm-12">
       <div class="block padding-block">
 
-        <div class="block-title">ERIALAD</div>
+        <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>
         <article>
           <div class="row title">
             <div class="col-7 sm-10">
@@ -17,7 +17,7 @@
             <div class="col-3 flex sm-hide">
               <div class="fill"></div>
               <div class="custom-checkbox">
-                <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> Lisa võrdlusesse</mat-checkbox>
+                <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> {{ 'button.add_to_comparison' | translate }}</mat-checkbox>
               </div>
             </div>
 

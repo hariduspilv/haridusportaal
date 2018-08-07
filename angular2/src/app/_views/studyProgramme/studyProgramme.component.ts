@@ -3,15 +3,14 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ListQuery, FilterOptions} from '../../_services/studyProgramme/studyProgramme.service';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
-import { delay } from 'rxjs/operators/delay';
+
 import { FiltersService } from '../../_services/filters/filters.service';
-import { of } from 'rxjs/observable/of';
+
 import { RootScopeService } from '../../_services/rootScope/rootScope.service';
 import 'rxjs/add/operator/map';
+
 import * as _moment from 'moment';
 const moment = _moment;
-import { Observable } from 'rxjs/Observable';
-import { identifierModuleUrl } from '../../../../node_modules/@angular/compiler';
 
 @Component({
   styleUrls: ['studyProgramme.styles.scss'],
@@ -217,9 +216,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
 
   ngOnInit() {
-    
-
-    
+  
     this.setPaths();
     this.pathWatcher();
     this.watchSearch();
