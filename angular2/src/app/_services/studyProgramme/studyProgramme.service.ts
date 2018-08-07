@@ -150,6 +150,9 @@ query(
         ... on NodeStudyProgramme{
           nid
           entityLabel
+          fieldSchoolWebsite
+          fieldSchoolContactEmail
+          fieldSchoolContactPhone
           fieldEducationalInstitution {
             entity{
               entityLabel
