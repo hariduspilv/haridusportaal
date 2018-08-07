@@ -5,12 +5,12 @@
     <span class="login sm-hide">{{ user.username }}</span>
   </a>
   <mat-menu #usermenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
-    <button mat-menu-item (click)="logOut()">{{ 'logout' | translate }}</button>
+    <button mat-menu-item (click)="logOut()">{{ 'button.logout' | translate }}</button>
   </mat-menu>
 
   <a href="javascript:void(0)" class="login__actions" *ngIf="!user" (click)="toggleLogin()">
     <mat-icon class="person">person_outline</mat-icon>
-    <span class="login sm-hide">{{ 'login' | translate }}</span>
+    <span class="login sm-hide">{{ 'button.login' | translate }}</span>
   </a>
 
   <div class="dropdown-menu-overlay" (click)="toggleLogin()" *ngIf="loginVisible"></div>
@@ -20,12 +20,12 @@
 
     <form (ngSubmit)="submit()" *ngIf="!loader">
       <div class="row">
-        <div class="col-12 header">{{ 'login' | translate | uppercase }}</div>
+        <div class="col-12 header">{{ 'button.login' | translate | uppercase }}</div>
         <div class="col-12">
           <div class="round-input__wrapper" 
           [class.complete]="formModels.username && !usernameFocus"
           [class.errors]="!formModels.username && !usernameFocus && error">
-            <span class="round-input__title">{{ 'username' | translate }}</span>
+            <span class="round-input__title">{{ 'login.username' | translate }}</span>
             <div class="round-input__field-wrapper">
               <input class="round-input__field" (focus)="usernameFocus = true" (blur)="usernameFocus = false" [class.focused]='usernameFocus' type="text" name="username" placeholder="{{ 'username' | translate }}" [(ngModel)]="formModels.username"/>
             </div>
@@ -35,14 +35,14 @@
           <div class="round-input__wrapper" 
           [class.complete]="formModels.password && !passwordFocus"
           [class.errors]="!formModels.password && !passwordFocus && error">
-            <span class="round-input__title">{{ 'password' | translate }}</span>
+            <span class="round-input__title">{{ 'login.password' | translate }}</span>
             <div class="round-input__field-wrapper">
               <input class="round-input__field" (focus)="passwordFocus = true" (blur)="passwordFocus = false" [class.focused]='passwordFocus' type="password" name="password" placeholder="{{ 'password' | translate }}" [(ngModel)]="formModels.password"/>
             </div>
           </div>
         </div>
         <div class="col-12">
-            <button mat-raised-button color="primary">{{ 'login' | translate }}</button>
+            <button mat-raised-button color="primary">{{ 'button.login' | translate }}</button>
         </div><!--/col-12-->
       </div>
     </form>
