@@ -17,13 +17,6 @@ export class StudyProgrammeSingleComponent implements OnInit{
 
   map: any;
 
-  mapOptions = {
-    lat: 58.8754705,
-    lng: 24.5567241,
-    zoom: 11,
-    icon: "assets/marker.svg"
-  }
-
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
 
   constructor(
@@ -38,15 +31,6 @@ export class StudyProgrammeSingleComponent implements OnInit{
     $event.checked === true? this.compare[id] = true : delete this.compare[id];
     localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
    
-  }
-
-  mapReady(map){
-
-    let that = this;
-    this.map = map;
-
-    this.map.setZoom(this.mapOptions.zoom);
-
   }
 
   getData() {
