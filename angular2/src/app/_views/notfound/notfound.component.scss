@@ -1,6 +1,7 @@
 @import "../../../assets/styles/typography.scss";
 .notFound {
-  background-image: linear-gradient(to bottom, #15adc2, $blue);
+  background-image: url(/assets/img/404.svg);
+  background-size: cover;
   height: calc(100vh - 4rem);
   @include break-on(sm, min) {
     margin-top: -$small;
