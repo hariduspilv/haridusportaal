@@ -1,7 +1,7 @@
 {
   "frontpage": {
-    "label": "Avaleht"
-
+    "label": "Avaleht",
+    "navigate": "Mine avalehele"
   },
   "article": {
     "contact": "Kontakt",
@@ -192,5 +192,8 @@
     "logout": "Logi välja",
     "search_close": "",
     "choose_type": ""
+  },
+  "notFound": {
+    "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"
   }
 }

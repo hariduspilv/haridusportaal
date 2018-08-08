@@ -51,12 +51,13 @@ export class FrontpageComponent {
 		let that = this;
 		
 		this.route.params.subscribe( params => {
-			if( this.lang == "/en" ){
+			if (this.lang == "/en") {
 				this.allPath = "/en/news";
-			}
-			else if( this.lang == "/et" ){
+			} else if (this.lang == "/et") {
 				this.allPath = "/et/uudised";
-			}
+      } else if (this.lang !== '') {
+        this.router.navigateByUrl(`/et/404`);
+      }
 		});
 		
 		this.newsService.getRecent(null, function(data){
