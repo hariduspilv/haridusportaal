@@ -20,14 +20,12 @@ export class SideMenuComponent {
   constructor(private apollo: Apollo, private sidemenuService: SideMenuService, private router: Router) {
     
     sidemenuService.getData( data => {
-      console.log(data);
       this.data = data['menu']['links'];
     });
 
 
     this.subscription = sidemenuService.updateLang().subscribe(status => {
       sidemenuService.getData( data => {
-        console.log(data);
         this.data = data['menu']['links'];
       });
     });
