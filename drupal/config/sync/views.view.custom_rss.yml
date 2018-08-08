@@ -918,9 +918,9 @@ display:
           label: ''
           exclude: false
           alter:
-            alter_text: true
+            alter_text: false
             text: 'lingi_algus{{ view_node }}'
-            make_link: true
+            make_link: false
             path: ''
             absolute: true
             external: false
