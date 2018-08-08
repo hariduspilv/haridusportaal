@@ -1,12 +1,12 @@
 <div class="notFound">
-  <div class="flex" *ngIf="content">
+  <div class="flex" *ngIf="loaded">
     <div class="error__head">Oi-oi!</div>
-    <div class="error__explanation" [innerHtml]="viewTranslations['notFound.explanation']"></div>
-    <div class="error__button"><button [attr.aria-label]="viewTranslations['frontpage.navigate']" mat-raised-button routerLink="{{toFrontpage()}}" color="primary">{{viewTranslations['frontpage.navigate']}}</button></div>
+    <div class="error__explanation" innerHtml="{{'notFound.explanation' | translate}}"></div>
+    <div class="error__button"><button attr.aria-label="{{'frontpage.navigate' | translate}}" mat-raised-button routerLink="{{toFrontpage()}}" color="primary">{{'frontpage.navigate' | translate}}</button></div>
     <div class="error__links">
-      <a routerLink="{{constructUrl('school')}}" [attr.aria-label]="viewTranslations['school.label']" ><span>{{viewTranslations['school.label']}}</span></a>
-      <a routerLink="{{constructUrl('events')}}" [attr.aria-label]="viewTranslations['event.label']"><span>{{viewTranslations['event.label']}}</span></a>
-      <a routerLink="{{constructUrl('news')}}" [attr.aria-label]="viewTranslations['news.label']"><span>{{viewTranslations['news.label']}}</span></a>
+      <a routerLink="{{constructUrl('school')}}" attr.aria-label="{{'school.label' | translate}}" ><span>{{'school.label' | translate}}</span></a>
+      <a routerLink="{{constructUrl('events')}}" attr.aria-label="{{'event.label' | translate}}"><span>{{'event.label' | translate}}</span></a>
+      <a routerLink="{{constructUrl('news')}}" attr.aria-label="{{'news.label' | translate}}"><span>{{'news.label' | translate}}</span></a>
     </div>
   </div>
 </div>
