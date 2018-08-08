@@ -153,7 +153,14 @@ query(
           fieldSchoolWebsite
           fieldSchoolContactEmail
           fieldSchoolContactPhone
-          
+          fieldWebPageAddress {
+            uri
+          }
+          fieldQualificationStandardId {
+            entity {
+              entityLabel
+            }
+          }
           fieldEducationalInstitution {
             entity{
               entityLabel

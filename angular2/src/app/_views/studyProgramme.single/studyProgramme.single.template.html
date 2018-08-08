@@ -127,12 +127,12 @@
 
                     <tr *ngIf="data.fieldWebPageAddress">
                       <td>Õppekava kirjeldava veebilehe aadress</td>
-                      <td><a href="{{ data.fieldWebPageAddress.url }}" target="_blank">Vaata õppekava kirjeldust õppeasutuse veebilehel</a></td>
+                      <td><a href="{{ data.fieldWebPageAddress.uri }}" target="_blank">Vaata õppekava kirjeldust õppeasutuse veebilehel</a></td>
                     </tr>
 
-                    <tr *ngIf="data.fieldQualificationStandardId">
+                    <tr *ngIf="data.fieldQualificationStandardId && data.fieldQualificationStandardId.length > 0">
                       <td>Kutsestandard(id)</td>
-                      <td><a href="{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}">Vaata kutsestandardit</a></td>
+                      <td><a href="https://www.kutsekoda.ee/et/kutseregister/kutsestandardid/{{ data.fieldQualificationStandardId[0].entity.entityLabel }}" target="_blank">Vaata kutsestandardit</a></td>
                     </tr>
 
                   </tbody>
@@ -146,6 +146,8 @@
       <div class="text-center actions sm-hide">
         <button mat-raised-button color="primary" >Vaata sarnaseid erialasid</button>
       </div><!--/text-center-->
+
+      <related-studyprogrammes></related-studyprogrammes>
       
     </div><!--/col-8-->
     <div class="col-4 sm-12">
@@ -161,13 +163,9 @@
 
       <ng-container *ngFor="let item of data.fieldEducationalInstitution.entity.fieldSchoolLocation; let i = index">
         <div class="block padding-block border-orange">
-          <div class="map-wrapper">
-            <agm-map (mapReady)="mapReady($event)" [zoomControl]="false"  [streetViewControl]="false" [latitude]="parseFloat(item.entity.fieldCoordinates.lat)"  [longitude]="parseFloat(item.entity.fieldCoordinates.lon)">
-              <agm-marker *ngIf="item.entity.fieldCoordinates" [iconUrl]="mapOptions.icon" [latitude]="parseFloat(item.entity.fieldCoordinates.lat)"  [longitude]="parseFloat(item.entity.fieldCoordinates.lon)">
-              </agm-marker>
-            </agm-map>
-            <a href="http://www.google.com/maps/place/{{ item.entity.fieldCoordinates.lat }},{{ item.entity.fieldCoordinates.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>Vaata lähemalt</span></a>
-          </div><!--/map-wrapper-->
+          
+          <map-wrapper [latitude]="parseFloat(item.entity.fieldCoordinates.lat)" [longitude]="parseFloat(item.entity.fieldCoordinates.lon)" zoom="11"></map-wrapper>
+
           <h2 *ngIf="item.entity.fieldLocationType == 'L'">Juriidiline aadress</h2>
           <h2 *ngIf="item.entity.fieldLocationType == 'V'">Tegutsemise asukoht {{ i }}</h2>
           <p>{{ item.entity.fieldAddress }}</p>
