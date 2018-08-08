@@ -10,24 +10,32 @@
         <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>
         <article>
           <div class="row title">
-            <div class="col-7">
+            <div class="col-7 sm-10">
               <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
             </div><!--/col-8-->
 
-            <div class="col-3 flex">
+            <div class="col-3 flex sm-hide">
               <div class="fill"></div>
               <div class="custom-checkbox">
                 <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> {{ 'button.add_to_comparison' | translate }}</mat-checkbox>
               </div>
             </div>
 
-            <div class="col-2 flex text-right">
+            <div class="col-2 sm-2 flex text-right">
               <share></share>
             </div>
           </div><!--/row-->
 
+          <div class="row sm-show">
+            <div class="col-12 flex">
+              <div class="custom-checkbox">
+                <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> {{ 'button.add_to_comparison' | translate }}</mat-checkbox>
+              </div>
+            </div>
+          </div>
+
           <div class="row">
-            <div class="col-12">
+            <div class="col-12 forTable">
               <table>
                 <thead>
                   <tr *ngIf="data.fieldEducationalInstitution">
