@@ -20,5 +20,27 @@ htm_custom_admin_form.customadmin:
               type: label
               label: 'Organizer email subject'
             organizer_email_body:
-              type: label
+              type: text
               label: 'Organizer email body'
+        email_subscription:
+          type: mapping
+          label: 'Tag subscription emails'
+          mapping:
+            create_email_subject:
+              type: label
+              label: 'Create subscription email subject'
+            create_email_body:
+              type: text
+              label: 'Create subscription email body'
+            update_email_subject:
+              type: label
+              label: 'Update subscription email subject'
+            update_email_body:
+              type: text
+              label: 'Update subscription email body'
+            notify_email_subject:
+              type: label
+              label: 'Subscription notification email subject'
+            notify_email_body:
+              type: text
+              label: 'Subscription notification email body'
