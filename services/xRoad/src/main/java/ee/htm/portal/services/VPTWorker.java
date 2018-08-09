@@ -2,7 +2,9 @@ package ee.htm.portal.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.client.EhisV6XRoadService;
 import ee.htm.portal.services.kafka.producers.Sender;
 import ee.htm.portal.services.model.Logs;
@@ -11,6 +13,8 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Is
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Message;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.OppimineDto;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Sugulusaste;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentDocument.VpTaotlusDokument;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentResponseDocument.VpTaotlusDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusEsitamineDocument.VpTaotlusEsitamine;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusEsitamineResponseDocument.VpTaotlusEsitamineResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusIsikudDocument.VpTaotlusIsikud;
@@ -21,6 +25,8 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Vp
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudDocument.VpTaotlusSissetulekud;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudResponseDocument.VpTaotlusSissetulekudResponse;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -46,6 +52,8 @@ public class VPTWorker {
   @Value("${kafka.topic.logs}")
   private String logsTopic;
 
+  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+
   public ObjectNode work(ObjectNode jsonNode) {
     String currentStep = jsonNode.get("header").get("current_step").isNull() ? null
         : jsonNode.get("header").get("current_step").asText();
@@ -63,7 +71,8 @@ public class VPTWorker {
             .vptOpingud(applicantPersonalCode, null, applicantPersonalCode);
 
 //region STEP_0 vpTaotlusOpingud response
-        ObjectNode stepZeroDataElements = ((ObjectNode) jsonNode.get("body").get("steps"))
+        ObjectNode stepZeroDataElements = ((ObjectNode) jsonNode).putObject("body")
+            .putObject("steps")
             .putObject("step_0").putObject("data_elements");
         ArrayNode values = stepZeroDataElements.putObject("studies").putArray("value");
 
@@ -78,7 +87,8 @@ public class VPTWorker {
                         : null)
                 .put("study_programme", item.getOppekavaNimi())
                 .put("study_programme_EHISid", item.getOppekavaKood())
-                .put("start_date", item.getAlustamiseKuupaev().getTimeInMillis())
+                .put("start_date",
+                    simpleDateFormat.format(item.getAlustamiseKuupaev().getTimeInMillis()))
                 .put("learning_load", item.getOppekoormusTyyp())
                 .put("learning_load_code",
                     item.isSetOppekoormusTyypKL() ?
@@ -87,18 +97,19 @@ public class VPTWorker {
                 .put("completion_rate", item.getTaitmiseProtsent())
                 .put("academic_leave_start",
                     item.isSetAkadeemilisePuhkuseAlustamiseKuupaev() ?
-                        ((Calendar) item.getAkadeemilisePuhkuseAlustamiseKuupaev())
-                            .getTimeInMillis()
+                        simpleDateFormat
+                            .format((Calendar) item.getAkadeemilisePuhkuseAlustamiseKuupaev())
                         : null)
                 .put("first_semester_end",
                     item.isSetEsimeseSemestriLoppKp() ?
-                        ((Calendar) item.getEsimeseSemestriLoppKp()).getTimeInMillis()
+                        simpleDateFormat.format((Calendar) item.getEsimeseSemestriLoppKp())
                         : null));
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_0")).putArray("messages");
+        ((ObjectNode) jsonNode).putObject("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
         setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING",
-            currentStep);
+            "step_0");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_0");
@@ -127,8 +138,12 @@ public class VPTWorker {
           }
           oppimineDto.setOppekavaNimi(item.get("study_programme").asText()); //String
           oppimineDto.setOppekavaKood(item.get("study_programme_EHISid").asInt()); //Int
-          cal.setTimeInMillis(item.get("start_date").asLong());
-          oppimineDto.setAlustamiseKuupaev(cal); //Date
+          try {
+            cal.setTime(simpleDateFormat.parse(item.get("start_date").asText()));
+            oppimineDto.setAlustamiseKuupaev(cal); //Date
+          } catch (ParseException e) {
+            LOGGER.error(e, e);
+          }
           oppimineDto.setOppekoormusTyyp(item.get("learning_load").asText()); //String
           if (!item.get("learning_load_code").isNull()) {
             oppimineDto.setOppekoormusTyypKL(item.get("learning_load_code").asInt()); //Int
@@ -137,14 +152,22 @@ public class VPTWorker {
           }
           oppimineDto.setTaitmiseProtsent(item.get("completion_rate").floatValue()); //Float
           if (!item.get("academic_leave_start").isNull()) {
-            cal.setTimeInMillis(item.get("academic_leave_start").asLong());
-            oppimineDto.setAkadeemilisePuhkuseAlustamiseKuupaev(cal); //Date
+            try {
+              cal.setTime(simpleDateFormat.parse(item.get("academic_leave_start").asText()));
+              oppimineDto.setAkadeemilisePuhkuseAlustamiseKuupaev(cal); //Date
+            } catch (ParseException e) {
+              LOGGER.error(e, e);
+            }
           } else {
             oppimineDto.setNilAkadeemilisePuhkuseAlustamiseKuupaev();
           }
           if (!item.get("first_semester_end").isNull()) {
-            cal.setTimeInMillis(item.get("first_semester_end").asLong());
-            oppimineDto.setEsimeseSemestriLoppKp(cal); //Date
+            try {
+              cal.setTime(simpleDateFormat.parse(item.get("first_semester_end").asText()));
+              oppimineDto.setEsimeseSemestriLoppKp(cal); //Date
+            } catch (ParseException e) {
+              LOGGER.error(e, e);
+            }
           } else {
             oppimineDto.setNilEsimeseSemestriLoppKp();
           }
@@ -176,7 +199,8 @@ public class VPTWorker {
                 .put("personal_id", item.getIsikukood())
                 .put("last_name", item.getPerenimi())
                 .put("first_name", item.getEesnimi())
-                .put("birth_date", ((Calendar) item.getSynniaeg()).getTimeInMillis())
+                .put("birth_date",
+                    simpleDateFormat.format(((Calendar) item.getSynniaeg()).getTime()))
                 .put("relationship", item.getSugulusaste().toString())
                 .put("family_member", item.getArvestatudPereliikmeks())
                 .put("studies", item.getOmandabHaridust())
@@ -189,7 +213,8 @@ public class VPTWorker {
                 .put("personal_id", item.getIsikukood())
                 .put("last_name", item.getPerenimi())
                 .put("first_name", item.getEesnimi())
-                .put("birth_date", ((Calendar) item.getSynniaeg()).getTimeInMillis())
+                .put("birth_date",
+                    simpleDateFormat.format(((Calendar) item.getSynniaeg()).getTime()))
                 .put("relationship", item.getSugulusaste().toString())
                 .put("family_member", item.getArvestatudPereliikmeks())
                 .put("studies", item.getOmandabHaridust())
@@ -228,6 +253,9 @@ public class VPTWorker {
 
 //region STEP_1 custody and entered family members proof validations
         boolean returnStepOne = false;
+        ((ObjectNode) jsonNode.get("body").get("steps").get("step_1")).putArray("messages");
+        ((ObjectNode) jsonNode.get("messages")).remove("custody_proof_validation_error");
+        ((ObjectNode) jsonNode.get("messages")).remove("family_members_proof_error");
 
         if (stepOneDataElements.get("custody").asBoolean()
             && stepOneDataElements.get("custody_proof").get("value").size() == 0) {
@@ -359,6 +387,11 @@ public class VPTWorker {
 
 //region STEP_2 validations
         boolean returnToStepTwo = false;
+        ((ObjectNode) jsonNode.get("body").get("steps").get("step_2")).putArray("messages");
+        ((ObjectNode) jsonNode.get("messages"))
+            .remove("family_members_income_proof_validation_error");
+        ((ObjectNode) jsonNode.get("messages"))
+            .remove("family_members_nonresident_income_proof_validation_error");
 
         if (stepTwoDataElements.get("family_members_income_proof").get("required").asBoolean()
             && stepTwoDataElements.get("family_members_income_proof").get("value").size() == 0) {
@@ -477,8 +510,9 @@ public class VPTWorker {
             .putObject("step_submit_result").putObject("data_elements");
         submitDataElement.putObject("id").put("value", response.getTaotlusInfoDto().getId());
         submitDataElement.putObject("submit_date").put("value",
-            response.getTaotlusInfoDto().isSetEsitamiseKuupaev() ? ((Calendar) response
-                .getTaotlusInfoDto().getEsitamiseKuupaev()).getTimeInMillis() : null)
+            response.getTaotlusInfoDto().isSetEsitamiseKuupaev() ? simpleDateFormat
+                .format(((Calendar) response.getTaotlusInfoDto().getEsitamiseKuupaev()).getTime())
+                : null)
             .put("hidden", !response.getTaotlusInfoDto().isSetEsitamiseKuupaev());
         submitDataElement.putObject("status").put("value", response.getTaotlusInfoDto().getOlek());
         submitDataElement.putObject("application_file").putObject("value")
@@ -516,7 +550,7 @@ public class VPTWorker {
     }
 
     logs.setEndTime(new Timestamp(System.currentTimeMillis()));
-//    sender.send(logsTopic, null, logs, "VPT_TAOTLUS");
+    sender.send(logsTopic, null, logs, "VPT_TAOTLUS");
 
     return jsonNode;
   }
@@ -527,9 +561,13 @@ public class VPTWorker {
     person.setPerenimi(item.get("last_name").asText());
     person.setEesnimi(item.get("first_name").asText());
 
-    Calendar cal = Calendar.getInstance();
-    cal.setTimeInMillis(item.get("birth_date").asLong());
-    person.setSynniaeg(cal);
+    try {
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(simpleDateFormat.parse(item.get("birth_date").asText()));
+      person.setSynniaeg(cal);
+    } catch (ParseException e) {
+      LOGGER.error(e, e);
+    }
 
     person.setSugulusaste(Sugulusaste.Enum.forString(item.get("relationship").asText()));
     person.setArvestatudPereliikmeks(item.get("family_member").asBoolean());
@@ -556,5 +594,39 @@ public class VPTWorker {
           .putObject("message_text")
           .put("et", item.getKirjeldus());
     });
+  }
+
+  public ObjectNode getDocument(String documentId, String personalCode) {
+    Long applicationId;
+    String documentType;
+    JsonNodeFactory f = JsonNodeFactory.instance;
+    ObjectNode documentResponse = f.objectNode();
+
+    try {
+      documentId = documentId.replace("VPT_", "");
+
+      if (documentId.contains("OTSUS_DIGIDOC")) {
+        documentType = "OTSUS_DIGIDOC";
+        applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
+      } else {
+        documentType = "TAOTLUS_ZIP";
+        applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
+      }
+
+      VpTaotlusDokument request = VpTaotlusDokument.Factory.newInstance();
+      request.setTaotlejaIsikukood(personalCode);
+      request.setDokumendiLiik(documentType);
+      request.setTaotluseId(applicationId);
+      VpTaotlusDokumentResponse response = ehisV6XRoadService
+          .vpTaotlusDokument(request, personalCode);
+
+      documentResponse.put("fileName", response.getFilename()).put("size", response.getSize())
+          .put("mediaType", response.getMediatype()).put("value", response.getByteArrayValue());
+    } catch (Exception e) {
+      LOGGER.error(e, e);
+      documentResponse.putObject("error")
+          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+    }
+    return documentResponse;
   }
 }
