@@ -391,7 +391,7 @@ custom_translation_module.settings:
           type: label
           label: 'Content'
         modal_content:
-          type: string
+          type: label
           label: 'Content'
         modal_close:
           type: text
