@@ -12,6 +12,9 @@ use Drupal\taxonomy\Entity\Term;
 class StudyProgrammeController extends ControllerBase {
 
   public function import() {
+    $studyprogramme = \Drupal::entityTypeManager()->getStorage('node')->load(47013);
+    kint($studyprogramme->get('field_study_programme_type'));
+    die();
 
     $schools = $this->get_existing_schools();
     $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
