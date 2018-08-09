@@ -1,43 +1,37 @@
-query studyProgrammeComparison (
-  $nidValues: [String],
-  $lang: LanguageId!
-) {
-  nodeQuery(filter: {conjunction: AND, conditions: [
-    {operator: EQUAL, field: "type", value: ["study_programme"], language: $lang},
-    {operator: IN, field: "nid", value: $nidValues, language: $lang },
-
-  ]}) {
+query studyProgrammeComparison($nidValues: [String], $lang: LanguageId!) {
+  nodeQuery(filter: {conjunction: AND, conditions: [{operator: EQUAL, field: "type", value: ["study_programme"], language: $lang}, {operator: IN, field: "nid", value: $nidValues, language: $lang}]}) {
     entities(language: $lang) {
-      ... on NodeStudyProgramme{
-        name:title
-        EducationalInstitution:fieldEducationalInstitution{
-          entity{
-            name:title
+      ... on NodeStudyProgramme {
+        nid
+        name: title
+        EducationalInstitution: fieldEducationalInstitution {
+          entity {
+            name: title
           }
         }
-        level:fieldStudyProgrammeLevel{
-          entity{
+        level: fieldStudyProgrammeLevel {
+          entity {
             name
           }
         }
-        degreeOrDiplomaAwarded:fieldDegreeOrDiplomaAwarded{
-          entity{
+        degreeOrDiplomaAwarded: fieldDegreeOrDiplomaAwarded {
+          entity {
             name
           }
         }
-        specialization:fieldSpecialization
-        teachingLanguage:fieldTeachingLanguage{
-          entity{
+        specialization: fieldSpecialization
+        teachingLanguage: fieldTeachingLanguage {
+          entity {
             name
           }
         }
-        amount:fieldAmount
-        practicalTrainingAmount:fieldPracticalTrainingAmount
-        durationYears:fieldDurationYears
-        durationMonths:fieldDurationMonths
-        admissionStatus:fieldAdmissionStatus
-        accreditationStatus:fieldAccreditationStatus
-        accreditationValidUntil:fieldAccreditationValidUntil{
+        amount: fieldAmount
+        practicalTrainingAmount: fieldPracticalTrainingAmount
+        durationYears: fieldDurationYears
+        durationMonths: fieldDurationMonths
+        admissionStatus: fieldAdmissionStatus
+        accreditationStatus: fieldAccreditationStatus
+        accreditationValidUntil: fieldAccreditationValidUntil {
           value
           date
           unix
