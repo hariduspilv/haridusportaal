@@ -5,6 +5,7 @@ namespace Drupal\custom_graphql_elasticsearch_query\Plugin\GraphQL\Derivers;
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Elasticsearch\ClientBuilder;
 use Drupal\graphql\Utility\StringHelper;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 /**
  * Provides GraphQL Field plugin definitions for Elasticsearch index fields.
  */
@@ -49,7 +50,12 @@ class ElasticFieldDeriver extends DeriverBase {
       ]
     ];
 
-    $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
+    try{
+      $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
+    }catch (PluginNotFoundException $e){
+      return $e;
+    }
+
     $elasticindexes = $client->indices()->getAliases();
     $elasticmapping = $client->indices()->getMapping();
 
