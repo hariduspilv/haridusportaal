@@ -1,7 +1,0 @@
-query {
-  nodeQuery(filter:{conditions:{field:"type", value:"school"}}){
-    entities{
-      entityLabel
-    }
-  }
-}
