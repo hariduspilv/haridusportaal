@@ -9,7 +9,7 @@ field2: 'Tekstiväli number 2'
 field3: 'Tekstiväli number 3'
 article_translations:
   contact: Kontakt
-  hyperlinks: Lingid
+  hyperlinks: ''
   similar_articles: ''
 news_translations:
   news: ''
