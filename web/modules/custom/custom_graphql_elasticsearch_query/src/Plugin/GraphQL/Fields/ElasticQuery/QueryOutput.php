@@ -32,11 +32,7 @@ class QueryOutput extends FieldPluginBase {
       // Checking if the value of this derivative is a list or single value so
       // we can parse accordingly.
       if (is_array($value[$derivative_id])) {
-
 				yield implode(", ", $value[$derivative_id]);
-        //foreach ($value[$derivative_id] as $value_item) {
-          //yield $value_item;
-        //}
       }
       else {
         yield $value[$derivative_id];
