@@ -23,9 +23,8 @@
       &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
   }
 
-  &__item {padding:0.9rem 1.5rem 1.1rem 1.5rem; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
-    &:last-child{border-bottom:0;}
-
+  &__item {padding:$medium; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
+    
     &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;
       @include break-on(sm, min) {margin-bottom:0.5rem; }
       &:hover{text-decoration: underline;}
@@ -39,10 +38,15 @@
 
     p:first-child{margin-top:0;}
     p:last-child{margin-bottom:0;}
-
+    @include break-on(sm, min) {padding:$small $medium $medium $medium;}
   }
   .spinner-wrapper{padding-bottom:1.25rem;}
 }
 .custom-checkbox{padding-left:1rem;}
 .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
-.actions{margin-bottom:2rem; padding:0 1.5rem;}
+.actions{margin-bottom:$xxl; padding:0 1.5rem;margin-top: -$medium;
+  @include break-on(sm, min) {margin-top: 0;}
+}
+.map--wrapper {padding: $medium 0 $xxl;
+  @include break-on(sm, min) {padding: $small $medium $xxl;}
+}
