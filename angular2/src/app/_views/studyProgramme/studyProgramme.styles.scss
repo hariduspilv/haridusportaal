@@ -1,9 +1,9 @@
 @import "../../../assets/styles/typography.scss";
 
 .studyProgramme {
-  padding-bottom: $medium;
+  padding-bottom: $xxl;
   background: $white;
-  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0;}
+  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0; padding-bottom: $medium;}
   border-top: $gutter solid $light-blue;
   .months {
     margin-top: $medium;
@@ -48,7 +48,9 @@
   .spinner-wrapper{padding-bottom:1.25rem;}
 }
 .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
-.actions{margin-bottom:2rem; padding:0 1.5rem;}
+.actions{margin-bottom:$xxl; padding:0 $medium;margin-top: -$medium;
+  @include break-on(sm, min) {margin-top: 0;}
+}
 
 
  

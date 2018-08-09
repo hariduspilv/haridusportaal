@@ -129,7 +129,7 @@
                     <td><a href="{{ data.fieldWebPageAddress.url }}" target="_blank">Vaata õppekava kirjeldust õppeasutuse veebilehel</a></td>
                   </tr>
 
-                  <tr *ngIf="data.fieldQualificationStandardId">
+                  <tr *ngIf="data.fieldQualificationStandardId && data.fieldStudyProgrammeLevel">
                     <td>Kutsestandard(id)</td>
                     <td><a href="{{ data.fieldStudyProgrammeLevel.entity.entityLabel }}">Vaata kutsestandardit</a></td>
                   </tr>
@@ -141,7 +141,7 @@
         </article>
       </div><!--/block-->
 
-      <div class="text-center actions">
+      <div class="text-center actions sm-hide">
         <button mat-raised-button color="primary" >Vaata kutsestandardit</button>
       </div><!--/text-center-->
       
