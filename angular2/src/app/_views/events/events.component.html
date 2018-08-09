@@ -1,5 +1,11 @@
 <breadcrumbs></breadcrumbs>
-<form (submit)="filterSubmit()" class="filter-wrapper" >
+<div class="sm-show text-right filter-control">
+  <a href="javascript:void(0);" (click)="showFilter = !showFilter">
+    <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+    <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+  </a> 
+</div>
+<form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
   <div class="main-container">
     <div class="row">
       <div class="col-4 sm-12" [class.col-9]="view == 'calendar'" style="padding:0.5rem;">
@@ -33,7 +39,7 @@
         </div>
       </div>
 
-      <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
+      <div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
           <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>

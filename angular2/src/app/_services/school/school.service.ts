@@ -60,6 +60,7 @@ query(
         }
         fieldEducationalInstitutionTy {
           entity{
+            entityId
             entityLabel
           }
         }
@@ -142,6 +143,32 @@ query(
 }
 `;
 
+export const InstitutionTypeQuery = gql`
+query(
+  $lang: LanguageId!,
+	$tids: [String]
+){
+  taxonomyTermQuery(filter:{
+    conditions: [
+      {field:"tid", value:$tids, language:$lang, operator:IN},
+    	{field:"vid", value:["educational_institution_type"], language:$lang, operator:IN}
+    ] 
+    }
+  ){
+    entities(language:$lang){
+      entityLabel
+      entityId
+      parentId
+      ... on TaxonomyTermEducationalInstitutionType{
+        reverseFieldEducationalInstitutionTyNode{
+          count
+        }
+      }
+    }
+  }
+}
+`;
+
 export const SingleQuery = gql`
   query(
     $path: String!
@@ -161,6 +188,7 @@ export const SingleQuery = gql`
             fieldEducationalInstitutionTy {
               entity {
                 name
+                entityId
               }
             }
             fieldTeachingLanguage {
