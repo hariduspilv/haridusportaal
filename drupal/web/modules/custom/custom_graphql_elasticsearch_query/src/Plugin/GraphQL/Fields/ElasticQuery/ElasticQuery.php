@@ -20,7 +20,9 @@ use Drupal\graphql\Utility\StringHelper;
 *   type = "[CustomElastic]",
 *   name = "CustomElasticQuery",
 *   arguments = {
-*     "filter" = "CustomElasticFilterInput",
+*     "filter" = "EntityQueryFilterInput",
+*     "elasticsearch_index" = "String!",
+*     "sort" = "[EntityQuerySortInput]"
 *   }
 * )
 */
