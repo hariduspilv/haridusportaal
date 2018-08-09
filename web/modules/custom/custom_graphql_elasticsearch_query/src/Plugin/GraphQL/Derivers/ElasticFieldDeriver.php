@@ -36,7 +36,7 @@ class ElasticFieldDeriver extends DeriverBase {
   }
 
   public function getFields(){
-    $fields = [];
+    /*$fields = [];
 
     $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
     $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
@@ -67,7 +67,7 @@ class ElasticFieldDeriver extends DeriverBase {
         }
       }
     }
-    return array_unique($fields);
+    return array_unique($fields);*/
   }
 
 }
