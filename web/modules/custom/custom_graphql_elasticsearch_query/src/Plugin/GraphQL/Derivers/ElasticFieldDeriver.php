@@ -24,14 +24,23 @@ class ElasticFieldDeriver extends DeriverBase {
 
     $fields = $this->getFields();
 
-    foreach($fields as $field){
-      $field = $derivative['type'] = StringHelper::camelCase($field);
+    if(count($fields) > 0){
+      foreach($fields as $field){
+        $field = $derivative['type'] = StringHelper::camelCase($field);
+        $this->derivatives[$field] = $base_plugin_definition;
+        $this->derivatives[$field]['name'] = $field;
+        $this->derivatives[$field]['type'] = 'String';
+      }
+
+      return $this->derivatives;
+    }else{
+      $field = 'empty';
       $this->derivatives[$field] = $base_plugin_definition;
       $this->derivatives[$field]['name'] = $field;
       $this->derivatives[$field]['type'] = 'String';
-    }
-
-    return $this->derivatives;
+      
+      return $this->derivatives;
+     }
   }
 
   public function getFields(){
@@ -50,18 +59,22 @@ class ElasticFieldDeriver extends DeriverBase {
     ];
 
     $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
-    $elasticindexes = $client->indices()->getAliases();
-    $elasticmapping = $client->indices()->getMapping();
+    if($client->ping() == FALSE){
+      return [];
+    }else{
+      $elasticindexes = $client->indices()->getAliases();
+      $elasticmapping = $client->indices()->getMapping();
 
-    foreach($elasticindexes as $elasticindex => $indexval){
-      if(substr($elasticindex, 0, 1) !== "."){
-        $fieldsitem = reset($elasticmapping[$elasticindex]['mappings']);
-        foreach($fieldsitem['properties'] as $field => $type){
-          $fields[] = $field;
+      foreach($elasticindexes as $elasticindex => $indexval){
+        if(substr($elasticindex, 0, 1) !== "."){
+          $fieldsitem = reset($elasticmapping[$elasticindex]['mappings']);
+          foreach($fieldsitem['properties'] as $field => $type){
+            $fields[] = $field;
+          }
         }
       }
+      return array_unique($fields);
     }
-    return array_unique($fields);
   }
 
 }
