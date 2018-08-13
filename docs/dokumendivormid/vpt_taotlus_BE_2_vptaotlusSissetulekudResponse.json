@@ -3,6 +3,9 @@
 	"acceptable_activity" : "SAVE",
 	"current_step" : kui pole ühtegi errorMessage-t siis "step_2" ja kui on vähemalt üks errorMessage siis "step_1",
 	"identifier" : vpTaotlusIsikudResponse.taotlus_id,
+	"agents" : [
+		{ "person_id" : taolteja isikukood, "role" : "TAOTLEJA" },
+	]
 },
 "body" : {
 	"steps": {
