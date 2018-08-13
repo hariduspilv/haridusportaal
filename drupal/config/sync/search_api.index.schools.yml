@@ -23,6 +23,7 @@ dependencies:
   module:
     - paragraphs
     - taxonomy
+    - menu_link_content
     - search_api
     - node
 id: schools
@@ -163,6 +164,11 @@ field_settings:
         - field.storage.node.field_teaching_language
       module:
         - taxonomy
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: string
   lat:
     label: 'Asukoht » Paragraph » Koordinaadid » Latitude'
     datasource_id: 'entity:node'
@@ -174,6 +180,14 @@ field_settings:
         - field.storage.paragraph.field_coordinates
       module:
         - paragraphs
+  link:
+    label: 'Menüülink » Kohandatud menüülink » Väline'
+    datasource_id: 'entity:node'
+    property_path: 'menu_link:entity:external'
+    type: boolean
+    dependencies:
+      module:
+        - menu_link_content
   lon:
     label: 'Asukoht » Paragraph » Koordinaadid » Longitude'
     datasource_id: 'entity:node'
@@ -190,6 +204,11 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: nid
     type: integer
+  unpublish_on:
+    label: 'Mitteavaldatuks märkimise aeg'
+    datasource_id: 'entity:node'
+    property_path: unpublish_on
+    type: date
 datasource_settings:
   'entity:node':
     bundles:
