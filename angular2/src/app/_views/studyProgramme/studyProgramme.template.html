@@ -1,5 +1,10 @@
 <breadcrumbs></breadcrumbs>
- 
+  <div class="sm-show text-right filter-control">
+    <a href="javascript:void(0);" (click)="showFilter = !showFilter">
+      <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+      <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+    </a> 
+  </div>
   <form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
     <div class="main-container">
       <div class="row">
@@ -25,7 +30,7 @@
           </div>
         </div><!--/col-4-->
 
-        <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
+        <div class="col-4 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
           <div class="align-center filter-state sm-hide">       
             <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
               <span class="md-hide">Täpsem otsing</span>
@@ -136,7 +141,7 @@
               </div>
             
           </div><!--/col-4-->
-          <div class="col-3 align-end text-right sm-12 inline-flex">
+          <div class="col-4 align-end text-right sm-12 inline-flex">
             <div class="align-center filter-state sm-hide">       
               <a href="javascript:void(0);" (click)="filterFull = !filterFull">
                 <span class="md-hide">{{ 'button.search_brief' | translate }}</span>
@@ -174,7 +179,7 @@
             <div class="col-grow">
 
               <a [routerLink]="item.entityUrl.path" class="studyProgramme__item__title">{{ item.entityLabel }}</a>
-              <div class="studyProgramme__item__subtitle" *ngIf="item.fieldEducationalInstitution">
+              <div class="studyProgramme__item__subtitle sm-hide" *ngIf="item.fieldEducationalInstitution">
                   <ng-container *ngIf="item.fieldEducationalInstitution.entity">{{ item.fieldEducationalInstitution.entity.entityLabel }},</ng-container>
                   <ng-container *ngIf="item.fieldSchoolAddress">{{ item.fieldSchoolAddress }}</ng-container>
                   <a href="{{ item.fieldSchoolWebsite }}" *ngIf="item.fieldSchoolWebsite">{{  item.fieldSchoolWebsite | removeProtocol }}</a>

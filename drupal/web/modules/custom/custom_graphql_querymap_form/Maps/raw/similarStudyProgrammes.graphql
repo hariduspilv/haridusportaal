@@ -1,0 +1,17 @@
+query similarStudyProgrammes(
+  $nid: Int!
+){
+  CustomStudyProgrammeElasticQuery(filter:{nid:$nid}){
+    Nid
+    Name
+    FieldSchoolAddress
+    FieldSchoolWebsite
+    FieldStudyProgrammeLevel
+    FieldTeachingLanguage
+    FieldIscedfDetailed
+    FieldAccreditationStatus
+    FieldDurationYears
+    FieldDurationMonths
+    FieldAdmissionStatus
+  }
+}

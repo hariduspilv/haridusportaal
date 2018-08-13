@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\image\Entity\ImageStyle;
 /**
  * @file
  * Contains htm_custom_tokens.module.
@@ -47,10 +48,18 @@ function htm_custom_tokens_token_info() {
 		'name' => t('Subscription confirmation link'),
 		'description' => t('Get link for confirming your subscription.'),
 	];
+	$custom_node_token['custom_url'] = [
+		'name' => t('custom node url'),
+		'description' => t('override default node url'),
+	];
+	$custom_node_token['custom_img'] = [
+		'name' => t('custom node image for twitter'),
+		'description' => t('Custom image for twitter card'),
+	];
 
 	return [
 		'types' => ['htm_custom_event_tokens' => $eventtype, 'htm_custom_subscription_tokens' => $subscriptiontype],
-		'tokens' => ['htm_custom_event_tokens' => $eventtoken, 'htm_custom_subscription_tokens' => $subscriptiontoken]
+		'tokens' => ['htm_custom_event_tokens' => $eventtoken, 'htm_custom_subscription_tokens' => $subscriptiontoken, 'node' => $custom_node_token]
 	];
 }
 
@@ -58,9 +67,60 @@ function htm_custom_tokens_token_info() {
  * Implements hook_tokens()
  */
 function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata){
-
+	/*dump($type);
+	dump($tokens);*/
 	$replacements = [];
+	if($type === 'node'){
+		/* @var $node \Drupal\Core\Entity\Entity */
+		$node = $data['node'];
+		$node_type = $node->getType();
+		#$node_type = $node
+		$fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
 
+		foreach($tokens as $name => $original){
+			#dump($name);
+			switch ($name){
+				case 'summary':
+					#dump($node_type);
+					switch ($node_type) {
+						case 'news':
+							$body = $node->get('field_short_description')->getString();
+							$replacements[$original] = $body;
+							break;
+						case 'article':
+							$body = $node->get('field_body_summary')->getString();
+							$replacements[$original] = $body;
+							break;
+						case 'event':
+							$body = $node->get('field_description_summary')->getString();
+							$replacements[$original] = $body;
+							break;
+					}
+					break;
+				case 'custom_url':
+					$url = $fe_url . $node->url();
+					$replacements[$original] = $url;
+					break;
+				case 'custom_img':
+					switch ($node_type){
+						case 'news':
+							$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_introduction_image')->entity->getFileUri());
+							$replacements[$original] = $image;
+							break;
+						case 'article':
+							$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_image')->entity->getFileUri());
+							$replacements[$original] = $image;
+							break;
+						case 'event':
+							$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_picture')->entity->getFileUri());
+							$replacements[$original] = $image;
+							break;
+					}
+					#dump($node);
+					break;
+			}
+		}
+	}
 	if($type === 'htm_custom_event_tokens' && !empty($data['event_reg_entity'])){
 		foreach($tokens as $name => $original){
 			switch ($name){
@@ -124,7 +184,7 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 		}
 	}
 
-
+	#dump($replacements);
 	return $replacements;
 
 }

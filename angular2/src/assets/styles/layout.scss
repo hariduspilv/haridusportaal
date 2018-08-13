@@ -2,7 +2,7 @@
     background: white;
     border-top: $gutter solid $gray;
     @include break-on(sm, min) {border-radius: $half-gutter;}
-    margin-bottom: 1.3em;
+    margin-bottom: 1rem;
     h1 {
         color: #333333;
         font-size: 1.3em;
