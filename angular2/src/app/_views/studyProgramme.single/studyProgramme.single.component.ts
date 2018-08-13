@@ -10,17 +10,12 @@ import { SingleQuery } from '../../_services/studyProgramme/studyProgramme.servi
 
 export class StudyProgrammeSingleComponent implements OnInit{
 
+  parseFloat = parseFloat;
   path: any;
   data: any;
   error: boolean = false;
 
   map: any;
-
-  mapOptions = {
-    lat: 58.8754705,
-    lng: 24.5567241,
-    zoom: 11
-  }
 
   private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
 
@@ -36,20 +31,6 @@ export class StudyProgrammeSingleComponent implements OnInit{
     $event.checked === true? this.compare[id] = true : delete this.compare[id];
     localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
    
-  }
-
-  mapReady(map){
-
-    let that = this;
-    this.map = map;
-
-    this.map.setCenter({
-      lat: this.mapOptions.lat,
-      lng: this.mapOptions.lng
-    });
-
-    this.map.setZoom(this.mapOptions.zoom);
-
   }
 
   getData() {

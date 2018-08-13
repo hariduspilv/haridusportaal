@@ -1,5 +1,10 @@
 [
   {
+    "header": {
+      "endpoint": "EHIS",
+      "form_name": "VPT_TAOTLUS",
+      "number_of_steps": 4
+    },
     "body": {
       "steps": {
         "step_0": {
@@ -528,11 +533,6 @@
           }
         }
       }
-    },
-    "header": {
-      "endpoint": "EHIS",
-      "form_name": "VPT_TAOTLUS",
-      "number_of_steps": 4
     }
   }
 ]
