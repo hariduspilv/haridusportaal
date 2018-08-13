@@ -185,10 +185,8 @@
                   <a href="{{ item.fieldSchoolWebsite }}" *ngIf="item.fieldSchoolWebsite">{{  item.fieldSchoolWebsite | removeProtocol }}</a>
               </div>      
             </div><!--col-9-->
-            <div class="col sm-hide">
-                <div class="custom-checkbox">
-                  <mat-checkbox [checked]="compare[item.nid]" (change)="compareChange(item.nid, $event)">{{ 'button.add_to_comparison' | translate }}</mat-checkbox>
-                </div>
+            <div class="col">
+                <compare [id]="item.nid" localStorageKey="studyProgramme.compare"></compare>
             </div><!--/col-3-->
           </div>
           
