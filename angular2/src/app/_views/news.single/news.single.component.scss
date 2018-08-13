@@ -31,8 +31,8 @@
         .title__recent {
           @include break-on(md, min) {padding: 0;padding-top:$small;}
         }
-        .author {
-          @include break-on(md, min) {padding: 0; padding-top: $half-gutter;}
+        .author {overflow: hidden;text-overflow: ellipsis;
+          @include break-on(md, min) {padding: 0; padding-top: $half-gutter;word-break: break-word;overflow: normal;}
         }
       }
     }
