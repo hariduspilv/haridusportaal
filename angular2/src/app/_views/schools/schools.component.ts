@@ -307,7 +307,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
       const typeName = "TaxonomyTermEducationalInstitutionType";
       this.institutionTypes = entities.filter(elem => elem.__typename === typeName && !elem.parentId).map(elem => elem.entityId)
-      console.log(this.institutionTypes)
       subscription.unsubscribe();
     });
   }
