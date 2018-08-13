@@ -11,6 +11,8 @@ export class MapWrapperComponent implements OnInit {
   @Input() longitude: any;
   @Input() zoom: any;
 
+  iconUrl = "assets/marker.svg"
+
   constructor() { }
 
   ngOnInit() {

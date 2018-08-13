@@ -1,0 +1,20 @@
+"header" : {
+	"form_name" : "VPT_ESITATUD TAOLTUS_OTSUS",
+	"acceptable_activity" : "VIEW",
+	"current_step" : "step_0",
+	"identifier" : taotlusid
+},
+"body" : {
+	"steps": {
+		"step_0" : {
+			"data_elements" : {
+				"application_file" : {
+					"value" : { "file_name" : "taotlus.zip" , "file_identifier" : "VPT_TAOTLUS_ZIP"+taotlusid}
+				},
+				"decision_file" : {
+					"value" : { "file_name" : "otsus.bdoc" , "file_identifier" : "VPT_OTSUS_DDOC"+taoltusid}
+				}
+			}
+		}
+	}
+}

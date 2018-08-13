@@ -185,7 +185,7 @@
                   <a href="{{ item.fieldSchoolWebsite }}" *ngIf="item.fieldSchoolWebsite">{{  item.fieldSchoolWebsite | removeProtocol }}</a>
               </div>      
             </div><!--col-9-->
-            <div class="col">
+            <div class="col sm-hide">
                 <compare [id]="item.nid" localStorageKey="studyProgramme.compare"></compare>
             </div><!--/col-3-->
           </div>
