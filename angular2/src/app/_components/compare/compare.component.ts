@@ -8,8 +8,8 @@ import { Component, Input} from '@angular/core';
 export class CompareComponent{
   @Input() id: number;
   @Input() localStorageKey: string;
-
-  compare = JSON.parse(localStorage.getItem("studyProgramme.compare")) || [];
+  
+  compare = JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
   
   constructor(
   ) {}
@@ -19,15 +19,16 @@ export class CompareComponent{
   }
 
   compareChange(id, checked){
-    console.log('id: %s, checked: %s', id, checked);
-    this.compare = JSON.parse(localStorage.getItem("studyProgramme.compare")) || [];
-    if(checked == true){
+
+    this.compare = JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
+
+    if(checked == true && !this.isChecked(id)){
       this.compare.push(id);
-    } else {
+    } else if (checked == false && this.isChecked(id)) {
       this.compare = this.compare.filter(existing_id => existing_id != id);
     }
 
-    localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.compare));
   }
    
 }
