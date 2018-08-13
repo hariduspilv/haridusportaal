@@ -7,9 +7,19 @@ import { Component } from '@angular/core';
 })
 
 export class ShareComponent{
-  share (facebook) {
-    const url = location.href
-    const link = facebook ? `https://www.facebook.com/sharer/sharer.php?u=${url}` : `https://twitter.com/intent/tweet?text=${url}`
-    return window.open(link, 'ID_WIN', 'location=1,status=1,scrollbars=1')
+  share (type) {
+    const url = location.href;
+    let shareLink = '';
+    switch (type) {
+      case 'facebook':
+        shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        break;
+      case 'twitter':
+        shareLink = `https://twitter.com/intent/tweet?text=${url}`;
+        break;
+      default:
+        shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    }
+    return window.open(shareLink, 'ID_WIN', 'location=1,status=1,scrollbars=1')
   }
 }

@@ -6,6 +6,7 @@
 */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 
 /**
 * Implements hook_help().
@@ -29,7 +30,7 @@ function form_alter_hook_help($route_name, RouteMatchInterface $route_match) {
   * Implements hook_form_alter() on behalf of form_alter_hook.module.
   */
   function form_alter_hook_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-
+		#dump('test');
     if(isset($form['field_teaching_language']['widget']['#options']['_none'])){
       unset($form['field_teaching_language']['widget']['#options']['_none']);
     }
@@ -106,3 +107,19 @@ function form_alter_hook_help($route_name, RouteMatchInterface $route_match) {
     $format['hh:mm'] = 'hh:mm';
     return $format;
   }
+
+  function form_alter_hook_preprocess_views_view_row_rss(&$variables){
+		$fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+		foreach($variables['item_elements'] as &$item_element){
+			if($item_element['key'] === 'guid'){
+				/* @var $item_value \Drupal\Core\Render\Markup */
+				$item_value = $item_element['value'];
+				$item_element['value'] = $fe_url . $item_value;
+			}
+		}
+
+		$request = \Symfony\Component\HttpFoundation\Request::create($variables['link']);
+		$url_from_request = Url::createFromRequest($request);
+
+		$variables['link'] = $fe_url . $url_from_request->toString();
+	}

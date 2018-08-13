@@ -34,8 +34,8 @@ import { ShareComponent } from './_components/share/share.component';
 
 import { SettingsService } from './_core/settings';
 import { SchoolStudyProgrammesComponent } from './_components/school.study.programmes/school.study.programmes.component';
-import { RelatedStudyProgrammesComponent } from './_components/related.studyProgrammes/related.studyProgrammes.component';
 import { MapWrapperComponent } from './_components/map.wrapper/map.wrapper.component';
+import { CompareComponent } from './_components/compare/compare.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
@@ -85,8 +85,8 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     Modal,
     VideoComponent,
     SchoolStudyProgrammesComponent,
-    RelatedStudyProgrammesComponent,
-    MapWrapperComponent
+    MapWrapperComponent,
+    CompareComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent],
