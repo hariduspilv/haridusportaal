@@ -28,27 +28,14 @@
   button {width: stretch;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 }
 .checkbox {
-  &__container {display: block;position: relative;padding-left: 1.75rem;cursor: pointer;//margin-bottom: .75rem;
+  &__container {display: block;position: relative;padding-left: 1.75rem;
     .checkmark:after {content: "";position: absolute;display: none;}
-    input {position: absolute;opacity: 0;cursor: pointer;}
-    .checkmark:after {
-      left: .3125rem;
-      width: .375rem;
-      height: .8125rem;
-      border: solid $blue;
-      border-width: 0 .125rem .125rem 0;
-      -webkit-transform: rotate(45deg);
-      transform: rotate(45deg);
+    input {position: absolute;opacity: 0;}
+    .checkmark:after {left: .3125rem;width: .375rem;height: .8125rem;border: solid $blue;
+      border-width: 0 .125rem .125rem 0;-webkit-transform: rotate(45deg);transform: rotate(45deg);
     }
-    .checkmark {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 1.125rem;
-      height: 1.125rem;
-      border-radius: 0.125rem;
-      border: solid .0625rem $gray;
-      background-color:$white;
+    .checkmark {position: absolute;top: 0;left: 0;width: 1.125rem;height: 1.125rem;
+      border-radius: 0.125rem;border: solid .0625rem $gray;background-color:$white;
     }
     .label {font-size: .875rem;}
     input:checked ~ .checkmark:after {display: block;}

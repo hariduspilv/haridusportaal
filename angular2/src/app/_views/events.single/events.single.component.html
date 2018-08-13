@@ -87,10 +87,10 @@
             </div><!--/col-10-->
           </div><!--/row-->
           <div class="participants">
-            <div class="participants__rectangle participants__rectangle--left" *ngIf="!elemAtStart" (touchstart)="scrollStart()" (mousedown)="scrollStart()" (touchend)="scrollEnd()" (mouseup)="scrollEnd()">
+            <div class="participants__rectangle participants__rectangle--left pointer" *ngIf="!elemAtStart" (touchstart)="scrollStart()" (mousedown)="scrollStart()" (touchend)="scrollEnd()" (mouseup)="scrollEnd()">
               <mat-icon>keyboard_arrow_left</mat-icon>
             </div>
-            <div class="participants__rectangle participants__rectangle--right" *ngIf="tableOverflown" (touchstart)="scrollStart(true)" (mousedown)="scrollStart(true)" (touchend)="scrollEnd(true)" (mouseup)="scrollEnd(true)">
+            <div class="participants__rectangle participants__rectangle--right pointer" *ngIf="tableOverflown" (touchstart)="scrollStart(true)" (mousedown)="scrollStart(true)" (touchend)="scrollEnd(true)" (mouseup)="scrollEnd(true)">
               <mat-icon>keyboard_arrow_right</mat-icon>
             </div>
             <div class="participants__table" id="participantsElem" (scroll)="isOverflown($event)">
@@ -100,7 +100,7 @@
                     <th>{{ 'event.participant_index' | translate }}</th>
                     <th>
                       <span>{{ 'event.participant_first_name' | translate }}</span>
-                      <span class="sortable" (click)="organizeParticipants('participantFirstName')">
+                      <span class="sortable pointer" (click)="organizeParticipants('participantFirstName')">
                         <mat-icon *ngIf="participantsSortOrder['participantFirstName'] !== 'desc'
                           && participantsSortOrder['participantFirstName'] !== ''
                           && participantsSortOrder['participantFirstName']"
@@ -111,7 +111,7 @@
                     </th>
                     <th>
                       <span>{{ 'participant_last_name' | translate }}</span>
-                      <span class="sortable" (click)="organizeParticipants('participantLastName')">
+                      <span class="sortable pointer" (click)="organizeParticipants('participantLastName')">
                         <mat-icon *ngIf="participantsSortOrder['participantLastName'] !== 'desc'
                           && participantsSortOrder['participantLastName'] !== ''
                           && participantsSortOrder['participantLastName']"
@@ -122,7 +122,7 @@
                     </th>
                     <th>
                       <span>{{ 'participant_organization' | translate }}</span>
-                      <span class="sortable" (click)="organizeParticipants('participantOrganization')">
+                      <span class="sortable pointer" (click)="organizeParticipants('participantOrganization')">
                         <mat-icon *ngIf="participantsSortOrder['participantOrganization'] !== 'desc'
                           && participantsSortOrder['participantOrganization'] !== ''
                           && participantsSortOrder['participantOrganization']"
