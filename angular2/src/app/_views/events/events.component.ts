@@ -365,8 +365,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       }
     }
     */
-
-    console.log(tmpList);
     
     return tmpList;
   }
@@ -441,7 +439,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
       day.events = this.sort("startTime", day.events);
 
-      console.log(day.events);
       return day.events;
     }else{
       return day.events;
@@ -453,7 +450,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
         this.eventsConfig = new EventsConfig();
 
-        console.log("I NEED DATA");
         // TITLE
         if(this.params['title']){
           this.eventsConfig.titleEnabled = true;
@@ -615,8 +611,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         t.id === thing.id && t.name === thing.name
       )))
       this.eventsTagsObs = of(newsTagArr).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
-
-      //console.log(this.eventsTypesObs);
+      
     });
 
     this.subscriptions = [...this.subscriptions, tagSubscription];

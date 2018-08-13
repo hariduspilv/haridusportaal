@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.study_programme.field_accreditation_valid_until
     - field.field.node.study_programme.field_admission_status
     - field.field.node.study_programme.field_amount
+    - field.field.node.study_programme.field_amount_unit
     - field.field.node.study_programme.field_created_from_ehis_datetime
     - field.field.node.study_programme.field_degree_or_diploma_awarded
     - field.field.node.study_programme.field_duration_months
@@ -72,6 +73,14 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     type: number_integer
+    region: content
+  field_amount_unit:
+    weight: 130
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
     region: content
   field_created_from_ehis_datetime:
     weight: 123

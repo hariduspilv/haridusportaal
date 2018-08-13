@@ -104,7 +104,6 @@ export class EventsSingleComponent implements AfterViewChecked {
 
           that.content = data['route'];
 
-          console.log(that.route);
           that.participants = JSON.parse(JSON.stringify(that.content.entity.EventRegistrations));
 
           if( that.participants ){

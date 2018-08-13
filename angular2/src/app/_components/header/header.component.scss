@@ -1,45 +1,18 @@
 @import "../../../assets/styles/typography.scss"; 
-.mat-toolbar.mat-primary {
-  background:#2e3374;
-  height: 4rem;
-}
-.header-logo {
-  text-align: center;
-  margin-left: 1.25rem;
+.mat-toolbar.mat-primary {background: $blue;height: 4rem;}
+.header-logo {text-align: center;margin-left: 1.25rem;text-decoration: none;letter-spacing: 0.5px;font-size: 1.25rem;line-height: 1.4;color: $white;
   span {font-weight: 300;}
   span.bold {font-weight: 500;}
-  text-decoration: none;
-  letter-spacing: 0.5px;
-  font-size: 1.25rem;
-  line-height: 1.4;
-  color: #ffffff;
-  @include break-on(sm, min) {
-    width: 16.25rem;
-    margin-left: 0;
+  @include break-on(sm, min) {width: 16.25rem;margin-left: 0;
   }
 }
-.search-input  {
-  height: 2.5rem;
-  border-radius: 1.25rem;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: .0625rem solid rgba(255, 255, 255, 0);
-  color: white;
-  padding: 0 1rem 0 2.5rem;
-  font-size: 1rem;
-  width: stretch;
-  max-width: 40.625rem;
+.search-input  {height: 2.5rem;border-radius: 1.25rem;background-color: rgba(255, 255, 255, 0.1);border: .0625rem solid rgba(255, 255, 255, 0);
+  color: $white;padding: 0 $small 0 2.5rem;font-size: $small;width: stretch;max-width: 40.625rem;
 }
 .searchbar {
   flex: 3;
   .search {flex-basis: 75%;
-    &::before {
-      position: relative;
-      font-family: 'Material Icons';
-      font-size: 1.25rem;
-      content: 'search';
-      color: white;
-      left: 2.5rem;
-      top: .25rem;
+    &::before {position: relative;font-family: 'Material Icons';font-size: 1.25rem;content: 'search';color: $white;left: 2.5rem;top: .25rem;
     }
   }
   @include break-on(sm, max) {display: none;}
@@ -59,7 +32,7 @@ mat-icon {
     @include break-on(sm, min) {padding-right: 0;}
   }
 }
-mat-toolbar button {min-width: 1.5rem; width: 1.5rem; padding: 0;}
+mat-toolbar button {min-width: $medium; width: $medium; padding: 0;}
 
 //Placeholder
 ::-webkit-input-placeholder { color: white; }
