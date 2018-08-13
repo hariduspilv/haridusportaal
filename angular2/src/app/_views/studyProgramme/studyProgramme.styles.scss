@@ -51,7 +51,9 @@
 .actions{margin-bottom:$xxl; padding:0 $medium;margin-top: -$medium;
   @include break-on(sm, min) {margin-top: 0;}
 }
-
-
- 
-  
+@include break-on(sm, max) {
+  .filter-wrapper .row {padding-top: $gutter;
+    &:first-child {padding-top: 0;}
+  }
+  .button-row {padding-top: 0;}
+}
