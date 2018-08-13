@@ -161,6 +161,12 @@ class StudyProgrammeController extends ControllerBase {
       if(isset($taxonomies['studyprogrammetype'][$this->parse_key($programme->oppekavaLiik)])){
         $programmetypevalue = $taxonomies['studyprogrammetype'][$this->parse_key($programme->oppekavaLiik)];
         $programmenode['programme_field']['field_study_programme_type'] = $programmetypevalue;
+        if($this->parse_key($programme->oppekavaLiik) == 'kõrghariduse_õppekava'){
+          $programmenode['programme_field']['field_amount_unit'] = 'EAP';
+        }
+        if($this->parse_key($programme->oppekavaLiik) == 'kutsehariduse_õppekava'){
+          $programmenode['programme_field']['field_amount_unit'] = 'EKAP';
+        }
       }else{
         $message = t('Õppekavas @programmecode on portaali loendis puuduv väärtus @taxonomyvalue', array('@programmecode' => $programme->oppekavaKood, '@taxonomyvalue' => $programme->oppekavaLiik));
         \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
