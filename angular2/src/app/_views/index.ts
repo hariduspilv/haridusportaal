@@ -9,3 +9,4 @@ export * from './schools/schools.component';
 export * from './schools.single/schools.single.component';
 export * from './studyProgramme/studyProgramme.component';
 export * from './studyProgramme.single/studyProgramme.single.component';
+export * from './studyProgramme.compare/studyProgramme.compare.component';

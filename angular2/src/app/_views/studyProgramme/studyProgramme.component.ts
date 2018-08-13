@@ -42,7 +42,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private FilterOptions: object = {};
   private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed'];
   private isceList: object = {};
-  private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
+  
 
   constructor (
     private rootScope: RootScopeService,
@@ -111,10 +111,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   isValidAccreditation(date){
     //necessity pending on business logic decision #147
     return moment(date).isAfter(this.today);
-  }
-  compareChange(id, $event){
-    $event.checked === true? this.compare[id] = true : delete this.compare[id];
-    localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
   }
   
   isceChange(id: number, level: string){

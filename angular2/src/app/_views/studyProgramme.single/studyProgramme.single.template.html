@@ -16,9 +16,7 @@
 
             <div class="col-3 flex">
               <div class="fill"></div>
-              <div class="custom-checkbox">
-                <mat-checkbox [checked]="compare[data.nid]" (change)="compareChange(data.nid, $event)"> {{ 'button.add_to_comparison' | translate }}</mat-checkbox>
-              </div>
+              <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
             </div>
 
             <div class="col-2 flex text-right">

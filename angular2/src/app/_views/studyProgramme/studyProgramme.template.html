@@ -181,9 +181,7 @@
               </div>      
             </div><!--col-9-->
             <div class="col">
-                <div class="custom-checkbox">
-                  <mat-checkbox [checked]="compare[item.nid]" (change)="compareChange(item.nid, $event)">{{ 'button.add_to_comparison' | translate }}</mat-checkbox>
-                </div>
+                <compare [id]="item.nid" localStorageKey="studyProgramme.compare"></compare>
             </div><!--/col-3-->
           </div>
           

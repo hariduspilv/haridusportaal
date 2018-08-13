@@ -12,7 +12,8 @@ import {
   SchoolsComponent,
   SchoolsSingleComponent,
   StudyProgrammeComponent,
-  StudyProgrammeSingleComponent
+  StudyProgrammeSingleComponent,
+  StudyProgrammeCompareComponent
 } from './_views';
 
 const appRoutes: Routes = [
@@ -33,11 +34,14 @@ const appRoutes: Routes = [
   { path: ':lang/school/:id', component: SchoolsSingleComponent },
   { path: ':lang/kool/:id', component: SchoolsSingleComponent },
 
+  { path: ':lang/erialad/vordlus', component: StudyProgrammeCompareComponent},
+  { path: ':lang/study-programmes/compare', component: StudyProgrammeCompareComponent},
   { path: ':lang/erialad', component: StudyProgrammeComponent},
   { path: ':lang/erialad/:id', component: StudyProgrammeSingleComponent},
   { path: ':lang/study-programmes', component: StudyProgrammeComponent},
   { path: ':lang/study-programmes/:id', component: StudyProgrammeSingleComponent},
-  
+
+
   { path: ':lang/isikukaart', component: PersonalDataComponent },
   { path: '**', redirectTo: '/et', pathMatch: 'full' }
 ];
@@ -59,6 +63,7 @@ export const routedComponents = [
   SchoolsComponent,
   SchoolsSingleComponent,
   StudyProgrammeComponent,
-  StudyProgrammeSingleComponent
+  StudyProgrammeSingleComponent,
+  StudyProgrammeCompareComponent
 ];
 
