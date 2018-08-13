@@ -7,8 +7,13 @@ dependencies:
     - field.storage.node.field_author
     - field.storage.node.field_description_summary
     - field.storage.node.field_news_description
+    - node.type.article
+    - node.type.avaleht
     - node.type.event
     - node.type.news
+    - node.type.page
+    - node.type.school
+    - node.type.study_programme
   module:
     - node
     - text
@@ -385,8 +390,14 @@ display:
           admin_label: ''
           operator: in
           value:
+            all: all
+            article: article
+            avaleht: avaleht
+            school: school
+            page: page
             event: event
             news: news
+            study_programme: study_programme
           group: 1
           exposed: false
           expose:
