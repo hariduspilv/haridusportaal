@@ -52,9 +52,9 @@ export class AppComponent implements OnInit {
 
       if (event instanceof RoutesRecognized) {
         let params = event.state.root.firstChild.params;
-
-        translate.setDefaultLang(params['lang']);
-
+        if (params && params.lang) {
+          translate.setDefaultLang(params['lang']);
+        }
       }
       
       if (event instanceof NavigationStart) {
@@ -67,8 +67,7 @@ export class AppComponent implements OnInit {
       }
 
       if (event instanceof NavigationError) {
-          // Hide loading indicator
-          // Present error to user
+        this.router.navigateByUrl(`/et/404`)
       }
         
     });

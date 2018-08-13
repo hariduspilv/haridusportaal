@@ -60,7 +60,7 @@
 
           name="types"
           [(ngModel)]="filterFormItems.types"
-          placeholder="{{ 'Otsi sündmuse liike' | translate }}"
+          placeholder="{{ 'event.filter_types' | translate }}"
           (clear)="clearField('types')"
           [dropdownPosition]="'bottom'"></ng-select>      
         </div>
@@ -75,7 +75,7 @@
           [multiple]="true"
           [loading]="loading"
           bindLabel="name"
-          placeholder="{{ 'Otsi sündmuse silte' | translate }}"
+          placeholder="{{ 'event.filter_tags' | translate }}"
           (clear)="clearField('tags')"
           [(ngModel)]="filterFormItems.tags"
           name="labels"
