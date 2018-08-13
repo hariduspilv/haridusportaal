@@ -1,0 +1,34 @@
+[
+  {
+    "header" : {
+      "endpoint": "EHIS",
+      "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
+      "number_of_steps": 1
+    },
+    "body": {
+      "steps": {
+        "step_0": {
+          "title": {
+            "et": "Vajaduspõhise õppetoetuse taotlus ja otsus"
+          },
+          "data_elements": {
+            "decision_file": {
+              "type": "file",
+              "title": {
+                "et": "Otsuse fail"
+              },
+              "readonly": true
+            },
+            "application_file": {
+              "type": "file",
+              "title": {
+                "et": "Taotluse fail"
+              },
+              "readonly": true
+            }
+          }
+        }
+      }
+    }
+  }
+]
