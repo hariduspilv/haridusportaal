@@ -1,7 +1,0 @@
-uuid: 1ed7a3a4-e01c-48c4-99d4-0a3bb82226a7
-langcode: en
-status: true
-dependencies: {  }
-version: similarStudyProgrammes
-map:
-  1: "query similarStudyProgrammes($nid: Int!) {\n  CustomStudyProgrammeElasticQuery(filter: {nid: $nid}) {\n    Nid\n    Name\n    FieldSchoolAddress\n    FieldSchoolWebsite\n    FieldStudyProgrammeLevel\n    FieldTeachingLanguage\n    FieldIscedfDetailed\n    FieldAccreditationStatus\n    FieldDurationYears\n    FieldDurationMonths\n    FieldAdmissionStatus\n  }\n}\n"
