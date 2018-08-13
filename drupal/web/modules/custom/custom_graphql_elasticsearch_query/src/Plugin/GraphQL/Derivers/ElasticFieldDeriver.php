@@ -38,7 +38,7 @@ class ElasticFieldDeriver extends DeriverBase {
       $this->derivatives[$field] = $base_plugin_definition;
       $this->derivatives[$field]['name'] = $field;
       $this->derivatives[$field]['type'] = 'String';
-      
+
       return $this->derivatives;
      }
   }
