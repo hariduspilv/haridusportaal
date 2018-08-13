@@ -1,0 +1,291 @@
+{
+  "header": {
+    "form_name": "Masinloetav vormi koodnimetus",
+    "endpoint": "infosüsteemi koodnimetus nt EHIS",
+    "number_of_steps": 1
+  },
+  "body": {
+    "title": {
+      "et": "Dokumendi vormi nimetus"
+    },
+    "introduction": {
+      "et": "Dokumendi vormi päises kuvatav selgitav tekst"
+    },
+    "steps": {
+      "step_1": {
+        "title": {
+          "et": "Sammu nimetus"
+        },
+        "introduction": {
+          "et": "Sammu päises kuvatav selgitav tekst"
+        },
+        "data_elements": {
+          "data_element_name_1": {
+            "type": "heading",
+            "title": {
+              "et": "Pealkirja tekst"
+            }
+          },
+          "data_element_name_2": {
+            "type": "helpertext",
+            "title": {
+              "et": "Selgitav tekst"
+            }
+          },
+          "data_element_name_3": {
+            "type": "text",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "helpertext": {
+              "et": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+            },
+            "required": true,
+            "hidden": true,
+            "readonly": true,
+            "width": 25,
+            "maxlength": 250,
+            "minlength": 10
+          },
+          "data_element_name_4": {
+            "type": "textarea",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "helpertext": {
+              "et": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+            },
+            "required": true,
+            "hidden": true,
+            "readonly": true,
+            "width": 25,
+            "height": 5,
+            "maxlength": 500,
+            "minlength": 10
+          },
+          "data_element_name_5": {
+            "type": "number",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "helpertext": {
+              "et": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+            },
+            "required": true,
+            "hidden": true,
+            "readonly": true,
+            "max": 10,
+            "min": 1
+          },
+          "data_element_name_6": {
+            "type": "date",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "helpertext": {
+              "et": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+            },
+            "required": true,
+            "hidden": true,
+            "readonly": true,
+            "max": "2010-12-20",
+            "min": "1999-12-20"
+          },
+          "data_element_name_7": {
+            "type": "checkbox",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "helpertext": {
+              "et": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+            },
+            "required": true,
+            "hidden": true,
+            "readonly": true
+          },
+          "data_element_name_8": {
+            "type": "selectlist",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "empty_option": {
+              "et": "Valimata väärtuse kohta kuvatav tekst, mittekohustuslik"
+            },
+            "options": {
+              "option_name_1": {
+                "et": "Valiku kuvatav tekstiline väärtus"
+              },
+              "option_name_2": {
+                "et": "Ülemise taseme (grupi) valiku kuvatav tekstiline väärtus",
+                "options": {
+                  "option_name_21": {
+                    "et": "Alumise taseme valiku kuvatav tekstiline väärtus"
+                  }
+                }
+              }
+            },
+            "helpertext": {
+              "et": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+            },
+            "required": true,
+            "hidden": true,
+            "readonly": true,
+            "multiple": true
+          },
+          "data_element_name_9": {
+            "type": "email",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "helpertext": {
+              "et": "Andmeelemendi juures kuvatav tekst; mittekohustuslik"
+            },
+            "required": true,
+            "hidden": true,
+            "readonly": true
+          },
+          "data_element_name_10": {
+            "type": "file",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "helpertext": {
+              "et": "Välja juures kuvatav tekst; mittekohustuslik"
+            },
+            "required": true,
+            "hidden": true,
+            "readonly": true,
+            "multiple": true
+          },
+          "data_element_name_11": {
+            "type": "address",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "helpertext": {
+              "et": "Välja juures kuvatav tekst; mittekohustuslik"
+            },
+            "required": true,
+            "hidden": true,
+            "readonly": true,
+            "multiple": true
+          },
+          "data_element_name_12": {
+            "type": "table",
+            "title": {
+              "et": "Andmeelemendi nimetus"
+            },
+            "helpertext": {
+              "et": "Tabeli juures kuvatav tekst; mittekohustuslik"
+            },
+            "add_del_rows": true,
+            "table_columns": {
+              "table_column_name_1": {
+                "title": {
+                  "et": "Tabeli veeru pealkiri nimetus"
+                },
+                "hidden": true,
+                "required": true,
+                "readonly": true,
+                "width": 10,
+                "type": "text",
+                "maxlength": 200,
+                "minlength": 10,
+                "default_value": "Vaikeväärtus "
+              },
+              "table_column_name_2": {
+                "title": {
+                  "et": "Tabeli veeru pealkiri nimetus"
+                },
+                "hidden": true,
+                "required": true,
+                "readonly": true,
+                "width": 10,
+                "type": "number",
+                "max": 100,
+                "min": 1,
+                "default_value": 10
+              },
+              "table_column_name_3": {
+                "title": {
+                  "et": "Tabeli veeru pealkiri nimetus"
+                },
+                "hidden": true,
+                "required": true,
+                "readonly": true,
+                "width": 10,
+                "type": "date",
+                "max": "2012-12-01",
+                "min": "2012-01-01",
+                "default_value": "2012-05-31"
+              },
+              "table_column_name_4": {
+                "title": {
+                  "et": "Tabeli veeru pealkiri nimetus"
+                },
+                "hidden": true,
+                "required": true,
+                "readonly": true,
+                "width": 10,
+                "type": "checkbox",
+                "default_value": true
+              },
+              "table_column_name_5": {
+                "title": {
+                  "et": "Tabeli veeru pealkiri nimetus"
+                },
+                "hidden": true,
+                "required": true,
+                "readonly": true,
+                "width": 10,
+                "type": "selectlist",
+                "empty_option": {
+                  "et": "Valimata väärtuse kohta kuvatav tekst, mittekohustuslik"
+                },
+                "options": {
+                  "option_name_1": {
+                    "et": "Valiku kuvatav tekstiline väärtus"
+                  },
+                  "option_name_2": {
+                    "et": "Valiku kuvatav tekstiline väärtus"
+                  }
+                },
+                "default_value": "option_name_1"
+              },
+              "table_column_name_6": {
+                "title": {
+                  "et": "Tabeli veeru pealkiri nimetus"
+                },
+                "hidden": true,
+                "required": true,
+                "readonly": true,
+                "width": 10,
+                "type": "file"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "messages": {
+    "message_name_1": {
+      "message_type": "ERROR",
+      "message_text": {
+        "et": "Teate text"
+      }
+    },
+    "message_name_2": {
+      "message_type": "WARNING",
+      "message_text": {
+        "et": "Teate text"
+      }
+    },
+    "message_name_3": {
+      "message_type": "NOTICE",
+      "message_text": {
+        "et": "Teate text"
+      }
+    }
+  }
+}
