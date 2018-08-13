@@ -1,4 +1,4 @@
-<breadcrumbs></breadcrumbs>
+
 
 <div class="main-container">
   <mat-spinner *ngIf="!list && error"></mat-spinner>
@@ -16,7 +16,7 @@
                   <tr *ngIf="list">
                     <th></th>
                     <th *ngFor="let item of list">
-                      <a [routerLink]="">{{item.name}}</a>
+                      <a [routerLink]="item.entityUrl.path">{{item.name}}</a>
                     </th>
                   </tr>
                 </thead>
@@ -120,7 +120,7 @@
                   <tr>
                       <td></td>
                       <td *ngFor="let item of list">
-                        <a (click)="removeItemFromCompare(item.nid)">Eemalda võrdlusest</a>
+                        <a href="javascript:void(0);" (click)="removeItemFromList(item.nid)">Eemalda võrdlusest</a>
                       </td>
                     </tr>
 

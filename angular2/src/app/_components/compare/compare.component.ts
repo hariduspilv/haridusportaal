@@ -9,14 +9,24 @@ export class CompareComponent{
   @Input() id: number;
   @Input() localStorageKey: string;
 
-  compare = JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
+  compare = JSON.parse(localStorage.getItem("studyProgramme.compare")) || [];
   
   constructor(
   ) {}
+  
+  isChecked(id){
+    return this.compare.some(existing_id => existing_id == id );
+  }
 
-  compareChange(id, $event){
-    this.compare = JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
-    $event.checked === true? this.compare[id] = true : delete this.compare[id];
+  compareChange(id, checked){
+    console.log('id: %s, checked: %s', id, checked);
+    this.compare = JSON.parse(localStorage.getItem("studyProgramme.compare")) || [];
+    if(checked == true){
+      this.compare.push(id);
+    } else {
+      this.compare = this.compare.filter(existing_id => existing_id != id);
+    }
+
     localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
   }
    

@@ -6,15 +6,15 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { SettingsService } from '../../_core/settings';
 import { Subscription } from 'rxjs/Subscription';
+import { CompareComponent } from '../../_components/compare/compare.component';
 @Component({
   templateUrl: "studyProgramme.compare.template.html",
   styleUrls: ["studyProgramme.compare.styles.scss"]
 })
 
 
-export class StudyProgrammeCompareComponent implements OnInit,OnDestroy {
+export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit,OnDestroy {
 
-  private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
   public error;
   private url;
   private lang: string;
@@ -28,7 +28,9 @@ export class StudyProgrammeCompareComponent implements OnInit,OnDestroy {
     private http: Http,
     private rootScope: RootScopeService,
     private settings: SettingsService
-  ) {}
+  ) {
+    super()
+  }
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
@@ -45,17 +47,15 @@ export class StudyProgrammeCompareComponent implements OnInit,OnDestroy {
       'et': '/et/erialad/vordlus'
     });
   }
-  removeItemFromCompare(id){
-    //todo: Remove studyprogramme from list and from localStorage
-    console.log(id);
-    delete this.compare[id];
-    this.list = this.list.filter(item => item.nid !== id );
-    localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
+  removeItemFromList(id){
+    this.compareChange(id, false)
+    this.list = this.list.filter(item => item.nid != id);
   }
   getData(){
-    if(!Object.keys(this.compare).length) return this.error = "ERROR?";
+    if(!this.compare.length) return this.error = "ERROR?";
 
-    let studyProgrammeIDs:any = '[' + Object.keys(this.compare).map(id => encodeURI('"'+id+'"')).join(",") + ']';
+    let studyProgrammeIDs:any = '[' + this.compare.map(id => '"'+id+'"') + ']';
+    console.log(studyProgrammeIDs)
 
     let lang = "%22" + this.lang.toUpperCase() + "%22"
 
