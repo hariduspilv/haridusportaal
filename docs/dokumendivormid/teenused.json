@@ -15,15 +15,14 @@
 			"request_ID" : "päringu unikaalne seerianumber",
 			"form_name" : "string, dokumendi vormi kood",
 			"identifier" :  "string, dokumendi unikaalne identifikaator infosüsteemis",
-			"date" : "string, dokumendi koostamise kuupäev ilma kellaajata YYYY-MM-DD",
+			"document_date" : "string, dokumendi koostamise kuupäev ilma kellaajata YYYY-MM-DD",
 			"status" : "string, dokumendi olek infosüsteemis",
-			"description" : "string, lühike lisainfo dokumendi kohta, näiteks kehtivusaeg",
+			"description" : "string,  lisainfo dokumendi kohta",
 			"references" : [
 				{
 					"form_name" : "string, dokumendis viidatava dokumendi vormi kood",
-					"identifier" : "string, dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis",
-					"date" : "string, dokumendis viidatava dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
-				}
+					"identifier" : "string, dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis"
+					}
 			]
 		}
 	],
@@ -37,8 +36,8 @@
 			"references" : [
 				{
 					"form_name" : "string, sisestamisel olevas dokumendis viidatava dokumendi vormi kood",
-					"identifier" : "string, sisestamisel olevas dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis",
-					"date" : "string, sisestamisel olevas dokumendis viidatava dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
+					"identifier" : "string, sisestamisel olevas dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis"
+
 				}
 			]
 		}
@@ -51,8 +50,7 @@
 			"references" : [
 				{
 					"form_name" : "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi vormi kood",
-					"identifier" :  "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis",
-					"date" : "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
+					"identifier" :  "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis"
 				}
 			]
 		}
@@ -68,8 +66,7 @@
 			"references" : [
 				{
 					"form_name" : "string, dokumendi nõudmise aluseks oleva dokumendi vormi kood",
-					"identifier" :  "string, dokumendi nõudmise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis",
-					"date" : "string, dokumendi nõudmise aluseks oleva dokumendi kuupäev ilma kellaajata YYYY-MM-DD"
+					"identifier" :  "string, dokumendi nõudmise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis"
 				}
 			]
 		}
@@ -80,6 +77,7 @@
 "getDocument_request" :
 {
 	"request_ID" : "päringu unikaalne seerianumber",
+	"form_name" : "string, dokumendi vormi kood",
 	"user_identifier" : "Kasutaja isikukood",
 	"represented_person_identifier" : "Esindatava isiku isikukood",
 	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
