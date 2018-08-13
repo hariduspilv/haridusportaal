@@ -124,7 +124,7 @@
 <div class="schools main-container">
   <div class="schools__list-head">
     <div class="schools__head">
-      <div class="schools__title text-left">{{ 'schools' | translate | uppercase }}</div>
+      <div class="schools__title text-left">{{ 'school.label' | translate | uppercase }}</div>
       <div class="button-list text-right">
         <div class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
@@ -157,8 +157,8 @@
             <p *ngIf="item.fieldEducationalInstitutionTy.length > 0 ">
               {{ 'type_of_educational_institution' | translate }}:
               <b>
-                <ng-container *ngFor="let type of item.fieldEducationalInstitutionTy">
-                  {{ type.entity.entityLabel }}
+                <ng-container *ngFor="let type of item.fieldEducationalInstitutionTy; let lastOne = last;">
+                  <span *ngIf="institutionTypes.includes(type.entity.entityId)">{{ type.entity.entityLabel }}<span *ngIf="!lastOne">, </span></span>
                 </ng-container>
               </b>
             </p>
@@ -169,32 +169,32 @@
   </div><!--/list-->
 
   <ng-container *ngIf="view == 'map'">
-
-    <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" minZoom="10">
-      <agm-marker-cluster [styles]="mapOptions.clusterStyles">
-        <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lat)"  [longitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lon)">
-          <agm-snazzy-info-window [closeWhenOthersOpen]="true">
-            <ng-template>
-              <p class="title">{{ marker.entityLabel }}</p>
-              <p *ngIf="marker.fieldSchoolLocation[0]">{{ 'legal_address' | translate }}: <b>{{ marker.fieldSchoolLocation[0].entity.fieldAddress }}</b></p>
-              
-              <p *ngIf="marker.fieldEducationalInstitutionTy.length > 0 ">
-                  {{ 'type_of_educational_institution' | translate }}:
-                  <b>
-                    <ng-container *ngFor="let type of marker.fieldEducationalInstitutionTy">
-                      {{ type.entity.entityLabel }}
-                    </ng-container>
-                  </b>
-              </p>
-              <p *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactPhone" >{{ 'contact_info' | translate }}: <b *ngIf="marker.fieldSchoolContactPhone">{{ marker.fieldSchoolContactPhone }}</b><span *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactEmail">,</span> <a *ngIf="marker.fieldSchoolContactEmail" href="mailto:{{ marker.fieldSchoolContactEmail}}"><b>{{ marker.fieldSchoolContactEmail}}</b></a></p>
-              <p *ngIf="marker.fieldSchoolWebpageAddress">{{ 'website' | translate }}: <a href="{{ marker.fieldSchoolWebpageAddress }}" target="_blank"><b>{{ marker.fieldSchoolWebpageAddress | removeProtocol }}</b></a></p>
-              <a [routerLink]="marker.entityUrl.path" class="button">{{ 'view.more' | translate }}</a>
-            </ng-template>
-          </agm-snazzy-info-window>
-        </agm-marker>
-      </agm-marker-cluster>
-    </agm-map>
-
+    <div class="map--wrapper">
+      <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" minZoom="10">
+        <agm-marker-cluster [styles]="mapOptions.clusterStyles">
+          <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lat)"  [longitude]="parseFloat(marker.fieldSchoolLocation[0].entity.fieldCoordinates.lon)">
+            <agm-snazzy-info-window [closeWhenOthersOpen]="true">
+              <ng-template>
+                <p class="title">{{ marker.entityLabel }}</p>
+                <p *ngIf="marker.fieldSchoolLocation[0]">{{ 'legal_address' | translate }}: <b>{{ marker.fieldSchoolLocation[0].entity.fieldAddress }}</b></p>
+                
+                <p *ngIf="marker.fieldEducationalInstitutionTy.length > 0 ">
+                    {{ 'type_of_educational_institution' | translate }}:
+                    <b>
+                      <ng-container *ngFor="let type of marker.fieldEducationalInstitutionTy; let lastOne = last;">
+                          <span *ngIf="institutionTypes.includes(type.entity.entityId)">{{ type.entity.entityLabel }}<span *ngIf="!lastOne">, </span></span>
+                      </ng-container>
+                    </b>
+                </p>
+                <p *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactPhone" >{{ 'contact_info' | translate }}: <b *ngIf="marker.fieldSchoolContactPhone">{{ marker.fieldSchoolContactPhone }}</b><span *ngIf="marker.fieldSchoolContactPhone && marker.fieldSchoolContactEmail">,</span> <a *ngIf="marker.fieldSchoolContactEmail" href="mailto:{{ marker.fieldSchoolContactEmail}}"><b>{{ marker.fieldSchoolContactEmail}}</b></a></p>
+                <p *ngIf="marker.fieldSchoolWebpageAddress">{{ 'website' | translate }}: <a href="{{ marker.fieldSchoolWebpageAddress }}" target="_blank"><b>{{ marker.fieldSchoolWebpageAddress | removeProtocol }}</b></a></p>
+                <a [routerLink]="marker.entityUrl.path" class="button">{{ 'view.more' | translate }}</a>
+              </ng-template>
+            </agm-snazzy-info-window>
+          </agm-marker>
+        </agm-marker-cluster>
+      </agm-map>
+    </div>
   </ng-container>
 
 </div><!--/schools-->

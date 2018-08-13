@@ -56,6 +56,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   languageOptions = [];
   ownershipOptions = [];
   typeOptions = [];
+  institutionTypes = [];
 
   map: any;
 
@@ -165,8 +166,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   @HostListener('window:resize', ['$event'])
   onResize(){
-
-
     this.showFilter = window.innerWidth > 900;
     this.filterFull = window.innerWidth < 900;
   }
@@ -305,6 +304,10 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     }).valueChanges.subscribe( ({data}) => {
       let entities = data['taxonomyTermQuery']['entities'];
       this.parseOptions(entities);
+
+      const typeName = "TaxonomyTermEducationalInstitutionType";
+      this.institutionTypes = entities.filter(elem => elem.__typename === typeName && !elem.parentId).map(elem => elem.entityId)
+      console.log(this.institutionTypes)
       subscription.unsubscribe();
     });
   }

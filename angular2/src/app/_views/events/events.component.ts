@@ -62,6 +62,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   listEnd: boolean = false;
   error: boolean = false;
+  showFilter: boolean = true;
   
   current: object;
 

@@ -1,9 +1,10 @@
 @import "../../../assets/styles/typography.scss";
 .notFound {
-  background-image: url(/assets/img/404.svg);
+  background-image: url(/assets/img/404-mobile.svg);
   background-size: cover;
   height: calc(100vh - 4rem);
   @include break-on(sm, min) {
+    background-image: url(/assets/img/404.svg);
     margin-top: -$small;
   }
 }
@@ -23,12 +24,13 @@
       padding-top: 2.5rem;
       color: $white;
       font-size: $small;
-      line-height: 1.375rem;
+      line-height: 1.38;
       font-weight: 300;
       text-align: center;
       @include break-on(sm, min) {
         font-size: $medium;
-        line-height: 1.875rem;
+        line-height: 1.25;
+        padding-top: $large;
       }
     }
     &__button {padding-top: $xxl;text-align: center;

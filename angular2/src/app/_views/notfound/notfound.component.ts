@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class NotFoundComponent {
 
   viewTranslations: any;
-  content: boolean = false;
+  loaded: boolean = false;
   translatedLinks: object = {
     school: {et: '/et/kool', en: '/en/school'},
     events: {et: '/et/sundmused', en: '/en/events'},
@@ -24,12 +24,8 @@ export class NotFoundComponent {
   }
   
   ngOnInit() {
-    let values = ['notFound.explanation','frontpage.navigate','event.label','news.label','school.label']
-    this.translate.get(values).subscribe(translations => {
-      this.viewTranslations = translations;
-      this.content = true;
-    })
     this.sidemenu.triggerLang(true);
+    this.loaded = true;
   }
 
   getLang() {
