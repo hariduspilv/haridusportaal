@@ -166,8 +166,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   @HostListener('window:resize', ['$event'])
   onResize(){
-
-
     this.showFilter = window.innerWidth > 900;
     this.filterFull = window.innerWidth < 900;
   }

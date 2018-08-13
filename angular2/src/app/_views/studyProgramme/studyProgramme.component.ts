@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ListQuery, FilterOptions} from '../../_services/studyProgramme/studyProgramme.service';
 import { Apollo, QueryRef } from 'apollo-angular';
@@ -30,10 +30,10 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private limit: number = 5;
   private offset: number = 0;
 
-  public showFilter: boolean = true;
   private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed']
 
-  filterFull: boolean;
+  filterFull: boolean = true;
+  showFilter: boolean;
 
   private dataSubscription: Subscription;
   private filterOptionsSubscription: Subscription;
@@ -98,7 +98,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         }
       }
       //Determine whether to open detailed filter view or not based on what URL params we have
-      this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
+      // this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
 
       function allocateIsceOptions (parent, list){
        if(!parent) return list.filter(entity => entity.parentId == null);
@@ -215,7 +215,16 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(){
+    this.showFilter = window.innerWidth > 900;
+    this.filterFull = window.innerWidth < 900;
+  }
+
   ngOnInit() {
+
+    this.showFilter = window.innerWidth > 900;
+    this.filterFull = window.innerWidth < 900;
   
     this.setPaths();
     this.pathWatcher();
