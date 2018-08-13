@@ -3,22 +3,22 @@ langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_ehis_id
-    - field.storage.node.field_school_contact_email
-    - field.storage.node.field_school_webpage_address
+    - field.storage.node.field_adrid
     - field.storage.node.field_school_location
     - field.storage.paragraph.field_address
     - field.storage.paragraph.field_location_type
     - field.storage.paragraph.field_school_location
-    - field.storage.node.field_registration_code
-    - field.storage.node.field_ownership_type
-    - field.storage.node.field_teaching_language
+    - field.storage.paragraph.field_coordinates
+    - field.storage.node.field_school_contact_email
+    - field.storage.node.field_ehis_id
     - field.storage.node.field_special_class
+    - field.storage.node.field_school_contact_phone
+    - field.storage.node.field_ownership_type
+    - field.storage.node.field_registration_code
+    - field.storage.node.field_school_webpage_address
     - field.storage.node.field_student_home
     - field.storage.node.field_educational_institution_ty
-    - field.storage.node.field_adrid
-    - field.storage.paragraph.field_coordinates
-    - field.storage.node.field_school_contact_phone
+    - field.storage.node.field_teaching_language
     - search_api.server.elasticsearch_server
   module:
     - paragraphs
@@ -30,35 +30,6 @@ name: Schools
 description: ''
 read_only: false
 field_settings:
-  field_ehis_id:
-    label: 'EHIS id'
-    datasource_id: 'entity:node'
-    property_path: field_ehis_id
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_ehis_id
-  field_school_contact_email:
-    label: E-post
-    datasource_id: 'entity:node'
-    property_path: field_school_contact_email
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_school_contact_email
-  field_school_webpage_address:
-    label: Veebileht
-    datasource_id: 'entity:node'
-    property_path: field_school_webpage_address
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_school_webpage_address
-  field_school_name:
-    label: Pealkiri
-    datasource_id: 'entity:node'
-    property_path: title
-    type: string
   field_address:
     label: 'Asukoht » Paragraph » Aadress'
     datasource_id: 'entity:node'
@@ -70,6 +41,32 @@ field_settings:
         - field.storage.paragraph.field_address
       module:
         - paragraphs
+  field_adrid:
+    label: 'Aadress ID'
+    datasource_id: 'entity:node'
+    property_path: field_adrid
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_adrid
+  field_educational_institution_ty:
+    label: 'Õppeasutuse liik » Taxonomy term » Nimi'
+    datasource_id: 'entity:node'
+    property_path: 'field_educational_institution_ty:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_educational_institution_ty
+      module:
+        - taxonomy
+  field_ehis_id:
+    label: 'EHIS id'
+    datasource_id: 'entity:node'
+    property_path: field_ehis_id
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_ehis_id
   field_location_type:
     label: 'Asukoht » Paragraph » Asukoha tüüp'
     datasource_id: 'entity:node'
@@ -81,6 +78,40 @@ field_settings:
         - field.storage.paragraph.field_location_type
       module:
         - paragraphs
+  field_ownership_type:
+    label: 'Omandivorm » Taxonomy term » Nimi'
+    datasource_id: 'entity:node'
+    property_path: 'field_ownership_type:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_ownership_type
+      module:
+        - taxonomy
+  field_registration_code:
+    label: Registrikood
+    datasource_id: 'entity:node'
+    property_path: field_registration_code
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_registration_code
+  field_school_contact_email:
+    label: E-post
+    datasource_id: 'entity:node'
+    property_path: field_school_contact_email
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_school_contact_email
+  field_school_contact_phone:
+    label: Kontakttelefon
+    datasource_id: 'entity:node'
+    property_path: field_school_contact_phone
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_school_contact_phone
   field_school_location:
     label: 'Asukoht » Paragraph » Kooli asukoht » Taxonomy term » Nimi'
     datasource_id: 'entity:node'
@@ -93,34 +124,19 @@ field_settings:
       module:
         - paragraphs
         - taxonomy
-  field_registration_code:
-    label: Registrikood
+  field_school_name:
+    label: Pealkiri
     datasource_id: 'entity:node'
-    property_path: field_registration_code
+    property_path: title
+    type: string
+  field_school_webpage_address:
+    label: Veebileht
+    datasource_id: 'entity:node'
+    property_path: field_school_webpage_address
     type: string
     dependencies:
       config:
-        - field.storage.node.field_registration_code
-  field_ownership_type:
-    label: 'Omandivorm » Taxonomy term » Nimi'
-    datasource_id: 'entity:node'
-    property_path: 'field_ownership_type:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_ownership_type
-      module:
-        - taxonomy
-  field_teaching_language:
-    label: 'Õppekeel » Taxonomy term » Nimi'
-    datasource_id: 'entity:node'
-    property_path: 'field_teaching_language:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_teaching_language
-      module:
-        - taxonomy
+        - field.storage.node.field_school_webpage_address
   field_special_class:
     label: 'Hariduslikud erivajadused'
     datasource_id: 'entity:node'
@@ -137,24 +153,16 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_student_home
-  field_educational_institution_ty:
-    label: 'Õppeasutuse liik » Taxonomy term » Nimi'
+  field_teaching_language:
+    label: 'Õppekeel » Taxonomy term » Nimi'
     datasource_id: 'entity:node'
-    property_path: 'field_educational_institution_ty:entity:name'
+    property_path: 'field_teaching_language:entity:name'
     type: string
     dependencies:
       config:
-        - field.storage.node.field_educational_institution_ty
+        - field.storage.node.field_teaching_language
       module:
         - taxonomy
-  field_adrid:
-    label: 'Aadress ID'
-    datasource_id: 'entity:node'
-    property_path: field_adrid
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_adrid
   lat:
     label: 'Asukoht » Paragraph » Koordinaadid » Latitude'
     datasource_id: 'entity:node'
@@ -177,14 +185,11 @@ field_settings:
         - field.storage.paragraph.field_coordinates
       module:
         - paragraphs
-  field_school_contact_phone:
-    label: Kontakttelefon
+  nid:
+    label: ID
     datasource_id: 'entity:node'
-    property_path: field_school_contact_phone
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_school_contact_phone
+    property_path: nid
+    type: integer
 datasource_settings:
   'entity:node':
     bundles:
@@ -194,12 +199,12 @@ datasource_settings:
     languages:
       default: false
       selected:
-        - et
         - en
+        - et
 processor_settings:
-  rendered_item: {  }
   add_url: {  }
   aggregated_field: {  }
+  rendered_item: {  }
 tracker_settings:
   default:
     indexing_order: fifo

@@ -13,7 +13,7 @@ import {
   SchoolsSingleComponent,
   StudyProgrammeComponent,
   StudyProgrammeSingleComponent,
-  StudyProgrammeCompareComponent
+  NotFoundComponent
 } from './_views';
 
 const appRoutes: Routes = [
@@ -34,16 +34,15 @@ const appRoutes: Routes = [
   { path: ':lang/school/:id', component: SchoolsSingleComponent },
   { path: ':lang/kool/:id', component: SchoolsSingleComponent },
 
-  { path: ':lang/erialad/vordlus', component: StudyProgrammeCompareComponent},
-  { path: ':lang/study-programmes/compare', component: StudyProgrammeCompareComponent},
   { path: ':lang/erialad', component: StudyProgrammeComponent},
   { path: ':lang/erialad/:id', component: StudyProgrammeSingleComponent},
   { path: ':lang/study-programmes', component: StudyProgrammeComponent},
   { path: ':lang/study-programmes/:id', component: StudyProgrammeSingleComponent},
-
-
+  
   { path: ':lang/isikukaart', component: PersonalDataComponent },
-  { path: '**', redirectTo: '/et', pathMatch: 'full' }
+  { path: '', redirectTo: '/et', pathMatch: 'full' },
+  { path: ':lang/404', component: NotFoundComponent },
+  // { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
@@ -64,6 +63,6 @@ export const routedComponents = [
   SchoolsSingleComponent,
   StudyProgrammeComponent,
   StudyProgrammeSingleComponent,
-  StudyProgrammeCompareComponent
+  NotFoundComponent
 ];
 

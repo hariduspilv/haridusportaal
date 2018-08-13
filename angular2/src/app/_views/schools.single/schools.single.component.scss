@@ -1,7 +1,7 @@
 @import "../../../assets/styles/typography.scss";
 #schools-single {
-    margin-top: $gutter;
     @include break-on(sm, min) {
+        margin-top: $gutter;
         margin-left: $small;
         margin-right: $small;
     }
