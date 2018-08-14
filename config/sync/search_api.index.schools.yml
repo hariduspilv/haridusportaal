@@ -23,7 +23,6 @@ dependencies:
   module:
     - paragraphs
     - taxonomy
-    - menu_link_content
     - search_api
     - node
 id: schools
@@ -35,7 +34,7 @@ field_settings:
     label: 'Asukoht » Paragraph » Aadress'
     datasource_id: 'entity:node'
     property_path: 'field_school_location:entity:field_address'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_school_location
@@ -54,6 +53,16 @@ field_settings:
     label: 'Õppeasutuse liik » Taxonomy term » Nimi'
     datasource_id: 'entity:node'
     property_path: 'field_educational_institution_ty:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_educational_institution_ty
+      module:
+        - taxonomy
+  field_educational_institution_ty_id:
+    label: 'Õppeasutuse liik » Taxonomy term » Termini ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_educational_institution_ty:entity:tid'
     type: string
     dependencies:
       config:
@@ -89,6 +98,14 @@ field_settings:
         - field.storage.node.field_ownership_type
       module:
         - taxonomy
+  field_ownership_type_id:
+    label: Omandivorm
+    datasource_id: 'entity:node'
+    property_path: field_ownership_type
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_ownership_type
   field_registration_code:
     label: Registrikood
     datasource_id: 'entity:node'
@@ -129,7 +146,7 @@ field_settings:
     label: Pealkiri
     datasource_id: 'entity:node'
     property_path: title
-    type: string
+    type: text
   field_school_webpage_address:
     label: Veebileht
     datasource_id: 'entity:node'
@@ -164,11 +181,19 @@ field_settings:
         - field.storage.node.field_teaching_language
       module:
         - taxonomy
+  field_teaching_language_id:
+    label: Õppekeel
+    datasource_id: 'entity:node'
+    property_path: field_teaching_language
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_teaching_language
   langcode:
     label: Keel
     datasource_id: 'entity:node'
     property_path: langcode
-    type: string
+    type: text
   lat:
     label: 'Asukoht » Paragraph » Koordinaadid » Latitude'
     datasource_id: 'entity:node'
@@ -180,14 +205,6 @@ field_settings:
         - field.storage.paragraph.field_coordinates
       module:
         - paragraphs
-  link:
-    label: 'Menüülink » Kohandatud menüülink » Väline'
-    datasource_id: 'entity:node'
-    property_path: 'menu_link:entity:external'
-    type: boolean
-    dependencies:
-      module:
-        - menu_link_content
   lon:
     label: 'Asukoht » Paragraph » Koordinaadid » Longitude'
     datasource_id: 'entity:node'
