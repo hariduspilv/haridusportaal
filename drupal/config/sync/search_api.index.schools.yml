@@ -23,6 +23,7 @@ dependencies:
   module:
     - paragraphs
     - taxonomy
+    - menu_link_content
     - search_api
     - node
 id: schools
@@ -30,6 +31,10 @@ name: Schools
 description: ''
 read_only: false
 field_settings:
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
   field_address:
     label: 'Asukoht » Paragraph » Aadress'
     datasource_id: 'entity:node'
@@ -221,11 +226,14 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: nid
     type: integer
-  unpublish_on:
-    label: 'Mitteavaldatuks märkimise aeg'
+  title:
+    label: 'Menüülink » Kohandatud menüülink » Link override » Lingi tekst'
     datasource_id: 'entity:node'
-    property_path: unpublish_on
-    type: date
+    property_path: 'menu_link:entity:link_override:title'
+    type: string
+    dependencies:
+      module:
+        - menu_link_content
 datasource_settings:
   'entity:node':
     bundles:
