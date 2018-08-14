@@ -74,7 +74,9 @@
     "registration_form_close": "Sulge aken",
     "registration_form_cancel": "Tühista",
     "registration_form_thanks": "Täname sündmusele registreerimise eest!",
-    "registration_form_add_to_calendar": "Lisa sündmus enda kalendrisse"
+    "registration_form_add_to_calendar": "Lisa sündmus enda kalendrisse",
+    "registration_ended": "Sündmusele registreerimine on lõppenud",
+    "registration_not_started": "Sündmusele registreerimine pole veel alanud"
 
   },
   "school": {
@@ -121,7 +123,10 @@
     "filter_iscedf_narrow": "Õppesuund",
     "filter_iscedf_detailed": "Õppekavarühm",
     "filter_open_admission": "Ainult avatud vastuvõtuga",
-    "no_results": "Otsingutulemused puuduvad"
+    "no_results": "Otsingutulemused puuduvad",
+    "compare_modal_title": "Erialade võrdlemine",
+    "compare_modal_content": "<p> Maksimaalne võrreldavate erialade arv on ületatud</p>Võrdlusesse saab lisada kuni 3 eriala",
+    "compare_modal_close": "Sulge aken"
   },
   "login": {
     "username": "Kasutajanimi",

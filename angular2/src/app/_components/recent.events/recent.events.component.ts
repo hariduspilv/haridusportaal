@@ -23,6 +23,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	@Input() content: any;
 	@Output() viewChange = new EventEmitter<boolean>();
 	
+	parseFloat = parseFloat;
 	error: boolean;
   lang: any;
   unix: any;
@@ -34,6 +35,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	ngOnInit() {
 
+		console.log(this.map);
 		this.paramsSub = this.route.params.subscribe( params => {
 			this.lang = params['lang'];
 		});
@@ -63,7 +65,23 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		dialogRef.afterClosed().subscribe(result => {
 		  // this.registrationData = result;
 		});
-  }
+	}
+	
+	canRegister() {
+		console.log(this.content.entity.fieldRegistrationDate.entity);
+		let firstDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix * 1000;
+		let lastDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix * 1000;
+
+		if( lastDate >= this.unix && firstDate <= this.unix ){
+			return true;
+		}
+		else if( firstDate > this.unix ){
+			return 'not_started';
+		}
+		else if( lastDate < this.unix ){
+			return 'ended';
+		}
+	}
 	
 }
 

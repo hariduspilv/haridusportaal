@@ -16,6 +16,7 @@
       <div class="dialog__required">* {{ 'event.registration_form_required' | translate }}</div>
     </div><!--/col-12-->
     <form [formGroup]="form" class="dialog__form col-12" *ngIf="step === 0 && !loader">
+
       <div class="dialog-content">
         <div class="row">
           <div class="col-6 sm-12">
@@ -109,8 +110,11 @@
 
       <div class="dialog__actions row" *ngIf="step === 0 && !loader">
         <div class="col-12 text-right">
+
+          <re-captcha #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && save($event)"></re-captcha>
+            
           <a class="sm-hide" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
-          <button [disabled]="form.status === 'INVALID'" mat-raised-button color="primary" (click)="save()">{{ 'event.registration_form_send' | translate }}</button>
+          <button [disabled]="form.status === 'INVALID'" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'event.registration_form_send' | translate }}</button>
           <a class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
           <!-- [disabled]="form.invalid" -->
         </div>
