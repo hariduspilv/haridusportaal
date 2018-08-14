@@ -14,23 +14,14 @@ export class StudyProgrammeSingleComponent implements OnInit{
   path: any;
   data: any;
   error: boolean = false;
-
   map: any;
-
-  private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
-
+  
   constructor(
     private apollo: Apollo,
     private router: Router,
     private route: ActivatedRoute
   ){
 
-  }
-
-  compareChange(id, $event){
-    $event.checked === true? this.compare[id] = true : delete this.compare[id];
-    localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
-   
   }
 
   getData() {

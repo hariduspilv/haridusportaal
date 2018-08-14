@@ -14,7 +14,7 @@ import { CompareComponent } from '../../_components/compare/compare.component';
 
 
 export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit,OnDestroy {
-
+  public compare = JSON.parse(localStorage.getItem('studyProgramme.compare')) || [];
   public error;
   private url;
   private lang: string;
@@ -47,13 +47,15 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       'et': '/et/erialad/vordlus'
     });
   }
-  removeItemFromList(id){
-    this.compareChange(id, false)
+  removeItemFromList(id, localStorageKey){
+    let existing = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    this.removeItemFromLocalStorage(id, localStorageKey, existing)
     this.list = this.list.filter(item => item.nid != id);
   }
   getData(){
     if(!this.compare.length) return this.error = "ERROR?";
 
+    console.log('requesting');
     let studyProgrammeIDs:any = '[' + this.compare.map(id => '"'+id+'"') + ']';
     console.log(studyProgrammeIDs)
 

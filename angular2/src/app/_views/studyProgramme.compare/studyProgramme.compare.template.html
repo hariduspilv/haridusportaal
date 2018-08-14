@@ -120,7 +120,7 @@
                   <tr>
                       <td></td>
                       <td *ngFor="let item of list">
-                        <a href="javascript:void(0);" (click)="removeItemFromList(item.nid)">Eemalda võrdlusest</a>
+                        <a href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'studyProgramme.compare')">{{ 'button.remove_from_comparison' | translate}}</a>
                       </td>
                     </tr>
 
