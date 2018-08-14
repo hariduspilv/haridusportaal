@@ -11,6 +11,7 @@ export class SettingsService {
   urlTemplates = {
     "localhost": "http://test-htm.wiseman.ee:30000",
     "htm.twn.ee": "http://test-htm.wiseman.ee:30000",
+    "10.0.2.2": "http://test-htm.wiseman.ee:30000",
     "otherwise": "https://api.test.edu.ee"
   }
 

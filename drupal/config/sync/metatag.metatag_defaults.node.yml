@@ -8,5 +8,12 @@ id: node
 label: Sisu
 tags:
   title: '[node:title] | [site:name]'
+  content_language: '[node:langcode]'
+  keywords: '[node:field_tag]'
+  canonical_url: '[node:custom_url]'
   description: '[node:summary]'
-  canonical_url: '[node:url]'
+  twitter_cards_image: '[node:custom_img]'
+  twitter_cards_description: '[node:summary]'
+  twitter_cards_title: '[node:title]'
+  twitter_cards_type: summary_large_image
+  twitter_cards_page_url: '[node:custom_url]'

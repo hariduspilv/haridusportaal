@@ -3,14 +3,31 @@
   @include break-on(sm, min) {margin-top: $gutter;margin-left: $small;margin-right: $small;}
   @include break-on(lg, min) {margin-left: -$gutter;margin-right: -$gutter;}
   h1 {color: #333333;margin-bottom: 0.8em;font-size: 1.3em;}
-  #school-data {border-collapse: collapse;width: 100%;
-    tr {
-      &:first-child td {
-        background-color: #eeeeee;
-      }
-      td {padding: 0.8em;
-        &:first-child {width: 40%;}
-        &:last-child {font-weight: 500;}
+  #school-data-wrapper {
+    @include break-on(sm, max) {
+      overflow: scroll;
+    }
+    #school-data {
+      border-collapse: collapse;
+      width: 100%;
+      tr {
+        &:first-child td {
+          background-color: #eeeeee;
+        }
+        td {padding: 0.8em;
+          &:first-child {
+            width: 40%;
+            @include break-on(sm, max) {
+              min-width: 230px;
+            }
+          }
+          &:last-child {
+            font-weight: 500;
+            @include break-on(sm, max) {
+              min-width: 350px;
+            }
+          }
+        }
       }
     }
   }
