@@ -9,9 +9,9 @@
 
       <div class="block__content--form__checklist">
         <div class="block__content--form__checklist__elem" *ngFor="let item of data">
-          <label class="checkbox__container">
+          <label class="checkbox__container pointer">
             <span class="label">{{ item.entityLabel }}</span>
-            <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" >
+            <input type="checkbox pointer" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" >
             <span class="checkmark"></span>
           </label>
         </div>

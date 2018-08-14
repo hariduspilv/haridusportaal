@@ -1,20 +1,14 @@
 @import "../../../assets/styles/typography.scss";
 
-.studyProgramme {
-  padding-bottom: $xxl;
-  background: $white;
+.studyProgramme {padding-bottom: $xxl;background: $white;border-top: $gutter solid $light-blue;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0; padding-bottom: $medium;}
-  border-top: $gutter solid $light-blue;
-  .months {
-    margin-top: $medium;
+  .months {margin-top: $medium;
     @include break-on(sm, min) {
       margin-top:-$medium;
     }
   }
-  
   &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $small $medium $small $medium; flex-basis: 50%;}
   &__head {display: flex;}
-  
   .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;cursor:pointer;color:$blue;
     .mat-icon{margin-top: $gutter;}
     .title {font-size: .875rem;}
@@ -26,7 +20,6 @@
     &:first-child{padding-top:0;}
     @include break-on(sm, min) {
       &:last-child{border-bottom:0;}
-      // &:first-child{padding-top:$medium;}
     }
     &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;
       @include break-on(sm, min) {margin-bottom:0.23rem; }

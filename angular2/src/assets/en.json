@@ -172,6 +172,7 @@
     "all": "All",
     "map_closer": "See the map for more",
     "add_to_comparison": "Add to comparison",
+    "remove_from_comparison":"Remove from comparison",
     "search": "Search",
     "search_detailed": "Advanced Search",
     "search_detailed_short": "Exact",

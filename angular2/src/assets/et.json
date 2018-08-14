@@ -173,6 +173,7 @@
     "all": "Kõik",
     "map_closer": "Vaata kaarti lähemalt",
     "add_to_comparison": "Lisa võrdlusse",
+    "remove_from_comparison":"Eemalda võrdlusest",
     "search": "Otsi",
     "search_detailed": "Täpsem otsing",
     "search_detailed_short": "Täpne",
