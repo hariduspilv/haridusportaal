@@ -22,7 +22,9 @@ use Drupal\graphql\Utility\StringHelper;
 *   arguments = {
 *     "filter" = "EntityQueryFilterInput",
 *     "elasticsearch_index" = "String!",
-*     "sort" = "[EntityQuerySortInput]"
+*     "sort" = "[EntityQuerySortInput]",
+*     "limit" = "Int",
+*     "offset" = "Int"
 *   }
 * )
 */
@@ -88,30 +90,28 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
     $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
 
-    $params = [
-      'scroll' => '30s',
-      'size' => 50,
-      'index' => $args['elasticsearch_index']
-    ];
-
     $params = $this->getElasticQuery($args);
 
     $response = $client->search($params);
 
-    while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+    if($args['offset'] == null && $args['limit'] == null){
+      while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
 
-      $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
+        $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
 
-      // When done, get the new scroll_id
-      // You must always refresh your _scroll_id!  It can change sometimes
-      $scroll_id = $response['_scroll_id'];
+        // When done, get the new scroll_id
+        // You must always refresh your _scroll_id!  It can change sometimes
+        $scroll_id = $response['_scroll_id'];
 
-      // Execute a Scroll request and repeat
-      $response = $client->scroll([
-        "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
-        "scroll" => "30s"           // and the same timeout window
-      ]
-    );
+        // Execute a Scroll request and repeat
+        $response = $client->scroll([
+          "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
+          "scroll" => "30s"           // and the same timeout window
+          ]
+        );
+      }
+  }else{
+    $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
   }
   foreach($responsevalues as $value){
     foreach($value['_source'] as $key => $keyvalue){
@@ -124,12 +124,18 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 }
 
 protected function getElasticQuery($args){
-
-  $params = [
-    'scroll' => '30s',
-    'size' => 50,
-    'index' => $args['elasticsearch_index']
-  ];
+  if(is_null($args['offset']) && is_null($args['limit'])){
+    $params = [
+      'scroll' => '30s',
+      'size' => 50,
+      'index' => $args['elasticsearch_index']
+    ];
+  }else{
+    $params = [
+      'from' => $args['offset'],
+      'size' => $args['limit']
+    ];
+  }
 
   if($args['filter']['conjunction'] == 'AND'){
     foreach($args['filter']['conditions'] as $condition){
