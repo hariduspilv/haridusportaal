@@ -1,4 +1,9 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { RootScopeService  } from '../../_services/rootScope/rootScope.service';
+import { TranslateService } from '@ngx-translate/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Modal } from '../../_components/dialogs/modal/modal';
 
 @Component({
   selector: 'compare',
@@ -6,24 +11,45 @@ import { Component, Input, OnInit} from '@angular/core';
   styleUrls: ['compare.styles.scss']
 })
 
-export class CompareComponent implements OnInit{
+export class CompareComponent implements OnInit, OnDestroy{
   @Input() id: number;
   @Input() localStorageKey: string;
   
   checked:boolean;
+
+  compareViewLink: string;
+  compareViewLinkOptions = {
+    "studyProgramme.compare":{
+      "et": "/et/erialad/vordlus",
+      "en": "/en/studyprogrammes/compare"
+    }
+  }
+  compareTranslationOptions = {
+    "studyProgramme.compare": {
+      title: "studyProgramme.compare_modal_title",
+      content: "studyProgramme.compare_modal_content",
+      close: "studyProgramme.compare_modal_close",
+    }
+  }
+  viewLink: boolean;
 
   maxItemsConf = {
     "studyProgramme.compare": 3,
     "default": 10
   }
 
-  maxReached: boolean = false;
+  comparePathSubscription: any;
+  localStorageSubscription: any;
 
   compare:any;
   
   constructor(
+    public route: ActivatedRoute,
+    protected rootScope: RootScopeService,
+    public dialog: MatDialog,
+    private translate: TranslateService
   ) {}
-  
+
   isChecked(id){
     return this.compare.some(existing_id => existing_id == id );
   }
@@ -43,18 +69,60 @@ export class CompareComponent implements OnInit{
     
     if($event.checked == true && !this.isChecked(id)){
       if(this.compare.length >= max){
-        alert('Maksimaalne võrreldavate erialade arv on ületatud');
+        $event.source._checked = false
+        this.openDialog();
+        
       }else{
         this.addItemToLocalStorage(id, this.localStorageKey, this.compare);
       }
     } else if ($event.checked == false && this.isChecked(id)) {
       this.removeItemFromLocalStorage(id, this.localStorageKey, this.compare);
     }
+
+    this.rootScope.get("compareObservable").next(false);
   }
 
+  displayViewLink(list): void {
+    this.viewLink = list.length? true: false;
+  }
+  openDialog(): void {
+		let dialogRef = this.dialog.open(Modal, {
+
+		  data: {
+        title: this.translate.get(this.compareTranslationOptions[this.localStorageKey].title)['value'].toUpperCase(),
+        content: this.translate.get(this.compareTranslationOptions[this.localStorageKey].content)['value'],
+        close: this.translate.get(this.compareTranslationOptions[this.localStorageKey].close)['value']
+		  }
+		});
+		
+		dialogRef.afterClosed().subscribe(result => {
+		  // this.registrationData = result;
+		});
+  }
   ngOnInit() {
     this.compare = JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
+  
     this.checked = this.isChecked(this.id);
+
+    let fallbackPath = this.compareViewLinkOptions[this.localStorageKey]['et'];
+
+    this.comparePathSubscription = this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.compareViewLink = this.compareViewLinkOptions[this.localStorageKey][params['lang']] || fallbackPath
+      }
+    );
+
+    this.displayViewLink(this.compare);
+
+    this.localStorageSubscription = this.rootScope.get("compareObservable").subscribe(data => {
+      this.compare = JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
+      this.displayViewLink(this.compare);
+    });
+  }
+
+  ngOnDestroy() {
+    this.comparePathSubscription.unsubscribe();
+    this.localStorageSubscription.unsubscribe();
   }
    
 }
