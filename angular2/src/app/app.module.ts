@@ -5,6 +5,9 @@ import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+import { RecaptchaModule } from 'ng-recaptcha';
+import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
+
 import { RootScopeService, NewsService, MetaTagsService } from './_services';
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog';
 import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
@@ -38,6 +41,7 @@ import { MapWrapperComponent } from './_components/map.wrapper/map.wrapper.compo
 import { CompareComponent } from './_components/compare/compare.component';
 import { RelatedStudyProgrammesComponent } from './_components/related.studyProgrammes/related.studyProgrammes.component';
 import { StudyProgrammeCompareComponent } from './_views/studyProgramme.compare/studyProgramme.compare.component';
+import { RecentEventsComponent } from './_components/recent.events/recent.events.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
@@ -45,6 +49,7 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
   let urlTemplates = {
     "localhost": "http://test-htm.wiseman.ee:30000",
     "htm.twn.ee": "http://test-htm.wiseman.ee:30000",
+    "10.0.2.2": "http://test-htm.wiseman.ee:30000",
     "otherwise": "https://api.test.edu.ee"
   }
 
@@ -52,6 +57,7 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     "localhost": ["/assets/", ".json"],
     //"localhost": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     "htm.twn.ee": ["/assets/", ".json"],
+    "10.0.2.2": ["/assets/", ".json"],
     //"htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     "otherwise": ["https://api.test.edu.ee/", "/base_settings?_format=json"]
   }
@@ -90,7 +96,8 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     StudyProgrammeCompareComponent,
     MapWrapperComponent,
     CompareComponent,
-    RelatedStudyProgrammesComponent
+    RelatedStudyProgrammesComponent,
+    RecentEventsComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent],
@@ -121,7 +128,9 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     AgmSnazzyInfoWindowModule,
     HttpModule,
     EmbedVideo.forRoot(),
-    TextareaAutosizeModule
+    TextareaAutosizeModule,
+    RecaptchaModule.forRoot(),
+    RecaptchaFormsModule
   ],
 
   providers: [

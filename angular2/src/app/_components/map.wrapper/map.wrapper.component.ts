@@ -13,7 +13,9 @@ export class MapWrapperComponent implements OnInit {
 
   iconUrl = "assets/marker.svg"
 
-  constructor() { }
+  constructor() {
+    console.log("asd");
+  }
 
   ngOnInit() {
     if (typeof this.latitude === 'string') {
