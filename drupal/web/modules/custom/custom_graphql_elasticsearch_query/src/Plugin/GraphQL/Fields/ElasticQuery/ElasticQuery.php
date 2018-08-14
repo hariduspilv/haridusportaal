@@ -91,8 +91,10 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     $params = [
       'scroll' => '30s',
       'size' => 50,
-      'index' => $args['filter']['index']
+      'index' => $args['elasticsearch_index']
     ];
+
+    $params = $this->getElasticQuery($args);
 
     $response = $client->search($params);
 
@@ -119,6 +121,61 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     yield $value['_source'];
   }
   //yield $this->getQuery($value, $args, $context, $info);
+}
+
+protected function getElasticQuery($args){
+
+  $params = [
+    'scroll' => '30s',
+    'size' => 50,
+    'index' => $args['elasticsearch_index']
+  ];
+
+  if($args['filter']['conjunction'] == 'AND'){
+    foreach($args['filter']['conditions'] as $condition){
+      if(isset($condition['enabled']) && $condition['enabled'] == true || !isset($condition['enabled'])){
+        switch($condition['operator']){
+          case '=':
+            foreach($condition['value'] as $value){
+              $elastic_must_filters[] = array(
+                'match' => array(
+                  $condition['field'] => $value
+                )
+              );
+            }
+            break;
+          case 'LIKE':
+            $elastic_must_filters[] = array(
+              'wildcard' => array(
+                $condition['field'] => str_replace('_','?',str_replace('%','*',$condition['value'][0]))
+              )
+            );
+            break;
+          case 'IN':
+            $elastic_must_filters[] = array(
+              'terms' => array(
+                $condition['field'] => $condition['value']
+              )
+            );
+            break;
+        }
+      }
+    }
+  }
+
+  $query = array(
+    'query' => array(
+      'bool' => array(
+        'must' => array(
+          $elastic_must_filters
+        )
+      )
+    )
+  );
+
+  $params['body'] = $query;
+
+  return $params;
 }
 
 }
