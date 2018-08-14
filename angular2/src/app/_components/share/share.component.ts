@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: "share",
@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 
 export class ShareComponent{
+  @Input() title: String;
+
   share (type) {
     const url = location.href;
     let shareLink = '';
@@ -15,7 +17,7 @@ export class ShareComponent{
         shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
         break;
       case 'twitter':
-        shareLink = `https://twitter.com/intent/tweet?text=${url}`;
+        shareLink = `https://twitter.com/intent/tweet?text=${this.title} - ${url}`;
         break;
       default:
         shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
