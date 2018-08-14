@@ -3,22 +3,22 @@ langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_adrid
     - field.storage.node.field_school_location
     - field.storage.paragraph.field_address
-    - field.storage.paragraph.field_location_type
-    - field.storage.paragraph.field_school_location
-    - field.storage.paragraph.field_coordinates
-    - field.storage.node.field_school_contact_email
+    - field.storage.node.field_adrid
+    - field.storage.node.field_educational_institution_ty
     - field.storage.node.field_ehis_id
-    - field.storage.node.field_special_class
-    - field.storage.node.field_school_contact_phone
+    - field.storage.paragraph.field_location_type
     - field.storage.node.field_ownership_type
     - field.storage.node.field_registration_code
+    - field.storage.node.field_school_contact_email
+    - field.storage.node.field_school_contact_phone
+    - field.storage.paragraph.field_school_location
     - field.storage.node.field_school_webpage_address
+    - field.storage.node.field_special_class
     - field.storage.node.field_student_home
-    - field.storage.node.field_educational_institution_ty
     - field.storage.node.field_teaching_language
+    - field.storage.paragraph.field_coordinates
     - search_api.server.elasticsearch_server
   module:
     - paragraphs
@@ -223,7 +223,51 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  ignorecase:
+    all_fields: false
+    fields:
+      - field_address
+      - field_adrid
+      - field_educational_institution_ty
+      - field_ehis_id
+      - field_location_type
+      - field_ownership_type
+      - field_registration_code
+      - field_school_contact_email
+      - field_school_contact_phone
+      - field_school_location
+      - field_school_name
+      - field_school_webpage_address
+      - field_teaching_language
+      - langcode
+      - lat
+      - lon
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
   rendered_item: {  }
+  transliteration:
+    all_fields: false
+    fields:
+      - field_address
+      - field_adrid
+      - field_educational_institution_ty
+      - field_ehis_id
+      - field_location_type
+      - field_ownership_type
+      - field_registration_code
+      - field_school_contact_email
+      - field_school_contact_phone
+      - field_school_location
+      - field_school_name
+      - field_school_webpage_address
+      - field_teaching_language
+      - langcode
+      - lat
+      - lon
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
 tracker_settings:
   default:
     indexing_order: fifo
