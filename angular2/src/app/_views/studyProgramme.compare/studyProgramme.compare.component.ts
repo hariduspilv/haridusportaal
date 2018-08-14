@@ -47,8 +47,9 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       'et': '/et/erialad/vordlus'
     });
   }
-  removeItemFromList(id, localStorageKey:any = false){
-    this.compareChange(id, false, localStorageKey)
+  removeItemFromList(id, localStorageKey){
+    let existing = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    this.removeItemFromLocalStorage(id, localStorageKey, existing)
     this.list = this.list.filter(item => item.nid != id);
   }
   getData(){
