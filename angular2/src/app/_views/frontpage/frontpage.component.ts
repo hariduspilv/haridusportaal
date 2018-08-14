@@ -29,7 +29,7 @@ export class FrontpageComponent {
 
       const translations = translate.translations;
 
-      translate.get('frontpage').subscribe((res: string) => {
+      translate.get('frontpage.label').subscribe((res: string) => {
         metaTags.set([
           {
             "name": "title",
