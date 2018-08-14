@@ -26,10 +26,10 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     public route: ActivatedRoute, 
     public router: Router,
     private http: Http,
-    private rootScope: RootScopeService,
+    public rootScope: RootScopeService,
     private settings: SettingsService
   ) {
-    super()
+    super(null, null, null, null)
   }
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
