@@ -937,6 +937,7 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('newsletter.modal_title'),
 		];
+		#dump($config);
 		$form['newsletter']['modal_content'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Newsletter modal content'),
@@ -1323,11 +1324,19 @@ class CustomTranslationForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 		$config = $this->config('custom_translation_module.settings');
-
+		#dump($form_state->cleanValues()->getValues());
 		foreach ($form_state->cleanValues()->getValues() as $key => $value){
-			if(!empty($value)) $config->set($key, $value);
+			foreach($value as $value_key => $child_val){
+				if(!is_array($child_val)){
+					$config->set($key.".".$value_key, $child_val);
+				}
+			}
+			#dump($key);
+			#	dump($value);
+			#if(is_array($value)) continue;
+			#if(!empty($value)) $config->set($key, $value);
 		}
-
+		#die();
 		$config->save();
   }
 
