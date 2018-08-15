@@ -328,6 +328,7 @@ export const SchoolStudyProgrammes = gql`
     ) {
       entities(language:$lang) {
         ... on NodeStudyProgramme {
+          nid
           title
           entityUrl {
             path

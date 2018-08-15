@@ -34,7 +34,11 @@
   #school-data, #school-data th, #school-data td {border: 1px solid #c7c7c9;}
   #school-contact-block {
     h2 {font-size: 1.2em;}
-    ul {list-style: none;padding: 0;margin: 0;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      word-wrap: break-word;
       li {line-height: 1.4rem;
         .tel {text-decoration: none;color: #333333;cursor: default;}
       }
