@@ -940,7 +940,7 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['newsletter']['modal_content'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Newsletter modal content'),
-			'#default_value' => $config->get('newsletter.modal_content')['value'],
+			#'#default_value' => $config->get('newsletter.modal_content')['value'],
 		];
 		$form['newsletter']['modal_close'] = [
 			'#type' => 'textfield',
