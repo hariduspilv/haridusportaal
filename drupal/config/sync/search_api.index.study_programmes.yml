@@ -10,6 +10,7 @@ dependencies:
     - field.storage.node.field_school_address
     - field.storage.node.field_school_website
     - field.storage.node.field_admission_status
+    - field.storage.node.field_educational_institution
     - field.storage.node.field_amount
     - field.storage.node.field_iscedf_detailed
     - field.storage.node.field_study_programme_level
@@ -18,13 +19,17 @@ dependencies:
     - search_api.server.elasticsearch_server
   module:
     - taxonomy
-    - search_api
     - node
+    - search_api
 id: study_programmes
 name: 'Study programmes'
 description: ''
 read_only: false
 field_settings:
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
   field_accreditation_status:
     label: 'Akrediteerimise otsus'
     datasource_id: 'entity:node'
@@ -93,6 +98,16 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_school_address
+  field_school_name:
+    label: 'Õppeasutus » Sisu » Pealkiri'
+    datasource_id: 'entity:node'
+    property_path: 'field_educational_institution:entity:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_educational_institution
+      module:
+        - node
   field_school_website:
     label: 'School website'
     datasource_id: 'entity:node'
