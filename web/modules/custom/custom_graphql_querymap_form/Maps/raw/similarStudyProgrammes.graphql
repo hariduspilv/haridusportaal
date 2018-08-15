@@ -4,6 +4,7 @@ query similarStudyProgrammes(
   CustomStudyProgrammeElasticQuery(filter:{nid:$nid}){
     Nid
     Name
+    FieldSchoolName
     FieldSchoolAddress
     FieldSchoolWebsite
     FieldStudyProgrammeLevel
