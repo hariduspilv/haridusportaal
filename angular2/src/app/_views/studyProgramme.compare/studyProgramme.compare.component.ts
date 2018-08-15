@@ -48,7 +48,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     });
   }
   removeItemFromList(id, localStorageKey){
-    let existing = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    let existing = this.readFromLocalStorage(localStorageKey);
     this.removeItemFromLocalStorage(id, localStorageKey, existing)
     this.list = this.list.filter(item => item.nid != id);
   }
