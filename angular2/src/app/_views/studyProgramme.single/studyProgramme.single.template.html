@@ -141,11 +141,10 @@
       </div><!--/block-->
 
       <div class="text-center actions sm-hide">
-        <button mat-raised-button color="primary" >Vaata sarnaseid erialasid</button>
+        <button mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true" >Vaata sarnaseid erialasid</button>
       </div><!--/text-center-->
 
-      <!-- COMPONENT ON TEHTUD MINE JA TEE KOODI -->
-      <!-- <related-studyprogrammes></related-studyprogrammes> -->
+      <related-studyprogrammes *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
       
     </div><!--/col-8-->
     <div class="col-4 sm-12">

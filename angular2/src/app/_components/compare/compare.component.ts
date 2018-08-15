@@ -63,7 +63,7 @@ export class CompareComponent implements OnInit, OnDestroy{
   }
   compareChange(id, $event){
 
-    this.compare = JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
+    this.compare = this.readFromLocalStorage(this.localStorageKey);
 
     let max = this.maxItemsConf[this.localStorageKey] ? this.maxItemsConf[this.localStorageKey] : this.maxItemsConf.default;
     
@@ -85,6 +85,10 @@ export class CompareComponent implements OnInit, OnDestroy{
   displayViewLink(list): void {
     this.viewLink = list.length? true: false;
   }
+  readFromLocalStorage(key){
+    let data = JSON.parse(localStorage.getItem(key))
+    return data instanceof Array ? data : [];
+  }
   openDialog(): void {
 		let dialogRef = this.dialog.open(Modal, {
 
@@ -94,13 +98,10 @@ export class CompareComponent implements OnInit, OnDestroy{
         close: this.translate.get(this.compareTranslationOptions[this.localStorageKey].close)['value']
 		  }
 		});
-		
-		dialogRef.afterClosed().subscribe(result => {
-		  // this.registrationData = result;
-		});
+
   }
   ngOnInit() {
-    this.compare = JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
+    this.compare = this.readFromLocalStorage(this.localStorageKey);
   
     this.checked = this.isChecked(this.id);
 
@@ -115,7 +116,7 @@ export class CompareComponent implements OnInit, OnDestroy{
     this.displayViewLink(this.compare);
 
     this.localStorageSubscription = this.rootScope.get("compareObservable").subscribe(data => {
-      this.compare = JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
+      this.compare = this.readFromLocalStorage(this.localStorageKey);
       this.displayViewLink(this.compare);
     });
   }
