@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   name = "EventRegistrations",
  *   secure = true,
  *   type = "EntityQueryResult",
- *   parents = {"Entity"},
+ *   parents = {"NodeEvent"},
  * )
  */
 class EventRegistartionsQuery extends EntityQuery {
