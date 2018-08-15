@@ -1300,7 +1300,7 @@ class CustomTranslationForm extends ConfigFormBase {
 
 		$form['notFound'] = [
 			'#type' => 'details',
-			'#title' => $this->t('Study programme translations'),
+			'#title' => $this->t('not found translations'),
 		];
 		$form['notFound']['explanation'] = [
 			'#type' => 'text_format',
