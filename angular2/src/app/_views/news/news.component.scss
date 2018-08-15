@@ -63,3 +63,7 @@
 }
 ::ng-deep .description a[target="_blank"] {text-decoration: none;}
 ::ng-deep .mat-calendar-body-selected {background-color: $blue;}
+
+.btn-link { color: $blue; background-color: $white; border: transparent 0px solid; text-decoration: underline; 
+  font-size: 1rem; }
+

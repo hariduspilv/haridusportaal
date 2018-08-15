@@ -4,7 +4,7 @@
   <div class="row news-single" *ngIf="content">
     <div class="col-8 sm-12">
       <div class="news-list">
-        <div class="news-title">{{ 'news' | translate | uppercase }}</div>
+        <div class="news-title" tabindex="0">{{ 'news' | translate | uppercase }}</div>
         <article>
           <div class="row title">
               <div class="col-10 flex">
@@ -15,7 +15,7 @@
               </div><!--/col-10-->
           </div><!--/row-->
       
-          <div class="author">
+          <div class="author" tabindex="0" attr.aria-label="{{'author'}}{{ content.fieldAuthor }}">
             {{ content.fieldAuthor }} {{ content.created*1000 | date:"dd.MM.yyyy" }}
           </div>
           <div class="row">
