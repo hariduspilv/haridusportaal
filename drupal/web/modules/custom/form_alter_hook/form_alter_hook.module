@@ -117,9 +117,11 @@ function form_alter_hook_help($route_name, RouteMatchInterface $route_match) {
 				$item_element['value'] = $fe_url . $item_value;
 			}
 		}
+		try{
+			$request = \Symfony\Component\HttpFoundation\Request::create($variables['link']);
+             		$url_from_request = Url::createFromRequest($request);
 
-		$request = \Symfony\Component\HttpFoundation\Request::create($variables['link']);
-		$url_from_request = Url::createFromRequest($request);
-
-		$variables['link'] = $fe_url . $url_from_request->toString();
+                	$variables['link'] = $fe_url . $url_from_request->toString();
+		}catch(\Exception $e){
+		}
 	}

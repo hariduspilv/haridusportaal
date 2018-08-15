@@ -49,7 +49,8 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
   let urlTemplates = {
     "localhost": "http://test-htm.wiseman.ee:30000",
     "htm.twn.ee": "http://test-htm.wiseman.ee:30000",
-    "10.0.2.2": "http://test-htm.wiseman.ee:30000",
+    "10.0.2.2": "http://test-htm.wiseman.ee:30000", //Virtualbox local IP
+    "192.168.1.9": "http://test-htm.wiseman.ee:30000",
     "otherwise": "https://api.test.edu.ee"
   }
 
@@ -57,7 +58,8 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     "localhost": ["/assets/", ".json"],
     //"localhost": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     "htm.twn.ee": ["/assets/", ".json"],
-    "10.0.2.2": ["/assets/", ".json"],
+    "10.0.2.2": ["/assets/", ".json"], //Virtualbox local IP
+    "192.168.1.9": ["/assets/", ".json"],
     //"htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     "otherwise": ["https://api.test.edu.ee/", "/base_settings?_format=json"]
   }
