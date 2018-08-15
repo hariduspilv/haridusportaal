@@ -12,6 +12,7 @@ export class SettingsService {
     "localhost": "http://test-htm.wiseman.ee:30000",
     "htm.twn.ee": "http://test-htm.wiseman.ee:30000",
     "10.0.2.2": "http://test-htm.wiseman.ee:30000",
+    "192.168.1.9": "http://test-htm.wiseman.ee:30000", //Virtualbox local IP
     "otherwise": "https://api.test.edu.ee"
   }
 
