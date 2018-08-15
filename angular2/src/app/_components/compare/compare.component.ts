@@ -86,17 +86,12 @@ export class CompareComponent implements OnInit, OnDestroy{
     this.viewLink = list.length? true: false;
   }
   openDialog(): void {
-		let dialogRef = this.dialog.open(Modal, {
-
+		this.dialog.open(Modal, {
 		  data: {
         title: this.translate.get(this.compareTranslationOptions[this.localStorageKey].title)['value'].toUpperCase(),
         content: this.translate.get(this.compareTranslationOptions[this.localStorageKey].content)['value'],
         close: this.translate.get(this.compareTranslationOptions[this.localStorageKey].close)['value']
 		  }
-		});
-		
-		dialogRef.afterClosed().subscribe(result => {
-		  // this.registrationData = result;
 		});
   }
   ngOnInit() {
