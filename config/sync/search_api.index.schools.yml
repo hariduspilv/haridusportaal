@@ -30,6 +30,10 @@ name: Schools
 description: ''
 read_only: false
 field_settings:
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
   field_address:
     label: 'Asukoht » Paragraph » Aadress'
     datasource_id: 'entity:node'
@@ -240,51 +244,7 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
-  ignorecase:
-    all_fields: false
-    fields:
-      - field_address
-      - field_adrid
-      - field_educational_institution_ty
-      - field_ehis_id
-      - field_location_type
-      - field_ownership_type
-      - field_registration_code
-      - field_school_contact_email
-      - field_school_contact_phone
-      - field_school_location
-      - field_school_name
-      - field_school_webpage_address
-      - field_teaching_language
-      - langcode
-      - lat
-      - lon
-    weights:
-      preprocess_index: -20
-      preprocess_query: -20
   rendered_item: {  }
-  transliteration:
-    all_fields: false
-    fields:
-      - field_address
-      - field_adrid
-      - field_educational_institution_ty
-      - field_ehis_id
-      - field_location_type
-      - field_ownership_type
-      - field_registration_code
-      - field_school_contact_email
-      - field_school_contact_phone
-      - field_school_location
-      - field_school_name
-      - field_school_webpage_address
-      - field_teaching_language
-      - langcode
-      - lat
-      - lon
-    weights:
-      preprocess_index: -20
-      preprocess_query: -20
 tracker_settings:
   default:
     indexing_order: fifo
