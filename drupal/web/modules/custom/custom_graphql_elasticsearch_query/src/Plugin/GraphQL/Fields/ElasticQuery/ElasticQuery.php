@@ -164,6 +164,18 @@ protected function getElasticQuery($args){
               )
             );
             break;
+          case 'FUZZY':
+            foreach($condition['value'] as $value){
+              $elastic_must_filters[] = array(
+                'match' => array(
+                  $condition['field'] => array(
+                    'query' => $value,
+                    'fuzziness' => 2
+                  )
+                )
+              );
+            }
+            break;
         }
       }
     }
