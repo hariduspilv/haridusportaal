@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RootScopeService } from '../../_services/rootScope/rootScope.service';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -25,7 +25,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
   constructor (
     public route: ActivatedRoute, 
     public router: Router,
-    private http: Http,
+    private http: HttpClient,
     public rootScope: RootScopeService,
     private settings: SettingsService
   ) {
@@ -63,10 +63,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     this.url = this.settings.url + "/graphql?queryId=studyProgrammeComparison:1&variables=" + JSON.stringify(variables);
     
     this.http.get(this.url).subscribe(response => {
-      let _response = JSON.parse(JSON.stringify(response));
-      
-      this.list = JSON.parse(_response._body).data.nodeQuery.entities;
-      //console.log(this.list);
+      this.list = response['data'].nodeQuery.entities;
     });
   }
   ngOnInit() {
