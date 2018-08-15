@@ -26,48 +26,49 @@
             <div class="block padding-block">
                 <div class="block-title">{{ 'school.label' | translate }}</div>
                 <h1>{{ data.title }}</h1>
-
-                <table id="school-data">
-                    <tr>
-                        <td>{{ 'school.register_code_short' | translate }}</td>
-                        <td>{{ data.fieldRegistrationCode }}</td>
-                    </tr>
-                    <tr *ngIf="types && types.length">
-                        <td>{{ 'school.institution_type' | translate }}</td>
-                        <td>
-                            <div *ngFor="let type of types">
-                                <span>{{ type.entityLabel }}</span>
-                                <span *ngIf="type.children.length">(</span><span *ngFor="let child of type.children">{{child.entityLabel}}</span><span *ngIf="type.children.length">)</span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr *ngIf="data.fieldOwnershipType">
-                        <td>{{ 'school.ownership' | translate }}</td>
-                        <td>{{ data.fieldOwnershipType.entity.name }}</td>
-                    </tr>
-                    <tr *ngIf="data.fieldTeachingLanguage.length">
-                        <td>{{ 'school.language' | translate }}</td>
-                        <td>
-                            <div *ngFor="let language of data.fieldTeachingLanguage">
-                                {{ language.entity.name }}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>{{ 'school.special_needs_long' | translate }}</td>
-                        <td>
-                            <span *ngIf="data.fieldSpecialClass; else elseSpecialClass">{{ 'school.available' | translate }}</span>
-                            <ng-template #elseSpecialClass>{{ 'school.unavailable' | translate }}</ng-template>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>{{ 'school.dormitory' | translate }}</td>
-                        <td>
-                            <span *ngIf="data.fieldStudentHome; else elseStudentHome">{{ 'school.available' | translate }}</span>
-                            <ng-template #elseStudentHome>{{ 'school.unavailable' | translate }}</ng-template>
-                        </td>
-                    </tr>
-                </table>
+                <div id="school-data-wrapper">
+                    <table id="school-data">
+                        <tr>
+                            <td>{{ 'school.register_code_short' | translate }}</td>
+                            <td>{{ data.fieldRegistrationCode }}</td>
+                        </tr>
+                        <tr *ngIf="types && types.length">
+                            <td>{{ 'school.institution_type' | translate }}</td>
+                            <td>
+                                <div *ngFor="let type of types">
+                                    <span>{{ type.entityLabel }}</span>
+                                    <span *ngIf="type.children.length">(</span><span *ngFor="let child of type.children">{{child.entityLabel}}</span><span *ngIf="type.children.length">)</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="data.fieldOwnershipType">
+                            <td>{{ 'school.ownership' | translate }}</td>
+                            <td>{{ data.fieldOwnershipType.entity.name }}</td>
+                        </tr>
+                        <tr *ngIf="data.fieldTeachingLanguage.length">
+                            <td>{{ 'school.language' | translate }}</td>
+                            <td>
+                                <div *ngFor="let language of data.fieldTeachingLanguage">
+                                    {{ language.entity.name }}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{ 'school.special_needs_long' | translate }}</td>
+                            <td>
+                                <span *ngIf="data.fieldSpecialClass; else elseSpecialClass">{{ 'school.available' | translate }}</span>
+                                <ng-template #elseSpecialClass>{{ 'school.unavailable' | translate }}</ng-template>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{ 'school.dormitory' | translate }}</td>
+                            <td>
+                                <span *ngIf="data.fieldStudentHome; else elseStudentHome">{{ 'school.available' | translate }}</span>
+                                <ng-template #elseStudentHome>{{ 'school.unavailable' | translate }}</ng-template>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div class="orange-container" id="contacts-mobile">
                 <ng-container *ngTemplateOutlet="contacts"></ng-container>

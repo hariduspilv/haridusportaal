@@ -9,7 +9,17 @@
         &:hover {text-decoration: underline;}
       }
     }
-    #programme-address {font-size: 0.9em;color: $dark-gray;font-weight: 500;
+    .programme-header  {
+      display: flex;
+      > div:first-child {
+        flex-grow: 1;
+      }
+      > div:last-child {
+        flex-grow: 0;
+        margin-left: 1em;
+      }
+    }
+    .programme-address {font-size: 0.9em;color: $dark-gray;font-weight: 500;
       @include break-on(sm, max) {display: none;}
     }
     .study-programme-properties {margin: 0;margin-top: 1em;padding: 0;width: 100%;

@@ -120,7 +120,10 @@
     "filter_iscedf_narrow": "Learning direction",
     "filter_iscedf_detailed": "Curriculum Group",
     "filter_open_admission": "Only open to reception",
-    "no_result": "No Search Results"
+    "no_results": "No Search Results",
+    "compare_modal_title": "Study programme comparison",
+    "compare_modal_content": "<p> max reched </p><p>U can unly added max 3 stody prugrammes</ p>",
+    "compare_modal_close": "Close window"
   },
   "login": {
     "username": "Username",
