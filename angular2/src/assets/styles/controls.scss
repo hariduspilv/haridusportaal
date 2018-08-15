@@ -71,7 +71,7 @@
     padding: $gutter 0 $gutter $small;
     border: none;
     border-radius: 1.25rem;
-    width: stretch;
+    width: 100%;
     &::placeholder{
       @include break-on(sm, max) {font-size:1rem;}  
     }
@@ -102,9 +102,9 @@
     &--text {position: absolute;padding-left: $small;font-size: 0.875rem; line-height: $medium;}
   }
   &__area {width: 100%;padding-top: .125rem;
-    &__elem {
-      min-height: 5.125rem;
-      width: stretch;
+    &__elem {box-sizing: border-box; font-family: 'Rubik', sans-serif;
+      min-height: 6.125rem;
+      width: 100%;
       line-height: 1.71;
       font-size: .875rem;
       resize: none;

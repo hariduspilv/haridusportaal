@@ -18,7 +18,7 @@
                   <h1 class="mt-0 mb-0" attr.aria-label="{{'title' | translate}}">{{ content.title }}</h1>
                 </div><!--/col-10-->
                 <div class="col-2 flex text-right">
-                  <share></share>
+                  <share [title]="content.title"></share>
                 </div><!--/col-1-->
             </div><!--/row-->
             <div class="short" attr.aria-label="{{'description.short' | translate}}" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>

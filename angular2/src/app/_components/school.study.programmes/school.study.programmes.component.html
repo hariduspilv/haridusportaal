@@ -1,10 +1,17 @@
 <div *ngIf="programmes.length > 0" class="block" id="school-study-programmes">
   <div class="block-title">{{'study.programmes' | translate}}</div>
   <div *ngFor="let programme of programmes" class="programme padding-block">
-    <h2><a routerLink="{{programme.entityUrl.path}}">{{ programme.title }}</a></h2>
-    <div id="programme-address">
-      {{ programme.fieldSchoolAddress }}, 
-      <a href="{{ programme.fieldSchoolWebsite | url }}" target="_blank">{{ programme.fieldSchoolWebsite | removeProtocol }}</a>
+    <div class="programme-header">
+      <div>
+        <h2><a routerLink="{{programme.entityUrl.path}}">{{ programme.title }}</a></h2>
+        <div class="programme-address">
+          {{ programme.fieldSchoolAddress }}, 
+          <a href="{{ programme.fieldSchoolWebsite | url }}" target="_blank">{{ programme.fieldSchoolWebsite | removeProtocol }}</a>
+        </div>
+      </div>
+      <div class="sm-hide">
+        <compare [id]="programme.nid" localStorageKey="studyProgramme.compare"></compare>
+      </div>
     </div>
     <div class="study-programme-properties row">
       <div class="col-4 md-6 property">
