@@ -7,11 +7,11 @@ import 'rxjs/add/operator/catch';
 import { SettingsService } from '../../_core/settings';
 import { Subscription } from 'rxjs/Subscription';
 import { CompareComponent } from '../../_components/compare/compare.component';
+
 @Component({
   templateUrl: "studyProgramme.compare.template.html",
   styleUrls: ["studyProgramme.compare.styles.scss"]
 })
-
 
 export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit,OnDestroy {
   public compare = JSON.parse(localStorage.getItem('studyProgramme.compare')) || [];
@@ -26,10 +26,10 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     public route: ActivatedRoute, 
     public router: Router,
     private http: Http,
-    private rootScope: RootScopeService,
+    public rootScope: RootScopeService,
     private settings: SettingsService
   ) {
-    super()
+    super(null, null, null, null)
   }
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
@@ -55,22 +55,18 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
   getData(){
     if(!this.compare.length) return this.error = "ERROR?";
 
-    console.log('requesting');
-    let studyProgrammeIDs:any = '[' + this.compare.map(id => '"'+id+'"') + ']';
-    console.log(studyProgrammeIDs)
+    let variables = {
+      lang: this.lang.toUpperCase(),
+      nidValues: '[' + this.compare.map(id => '"'+id+'"') + ']'
+    }
 
-    let lang = "%22" + this.lang.toUpperCase() + "%22"
-
-    let variables = "&variables={%22lang%22:"+ lang +",%22nidValues%22:"+ studyProgrammeIDs +"}";
-
-    this.url = this.settings.url + "/graphql?queryId=studyProgrammeComparison:1" + variables;
-    //console.log(studyProgrammeIDs);
+    this.url = this.settings.url + "/graphql?queryId=studyProgrammeComparison:1&variables=" + JSON.stringify(variables);
     
     this.http.get(this.url).subscribe(response => {
       let _response = JSON.parse(JSON.stringify(response));
       
       this.list = JSON.parse(_response._body).data.nodeQuery.entities;
-      console.log(this.list);
+      //console.log(this.list);
     });
   }
   ngOnInit() {
