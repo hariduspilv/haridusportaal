@@ -940,8 +940,6 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['newsletter']['modal_content'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Newsletter modal content'),
-			'#maxlength' => 64,
-			'#size' => 64,
 			'#default_value' => $config->get('newsletter.modal_content')['value'],
 		];
 		$form['newsletter']['modal_close'] = [
@@ -961,8 +959,6 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['newsletter']['unsubscribe_content'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Newsletter unsubscribe content'),
-			'#maxlength' => 64,
-			'#size' => 64,
 			'#default_value' => $config->get('newsletter.unsubscribe_content')['value'],
 		];
 		$form['newsletter']['subscription_thanks_content'] = [
@@ -1300,13 +1296,11 @@ class CustomTranslationForm extends ConfigFormBase {
 
 		$form['notFound'] = [
 			'#type' => 'details',
-			'#title' => $this->t('not found translations'),
+			'#title' => $this->t('Not found translations'),
 		];
 		$form['notFound']['explanation'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Not found page text'),
-			'#maxlength' => 64,
-			'#size' => 64,
 			'#default_value' => $config->get('notFound.explanation')['value'],
 		];
 
