@@ -3,9 +3,9 @@
     <ul class="main-container breadcrumb mt-0 mb-0">
       <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
         <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
-          <span>{{ breadcrumbEl.text }}</span>
+          <span attr.aria-label="{{'breadcrumbs navigation link'}}{{ breadcrumbEl.text }}{{'clickable'}}">{{ breadcrumbEl.text }}</span>
         </a>
-        <span *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
+        <span attr.aria-label="{{'breadcrumbs navigation link'}}{{ breadcrumbEl.text }}" tabindex="0" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
       </li>
     </ul>
   </div>
