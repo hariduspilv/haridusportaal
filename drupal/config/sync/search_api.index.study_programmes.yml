@@ -94,7 +94,7 @@ field_settings:
     label: 'School address'
     datasource_id: 'entity:node'
     property_path: field_school_address
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_school_address
