@@ -45,13 +45,11 @@ import { RecentEventsComponent } from './_components/recent.events/recent.events
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-
+  let localAddress = ['192', '10'];
   let translateUrls = {
     "localhost": ["/assets/", ".json"],
     //"localhost": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     "htm.twn.ee": ["/assets/", ".json"],
-    "10.0.2.2": ["/assets/", ".json"], //Virtualbox local IP
-    "192.168.1.9": ["/assets/", ".json"],
     //"htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     "otherwise": ["https://api.test.edu.ee/", "/base_settings?_format=json"]
   }
@@ -60,10 +58,14 @@ export function HttpLoaderFactory(http: HttpClient) {
   
   if( translateUrls[document.domain] ) {
     path = translateUrls[document.domain];
-  }else{
+
+  } else if(localAddress.some(octet => document.domain.includes(octet))) {
+    path = translateUrls['localhost'];
+
+  } else {
     path = translateUrls.otherwise;
   }
-
+ 
   return new TranslateHttpLoader(http, path[0], path[1]);
 }
 
