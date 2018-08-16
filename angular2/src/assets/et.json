@@ -76,7 +76,8 @@
     "registration_form_thanks": "Täname sündmusele registreerimise eest!",
     "registration_form_add_to_calendar": "Lisa sündmus enda kalendrisse",
     "registration_ended": "Sündmusele registreerimine on lõppenud",
-    "registration_not_started": "Sündmusele registreerimine pole veel alanud"
+    "registration_not_started": "Sündmusele registreerimine pole veel alanud",
+    "registration_full": "Sündmuse kohad on täis"
 
   },
   "school": {

@@ -90,8 +90,8 @@
                     <tr *ngIf="data.fieldTeachingLanguage">
                       <td>Õppekeel(ed)</td>
                       <td>
-                        <ng-container *ngFor="let item of data.fieldTeachingLanguage">
-                          {{ item.entity.entityLabel }}
+                        <ng-container *ngFor="let item of data.fieldTeachingLanguage; let i = index;">
+                            <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.entityLabel }}
                         </ng-container>
                       </td>
                     </tr>
@@ -99,12 +99,12 @@
                     <tr *ngIf="data.fieldAmount">
                       <td>Õppekava maht</td>
 
-                      <td>{{ data.fieldAmount }}</td>
+                      <td>{{ data.fieldAmount }} {{ data.fieldAmountUnit }}</td>
                     </tr>
 
                     <tr *ngIf="data.fieldPracticalTrainingAmount">
                       <td>Praktika maht</td>
-                      <td>{{ data.fieldPracticalTrainingAmount }}</td>
+                      <td>{{ data.fieldPracticalTrainingAmount }} {{ data.fieldAmountUnit }}</td>
                     </tr>
 
                     <tr *ngIf="data.fieldDurationYears">
@@ -124,7 +124,7 @@
 
                     <tr *ngIf="data.fieldAccreditationValidUntil">
                       <td>Akrediteerimise otsuse kehtivuse lõpp</td>
-                      <td>{{ data.fieldAccreditationValidUntil.unix }}</td>
+                      <td>{{ data.fieldAccreditationValidUntil.unix * 1000 | date:"dd.MM.yyyy" }}</td>
                     </tr>
 
                     <tr *ngIf="data.fieldWebPageAddress">
@@ -134,7 +134,11 @@
 
                     <tr *ngIf="data.fieldQualificationStandardId && data.fieldQualificationStandardId.length > 0">
                       <td>Kutsestandard(id)</td>
-                      <td><a href="https://www.kutsekoda.ee/et/kutseregister/kutsestandardid/{{ data.fieldQualificationStandardId[0].entity.entityLabel }}" target="_blank">Vaata kutsestandardit</a></td>
+                      <td>
+                        <ng-container *ngFor="let item of data.fieldQualificationStandardId">
+                          {{ item.entity.entityLabel }}<br />
+                        </ng-container>
+                      </td>
                     </tr>
 
                   </tbody>
