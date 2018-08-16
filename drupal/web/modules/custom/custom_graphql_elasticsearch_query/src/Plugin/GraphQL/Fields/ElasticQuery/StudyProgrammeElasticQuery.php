@@ -317,7 +317,7 @@ protected function getElasticQuery($args){
       foreach($values as $value){
         $condition['bool']['must'][0][] = array(
           'wildcard' => array(
-            'field_school_address' => str_replace('_','?',str_replace('%','*',$value))
+            'field_school_address' => '*'.str_replace(',', '', strtolower($value)).'*'
           )
         );
       }
