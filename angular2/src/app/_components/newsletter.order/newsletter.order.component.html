@@ -11,7 +11,7 @@
         <div class="block__content--form__checklist__elem" *ngFor="let item of data">
           <label class="checkbox__container pointer">
             <span class="label">{{ item.entityLabel }}</span>
-            <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" >
+            <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" (change)="updateRSSLink()">
             <span class="checkmark"></span>
           </label>
         </div>
@@ -39,6 +39,7 @@
         </div>
       </div><!--block__content--form__input-->
 
+      <a href="http://test-htm.wiseman.ee:30000/et/custom/rss.xml{{ rssIDs }}" target="_blank">Rss feed</a>
     </form><!--block__content--form-->
   </div><!--block__content-->
 
