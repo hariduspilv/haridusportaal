@@ -42,11 +42,10 @@
           </div>
         </div>
         <div class="col-12">
-            <button mat-raised-button color="primary">{{ 'button.login' | translate }}</button>
+            <button role="button" mat-raised-button color="primary">{{ 'button.login' | translate }}</button>
         </div><!--/col-12-->
       </div>
     </form>
-    <div class="error" *ngIf="error">{{ 'login.error' | translate }}</div>
+    <div class="error" role="textbox" tabindex="0" attr.aria-label="{{'Logging failed. Wrong Username or Password'}}" *ngIf="error">{{ 'login.error' | translate }}</div>
   </div>
-  
 </span>
