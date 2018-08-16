@@ -1,3 +1,99 @@
 <div class="block padding-block">
-  <div class="block-title">SARNASED ERIALAD</div>
+  
+  <div class="block-title">{{ 'studyProgramme.related.label' | translate | uppercase }}</div>
+
+  <form (submit)="getData(search_address)">
+    <div class="row">
+      <div class="col-10 sm-12" >
+        <div class="round-input__wrapper" [class.complete]="search_address">
+          <span class="round-input__title">{{ 'studyProgramme.related.filter_location' | translate }}</span>
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field" placeholder="{{ 'studyProgramme.related.filter_location' | translate }} " [(ngModel)]='search_address' name="search_address" />
+          </div>
+        </div><!--/round-inpuit__wrapper-->
+      </div>
+      <div class="col-2 align-end text-right sm-12 inline-flex">
+        <div>
+          <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+        </div>
+      </div><!--/col-3-->
+    </div><!--/row-->
+  </form>
+
+  <div *ngIf="list && list.length == 0" class="no-results">
+      {{ 'studyProgramme.related.no_results' | translate }}
+  </div>
+
+  <div *ngIf="list && list.length > 0">
+    <ng-container *ngFor="let item of list; let i = index">
+      <div class="studyProgramme__item">
+        <div class="studyProgramme__item__titlebox">
+          <div class="col-grow">
+            <a [routerLink]="item.EntityPath" class="studyProgramme__item__title">{{ item.Name }}</a>
+            <div class="studyProgramme__item__subtitle sm-hide">
+              <ng-container *ngIf="item.FieldSchoolName">{{ item.FieldSchoolName }},</ng-container>
+              <ng-container *ngIf="item.FieldSchoolAddress">{{ item.FieldSchoolAddress }}</ng-container>
+              <a *ngIf="item.FieldSchoolWebsite" href="{{ item.FieldSchoolWebsite }}">{{ item.FieldSchoolWebsite | removeProtocol }}</a>
+            </div>
+          </div>
+          <!--col-9-->
+          <div class="col sm-hide">
+            <compare [id]="item.Nid" localStorageKey="studyProgramme.compare"></compare>
+          </div>
+          <!--/col-3-->
+        </div>
+
+        <div class="studyProgramme__item__col sm-hide">
+          <p *ngIf="item.FieldStudyProgrammeLevel">{{ 'studyProgramme.level' | translate }} :
+            <b>{{ item.FieldStudyProgrammeLevel }}</b>
+          </p>
+          <p *ngIf="item.FieldAccreditationStatus">
+            {{ 'studyProgramme.accreditation' | translate }}:
+            <b>{{ 'studyProgramme.valid_accreditation' | translate }}</b>
+          </p>
+        </div>
+        <!--/scools__item__col-->
+        <div class="studyProgramme__item__col sm-hide">
+          <p *ngIf="item.FieldTeachingLanguage">
+            {{ 'studyProgramme.languages' | translate }}:
+            <b *ngFor="let language of item.FieldTeachingLanguage; let last = last">
+              {{ language }}{{last ? '' : ', '}}
+            </b>
+          </p>
+          <p *ngIf="item.FieldDurationYears || item.FieldDurationMonths">
+            {{ 'studyProgramme.study_duration' | translate }}:
+            <b>
+              <ng-container *ngIf="item.FieldDurationYears">
+                {{ item.FieldDurationYears }}
+                <span *ngIf="item.FieldDurationYears < 2">{{ 'time.duration_year_singular' | translate }}</span>
+                <span *ngIf="item.FieldDurationYears > 1">{{ 'time.duration_year_plural' | translate }}</span>
+              </ng-container>
+              <ng-container *ngIf="item.FieldDurationMonths">
+                {{ item.FieldDurationMonths }}
+                <ng-container *ngIf="item.FieldDurationMonths < 2">{{ 'time.duration_month_singular' | translate }}</ng-container>
+                <ng-container *ngIf="item.FieldDurationMonths > 1">{{ 'time.duration_month_plural' | translate }}</ng-container>
+
+              </ng-container>
+
+
+            </b>
+          </p>
+        </div>
+        <!--/scools__item__col-->
+        <div class="studyProgramme__item__col sm-hide">
+          <p *ngIf="item.FieldIscedfDetailed">
+            {{ 'studyProgramme.study_group' | translate }} :
+            <b>{{ item.FieldIscedfDetailed }}</b>
+          </p>
+          <p *ngIf="item.FieldAdmissionStatus">{{ 'studyProgramme.admission_status' | translate }}:
+            <b>{{ item.FieldAdmissionStatus }}</b>
+          </p>
+        </div>
+        <!--/scools__item__col-->
+      </div>
+      <!--/studyProgramme__item-->
+    </ng-container>
+    <!--/list repeat-->
+  </div>
+  <!--/list-->
 </div>

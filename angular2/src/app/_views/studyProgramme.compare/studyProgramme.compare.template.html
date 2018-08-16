@@ -1,134 +1,145 @@
 
-
+<breadcrumbs></breadcrumbs>
 <div class="main-container">
   <mat-spinner *ngIf="!list && error"></mat-spinner>
-
-  <div class="row">
-    <div class="col-8 sm-12">
-      <div class="block padding-block">
-
+  <div class="row" *ngIf="list">
+    <div class="col-12 sm-12">
+      <div class="block">
         <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>
-        <article>
-          <div class="row">
-            <div class="col-12">
-              <table>
-                <thead>
-                  <tr *ngIf="list">
-                    <th></th>
-                    <th *ngFor="let item of list">
-                      <a [routerLink]="item.entityUrl.path">{{item.name}}</a>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Õppeasutuse nimi</td>
-                    <td *ngFor="let item of list">{{ item.EducationalInstitution.entity.name }}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Õppekava tase</td>
-                    <td *ngFor="let item of list">
-                      <ng-container *ngIf="item.level">
-                          {{ item.level.entity.name }}
-                      </ng-container>
-                      <ng-container *ngIf="!item.level"> - </ng-container>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Omistatav kraad või diplom</td>
-                    <td *ngFor="let item of list">
-                      <ng-container *ngIf="item.degreeOrDiplomaAwarded">
-                        {{ item.degreeOrDiplomaAwarded.entity.name }}
-                      </ng-container>
-                      <ng-container *ngIf="!item.degreeOrDiplomaAwarded"> - </ng-container>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Spetsialiseerumine</td>
-                    <td *ngFor="let item of list">
-                      <ng-container *ngIf="item.specialization">
-                          {{ item.specialization }}
-                      </ng-container>
-                      <ng-container *ngIf="!item.specialization"> - </ng-container>
-                    </td>
-                  </tr>
-                  
-                  <tr >
-                    <td>Õppekeel(ed)</td>
-                    <td *ngFor="let item of list">
-                      <ng-container *ngFor="let lang of item.teachingLanguage; let last">
-                        <ng-container *ngIf="!last">{{ lang.entity.name }}, </ng-container>
-                        <ng-container *ngIf="last">{{ lang.entity.name }}</ng-container>
-                      </ng-container>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Õppekava maht</td>
-                    <td *ngFor="let item of list">
-                      <ng-container *ngIf="item.amount">
-                        {{ item.amount }}
-                      </ng-container>
-                      <ng-container *ngIf="!item.amount"> - </ng-container>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Praktika maht</td>
-                    <td *ngFor="let item of list">
-                      <ng-container *ngIf="item.practicalTrainingAmount">
-                        {{ item.practicalTrainingAmount }}
-                      </ng-container>
-                      <ng-container *ngIf="!item.practicalTrainingAmount"> - </ng-container>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Nominaalkestus</td>
-                    <td *ngFor="let item of list">
-                      {{ item.durationYears }} aastat 
-
-                      <ng-container *ngIf="item.durationMonths && item.durationMonths !== 0">
-                        {{ item.durationMonths }} kuud
-                      </ng-container>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td>Vastuvõtu olek</td>
-                    <td *ngFor="let item of list">{{ item.admissionStatus }}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Akrediteerimise otsus</td>
-                    <td *ngFor="let item of list">
-                      <ng-container *ngIf="item.accreditationStatus">{{ item.accreditationStatus }}</ng-container>
-                      <ng-container *ngIf="!item.accreditationStatus"> - </ng-container>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Akrediteerimise otsuse kehtivuse lõpp</td>
-                    <td *ngFor="let item of list">
-                      <ng-container *ngIf="item.accreditationValidUntil">{{ item.accreditationValidUntil.unix * 1000 | date:"dd.MM.yyyy" }}</ng-container>
-                      <ng-container *ngIf="!item.accreditationValidUntil"> - </ng-container>
-                    </td>
-                  </tr>
-                  <tr>
-                      <td></td>
-                      <td *ngFor="let item of list">
-                        <a href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'studyProgramme.compare')">{{ 'button.remove_from_comparison' | translate}}</a>
-                      </td>
-                    </tr>
-
-                </tbody>
-              </table>
-            </div>
+        <h1 class="block-heading">{{ 'studyProgramme.compare_modal_title' | translate }}</h1>
+        <div class="scrollable">
+          <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
+            (touchstart)="tableService.scrollStart('tableRef')" 
+            (mousedown)="tableService.scrollStart('tableRef')" 
+            (touchend)="tableService.scrollEnd()" 
+            (mouseup)="tableService.scrollEnd()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
           </div>
-        </article>
+          <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
+            (touchstart)="tableService.scrollStart('tableRef', true)"
+            (mousedown)="tableService.scrollStart('tableRef', true)"
+            (touchend)="tableService.scrollEnd(true)"
+            (mouseup)="tableService.scrollEnd(true)">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+          </div>
+          <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
+            <table class="scrollableTable">
+              <thead>
+                <tr *ngIf="list">
+                  <th></th>
+                  <th *ngFor="let item of list">
+                    <a [routerLink]="item.entityUrl.path">{{item.name}}</a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Õppeasutuse nimi</td>
+                  <td *ngFor="let item of list">{{ item.EducationalInstitution.entity.name }}</td>
+                </tr>
+
+                <tr>
+                  <td>Õppekava tase</td>
+                  <td *ngFor="let item of list">
+                    <ng-container *ngIf="item.level">
+                        {{ item.level.entity.name }}
+                    </ng-container>
+                    <ng-container *ngIf="!item.level"> - </ng-container>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Omistatav kraad või diplom</td>
+                  <td *ngFor="let item of list">
+                    <ng-container *ngIf="item.degreeOrDiplomaAwarded">
+                      {{ item.degreeOrDiplomaAwarded.entity.name }}
+                    </ng-container>
+                    <ng-container *ngIf="!item.degreeOrDiplomaAwarded"> - </ng-container>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Spetsialiseerumine</td>
+                  <td *ngFor="let item of list">
+                    <ng-container *ngIf="item.specialization">
+                        {{ item.specialization }}
+                    </ng-container>
+                    <ng-container *ngIf="!item.specialization"> - </ng-container>
+                  </td>
+                </tr>
+                
+                <tr >
+                  <td>Õppekeel(ed)</td>
+                  <td *ngFor="let item of list">
+                    <ng-container *ngFor="let lang of item.teachingLanguage; let last">
+                      <ng-container *ngIf="!last">{{ lang.entity.name }}, </ng-container>
+                      <ng-container *ngIf="last">{{ lang.entity.name }}</ng-container>
+                    </ng-container>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Õppekava maht</td>
+                  <td *ngFor="let item of list">
+                    <ng-container *ngIf="item.amount">
+                      {{ item.amount }}
+                    </ng-container>
+                    <ng-container *ngIf="!item.amount"> - </ng-container>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Praktika maht</td>
+                  <td *ngFor="let item of list">
+                    <ng-container *ngIf="item.practicalTrainingAmount">
+                      {{ item.practicalTrainingAmount }}
+                    </ng-container>
+                    <ng-container *ngIf="!item.practicalTrainingAmount"> - </ng-container>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Nominaalkestus</td>
+                  <td *ngFor="let item of list">
+                    {{ item.durationYears }} aastat 
+
+                    <ng-container *ngIf="item.durationMonths && item.durationMonths !== 0">
+                      {{ item.durationMonths }} kuud
+                    </ng-container>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>Vastuvõtu olek</td>
+                  <td *ngFor="let item of list">{{ item.admissionStatus }}</td>
+                </tr>
+
+                <tr>
+                  <td>Akrediteerimise otsus</td>
+                  <td *ngFor="let item of list">
+                    <ng-container *ngIf="item.accreditationStatus">{{ item.accreditationStatus }}</ng-container>
+                    <ng-container *ngIf="!item.accreditationStatus"> - </ng-container>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Akrediteerimise otsuse kehtivuse lõpp</td>
+                  <td *ngFor="let item of list">
+                    <ng-container *ngIf="item.accreditationValidUntil">{{ item.accreditationValidUntil.unix * 1000 | date:"dd.MM.yyyy" }}</ng-container>
+                    <ng-container *ngIf="!item.accreditationValidUntil"> - </ng-container>
+                  </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td *ngFor="let item of list">
+                      <a href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'studyProgramme.compare')">{{ 'button.remove_from_comparison' | translate}}</a>
+                    </td>
+                  </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div><!--/block-->
     </div><!--/col-8-->
   </div><!--/row-->

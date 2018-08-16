@@ -151,11 +151,14 @@ protected function getElasticQuery($args){
             }
             break;
           case 'LIKE':
-            $elastic_must_filters[] = array(
-              'wildcard' => array(
-                $condition['field'] => str_replace('_','?',str_replace('%','*',$condition['value'][0]))
-              )
-            );
+            $values = explode(" ", $condition['value'][0]);
+            foreach($values as $value){
+              $elastic_must_filters[] = array(
+                'wildcard' => array(
+                  $condition['field'] => str_replace('_','?',str_replace('%','*',$value))
+                )
+              );
+            }
             break;
           case 'IN':
             $elastic_must_filters[] = array(

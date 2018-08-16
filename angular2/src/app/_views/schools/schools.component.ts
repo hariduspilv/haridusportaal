@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
 import { ListQuery, OptionsQuery } from '../../_services/school/school.service';
@@ -163,13 +163,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     }
 
 
-  }
-
-
-  @HostListener('window:resize', ['$event'])
-  onResize(){
-    this.showFilter = window.innerWidth > 900;
-    this.filterFull = window.innerWidth < 900;
   }
 
   setPaths() {
@@ -367,8 +360,10 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   ngOnInit() {
 
+    this.showFilter = window.innerWidth > 900;
+    this.filterFull = window.innerWidth < 900;
+
     this.setPaths();
-    this.onResize();
     this.pathWatcher();
     this.watchSearch();
     this.getOptions();

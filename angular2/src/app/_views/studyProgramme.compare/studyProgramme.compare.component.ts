@@ -1,19 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
 import { RootScopeService } from '../../_services/rootScope/rootScope.service';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { SettingsService } from '../../_core/settings';
 import { Subscription } from 'rxjs/Subscription';
 import { CompareComponent } from '../../_components/compare/compare.component';
+import { TableService } from '../../_services/table/table.service';
 
 @Component({
   templateUrl: "studyProgramme.compare.template.html",
   styleUrls: ["studyProgramme.compare.styles.scss"]
 })
 
-export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit,OnDestroy {
+export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit, AfterViewChecked, OnDestroy {
   public compare = JSON.parse(localStorage.getItem('studyProgramme.compare')) || [];
   public error;
   private url;
@@ -21,13 +22,17 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
   private path: string;
   public list: any = false;
   private subscriptions: Subscription[] = [];
+  tableOverflown: boolean = false;
+  elemAtStart: boolean = true;
+  initialized: boolean = false;
 
   constructor (
     public route: ActivatedRoute, 
     public router: Router,
-    private http: Http,
+    private http: HttpClient,
     public rootScope: RootScopeService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private tableService: TableService
   ) {
     super(null, null, null, null)
   }
@@ -48,7 +53,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     });
   }
   removeItemFromList(id, localStorageKey){
-    let existing = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    let existing = this.readFromLocalStorage(localStorageKey);
     this.removeItemFromLocalStorage(id, localStorageKey, existing)
     this.list = this.list.filter(item => item.nid != id);
   }
@@ -63,16 +68,22 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     this.url = this.settings.url + "/graphql?queryId=studyProgrammeComparison:1&variables=" + JSON.stringify(variables);
     
     this.http.get(this.url).subscribe(response => {
-      let _response = JSON.parse(JSON.stringify(response));
-      
-      this.list = JSON.parse(_response._body).data.nodeQuery.entities;
-      //console.log(this.list);
+      this.list = response['data'].nodeQuery.entities;
     });
   }
   ngOnInit() {
     this.pathWatcher()
     this.setPaths();
     this.getData();
+  }
+  ngAfterViewChecked() {
+    const element = document.getElementById('tableRef');
+    if (element) {
+      setTimeout(_ => {
+        this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+        this.initialized = true;
+      }, 50)
+    }
   }
   ngOnDestroy() {
     /* Clear all subscriptions */
