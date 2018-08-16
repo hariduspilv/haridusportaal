@@ -124,7 +124,10 @@
     "filter_iscedf_detailed": "Õppekavarühm",
     "filter_open_admission": "Ainult avatud vastuvõtuga",
     "no_results": "Otsingutulemused puuduvad",
-    "compare_modal_title": "Erialade võrdlus",
+    "related.label": "Sarnased erialad",
+    "related.filter_location": "Otsi asukoha järgi",
+    "related.no_results": "Sarnased erialad puuduvad",
+    "compare_modal_title": "Erialade võrdlemine",
     "compare_modal_content": "<p> Maksimaalne võrreldavate erialade arv on ületatud</p>Võrdlusesse saab lisada kuni 3 eriala",
     "compare_modal_close": "Sulge aken"
   },
