@@ -1,8 +1,29 @@
 <div class="block padding-block">
-  <div class="block-title">SARNASED ERIALAD</div>
+  
+  <div class="block-title">{{ 'studyProgramme.related.label' | translate | uppercase }}</div>
+
+  <form (submit)="getData(search_address)">
+    <div class="row">
+      <div class="col-10 sm-12" >
+        <div class="round-input__wrapper" [class.complete]="search_address">
+          <span class="round-input__title">{{ 'studyProgramme.related.filter_location' | translate }}</span>
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field" placeholder="{{ 'studyProgramme.related.filter_location' | translate }} " [(ngModel)]='search_address' name="search_address" />
+          </div>
+        </div><!--/round-inpuit__wrapper-->
+      </div>
+      <div class="col-2 align-end text-right sm-12 inline-flex">
+        <div>
+          <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+        </div>
+      </div><!--/col-3-->
+    </div><!--/row-->
+  </form>
+
   <div *ngIf="list && list.length == 0" class="no-results">
       {{ 'studyProgramme.related.no_results' | translate }}
   </div>
+
   <div *ngIf="list && list.length > 0">
     <ng-container *ngFor="let item of list; let i = index">
       <div class="studyProgramme__item">

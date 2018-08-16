@@ -140,7 +140,7 @@
         </article>
       </div><!--/block-->
 
-      <div class="text-center actions sm-hide">
+      <div class="text-center actions sm-hide" *ngIf="!displayRelatedStudyProgrammes">
         <button mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true" >Vaata sarnaseid erialasid</button>
       </div><!--/text-center-->
 
