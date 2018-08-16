@@ -107,6 +107,8 @@
     "level": "Level of curriculum",
     "accreditation": "Accreditation",
     "valid_accreditation": "Valid accreditation",
+    "accreditation_decision": "Accreditation decision",
+    "accreditation_decision_till": "Accreditation decision due",
     "languages": "Teaching languages",
     "study_duration": "Duration of the course",
     "study_group": "Curriculum Group",
@@ -126,7 +128,13 @@
     "related.no_results": "No related study programmes",
     "compare_modal_title": "Study programme comparison",
     "compare_modal_content": "<p> max reched </p><p>U can unly added max 3 stody prugrammes</ p>",
-    "compare_modal_close": "Close window"
+    "compare_modal_close": "Close window",
+    "school": "School",
+    "degree_or_diploma": "Degree or diploma",
+    "specialization": "Specialization",
+    "study_capacity": "Capacity",
+    "internship_capacity": "Internship capacity",
+    "nominal_time": "Nominal time"
   },
   "login": {
     "username": "Username",

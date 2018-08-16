@@ -52,13 +52,21 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       'et': '/et/erialad/vordlus'
     });
   }
+  rerouteToParent(): void {
+    let currentUrl = JSON.parse(JSON.stringify(this.path.split('/')));
+    currentUrl.pop();
+    
+    let parentUrl = currentUrl.join('/');
+    this.router.navigateByUrl(parentUrl);
+  }
   removeItemFromList(id, localStorageKey){
     let existing = this.readFromLocalStorage(localStorageKey);
     this.removeItemFromLocalStorage(id, localStorageKey, existing)
     this.list = this.list.filter(item => item.nid != id);
+    
+    if(!this.list.length) this.rerouteToParent();
   }
   getData(){
-    if(!this.compare.length) return this.error = "ERROR?";
 
     let variables = {
       lang: this.lang.toUpperCase(),
@@ -69,21 +77,18 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     
     this.http.get(this.url).subscribe(response => {
       this.list = response['data'].nodeQuery.entities;
+      if(!this.list.length) this.rerouteToParent();
     });
   }
+ 
   ngOnInit() {
-    this.pathWatcher()
+    
+    this.pathWatcher();
     this.setPaths();
     this.getData();
   }
   ngAfterViewChecked() {
-    const element = document.getElementById('tableRef');
-    if (element) {
-      setTimeout(_ => {
-        this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-        this.initialized = true;
-      }, 50)
-    }
+    this.initialTableCheck('tableRef')
   }
   ngOnDestroy() {
     /* Clear all subscriptions */
@@ -91,6 +96,13 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
+    }
+  }
+  initialTableCheck(id) {
+    const element = document.getElementById(id);
+    if (element) {
+      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.initialized = true;
     }
   }
 }

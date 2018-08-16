@@ -18,7 +18,7 @@ table {width: 100%;border-collapse: collapse; margin: 0;
     // &:first-child {padding-left: $small;}
     // &:last-child {padding-right: $small;}
     &:first-child{width:37%;}
-    &:last-child{font-weight: 500;}
+    &.highlighted {font-weight: 500;}
   }
   td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
   th.hidden {text-align: center;border-bottom: none;}
