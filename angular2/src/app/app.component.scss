@@ -68,14 +68,18 @@ $grid-columns: 12;
   &+.mat-divider{margin:1.25rem 0;}
 }
 .sm-show{display:none !important;}
+.sm-flex{display:none !important;}
 .md-show{display:none !important;}
+.md-flex{display:none !important;}
 @include break-on(sm, max) {
   .sm-hide{display:none !important;}
   .sm-show{display: block !important;}
+  .sm-flex{display: flex !important;}
 }
 @include break-on(md, max) {
   .md-hide{display:none !important;}
   .md-show{display: block !important;}
+  .md-flex{display: flex !important;}
 }
 
 /* Common styles across components */
