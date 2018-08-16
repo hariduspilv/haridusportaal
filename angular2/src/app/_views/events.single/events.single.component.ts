@@ -126,13 +126,7 @@ export class EventsSingleComponent implements AfterViewChecked {
     });
   }
   ngAfterViewChecked() {
-    const element = document.getElementById('participantsElem');
-    if (element) {
-      setTimeout(_ => {
-        this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-        this.initialized = true;
-      }, 50)
-    }
+    this.initialTableCheck('participantsElem')
   }
   ngOnDestroy() {
     this.routerSubscription.unsubscribe();
@@ -230,6 +224,13 @@ export class EventsSingleComponent implements AfterViewChecked {
         alt: this.content.entity.fieldPicture.url
       }
     });
+  }
+  initialTableCheck(id) {
+    const element = document.getElementById(id);
+    if (element) {
+      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.initialized = true;
+    }
   }
 
 }
