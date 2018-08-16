@@ -30,9 +30,7 @@ export class TableService {
   isElemOverflown(id) {
     const element = document.getElementById(id);
     if (element) {
-      setTimeout(_ => {
-        return (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-      }, 50)
+      return (element.scrollWidth - element.scrollLeft) > element.clientWidth;
     }
     return false
   }

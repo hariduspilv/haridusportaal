@@ -77,13 +77,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     this.getData();
   }
   ngAfterViewChecked() {
-    const element = document.getElementById('tableRef');
-    if (element) {
-      setTimeout(_ => {
-        this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-        this.initialized = true;
-      }, 50)
-    }
+    this.initialTableCheck('tableRef')
   }
   ngOnDestroy() {
     /* Clear all subscriptions */
@@ -91,6 +85,13 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
+    }
+  }
+  initialTableCheck(id) {
+    const element = document.getElementById(id);
+    if (element) {
+      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.initialized = true;
     }
   }
 }
