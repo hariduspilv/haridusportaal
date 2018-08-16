@@ -19,7 +19,7 @@ article {padding-bottom: $xxl;
 }
 ::ng-deep .mat-button-focus-overlay, ::ng-deep .mat-button-ripple {display: none;}
 ::ng-deep .mat-button:hover .mat-button-focus-overlay, .mat-stroked-button:hover .mat-button-focus-overlay {opacity: 0;transition: none;}
-.events__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;
+.events__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $small $medium;
   a {float: right;}
 }
 .events__list {border-top: $gutter solid $light-blue;background: $white;
@@ -77,36 +77,6 @@ _:-ms-lang(x), .article-image {width: 100%;margin:0;}
 .breadcrumb {padding-bottom: $gutter;}
 .calendar__add {margin-top: 1rem;text-align: center;}
 
-.participants {padding: $small 0 0 0;
-  @include break-on(sm, min) {position: relative;padding-right: $medium;padding-left: $medium;}
-  &__table {overflow:scroll;}
-  &__rectangle {width: 4rem;height: 4rem;border-radius: 50%;background-color: $blue;position: absolute;right: $medium;top: 50%;z-index: 5;
-    box-shadow: 0 .125rem .125rem 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
-    .mat-icon {position: relative;top: $quarter;left: $quarter;font-size: 2.5rem;color: $white;}
-    &--left {left: $medium;
-      @include break-on(sm, min) {left: $xxl;}
-    }
-    @include break-on(sm, min) {right: $xxl;}
-  }
-}
-.participantsTable {width: 100%;border-collapse: collapse;
-  thead {background: $light-gray;
-    .sortable {&:hover { color: $dark-gray;}}
-    .mat-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
-  }
-  th {white-space: nowrap;}
-  th, td {line-height: 1.38rem;font-size: 1rem;font-weight: 500;padding: $gutter $medium;text-align:left;border: .0625rem solid $gray;}
-  td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
-  th.hidden {text-align: center;border-bottom: none;}
-  td {font-weight: 400;
-    &.hidden {border-top: none;border-bottom: none;
-      &.last {border-bottom: .0625rem solid $gray;}
-      &.vertical {position: relative;}
-      .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;font-size: .875rem;left: $gutter;top: $half-gutter;}
-    }
-  }
-  .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
-}
 ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
   font-family: 'Material Icons';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
