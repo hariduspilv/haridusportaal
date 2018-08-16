@@ -5,7 +5,7 @@
       <mat-icon (click)="toggleSideNav()" class="sm-show">menu</mat-icon>
     </div><!--/menu-burger-->
     
-    <a [routerLink]="[logoLink]" class="header-logo">
+    <a role="link" attr.aria-label="{{'This link leads to Home page'}}" [routerLink]="[logoLink]" class="header-logo">
       <span>Edu<span class="bold">portaal</span></span>
       <!-- <img src="assets/logo.png" /> -->
     </a>
@@ -15,7 +15,8 @@
       <div class="fill-space__flex">
         <div class="searchbar">
           <span class="search">
-            <input class="search-input round-input" placeholder="Otsi" />
+            <input role="search" class="search-input round-input" placeholder="Otsi lehelt" attr.aria-label="{{'You are on search field'}}" />
+            <a href="#" class="search-icn" tabindex="0" attr.aria-label="{{'Search button'}}"></a>
           </span>
         </div>
         <div class="loginbar">
@@ -23,10 +24,11 @@
 
           <div *ngIf="languages" class="languages pull-right">
             <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
-              <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)">{{ item.argument | uppercase }}</button>
+              <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu'}} {{ item.argument }} ">{{ item.argument | uppercase }}</button>
             </mat-menu>
             <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">more_vert</mat-icon></button>
           </div>
+
           <app-login></app-login>
         </div>
       </div>
@@ -38,7 +40,7 @@
 
     <div *ngIf="languages" class="sm-show pull-right">
       <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
-        <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)">{{ item.argument | uppercase }}</button>
+        <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu'}} {{ item.argument }} ">{{ item.argument | uppercase }}</button>
       </mat-menu>
       <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">more_vert</mat-icon></button>
     </div>
