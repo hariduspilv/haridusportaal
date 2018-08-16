@@ -162,9 +162,9 @@
 
   <ng-container *ngIf="view == 'map'">
     <div class="map--wrapper">
-      <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" >
-        <agm-marker-cluster [styles]="mapOptions.clusterStyles">
-          <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.Lat)"  [longitude]="parseFloat(marker.Lon)">
+      <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" maxZoom="16">
+        <agm-marker-cluster [styles]="mapOptions.clusterStyles" maxZoom="15">
+          <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.Lat)"  [longitude]="parseFloat(marker.Lon)" >
             <agm-snazzy-info-window [closeWhenOthersOpen]="true">
               <ng-template>
                 <p class="title">{{ marker.FieldSchoolName }}</p>

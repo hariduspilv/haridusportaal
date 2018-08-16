@@ -124,7 +124,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       that.bounds.minLon = bounds['b']['b'].toString();
       that.bounds.maxLon = bounds['b']['f'].toString();
 
-      
+
     }
     this.map.addListener("dragend", function () {
       getCoords();
@@ -225,6 +225,28 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.subscriptions = [ ...this.subscriptions, subscribe];
   }
 
+  fixCoordinates(entities) {
+
+    let coordinates = [];
+
+    for( var i in entities ){
+      let item = entities[i];
+      let lat = parseFloat( entities[i].Lat );
+      let lon = parseFloat( entities[i].Lon );
+      if( lat == null ){ continue; }
+
+      let coords = lat+","+lon;
+
+      if( coordinates.indexOf(coords) !== -1 ){
+        entities[i].Lon = lon+0.0005;
+      }
+      coordinates.push(coords);
+
+    }
+
+    this.list = entities;
+  }
+
   loadMore(){
     this.offset = this.list.length;
     this.loading = true;
@@ -273,23 +295,20 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       studentHomeEnabled: this.params['studentHome'] ? true : false,
     }
 
-    //http://test-htm.wiseman.ee:30000/graphql?queryId=schoolMapQuery:1&variables={ "lang": "et", "title": "%%", "location":"%%", "locationEnabled": false, "type": ["623"], "typeEnabled": false, "language": ["1296"], "languageEnabled": false, "ownership":["624"], "ownershipEnabled": false, "specialClass": "0", "specialClassEnabled": false, "studentHome": "0", "studentHomeEnabled": false }
     this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
 
       let entities = data['data']['CustomElasticQuery'];
-      //entities = entities.slice(0, this.mapLimit);
+
       this.loading = false;
       
-      console.log(entities);
       if( entities.length < this.limit ){ this.listEnd = true; }
 
-      if( mapRefresh ){
-        this.list = entities;
-        this.cdr.detectChanges();
-
-      }else{
+      if( this.view == "list" ){
         this.list = this.list ? [...this.list, ...entities] : entities;
+      }else{
+        this.fixCoordinates(entities);
       }
+      
 
       this.dataSubscription.unsubscribe();
       
