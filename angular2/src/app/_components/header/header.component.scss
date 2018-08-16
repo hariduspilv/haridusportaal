@@ -29,15 +29,19 @@
   width: stretch;
 }
 .searchbar {
+  position: relative;
   flex: 3;
   .search {flex-basis: 75%;
-    &::before {
-      position: relative;
+
+    }
+    .search-icn {
+          &::before {
+      position: absolute;
       font-family: 'Material Icons';
       font-size: 1.25rem;
       content: 'search';
       color: white;
-      left: 2.5rem;
+      left: 1rem;
       top: .25rem;
     }
   }
