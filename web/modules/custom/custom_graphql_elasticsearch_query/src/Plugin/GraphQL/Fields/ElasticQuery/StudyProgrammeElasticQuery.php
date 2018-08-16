@@ -312,7 +312,7 @@ protected function getElasticQuery($args){
     );
   }
   if(isset($location)){
-    $values = explode(" ", $location)
+    $values = explode(" ", $location);
     foreach($conditions as $key => $condition){
       foreach($values as $value){
         $condition['bool']['must'][0][] = array(
