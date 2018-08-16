@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_content_preview.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function htm_custom_content_preview_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the htm_custom_content_preview module.
+    case 'help.page.htm_custom_content_preview':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('My Awesome Module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
