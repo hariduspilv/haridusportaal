@@ -85,8 +85,8 @@
                     <tr *ngIf="data.fieldTeachingLanguage">
                       <td>Õppekeel(ed)</td>
                       <td>
-                        <ng-container *ngFor="let item of data.fieldTeachingLanguage">
-                          {{ item.entity.entityLabel }}
+                        <ng-container *ngFor="let item of data.fieldTeachingLanguage; let i = index;">
+                            <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.entityLabel }}
                         </ng-container>
                       </td>
                     </tr>
