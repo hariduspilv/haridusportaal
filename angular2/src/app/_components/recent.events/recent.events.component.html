@@ -2,13 +2,16 @@
   <div class="events__list__item register">
     <div *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity && !content.entity.EventRegistrations">
       <div class="title"><h1>{{'event.entrance' | translate}}</h1></div>
+
       <div class="events__list__item__body">
-        <span class="child" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">
-          {{'button.register' | translate}} {{'from' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} {{'to' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}
+        <span class="child" *ngIf="canRegister() == true">
+          {{'button.register' | translate}} {{'time.from' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} {{'time.to' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}
         </span>
-        <span class="error" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 < unix">{{'register.ended' | translate}}</span>
+        <span class="error" *ngIf="canRegister() == 'ended'">{{'event.registration_ended' | translate}}</span>
+        <span class="error" *ngIf="canRegister() == 'not_started'">{{'event.registration_not_started' | translate}}</span>
       </div>
-      <ng-container *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity && content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">
+
+      <ng-container *ngIf="content.entity.fieldEntryType == 'register' && canRegister() == true">
         <button mat-raised-button color="primary" (click)="openDialog()">{{'button.register' | translate}}</button>
         <div class="calendar__add"><a href="javascript:void(0);">{{'button.calendar_add' | translate}}</a></div>
       </ng-container>
@@ -35,12 +38,7 @@
 </div>
 
 <div class="events__list__recent">
-  <div class="map-wrapper" *ngIf="map">
-    <agm-map [zoomControl]="false" [streetViewControl]="false" [latitude]="map.lat" [longitude]="map.lon" [zoom]="map.zoom">
-      <agm-marker [latitude]="map.lat" [longitude]="map.lon"></agm-marker>
-    </agm-map>
-    <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'button.map_closer' | translate}}</span></a>
-  </div>
+  <map-wrapper [latitude]="parseFloat(map.lat)" [longitude]="parseFloat(map.lon)" zoom="11" *ngIf="map"></map-wrapper>
   <div class="events__list__item">
     <div class="title"><h1>{{'event.place_and_time' | translate}}</h1></div>
     <div class="events__list__item__body">

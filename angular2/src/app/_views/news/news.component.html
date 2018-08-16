@@ -94,7 +94,7 @@
   <div class="news-list main-container" *ngIf="list">
     <div class="news-title">{{ 'news.label' | translate | uppercase }}</div>
     <div>
-      <div *ngFor="let item of list" class="news-item" [routerLink]="[item.entityUrl.path]">
+      <div *ngFor="let item of list" class="news-item pointer" [routerLink]="[item.entityUrl.path]">
         <mat-card>
           <mat-card-content>
             <div class="row">

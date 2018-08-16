@@ -937,12 +937,11 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('newsletter.modal_title'),
 		];
+		#dump($config);
 		$form['newsletter']['modal_content'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Newsletter modal content'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('newsletter.modal_content')['value'],
+			#'#default_value' => $config->get('newsletter.modal_content')['value'],
 		];
 		$form['newsletter']['modal_close'] = [
 			'#type' => 'textfield',
@@ -961,8 +960,6 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['newsletter']['unsubscribe_content'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Newsletter unsubscribe content'),
-			'#maxlength' => 64,
-			'#size' => 64,
 			'#default_value' => $config->get('newsletter.unsubscribe_content')['value'],
 		];
 		$form['newsletter']['subscription_thanks_content'] = [
@@ -1300,13 +1297,11 @@ class CustomTranslationForm extends ConfigFormBase {
 
 		$form['notFound'] = [
 			'#type' => 'details',
-			'#title' => $this->t('Study programme translations'),
+			'#title' => $this->t('Not found translations'),
 		];
 		$form['notFound']['explanation'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Not found page text'),
-			'#maxlength' => 64,
-			'#size' => 64,
 			'#default_value' => $config->get('notFound.explanation')['value'],
 		];
 
@@ -1329,11 +1324,19 @@ class CustomTranslationForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 		$config = $this->config('custom_translation_module.settings');
-
+		#dump($form_state->cleanValues()->getValues());
 		foreach ($form_state->cleanValues()->getValues() as $key => $value){
-			if(!empty($value)) $config->set($key, $value);
+			foreach($value as $value_key => $child_val){
+				if(!is_array($child_val)){
+					$config->set($key.".".$value_key, $child_val);
+				}
+			}
+			#dump($key);
+			#	dump($value);
+			#if(is_array($value)) continue;
+			#if(!empty($value)) $config->set($key, $value);
 		}
-
+		#die();
 		$config->save();
   }
 

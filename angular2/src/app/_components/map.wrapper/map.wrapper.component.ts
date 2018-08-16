@@ -11,7 +11,11 @@ export class MapWrapperComponent implements OnInit {
   @Input() longitude: any;
   @Input() zoom: any;
 
-  constructor() { }
+  iconUrl = "assets/marker.svg"
+
+  constructor() {
+    console.log("asd");
+  }
 
   ngOnInit() {
     if (typeof this.latitude === 'string') {

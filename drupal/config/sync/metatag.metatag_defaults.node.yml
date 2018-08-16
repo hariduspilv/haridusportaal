@@ -7,17 +7,18 @@ _core:
 id: node
 label: Sisu
 tags:
-  keywords: '[node:field_tag]'
-  content_language: '[node:langcode]'
   title: '[node:title] | [site:name]'
-  description: '[node:summary]'
+  content_language: '[node:langcode]'
+  keywords: '[node:field_tag]'
   canonical_url: '[node:custom_url]'
+  description: '[node:summary]'
   og_site_name: '[node:title] | [site:name]'
+  og_description: '[node:summary]'
   og_url: '[node:custom_url]'
   og_title: '[node:title]'
-  og_description: '[node:summary]'
-  twitter_cards_type: summary_large_image
-  twitter_cards_description: '[node:summary]'
-  twitter_cards_page_url: '[node:custom_url]'
-  twitter_cards_title: '[node:title]'
+  og_image: '[node:custom_img]'
   twitter_cards_image: '[node:custom_img]'
+  twitter_cards_description: '[node:summary]'
+  twitter_cards_title: '[node:title]'
+  twitter_cards_type: summary_large_image
+  twitter_cards_page_url: '[node:custom_url]'

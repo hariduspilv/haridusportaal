@@ -138,7 +138,6 @@ protected function getElasticQuery($args){
   ];
 
   $studyprogramme = \Drupal::entityTypeManager()->getStorage('node')->load($args['filter']['nid'])->toArray();
-
   $studyprogrammename = $studyprogramme['title'][0]['value'];
   if(count($studyprogramme['field_study_programme_type']) > 0){
     $studyprogrammetype = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($studyprogramme['field_study_programme_type'][0]['target_id'])->label();
@@ -157,6 +156,9 @@ protected function getElasticQuery($args){
   }
   if(count($studyprogramme['field_amount']) > 0){
     $amount = $studyprogramme['field_amount'][0]['value'];
+  }
+  if(isset($args['filter']['school_address']) && $args['filter']['school_address'] != ''){
+    $location = $args['filter']['school_address'];
   }
 
   if(isset($language, $studyprogrammetype)){
@@ -308,6 +310,19 @@ protected function getElasticQuery($args){
         )
       )
     );
+  }
+  if(isset($location)){
+    $values = explode(" ", $location);
+    foreach($conditions as $key => $condition){
+      foreach($values as $value){
+        $condition['bool']['must'][0][] = array(
+          'wildcard' => array(
+            'field_school_address' => str_replace('_','?',str_replace('%','*',$value))
+          )
+        );
+      }
+      $conditions[$key] = $condition;
+    }
   }
 
   $query = array(

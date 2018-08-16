@@ -1,19 +1,10 @@
 uuid: 65ff3300-4dad-43ce-ba22-e14799092c04
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.news.body
-    - field.field.node.news.field_additional_images
-    - field.field.node.news.field_author
-    - field.field.node.news.field_introduction_image
-    - field.field.node.news.field_metatags
-    - field.field.node.news.field_news_description
-    - field.field.node.news.field_news_link
-    - field.field.node.news.field_news_video
-    - field.field.node.news.field_short_description
-    - field.field.node.news.field_tag
     - node.type.news
   module:
     - text
