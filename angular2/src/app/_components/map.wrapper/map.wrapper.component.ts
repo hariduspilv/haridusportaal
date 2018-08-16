@@ -11,7 +11,7 @@ export class MapWrapperComponent implements OnInit {
   @Input() longitude: any;
   @Input() zoom: any;
 
-  iconUrl = "assets/marker.svg"
+  iconUrl = "/assets/marker.png"
 
   constructor() {
     console.log("asd");

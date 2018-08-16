@@ -9,6 +9,8 @@ import { AgmCoreModule } from '@agm/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {EventsRegistratonDialog} from '../../_components/dialogs/events.registration/events.registration.dialog'
 
+import { SettingsService } from '../../_core/settings';
+
 @Component({
 	selector: 'recent-events',
 	templateUrl: './recent.events.component.html',
@@ -23,6 +25,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	@Input() content: any;
 	@Output() viewChange = new EventEmitter<boolean>();
 	
+	iCalUrl: string;
 	parseFloat = parseFloat;
 	error: boolean;
   lang: any;
@@ -31,11 +34,19 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 
 	paramsSub: any;
 
-	constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog) {}
+	constructor(
+		private router: Router,
+		private route: ActivatedRoute,
+		public dialog: MatDialog,
+		private settings: SettingsService
+	) {
+
+		}
 	
 	ngOnInit() {
 
-		console.log(this.map);
+
+		this.iCalUrl = this.settings.url+"/calendarexport/";
 		this.paramsSub = this.route.params.subscribe( params => {
 			this.lang = params['lang'];
 		});

@@ -153,6 +153,7 @@ query(
           fieldSchoolWebsite
           fieldSchoolContactEmail
           fieldSchoolContactPhone
+          fieldAmountUnit
           fieldWebPageAddress {
             uri
           }
