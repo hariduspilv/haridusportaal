@@ -312,12 +312,13 @@ protected function getElasticQuery($args){
     );
   }
   if(isset($location)){
+    $fuzziness = 2;
     foreach($conditions as $key => $condition){
       $condition['bool']['must'][0][] = array(
         'match' => array(
           'field_school_address' => array(
             'query' => $location,
-            'fuzziness' => 2
+            'fuzziness' => $fuzziness
           )
         )
       );
