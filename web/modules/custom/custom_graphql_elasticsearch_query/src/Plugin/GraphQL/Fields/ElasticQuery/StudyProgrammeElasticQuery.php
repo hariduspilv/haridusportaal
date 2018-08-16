@@ -319,11 +319,8 @@ protected function getElasticQuery($args){
     }
     foreach($conditions as $key => $condition){
       $condition['bool']['must'][0][] = array(
-        'match' => array(
-          'field_school_address' => array(
-            'query' => $location,
-            'fuzziness' => $fuzziness
-          )
+        'wildcard' => array(
+          'field_school_address' => $location
         )
       );
       $conditions[$key] = $condition;
