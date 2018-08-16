@@ -10,9 +10,18 @@
   color: $white;padding: 0 $small 0 2.5rem;font-size: $small;width: stretch;max-width: 40.625rem;
 }
 .searchbar {
+  position: relative;
   flex: 3;
-  .search {flex-basis: 75%;
-    &::before {position: relative;font-family: 'Material Icons';font-size: 1.25rem;content: 'search';color: $white;left: 2.5rem;top: .25rem;
+  .search {flex-basis: 75%;}
+  .search-icn {
+    &::before {
+      position: absolute;
+      font-family: 'Material Icons';
+      font-size: 1.25rem;
+      content: 'search';
+      color: white;
+      left: 1rem;
+      top: .25rem;
     }
   }
   @include break-on(sm, max) {display: none;}
@@ -46,7 +55,7 @@ input:focus:-ms-input-placeholder { color:transparent; }
 
 .fill-space {
   /* This fills the remaining space, by using flexbox. 
-     Every toolbar row uses a flexbox row layout. */
+  Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
   margin: 0 auto;
   max-width: 1180px;
