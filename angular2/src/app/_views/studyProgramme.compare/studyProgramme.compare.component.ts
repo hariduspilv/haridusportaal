@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
 import { RootScopeService } from '../../_services/rootScope/rootScope.service';
 import { Http } from '@angular/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -7,13 +7,14 @@ import 'rxjs/add/operator/catch';
 import { SettingsService } from '../../_core/settings';
 import { Subscription } from 'rxjs/Subscription';
 import { CompareComponent } from '../../_components/compare/compare.component';
+import { TableService } from '../../_services/table/table.service';
 
 @Component({
   templateUrl: "studyProgramme.compare.template.html",
   styleUrls: ["studyProgramme.compare.styles.scss"]
 })
 
-export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit,OnDestroy {
+export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit, AfterViewChecked, OnDestroy {
   public compare = JSON.parse(localStorage.getItem('studyProgramme.compare')) || [];
   public error;
   private url;
@@ -21,13 +22,17 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
   private path: string;
   public list: any = false;
   private subscriptions: Subscription[] = [];
+  tableOverflown: boolean = false;
+  elemAtStart: boolean = true;
+  initialized: boolean = false;
 
   constructor (
     public route: ActivatedRoute, 
     public router: Router,
     private http: Http,
     public rootScope: RootScopeService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private tableService: TableService
   ) {
     super(null, null, null, null)
   }
@@ -66,13 +71,21 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       let _response = JSON.parse(JSON.stringify(response));
       
       this.list = JSON.parse(_response._body).data.nodeQuery.entities;
-      //console.log(this.list);
     });
   }
   ngOnInit() {
     this.pathWatcher()
     this.setPaths();
     this.getData();
+  }
+  ngAfterViewChecked() {
+    const element = document.getElementById('tableRef');
+    if (element) {
+      setTimeout(_ => {
+        this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+        this.initialized = true;
+      }, 50)
+    }
   }
   ngOnDestroy() {
     /* Clear all subscriptions */
