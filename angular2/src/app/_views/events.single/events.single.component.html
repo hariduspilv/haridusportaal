@@ -86,15 +86,23 @@
               </div>
             </div><!--/col-10-->
           </div><!--/row-->
-          <div class="participants">
-            <div class="participants__rectangle participants__rectangle--left pointer" *ngIf="!elemAtStart" (touchstart)="scrollStart()" (mousedown)="scrollStart()" (touchend)="scrollEnd()" (mouseup)="scrollEnd()">
+          <div class="scrollable">
+            <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
+              (touchstart)="tableService.scrollStart('participantsElem')" 
+              (mousedown)="tableService.scrollStart('participantsElem')" 
+              (touchend)="tableService.scrollEnd()" 
+              (mouseup)="tableService.scrollEnd()">
               <mat-icon>keyboard_arrow_left</mat-icon>
             </div>
-            <div class="participants__rectangle participants__rectangle--right pointer" *ngIf="tableOverflown" (touchstart)="scrollStart(true)" (mousedown)="scrollStart(true)" (touchend)="scrollEnd(true)" (mouseup)="scrollEnd(true)">
+            <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
+              (touchstart)="tableService.scrollStart('participantsElem', true)"
+              (mousedown)="tableService.scrollStart('participantsElem', true)"
+              (touchend)="tableService.scrollEnd(true)"
+              (mouseup)="tableService.scrollEnd(true)">
               <mat-icon>keyboard_arrow_right</mat-icon>
             </div>
-            <div class="participants__table" id="participantsElem" (scroll)="isOverflown($event)">
-              <table class="participantsTable">
+            <div class="scrollable__table" id="participantsElem" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('participantsElem')">
+              <table class="scrollableTable">
                 <thead>
                   <tr>
                     <th>{{ 'event.participant_index' | translate }}</th>
@@ -136,20 +144,31 @@
                     <th class="separator" *ngIf="!phoneVisible"></th>
                     <th [class.hidden]="!phoneVisible">
                       <span *ngIf="phoneVisible">{{ 'participant_phone' | translate }}</span>
-                      <span *ngIf="phoneVisible"><mat-icon [attr.title]="viewTranslations['column.close']" (click)="phoneVisible = !phoneVisible;isElemOverflown()">skip_previous</mat-icon></span>
-                      <span *ngIf="!phoneVisible"><mat-icon [attr.title]="viewTranslations['column.open']" (click)="phoneVisible = !phoneVisible;isElemOverflown()">skip_next</mat-icon></span>
+                      <span *ngIf="phoneVisible">
+                        <mat-icon [attr.title]="viewTranslations['column.close']" (click)="phoneVisible = !phoneVisible; tableOverflown = tableService.isElemOverflown('participantsElem');">skip_previous</mat-icon>
+                      </span>
+                      <span *ngIf="!phoneVisible">
+                        <mat-icon [attr.title]="viewTranslations['column.open']" (click)="phoneVisible = !phoneVisible; tableOverflown = tableService.isElemOverflown('participantsElem');">skip_next</mat-icon>
+                      </span>
                     </th>
                     <th class="separator" *ngIf="!createdVisible"></th>
                     <th [class.hidden]="!createdVisible">
                       <span *ngIf="createdVisible">{{ 'participant_created' | translate }}</span>
-                      <span *ngIf="createdVisible"><mat-icon [attr.title]="viewTranslations['column.close']" (click)="createdVisible = !createdVisible;isElemOverflown()">skip_previous</mat-icon></span>
-                      <span *ngIf="!createdVisible"><mat-icon [attr.title]="viewTranslations['column.open']" (click)="createdVisible = !createdVisible;isElemOverflown()">skip_next</mat-icon></span>
+                      <span *ngIf="createdVisible">
+                        <mat-icon [attr.title]="viewTranslations['column.close']" (click)="createdVisible = !createdVisible; tableOverflown = tableService.isElemOverflown('participantsElem');">skip_previous</mat-icon>
+                      </span>
+                      <span *ngIf="!createdVisible">
+                        <mat-icon [attr.title]="viewTranslations['column.open']" (click)="createdVisible = !createdVisible; tableOverflown = tableService.isElemOverflown('participantsElem');">skip_next</mat-icon></span>
                     </th>
                     <th class="separator" *ngIf="!commentVisible"></th>
                     <th [class.hidden]="!commentVisible">
                       <span *ngIf="commentVisible">{{ 'participant_comment' | translate }}</span>
-                      <span *ngIf="commentVisible"><mat-icon [attr.title]="viewTranslations['column.close']" (click)="commentVisible = !commentVisible;isElemOverflown()">skip_previous</mat-icon></span>
-                      <span *ngIf="!commentVisible"><mat-icon [attr.title]="viewTranslations['column.open']" (click)="commentVisible = !commentVisible;isElemOverflown()">skip_next</mat-icon></span>
+                      <span *ngIf="commentVisible">
+                        <mat-icon [attr.title]="viewTranslations['column.close']" (click)="commentVisible = !commentVisible; tableOverflown = tableService.isElemOverflown('participantsElem');">skip_previous</mat-icon>
+                      </span>
+                      <span *ngIf="!commentVisible">
+                        <mat-icon [attr.title]="viewTranslations['column.open']" (click)="commentVisible = !commentVisible; tableOverflown = tableService.isElemOverflown('participantsElem');">skip_next</mat-icon>
+                      </span>
                     </th>
                   </tr>
                 </thead>
