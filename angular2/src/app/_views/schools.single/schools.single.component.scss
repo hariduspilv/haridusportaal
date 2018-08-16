@@ -23,9 +23,6 @@
           }
           &:last-child {
             font-weight: 500;
-            @include break-on(sm, max) {
-              min-width: 350px;
-            }
           }
         }
       }

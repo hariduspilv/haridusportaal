@@ -1,9 +1,8 @@
-query similarStudyProgrammes(
-  $nid: Int!
-){
-  CustomStudyProgrammeElasticQuery(filter:{nid:$nid}){
+query similarStudyProgrammes($nid: Int!, $address: String) {
+  CustomStudyProgrammeElasticQuery(filter: {nid: $nid, school_address: $address}) {
     Nid
     Name
+    FieldSchoolName
     FieldSchoolAddress
     FieldSchoolWebsite
     FieldStudyProgrammeLevel
