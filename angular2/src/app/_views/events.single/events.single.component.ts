@@ -38,7 +38,6 @@ export class EventsSingleComponent implements AfterViewChecked {
   participants: Array<any>;
   participantsSortOrder: object = {};
 
-  iCalUrl: string;
   participantsUrl: string;
   participantsListActiveState: boolean = false;
   phoneVisible: boolean = false;
@@ -69,7 +68,6 @@ export class EventsSingleComponent implements AfterViewChecked {
     private settings: SettingsService,
     private tableService: TableService
   ) {
-    this.iCalUrl = this.settings.url+"/calendarexport/";
     this.participantsUrl = this.settings.url+"/htm_custom_event_registration/registrations/";
   }
 

@@ -196,7 +196,7 @@ article a[href]{color:$blue;}
   }
   .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
 }
-.scrollable {padding: $small 0 0 0;
+.scrollable {position: relative; padding: $small 0 0 0;
   @include break-on(sm, min) {position: relative;padding-right: $medium;padding-left: $medium;}
   &__table {overflow:scroll;}
   &__rectangle {width: 4rem;height: 4rem;border-radius: 50%;background-color: $blue;position: absolute;right: $medium;top: 50%;z-index: 5;user-select: none;

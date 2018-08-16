@@ -9,6 +9,8 @@ import { AgmCoreModule } from '@agm/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {EventsRegistratonDialog} from '../../_components/dialogs/events.registration/events.registration.dialog'
 
+import { SettingsService } from '../../_core/settings';
+
 @Component({
 	selector: 'recent-events',
 	templateUrl: './recent.events.component.html',
@@ -23,6 +25,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	@Input() content: any;
 	@Output() viewChange = new EventEmitter<boolean>();
 	
+	iCalUrl: string;
 	parseFloat = parseFloat;
 	error: boolean;
   lang: any;
@@ -31,11 +34,19 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 
 	paramsSub: any;
 
-	constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog) {}
+	constructor(
+		private router: Router,
+		private route: ActivatedRoute,
+		public dialog: MatDialog,
+		private settings: SettingsService
+	) {
+
+		}
 	
 	ngOnInit() {
 
-		console.log(this.map);
+
+		this.iCalUrl = this.settings.url+"/calendarexport/";
 		this.paramsSub = this.route.params.subscribe( params => {
 			this.lang = params['lang'];
 		});
@@ -71,7 +82,12 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		console.log(this.content.entity.fieldRegistrationDate.entity);
 		let firstDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix * 1000;
 		let lastDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix * 1000;
-
+		let isFull = this.content.entity.RegistrationCount >= this.content.entity.fieldMaxNumberOfParticipants;
+		
+		if( isFull ){
+			return 'full';
+		}
+		
 		if( lastDate >= this.unix && firstDate <= this.unix ){
 			return true;
 		}
