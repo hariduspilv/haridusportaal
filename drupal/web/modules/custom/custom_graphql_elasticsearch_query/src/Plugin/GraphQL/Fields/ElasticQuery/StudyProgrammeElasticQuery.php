@@ -312,17 +312,15 @@ protected function getElasticQuery($args){
     );
   }
   if(isset($location)){
-    if(strlen($location) < 6){
-      $fuzziness = 1;
-    }else{
-      $fuzziness = 2;
-    }
+    $values = explode(" ", $location)
     foreach($conditions as $key => $condition){
-      $condition['bool']['must'][0][] = array(
-        'wildcard' => array(
-          'field_school_address' => $location
-        )
-      );
+      foreach($values as $value){
+        $condition['bool']['must'][0][] = array(
+          'wildcard' => array(
+            'field_school_address' => $value
+          )
+        );
+      }
       $conditions[$key] = $condition;
     }
   }
