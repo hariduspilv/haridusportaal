@@ -1,0 +1,17 @@
+"header" : {
+	"form_name" : "VPT_ESITATUD TAOLTUS",
+	"acceptable_activity" : "VIEW",
+	"current_step" : "step_0",
+	"identifier" : taotlusid
+},
+"body" : {
+	"steps": {
+		"step_0" : {
+			"data_elements" : {
+				"application_file" : {
+					"value" : { "file_name" : "taotlus.zip" , "file_identifier" : "VPT_TAOTLUS_ZIP"+taotlusid}
+				}
+			}
+		}
+	}
+}

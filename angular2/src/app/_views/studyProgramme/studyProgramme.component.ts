@@ -30,10 +30,10 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private limit: number = 5;
   private offset: number = 0;
 
-  public showFilter: boolean = true;
   private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed']
 
-  filterFull: boolean;
+  filterFull: boolean = true;
+  showFilter: boolean = true;
 
   private dataSubscription: Subscription;
   private filterOptionsSubscription: Subscription;
@@ -42,7 +42,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private FilterOptions: object = {};
   private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed'];
   private isceList: object = {};
-  private compare =  JSON.parse(localStorage.getItem("studyProgramme.compare")) || {};
+  
 
   constructor (
     private rootScope: RootScopeService,
@@ -98,7 +98,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         }
       }
       //Determine whether to open detailed filter view or not based on what URL params we have
-      this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
+      // this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
 
       function allocateIsceOptions (parent, list){
        if(!parent) return list.filter(entity => entity.parentId == null);
@@ -111,10 +111,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   isValidAccreditation(date){
     //necessity pending on business logic decision #147
     return moment(date).isAfter(this.today);
-  }
-  compareChange(id, $event){
-    $event.checked === true? this.compare[id] = true : delete this.compare[id];
-    localStorage.setItem("studyProgramme.compare", JSON.stringify(this.compare));
   }
   
   isceChange(id: number, level: string){
@@ -216,7 +212,10 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
 
   ngOnInit() {
-  
+
+    this.showFilter = window.innerWidth > 900;
+    this.filterFull = window.innerWidth < 900;
+    
     this.setPaths();
     this.pathWatcher();
     this.watchSearch();

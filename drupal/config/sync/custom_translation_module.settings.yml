@@ -62,133 +62,183 @@ form_label_translations:
   search_by_keyword: ''
   search_events_name: ''
   search_people: ''
+frontpage:
+  label: Avaleht
+  navigate: 'Mine avalehele'
 article:
-  contact: ''
-  hyperlinks: ''
-  similar_articles: ''
+  contact: Kontakt
+  hyperlinks: Lingid
+  similar_articles: 'Sarnased artiklid'
 news:
-  label: ''
+  label: Uudised
   all: ''
   recent: ''
-  filter_name: ''
-  filter_tag: ''
-  title: ''
-  no_results: ''
+  filter_name: 'Sisesta uudise nimi'
+  filter_tag: 'Uudise sildid'
+  title: Pealkiri
+  no_results: 'Otsingutulemused puuduvad'
 event:
-  label: ''
-  tags: ''
-  status: ''
-  free: ''
-  register: ''
-  invite: ''
-  practical_info: ''
-  passed: ''
-  group: ''
-  list: ''
-  calendar: ''
-  entrance: ''
-  related: ''
-  start_time: ''
-  location: ''
-  place_and_time: ''
-  participant_email: ''
-  participant_phone: ''
-  participant_last_name: ''
-  participant_first_name: ''
-  participant_organization: ''
-  participant_created: ''
-  participant_comment: ''
-  participant_index: ''
-  participant_list: ''
-  participant_count: ''
-  participants_list_view: ''
-  filter_name: ''
-  filter_tags: ''
-  filter_types: ''
-  filter_status: ''
-  contact: ''
-  registration_form: ''
-  registration_form_required: ''
-  registration_form_valid_email: ''
-  registration_form_send: ''
-  registration_form_close: ''
-  registration_form_cancel: ''
-  registration_form_thanks: ''
-  registration_form_add_to_calendar: ''
+  label: Sündmused
+  tags: 'Sündmuste sildid'
+  status: 'Sündmuse staatus'
+  free: Tasuta
+  register: Registreerimisega
+  invite: Kutsega
+  practical_info: 'Praktiline info'
+  passed: 'Sündmus on möödunud'
+  group: 'Sündmuse grupp'
+  list: List
+  calendar: Kalender
+  entrance: Sissepääs
+  related: 'Sarnased sündmused'
+  start_time: Algusaeg
+  location: Asukoht
+  place_and_time: 'Toimumisaeg ja -koht'
+  participant_email: Epost
+  participant_phone: Telefon
+  participant_last_name: Perekonnanimi
+  participant_first_name: Eesnimi
+  participant_organization: Ettevõte/asutus
+  participant_created: 'Registreerimise aeg'
+  participant_comment: Märkused
+  participant_index: 'jrk nr'
+  participant_list: 'Osalejate nimekiri'
+  participant_count: Osalejat
+  participants_list_view: 'Vaata osalejate nimekirja'
+  filter_name: 'Otsi sündmuse nime järgi'
+  filter_tags: 'Sündmuse sildid'
+  filter_types: 'Sündmuse liigid'
+  filter_status: 'Sündmuse staatus'
+  contact: Kontakt
+  registration_form: Registreerimisvorm
+  registration_form_required: 'Märgitud väljad on kohustuslikud'
+  registration_form_valid_email: 'Sisesta korrektne epost'
+  registration_form_send: Saada
+  registration_form_close: 'Sulge aken'
+  registration_form_cancel: Tühista
+  registration_form_thanks: 'Täname sündmusele registreerimise eest!'
+  registration_form_add_to_calendar: 'Lisa sündmus enda kalendrisse'
 login:
-  username: ''
-  password: ''
-  error: ''
-  success: ''
+  username: Kasutajanimi
+  password: Parool
+  error: 'Sisselogimine ebaõnnestus. Palun kontrollige kasutajanime ja parooli.'
+  success: 'Sisselogimine õnnestus'
 time:
-  date: ''
-  date_format: ''
-  monday: ''
-  monday_short: ''
-  tuesday: ''
-  tuesday_short: ''
-  wednesday: ''
-  wednesday_short: ''
-  thursday: ''
-  thursday_short: ''
-  friday: ''
-  friday_short: ''
-  saturday: ''
-  saturday_short: ''
-  sunday: ''
-  sunday_short: ''
-  january: ''
-  february: ''
-  march: ''
-  april: ''
-  may: ''
-  june: ''
-  july: ''
-  august: ''
-  september: ''
-  october: ''
-  november: ''
-  december: ''
-  date_period_from: ''
-  date_period_to: ''
-  from: ''
-  to: ''
-  duration_year_singular: ''
-  duration_year_plural: ''
-  duration_month_singular: ''
-  duration_month_plural: ''
-  time_of_day: ''
+  date: Kuupäev
+  date_format: pp/kk/aa
+  monday: Esmaspäev
+  monday_short: E
+  tuesday: Teisipäev
+  tuesday_short: T
+  wednesday: Kolmapäev
+  wednesday_short: K
+  thursday: Neljapäev
+  thursday_short: 'N'
+  friday: Reede
+  friday_short: R
+  saturday: Laupäev
+  saturday_short: L
+  sunday: Pühapäev
+  sunday_short: P
+  january: Jaanuar
+  february: Veebruar
+  march: Märts
+  april: Aprill
+  may: Mai
+  june: Juuni
+  july: Juuli
+  august: August
+  september: September
+  october: Oktoober
+  november: November
+  december: Detsember
+  date_period_from: Alguskuupäev
+  date_period_to: Lõpukuupäev
+  from: Alates
+  to: Kuni
+  duration_year_singular: aasta
+  duration_year_plural: aastat
+  duration_month_singular: kuu
+  duration_month_plural: kuud
+  time_of_day: Kell
 button:
-  search: ''
-  load_more: ''
-  all: ''
-  map_closer: ''
-  add_to_comparison: ''
-  search_people: ''
-  view_all: ''
-  view_more: ''
-  read_more: ''
-  show_all: ''
-  register: ''
+  search: Otsi
+  load_more: 'Lae veel'
+  all: Kõik
+  map_closer: 'Vaata kaarti lähemalt'
+  add_to_comparison: 'Lisa võrdlusess'
+  search_people: 'Otsi inimesi'
+  view_all: 'Vaata kõiki'
+  view_more: 'Vaata rohkem'
+  read_more: 'Loe rohkem'
+  show_all: 'Näita kõiki'
+  register: Registreeru
   calendar_add: ''
-  search_detailed: ''
-  search_detailed_short: ''
-  search_brief: ''
-  search_brief_short: ''
-  search_close: ''
-  login: ''
-  logout: ''
-  filter_close: ''
-  filter: ''
-  newsletter_submit: ''
-  choose_type: ''
+  search_detailed: 'Täpsem otsing'
+  search_detailed_short: Täpne
+  search_brief: 'Kitsam otsing'
+  search_brief_short: Kitsas
+  search_close: 'Sulge otsing'
+  login: 'Logi sisse'
+  logout: 'Logi välja'
+  filter_close: 'Sulge filter'
+  filter: Filtreeri
+  newsletter_submit: 'Kinnita tellimus'
+  choose_type: 'Vali tüüp'
 newsletter:
-  title: ''
-  intro: ''
-  confirm_subscription: ''
-  email: ''
-  valid_email: ''
-  modal_title: ''
-  modal_content:
-    value: "<p>deadaedae</p>\r\n"
-    format: custom_editor
+  title: 'Uudiskiri - telli endale huvitavad lood'
+  intro: Sissejuhatus
+  confirm_subscription: 'Kinnita tellimus'
+  email: Epost
+  valid_email: 'SIsesta korrektne epost'
+  modal_title: 'UUDISKIRJA TELLIMINE'
+  modal_close: 'Sulge aken'
+  unsubscribe_title: 'UUDISKIRJAST LOOBUMINE'
+  subscription_thanks_content: 'Tänud haridusteemade vastu huvi tundmast!'
+  subscription_thanks_subcontent: 'Palume kinnitada uudiskirjaga liitumise soov lingi kaudu, mille '
+  subscription_choose_one: 'Vali vähemalt üks uudiskiri'
+  subscription_failed: 'Tellimuse edastamine ebaõnnestus'
+school:
+  label: Õppeasutused
+  institutions: Õppekohad
+  location: Asukoht
+  name: 'Kooli nimi'
+  institution_type: 'Õppeasutuse tüüp'
+  institution_select_type: 'Vali esmalt õppeasutuse tüüp'
+  institution_sublevel: 'Õppeasutuse alamtase'
+  language: Õppekeel
+  ownership: Omandivorm
+  available_dormitory: 'Õpilaskodu/ühiselamu olemas'
+  dormitory: Õpilaskodu
+  special_needs_long: HEV
+  special_needs_short: 'Hariduslikud erivajadused'
+  list: List
+  map: Kaart
+  no_result: 'Otsingu tingimistele vastavaid õppeasutusi ei leitud'
+  legal_address: 'Juriidiline aadress'
+  defacto_address: 'Tegutsemise asukoht'
+  website: Veebileht
+  contact_info: Kontaktinfo
+  contact: Kontakt
+  register_code_short: 'Reg. kood'
+  available: Olemas
+  unavailable: Puudub
+studyProgramme:
+  label: Erialad
+  level: 'Õppekava tase'
+  accreditation: Akrediteering
+  valid_accreditation: 'Kehtiv akrediteering'
+  languages: Õppekeeled
+  study_duration: 'Õppe kestus'
+  study_group: 'Õppekava rühm'
+  admission_status: 'Vastuvõtu olek'
+  filter_title: Eriala
+  filter_type: 'Eriala tüüp'
+  filter_language: Õppekeel
+  filter_school: Õppeasutus
+  filter_location: Asukoht
+  filter_iscedf_broad: Õppevaldkond
+  filter_iscedf_narrow: Õppesuund
+  filter_iscedf_detailed: Õppekavarühm
+  filter_open_admission: 'Ainult avatud vastuvõtuga'
+  no_result: 'Otsingutulemused puuduvad'

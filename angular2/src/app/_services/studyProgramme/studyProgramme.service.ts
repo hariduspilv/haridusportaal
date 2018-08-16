@@ -153,10 +153,30 @@ query(
           fieldSchoolWebsite
           fieldSchoolContactEmail
           fieldSchoolContactPhone
+          fieldWebPageAddress {
+            uri
+          }
+          fieldQualificationStandardId {
+            entity {
+              entityLabel
+            }
+          }
           fieldEducationalInstitution {
             entity{
               entityLabel
               fieldRegistrationCode
+              fieldSchoolLocation{
+                entity{
+                  ... on ParagraphSchoolLocation{
+                    fieldAddress
+                    fieldLocationType
+                    fieldCoordinates{
+                      lat
+                      lon
+                    }
+                  }
+                }
+              }
             }
           }
           
@@ -308,6 +328,7 @@ export const SchoolStudyProgrammes = gql`
     ) {
       entities(language:$lang) {
         ... on NodeStudyProgramme {
+          nid
           title
           entityUrl {
             path

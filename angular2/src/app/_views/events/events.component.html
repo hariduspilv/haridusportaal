@@ -66,7 +66,7 @@
 
           name="types"
           [(ngModel)]="filterFormItems.types"
-          placeholder="{{ 'Otsi sündmuse liike' | translate }}"
+          placeholder="{{ 'event.filter_types' | translate }}"
           (clear)="clearField('types')"
           [dropdownPosition]="'bottom'"></ng-select>      
         </div>
@@ -81,7 +81,7 @@
           [multiple]="true"
           [loading]="loading"
           bindLabel="name"
-          placeholder="{{ 'Otsi sündmuse silte' | translate }}"
+          placeholder="{{ 'event.filter_tags' | translate }}"
           (clear)="clearField('tags')"
           [(ngModel)]="filterFormItems.tags"
           name="labels"
@@ -107,11 +107,11 @@
     <div class="events__head">
       <div class="events__title text-left">{{ 'event.label' | translate | uppercase }}</div>
       <div class="button-list text-right sm-hide">
-        <div class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
+        <div class="view-item pointer" (click)="changeView('list')" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
           <div class="title">{{ 'event.list' | translate }}</div>
         </div>
-        <div class="view-item" (click)="changeView('calendar')" [class.active]="view === 'calendar'">
+        <div class="view-item pointer" (click)="changeView('calendar')" [class.active]="view === 'calendar'">
           <mat-icon>today</mat-icon>
           <div class="title">{{ 'event.calendar' | translate }}</div>
         </div>
@@ -149,7 +149,7 @@
 
           <div>
             <ng-container *ngFor="let event of eventList[yearKey][monthKey][dayKey]; let first = first; let last = last">
-              <div class="events__block"  [routerLink]="event.entityUrl.path">
+              <div class="events__block pointer"  [routerLink]="event.entityUrl.path">
                 <div class="events__content">
                   <div class="title">{{ event.title }}</div>
                   <div class="sm-show info">
@@ -197,9 +197,9 @@
   <div class="calendar__elem" *ngIf="view == 'calendar'">
 
     <div class="navigation text-center">
-      <mat-icon (click)="changeMonth(-1);">chevron_left</mat-icon>
+      <mat-icon class="pointer" (click)="changeMonth(-1);">chevron_left</mat-icon>
       <span class="month"><h1>{{ 'time.' + monthName | lowercase | translate }} <ng-container *ngIf="year !== current.year">{{ year }}</ng-container></h1></span>
-      <mat-icon (click)="changeMonth(1);">chevron_right</mat-icon>
+      <mat-icon class="pointer" (click)="changeMonth(1);">chevron_right</mat-icon>
     </div><!--/text-center-->
     
     <table class="calendar">
@@ -218,7 +218,7 @@
           <div class="cal__day more__hidden">{{ day.i }} </div>
 
           
-          <div class="cal__event more__hidden" *ngFor="let event of parseDay( day ); let i = index">
+          <div class="cal__event pointer more__hidden" *ngFor="let event of parseDay( day ); let i = index">
 
             
 
@@ -240,7 +240,7 @@
                   <div class="event__block">
                     <div class="title">
                       <span class="title__strong">{{ event.title }}</span>
-                      <span class="close"><a (click)="closePopup()"><mat-icon>close</mat-icon></a></span>
+                      <span class="close"><a class="pointer" (click)="closePopup()"><mat-icon>close</mat-icon></a></span>
                     </div>
                     <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
                     <div *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</div>
@@ -254,7 +254,7 @@
             </ng-container>
           </div>
           <div class="cal__event__more" *ngIf="day.events && day.events.length > maxEntries(day)">
-            <div class="more more__hidden"><a  href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - maxEntries(day) }} veel</a></div>
+            <div class="more more__hidden"><a href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - maxEntries(day) }} veel</a></div>
           </div>
           <div class="popup" *ngIf="morePopup === day">
             <div class="popupcontent additional">
@@ -266,11 +266,11 @@
                     <div class="header__strong">{{day.i}}. {{ 'time.'+ monthName | lowercase | translate}}</div>
 
                   </div>
-                  <span class="close more"><a (click)="closeMore()"><mat-icon>close</mat-icon></a></span>
+                  <span class="close more"><a class="pointer" (click)="closeMore()"><mat-icon>close</mat-icon></a></span>
                 </div>
                 <div class="popup__scroll">
                   <ng-container *ngFor="let event of parseDay( day ); let i = index;">
-                    <a class="cal__event" [routerLink]="event.entityUrl.path">
+                    <a class="cal__event pointer" [routerLink]="event.entityUrl.path">
                       <div class="content content__more">
                         <span><div class="marker"></div></span>
                         <span class="content__medium">{{ parseIntoReadableTime(event.startTime*1000) }}</span>

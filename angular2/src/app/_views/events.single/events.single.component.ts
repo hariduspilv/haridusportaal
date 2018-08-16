@@ -16,6 +16,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ImagePopupDialog } from '../../_components/dialogs/image.popup/image.popup.dialog'
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { TranslateService } from '@ngx-translate/core';
+import { TableService } from '../../_services/table/table.service';
 
 import { SettingsService } from '../../_core/settings';
 
@@ -48,8 +49,7 @@ export class EventsSingleComponent implements AfterViewChecked {
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
   initialized: boolean = false;
-  slide: any;
-  
+
   content: any;
   unix: any;
   error: boolean;
@@ -66,12 +66,11 @@ export class EventsSingleComponent implements AfterViewChecked {
     public dialog: MatDialog,
     private metaTags: MetaTagsService,
     private translate: TranslateService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private tableService: TableService
   ) {
-    
     this.iCalUrl = this.settings.url+"/calendarexport/";
     this.participantsUrl = this.settings.url+"/htm_custom_event_registration/registrations/";
-
   }
 
   ngOnInit() {
@@ -104,7 +103,6 @@ export class EventsSingleComponent implements AfterViewChecked {
 
           that.content = data['route'];
 
-          console.log(that.route);
           that.participants = JSON.parse(JSON.stringify(that.content.entity.EventRegistrations));
 
           if( that.participants ){
@@ -128,9 +126,7 @@ export class EventsSingleComponent implements AfterViewChecked {
     });
   }
   ngAfterViewChecked() {
-    if (!this.initialized) {
-      this.isElemOverflown()
-    }
+    this.initialTableCheck('participantsElem')
   }
   ngOnDestroy() {
     this.routerSubscription.unsubscribe();
@@ -229,44 +225,12 @@ export class EventsSingleComponent implements AfterViewChecked {
       }
     });
   }
-  
-
-  scrollStart(right) {
-    this.slide = setInterval(() => {
-      const element = document.getElementById('participantsElem');
-      if (right) {
-        element.scrollLeft += 24;
-      } else {
-        element.scrollLeft -= 24;
-      }
-      if ((element.scrollWidth - element.scrollLeft) <= element.clientWidth || element.scrollLeft === 0) {
-        this.scrollEnd()
-      }
-    }, 50);
-  }
-
-  scrollEnd() {
-    window.clearInterval(this.slide);
-  }
-
-  isElemOverflown() {
-    const element = document.getElementById('participantsElem');
+  initialTableCheck(id) {
+    const element = document.getElementById(id);
     if (element) {
-      setTimeout(_ => {
-        this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-        this.initialized = true;
-      }, 50)
+      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.initialized = true;
     }
   }
 
-  isElemAtStart() {
-    const element = document.getElementById('participantsElem');
-    this.elemAtStart = !(element && element.scrollLeft)
-  }
-
-  isOverflown(event) {
-    this.isElemAtStart()
-    const element = event.target || event.srcElement || event.currentTarget;
-    this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-  }
 }

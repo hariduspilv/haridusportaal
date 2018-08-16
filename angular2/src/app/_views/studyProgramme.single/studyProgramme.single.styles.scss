@@ -1,20 +1,15 @@
 @import "../../../assets/styles/typography.scss"; 
 .main-container{padding-top:$small; clear:both; margin:0 $small;
-  @include break-on(sm, max) {
-    padding-top: 0;
-    margin:0;
-  }
+  @include break-on(sm, max) {padding-top: 0;margin:0;padding-top:0;}
 }
 .forTable {overflow: scroll;}
 table {width: 100%;border-collapse: collapse; margin:1rem 0 0 0;
   thead {background: $light-gray;
-    .sortable {cursor: pointer;&:hover { color: $dark-gray;}}
-    .mat-icon {position: relative; top: $half-gutter; font-size: 1.12rem;cursor: pointer;&:hover { color: $dark-gray;}}
+    .sortable {&:hover { color: $dark-gray;}}
+    .mat-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
   }
   th {white-space: nowrap; font-weight: normal;}
   th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;
-    // &:first-child {padding-left: $small;}
-    // &:last-child {padding-right: $small;}
     &:first-child{width:37%;}
     &:last-child{font-weight: 500;}
   }
@@ -37,22 +32,19 @@ table {width: 100%;border-collapse: collapse; margin:1rem 0 0 0;
   &.border-orange{border-top-color:$orange;}
     .flex{display:flex;
   }
-  // share{margin-right:-1.2rem; margin-left:1rem;}
 
-  .map-wrapper {position: relative; margin:-1.2rem -1.2rem 1.5rem -1.2rem; display: block;
-    a {position:absolute;bottom:0;width:stretch;background-color: rgba(0, 0, 0, 0.6);color:$white;align-items: center;justify-content: center;
-      font-weight: normal;line-height: 1.25;font-size: $small;display: flex; padding: $small;text-decoration:none;
-      .mat-icon {font-size: 1.25rem;height: 1.25rem !important;}
-    }  
-  }
+  map-wrapper { margin:-1.2rem -1.2rem 1.5rem -1.2rem; display: block;}
 
 }
+
+.actions{margin-bottom:3rem;}
+.table-wrapper{overflow: auto;}
 
 .title {font-size: $small;line-height: 2;
   h1 {color:$black;}
-  &__recent {
-    padding: $small $medium 0 $medium;
-  }
+  &__recent {padding: $small $medium 0 $medium;}
 }
 
 .fill{flex-grow: 1;}
+
+.mat-raised-button.mat-primary{width:auto;}
