@@ -155,7 +155,7 @@ protected function getElasticQuery($args){
             foreach($values as $value){
               $elastic_must_filters[] = array(
                 'wildcard' => array(
-                  $condition['field'] => str_replace('_','?',str_replace('%','*',$value))
+                  $condition['field'] => '*'.str_replace(',', '', strtolower($value)).'*'
                 )
               );
             }
