@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import { RootScopeService } from '../../_services/rootScope/rootScope.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -11,13 +11,16 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ["related.studyProgrammes.component.scss"]
 })
 
-export class RelatedStudyProgrammesComponent implements OnInit {
+export class RelatedStudyProgrammesComponent implements OnInit, OnDestroy {
+  
   @Input() studyProgrammeId: number;
   private url;
   private lang: string;
-  public list: any = false;
   private subscriptions: Subscription[] = [];
-  private dataSubscription;
+
+  public list: any = false;
+  public search_address;
+  
 
   constructor (
     public route: ActivatedRoute, 
@@ -44,16 +47,17 @@ export class RelatedStudyProgrammesComponent implements OnInit {
       'et': '/et/erialad/vordlus'
     });
   }
-  getData(){
+  getData(address){
 
     let variables = {
       lang: this.lang.toUpperCase(),
       nid: this.studyProgrammeId
     }
+    if(address) variables['address'] = address;
 
     this.url = this.settings.url + "/graphql?queryId=similarStudyProgrammes:1&variables=" + JSON.stringify(variables);
     
-    this.dataSubscription = this.http.get(this.url).subscribe(response => {
+    let subscribe = this.http.get(this.url).subscribe(response => {
       
       this.list = response['data']['CustomStudyProgrammeElasticQuery'];
 
@@ -64,13 +68,22 @@ export class RelatedStudyProgrammesComponent implements OnInit {
         programme.FieldTeachingLanguage = programme.FieldTeachingLanguage.split(',');
       })
 
-      this.dataSubscription.unsubscribe();
+      
     });
+    this.subscriptions = [...this.subscriptions, subscribe];
   }
   ngOnInit() {
     this.pathWatcher()
     this.setPaths();
-    this.getData();
+    this.getData(null);
+  }
+  ngOnDestroy(){
+     /* Clear all subscriptions */
+     for (let sub of this.subscriptions) {
+      if (sub && sub.unsubscribe) {
+        sub.unsubscribe();
+      }
+    }
   }
 
 }

@@ -8,7 +8,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 
-import { RootScopeService, NewsService, MetaTagsService } from './_services';
+import { RootScopeService, NewsService, MetaTagsService, TableService } from './_services';
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog';
 import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
 import { Modal } from './_components/dialogs/modal/modal';
@@ -139,7 +139,8 @@ export function HttpLoaderFactory(http: HttpClient, settings: SettingsService) {
     RootScopeService,
     NewsService,
     MetaTagsService,
-    SettingsService
+    SettingsService,
+    TableService
   ],
 
   exports: [
