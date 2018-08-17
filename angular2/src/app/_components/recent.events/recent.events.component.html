@@ -12,11 +12,11 @@
         <span class="error" *ngIf="canRegister() == 'full'">{{'event.registration_full' | translate}}</span>
       </div>
 
-      <button mat-raised-button color="primary" (click)="openDialog()">{{'button.register' | translate}}</button>
       <ng-container *ngIf="content.entity.fieldEntryType == 'register' && canRegister() == true">
         <button mat-raised-button color="primary" (click)="openDialog()">{{'button.register' | translate}}</button>
         <div class="calendar__add"><a href="{{ iCalUrl }}{{ nid }}">{{'button.calendar_add' | translate}}</a></div>
       </ng-container>
+
     </div>
     <div *ngIf="content.entity.fieldEntryType && content.entity.fieldEntryType == 'free' && !content.entity.EventRegistrations">
       <div class="title"><h1>{{'event.entrance' | translate}}</h1></div>
