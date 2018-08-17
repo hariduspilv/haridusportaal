@@ -81,10 +81,11 @@
                 <tr>
                   <td>{{ 'studyProgramme.study_capacity' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
-                    <ng-container *ngIf="item.amount">
-                      {{ item.amount }}
+                    <ng-container *ngIf="item.fieldAmount">
+                      {{ item.fieldAmount }}
+                      <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit }}</ng-container>
                     </ng-container>
-                    <ng-container *ngIf="!item.amount"> - </ng-container>
+                    <ng-container *ngIf="!item.fieldAmount"> - </ng-container>
                   </td>
                 </tr>
 
