@@ -1,5 +1,5 @@
 @import "../../../assets/styles/typography.scss"; 
-.main-container{padding-top:$small; clear:both; margin:0 $small;
+.main-container{padding-top:$small; clear:both; margin:0 $medium;
   @include break-on(sm, max) {padding-top: 0;margin:0;padding-top:0;}
 }
 .forTable {overflow: scroll;}
