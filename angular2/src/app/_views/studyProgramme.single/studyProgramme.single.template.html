@@ -9,26 +9,31 @@
 
         <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>
         <article>
-          <div class="row title">
+          <div class="row title sm-flex">
             <div class="col-7 sm-10">
               <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
             </div><!--/col-8-->
-
-            <div class="col-3 flex sm-hide">
-              <div class="fill"></div>
-              <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
-            </div>
 
             <div class="col-2 flex text-right">
               <div class="fill"></div>
               <share [title]="data.entityLabel"></share>
             </div>
 
-            <div class="col-12 flex sm-show">
+            <div class="col-12 flex">
               <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
             </div>
 
           </div><!--/row-->
+          <div class="row title sm-hide">
+            <div class="col-7 sm-10">
+              <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
+            </div><!--/col-8-->
+            <div class="col-5 flex text-right">
+              <div class="fill"></div>
+              <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
+              <share [title]="data.entityLabel"></share>
+            </div>
+          </div>
 
           <div class="row">
             <div class="col-12">
@@ -85,8 +90,8 @@
                     <tr *ngIf="data.fieldTeachingLanguage">
                       <td>Õppekeel(ed)</td>
                       <td>
-                        <ng-container *ngFor="let item of data.fieldTeachingLanguage">
-                          {{ item.entity.entityLabel }}
+                        <ng-container *ngFor="let item of data.fieldTeachingLanguage; let i = index;">
+                            <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.entityLabel }}
                         </ng-container>
                       </td>
                     </tr>
@@ -144,11 +149,12 @@
         </article>
       </div><!--/block-->
 
-      <div class="text-center actions sm-hide" *ngIf="!displayRelatedStudyProgrammes">
-        <button mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true" >Vaata sarnaseid erialasid</button>
-      </div><!--/text-center-->
-
-      <related-studyprogrammes *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
+      <ng-container>
+        <div class="text-center actions sm-hide" *ngIf="!displayRelatedStudyProgrammes">
+          <button mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true" >Vaata sarnaseid erialasid</button>
+        </div><!--/text-center-->
+        <related-studyprogrammes class="sm-hide" *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
+      </ng-container>
       
     </div><!--/col-8-->
     <div class="col-4 sm-12">
@@ -173,11 +179,12 @@
           <p>{{ item.entity.fieldAddress }}</p>
         </div><!--/block-->
       </ng-container>
-      
-      <div class="text-center actions sm-show">
-        <button mat-raised-button color="primary" >Vaata sarnaseid erialasid</button>
-      </div><!--/text-center-->
-      
+      <ng-container>
+        <div class="text-center actions sm-show" *ngIf="!displayRelatedStudyProgrammes">
+          <button mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true" >Vaata sarnaseid erialasid</button>
+        </div><!--/text-center-->
+        <related-studyprogrammes class="sm-show" *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
+      </ng-container>
     </div><!--/col-4-->
   </div><!--/row-->
 </div>

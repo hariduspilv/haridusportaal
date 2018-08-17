@@ -188,6 +188,8 @@ query(
 
           entityLabel
           nid
+          RegistrationCount
+          fieldMaxNumberOfParticipants
           fieldPicture {
             derivative(style:CROP_LARGE){
               url
