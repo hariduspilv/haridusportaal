@@ -151,8 +151,6 @@ query(
           nid
           entityLabel
           fieldSchoolWebsite
-          fieldSchoolContactEmail
-          fieldSchoolContactPhone
           fieldAmountUnit
           fieldWebPageAddress {
             uri
@@ -166,6 +164,8 @@ query(
             entity{
               entityLabel
               fieldRegistrationCode
+              fieldSchoolContactEmail
+              fieldSchoolContactPhone
               fieldSchoolLocation{
                 entity{
                   ... on ParagraphSchoolLocation{
