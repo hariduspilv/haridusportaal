@@ -64,11 +64,11 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     lat: 58.8754705,
     lng: 24.5567241,
     zoom: 8,
-    icon: "assets/marker.svg",
+    icon: "/assets/marker.png",
     clusterStyles: [
       {
           textColor: "#FFFFFF",
-          url: "assets/cluster.svg",
+          url: "/assets/cluster.svg",
           height: 50,
           width: 28
       }
@@ -268,13 +268,13 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       lang: this.lang.toUpperCase(),
       offset: this.offset,
       limit: this.view == "list" ? this.limit : this.mapLimit,
-      title: this.params['title'] ? "%"+this.params['title']+"%" : "%%",
+      title: this.params['title'] ? ""+encodeURI(this.params['title'].toLowerCase())+"" : "",
       boundsEnabled: this.boundsEnabled,
       minLat: this.bounds.minLat,
       maxLat: this.bounds.maxLat,
       minLon: this.bounds.minLon,
       maxLon: this.bounds.maxLon,
-      location: this.params['location'] ? "%"+this.params['location']+"%" : "%%",
+      location: this.params['location'] ? ""+this.params['location']+"" : "",
       locationEnabled: this.params['location'] ? true : false,
       type: this.params['type'] ? types :  [],
       typeEnabled: this.params['type'] ? true : false,
