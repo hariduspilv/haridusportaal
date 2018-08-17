@@ -181,7 +181,7 @@
       </ng-container>
       <ng-container>
         <div class="text-center actions sm-show" *ngIf="!displayRelatedStudyProgrammes">
-          <button mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true" >Vaata sarnaseid erialasid</button>
+          <button mat-raised-button color="primary" (click)="toggleRelatedStudyProgrammes()" >Vaata sarnaseid erialasid</button>
         </div><!--/text-center-->
         <related-studyprogrammes class="sm-show" *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
       </ng-container>
