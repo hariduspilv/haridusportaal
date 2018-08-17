@@ -2,13 +2,13 @@
   
   <div class="block-title">{{ 'studyProgramme.related.label' | translate | uppercase }}</div>
 
-  <form class="block-form" (submit)="getData(search_address)">
+  <form class="block-form" (submit)="filterSubmit()">
     <div class="row">
       <div class="col-10 md-9 sm-12" >
-        <div class="round-input__wrapper" [class.complete]="search_address">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
           <span class="round-input__title">{{ 'studyProgramme.related.filter_location' | translate }}</span>
           <div class="round-input__field-wrapper">
-            <input class="round-input__field" placeholder="{{ 'studyProgramme.related.filter_location' | translate }} " [(ngModel)]='search_address' name="search_address" />
+            <input class="round-input__field" placeholder="{{ 'studyProgramme.related.filter_location' | translate }} " [(ngModel)]='filterFormItems.location' name="location" />
           </div>
         </div><!--/round-inpuit__wrapper-->
       </div>

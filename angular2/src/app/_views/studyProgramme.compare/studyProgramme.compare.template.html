@@ -94,6 +94,7 @@
                   <td class="highlighted" *ngFor="let item of list">
                     <ng-container *ngIf="item.practicalTrainingAmount">
                       {{ item.practicalTrainingAmount }}
+                      <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit }}</ng-container>
                     </ng-container>
                     <ng-container *ngIf="!item.practicalTrainingAmount"> - </ng-container>
                   </td>
