@@ -4,19 +4,20 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SettingsService } from '../../_core/settings';
 import { Subscription } from 'rxjs/Subscription';
-
+import { FiltersService } from '../../_services/filters/filters.service';
 @Component({
   selector: "related-studyprogrammes",
   templateUrl: "related.studyProgrammes.component.html",
   styleUrls: ["related.studyProgrammes.component.scss"]
 })
 
-export class RelatedStudyProgrammesComponent implements OnInit, OnDestroy {
+export class RelatedStudyProgrammesComponent extends FiltersService implements OnInit, OnDestroy {
   
   @Input() studyProgrammeId: number;
   private url;
   private lang: string;
   private subscriptions: Subscription[] = [];
+  private params: object;
 
   public list: any = false;
   public search_address;
@@ -29,9 +30,23 @@ export class RelatedStudyProgrammesComponent implements OnInit, OnDestroy {
     public rootScope: RootScopeService,
     private settings: SettingsService
   ) { 
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    super(null, null)
   }
-  
+
+  watchSearch() {
+    
+
+    let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
+      this.params = params;
+      this.getData()
+    });
+
+    this.filterRetrieveParams( this.params );
+
+    // Add subscription to main array for destroying
+    this.subscriptions = [ ...this.subscriptions, subscribe];
+  }
+
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
@@ -41,19 +56,20 @@ export class RelatedStudyProgrammesComponent implements OnInit, OnDestroy {
 
     this.subscriptions = [...this.subscriptions, subscribe];
   }
+
   setPaths() {
     this.rootScope.set('langOptions', {
       'en': '/en/study-programmes/compare/',
       'et': '/et/erialad/vordlus'
     });
   }
-  getData(address){
 
+  getData(){
     let variables = {
       lang: this.lang.toUpperCase(),
       nid: this.studyProgrammeId
     }
-    if(address) variables['address'] = address;
+    if(this.params['location']) variables['address'] = this.params['location'];
 
     this.url = this.settings.url + "/graphql?queryId=similarStudyProgrammes:1&variables=" + JSON.stringify(variables);
     
@@ -73,9 +89,14 @@ export class RelatedStudyProgrammesComponent implements OnInit, OnDestroy {
     this.subscriptions = [...this.subscriptions, subscribe];
   }
   ngOnInit() {
-    this.pathWatcher()
+
     this.setPaths();
-    this.getData(null);
+    this.pathWatcher();
+    this.watchSearch();
+
+    //make sure related study programmes are opened when user returns to this url via browser back button/link share
+    this.filterFormItems['displayRelated'] = true;
+    this.filterSubmit();
   }
   ngOnDestroy(){
      /* Clear all subscriptions */
