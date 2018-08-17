@@ -43,11 +43,11 @@
   </div><!--block__content-->
 
   <div class="block__content--message" *ngIf="subscribedStatus && !subscribedFailure">
-    <div class="block__content--message__content">{{ 'newsletter.subscription_thanks_content' | translate }}</div>
-    <div class="block__content--message__subcontent">{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{email}}</b>.</div>
+    <div class="block__content--message__content" attr.aria-label="{{'newsletter.subscription_thanks_content' | translate }}">{{ 'newsletter.subscription_thanks_content' | translate }}</div>
+    <div class="block__content--message__subcontent" attr.aria-label="{{'newsletter.subscription_thanks_subcontent' | translate}} {{email}}">{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{email}}</b>.</div>
   </div>
   <div class="block__content--message" *ngIf="subscribedStatus && subscribedFailure">
-    <div class="block__content--message__content">{{ 'newsletter.subscription_failed' | translate }}</div>
-    <div class="block__content--message__subcontent">{{ subscribedFailure }}</div>
+    <div class="block__content--message__content" attr.aria-label="{{'newsletter.subscription_thanks_subcontent' | translate}}">{{ 'newsletter.subscription_failed' | translate }}</div>
+    <div class="block__content--message__subcontent" attr.aria-label="{{'newsletter.subscription_thanks_subcontent' | translate}}">{{ subscribedFailure }}</div>
   </div>
 </div><!--block-->
