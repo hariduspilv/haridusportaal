@@ -23,6 +23,7 @@ input:focus, textarea:focus {outline: none;}
 input:-webkit-autofill {
   box-shadow: 0 0 0 $medium white inset;
 }
+::-webkit-scrollbar { display: none; }
 
 a {text-decoration: underline; &:hover {text-decoration: none;}}
 html{
