@@ -2,15 +2,15 @@
     background: white;
     border-top: $gutter solid $gray;
     @include break-on(sm, min) {border-radius: $half-gutter;}
-    margin-bottom: 1.3em;
+    margin-bottom: 1rem;
     h1 {
         color: #333333;
-        font-size: 1.3em;
+        font-size: 1.5rem;
     }
     h2 {
         margin-top: 0;
         color: #333333;
-        font-size: 1.2em;
+        font-size: 1rem;
     }
 
 }
@@ -22,11 +22,11 @@
     border-top-color: $orange;
 }
 .block-title {
-    font-size: 1em;
+    font-size: 1rem;
     text-transform: uppercase;
     color: #757575;
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
 }
 .padding-block {
-    padding: 1.2em;
+    padding: 1.5rem;
 }
