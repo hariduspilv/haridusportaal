@@ -23,6 +23,7 @@ input:focus, textarea:focus {outline: none;}
 input:-webkit-autofill {
   box-shadow: 0 0 0 $medium white inset;
 }
+::-webkit-scrollbar { display: none; }
 
 a {text-decoration: underline; &:hover {text-decoration: none;}}
 html{
@@ -68,14 +69,18 @@ $grid-columns: 12;
   &+.mat-divider{margin:1.25rem 0;}
 }
 .sm-show{display:none !important;}
+.sm-flex{display:none !important;}
 .md-show{display:none !important;}
+.md-flex{display:none !important;}
 @include break-on(sm, max) {
   .sm-hide{display:none !important;}
   .sm-show{display: block !important;}
+  .sm-flex{display: flex !important;}
 }
 @include break-on(md, max) {
   .md-hide{display:none !important;}
   .md-show{display: block !important;}
+  .md-flex{display: flex !important;}
 }
 
 /* Common styles across components */
