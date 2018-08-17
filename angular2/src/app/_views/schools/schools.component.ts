@@ -268,7 +268,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       lang: this.lang.toUpperCase(),
       offset: this.offset,
       limit: this.view == "list" ? this.limit : this.mapLimit,
-      title: this.params['title'] ? ""+this.params['title'].toLowerCase()+"" : "",
+      title: this.params['title'] ? ""+encodeURI(this.params['title'].toLowerCase())+"" : "",
       boundsEnabled: this.boundsEnabled,
       minLat: this.bounds.minLat,
       maxLat: this.bounds.maxLat,
