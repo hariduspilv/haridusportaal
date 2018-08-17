@@ -41,7 +41,7 @@ article {padding-bottom: $xxl;
   &__item {padding: $medium;padding-top: $small;padding-bottom:$gutter;
     .title {padding: 0;padding-bottom: $gutter;}
     .child {line-height: 1.375rem;}
-    button {width: stretch; margin-top: $small;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+    button {width: 100%; margin-top: $small;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
     &__body {overflow: hidden;text-overflow: ellipsis;
       &.error {padding-bottom: $medium;}
       .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}

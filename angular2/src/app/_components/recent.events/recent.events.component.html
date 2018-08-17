@@ -9,8 +9,10 @@
         </span>
         <span class="error" *ngIf="canRegister() == 'ended'">{{'event.registration_ended' | translate}}</span>
         <span class="error" *ngIf="canRegister() == 'not_started'">{{'event.registration_not_started' | translate}}</span>
+        <span class="error" *ngIf="canRegister() == 'full'">{{'event.registration_full' | translate}}</span>
       </div>
 
+      <button mat-raised-button color="primary" (click)="openDialog()">{{'button.register' | translate}}</button>
       <ng-container *ngIf="content.entity.fieldEntryType == 'register' && canRegister() == true">
         <button mat-raised-button color="primary" (click)="openDialog()">{{'button.register' | translate}}</button>
         <div class="calendar__add"><a href="{{ iCalUrl }}{{ nid }}">{{'button.calendar_add' | translate}}</a></div>
@@ -53,7 +55,7 @@
     </div>
     <div class="events__list__item__footer">
       {{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}
-      <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri">{{ content.entity.fieldEventLocationLink.uri }}</a></div>
+      <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri">{{ content.entity.fieldEventLocationLink.uri | removeProtocol }}</a></div>
     </div> 
   </div>
 </div>

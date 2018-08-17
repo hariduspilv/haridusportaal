@@ -25,6 +25,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
   formItems: object = {};
   email: string = "";
   errors: object = {};
+  rssIDs: string;
 
   subscriptionSuccessContent: string = "";
   subscribedStatus: boolean = false;
@@ -38,6 +39,18 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     private translate: TranslateService
   ){}
 
+  updateRSSLink() {
+    this.rssIDs = '/';
+
+   for( let i in this.formItems ){
+     if( this.formItems[i] ){
+      if( this.rssIDs !== '/') { this.rssIDs+= ","; }
+      this.rssIDs+= i;
+      
+     }
+   }
+    
+  }
   ngOnInit() {
 
     if( this.route.snapshot.queryParams['confirmsubscription'] ){
