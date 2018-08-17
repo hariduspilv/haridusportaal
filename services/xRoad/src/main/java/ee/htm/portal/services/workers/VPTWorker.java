@@ -1,13 +1,9 @@
-package ee.htm.portal.services;
+package ee.htm.portal.services.workers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.client.EhisV6XRoadService;
-import ee.htm.portal.services.kafka.producers.Sender;
-import ee.htm.portal.services.model.Logs;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.FailInfoDto;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.IsikInfoDto;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Message;
@@ -26,7 +22,6 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Vp
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudResponseDocument.VpTaotlusSissetulekudResponse;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -34,25 +29,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VPTWorker {
+public class VPTWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(VPTWorker.class);
 
   @Resource
   private EhisV6XRoadService ehisV6XRoadService;
 
-  @Autowired
-  private Sender sender;
-
-  @Value("${kafka.topic.logs}")
-  private String logsTopic;
-
-  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+  private static final String VPT_FILES_KEY = "VPT_FILES";
 
   public ObjectNode work(ObjectNode jsonNode) {
     String currentStep = jsonNode.get("header").get("current_step").isNull() ? null
@@ -61,8 +48,7 @@ public class VPTWorker {
         : jsonNode.get("header").get("identifier").asLong();
     String applicantPersonalCode = jsonNode.get("header").get("agents").get(0).get("person_id")
         .asText();
-    Logs logs = new Logs(null, "notice", new Timestamp(System.currentTimeMillis()), null,
-        null, applicantPersonalCode, null, null);
+    logForDrupal.setUser(applicantPersonalCode);
 
     try {
       if (currentStep == null) {
@@ -71,7 +57,7 @@ public class VPTWorker {
             .vptOpingud(applicantPersonalCode, null, applicantPersonalCode);
 
 //region STEP_0 vpTaotlusOpingud response
-        ObjectNode stepZeroDataElements = ((ObjectNode) jsonNode).putObject("body")
+        ObjectNode stepZeroDataElements = jsonNode.putObject("body")
             .putObject("steps")
             .putObject("step_0").putObject("data_elements");
         ArrayNode values = stepZeroDataElements.putObject("studies").putArray("value");
@@ -98,7 +84,7 @@ public class VPTWorker {
                 .put("academic_leave_start",
                     item.isSetAkadeemilisePuhkuseAlustamiseKuupaev() ?
                         simpleDateFormat
-                            .format((Calendar) item.getAkadeemilisePuhkuseAlustamiseKuupaev())
+                            .format(item.getAkadeemilisePuhkuseAlustamiseKuupaev())
                         : null)
                 .put("first_semester_end",
                     item.isSetEsimeseSemestriLoppKp() ?
@@ -106,7 +92,8 @@ public class VPTWorker {
                         : null));
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_0")).putArray("messages");
-        ((ObjectNode) jsonNode).putObject("messages");
+        jsonNode.putObject("messages");
+        ((ObjectNode) jsonNode.get("body")).putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
         setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING",
             "step_0");
@@ -115,8 +102,8 @@ public class VPTWorker {
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_0");
 //endregion;
 
-        logs.setType("EHIS - VpTaotlusOpingud");
-        logs.setMessage("EHIS - VpTaotlusOpingud teenuselt andmete pärimine õnnestus.");
+        logForDrupal.setType("EHIS - VpTaotlusOpingud");
+        logForDrupal.setMessage("EHIS - VpTaotlusOpingud teenuselt andmete pärimine õnnestus.");
 //endregion;
       } else if (currentStep.equalsIgnoreCase("step_0")) {
 //region STEP_0
@@ -243,8 +230,8 @@ public class VPTWorker {
         ((ObjectNode) jsonNode.get("header")).put("acceptable_activity", "SAVE");
 //endregion;
 
-        logs.setType("EHIS - VpTaotlusIsikud");
-        logs.setMessage("EHIS - VpTaotlusIsikud teenuselt andmete pärimine õnnestus.");
+        logForDrupal.setType("EHIS - VpTaotlusIsikud");
+        logForDrupal.setMessage("EHIS - VpTaotlusIsikud teenuselt andmete pärimine õnnestus.");
 //endregion;
       } else if (currentStep.equalsIgnoreCase("step_1")) {
 //region STEP_1
@@ -290,7 +277,8 @@ public class VPTWorker {
           List<FailInfoDto> custodyFiles = new ArrayList<>();
           stepOneDataElements.get("custody_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-//          failInfoDto.setContent(); //TODO: faili base64Binary lisamine
+            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             custodyFiles.add(failInfoDto);
           });
@@ -300,7 +288,8 @@ public class VPTWorker {
           List<FailInfoDto> personFailInfoDtoList = new ArrayList<>();
           stepOneDataElements.get("family_members_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-//          failInfoDto.setContent(); //TODO: faili base64Binary lisamine
+            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             personFailInfoDtoList.add(failInfoDto);
           });
@@ -377,8 +366,9 @@ public class VPTWorker {
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_2");
 //endregion;
 
-        logs.setType("EHIS - VpTaotlusSissetulekud");
-        logs.setMessage("EHIS - VpTaotlusSissetulekud teenuselt andmete pärimine õnnestus.");
+        logForDrupal.setType("EHIS - VpTaotlusSissetulekud");
+        logForDrupal
+            .setMessage("EHIS - VpTaotlusSissetulekud teenuselt andmete pärimine õnnestus.");
 //endregion;
       } else if (currentStep.equalsIgnoreCase("step_2")) {
 //region STEP_2
@@ -439,7 +429,8 @@ public class VPTWorker {
           List<FailInfoDto> addedFiles = new ArrayList<>();
           stepTwoDataElements.get("family_members_income_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-//            failInfoDto.setContent(); //TODO: faili base64Binary lisamine
+            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             addedFiles.add(failInfoDto);
           });
@@ -451,7 +442,8 @@ public class VPTWorker {
           stepTwoDataElements.get("family_members_nonresident_income_proof")
               .get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-//                failInfoDto.setContent(); //TODO: faili base64Binary lisamine
+                failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
+                    .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             nonResidentFiles.add(failInfoDto);
           });
@@ -477,8 +469,9 @@ public class VPTWorker {
         ((ObjectNode) jsonNode.get("header")).put("acceptable_activity", "SUBMIT");
 //endregion;
 
-        logs.setType("EHIS - VpTaotlusSissetulekud");
-        logs.setMessage("EHIS - VpTaotlusSissetulekud teenuselt andmete pärimine õnnestus.");
+        logForDrupal.setType("EHIS - VpTaotlusSissetulekud");
+        logForDrupal
+            .setMessage("EHIS - VpTaotlusSissetulekud teenuselt andmete pärimine õnnestus.");
 //endregion;
       } else if (currentStep.equalsIgnoreCase("step_3")) {
 //region STEP_3
@@ -538,8 +531,8 @@ public class VPTWorker {
       }
     } catch (Exception e) {
       LOGGER.error(e, e);
-      logs.setSeverity("ERROR");
-      logs.setMessage(e.getMessage());
+      logForDrupal.setSeverity("ERROR");
+      logForDrupal.setMessage(e.getMessage());
 
       Long timestamp = System.currentTimeMillis();
 
@@ -549,8 +542,8 @@ public class VPTWorker {
           .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
     }
 
-    logs.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logs, "VPT_TAOTLUS");
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    sender.send(logsTopic, null, logForDrupal, "VPT_TAOTLUS");
 
     return jsonNode;
   }
@@ -599,8 +592,7 @@ public class VPTWorker {
   public ObjectNode getDocument(String documentId, String personalCode) {
     Long applicationId;
     String documentType;
-    JsonNodeFactory f = JsonNodeFactory.instance;
-    ObjectNode documentResponse = f.objectNode();
+    ObjectNode documentResponse = nodeFactory.objectNode();
 
     try {
       documentId = documentId.replace("VPT_", "");
