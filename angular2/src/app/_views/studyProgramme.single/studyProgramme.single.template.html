@@ -162,8 +162,8 @@
         <h2>Kontakt</h2>
         <p>
           <ng-container *ngIf="data.fieldEducationalInstitution.entity">{{ data.fieldEducationalInstitution.entity.entityLabel }}<br /></ng-container>
-          <ng-container *ngIf="data.fieldSchoolContactPhone">{{ data.fieldSchoolContactPhone }}<br /></ng-container>
-          <ng-container *ngIf="data.fieldSchoolContactEmail"><a href="mailto:data.fieldSchoolContactEmail">{{ data.fieldSchoolContactEmail }}</a><br /></ng-container>
+          <ng-container *ngIf="data.fieldEducationalInstitution.entity.fieldSchoolContactPhone">{{ data.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}<br /></ng-container>
+          <ng-container *ngIf="data.fieldEducationalInstitution.entity.fieldSchoolContactEmail"><a href="mailto:data.fieldEducationalInstitution.entity.fieldSchoolContactEmail">{{ data.fieldEducationalInstitution.entity.fieldSchoolContactEmail }}</a><br /></ng-container>
           <ng-container *ngIf="data.fieldSchoolWebsite"><a href="{{ data.fieldSchoolWebsite | url }}" target="_blank">{{ data.fieldSchoolWebsite | removeProtocol }}</a></ng-container>
         </p>
       </div><!--/block-->
