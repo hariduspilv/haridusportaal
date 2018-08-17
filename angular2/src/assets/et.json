@@ -110,6 +110,7 @@
     "label": "Erialad",
     "level": "Õppekava tase",
     "accreditation": "Akrediteering",
+    "valid_accreditation": "Valid accreditation",
     "accreditation_decision": "Akrediteerimise otsus",
     "accreditation_decision_till": "Akrediteerimise otsuse kehtivuse lõpp",
     "languages": "Õppekeel(ed)",
