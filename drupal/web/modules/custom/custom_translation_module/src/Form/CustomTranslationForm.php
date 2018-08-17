@@ -19,20 +19,20 @@ class CustomTranslationForm extends ConfigFormBase {
     ];
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getFormId() {
-    return 'custom_translation_form';
-  }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFormId() {
+		return 'custom_translation_form';
+	}
 
-  /**
-   * {@inheritdoc}
-   */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('custom_translation_module.settings');
+	/**
+	 * {@inheritdoc}
+	 */
+	public function buildForm(array $form, FormStateInterface $form_state) {
+		$config = $this->config('custom_translation_module.settings');
 
-    $form['#tree'] = TRUE;
+		$form['#tree'] = TRUE;
 
 		$form['frontpage'] = [
 			'#type' => 'details',
@@ -274,61 +274,61 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#default_value' => $config->get('event.participant_last_name'),
 		];
 		$form['event']['participant_first_name'] = [
-				'#type' => 'textfield',
-				'#title' => $this->t('Participant first name'),
-				'#maxlength' => 64,
-				'#size' => 64,
-				'#default_value' => $config->get('event.participant_first_name'),
-			];
+			'#type' => 'textfield',
+			'#title' => $this->t('Participant first name'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.participant_first_name'),
+		];
 		$form['event']['participant_organization'] = [
-				'#type' => 'textfield',
-				'#title' => $this->t('Participant organization'),
-				'#maxlength' => 64,
-				'#size' => 64,
-				'#default_value' => $config->get('event.participant_organization'),
-			];
+			'#type' => 'textfield',
+			'#title' => $this->t('Participant organization'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.participant_organization'),
+		];
 		$form['event']['participant_created'] = [
-				'#type' => 'textfield',
-				'#title' => $this->t('Participant registration time'),
-				'#maxlength' => 64,
-				'#size' => 64,
-				'#default_value' => $config->get('event.participant_created'),
-			];
+			'#type' => 'textfield',
+			'#title' => $this->t('Participant registration time'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.participant_created'),
+		];
 		$form['event']['participant_comment'] = [
-				'#type' => 'textfield',
-				'#title' => $this->t('Participant comment'),
-				'#maxlength' => 64,
-				'#size' => 64,
-				'#default_value' => $config->get('event.participant_comment'),
-			];
+			'#type' => 'textfield',
+			'#title' => $this->t('Participant comment'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.participant_comment'),
+		];
 		$form['event']['participant_index'] = [
-				'#type' => 'textfield',
-				'#title' => $this->t('Participant index'),
-				'#maxlength' => 64,
-				'#size' => 64,
-				'#default_value' => $config->get('event.participant_index'),
-			];
+			'#type' => 'textfield',
+			'#title' => $this->t('Participant index'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.participant_index'),
+		];
 		$form['event']['participant_list'] = [
-				'#type' => 'textfield',
-				'#title' => $this->t('Participant list'),
-				'#maxlength' => 64,
-				'#size' => 64,
-				'#default_value' => $config->get('event.participant_list'),
-			];
+			'#type' => 'textfield',
+			'#title' => $this->t('Participant list'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.participant_list'),
+		];
 		$form['event']['participant_count'] = [
-				'#type' => 'textfield',
-				'#title' => $this->t('Participant count'),
-				'#maxlength' => 64,
-				'#size' => 64,
-				'#default_value' => $config->get('event.participant_count'),
-			];
+			'#type' => 'textfield',
+			'#title' => $this->t('Participant count'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.participant_count'),
+		];
 		$form['event']['participants_list_view'] = [
-				'#type' => 'textfield',
-				'#title' => $this->t('Participant list view'),
-				'#maxlength' => 64,
-				'#size' => 64,
-				'#default_value' => $config->get('event.participants_list_view'),
-			];
+			'#type' => 'textfield',
+			'#title' => $this->t('Participant list view'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.participants_list_view'),
+		];
 		$form['event']['filter_name'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Filter event name'),
@@ -420,6 +420,28 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('event.registration_form_add_to_calendar'),
 		];
+		$form['event']['registration_ended'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Event registration ended'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.registration_ended'),
+		];
+		$form['event']['registration_not_started'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Event registration not started'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.registration_not_started'),
+		];
+		$form['event']['registration_full'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Event registration is full'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.registration_full'),
+		];
+
 
 		$form['login'] = [
 			'#type' => 'details',
@@ -835,11 +857,11 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#default_value' => $config->get('button.search_brief_short'),
 		];
 		$form['button']['search_close'] = [
-				'#type' => 'textfield',
-				'#title' => $this->t('Close search'),
-				'#maxlength' => 64,
-				'#size' => 64,
-				'#default_value' => $config->get('button.search_close'),
+			'#type' => 'textfield',
+			'#title' => $this->t('Close search'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.search_close'),
 		];
 		$form['button']['login'] = [
 			'#type' => 'textfield',
@@ -937,7 +959,6 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('newsletter.modal_title'),
 		];
-		#dump($config);
 		$form['newsletter']['modal_content'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Newsletter modal content'),
@@ -1196,6 +1217,21 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('studyProgramme.valid_accreditation'),
 		];
+		$form['studyProgramme']['accreditation_decision'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Study programme accreditation decision'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.accreditation_decision'),
+		];
+		$form['studyProgramme']['accreditation_decision_till'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Study programme accreditation decision till'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.accreditation_decision_till'),
+		];
+
 		$form['studyProgramme']['languages'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Study programme languages'),
@@ -1224,6 +1260,58 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('studyProgramme.admission_status'),
 		];
+
+
+		$form['studyProgramme']['compare_modal_close'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Compare modal close'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.compare_modal_close'),
+		];
+		$form['studyProgramme']['school'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Study programme school'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.school'),
+		];
+		$form['studyProgramme']['degree_or_diploma'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Degree or diploma'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.degree_or_diploma'),
+		];
+		$form['studyProgramme']['specialization'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Study programme specialization'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.specialization'),
+		];
+		$form['studyProgramme']['study_capacity'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Study programme study capacity'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.study_capacity'),
+		];
+		$form['studyProgramme']['internship_capacity'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Study programme internship capacity'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.internship_capacity'),
+		];
+		$form['studyProgramme']['nominal_time'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Study programme nominal time'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.nominal_time'),
+		];
+
 		$form['studyProgramme']['filter_title'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Study programme filter title'),
@@ -1309,7 +1397,7 @@ class CustomTranslationForm extends ConfigFormBase {
 
 
 		return parent::buildForm($form, $form_state);
-  }
+	}
 
   /**
    * {@inheritdoc}
@@ -1331,10 +1419,6 @@ class CustomTranslationForm extends ConfigFormBase {
 					$config->set($key.".".$value_key, $child_val);
 				}
 			}
-			#dump($key);
-			#	dump($value);
-			#if(is_array($value)) continue;
-			#if(!empty($value)) $config->set($key, $value);
 		}
 		#die();
 		$config->save();
