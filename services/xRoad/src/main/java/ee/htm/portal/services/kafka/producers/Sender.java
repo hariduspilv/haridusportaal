@@ -1,10 +1,5 @@
 package ee.htm.portal.services.kafka.producers;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.header.Header;
-import org.apache.kafka.common.header.internals.RecordHeader;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
