@@ -27,7 +27,7 @@
   @include break-on(sm, max) {display: none;}
 }
 .languages {position: relative;top: .125rem;}
-.loginbar {margin-left: $xxl;
+.loginbar {margin-left: $xxl; display: flex;
   @include break-on(xl, min) {position: relative;top: .1875rem;}
 }
 mat-icon { 
