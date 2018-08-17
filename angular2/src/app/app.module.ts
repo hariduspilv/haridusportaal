@@ -49,8 +49,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   let translateUrls = {
     "localhost": ["/assets/", ".json"],
     //"localhost": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
-    "htm.twn.ee": ["/assets/", ".json"],
-    //"htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
+    //"htm.twn.ee": ["/assets/", ".json"],
+    "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     "otherwise": ["https://api.test.edu.ee/", "/base_settings?_format=json"]
   }
 

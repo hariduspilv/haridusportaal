@@ -1,8 +1,8 @@
-<div class="block padding-block">
+<div class="block">
   
   <div class="block-title">{{ 'studyProgramme.related.label' | translate | uppercase }}</div>
 
-  <form (submit)="getData(search_address)">
+  <form class="block-form" (submit)="getData(search_address)">
     <div class="row">
       <div class="col-10 sm-12" >
         <div class="round-input__wrapper" [class.complete]="search_address">
@@ -12,10 +12,8 @@
           </div>
         </div><!--/round-inpuit__wrapper-->
       </div>
-      <div class="col-2 align-end text-right sm-12 inline-flex">
-        <div>
-          <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
-        </div>
+      <div class="btn col-2 sm-12 align-end text-right inline-flex">
+        <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
       </div><!--/col-3-->
     </div><!--/row-->
   </form>
@@ -43,7 +41,7 @@
           <!--/col-3-->
         </div>
 
-        <div class="studyProgramme__item__col sm-hide">
+        <div class="studyProgramme__item__col sm-hide first">
           <p *ngIf="item.FieldStudyProgrammeLevel">{{ 'studyProgramme.level' | translate }} :
             <b>{{ item.FieldStudyProgrammeLevel }}</b>
           </p>
@@ -80,7 +78,7 @@
           </p>
         </div>
         <!--/scools__item__col-->
-        <div class="studyProgramme__item__col sm-hide">
+        <div class="studyProgramme__item__col sm-hide last">
           <p *ngIf="item.FieldIscedfDetailed">
             {{ 'studyProgramme.study_group' | translate }} :
             <b>{{ item.FieldIscedfDetailed }}</b>
