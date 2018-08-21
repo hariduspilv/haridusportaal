@@ -92,6 +92,8 @@ $grid-columns: 12;
 .capitalize {text-transform: capitalize;}
 .inline-flex {display: inline-flex;justify-content: flex-end;}
 
+.btn-link { color: $blue; background-color: $white; border: transparent 0px solid; text-decoration: underline; 
+  font-size: 1rem; }
 .button-row {@include break-on(sm, max) {padding-top: $gutter; width: 100%;}}
 .filter-state {padding-right: $small;
   @include break-on(md, max) { padding-right: $half-gutter;}

@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-12">
     	<div attr.aria-label="{{'Click to Close to Dialog'}}" role="close">
-      <mat-icon mat-icon-button  role="button" (click)="close()" tabindex="0">close</mat-icon>
+      <mat-icon mat-icon-button>close
+      	<button class="btn-hidden" (click)="close()" tabindex="0"></button>
+      </mat-icon>
   </div>
     </div>
   </div>
