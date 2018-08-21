@@ -42,6 +42,7 @@ import { CompareComponent } from './_components/compare/compare.component';
 import { RelatedStudyProgrammesComponent } from './_components/related.studyProgrammes/related.studyProgrammes.component';
 import { StudyProgrammeCompareComponent } from './_views/studyProgramme.compare/studyProgramme.compare.component';
 import { RecentEventsComponent } from './_components/recent.events/recent.events.component';
+import { FavouritesComponent } from './_components/favourites/favourites.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -85,7 +86,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MapWrapperComponent,
     CompareComponent,
     RelatedStudyProgrammesComponent,
-    RecentEventsComponent
+    RecentEventsComponent,
+    FavouritesComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent],
