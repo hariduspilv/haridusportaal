@@ -2,7 +2,7 @@ package ee.htm.portal.services.model;
 
 import java.sql.Timestamp;
 
-public class Logs {
+public class LogForDrupal {
 
   private String type;
   private String severity;
@@ -13,11 +13,11 @@ public class Logs {
   private String requestId;
   private String responseId;
 
-  public Logs() {
+  public LogForDrupal() {
     super();
   }
 
-  public Logs(String type, String severity, Timestamp startTime, Timestamp endTime,
+  public LogForDrupal(String type, String severity, Timestamp startTime, Timestamp endTime,
       String message, String user, String requestId, String responseId) {
     this.type = type;
     this.severity = severity;
@@ -95,7 +95,7 @@ public class Logs {
 
   @Override
   public String toString() {
-    return "Logs{" +
+    return "LogForDrupal{" +
         "type='" + type + '\'' +
         ", severity='" + severity + '\'' +
         ", startTime=" + startTime +
