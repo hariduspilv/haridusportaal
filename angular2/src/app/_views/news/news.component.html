@@ -41,7 +41,7 @@
     
         <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
           <div class="align-center filter-state sm-hide">       
-            <button class="btn-link" (click)="filterFull = !filterFull" attr.aria-label="{{'Current button is advanced search, which is in collapsed state'}}">
+            <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="false">
               <span class="md-hide">{{ 'button.search_detailed' | translate}}</span>
               <span class="md-show">{{ 'button.search_detailed_short' | translate}}</span>
             </button>
@@ -60,13 +60,12 @@
             <ng-select
             tabindex="0"
             role="select"
-             attr.aria-label="{{'Specific search selectbox, choose your option'}}"
+             attr.aria-label="{{'Specific search selectbox, choose your options'}}"
             [class.exists]="filterFormItems.types && filterFormItems.types.length"
             [items]="tags | async"
             [multiple]="true"
             [loading]="loading"
             bindLabel="name"
-    
             name="types"
             [(ngModel)]="filterFormItems.types"
             placeholder="{{ 'news.tag' | translate }}"
@@ -77,7 +76,7 @@
         </div>
         <div class="col-3 align-end text-right sm-12 inline-flex">
           <div class="align-center filter-state sm-hide">       
-            <button class="btn-link" (click)="filterFull = !filterFull" attr.aria-label="{{'Current button will close advanced search, collapse is in open state'}}">
+            <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="true">
               <span class="md-hide">{{ 'button.search_brief' | translate}}</span>
               <span class="md-show">{{ 'button.search_brief_short' | translate}}</span>
             </button>
@@ -126,12 +125,12 @@
 
       <div class="text-center actions" *ngIf="!listEnd">
         <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-        <button mat-raised-button color="primary" (click)="loadMore()"  *ngIf="!loading" attr.aria-label="{{'You are on load more button, when clicked, will add more content'}}" >
+        <button mat-raised-button color="primary" (click)="loadMore()"  *ngIf="!loading" attr.aria-label="{{'You are on load more button, when clicked, will load more content'}}" >
           {{ "button.load_more" | translate }}
         </button>
       </div><!--/text-center-->
       <div class="text-center actions__error" *ngIf="(list != null && list.length) === 0">
-        <p tabindex="0" attr.aria-label="{{ 'news.no_results' | translate }}" >{{ 'news.no_results' | translate }}</p>
+        <p tabindex="0" role="alert" >{{ 'news.no_results' | translate }}</p>
       </div><!--/text-center-->
       
     </div><!--/ngIf-->
