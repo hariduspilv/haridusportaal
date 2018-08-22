@@ -1,7 +1,7 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { HttpHeaders } from '@angular/common/http';
-import { SideMenuService } from '../../_services';
+import { SideMenuService } from '@app/_services';
 import { Router, RoutesRecognized } from '@angular/router';
 import gql from 'graphql-tag';
 import { Subscription } from 'rxjs/Subscription';
