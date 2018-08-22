@@ -19,6 +19,7 @@ use Drupal\graphql\Utility\StringHelper;
 *   secure = true,
 *   type = "[CustomElastic]",
 *   name = "CustomStudyProgrammeElasticQuery",
+*   response_cache_contexts = {"languages:language_url"},
 *   arguments = {
 *     "filter" = "CustomStudyProgrammeElasticFilterInput",
 *   }
@@ -291,10 +292,10 @@ protected function getElasticQuery($args){
       $qual_standard_ids[] = array(
         'filter' => array(
           'match' => array(
-            'field_qualification_standard_id' => \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($id['target_id'])->label()
+            'field_qualification_standard_id' => $id['target_id']
           )
         ),
-        'weight' => 2
+        'weight' => 3
       );
     }
     foreach($qual_standard_ids as $standard_id){
@@ -333,10 +334,10 @@ protected function getElasticQuery($args){
             'should' => $conditions
           )
         ),
-        'boost' => '5',
+        'boost' => '1',
         'functions' => $functions,
         'score_mode' => 'sum',
-        'boost_mode' => 'multiply'
+        'boost_mode' => 'replace'
       )
     ),
     'sort' => array(
