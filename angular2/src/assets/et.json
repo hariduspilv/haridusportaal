@@ -50,6 +50,7 @@
     "related": "Sarnased sündmused",
     "start_time": "Algusaeg",
     "location": "Asukoht",
+    "repeat": "Korduv üritus",
     "place_and_time": "Toimumisaeg ja -koht",
     "participant_email": "E-post",
     "participant_phone": "Telefon",
