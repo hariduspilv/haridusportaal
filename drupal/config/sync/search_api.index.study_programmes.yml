@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_accreditation_status
+    - field.storage.node.field_qualification_standard_id
     - field.storage.node.field_duration_years
     - field.storage.node.field_duration_months
     - field.storage.node.field_degree_or_diploma_awarded
@@ -90,6 +91,14 @@ field_settings:
         - field.storage.node.field_iscedf_detailed
       module:
         - taxonomy
+  field_qualification_standard_id:
+    label: 'Kutsestandardi identifikaator'
+    datasource_id: 'entity:node'
+    property_path: field_qualification_standard_id
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_qualification_standard_id
   field_school_address:
     label: 'School address'
     datasource_id: 'entity:node'
