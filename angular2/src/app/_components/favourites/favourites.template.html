@@ -1,7 +1,7 @@
 <div class="favourites__wrapper" role="button" attr.aria-label="{{'Favourites dropdown'}}">
-  <button>
-    <mat-icon tabindex=0 class="primary" (click)="favouritesDropdown = favouritesDropdown? false: true" >star_rate</mat-icon>
-  </button>
+  
+  <mat-icon tabindex=0 class="primary" (click)="favouritesDropdown = favouritesDropdown? false: true" >star_rate</mat-icon>
+  
   
   <div *ngIf="favouritesDropdown" class="favourites__dropdown">
      <form (submit)="addToFavourites()">
