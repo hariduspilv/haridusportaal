@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
-import { RootScopeService } from '@app/_services/rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScopeService';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/map';
@@ -7,7 +7,7 @@ import 'rxjs/add/operator/catch';
 import { SettingsService } from '@app/_core/settings';
 import { Subscription } from 'rxjs/Subscription';
 import { CompareComponent } from '@app/_components/compare/compare.component';
-import { TableService } from '@app/_services/table/table.service';
+import { TableService } from '@app/_services/tableService';
 
 @Component({
   templateUrl: "studyProgramme.compare.template.html",

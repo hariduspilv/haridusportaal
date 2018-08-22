@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ListQuery, FilterOptions} from '../../_services/studyProgramme/studyProgramme.service';
+import { ListQuery, FilterOptions} from '@app/_graph/studyProgramme.graph';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 
-import { FiltersService } from '../../_services/filters/filters.service';
+import { FiltersService } from '@app/_services/filtersService';
 
-import { RootScopeService } from '../../_services/rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScopeService';
 import 'rxjs/add/operator/map';
 
 import * as _moment from 'moment';
