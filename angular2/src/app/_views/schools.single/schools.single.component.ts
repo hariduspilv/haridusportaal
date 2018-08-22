@@ -3,9 +3,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 
-import { SingleQuery, InstitutionTypeQuery } from '../../_services/school/school.service';
-import { RootScopeService } from '../../_services';
-import { TableService } from '../../_services/table/table.service';
+import { SingleQuery, InstitutionTypeQuery } from '@app/_graph/school.graph';
+import { RootScopeService } from '@app/_services';
+import { TableService } from '@app/_services/tableService';
 
 @Component({
   templateUrl: './schools.single.component.html',

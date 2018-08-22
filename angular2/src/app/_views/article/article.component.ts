@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Params, Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService } from '../../_services';
-import { singleQuery } from '../../_services/article.graph';
+import { singleQuery } from '@app/_graph/article.graph';
 
 
 import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
 
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
-import {VideoComponent} from '../../_components/video/video.component';
+import {VideoComponent} from '@app/_components/video/video.component';
 
 @Component({
   templateUrl: './article.component.html',

@@ -1,3 +1,14 @@
 <div class="favourites__wrapper" role="button" attr.aria-label="{{'Favourites dropdown'}}">
-  <mat-icon tabindex=0 class="primary">star_rate</mat-icon>
+  
+  <mat-icon tabindex=0 class="primary" (click)="favouritesDropdown = favouritesDropdown? false: true" >star_rate</mat-icon>
+  
+  
+  <div *ngIf="favouritesDropdown" class="favourites__dropdown">
+     <form (submit)="addToFavourites()">
+        <div class="round-input__field-wrapper">
+            <input class="round-input__field" placeholder="title" [(ngModel)]='title' name="title" />
+        </div>
+        <button>Lisa lemmikutesse</button>
+     </form>
+  </div>
 </div>

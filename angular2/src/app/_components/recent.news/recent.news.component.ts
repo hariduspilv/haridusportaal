@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild, Input, OnInit, ElementRef} from '@angular/core';
-import { NewsService, RootScopeService } from '../../_services';
+import { NewsService, RootScopeService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
