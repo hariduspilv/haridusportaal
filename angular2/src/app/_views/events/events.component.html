@@ -145,7 +145,7 @@
           <div class="events__header center" [class.highlighted]="yearKey == current.year && monthKey == current.month && dayKey == current.day">
             <div class="events__datetime">
               <div class="day">{{ 'time.' +getDayName( dayKey ) | translate }}</div>
-              <div class="date">{{ dayKey }}.{{ monthKey }}</div>
+              <div class="date">{{ formatNumber(dayKey) }}.{{ formatNumber(monthKey) }}</div>
             </div>
             <div class="events__separator w-100">
               <div class="border"></div>
