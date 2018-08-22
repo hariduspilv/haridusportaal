@@ -11,23 +11,28 @@ export class HttpService {
     private settings: SettingsService
   ) {}
 
-  createAuthorizationHeader(headers) {
+  createAuthorizationHeader() {
 
+    let headers = new HttpHeaders();
     const token = localStorage.getItem('token');
+
     if (token){
 
       const helper = new JwtHelperService();
 
       const decodedToken = helper.decodeToken(token);
       const isExpired = helper.isTokenExpired(token);
-      
       if( isExpired ){
         localStorage.removeItem('token');
       }else{
-        headers.append('Authorization', `Bearer ${token}`);
+        headers = headers.append('Authorization', `Bearer ${token}`);
       }
       
     }
+
+
+    console.log(headers);
+    return headers;
   }
 
   parseUrl(url){
@@ -40,8 +45,7 @@ export class HttpService {
 
   get(url) {
     url = this.parseUrl(url);
-    let headers = new HttpHeaders();
-    this.createAuthorizationHeader(headers);
+    let headers = this.createAuthorizationHeader();
     return this.http.get(url, {
       headers: headers
     });
@@ -49,8 +53,8 @@ export class HttpService {
 
   post(url, data) {
     url = this.parseUrl(url);
-    let headers = new HttpHeaders();
-    this.createAuthorizationHeader(headers);
+    let headers = this.createAuthorizationHeader();
+    
     return this.http.post(url, data, {
       headers: headers
     });

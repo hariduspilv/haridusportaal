@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnDestroy} from '@angular/core';
-import { RootScopeService } from '../../_services/rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScope/rootScope.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { SettingsService } from '../../_core/settings';
+import { SettingsService } from '@app/_core/settings';
 import { Subscription } from 'rxjs/Subscription';
-import { FiltersService } from '../../_services/filters/filters.service';
+import { FiltersService } from '@app/_services/filters/filters.service';
 @Component({
   selector: "related-studyprogrammes",
   templateUrl: "related.studyProgrammes.component.html",

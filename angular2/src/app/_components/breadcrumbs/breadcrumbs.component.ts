@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 
-import { getBreadcrumb } from '../../_services/breadcrumb.graph';
-import { MetaTagsService } from '../../_services/metaTags/metaTags.service';
+import { getBreadcrumb } from '@app/_services/breadcrumb.graph';
+import { MetaTagsService } from '@app/_services/metaTags/metaTags.service';
 @Component({
   selector: 'breadcrumbs',
   templateUrl: 'breadcrumbs.component.html',

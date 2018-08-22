@@ -3,7 +3,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { eventsRegister } from '../../../_services/events/events.graph';
+import { eventsRegister } from '@app/_services/events/events.graph';
 @Component({
   selector: 'events-registration-dialog',
   templateUrl: 'events.registration.dialog.html',
