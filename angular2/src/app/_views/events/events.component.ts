@@ -6,8 +6,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { EventsConfig } from './events-config.model';
-import { RootScopeService } from '../../_services';
-import { sortEventsByOptions, getEventsTags, getEventsTypes } from '../../_services/events/events.graph';
+import { RootScopeService } from '@app/_services';
+import { sortEventsByOptions, getEventsTags, getEventsTypes } from '@app/_services/events/events.graph';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -17,7 +17,7 @@ import 'rxjs/add/observable/of';
 
 import { Apollo, QueryRef } from 'apollo-angular';
 
-import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
+import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filters/filters.service';
 
 import * as _moment from 'moment';
 const moment = _moment;

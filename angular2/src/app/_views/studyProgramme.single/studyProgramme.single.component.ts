@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SingleQuery } from '../../_services/studyProgramme/studyProgramme.service';
-import { FiltersService } from '../../_services/filters/filters.service';
+import { SingleQuery } from '@app/_services/studyProgramme/studyProgramme.service';
+import { FiltersService } from '@app/_services/filters/filters.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

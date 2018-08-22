@@ -1,24 +1,24 @@
 import { Component, OnDestroy, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RootScopeService, MetaTagsService } from '../../_services';
+import { RootScopeService, MetaTagsService } from '@app/_services';
 
-import { singleQuery } from '../../_services/events/events.graph';
+import { singleQuery } from '@app/_services/events/events.graph';
 
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
-import { AppComponent } from '../../app.component';
+import { AppComponent } from '@app/app.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import { ImagePopupDialog } from '../../_components/dialogs/image.popup/image.popup.dialog'
+import { ImagePopupDialog } from '@app/_components/dialogs/image.popup/image.popup.dialog'
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { TranslateService } from '@ngx-translate/core';
-import { TableService } from '../../_services/table/table.service';
+import { TableService } from '@app/_services/table/table.service';
 
-import { SettingsService } from '../../_core/settings';
+import { SettingsService } from '@app/_core/settings';
 
 import * as _moment from 'moment';
 
