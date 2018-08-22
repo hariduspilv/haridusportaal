@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { RootScopeService } from '../../_services';
+import { RootScopeService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
@@ -7,9 +7,9 @@ import { Subscription } from 'rxjs/Subscription';
 import { AgmCoreModule } from '@agm/core';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {EventsRegistratonDialog} from '../../_components/dialogs/events.registration/events.registration.dialog'
+import {EventsRegistratonDialog} from '@app/_components/dialogs/events.registration/events.registration.dialog'
 
-import { SettingsService } from '../../_core/settings';
+import { SettingsService } from '@app/_core/settings';
 
 @Component({
 	selector: 'recent-events',

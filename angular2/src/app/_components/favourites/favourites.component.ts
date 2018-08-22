@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
-import { SettingsService } from '../../_core/settings';
+import { SettingsService } from '@app/_core/settings';
 
 @Component({
   selector: 'favourites',
