@@ -49,6 +49,7 @@
     "related": "Similar events",
     "start_time": "Start time",
     "location": "Location",
+    "repeat": "Repeatable event",
     "place_and_time": "time and place",
     "participant_email": "Email",
     "participant_phone": "Phone",
