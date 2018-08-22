@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpService } from '@app/_services/httpService';
 import { SettingsService } from '../../_core/settings';
 
 @Component({
@@ -22,7 +22,7 @@ export class FavouritesComponent implements OnInit{
   constructor(
     private route: ActivatedRoute, 
     private router: Router,
-    private http: HttpClient,
+    private http: HttpService,
     private settings: SettingsService,
   ) {
 
