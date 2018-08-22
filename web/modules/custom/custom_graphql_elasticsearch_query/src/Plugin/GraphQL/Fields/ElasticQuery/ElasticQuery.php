@@ -19,6 +19,7 @@ use Drupal\graphql\Utility\StringHelper;
 *   secure = true,
 *   type = "[CustomElastic]",
 *   name = "CustomElasticQuery",
+*   response_cache_contexts = {"languages:language_url"},
 *   arguments = {
 *     "filter" = "EntityQueryFilterInput",
 *     "elasticsearch_index" = "String!",
