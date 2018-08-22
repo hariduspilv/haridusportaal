@@ -1,18 +1,19 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
-import { ListQuery, OptionsQuery } from '../../_services/school/school.service';
+import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
+import { ListQuery, OptionsQuery } from '@app/_graph/school.graph';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
-import { HttpClient } from '@angular/common/http';
+import { HttpService } from '@app/_services/httpService';
+
 import { of } from 'rxjs/observable/of';
 
 import 'rxjs/add/operator/map';
 
 import { Observable } from 'rxjs/Observable';
 
-import { RootScopeService } from '../../_services/rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScopeService';
 
 /* Datepicker Imports */
 import * as _moment from 'moment';
@@ -92,7 +93,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     public route: ActivatedRoute,
     private apollo: Apollo,
     private cdr: ChangeDetectorRef,
-    private http: HttpClient
+    private http: HttpService
   ) {
     super(null, null);
   }
@@ -290,6 +291,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
     this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
 
+      console.log(data['data']);
       let entities = data['data']['CustomElasticQuery'];
 
       this.loading = false;

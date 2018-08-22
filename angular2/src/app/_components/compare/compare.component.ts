@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RootScopeService  } from '../../_services/rootScope/rootScope.service';
+import { RootScopeService  } from '@app/_services/rootScopeService';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Modal } from '../../_components/dialogs/modal/modal';
+import { Modal } from '@app/_components/dialogs/modal/modal';
 
 @Component({
   selector: 'compare',

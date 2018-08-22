@@ -1,10 +1,10 @@
 import { Injectable, group } from '@angular/core';
-import { NewsGraph } from './news.graph';
+import { NewsGraph } from '@app/_graph/news.graph';
 import { Apollo } from 'apollo-angular';
 import { HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
-import { RootScopeService } from '../rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScopeService';
 
 @Injectable()
 export class NewsService extends NewsGraph {

@@ -13,7 +13,8 @@ export class EventsConfig {
     public dateFrom: string = moment().format('YYYY-MM-DD').toString(), //"1901-00-00" TODAY
     public dateTo: string = moment("2038-01-01").format('YYYY-MM-DD').toString(), //"2038-01-01"
     public offset: number = 0,
-    public limit: number = 5
+    public limit: number = 5,
+    public timeFrom: any = "0"
   ) {
     this.tagsValue = tagsValue;
     this.tagsEnabled = tagsEnabled;
@@ -25,6 +26,7 @@ export class EventsConfig {
     this.dateTo = dateTo;
     this.offset = offset;
     this.limit = limit;
+    this.timeFrom = timeFrom;
   }
 
   getApollo(language) {
@@ -39,7 +41,9 @@ export class EventsConfig {
       dateTo: this.dateTo,
       offset: this.offset,
       limit: this.limit,
-      lang: language
+      lang: language,
+      timeFrom: this.timeFrom,
+      timeTo: "99999999"
     };
     return obArr
   }
