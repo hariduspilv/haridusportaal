@@ -12,7 +12,7 @@
         <div class="round-input__wrapper">
           <span class="round-input__title">{{ 'event.filter_name' | translate }}</span>
           <div class="round-input__field-wrapper">
-            <input class="round-input__field" placeholder="{{ 'event.filter_name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
+            <input attr.aria-label="{{'You are currently on Filter navigation, where you can enter events title and pick start and end date'}}" class="round-input__field" placeholder="{{ 'event.filter_name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
           </div>
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
@@ -41,13 +41,13 @@
 
       <div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
-          <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
+            <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="false">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
-            <span class="md-show">Täpne</span>
-          </a>
+            <span class="md-show">{{ 'button.search_detailed_short' | translate}}</span>
+          </button>
         </div>
         <div class="button-row">
-          <button mat-raised-button color="primary">Otsi</button>
+          <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
         </div>
       </div><!--/col-3-->
     </div><!--/row-->
@@ -58,6 +58,9 @@
         <div class="ng-select__wrapper">
           <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">{{ 'event.filter_types' | translate}}</span>
           <ng-select
+          tabindex="0"
+          role="select"
+          attr.aria-label="{{'Specific search selectbox, choose your types'}}"
           [class.exists]="filterFormItems.types && filterFormItems.types.length"
           [items]="eventsTypesObs | async"
           [multiple]="true"
@@ -76,6 +79,9 @@
         <div class="ng-select__wrapper__second">
           <span class="ng-select__title"  [class.exists]="filterFormItems.tags && filterFormItems.tags.length">{{ 'event.filter_tags' | translate}}</span>
           <ng-select
+          tabindex="0"
+          role="select"
+          attr.aria-label="{{'Specific search selectbox, choose your signs'}}"
           [class.exists]="filterFormItems.tags && filterFormItems.tags.length"
           [items]="eventsTagsObs | async"
           [multiple]="true"
@@ -90,10 +96,10 @@
       </div>
       <div class="col-3 align-end text-right sm-12 inline-flex">
         <div class="align-center filter-state sm-hide">       
-          <a href="javascript:void(0);" (click)="filterFull = !filterFull">
+            <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="true">
             <span class="md-hide">{{ 'button.search_brief' | translate}}</span>
-            <span class="md-show">Kitsas</span>
-          </a>
+            <span class="md-show">{{ 'button.search_brief_short' | translate}}</span>
+          </button>
         </div>
         <div class="button-row">
           <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
@@ -107,11 +113,11 @@
     <div class="events__head">
       <div class="events__title text-left">{{ 'event.label' | translate | uppercase }}</div>
       <div class="button-list text-right sm-hide">
-        <div class="view-item pointer" (click)="changeView('list')" [class.active]="view === 'list'">
+        <div class="view-item pointer" (click)="changeView('list')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
-          <div class="title">{{ 'event.list' | translate }}</div>
+          <div class="title" >{{ 'event.list' | translate }}</div>
         </div>
-        <div class="view-item pointer" (click)="changeView('calendar')" [class.active]="view === 'calendar'">
+        <div class="view-item pointer" (click)="changeView('calendar')" attr.aria-label="{{ 'event.calendar' | translate }}" tabindex="0" [class.active]="view === 'calendar'">
           <mat-icon>today</mat-icon>
           <div class="title">{{ 'event.calendar' | translate }}</div>
         </div>

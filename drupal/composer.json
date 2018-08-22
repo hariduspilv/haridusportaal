@@ -55,6 +55,7 @@
         "drupal/pathauto": "^1.1",
         "drupal/queue_ui": "2.x-dev",
         "drupal/readonly_field_widget": "^1.2",
+        "drupal/redis": "^1.0",
         "drupal/restui": "^1.15",
         "drupal/scheduler": "^1.0",
         "drupal/search_api": "^1.8",
