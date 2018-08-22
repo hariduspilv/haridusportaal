@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService, MetaTagsService } from '@app/_services';
 
-import { singleQuery } from '@app/_services/events/events.graph';
+import { singleQuery } from '@app/_graph/events.graph';
 
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -16,7 +16,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ImagePopupDialog } from '@app/_components/dialogs/image.popup/image.popup.dialog'
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { TranslateService } from '@ngx-translate/core';
-import { TableService } from '@app/_services/table/table.service';
+import { TableService } from '@app/_services/tableService';
 
 import { SettingsService } from '@app/_core/settings';
 
