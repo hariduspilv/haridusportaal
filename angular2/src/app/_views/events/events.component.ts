@@ -327,9 +327,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     for( var i in list ){
       let entry = list[i];
 
-      let earliest;
+      let earliest = entry['fieldEventMainDate']['unix'];
       let timeEarliest;
 
+/*
       for( var ii in entry['eventDates'] ){
         let event = entry['eventDates'][ii]['entity'];
         let unix = parseInt( event['fieldEventDate']['unix'] );
@@ -341,13 +342,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         if( !timeEarliest ){ timeEarliest = time; }
         else if( timeEarliest > time ){ timeEarliest = time; }
       }
+      */
       
-      entry['firstEventTime'] = timeEarliest;
-      entry['firstEventUnix'] = earliest;
+      entry['firstEventTime'] = entry['fieldEventMainStartTime'];
+      entry['firstEventUnix'] = entry['fieldEventMainDate']['unix'];
      
-      let year = moment.unix( earliest ).format("YYYY");
-      let month = moment.unix( earliest ).format("MM");
-      let day = moment.unix( earliest ).format("D");
+      let year = moment.unix( earliest ).format("YYYY").toString();
+      let month = moment.unix( earliest ).format("M").toString();
+      let day = moment.unix( earliest ).format("D").toString();
 
       if( !tmpList[year] ){ tmpList[year] = {}; }
       if( !tmpList[year][month] ){ tmpList[year][month] = {}; }
@@ -356,6 +358,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     }
 
+    console.log(tmpList);
     /*
     for( let year in tmpList ){// loop through years
       for( let month in tmpList[year] ){// loop through months
@@ -375,33 +378,21 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
     for( let i in list ){
       let current = list[i];
-      let eventDate = current['eventDates'][0]['entity']['fieldEventDate']['value'];
+      let eventDate = moment(current['fieldEventMainDate']['unix']*1000).format("YYYY-MM-DDz");
       let dateString = this.year+"-"+this.month+"-";
       
-      let set = false;
-
-      for( var ii in current['eventDates'] ){
-        
-        let eventDate = current['eventDates'][ii]['entity']['fieldEventDate']['value'];
-
-        if( set ){ break; }
-
-        for( var o in this.calendarDays ){
-          if( set ){ break; }
-          for( var oo in this.calendarDays[o] ){
-            if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
-              this.calendarDays[o][oo]['events'].push( current );
-              set = true;
-              break;
-            }
+      
+      for( var o in this.calendarDays ){
+        for( var oo in this.calendarDays[o] ){
+          if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
+            this.calendarDays[o][oo]['events'].push( current );
+            break;
           }
         }
       }
-
-
-
     }
     
+    console.log(this.calendarDays);
   }
 
   maxEntries( day:any ){
@@ -418,27 +409,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   parseDay(day:any){
 
     if( day.events && day.events.length > 0 ){
-
-      for( var i in day.events ){
-        let current = day.events[i];
-        current['startTime'] = 999999999;
-
-        var eventDates = current.eventDates;
-        for( var ii in eventDates ){
-          let entity = eventDates[ii]['entity'];
-
-          if( entity['fieldEventDate']['value'] == this.year+"-"+this.month+"-"+day['i'] ){
-            if( entity['fieldEventStartTime'] <= current['startTime'] ){
-              current['startTime'] = eventDates[ii]['entity']['fieldEventStartTime'];
-            }
-          }
-          
-        }
-
-      }
-
-      day.events = this.sort("startTime", day.events);
-
+      day.events = this.sort("fieldEventMainStartTime", day.events);
       return day.events;
     }else{
       return day.events;
@@ -487,6 +458,16 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         
         if( this.dataSubscription ){
           this.dataSubscription.unsubscribe();
+        }
+
+        if( this.view == "list" ){
+          let startTimeHours = parseFloat( _moment().format("HHz") );
+          let startTimeMinutes = parseFloat( _moment().format("MMz") );
+          let startTimeSeconds:any = (startTimeHours*60*60)+(startTimeMinutes*60);
+          startTimeSeconds = startTimeSeconds.toString();
+          this.eventsConfig['timeFrom'] = startTimeSeconds;
+        }else{
+          this.eventsConfig['timeFrom'] = "0";
         }
 
         // GET LIST OBSERVABLE

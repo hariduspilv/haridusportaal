@@ -157,7 +157,7 @@
                     <span>{{ event.location ? event.location.name : '' }}</span>
                   </div>
                   <div class="sm-hide info bar">
-                    <span class="time">{{ 'event.start_time' | translate }}: <strong>{{ event.firstEventTime | unixToTime }}</strong> <span *ngIf="event.eventDates.length > 1"><mat-icon>update</mat-icon></span></span>
+                    <span class="time">{{ 'event.start_time' | translate }}: <strong>{{ event.fieldEventMainStartTime | unixToTime }}</strong> <span *ngIf="event.eventDates.length > 1"><mat-icon>update</mat-icon></span></span>
                     <span class="location" *ngIf="event.location">{{ 'event.location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
                     <span class="entrance" *ngIf="event.fieldEntryType">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
                   </div>
@@ -224,13 +224,9 @@
 
             <ng-container *ngIf="i < maxEntries(day)">
               <div class="content"  [class.active]="popup === event.nid" (click)="togglePopup(event.nid)">
-                <ng-container *ngFor="let item of event.eventDates">
-                  <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
-                    <span><div class="marker"></div></span>
-                    <span class="content__medium">{{ parseIntoReadableTime(item.entity.fieldEventStartTime*1000) }}</span>
-                    <span class="content__strong">{{ event.title }}</span>
-                  </ng-container>
-                </ng-container>
+                <span><div class="marker"></div></span>
+                <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
+                <span class="content__strong">{{ event.title }}</span>
               </div>
             </ng-container>
             
@@ -243,7 +239,7 @@
                       <span class="close"><a class="pointer" (click)="closePopup()"><mat-icon>close</mat-icon></a></span>
                     </div>
                     <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
-                    <div *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</div>
+                    <div *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
                     <div *ngIf="event.location"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
                     <div *ngIf="event.fieldEntryType"><span>{{ 'event.entrance' | translate }}: </span>{{ 'event.' + event.fieldEntryType | translate}}</div>
                   </div>
@@ -273,7 +269,7 @@
                     <a class="cal__event pointer" [routerLink]="event.entityUrl.path">
                       <div class="content content__more">
                         <span><div class="marker"></div></span>
-                        <span class="content__medium">{{ parseIntoReadableTime(event.startTime*1000) }}</span>
+                        <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
                         <span class="content__strong">{{ event.title }}</span>
                       </div>
                     </a>

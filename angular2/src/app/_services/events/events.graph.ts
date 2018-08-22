@@ -309,6 +309,8 @@ query sortByOptions (
   $titleEnabled: Boolean,
   $dateFrom: String,
   $dateTo: String,
+  $timeFrom: String,
+  $timeTo: String,
   $lang: LanguageId!,
   $offset: Int,
   $limit: Int ) {
@@ -318,8 +320,10 @@ query sortByOptions (
   	{operator: IN, field: "field_tag.entity.tid", value: $tagsValue, language: $lang, enabled: $tagsEnabled },
 		{operator: IN, field: "field_event_type.entity.tid", value: $typesValue, language: $lang, enabled: $typesEnabled },
     {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled },
-    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_date.entity.field_event_date", value: [$dateFrom] },
-    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_date.entity.field_event_date", value: [$dateTo] },
+    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateFrom] },
+    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateTo] },
+    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeFrom] },
+    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeTo] },
     
   ]}) {
     entities(language: $lang) {
@@ -337,6 +341,13 @@ query sortByOptions (
             entityLabel            
           }
         }
+        fieldEventMainDate{
+          value
+          date
+          unix
+        }
+        fieldEventMainStartTime
+        fieldEventMainEndTime
         eventDates: fieldEventDate{
           ...eventdates
         }
@@ -404,7 +415,9 @@ const listVariables = {
   "titleValue": "%%",
   "titleEnabled": false,
   "dateFrom": "2018-01-01",
-  "dateTo": "2038-01-01"
+  "dateTo": "2038-01-01",
+  "timeFrom": "0",
+  "timeTo": "9999999"
 }
 
 export const getEventsTags = gql`
