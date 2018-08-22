@@ -5,7 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { RootScopeService } from '../rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScope/rootScope.service';
 
 @Injectable()
 export class SideMenuService extends SidemenuGraph {
