@@ -372,6 +372,13 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     return tmpList;
   }
 
+  formatNumber(input:number){
+    let output:any = input;
+
+    if( input < 10 ){ output = "0"+output; }
+    return output;
+  }
+
   dataToCalendar(list:any) {
 
     list = JSON.parse( list );
@@ -427,6 +434,18 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           this.eventsConfig.titleValue = this.params['title']
         }
 
+
+        // DATE FROM
+        if(this.params['dateFrom'] && moment(this.params['dateFrom'], 'DD-MM-YYYY').isValid()){
+          this.eventsConfig.dateFrom = moment(this.params['dateFrom'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+        }else{
+          this.eventsConfig.dateFrom = moment().format("YYYY-MM-DD").toString();
+        }
+        // DATE TO
+        if(this.params['dateTo'] && moment(this.params['dateTo'], 'DD-MM-YYYY').isValid()){
+          this.eventsConfig.dateTo = moment(this.params['dateTo'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+        }
+        /*
         if( this.view == "list" ){
 
           // DATE FROM
@@ -445,6 +464,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           this.eventsConfig.limit = 999;
           this.eventsConfig.offset = 0;
         }
+        */
+
+
         // TAGS
         if(this.params['tags'] && this.params['tags'] !== null){
           this.eventsConfig.tagsEnabled = true;
@@ -465,7 +487,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           let startTimeMinutes = parseFloat( _moment().format("MMz") );
           let startTimeSeconds:any = (startTimeHours*60*60)+(startTimeMinutes*60);
           startTimeSeconds = startTimeSeconds.toString();
-          this.eventsConfig['timeFrom'] = startTimeSeconds;
+          //this.eventsConfig['timeFrom'] = startTimeSeconds;
+
+          this.eventsConfig['timeFrom'] = "0";
         }else{
           this.eventsConfig['timeFrom'] = "0";
         }
