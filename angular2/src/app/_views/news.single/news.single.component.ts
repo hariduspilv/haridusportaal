@@ -1,15 +1,15 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NewsService, RootScopeService } from '../../_services';
+import { NewsService, RootScopeService } from '@app/_services';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
-import { AppComponent } from '../../app.component';
+import { AppComponent } from '@app/app.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {ImagePopupDialog} from '../../_components/dialogs/image.popup/image.popup.dialog';
-import {VideoComponent} from '../../_components/video/video.component';
+import {ImagePopupDialog} from '@app/_components/dialogs/image.popup/image.popup.dialog';
+import {VideoComponent} from '@app/_components/video/video.component';
 
 
 @Component({
