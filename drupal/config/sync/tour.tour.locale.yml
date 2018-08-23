@@ -30,7 +30,7 @@ tips:
   locale-search:
     id: locale-search
     plugin: text
-    label: Otsing
+    label: Search
     body: 'Sisesta sõna või lause, mida soovid tõlkida. Lubatud on ka sõnaosa kasutamine.'
     weight: 3
     attributes:

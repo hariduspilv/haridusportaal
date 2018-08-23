@@ -1,0 +1,36 @@
+uuid: cf27ecac-b4b9-40a4-a881-d8b00b3c603f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_page
+    - node.type.article
+    - node.type.event
+    - node.type.news
+    - node.type.study_programme
+    - paragraphs.paragraphs_type.favorite_item
+_core:
+  default_config_hash: H83Zw3PY_V8TE939CmxOhK5lLJqt8O3-eBJgH6DVkzU
+id: paragraph.favorite_item.field_page
+field_name: field_page
+entity_type: paragraph
+bundle: favorite_item
+label: Page
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      article: article
+      event: event
+      news: news
+      study_programme: study_programme
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: article
+field_type: entity_reference
