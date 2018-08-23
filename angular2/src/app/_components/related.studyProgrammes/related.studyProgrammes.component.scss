@@ -60,6 +60,3 @@
   }
   .button-row {padding-top: 0;}
 }
-.mat-raised-button.mat-primary {
-  @include break-on(lg, max) {padding: 0}
-}
