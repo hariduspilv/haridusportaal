@@ -28,11 +28,12 @@
 
   &__item {padding: $medium; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
     &:first-child{padding-top:0;}
-    &:last-child{border-bottom:0;}
+    &:last-child{border-bottom:0;padding-bottom: $xxl;}
     &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;
       @include break-on(sm, min) {margin-bottom:0.23rem; }
       &:hover{text-decoration: underline;}
     }
+    &__head {font-size: .875rem;line-height: 2;color: $dark-gray;padding-bottom: $half-gutter;}
     &__col{width:33%; box-sizing: border-box;
       &:first-child{padding-right:1.5rem;}
       &:last-child{padding-left:1.5rem;}
@@ -43,7 +44,7 @@
     &__subtitle {font-size: $small;line-height: 1; font-size:0.88rem; color:$dark-gray; line-height:143%; display:block; font-weight: 500; margin-bottom:$medium; margin-top: $half-gutter;}
     &__titlebox {width:100%; display:flex;
       .col-grow{flex-grow: 1; padding: 0;}
-      .col{display: flex; align-items: center; flex-shrink: 0;padding: 0;padding-bottom: $large;justify-content: flex-end;}
+      .col{display: flex; align-items: baseline; flex-shrink: 0;padding: 0;padding-bottom: $small;justify-content: flex-end;}
     }
     p:first-child{margin-top:0;}
     p:last-child{margin-bottom:0;}
@@ -60,3 +61,7 @@
   }
   .button-row {padding-top: 0;}
 }
+.inline__items {
+  .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;}
+}
+.bar {color: $gray;padding: 0 $half-gutter;}
