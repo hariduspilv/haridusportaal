@@ -44,6 +44,8 @@ import { StudyProgrammeCompareComponent } from './_views/studyProgramme.compare/
 import { RecentEventsComponent } from './_components/recent.events/recent.events.component';
 import { FavouritesComponent } from './_components/favourites/favourites.component';
 
+import { HttpService } from '@app/_services/httpService';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   let localAddress = ['192', '10'];
@@ -128,7 +130,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NewsService,
     MetaTagsService,
     SettingsService,
-    TableService
+    TableService,
+    HttpService
   ],
 
   exports: [

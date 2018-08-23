@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { MaterialModule } from '../../_core/material.module';
+import { MaterialModule } from '@app/_core/material.module';
 import { HeaderComponent } from './header.component';
 import { RouterModule, Routes } from '@angular/router';
-import { SideMenuService } from '../../_services';
+import { SideMenuService } from '@app/_services';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { SharedModule } from '../../_core/shared.module';
-import { LoginModule } from '../login/login.module';
+import { SharedModule } from '@app/_core/shared.module';
+import { LoginModule } from '@app/_components/login/login.module';
 
 @NgModule({
   providers: [

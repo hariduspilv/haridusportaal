@@ -50,6 +50,7 @@
     "related": "Sarnased sündmused",
     "start_time": "Algusaeg",
     "location": "Asukoht",
+    "repeat": "Korduv üritus",
     "place_and_time": "Toimumisaeg ja -koht",
     "participant_email": "E-post",
     "participant_phone": "Telefon",
@@ -183,7 +184,8 @@
     "duration_year_plural": "aastat",
     "duration_month_singular": "kuu",
     "duration_month_plural": "kuud",
-    "time_of_day": "Kell"
+    "time_of_day": "Kell",
+    "years": "Aastat"
 
   },
   "button": {

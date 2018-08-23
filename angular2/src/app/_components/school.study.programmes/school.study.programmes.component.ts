@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { RootScopeService } from '../../_services/rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScopeService';
 import { Subscription } from 'rxjs/Subscription';
 
-import { SchoolStudyProgrammes } from '../../_services/studyProgramme/studyProgramme.service';
+import { SchoolStudyProgrammes } from '@app/_graph/studyProgramme.graph';
 
 @Component({
   selector: 'school-study-programmes',

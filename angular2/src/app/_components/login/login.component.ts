@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SideMenuService } from '../../_services';
+import { SideMenuService } from '@app/_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { SettingsService } from '../../_core/settings';
+import { SettingsService } from '@app/_core/settings';
 
 @Component({
   selector: 'app-login',
