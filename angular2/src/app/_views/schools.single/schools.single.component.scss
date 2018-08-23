@@ -29,6 +29,8 @@
         .tel {text-decoration: none;color: #333333;cursor: default;}
       }
     }
+    a {text-decoration: none;
+      &:hover {text-decoration: underline;}}
   }
   .location-block {
     h2 {font-size: 1.25rem;}

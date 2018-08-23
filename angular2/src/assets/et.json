@@ -212,7 +212,8 @@
     "login": "Logi sisse",
     "logout": "Logi välja",
     "search_close": "",
-    "choose_type": ""
+    "choose_type": "",
+    "see_comparison": "Vaata võrdlust"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"
