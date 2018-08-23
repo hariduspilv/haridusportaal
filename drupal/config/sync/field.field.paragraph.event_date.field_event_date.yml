@@ -13,7 +13,7 @@ entity_type: paragraph
 bundle: event_date
 label: 'Event Date'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
