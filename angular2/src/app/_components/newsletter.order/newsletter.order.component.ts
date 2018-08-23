@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { getTags, signup, activate, deactivate } from '@app/_services/newsletter/newsletter.graph';
+import { getTags, signup, activate, deactivate } from '@app/_graph/newsletter.graph';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 

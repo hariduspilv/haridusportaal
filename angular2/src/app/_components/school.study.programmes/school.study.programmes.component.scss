@@ -1,10 +1,10 @@
 @import "../../../assets/styles/typography.scss";
 #school-study-programmes {
-  .block-title {padding: 1.2em;padding-bottom: 0;margin-bottom: 0;}
+  .block-title {padding: $small $medium;padding-bottom: 0;margin-bottom: 0;}
   .programme {
     &:not(:last-child) {border-bottom: .0625rem solid $gray;}
-    h2 {font-size: 1.2em;color: $blue;
-      @include break-on(sm, max) {margin: 0.5rem 0;}
+    h2 {font-size: $medium;color: $blue;
+      @include break-on(sm, max) {margin:0;}
       a {text-decoration: none;
         &:hover {text-decoration: underline;}
       }
@@ -19,14 +19,17 @@
         margin-left: 1em;
       }
     }
-    .programme-address {font-size: 0.9em;color: $dark-gray;font-weight: 500;
+    .programme-address {font-size: $small;color: $dark-gray;font-weight: 500;
       @include break-on(sm, max) {display: none;}
     }
-    .study-programme-properties {margin: 0;margin-top: 1em;padding: 0;width: 100%;
+    .study-programme-properties {margin: 0;margin-top: $small;padding: 0;width: 100%;
       @include break-on(sm, max) {
         display: none;
       }
-      .property {color: $dark-gray;font-size: 0.8em;}
+      .property {color: $dark-gray;font-size: $small;
+        &:last-child, &:nth-child(3n) {padding-right: 0;}
+        &:first-child, &:nth-child(4n) {padding-left: 0;}
+      }
     }
   }
 }

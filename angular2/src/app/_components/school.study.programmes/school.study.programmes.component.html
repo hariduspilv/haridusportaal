@@ -1,6 +1,6 @@
 <div *ngIf="programmes.length > 0" class="block" id="school-study-programmes">
   <div class="block-title">{{'studyProgramme.label' | translate}}</div>
-  <div *ngFor="let programme of programmes" class="programme padding-block">
+  <div *ngFor="let programme of programmes;let first = first;let last = last;" [class.sm-top]="first" [class.lg-bottom]="last" class="programme padding-block">
     <div class="programme-header">
       <div>
         <h2><a routerLink="{{programme.entityUrl.path}}">{{ programme.title }}</a></h2>
@@ -36,7 +36,7 @@
       </div>
       <div class="col-4 md-6 property">
         {{ 'studyProgramme.study_duration' | translate }}:
-        <strong *ngIf="programme.fieldDurationYears">{{ programme.fieldDurationYears }} {{ 'years' | translate }}</strong>
+        <strong *ngIf="programme.fieldDurationYears">{{ programme.fieldDurationYears }} {{ 'time.years' | translate | lowercase }}</strong>
       </div>
       <div class="col-4 md-6 property">
         {{ 'studyProgramme.admission_status' | translate }}:

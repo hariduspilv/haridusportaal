@@ -314,7 +314,7 @@ query sortByOptions (
   $lang: LanguageId!,
   $offset: Int,
   $limit: Int ) {
-  nodeQuery(offset: $offset, limit: $limit, sort: {field: "field_event_date.entity.field_event_date.value", direction: ASC},
+  nodeQuery(offset: $offset, limit: $limit, sort: {field: "field_event_main_date", direction: ASC},
   filter: {conjunction: AND, conditions: [
     {operator: EQUAL, field: "type", value: ["event"], language: $lang},
   	{operator: IN, field: "field_tag.entity.tid", value: $tagsValue, language: $lang, enabled: $tagsEnabled },
