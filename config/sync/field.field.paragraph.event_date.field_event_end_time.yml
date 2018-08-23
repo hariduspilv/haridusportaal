@@ -11,7 +11,7 @@ id: paragraph.event_date.field_event_end_time
 field_name: field_event_end_time
 entity_type: paragraph
 bundle: event_date
-label: 'Event End Time'
+label: 'Sündmuse lõpu kellaaeg'
 description: ''
 required: false
 translatable: false

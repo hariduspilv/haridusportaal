@@ -11,7 +11,7 @@ id: node.event.field_event_main_start_time
 field_name: field_event_main_start_time
 entity_type: node
 bundle: event
-label: 'Ürituse põhikuupäeva alguse kellaaeg'
+label: 'Sündmuse põhikuupäeva alguse kellaaeg'
 description: ''
 required: true
 translatable: false

@@ -11,7 +11,7 @@ id: paragraph.event_date.field_event_date
 field_name: field_event_date
 entity_type: paragraph
 bundle: event_date
-label: 'Event Date'
+label: 'Sündmuse lisakuupäev'
 description: ''
 required: false
 translatable: false
