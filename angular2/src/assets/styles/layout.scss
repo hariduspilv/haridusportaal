@@ -12,7 +12,11 @@
         color: #333333;
         font-size: $small;
     }
-
+    &__inline {display: inline;
+        &--item {display: inline; padding: 0 $gutter;
+            &:first-child {padding-left: 0;}
+        }
+    }
 }
 .no-results{padding:2rem 0; text-align: center;}
 .left-col .block, .blue-container .block, .blue-block {
@@ -35,4 +39,5 @@
         }
     }
     &.sm-top {padding-top: $small;}
+    &.mob-bottom {@include break-on(sm, max) {margin-bottom: $xxl}}
 }

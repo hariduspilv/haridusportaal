@@ -27,12 +27,13 @@
       <div class="studyProgramme__item">
         <div class="studyProgramme__item__titlebox">
           <div class="col-grow">
+            <div class="studyProgramme__item__head sm-hide" *ngIf="item.FieldStudyProgrammeLevel">{{ item.FieldStudyProgrammeLevel }}</div>
             <a [routerLink]="item.EntityPath" class="studyProgramme__item__title">{{ item.Name }}</a>
-            <div class="studyProgramme__item__subtitle sm-hide">
+            <!-- <div class="studyProgramme__item__subtitle sm-hide">
               <ng-container *ngIf="item.FieldSchoolName">{{ item.FieldSchoolName }},</ng-container>
               <ng-container *ngIf="item.FieldSchoolAddress">{{ item.FieldSchoolAddress }}</ng-container>
               <a *ngIf="item.FieldSchoolWebsite" href="{{ item.FieldSchoolWebsite }}">{{ item.FieldSchoolWebsite | removeProtocol }}</a>
-            </div>
+            </div> -->
           </div>
           <!--col-9-->
           <div class="col sm-hide">
@@ -40,54 +41,15 @@
           </div>
           <!--/col-3-->
         </div>
-
-        <div class="studyProgramme__item__col sm-hide first">
-          <p *ngIf="item.FieldStudyProgrammeLevel">{{ 'studyProgramme.level' | translate }} :
-            <b>{{ item.FieldStudyProgrammeLevel }}</b>
-          </p>
-          <p *ngIf="item.FieldAccreditationStatus">
-            {{ 'studyProgramme.accreditation' | translate }}:
-            <b>{{ 'studyProgramme.valid_accreditation' | translate }}</b>
-          </p>
+        <div class="inline__items sm-hide">
+          <span class="item" *ngIf="item.FieldSchoolName">{{ item.FieldSchoolName }}</span>
+          <span class="bar" *ngIf="item.FieldSchoolAddress">|</span>
+          <span class="item" *ngIf="item.FieldSchoolAddress">{{ item.FieldSchoolAddress }}</span>
+          <span class="bar" *ngIf="item.FieldSchoolWebsite">|</span>
+          <span class="item" *ngIf="item.FieldSchoolWebsite">
+            <a href="{{ item.FieldSchoolWebsite }}">{{ item.FieldSchoolWebsite | removeProtocol }}</a>
+          </span>
         </div>
-        <!--/scools__item__col-->
-        <div class="studyProgramme__item__col sm-hide">
-          <p *ngIf="item.FieldTeachingLanguage">
-            {{ 'studyProgramme.languages' | translate }}:
-            <b *ngFor="let language of item.FieldTeachingLanguage; let last = last">
-              {{ language }}{{last ? '' : ', '}}
-            </b>
-          </p>
-          <p *ngIf="item.FieldDurationYears > 0 || item.FieldDurationMonths > 0">
-            {{ 'studyProgramme.study_duration' | translate }}:
-            <b>
-              <ng-container *ngIf="item.FieldDurationYears > 0">
-                {{ item.FieldDurationYears }}
-                <span *ngIf="item.FieldDurationYears < 2">{{ 'time.duration_year_singular' | translate }}</span>
-                <span *ngIf="item.FieldDurationYears > 1">{{ 'time.duration_year_plural' | translate }}</span>
-              </ng-container>
-              <ng-container *ngIf="item.FieldDurationMonths > 0">
-                {{ item.FieldDurationMonths }}
-                <ng-container *ngIf="item.FieldDurationMonths == 1">{{ 'time.duration_month_singular' | translate }}</ng-container>
-                <ng-container *ngIf="item.FieldDurationMonths > 1">{{ 'time.duration_month_plural' | translate }}</ng-container>
-
-              </ng-container>
-
-
-            </b>
-          </p>
-        </div>
-        <!--/scools__item__col-->
-        <div class="studyProgramme__item__col sm-hide last">
-          <p *ngIf="item.FieldIscedfDetailed">
-            {{ 'studyProgramme.study_group' | translate }} :
-            <b>{{ item.FieldIscedfDetailed }}</b>
-          </p>
-          <p *ngIf="item.FieldAdmissionStatus">{{ 'studyProgramme.admission_status' | translate }}:
-            <b>{{ item.FieldAdmissionStatus }}</b>
-          </p>
-        </div>
-        <!--/scools__item__col-->
       </div>
       <!--/studyProgramme__item-->
     </ng-container>
