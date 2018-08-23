@@ -45,6 +45,7 @@ import { RecentEventsComponent } from './_components/recent.events/recent.events
 import { FavouritesComponent } from './_components/favourites/favourites.component';
 
 import { HttpService } from '@app/_services/httpService';
+import { UserService } from '@app/_services/userService';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -131,7 +132,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MetaTagsService,
     SettingsService,
     TableService,
-    HttpService
+    HttpService,
+    UserService
   ],
 
   exports: [
