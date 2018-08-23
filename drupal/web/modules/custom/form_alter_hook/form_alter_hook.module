@@ -79,27 +79,6 @@ function form_alter_hook_help($route_name, RouteMatchInterface $route_match) {
         }
       }
 
-      $events = $form_state->getValue('field_event_date');
-      $delta = 0;
-
-      while (!empty($events[$delta])) {
-        $edatefields = $form_state->getValue('field_event_date')[$delta]['subform'];
-        $edatestartfield = 'field_event_date]['.$delta.'][subform][field_event_start_time';
-        $edateendfield = 'field_event_date]['.$delta.'][subform][field_event_end_time';
-        $estart = $edatefields['field_event_start_time'][0]['value'];
-        $eend = $edatefields['field_event_end_time'][0]['value'];
-
-        if($estart < 0 || $estart > 86400){
-          $form_state->setErrorByName($edatestartfield, t('Event start time must be between 00:00 and 24:00'));
-        }
-        if($eend < 0 || $eend > 86400){
-          $form_state->setErrorByName($edateendfield, t('Event end time must be between 00:00 and 24:00'));
-        }
-        if($estart > $eend){
-          $form_state->setErrorByName($edateendfield, t('Event end time can not be earlier than start time'));
-        }
-        $delta++;
-      }
     }
   }
 

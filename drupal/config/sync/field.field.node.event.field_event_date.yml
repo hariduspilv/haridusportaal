@@ -14,7 +14,7 @@ entity_type: node
 bundle: event
 label: 'Sündmuse lisakuupäevad'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -48,6 +48,9 @@ settings:
         enabled: false
       homepage_topics:
         weight: 14
+        enabled: false
+      favorite_item:
+        weight: 15
         enabled: false
       right_sidebar_section_info:
         weight: 15

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
-import { SettingsService } from '@app/_core/settings';
 
 @Component({
   selector: 'favourites',
@@ -23,7 +22,6 @@ export class FavouritesComponent implements OnInit{
     private route: ActivatedRoute, 
     private router: Router,
     private http: HttpService,
-    private settings: SettingsService,
   ) {
 
   }
@@ -38,8 +36,6 @@ export class FavouritesComponent implements OnInit{
 
     let search = this.id ? null : this.router.url;
     let page_id = this.id || null;
-
-    let url = this.settings.url + "/graphql"
 
     let data = {
       "queryId": "createFavoriteItem:1",
@@ -58,7 +54,7 @@ export class FavouritesComponent implements OnInit{
       data.variables['type'] = 'page'
     }
 
-    this.http.post(url, data).subscribe(response => {
+    this.http.post('/graphql', data).subscribe(response => {
       console.log(response);
     });
  

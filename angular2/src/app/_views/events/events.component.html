@@ -163,11 +163,9 @@
                     <span>{{ event.location ? event.location.name : '' }}</span>
                   </div>
                   <div class="sm-hide info bar">
-                    <<<<<<< HEAD
+
                     <span class="time">{{ 'event.start_time' | translate }}: <strong>{{ event.firstEventTime | unixToTime }}</strong> <span *ngIf="event.eventDates.length > 1"><span tabindex="0" attr.aria-label="{{  'event.repeat' | translate  }}"><mat-icon>update</mat-icon></span></span></span>
-                    =======
-                    <span class="time">{{ 'event.start_time' | translate }}: <strong>{{ event.fieldEventMainStartTime | unixToTime }}</strong> <span *ngIf="event.eventDates.length > 1"><mat-icon>update</mat-icon></span></span>
-                    >>>>>>> eb8e01ed84d66cb39d224023f2f5577caeabe8fd
+
                     <span class="location" *ngIf="event.location">{{ 'event.location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
                     <span class="entrance" *ngIf="event.fieldEntryType">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
                   </div>
