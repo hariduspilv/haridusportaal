@@ -50,6 +50,7 @@
     "related": "Sarnased sündmused",
     "start_time": "Algusaeg",
     "location": "Asukoht",
+    "repeat": "Korduv üritus",
     "place_and_time": "Toimumisaeg ja -koht",
     "participant_email": "E-post",
     "participant_phone": "Telefon",
@@ -183,7 +184,8 @@
     "duration_year_plural": "aastat",
     "duration_month_singular": "kuu",
     "duration_month_plural": "kuud",
-    "time_of_day": "Kell"
+    "time_of_day": "Kell",
+    "years": "Aastat"
 
   },
   "button": {
@@ -210,7 +212,8 @@
     "login": "Logi sisse",
     "logout": "Logi välja",
     "search_close": "",
-    "choose_type": ""
+    "choose_type": "",
+    "see_comparison": "Vaata võrdlust"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"

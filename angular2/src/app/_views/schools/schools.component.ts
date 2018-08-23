@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filters/filters.service';
-import { ListQuery, OptionsQuery } from '@app/_services/school/school.service';
+import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
+import { ListQuery, OptionsQuery } from '@app/_graph/school.graph';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
@@ -13,7 +13,7 @@ import 'rxjs/add/operator/map';
 
 import { Observable } from 'rxjs/Observable';
 
-import { RootScopeService } from '@app/_services/rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScopeService';
 
 /* Datepicker Imports */
 import * as _moment from 'moment';

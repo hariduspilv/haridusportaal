@@ -57,3 +57,7 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
 .mat-raised-button.mat-primary{width:auto;
   @include break-on(sm, max) {width: 100%;}
 }
+.border-orange{
+  a {text-decoration: none;
+    &:hover {text-decoration: underline;}}
+}
