@@ -1,0 +1,21 @@
+uuid: 2d0fe3d4-1086-4981-b167-4411d6b81c74
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_favorite_title
+    - paragraphs.paragraphs_type.favorite_item
+_core:
+  default_config_hash: 5Ral3ZCs6iIDRFRm1-BC8b4Vw4FGo5NKZuoJ5VOvEvc
+id: paragraph.favorite_item.field_favorite_title
+field_name: field_favorite_title
+entity_type: paragraph
+bundle: favorite_item
+label: 'Favorite title'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
