@@ -1,6 +1,8 @@
-<div class="custom-checkbox">
-  <mat-checkbox [checked]="checked" (change)="compareChange(id, $event); ">{{ 'button.add_to_comparison' | translate }}</mat-checkbox>
-</div>
-<div class="link-holder">
-  <a *ngIf="viewLink" [routerLink]="[compareViewLink]" >{{ 'vaata võrdlust' | uppercase}}</a>
+<div class="flex">
+  <div class="link-holder">
+    <a *ngIf="viewLink" [routerLink]="[compareViewLink]" >{{ 'button.see_comparison' | translate }}</a>
+  </div>
+  <div class="custom-checkbox">
+    <mat-checkbox [checked]="checked" (change)="compareChange(id, $event); ">{{ 'button.add_to_comparison' | translate }}</mat-checkbox>
+  </div>
 </div>

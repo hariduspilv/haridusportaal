@@ -207,7 +207,8 @@
     "login": "Log in",
     "logout": "Log out",
     "search_close": "",
-    "select_type": ""
+    "select_type": "",
+    "see_comparison": "See comparison"
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"

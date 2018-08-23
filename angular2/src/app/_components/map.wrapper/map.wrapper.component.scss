@@ -5,6 +5,7 @@
   .map-link {position: absolute;left: 0; width:100%; min-width:100%; bottom: 0;height: 50px;line-height: 50px;
     background: rgba($color: #000000, $alpha: 0.5);color: $white;text-align: center;z-index: 6;
     a {color: $white;vertical-align: middle;display: inline-block;text-decoration: underline;font-size: $small;
+      &:hover {text-decoration: none;}
       * {vertical-align: middle;}
       .mat-icon {font-size: $medium;display: inline-block;padding-right: .3125rem; vertical-align: middle; text-decoration: none;
       }
