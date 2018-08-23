@@ -6,7 +6,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from '@app/_services/userService'
-
 @Component({
   selector: 'favourites',
   templateUrl: './favourites.template.html',
@@ -19,32 +18,37 @@ export class FavouritesComponent implements OnInit{
     * then (this.type = 'search')
     * otherwise (this.type = 'page')
   **/
-  @Input() private title: string;
-  @Input() private id: string;
+  @Input() title: string;
+  @Input() id: string;
 
   private maxFavouriteItems = 10;
 
   protected list;
+  protected loading: boolean;
 
-  private userLoggedOut: boolean;
-  private favouritesDropdown: boolean = false;
+  public userLoggedOut: boolean;
+  public favouritesDropdown: boolean = false;
   private lang: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpService,
-    private dialog: MatDialog,
+    public dialog: MatDialog,
     private translate: TranslateService,
     private user: UserService
   ) {
 
   }
-  protected getFavouritesList(){
-    return this.http.get('/graphql?queryId=customFavorites:1');
+  getFavouritesList():void{
+    this.loading= true;
+    this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
+      this.list = response['data']['CustomFavorites'][0]['favorites'];
+      console.log(this.list);
+      this.loading = false;
+    });
   }
-
-  private openDialog(): void {
+  openDialog(): void {
 	  this.dialog.open(Modal, {
 		  data: {
         title: this.translate.get('frontpage.favourites_limit_modal_title')['value'].toUpperCase(),
@@ -54,7 +58,7 @@ export class FavouritesComponent implements OnInit{
 		});
 
   }
-  private submitFavouriteItem(): void {
+  submitFavouriteItem(): void {
 
     let routeSubscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
@@ -90,7 +94,7 @@ export class FavouritesComponent implements OnInit{
     this.favouritesDropdown = false;
   }
   
-  private toggleFavouritesPanel(): any {
+  toggleFavouritesPanel(): any {
     
     if(this.favouritesDropdown == true) return this.favouritesDropdown = false;
    
