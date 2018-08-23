@@ -1,11 +1,13 @@
 @import "../../../assets/styles/typography.scss"; 
-:host{margin-top:-0.1875rem;margin-left: auto;margin-right: $xxl;}
+:host{margin-top:-0.1875rem;margin-left: auto;margin-right: $xxl;
+  @include break-on(sm, max) {margin-right: $large;}
+}
 .share {position: absolute;border-radius: 50%;top: -$gutter;line-height: 1;
   font-size: $medium;height: $xxl;width: $xxl;
   &__wrapper {position: relative;cursor:pointer;
     @include break-on(sm, max) {right: $small;}
   }
-  &__component {position: absolute;height: $medium;top: $quarter;right: $quarter;z-index: 10;
+  &__component {position: absolute;height: $medium;top: $quarter;right: $quarter;z-index: 10;color: $blue;
     .mat-icon {font-family: 'Material Icons';}
   }
   &__component__buttons {transition: 0.25s opacity ease-out;will-change: opacity;opacity: 0;position: relative;z-index: 10;
@@ -15,7 +17,7 @@
     }
     img {width: $large;height: $large;background-color: $white;border-radius: 50%;}
   }
-  &:hover {background-color: $black;transition: background-color 0.25s;  
+  &:hover, &:focus, &:focus-within {background-color: $black;transition: background-color 0.25s;  
     .share__component {
       &__buttons {opacity: 1;}
       .mat-icon.primary {color: $white;}
