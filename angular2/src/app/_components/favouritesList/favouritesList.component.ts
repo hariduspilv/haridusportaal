@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FavouritesComponent } from '@app/_components/favourites/favourites.component'
+import { Component, OnInit } from '@angular/core';
+import { FavouritesComponent } from '@app/_components/favourites/favourites.component';
+import { HttpService } from '@app/_services/httpService';
+
 @Component({
   selector: 'favouritesList',
   templateUrl: './favouritesList.template.html',
@@ -8,17 +10,18 @@ import { FavouritesComponent } from '@app/_components/favourites/favourites.comp
 
 export class FavouritesListComponent extends FavouritesComponent implements OnInit{
   
-  
-
-  constructor() {
-    super(null,null,null,null,null,null)
+  constructor( http: HttpService ) {
+    super(
+      null,
+      null,
+      http,
+      null,
+      null,
+      null)
   }
 
-  ngOnInit(){
-    this.getFavouritesList().subscribe(list => {
-      console.log('LIST');
-      console.log(list);
-    });
+  ngOnInit(){    
+    this.getFavouritesList();
     console.log(this.list)
   }
 }
