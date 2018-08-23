@@ -1,3 +1,8 @@
-.link-holder {position: relative;
-  a {position: absolute;white-space: nowrap;left: 0;top: -.5rem;}
+@import "../../../assets/styles/typography.scss";
+.link-holder {
+  a {line-height: 2;white-space: nowrap;padding-right: 2rem;}
+  @include break-on(sm, min) {position: relative;
+    a {padding-right: 0;position: absolute;top: 1.5rem;left: 0;}
+  }
 }
+.mat-checkbox {color: #333333;line-height: 2;}
