@@ -2,12 +2,12 @@
 #schools-single {
   @include break-on(sm, min) {margin-top: $gutter;margin-left: $small;margin-right: $small;}
   @include break-on(lg, min) {margin-left: -$gutter;margin-right: -$gutter;}
-  h1 {color: #333333;margin-bottom: 0.8em;font-size: 1.3em;}
+  h1 {color: #333333;margin-bottom: $small;font-size: $medium;}
   #school-data {
     border-collapse: collapse;
     width: 100%;
     tr {
-      td {padding: 0.8em;
+      td {padding: $small;
         &:first-child {
           width: 40%;
         }
@@ -19,7 +19,7 @@
   }
   #school-data, #school-data th, #school-data td {border: 1px solid #c7c7c9;}
   #school-contact-block {
-    h2 {font-size: 1.2em;}
+    h2 {font-size: 1.25rem;}
     ul {
       list-style: none;
       padding: 0;
@@ -31,13 +31,14 @@
     }
   }
   .location-block {
-    h2 {font-size: 1.2em;}
+    h2 {font-size: 1.25rem;}
   }
 
   #contacts {
     @include break-on(sm, max) {display: none;}
   }
-  #contacts-mobile {margin-bottom: 3rem;
+  #contacts-mobile {margin-bottom: $xxl;
     @include break-on(sm, min) {display: none;}
   }
+  @include break-on(sm, max) {.block {margin-bottom: 0;}}
 }

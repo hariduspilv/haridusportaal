@@ -180,8 +180,8 @@
     "duration_year_plural": "Years",
     "duration_month_singular": "Month",
     "duration_month_plural": "Months",
-    "time_of_day": "Clock"
-
+    "time_of_day": "Clock",
+    "years": "Years"
   },
   "button": {
     "all": "All",

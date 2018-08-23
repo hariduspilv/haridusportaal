@@ -6,7 +6,7 @@
     background: rgba($color: #000000, $alpha: 0.5);color: $white;text-align: center;z-index: 6;
     a {color: $white;vertical-align: middle;display: inline-block;text-decoration: underline;font-size: $small;
       * {vertical-align: middle;}
-      .mat-icon {font-size: 1.23rem;display: inline-block;padding-right: .3125rem; vertical-align: middle; text-decoration: none;
+      .mat-icon {font-size: $medium;display: inline-block;padding-right: .3125rem; vertical-align: middle; text-decoration: none;
       }
     }
   }
