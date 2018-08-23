@@ -210,6 +210,7 @@ article a[href]{color:$blue;}
     }
     @include break-on(sm, min) {right: $xxl;}
   }
+  &.padded {padding: 0;}
 }
 
 .tags { padding: $small $medium;
@@ -352,3 +353,16 @@ article a[href]{color:$blue;}
 }
 
 .grecaptcha-badge{z-index:9999;}
+
+  .maincontent {
+    opacity: 0;
+    height: 0px;
+    width: 100px;
+  }
+
+  .hidden {
+    opacity: 0;
+    position: absolute;
+    height: 0px;
+    width: 0px;
+  }

@@ -49,6 +49,7 @@
     "related": "Similar events",
     "start_time": "Start time",
     "location": "Location",
+    "repeat": "Repeatable event",
     "place_and_time": "time and place",
     "participant_email": "Email",
     "participant_phone": "Phone",
@@ -179,8 +180,8 @@
     "duration_year_plural": "Years",
     "duration_month_singular": "Month",
     "duration_month_plural": "Months",
-    "time_of_day": "Clock"
-
+    "time_of_day": "Clock",
+    "years": "Years"
   },
   "button": {
     "all": "All",

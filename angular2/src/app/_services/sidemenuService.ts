@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { SidemenuGraph } from './sidemenu.graph';
+import { SidemenuGraph } from '@app/_graph/sidemenu.graph';
 import { Apollo } from 'apollo-angular';
 import { HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { RootScopeService } from '../rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScopeService';
 
 @Injectable()
 export class SideMenuService extends SidemenuGraph {

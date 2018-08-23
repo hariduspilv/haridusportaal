@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 
-import { getBreadcrumb } from '../../_services/breadcrumb.graph';
-import { MetaTagsService } from '../../_services/metaTags/metaTags.service';
+import { getBreadcrumb } from '@app/_graph/breadcrumb.graph';
+import { MetaTagsService } from '@app/_services/metaTagsService';
 @Component({
   selector: 'breadcrumbs',
   templateUrl: 'breadcrumbs.component.html',
@@ -15,6 +15,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   
   path: string;
+  prevPath: string = "";
   lang: string;
   breadcrumb: any;
   
@@ -25,14 +26,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     private metaTags: MetaTagsService
   ) {}
   
-  ngOnInit() {
-    const paramsSub = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-        this.lang = params['lang'];
-      }
-    )
-    this.subscriptions = [...this.subscriptions, paramsSub];
+  getData() {
     // GET BREADCRUMB
     const breadcrumbSubscription = this.apollo.watchQuery({
       query: getBreadcrumb,
@@ -45,14 +39,34 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     })
     .valueChanges
     .subscribe(({data}) => {
+
       if( !data['route'] ){
         this.router.navigateByUrl(`/${this.lang}/404`);
       }
       this.metaTags.set(data['route']['entity']['entityMetatags']);
       this.breadcrumb = data['route']['breadcrumb'];
     });
-    
+
     this.subscriptions = [...this.subscriptions, breadcrumbSubscription];
+  }
+  ngOnInit() {
+    const paramsSub = this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        
+        this.path = this.router.url;
+        this.lang = params['lang'];
+
+        if( this.path !== this.prevPath ){
+          this.prevPath = this.path;
+          this.breadcrumb = [];
+          this.getData();
+        }
+      }
+    );
+
+    this.subscriptions = [...this.subscriptions, paramsSub];
+    
+    
   }
 
   ngOnDestroy() {

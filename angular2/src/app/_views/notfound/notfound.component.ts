@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { RootScopeService, SideMenuService } from '../../_services'
+import { RootScopeService, SideMenuService } from '@app/_services'
 import { Router } from '@angular/router';
 
 @Component({
