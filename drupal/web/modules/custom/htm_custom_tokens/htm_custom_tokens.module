@@ -112,8 +112,10 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 							$replacements[$original] = $image;
 							break;
 						case 'event':
-							$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_picture')->entity->getFileUri());
-							$replacements[$original] = $image;
+							if($node->get('field_picture')->entity != NULL){
+								$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_picture')->entity->getFileUri());
+								$replacements[$original] = $image;
+							}
 							break;
 					}
 					#dump($node);

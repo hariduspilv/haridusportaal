@@ -49,6 +49,7 @@
     "related": "Similar events",
     "start_time": "Start time",
     "location": "Location",
+    "repeat": "Repeatable event",
     "place_and_time": "time and place",
     "participant_email": "Email",
     "participant_phone": "Phone",
@@ -179,8 +180,8 @@
     "duration_year_plural": "Years",
     "duration_month_singular": "Month",
     "duration_month_plural": "Months",
-    "time_of_day": "Clock"
-
+    "time_of_day": "Clock",
+    "years": "Years"
   },
   "button": {
     "all": "All",
@@ -206,7 +207,8 @@
     "login": "Log in",
     "logout": "Log out",
     "search_close": "",
-    "select_type": ""
+    "select_type": "",
+    "see_comparison": "See comparison"
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"
