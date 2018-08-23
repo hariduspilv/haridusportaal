@@ -1,5 +1,5 @@
 <ng-template #contacts>
-  <div class="block padding-block" id="school-contact-block">
+  <div class="block padding-block sm-top" id="school-contact-block">
     <h2>{{ 'school.contact' | translate }}</h2>
     <ul>
       <li><a href="tel:{{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
@@ -9,7 +9,7 @@
   </div>
   <div *ngFor="let location of data.fieldSchoolLocation" class="block location-block">
     <map-wrapper [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
-    <div class=" padding-block">
+    <div class="padding-block">
       <h2 *ngIf="location.entity.fieldLocationType == 'L'">{{ 'school.legal_address' | translate }}</h2>
       <h2 *ngIf="location.entity.fieldLocationType == 'V'">{{ 'school.defacto_address' | translate }}</h2>
       <div>{{ location.entity.fieldAddress }}</div>
@@ -23,10 +23,18 @@
   <mat-spinner *ngIf="loading"></mat-spinner>
   <div *ngIf="!loading" class="row" id="schools-single">
     <div class="col-8 sm-12 left-col">
-      <div class="block padding-block">
+      <div class="block padding-block lg-bottom--extra sm-top">
         <div class="block-title">{{ 'school.label' | translate }}</div>
-        <h1>{{ data.title }}</h1>
-        <div class="scrollable">
+        <div class="row title">
+          <div class="col-10 sm-10">
+            <h1>{{ data.title }}</h1>
+          </div><!--/col-8-->
+          <div class="col-2 flex text-right">
+            <div class="fill"></div>
+            <share [title]="data.entityLabel"></share>
+          </div>
+        </div>
+        <div class="scrollable padded">
           <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
             (touchstart)="tableService.scrollStart('tableRef')" 
             (mousedown)="tableService.scrollStart('tableRef')" 
