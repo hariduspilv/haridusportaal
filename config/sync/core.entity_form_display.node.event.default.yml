@@ -112,7 +112,7 @@ content:
     region: content
   field_event_date:
     type: entity_reference_paragraphs
-    weight: 21
+    weight: 24
     region: content
     settings:
       title: Paragraph
@@ -123,7 +123,7 @@ content:
       default_paragraph_type: event_date
     third_party_settings: {  }
   field_event_group:
-    weight: 22
+    weight: 25
     settings:
       match_operator: CONTAINS
       size: 60
@@ -154,13 +154,13 @@ content:
     type: link_default
     region: content
   field_event_main_date:
-    weight: 27
+    weight: 21
     settings: {  }
     third_party_settings: {  }
     type: datetime_default
     region: content
   field_event_main_end_time:
-    weight: 29
+    weight: 23
     settings:
       format: 'h:mm'
       default_placeholder: 1
@@ -169,7 +169,7 @@ content:
     type: hms_default
     region: content
   field_event_main_start_time:
-    weight: 28
+    weight: 22
     settings:
       format: 'h:mm'
       default_placeholder: 1
@@ -191,7 +191,7 @@ content:
     type: number
     region: content
   field_metatags:
-    weight: 26
+    weight: 29
     settings: {  }
     third_party_settings: {  }
     type: metatag_firehose
@@ -226,6 +226,7 @@ content:
         - 16_9_large
       progress_indicator: throbber
       show_crop_area: false
+      crop_types_required: {  }
     third_party_settings: {  }
     type: image_widget_crop
     region: content
@@ -321,13 +322,13 @@ content:
     region: content
   path:
     type: path
-    weight: 25
+    weight: 28
     region: content
     settings: {  }
     third_party_settings: {  }
   publish_on:
     type: datetime_timestamp_no_default
-    weight: 23
+    weight: 26
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -349,7 +350,7 @@ content:
     third_party_settings: {  }
   unpublish_on:
     type: datetime_timestamp_no_default
-    weight: 24
+    weight: 27
     region: content
     settings: {  }
     third_party_settings: {  }
