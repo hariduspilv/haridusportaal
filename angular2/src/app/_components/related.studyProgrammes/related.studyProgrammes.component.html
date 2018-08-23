@@ -3,8 +3,8 @@
   <div class="block-title">{{ 'studyProgramme.related.label' | translate | uppercase }}</div>
 
   <form class="block-form" (submit)="filterSubmit()">
-    <div class="row">
-      <div class="col-10 md-9 sm-12" >
+    <div class="flex wrap">
+      <div class="grow full">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
           <span class="round-input__title">{{ 'studyProgramme.related.filter_location' | translate }}</span>
           <div class="round-input__field-wrapper">
@@ -12,7 +12,7 @@
           </div>
         </div><!--/round-inpuit__wrapper-->
       </div>
-      <div class="btn col-2 md-3 sm-12 align-end text-right inline-flex">
+      <div class="btn sm-12">
         <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
       </div><!--/col-3-->
     </div><!--/row-->

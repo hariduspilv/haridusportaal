@@ -223,6 +223,7 @@ article a[href]{color:$blue;}
 
 /* Material design overrides and styles */
 
+.mat-checkbox .mat-checkbox-checkmark {left: 0px !important;}
 .mat-dialog-container {padding: 0 !important;border-radius:$half-gutter !important;}
 .mat-toolbar.header-toolbar{position: fixed; top:0; left:0; width:100%; z-index: 999;}
 .mat-menu-item-active{font-weight: bold !important;}
@@ -234,6 +235,7 @@ article a[href]{color:$blue;}
 .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
 .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
   &:disabled, &[disabled] {color: $black;background-color: $gray;}
+  &:hover {background-color: #454B92;}
   @include break-on(sm, min) {width: auto;}
 }
 .mat-card{
@@ -355,6 +357,7 @@ article a[href]{color:$blue;}
 .grecaptcha-badge{z-index:9999;}
 
   .maincontent {
+    position: absolute;
     opacity: 0;
     height: 0px;
     width: 100px;
