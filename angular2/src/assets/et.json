@@ -1,7 +1,10 @@
 {
   "frontpage": {
     "label": "Avaleht",
-    "navigate": "Mine avalehele"
+    "navigate": "Mine avalehele",
+    "favourites_limit_modal_title": "Lisa lemmikutesse",
+    "favourites_limit_modal_content": "Portaalis saab salvestada kuni 10 lemmikut",
+    "favourites_limit_modal_close": "Sulge aken"
   },
   "article": {
     "contact": "Kontakt",
