@@ -83,8 +83,7 @@ class ImportSubsidyProjectsForm extends FormBase {
 					[$file_array]
 				],
 				[
-					'\Drupal\htm_custom_subsidy_projects\ProcessSubsidy::ProcessSubsidy',
-					[$file_array]
+					'\Drupal\htm_custom_subsidy_projects\ProcessSubsidy::ProcessSubsidy'
 				]
 			],
 			'error_message' => t('The migration process has encountered an error.'),
