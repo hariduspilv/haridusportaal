@@ -8,6 +8,3 @@ web/sites
 
 # Ignore .env files as they are personal
 /.env
-
-# Ignore faulty graphql querymaps
-/config/sync/graphql.*
