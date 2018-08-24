@@ -1,0 +1,7 @@
+uuid: null
+langcode: en
+status: true
+dependencies: {  }
+version: customFavorites
+map:
+  1: "{\n  CustomFavorites {\n    ... on FavoriteEntity {\n      favorites {\n        entity {\n          ... on ParagraphFavoriteItem {\n            fieldFavoriteTitle\n            fieldType\n            fieldPage {\n              entity {\n                entityLabel\n                entityUrl {\n                  path\n                }\n              }\n            }\n            fieldSearch\n          }\n        }\n      }\n    }\n  }\n}\n"
