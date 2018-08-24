@@ -45,6 +45,7 @@ function custom_graphql_querymap_save(array $form, FormStateInterface $formState
   $entity = new QueryMap($form_values, 'graphql_query_map');
   $entity->set('version', pathinfo($file->getFilename(), PATHINFO_FILENAME));
   $entity->set('map', $json);
+  $entity->set('uuid', \Drupal::service('uuid')->generate());
   $entity->save();
 
   drupal_set_message(t('Saved the query map version %id.', [
