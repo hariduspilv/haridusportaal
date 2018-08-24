@@ -23,8 +23,8 @@ export class FavouritesComponent implements OnInit{
 
   private maxFavouriteItems = 10;
 
-  protected list;
-  protected loading: boolean;
+  public list;
+  public loading: boolean;
 
   public userLoggedOut: boolean;
   public favouritesDropdown: boolean = false;
