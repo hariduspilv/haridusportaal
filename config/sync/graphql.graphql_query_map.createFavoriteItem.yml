@@ -1,7 +1,0 @@
-uuid: null
-langcode: en
-status: true
-dependencies: {  }
-version: createFavoriteItem
-map:
-  1: "mutation ($title: String!, $search_params: String, $type: String!, $page_id: Int, $lang: LanguageId!) {\n  createFavoriteItem(input: {favorite_title: $title, page_id: $page_id, type: $type, search: $search_params}, language: $lang) {\n    errors\n    violations {\n      path\n      code\n      message\n    }\n    entity {\n      entityLabel\n    }\n  }\n}\n"
