@@ -119,7 +119,7 @@
         }
         .close {align-self: baseline;text-align: right;
           &.more {width: 100%;padding-right: 0;padding-left: 0;
-            a .mat-icon {color: $dark-gray;}
+            a .mat-icon {color: $dark-gray; }
           }
         }
         a {color:black;}
@@ -160,3 +160,17 @@
 .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
 ::ng-deep .mat-calendar-body-selected {background-color: $blue;}
 ::ng-deep .mat-calendar-table-header {color: $dark-gray;}
+
+.btn-hidden {
+  visibiliy: hidden;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  border: 0px solid transparent;
+  background: transparent;
+  width: 24px;
+}
+
+mat-icon { position: relative; }

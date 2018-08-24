@@ -925,10 +925,10 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#default_value' => $config->get('newsletter.title'),
 		];
 		$form['newsletter']['intro'] = [
-			'#type' => 'textfield',
+			'#type' => 'textarea',
 			'#title' => $this->t('Newsletter introduction'),
-			'#maxlength' => 64,
-			'#size' => 64,
+			'#maxlength' => 150,
+			'#size' => 150,
 			'#default_value' => $config->get('newsletter.intro'),
 		];
 		$form['newsletter']['confirm_subscription'] = [

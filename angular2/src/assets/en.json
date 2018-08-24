@@ -1,7 +1,10 @@
 {
   "frontpage": {
     "label": "Home",
-    "navigate": "Go to homepage"
+    "navigate": "Go to homepage",
+    "favourites_limit_modal_title": "Add to favourites",
+    "favourites_limit_modal_content": "You can add up to 10 favourites",
+    "favourites_limit_modal_close": "Close window"
   },
   "article": {
     "contact": "Contact",

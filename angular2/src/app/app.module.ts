@@ -43,8 +43,10 @@ import { RelatedStudyProgrammesComponent } from './_components/related.studyProg
 import { StudyProgrammeCompareComponent } from './_views/studyProgramme.compare/studyProgramme.compare.component';
 import { RecentEventsComponent } from './_components/recent.events/recent.events.component';
 import { FavouritesComponent } from './_components/favourites/favourites.component';
+import { FavouritesListComponent } from './_components/favouritesList/favouritesList.component';
 
 import { HttpService } from '@app/_services/httpService';
+import { UserService } from '@app/_services/userService';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -89,7 +91,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CompareComponent,
     RelatedStudyProgrammesComponent,
     RecentEventsComponent,
-    FavouritesComponent
+    FavouritesComponent,
+    FavouritesListComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent],
@@ -131,7 +134,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MetaTagsService,
     SettingsService,
     TableService,
-    HttpService
+    HttpService,
+    UserService
   ],
 
   exports: [
