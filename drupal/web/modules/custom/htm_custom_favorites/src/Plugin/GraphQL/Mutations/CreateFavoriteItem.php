@@ -145,7 +145,11 @@ class CreateFavoriteItem extends CreateEntityBase{
 			return $this->resolveOutput($entity, $args, $info);
 		}else{
 			$entity = reset($entity);
-
+			if($entity->favorites->count() >= 10){
+				return new EntityCrudOutputWrapper($entity, NULL, [
+						$this->t('Favorite limit reached (max 10)')
+				]);
+			}
 			try {
 				foreach ($input as $key => $value) {
 					$entity->get($key)->setValue($value);
