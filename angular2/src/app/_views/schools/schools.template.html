@@ -147,15 +147,21 @@
   <div *ngIf="list && list.length > 0 && view == 'list'">
     <ng-container *ngFor="let item of list">
       <div class="schools__item">
+          <div class="schools__item__head sm-hide" *ngIf="item.FieldEducationalInstitutionTy">{{ item.FieldEducationalInstitutionTy }}</div>
           <a [routerLink]="item.EntityPath" class="schools__item__title">{{ item.FieldSchoolName }}</a>
-          <div class="schools__item__col sm-hide">
-              <p *ngIf="item.FieldAddress">{{ 'school.legal_address' | translate }}: <b>{{ item.FieldAddress }}</b></p>
-              <p *ngIf="item.FieldSchoolWebpageAddress">{{ 'school.website' | translate }}: <a href="{{ item.FieldSchoolWebpageAddress | url }}" target="_blank">{{ item.FieldSchoolWebpageAddress | removeProtocol }}</a></p>
-          </div><!--/scools__item__col-->
-          <div class="schools__item__col sm-hide">
-            <p *ngIf="item.FieldEducationalInstitutionTy">{{ 'school.institution_type' | translate }}: <b>{{ item.FieldEducationalInstitutionTy }}</b></p>
-            <p *ngIf="item.FieldSchoolContactPhone || item.FieldSchoolContactEmail" >{{ 'school.contact_info' | translate }}: <b *ngIf="item.FieldSchoolContactPhone">{{ item.FieldSchoolContactPhone }}</b><span *ngIf="item.FieldSchoolContactPhone && item.FieldSchoolContactEmail">,</span> <a *ngIf="item.FieldSchoolContactEmail" href="mailto:{{ item.FieldSchoolContactEmail}}">{{ item.FieldSchoolContactEmail}}</a></p>
-          </div><!--/scools__item__col-->
+          <div class="inline__items sm-hide">
+            <span class="item" *ngIf="item.FieldAddress">{{ item.FieldAddress }}</span>
+            <span class="bar" *ngIf="item.FieldSchoolWebpageAddress">|</span>
+            <span class="item" *ngIf="item.FieldSchoolWebpageAddress">
+              <a href="{{ item.FieldSchoolWebpageAddress | url }}" target="_blank">{{ item.FieldSchoolWebpageAddress | removeProtocol }}</a>
+            </span>
+            <span class="bar" *ngIf="item.FieldSchoolContactPhone">|</span>
+            <span class="item" *ngIf="item.FieldSchoolContactPhone">{{ item.FieldSchoolContactPhone }}</span>
+            <span class="bar" *ngIf="item.FieldSchoolContactEmail">|</span>
+            <span class="item" *ngIf="item.FieldSchoolContactEmail">
+              <a href="mailto:{{ item.FieldSchoolContactEmail}}">{{ item.FieldSchoolContactEmail}}</a>
+            </span>
+          </div>
       </div><!--/schools__item-->
     </ng-container><!--/list repeat-->
   </div><!--/list-->

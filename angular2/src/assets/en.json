@@ -138,7 +138,8 @@
     "specialization": "Specialization",
     "study_capacity": "Capacity",
     "internship_capacity": "Internship capacity",
-    "nominal_time": "Nominal time"
+    "nominal_time": "Nominal time",
+    "non_active": "Course not active"
   },
   "login": {
     "username": "Username",

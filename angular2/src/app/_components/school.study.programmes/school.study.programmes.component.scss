@@ -2,13 +2,17 @@
 #school-study-programmes {
   .block-title {padding: $small $medium;padding-bottom: 0;margin-bottom: 0;}
   .programme {
+    padding: $medium;
+    @include break-on(sm, min) {padding: $small $medium;}
     &:not(:last-child) {border-bottom: .0625rem solid $gray;}
+    &:last-child {padding-bottom: $large;}
     h2 {font-size: $medium;color: $blue;
       @include break-on(sm, max) {margin:0;}
       a {text-decoration: none;
         &:hover {text-decoration: underline;}
       }
     }
+    &.sm-top {@include break-on(sm, max) {padding-top: $small;}}
     .programme-header  {
       display: flex;
       > div:first-child {
@@ -18,6 +22,11 @@
         flex-grow: 0;
         margin-left: 1em;
       }
+      &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;margin-right: $small;
+        @include break-on(sm, min) {margin-bottom:0.23rem; }
+        &:hover{text-decoration: underline;}
+      }
+      &__head {font-size: .875rem;line-height: 2;color: $dark-gray;padding-bottom: $half-gutter;}
     }
     .programme-address {font-size: $small;color: $dark-gray;font-weight: 500;
       @include break-on(sm, max) {display: none;}

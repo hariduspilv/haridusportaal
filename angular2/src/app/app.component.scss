@@ -222,6 +222,13 @@ article a[href]{color:$blue;}
   }
 }
 
+.inline__items {
+  .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;}
+}
+.bar {color: $gray;padding: 0 $half-gutter;}
+.nonActive {padding: $half-gutter $quarter;border-radius: $quarter;font-size: .875rem;line-height: 1.125rem;position: relative;bottom: .25rem;white-space: nowrap;
+  &--blue {@extend .nonActive;background-color: #bee3e8;}
+}
 /* Material design overrides and styles */
 
 .mat-checkbox .mat-checkbox-checkmark {left: 0px !important;}
