@@ -139,7 +139,9 @@
     "specialization": "Spetsialiseerumine",
     "study_capacity": "Õppekava maht",
     "internship_capacity": "Praktika maht",
-    "nominal_time": "Nominaalkestus"
+    "nominal_time": "Nominaalkestus",
+    "non_active": "Eriala ei ole aktiivne"
+
   },
   "login": {
     "username": "Kasutajanimi",
