@@ -1,11 +1,11 @@
 <div class="image" cdkTrapFocus>
   <div class="row">
     <div class="col-12">
-    	<div attr.aria-label="{{'Click to Close to Dialog'}}" role="close">
-      <mat-icon mat-icon-button>close
-      	<button class="btn-hidden" (click)="close()" tabindex="0"></button>
-      </mat-icon>
-  </div>
+    	<div attr.aria-label="{{'Click to close modal'}}" role="close">
+        <mat-icon mat-icon-button>close
+         <button class="btn-hidden" (click)="close()" tabindex="0"></button>
+       </mat-icon>
+     </div>
     </div>
   </div>
   <img src="{{ data.src }}" alt="{{ data.alt }}" title="{{ data.title }}" style="max-width:100%;" />

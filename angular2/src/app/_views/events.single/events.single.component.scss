@@ -83,3 +83,15 @@ _:-ms-lang(x), .article-image {width: 100%;margin:0;}
 ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}
 ::ng-deep .events__list__item__body p:first-child {margin-top: 0;}
 ::ng-deep .events__list__item__body p:last-child {margin-bottom: 0;}
+
+.btn-hidden {
+  visibiliy: hidden;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  border: 0px solid transparent;
+  background: transparent;
+  width: 24px;
+}
