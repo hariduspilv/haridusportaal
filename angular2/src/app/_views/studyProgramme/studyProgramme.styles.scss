@@ -25,6 +25,7 @@
       @include break-on(sm, min) {margin-bottom:0.23rem; }
       &:hover{text-decoration: underline;}
     }
+    &__head {font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-bottom: $half-gutter;}
     &__col{width:33%; box-sizing: border-box;
       &:first-child{padding-right:1.5rem;}
       &:last-child{padding-left:1.5rem;}
@@ -33,7 +34,7 @@
     &__subtitle {font-size: $small;line-height: 1; font-size:0.88rem; color:$dark-gray; line-height:143%; display:block; font-weight: 500; margin-bottom:$medium; margin-top: $half-gutter;}
     &__titlebox {width:100%; display:flex;
       .col-grow{flex-grow: 1}
-      .col{display: flex; align-items: center; flex-shrink: 0;}
+      .col{display: flex; align-items: baseline; flex-shrink: 0;padding-bottom: $small;}
     }
     p:first-child{margin-top:0;}
     p:last-child{margin-bottom:0;}
