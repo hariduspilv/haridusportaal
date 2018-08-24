@@ -1,7 +1,0 @@
-uuid: null
-langcode: en
-status: true
-dependencies: {  }
-version: deleteFavoriteItem
-map:
-  1: "mutation ($id: Int!) {\n  deleteFavoriteItem(id: $id) {\n    entity {\n      entityId\n    }\n    violations {\n      message\n      path\n      code\n    }\n    errors\n  }\n}\n"
