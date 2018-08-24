@@ -41,7 +41,7 @@
             <div class="col-12">
               <mat-chip-list>
                   <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-list-wrapper">
-                    <mat-chip *ngIf="tag.entity && tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
+                    <mat-chip *ngIf="tag.entity && tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
                   </span>
               </mat-chip-list>
             </div><!--/col-10-->
@@ -58,7 +58,7 @@
     </div><!--/col-4-->
     <div class="col-8 sm-12 sm-show">
       <div class="events__list" *ngIf="content.entity.fieldEventGroup">
-        <div class="events__title">{{ 'event.related' | translate | uppercase }}</div>
+        <div class="events__title" tabindex="0">{{ 'event.related' | translate | uppercase }}</div>
         <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
       </div>
     </div><!--/col-4-->

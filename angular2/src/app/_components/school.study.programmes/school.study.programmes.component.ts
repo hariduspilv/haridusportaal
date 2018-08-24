@@ -13,6 +13,7 @@ import { SchoolStudyProgrammes } from '@app/_graph/studyProgramme.graph';
 export class SchoolStudyProgrammesComponent implements OnInit {
 
   @Input() schoolId: number;
+  @Input() schoolName: String;
   programmes: any;
   loading = true;
   private querySubscription: Subscription;
