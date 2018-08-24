@@ -29,11 +29,6 @@
           <div class="col-grow">
             <div class="studyProgramme__item__head sm-hide" *ngIf="item.FieldStudyProgrammeLevel">{{ item.FieldStudyProgrammeLevel }}</div>
             <a [routerLink]="item.EntityPath" class="studyProgramme__item__title">{{ item.Name }}</a>
-            <!-- <div class="studyProgramme__item__subtitle sm-hide">
-              <ng-container *ngIf="item.FieldSchoolName">{{ item.FieldSchoolName }},</ng-container>
-              <ng-container *ngIf="item.FieldSchoolAddress">{{ item.FieldSchoolAddress }}</ng-container>
-              <a *ngIf="item.FieldSchoolWebsite" href="{{ item.FieldSchoolWebsite }}">{{ item.FieldSchoolWebsite | removeProtocol }}</a>
-            </div> -->
           </div>
           <!--col-9-->
           <div class="col sm-hide">

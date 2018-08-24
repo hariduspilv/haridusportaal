@@ -247,10 +247,14 @@
                   <div class="event__block">
                     <div class="title">
                       <span class="title__strong" tabindex="0">{{ event.title }}</span>
-                      <span class="close"><mat-icon aria-hidden="false">close
-                        <button class="pointer btn-hidden" (click)="closePopup()" tabindex="0" attr.aria-label="{{'kill modal'}}"></button>
-                      </mat-icon></span>
+
+                      <div attr.aria-label="{{'Click to close modal'}}" role="close">
+                        <mat-icon mat-icon-button>close
+                          <button class="btn-hidden" (click)="closePopup()" tabindex="0"></button>
+                        </mat-icon>
+                      </div>
                     </div>
+                    
                     <div tabindex="0"><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
                     <div role="none" *ngIf="event.eventDates" tabindex="0"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
                     <div *ngIf="event.location" tabindex="0"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
