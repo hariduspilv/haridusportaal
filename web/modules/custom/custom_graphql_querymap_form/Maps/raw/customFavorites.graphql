@@ -1,8 +1,8 @@
-
 {
   CustomFavorites {
     ... on FavoriteEntity {
       favorites {
+        targetId
         entity {
           ... on ParagraphFavoriteItem {
             fieldFavoriteTitle
