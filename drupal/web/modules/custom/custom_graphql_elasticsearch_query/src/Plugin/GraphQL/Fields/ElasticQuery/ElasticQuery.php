@@ -162,11 +162,13 @@ protected function getElasticQuery($args){
             }
             break;
           case 'IN':
-            $elastic_must_filters[] = array(
-              'terms' => array(
-                $condition['field'] => $condition['value']
-              )
-            );
+            if(isset($condition['value'])){
+              $elastic_must_filters[] = array(
+                'terms' => array(
+                  $condition['field'] => $condition['value']
+                )
+              );  
+            }
             break;
           case 'FUZZY':
             foreach($condition['value'] as $value){
