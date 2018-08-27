@@ -1,5 +1,8 @@
 @import "../../../assets/styles/typography.scss";
 #school-study-programmes {
+  &.snackBar {margin-bottom: 4.5rem;
+    @include break-on(sm, min) {margin-bottom: 5.25rem;}
+  }
   .block-title {padding: $small $medium;padding-bottom: 0;margin-bottom: 0;}
   .programme {
     padding: $medium;
@@ -17,6 +20,7 @@
       display: flex;
       > div:first-child {
         flex-grow: 1;
+        flex: 1;
       }
       > div:last-child {
         flex-grow: 0;
@@ -41,4 +45,5 @@
       }
     }
   }
+  .compare-block {overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 }

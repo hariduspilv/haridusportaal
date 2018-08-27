@@ -6,7 +6,7 @@
     <div class="col-12 sm-12">
       <div class="block">
         <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>
-        <h1 class="block-heading">{{ 'studyProgramme.compare_modal_title' | translate }}</h1>
+        <h1 class="block-heading">{{ 'studyProgramme.compare_modal_title' | translate | titleCase }}</h1>
         <div class="scrollable">
           <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
             (touchstart)="tableService.scrollStart('tableRef')" 
@@ -28,21 +28,21 @@
                 <tr *ngIf="list">
                   <th></th>
                   <th *ngFor="let item of list">
-                    <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.name}}">{{item.name}}</a>
+                    <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.name}}">{{item.name | titleCase }}</a>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>{{ 'studyProgramme.school' | translate }}</td>
-                  <td class="highlighted" *ngFor="let item of list">{{ item.EducationalInstitution.entity.name }}</td>
+                  <td class="highlighted" *ngFor="let item of list">{{ item.EducationalInstitution.entity.name | titleCase }}</td>
                 </tr>
 
                 <tr>
                   <td>{{ 'studyProgramme.level' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
                     <ng-container *ngIf="item.level">
-                        {{ item.level.entity.name }}
+                        {{ item.level.entity.name | titleCase }}
                     </ng-container>
                     <ng-container *ngIf="!item.level"> - </ng-container>
                   </td>
@@ -52,7 +52,7 @@
                   <td>{{ 'studyProgramme.degree_or_diploma' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
                     <ng-container *ngIf="item.degreeOrDiplomaAwarded">
-                      {{ item.degreeOrDiplomaAwarded.entity.name }}
+                      {{ item.degreeOrDiplomaAwarded.entity.name | titleCase }}
                     </ng-container>
                     <ng-container *ngIf="!item.degreeOrDiplomaAwarded"> - </ng-container>
                   </td>
@@ -62,7 +62,7 @@
                   <td>{{ 'studyProgramme.specialization' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
                     <ng-container *ngIf="item.specialization">
-                        {{ item.specialization }}
+                        {{ item.specialization | titleCase }}
                     </ng-container>
                     <ng-container *ngIf="!item.specialization"> - </ng-container>
                   </td>
@@ -72,8 +72,8 @@
                   <td>{{ 'studyProgramme.languages' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
                     <ng-container *ngFor="let lang of item.teachingLanguage; let last">
-                      <ng-container *ngIf="!last">{{ lang.entity.name }}, </ng-container>
-                      <ng-container *ngIf="last">{{ lang.entity.name }}</ng-container>
+                      <ng-container *ngIf="!last">{{ lang.entity.name | titleCase }}, </ng-container>
+                      <ng-container *ngIf="last">{{ lang.entity.name | titleCase }}</ng-container>
                     </ng-container>
                   </td>
                 </tr>
@@ -119,7 +119,7 @@
                 <tr>
                   <td>{{ 'studyProgramme.accreditation_decision' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
-                    <ng-container *ngIf="item.accreditationStatus">{{ item.accreditationStatus }}</ng-container>
+                    <ng-container *ngIf="item.accreditationStatus">{{ item.accreditationStatus | titleCase }}</ng-container>
                     <ng-container *ngIf="!item.accreditationStatus"> - </ng-container>
                   </td>
                 </tr>
