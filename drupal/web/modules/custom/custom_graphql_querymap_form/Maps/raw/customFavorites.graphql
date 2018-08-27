@@ -1,24 +1,24 @@
 {
-CustomFavorites{
-... on FavoriteEntity{
-favorites{
-entity{
-... on ParagraphFavoriteItem{
-fieldFavoriteTitle
-fieldType
-fieldPage {
-entity{
-entityLabel
-entityUrl {
-path
-}
-}
-}
-fieldSearch
-
-}
-}
-}
-}
-}
+  CustomFavorites {
+    ... on FavoriteEntity {
+      favorites {
+        targetId
+        entity {
+          ... on ParagraphFavoriteItem {
+            fieldFavoriteTitle
+            fieldType
+            fieldPage {
+              entity {
+                entityLabel
+                entityUrl {
+                  path
+                }
+              }
+            }
+            fieldSearch
+          }
+        }
+      }
+    }
+  }
 }

@@ -1,12 +1,12 @@
-<div class="dialog" cdkTrapFocus tabindex="0" role="dialog" attr.aria-label="{{'Modal open'}}">
+<div class="dialog" cdkTrapFocus tabindex="0" role="dialog" attr.aria-label="{{'Modal open'}}" cdkTrapFocus>
   <div class="row">
     <div class="col-12" style="position: relative;">
-      <span class="dialog__text--medium" tabindex="0">{{ 'event.registration_form' | translate | uppercase }}</span>
-      <div attr.aria-label="{{'Click to close modal'}}" role="close">
-      <mat-icon mat-icon-button>close
-        <button class="btn-hidden" (click)="close()" tabindex="0"></button>
-      </mat-icon>
-  </div>
+      <span class="dialog__text--medium" tabindex="0">{{ 'event.registration_form' | translate | uppercase }}</span>F
+      <div class="pull-right" attr.aria-label="{{'Click to close modal'}}" role="close">
+        <mat-icon mat-icon-button>close
+          <button class="btn-hidden" (click)="close()" tabindex="0"></button>
+        </mat-icon>
+      </div>
     </div>
 
     
@@ -27,10 +27,10 @@
             <div class="round-input__wrapper" [class.complete]="form.controls.firstName.value">
               <span class="round-input__title">{{ 'event.participant_first_name' | translate }} *</span>
               <div class="round-input__field-wrapper">
-                <input maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_first_name' | translate }} *" formControlName="firstName"/>
+                <input attr.aria-label="{{ 'event.participant_first_name' | translate }} {{'Required input'}}" maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_first_name' | translate }} *" formControlName="firstName"/>
               </div>
               <div class="round-input__error">
-                <div class="round-input__error--text" *ngIf="isInvalidField('firstName') && form.controls.firstName.errors.required">
+                <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('firstName') && form.controls.firstName.errors.required">
                   {{ 'event.registration_form_required' | translate }}
                 </div>
               </div>
@@ -41,16 +41,16 @@
             <div class="round-input__wrapper" [class.complete]="form.controls.lastName.value">
               <span class="round-input__title">{{ 'event.participant_last_name' | translate }} *</span>
               <div class="round-input__field-wrapper">
-                <input maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_last_name' | translate }} *" formControlName="lastName"/>
+                <input maxlength="30" attr.aria-label="{{ 'event.participant_last_name' | translate }} {{'Required input'}}" class="round-input__field" placeholder="{{ 'event.participant_last_name' | translate }} *" formControlName="lastName"/>
               </div>
               <div class="round-input__error">
-                <div class="round-input__error--text" *ngIf="isInvalidField('lastName') && form.controls.lastName.errors.required">
+                <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('lastName') && form.controls.lastName.errors.required">
                   {{ 'event.registration_form_required' | translate }}
                 </div>
               </div>
             </div>
           </div>
-        
+
           <div class="col-12 sm-12">
             <div class="round-input__wrapper" [class.complete]="form.controls.companyName.value">
               <span class="round-input__title">{{ 'event.participant_organization' | translate }}</span>
@@ -58,38 +58,38 @@
                 <input maxlength="60" class="round-input__field" placeholder="{{ 'event.participant_organization' | translate }}" formControlName="companyName"/>
               </div>
               <div class="round-input__error">
-                <div class="round-input__error--text"></div>
+                <div class="round-input__error--text" role="alert"></div>
               </div>
             </div>
           </div>
-        
+
           <div class="col-6 sm-12">
             <div class="round-input__wrapper" 
-              [class.error]="isInvalidField('email') && form.controls.email.errors.email && !emailFocus" 
-              [class.success]="!isInvalidField('email') && form.controls.email.value && !emailFocus">
-              <span class="round-input__title">{{ 'event.participant_email' | translate }} *</span>
-              <div class="round-input__field-wrapper">
-                <input maxlength="30" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
-              </div>
-              <div class="round-input__error">
-                <div class="round-input__error--text" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">
-                  {{ 'event.registration_form_valid_email' | translate }}
-                </div>
+            [class.error]="isInvalidField('email') && form.controls.email.errors.email && !emailFocus" 
+            [class.success]="!isInvalidField('email') && form.controls.email.value && !emailFocus">
+            <span class="round-input__title">{{ 'event.participant_email' | translate }} *</span>
+            <div class="round-input__field-wrapper">
+              <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{'Required input'}}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
+            </div>
+            <div class="round-input__error">
+              <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">
+                {{ 'event.registration_form_valid_email' | translate }}
               </div>
             </div>
           </div>
-          
-          <div class="col-6 sm-12">
-            <div class="round-input__wrapper" [class.complete]="form.controls.telephone.value">
-              <span class="round-input__title">{{ 'event.participant_phone' | translate }}</span>
-              <div class="round-input__field-wrapper">
-                <input maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_phone' | translate }}" formControlName="telephone"/>
-              </div>
-              <div class="round-input__error">
-                <div class="round-input__error--text"></div>
-              </div>
+        </div>
+
+        <div class="col-6 sm-12">
+          <div class="round-input__wrapper" [class.complete]="form.controls.telephone.value">
+            <span class="round-input__title">{{ 'event.participant_phone' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_phone' | translate }}" formControlName="telephone"/>
+            </div>
+            <div class="round-input__error">
+              <div class="round-input__error--text" role="alert"></div>
             </div>
           </div>
+        </div>
 
           <!-- <div class="col-12 sm-12">
             <div class="round-input__wrapper">
@@ -116,9 +116,9 @@
         <div class="col-12 text-right">
 
           <re-captcha #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && save($event)"></re-captcha>
-            
-          <a class="sm-hide" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
-          <button [disabled]="form.status === 'INVALID'" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'event.registration_form_send' | translate }}</button>
+
+          <button class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'event.registration_form_send' | translate }}</button>
           <a class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
           <!-- [disabled]="form.invalid" -->
         </div>
@@ -136,9 +136,9 @@
       <div class="dialog__actions--success">
         <div class="row text-center">
           <div class="col-12">
-            <button mat-raised-button color="primary" (click)="close()">{{ 'event.registration_form_add_to_calendar' | translate }}</button>
+            <button role="button" tabindex="0" mat-raised-button color="primary" (click)="close()">{{ 'event.registration_form_add_to_calendar' | translate }}</button>
           </div>
-          <div class="dialog__actions--success__close col-12"><a href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_close' | translate }}</a></div>
+          <div class="dialog__actions--success__close col-12"><a class="btn-link" href="javascript:void(0)" (click)="close()" tabindex="0">{{ 'event.registration_form_close' | translate }}</a></div>
         </div>
       </div>
     </div>

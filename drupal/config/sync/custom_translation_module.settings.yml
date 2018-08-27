@@ -118,6 +118,9 @@ event:
   registration_form_cancel: Tühista
   registration_form_thanks: 'Täname sündmusele registreerimise eest!'
   registration_form_add_to_calendar: 'Lisa sündmus enda kalendrisse'
+  registration_ended: ''
+  registration_not_started: ''
+  registration_full: ''
 login:
   username: Kasutajanimi
   password: Parool
@@ -186,10 +189,10 @@ button:
   newsletter_submit: 'Kinnita tellimus'
   choose_type: 'Vali tüüp'
 newsletter:
-  title: 'Uudiskiri - telli endale huvitavad lood'
-  intro: Sissejuhatus
+  title: 'Uudiskiri - test test tekst tekst kui pikk see siis saab olla ma'
+  intro: 'Mingi äge sissejuhatuse tekst, mida saab muuta siit: http://test-htm.wiseman.ee:30000/et/admin/config/custom_translation_module/customtranslation'
   confirm_subscription: 'Kinnita tellimus'
-  email: Epost
+  email: 'Sisesta oma e-kirja aadress'
   valid_email: 'SIsesta korrektne epost'
   modal_title: 'UUDISKIRJA TELLIMINE'
   modal_close: 'Sulge aken'
@@ -242,3 +245,12 @@ studyProgramme:
   filter_iscedf_detailed: Õppekavarühm
   filter_open_admission: 'Ainult avatud vastuvõtuga'
   no_result: 'Otsingutulemused puuduvad'
+  accreditation_decision: ''
+  accreditation_decision_till: ''
+  compare_modal_close: ''
+  school: ''
+  degree_or_diploma: ''
+  specialization: ''
+  study_capacity: ''
+  internship_capacity: ''
+  nominal_time: ''
