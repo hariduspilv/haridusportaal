@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { SingleQuery, InstitutionTypeQuery } from '@app/_graph/school.graph';
 import { RootScopeService } from '@app/_services';
 import { TableService } from '@app/_services/tableService';
-import { titleCasePipe } from '@app/_pipes/titlecase.pipe';
 
 @Component({
   templateUrl: './schools.single.component.html',

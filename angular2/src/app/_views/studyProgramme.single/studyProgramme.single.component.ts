@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SingleQuery } from '@app/_graph/studyProgramme.graph';
 import { FiltersService } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
-import { titleCasePipe } from '@app/_pipes/titlecase.pipe';
 
 @Component({
   templateUrl: "studyProgramme.single.template.html",
