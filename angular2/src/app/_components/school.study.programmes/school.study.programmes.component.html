@@ -1,4 +1,5 @@
-<div *ngIf="programmes.length > 0" class="block snackBar" id="school-study-programmes">
+<mat-spinner *ngIf="loading" diameter="100" style="margin:0 auto;"></mat-spinner>
+<div *ngIf="!loading && programmes.length > 0" class="block snackBar" id="school-study-programmes">
   <div class="block-title">{{'studyProgramme.label' | translate}}</div>
   <div *ngFor="let programme of programmes;let first = first;let last = last;" [class.sm-top]="first" [class.lg-bottom]="last" class="programme">
     <div class="programme-header">
