@@ -1,14 +1,14 @@
 <div class="block">
   
-  <div class="block-title">{{ 'studyProgramme.related.label' | translate | uppercase }}</div>
+  <div class="block-title">{{ 'studyProgramme.related_label' | translate | uppercase }}</div>
 
   <form class="block-form" (submit)="filterSubmit()">
     <div class="flex wrap">
       <div class="grow full">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
-          <span class="round-input__title">{{ 'studyProgramme.related.filter_location' | translate }}</span>
+          <span class="round-input__title">{{ 'studyProgramme.related_filter_location' | translate }}</span>
           <div class="round-input__field-wrapper">
-            <input class="round-input__field" placeholder="{{ 'studyProgramme.related.filter_location' | translate }} " [(ngModel)]='filterFormItems.location' name="location" />
+            <input class="round-input__field" placeholder="{{ 'studyProgramme.related_filter_location' | translate }} " [(ngModel)]='filterFormItems.location' name="location" />
           </div>
         </div><!--/round-inpuit__wrapper-->
       </div>
@@ -19,7 +19,7 @@
   </form>
 
   <div *ngIf="list && list.length == 0" class="no-results">
-      {{ 'studyProgramme.related.no_results' | translate }}
+      {{ 'studyProgramme.related_no_results' | translate }}
   </div>
 
   <div *ngIf="list && list.length > 0">
