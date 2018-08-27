@@ -1,13 +1,26 @@
 <div class="favourites__wrapper" role="button" attr.aria-label="{{'Favourites dropdown'}}" *ngIf="!userLoggedOut">
   <mat-icon tabindex=0 class="primary" (click)="toggleFavouritesPanel()">star_rate</mat-icon>
-  <div  *ngIf="favouritesDropdown" class="favourites__dropdown">  
-      <mat-spinner *ngIf="loader"></mat-spinner>
-      <form (submit)="submitFavouriteItem()">
-         <div class="round-input__field-wrapper">
-             <input class="round-input__field" placeholder="title" [(ngModel)]='title' name="title" />
-         </div>
-         <button>Lisa lemmikutesse</button>
-      </form>
+
+
+  <div class="favourites__dropdown" *ngIf="favouritesDropdown">
+    <mat-spinner *ngIf="loading"></mat-spinner>
+    <ng-container *ngIf="!loading">
+
+      <ng-container *ngIf="!existing">
+        <form (submit)="submitFavouriteItem()">
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field" placeholder="title" [(ngModel)]='title' name="title" />
+          </div>
+          <button>Lisa lemmikutesse</button>
+        </form>
+      </ng-container>
+
+      <ng-container *ngIf="existing">
+        <form (submit)="removeFavouriteItem(existingTargetId)">
+          <button>Eemalda lemmikutest</button>
+        </form>
+      </ng-container>
+    </ng-container>
 
   </div>
 </div>
