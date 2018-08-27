@@ -4,8 +4,10 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 @Component({
   selector: 'image-popup-dialog',
   templateUrl: 'image.popup.dialog.html',
-  styleUrls: ['image.popup.dialog.scss']
+  styleUrls: ['../modal/modal.scss']
 })
+
+
 export class ImagePopupDialog {
   constructor(
     public dialogRef: MatDialogRef<ImagePopupDialog>,
