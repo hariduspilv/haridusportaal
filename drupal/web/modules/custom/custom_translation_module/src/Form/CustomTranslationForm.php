@@ -118,14 +118,14 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#title' => $this->t('All news'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('news_translations.news_all'),
+			'#default_value' => $config->get('news_translations.all'),
 		];
 		$form['news']['recent'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Recent news'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('news_translations.recent_news'),
+			'#default_value' => $config->get('news_translations.recent'),
 		];
 		$form['news']['filter_name'] = [
 			'#type' => 'textfield',
