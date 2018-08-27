@@ -22,6 +22,5 @@ export class FavouritesListComponent extends FavouritesComponent implements OnIn
 
   ngOnInit(){    
     this.getFavouritesList();
-    console.log(this.list)
   }
 }
