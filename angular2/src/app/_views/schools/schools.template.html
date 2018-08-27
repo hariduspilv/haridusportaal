@@ -29,7 +29,7 @@
   
       <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
-          <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
+          <a tabindex="0"  href="javascript:void(0);"  (click)="filterFull = !filterFull" aria-expanded="false">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
             <span class="md-show">{{ 'button.filter' | translate }}</span>
           </a>
@@ -108,7 +108,7 @@
       </div><!--/col-9-->
       <div class="col-3 align-end text-right sm-12 inline-flex">
         <div class="align-center filter-state sm-hide">       
-          <a href="javascript:void(0);" (click)="filterFull = !filterFull">
+          <a href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
             <span class="md-hide">{{ 'button.search_brief' | translate }}</span>
           </a>
         </div>
@@ -140,7 +140,7 @@
   
   <div class="spinner-wrapper" *ngIf="!list"><mat-spinner></mat-spinner></div>
 
-  <div *ngIf="list && list.length == 0 && view == 'list'" class="no-results">
+  <div *ngIf="list && list.length == 0 && view == 'list'" role="alert" class="no-results">
     {{ 'school.no_results' | translate }}
   </div>
 
@@ -193,7 +193,7 @@
 
 <div class="text-center actions" *ngIf="!listEnd && view == 'list' && list">
   <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-  <button mat-raised-button color="primary" (click)="loadMore()"  *ngIf="!loading">
+  <button mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading">
     {{ "button.load_more" | translate }}
   </button>
 </div><!--/text-center-->
