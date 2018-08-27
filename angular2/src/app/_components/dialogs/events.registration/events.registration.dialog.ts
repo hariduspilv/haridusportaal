@@ -4,6 +4,7 @@ import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { eventsRegister } from '@app/_graph/events.graph';
+
 @Component({
   selector: 'events-registration-dialog',
   templateUrl: 'events.registration.dialog.html',
