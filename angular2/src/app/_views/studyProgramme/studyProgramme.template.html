@@ -183,7 +183,7 @@
               <div class="studyProgramme__item__head sm-hide" *ngIf="item.fieldStudyProgrammeLevel">{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</div>
               <span>
                 <a [routerLink]="item.entityUrl.path" class="studyProgramme__item__title">{{ item.entityLabel }}</a>
-                <span class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</span>
+                <div class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</div>
               </span>
             </div><!--col-9-->
             <div class="col sm-hide">

@@ -226,7 +226,8 @@ article a[href]{color:$blue;}
   .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;}
 }
 .bar {color: $gray;padding: 0 $half-gutter;}
-.nonActive {padding: $half-gutter $quarter;border-radius: $quarter;font-size: .875rem;line-height: 1.125rem;position: relative;bottom: .25rem;white-space: nowrap;
+.nonActive {padding: $half-gutter $quarter;border-radius: $quarter;font-size: .875rem;line-height: 1.125rem;white-space: nowrap;
+  width: fit-content;display: inline;position: relative;bottom: .125rem;
   &--blue {@extend .nonActive;background-color: #bee3e8;}
 }
 /* Material design overrides and styles */
