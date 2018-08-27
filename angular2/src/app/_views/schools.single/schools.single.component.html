@@ -2,9 +2,9 @@
   <div class="block padding-block sm-top" id="school-contact-block">
     <h2>{{ 'school.contact' | translate }}</h2>
     <ul>
-      <li><a href="tel:{{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
-      <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
-      <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
+      <li><a href="tel:{{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone | titleCase }}</a></li>
+      <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail | titleCase }}</a></li>
+      <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol | titleCase }}</a></li>
     </ul>
   </div>
   <div *ngFor="let location of data.fieldSchoolLocation" class="block location-block">
@@ -12,7 +12,7 @@
     <div class="padding-block">
       <h2 *ngIf="location.entity.fieldLocationType == 'L'">{{ 'school.legal_address' | translate }}</h2>
       <h2 *ngIf="location.entity.fieldLocationType == 'V'">{{ 'school.defacto_address' | translate }}</h2>
-      <div>{{ location.entity.fieldAddress }}</div>
+      <div class="address">{{ location.entity.fieldAddress | titleCase }}</div>
     </div>
   </div>
 </ng-template>
@@ -60,34 +60,32 @@
                 <td>
                   <div *ngFor="let type of types">
                     <span>{{ type.entityLabel }}</span>
-                    <span *ngIf="type.children.length">(</span><span *ngFor="let child of type.children">{{child.entityLabel}}</span><span *ngIf="type.children.length">)</span>
+                    <span *ngIf="type.children.length">(</span><span *ngFor="let child of type.children">{{child.entityLabel | titleCase}}</span><span *ngIf="type.children.length">)</span>
                   </div>
                 </td>
               </tr>
               <tr *ngIf="data.fieldOwnershipType">
                 <td>{{ 'school.ownership' | translate }}</td>
-                <td>{{ data.fieldOwnershipType.entity.name }}</td>
+                <td>{{ data.fieldOwnershipType.entity.name | titleCase }}</td>
               </tr>
               <tr *ngIf="data.fieldTeachingLanguage.length">
                 <td>{{ 'school.language' | translate }}</td>
                 <td>
                   <div *ngFor="let language of data.fieldTeachingLanguage">
-                    {{ language.entity.name }}
+                    {{ language.entity.name | titleCase }}
                   </div>
                 </td>
               </tr>
-              <tr>
+              <tr *ngIf="data.fieldSpecialClass">
                 <td>{{ 'school.special_needs_long' | translate }}</td>
                 <td>
-                  <span *ngIf="data.fieldSpecialClass; else elseSpecialClass">{{ 'school.available' | translate }}</span>
-                  <ng-template #elseSpecialClass>{{ 'school.unavailable' | translate }}</ng-template>
+                  <span>{{ 'school.available' | translate | titleCase }}</span>
                 </td>
               </tr>
-              <tr>
+              <tr *ngIf="data.fieldStudentHome">
                 <td>{{ 'school.dormitory' | translate }}</td>
                 <td>
-                  <span *ngIf="data.fieldStudentHome; else elseStudentHome">{{ 'school.available' | translate }}</span>
-                  <ng-template #elseStudentHome>{{ 'school.unavailable' | translate }}</ng-template>
+                  <span>{{ 'school.available' | translate | titleCase }}</span>
                 </td>
               </tr>
             </table>

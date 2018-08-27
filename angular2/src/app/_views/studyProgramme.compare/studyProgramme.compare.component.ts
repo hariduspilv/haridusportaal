@@ -34,7 +34,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     private settings: SettingsService,
     private tableService: TableService
   ) {
-    super(null, null, null, null)
+    super(null, null, null, null, null, null)
   }
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
