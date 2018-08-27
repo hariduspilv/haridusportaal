@@ -53,6 +53,27 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('frontpage.navigate'),
 		];
+		$form['frontpage']['favourites_limit_modal_title'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Add to favorites modal label'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.favourites_limit_modal_title'),
+		];
+		$form['frontpage']['favourites_limit_modal_content'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Add to favorites modal content'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.favourites_limit_modal_content'),
+		];
+		$form['frontpage']['favourites_limit_modal_close'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Add to favorites close modal'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.favourites_limit_modal_close'),
+		];
 
 		$form['article'] = [
 			'#type' => 'details',
@@ -134,7 +155,6 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('news.no_results'),
 		];
-
 
 		$form['event'] = [
 			'#type' => 'details',
@@ -244,6 +264,13 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#maxlength' => 64,
 			'#size' => 64,
 			'#default_value' => $config->get('event.location'),
+		];
+		$form['event']['repeat'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Repeating event'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('event.repeat'),
 		];
 		$form['event']['place_and_time'] = [
 			'#type' => 'textfield',
@@ -441,7 +468,6 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('event.registration_full'),
 		];
-
 
 		$form['login'] = [
 			'#type' => 'details',
@@ -739,10 +765,45 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('time.time_of_day'),
 		];
+		$form['time']['years'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Years'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('time.years'),
+		];
 
 		$form['button'] = [
 			'#type' => 'details',
 			'#title' => $this->t('Buttons'),
+		];
+		$form['button']['all'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('All'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('button.all'),
+		];
+		$form['button']['map_closer'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Look map closer'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('button.map_closer'),
+		];
+		$form['button']['add_to_comparison'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Add to comparison'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('button.add_to_comparison'),
+		];
+		$form['button']['remove_from_comparison'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('remove from comparison'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('button.remove_from_comparison'),
 		];
 		$form['button']['search'] = [
 			'#type' => 'textfield',
@@ -750,83 +811,6 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#maxlength' => 64,
 			'#size' => 64,
 			'#default_value' => $config->get('button.search'),
-		];
-		$form['button']['load_more'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Load more'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.load_more'),
-		];
-		$form['button']['all'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('All'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.all'),
-		];
-		$form['button']['map_closer'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Look map closer'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.map_closer'),
-		];
-		$form['button']['add_to_comparison'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Add to comparison'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.add_to_comparison'),
-		];
-		$form['button']['search_people'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Search people'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.search_people'),
-		];
-		$form['button']['view_all'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('View all'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.view_all'),
-		];
-		$form['button']['view_more'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('View more'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.view_more'),
-		];
-		$form['button']['read_more'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Read more'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.read_more'),
-		];
-		$form['button']['show_all'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Show all'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.show_all'),
-		];
-		$form['button']['register'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Register'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button.register'),
-		];
-		$form['button']['calendar_add'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Add to calendar'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('button_translations.calendar_add'),
 		];
 		$form['button']['search_detailed'] = [
 			'#type' => 'textfield',
@@ -856,33 +840,47 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.search_brief_short'),
 		];
-		$form['button']['search_close'] = [
+		$form['button']['search_people'] = [
 			'#type' => 'textfield',
-			'#title' => $this->t('Close search'),
+			'#title' => $this->t('Search people'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('button.search_close'),
+			'#default_value' => $config->get('button.search_people'),
 		];
-		$form['button']['login'] = [
+		$form['button']['load_more'] = [
 			'#type' => 'textfield',
-			'#title' => $this->t('Login'),
+			'#title' => $this->t('Load more'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('button.login'),
+			'#default_value' => $config->get('button.load_more'),
 		];
-		$form['button']['logout'] = [
+		$form['button']['read_more'] = [
 			'#type' => 'textfield',
-			'#title' => $this->t('Logout'),
+			'#title' => $this->t('Read more'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('button.logout'),
+			'#default_value' => $config->get('button.read_more'),
 		];
-		$form['button']['filter_close'] = [
+		$form['button']['show_all'] = [
 			'#type' => 'textfield',
-			'#title' => $this->t('Filter close'),
+			'#title' => $this->t('Show all'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('button.filter_close'),
+			'#default_value' => $config->get('button.show_all'),
+		];
+		$form['button']['view_all'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('View all'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.view_all'),
+		];
+		$form['button']['view_more'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('View more'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.view_more'),
 		];
 		$form['button']['filter'] = [
 			'#type' => 'textfield',
@@ -891,12 +889,26 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.filter'),
 		];
-		$form['button']['search_people'] = [
+		$form['button']['filter_close'] = [
 			'#type' => 'textfield',
-			'#title' => $this->t('Search people'),
+			'#title' => $this->t('Filter close'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('button.search_people'),
+			'#default_value' => $config->get('button.filter_close'),
+		];
+		$form['button']['register'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Register'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.register'),
+		];
+		$form['button']['calendar_add'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Add to calendar'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button_translations.calendar_add'),
 		];
 		$form['button']['newsletter_submit'] = [
 			'#type' => 'textfield',
@@ -905,12 +917,40 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.newsletter_submit'),
 		];
+		$form['button']['login'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Login'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('button.login'),
+		];
+		$form['button']['logout'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Logout'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('button.logout'),
+		];
+		$form['button']['search_close'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Close search'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('button.search_close'),
+		];
 		$form['button']['choose_type'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Choose type'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('button.choose_type'),
+		];
+		$form['button']['see_comparison'] = [
 			'#type' => 'textfield',
-			'#title' => $this->t('Choose type'),
+			'#title' => $this->t('View comparison'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('button.choose_type'),
+			'#default_value' => $config->get('button.see_comparison'),
 		];
 
 		$form['newsletter'] = [
@@ -1093,19 +1133,19 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('school.dormitory'),
 		];
+		$form['school']['special_needs_short'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('School special needs short'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('school.special_needs_short'),
+		];
 		$form['school']['special_needs_long'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('School special needs long'),
 			'#maxlength' => 64,
 			'#size' => 64,
 			'#default_value' => $config->get('school.special_needs_long'),
-		];
-		$form['school']['special_needs_short'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('School special needs short'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('school.special_needs_short'),
 		];
 		$form['school']['list'] = [
 			'#type' => 'textfield',
@@ -1231,7 +1271,6 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('studyProgramme.accreditation_decision_till'),
 		];
-
 		$form['studyProgramme']['languages'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Study programme languages'),
@@ -1260,8 +1299,119 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('studyProgramme.admission_status'),
 		];
-
-
+		$form['studyProgramme']['admission_status'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Study programme admission status'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.admission_status'),
+		];
+		$form['studyProgramme']['filter_title'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter title'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.filter_title'),
+		];
+		$form['studyProgramme']['filter_type'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter type'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.filter_type'),
+		];
+		$form['studyProgramme']['filter_school'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter school'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.filter_school'),
+		];
+		$form['studyProgramme']['filter_language'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter language'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.filter_language'),
+		];
+		$form['studyProgramme']['filter_location'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter location'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.filter_location'),
+		];
+		$form['studyProgramme']['filter_iscedf_broad'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter iscedf broad'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.filter_iscedf_broad'),
+		];
+		$form['studyProgramme']['filter_iscedf_narrow'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter iscedf narrow'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.filter_iscedf_narrow'),
+		];
+		$form['studyProgramme']['filter_iscedf_detailed'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter iscedf detailed'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.filter_iscedf_detailed'),
+		];
+		$form['studyProgramme']['filter_open_admission'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter open admission'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.filter_open_admission'),
+		];
+		$form['studyProgramme']['no_result'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme filter no result'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.no_result'),
+		];
+		$form['studyProgramme']['related_label'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme related label'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.related_label'),
+		];
+		$form['studyProgramme']['related_filter_location'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme related filter location'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.related_filter_location'),
+		];
+		$form['studyProgramme']['related_no_results'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Study programme related no results'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.related_no_results'),
+		];
+		$form['studyProgramme']['compare_modal_title'] = [
+				'#type' => 'textfield',
+				'#title' => $this->t('Compare modal title'),
+				'#maxlength' => 64,
+				'#size' => 64,
+				'#default_value' => $config->get('studyProgramme.compare_modal_title'),
+		];
+		/*TODO HTML */
+		$form['studyProgramme']['compare_modal_content'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Compare modal Content'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			#'#default_value' => $config->get('studyProgramme.compare_modal_content'),
+		];
 		$form['studyProgramme']['compare_modal_close'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Compare modal close'),
@@ -1311,76 +1461,12 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('studyProgramme.nominal_time'),
 		];
-
-		$form['studyProgramme']['filter_title'] = [
+		$form['studyProgramme']['non_active'] = [
 			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter title'),
+			'#title' => $this->t('Study programme not active'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.filter_title'),
-		];
-		$form['studyProgramme']['filter_type'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter type'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.filter_type'),
-		];
-		$form['studyProgramme']['filter_language'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter language'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.filter_language'),
-		];
-		$form['studyProgramme']['filter_school'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter school'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.filter_school'),
-		];
-		$form['studyProgramme']['filter_location'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter location'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.filter_location'),
-		];
-		$form['studyProgramme']['filter_iscedf_broad'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter iscedf broad'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.filter_iscedf_broad'),
-		];
-		$form['studyProgramme']['filter_iscedf_narrow'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter iscedf narrow'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.filter_iscedf_narrow'),
-		];
-		$form['studyProgramme']['filter_iscedf_detailed'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter iscedf detailed'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.filter_iscedf_detailed'),
-		];
-		$form['studyProgramme']['filter_open_admission'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter open admission'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.filter_open_admission'),
-		];
-		$form['studyProgramme']['no_result'] = [
-			'#type' => 'textfield',
-			'#title' => $this->t('Study programme filter no result'),
-			'#maxlength' => 64,
-			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.no_result'),
+			'#default_value' => $config->get('studyProgramme.non_active'),
 		];
 
 		$form['notFound'] = [
