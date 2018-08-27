@@ -227,11 +227,9 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		foreach ($decoded as $item){
 			if($item[$id_code]){
 				return $item[$id_code];
-			}else{
-				return $error;
 			}
 		}
-		return '';
+		return $error;
 	}
 
 	protected function getCurrentUserIdCode(){
