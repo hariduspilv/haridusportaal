@@ -1468,6 +1468,13 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('studyProgramme.non_active'),
 		];
+		$form['studyProgramme']['added_to_comparison'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Study programme added to comparison'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.added_to_comparison'),
+		];
 
 		$form['notFound'] = [
 			'#type' => 'details',
