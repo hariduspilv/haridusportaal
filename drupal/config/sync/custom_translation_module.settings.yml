@@ -74,8 +74,8 @@ article:
   similar_articles: 'Sarnased artiklid'
 news:
   label: Uudised
-  all: 'Kõik uudised'
-  recent: 'Viimased uudised'
+  all: ''
+  recent: ''
   filter_name: 'Sisesta uudise nimi'
   filter_tag: 'Uudise sildid'
   title: Pealkiri
@@ -267,3 +267,4 @@ studyProgramme:
   compare_modal_title: 'Erialade võrdlemine'
   compare_modal_content: ''
   non_active: 'Eriala ei ole aktiivne'
+  added_to_comparison: 'Eriala(d) lisatud võrdlusesse'
