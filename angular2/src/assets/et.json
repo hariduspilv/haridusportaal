@@ -89,7 +89,7 @@
     "institutions": "Õppekohad",
     "location": "Asukoht",
     "name": "Kooli nimi",
-    "institution_type": "Õppeasutuse tüüp",
+    "institution_type": "Tüüp",
     "institution_select_type": "Vali esmalt õppeasutuse tüüp",
     "institution_sublevel": "Õppeasutuse alamtase",
     "language": "Õppekeel",
@@ -131,11 +131,11 @@
     "filter_iscedf_detailed": "Õppekavarühm",
     "filter_open_admission": "Ainult avatud vastuvõtuga",
     "no_results": "Otsingutulemused puuduvad",
-    "related.label": "Sarnased erialad",
-    "related.filter_location": "Otsi asukoha järgi",
-    "related.no_results": "Sarnased erialad puuduvad",
+    "related_label": "Sarnased erialad",
+    "related_filter_location": "Otsi asukoha järgi",
+    "related_no_results": "Sarnased erialad puuduvad",
     "compare_modal_title": "Erialade võrdlemine",
-    "compare_modal_content": "<p> Maksimaalne võrreldavate erialade arv on ületatud</p>Võrdlusesse saab lisada kuni 3 eriala",
+    "compare_modal_content": "<p> Maksimaalne võrreldavate erialade arv on ületatud.</p><br><p>Võrdlusesse saab lisada kuni 3 eriala.</p>",
     "compare_modal_close": "Sulge aken",
     "school": "Õppeasutuse nimetus",
     "degree_or_diploma": "Omistatav kraad või diplom",
@@ -143,8 +143,8 @@
     "study_capacity": "Õppekava maht",
     "internship_capacity": "Praktika maht",
     "nominal_time": "Nominaalkestus",
-    "non_active": "Eriala ei ole aktiivne"
-
+    "non_active": "Eriala ei ole aktiivne",
+    "added_to_comparison": "Eriala(d) lisatud võrdlusesse"
   },
   "login": {
     "username": "Kasutajanimi",
@@ -196,7 +196,7 @@
   "button": {
     "all": "Kõik",
     "map_closer": "Vaata kaarti lähemalt",
-    "add_to_comparison": "Lisa võrdlusse",
+    "add_to_comparison": "Lisa võrdlusesse",
     "remove_from_comparison":"Eemalda võrdlusest",
     "search": "Otsi",
     "search_detailed": "Täpsem otsing",
