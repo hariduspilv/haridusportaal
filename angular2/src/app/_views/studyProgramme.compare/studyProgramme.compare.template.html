@@ -28,7 +28,7 @@
                 <tr *ngIf="list">
                   <th></th>
                   <th *ngFor="let item of list">
-                    <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.name}}">{{item.name | titlecase}}</a>
+                    <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.name}}">{{item.name | titleCase }}</a>
                   </th>
                 </tr>
               </thead>
@@ -82,7 +82,7 @@
                   <td>{{ 'studyProgramme.study_capacity' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
                     <ng-container *ngIf="item.fieldAmount">
-                      {{ item.fieldAmount | titleCase }}
+                      {{ item.fieldAmount }}
                       <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit }}</ng-container>
                     </ng-container>
                     <ng-container *ngIf="!item.fieldAmount"> - </ng-container>
@@ -93,8 +93,8 @@
                   <td>{{ 'studyProgramme.internship_capacity' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
                     <ng-container *ngIf="item.practicalTrainingAmount">
-                      {{ item.practicalTrainingAmount | titleCase }}
-                      <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit | titleCase }}</ng-container>
+                      {{ item.practicalTrainingAmount }}
+                      <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit }}</ng-container>
                     </ng-container>
                     <ng-container *ngIf="!item.practicalTrainingAmount"> - </ng-container>
                   </td>
@@ -113,7 +113,7 @@
                 
                 <tr>
                   <td>{{ 'studyProgramme.admission_status' | translate }}</td>
-                  <td class="highlighted" *ngFor="let item of list">{{ item.admissionStatus | titleCase }}</td>
+                  <td class="highlighted" *ngFor="let item of list">{{ item.admissionStatus }}</td>
                 </tr>
 
                 <tr>
