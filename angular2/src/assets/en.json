@@ -131,7 +131,7 @@
     "related.filter_location": "Search by location",
     "related.no_results": "No related study programmes",
     "compare_modal_title": "Study programme comparison",
-    "compare_modal_content": "<p> max reched </p><p>U can unly added max 3 stody prugrammes</ p>",
+    "compare_modal_content": "<p>Maximum capacity reached.</p><p>You can only add 3 study programmes to comparison.</ p>",
     "compare_modal_close": "Close window",
     "school": "School",
     "degree_or_diploma": "Degree or diploma",
@@ -139,7 +139,8 @@
     "study_capacity": "Capacity",
     "internship_capacity": "Internship capacity",
     "nominal_time": "Nominal time",
-    "non_active": "Course not active"
+    "non_active": "Course not active",
+    "added_to_comparison": "Programme added to comparison"
   },
   "login": {
     "username": "Username",

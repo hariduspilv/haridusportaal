@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, OnDestroy} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RootScopeService  } from '@app/_services/rootScopeService';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 
 @Component({
@@ -47,7 +47,9 @@ export class CompareComponent implements OnInit, OnDestroy{
     public route: ActivatedRoute,
     protected rootScope: RootScopeService,
     public dialog: MatDialog,
-    private translate: TranslateService
+    private snackbar: MatSnackBar,
+    private translate: TranslateService,
+    public router: Router
   ) {}
 
   isChecked(id){
@@ -100,6 +102,20 @@ export class CompareComponent implements OnInit, OnDestroy{
 		});
 
   }
+  openCompareSnackbar() {
+    if (this.viewLink && this.compare.length) {
+      let message = `${this.translate.get('studyProgramme.added_to_comparison')['value']}`;
+      let action = `${this.translate.get('button.see_comparison')['value']}`;
+      let snackBarRef = this.snackbar.open(message, action, {
+        duration: 600000,
+      });
+      snackBarRef.afterDismissed().subscribe((obj) => {
+        if (obj.dismissedByAction) {
+          this.router.navigateByUrl(this.compareViewLink);
+        }
+      })
+    } else this.snackbar.dismiss()
+  }
   ngOnInit() {
     this.compare = this.readFromLocalStorage(this.localStorageKey);
   
@@ -114,16 +130,19 @@ export class CompareComponent implements OnInit, OnDestroy{
     );
 
     this.displayViewLink(this.compare);
+    this.openCompareSnackbar()
 
     this.localStorageSubscription = this.rootScope.get("compareObservable").subscribe(data => {
       this.compare = this.readFromLocalStorage(this.localStorageKey);
       this.displayViewLink(this.compare);
+      this.openCompareSnackbar()
     });
   }
 
   ngOnDestroy() {
     this.comparePathSubscription.unsubscribe();
     this.localStorageSubscription.unsubscribe();
+    this.snackbar.dismiss()
   }
    
 }
