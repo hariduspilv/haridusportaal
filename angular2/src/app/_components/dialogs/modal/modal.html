@@ -2,7 +2,11 @@
   <div class="row">
     <div class="col-12" style="position: relative;">
       <span class="dialog__text--medium">{{ data.title }}</span>
-      <mat-icon class="dialog__close" aria-label="Close" (click)="closeModal()" tabindex="0">close</mat-icon>
+      <div class="pull-right" attr.aria-label="{{'Click to close modal'}}" role="close">
+        <mat-icon mat-icon-button>close
+          <button class="btn-hidden" (click)="close()" tabindex="0"></button>
+        </mat-icon>
+      </div>
     </div>
   </div>
   <div class="dialog__success--modal">
