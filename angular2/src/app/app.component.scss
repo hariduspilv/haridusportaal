@@ -201,7 +201,7 @@ article a[href]{color:$blue;}
 }
 .scrollable {position: relative; padding: $small 0 0 0;
   @include break-on(sm, min) {position: relative;padding-right: $medium;padding-left: $medium;}
-  &__table {overflow:scroll;}
+  &__table {overflow:auto;}
   &__rectangle {width: 4rem;height: 4rem;border-radius: 50%;background-color: $blue;position: absolute;right: $medium;top: 50%;z-index: 5;user-select: none;
     box-shadow: 0 .125rem .125rem 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
     .mat-icon {position: relative;top: $quarter;left: $quarter;font-size: 2.5rem;color: $white;}
@@ -305,6 +305,16 @@ article a[href]{color:$blue;}
     .mat-drawer-content{padding:0;}
   }
 }
+.mat-snack-bar-container {
+  border-radius: $half-gutter;
+  background-color: $red;
+  box-shadow: 0 .125rem $half-gutter 0 rgba(0, 0, 0, 0.5);
+  height: 3.75rem;
+  @include break-on(sm, min) {min-width: 50rem !important;padding-top: 1.25rem !important;}
+  @include break-on(sm, max) {min-width: 100vw !important;height: auto;padding: $medium !important;}
+}
+.mat-simple-snackbar {font-size: $small;}
+.mat-simple-snackbar-action {color: $white; text-decoration: underline;font-weight: 300;}
 @include break-on(sm, max) {
   .mat-sidenav{top:4rem !important;}
 }

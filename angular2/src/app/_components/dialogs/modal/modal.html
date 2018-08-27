@@ -2,14 +2,14 @@
   <div class="row">
     <div class="col-12" style="position: relative;">
       <span class="dialog__text--medium">{{ data.title }}</span>
-      <mat-icon class="dialog__close" aria-label="Close" (click)="closeModal()" tabindex="0">close</mat-icon>
+      <mat-icon class="dialog__close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" aria-label="Close" (click)="closeModal()" tabindex="0">close</mat-icon>
     </div>
   </div>
   <div class="dialog__success--modal">
     <div class="dialog__success--content" [innerHtml]="data.content"></div>
     <div class="dialog__actions--success">
       <div class="text-center">
-        <div class="dialog__actions--success__close"><a href="javascript:void(0)" (click)="closeModal()">{{ data.close }}</a></div>
+        <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="Close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a></div>
       </div>
     </div>
   </div>
