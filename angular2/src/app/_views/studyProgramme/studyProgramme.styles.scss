@@ -16,7 +16,7 @@
       &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
   }
 
-  &__item {padding: $medium; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
+  &__item {padding: $small $medium; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
     &:first-child{padding-top:0;}
     @include break-on(sm, min) {
       &:last-child{border-bottom:0;}
@@ -34,7 +34,7 @@
     &__subtitle {font-size: $small;line-height: 1; font-size:0.88rem; color:$dark-gray; line-height:143%; display:block; font-weight: 500; margin-bottom:$medium; margin-top: $half-gutter;}
     &__titlebox {width:100%; display:flex;
       .col-grow{flex-grow: 1}
-      .col{display: flex; align-items: baseline; flex-shrink: 0;padding-bottom: $small;}
+      .col{display: flex; align-items: baseline; flex-shrink: 0;align-items: baseline;}
     }
     p:first-child{margin-top:0;}
     p:last-child{margin-bottom:0;}
@@ -44,6 +44,9 @@
 .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
 .actions{margin-bottom:$xxl; padding:0 $medium;margin-top: -$medium;
   @include break-on(sm, min) {margin-top: 0;}
+  &.snackBar {margin-bottom: 7.75rem;
+    @include break-on(sm, min) {margin-bottom: 5.25rem;}
+  }
 }
 @include break-on(sm, max) {
   .filter-wrapper .row {padding-top: $gutter;
