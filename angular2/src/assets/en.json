@@ -1,7 +1,10 @@
 {
   "frontpage": {
     "label": "Home",
-    "navigate": "Go to homepage"
+    "navigate": "Go to homepage",
+    "favourites_limit_modal_title": "Add to favourites",
+    "favourites_limit_modal_content": "You can add up to 10 favourites",
+    "favourites_limit_modal_close": "Close window"
   },
   "article": {
     "contact": "Contact",
@@ -49,6 +52,7 @@
     "related": "Similar events",
     "start_time": "Start time",
     "location": "Location",
+    "repeat": "Repeatable event",
     "place_and_time": "time and place",
     "participant_email": "Email",
     "participant_phone": "Phone",
@@ -107,6 +111,8 @@
     "level": "Level of curriculum",
     "accreditation": "Accreditation",
     "valid_accreditation": "Valid accreditation",
+    "accreditation_decision": "Accreditation decision",
+    "accreditation_decision_till": "Accreditation decision due",
     "languages": "Teaching languages",
     "study_duration": "Duration of the course",
     "study_group": "Curriculum Group",
@@ -120,7 +126,21 @@
     "filter_iscedf_narrow": "Learning direction",
     "filter_iscedf_detailed": "Curriculum Group",
     "filter_open_admission": "Only open to reception",
-    "no_result": "No Search Results"
+    "no_results": "No Search Results",
+    "related_label": "Related study programmes",
+    "related_filter_location": "Search by location",
+    "related_no_results": "No related study programmes",
+    "compare_modal_title": "Study programme comparison",
+    "compare_modal_content": "<p>Maximum capacity reached.</p><p>You can only add 3 study programmes to comparison.</ p>",
+    "compare_modal_close": "Close window",
+    "school": "School",
+    "degree_or_diploma": "Degree or diploma",
+    "specialization": "Specialization",
+    "study_capacity": "Capacity",
+    "internship_capacity": "Internship capacity",
+    "nominal_time": "Nominal time",
+    "non_active": "Course not active",
+    "added_to_comparison": "Programme added to comparison"
   },
   "login": {
     "username": "Username",
@@ -165,8 +185,8 @@
     "duration_year_plural": "Years",
     "duration_month_singular": "Month",
     "duration_month_plural": "Months",
-    "time_of_day": "Clock"
-
+    "time_of_day": "Clock",
+    "years": "Years"
   },
   "button": {
     "all": "All",
@@ -192,7 +212,8 @@
     "login": "Log in",
     "logout": "Log out",
     "search_close": "",
-    "select_type": ""
+    "select_type": "",
+    "see_comparison": "See comparison"
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"

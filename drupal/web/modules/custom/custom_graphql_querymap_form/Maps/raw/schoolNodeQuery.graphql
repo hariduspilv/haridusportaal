@@ -1,0 +1,19 @@
+query schoolNodeQuery {
+  nodeQuery(filter: {conditions: {field: "type", value: "school", operator: EQUAL}}) {
+    entities{
+      ... on NodeSchool{
+        fieldSchoolLocation{
+          entity{
+            fieldCoordinates{
+              lat
+              lon
+            }
+            fieldAddress
+          }
+        }
+        fieldSchoolContactEmail
+        fieldSchoolWebpageAddress
+      }
+    }
+  }
+}

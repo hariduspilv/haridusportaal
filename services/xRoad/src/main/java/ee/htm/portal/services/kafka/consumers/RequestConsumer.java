@@ -1,8 +1,6 @@
 package ee.htm.portal.services.kafka.consumers;
 
-import ee.htm.portal.services.PoCWorker;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -17,8 +15,8 @@ public class RequestConsumer {
 
   private static final Logger LOGGER = Logger.getLogger(RequestConsumer.class);
 
-  @Autowired
-  private PoCWorker worker;
+//  @Autowired
+//  private PoCWorker worker;
 
   private int messageCount = 0;
 
@@ -29,7 +27,7 @@ public class RequestConsumer {
     LOGGER.info("-----------------------------------");
     LOGGER.info(String.format("receved payload='key: {}, value: {}, xRoadService: {}'", key, value,
         service != null ? new String(service) : null));
-    worker.messageWorkerKafka(key, value, service != null ? new String(service) : null);
+//    worker.messageWorkerKafka(key, value, service != null ? new String(service) : null);
     messageCount++;
   }
 

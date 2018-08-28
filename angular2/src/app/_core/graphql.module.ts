@@ -23,7 +23,6 @@ export class GraphQLModule {
     private settings: SettingsService
   ) {
 
-
     const http = httpLink.create({uri: this.settings.url+'/graphql'});
 
     const auth = setContext((request, previousContext) => {

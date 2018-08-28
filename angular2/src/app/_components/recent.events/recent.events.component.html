@@ -1,49 +1,49 @@
 <div class="events__list__recent">
   <div class="events__list__item register">
     <div *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity && !content.entity.EventRegistrations">
-      <div class="title"><h1>{{'event.entrance' | translate}}</h1></div>
+      <div class="title" tabindex="0"><h1>{{'event.entrance' | translate}}</h1></div>
+
       <div class="events__list__item__body">
-        <span class="child" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">
-          {{'button.register' | translate}} {{'from' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} {{'to' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}
+        <span class="child" *ngIf="canRegister() == true" tabindex="0">
+          {{'button.register' | translate}} {{'time.from' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} {{'time.to' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}
         </span>
-        <span class="error" *ngIf="content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 < unix">{{'register.ended' | translate}}</span>
+        <span class="error" *ngIf="canRegister() == 'ended'" role="alert">{{'event.registration_ended' | translate}}</span>
+        <span class="error" *ngIf="canRegister() == 'not_started'" role="alert">{{'event.registration_not_started' | translate}}</span>
+        <span class="error" *ngIf="canRegister() == 'full'" role="alert">{{'event.registration_full' | translate}}</span>
       </div>
-      <ng-container *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity && content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 > unix">
+
+      <ng-container *ngIf="content.entity.fieldEntryType == 'register' && canRegister() == true">
         <button mat-raised-button color="primary" (click)="openDialog()">{{'button.register' | translate}}</button>
-        <div class="calendar__add"><a href="javascript:void(0);">{{'button.calendar_add' | translate}}</a></div>
+        <div class="calendar__add"><a href="{{ iCalUrl }}{{ nid }}">{{'button.calendar_add' | translate}}</a></div>
       </ng-container>
+
     </div>
     <div *ngIf="content.entity.fieldEntryType && content.entity.fieldEntryType == 'free' && !content.entity.EventRegistrations">
-      <div class="title"><h1>{{'event.entrance' | translate}}</h1></div>
+      <div class="title" tabindex="0"><h1>{{'event.entrance' | translate}}</h1></div>
       <div class="events__list__item__body">
-        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix">{{'event.free' | translate}}</span>
-        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix">{{'event.passed' | translate}}</span>
+        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix" tabindex="0">{{'event.free' | translate}}</span>
+        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix" tabindex="0">{{'event.passed' | translate}}</span>
       </div>
     </div>
     <div *ngIf="content.entity.fieldEntryType && content.entity.fieldEntryType == 'invite' && !content.entity.EventRegistrations">
-      <div class="title"><h1>{{'event.entrance' | translate}}</h1></div>
+      <div class="title" tabindex="0"><h1>{{'event.entrance' | translate}}</h1></div>
       <div class="events__list__item__body">
-        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix">{{'event.invite' | translate}}</span>
-        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix">{{'event.passed' | translate}}</span>
+        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix" tabindex="0">{{'event.invite' | translate}}</span>
+        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix" tabindex="0">{{'event.passed' | translate}}</span>
       </div>
     </div>
     <ng-container *ngIf="content.entity.EventRegistrations">
-      <div class="title"><h1>{{'event.participant_list' | translate}}</h1></div>
+      <div class="title" tabindex="0"><h1>{{'event.participant_list' | translate}}</h1></div>
       <button mat-raised-button color="primary" (click)="toggleParticipants(true)">{{'event.participants_list_view' | translate}}</button>
     </ng-container>
   </div>
 </div>
 
-<div class="events__list__recent">
-  <div class="map-wrapper" *ngIf="map">
-    <agm-map [zoomControl]="false" [streetViewControl]="false" [latitude]="map.lat" [longitude]="map.lon" [zoom]="map.zoom">
-      <agm-marker [latitude]="map.lat" [longitude]="map.lon"></agm-marker>
-    </agm-map>
-    <a href="http://www.google.com/maps/place/{{ map.lat }},{{ map.lon }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'button.map_closer' | translate}}</span></a>
-  </div>
+<div class="events__list__recent" tabindex="-1" aria-hidden="true">
+  <map-wrapper tabindes="-1" [latitude]="parseFloat(map.lat)" [longitude]="parseFloat(map.lon)" zoom="11" *ngIf="map"></map-wrapper>
   <div class="events__list__item">
-    <div class="title"><h1>{{'event.place_and_time' | translate}}</h1></div>
-    <div class="events__list__item__body">
+    <div class="title" tabindex="0"><h1 aria-hidden="true">{{'event.place_and_time' | translate}}</h1></div>
+    <div class="events__list__item__body" tabindex="0">
       <div *ngFor="let item of content.entity.fieldEventDate" class="child">
         <span>
           {{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
@@ -53,9 +53,9 @@
         </span>
       </div>
     </div>
-    <div class="events__list__item__footer">
+    <div class="events__list__item__footer" aria-hidden="true">
       {{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}
-      <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri">{{ content.entity.fieldEventLocationLink.uri }}</a></div>
+      <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri">{{ content.entity.fieldEventLocationLink.uri | removeProtocol }}</a></div>
     </div> 
   </div>
 </div>
@@ -65,19 +65,19 @@
   content.entity.fieldContactPhone ||
   content.entity.fieldContactEmail">
   <div class="events__list__item">
-    <div class="title"><h1>{{'event.contact' | translate}}</h1></div>
+    <div class="title" tabindex="0"><h1>{{'event.contact' | translate}}</h1></div>
     <div class="events__list__item__body">
-      <div class="child">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
-      <div class="child">{{ content.entity.fieldContactPerson }}</div>
-      <div class="child">{{ content.entity.fieldContactPhone }}</div>
-      <a href="javascript:void(0)" class="child">{{ content.entity.fieldContactEmail }}</a>
+      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Event Organizer '}} {{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
+      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Contact person '}} {{ content.entity.fieldContactPerson }}">{{ content.entity.fieldContactPerson }}</div>
+      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Phone '}} {{ content.entity.fieldContactPhone }}">{{ content.entity.fieldContactPhone }}</div>
+      <a href="javascript:void(0)" class="child" role="link"  attr.aria-label="{{'e-Mail '}} {{ content.entity.fieldContactEmail }}">{{ content.entity.fieldContactEmail }}</a>
     </div>
   </div>
 </div>
 
 <div class="events__list__recent" *ngIf="content.entity.fieldPracticalInformation">
   <div class="events__list__item">
-    <div class="title"><h1>{{'event.practical_info' | translate}}</h1></div>
-    <div class="events__list__item__body" *ngIf="content.entity.fieldPracticalInformation" [innerHtml]="content.entity.fieldPracticalInformation.value"></div>
+    <div class="title" tabindex="0"><h1>{{'event.practical_info' | translate}}</h1></div>
+    <div class="events__list__item__body" *ngIf="content.entity.fieldPracticalInformation" [innerHtml]="content.entity.fieldPracticalInformation.value" tabindex="0"></div>
   </div>
 </div>

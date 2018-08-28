@@ -5,7 +5,6 @@ import static org.awaitility.Awaitility.await;
 
 import ee.htm.portal.services.kafka.consumers.RequestConsumer;
 import ee.htm.portal.services.kafka.producers.Sender;
-import ee.htm.portal.services.model.EeIsikukaartRequest;
 import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -52,8 +51,8 @@ public class HTMServicesApplicationTests {
 
   @Test
   public void testRequestConsumer() throws Exception {
-    EeIsikukaartRequest request = new EeIsikukaartRequest("38304110000");
-    sender.send(TEST_TOPIC, String.valueOf(System.currentTimeMillis()), request, "eeIsikukaart");
+//    EeIsikukaartRequest request = new EeIsikukaartRequest("38304110000");
+    sender.send(TEST_TOPIC, String.valueOf(System.currentTimeMillis()), "test", "eeIsikukaart");
 
     await().atMost(10, TimeUnit.SECONDS).until(() -> requestConsumer.getMessageCount() == 1);
     assertThat(requestConsumer.getMessageCount()).isGreaterThan(0);

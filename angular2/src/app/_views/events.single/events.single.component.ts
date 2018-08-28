@@ -1,23 +1,24 @@
 import { Component, OnDestroy, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RootScopeService, MetaTagsService } from '../../_services';
+import { RootScopeService, MetaTagsService } from '@app/_services';
 
-import { singleQuery } from '../../_services/events/events.graph';
+import { singleQuery } from '@app/_graph/events.graph';
 
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
-import { AppComponent } from '../../app.component';
+import { AppComponent } from '@app/app.component';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import { ImagePopupDialog } from '../../_components/dialogs/image.popup/image.popup.dialog'
+import { ImagePopupDialog } from '@app/_components/dialogs/image.popup/image.popup.dialog'
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { TranslateService } from '@ngx-translate/core';
+import { TableService } from '@app/_services/tableService';
 
-import { SettingsService } from '../../_core/settings';
+import { SettingsService } from '@app/_core/settings';
 
 import * as _moment from 'moment';
 
@@ -37,7 +38,6 @@ export class EventsSingleComponent implements AfterViewChecked {
   participants: Array<any>;
   participantsSortOrder: object = {};
 
-  iCalUrl: string;
   participantsUrl: string;
   participantsListActiveState: boolean = false;
   phoneVisible: boolean = false;
@@ -48,8 +48,7 @@ export class EventsSingleComponent implements AfterViewChecked {
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
   initialized: boolean = false;
-  slide: any;
-  
+
   content: any;
   unix: any;
   error: boolean;
@@ -66,12 +65,10 @@ export class EventsSingleComponent implements AfterViewChecked {
     public dialog: MatDialog,
     private metaTags: MetaTagsService,
     private translate: TranslateService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private tableService: TableService
   ) {
-    
-    this.iCalUrl = this.settings.url+"/calendarexport/";
     this.participantsUrl = this.settings.url+"/htm_custom_event_registration/registrations/";
-
   }
 
   ngOnInit() {
@@ -127,9 +124,7 @@ export class EventsSingleComponent implements AfterViewChecked {
     });
   }
   ngAfterViewChecked() {
-    if (!this.initialized) {
-      this.isElemOverflown()
-    }
+    this.initialTableCheck('participantsElem')
   }
   ngOnDestroy() {
     this.routerSubscription.unsubscribe();
@@ -228,44 +223,12 @@ export class EventsSingleComponent implements AfterViewChecked {
       }
     });
   }
-  
-
-  scrollStart(right) {
-    this.slide = setInterval(() => {
-      const element = document.getElementById('participantsElem');
-      if (right) {
-        element.scrollLeft += 24;
-      } else {
-        element.scrollLeft -= 24;
-      }
-      if ((element.scrollWidth - element.scrollLeft) <= element.clientWidth || element.scrollLeft === 0) {
-        this.scrollEnd()
-      }
-    }, 50);
-  }
-
-  scrollEnd() {
-    window.clearInterval(this.slide);
-  }
-
-  isElemOverflown() {
-    const element = document.getElementById('participantsElem');
+  initialTableCheck(id) {
+    const element = document.getElementById(id);
     if (element) {
-      setTimeout(_ => {
-        this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-        this.initialized = true;
-      }, 50)
+      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.initialized = true;
     }
   }
 
-  isElemAtStart() {
-    const element = document.getElementById('participantsElem');
-    this.elemAtStart = !(element && element.scrollLeft)
-  }
-
-  isOverflown(event) {
-    this.isElemAtStart()
-    const element = event.target || event.srcElement || event.currentTarget;
-    this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-  }
 }

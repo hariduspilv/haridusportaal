@@ -3,7 +3,7 @@ query studyProgrammeComparison($nidValues: [String], $lang: LanguageId!) {
     entities(language: $lang) {
       ... on NodeStudyProgramme {
         nid
-        entityUrl{
+        entityUrl {
           path
         }
         name: title
@@ -28,7 +28,6 @@ query studyProgrammeComparison($nidValues: [String], $lang: LanguageId!) {
             name
           }
         }
-        amount: fieldAmount
         practicalTrainingAmount: fieldPracticalTrainingAmount
         durationYears: fieldDurationYears
         durationMonths: fieldDurationMonths
@@ -39,6 +38,8 @@ query studyProgrammeComparison($nidValues: [String], $lang: LanguageId!) {
           date
           unix
         }
+        fieldAmount
+        fieldAmountUnit
       }
     }
   }

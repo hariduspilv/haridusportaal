@@ -1,22 +1,49 @@
 @import "../../../assets/styles/typography.scss";
 #school-study-programmes {
-  .block-title {padding: 1.2em;padding-bottom: 0;margin-bottom: 0;}
+  &.snackBar {margin-bottom: 4.5rem;
+    @include break-on(sm, min) {margin-bottom: 5.25rem;}
+  }
+  .block-title {padding: $small $medium;padding-bottom: 0;margin-bottom: 0;}
   .programme {
+    padding: $medium;
+    @include break-on(sm, min) {padding: $small $medium;}
     &:not(:last-child) {border-bottom: .0625rem solid $gray;}
-    h2 {font-size: 1.2em;color: $blue;
-      @include break-on(sm, max) {margin: 0.5rem 0;}
+    &:last-child {padding-bottom: $large;}
+    h2 {font-size: $medium;color: $blue;
+      @include break-on(sm, max) {margin:0;}
       a {text-decoration: none;
         &:hover {text-decoration: underline;}
       }
     }
-    #programme-address {font-size: 0.9em;color: $dark-gray;font-weight: 500;
+    &.sm-top {@include break-on(sm, max) {padding-top: $small;}}
+    .programme-header  {
+      display: flex;
+      > div:first-child {
+        flex-grow: 1;
+        flex: 1;
+      }
+      > div:last-child {
+        flex-grow: 0;
+        margin-left: 1em;
+      }
+      &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;margin-right: $small;
+        @include break-on(sm, min) {margin-bottom:0.23rem; }
+        &:hover{text-decoration: underline;}
+      }
+      &__head {font-size: .875rem;line-height: 2;color: $dark-gray;padding-bottom: $half-gutter;}
+    }
+    .programme-address {font-size: $small;color: $dark-gray;font-weight: 500;
       @include break-on(sm, max) {display: none;}
     }
-    .study-programme-properties {margin: 0;margin-top: 1em;padding: 0;width: 100%;
+    .study-programme-properties {margin: 0;margin-top: $small;padding: 0;width: 100%;
       @include break-on(sm, max) {
         display: none;
       }
-      .property {color: $dark-gray;font-size: 0.8em;}
+      .property {color: $dark-gray;font-size: $small;
+        &:last-child, &:nth-child(3n) {padding-right: 0;}
+        &:first-child, &:nth-child(4n) {padding-left: 0;}
+      }
     }
   }
+  .compare-block {overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 }
