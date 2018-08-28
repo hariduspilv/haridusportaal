@@ -1,40 +1,27 @@
-<div *ngIf="programmes.length > 0" class="block" id="school-study-programmes">
-  <div class="block-title">{{'study.programmes' | translate}}</div>
-  <div *ngFor="let programme of programmes" class="programme padding-block">
-    <h2><a routerLink="{{programme.entityUrl.path}}">{{ programme.title }}</a></h2>
-    <div id="programme-address">
-      {{ programme.fieldSchoolAddress }}, 
-      <a href="{{ programme.fieldSchoolWebsite | url }}" target="_blank">{{ programme.fieldSchoolWebsite | removeProtocol }}</a>
+<mat-spinner *ngIf="loading" diameter="100" style="margin:0 auto;"></mat-spinner>
+<div *ngIf="!loading && programmes.length > 0" class="block snackBar" id="school-study-programmes">
+  <div class="block-title">{{'studyProgramme.label' | translate}}</div>
+  <div *ngFor="let programme of programmes;let first = first;let last = last;" [class.sm-top]="first" [class.lg-bottom]="last" class="programme">
+    <div class="programme-header">
+      <div>
+        <div class="programme-header__head sm-hide" *ngIf="programme.fieldStudyProgrammeLevel">{{ programme.fieldStudyProgrammeLevel.entity.name }}</div>
+        <span>
+          <a class="programme-header__title" routerLink="{{programme.entityUrl.path}}">{{ programme.title }}</a>
+          <div class="nonActive--blue sm-hide" *ngIf="programme.fieldAdmissionStatus !== 'avatud' && programme.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</div>
+        </span>
+      </div>
+      <div class="compare-block sm-hide">
+        <compare [id]="programme.nid" localStorageKey="studyProgramme.compare"></compare>
+      </div>
     </div>
-    <div class="study-programme-properties row">
-      <div class="col-4 md-6 property">
-        {{ 'study.programme.level' | translate }}:
-        <strong *ngIf="programme.fieldStudyProgrammeLevel">{{ programme.fieldStudyProgrammeLevel.entity.name }}</strong>
-      </div>
-      <div class="col-4 md-6 property">
-        {{ 'teaching.languages' | translate }}:
-        <strong *ngIf="programme.fieldTeachingLanguage">
-          <span *ngFor="let language of programme.fieldTeachingLanguage; let last = last">
-            {{ language.entity.name }}{{last ? '' : ', '}}
-          </span>
-        </strong>
-      </div>
-      <div class="col-4 md-6 property">
-        {{ 'study.programme.group' | translate }}:
-        <strong *ngIf="programme.fieldIscedfDetailed">{{ programme.fieldIscedfDetailed.entity.name }}</strong>
-      </div>
-      <div class="col-4 md-6 property">
-        {{ 'accreditation' | translate }}:
-        <strong *ngIf="programme.fieldAccreditationStatus">{{ programme.fieldAccreditationStatus }}</strong>
-      </div>
-      <div class="col-4 md-6 property">
-        {{ 'study.duration' | translate }}:
-        <strong *ngIf="programme.fieldDurationYears">{{ programme.fieldDurationYears }} {{ 'years' | translate }}</strong>
-      </div>
-      <div class="col-4 md-6 property">
-        {{ 'admission.status' | translate }}:
-        <strong *ngIf="programme.fieldAdmissionStatus">{{ programme.fieldAdmissionStatus }}</strong>
-      </div>
+    <div class="inline__items sm-hide">
+      <span class="item" *ngIf="schoolName">{{ schoolName | titleCase }}</span>
+      <span class="bar" *ngIf="programme.fieldSchoolAddress">|</span>
+      <span class="item" *ngIf="programme.fieldSchoolAddress">{{ programme.fieldSchoolAddress | titleCase }}</span>
+      <span class="bar" *ngIf="programme.fieldSchoolWebsite">|</span>
+      <span class="item" *ngIf="programme.fieldSchoolWebsite">
+        <a href="{{ programme.fieldSchoolWebsite }}">{{ programme.fieldSchoolWebsite | removeProtocol }}</a>
+      </span>
     </div>
   </div>
 </div>

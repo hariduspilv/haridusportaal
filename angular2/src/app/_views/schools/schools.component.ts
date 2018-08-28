@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
-import { ListQuery, OptionsQuery } from '../../_services/school/school.service';
+import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
+import { ListQuery, OptionsQuery } from '@app/_graph/school.graph';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
+import { HttpService } from '@app/_services/httpService';
 
 import { of } from 'rxjs/observable/of';
 
@@ -12,7 +13,7 @@ import 'rxjs/add/operator/map';
 
 import { Observable } from 'rxjs/Observable';
 
-import { RootScopeService } from '../../_services/rootScope/rootScope.service';
+import { RootScopeService } from '@app/_services/rootScopeService';
 
 /* Datepicker Imports */
 import * as _moment from 'moment';
@@ -38,7 +39,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   parseFloat = parseFloat;
   showFilter: boolean;
   limit: Number = 5;
-  mapLimit: Number = 100;
+  mapLimit: Number = 3000;
 
   params: object;
   offset: Number;
@@ -64,11 +65,11 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     lat: 58.8754705,
     lng: 24.5567241,
     zoom: 8,
-    icon: "assets/marker.svg",
+    icon: "/assets/marker.png",
     clusterStyles: [
       {
           textColor: "#FFFFFF",
-          url: "assets/cluster.svg",
+          url: "/assets/cluster.svg",
           height: 50,
           width: 28
       }
@@ -91,7 +92,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     public router: Router,
     public route: ActivatedRoute,
     private apollo: Apollo,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private http: HttpService
   ) {
     super(null, null);
   }
@@ -123,7 +125,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       that.bounds.minLon = bounds['b']['b'].toString();
       that.bounds.maxLon = bounds['b']['f'].toString();
 
-      that.reset(true);
+
     }
     this.map.addListener("dragend", function () {
       getCoords();
@@ -133,19 +135,20 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       getCoords();
     });
 
-    if (this.list) {
+    
+    if (this.list ) {
 
       this.latlngBounds = new window['google'].maps.LatLngBounds();
 
       for( let i in this.list ){
-        if( this.list[i].fieldSchoolLocation[0] && this.list[i].fieldSchoolLocation[0].entity.fieldCoordinates ){
-          this.latlngBounds.extend(new window['google'].maps.LatLng(this.list[i].fieldSchoolLocation[0].entity.fieldCoordinates.lat, this.list[i].fieldSchoolLocation[0].entity.fieldCoordinates.lon));
+        if( this.list[i].Lat ){
+          this.latlngBounds.extend(new window['google'].maps.LatLng(parseFloat(this.list[i].Lat), parseFloat(this.list[i].Lon) ) );
         }
       };
 
       if( this.latlngBounds.f.f !== -1 ){
         this.map.fitBounds(this.latlngBounds);
-        this.map.zoom(11);
+        //this.map.zoom(11);
       }else{
         this.map.setCenter({
           lat: this.mapOptions.lat,
@@ -161,13 +164,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     }
 
 
-  }
-
-
-  @HostListener('window:resize', ['$event'])
-  onResize(){
-    this.showFilter = window.innerWidth > 900;
-    this.filterFull = window.innerWidth < 900;
   }
 
   setPaths() {
@@ -223,6 +219,28 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.subscriptions = [ ...this.subscriptions, subscribe];
   }
 
+  fixCoordinates(entities) {
+
+    let coordinates = [];
+
+    for( var i in entities ){
+      let item = entities[i];
+      let lat = parseFloat( entities[i].Lat );
+      let lon = parseFloat( entities[i].Lon );
+      if( lat == null ){ continue; }
+
+      let coords = lat+","+lon;
+
+      if( coordinates.indexOf(coords) !== -1 ){
+        entities[i].Lon = lon+0.0005;
+      }
+      coordinates.push(coords);
+
+    }
+
+    this.list = entities;
+  }
+
   loadMore(){
     this.offset = this.list.length;
     this.loading = true;
@@ -246,51 +264,51 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       }
     }
     
+    let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=schoolMapQuery:1&variables=";
+    let variables = {
+      lang: this.lang.toUpperCase(),
+      offset: this.offset,
+      limit: this.view == "list" ? this.limit : this.mapLimit,
+      title: this.params['title'] ? ""+encodeURI(this.params['title'].toLowerCase())+"" : "",
+      boundsEnabled: this.boundsEnabled,
+      minLat: this.bounds.minLat,
+      maxLat: this.bounds.maxLat,
+      minLon: this.bounds.minLon,
+      maxLon: this.bounds.maxLon,
+      location: this.params['location'] ? ""+this.params['location']+"" : "",
+      locationEnabled: this.params['location'] ? true : false,
+      type: this.params['type'] ? types :  [],
+      typeEnabled: this.params['type'] ? true : false,
+      language: this.params['language'] ? this.params['language'].split(",") :  [],
+      languageEnabled: this.params['language'] ? true : false,
+      ownership: this.params['ownership'] ? this.params['ownership'].split(",") :  [],
+      ownershipEnabled: this.params['ownership'] ? true : false,
+      specialClass: this.params['specialClass'] ? "1" :  "",
+      specialClassEnabled: this.params['specialClass'] ? true : false,
+      studentHome: this.params['studentHome'] ? "1" :  "",
+      studentHomeEnabled: this.params['studentHome'] ? true : false,
+    }
 
-    this.dataSubscription = this.apollo.watchQuery({
-      query: ListQuery,
-      variables: {
-        lang: this.lang.toUpperCase(),
-        offset: this.offset,
-        limit: this.view == "list" ? this.limit : this.mapLimit,
-        title: this.params['title'] ? "%"+this.params['title']+"%" : "%%",
-        boundsEnabled: this.boundsEnabled,
-        minLat: this.bounds.minLat,
-        maxLat: this.bounds.maxLat,
-        minLon: this.bounds.minLon,
-        maxLon: this.bounds.maxLon,
-        location: this.params['location'] ? "%"+this.params['location']+"%" : "%%",
-        locationEnabled: this.params['location'] ? true : false,
-        type: this.params['type'] ? types :  [],
-        typeEnabled: this.params['type'] ? true : false,
-        language: this.params['language'] ? this.params['language'].split(",") :  [],
-        languageEnabled: this.params['language'] ? true : false,
-        ownership: this.params['ownership'] ? this.params['ownership'].split(",") :  [],
-        ownershipEnabled: this.params['ownership'] ? true : false,
-        specialClass: this.params['specialClass'] ? "1" :  "",
-        specialClassEnabled: this.params['specialClass'] ? true : false,
-        studentHome: this.params['studentHome'] ? "1" :  "",
-        studentHomeEnabled: this.params['studentHome'] ? true : false,
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges.subscribe( ({data}) => {
+    this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+
+      console.log(data['data']);
+      let entities = data['data']['CustomElasticQuery'];
 
       this.loading = false;
       
-      if( data['nodeQuery']['entities'].length < this.limit ){ this.listEnd = true; }
+      if( entities.length < this.limit ){ this.listEnd = true; }
 
-      if( mapRefresh ){
-        this.list = data['nodeQuery']['entities'];
-        this.cdr.detectChanges();
-
+      if( this.view == "list" ){
+        this.list = this.list ? [...this.list, ...entities] : entities;
       }else{
-        this.list = this.list ? [...this.list, ...data['nodeQuery']['entities']] : data['nodeQuery']['entities'];
+        this.fixCoordinates(entities);
       }
+      
 
       this.dataSubscription.unsubscribe();
-
+      
     });
+    
   }
 
   getOptions() {
@@ -324,7 +342,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     for( let i in entities ){
       for( let key of Object.keys(entities[i]) ){
         if( options[key] ){
-          if( entities[i][key]['count'] == 1231230 ){ continue; }
+          if( entities[i][key]['count'] == 0 ){ continue; }
           entities[i]['count'] = entities[i][key]['count'];
           delete entities[i][key];
           delete entities[i]['__typename'];
@@ -344,8 +362,10 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   ngOnInit() {
 
+    this.showFilter = window.innerWidth > 900;
+    this.filterFull = window.innerWidth < 900;
+
     this.setPaths();
-    this.onResize();
     this.pathWatcher();
     this.watchSearch();
     this.getOptions();

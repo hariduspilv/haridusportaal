@@ -4,12 +4,14 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_accreditation_status
+    - field.storage.node.field_qualification_standard_id
     - field.storage.node.field_duration_years
     - field.storage.node.field_duration_months
     - field.storage.node.field_degree_or_diploma_awarded
     - field.storage.node.field_school_address
     - field.storage.node.field_school_website
     - field.storage.node.field_admission_status
+    - field.storage.node.field_educational_institution
     - field.storage.node.field_amount
     - field.storage.node.field_iscedf_detailed
     - field.storage.node.field_study_programme_level
@@ -18,13 +20,17 @@ dependencies:
     - search_api.server.elasticsearch_server
   module:
     - taxonomy
-    - search_api
     - node
+    - search_api
 id: study_programmes
 name: 'Study programmes'
 description: ''
 read_only: false
 field_settings:
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
   field_accreditation_status:
     label: 'Akrediteerimise otsus'
     datasource_id: 'entity:node'
@@ -85,14 +91,32 @@ field_settings:
         - field.storage.node.field_iscedf_detailed
       module:
         - taxonomy
+  field_qualification_standard_id:
+    label: 'Kutsestandardi identifikaator'
+    datasource_id: 'entity:node'
+    property_path: field_qualification_standard_id
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_qualification_standard_id
   field_school_address:
     label: 'School address'
     datasource_id: 'entity:node'
     property_path: field_school_address
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_school_address
+  field_school_name:
+    label: 'Õppeasutus » Sisu » Pealkiri'
+    datasource_id: 'entity:node'
+    property_path: 'field_educational_institution:entity:title'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_educational_institution
+      module:
+        - node
   field_school_website:
     label: 'School website'
     datasource_id: 'entity:node'
@@ -129,6 +153,11 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_teaching_language
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
   name:
     label: Pealkiri
     datasource_id: 'entity:node'
@@ -139,6 +168,11 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: nid
     type: integer
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
 datasource_settings:
   'entity:node':
     bundles:

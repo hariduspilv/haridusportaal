@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SideMenuService, RootScopeService } from '../../_services';
+import { SideMenuService, RootScopeService } from '@app/_services';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';

@@ -17,8 +17,6 @@ use Drupal\redis\ClientFactory;
 function redis_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     case 'help.page.redis':
-
-
       if (ClientFactory::hasClient()) {
         $messages = '<p><strong>' . t("Current connected client uses the <em>@name</em> library.", ['@name' => ClientFactory::getClientName()]) . '</strong></p>';
       }

@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
+import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
@@ -11,8 +11,8 @@ import 'rxjs/add/operator/map';
 
 import { Observable } from 'rxjs/Observable';
 
-import { RootScopeService } from '../../_services/rootScope/rootScope.service';
-import { getNewsTags2, sortByOptions } from '../../_services/news/news.graph';
+import { RootScopeService } from '@app/_services/rootScopeService';
+import { getNewsTags2, sortByOptions } from '@app/_graph/news.graph';
 
 /* Datepicker Imports */
 import * as _moment from 'moment';
@@ -216,12 +216,6 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       this.filterFull = true;
       this.showFilter = false;
     }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event){
-    this.showFilter = event.target.innerWidth > 900;
-    this.filterFull = event.target.innerWidth < 900;
   }
 
   ngOnDestroy() {

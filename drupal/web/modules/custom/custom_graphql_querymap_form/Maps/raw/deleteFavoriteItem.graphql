@@ -1,0 +1,13 @@
+mutation($id: Int!){
+  deleteFavoriteItem(id: $id){
+    entity{
+      entityId
+    }
+    violations {
+      message
+      path
+      code
+    }
+    errors
+  }
+}

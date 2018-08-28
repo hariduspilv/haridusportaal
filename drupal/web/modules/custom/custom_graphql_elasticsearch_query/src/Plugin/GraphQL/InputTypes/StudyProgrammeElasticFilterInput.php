@@ -9,7 +9,8 @@ use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
  *   id = "custom_study_programme_elasticsearch_filter_input",
  *   name = "CustomStudyProgrammeElasticFilterInput",
  *   fields = {
- *     "nid" = "Int!"
+ *     "nid" = "Int!",
+ *     "school_address" = "String"
  *   }
  * )
  */

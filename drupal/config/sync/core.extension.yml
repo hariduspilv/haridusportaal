@@ -63,6 +63,8 @@ module:
   htm_custom_admin_form: 0
   htm_custom_event_registration: 0
   htm_custom_exports: 0
+  htm_custom_favorites: 0
+  htm_custom_professional_certific: 0
   htm_custom_tokens: 0
   htm_custom_video_field: 0
   htm_custom_xjson_services: 0
@@ -98,6 +100,7 @@ module:
   quickedit: 0
   rdf: 0
   readonly_field_widget: 0
+  redis: 0
   rest: 0
   restui: 0
   scheduler: 0

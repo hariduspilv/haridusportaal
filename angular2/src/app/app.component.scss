@@ -7,7 +7,8 @@
 
 /* You can add global styles to this file, and also import other style files */
 body{margin:0; padding:0; padding-top:4rem; background: $light-gray;}
-
+body::-webkit-scrollbar { display: none; }
+html, body { -ms-overflow-style: none; }
 /* Google maps */
 .gm-style-cc { display:none; }
 .sebm-google-map-container{height:12.5rem;}
@@ -68,14 +69,18 @@ $grid-columns: 12;
   &+.mat-divider{margin:1.25rem 0;}
 }
 .sm-show{display:none !important;}
+.sm-flex{display:none !important;}
 .md-show{display:none !important;}
+.md-flex{display:none !important;}
 @include break-on(sm, max) {
   .sm-hide{display:none !important;}
   .sm-show{display: block !important;}
+  .sm-flex{display: flex !important;}
 }
 @include break-on(md, max) {
   .md-hide{display:none !important;}
   .md-show{display: block !important;}
+  .md-flex{display: flex !important;}
 }
 
 /* Common styles across components */
@@ -87,6 +92,8 @@ $grid-columns: 12;
 .capitalize {text-transform: capitalize;}
 .inline-flex {display: inline-flex;justify-content: flex-end;}
 
+.btn-link { color: $blue; background-color: $white; border: transparent 0px solid; text-decoration: underline; 
+  font-size: 1rem; }
 .button-row {@include break-on(sm, max) {padding-top: $gutter; width: 100%;}}
 .filter-state {padding-right: $small;
   @include break-on(md, max) { padding-right: $half-gutter;}
@@ -142,6 +149,7 @@ article a[href]{color:$blue;}
 .mb-shrink{margin-bottom:-2.5rem !important;}
 .mr-10{margin-right:0.625rem !important;}
 .mr-20{margin-right:1.25rem !important;}
+.mr-25{margin-right:1.5rem !important;}
 .button-height{margin:.375rem 0;}
 .event-details{
   .mat-icon{vertical-align: middle;}
@@ -162,18 +170,50 @@ article a[href]{color:$blue;}
 .inline{margin:0 auto; padding:0;}
 .flex{display:flex;}
 
-.participantsTable{
-  .participantsTable-arrow-{
+.scrollableTable{
+  .scrollableTable-arrow-{
     &:before{display: inline-block; content:"<>";}
   }
 
-  .participantsTable-arrow-asc{
+  .scrollableTable-arrow-asc{
     &:before{display: inline-block; content:"<";}
   }
-  .participantsTable-arrow-desc{
+  .scrollableTable-arrow-desc{
     &:before{display: inline-block; content:">";}
   }
 }
+.scrollableTable {width: 100%;border-collapse: collapse;margin-top: 0;
+  thead {background: $light-gray;
+    .sortable {&:hover { color: $dark-gray;}}
+    .mat-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
+  }
+  th {white-space: nowrap;}
+  th, td {line-height: 1.38rem;font-size: 1rem;font-weight: 500;padding: $gutter $medium;text-align:left;border: .0625rem solid $gray;}
+  td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
+  th.hidden {text-align: center;border-bottom: none;}
+  td {font-weight: 400;
+    &.hidden {border-top: none;border-bottom: none;
+      &.last {border-bottom: .0625rem solid $gray;}
+      &.vertical {position: relative;}
+      .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;font-size: .875rem;left: $gutter;top: $half-gutter;}
+    }
+  }
+  .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
+}
+.scrollable {position: relative; padding: $small 0 0 0;
+  @include break-on(sm, min) {position: relative;padding-right: $medium;padding-left: $medium;}
+  &__table {overflow:auto;}
+  &__rectangle {width: 4rem;height: 4rem;border-radius: 50%;background-color: $blue;position: absolute;right: $medium;top: 50%;z-index: 5;user-select: none;
+    box-shadow: 0 .125rem .125rem 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    .mat-icon {position: relative;top: $quarter;left: $quarter;font-size: 2.5rem;color: $white;}
+    &--left {left: $medium;
+      @include break-on(sm, min) {left: $xxl;}
+    }
+    @include break-on(sm, min) {right: $xxl;}
+  }
+  &.padded {padding: 0;}
+}
+
 .tags { padding: $small $medium;
   .mat-chip {height: $gutter; border-radius: .8125rem; border: solid .0625rem $gray; background-color: $white;
     &-wrapper {pointer-events: none;}
@@ -182,8 +222,17 @@ article a[href]{color:$blue;}
   }
 }
 
+.inline__items {padding-top: .375rem;
+  .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;}
+}
+.bar {padding: 0 $half-gutter;}
+.nonActive {padding: $half-gutter $quarter;border-radius: $quarter;font-size: .875rem;line-height: 1.125rem;white-space: nowrap;
+  width: fit-content;display: inline;position: relative;bottom: .125rem;
+  &--blue {@extend .nonActive;background-color: #bee3e8;}
+}
 /* Material design overrides and styles */
 
+.mat-checkbox .mat-checkbox-checkmark {left: 0px !important;}
 .mat-dialog-container {padding: 0 !important;border-radius:$half-gutter !important;}
 .mat-toolbar.header-toolbar{position: fixed; top:0; left:0; width:100%; z-index: 999;}
 .mat-menu-item-active{font-weight: bold !important;}
@@ -195,6 +244,7 @@ article a[href]{color:$blue;}
 .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
 .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
   &:disabled, &[disabled] {color: $black;background-color: $gray;}
+  &:hover {background-color: #454B92;}
   @include break-on(sm, min) {width: auto;}
 }
 .mat-card{
@@ -257,6 +307,16 @@ article a[href]{color:$blue;}
     .mat-drawer-content{padding:0;}
   }
 }
+.mat-snack-bar-container {
+  border-radius: $half-gutter;
+  background-color: $red;
+  box-shadow: 0 .125rem $half-gutter 0 rgba(0, 0, 0, 0.5);
+  height: 3.75rem;
+  @include break-on(sm, min) {min-width: 50rem !important;padding-top: 1.25rem !important;}
+  @include break-on(sm, max) {min-width: 100vw !important;height: auto;padding: $medium !important;}
+}
+.mat-simple-snackbar {font-size: $small;}
+.mat-simple-snackbar-action {color: $white; text-decoration: underline;font-weight: 300;}
 @include break-on(sm, max) {
   .mat-sidenav{top:4rem !important;}
 }
@@ -312,3 +372,19 @@ article a[href]{color:$blue;}
     .button{height:62px; line-height:62px; margin:0 -24px -24px -24px; text-align: center; display: block; border-top:#c7c7c9 1px solid; font-size:16px;}
   }
 }
+
+.grecaptcha-badge{z-index:9999;}
+
+  .maincontent {
+    position: absolute;
+    opacity: 0;
+    height: 0px;
+    width: 100px;
+  }
+
+  .hidden {
+    opacity: 0;
+    position: absolute;
+    height: 0px;
+    width: 0px;
+  }
