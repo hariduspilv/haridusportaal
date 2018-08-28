@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { RootScopeService } from '../../_services';
+import { RootScopeService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
@@ -7,7 +7,9 @@ import { Subscription } from 'rxjs/Subscription';
 import { AgmCoreModule } from '@agm/core';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {EventsRegistratonDialog} from '../../_components/dialogs/events.registration/events.registration.dialog'
+import {EventsRegistratonDialog} from '@app/_components/dialogs/events.registration/events.registration.dialog'
+
+import { SettingsService } from '@app/_core/settings';
 
 @Component({
 	selector: 'recent-events',
@@ -23,6 +25,8 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	@Input() content: any;
 	@Output() viewChange = new EventEmitter<boolean>();
 	
+	iCalUrl: string;
+	parseFloat = parseFloat;
 	error: boolean;
   lang: any;
   unix: any;
@@ -30,10 +34,19 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 
 	paramsSub: any;
 
-	constructor(private router: Router, private route: ActivatedRoute, public dialog: MatDialog) {}
+	constructor(
+		private router: Router,
+		private route: ActivatedRoute,
+		public dialog: MatDialog,
+		private settings: SettingsService
+	) {
+
+		}
 	
 	ngOnInit() {
 
+
+		this.iCalUrl = this.settings.url+"/calendarexport/";
 		this.paramsSub = this.route.params.subscribe( params => {
 			this.lang = params['lang'];
 		});
@@ -63,7 +76,28 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		dialogRef.afterClosed().subscribe(result => {
 		  // this.registrationData = result;
 		});
-  }
+	}
+	
+	canRegister() {
+		console.log(this.content.entity.fieldRegistrationDate.entity);
+		let firstDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix * 1000;
+		let lastDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix * 1000;
+		let isFull = this.content.entity.RegistrationCount >= this.content.entity.fieldMaxNumberOfParticipants;
+		
+		if( isFull ){
+			return 'full';
+		}
+		
+		if( lastDate >= this.unix && firstDate <= this.unix ){
+			return true;
+		}
+		else if( firstDate > this.unix ){
+			return 'not_started';
+		}
+		else if( lastDate < this.unix ){
+			return 'ended';
+		}
+	}
 	
 }
 

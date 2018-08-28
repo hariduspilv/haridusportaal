@@ -22,6 +22,7 @@ export class ShareComponent{
       default:
         shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
     }
-    return window.open(shareLink, 'ID_WIN', 'location=1,status=1,scrollbars=1')
+    
+    return window.open(shareLink, 'targetWindow', 'toolbar=0,location=0,status=0,menubar=0,scrollbars=1,resizable=1,width=560,height=460')
   }
 }

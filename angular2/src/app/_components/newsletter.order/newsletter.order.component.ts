@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { getTags, signup, activate, deactivate } from '../../_services/newsletter/newsletter.graph';
+import { getTags, signup, activate, deactivate } from '@app/_graph/newsletter.graph';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { Modal } from '../dialogs/modal/modal';
+import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -25,6 +25,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
   formItems: object = {};
   email: string = "";
   errors: object = {};
+  rssIDs: string;
 
   subscriptionSuccessContent: string = "";
   subscribedStatus: boolean = false;
@@ -38,6 +39,18 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     private translate: TranslateService
   ){}
 
+  updateRSSLink() {
+    this.rssIDs = '/';
+
+   for( let i in this.formItems ){
+     if( this.formItems[i] ){
+      if( this.rssIDs !== '/') { this.rssIDs+= ","; }
+      this.rssIDs+= i;
+      
+     }
+   }
+    
+  }
   ngOnInit() {
 
     if( this.route.snapshot.queryParams['confirmsubscription'] ){

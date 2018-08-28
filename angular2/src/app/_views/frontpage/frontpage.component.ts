@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RootScopeService, MetaTagsService, NewsService} from '../../_services';
+import { RootScopeService, MetaTagsService, NewsService} from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 @Component({

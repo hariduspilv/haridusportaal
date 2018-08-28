@@ -1,19 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RootScopeService } from '../../_services/rootScope/rootScope.service';
-import { Http } from '@angular/http';
+import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
+import { RootScopeService } from '@app/_services/rootScopeService';
+import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { SettingsService } from '../../_core/settings';
+import { SettingsService } from '@app/_core/settings';
 import { Subscription } from 'rxjs/Subscription';
-import { CompareComponent } from '../../_components/compare/compare.component';
+import { CompareComponent } from '@app/_components/compare/compare.component';
+import { TableService } from '@app/_services/tableService';
+
 @Component({
   templateUrl: "studyProgramme.compare.template.html",
   styleUrls: ["studyProgramme.compare.styles.scss"]
 })
 
-
-export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit,OnDestroy {
+export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit, AfterViewChecked, OnDestroy {
   public compare = JSON.parse(localStorage.getItem('studyProgramme.compare')) || [];
   public error;
   private url;
@@ -21,15 +22,19 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
   private path: string;
   public list: any = false;
   private subscriptions: Subscription[] = [];
+  tableOverflown: boolean = false;
+  elemAtStart: boolean = true;
+  initialized: boolean = false;
 
   constructor (
     public route: ActivatedRoute, 
     public router: Router,
-    private http: Http,
-    private rootScope: RootScopeService,
-    private settings: SettingsService
+    private http: HttpClient,
+    public rootScope: RootScopeService,
+    private settings: SettingsService,
+    private tableService: TableService
   ) {
-    super()
+    super(null, null, null, null, null, null)
   }
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
@@ -47,36 +52,43 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       'et': '/et/erialad/vordlus'
     });
   }
+  rerouteToParent(): void {
+    let currentUrl = JSON.parse(JSON.stringify(this.path.split('/')));
+    currentUrl.pop();
+    
+    let parentUrl = currentUrl.join('/');
+    this.router.navigateByUrl(parentUrl);
+  }
   removeItemFromList(id, localStorageKey){
-    let existing = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    let existing = this.readFromLocalStorage(localStorageKey);
     this.removeItemFromLocalStorage(id, localStorageKey, existing)
     this.list = this.list.filter(item => item.nid != id);
+    
+    if(!this.list.length) this.rerouteToParent();
   }
   getData(){
-    if(!this.compare.length) return this.error = "ERROR?";
 
-    console.log('requesting');
-    let studyProgrammeIDs:any = '[' + this.compare.map(id => '"'+id+'"') + ']';
-    console.log(studyProgrammeIDs)
+    let variables = {
+      lang: this.lang.toUpperCase(),
+      nidValues: '[' + this.compare.map(id => '"'+id+'"') + ']'
+    }
 
-    let lang = "%22" + this.lang.toUpperCase() + "%22"
-
-    let variables = "&variables={%22lang%22:"+ lang +",%22nidValues%22:"+ studyProgrammeIDs +"}";
-
-    this.url = this.settings.url + "/graphql?queryId=studyProgrammeComparison:1" + variables;
-    //console.log(studyProgrammeIDs);
+    this.url = this.settings.url + "/graphql?queryId=studyProgrammeComparison:1&variables=" + JSON.stringify(variables);
     
     this.http.get(this.url).subscribe(response => {
-      let _response = JSON.parse(JSON.stringify(response));
-      
-      this.list = JSON.parse(_response._body).data.nodeQuery.entities;
-      console.log(this.list);
+      this.list = response['data'].nodeQuery.entities;
+      if(!this.list.length) this.rerouteToParent();
     });
   }
+ 
   ngOnInit() {
-    this.pathWatcher()
+    
+    this.pathWatcher();
     this.setPaths();
     this.getData();
+  }
+  ngAfterViewChecked() {
+    this.initialTableCheck('tableRef')
   }
   ngOnDestroy() {
     /* Clear all subscriptions */
@@ -84,6 +96,13 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
+    }
+  }
+  initialTableCheck(id) {
+    const element = document.getElementById(id);
+    if (element) {
+      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.initialized = true;
     }
   }
 }

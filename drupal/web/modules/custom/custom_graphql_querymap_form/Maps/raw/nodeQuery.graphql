@@ -1,0 +1,10 @@
+query nodeQuery {
+  nodeQuery(limit:1000,filter:{conditions:{
+    field: "type", value: "school", operator:EQUAL
+  }
+  }){
+    entities{
+      entityLabel
+    }
+  }
+}

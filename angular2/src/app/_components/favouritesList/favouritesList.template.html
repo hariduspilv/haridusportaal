@@ -1,0 +1,24 @@
+
+<div class="block padding-block border-orange">
+  <div class="block-title-big">Minu lemmikud</div>
+
+  <mat-spinner *ngIf="loading" ></mat-spinner>
+
+  <p *ngIf="!list && !loading" class="explain">Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides. </p>
+  
+  <ul *ngIf="list && !loading">
+
+    <li *ngFor="let item of list">
+      <ng-container *ngIf="item.entity.fieldType == 'page'">
+        <a href="{{item.entity.fieldPage.entity.entityUrl.path}}"> <mat-icon>link</mat-icon> {{item.entity.fieldFavoriteTitle}} </a>
+      </ng-container>
+      
+      <ng-container *ngIf="item.entity.fieldType == 'search'">
+        <a href="{{item.entity.fieldSearch}}"> <mat-icon>link</mat-icon> {{item.entity.fieldFavoriteTitle}}</a>
+      </ng-container>
+
+    </li>
+    
+  </ul>
+
+</div>
