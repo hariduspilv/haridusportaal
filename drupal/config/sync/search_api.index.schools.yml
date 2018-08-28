@@ -225,6 +225,11 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: nid
     type: integer
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
   unpublish_on:
     label: 'Mitteavaldatuks märkimise aeg'
     datasource_id: 'entity:node'
