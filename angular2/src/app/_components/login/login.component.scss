@@ -18,13 +18,14 @@
       .round-input__title {color: $red;}
       .round-input__field-wrapper {border-color: $red;}
     }
-    button{width:100% !important;}
+    button {width:100% !important;}
     .header {font-size: $small;line-height: $large;text-align: left;color: $dark-gray;font-weight: 400;}
     @include break-on(sm, min) {margin-top: .875rem;}
     @include break-on(xl, min) {margin-top: .9375rem;}
   }
   .error{color: $red;white-space: normal;font-size: .875rem;line-height: 120%;font-weight: normal;margin-top: $small;}
-  mat-icon {vertical-align: middle;position: relative;z-index: 2;bottom: .0625rem;
+  mat-icon 
+  {vertical-align: middle;position: relative;z-index: 2;bottom: .0625rem;
     @include break-on(sm, min) {bottom: 0;}
     &.person { padding-right: 0.75rem;color: $white;
       @include break-on(sm, min) {padding-right: 0px;}

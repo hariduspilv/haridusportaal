@@ -36,6 +36,10 @@ export class FiltersService {
 
   }
 
+  checkValidity(id) {
+    let classes = document.getElementById(id).classList;
+    return classes.contains('ng-invalid') && !classes.contains('ng-untouched')
+  }
 
   dateminmax() {
     var minDate = this.filterFormItems.dateFrom;

@@ -153,6 +153,11 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_teaching_language
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
   name:
     label: Pealkiri
     datasource_id: 'entity:node'
@@ -163,6 +168,11 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: nid
     type: integer
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
 datasource_settings:
   'entity:node':
     bundles:

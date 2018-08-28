@@ -25,6 +25,7 @@ use Drupal\graphql\Utility\StringHelper;
 *     "elasticsearch_index" = "String!",
 *     "sort" = "[EntityQuerySortInput]",
 *     "limit" = "Int",
+*     "score" = "ElasticScoreQueryInput",
 *     "offset" = "Int"
 *   }
 * )
@@ -162,11 +163,13 @@ protected function getElasticQuery($args){
             }
             break;
           case 'IN':
-            $elastic_must_filters[] = array(
-              'terms' => array(
-                $condition['field'] => $condition['value']
-              )
-            );
+            if(isset($condition['value'])){
+              $elastic_must_filters[] = array(
+                'terms' => array(
+                  $condition['field'] => $condition['value']
+                )
+              );
+            }
             break;
           case 'FUZZY':
             foreach($condition['value'] as $value){
@@ -184,16 +187,53 @@ protected function getElasticQuery($args){
       }
     }
   }
+  if(isset($args['score'])){
+    $searchvalues = explode(" ", $args['score']['search_value']);
+    foreach($args['score']['conditions'] as $condition){
+      foreach($searchvalues as $searchvalue){
+        if(strlen($searchvalue) > 2){
+          $functions[] = array(
+            'filter' => array(
+              'match' => array(
+                $condition['field'] => str_replace(',', '', $searchvalue)
+              )
+            ),
+            'weight' => $condition['weight']
+          );
+        }
+      }
+    }
 
-  $query = array(
-    'query' => array(
-      'bool' => array(
-        'must' => array(
-          $elastic_must_filters
+    $query = array(
+      'query' => array(
+        'function_score' => array(
+          'query' => array(
+            'bool' => array(
+              'must' => $elastic_must_filters
+            )
+          ),
+          'boost' => '1',
+          'functions' => $functions,
+          'score_mode' => 'sum',
+          'boost_mode' => 'replace',
+          'min_score' => 2
+        )
+      ),
+      'sort' => array(
+        '_score'
+      )
+    );
+  }else{
+    $query = array(
+      'query' => array(
+        'bool' => array(
+          'must' => array(
+            $elastic_must_filters
+          )
         )
       )
-    )
-  );
+    );
+  }
 
   $params['body'] = $query;
 

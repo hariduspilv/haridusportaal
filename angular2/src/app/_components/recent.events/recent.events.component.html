@@ -39,11 +39,11 @@
   </div>
 </div>
 
-<div class="events__list__recent">
-  <map-wrapper [latitude]="parseFloat(map.lat)" [longitude]="parseFloat(map.lon)" zoom="11" *ngIf="map"></map-wrapper>
+<div class="events__list__recent" tabindex="-1" aria-hidden="true">
+  <map-wrapper tabindes="-1" [latitude]="parseFloat(map.lat)" [longitude]="parseFloat(map.lon)" zoom="11" *ngIf="map"></map-wrapper>
   <div class="events__list__item">
-    <div class="title" tabindex="0"><h1>{{'event.place_and_time' | translate}}</h1></div>
-    <div class="events__list__item__body">
+    <div class="title" tabindex="0"><h1 aria-hidden="true">{{'event.place_and_time' | translate}}</h1></div>
+    <div class="events__list__item__body" tabindex="0">
       <div *ngFor="let item of content.entity.fieldEventDate" class="child">
         <span>
           {{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
@@ -53,7 +53,7 @@
         </span>
       </div>
     </div>
-    <div class="events__list__item__footer">
+    <div class="events__list__item__footer" aria-hidden="true">
       {{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}
       <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri">{{ content.entity.fieldEventLocationLink.uri | removeProtocol }}</a></div>
     </div> 
@@ -67,10 +67,10 @@
   <div class="events__list__item">
     <div class="title" tabindex="0"><h1>{{'event.contact' | translate}}</h1></div>
     <div class="events__list__item__body">
-      <div class="child" tabindex="0">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
-      <div class="child" tabindex="0">{{ content.entity.fieldContactPerson }}</div>
-      <div class="child" tabindex="0">{{ content.entity.fieldContactPhone }}</div>
-      <a href="javascript:void(0)" class="child">{{ content.entity.fieldContactEmail }}</a>
+      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Event Organizer '}} {{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
+      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Contact person '}} {{ content.entity.fieldContactPerson }}">{{ content.entity.fieldContactPerson }}</div>
+      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Phone '}} {{ content.entity.fieldContactPhone }}">{{ content.entity.fieldContactPhone }}</div>
+      <a href="javascript:void(0)" class="child" role="link"  attr.aria-label="{{'e-Mail '}} {{ content.entity.fieldContactEmail }}">{{ content.entity.fieldContactEmail }}</a>
     </div>
   </div>
 </div>

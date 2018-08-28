@@ -81,6 +81,7 @@ query studyProgrammeList (
         entityUrl{
           path
         }
+        fieldSchoolWebsite
         fieldSpecialization
         fieldDegreeOrDiplomaAwarded {
           entity {
@@ -93,6 +94,8 @@ query studyProgrammeList (
         fieldEducationalInstitution {
           entity{
             entityLabel
+            fieldSchoolContactEmail
+            fieldSchoolContactPhone
             entityId
           }
         }

@@ -65,6 +65,9 @@ form_label_translations:
 frontpage:
   label: Avaleht
   navigate: 'Mine avalehele'
+  favourites_limit_modal_title: 'Lisa lemmikutesse'
+  favourites_limit_modal_content: 'Portaalis saab salvestada kuni 10 lemmikut'
+  favourites_limit_modal_close: 'Sulge aken'
 article:
   contact: Kontakt
   hyperlinks: Lingid
@@ -118,6 +121,10 @@ event:
   registration_form_cancel: Tühista
   registration_form_thanks: 'Täname sündmusele registreerimise eest!'
   registration_form_add_to_calendar: 'Lisa sündmus enda kalendrisse'
+  registration_ended: 'Sündmusele registreerimine on lõppenud'
+  registration_not_started: 'Sündmusele registreerimine pole veel alanud'
+  registration_full: 'Sündmuse registreerimise kohad on täis'
+  repeat: ''
 login:
   username: Kasutajanimi
   password: Parool
@@ -161,6 +168,7 @@ time:
   duration_month_singular: kuu
   duration_month_plural: kuud
   time_of_day: Kell
+  years: Aastat
 button:
   search: Otsi
   load_more: 'Lae veel'
@@ -185,11 +193,13 @@ button:
   filter: Filtreeri
   newsletter_submit: 'Kinnita tellimus'
   choose_type: 'Vali tüüp'
+  remove_from_comparison: 'Eemalda võrdlusest'
+  see_comparison: 'Vaata võrdlust'
 newsletter:
-  title: 'Uudiskiri - telli endale huvitavad lood'
-  intro: Sissejuhatus
+  title: 'Uudiskiri - test test tekst tekst kui pikk see siis saab olla ma'
+  intro: 'Mingi äge sissejuhatuse tekst, mida saab muuta siit: http://test-htm.wiseman.ee:30000/et/admin/config/custom_translation_module/customtranslation'
   confirm_subscription: 'Kinnita tellimus'
-  email: Epost
+  email: 'Sisesta oma e-kirja aadress'
   valid_email: 'SIsesta korrektne epost'
   modal_title: 'UUDISKIRJA TELLIMINE'
   modal_close: 'Sulge aken'
@@ -242,3 +252,19 @@ studyProgramme:
   filter_iscedf_detailed: Õppekavarühm
   filter_open_admission: 'Ainult avatud vastuvõtuga'
   no_result: 'Otsingutulemused puuduvad'
+  accreditation_decision: 'Akredeerimise otsus'
+  accreditation_decision_till: 'Akrediteerimise otsuse kehtivuse lõpp'
+  compare_modal_close: 'Sulge aken'
+  school: 'Õppeasutuse nimetus'
+  degree_or_diploma: 'Omistatav kraad või diplom'
+  specialization: Spetsialiseerumine
+  study_capacity: 'Õppekava maht'
+  internship_capacity: 'Praktika maht'
+  nominal_time: Nominaalkestus
+  related_label: 'Sarnased erialad'
+  related_filter_location: 'Otsi asukoha järgi'
+  related_no_results: 'Sarnased erialad puuduvad'
+  compare_modal_title: 'Erialade võrdlemine'
+  compare_modal_content: ''
+  non_active: 'Eriala ei ole aktiivne'
+  added_to_comparison: 'Eriala(d) lisatud võrdlusesse'

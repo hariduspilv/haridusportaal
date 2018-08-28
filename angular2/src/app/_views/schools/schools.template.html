@@ -29,13 +29,13 @@
   
       <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
-          <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
+          <a role="button" tabindex="0"  href="javascript:void(0);"  (click)="filterFull = !filterFull" aria-expanded="false">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
             <span class="md-show">{{ 'button.filter' | translate }}</span>
           </a>
         </div>
         <div class="button-row">
-          <button mat-raised-button color="primary">{{ 'button.search' | translate }}</button>
+          <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate }}</button>
         </div>
       </div><!--/col-3-->
     </div><!--/row-->
@@ -108,12 +108,12 @@
       </div><!--/col-9-->
       <div class="col-3 align-end text-right sm-12 inline-flex">
         <div class="align-center filter-state sm-hide">       
-          <a href="javascript:void(0);" (click)="filterFull = !filterFull">
+          <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
             <span class="md-hide">{{ 'button.search_brief' | translate }}</span>
           </a>
         </div>
         <div class="button-row">
-          <button mat-raised-button color="primary">{{ 'button.search' | translate }}</button>
+          <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate }}</button>
         </div>
       </div><!--/col-3-->
     </div><!--/row-->
@@ -125,11 +125,11 @@
     <div class="schools__head">
       <div class="schools__title text-left">{{ 'school.label' | translate | uppercase }}</div>
       <div class="button-list text-right">
-        <div class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
+        <div tabindex="0" class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
           <div class="title">{{ 'school.list' | translate }}</div>
         </div>
-        <div class="view-item" (click)="changeView('map')" [class.active]="view === 'map'">
+        <div tabindex="0" class="view-item" (click)="changeView('map')" [class.active]="view === 'map'">
           <mat-icon>location_on</mat-icon>
           <div class="title">{{ 'school.map' | translate }}</div>
         </div>
@@ -140,22 +140,28 @@
   
   <div class="spinner-wrapper" *ngIf="!list"><mat-spinner></mat-spinner></div>
 
-  <div *ngIf="list && list.length == 0 && view == 'list'" class="no-results">
+  <div *ngIf="list && list.length == 0 && view == 'list'" role="alert" class="no-results">
     {{ 'school.no_results' | translate }}
   </div>
 
   <div *ngIf="list && list.length > 0 && view == 'list'">
     <ng-container *ngFor="let item of list">
       <div class="schools__item">
+          <div class="schools__item__head sm-hide" *ngIf="item.FieldEducationalInstitutionTy">{{ item.FieldEducationalInstitutionTy }}</div>
           <a [routerLink]="item.EntityPath" class="schools__item__title">{{ item.FieldSchoolName }}</a>
-          <div class="schools__item__col sm-hide">
-              <p *ngIf="item.FieldAddress">{{ 'school.legal_address' | translate }}: <b>{{ item.FieldAddress }}</b></p>
-              <p *ngIf="item.FieldSchoolWebpageAddress">{{ 'school.website' | translate }}: <a href="{{ item.FieldSchoolWebpageAddress | url }}" target="_blank">{{ item.FieldSchoolWebpageAddress | removeProtocol }}</a></p>
-          </div><!--/scools__item__col-->
-          <div class="schools__item__col sm-hide">
-            <p *ngIf="item.FieldEducationalInstitutionTy">{{ 'school.institution_type' | translate }}: <b>{{ item.FieldEducationalInstitutionTy }}</b></p>
-            <p *ngIf="item.FieldSchoolContactPhone || item.FieldSchoolContactEmail" >{{ 'school.contact_info' | translate }}: <b *ngIf="item.FieldSchoolContactPhone">{{ item.FieldSchoolContactPhone }}</b><span *ngIf="item.FieldSchoolContactPhone && item.FieldSchoolContactEmail">,</span> <a *ngIf="item.FieldSchoolContactEmail" href="mailto:{{ item.FieldSchoolContactEmail}}">{{ item.FieldSchoolContactEmail}}</a></p>
-          </div><!--/scools__item__col-->
+          <div class="inline__items sm-hide">
+            <span class="item" attr.aria-label="{{'Aadress:'}}" *ngIf="item.FieldAddress">{{ item.FieldAddress }}</span>
+            <span class="bar" *ngIf="item.FieldSchoolWebpageAddress">|</span>
+            <span class="item" *ngIf="item.FieldSchoolWebpageAddress">
+              <a href="{{ item.FieldSchoolWebpageAddress | url }}" target="_blank">{{ item.FieldSchoolWebpageAddress | removeProtocol }}</a>
+            </span>
+            <span class="bar" *ngIf="item.FieldSchoolContactPhone">|</span>
+            <span class="item" *ngIf="item.FieldSchoolContactPhone">{{ item.FieldSchoolContactPhone }}</span>
+            <span class="bar" *ngIf="item.FieldSchoolContactEmail">|</span>
+            <span class="item" *ngIf="item.FieldSchoolContactEmail">
+              <a href="mailto:{{ item.FieldSchoolContactEmail}}">{{ item.FieldSchoolContactEmail}}</a>
+            </span>
+          </div>
       </div><!--/schools__item-->
     </ng-container><!--/list repeat-->
   </div><!--/list-->
@@ -187,7 +193,7 @@
 
 <div class="text-center actions" *ngIf="!listEnd && view == 'list' && list">
   <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-  <button mat-raised-button color="primary" (click)="loadMore()"  *ngIf="!loading">
+  <button mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading">
     {{ "button.load_more" | translate }}
   </button>
 </div><!--/text-center-->
