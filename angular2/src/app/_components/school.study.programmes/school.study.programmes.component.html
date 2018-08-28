@@ -6,7 +6,7 @@
       <div>
         <div class="programme-header__head sm-hide" *ngIf="programme.fieldStudyProgrammeLevel">{{ programme.fieldStudyProgrammeLevel.entity.name }}</div>
         <span>
-          <a class="programme-header__title" routerLink="{{programme.entityUrl.path}}">{{ programme.title }}</a>
+          <a class="programme-header__title" routerLink="{{programme.entityUrl.path}}">{{ programme.title }}aaaaaaa</a>
           <div class="nonActive--blue sm-hide" *ngIf="programme.fieldAdmissionStatus !== 'avatud' && programme.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</div>
         </span>
       </div>

@@ -65,10 +65,10 @@
 
       <div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
-          <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="false">
+          <a role="button" (click)="filterFull = !filterFull" aria-expanded="false">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
             <span class="md-show">{{ 'button.search_detailed_short' | translate}}</span>
-          </button>
+          </a>
         </div>
         <div class="button-row">
           <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
@@ -120,13 +120,13 @@
       </div>
       <div class="col-3 align-end text-right sm-12 inline-flex">
         <div class="align-center filter-state sm-hide">       
-          <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="true">
+          <a role="button" class="btn-link" (click)="filterFull = !filterFull" aria-expanded="true">
             <span class="md-hide">{{ 'button.search_brief' | translate}}</span>
             <span class="md-show">{{ 'button.search_brief_short' | translate}}</span>
-          </button>
+          </a>
         </div>
         <div class="button-row">
-          <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+          <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
         </div>
       </div><!--/col-3-->
     </div><!--/row-->

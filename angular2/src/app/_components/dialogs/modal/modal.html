@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="dialog__success--modal">
-    <div class="dialog__success--content" [innerHtml]="data.content"></div>
+    <div class="dialog__success--content" [innerHtml]="data.content" tabindex="0"></div>
     <div class="dialog__actions--success">
       <div class="text-center">
         <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="Close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a></div>
