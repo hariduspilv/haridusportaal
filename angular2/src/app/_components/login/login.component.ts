@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SideMenuService } from '../../_services';
+import { SideMenuService } from '@app/_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { SettingsService } from '../../_core/settings';
+import { SettingsService } from '@app/_core/settings';
+import { UserService } from '@app/_services/userService';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +33,8 @@ export class LoginComponent implements OnInit{
     private translate: TranslateService,
     private http: HttpClient,
     private sidemenu: SideMenuService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private userService: UserService
   ) {
     this.postUrl = this.settings.url+this.settings.login;
   }
@@ -44,11 +45,50 @@ export class LoginComponent implements OnInit{
 
   submit() {
 
+    /* clear all values */
+    this.error = false;
+    this.loader = true;
+    this.user = false;
+    this.userService.clearStorage();
+
+    this.http.post(this.postUrl, this.formModels).subscribe(data => {
+      this.formModels['password'] = '';
+      this.loader = false;
+      this.data = data;
+
+      if( !data['token'] ){ this.error = true; return false; }
+
+      for( let i in this.formModels ){
+        this.formModels[i] = '';
+      };
+
+      this.loginVisible = false;
+
+      this.user = this.userService.storeData(data['token']);
+      this.userService.triggerPageReload();
+
+    });
+
+  }
+  ngOnInit() {
+    this.user = this.userService.getData();
+  }
+
+  logOut() {
+    this.userService.logout();
+    this.user = this.userService.getData();
+    
+  }
+
+  /*
+  submit() {
+
     this.error = false;
 
     this.loader = true;
 
-    localStorage.removeItem("token");
+    this.userService.clearStorage();
+
     this.user = false;
 
     this.http.post(this.postUrl, this.formModels).subscribe(data => {
@@ -67,11 +107,11 @@ export class LoginComponent implements OnInit{
           this.formModels[i] = '';
         };
 
-        this.triggerPageReload();
+        this.userService.triggerPageReload();
   
         this.loginVisible = false;
 
-        this.decodeToken();
+        this.userService.decodeToken();
       }else{
         this.error = true;
       }
@@ -79,54 +119,17 @@ export class LoginComponent implements OnInit{
     });
   }
 
-  triggerPageReload() {
-
-    let url = {
-      lang: this.router.url.split("/")[1],
-      current: this.router.url
-    }
-
-    this.router.navigateByUrl(url.lang, {skipLocationChange: true}).then( () => {
-      this.router.navigateByUrl(url.current);
-      this.sidemenu.triggerLang(true);
-    });
-  }
-
   logOut() {
-    this.user = false;
-    localStorage.removeItem("token");
-
-    this.triggerPageReload();
+    this.userService.logout();
   }
 
   readStorage() {
     return localStorage.getItem("token");
   }
 
-  decodeToken() {
-
-    const token = this.readStorage();
-
-    if( !token ){
-      this.user = false;
-      return false;
-    }
-
-    const helper = new JwtHelperService();
-
-    const decodedToken = helper.decodeToken(token);
-    const isExpired = helper.isTokenExpired(token);
-
-    if( isExpired ){
-      this.user = false;
-    }else{
-      this.user = decodedToken;
-    }
-
-  }
-
   ngOnInit() {
-    this.decodeToken();
+    this.userService.decodeToken();
   }
 
+  */
 }

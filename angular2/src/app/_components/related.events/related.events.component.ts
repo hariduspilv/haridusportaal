@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ViewChild, Input, OnInit } from '@angular/core';
-import { RootScopeService } from '../../_services/rootScope/rootScope.service';
-import { relatedQuery } from '../../_services/events/events.graph';
+import { RootScopeService } from '@app/_services/rootScopeService';
+import { relatedQuery } from '@app/_graph/events.graph';
 
 import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 

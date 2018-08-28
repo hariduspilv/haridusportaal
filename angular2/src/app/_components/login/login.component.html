@@ -1,6 +1,6 @@
 <span class="login-wrapper">
 
-  <a href="javascript:void(0)" class="login__actions" *ngIf="user" [matMenuTriggerFor]="usermenu">
+  <a href="javascript:void(0)" class="login__actions" *ngIf="!user.isExpired" [matMenuTriggerFor]="usermenu">
     <mat-icon class="person pointer">person_outline</mat-icon>
     <span class="login pointer sm-hide">{{ user.username }}</span>
   </a>
@@ -8,11 +8,12 @@
     <button mat-menu-item (click)="logOut()">{{ 'button.logout' | translate }}</button>
   </mat-menu>
 
-  <a href="javascript:void(0)" class="login__actions" *ngIf="!user" (click)="toggleLogin()">
+
+
+  <a href="javascript:void(0)" class="login__actions" *ngIf="user.isExpired" (click)="toggleLogin()">
     <mat-icon class="person pointer">person_outline</mat-icon>
     <span class="login pointer sm-hide">{{ 'button.login' | translate }}</span>
   </a>
-
   <div class="dropdown-menu-overlay" (click)="toggleLogin()" *ngIf="loginVisible"></div>
   <div class="dropdown-menu" *ngIf="loginVisible" cdkTrapFocus>
 
@@ -42,11 +43,10 @@
           </div>
         </div>
         <div class="col-12">
-            <button mat-raised-button color="primary">{{ 'button.login' | translate }}</button>
+            <button role="button" mat-raised-button color="primary">{{ 'button.login' | translate }}</button>
         </div><!--/col-12-->
       </div>
     </form>
-    <div class="error" *ngIf="error">{{ 'login.error' | translate }}</div>
+    <div class="error" role="alert" tabindex="0" *ngIf="error">{{ 'login.error' | translate }}</div>
   </div>
-  
 </span>

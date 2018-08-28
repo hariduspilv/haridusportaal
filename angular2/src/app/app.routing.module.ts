@@ -14,7 +14,8 @@ import {
   StudyProgrammeComponent,
   StudyProgrammeSingleComponent,
   NotFoundComponent,
-  StudyProgrammeCompareComponent
+  StudyProgrammeCompareComponent,
+  DashboardComponent
 } from './_views';
 
 const appRoutes: Routes = [
@@ -43,6 +44,9 @@ const appRoutes: Routes = [
   { path: ':lang/study-programmes', component: StudyProgrammeComponent},
   { path: ':lang/study-programmes/:id', component: StudyProgrammeSingleComponent},
   
+  { path: ':lang/dashboard', component: DashboardComponent },
+  { path: ':lang/toolaud', component: DashboardComponent },
+
   { path: ':lang/isikukaart', component: PersonalDataComponent },
   { path: '', redirectTo: '/et', pathMatch: 'full' },
   { path: ':lang/404', component: NotFoundComponent },
@@ -68,6 +72,7 @@ export const routedComponents = [
   StudyProgrammeComponent,
   StudyProgrammeSingleComponent,
   NotFoundComponent,
-  StudyProgrammeCompareComponent
+  StudyProgrammeCompareComponent,
+  DashboardComponent
 ];
 

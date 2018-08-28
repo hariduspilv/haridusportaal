@@ -1,5 +1,5 @@
 @import "../../../../assets/styles/typography.scss";
-.dialog {padding: $medium;padding-top:$small;border-top: $gutter solid $orange;padding-bottom: $xxl;
+.dialog {padding: $medium;padding-top:$small;border-top: $gutter solid $orange;padding-bottom: $xxl; box-sizing:border-box; max-height:90vh; overflow: auto;
   h1 {color: $black;}
   &__text {&--medium {color: $dark-gray; line-height: 2;}}
   &__close {position: absolute;top: 0.6875rem;right: $half-gutter;cursor:pointer;}
@@ -25,4 +25,25 @@
     &--modal {@extend .dialog__success; min-height: 20vh;}
   }
   @include break-on(sm, min) {width:68vw;max-width: 870px;}
+}
+
+.btn-hidden {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  border: 0px solid transparent;
+  background: transparent;
+  width: 24px;
+}
+
+mat-icon {
+  position: relative;
+}
+
+.image {padding: 1.5rem;
+  .mat-icon {float: right;position: relative;bottom: .75rem;}
+  img {max-height: 90vh;}
+  .image-alt-text {position: relative;top: .5rem;}
 }

@@ -1,9 +1,12 @@
 @import "../../../assets/styles/typography.scss"; 
-.main-container{padding-top:$small; clear:both; margin:0 $small;
+.main-container{padding-top:$small; clear:both; margin:0 $medium;
   @include break-on(sm, max) {padding-top: 0;margin:0;padding-top:0;}
 }
 .forTable {overflow: scroll;}
-table {width: 100%;border-collapse: collapse; margin:1rem 0 0 0;
+article {
+  @include break-on(sm, min) {padding-bottom: $medium;}
+}
+table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   thead {background: $light-gray;
     .sortable {&:hover { color: $dark-gray;}}
     .mat-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
@@ -33,18 +36,32 @@ table {width: 100%;border-collapse: collapse; margin:1rem 0 0 0;
     .flex{display:flex;
   }
 
-  map-wrapper { margin:-1.2rem -1.2rem 1.5rem -1.2rem; display: block;}
+  map-wrapper { margin:-1.5rem -1.5rem 1.5rem -1.5rem; display: block;}
 
 }
 
-.actions{margin-bottom:3rem;}
+.actions{margin-bottom:3rem;
+  @include break-on(sm, max) {margin-left: 1.5rem;margin-right: 1.5rem;}
+  &.snackBar {margin-bottom: 7.75rem;
+    @include break-on(sm, min) {margin-bottom: 5.25rem;}
+  }
+}
 .table-wrapper{overflow: auto;}
 
 .title {font-size: $small;line-height: 2;
   h1 {color:$black;}
   &__recent {padding: $small $medium 0 $medium;}
 }
-
+@include break-on(sm, min) {
+  compare {position: relative; right: $gutter;}
+}
 .fill{flex-grow: 1;}
 
-.mat-raised-button.mat-primary{width:auto;}
+.mat-raised-button.mat-primary{width:auto;
+  @include break-on(sm, max) {width: 100%;}
+}
+.border-orange{
+  a {text-decoration: none;
+    &:hover {text-decoration: underline;}}
+}
+@include break-on(sm, max) {.block {margin-bottom: 0;}}

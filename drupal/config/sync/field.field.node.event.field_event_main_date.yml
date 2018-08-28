@@ -11,9 +11,9 @@ id: node.event.field_event_main_date
 field_name: field_event_main_date
 entity_type: node
 bundle: event
-label: 'Ürituse põhikuupäev'
+label: 'Sündmuse põhikuupäev'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

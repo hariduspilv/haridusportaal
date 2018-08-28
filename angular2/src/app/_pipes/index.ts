@@ -8,6 +8,7 @@ import { UrlPipe } from './url.pipe';
 import { FilterPipe } from './filter.pipe';
 import { GroupByPipe } from './groupBy.pipe';
 import { RemoveProtocolPipe } from './removeProtocol.pipe';
+import { titleCasePipe } from './titleCase.pipe';
 
 @NgModule({
   declarations:[
@@ -17,7 +18,8 @@ import { RemoveProtocolPipe } from './removeProtocol.pipe';
     UrlPipe,
     FilterPipe,
     GroupByPipe,
-    RemoveProtocolPipe
+    RemoveProtocolPipe,
+    titleCasePipe
   ],
   imports:[CommonModule],
   exports:[
@@ -27,7 +29,8 @@ import { RemoveProtocolPipe } from './removeProtocol.pipe';
     UrlPipe,
     FilterPipe,
     GroupByPipe,
-    RemoveProtocolPipe
+    RemoveProtocolPipe,
+    titleCasePipe
   ]
 })
 

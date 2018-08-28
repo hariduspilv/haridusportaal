@@ -6,8 +6,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { EventsConfig } from './events-config.model';
-import { RootScopeService } from '../../_services';
-import { sortEventsByOptions, getEventsTags, getEventsTypes } from '../../_services/events/events.graph';
+import { RootScopeService } from '@app/_services';
+import { sortEventsByOptions, getEventsTags, getEventsTypes } from '@app/_graph/events.graph';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -17,7 +17,7 @@ import 'rxjs/add/observable/of';
 
 import { Apollo, QueryRef } from 'apollo-angular';
 
-import { FiltersService, DATEPICKER_FORMAT } from '../../_services/filters/filters.service';
+import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -327,9 +327,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     for( var i in list ){
       let entry = list[i];
 
-      let earliest;
+      let earliest = entry['fieldEventMainDate']['unix'];
       let timeEarliest;
 
+/*
       for( var ii in entry['eventDates'] ){
         let event = entry['eventDates'][ii]['entity'];
         let unix = parseInt( event['fieldEventDate']['unix'] );
@@ -341,13 +342,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         if( !timeEarliest ){ timeEarliest = time; }
         else if( timeEarliest > time ){ timeEarliest = time; }
       }
+      */
       
-      entry['firstEventTime'] = timeEarliest;
-      entry['firstEventUnix'] = earliest;
+      entry['firstEventTime'] = entry['fieldEventMainStartTime'];
+      entry['firstEventUnix'] = entry['fieldEventMainDate']['unix'];
      
-      let year = moment.unix( earliest ).format("YYYY");
-      let month = moment.unix( earliest ).format("MM");
-      let day = moment.unix( earliest ).format("D");
+      let year = moment.unix( earliest ).format("YYYY").toString();
+      let month = moment.unix( earliest ).format("M").toString();
+      let day = moment.unix( earliest ).format("D").toString();
 
       if( !tmpList[year] ){ tmpList[year] = {}; }
       if( !tmpList[year][month] ){ tmpList[year][month] = {}; }
@@ -356,6 +358,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     }
 
+    console.log(tmpList);
     /*
     for( let year in tmpList ){// loop through years
       for( let month in tmpList[year] ){// loop through months
@@ -369,39 +372,34 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     return tmpList;
   }
 
+  formatNumber(input:number){
+    let output:any = input;
+
+    if( input < 10 ){ output = "0"+output; }
+    return output;
+  }
+
   dataToCalendar(list:any) {
 
     list = JSON.parse( list );
     
     for( let i in list ){
       let current = list[i];
-      let eventDate = current['eventDates'][0]['entity']['fieldEventDate']['value'];
+      let eventDate = moment(current['fieldEventMainDate']['unix']*1000).format("YYYY-MM-DDz");
       let dateString = this.year+"-"+this.month+"-";
       
-      let set = false;
-
-      for( var ii in current['eventDates'] ){
-        
-        let eventDate = current['eventDates'][ii]['entity']['fieldEventDate']['value'];
-
-        if( set ){ break; }
-
-        for( var o in this.calendarDays ){
-          if( set ){ break; }
-          for( var oo in this.calendarDays[o] ){
-            if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
-              this.calendarDays[o][oo]['events'].push( current );
-              set = true;
-              break;
-            }
+      
+      for( var o in this.calendarDays ){
+        for( var oo in this.calendarDays[o] ){
+          if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
+            this.calendarDays[o][oo]['events'].push( current );
+            break;
           }
         }
       }
-
-
-
     }
     
+    console.log(this.calendarDays);
   }
 
   maxEntries( day:any ){
@@ -418,27 +416,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   parseDay(day:any){
 
     if( day.events && day.events.length > 0 ){
-
-      for( var i in day.events ){
-        let current = day.events[i];
-        current['startTime'] = 999999999;
-
-        var eventDates = current.eventDates;
-        for( var ii in eventDates ){
-          let entity = eventDates[ii]['entity'];
-
-          if( entity['fieldEventDate']['value'] == this.year+"-"+this.month+"-"+day['i'] ){
-            if( entity['fieldEventStartTime'] <= current['startTime'] ){
-              current['startTime'] = eventDates[ii]['entity']['fieldEventStartTime'];
-            }
-          }
-          
-        }
-
-      }
-
-      day.events = this.sort("startTime", day.events);
-
+      day.events = this.sort("fieldEventMainStartTime", day.events);
       return day.events;
     }else{
       return day.events;
@@ -456,6 +434,18 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           this.eventsConfig.titleValue = this.params['title']
         }
 
+
+        // DATE FROM
+        if(this.params['dateFrom'] && moment(this.params['dateFrom'], 'DD-MM-YYYY').isValid()){
+          this.eventsConfig.dateFrom = moment(this.params['dateFrom'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+        }else{
+          this.eventsConfig.dateFrom = moment().format("YYYY-MM-DD").toString();
+        }
+        // DATE TO
+        if(this.params['dateTo'] && moment(this.params['dateTo'], 'DD-MM-YYYY').isValid()){
+          this.eventsConfig.dateTo = moment(this.params['dateTo'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
+        }
+        /*
         if( this.view == "list" ){
 
           // DATE FROM
@@ -474,6 +464,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           this.eventsConfig.limit = 999;
           this.eventsConfig.offset = 0;
         }
+        */
+
+
         // TAGS
         if(this.params['tags'] && this.params['tags'] !== null){
           this.eventsConfig.tagsEnabled = true;
@@ -487,6 +480,18 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         
         if( this.dataSubscription ){
           this.dataSubscription.unsubscribe();
+        }
+
+        if( this.view == "list" ){
+          let startTimeHours = parseFloat( _moment().format("HHz") );
+          let startTimeMinutes = parseFloat( _moment().format("MMz") );
+          let startTimeSeconds:any = (startTimeHours*60*60)+(startTimeMinutes*60);
+          startTimeSeconds = startTimeSeconds.toString();
+          //this.eventsConfig['timeFrom'] = startTimeSeconds;
+
+          this.eventsConfig['timeFrom'] = "0";
+        }else{
+          this.eventsConfig['timeFrom'] = "0";
         }
 
         // GET LIST OBSERVABLE

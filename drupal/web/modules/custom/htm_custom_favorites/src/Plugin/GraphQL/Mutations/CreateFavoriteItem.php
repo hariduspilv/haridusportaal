@@ -145,13 +145,18 @@ class CreateFavoriteItem extends CreateEntityBase{
 			return $this->resolveOutput($entity, $args, $info);
 		}else{
 			$entity = reset($entity);
-
 			try {
 				foreach ($input as $key => $value) {
 					$entity->get($key)->setValue($value);
 				}
-				/*append favorites*/
-				$entity->favorites[] = $this->createNewFavoriteParagraph($favs);
+				if($entity->favorites->count() >= 10){
+					return new EntityCrudOutputWrapper($entity, NULL, [
+							$this->t('Favorite limit reached (max 10)')
+					]);
+				}else{
+					/*append favorites*/
+					$entity->favorites[] = $this->createNewFavoriteParagraph($favs);
+				}
 			}
 			catch (\InvalidArgumentException $exception) {
 				return new EntityCrudOutputWrapper(NULL, NULL, [

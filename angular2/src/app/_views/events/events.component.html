@@ -12,16 +12,28 @@
         <div class="round-input__wrapper">
           <span class="round-input__title">{{ 'event.filter_name' | translate }}</span>
           <div class="round-input__field-wrapper">
-            <input class="round-input__field" placeholder="{{ 'event.filter_name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
+            <input attr.aria-label="{{'You are currently on Filter navigation, where you can enter events title and pick start and end date'}}" class="round-input__field" placeholder="{{ 'event.filter_name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
           </div>
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
 
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper">
+        <div class="round-input__wrapper" [class.error]="checkValidity('dateFrom') && !dateFromFocus">
           <span class="round-input__title">{{ 'time.date_period_from' | translate }}</span>
           <div class="round-input__field-wrapper">
-            <input class="round-input__field"  placeholder="{{ 'time.date_period_from' | translate }}" [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom"  (change)="dateminmax()" (dateChange)="dateminmax()" [max]="maxDate" [min]="absMinDate" name="dateFrom" maxlength="10" dateFormatter />
+            <input autocomplete="off" id="dateFrom" class="round-input__field"
+            placeholder="{{ 'time.date_period_from' | translate }}"
+            [matDatepicker]="datepickerFrom"
+            [(ngModel)]="filterFormItems.dateFrom"
+            (change)="dateminmax()"
+            (dateChange)="dateminmax()"
+            [max]="maxDate"
+            [min]="absMinDate"
+            name="dateFrom"
+            maxlength="10"
+            dateFormatter
+            (focus)="dateFromFocus = true"
+            (blur)="dateFromFocus = false" />
             <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
             <mat-datepicker #datepickerFrom></mat-datepicker>
           </div>
@@ -29,10 +41,22 @@
       </div>
       
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper">
+        <div class="round-input__wrapper" [class.error]="checkValidity('dateTo') && !dateToFocus">
           <span class="round-input__title">{{ 'time.date_period_to' | translate }}</span>
           <div class="round-input__field-wrapper">
-            <input class="round-input__field"  placeholder="{{ 'time.date_period_to' | translate }}" [matDatepicker]="datepickerTo" [(ngModel)]="filterFormItems.dateTo" (change)="dateminmax()" (dateChange)="dateminmax()" [min]="minDate" [max]="absMaxDate" name="dateTo" maxlength="10" dateFormatter />
+            <input autocomplete="off" id="dateTo" class="round-input__field" 
+            placeholder="{{ 'time.date_period_to' | translate }}"
+            [matDatepicker]="datepickerTo"
+            [(ngModel)]="filterFormItems.dateTo"
+            (change)="dateminmax()"
+            (dateChange)="dateminmax()"
+            [min]="minDate"
+            [max]="absMaxDate"
+            name="dateTo"
+            maxlength="10"
+            dateFormatter 
+            (focus)="dateToFocus = true"
+            (blur)="dateToFocus = false" />
             <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
             <mat-datepicker #datepickerTo></mat-datepicker>
           </div>
@@ -41,13 +65,13 @@
 
       <div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
-          <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
+          <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="false">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
-            <span class="md-show">Täpne</span>
-          </a>
+            <span class="md-show">{{ 'button.search_detailed_short' | translate}}</span>
+          </button>
         </div>
         <div class="button-row">
-          <button mat-raised-button color="primary">Otsi</button>
+          <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
         </div>
       </div><!--/col-3-->
     </div><!--/row-->
@@ -58,6 +82,9 @@
         <div class="ng-select__wrapper">
           <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">{{ 'event.filter_types' | translate}}</span>
           <ng-select
+          tabindex="0"
+          role="select"
+          attr.aria-label="{{'Specific search selectbox, choose your types'}}"
           [class.exists]="filterFormItems.types && filterFormItems.types.length"
           [items]="eventsTypesObs | async"
           [multiple]="true"
@@ -76,6 +103,9 @@
         <div class="ng-select__wrapper__second">
           <span class="ng-select__title"  [class.exists]="filterFormItems.tags && filterFormItems.tags.length">{{ 'event.filter_tags' | translate}}</span>
           <ng-select
+          tabindex="0"
+          role="select"
+          attr.aria-label="{{'Specific search selectbox, choose your signs'}}"
           [class.exists]="filterFormItems.tags && filterFormItems.tags.length"
           [items]="eventsTagsObs | async"
           [multiple]="true"
@@ -90,10 +120,10 @@
       </div>
       <div class="col-3 align-end text-right sm-12 inline-flex">
         <div class="align-center filter-state sm-hide">       
-          <a href="javascript:void(0);" (click)="filterFull = !filterFull">
+          <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="true">
             <span class="md-hide">{{ 'button.search_brief' | translate}}</span>
-            <span class="md-show">Kitsas</span>
-          </a>
+            <span class="md-show">{{ 'button.search_brief_short' | translate}}</span>
+          </button>
         </div>
         <div class="button-row">
           <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
@@ -107,11 +137,11 @@
     <div class="events__head">
       <div class="events__title text-left">{{ 'event.label' | translate | uppercase }}</div>
       <div class="button-list text-right sm-hide">
-        <div class="view-item pointer" (click)="changeView('list')" [class.active]="view === 'list'">
+        <div class="view-item pointer" (click)="changeView('list')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
-          <div class="title">{{ 'event.list' | translate }}</div>
+          <div class="title" >{{ 'school.list' | translate }}</div>
         </div>
-        <div class="view-item pointer" (click)="changeView('calendar')" [class.active]="view === 'calendar'">
+        <div class="view-item pointer" (click)="changeView('calendar')" attr.aria-label="{{ 'event.calendar' | translate }}" tabindex="0" [class.active]="view === 'calendar'">
           <mat-icon>today</mat-icon>
           <div class="title">{{ 'event.calendar' | translate }}</div>
         </div>
@@ -122,13 +152,13 @@
   <mat-spinner *ngIf="!eventList && !error && view !== 'calendar'" style="margin-top:1.5rem;"></mat-spinner>
 
   <div class="events__list-body" *ngIf="eventList && view == 'list' ">
-
+    <span attr.aria-label="{{' Location: '}} {{ 'event.list' | translate }} {{' tab '}}" tabindex="0"></span>
     
     <ng-container *ngFor="let yearKey of objectKeys(eventList)">
       <ng-container *ngFor="let monthKey of objectKeys(eventList[yearKey])">
 
         <div class="events__month">
-          <h1>{{ 'time.' + getMonthName(monthKey) | translate }}
+          <h1 tabindex="0">{{ 'time.' + getMonthName(monthKey) | translate }}
             <ng-container *ngIf="parseInt(yearKey) !== current.year">
               - {{ yearKey }}
             </ng-container>
@@ -139,7 +169,7 @@
           <div class="events__header center" [class.highlighted]="yearKey == current.year && monthKey == current.month && dayKey == current.day">
             <div class="events__datetime">
               <div class="day">{{ 'time.' +getDayName( dayKey ) | translate }}</div>
-              <div class="date">{{ dayKey }}.{{ monthKey }}</div>
+              <div class="date">{{ formatNumber(dayKey) }}.{{ formatNumber(monthKey) }}</div>
             </div>
             <div class="events__separator w-100">
               <div class="border"></div>
@@ -157,20 +187,22 @@
                     <span>{{ event.location ? event.location.name : '' }}</span>
                   </div>
                   <div class="sm-hide info bar">
-                    <span class="time">{{ 'event.start_time' | translate }}: <strong>{{ event.firstEventTime | unixToTime }}</strong> <span *ngIf="event.eventDates.length > 1"><mat-icon>update</mat-icon></span></span>
+
+                    <span class="time">{{ 'event.start_time' | translate }}: <strong>{{ event.firstEventTime | unixToTime }}</strong> </span>
+
                     <span class="location" *ngIf="event.location">{{ 'event.location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
                     <span class="entrance" *ngIf="event.fieldEntryType">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
                   </div>
                   <div class="tags sm-hide" *ngIf="event.hashTags && event.hashTags.length">
-                    <mat-chip-list>
+                    <mat-chip-list tabindex="0" aria-multiselectable="true" >
                       <span *ngFor="let eventTag of event.hashTags">
-                        <span *ngIf="eventTag.entity" class="mat-chip-wrapper">
+                        <span *ngIf="eventTag.entity" class="mat-chip-wrapper" tabindex="0" attr.aria-label="{{' eventTag.entity.entityLabel'}}">
                           <mat-chip>{{ eventTag.entity.entityLabel }}</mat-chip>
                         </span>
                       </span>
                       <span *ngIf="event.fieldEventType">
-                        <span class="mat-chip-wrapper">
-                          <mat-chip>{{ event.fieldEventType.entity.entityLabel }}</mat-chip>
+                        <span class="mat-chip-wrapper" tabindex="0" attr.aria-label="{{' eventTag.entity.entityLabel'}}">
+                          <mat-chip >{{ event.fieldEventType.entity.entityLabel }}</mat-chip>
                         </span>
                       </span>
                     </mat-chip-list>
@@ -185,77 +217,84 @@
   </div><!--/ngIf-->
   
   <div class="text-center actions" *ngIf="!listEnd && view !== 'calendar'">
-    <button mat-raised-button color="primary" (click)="loadMore()" >{{ 'button.load_more' | translate }}</button>
+    <button mat-raised-button color="primary" (click)="loadMore()" role="button" attr.aria-label="{{'click to load more events'}}" >{{ 'button.load_more' | translate }}</button>
   </div><!--/text-center-->
 
 
   <div class="text-center actions__error" *ngIf="eventList != null && objectKeys(eventList).length == 0 && eventList">
 
-    <p>No result</p>
+    <p role="alert">No result</p>
   </div><!--/text-center-->
 
   <div class="calendar__elem" *ngIf="view == 'calendar'">
+    <span attr.aria-label="{{' Location: '}} {{ 'event.calendar' | translate }} {{' tab '}}" tabindex="0"></span>
 
     <div class="navigation text-center">
-      <mat-icon class="pointer" (click)="changeMonth(-1);">chevron_left</mat-icon>
-      <span class="month"><h1>{{ 'time.' + monthName | lowercase | translate }} <ng-container *ngIf="year !== current.year">{{ year }}</ng-container></h1></span>
-      <mat-icon class="pointer" (click)="changeMonth(1);">chevron_right</mat-icon>
+      <span tabindex="0" attr.aria-label="{{'Previous month'}}">
+        <mat-icon class="pointer" (click)="changeMonth(-1);">chevron_left</mat-icon>
+      </span>
+      <span class="month"><h1 tabindex="0">{{ 'time.' + monthName | lowercase | translate }} <ng-container *ngIf="year !== current.year">{{ year }}</ng-container></h1></span>
+      <span  tabindex="0" attr.aria-label="{{'Next month'}}">
+        <mat-icon class="pointer" (click)="changeMonth(1);">chevron_right</mat-icon>
+      </span>
     </div><!--/text-center-->
     
     <table class="calendar">
       <tr>
-          <th width="14.2%">{{ 'time.monday' | translate }}</th>
-          <th width="14.2%">{{ 'time.tuesday' | translate }}</th>
-          <th width="14.2%">{{ 'time.wednesday' | translate }}</th>
-          <th width="14.2%">{{ 'time.thursday' | translate }}</th>
-          <th width="14.2%">{{ 'time.friday' | translate }}</th>
-          <th width="14.2%">{{ 'time.saturday' | translate }}</th>
-          <th width="14.2%">{{ 'time.sunday' | translate }}</th>
+        <th width="14.2%" tabindex="-1">{{ 'time.monday' | translate }}</th>
+        <th width="14.2%" tabindex="-1">{{ 'time.tuesday' | translate }}</th>
+        <th width="14.2%" tabindex="-1">{{ 'time.wednesday' | translate }}</th>
+        <th width="14.2%" tabindex="-1">{{ 'time.thursday' | translate }}</th>
+        <th width="14.2%" tabindex="-1">{{ 'time.friday' | translate }}</th>
+        <th width="14.2%" tabindex="-1">{{ 'time.saturday' | translate }}</th>
+        <th width="14.2%" tabindex="-1">{{ 'time.sunday' | translate }}</th>
       </tr>
       <tr *ngFor="let week of calendarDays; let firstWeek = first; let weekNumber = index">
         <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day.i == current.day && month == current.month && year == current.year" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2" [ngClass]="{ 'lastWeek': weekNumber == calendarDays.length-1, 'almostLastWeek' : weekNumber == calendarDays.length-2}">
-          
-          <div class="cal__day more__hidden">{{ day.i }} </div>
 
-          
+          <div class="cal__day more__hidden" tabindex="0">{{ day.i }}</div>
+
           <div class="cal__event pointer more__hidden" *ngFor="let event of parseDay( day ); let i = index">
 
-            
-
             <ng-container *ngIf="i < maxEntries(day)">
-              <div class="content"  [class.active]="popup === event.nid" (click)="togglePopup(event.nid)">
-                <ng-container *ngFor="let item of event.eventDates">
-                  <ng-container *ngIf="item.entity.fieldEventDate.value == this.year+'-'+this.month+'-'+day.i">
-                    <span><div class="marker"></div></span>
-                    <span class="content__medium">{{ parseIntoReadableTime(item.entity.fieldEventStartTime*1000) }}</span>
-                    <span class="content__strong">{{ event.title }}</span>
-                  </ng-container>
-                </ng-container>
+
+              <div class="content"  [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" tabindex="0" attr.aria-label="{{'Event'}}">
+                <span><div class="marker"></div></span>
+                <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
+                <span class="content__strong">{{ event.title }}</span>
               </div>
             </ng-container>
             
             <ng-container *ngIf="popup === event.nid">
-              <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4">
+              <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" tabindex="0" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog">
                 <div class="popupcontent">
                   <div class="event__block">
                     <div class="title">
-                      <span class="title__strong">{{ event.title }}</span>
-                      <span class="close"><a class="pointer" (click)="closePopup()"><mat-icon>close</mat-icon></a></span>
+                      <span class="title__strong" tabindex="0">{{ event.title }}</span>
+
+                      <div attr.aria-label="{{'Click to close modal'}}" role="close">
+                        <mat-icon mat-icon-button>close
+                          <button class="btn-hidden" (click)="closePopup()" tabindex="0"></button>
+                        </mat-icon>
+                      </div>
                     </div>
-                    <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
-                    <div *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ parseIntoReadableTime(event.eventDates[0].entity.fieldEventStartTime*1000) }}</div>
-                    <div *ngIf="event.location"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
-                    <div *ngIf="event.fieldEntryType"><span>{{ 'event.entrance' | translate }}: </span>{{ 'event.' + event.fieldEntryType | translate}}</div>
+                    
+                    <div tabindex="0"><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
+                    <div role="none" *ngIf="event.eventDates" tabindex="0"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
+                    <div *ngIf="event.location" tabindex="0"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
+                    <div *ngIf="event.fieldEntryType" tabindex="0"><span>{{ 'event.entrance' | translate }}: </span>{{ 'event.' + event.fieldEntryType | translate}}</div>
                   </div>
                   <div class="line"></div>
-                  <div class="event__more"><a href="javascript:void(0)" [routerLink]="event.entityUrl.path">{{'button.view_more' | translate}}</a></div>
+                  <div class="event__more"><a href="javascript:void(0)" [routerLink]="event.entityUrl.path" tabindex="0">{{'button.view_more' | translate}}</a></div>
                 </div>
               </div>
             </ng-container>
           </div>
+
           <div class="cal__event__more" *ngIf="day.events && day.events.length > maxEntries(day)">
             <div class="more more__hidden"><a href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - maxEntries(day) }} veel</a></div>
           </div>
+
           <div class="popup" *ngIf="morePopup === day">
             <div class="popupcontent additional">
               <div class="event__block event__block__more">
@@ -273,7 +312,7 @@
                     <a class="cal__event pointer" [routerLink]="event.entityUrl.path">
                       <div class="content content__more">
                         <span><div class="marker"></div></span>
-                        <span class="content__medium">{{ parseIntoReadableTime(event.startTime*1000) }}</span>
+                        <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
                         <span class="content__strong">{{ event.title }}</span>
                       </div>
                     </a>
@@ -282,6 +321,7 @@
               </div>
             </div>
           </div>
+
         </td>
       </tr>
     </table>
