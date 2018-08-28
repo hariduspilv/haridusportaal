@@ -213,7 +213,7 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'handler' => 'default',
 				'handler_settings' => [
 					'target_bundles' => [
-						'event_type' => 'event_type'
+						'subsidyinvestmentmeasure' => 'subsidyinvestmentmeasure'
 					]
 				]
 			])
@@ -222,13 +222,9 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'weight' => -1,
 			]);
 
-		$fields['investment_amount'] = BaseFieldDefinition::create('integer')
+	     $fields['investment_amount'] = BaseFieldDefinition::create('integer')
 			->setLabel(t('Investment amount'))
-			->setSettings([
-				'max_length' => 8,
-				'max' => 99999999,
-				'size' => 8
-			])
+      ->setDefaultValue(0)
 			->setDisplayOptions('form', [
 				'type' => 'number',
 				'weight' => -1
