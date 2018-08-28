@@ -168,12 +168,11 @@
     
 
       <ng-container *ngFor="let item of data.fieldEducationalInstitution.entity.fieldSchoolLocation; let i = index">
-        <div class="block padding-block border-orange mob-bottom">
+        <div class="block padding-block border-orange mob-bottom" *ngIf="item.entity.fieldLocationType == 'L'">
           
           <map-wrapper [latitude]="parseFloat(item.entity.fieldCoordinates.lat)" [longitude]="parseFloat(item.entity.fieldCoordinates.lon)" zoom="11"></map-wrapper>
 
-          <h2 *ngIf="item.entity.fieldLocationType == 'L'">Juriidiline aadress</h2>
-          <h2 *ngIf="item.entity.fieldLocationType == 'V'">Tegutsemise asukoht {{ i }}</h2>
+          <h2>Juriidiline aadress</h2>
           <p>{{ item.entity.fieldAddress | titleCase }}</p>
         </div><!--/block-->
       </ng-container>
