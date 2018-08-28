@@ -162,7 +162,7 @@
     <div class="studyProgramme__head">
       <div class="studyProgramme__title text-left">{{ 'studyProgramme.label' | translate | uppercase }}</div>
       
-        <favourites></favourites>
+        <favourites class="pull-right"></favourites>
       
     </div>
   </div><!--/studyProgramme__list-head-->
@@ -180,65 +180,34 @@
       <div class="studyProgramme__item" >
           <div class="studyProgramme__item__titlebox">
             <div class="col-grow">
-
-              <a [routerLink]="item.entityUrl.path" class="studyProgramme__item__title">{{ item.entityLabel }}</a>
-              <div class="studyProgramme__item__subtitle sm-hide" *ngIf="item.fieldEducationalInstitution">
-                  <ng-container *ngIf="item.fieldEducationalInstitution.entity">{{ item.fieldEducationalInstitution.entity.entityLabel }},</ng-container>
-                  <ng-container *ngIf="item.fieldSchoolAddress">{{ item.fieldSchoolAddress }}</ng-container>
-                  <a href="{{ item.fieldSchoolWebsite }}" *ngIf="item.fieldSchoolWebsite">{{  item.fieldSchoolWebsite | removeProtocol }}</a>
-              </div>      
+              <div class="studyProgramme__item__head sm-hide" *ngIf="item.fieldStudyProgrammeLevel">{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</div>
+              <span>
+                <a [routerLink]="item.entityUrl.path" class="studyProgramme__item__title">{{ item.entityLabel }}</a>
+                <div class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</div>
+              </span>
             </div><!--col-9-->
             <div class="col sm-hide">
               <compare [id]="item.nid" localStorageKey="studyProgramme.compare"></compare>
             </div><!--/col-3-->
           </div>
-          
-          <div class="studyProgramme__item__col sm-hide">
-            <p *ngIf="item.fieldStudyProgrammeLevel">{{ 'studyProgramme.level' | translate }} : <b>{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</b></p>
-            <p *ngIf="item.fieldAccreditationStatus">
-              {{ 'studyProgramme.accreditation' | translate }}: <b>{{ 'studyProgramme.valid_accreditation' | translate }}</b></p>
-          </div><!--/scools__item__col-->
-          <div class="studyProgramme__item__col sm-hide">
-              <p *ngIf="item.fieldTeachingLanguage">
-                  {{ 'studyProgramme.languages' | translate }}: 
-                <b *ngFor="let language of item.fieldTeachingLanguage; let last = last">
-                  <span *ngIf="!last">{{ language.entity.entityLabel }},</span>
-                  <span *ngIf="last">{{ language.entity.entityLabel }}</span>
-                </b>
-              </p>            
-            <p *ngIf="item.fieldDurationYears || item.fieldDurationMonths">
-              {{ 'studyProgramme.study_duration' | translate }}: 
-              <b>
-                <ng-container *ngIf="item.fieldDurationYears" >
-                    {{ item.fieldDurationYears }}
-                    <span *ngIf="item.fieldDurationYears < 2">{{ 'time.duration_year_singular' | translate }}</span>
-                    <span *ngIf="item.fieldDurationYears > 1">{{ 'time.duration_year_plural' | translate }}</span>
-                </ng-container>
-                <ng-container *ngIf="item.fieldDurationMonths">
-                    {{ item.fieldDurationMonths }}
-                    <ng-container *ngIf="item.fieldDurationMonths < 2">{{ 'time.duration_month_singular' | translate }}</ng-container>
-                    <ng-container *ngIf="item.fieldDurationMonths > 1">{{ 'time.duration_month_plural' | translate }}</ng-container>
-                    
-                </ng-container>
-                
-                
-              </b>
-            </p>
-          </div><!--/scools__item__col-->
-          <div class="studyProgramme__item__col sm-hide">
-              <p *ngIf="item.fieldIscedfDetailed">
-                  {{ 'studyProgramme.study_group' | translate }} : 
-                <b>{{item.fieldIscedfDetailed.entity.entityLabel}}</b>
-              </p>            
-            <p *ngIf="item.fieldAdmissionStatus">{{ 'studyProgramme.admission_status' | translate }}: <b>{{ item.fieldAdmissionStatus }}</b></p>
-          </div><!--/scools__item__col-->
+          <div class="inline__items sm-hide">
+            <span class="item" *ngIf="item.fieldSchoolAddress">{{ item.fieldSchoolAddress }}</span>
+            <span class="bar" *ngIf="item.fieldSchoolWebsite">|</span>
+            <span class="item" *ngIf="item.fieldSchoolWebsite">
+              <a attr.aria-label="{{item.fieldSchoolWebsite + ' clickable'}}" href="{{ item.fieldSchoolWebsite }}">{{ item.fieldSchoolWebsite | removeProtocol }}</a>
+            </span>
+            <span class="bar" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactPhone">|</span>
+            <span class="item" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactPhone">{{ item.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}</span>
+            <span class="bar" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactEmail">|</span>
+            <span class="item" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactEmail">{{ item.fieldEducationalInstitution.entity.fieldSchoolContactEmail }}</span>
+          </div>
       </div><!--/studyProgramme__item-->
     </ng-container><!--/list repeat-->
   </div><!--/list-->
 
 </div><!--/studyProgramme-->
 
-<div class="text-center actions" *ngIf="!listEnd && list">
+<div class="text-center actions snackBar" *ngIf="!listEnd && list">
     <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
     <button mat-raised-button color="primary" (click)="loadMore()"  *ngIf="!loading">
       {{ "button.load_more" | translate }}

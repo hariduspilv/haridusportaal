@@ -22,6 +22,7 @@ permissions:
   - 'execute persisted graphql requests'
   - 'post comments'
   - 'restful get base_settings_rest_resource'
+  - 'restful get professional_certificate_rest_resource'
   - 'restful post jwt_token_rest_resource'
   - 'restful post mobile_id_rest_resource'
   - 'restful post mobile_id_rest_response_resource'

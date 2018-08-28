@@ -18,10 +18,22 @@
       </div><!--/col-4-->
 
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper">
+        <div class="round-input__wrapper" [class.error]="checkValidity('dateFrom') && !dateFromFocus">
           <span class="round-input__title">{{ 'time.date_period_from' | translate }}</span>
           <div class="round-input__field-wrapper">
-            <input class="round-input__field"  placeholder="{{ 'time.date_period_from' | translate }}" [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom"  (change)="dateminmax()" (dateChange)="dateminmax()" [max]="maxDate" [min]="absMinDate" name="dateFrom" maxlength="10" dateFormatter />
+            <input autocomplete="off" id="dateFrom" class="round-input__field"
+            placeholder="{{ 'time.date_period_from' | translate }}"
+            [matDatepicker]="datepickerFrom"
+            [(ngModel)]="filterFormItems.dateFrom"
+            (change)="dateminmax()"
+            (dateChange)="dateminmax()"
+            [max]="maxDate"
+            [min]="absMinDate"
+            name="dateFrom"
+            maxlength="10"
+            dateFormatter
+            (focus)="dateFromFocus = true"
+            (blur)="dateFromFocus = false" />
             <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
             <mat-datepicker #datepickerFrom></mat-datepicker>
           </div>
@@ -29,10 +41,22 @@
       </div>
       
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper">
+        <div class="round-input__wrapper" [class.error]="checkValidity('dateTo') && !dateToFocus">
           <span class="round-input__title">{{ 'time.date_period_to' | translate }}</span>
           <div class="round-input__field-wrapper">
-            <input class="round-input__field"  placeholder="{{ 'time.date_period_to' | translate }}" [matDatepicker]="datepickerTo" [(ngModel)]="filterFormItems.dateTo" (change)="dateminmax()" (dateChange)="dateminmax()" [min]="minDate" [max]="absMaxDate" name="dateTo" maxlength="10" dateFormatter />
+            <input autocomplete="off" id="dateTo" class="round-input__field" 
+            placeholder="{{ 'time.date_period_to' | translate }}"
+            [matDatepicker]="datepickerTo"
+            [(ngModel)]="filterFormItems.dateTo"
+            (change)="dateminmax()"
+            (dateChange)="dateminmax()"
+            [min]="minDate"
+            [max]="absMaxDate"
+            name="dateTo"
+            maxlength="10"
+            dateFormatter 
+            (focus)="dateToFocus = true"
+            (blur)="dateToFocus = false" />
             <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
             <mat-datepicker #datepickerTo></mat-datepicker>
           </div>
@@ -115,7 +139,7 @@
       <div class="button-list text-right sm-hide">
         <div class="view-item pointer" (click)="changeView('list')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
-          <div class="title" >{{ 'event.list' | translate }}</div>
+          <div class="title" >{{ 'school.list' | translate }}</div>
         </div>
         <div class="view-item pointer" (click)="changeView('calendar')" attr.aria-label="{{ 'event.calendar' | translate }}" tabindex="0" [class.active]="view === 'calendar'">
           <mat-icon>today</mat-icon>

@@ -3,6 +3,9 @@
 .block{border-top-color:#15adc2;
   &-title {line-height: 2rem;padding: $small $medium;margin: 0;}
   &-form {padding: 0 $medium $medium $medium;}
+  &.snackBar {margin-bottom: 4.5rem;
+    @include break-on(sm, min) {margin-bottom: 5.25rem;}
+  }
 }
 .grow {flex-grow: 1;}
 .wrap {@include break-on(sm, max) {flex-wrap: wrap;}}
@@ -29,7 +32,7 @@
   &__item {padding: $medium; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
     &:first-child{padding-top:0;}
     &:last-child{border-bottom:0;padding-bottom: $xxl;}
-    &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;
+    &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;margin-right: $small;
       @include break-on(sm, min) {margin-bottom:0.23rem; }
       &:hover{text-decoration: underline;}
     }
@@ -44,7 +47,7 @@
     &__subtitle {font-size: $small;line-height: 1; font-size:0.88rem; color:$dark-gray; line-height:143%; display:block; font-weight: 500; margin-bottom:$medium; margin-top: $half-gutter;}
     &__titlebox {width:100%; display:flex;
       .col-grow{flex-grow: 1; padding: 0;}
-      .col{display: flex; align-items: baseline; flex-shrink: 0;padding: 0;padding-bottom: $small;justify-content: flex-end;}
+      .col{display: flex; align-items: baseline; flex-shrink: 0;padding: 0;justify-content: flex-end;}
     }
     p:first-child{margin-top:0;}
     p:last-child{margin-bottom:0;}
@@ -61,7 +64,3 @@
   }
   .button-row {padding-top: 0;}
 }
-.inline__items {
-  .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;}
-}
-.bar {color: $dark-gray;padding: 0 $half-gutter;}
