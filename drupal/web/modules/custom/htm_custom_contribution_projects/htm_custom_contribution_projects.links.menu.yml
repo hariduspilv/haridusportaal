@@ -1,0 +1,14 @@
+
+# Contribution project menu items definition
+entity.contribution_project_entity.collection:
+  title: 'Contribution project list'
+  route_name: entity.contribution_project_entity.collection
+  description: 'List Contribution project entities'
+  parent: system.admin_structure
+  weight: 100
+
+contribution_project_entity.admin.structure.settings:
+  title: 'Contribution project settings'
+  description: 'Configure Contribution project entities'
+  route_name: contribution_project_entity.settings
+  parent: system.admin_structure
