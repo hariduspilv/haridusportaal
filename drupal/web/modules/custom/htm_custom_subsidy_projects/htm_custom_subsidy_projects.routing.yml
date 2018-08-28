@@ -1,0 +1,15 @@
+htm_custom_subsidy_projects.autocomplete:
+  path: '/school-autocomplete'
+  defaults:
+    _controller: '\Drupal\htm_custom_subsidy_projects\Controller\AutocompleteController::handleAutocomplete'
+    _format: json
+  requirements:
+    _permission: 'access content'
+
+htm_custom_subsidy_projects.batch_import:
+  path: '/subsidy-project-import'
+  defaults:
+    _form: '\Drupal\htm_custom_subsidy_projects\Form\ImportSubsidyProjectsForm'
+    _title: 'Import subsidy projects'
+  requirements:
+    _permission: 'access content'
