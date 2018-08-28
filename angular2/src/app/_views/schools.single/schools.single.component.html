@@ -7,14 +7,15 @@
       <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol | titleCase }}</a></li>
     </ul>
   </div>
-  <div *ngFor="let location of data.fieldSchoolLocation" class="block location-block">
-    <map-wrapper [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
-    <div class="padding-block">
-      <h2 *ngIf="location.entity.fieldLocationType == 'L'">{{ 'school.legal_address' | translate }}</h2>
-      <h2 *ngIf="location.entity.fieldLocationType == 'V'">{{ 'school.defacto_address' | translate }}</h2>
-      <div class="address">{{ location.entity.fieldAddress | titleCase }}</div>
+  <ng-container *ngFor="let location of data.fieldSchoolLocation">
+    <div *ngIf="location.entity.fieldLocationType == 'L'" class="block location-block">
+      <map-wrapper [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
+      <div class="padding-block">
+        <h2>{{ 'school.legal_address' | translate }}</h2>
+        <div class="address">{{ location.entity.fieldAddress | titleCase }}</div>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </ng-template>
 
 <breadcrumbs></breadcrumbs>
