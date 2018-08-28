@@ -48,6 +48,7 @@
         "drupal/kafka": "1.x-dev",
         "drupal/material_admin": "^1.0@alpha",
         "drupal/maxlength": "^1.0@beta",
+        "drupal/memcache": "^2.0",
         "drupal/module_missing_message_fixer": "^1.0",
         "drupal/monolog": "^1.0",
         "drupal/node_view_permissions": "^1.2",
