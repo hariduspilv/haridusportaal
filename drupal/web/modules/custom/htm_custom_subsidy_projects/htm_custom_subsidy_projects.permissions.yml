@@ -1,0 +1,30 @@
+add subsidy project entities:
+  title: 'Create new Subsidy project entities'
+
+administer subsidy project entities:
+  title: 'Administer Subsidy project entities'
+  description: 'Allow to access the administration form to configure Subsidy project entities.'
+  restrict access: true
+
+delete subsidy project entities:
+  title: 'Delete Subsidy project entities'
+
+edit subsidy project entities:
+  title: 'Edit Subsidy project entities'
+
+view published subsidy project entities:
+  title: 'View published Subsidy project entities'
+
+view unpublished subsidy project entities:
+  title: 'View unpublished Subsidy project entities'
+
+view all subsidy project revisions:
+  title: 'View all Subsidy project revisions'
+
+revert all subsidy project revisions:
+  title: 'Revert all Subsidy project revisions'
+  description: 'Role requires permission <em>view Subsidy project revisions</em> and <em>edit rights</em> for subsidy project entities in question or <em>administer subsidy project entities</em>.'
+
+delete all subsidy project revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Subsidy project revisions</em> and <em>delete rights</em> for subsidy project entities in question or <em>administer subsidy project entities</em>.'
