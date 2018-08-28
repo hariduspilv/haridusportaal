@@ -225,7 +225,7 @@ article a[href]{color:$blue;}
 .inline__items {padding-top: .375rem;
   .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;}
 }
-.bar {color: $gray;padding: 0 $half-gutter;}
+.bar {padding: 0 $half-gutter;}
 .nonActive {padding: $half-gutter $quarter;border-radius: $quarter;font-size: .875rem;line-height: 1.125rem;white-space: nowrap;
   width: fit-content;display: inline;position: relative;bottom: .125rem;
   &--blue {@extend .nonActive;background-color: #bee3e8;}

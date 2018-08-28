@@ -2,9 +2,9 @@
   <div class="block padding-block sm-top" id="school-contact-block">
     <h2>{{ 'school.contact' | translate }}</h2>
     <ul>
-      <li><a href="tel:{{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone | titleCase }}</a></li>
-      <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail | titleCase }}</a></li>
-      <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol | titleCase }}</a></li>
+      <li><a href="tel:{{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
+      <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
+      <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
     </ul>
   </div>
   <ng-container *ngFor="let location of data.fieldSchoolLocation">
