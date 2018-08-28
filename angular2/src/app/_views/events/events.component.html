@@ -9,7 +9,7 @@
   <div class="main-container">
     <div class="row">
       <div class="col-4 sm-12" [class.col-9]="view == 'calendar'" style="padding:0.5rem;">
-        <div class="round-input__wrapper">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
           <span class="round-input__title">{{ 'event.filter_name' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input attr.aria-label="{{'You are currently on Filter navigation, where you can enter events title and pick start and end date'}}" class="round-input__field" placeholder="{{ 'event.filter_name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
@@ -18,7 +18,7 @@
       </div><!--/col-4-->
 
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper" [class.error]="checkValidity('dateFrom') && !dateFromFocus">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.dateFrom" [class.error]="checkValidity('dateFrom') && !dateFromFocus">
           <span class="round-input__title">{{ 'time.date_period_from' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input autocomplete="off" id="dateFrom" class="round-input__field"
@@ -41,7 +41,7 @@
       </div>
       
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper" [class.error]="checkValidity('dateTo') && !dateToFocus">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.dateTo" [class.error]="checkValidity('dateTo') && !dateToFocus">
           <span class="round-input__title">{{ 'time.date_period_to' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input autocomplete="off" id="dateTo" class="round-input__field" 

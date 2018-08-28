@@ -60,7 +60,7 @@
       <div class="col-5 sm-12">
         <div class="round-input__wrapper" [class.disabled]="getSubTypes('type').length == 0">
           <mat-form-field>
-            <mat-select [placeholder]="getSubTypes('type').length !== 0 ? 'Õppeasutuse alamtase' : 'Vali esmalt õppeasutuse tüüp'" [(ngModel)]="filterFormItems.subtype" name="subtype">
+            <mat-select [placeholder]="getSubTypes('type').length !== 0 ? translate.get('school.institution_sublevel')['value'] : translate.get('school.institution_select_type')['value']" [(ngModel)]="filterFormItems.subtype" name="subtype">
               <mat-option *ngIf="getSubTypes('type').length !== 0">{{ 'button.all' | translate }}</mat-option>
               <mat-option *ngFor="let item of getSubTypes('type')" [value]="item.entityId">
                 {{ item.entityLabel }}

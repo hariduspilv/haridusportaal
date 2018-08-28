@@ -3,29 +3,27 @@
 namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
-use Drupal\user\Entity\User;
-use GuzzleHttp\Exception\RequestException;
-use PhpParser\Node\Expr\AssignOp\Mod;
+use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
  *
  * @RestResource(
- *   id = "xjson_rest_resource",
- *   label = @Translation("X json rest resource"),
+ *   id = "x_json_file_rest_resource",
+ *   label = @Translation("X json file rest resource"),
  *   uri_paths = {
- *     "https://www.drupal.org/link-relations/create" = "/xjson_service"
+ *     "canonical" = "/xjson_service/file/{file_id}",
+ *     "create" = "/xjson_service/file"
  *   }
  * )
  */
-class xJsonRestResource extends ResourceBase {
+class xJsonFileRestResource extends ResourceBase {
 
   /**
    * A current user instance.
@@ -35,7 +33,7 @@ class xJsonRestResource extends ResourceBase {
   protected $currentUser;
 
   /**
-   * Constructs a new xJsonRestResource object.
+   * Constructs a new xJsonFileRestResource object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -56,7 +54,7 @@ class xJsonRestResource extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    xJsonServiceInterface $xJsonService,
+		xJsonServiceInterface $xJsonService,
     AccountProxyInterface $current_user) {
 			parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 			$this->xJsonService = $xJsonService;
@@ -73,16 +71,41 @@ class xJsonRestResource extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('htm_custom_xjson_services'),
-      $container->get('htm_custom_xjson_services.default'),
+			$container->get('htm_custom_xjson_services.default'),
       $container->get('current_user')
     );
   }
 
   /**
+   * Responds to GET requests.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity object.
+   *
+   * @return \Drupal\rest\ResourceResponse
+   *   The HTTP response object.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+   *   Throws exception expected.
+   */
+  public function get($file_id) {
+		$this->xJsonService->xJsonGetDocumentById('test');
+		#dump('tere');
+		#dump('test');
+    // You must to implement the logic of your REST Resource here.
+    // Use current user after pass authentication to validate access.
+    if (!$this->currentUser->hasPermission('access content')) {
+      throw new AccessDeniedHttpException();
+    }
+
+    return new ResourceResponse($file_id, 200);
+  }
+
+  /**
    * Responds to POST requests.
    *
-   * @param array
-   *   The data object.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity object.
    *
    * @return \Drupal\rest\ModifiedResourceResponse
    *   The HTTP response object.
@@ -91,36 +114,14 @@ class xJsonRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-  	#dump($data);
+
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
-    if (!$this->currentUser->isAuthenticated()) {
+    if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
-    #dump($data);
-    if($data['form_info']){
-			$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
-		}else{
-			$request_body = $this->xJsonService->getBasexJsonForm(true);
-		}
 
-		if(empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
+    return new ModifiedResourceResponse($data, 201);
+  }
 
-		$client = \Drupal::httpClient();
-		try {
-			/*TODO make post URL configurable*/
-			$request = $client->post('http://test-htm.wiseman.ee:30080/api/postDocument', [
-					'json' => $request_body,
-			]);
-			$response = json_decode($request->getBody(), TRUE);
-			#dump($response);
-			$builded_response = $this->xJsonService->buildFormv2($response);
-
-			if(empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
-
-			return new ModifiedResourceResponse($builded_response, 200);
-		}catch (RequestException $e){
-			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
-		}
-	}
 }
