@@ -37,8 +37,8 @@ class ProcessSubsidy {
 		foreach ($items as $index => $item){
 			$ehis_id = self::loadEntity('node', 'field_ehis_id', $item['ehis id']);
 			$meede = self::loadEntity('taxonomy_term', 'name', $item['meede']);
-			$summa = (is_numeric(preg_replace('/\s+/', '', $item['summa'])) ? $item['summa'] : FALSE);
-			$tahtaeg = (self::checkDateFormat($item['tahtaeg'], 'd.m.Y') ? $item['tahtaeg'] : FALSE);
+			$summa = (is_numeric(preg_replace('/\s+/', '', $item['summa'])) ? preg_replace('/\s+/', '', $item['summa']) : FALSE);
+			$tahtaeg = self::checkDateFormat($item['tahtaeg'], 'd.m.Y');
 
 			if(
 					!$meede
@@ -48,11 +48,12 @@ class ProcessSubsidy {
 					!$summa
 					||
 					!$tahtaeg){
+				#$context['message'] = "<script>console.log('$ehis_id , $meede , $summa , $tahtaeg '</script>";
 				$context['results']['error'][] = t('Error on line: '. ($index + 2));
 			}else{
 				$results[] = [
 					'ehis_id' => $ehis_id,
-					'ivestment_measure' => $meede,
+					'investment_measure' => $meede,
 					'investment_amount' => $summa,
 					'investment_deadline' => $tahtaeg,
 				];
@@ -64,29 +65,47 @@ class ProcessSubsidy {
 	}
 
 	public static function ProcessSubsidy($items, &$context){
-		// do nothing if error's
-		#dump($context);
-		#dump($items);
-		#die();
-		#dump(count($context['results']['values']));
+		sleep(1);
 		//process only if no errors otherwise nothing
 		if(empty($context['results']['error'])){
 			if(empty($context['sandbox'])){
 				$context['sandbox']['progress'] = 0;
 				$context['sandbox']['current_id'] = 0;
-				#$context['sandbox']['max'] = count($context['results']['values']);
-				$context['sandbox']['max'] = 200;
-			}
-			$limit = 10;
-			for($i = $context['sandbox']['current_id']; $i <= $limit; $i++){
-				// do something
-				$context['sandbox']['progress']++;
-				$context['message'] = $i;
+				$context['sandbox']['max'] = count($context['results']['values']);
+				#$context['sandbox']['max'] = 554;
 			}
 
-			if($context['sandbox']['progress'] != $context['sandbox']['max']){
-				$context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+
+			if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
+				$limit = $context['sandbox']['current_id'] + 10;
+				if ($context['sandbox']['max'] - $context['sandbox']['current_id'] < 10){
+					$limit = $context['sandbox']['max'] + 1;
+				}
+				for($i = $context['sandbox']['current_id']; $i < $limit; $i++){
+					// do something
+					$values = $context['results']['values'][$context['sandbox']['current_id']];
+					#dump($context['sandbox']['current_id']);
+					#dump($values);
+					$entity = SubsidyProjectEntity::create([
+							'name' => $context['sandbox']['current_id'],
+					] + $values);
+
+					$entity->save();
+
+					$context['sandbox']['progress']++;
+					$context['sandbox']['current_id'] = $i;
+					#$context['message'] = t('Processing lines : @limit - @current ', ['@limit' => $limit, '@current' => $context['sandbox']['current_id'] + 1]);
+					$context['message'] = $context['sandbox']['max'];
+				}
+				$context['sandbox']['current_id']++;
+
+				if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+					$context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+				}
+			}else{
+				$context['finished'] = 1;
 			}
+
 		}
 	}
 
@@ -138,7 +157,7 @@ class ProcessSubsidy {
 	private function checkDateFormat($date_string, $format){
 		try{
 			$d = DrupalDateTime::createFromFormat($format, $date_string);
-			return $d && $d->format($format) === $date_string;
+			return $d->format('Y-m-d');
 		}catch (\Exception $e){
 			return false;
 		}

@@ -213,7 +213,7 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'handler' => 'default',
 				'handler_settings' => [
 					'target_bundles' => [
-						'event_type' => 'event_type'
+						'investmentmeasure' => 'investmentmeasure'
 					]
 				]
 			])
