@@ -1,0 +1,10 @@
+entity.subsidy_project_entity.add_form:
+  route_name: entity.subsidy_project_entity.add_form
+  title: 'Add Subsidy project'
+  appears_on:
+    - entity.subsidy_project_entity.collection
+entity.subsidy_project_entity.import_projects:
+  route_name: htm_custom_subsidy_projects.batch_import
+  title: 'Import Subsidy projects'
+  appears_on:
+    - entity.subsidy_project_entity.collection

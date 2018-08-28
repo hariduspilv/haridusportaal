@@ -54,7 +54,7 @@
       </div>
     </div><!--/col-8-->
     <div class="col-4 sm-12">
-      <recent-events (viewChange)="onViewChange($event)" [map]="map" [nid]="content.entity.nid" [content]="content"></recent-events>
+      <recent-events tabindex="-1" (viewChange)="onViewChange($event)" [map]="map" [nid]="content.entity.nid" [content]="content"></recent-events>
     </div><!--/col-4-->
     <div class="col-8 sm-12 sm-show">
       <div class="events__list" *ngIf="content.entity.fieldEventGroup">
