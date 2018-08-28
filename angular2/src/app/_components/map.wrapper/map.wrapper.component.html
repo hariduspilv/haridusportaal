@@ -1,8 +1,8 @@
-<div class="map-wrapper">
-  <agm-map [zoomControl]="false" [streetViewControl]="false" [latitude]="latitude" [longitude]="longitude" [zoom]="15">
-    <agm-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="iconUrl"></agm-marker>
+<div class="map-wrapper" tabindex="-1" aria-hidden="true">
+  <agm-map tabindex="-1" [zoomControl]="false" [streetViewControl]="false" [latitude]="latitude" [longitude]="longitude" [zoom]="15">
+    <agm-marker tabindex="-1" [latitude]="latitude" [longitude]="longitude" [iconUrl]="iconUrl"></agm-marker>
   </agm-map>
   <div class="map-link">
-    <a href="http://www.google.com/maps/place/{{ latitude }},{{ longitude }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'button.map_closer' | translate}}</span></a>
+    <a tabindex="-1" href="http://www.google.com/maps/place/{{ latitude }},{{ longitude }}" target="_blank"><mat-icon>launch</mat-icon><span>{{'button.map_closer' | translate}}</span></a>
   </div>
 </div>
