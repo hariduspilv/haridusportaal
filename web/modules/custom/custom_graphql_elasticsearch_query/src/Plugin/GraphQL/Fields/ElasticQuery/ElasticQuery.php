@@ -19,10 +19,14 @@ use Drupal\graphql\Utility\StringHelper;
 *   secure = true,
 *   type = "[CustomElastic]",
 *   name = "CustomElasticQuery",
+*   response_cache_contexts = {"languages:language_url"},
 *   arguments = {
 *     "filter" = "EntityQueryFilterInput",
 *     "elasticsearch_index" = "String!",
-*     "sort" = "[EntityQuerySortInput]"
+*     "sort" = "[EntityQuerySortInput]",
+*     "limit" = "Int",
+*     "score" = "ElasticScoreQueryInput",
+*     "offset" = "Int"
 *   }
 * )
 */
@@ -88,30 +92,28 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
     $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
 
-    $params = [
-      'scroll' => '30s',
-      'size' => 50,
-      'index' => $args['elasticsearch_index']
-    ];
-
     $params = $this->getElasticQuery($args);
 
     $response = $client->search($params);
 
-    while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+    if($args['offset'] == null && $args['limit'] == null){
+      while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
 
-      $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
+        $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
 
-      // When done, get the new scroll_id
-      // You must always refresh your _scroll_id!  It can change sometimes
-      $scroll_id = $response['_scroll_id'];
+        // When done, get the new scroll_id
+        // You must always refresh your _scroll_id!  It can change sometimes
+        $scroll_id = $response['_scroll_id'];
 
-      // Execute a Scroll request and repeat
-      $response = $client->scroll([
-        "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
-        "scroll" => "30s"           // and the same timeout window
-      ]
-    );
+        // Execute a Scroll request and repeat
+        $response = $client->scroll([
+          "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
+          "scroll" => "30s"           // and the same timeout window
+          ]
+        );
+      }
+  }else{
+    $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
   }
   foreach($responsevalues as $value){
     foreach($value['_source'] as $key => $keyvalue){
@@ -124,12 +126,18 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 }
 
 protected function getElasticQuery($args){
-
-  $params = [
-    'scroll' => '30s',
-    'size' => 50,
-    'index' => $args['elasticsearch_index']
-  ];
+  if(is_null($args['offset']) && is_null($args['limit'])){
+    $params = [
+      'scroll' => '30s',
+      'size' => 50,
+      'index' => $args['elasticsearch_index']
+    ];
+  }else{
+    $params = [
+      'from' => $args['offset'],
+      'size' => $args['limit']
+    ];
+  }
 
   if($args['filter']['conjunction'] == 'AND'){
     foreach($args['filter']['conditions'] as $condition){
@@ -145,33 +153,87 @@ protected function getElasticQuery($args){
             }
             break;
           case 'LIKE':
-            $elastic_must_filters[] = array(
-              'wildcard' => array(
-                $condition['field'] => str_replace('_','?',str_replace('%','*',$condition['value'][0]))
-              )
-            );
+            $values = explode(" ", $condition['value'][0]);
+            foreach($values as $value){
+              $elastic_must_filters[] = array(
+                'wildcard' => array(
+                  $condition['field'] => '*'.str_replace(',', '', strtolower($value)).'*'
+                )
+              );
+            }
             break;
           case 'IN':
-            $elastic_must_filters[] = array(
-              'terms' => array(
-                $condition['field'] => $condition['value']
-              )
-            );
+            if(isset($condition['value'])){
+              $elastic_must_filters[] = array(
+                'terms' => array(
+                  $condition['field'] => $condition['value']
+                )
+              );
+            }
+            break;
+          case 'FUZZY':
+            foreach($condition['value'] as $value){
+              $elastic_must_filters[] = array(
+                'match' => array(
+                  $condition['field'] => array(
+                    'query' => $value,
+                    'fuzziness' => 2
+                  )
+                )
+              );
+            }
             break;
         }
       }
     }
   }
+  if(isset($args['score'])){
+    $searchvalues = explode(" ", $args['score']['search_value']);
+    foreach($args['score']['conditions'] as $condition){
+      foreach($searchvalues as $searchvalue){
+        if(strlen($searchvalue) > 2){
+          $functions[] = array(
+            'filter' => array(
+              'match' => array(
+                $condition['field'] => str_replace(',', '', $searchvalue)
+              )
+            ),
+            'weight' => $condition['weight']
+          );
+        }
+      }
+    }
 
-  $query = array(
-    'query' => array(
-      'bool' => array(
-        'must' => array(
-          $elastic_must_filters
+    $query = array(
+      'query' => array(
+        'function_score' => array(
+          'query' => array(
+            'bool' => array(
+              'must' => $elastic_must_filters
+            )
+          ),
+          'boost' => '1',
+          'functions' => $functions,
+          'score_mode' => 'sum',
+          'boost_mode' => 'replace',
+          'min_score' => 2
+        )
+      ),
+      'sort' => array(
+        '_score'
+      )
+    );
+  }else{
+    $query = array(
+      'query' => array(
+        'bool' => array(
+          'must' => array(
+            $elastic_must_filters
+          )
         )
       )
-    )
-  );
+    );
+  }
 
   $params['body'] = $query;
 
