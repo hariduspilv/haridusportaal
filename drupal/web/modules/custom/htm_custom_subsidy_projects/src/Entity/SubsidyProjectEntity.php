@@ -224,14 +224,13 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 
 		$fields['investment_amount'] = BaseFieldDefinition::create('integer')
 			->setLabel(t('Investment amount'))
-			->setSettings([
-				'max_length' => 8,
-				'max' => 99999999,
-				'size' => 8
-			])
+			->setDefaultValue(0)
 			->setDisplayOptions('form', [
 				'type' => 'number',
-				'weight' => -1
+				'weight' => -1,
+				'settings' => [
+					'max' => 99999999
+				]
 			]);
 		$fields['investment_deadline'] = BaseFieldDefinition::create('datetime')
 			->setLabel('Investment deadline')
