@@ -205,6 +205,22 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'type' => 'number',
 				'weight' => -1,
 			]);
+		$fields['school_ref'] = BaseFieldDefinition::create('entity_reference')
+				->setLabel('School entity reference')
+				->setReadOnly(TRUE)
+				->setSetting('target_type', 'node')
+				->setSetting('handler_settings', ['target_bundles' => ['school' => 'school']])
+				->setDisplayOptions('form', [
+					'type' => 'entity_reference_autocomplete',
+					'weight' => -1,
+					'settings' => [
+						'match_operator' => 'CONTAINS',
+						'size' => '60',
+						'autocomplete_type' => 'tags',
+						'placeholder' => '',
+					],
+				]);
+
 
 		$fields['investment_measure'] = BaseFieldDefinition::create('entity_reference')
 			->setLabel('Investment measure')
