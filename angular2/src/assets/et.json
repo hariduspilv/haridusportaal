@@ -191,7 +191,6 @@
     "duration_month_plural": "kuud",
     "time_of_day": "Kell",
     "years": "Aastat"
-
   },
   "button": {
     "all": "Kõik",
@@ -199,6 +198,7 @@
     "add_to_comparison": "Lisa võrdlusesse",
     "remove_from_comparison":"Eemalda võrdlusest",
     "search": "Otsi",
+    "search_from_page": "Otsi lehelt",
     "search_detailed": "Täpsem otsing",
     "search_detailed_short": "Täpne",
     "search_brief": "Kitsam otsing",
@@ -222,5 +222,8 @@
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"
+  },
+  "errors": {
+    "enter_valid_date": "Sisesta korrektne kuupäev"
   }
 }

@@ -8,6 +8,7 @@
   },
   "article": {
     "contact": "Contact",
+    "hyperlinks": "",
     "similar_articles": ""
   },
   "news": {
@@ -77,7 +78,10 @@
     "registration_form_close": "Close window",
     "registration_form_cancel": "Cancel",
     "registration_form_thanks": "Thank you for registering for an event!",
-    "registration_form_add_to_calendar": "Add event to your own calendar"
+    "registration_form_add_to_calendar": "Add event to your own calendar",
+    "registration_ended": "Registration has ended",
+    "registration_not_started": "Registration is not available yet",
+    "registration_full": "Event is full"
 
   },
   "school": {
@@ -194,6 +198,7 @@
     "add_to_comparison": "Add to comparison",
     "remove_from_comparison":"Remove from comparison",
     "search": "Search",
+    "search_from_page": "Search from page",
     "search_detailed": "Advanced Search",
     "search_detailed_short": "Exact",
     "search_brief": "Narrow search",
@@ -217,5 +222,8 @@
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"
+  },
+  "errors": {
+    "enter_valid_date": "Enter valid date"
   }
 }
