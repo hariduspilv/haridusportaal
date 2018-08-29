@@ -13,12 +13,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ProcessSubsidy {
 
-	public $get_error_messages = [
-		'ehis_id'  => 'There was a timeout before the user could sign with Mobile ID.',
-		'USER_CANCEL'          => 'User has cancelled the signing operation.',
-		'NOT_VALID'            => 'Signature is not valid.',
-		'MID_NOT_READY'        => 'Mobile ID is not yet available for this phone. Please try again later.',
-	];
+		public static $k = [
+			'EHIS_ID'  => 'There was a timeout before the user could sign with Mobile ID.',
+			'MEEDE' => 'tekst',
+			'SUMMA' => 'Summa field must be numeric',
+			'TAHTAEG' => 'Tahtaeg field format wrong'
+		];
+
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -33,29 +35,43 @@ class ProcessSubsidy {
 		//first delete all subsidies
 		self::deleteAllEntities();
 
+		#dump(self::$k['EHIS_ID']);
 		$results = [];
+		$object = [
+			'ehis_id' => false,
+			'meede' => false,
+			'summa' => false,
+			'tahtaeg' => false
+		];
 		foreach ($items as $index => $item){
-			$ehis_id = self::loadEntity('node', 'field_ehis_id', $item['ehis id']);
-			$meede = self::loadEntity('taxonomy_term', 'name', $item['meede']);
-			$summa = (is_numeric(preg_replace('/\s+/', '', $item['summa'])) ? preg_replace('/\s+/', '', $item['summa']) : FALSE);
-			$tahtaeg = self::checkDateFormat($item['tahtaeg'], 'd.m.Y');
-
+			$object['ehis_id'] = self::loadEntity('node', 'field_ehis_id', $item['ehis_id']);
+			$object['meede'] = self::loadEntity('taxonomy_term', 'name', $item['meede']);
+			$object['summa'] = (is_numeric(preg_replace('/\s+/', '', $item['summa'])) ? preg_replace('/\s+/', '', $item['summa']) : FALSE);
+			$object['tahtaeg'] = self::checkDateFormat($item['tahtaeg'], 'd.m.Y');
 			if(
-					!$meede
+					!$object['ehis_id']
 					||
-					!$ehis_id
+					!$object['meede']
 					||
-					!$summa
+					!$object['summa']
 					||
-					!$tahtaeg){
-				#$context['message'] = "<script>console.log('$ehis_id , $meede , $summa , $tahtaeg '</script>";
-				$context['results']['error'][] = t('Error on line: '. ($index + 2));
+					!$object['tahtaeg']){
+
+				$error_messag_func = function($values) {
+					foreach($values as $key => $value){
+						if($value == false){
+							return $key;
+						}
+					}
+				};
+
+				$context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
 			}else{
 				$results[] = [
-					'ehis_id' => $ehis_id,
-					'investment_measure' => $meede,
-					'investment_amount' => $summa,
-					'investment_deadline' => $tahtaeg,
+					'ehis_id' => $object['ehis_id'],
+					'investment_measure' => $object['meede'],
+					'investment_amount' => $object['summa'],
+					'investment_deadline' => $object['tahtaeg'],
 				];
 			}
 		}
@@ -65,14 +81,12 @@ class ProcessSubsidy {
 	}
 
 	public static function ProcessSubsidy($items, &$context){
-		sleep(1);
 		//process only if no errors otherwise nothing
 		if(empty($context['results']['error'])){
 			if(empty($context['sandbox'])){
 				$context['sandbox']['progress'] = 0;
 				$context['sandbox']['current_id'] = 0;
 				$context['sandbox']['max'] = count($context['results']['values']);
-				#$context['sandbox']['max'] = 554;
 			}
 
 
@@ -84,18 +98,17 @@ class ProcessSubsidy {
 				for($i = $context['sandbox']['current_id']; $i < $limit; $i++){
 					// do something
 					$values = $context['results']['values'][$context['sandbox']['current_id']];
-					#dump($context['sandbox']['current_id']);
-					#dump($values);
 					$entity = SubsidyProjectEntity::create([
-							'name' => $context['sandbox']['current_id'],
+							'name' => 'rida: '. (String) ($i+1),
 					] + $values);
 
 					$entity->save();
-
 					$context['sandbox']['progress']++;
 					$context['sandbox']['current_id'] = $i;
 					#$context['message'] = t('Processing lines : @limit - @current ', ['@limit' => $limit, '@current' => $context['sandbox']['current_id'] + 1]);
 					$context['message'] = $context['sandbox']['max'];
+
+					$context['results']['processed'][] = $entity->id();
 				}
 				$context['sandbox']['current_id']++;
 
