@@ -159,7 +159,6 @@ class ProcessSubsidy {
 			$properties = [$field => $id];
 		}
 		$entity = reset($storage->loadByProperties($properties));
-		#dump($entity);
 		return ($entity) ? $entity->id() : FALSE;
 	}
 
