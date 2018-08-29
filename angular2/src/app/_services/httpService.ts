@@ -31,7 +31,7 @@ export class HttpService {
     }
 
 
-    console.log(headers);
+    //console.log(headers);
     return headers;
   }
 
