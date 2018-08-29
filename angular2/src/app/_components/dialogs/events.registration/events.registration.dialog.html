@@ -13,17 +13,17 @@
     <div class="col-12" *ngIf="step === 0 && !loader">
       <h1 tabindex="0">{{ data.eventTitle }}</h1>
       <div class="dialog__time" tabindex="0"> 
-        <span class="capitalize">{{ 'time.'+ (data.eventStartDate.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ data.eventStartDate.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
+        <span class="capitalize">{{ 'time.'+ (data.eventStartDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ data.eventStartDate.unix*1000 | date: "dd.MM"}}</span>
         <span>{{ 'time.time_of_day' | translate }}</span>
-        <span>{{ data.eventStartDate.fieldEventStartTime | unixToTime }} - {{ data.eventStartDate.fieldEventEndTime | unixToTime }}</span>
+        <span>{{ data.eventStartTime | unixToTime }} - {{ data.eventStartTime | unixToTime }}</span>
       </div>
       <div class="dialog__required">* {{ 'event.registration_form_required' | translate }}</div>
     </div><!--/col-12-->
     <form [formGroup]="form" class="dialog__form col-12" *ngIf="step === 0 && !loader">
 
       <div class="dialog-content">
-        <div class="row">
-          <div class="col-6 sm-12">
+        <div class="row form-first-row">
+          <div class="col-6 sm-12 form-col">
             <div class="round-input__wrapper" [class.complete]="form.controls.firstName.value">
               <span class="round-input__title">{{ 'event.participant_first_name' | translate }} *</span>
               <div class="round-input__field-wrapper">
@@ -37,7 +37,7 @@
             </div>
           </div>
           
-          <div class="col-6 sm-12">
+          <div class="col-6 sm-12 form-col">
             <div class="round-input__wrapper" [class.complete]="form.controls.lastName.value">
               <span class="round-input__title">{{ 'event.participant_last_name' | translate }} *</span>
               <div class="round-input__field-wrapper">
@@ -50,8 +50,9 @@
               </div>
             </div>
           </div>
-
-          <div class="col-12 sm-12">
+        </div>
+        <div class="row form-additional-row">
+          <div class="col-12 sm-12 form-col">
             <div class="round-input__wrapper" [class.complete]="form.controls.companyName.value">
               <span class="round-input__title">{{ 'event.participant_organization' | translate }}</span>
               <div class="round-input__field-wrapper">
@@ -62,41 +63,42 @@
               </div>
             </div>
           </div>
-
-          <div class="col-6 sm-12">
+        </div>
+        <div class="row form-additional-row">
+          <div class="col-6 sm-12 form-col">
             <div class="round-input__wrapper" 
             [class.error]="isInvalidField('email') && form.controls.email.errors.email && !emailFocus" 
             [class.success]="!isInvalidField('email') && form.controls.email.value && !emailFocus">
-            <span class="round-input__title">{{ 'event.participant_email' | translate }} *</span>
-            <div class="round-input__field-wrapper">
-              <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{'Required input'}}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
+              <span class="round-input__title">{{ 'event.participant_email' | translate }} *</span>
+              <div class="round-input__field-wrapper">
+                <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{'Required input'}}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">
+                  {{ 'event.registration_form_valid_email' | translate }}
+                </div>
+              </div>
             </div>
-            <div class="round-input__error">
-              <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">
-                {{ 'event.registration_form_valid_email' | translate }}
+          </div>
+
+          <div class="col-6 sm-12 form-col">
+            <div class="round-input__wrapper" [class.complete]="form.controls.telephone.value">
+              <span class="round-input__title">{{ 'event.participant_phone' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_phone' | translate }}" formControlName="telephone"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" role="alert"></div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="col-6 sm-12">
-          <div class="round-input__wrapper" [class.complete]="form.controls.telephone.value">
-            <span class="round-input__title">{{ 'event.participant_phone' | translate }}</span>
-            <div class="round-input__field-wrapper">
-              <input maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_phone' | translate }}" formControlName="telephone"/>
-            </div>
-            <div class="round-input__error">
-              <div class="round-input__error--text" role="alert"></div>
-            </div>
-          </div>
-        </div>
-          
-          <div class="col-12 sm-12">
+        <div class="row form-additional-row">
+          <div class="col-12 sm-12 form-col">
             <div class="round-input__area">
               <textarea class="round-input__area__elem" autosize placeholder="{{ 'event.participant_comment' | translate }}" formControlName="marked"></textarea>
             </div>
           </div>
-
         </div>
       </div>
 

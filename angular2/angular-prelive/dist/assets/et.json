@@ -1,12 +1,7 @@
 {
   "frontpage": {
     "label": "Avaleht",
-    "navigate": "Mine avalehele",
-    "favourites_limit_modal_title": "Lisa lemmikutesse",
-    "favourites_limit_modal_content": "Portaalis saab salvestada kuni 10 lemmikut",
-    "favourites_limit_modal_close": "Sulge aken",
-    "favourites_list_label" : "Minu lemmikud",
-    "favourites_list_none_message" : "Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides."
+    "navigate": "Mine avalehele"
   },
   "article": {
     "contact": "Kontakt",
@@ -55,7 +50,6 @@
     "related": "Sarnased sündmused",
     "start_time": "Algusaeg",
     "location": "Asukoht",
-    "repeat": "Korduv üritus",
     "place_and_time": "Toimumisaeg ja -koht",
     "participant_email": "E-post",
     "participant_phone": "Telefon",
@@ -91,7 +85,7 @@
     "institutions": "Õppekohad",
     "location": "Asukoht",
     "name": "Kooli nimi",
-    "institution_type": "Tüüp",
+    "institution_type": "Õppeasutuse tüüp",
     "institution_select_type": "Vali esmalt õppeasutuse tüüp",
     "institution_sublevel": "Õppeasutuse alamtase",
     "language": "Õppekeel",
@@ -133,20 +127,18 @@
     "filter_iscedf_detailed": "Õppekavarühm",
     "filter_open_admission": "Ainult avatud vastuvõtuga",
     "no_results": "Otsingutulemused puuduvad",
-    "related_label": "Sarnased erialad",
-    "related_filter_location": "Otsi asukoha järgi",
-    "related_no_results": "Sarnased erialad puuduvad",
+    "related.label": "Sarnased erialad",
+    "related.filter_location": "Otsi asukoha järgi",
+    "related.no_results": "Sarnased erialad puuduvad",
     "compare_modal_title": "Erialade võrdlemine",
-    "compare_modal_content": "<p> Maksimaalne võrreldavate erialade arv on ületatud.</p><br><p>Võrdlusesse saab lisada kuni 3 eriala.</p>",
+    "compare_modal_content": "<p> Maksimaalne võrreldavate erialade arv on ületatud</p>Võrdlusesse saab lisada kuni 3 eriala",
     "compare_modal_close": "Sulge aken",
     "school": "Õppeasutuse nimetus",
     "degree_or_diploma": "Omistatav kraad või diplom",
     "specialization": "Spetsialiseerumine",
     "study_capacity": "Õppekava maht",
     "internship_capacity": "Praktika maht",
-    "nominal_time": "Nominaalkestus",
-    "non_active": "Eriala ei ole aktiivne",
-    "added_to_comparison": "Eriala(d) lisatud võrdlusesse"
+    "nominal_time": "Nominaalkestus"
   },
   "login": {
     "username": "Kasutajanimi",
@@ -191,16 +183,15 @@
     "duration_year_plural": "aastat",
     "duration_month_singular": "kuu",
     "duration_month_plural": "kuud",
-    "time_of_day": "Kell",
-    "years": "Aastat"
+    "time_of_day": "Kell"
+
   },
   "button": {
     "all": "Kõik",
     "map_closer": "Vaata kaarti lähemalt",
-    "add_to_comparison": "Lisa võrdlusesse",
+    "add_to_comparison": "Lisa võrdlusse",
     "remove_from_comparison":"Eemalda võrdlusest",
     "search": "Otsi",
-    "search_from_page": "Otsi lehelt",
     "search_detailed": "Täpsem otsing",
     "search_detailed_short": "Täpne",
     "search_brief": "Kitsam otsing",
@@ -219,19 +210,9 @@
     "login": "Logi sisse",
     "logout": "Logi välja",
     "search_close": "",
-    "choose_type": "",
-    "see_comparison": "Vaata võrdlust",
-    "add_to_favourites_label": "Lemmikutesse lisamine",
-    "add_to_favourites_add": "Lisa lemmikutesse",
-    "add_to_favourites_add_success": "Lemmik edukalt lisatud",
-    "add_to_favourites_remove": "Eemalda lemmikutest",
-    "add_to_favourites_remove_success": "Lemmik edukalt eemaldatud",
-    "add_to_favourites_title": "Pealkiri"
+    "choose_type": ""
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"
-  },
-  "errors": {
-    "enter_valid_date": "Sisesta korrektne kuupäev"
   }
 }

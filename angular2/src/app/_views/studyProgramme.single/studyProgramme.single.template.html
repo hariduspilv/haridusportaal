@@ -172,7 +172,7 @@
       <ng-container *ngFor="let item of data.fieldEducationalInstitution.entity.fieldSchoolLocation; let i = index">
         <div class="block padding-block border-orange mob-bottom" *ngIf="item.entity.fieldLocationType == 'L'">
           
-          <map-wrapper tabindex="0" [latitude]="parseFloat(item.entity.fieldCoordinates.lat)" [longitude]="parseFloat(item.entity.fieldCoordinates.lon)" zoom="11"></map-wrapper>
+          <map-wrapper tabindex="-1" [latitude]="parseFloat(item.entity.fieldCoordinates.lat)" [longitude]="parseFloat(item.entity.fieldCoordinates.lon)" zoom="11"></map-wrapper>
 
           <h2>Juriidiline aadress</h2>
           <p>{{ item.entity.fieldAddress | titleCase }}</p>
@@ -180,7 +180,7 @@
       </ng-container>
       <ng-container>
         <div class="text-center actions snackBar sm-show" *ngIf="!displayRelatedStudyProgrammes">
-          <button mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true">Vaata sarnaseid erialasid</button>
+          <button role="button" mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true">Vaata sarnaseid erialasid</button>
         </div><!--/text-center-->
         <related-studyprogrammes class="sm-show" *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
       </ng-container>
