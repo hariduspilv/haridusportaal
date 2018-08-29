@@ -160,9 +160,9 @@
         <h2>Kontakt</h2>
         <p>
           <ng-container *ngIf="data.fieldEducationalInstitution.entity">{{ data.fieldEducationalInstitution.entity.entityLabel | titleCase }}<br /></ng-container>
-          <ng-container *ngIf="data.fieldEducationalInstitution.entity.fieldSchoolContactPhone">{{ data.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}<br /></ng-container>
-          <ng-container *ngIf="data.fieldEducationalInstitution.entity.fieldSchoolContactEmail"><a href="mailto:data.fieldEducationalInstitution.entity.fieldSchoolContactEmail">{{ data.fieldEducationalInstitution.entity.fieldSchoolContactEmail }}</a><br /></ng-container>
-          <ng-container *ngIf="data.fieldSchoolWebsite"><a href="{{ data.fieldSchoolWebsite | url }}" target="_blank">{{ data.fieldSchoolWebsite | removeProtocol }}</a></ng-container>
+          <ng-container tabindex="0" *ngIf="data.fieldEducationalInstitution.entity.fieldSchoolContactPhone"><span role="text" tabindex="0" attr.aria-label="{{' Phone: '}} {{ data.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}"> {{data.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}</span><br /></ng-container>
+          <ng-container *ngIf="data.fieldEducationalInstitution.entity.fieldSchoolContactEmail"><a tabindex="0" attr.aria-label="{{' E-mail: '}} {{ data.fieldEducationalInstitution.entity.fieldSchoolContactEmail }} " href="mailto:data.fieldEducationalInstitution.entity.fieldSchoolContactEmail">{{ data.fieldEducationalInstitution.entity.fieldSchoolContactEmail }}</a><br /></ng-container>
+          <ng-container *ngIf="data.fieldSchoolWebsite"><a  tabindex="0" attr.aria-label="{{' Website: '}} {{ data.fieldSchoolWebsite | removeProtocol }}" href="{{ data.fieldSchoolWebsite | url }}" target="_blank">{{ data.fieldSchoolWebsite | removeProtocol }}</a></ng-container>
         </p>
       </div><!--/block-->
     
@@ -170,7 +170,7 @@
       <ng-container *ngFor="let item of data.fieldEducationalInstitution.entity.fieldSchoolLocation; let i = index">
         <div class="block padding-block border-orange mob-bottom" *ngIf="item.entity.fieldLocationType == 'L'">
           
-          <map-wrapper [latitude]="parseFloat(item.entity.fieldCoordinates.lat)" [longitude]="parseFloat(item.entity.fieldCoordinates.lon)" zoom="11"></map-wrapper>
+          <map-wrapper tabindex="0" [latitude]="parseFloat(item.entity.fieldCoordinates.lat)" [longitude]="parseFloat(item.entity.fieldCoordinates.lon)" zoom="11"></map-wrapper>
 
           <h2>Juriidiline aadress</h2>
           <p>{{ item.entity.fieldAddress | titleCase }}</p>

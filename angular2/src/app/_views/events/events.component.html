@@ -9,7 +9,7 @@
   <div class="main-container">
     <div class="row">
       <div class="col-4 sm-12" [class.col-9]="view == 'calendar'" style="padding:0.5rem;">
-        <div class="round-input__wrapper">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
           <span class="round-input__title">{{ 'event.filter_name' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input attr.aria-label="{{'You are currently on Filter navigation, where you can enter events title and pick start and end date'}}" class="round-input__field" placeholder="{{ 'event.filter_name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
@@ -18,7 +18,7 @@
       </div><!--/col-4-->
 
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper" [class.error]="checkValidity('dateFrom') && !dateFromFocus">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.dateFrom" [class.error]="checkValidity('dateFrom') && !dateFromFocus">
           <span class="round-input__title">{{ 'time.date_period_from' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input autocomplete="off" id="dateFrom" class="round-input__field"
@@ -41,7 +41,7 @@
       </div>
       
       <div class="col-25 sm-6" *ngIf="view == 'list'">
-        <div class="round-input__wrapper" [class.error]="checkValidity('dateTo') && !dateToFocus">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.dateTo" [class.error]="checkValidity('dateTo') && !dateToFocus">
           <span class="round-input__title">{{ 'time.date_period_to' | translate }}</span>
           <div class="round-input__field-wrapper">
             <input autocomplete="off" id="dateTo" class="round-input__field" 
@@ -65,10 +65,10 @@
 
       <div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
-          <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="false">
+          <a role="button" (click)="filterFull = !filterFull" aria-expanded="false">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
             <span class="md-show">{{ 'button.search_detailed_short' | translate}}</span>
-          </button>
+          </a>
         </div>
         <div class="button-row">
           <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
@@ -120,13 +120,13 @@
       </div>
       <div class="col-3 align-end text-right sm-12 inline-flex">
         <div class="align-center filter-state sm-hide">       
-          <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="true">
+          <a role="button" class="btn-link" (click)="filterFull = !filterFull" aria-expanded="true">
             <span class="md-hide">{{ 'button.search_brief' | translate}}</span>
             <span class="md-show">{{ 'button.search_brief_short' | translate}}</span>
-          </button>
+          </a>
         </div>
         <div class="button-row">
-          <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+          <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
         </div>
       </div><!--/col-3-->
     </div><!--/row-->
@@ -266,11 +266,11 @@
             </ng-container>
             
             <ng-container *ngIf="popup === event.nid">
-              <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" tabindex="0" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog">
+              <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog" cdkTrapFocus (keyup.enter)="calendar('event')" (keyup.space)="calendar('event')" (click)="calendar('event')">
                 <div class="popupcontent">
                   <div class="event__block">
                     <div class="title">
-                      <span class="title__strong" tabindex="0">{{ event.title }}</span>
+                      <span class="title__strong" >{{ event.title }}</span>
 
                       <div attr.aria-label="{{'Click to close modal'}}" role="close">
                         <mat-icon mat-icon-button>close

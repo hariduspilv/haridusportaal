@@ -32,13 +32,13 @@
 
         <div class="col-4 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
           <div class="align-center filter-state sm-hide">       
-            <a href="javascript:void(0);"  (click)="filterFull = !filterFull">
+            <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="false">
               <span class="md-hide">Täpsem otsing</span>
               <span class="md-show">Täpne</span>
             </a>
           </div>
           <div class="button-row">
-            <button mat-raised-button color="primary">Otsi</button>
+            <button role="button" mat-raised-button color="primary">Otsi</button>
           </div>
         </div><!--/col-3-->
       </div><!--/row-->
@@ -143,13 +143,13 @@
           </div><!--/col-4-->
           <div class="col-4 align-end text-right sm-12 inline-flex">
             <div class="align-center filter-state sm-hide">       
-              <a href="javascript:void(0);" (click)="filterFull = !filterFull">
+              <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
                 <span class="md-hide">{{ 'button.search_brief' | translate }}</span>
                 <span class="md-show">Kitsas</span>
               </a>
             </div>
             <div class="button-row">
-              <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+              <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
             </div>
           </div><!--/col-3-->
         </div><!--/row-->
@@ -170,7 +170,7 @@
   
   <div class="spinner-wrapper" *ngIf="!list"><mat-spinner></mat-spinner></div>
 
-  <div *ngIf="list && list.length == 0" class="no-results">
+  <div role="alert" *ngIf="list && list.length == 0" class="no-results">
       {{ 'studyProgramme.no_results' | translate }}
   </div>
 
@@ -182,8 +182,8 @@
             <div class="col-grow">
               <div class="studyProgramme__item__head sm-hide" *ngIf="item.fieldStudyProgrammeLevel">{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</div>
               <span>
-                <a [routerLink]="item.entityUrl.path" class="studyProgramme__item__title">{{ item.entityLabel }}</a>
-                <div class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</div>
+                <h1><a [routerLink]="item.entityUrl.path" class="studyProgramme__item__title">{{ item.entityLabel }}</a></h1>
+                <div class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'"><h1>{{'studyProgramme.non_active' | translate}}</h1></div>
               </span>
             </div><!--col-9-->
             <div class="col sm-hide">
@@ -194,7 +194,7 @@
             <span class="item" *ngIf="item.fieldSchoolAddress">{{ item.fieldSchoolAddress }}</span>
             <span class="bar" *ngIf="item.fieldSchoolWebsite">|</span>
             <span class="item" *ngIf="item.fieldSchoolWebsite">
-              <a attr.aria-label="{{item.fieldSchoolWebsite + ' clickable'}}" href="{{ item.fieldSchoolWebsite }}">{{ item.fieldSchoolWebsite | removeProtocol }}</a>
+              <a attr.aria-label="{{item.fieldSchoolWebsite }} {{' clickable '}}" href="{{ item.fieldSchoolWebsite }}">{{ item.fieldSchoolWebsite | removeProtocol }}</a>
             </span>
             <span class="bar" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactPhone">|</span>
             <span class="item" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactPhone">{{ item.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}</span>
@@ -209,7 +209,7 @@
 
 <div class="text-center actions snackBar" *ngIf="!listEnd && list">
     <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-    <button mat-raised-button color="primary" (click)="loadMore()"  *ngIf="!loading">
+    <button role=button mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading" attr.aria-label="{{'click to load more events'}}">
       {{ "button.load_more" | translate }}
     </button>
   </div><!--/text-center-->
