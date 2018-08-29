@@ -1,10 +1,10 @@
 <div class="events__list__recent">
   <div class="events__list__item register">
     <div *ngIf="content.entity.fieldEntryType == 'register' && content.entity.fieldRegistrationDate.entity && !content.entity.EventRegistrations">
-      <div class="title" tabindex="0"><h1>{{'event.entrance' | translate}}</h1></div>
+      <div class="title"><h1>{{'event.entrance' | translate}}</h1></div>
 
       <div class="events__list__item__body">
-        <span class="child" *ngIf="canRegister() == true" tabindex="0">
+        <span class="child" *ngIf="canRegister() == true">
           {{'button.register' | translate}} {{'time.from' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} {{'time.to' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}
         </span>
         <span class="error" *ngIf="canRegister() == 'ended'" role="alert">{{'event.registration_ended' | translate}}</span>
@@ -19,21 +19,21 @@
 
     </div>
     <div *ngIf="content.entity.fieldEntryType && content.entity.fieldEntryType == 'free' && !content.entity.EventRegistrations">
-      <div class="title" tabindex="0"><h1>{{'event.entrance' | translate}}</h1></div>
+      <div class="title"><h1>{{'event.entrance' | translate}}</h1></div>
       <div class="events__list__item__body">
-        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix" tabindex="0">{{'event.free' | translate}}</span>
-        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix" tabindex="0">{{'event.passed' | translate}}</span>
+        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix">{{'event.free' | translate}}</span>
+        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix">{{'event.passed' | translate}}</span>
       </div>
     </div>
     <div *ngIf="content.entity.fieldEntryType && content.entity.fieldEntryType == 'invite' && !content.entity.EventRegistrations">
-      <div class="title" tabindex="0"><h1>{{'event.entrance' | translate}}</h1></div>
+      <div class="title"><h1>{{'event.entrance' | translate}}</h1></div>
       <div class="events__list__item__body">
-        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix" tabindex="0">{{'event.invite' | translate}}</span>
-        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix" tabindex="0">{{'event.passed' | translate}}</span>
+        <span class="child" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 > unix">{{'event.invite' | translate}}</span>
+        <span class="error" *ngIf="content.entity.fieldEventDate && content.entity.fieldEventDate[0].entity.fieldEventDate.unix*1000 < unix">{{'event.passed' | translate}}</span>
       </div>
     </div>
     <ng-container *ngIf="content.entity.EventRegistrations">
-      <div class="title" tabindex="0"><h1>{{'event.participant_list' | translate}}</h1></div>
+      <div class="title"><h1>{{'event.participant_list' | translate}}</h1></div>
       <button mat-raised-button color="primary" (click)="toggleParticipants(true)">{{'event.participants_list_view' | translate}}</button>
     </ng-container>
   </div>
@@ -42,8 +42,8 @@
 <div class="events__list__recent" tabindex="-1" aria-hidden="true">
   <map-wrapper tabindes="-1" [latitude]="parseFloat(map.lat)" [longitude]="parseFloat(map.lon)" zoom="11" *ngIf="map"></map-wrapper>
   <div class="events__list__item">
-    <div class="title" tabindex="0"><h1 aria-hidden="true">{{'event.place_and_time' | translate}}</h1></div>
-    <div class="events__list__item__body" tabindex="0">
+    <div class="title"><h1 aria-hidden="true">{{'event.place_and_time' | translate}}</h1></div>
+    <div class="events__list__item__body">
       <div *ngFor="let item of content.entity.fieldEventDate" class="child">
         <span>
           {{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
@@ -65,11 +65,11 @@
   content.entity.fieldContactPhone ||
   content.entity.fieldContactEmail">
   <div class="events__list__item">
-    <div class="title" tabindex="0"><h1>{{'event.contact' | translate}}</h1></div>
+    <div class="title"><h1>{{'event.contact' | translate}}</h1></div>
     <div class="events__list__item__body">
-      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Event Organizer '}} {{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
-      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Contact person '}} {{ content.entity.fieldContactPerson }}">{{ content.entity.fieldContactPerson }}</div>
-      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Phone '}} {{ content.entity.fieldContactPhone }}">{{ content.entity.fieldContactPhone }}</div>
+      <div class="child" role="text" attr.aria-label="{{'Event Organizer '}} {{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
+      <div class="child" role="text" attr.aria-label="{{'Contact person '}} {{ content.entity.fieldContactPerson }}">{{ content.entity.fieldContactPerson }}</div>
+      <div class="child" role="text" attr.aria-label="{{'Phone '}} {{ content.entity.fieldContactPhone }}">{{ content.entity.fieldContactPhone }}</div>
       <a href="javascript:void(0)" class="child" role="link"  attr.aria-label="{{'e-Mail '}} {{ content.entity.fieldContactEmail }}">{{ content.entity.fieldContactEmail }}</a>
     </div>
   </div>
@@ -77,7 +77,7 @@
 
 <div class="events__list__recent" *ngIf="content.entity.fieldPracticalInformation">
   <div class="events__list__item">
-    <div class="title" tabindex="0"><h1>{{'event.practical_info' | translate}}</h1></div>
+    <div class="title"><h1>{{'event.practical_info' | translate}}</h1></div>
     <div class="events__list__item__body" *ngIf="content.entity.fieldPracticalInformation" [innerHtml]="content.entity.fieldPracticalInformation.value" tabindex="0"></div>
   </div>
 </div>

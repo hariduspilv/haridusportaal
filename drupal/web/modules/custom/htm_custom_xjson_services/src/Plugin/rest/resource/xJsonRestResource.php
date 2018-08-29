@@ -58,9 +58,9 @@ class xJsonRestResource extends ResourceBase {
     LoggerInterface $logger,
     xJsonServiceInterface $xJsonService,
     AccountProxyInterface $current_user) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-		$this->xJsonService = $xJsonService;
-    $this->currentUser = $current_user;
+			parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+			$this->xJsonService = $xJsonService;
+			$this->currentUser = $current_user;
   }
 
   /**
