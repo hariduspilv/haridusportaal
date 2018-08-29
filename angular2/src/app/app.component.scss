@@ -244,7 +244,7 @@ article a[href]{color:$blue;}
   &--blue {@extend .nonActive;background-color: #bee3e8;}
 }
 /* Material design overrides and styles */
-
+button{cursor:pointer;}
 .mat-checkbox .mat-checkbox-checkmark {left: 0px !important;}
 .mat-dialog-container {padding: 0 !important;border-radius:$half-gutter !important;}
 .mat-toolbar.header-toolbar{position: fixed; top:0; left:0; width:100%; z-index: 999;}
@@ -256,7 +256,7 @@ article a[href]{color:$blue;}
 .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
 .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
 .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
-  &:disabled, &[disabled] {color: $black;background-color: $gray;}
+  &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
   &:hover {background-color: #454B92;}
   @include break-on(sm, min) {width: auto;}
 }

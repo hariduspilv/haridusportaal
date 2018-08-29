@@ -361,7 +361,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     }
 
-    console.log(tmpList);
     /*
     for( let year in tmpList ){// loop through years
       for( let month in tmpList[year] ){// loop through months
@@ -402,7 +401,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       }
     }
     
-    console.log(this.calendarDays);
   }
 
   maxEntries( day:any ){

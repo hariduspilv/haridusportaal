@@ -68,7 +68,6 @@ export class EventsRegistratonDialog {
       this.step = 1;
       this.loader = false;
     }, (data) => {
-      console.log(data);
       this.loader = false;
     });
   }
