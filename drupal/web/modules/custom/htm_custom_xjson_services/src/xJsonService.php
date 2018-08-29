@@ -5,9 +5,10 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\user\Entity\User;
+use GuzzleHttp\Exception\BadResponseException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-
+use Drupal\redis\ClientFactory;
 /**
  * Class xJsonService.
  */
@@ -333,12 +334,22 @@ class xJsonService implements xJsonServiceInterface {
 				throw new HttpException('400', 'some error');
 				break;
 		}
-		#dump($valid);
+
 		if(!isset($acceptable_keys)) $acceptable_keys = array_merge($default_acceptable_keys, $additional_keys);
 		$element_keys = array_keys($element);
 		foreach($element_keys as $element_key){
 			if(!in_array($element_key, $acceptable_keys, TRUE)) $valid = false; continue;
 		}
 		return $valid;
+	}
+
+	public function xJsonGetDocumentById($file_id){
+			try{
+				$redis_client = ClientFactory::getClient();
+			}catch (\RedisException $e){
+				throw new \HttpResponseException('puuduvärk');
+				dump($e->getMessage());
+			}
+			return [];
 	}
 }

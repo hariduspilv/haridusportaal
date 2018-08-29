@@ -71,6 +71,48 @@ export class NewsSingleComponent implements OnInit {
     });
   }
 
+
+
+  getCSV() {
+    
+    let exportData = JSON.parse( JSON.stringify( this.sortedParticipants ) );
+
+    
+    let exportLabels = [];
+
+    for( var i in exportData ){
+      delete exportData[i]['__typename'];
+      delete exportData[i]['created'];
+
+      exportData[i]['participantIndex'] = i+1;
+
+      for( var ii in exportData[i] ){
+
+        let translatedLabel = this.translate.get(ii)['value'];
+
+        if( !exportLabels.includes(translatedLabel) ){
+          exportLabels.push(translatedLabel);
+        }
+
+        if( exportData[i][ii] == null ){
+          exportData[i][ii] = '';
+        }
+        else if( ii == "participantCreated" ){
+          exportData[i][ii] = moment(exportData[i][ii] * 1000).format("DD.MM.YYYY HH:mm");
+        }
+      }
+    }
+
+    new Angular2Csv(exportData, this.content.entityLabel, {
+      fieldSeparator: ";",
+      showLabels: true,
+      headers: exportLabels
+    });
+
+     
+  }
+  
+
   ngOnInit() {
     
   }
