@@ -253,6 +253,18 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'type' => 'datetime_default',
 				'weight' => -1
 			]);
+		$fields['building_id'] = BaseFieldDefinition::create('string')
+				->setLabel(t('Building id'))
+				->setDescription(t('Building registration code'))
+				->setSettings([
+					'text_processing' => 0,
+					'max_length' => 20,
+				])
+				->setDefaultValue('')
+				->setDisplayOptions('form', [
+					'type' => 'string_textfield',
+					'weight' => -1,
+				]);
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
