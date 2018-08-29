@@ -4,7 +4,9 @@
     "navigate": "Mine avalehele",
     "favourites_limit_modal_title": "Lisa lemmikutesse",
     "favourites_limit_modal_content": "Portaalis saab salvestada kuni 10 lemmikut",
-    "favourites_limit_modal_close": "Sulge aken"
+    "favourites_limit_modal_close": "Sulge aken",
+    "favourites_list_label" : "Minu lemmikud",
+    "favourites_list_none_message" : "Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides."
   },
   "article": {
     "contact": "Kontakt",
@@ -218,7 +220,13 @@
     "logout": "Logi välja",
     "search_close": "",
     "choose_type": "",
-    "see_comparison": "Vaata võrdlust"
+    "see_comparison": "Vaata võrdlust",
+    "add_to_favourites_label": "Lemmikutesse lisamine",
+    "add_to_favourites_add": "Lisa lemmikutesse",
+    "add_to_favourites_add_success": "Lemmik edukalt lisatud",
+    "add_to_favourites_remove": "Eemalda lemmikutest",
+    "add_to_favourites_remove_success": "Lemmik edukalt eemaldatud",
+    "add_to_favourites_title": "Pealkiri"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"

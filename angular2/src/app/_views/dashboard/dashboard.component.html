@@ -1,9 +1,31 @@
 
-<div class="main-container">
+<div class="dashboard main-container">
   <div class="row">
     <div class="col-8">
       <div class="block padding-block border-blue">
         <div class="block-title">Töölaud</div>
+
+        <div class="dashboard__username">{{ userData.username }}</div>
+
+        <div class="button-list sm-hide">
+          <ng-container *ngFor="let item of mainMenu">
+              <div class="view-item pointer text-center" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" >
+                <mat-icon>list</mat-icon>
+                <div class="title" >{{item.label}}</div>
+              </div>
+          </ng-container>
+         
+        </div><!--/button-list-->
+
+        <!-- APPLICATIONS TAB -->
+
+        <!-- CERTIFICATES TAB -->
+        <certificates></certificates>
+        
+        <!-- STUDENT TAB -->
+
+        <!-- TEACHER TAB-->
+
       </div>
     </div><!--/col-8-->
     <div class="col-4">
