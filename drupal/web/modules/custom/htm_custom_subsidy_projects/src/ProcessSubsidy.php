@@ -44,6 +44,7 @@ class ProcessSubsidy {
 			'summa' => false,
 			'tahtaeg' => false,
 			'ehitise_id' => false,
+			'school_ref' => false,
 		];
 		foreach ($items as $index => $item){
 			$object['ehis_id'] = (self::loadEntity('node', 'field_ehis_id', $item['ehis_id']) ? $item['ehis_id'] : FALSE);
@@ -51,7 +52,8 @@ class ProcessSubsidy {
 			$object['projekt'] = ($item['projekt']) ? $item['projekt'] : FALSE;
 			$object['summa'] = (is_numeric(preg_replace('/\s+/', '', $item['summa'])) ? preg_replace('/\s+/', '', $item['summa']) : FALSE);
 			$object['tahtaeg'] = self::checkDateFormat($item['tahtaeg'], 'd.m.Y');
-			$object['ehitise_id'] = (strlen($item['ehitise_id']) <= 20) ? $item['ehitise_id'] : FALSE ;
+			$object['ehitise_id'] = (strlen($item['ehitise_id']) <= 20) ? $item['ehitise_id'] : FALSE;
+			$object['school_ref'] = self::loadEntity('node', 'field_ehis_id', $item['ehis_id']);
 			if(
 					!$object['ehis_id']
 					||
@@ -81,7 +83,8 @@ class ProcessSubsidy {
 					'investment_project' => $object['projekt'],
 					'investment_amount' => $object['summa'],
 					'investment_deadline' => $object['tahtaeg'],
-					'building_id' => $object['ehitise_id']
+					'building_id' => $object['ehitise_id'],
+					'school_ref' => $object['school_ref']
 				];
 			}
 		}
