@@ -22,6 +22,7 @@ import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } fro
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { AgmCoreModule } from '@agm/core';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -93,7 +94,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     public route: ActivatedRoute,
     private apollo: Apollo,
     private cdr: ChangeDetectorRef,
-    private http: HttpService
+    private http: HttpService,
+    private translate: TranslateService
   ) {
     super(null, null);
   }

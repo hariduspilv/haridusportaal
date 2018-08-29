@@ -1,0 +1,30 @@
+add contribution project entities:
+  title: 'Create new Contribution project entities'
+
+administer contribution project entities:
+  title: 'Administer Contribution project entities'
+  description: 'Allow to access the administration form to configure Contribution project entities.'
+  restrict access: true
+
+delete contribution project entities:
+  title: 'Delete Contribution project entities'
+
+edit contribution project entities:
+  title: 'Edit Contribution project entities'
+
+view published contribution project entities:
+  title: 'View published Contribution project entities'
+
+view unpublished contribution project entities:
+  title: 'View unpublished Contribution project entities'
+
+view all contribution project revisions:
+  title: 'View all Contribution project revisions'
+
+revert all contribution project revisions:
+  title: 'Revert all Contribution project revisions'
+  description: 'Role requires permission <em>view Contribution project revisions</em> and <em>edit rights</em> for contribution project entities in question or <em>administer contribution project entities</em>.'
+
+delete all contribution project revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Contribution project revisions</em> and <em>delete rights</em> for contribution project entities in question or <em>administer contribution project entities</em>.'
