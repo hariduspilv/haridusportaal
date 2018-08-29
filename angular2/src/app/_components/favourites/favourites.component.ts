@@ -122,7 +122,7 @@ export class FavouritesComponent implements OnInit{
             } break;
           case 'page':
             if(item.entity.fieldPage.entity.entityUrl.path === this.router.url) {
-             
+              this.existing = true; 
               this.existingItem = item;
              
             } break;
@@ -146,12 +146,7 @@ export class FavouritesComponent implements OnInit{
         this.favouritesDropdown = false;
       }, 2000);
       sub.unsubscribe();
-      
-      
     });
-  
- 
-    
   }
   
   toggleFavouritesPanel(): any {
@@ -166,12 +161,13 @@ export class FavouritesComponent implements OnInit{
       
       this.isFavouriteExisting(existingFavouriteItems);
       console.log(this.existingItem);
+      console.log(this.existing);
       if(this.existing === false){
         if(existingFavouriteItems.length >= this.maxFavouriteItems) {
           this.openDialog();
+          this.favouritesDropdown = false;
         }
       }
-      
       sub.unsubscribe();
     });
   }

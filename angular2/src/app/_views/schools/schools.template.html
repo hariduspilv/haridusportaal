@@ -124,6 +124,9 @@
   <div class="schools__list-head">
     <div class="schools__head">
       <div class="schools__title text-left">{{ 'school.label' | translate | uppercase }}</div>
+      
+      <favourites class="pull-right"></favourites>
+      
       <div class="button-list text-right">
         <div tabindex="0" class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
