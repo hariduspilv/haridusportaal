@@ -97,10 +97,12 @@ class ProcessSubsidy {
 				}
 				for($i = $context['sandbox']['current_id']; $i < $limit; $i++){
 					// do something
-					$values = $context['results']['values'][$context['sandbox']['current_id']];
-					$entity = SubsidyProjectEntity::create([
-							'name' => 'rida: '. (String) ($i+1),
-					] + $values);
+					$values = $context['results']['values'][$i];
+					if($values){
+						$entity = SubsidyProjectEntity::create([
+										'name' => 'rida: '. (String) ($i+1),
+								] + $values);
+					}
 
 					$entity->save();
 					$context['sandbox']['progress']++;
