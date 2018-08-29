@@ -6,7 +6,15 @@
     "favourites_limit_modal_content": "Portaalis saab salvestada kuni 10 lemmikut",
     "favourites_limit_modal_close": "Sulge aken",
     "favourites_list_label" : "Minu lemmikud",
-    "favourites_list_none_message" : "Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides."
+    "favourites_list_none_message" : "Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides.",
+    "dashboard_label": "Töölaud",
+    "dashboard_tabs_applications": "Taotlused",
+    "dashboard_tabs_certificates":"Tunnistused",
+    "dashboard_tabs_studies":"Õpingud",
+    "dashboard_tabs_teachings":"Õpetan",
+    "dashboard_tabs_certificates_error_technical":"Vabandame. Kutsetunnistuste andmete Kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.",
+    "dashboard_tabs_certificates_professional": "Kutsetunnistused",
+    "dashboard_tabs_certificates_examinations": "Riigieksamid"
   },
   "article": {
     "contact": "Kontakt",
