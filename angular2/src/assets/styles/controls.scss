@@ -64,7 +64,7 @@
   &__field {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 0.875rem;
     line-height: 2;
     height: 1.375rem;
@@ -98,8 +98,10 @@
     left: $medium;
     &.exists {display: inline-block;}
   }
-  &__error {color: $red;margin-bottom: .3875rem;
-    &--text {position: absolute;padding-left: $small;font-size: 0.875rem; line-height: $medium;}
+  &__error {color: $red;line-height: $medium;
+    &--text {position: absolute;padding-left: $small;font-size: 0.875rem;
+      overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+    }
   }
   &__area {width: 100%;padding-top: .125rem;
     &__elem {box-sizing: border-box; font-family: 'Rubik', sans-serif;
@@ -168,8 +170,7 @@
     @include break-on(sm, min) {font-size: .875rem;}
   }
 }
-.ng-select__wrapper, .ng-select__wrapper__second {
-  margin-top: -.3125rem;
+.ng-select__wrapper, .ng-select__wrapper__mt {
   &:focus-within {
     color: red;
     .ng-select__title {
@@ -182,7 +183,7 @@
     }
   }
 }
-.ng-select__wrapper__second {margin-top: -$quarter}
+.ng-select__wrapper__mt {margin-top: -1.25rem;}
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper {border: none;}
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper .ng-clear {top: 0;color:$red;}
 .ng-select .ng-clear-wrapper .ng-clear {color: rgba(0, 0, 0, .87);font-size: 1.75rem !important;position: relative;right: $gutter; top: 0.3125rem;}

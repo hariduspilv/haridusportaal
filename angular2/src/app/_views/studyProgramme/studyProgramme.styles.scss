@@ -54,3 +54,6 @@
   }
   .button-row {padding-top: 0;}
 }
+@include break-on(sm, min) {
+  .custom-checkbox {margin-top: $gutter;}
+}

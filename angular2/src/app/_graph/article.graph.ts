@@ -15,6 +15,7 @@ query getArticleData($path: String!) {
       }
       entity {
         ... on NodeArticle {
+          nid
           title
           fieldBody{
             value

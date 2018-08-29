@@ -41,7 +41,8 @@ class ImportSubsidyProjectsForm extends FormBase {
 			'#title' => 'CSV file upload',
 			'#upload_validators' => [
 					'file_validate_extensions' => ['csv']
-			]
+			],
+			#'#required' => TRUE,
 		];
 		$form['submit'] = [
 			'#type' => 'submit',
@@ -52,13 +53,32 @@ class ImportSubsidyProjectsForm extends FormBase {
 	}
 
 	public function validateForm(array &$form, FormStateInterface $form_state){
+		$required_headers = [
+				'ehis_id', 'meede', 'projekt', 'summa', 'tahtaeg', 'ehitise_id'
+		];
 		$all_files = $this->getRequest()->files->get('files', []);
 		if (!empty($all_files['file'])) {
 			$file_upload = $all_files['file'];
 			if ($file_upload->isValid()) {
+				$header_info = $this->detectCSVFileDelimiter($file_upload->getRealPath());
+				#dump($header_info['keys']);
+				$delimiter = $header_info['delimiter'];
+				//check delimiter
+				if($delimiter != ';'){
+					$form_state->setErrorByName('file', $this->t("delimiter: '$delimiter' not allowed!"));
+				}
+				//check headers
+				foreach($required_headers as $required_header){
+					if(!in_array($required_header, $header_info['keys'])){
+						$form_state->setErrorByName('file', $this->t("$required_header header is not wrong spelled or missing"));
+					}
+				}
+
 				$form_state->setValue('file', $file_upload->getRealPath());
 				return;
 			}
+		}else{
+			$form_state->setErrorByName('file', $this->t('No CSV uploaded!'));
 		}
 	}
 
@@ -69,12 +89,8 @@ class ImportSubsidyProjectsForm extends FormBase {
 		$encoders = new CsvEncoder();
 
 		$file_array = $encoders->decode(file_get_contents($form_state->getValue('file')), 'csv', ['csv_delimiter' => ';']);
-		/*foreach($file_array as $item){
-			dump($item);
-			foreach($item as $value){
-				#dump($value);
-			}
-		}*/
+		#dump($file_array);
+		#die();
 		$batch = [
 			'title' => t('Processing Subsidies ....--'),
 			'operations' => [
@@ -93,4 +109,24 @@ class ImportSubsidyProjectsForm extends FormBase {
 
 		batch_set($batch);
 	}
+	public function detectCSVFileDelimiter($csvFile) {
+		$delimiters = array(',' => 0, ';' => 0, "\t" => 0, '|' => 0);
+		$firstLine = '';
+		$handle = fopen($csvFile, 'r');
+		if ($handle) {
+			$firstLine = fgets($handle); fclose($handle);
+		}
+		if ($firstLine) {
+			foreach ($delimiters as $delimiter => &$count) {
+				$count = count(str_getcsv($firstLine, $delimiter));
+			}
+			return [
+				'delimiter' => array_search(max($delimiters), $delimiters),
+				'keys' => explode(array_search(max($delimiters), $delimiters), preg_replace('/\s+/', '',$firstLine))
+			];
+		} else {
+			return key($delimiters);
+		}
+	}
+
 }
