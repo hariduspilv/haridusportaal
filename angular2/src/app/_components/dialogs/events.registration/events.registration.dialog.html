@@ -13,9 +13,9 @@
     <div class="col-12" *ngIf="step === 0 && !loader">
       <h1 tabindex="0">{{ data.eventTitle }}</h1>
       <div class="dialog__time" tabindex="0"> 
-        <span class="capitalize">{{ 'time.'+ (data.eventStartDate.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ data.eventStartDate.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
+        <span class="capitalize">{{ 'time.'+ (data.eventStartDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ data.eventStartDate.unix*1000 | date: "dd.MM"}}</span>
         <span>{{ 'time.time_of_day' | translate }}</span>
-        <span>{{ data.eventStartDate.fieldEventStartTime | unixToTime }} - {{ data.eventStartDate.fieldEventEndTime | unixToTime }}</span>
+        <span>{{ data.eventStartTime | unixToTime }} - {{ data.eventStartTime | unixToTime }}</span>
       </div>
       <div class="dialog__required">* {{ 'event.registration_form_required' | translate }}</div>
     </div><!--/col-12-->
