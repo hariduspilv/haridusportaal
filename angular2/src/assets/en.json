@@ -4,7 +4,9 @@
     "navigate": "Go to homepage",
     "favourites_limit_modal_title": "Add to favourites",
     "favourites_limit_modal_content": "You can add up to 10 favourites",
-    "favourites_limit_modal_close": "Close window"
+    "favourites_limit_modal_close": "Close window",
+    "favourites_list_label" : "My favourites",
+    "favourites_list_none_message" : "You don't have any favourites added. You can do so by clicking on the star icon on topic pages and lists."
   },
   "article": {
     "contact": "Contact",
@@ -213,7 +215,14 @@
     "logout": "Log out",
     "search_close": "",
     "select_type": "",
-    "see_comparison": "See comparison"
+    "see_comparison": "See comparison",
+    "add_to_favourites_label": "Favourites",
+    "add_to_favourites_add": "Add to favourites",
+    "add_to_favourites_add_success": "Successfully added to favourites",
+    "add_to_favourites_remove": "Remove from favourites",
+    "add_to_favourites_remove_success": "Successfully removed from favourites",
+    "add_to_favourites_title": "Title"
+
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"
