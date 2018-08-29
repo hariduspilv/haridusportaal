@@ -4,11 +4,11 @@
   <div class="row events__single" *ngIf="content && !participantsListActiveState">
     <div class="col-8 sm-12">
       <div class="events__list">
-        <div class="events__title" tabindex="0">{{ 'event.label' | translate | uppercase }}</div>
+        <div class="events__title">{{ 'event.label' | translate | uppercase }}</div>
         <article>
           <div class="row title">
             <div class="col-10 flex">
-              <h1 class="mt-0 mb-0" tabindex="0">{{ content.entity.entityLabel }}</h1>
+              <h1 class="mt-0 mb-0">{{ content.entity.entityLabel }}</h1>
             </div><!--/col-10-->
             <div class="col-2 flex text-right">
               <favourites [id]="content.entity.nid" [title]="content.entity.entityLabel"></favourites>
@@ -18,9 +18,9 @@
       
           <div class="row">
             <div class="col-12">
-              <div class="short" tabindex="0" *ngIf="content.entity.fieldDescription" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
+              <div class="short" *ngIf="content.entity.fieldDescription" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
               <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openImage()">
-                <img tabindex="0" src="{{ content.entity.fieldPicture.derivative.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
+                <img class="pointer" tabindex="0" src="{{ content.entity.fieldPicture.derivative.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
                 <div class="image-alt-text" *ngIf="content.entity.fieldPicture.alt" aria-hidden="true">{{ content.entity.fieldPicture.alt }}</div>
               </div>
 
@@ -43,22 +43,25 @@
                   <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-list-wrapper">
                     <mat-chip *ngIf="tag.entity && tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
                   </span>
+                  <span class="mat-chip-list-wrapper" *ngIf="content.entity.fieldEventType">
+                    <mat-chip tabindex="0">{{ content.entity.fieldEventType.entity.entityLabel }}</mat-chip>
+                  </span>
               </mat-chip-list>
             </div><!--/col-10-->
           </div><!--/row-->
         </article>
       </div>
       <div class="events__list second sm-hide" *ngIf="content.entity.fieldEventGroup">
-        <div class="events__title" tabindex="0">{{ 'event.related' | translate | uppercase }}</div>
+        <div class="events__title">{{ 'event.related' | translate | uppercase }}</div>
         <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
       </div>
     </div><!--/col-8-->
     <div class="col-4 sm-12">
-      <recent-events tabindex="-1" (viewChange)="onViewChange($event)" [map]="map" [nid]="content.entity.nid" [content]="content"></recent-events>
+      <recent-events (viewChange)="onViewChange($event)" [map]="map" [nid]="content.entity.nid" [content]="content"></recent-events>
     </div><!--/col-4-->
     <div class="col-8 sm-12 sm-show">
       <div class="events__list" *ngIf="content.entity.fieldEventGroup">
-        <div class="events__title" tabindex="0">{{ 'event.related' | translate | uppercase }}</div>
+        <div class="events__title">{{ 'event.related' | translate | uppercase }}</div>
         <related-events [groupID]="content.entity.fieldEventGroup.targetId" [nid]="content.entity.nid" *ngIf="content.entity.fieldEventGroup"></related-events>
       </div>
     </div><!--/col-4-->
@@ -69,17 +72,16 @@
       
       <div class="events__list">
         <div class="events__title">
-          <span tabindex="0">{{ 'event.label' | translate | uppercase }}</span>
+          <span>{{ 'event.label' | translate | uppercase }}</span>
         </div>
         <article>
           <div class="row title">
             <div class="col-6 sm-7">
-              <h1 class="mt-0 mb-0" tabindex="0">{{ 'event.participant_list' | translate }}: {{ sortedParticipants.length }} {{ 'event.participant_count' | translate | lowercase }}</h1>
+              <h1 class="mt-0 mb-0" >{{ 'event.participant_list' | translate }}: {{ sortedParticipants.length }} {{ 'event.participant_count' | translate | lowercase }}</h1>
             </div><!--/col-10-->
             <div class="col-6 sm-5 text-right share">
               <div class="share-btn--participants">
-                <a class="sm-show" href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'back' | translate | uppercase }}</a>
-                <a class="sm-hide" href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'back.to.event' | translate | uppercase }}</a>
+                <a href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'button.back' | translate | uppercase }}</a>
                 <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
                   <a mat-menu-item href="{{ iCalUrl }}{{ content.entity.nid }}" >iCAL</a>
                   <a mat-menu-item (click)="getCSV()">CSV</a>

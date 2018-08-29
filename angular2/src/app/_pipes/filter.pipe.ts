@@ -27,8 +27,6 @@ export class FilterPipe implements PipeTransform {
           }
         });
         
-        // console.log(item.entityTranslation.fieldNewsTag)
-        // console.log(tagSearch)
         
         // item tag - item.entityTranslation.fieldNewsTag.map((item) => { item.entity.entityLabel });
         // tag - tagSearch.map((item) => { item.entityLabel });
@@ -36,8 +34,7 @@ export class FilterPipe implements PipeTransform {
         
         // item.entityTranslation.fieldNewsTag.some(
         //   (itemTag) => {
-        //     // console.log(itemTag.entity.entityLabel)
-        //     // console.log(tagSearch)
+
         
         //     // if (tagSearch!=null) {
         //     //   tagSearch.some((tsItem) => {                

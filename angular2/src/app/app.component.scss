@@ -52,6 +52,14 @@ body{height: calc(100% - 4rem);}
 
 $grid-columns: 12;
 
+.form-col {padding: $quarter $gutter !important;}
+.form-first-row {margin-top: -$quarter !important;
+  &.short-filter {margin-bottom: -$quarter !important;}
+}
+.form-additional-row {padding-top: $gutter;
+  &:last-child {margin-bottom: -$quarter !important;}
+}
+
 .row{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;
   @for $i from 1 through $grid-columns {
     .col-#{$i} { width: percentage($i / $grid-columns); }
@@ -67,6 +75,12 @@ $grid-columns: 12;
   
   &>.dateBlock{padding:.625rem;}
   &+.mat-divider{margin:1.25rem 0;}
+}
+@for $i from 1 through $grid-columns {
+  .error-#{$i} { width: percentage($i / $grid-columns); }
+  @include break-on(sm, max) {
+    .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+  }
 }
 .sm-show{display:none !important;}
 .sm-flex{display:none !important;}
@@ -100,9 +114,8 @@ $grid-columns: 12;
 }
 .filter-control {padding: $medium;}
 .filter-wrapper {background: $white; padding: 0 $medium; margin-bottom: $xxl;
-  .row {div.col-9 {padding-top: 0;}}
-  @include break-on(sm, min) {padding: $small $medium; margin-bottom: $medium; margin-top: $small;
-    @include break-on(md, max) {padding: $small;}
+  @include break-on(sm, min) {padding: $medium; margin-bottom: $medium; margin-top: $small;
+    @include break-on(md, max) {padding: $medium $small;}
   }
 }
 .cdk-overlay-pane, #cdk-overlay-0 {
@@ -231,7 +244,7 @@ article a[href]{color:$blue;}
   &--blue {@extend .nonActive;background-color: #bee3e8;}
 }
 /* Material design overrides and styles */
-
+button{cursor:pointer;}
 .mat-checkbox .mat-checkbox-checkmark {left: 0px !important;}
 .mat-dialog-container {padding: 0 !important;border-radius:$half-gutter !important;}
 .mat-toolbar.header-toolbar{position: fixed; top:0; left:0; width:100%; z-index: 999;}
@@ -243,7 +256,7 @@ article a[href]{color:$blue;}
 .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
 .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
 .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
-  &:disabled, &[disabled] {color: $black;background-color: $gray;}
+  &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
   &:hover {background-color: #454B92;}
   @include break-on(sm, min) {width: auto;}
 }
