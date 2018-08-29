@@ -199,6 +199,13 @@ query(
             alt
             title
           }
+          fieldEventMainDate{
+            value
+            date
+            unix
+          }
+          fieldEventMainStartTime
+          fieldEventMainEndTime
           EventRegistrations{
             entities{
               ... on EventRegEntity{
