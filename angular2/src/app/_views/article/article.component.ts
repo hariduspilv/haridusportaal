@@ -17,6 +17,8 @@ import {VideoComponent} from '@app/_components/video/video.component';
   styleUrls: ['./article.component.scss']
 })
 
+
+
 export class ArticleComponent implements OnInit, OnDestroy{
   
   private querySubscription: Subscription;  

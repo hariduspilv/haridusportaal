@@ -55,7 +55,6 @@ export class FiltersService {
     this.minDate = minDate;
     this.maxDate = maxDate;
 
-    //console.log(this.minDate, this.maxDate);
   }
 
 

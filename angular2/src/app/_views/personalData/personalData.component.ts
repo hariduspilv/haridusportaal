@@ -46,7 +46,7 @@ export class PersonalDataComponent {
     .subscribe(data => {
       that.token = data;
     }, error => {
-        console.log(error);
+
     });
   }
 
@@ -66,8 +66,6 @@ export class PersonalDataComponent {
     this.status = "default";
     this.statusText = "";
     this.content = [];
-
-    console.log(personalCode);
 
     if( this.loading ){
       this.snackbar.open('Ära rapsi.. Ma ju laen veel..', 'OK', {
@@ -95,7 +93,6 @@ export class PersonalDataComponent {
       })
       .subscribe( data => {
         that.content = data;
-        console.log(that.content);
         this.loading = false;
       }, error => {
         that.content = error;

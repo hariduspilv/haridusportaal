@@ -112,7 +112,8 @@
     .event__block {padding: $small $medium $small $medium;
       span {font-weight: 400;padding-left: .125rem;padding-right: .125rem;}
       .title {font-size: 1.25rem; padding-bottom: $medium;display: flex;
-        &__strong {font-weight: 500;line-height: 1.875rem;}
+        &__strong {font-weight: 500;line-height: 1.875rem;flex-basis: 90%;}
+        &__close {flex-basis: 10%;align-self: flex-start;text-align: right;margin-top: $half-gutter;}
         .header {line-height: 1.875rem;
           &__medium {font-size: $small;font-weight: 400;}
           &__strong {font-weight: 500;white-space: nowrap;}
