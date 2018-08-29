@@ -63,11 +63,13 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	}
 	
 	openDialog(): void {
+
 		let dialogRef = this.dialog.open(EventsRegistratonDialog, {
 		  // width: '500px',
 		  data: {
 			eventTitle: this.content.entity.entityLabel,
-			eventStartDate: this.content.entity.fieldEventDate[0].entity,
+			eventStartDate: this.content.entity.fieldEventMainDate,
+			eventStartTime: this.content.entity.fieldEventMainStartTime,
 			nid: this.nid,
 			lang: this.lang
 		  }
@@ -79,7 +81,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	}
 	
 	canRegister() {
-		console.log(this.content.entity.fieldRegistrationDate.entity);
+		//console.log(this.content.entity.fieldRegistrationDate.entity);
 		let firstDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix * 1000;
 		let lastDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix * 1000;
 		let isFull = this.content.entity.RegistrationCount >= this.content.entity.fieldMaxNumberOfParticipants;
