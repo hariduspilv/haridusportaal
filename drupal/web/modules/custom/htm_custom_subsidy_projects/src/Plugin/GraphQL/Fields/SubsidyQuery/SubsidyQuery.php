@@ -11,6 +11,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Elasticsearch\ClientBuilder;
 use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
 use Drupal\graphql\Utility\StringHelper;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\taxonomy\Entity\Term;
 
 
 /**
@@ -24,7 +26,7 @@ use Drupal\graphql\Utility\StringHelper;
 *     "ownerShipType" = "[Int]",
 *     "investment_measure" = "[Int]",
 *     "investment_deadline" = "[Int]",
-*     "levelOfDetail" = "Int!"
+*     "detail" = "Int!"
 *   }
 * )
 */
@@ -75,6 +77,7 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
   */
   public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
     $responsevalues = [];
+    $ehis_ids = [];
 
     $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
     $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
@@ -94,70 +97,146 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
     $response = $client->search($params);
 
-    while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+    dump($response);
+    die();
 
-      $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
+    if($response['hits']['total'] > 0){
+      while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
 
-      // When done, get the new scroll_id
-      // You must always refresh your _scroll_id!  It can change sometimes
-      $scroll_id = $response['_scroll_id'];
+        $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
 
-      // Execute a Scroll request and repeat
-      $response = $client->scroll([
-        "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
-        "scroll" => "30s"           // and the same timeout window
+        // When done, get the new scroll_id
+        // You must always refresh your _scroll_id!  It can change sometimes
+        $scroll_id = $response['_scroll_id'];
+
+        // Execute a Scroll request and repeat
+        $response = $client->scroll([
+          "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
+          "scroll" => "30s"           // and the same timeout window
         ]
       );
     }
 
-    dump($responsevalues);
-    die();
-
-  foreach($responsevalues as $value){
-    foreach($value['_source'] as $key => $keyvalue){
-      $value['_source'][StringHelper::camelCase($key)] = $keyvalue;
-      unset($value['_source'][$key]);
+    foreach($responsevalues as $value){
+      if(!in_array($value['_source']['ehis_id'][0], $ehis_ids)){
+        $ehis_ids[] = $value['_source']['ehis_id'][0];
+      }
     }
-    yield $value['_source'];
+
+    $schools = $this->getSchoolsByEhisId($ehis_ids);
+    if($args['detail'] == 1 || $args['detail'] == 2){
+      switch($args['detail']){
+        case 1:
+          $locations = $this->getCountys($schools);
+          break;
+        case 2:
+          $locations = $this->getLocalGovs($schools);
+          break;
+      }
+      foreach($responsevalues as $value){
+        $ehis_id = $value['_source']['ehis_id'][0];
+        if(isset($locations[$ehis_id])){
+          $sums[$locations[$ehis_id]] += $value['_source']['investment_amount'][0];
+        }
+      }
+
+      foreach($sums as $location => $sum){
+        $statisticvalue['investmentLocation'] = $location;
+        $statisticvalue['investmentAmountSum'] = $sum;
+        yield $statisticvalue;
+      }
+    }
+    if($args['detail'] == 3){
+
+    }
   }
-  //yield $this->getQuery($value, $args, $context, $info);
 }
 
 protected function getElasticQuery($args){
 
-    $params = [
-      'scroll' => '30s',
-      'size' => 50,
-      'index' => 'elasticsearch_index_drupaldb_subsidy_projects'
-    ];
+  $params = [
+    'scroll' => '30s',
+    'size' => 50,
+    'index' => 'elasticsearch_index_drupaldb_subsidy_projects'
+  ];
 
   foreach($args as $arglabel => $argvalues){
-    foreach($argvalues as $argvalue){
-      $elastic_should_filters[] = array(
-        'match' => array(
-          $arglabel => $argvalue
-        )
-      );
+    if(count($argvalues) > 1){
+      foreach($argvalues as $argvalue){
+        $elastic_should_filters[] = array(
+          'match' => array(
+            $arglabel => $argvalue
+          )
+        );
+      }
+    }else{
+      foreach($argvalues as $argvalue){
+        $elastic_must_filters[] = array(
+          'term' => array(
+            $arglabel => $argvalue
+          )
+        );
+      }
     }
   }
 
-    $query = array(
-      'query' => array(
-        'bool' => array(
-          'must' => array(
-            'bool' => array(
-              'should' => array(
-                $elastic_should_filters
-              )
-            )
-          )
-        )
+  $query = array(
+    'query' => array(
+      'bool' => array(
+        'should' => $elastic_should_filters,
+        'filter' => $elastic_must_filters
       )
-    );
+    )
+  );
 
   $params['body'] = $query;
 
   return $params;
+}
+
+protected function getLocationTaxonomyId($school){
+  $paragraph_id = $school->get('field_school_location')->getValue()[0]['target_id'];
+  $paragraph = Paragraph::load($paragraph_id);
+  $taxonomy_term_id = $paragraph->get('field_school_location')->getValue()[0]['target_id'];
+
+  return $taxonomy_term_id;
+}
+
+protected function getCountys($schools){
+  $countys = [];
+  foreach($schools as $school){
+    $taxonomy_term_id = $this->getLocationTaxonomyId($school);
+    $parents = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($taxonomy_term_id);
+    $county = end($parents)->getName();
+    $ehis_id = $school->field_ehis_id->getValue()[0]['value'];
+    $countys[$ehis_id] = $county;
+  }
+  return $countys;
+}
+
+protected function getLocalGovs($schools){
+  $localgovs = [];
+  foreach($schools as $school){
+    $taxonomy_term_id = $this->getLocationTaxonomyId($school);
+    $parents = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($taxonomy_term_id);
+    $keys = array_keys($parents);
+    $key = $keys[1];
+    $localgov = $parents[$key]->getName();
+    $ehis_id = $school->field_ehis_id->getValue()[0]['value'];
+    $localgovs[$ehis_id] = $localgov;
+  }
+  return $localgovs;
+}
+
+protected function getSchoolsByEhisId($ehis_ids){
+  $nid_result = \Drupal::entityQuery('node')
+  ->condition('type', 'school')
+  ->condition('field_ehis_id', $ehis_ids, 'IN')
+  ->execute();
+
+  $schools = \Drupal::entityManager()->getStorage('node')->loadMultiple($nid_result);
+
+  return $schools;
 }
 
 }
