@@ -229,7 +229,9 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'type' => 'number',
 				'weight' => -1,
 				'settings' => [
-					'max' => 99999999
+					'max_length' => 8,
+					'max' => 99999999,
+					'size' => 8
 				]
 			]);
 		$fields['investment_deadline'] = BaseFieldDefinition::create('datetime')
