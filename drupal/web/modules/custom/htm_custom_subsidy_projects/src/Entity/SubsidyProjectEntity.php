@@ -45,7 +45,7 @@ use Drupal\user\UserInterface;
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "vid",
- *     "label" = "name",
+ *     "label" = "investment_project",
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
@@ -122,14 +122,14 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
    * {@inheritdoc}
    */
   public function getName() {
-    return $this->get('name')->value;
+    return $this->get('investment_project')->value;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setName($name) {
-    $this->set('name', $name);
+    $this->set('investment_project', $name);
     return $this;
   }
 
@@ -222,6 +222,18 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'weight' => -1,
 			]);
 
+		$fields['investment_project'] = BaseFieldDefinition::create('string')
+				->setLabel(t('Project'))
+				->setDescription(t('Investment project name'))
+				->setSettings([
+					'text_processing' => 0,
+				])
+				->setDefaultValue('')
+				->setDisplayOptions('form', [
+					'type' => 'string_textfield',
+					'weight' => -1,
+				]);
+
 		$fields['investment_amount'] = BaseFieldDefinition::create('integer')
 			->setLabel(t('Investment amount'))
 			->setDefaultValue(0)
@@ -267,7 +279,7 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['name'] = BaseFieldDefinition::create('string')
+    /*$fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
       ->setDescription(t('The name of the Subsidy project entity.'))
       ->setRevisionable(TRUE)
@@ -287,7 +299,7 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
+      ->setRequired(TRUE);*/
 
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
