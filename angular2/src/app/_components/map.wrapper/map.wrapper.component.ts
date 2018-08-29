@@ -14,7 +14,7 @@ export class MapWrapperComponent implements OnInit {
   iconUrl = "/assets/marker.png"
 
   constructor() {
-    console.log("asd");
+
   }
 
   ngOnInit() {
