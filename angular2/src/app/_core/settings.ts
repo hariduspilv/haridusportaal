@@ -23,7 +23,6 @@ export class SettingsService {
     }else{
       this.url = this.urlTemplates.otherwise;
     }
-    console.log( document.domain + " -> " + this.url );
   }
 
 }

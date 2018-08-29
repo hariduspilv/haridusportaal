@@ -226,8 +226,8 @@
     "add_to_favourites_add_success": "Successfully added to favourites",
     "add_to_favourites_remove": "Remove from favourites",
     "add_to_favourites_remove_success": "Successfully removed from favourites",
-    "add_to_favourites_title": "Title"
-
+    "add_to_favourites_title": "Title",
+    "back": "Tagasi"
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"

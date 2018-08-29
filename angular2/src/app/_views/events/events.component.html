@@ -283,9 +283,9 @@
                     <div class="title">
                       <span class="title__strong" >{{ event.title }}</span>
 
-                      <div attr.aria-label="{{'Click to close modal'}}" role="close">
+                      <div class="title__close" attr.aria-label="{{'Click to close modal'}}" role="close">
                         <mat-icon mat-icon-button>close
-                          <button class="btn-hidden" (click)="closePopup()" tabindex="0"></button>
+                          <button class="btn-hidden pointer" (click)="closePopup()" tabindex="0"></button>
                         </mat-icon>
                       </div>
                     </div>
