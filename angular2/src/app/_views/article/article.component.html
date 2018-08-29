@@ -18,6 +18,7 @@
                   <h1 class="mt-0 mb-0" attr.aria-label="{{'title' | translate}}">{{ content.title }}</h1>
                 </div><!--/col-10-->
                 <div class="col-2 flex text-right">
+                  <favourites [id]="content.nid" [title]="content.title"></favourites>
                   <share [title]="content.title"></share>
                 </div><!--/col-1-->
             </div><!--/row-->
@@ -38,7 +39,7 @@
               <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of accordionSection; let first = first;">
                 <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
                   <mat-panel-title>
-                    {{accordionItem.entity.fieldAccordionTitle}}
+                    {{ accordionItem.entity.fieldAccordionTitle }}
                   </mat-panel-title>
                   <!-- <mat-panel-description></mat-panel-description> -->
                 </mat-expansion-panel-header>

@@ -47,6 +47,7 @@ import { FavouritesListComponent } from './_components/favouritesList/favourites
 
 import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
+import { CertificatesComponent } from '@app/_components/certificates/certificates.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -92,7 +93,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     RelatedStudyProgrammesComponent,
     RecentEventsComponent,
     FavouritesComponent,
-    FavouritesListComponent
+    FavouritesListComponent,
+    CertificatesComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent],
