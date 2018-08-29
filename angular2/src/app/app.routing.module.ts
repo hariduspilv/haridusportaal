@@ -15,7 +15,8 @@ import {
   StudyProgrammeSingleComponent,
   NotFoundComponent,
   StudyProgrammeCompareComponent,
-  DashboardComponent
+  DashboardComponent,
+  SchoolsFundingComponent
 } from './_views';
 
 const appRoutes: Routes = [
@@ -35,6 +36,8 @@ const appRoutes: Routes = [
   { path: ':lang/kool', component: SchoolsComponent },
   { path: ':lang/school/:id', component: SchoolsSingleComponent },
   { path: ':lang/kool/:id', component: SchoolsSingleComponent },
+
+  { path: ':lang/school_funding', component: SchoolsFundingComponent},
 
   { path: ':lang/erialad/vordlus', component: StudyProgrammeCompareComponent},
   { path: ':lang/study-programmes/compare', component: StudyProgrammeCompareComponent},
@@ -73,6 +76,7 @@ export const routedComponents = [
   StudyProgrammeSingleComponent,
   NotFoundComponent,
   StudyProgrammeCompareComponent,
-  DashboardComponent
+  DashboardComponent,
+  SchoolsFundingComponent
 ];
 
