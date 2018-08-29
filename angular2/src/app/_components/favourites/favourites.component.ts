@@ -25,10 +25,10 @@ export class FavouritesComponent implements OnInit{
 
   public list;
   public loading: boolean;
-
+  public displaySuccess: boolean;
   public userLoggedOut: boolean;
   public favouritesDropdown: boolean = false;
-  public existingTargetId: any;
+  public existingItem: any;
   public existing: boolean;
   private lang: string;
 
@@ -44,10 +44,14 @@ export class FavouritesComponent implements OnInit{
   }
   getFavouritesList():void{
     this.loading= true;
-    this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
-      this.list = response['data']['CustomFavorites'][0]['favorites'];
-     console.log(this.list);
+    let sub = this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
+     
+
+      if(response['data']['CustomFavorites'].length) this.list = response['data']['CustomFavorites'][0]['favorites'];
+      else this.list = [];
+
       this.loading = false;
+      sub.unsubscribe();
     });
   }
   openDialog(): void {
@@ -83,16 +87,23 @@ export class FavouritesComponent implements OnInit{
     }
     return output;
   }
-  removeFavouriteItem(id){
+  removeFavouriteItem(item){
+    this.loading = true;
     let data = { 
       queryId: "deleteFavoriteItem:1",
-      variables: { id: id}
+      variables: { id: item.targetId}
     }
 
     let sub = this.http.post('/graphql',data).subscribe(response => {
-      console.log(response);
-      this.existingTargetId = false;
-      this.existing = false;
+      this.loading = false;
+      this.displaySuccess = true;
+      setTimeout(() => {
+        this.displaySuccess = false;
+        this.existingItem = false;
+        this.existing = false;
+        this.favouritesDropdown = false;
+      }, 2000);
+      
       sub.unsubscribe();
     });
   }
@@ -104,20 +115,23 @@ export class FavouritesComponent implements OnInit{
         switch(variables['type']){
           case 'search': 
             if(item.entity.fieldSearch === variables['search_params']) {
-              this.existingTargetId = item.targetId;
-              this.existing = true;
+              
+              this.existingItem = item;
+              this.existing = true; 
+              
             } break;
           case 'page':
             if(item.entity.fieldPage.entity.entityUrl.path === this.router.url) {
-              this.existingTargetId = item.targetId;
-              this.existing = true;
+              this.existing = true; 
+              this.existingItem = item;
+             
             } break;
         };
       }
     });
   }
   submitFavouriteItem(): void {   
-
+    this.loading = true;
     let data = { queryId: "createFavoriteItem:1" }
 
     data['variables'] = this.compileVariables();
@@ -125,12 +139,14 @@ export class FavouritesComponent implements OnInit{
 
     let sub = this.http.post('/graphql', data).subscribe(response => {
       console.log(response);
-      //todo: display success
+      this.loading = false;
+      this.displaySuccess = true;
+      setTimeout(() => {
+        this.displaySuccess = false;
+        this.favouritesDropdown = false;
+      }, 2000);
       sub.unsubscribe();
     });
-  
- 
-    this.favouritesDropdown = false;
   }
   
   toggleFavouritesPanel(): any {
@@ -138,17 +154,21 @@ export class FavouritesComponent implements OnInit{
    
     if(this.favouritesDropdown == true) return this.favouritesDropdown = false;
     else this.favouritesDropdown = true;
-
-    this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
+    
+    let sub = this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
       this.loading = false;
       let existingFavouriteItems = response['data']['CustomFavorites'][0]['favorites'];
-      if(existingFavouriteItems.length < this.maxFavouriteItems) {
-       
-        this.isFavouriteExisting(existingFavouriteItems);
+      
+      this.isFavouriteExisting(existingFavouriteItems);
+      console.log(this.existingItem);
+      console.log(this.existing);
+      if(this.existing === false){
+        if(existingFavouriteItems.length >= this.maxFavouriteItems) {
+          this.openDialog();
+          this.favouritesDropdown = false;
+        }
       }
-      else {
-        this.openDialog();
-      }
+      sub.unsubscribe();
     });
   }
 

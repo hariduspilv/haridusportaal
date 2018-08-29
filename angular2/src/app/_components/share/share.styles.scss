@@ -15,7 +15,9 @@
     &--elem {width: $large;height: $large;padding-top: $gutter;
       &:last-child {padding-top: $half-gutter;}
     }
-    img {width: $large;height: $large;background-color: $white;border-radius: 50%;}
+    img {width: $large;height: $large;background-color: $white;border-radius: 50%;
+      &:hover {background-color: $orange;}
+    }
   }
   &:hover, &:focus, &:focus-within {background-color: $black;transition: background-color 0.25s;  
     .share__component {

@@ -8,8 +8,8 @@
   </div>
   <form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
     <div class="main-container">
-      <div class="row">
-        <div class="col-4 sm-12">
+      <div class="row form-first-row" [class.short-filter]="!filterFull">
+        <div class="col-4 sm-12 form-col">
           <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
             <span class="round-input__title">{{ 'news.filter_name' | translate }}</span>
             <div class="round-input__field-wrapper">
@@ -17,7 +17,7 @@
             </div>
           </div><!--/round-inpuit__wrapper-->
         </div><!--/col-4-->
-        <div class="col-25 sm-6">
+        <div class="col-25 sm-6 form-col">
           <div class="round-input__wrapper" [class.complete]="filterFormItems.dateFrom" [class.error]="checkValidity('dateFrom') && !dateFromFocus">
             <span class="round-input__title">{{ 'time.date_period_from'  | translate }}</span>
             <div class="round-input__field-wrapper">
@@ -33,10 +33,13 @@
               <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
               <mat-datepicker #datepickerFrom></mat-datepicker>
             </div>
+            <div class="round-input__error">
+              <div class="round-input__error--text error-2 error-sm-4" role="alert" *ngIf="checkValidity('dateFrom') && !dateFromFocus">{{ 'errors.enter_valid_date' | translate }}</div>
+            </div>
           </div>
         </div>
         
-        <div class="col-25 sm-6">
+        <div class="col-25 sm-6 form-col">
           <div class="round-input__wrapper" [class.complete]="filterFormItems.dateTo" [class.error]="checkValidity('dateTo') && !dateToFocus">
             <span class="round-input__title">{{ 'time.date_period_to'  | translate }}</span>
             <div class="round-input__field-wrapper">
@@ -53,12 +56,15 @@
               <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
               <mat-datepicker #datepickerTo></mat-datepicker>
             </div>
+            <div class="round-input__error">
+              <div class="round-input__error--text error-2 error-sm-4" role="alert" *ngIf="checkValidity('dateTo') && !dateToFocus">{{ 'errors.enter_valid_date' | translate }}</div>
+            </div>
           </div>
         </div>
     
-        <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
+        <div class="col-3 align-end text-right sm-12 inline-flex sm-hide form-col" *ngIf="!filterFull">
           <div class="align-center filter-state sm-hide">       
-            <a role="button" (click)="filterFull = !filterFull" aria-expanded="false">
+            <a role="button" class="pointer" (click)="filterFull = !filterFull" aria-expanded="false">
               <span class="md-hide">{{ 'button.search_detailed' | translate}}</span>
               <span class="md-show">{{ 'button.search_detailed_short' | translate}}</span>
             </a>
@@ -69,10 +75,10 @@
         </div><!--/col-3-->
       </div><!--/row-->
     
-      <div class="row" *ngIf="filterFull">
-        <div class="col-9 sm-12">
+      <div class="row form-additional-row" *ngIf="filterFull">
+        <div class="col-9 sm-12 form-col">
     
-          <div class="ng-select__wrapper">
+          <div class="ng-select__wrapper__mt">
             <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">{{ 'news.filter_tag' | translate }}</span>
             <ng-select
             tabindex="0"
@@ -91,9 +97,9 @@
           </div>
           
         </div>
-        <div class="col-3 align-end text-right sm-12 inline-flex">
+        <div class="col-3 align-end text-right sm-12 inline-flex form-col">
           <div class="align-center filter-state sm-hide">       
-            <a class="btn-link" (click)="filterFull = !filterFull" aria-expanded="true">
+            <a class="btn-link pointer" (click)="filterFull = !filterFull" aria-expanded="true">
               <span class="md-hide">{{ 'button.search_brief' | translate}}</span>
               <span class="md-show">{{ 'button.search_brief_short' | translate}}</span>
             </a>
@@ -108,7 +114,10 @@
 
   <mat-spinner *ngIf="!list"></mat-spinner>
   <div class="news-list main-container" *ngIf="list">
-    <div class="news-title">{{ 'news.label' | translate | uppercase }}</div>
+    <div class="news-title">{{ 'news.label' | translate | uppercase }}
+        <favourites></favourites>
+    </div>
+   
     <div>
       <div *ngFor="let item of list" class="news-item pointer" [routerLink]="[item.entityUrl.path]">
         <mat-card>

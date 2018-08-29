@@ -48,7 +48,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
   }
   setPaths() {
     this.rootScope.set('langOptions', {
-      'en': '/en/study-programmes/compare/',
+      'en': '/en/study-programmes/compare',
       'et': '/et/erialad/vordlus'
     });
   }
@@ -104,5 +104,10 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
       this.initialized = true;
     }
+  }
+  back () {
+    let langOpts = this.rootScope.get('langOptions')[this.lang].split('/')
+    langOpts.splice(-1, 1)
+    return langOpts.join('/')
   }
 }
