@@ -14,7 +14,7 @@ use Drupal\graphql\Utility\StringHelper;
  *   secure = true,
  *   parents = {"CustomSubsidy"},
  *   id = "custom_subsidy_project_query_output",
- *	 deriver = "Drupal\custom_graphql_elasticsearch_query\Plugin\GraphQL\Derivers\ElasticFieldDeriver"
+ *	 deriver = "Drupal\htm_custom_subsidy_projects\Plugin\GraphQL\Derivers\SubsidyMapDeriver"
  * )
  */
 class SubsidyQueryOutput extends FieldPluginBase {
@@ -25,7 +25,6 @@ class SubsidyQueryOutput extends FieldPluginBase {
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 
 		//$derivative['type'] = StringHelper::camelCase('field', $entityTypeId, $fieldName);
-
 		$derivative_id = $this->getDerivativeId();
     // Not all documents have values for all fields so we need to check.
     if (isset($value[$derivative_id])) {
