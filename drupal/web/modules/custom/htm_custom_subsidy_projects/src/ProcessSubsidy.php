@@ -40,22 +40,30 @@ class ProcessSubsidy {
 		$object = [
 			'ehis_id' => false,
 			'meede' => false,
+			'projekt' => false,
 			'summa' => false,
-			'tahtaeg' => false
+			'tahtaeg' => false,
+			'ehitise_id' => false,
 		];
 		foreach ($items as $index => $item){
-			$object['ehis_id'] = self::loadEntity('node', 'field_ehis_id', $item['ehis_id']);
+			$object['ehis_id'] = (self::loadEntity('node', 'field_ehis_id', $item['ehis_id']) ? $item['ehis_id'] : FALSE);
 			$object['meede'] = self::loadEntity('taxonomy_term', 'name', $item['meede']);
+			$object['projekt'] = ($item['projekt']) ? $item['projekt'] : FALSE;
 			$object['summa'] = (is_numeric(preg_replace('/\s+/', '', $item['summa'])) ? preg_replace('/\s+/', '', $item['summa']) : FALSE);
 			$object['tahtaeg'] = self::checkDateFormat($item['tahtaeg'], 'd.m.Y');
+			$object['ehitise_id'] = (strlen($item['ehitise_id']) <= 20) ? $item['ehitise_id'] : FALSE ;
 			if(
 					!$object['ehis_id']
 					||
 					!$object['meede']
 					||
+					!$object['projekt']
+					||
 					!$object['summa']
 					||
-					!$object['tahtaeg']){
+					!$object['tahtaeg']
+					||
+					!$object['ehitise_id']){
 
 				$error_messag_func = function($values) {
 					foreach($values as $key => $value){
@@ -70,8 +78,10 @@ class ProcessSubsidy {
 				$results[] = [
 					'ehis_id' => $object['ehis_id'],
 					'investment_measure' => $object['meede'],
+					'investment_project' => $object['projekt'],
 					'investment_amount' => $object['summa'],
 					'investment_deadline' => $object['tahtaeg'],
+					'building_id' => $object['ehitise_id']
 				];
 			}
 		}
@@ -97,10 +107,10 @@ class ProcessSubsidy {
 				}
 				for($i = $context['sandbox']['current_id']; $i < $limit; $i++){
 					// do something
-					$values = $context['results']['values'][$context['sandbox']['current_id']];
-					$entity = SubsidyProjectEntity::create([
-							'name' => 'rida: '. (String) ($i+1),
-					] + $values);
+					$values = $context['results']['values'][$i];
+					if($values){
+						$entity = SubsidyProjectEntity::create($values);
+					}
 
 					$entity->save();
 					$context['sandbox']['progress']++;
@@ -133,7 +143,7 @@ class ProcessSubsidy {
 			}else{
 				$message = [\Drupal::translation()->formatPlural(
 					count($results['processed']),
-					'One post processed.', '@count posts processed.'
+					'One subsidy processed.', '@count subsidies processed.'
 				), 'status'];
 			}
 		}
@@ -156,7 +166,6 @@ class ProcessSubsidy {
 			$properties = [$field => $id];
 		}
 		$entity = reset($storage->loadByProperties($properties));
-		#dump($entity);
 		return ($entity) ? $entity->id() : FALSE;
 	}
 

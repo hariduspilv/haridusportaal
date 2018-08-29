@@ -54,7 +54,7 @@ class ImportSubsidyProjectsForm extends FormBase {
 
 	public function validateForm(array &$form, FormStateInterface $form_state){
 		$required_headers = [
-				'ehis_id', 'meede', 'projekt', 'summa', 'tahtaeg'
+				'ehis_id', 'meede', 'projekt', 'summa', 'tahtaeg', 'ehitise_id'
 		];
 		$all_files = $this->getRequest()->files->get('files', []);
 		if (!empty($all_files['file'])) {
@@ -68,9 +68,9 @@ class ImportSubsidyProjectsForm extends FormBase {
 					$form_state->setErrorByName('file', $this->t("delimiter: '$delimiter' not allowed!"));
 				}
 				//check headers
-				foreach($header_info['keys'] as $header_item){
-					if(!in_array($header_item, $required_headers)){
-						$form_state->setErrorByName('file', $this->t("$header_item header is not supported"));
+				foreach($required_headers as $required_header){
+					if(!in_array($required_header, $header_info['keys'])){
+						$form_state->setErrorByName('file', $this->t("$required_header header is not wrong spelled or missing"));
 					}
 				}
 
