@@ -1,0 +1,9 @@
+uuid: 17424bb4-20fe-497f-9144-bf26679530a5
+langcode: und
+status: true
+dependencies: {  }
+name: investmentmeasure
+vid: investmentmeasure
+description: ''
+hierarchy: 0
+weight: 0
