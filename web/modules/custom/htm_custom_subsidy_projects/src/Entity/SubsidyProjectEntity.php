@@ -45,7 +45,7 @@ use Drupal\user\UserInterface;
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "vid",
- *     "label" = "name",
+ *     "label" = "investment_project",
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
@@ -122,14 +122,14 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
    * {@inheritdoc}
    */
   public function getName() {
-    return $this->get('name')->value;
+    return $this->get('investment_project')->value;
   }
 
   /**
    * {@inheritdoc}
    */
   public function setName($name) {
-    $this->set('name', $name);
+    $this->set('investment_project', $name);
     return $this;
   }
 
@@ -205,6 +205,22 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'type' => 'number',
 				'weight' => -1,
 			]);
+		$fields['school_ref'] = BaseFieldDefinition::create('entity_reference')
+				->setLabel('School entity reference')
+				->setReadOnly(TRUE)
+				->setSetting('target_type', 'node')
+				->setSetting('handler_settings', ['target_bundles' => ['school' => 'school']])
+				->setDisplayOptions('form', [
+					'type' => 'entity_reference_autocomplete',
+					'weight' => -1,
+					'settings' => [
+						'match_operator' => 'CONTAINS',
+						'size' => '60',
+						'autocomplete_type' => 'tags',
+						'placeholder' => '',
+					],
+				]);
+
 
 		$fields['investment_measure'] = BaseFieldDefinition::create('entity_reference')
 			->setLabel('Investment measure')
@@ -213,7 +229,7 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'handler' => 'default',
 				'handler_settings' => [
 					'target_bundles' => [
-						'subsidyinvestmentmeasure' => 'subsidyinvestmentmeasure'
+						'investmentmeasure' => 'investmentmeasure'
 					]
 				]
 			])
@@ -222,12 +238,29 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'weight' => -1,
 			]);
 
-	     $fields['investment_amount'] = BaseFieldDefinition::create('integer')
+		$fields['investment_project'] = BaseFieldDefinition::create('string')
+				->setLabel(t('Project'))
+				->setDescription(t('Investment project name'))
+				->setSettings([
+					'text_processing' => 0,
+				])
+				->setDefaultValue('')
+				->setDisplayOptions('form', [
+					'type' => 'string_textfield',
+					'weight' => -1,
+				]);
+
+		$fields['investment_amount'] = BaseFieldDefinition::create('integer')
 			->setLabel(t('Investment amount'))
-      ->setDefaultValue(0)
+			->setDefaultValue(0)
 			->setDisplayOptions('form', [
 				'type' => 'number',
-				'weight' => -1
+				'weight' => -1,
+				'settings' => [
+					'max_length' => 8,
+					'max' => 99999999,
+					'size' => 8
+				]
 			]);
 		$fields['investment_deadline'] = BaseFieldDefinition::create('datetime')
 			->setLabel('Investment deadline')
@@ -236,6 +269,18 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
 				'type' => 'datetime_default',
 				'weight' => -1
 			]);
+		$fields['building_id'] = BaseFieldDefinition::create('string')
+				->setLabel(t('Building id'))
+				->setDescription(t('Building registration code'))
+				->setSettings([
+					'text_processing' => 0,
+					'max_length' => 20,
+				])
+				->setDefaultValue('')
+				->setDisplayOptions('form', [
+					'type' => 'string_textfield',
+					'weight' => -1,
+				]);
 
     $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('Authored by'))
@@ -262,7 +307,7 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['name'] = BaseFieldDefinition::create('string')
+    /*$fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
       ->setDescription(t('The name of the Subsidy project entity.'))
       ->setRevisionable(TRUE)
@@ -282,7 +327,7 @@ class SubsidyProjectEntity extends RevisionableContentEntityBase implements Subs
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE)
-      ->setRequired(TRUE);
+      ->setRequired(TRUE);*/
 
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
