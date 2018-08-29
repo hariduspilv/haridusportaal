@@ -11,7 +11,7 @@
                 <h1 class="mt-0 mb-0">{{ content.entityLabel }}</h1>
               </div><!--/col-10-->
               <div class="col-2 flex text-right">
-                              <favourites [id]="content.nid" [title]="content.entityLabel"></favourites>
+                <favourites [id]="content.nid" [title]="content.entityLabel"></favourites>
                 <share [title]="content.entityLabel"></share>
               </div><!--/col-10-->
           </div><!--/row-->
@@ -23,7 +23,7 @@
               <div class="col-12">
                 <div class="short" [innerHtml]="content.fieldShortDescription"></div>
                 <div *ngIf="content.fieldIntroductionImage !== null" class="article-image pull-right" (click)="openDialog()">
-                  <img src="{{ content.fieldIntroductionImage.derivative.url }}" alt="{{ content.fieldIntroductionImage.alt }}" title="{{ content.fieldIntroductionImage.alt }}" style="max-width:100%;" />
+                  <img class="pointer" src="{{ content.fieldIntroductionImage.derivative.url }}" alt="{{ content.fieldIntroductionImage.alt }}" title="{{ content.fieldIntroductionImage.alt }}" style="max-width:100%;" />
                   <div class="image-alt-text" aria-hidden="true" *ngIf="content.fieldIntroductionImage.alt">{{ content.fieldIntroductionImage.alt }}</div>
                 </div>
 

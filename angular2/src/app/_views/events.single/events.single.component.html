@@ -20,7 +20,7 @@
             <div class="col-12">
               <div class="short" *ngIf="content.entity.fieldDescription" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
               <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openImage()">
-                <img tabindex="0" src="{{ content.entity.fieldPicture.derivative.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
+                <img class="pointer" tabindex="0" src="{{ content.entity.fieldPicture.derivative.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
                 <div class="image-alt-text" *ngIf="content.entity.fieldPicture.alt" aria-hidden="true">{{ content.entity.fieldPicture.alt }}</div>
               </div>
 
@@ -78,8 +78,7 @@
             </div><!--/col-10-->
             <div class="col-6 sm-5 text-right share">
               <div class="share-btn--participants">
-                <a class="sm-show" href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'back' | translate | uppercase }}</a>
-                <a class="sm-hide" href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'back.to.event' | translate | uppercase }}</a>
+                <a href="javascript:void(0)" (click)="revertParticipantsListState()">{{ 'button.back' | translate | uppercase }}</a>
                 <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
                   <a mat-menu-item href="{{ iCalUrl }}{{ content.entity.nid }}" >iCAL</a>
                   <a mat-menu-item (click)="getCSV()">CSV</a>

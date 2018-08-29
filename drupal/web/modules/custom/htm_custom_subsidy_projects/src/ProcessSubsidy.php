@@ -13,12 +13,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ProcessSubsidy {
 
-	public $get_error_messages = [
-		'ehis_id'  => 'There was a timeout before the user could sign with Mobile ID.',
-		'USER_CANCEL'          => 'User has cancelled the signing operation.',
-		'NOT_VALID'            => 'Signature is not valid.',
-		'MID_NOT_READY'        => 'Mobile ID is not yet available for this phone. Please try again later.',
-	];
+		public static $k = [
+			'EHIS_ID'  => 'There was a timeout before the user could sign with Mobile ID.',
+			'MEEDE' => 'tekst',
+			'SUMMA' => 'Summa field must be numeric',
+			'TAHTAEG' => 'Tahtaeg field format wrong'
+		];
+
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -33,28 +35,53 @@ class ProcessSubsidy {
 		//first delete all subsidies
 		self::deleteAllEntities();
 
+		#dump(self::$k['EHIS_ID']);
 		$results = [];
+		$object = [
+			'ehis_id' => false,
+			'meede' => false,
+			'projekt' => false,
+			'summa' => false,
+			'tahtaeg' => false,
+			'ehitise_id' => false,
+		];
 		foreach ($items as $index => $item){
-			$ehis_id = self::loadEntity('node', 'field_ehis_id', $item['ehis id']);
-			$meede = self::loadEntity('taxonomy_term', 'name', $item['meede']);
-			$summa = (is_numeric(preg_replace('/\s+/', '', $item['summa'])) ? $item['summa'] : FALSE);
-			$tahtaeg = (self::checkDateFormat($item['tahtaeg'], 'd.m.Y') ? $item['tahtaeg'] : FALSE);
-
+			$object['ehis_id'] = (self::loadEntity('node', 'field_ehis_id', $item['ehis_id']) ? $item['ehis_id'] : FALSE);
+			$object['meede'] = self::loadEntity('taxonomy_term', 'name', $item['meede']);
+			$object['projekt'] = ($item['projekt']) ? $item['projekt'] : FALSE;
+			$object['summa'] = (is_numeric(preg_replace('/\s+/', '', $item['summa'])) ? preg_replace('/\s+/', '', $item['summa']) : FALSE);
+			$object['tahtaeg'] = self::checkDateFormat($item['tahtaeg'], 'd.m.Y');
+			$object['ehitise_id'] = (strlen($item['ehitise_id']) <= 20) ? $item['ehitise_id'] : FALSE ;
 			if(
-					!$meede
+					!$object['ehis_id']
 					||
-					!$ehis_id
+					!$object['meede']
 					||
-					!$summa
+					!$object['projekt']
 					||
-					!$tahtaeg){
-				$context['results']['error'][] = t('Error on line: '. ($index + 2));
+					!$object['summa']
+					||
+					!$object['tahtaeg']
+					||
+					!$object['ehitise_id']){
+
+				$error_messag_func = function($values) {
+					foreach($values as $key => $value){
+						if($value == false){
+							return $key;
+						}
+					}
+				};
+
+				$context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
 			}else{
 				$results[] = [
-					'ehis_id' => $ehis_id,
-					'ivestment_measure' => $meede,
-					'investment_amount' => $summa,
-					'investment_deadline' => $tahtaeg,
+					'ehis_id' => $object['ehis_id'],
+					'investment_measure' => $object['meede'],
+					'investment_project' => $object['projekt'],
+					'investment_amount' => $object['summa'],
+					'investment_deadline' => $object['tahtaeg'],
+					'building_id' => $object['ehitise_id']
 				];
 			}
 		}
@@ -64,29 +91,44 @@ class ProcessSubsidy {
 	}
 
 	public static function ProcessSubsidy($items, &$context){
-		// do nothing if error's
-		#dump($context);
-		#dump($items);
-		#die();
-		#dump(count($context['results']['values']));
 		//process only if no errors otherwise nothing
 		if(empty($context['results']['error'])){
 			if(empty($context['sandbox'])){
 				$context['sandbox']['progress'] = 0;
 				$context['sandbox']['current_id'] = 0;
-				#$context['sandbox']['max'] = count($context['results']['values']);
-				$context['sandbox']['max'] = 200;
-			}
-			$limit = 10;
-			for($i = $context['sandbox']['current_id']; $i <= $limit; $i++){
-				// do something
-				$context['sandbox']['progress']++;
-				$context['message'] = $i;
+				$context['sandbox']['max'] = count($context['results']['values']);
 			}
 
-			if($context['sandbox']['progress'] != $context['sandbox']['max']){
-				$context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+
+			if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
+				$limit = $context['sandbox']['current_id'] + 10;
+				if ($context['sandbox']['max'] - $context['sandbox']['current_id'] < 10){
+					$limit = $context['sandbox']['max'] + 1;
+				}
+				for($i = $context['sandbox']['current_id']; $i < $limit; $i++){
+					// do something
+					$values = $context['results']['values'][$i];
+					if($values){
+						$entity = SubsidyProjectEntity::create($values);
+					}
+
+					$entity->save();
+					$context['sandbox']['progress']++;
+					$context['sandbox']['current_id'] = $i;
+					#$context['message'] = t('Processing lines : @limit - @current ', ['@limit' => $limit, '@current' => $context['sandbox']['current_id'] + 1]);
+					$context['message'] = $context['sandbox']['max'];
+
+					$context['results']['processed'][] = $entity->id();
+				}
+				$context['sandbox']['current_id']++;
+
+				if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+					$context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+				}
+			}else{
+				$context['finished'] = 1;
 			}
+
 		}
 	}
 
@@ -101,7 +143,7 @@ class ProcessSubsidy {
 			}else{
 				$message = [\Drupal::translation()->formatPlural(
 					count($results['processed']),
-					'One post processed.', '@count posts processed.'
+					'One subsidy processed.', '@count subsidies processed.'
 				), 'status'];
 			}
 		}
@@ -124,7 +166,6 @@ class ProcessSubsidy {
 			$properties = [$field => $id];
 		}
 		$entity = reset($storage->loadByProperties($properties));
-		#dump($entity);
 		return ($entity) ? $entity->id() : FALSE;
 	}
 
@@ -138,7 +179,7 @@ class ProcessSubsidy {
 	private function checkDateFormat($date_string, $format){
 		try{
 			$d = DrupalDateTime::createFromFormat($format, $date_string);
-			return $d && $d->format($format) === $date_string;
+			return $d->format('Y-m-d');
 		}catch (\Exception $e){
 			return false;
 		}
