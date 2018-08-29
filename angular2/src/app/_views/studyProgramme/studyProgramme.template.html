@@ -7,8 +7,8 @@
   </div>
   <form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
     <div class="main-container">
-      <div class="row">
-        <div class="col-4 sm-12">
+      <div class="row form-first-row" [class.short-filter]="!filterFull">
+        <div class="col-4 sm-12 form-col">
           <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
             <span class="round-input__title">{{ 'studyProgramme.filter_title' | translate }}</span>
             <div class="round-input__field-wrapper">
@@ -17,7 +17,7 @@
           </div><!--/round-inpuit__wrapper-->
         </div><!--/col-4-->
 
-        <div class="col-4 sm-12" >
+        <div class="col-5 sm-12 form-col">
           <div class="round-input__wrapper">
             <mat-form-field *ngIf="FilterOptions" >
               <mat-select placeholder="{{ 'studyProgramme.filter_type' | translate }}" [(ngModel)]='filterFormItems.type' name="type">
@@ -30,7 +30,7 @@
           </div>
         </div><!--/col-4-->
 
-        <div class="col-4 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
+        <div class="col-3 align-end text-right sm-12 inline-flex form-col" *ngIf="!filterFull">
           <div class="align-center filter-state sm-hide">       
             <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="false">
               <span class="md-hide">Täpsem otsing</span>
@@ -43,8 +43,8 @@
         </div><!--/col-3-->
       </div><!--/row-->
       <ng-container *ngIf="filterFull">
-        <div class="row" >
-            <div class="col-4 sm-12" >
+        <div class="row form-additional-row">
+            <div class="col-4 sm-12 form-col">
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select placeholder="{{ 'studyProgramme.level' | translate }}" [(ngModel)]='filterFormItems.level' name="level">
@@ -57,7 +57,7 @@
               </div>
             </div><!--/col-4-->
 
-            <div class="col-4 sm-12">
+            <div class="col-5 sm-12 form-col">
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select placeholder="{{ 'studyProgramme.filter_iscedf_broad' | translate }}" (change)="isceChange(filterFormItems.iscedf_broad, 'iscedf_broad')" [(ngModel)]='filterFormItems.iscedf_broad' name="iscedf_broad">
@@ -70,8 +70,8 @@
               </div>
             </div><!--/col-4-->
         </div>
-        <div class="row" >
-            <div class="col-4 sm-12" >
+        <div class="row form-additional-row">
+            <div class="col-4 sm-12 form-col">
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select placeholder="{{ 'studyProgramme.filter_language' | translate }}" [(ngModel)]='filterFormItems.language' name="language">
@@ -84,7 +84,7 @@
               </div>
             </div><!--/col-4-->
              
-            <div class="col-4 sm-12">
+            <div class="col-5 sm-12 form-col">
               <div class="round-input__wrapper" [class.disabled]="!filterFormItems.iscedf_broad">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select [disabled]="!filterFormItems.iscedf_broad" placeholder="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}" (change)="isceChange(filterFormItems.iscedf_narrow, 'iscedf_narrow')" [(ngModel)]='filterFormItems.iscedf_narrow' name="iscedf_narrow">
@@ -97,8 +97,8 @@
               </div>
             </div><!--/col-4-->
         </div>
-        <div class="row" >
-            <div class="col-4 sm-12" >
+        <div class="row form-additional-row">
+            <div class="col-4 sm-12 form-col">
            
               <div class="round-input__wrapper" [class.complete]="filterFormItems.school">
                 <span class="round-input__title">{{ 'studyProgramme.filter_school' | translate }}</span>
@@ -112,7 +112,7 @@
               
             </div><!--/col-4-->
 
-            <div class="col-4 sm-12">
+            <div class="col-5 sm-12 form-col">
               <div class="round-input__wrapper" [class.disabled]="!filterFormItems.iscedf_narrow">
                 <mat-form-field *ngIf="FilterOptions">
                   <mat-select  [disabled]="!filterFormItems.iscedf_narrow" placeholder="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}" (change)="isceChange(filterFormItems.iscedf_detailed, 'iscedf_detailed')" [(ngModel)]='filterFormItems.iscedf_detailed' name="iscedf_detailed">
@@ -126,8 +126,8 @@
             </div><!--/col-4-->
         </div>
         
-        <div class="row" >
-          <div class="col-4 sm-12" >
+        <div class="row form-additional-row">
+          <div class="col-4 sm-12 form-col">
               <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
                 <span class="round-input__title">{{ 'studyProgramme.filter_location' | translate }}</span>
                 <div class="round-input__field-wrapper">
@@ -135,13 +135,13 @@
                 </div>
               </div><!--/round-inpuit__wrapper-->
           </div><!--/col-4-->
-          <div class="col-4 sm-12" >
-              <div class="custom-checkbox" style="margin-top: 0.5rem">
+          <div class="col-5 sm-12 form-col">
+              <div class="custom-checkbox">
                   <mat-checkbox [(ngModel)]="filterFormItems.open_admission" name="open_admission"> {{ 'studyProgramme.filter_open_admission' | translate }}</mat-checkbox>
               </div>
             
           </div><!--/col-4-->
-          <div class="col-4 align-end text-right sm-12 inline-flex">
+          <div class="col-3 align-end text-right sm-12 inline-flex form-col">
             <div class="align-center filter-state sm-hide">       
               <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
                 <span class="md-hide">{{ 'button.search_brief' | translate }}</span>

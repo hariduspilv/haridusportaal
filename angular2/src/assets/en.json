@@ -4,10 +4,13 @@
     "navigate": "Go to homepage",
     "favourites_limit_modal_title": "Add to favourites",
     "favourites_limit_modal_content": "You can add up to 10 favourites",
-    "favourites_limit_modal_close": "Close window"
+    "favourites_limit_modal_close": "Close window",
+    "favourites_list_label" : "My favourites",
+    "favourites_list_none_message" : "You don't have any favourites added. You can do so by clicking on the star icon on topic pages and lists."
   },
   "article": {
     "contact": "Contact",
+    "hyperlinks": "",
     "similar_articles": ""
   },
   "news": {
@@ -77,7 +80,10 @@
     "registration_form_close": "Close window",
     "registration_form_cancel": "Cancel",
     "registration_form_thanks": "Thank you for registering for an event!",
-    "registration_form_add_to_calendar": "Add event to your own calendar"
+    "registration_form_add_to_calendar": "Add event to your own calendar",
+    "registration_ended": "Registration has ended",
+    "registration_not_started": "Registration is not available yet",
+    "registration_full": "Event is full"
 
   },
   "school": {
@@ -194,6 +200,7 @@
     "add_to_comparison": "Add to comparison",
     "remove_from_comparison":"Remove from comparison",
     "search": "Search",
+    "search_from_page": "Search from page",
     "search_detailed": "Advanced Search",
     "search_detailed_short": "Exact",
     "search_brief": "Narrow search",
@@ -213,9 +220,19 @@
     "logout": "Log out",
     "search_close": "",
     "select_type": "",
-    "see_comparison": "See comparison"
+    "see_comparison": "See comparison",
+    "add_to_favourites_label": "Favourites",
+    "add_to_favourites_add": "Add to favourites",
+    "add_to_favourites_add_success": "Successfully added to favourites",
+    "add_to_favourites_remove": "Remove from favourites",
+    "add_to_favourites_remove_success": "Successfully removed from favourites",
+    "add_to_favourites_title": "Title",
+    "back": "Tagasi"
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"
+  },
+  "errors": {
+    "enter_valid_date": "Enter valid date"
   }
 }
