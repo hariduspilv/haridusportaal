@@ -44,7 +44,7 @@ export class DateFormatterDirective {
 			let outputValue = "";
 
 			if( evt.which == 8123 ){
-				console.log(value);
+
 			}else{
 				outputValue = value.substr(0,2);
 
