@@ -1,16 +1,10 @@
 {
   "frontpage": {
     "label": "Home",
-    "navigate": "Go to homepage",
-    "favourites_limit_modal_title": "Add to favourites",
-    "favourites_limit_modal_content": "You can add up to 10 favourites",
-    "favourites_limit_modal_close": "Close window",
-    "favourites_list_label" : "My favourites",
-    "favourites_list_none_message" : "You don't have any favourites added. You can do so by clicking on the star icon on topic pages and lists."
+    "navigate": "Go to homepage"
   },
   "article": {
     "contact": "Contact",
-    "hyperlinks": "",
     "similar_articles": ""
   },
   "news": {
@@ -55,7 +49,6 @@
     "related": "Similar events",
     "start_time": "Start time",
     "location": "Location",
-    "repeat": "Repeatable event",
     "place_and_time": "time and place",
     "participant_email": "Email",
     "participant_phone": "Phone",
@@ -80,10 +73,7 @@
     "registration_form_close": "Close window",
     "registration_form_cancel": "Cancel",
     "registration_form_thanks": "Thank you for registering for an event!",
-    "registration_form_add_to_calendar": "Add event to your own calendar",
-    "registration_ended": "Registration has ended",
-    "registration_not_started": "Registration is not available yet",
-    "registration_full": "Event is full"
+    "registration_form_add_to_calendar": "Add event to your own calendar"
 
   },
   "school": {
@@ -133,20 +123,18 @@
     "filter_iscedf_detailed": "Curriculum Group",
     "filter_open_admission": "Only open to reception",
     "no_results": "No Search Results",
-    "related_label": "Related study programmes",
-    "related_filter_location": "Search by location",
-    "related_no_results": "No related study programmes",
+    "related.label": "Related study programmes",
+    "related.filter_location": "Search by location",
+    "related.no_results": "No related study programmes",
     "compare_modal_title": "Study programme comparison",
-    "compare_modal_content": "<p>Maximum capacity reached.</p><p>You can only add 3 study programmes to comparison.</ p>",
+    "compare_modal_content": "<p> max reched </p><p>U can unly added max 3 stody prugrammes</ p>",
     "compare_modal_close": "Close window",
     "school": "School",
     "degree_or_diploma": "Degree or diploma",
     "specialization": "Specialization",
     "study_capacity": "Capacity",
     "internship_capacity": "Internship capacity",
-    "nominal_time": "Nominal time",
-    "non_active": "Course not active",
-    "added_to_comparison": "Programme added to comparison"
+    "nominal_time": "Nominal time"
   },
   "login": {
     "username": "Username",
@@ -191,8 +179,8 @@
     "duration_year_plural": "Years",
     "duration_month_singular": "Month",
     "duration_month_plural": "Months",
-    "time_of_day": "Clock",
-    "years": "Years"
+    "time_of_day": "Clock"
+
   },
   "button": {
     "all": "All",
@@ -200,7 +188,6 @@
     "add_to_comparison": "Add to comparison",
     "remove_from_comparison":"Remove from comparison",
     "search": "Search",
-    "search_from_page": "Search from page",
     "search_detailed": "Advanced Search",
     "search_detailed_short": "Exact",
     "search_brief": "Narrow search",
@@ -219,20 +206,9 @@
     "login": "Log in",
     "logout": "Log out",
     "search_close": "",
-    "select_type": "",
-    "see_comparison": "See comparison",
-    "add_to_favourites_label": "Favourites",
-    "add_to_favourites_add": "Add to favourites",
-    "add_to_favourites_add_success": "Successfully added to favourites",
-    "add_to_favourites_remove": "Remove from favourites",
-    "add_to_favourites_remove_success": "Successfully removed from favourites",
-    "add_to_favourites_title": "Title"
-
+    "select_type": ""
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"
-  },
-  "errors": {
-    "enter_valid_date": "Enter valid date"
   }
 }

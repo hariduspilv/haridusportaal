@@ -12,3 +12,4 @@ export * from './studyProgramme.single/studyProgramme.single.component';
 export * from './notfound/notfound.component';
 export * from './studyProgramme.compare/studyProgramme.compare.component';
 export * from './dashboard/dashboard.component';
+export * from './schools_funding/schools_funding.component';

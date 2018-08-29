@@ -9,8 +9,8 @@
 
 <form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
   <div class="main-container">
-    <div class="row">
-      <div class="col-4 sm-12">
+    <div class="row form-first-row" [class.short-filter]="!filterFull">
+      <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
           <span class="round-input__title">{{ 'school.name' | translate }}</span>
           <div class="round-input__field-wrapper">
@@ -18,7 +18,7 @@
           </div>
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
-      <div class="col-5 sm-12">
+      <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
           <span class="round-input__title">{{ 'school.location' | translate }}</span>
           <div class="round-input__field-wrapper">
@@ -27,7 +27,7 @@
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
   
-      <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
+      <div class="col-3 align-end text-right sm-12 inline-flex sm-hide form-col" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
           <a role="button" tabindex="0"  href="javascript:void(0);"  (click)="filterFull = !filterFull" aria-expanded="false">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
@@ -40,8 +40,8 @@
       </div><!--/col-3-->
     </div><!--/row-->
   
-    <div class="row" *ngIf="filterFull" style="margin-top:0.5rem;">
-      <div class="col-4 sm-12">
+    <div class="row form-additional-row" *ngIf="filterFull">
+      <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.institution_type' | translate }}" [(ngModel)]="filterFormItems.type" name="type">
@@ -57,7 +57,7 @@
         
       </div>
 
-      <div class="col-5 sm-12">
+      <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper" [class.disabled]="getSubTypes('type').length == 0">
           <mat-form-field>
             <mat-select [placeholder]="getSubTypes('type').length !== 0 ? translate.get('school.institution_sublevel')['value'] : translate.get('school.institution_select_type')['value']" [(ngModel)]="filterFormItems.subtype" name="subtype">
@@ -70,8 +70,9 @@
           </mat-form-field>
         </div><!--/round-input__wrapper-->
       </div><!--/col-5-->
-
-      <div class="col-4 sm-12">
+    </div>
+    <div class="row form-additional-row" *ngIf="filterFull">
+      <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.language' | translate }}" [(ngModel)]="filterFormItems.language" name="language">
@@ -84,7 +85,7 @@
         </div><!--/round-input__wrapper-->
       </div><!--/col-4-->
 
-      <div class="col-5 sm-12">
+      <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.ownership' | translate }}" [(ngModel)]="filterFormItems.ownership" name="ownership">
@@ -96,9 +97,9 @@
           </mat-form-field>
         </div><!--/round-input__wrapper-->
       </div><!--/col-5-->
-
-      <div class="col-9">
-        <div class="form-spacer-20"></div>
+    </div>
+    <div class="row form-additional-row" *ngIf="filterFull">
+      <div class="col-9 form-col">
         <div class="custom-checkbox">
           <mat-checkbox [(ngModel)]="filterFormItems.specialClass" name="specialClass">{{ 'school.special_needs_short' | translate }}</mat-checkbox>
         </div><!--/custom-checkbox-->
@@ -106,7 +107,7 @@
           <mat-checkbox [(ngModel)]="filterFormItems.studentHome" name="studentHome">{{ 'school.dormitory' | translate}}</mat-checkbox>
         </div><!--/custom-checkbox-->
       </div><!--/col-9-->
-      <div class="col-3 align-end text-right sm-12 inline-flex">
+      <div class="col-3 align-end text-right sm-12 inline-flex form-col">
         <div class="align-center filter-state sm-hide">       
           <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
             <span class="md-hide">{{ 'button.search_brief' | translate }}</span>

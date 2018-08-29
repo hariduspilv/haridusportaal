@@ -260,7 +260,10 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }else{
       this.changeView("list", false);
     }
-    
+    if (window.innerWidth <= 900) {
+      this.filterFull = true;
+      this.showFilter = false;
+    }
     
     this.setPaths();
     
