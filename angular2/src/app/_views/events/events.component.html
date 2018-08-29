@@ -266,11 +266,11 @@
             </ng-container>
             
             <ng-container *ngIf="popup === event.nid">
-              <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" tabindex="0" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog">
+              <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog" cdkTrapFocus (keyup.enter)="calendar('event')" (keyup.space)="calendar('event')" (click)="calendar('event')">
                 <div class="popupcontent">
                   <div class="event__block">
                     <div class="title">
-                      <span class="title__strong" tabindex="0">{{ event.title }}</span>
+                      <span class="title__strong" >{{ event.title }}</span>
 
                       <div attr.aria-label="{{'Click to close modal'}}" role="close">
                         <mat-icon mat-icon-button>close
