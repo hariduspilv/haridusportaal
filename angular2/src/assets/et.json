@@ -234,7 +234,8 @@
     "add_to_favourites_add_success": "Lemmik edukalt lisatud",
     "add_to_favourites_remove": "Eemalda lemmikutest",
     "add_to_favourites_remove_success": "Lemmik edukalt eemaldatud",
-    "add_to_favourites_title": "Pealkiri"
+    "add_to_favourites_title": "Pealkiri",
+    "back": "Tagasi"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"

@@ -71,7 +71,7 @@
 
       <div class="col-3 align-end text-right sm-12 inline-flex form-col" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
-          <a role="button" (click)="filterFull = !filterFull" aria-expanded="false">
+          <a role="button" class="pointer" (click)="filterFull = !filterFull" aria-expanded="false">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
             <span class="md-show">{{ 'button.search_detailed_short' | translate}}</span>
           </a>
@@ -128,7 +128,7 @@
       </div>
       <div class="col-3 align-end text-right sm-12 inline-flex form-col">
         <div class="align-center filter-state sm-hide">       
-          <a role="button" class="btn-link" (click)="filterFull = !filterFull" aria-expanded="true">
+          <a role="button" class="btn-link pointer" (click)="filterFull = !filterFull" aria-expanded="true">
             <span class="md-hide">{{ 'button.search_brief' | translate}}</span>
             <span class="md-show">{{ 'button.search_brief_short' | translate}}</span>
           </a>
@@ -269,7 +269,7 @@
 
             <ng-container *ngIf="i < maxEntries(day)">
 
-              <div class="content"  [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" tabindex="0" attr.aria-label="{{'Event'}}">
+              <div class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" tabindex="0" attr.aria-label="{{'Event'}}">
                 <span><div class="marker"></div></span>
                 <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
                 <span class="content__strong">{{ event.title }}</span>
@@ -283,9 +283,9 @@
                     <div class="title">
                       <span class="title__strong" >{{ event.title }}</span>
 
-                      <div attr.aria-label="{{'Click to close modal'}}" role="close">
+                      <div class="title__close" attr.aria-label="{{'Click to close modal'}}" role="close">
                         <mat-icon mat-icon-button>close
-                          <button class="btn-hidden" (click)="closePopup()" tabindex="0"></button>
+                          <button class="btn-hidden pointer" (click)="closePopup()" tabindex="0"></button>
                         </mat-icon>
                       </div>
                     </div>
