@@ -2,14 +2,16 @@
   <div class="block padding-block sm-top" id="school-contact-block">
     <h2>{{ 'school.contact' | translate }}</h2>
     <ul>
-      <li><a href="tel:{{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
-      <li><a href="mailto:{{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
-      <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
+      <li><a href="tel:{{ data.fieldSchoolContactPhone }}" tabindex="0" attr.aria-label="{{' Phone: '}} {{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
+      <li><a href="mailto:{{ data.fieldSchoolContactEmail }}" tabindex="0" attr.aria-label="{{' E-mail: '}} {{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
+      <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" tabindex="0" attr.aria-label="{{' Aadress: '}} {{ data.fieldSchoolWebpageAddress | removeProtocol }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
     </ul>
   </div>
   <ng-container *ngFor="let location of data.fieldSchoolLocation">
     <div *ngIf="location.entity.fieldLocationType == 'L'" class="block location-block">
-      <map-wrapper [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
+     
+      <map-wrapper tabindex="-1" [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
+
       <div class="padding-block">
         <h2>{{ 'school.legal_address' | translate }}</h2>
         <div class="address">{{ location.entity.fieldAddress | titleCase }}</div>
@@ -32,6 +34,7 @@
           </div><!--/col-8-->
           <div class="col-2 flex text-right">
             <div class="fill"></div>
+            <favourites [id]="data.nid" [title]="data.title"></favourites>
             <share [title]="data.entityLabel"></share>
           </div>
         </div>

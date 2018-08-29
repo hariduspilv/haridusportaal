@@ -9,8 +9,8 @@
 
 <form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
   <div class="main-container">
-    <div class="row">
-      <div class="col-4 sm-12">
+    <div class="row form-first-row" [class.short-filter]="!filterFull">
+      <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
           <span class="round-input__title">{{ 'school.name' | translate }}</span>
           <div class="round-input__field-wrapper">
@@ -18,7 +18,7 @@
           </div>
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
-      <div class="col-5 sm-12">
+      <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
           <span class="round-input__title">{{ 'school.location' | translate }}</span>
           <div class="round-input__field-wrapper">
@@ -27,7 +27,7 @@
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
   
-      <div class="col-3 align-end text-right sm-12 inline-flex sm-hide" *ngIf="!filterFull">
+      <div class="col-3 align-end text-right sm-12 inline-flex sm-hide form-col" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
           <a role="button" tabindex="0"  href="javascript:void(0);"  (click)="filterFull = !filterFull" aria-expanded="false">
             <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
@@ -40,8 +40,8 @@
       </div><!--/col-3-->
     </div><!--/row-->
   
-    <div class="row" *ngIf="filterFull" style="margin-top:0.5rem;">
-      <div class="col-4 sm-12">
+    <div class="row form-additional-row" *ngIf="filterFull">
+      <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.institution_type' | translate }}" [(ngModel)]="filterFormItems.type" name="type">
@@ -57,10 +57,10 @@
         
       </div>
 
-      <div class="col-5 sm-12">
+      <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper" [class.disabled]="getSubTypes('type').length == 0">
           <mat-form-field>
-            <mat-select [placeholder]="getSubTypes('type').length !== 0 ? 'Õppeasutuse alamtase' : 'Vali esmalt õppeasutuse tüüp'" [(ngModel)]="filterFormItems.subtype" name="subtype">
+            <mat-select [placeholder]="getSubTypes('type').length !== 0 ? translate.get('school.institution_sublevel')['value'] : translate.get('school.institution_select_type')['value']" [(ngModel)]="filterFormItems.subtype" name="subtype">
               <mat-option *ngIf="getSubTypes('type').length !== 0">{{ 'button.all' | translate }}</mat-option>
               <mat-option *ngFor="let item of getSubTypes('type')" [value]="item.entityId">
                 {{ item.entityLabel }}
@@ -70,8 +70,9 @@
           </mat-form-field>
         </div><!--/round-input__wrapper-->
       </div><!--/col-5-->
-
-      <div class="col-4 sm-12">
+    </div>
+    <div class="row form-additional-row" *ngIf="filterFull">
+      <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.language' | translate }}" [(ngModel)]="filterFormItems.language" name="language">
@@ -84,7 +85,7 @@
         </div><!--/round-input__wrapper-->
       </div><!--/col-4-->
 
-      <div class="col-5 sm-12">
+      <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.ownership' | translate }}" [(ngModel)]="filterFormItems.ownership" name="ownership">
@@ -96,9 +97,9 @@
           </mat-form-field>
         </div><!--/round-input__wrapper-->
       </div><!--/col-5-->
-
-      <div class="col-9">
-        <div class="form-spacer-20"></div>
+    </div>
+    <div class="row form-additional-row" *ngIf="filterFull">
+      <div class="col-9 form-col">
         <div class="custom-checkbox">
           <mat-checkbox [(ngModel)]="filterFormItems.specialClass" name="specialClass">{{ 'school.special_needs_short' | translate }}</mat-checkbox>
         </div><!--/custom-checkbox-->
@@ -106,7 +107,7 @@
           <mat-checkbox [(ngModel)]="filterFormItems.studentHome" name="studentHome">{{ 'school.dormitory' | translate}}</mat-checkbox>
         </div><!--/custom-checkbox-->
       </div><!--/col-9-->
-      <div class="col-3 align-end text-right sm-12 inline-flex">
+      <div class="col-3 align-end text-right sm-12 inline-flex form-col">
         <div class="align-center filter-state sm-hide">       
           <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
             <span class="md-hide">{{ 'button.search_brief' | translate }}</span>
@@ -124,6 +125,9 @@
   <div class="schools__list-head">
     <div class="schools__head">
       <div class="schools__title text-left">{{ 'school.label' | translate | uppercase }}</div>
+      
+      <favourites class="pull-right"></favourites>
+      
       <div class="button-list text-right">
         <div tabindex="0" class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
@@ -148,18 +152,18 @@
     <ng-container *ngFor="let item of list">
       <div class="schools__item">
           <div class="schools__item__head sm-hide" *ngIf="item.FieldEducationalInstitutionTy">{{ item.FieldEducationalInstitutionTy }}</div>
-          <a [routerLink]="item.EntityPath" class="schools__item__title">{{ item.FieldSchoolName }}</a>
+          <h1><a [routerLink]="item.EntityPath" class="schools__item__title">{{ item.FieldSchoolName }}</a></h1>
           <div class="inline__items sm-hide">
-            <span class="item" attr.aria-label="{{'Aadress:'}}" *ngIf="item.FieldAddress">{{ item.FieldAddress }}</span>
+            <span class="item" attr.aria-label="{{'Aadress:'}} {{ item.FieldAddress }}" *ngIf="item.FieldAddress">{{ item.FieldAddress }}</span>
             <span class="bar" *ngIf="item.FieldSchoolWebpageAddress">|</span>
             <span class="item" *ngIf="item.FieldSchoolWebpageAddress">
-              <a href="{{ item.FieldSchoolWebpageAddress | url }}" target="_blank">{{ item.FieldSchoolWebpageAddress | removeProtocol }}</a>
+              <a attr.aria-label="{{'Webpage:'}} {{ item.FieldSchoolWebpageAddress | removeProtocol }}" href="{{ item.FieldSchoolWebpageAddress | url }}" target="_blank">{{ item.FieldSchoolWebpageAddress | removeProtocol }}</a>
             </span>
             <span class="bar" *ngIf="item.FieldSchoolContactPhone">|</span>
-            <span class="item" *ngIf="item.FieldSchoolContactPhone">{{ item.FieldSchoolContactPhone }}</span>
+            <span attr.aria-label="{{'Phone:'}} {{ item.FieldSchoolContactPhone }}" class="item" *ngIf="item.FieldSchoolContactPhone">{{ item.FieldSchoolContactPhone }}</span>
             <span class="bar" *ngIf="item.FieldSchoolContactEmail">|</span>
             <span class="item" *ngIf="item.FieldSchoolContactEmail">
-              <a href="mailto:{{ item.FieldSchoolContactEmail}}">{{ item.FieldSchoolContactEmail}}</a>
+              <a  attr.aria-label="{{'E-mail:'}} {{ item.FieldSchoolContactEmail}}" href="mailto:{{ item.FieldSchoolContactEmail}}">{{ item.FieldSchoolContactEmail}}</a>
             </span>
           </div>
       </div><!--/schools__item-->
@@ -193,7 +197,7 @@
 
 <div class="text-center actions" *ngIf="!listEnd && view == 'list' && list">
   <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-  <button mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading">
+  <button role="button" mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading" attr.aria-label="{{'click to load more events'}}">
     {{ "button.load_more" | translate }}
   </button>
 </div><!--/text-center-->

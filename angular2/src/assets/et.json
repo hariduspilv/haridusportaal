@@ -4,7 +4,9 @@
     "navigate": "Mine avalehele",
     "favourites_limit_modal_title": "Lisa lemmikutesse",
     "favourites_limit_modal_content": "Portaalis saab salvestada kuni 10 lemmikut",
-    "favourites_limit_modal_close": "Sulge aken"
+    "favourites_limit_modal_close": "Sulge aken",
+    "favourites_list_label" : "Minu lemmikud",
+    "favourites_list_none_message" : "Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides."
   },
   "article": {
     "contact": "Kontakt",
@@ -191,7 +193,6 @@
     "duration_month_plural": "kuud",
     "time_of_day": "Kell",
     "years": "Aastat"
-
   },
   "button": {
     "all": "Kõik",
@@ -199,6 +200,7 @@
     "add_to_comparison": "Lisa võrdlusesse",
     "remove_from_comparison":"Eemalda võrdlusest",
     "search": "Otsi",
+    "search_from_page": "Otsi lehelt",
     "search_detailed": "Täpsem otsing",
     "search_detailed_short": "Täpne",
     "search_brief": "Kitsam otsing",
@@ -218,9 +220,19 @@
     "logout": "Logi välja",
     "search_close": "",
     "choose_type": "",
-    "see_comparison": "Vaata võrdlust"
+    "see_comparison": "Vaata võrdlust",
+    "add_to_favourites_label": "Lemmikutesse lisamine",
+    "add_to_favourites_add": "Lisa lemmikutesse",
+    "add_to_favourites_add_success": "Lemmik edukalt lisatud",
+    "add_to_favourites_remove": "Eemalda lemmikutest",
+    "add_to_favourites_remove_success": "Lemmik edukalt eemaldatud",
+    "add_to_favourites_title": "Pealkiri",
+    "back": "Tagasi"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"
+  },
+  "errors": {
+    "enter_valid_date": "Sisesta korrektne kuupäev"
   }
 }

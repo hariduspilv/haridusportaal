@@ -45,7 +45,6 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	ngOnInit() {
 
-
 		this.iCalUrl = this.settings.url+"/calendarexport/";
 		this.paramsSub = this.route.params.subscribe( params => {
 			this.lang = params['lang'];
@@ -63,11 +62,14 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	}
 	
 	openDialog(): void {
+
 		let dialogRef = this.dialog.open(EventsRegistratonDialog, {
 		  // width: '500px',
 		  data: {
 			eventTitle: this.content.entity.entityLabel,
-			eventStartDate: this.content.entity.fieldEventDate[0].entity,
+			eventStartDate: this.content.entity.fieldEventMainDate,
+			eventStartTime: this.content.entity.fieldEventMainStartTime,
+			eventEndTime: this.content.entity.fieldEventMainEndTime,
 			nid: this.nid,
 			lang: this.lang
 		  }
@@ -79,16 +81,25 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	}
 	
 	canRegister() {
-		console.log(this.content.entity.fieldRegistrationDate.entity);
-		let firstDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix * 1000;
-		let lastDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix * 1000;
+
+		let firstDate;
+		let lastDate;
+
+		if( this.content.entity.fieldRegistrationDate ){
+			firstDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix * 1000;
+			lastDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix * 1000;
+		}else{
+			firstDate = this.content.entity.fieldEventMainDate.unix * 1000;
+			lastDate = this.content.entity.fieldEventMainDate.unix * 1000;
+		}
+
 		let isFull = this.content.entity.RegistrationCount >= this.content.entity.fieldMaxNumberOfParticipants;
 		
 		if( isFull ){
 			return 'full';
 		}
 		
-		if( lastDate >= this.unix && firstDate <= this.unix ){
+		if( lastDate >= this.unix && firstDate <= this.unix ){	
 			return true;
 		}
 		else if( firstDate > this.unix ){
