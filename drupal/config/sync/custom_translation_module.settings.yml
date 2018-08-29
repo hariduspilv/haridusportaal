@@ -76,7 +76,7 @@ news:
   label: Uudised
   all: ''
   recent: ''
-  filter_name: 'Sisesta uudise nimi'
+  filter_name: 'Uudise pealkiri'
   filter_tag: 'Uudise sildid'
   title: Pealkiri
   no_results: 'Otsingutulemused puuduvad'
@@ -90,7 +90,7 @@ event:
   practical_info: 'Praktiline info'
   passed: 'Sündmus on möödunud'
   group: 'Sündmuse grupp'
-  list: List
+  list: Nimekiri
   calendar: Kalender
   entrance: Sissepääs
   related: 'Sarnased sündmused'
@@ -174,7 +174,7 @@ button:
   load_more: 'Lae veel'
   all: Kõik
   map_closer: 'Vaata kaarti lähemalt'
-  add_to_comparison: 'Lisa võrdlusess'
+  add_to_comparison: 'Lisa võrdlusesse'
   search_people: 'Otsi inimesi'
   view_all: 'Vaata kõiki'
   view_more: 'Vaata rohkem'
@@ -222,7 +222,7 @@ school:
   dormitory: Õpilaskodu
   special_needs_long: HEV
   special_needs_short: 'Hariduslikud erivajadused'
-  list: List
+  list: Nimekiri
   map: Kaart
   no_result: 'Otsingu tingimistele vastavaid õppeasutusi ei leitud'
   legal_address: 'Juriidiline aadress'
@@ -265,6 +265,6 @@ studyProgramme:
   related_filter_location: 'Otsi asukoha järgi'
   related_no_results: 'Sarnased erialad puuduvad'
   compare_modal_title: 'Erialade võrdlemine'
-  compare_modal_content: ''
+  compare_modal_content: '<p> Maksimaalne võrreldavate erialade arv on ületatud.</p>'
   non_active: 'Eriala ei ole aktiivne'
   added_to_comparison: 'Eriala(d) lisatud võrdlusesse'
