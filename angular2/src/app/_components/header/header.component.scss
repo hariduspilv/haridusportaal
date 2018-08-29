@@ -7,7 +7,7 @@
   }
 }
 .search-input  {height: 2.5rem;border-radius: 1.25rem;background-color: rgba(255, 255, 255, 0.1);border: .0625rem solid rgba(255, 255, 255, 0);
-  color: $white;padding: 0 $small 0 2.5rem;font-size: $small;width: stretch;max-width: 40.625rem;margin-left: $medium;
+  color: $white;padding: 0 $small 0 2.5rem;font-size: $small;width: 100%;box-sizing: border-box;max-width: 40.625rem;margin-left: $medium;
 }
 .searchbar {
   position: relative;
@@ -17,6 +17,7 @@
     &::before {
       position: absolute;
       font-family: 'Material Icons';
+      font-feature-settings: "liga";
       font-size: 1.25rem;
       content: 'search';
       color: white;
@@ -25,6 +26,7 @@
       @include break-on (xl, min) {top: .6875rem;}
     }
   }
+  a {text-decoration: none;}
   @include break-on(sm, max) {display: none;}
 }
 .languages {position: relative;top: .125rem;}
