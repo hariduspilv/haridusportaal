@@ -46,7 +46,6 @@ export class FavouritesComponent implements OnInit{
     this.loading= true;
     this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
       this.list = response['data']['CustomFavorites'][0]['favorites'];
-     console.log(this.list);
       this.loading = false;
     });
   }
@@ -90,7 +89,6 @@ export class FavouritesComponent implements OnInit{
     }
 
     let sub = this.http.post('/graphql',data).subscribe(response => {
-      console.log(response);
       this.existingTargetId = false;
       this.existing = false;
       sub.unsubscribe();
@@ -124,7 +122,6 @@ export class FavouritesComponent implements OnInit{
    
 
     let sub = this.http.post('/graphql', data).subscribe(response => {
-      console.log(response);
       //todo: display success
       sub.unsubscribe();
     });

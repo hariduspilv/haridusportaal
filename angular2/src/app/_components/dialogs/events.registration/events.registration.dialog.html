@@ -1,7 +1,7 @@
 <div class="dialog" role="dialog" attr.aria-label="{{'Modal open'}}" cdkTrapFocus>
   <div class="row">
     <div class="col-12" style="position: relative;">
-      <span class="dialog__text--medium">{{ 'event.registration_form' | translate | uppercase }}</span>F
+      <span class="dialog__text--medium">{{ 'event.registration_form' | translate | uppercase }}</span>
       <div class="pull-right" attr.aria-label="{{'Click to close modal'}}" role="close">
         <mat-icon mat-icon-button>close
           <button class="btn-hidden" (click)="close()" tabindex="0"></button>
@@ -15,7 +15,7 @@
       <div class="dialog__time" tabindex="0"> 
         <span class="capitalize">{{ 'time.'+ (data.eventStartDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ data.eventStartDate.unix*1000 | date: "dd.MM"}}</span>
         <span>{{ 'time.time_of_day' | translate }}</span>
-        <span>{{ data.eventStartTime | unixToTime }} - {{ data.eventStartTime | unixToTime }}</span>
+        <span>{{ data.eventStartTime | unixToTime }} - {{ data.eventEndTime | unixToTime }}</span>
       </div>
       <div class="dialog__required">* {{ 'event.registration_form_required' | translate }}</div>
     </div><!--/col-12-->
@@ -103,7 +103,7 @@
       <div class="dialog__actions row" *ngIf="step === 0 && !loader">
         <div class="col-12 text-right">
 
-          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
           <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'event.registration_form_send' | translate }}</button>
           <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
           <!-- [disabled]="form.invalid" -->
