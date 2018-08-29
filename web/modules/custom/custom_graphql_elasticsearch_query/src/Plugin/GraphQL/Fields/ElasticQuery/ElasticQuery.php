@@ -120,6 +120,8 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       $value['_source'][StringHelper::camelCase($key)] = $keyvalue;
       unset($value['_source'][$key]);
     }
+    dump($value);
+    die();
     yield $value['_source'];
   }
   //yield $this->getQuery($value, $args, $context, $info);
