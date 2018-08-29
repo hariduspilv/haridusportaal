@@ -44,7 +44,7 @@ class ProcessSubsidy {
 			'tahtaeg' => false
 		];
 		foreach ($items as $index => $item){
-			$object['ehis_id'] = self::loadEntity('node', 'field_ehis_id', $item['ehis_id']);
+			$object['ehis_id'] = (self::loadEntity('node', 'field_ehis_id', $item['ehis_id']) ? $item['ehis_id'] : FALSE);
 			$object['meede'] = self::loadEntity('taxonomy_term', 'name', $item['meede']);
 			$object['summa'] = (is_numeric(preg_replace('/\s+/', '', $item['summa'])) ? preg_replace('/\s+/', '', $item['summa']) : FALSE);
 			$object['tahtaeg'] = self::checkDateFormat($item['tahtaeg'], 'd.m.Y');
