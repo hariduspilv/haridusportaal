@@ -7,6 +7,8 @@
     "favourites_limit_modal_close": "Sulge aken",
     "favourites_list_label" : "Minu lemmikud",
     "favourites_list_none_message" : "Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides.",
+    "favourites_snackbar_message": "Artikkel lisatud lemmikuks. Lemmikuid näed enda Töölaualt.",
+    "favourites_snackbar_action": "Vaata oma töölauda",
     "dashboard_label": "Töölaud",
     "dashboard_tabs_applications": "Taotlused",
     "dashboard_tabs_certificates":"Tunnistused",
