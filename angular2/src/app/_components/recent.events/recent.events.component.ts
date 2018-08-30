@@ -45,6 +45,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	ngOnInit() {
 
+		console.log(this.content);
 		this.iCalUrl = this.settings.url+"/calendarexport/";
 		this.paramsSub = this.route.params.subscribe( params => {
 			this.lang = params['lang'];
@@ -94,7 +95,8 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		}
 
 		let isFull = this.content.entity.RegistrationCount >= this.content.entity.fieldMaxNumberOfParticipants;
-		
+		if( this.content.entity.fieldMaxNumberOfParticipants == null ){ isFull = false;}
+
 		if( isFull ){
 			return 'full';
 		}
