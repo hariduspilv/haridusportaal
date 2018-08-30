@@ -33,7 +33,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   public existingItem: any;
   public existing: boolean;
 
-  private lang: string;
+  public lang: string;
+  private redirectUrls = {
+    "et": "/toolaud",
+    "en": "/dashboard"
+  }
   public subscriptions: Subscription[] = [];
 
   constructor(
@@ -44,8 +48,17 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     private translate: TranslateService,
     private user: UserService,
     private snackbar: MatSnackBar,
-  ) {
+  ) {}
 
+  pathWatcher() { 
+    let subscribe = this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+       
+        this.lang = params['lang'];
+      }
+    );
+
+    this.subscriptions = [...this.subscriptions, subscribe];
   }
   getFavouritesList():void{
     this.loading= true;
@@ -76,12 +89,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
   }
   compileVariables(){
-    let routeSubscribe = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.lang = params['lang'];
-      }
-    );
-    routeSubscribe.unsubscribe(); 
 
     let output = {
       lang: this.lang.toUpperCase(),
@@ -171,7 +178,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       });
       snackBarRef.afterDismissed().subscribe((obj) => {
         if (obj.dismissedByAction) {
-          this.router.navigateByUrl('et/toolaud');
+          this.router.navigateByUrl(this.lang + this.redirectUrls[this.lang]);
         }
       })
     
@@ -222,6 +229,8 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     else return true;
   }
   ngOnInit(){
+    this.pathWatcher();
+
     this.userLoggedOut = this.user.getData()['isExpired'];
     let subscribe = this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
 
