@@ -11,8 +11,8 @@
       @include break-on(sm, min) {margin-right: $medium; margin-top: 0;}
     }
     &--success {
-      .mat-raised-button.mat-primary {width: 100%; padding: 0 $small;}
-      a {margin-top: $medium;line-height:$medium;text-align: center;}
+      .mat-raised-button.mat-primary {width: 100%; padding: 0 $small; line-height:2.5rem;}
+      a {margin-top: $medium; line-height:$medium; text-align: center;}
       &__close {padding-top: $small;}
     }
   }
