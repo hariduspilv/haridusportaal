@@ -1,0 +1,11 @@
+query(
+  $ownershipType: [Int],
+  $investmentMeasure: [Int],
+  $investmentDeadline: [Int],
+  $levelOfDetail: Int!
+){
+  CustomSubsidyProjectQuery(ownership_type:$ownershipType,investment_measure:$investmentMeasure,investment_deadline:$investmentDeadline,detail:$levelOfDetail){
+    investmentLocation
+    investmentAmountSum
+  }
+}
