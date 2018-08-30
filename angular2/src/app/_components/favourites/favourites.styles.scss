@@ -6,7 +6,7 @@
   }
 }
 
-.favourites__wrapper { position: relative; z-index: 2; background: $white; cursor: pointer;
+.favourites__wrapper { position: relative; z-index: 2; cursor: pointer;
  .favourites__dropdown { position: absolute; background: white; padding: 1rem 1.5rem 1.5rem 1.5rem; border-top: .5rem solid #d5401a; width: 14rem;
    -webkit-box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0,0,0,.2), 0 0.125rem 0.125rem 0 rgba(0,0,0,.14), 0 0.0625rem 0.3125rem 0 rgba(0,0,0,.12);
     box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0,0,0,.2), 0 0.125rem 0.125rem 0 rgba(0,0,0,.14), 0 0.0625rem 0.3125rem 0 rgba(0,0,0,.12); }
