@@ -1,0 +1,30 @@
+query subsidyProjectFilterOptions($lang: LanguageId!){
+
+ownerShipType: taxonomyTermQuery(filter: {conditions: [
+{operator: EQUAL, field: "vid", value: ["ownership_type"], language: $lang}
+]}) {
+entities{
+... on TaxonomyTerm {
+tid
+entityLabel
+reverseFieldOwnershipTypeNode{
+count
+}
+}
+}
+}
+
+investmentMeasure: taxonomyTermQuery(filter: {conditions: [
+{operator: EQUAL, field: "vid", value: ["investmentmeasure"], language: $lang}
+]}) {
+entities{
+... on TaxonomyTerm {
+tid
+entityLabel
+reverseInvestmentMeasureSubsidyProjectEntity{
+count
+}
+}
+}
+}
+}
