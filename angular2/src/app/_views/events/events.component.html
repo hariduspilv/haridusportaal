@@ -269,11 +269,11 @@
 
             <ng-container *ngIf="i < maxEntries(day)">
 
-              <div class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" tabindex="0" attr.aria-label="{{'Event'}}">
+              <a class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" tabindex="0" attr.aria-label="{{'Event'}}">
                 <span><div class="marker"></div></span>
                 <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
                 <span class="content__strong">{{ event.title }}</span>
-              </div>
+              </a>
             </ng-container>
             
             <ng-container *ngIf="popup === event.nid">
