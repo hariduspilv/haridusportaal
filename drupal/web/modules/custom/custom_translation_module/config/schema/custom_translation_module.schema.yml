@@ -152,13 +152,13 @@ custom_translation_module.settings:
         registration_form_close:
           type: label
           label: 'Content'
-        registration_form_send:
-          type: label
-          label: 'Content'
-        registration_form_close:
-          type: label
-          label: 'Content'
         registration_form_add_to_calendar:
+          type: label
+          label: 'Content'
+        registration_ended:
+          type: label
+          label: 'Content'
+        registration_not_started:
           type: label
           label: 'Content'
     login:
