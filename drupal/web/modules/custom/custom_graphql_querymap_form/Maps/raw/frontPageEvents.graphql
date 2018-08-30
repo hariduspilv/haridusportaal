@@ -10,8 +10,11 @@ conditions:[
 {field:"type", value: "event", language:$lang}
 ]
 }){
-entities(language:ET){
+entities(language:$lang){
 ... on NodeEvent{
+entityUrl{
+  path
+}
 fieldOrganizer
 fieldEventMainDate {
 value
