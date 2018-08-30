@@ -152,6 +152,9 @@ custom_translation_module.settings:
         registration_form_close:
           type: label
           label: 'Content'
+        registration_form_cancel:
+          type: label
+          label: 'Content'
         registration_form_add_to_calendar:
           type: label
           label: 'Content'
