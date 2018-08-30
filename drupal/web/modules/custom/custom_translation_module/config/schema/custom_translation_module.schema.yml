@@ -152,6 +152,9 @@ custom_translation_module.settings:
         registration_form_close:
           type: label
           label: 'Content'
+        registration_form_cancel:
+          type: label
+          label: 'Content'
         registration_form_add_to_calendar:
           type: label
           label: 'Content'
@@ -159,6 +162,9 @@ custom_translation_module.settings:
           type: label
           label: 'Content'
         registration_not_started:
+          type: label
+          label: 'Content'
+        registration_full:
           type: label
           label: 'Content'
     login:
