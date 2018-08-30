@@ -19,6 +19,7 @@ class FavoriteEntityListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['id'] = $this->t('Favorite entity ID');
+    $header['user'] = $this->t('Favorite owner');
     /*$header['name'] = $this->t('Name');*/
     return $header + parent::buildHeader();
   }
@@ -29,6 +30,7 @@ class FavoriteEntityListBuilder extends EntityListBuilder {
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\htm_custom_favorites\Entity\FavoriteEntity */
     $row['id'] = $entity->id();
+    $row['user'] = $entity->getOwner()->getDisplayName();
     /*$row['name'] = Link::createFromRoute(
       $entity->label(),
       'entity.favorite_entity.edit_form',

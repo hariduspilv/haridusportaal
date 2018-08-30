@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import { CertificatesComponent } from '@app/_components/certificates/certificates.component'
 import {
   ArticleComponent,
   FrontpageComponent,
@@ -47,8 +47,22 @@ const appRoutes: Routes = [
   { path: ':lang/study-programmes', component: StudyProgrammeComponent},
   { path: ':lang/study-programmes/:id', component: StudyProgrammeSingleComponent},
   
-  { path: ':lang/dashboard', component: DashboardComponent },
-  { path: ':lang/toolaud', component: DashboardComponent },
+  { path: ':lang/dashboard', component: DashboardComponent,
+    children: [
+      { path: 'applications', component: CertificatesComponent},
+      { path: 'certificates', component: CertificatesComponent},
+      { path: 'studies', component: CertificatesComponent},
+      { path: 'teachings', component: CertificatesComponent},
+      { path: '**', redirectTo: 'applications', pathMatch: 'full' }
+    ]},
+  { path: ':lang/toolaud', component: DashboardComponent,
+    children: [
+      { path: 'taotlused', component: CertificatesComponent},
+      { path: 'tunnistused', component: CertificatesComponent},
+      { path: 'opingud', component: CertificatesComponent},
+      { path: 'opetan', component: CertificatesComponent},
+      { path: '**', redirectTo: 'taotlused', pathMatch: 'full' }
+    ]},
 
   { path: ':lang/isikukaart', component: PersonalDataComponent },
   { path: '', redirectTo: '/et', pathMatch: 'full' },
@@ -77,6 +91,7 @@ export const routedComponents = [
   NotFoundComponent,
   StudyProgrammeCompareComponent,
   DashboardComponent,
-  SchoolsFundingComponent
+  SchoolsFundingComponent,
+  CertificatesComponent
 ];
 

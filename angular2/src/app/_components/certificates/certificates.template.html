@@ -4,7 +4,7 @@
       <mat-expansion-panel [expanded]="first ? true : false" (opened)="dataController(accordionItem._id)" *ngFor="let accordionItem of accordionSection; let first = first;">
         <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
           <mat-panel-title>
-            {{ accordionItem.label }}
+            {{ accordionItem.label | translate }}
           </mat-panel-title>
           <!-- <mat-panel-description></mat-panel-description> -->
         </mat-expansion-panel-header>
@@ -16,12 +16,14 @@
         <ng-container *ngIf="!loading[accordionItem._id]">
 
           <ng-container *ngIf="accordionItem._id === 'professional-certificates'">
-            <table class="certification-table">
+            <div *ngIf="error">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</div>
+
+            <table class="certification-table" *ngIf="!error">
               <tbody>
                   <tr *ngFor="let certificate of professionalCertificates">
                     <td>{{ certificate.nimi }}</td>
                     <td>{{ certificate.valjaantud }}</td>
-                    <td><a>Vaata lähemalt</a></td>
+                    <td><a>{{ 'button.view_more' | translate }}</a></td>
                   </tr>
               </tbody>
             </table>
@@ -31,10 +33,7 @@
             <!-- under construction -->
           </ng-container>
 
-        </ng-container>
-        
-        
-
+        </ng-container><!--end of *ngIf="!loading[accordionItem._id]"-->
       </mat-expansion-panel>
     </mat-accordion>
   </div>

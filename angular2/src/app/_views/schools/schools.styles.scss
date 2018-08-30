@@ -25,6 +25,7 @@
     &__head {font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-bottom: $half-gutter;}
     p:first-child{margin-top:0;}
     p:last-child{margin-bottom:0;}
+    h1 {width: 100%;}
     @include break-on(sm, min) {padding:$small $medium $small $medium;}
   }
   .spinner-wrapper{padding-bottom:1.25rem;}
