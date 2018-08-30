@@ -204,16 +204,16 @@
                     <span class="location" *ngIf="event.location">{{ 'event.location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
                     <span class="entrance" *ngIf="event.fieldEntryType">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
                   </div>
-                  <div class="tags sm-hide" *ngIf="event.hashTags && event.hashTags.length">
+                  <div class="tags sm-hide" *ngIf="(event.hashTags && event.hashTags.length) || event.fieldEventType">
                     <mat-chip-list tabindex="0" aria-multiselectable="true" >
-                      <span *ngFor="let eventTag of event.hashTags">
-                        <span *ngIf="eventTag.entity" class="mat-chip-wrapper" tabindex="0" attr.aria-label="{{' eventTag.entity.entityLabel'}}">
-                          <mat-chip>{{ eventTag.entity.entityLabel }}</mat-chip>
-                        </span>
-                      </span>
                       <span *ngIf="event.fieldEventType">
                         <span class="mat-chip-wrapper" tabindex="0" attr.aria-label="{{' eventTag.entity.entityLabel'}}">
                           <mat-chip >{{ event.fieldEventType.entity.entityLabel }}</mat-chip>
+                        </span>
+                      </span>
+                      <span *ngFor="let eventTag of event.hashTags">
+                        <span *ngIf="eventTag.entity" class="mat-chip-wrapper" tabindex="0" attr.aria-label="{{' eventTag.entity.entityLabel'}}">
+                          <mat-chip>{{ eventTag.entity.entityLabel }}</mat-chip>
                         </span>
                       </span>
                     </mat-chip-list>
