@@ -1,0 +1,22 @@
+uuid: 5c50e50d-37b9-4624-b39b-9b58a3ab4216
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.dashboard
+  module:
+    - text
+id: node.dashboard.body
+field_name: body
+entity_type: node
+bundle: dashboard
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary
