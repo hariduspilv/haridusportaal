@@ -97,8 +97,8 @@ class CreateFavoriteItem extends CreateEntityBase{
 			'user_idcode' => $this->getCurrentUserIdCode(),
 			'favorites' => [
 				'field_favorite_title' => $args['input']['favorite_title'],
-				'field_page' => $args['input']['page_id'],
-				'field_search' => $args['input']['search'],
+				'field_page' => ($args['input']['page_id']) ? $args['input']['page_id'] : NULL ,
+				'field_search' => ($args['input']['search']) ? $args['input']['search'] : NULL,
 				'field_type' => $args['input']['type'],
 			]
 		];
