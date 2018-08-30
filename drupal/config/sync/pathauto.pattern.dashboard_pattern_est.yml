@@ -1,0 +1,33 @@
+uuid: 3e57823a-279f-4adb-8f17-032ce13dfe3f
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: dashboard_pattern_est
+label: 'Dashboard pattern EST'
+type: 'canonical_entities:node'
+pattern: '/toolaud/[node:title]'
+selection_criteria:
+  44b49119-5556-40f5-9d48-71e9d0890bc0:
+    id: node_type
+    bundles:
+      dashboard: dashboard
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 44b49119-5556-40f5-9d48-71e9d0890bc0
+  00dc891c-45c2-485b-a674-7af20e0707a6:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 00dc891c-45c2-485b-a674-7af20e0707a6
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language
