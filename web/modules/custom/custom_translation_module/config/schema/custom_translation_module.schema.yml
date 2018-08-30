@@ -164,6 +164,9 @@ custom_translation_module.settings:
         registration_not_started:
           type: label
           label: 'Content'
+        registration_full:
+          type: label
+          label: 'Content'
     login:
       type: mapping
       label: 'Login translations'
