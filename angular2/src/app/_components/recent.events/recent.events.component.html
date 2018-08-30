@@ -39,7 +39,7 @@
   </div>
 </div>
 
-<div class="events__list__recent" tabindex="-1" aria-hidden="true">
+<div class="events__list__recent">
   <map-wrapper tabindes="-1" [latitude]="parseFloat(map.lat)" [longitude]="parseFloat(map.lon)" zoom="11" *ngIf="map"></map-wrapper>
   <div class="events__list__item">
     <div class="title" tabindex="0"><h1 aria-hidden="true">{{'event.place_and_time' | translate}}</h1></div>

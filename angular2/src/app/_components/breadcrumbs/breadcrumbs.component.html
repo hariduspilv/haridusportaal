@@ -5,7 +5,7 @@
         <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
           <span role="link" attr.aria-label="{{'Breadcrumb'}} {{ breadcrumbEl.text }} {{'clickable'}}">{{ breadcrumbEl.text }}</span>
         </a>
-        <span role="dialog" attr.aria-label="{{'Breadcrumb'}}" attr.aria-current="{{'page'}}" tabindex="1" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
+        <span role="dialog" attr.aria-current="{{'page'}}" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
       </li>
     </ul>
   </div>
