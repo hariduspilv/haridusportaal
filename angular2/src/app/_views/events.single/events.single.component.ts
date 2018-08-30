@@ -116,7 +116,18 @@ export class EventsSingleComponent implements AfterViewChecked {
           }
           that.unix = new Date().getTime();
           that.participantsListActiveState = that.participants && location.hash === "#osalejad";
+
+          const langOptions = data['route']['languageSwitchLinks'];
+
+          let langValues = {};
+          for( var i in langOptions ){
+            langValues[langOptions[i].language.id] = langOptions[i].url.path;
+          }
+          that.rootScope.set('langOptions', langValues);
+          
         }
+
+
         subscribe.unsubscribe();
       });
 

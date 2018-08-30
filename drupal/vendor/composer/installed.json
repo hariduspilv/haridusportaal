@@ -4950,6 +4950,55 @@
         }
     },
     {
+        "name": "drupal/menu_item_role_access",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/menu_item_role_access",
+            "reference": "8.x-1.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/menu_item_role_access-8.x-1.0.zip",
+            "reference": "8.x-1.0",
+            "shasum": "2862276f066b3d5189cb5397db6814681d782311"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0",
+                "datestamp": "1532437381",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "LiamPower",
+                "homepage": "https://www.drupal.org/user/3016225"
+            }
+        ],
+        "description": "Provide role based access to menu items.",
+        "homepage": "https://www.drupal.org/project/menu_item_role_access",
+        "support": {
+            "source": "http://cgit.drupalcode.org/menu_item_role_access"
+        }
+    },
+    {
         "name": "drupal/metatag",
         "version": "1.5.0",
         "version_normalized": "1.5.0.0",

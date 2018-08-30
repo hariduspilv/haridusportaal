@@ -1,0 +1,28 @@
+query(
+  $lang: LanguageId!
+) {
+nodeQuery(
+offset: 0,
+limit: 3,
+sort: {field: "field_event_main_date", direction: DESC},
+filter:{
+conditions:[
+{field:"type", value: "event", language:$lang}
+]
+}){
+entities(language:$lang){
+... on NodeEvent{
+entityUrl{
+  path
+}
+fieldOrganizer
+fieldEventMainDate {
+value
+date
+unix
+}
+entityLabel
+}
+}
+}
+}

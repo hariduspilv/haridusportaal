@@ -17,6 +17,7 @@ export class FavouritesListComponent extends FavouritesComponent implements OnIn
       http,
       null,
       null,
+      null,
       null)
   }
 
