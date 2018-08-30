@@ -812,6 +812,14 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.search'),
 		];
+		$form['button']['search_from_page'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Search from page'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.search_from_page'),
+		];
+
 		$form['button']['search_detailed'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Detailed search'),
@@ -952,6 +960,14 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.see_comparison'),
 		];
+		$form['button']['back'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Back'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.back'),
+		];
+
 
 		$form['newsletter'] = [
 			'#type' => 'details',
@@ -1484,6 +1500,18 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#type' => 'text_format',
 			'#title' => $this->t('Not found page text'),
 			'#default_value' => $config->get('notFound.explanation')['value'],
+		];
+
+		$form['errors'] = [
+			'#type' => 'details',
+			'#title' => $this->t('Errors translations')
+		];
+		$form['errors']['enter_valid_date'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Enter valid date error message'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('studyProgramme.enter_valid_date'),
 		];
 
 
