@@ -23,7 +23,7 @@ use Drupal\taxonomy\Entity\Term;
 *   name = "CustomSubsidyProjectQuery",
 *   response_cache_contexts = {"languages:language_url"},
 *   arguments = {
-*     "ownerShipType" = "[Int]",
+*     "ownership_type" = "[Int]",
 *     "investment_measure" = "[Int]",
 *     "investment_deadline" = "[Int]",
 *     "detail" = "Int!"
@@ -77,7 +77,7 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
   */
   public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
     $responsevalues = [];
-    $ehis_ids = [];
+    $responselocations = [];
 
     $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
     $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
@@ -97,9 +97,6 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 
     $response = $client->search($params);
 
-    dump($response);
-    die();
-
     if($response['hits']['total'] > 0){
       while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
 
@@ -117,20 +114,19 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       );
     }
 
-    foreach($responsevalues as $value){
-      if(!in_array($value['_source']['ehis_id'][0], $ehis_ids)){
-        $ehis_ids[] = $value['_source']['ehis_id'][0];
-      }
-    }
-
-    $schools = $this->getSchoolsByEhisId($ehis_ids);
     if($args['detail'] == 1 || $args['detail'] == 2){
+      foreach($responsevalues as $value){
+        if(!in_array($value['_source']['school_location'][0], $responselocations)){
+          $responselocations[$value['_source']['ehis_id'][0]] = $value['_source']['school_location'][0];
+        }
+      }
+
       switch($args['detail']){
         case 1:
-          $locations = $this->getCountys($schools);
+          $locations = $this->getCountys($responselocations);
           break;
         case 2:
-          $locations = $this->getLocalGovs($schools);
+          $locations = $this->getLocalGovs($responselocations);
           break;
       }
       foreach($responsevalues as $value){
@@ -139,7 +135,6 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
           $sums[$locations[$ehis_id]] += $value['_source']['investment_amount'][0];
         }
       }
-
       foreach($sums as $location => $sum){
         $statisticvalue['investmentLocation'] = $location;
         $statisticvalue['investmentAmountSum'] = $sum;
@@ -147,7 +142,19 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       }
     }
     if($args['detail'] == 3){
-
+      $results = [];
+      $ehis_ids = [];
+      foreach($responsevalues as $value){
+        $value = $value['_source'];
+        $ehis_id = $value['ehis_id'][0];
+        $results[$ehis_id]['nid'] = $value['nid'][0];
+        $results[$ehis_id]['lat'] = $value['lat'][0];
+        $results[$ehis_id]['lon'] = $value['lon'][0];
+        $results[$ehis_id]['investmentAmountSum'] += $value['investment_amount'][0];
+      }
+      foreach($results as $result){
+        yield $result;
+      }
     }
   }
 }
@@ -202,27 +209,27 @@ protected function getLocationTaxonomyId($school){
   return $taxonomy_term_id;
 }
 
-protected function getCountys($schools){
+protected function getCountys($responselocations){
   $countys = [];
-  foreach($schools as $school){
-    $taxonomy_term_id = $this->getLocationTaxonomyId($school);
-    $parents = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($taxonomy_term_id);
+  foreach($responselocations as $ehis_id => $responselocation){
+    $parents = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($responselocation);
     $county = end($parents)->getName();
-    $ehis_id = $school->field_ehis_id->getValue()[0]['value'];
     $countys[$ehis_id] = $county;
   }
   return $countys;
 }
 
-protected function getLocalGovs($schools){
+protected function getLocalGovs($responselocations){
   $localgovs = [];
-  foreach($schools as $school){
-    $taxonomy_term_id = $this->getLocationTaxonomyId($school);
-    $parents = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($taxonomy_term_id);
+  foreach($responselocations as $ehis_id => $responselocation){
+    $parents = \Drupal::service('entity_type.manager')->getStorage("taxonomy_term")->loadAllParents($responselocation);
     $keys = array_keys($parents);
-    $key = $keys[1];
+    if(count($keys) < 3){
+      $key = $keys[0];
+    }else if(count($keys) > 2){
+      $key = $keys[1];
+    }
     $localgov = $parents[$key]->getName();
-    $ehis_id = $school->field_ehis_id->getValue()[0]['value'];
     $localgovs[$ehis_id] = $localgov;
   }
   return $localgovs;

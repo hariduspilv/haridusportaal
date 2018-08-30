@@ -109,9 +109,9 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         $response = $client->scroll([
           "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
           "scroll" => "30s"           // and the same timeout window
-          ]
-        );
-      }
+        ]
+      );
+    }
   }else{
     $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
   }
@@ -120,8 +120,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       $value['_source'][StringHelper::camelCase($key)] = $keyvalue;
       unset($value['_source'][$key]);
     }
-    dump($value);
-    die();
     yield $value['_source'];
   }
   //yield $this->getQuery($value, $args, $context, $info);
@@ -146,45 +144,45 @@ protected function getElasticQuery($args){
       if(isset($condition['enabled']) && $condition['enabled'] == true || !isset($condition['enabled'])){
         switch($condition['operator']){
           case '=':
-            foreach($condition['value'] as $value){
-              $elastic_must_filters[] = array(
-                'match' => array(
-                  $condition['field'] => $value
-                )
-              );
-            }
-            break;
+          foreach($condition['value'] as $value){
+            $elastic_must_filters[] = array(
+              'match' => array(
+                $condition['field'] => $value
+              )
+            );
+          }
+          break;
           case 'LIKE':
-            $values = explode(" ", $condition['value'][0]);
-            foreach($values as $value){
-              $elastic_must_filters[] = array(
-                'wildcard' => array(
-                  $condition['field'] => '*'.str_replace(',', '', strtolower($value)).'*'
-                )
-              );
-            }
-            break;
+          $values = explode(" ", $condition['value'][0]);
+          foreach($values as $value){
+            $elastic_must_filters[] = array(
+              'wildcard' => array(
+                $condition['field'] => '*'.str_replace(',', '', strtolower($value)).'*'
+              )
+            );
+          }
+          break;
           case 'IN':
-            if(isset($condition['value'])){
-              $elastic_must_filters[] = array(
-                'terms' => array(
-                  $condition['field'] => $condition['value']
-                )
-              );
-            }
-            break;
+          if(isset($condition['value'])){
+            $elastic_must_filters[] = array(
+              'terms' => array(
+                $condition['field'] => $condition['value']
+              )
+            );
+          }
+          break;
           case 'FUZZY':
-            foreach($condition['value'] as $value){
-              $elastic_must_filters[] = array(
-                'match' => array(
-                  $condition['field'] => array(
-                    'query' => $value,
-                    'fuzziness' => 2
-                  )
+          foreach($condition['value'] as $value){
+            $elastic_must_filters[] = array(
+              'match' => array(
+                $condition['field'] => array(
+                  'query' => $value,
+                  'fuzziness' => 2
                 )
-              );
-            }
-            break;
+              )
+            );
+          }
+          break;
         }
       }
     }
