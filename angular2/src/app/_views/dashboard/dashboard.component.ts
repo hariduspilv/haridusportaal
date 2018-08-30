@@ -76,7 +76,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.pathWatcher();
     this.userData = this.user.getData();
     if(this.userData.isExpired === true){
-      console.log('Should redirect');
       this.router.navigateByUrl('');
     }
     
