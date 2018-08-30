@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
 import { Observable, Subscription } from '../../../../node_modules/rxjs';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from '@app/_services/userService'
@@ -12,7 +12,7 @@ import { UserService } from '@app/_services/userService'
   styleUrls: ['./favourites.styles.scss']
 })
 
-export class FavouritesComponent implements OnInit{
+export class FavouritesComponent implements OnInit, OnDestroy{
   /** 
     * if (this.id === undefined)
     * then (this.type = 'search')
@@ -22,15 +22,19 @@ export class FavouritesComponent implements OnInit{
   @Input() id: string;
 
   private maxFavouriteItems = 10;
+  public existingFavouriteItems;
 
   public list;
   public loading: boolean;
   public displaySuccess: boolean;
   public userLoggedOut: boolean;
   public favouritesDropdown: boolean = false;
+
   public existingItem: any;
   public existing: boolean;
+
   private lang: string;
+  public subscriptions: Subscription[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -38,7 +42,8 @@ export class FavouritesComponent implements OnInit{
     private http: HttpService,
     public dialog: MatDialog,
     private translate: TranslateService,
-    private user: UserService
+    private user: UserService,
+    private snackbar: MatSnackBar,
   ) {
 
   }
@@ -47,8 +52,14 @@ export class FavouritesComponent implements OnInit{
     let sub = this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
      
 
-      if(response['data']['CustomFavorites'].length) this.list = response['data']['CustomFavorites'][0]['favorites'];
-      else this.list = [];
+      if(response['data']['CustomFavorites'].length) {
+        this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favorites'];
+        this.list = response['data']['CustomFavorites'][0]['favorites'];
+      }
+      else {
+        this.existingFavouriteItems = [];
+        this.list = [];
+      }
 
       this.loading = false;
       sub.unsubscribe();
@@ -88,22 +99,23 @@ export class FavouritesComponent implements OnInit{
     return output;
   }
   removeFavouriteItem(item){
-    this.loading = true;
+    //console.log(item.targetId);
     let data = { 
       queryId: "deleteFavoriteItem:1",
       variables: { id: item.targetId}
     }
 
     let sub = this.http.post('/graphql',data).subscribe(response => {
-      this.loading = false;
-      this.displaySuccess = true;
-      setTimeout(() => {
-        this.displaySuccess = false;
+      
+      if(response['errors']) {
+        console.error('something went terribly wrong');
+      } else {
         this.existingItem = false;
         this.existing = false;
-        this.favouritesDropdown = false;
-      }, 2000);
-      
+        this.snackbar.dismiss();
+        //console.log('Page exists: ',this.existing);
+      }
+      this.getFavouritesList();
       sub.unsubscribe();
     });
   }
@@ -131,39 +143,55 @@ export class FavouritesComponent implements OnInit{
     });
   }
   submitFavouriteItem(): void {   
-    this.loading = true;
+   
     let data = { queryId: "createFavoriteItem:1" }
 
     data['variables'] = this.compileVariables();
    
 
     let sub = this.http.post('/graphql', data).subscribe(response => {
-      console.log(response);
-      this.loading = false;
-      this.displaySuccess = true;
-      setTimeout(() => {
-        this.displaySuccess = false;
-        this.favouritesDropdown = false;
-      }, 2000);
+      //console.log(response);
+      if(response['data']['createFavoriteItem']){
+
+        this.existing = true;
+        //console.log('Page exists: ',this.existing);
+        this.getFavouritesList();
+        this.openFavouriteSnackbar();
+      } 
+      
       sub.unsubscribe();
     });
   }
-  
+  openFavouriteSnackbar() {
+    
+      let message = `${this.translate.get('frontpage.favourites_snackbar_message')['value']}`;
+      let action = `${this.translate.get('frontpage.favourites_snackbar_action')['value']}`;
+      let snackBarRef = this.snackbar.open(message, action, {
+        duration: 600000,
+      });
+      snackBarRef.afterDismissed().subscribe((obj) => {
+        if (obj.dismissedByAction) {
+          this.router.navigateByUrl('et/toolaud');
+        }
+      })
+    
+  }
+  /*
   toggleFavouritesPanel(): any {
-    this.loading = true;
+    
    
     if(this.favouritesDropdown == true) return this.favouritesDropdown = false;
     else this.favouritesDropdown = true;
     
     let sub = this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
       this.loading = false;
-      let existingFavouriteItems = response['data']['CustomFavorites'][0]['favorites'];
+      this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favorites'];
       
-      this.isFavouriteExisting(existingFavouriteItems);
+      this.isFavouriteExisting( this.existingFavouriteItems);
       console.log(this.existingItem);
       console.log(this.existing);
       if(this.existing === false){
-        if(existingFavouriteItems.length >= this.maxFavouriteItems) {
+        if( this.existingFavouriteItems.length >= this.maxFavouriteItems) {
           this.openDialog();
           this.favouritesDropdown = false;
         }
@@ -171,8 +199,49 @@ export class FavouritesComponent implements OnInit{
       sub.unsubscribe();
     });
   }
+  */
+  toggleFavouritesButton(){
+    this.isFavouriteExisting( this.existingFavouriteItems);
+    //console.log('Page exists: ',this.existing);
 
+    if(this.existing === true){
+   
+      this.removeFavouriteItem(this.existingItem);
+
+    } else {
+      
+      if(this.canAddToFavourites() === true){
+        this.submitFavouriteItem();
+      } else {
+        this.openDialog();
+      }
+    }
+  }
+  canAddToFavourites(): boolean{
+    if( this.existingFavouriteItems.length >= this.maxFavouriteItems) return false;
+    else return true;
+  }
   ngOnInit(){
     this.userLoggedOut = this.user.getData()['isExpired'];
+    let subscribe = this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
+
+      if(response['data']['CustomFavorites'].length)
+        this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favorites'];
+      else this.existingFavouriteItems = [];
+      this.isFavouriteExisting( this.existingFavouriteItems);
+      //console.log('Page exists: ',this.existing);
+
+      if(this.existing == true) this.openFavouriteSnackbar();
+    });
+
+    this.subscriptions = [ ...this.subscriptions, subscribe];
+  }
+  ngOnDestroy(){
+    /* Clear all subscriptions */
+    for (let sub of this.subscriptions) {
+      if (sub && sub.unsubscribe) {
+        sub.unsubscribe();
+      }
+    }
   }
 }
