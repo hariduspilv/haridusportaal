@@ -144,9 +144,6 @@
   <div class="events__list-head">
     <div class="events__head">
       <div class="events__title text-left">{{ 'event.label' | translate | uppercase }}</div>
-
-      <favourites class="pull-right"></favourites>
-
       <div class="button-list text-right sm-hide">
         <div class="view-item pointer" (click)="changeView('list')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
@@ -204,16 +201,16 @@
                     <span class="location" *ngIf="event.location">{{ 'event.location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
                     <span class="entrance" *ngIf="event.fieldEntryType">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
                   </div>
-                  <div class="tags sm-hide" *ngIf="event.hashTags && event.hashTags.length">
+                  <div class="tags sm-hide" *ngIf="(event.hashTags && event.hashTags.length) || event.fieldEventType">
                     <mat-chip-list tabindex="0" aria-multiselectable="true" >
-                      <span *ngFor="let eventTag of event.hashTags">
-                        <span *ngIf="eventTag.entity" class="mat-chip-wrapper" tabindex="0" attr.aria-label="{{' eventTag.entity.entityLabel'}}">
-                          <mat-chip>{{ eventTag.entity.entityLabel }}</mat-chip>
-                        </span>
-                      </span>
                       <span *ngIf="event.fieldEventType">
                         <span class="mat-chip-wrapper" tabindex="0" attr.aria-label="{{' eventTag.entity.entityLabel'}}">
                           <mat-chip >{{ event.fieldEventType.entity.entityLabel }}</mat-chip>
+                        </span>
+                      </span>
+                      <span *ngFor="let eventTag of event.hashTags">
+                        <span *ngIf="eventTag.entity" class="mat-chip-wrapper" tabindex="0" attr.aria-label="{{' eventTag.entity.entityLabel'}}">
+                          <mat-chip>{{ eventTag.entity.entityLabel }}</mat-chip>
                         </span>
                       </span>
                     </mat-chip-list>
@@ -269,11 +266,11 @@
 
             <ng-container *ngIf="i < maxEntries(day)">
 
-              <div class="content"  [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" tabindex="0" attr.aria-label="{{'Event'}}">
+              <a class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" tabindex="0" attr.aria-label="{{'Event'}}">
                 <span><div class="marker"></div></span>
                 <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
                 <span class="content__strong">{{ event.title }}</span>
-              </div>
+              </a>
             </ng-container>
             
             <ng-container *ngIf="popup === event.nid">
