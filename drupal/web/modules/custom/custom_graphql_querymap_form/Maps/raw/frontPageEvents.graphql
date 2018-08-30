@@ -19,6 +19,7 @@ fieldOrganizer
 fieldEventMainDate {
 value
 date
+unix
 }
 entityLabel
 }
