@@ -40,35 +40,62 @@ public class KutseregisterWorker extends Worker {
       if (response.isSetKutsetunnistused()) {
         response.getKutsetunnistused().getKutsetunnistusList().forEach(kutsetunnistusV2Type -> {
           kutsetunnistused.addObject()
-              .put("registrinumber", kutsetunnistusV2Type.getRegistrinumber())
-              .put("nimi", kutsetunnistusV2Type.getNimi())
-              .put("isikukood", kutsetunnistusV2Type.getIsikukood())
-              .put("synniaeg",
-                  simpleDateFormat.format(kutsetunnistusV2Type.getSynniaeg().getTimeInMillis()))
-              .put("tyyp", kutsetunnistusV2Type.getTyyp())
-              .put("standard", kutsetunnistusV2Type.getStandard())
-              .put("ekrtase", kutsetunnistusV2Type.getEkrtase())
-              .put("eqftase", kutsetunnistusV2Type.getEqftase())
-              .put("spetsialiseerumine", kutsetunnistusV2Type.getSpetsialiseerumine())
-              .put("osakutse", kutsetunnistusV2Type.getOsakutse())
-              .put("lisavali", kutsetunnistusV2Type.getLisavali())
-              .put("kompetentsid", kutsetunnistusV2Type.getKompetentsid())
-              .put("valdkond", kutsetunnistusV2Type.getValdkond())
-              .put("kutseala", kutsetunnistusV2Type.getKutseala())
-              .put("hariduslikkval", kutsetunnistusV2Type.getHariduslikkval())
-              .put("keel", kutsetunnistusV2Type.getKeel())
-              .put("valjastaja", kutsetunnistusV2Type.getValjastaja())
-              .put("valjaantud",
-                  simpleDateFormat.format(kutsetunnistusV2Type.getValjaantud().getTimeInMillis()))
-              .put("kehtibalates",
-                  simpleDateFormat.format(kutsetunnistusV2Type.getKehtibalates().getTimeInMillis()))
-              .put("kehtibkuni",
-                  simpleDateFormat.format(kutsetunnistusV2Type.getKehtibkuni().getTimeInMillis()))
-              .put("isco", kutsetunnistusV2Type.getIsco())
-              .put("reaid", kutsetunnistusV2Type.getReaid())
-              .put("duplikaat", kutsetunnistusV2Type.getDuplikaat())
-              .put("kehtetu", kutsetunnistusV2Type.getKehtetu())
-              .put("kustutatud", kutsetunnistusV2Type.getKustutatud());
+              .put("registrinumber",
+                  kutsetunnistusV2Type.isSetRegistrinumber() ? kutsetunnistusV2Type
+                      .getRegistrinumber() : null)
+              .put("nimi", kutsetunnistusV2Type.isSetNimi() ? kutsetunnistusV2Type.getNimi() : null)
+              .put("isikukood",
+                  kutsetunnistusV2Type.isSetIsikukood() ? kutsetunnistusV2Type.getIsikukood()
+                      : null)
+              .put("synniaeg", kutsetunnistusV2Type.isSetSynniaeg() ? simpleDateFormat
+                  .format(kutsetunnistusV2Type.getSynniaeg().getTimeInMillis()) : null)
+              .put("tyyp", kutsetunnistusV2Type.isSetTyyp() ? kutsetunnistusV2Type.getTyyp() : null)
+              .put("standard",
+                  kutsetunnistusV2Type.isSetStandard() ? kutsetunnistusV2Type.getStandard() : null)
+              .put("ekrtase",
+                  kutsetunnistusV2Type.isSetEkrtase() ? kutsetunnistusV2Type.getEkrtase().intValue()
+                      : null)
+              .put("eqftase",
+                  kutsetunnistusV2Type.isSetEqftase() ? kutsetunnistusV2Type.getEqftase().intValue()
+                      : null)
+              .put("spetsialiseerumine",
+                  kutsetunnistusV2Type.isSetSpetsialiseerumine() ? kutsetunnistusV2Type
+                      .getSpetsialiseerumine() : null)
+              .put("osakutse",
+                  kutsetunnistusV2Type.isSetOsakutse() ? kutsetunnistusV2Type.getOsakutse() : null)
+              .put("lisavali",
+                  kutsetunnistusV2Type.isSetLisavali() ? kutsetunnistusV2Type.getLisavali() : null)
+              .put("kompetentsid",
+                  kutsetunnistusV2Type.isSetKompetentsid() ? kutsetunnistusV2Type.getKompetentsid()
+                      : null)
+              .put("valdkond",
+                  kutsetunnistusV2Type.isSetValdkond() ? kutsetunnistusV2Type.getValdkond() : null)
+              .put("kutseala",
+                  kutsetunnistusV2Type.isSetKutseala() ? kutsetunnistusV2Type.getKutseala() : null)
+              .put("hariduslikkval",
+                  kutsetunnistusV2Type.isSetHariduslikkval() ? kutsetunnistusV2Type
+                      .getHariduslikkval() : null)
+              .put("keel", kutsetunnistusV2Type.isSetKeel() ? kutsetunnistusV2Type.getKeel() : null)
+              .put("valjastaja",
+                  kutsetunnistusV2Type.isSetValjastaja() ? kutsetunnistusV2Type.getValjastaja()
+                      : null)
+              .put("valjaantud", kutsetunnistusV2Type.isSetValjaantud() ? simpleDateFormat
+                  .format(kutsetunnistusV2Type.getValjaantud().getTimeInMillis()) : null)
+              .put("kehtibalates", kutsetunnistusV2Type.isSetKehtibalates() ? simpleDateFormat
+                  .format(kutsetunnistusV2Type.getKehtibalates().getTimeInMillis()) : null)
+              .put("kehtibkuni", kutsetunnistusV2Type.isSetKehtibkuni() ? simpleDateFormat
+                  .format(kutsetunnistusV2Type.getKehtibkuni().getTimeInMillis()) : null)
+              .put("isco", kutsetunnistusV2Type.isSetIsco() ? kutsetunnistusV2Type.getIsco() : null)
+              .put("reaid",
+                  kutsetunnistusV2Type.isSetReaid() ? kutsetunnistusV2Type.getReaid() : null)
+              .put("duplikaat",
+                  kutsetunnistusV2Type.isSetDuplikaat() ? kutsetunnistusV2Type.getDuplikaat()
+                      : null)
+              .put("kehtetu",
+                  kutsetunnistusV2Type.isSetKehtetu() ? kutsetunnistusV2Type.getKehtetu() : null)
+              .put("kustutatud",
+                  kutsetunnistusV2Type.isSetKustutatud() ? kutsetunnistusV2Type.getKustutatud()
+                      : null);
         });
       }
 
