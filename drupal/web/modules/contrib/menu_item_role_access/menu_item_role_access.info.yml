@@ -1,0 +1,15 @@
+name: Menu Item Role Access
+# core: 8.x
+description: Provide role based access to menu items.
+package: Menu
+type: module
+configure: menu_item_role_access.config
+dependencies:
+  - menu_link_content
+  - menu_ui
+
+# Information added by Drupal.org packaging script on 2018-07-24
+version: '8.x-1.0'
+core: '8.x'
+project: 'menu_item_role_access'
+datestamp: 1532437384

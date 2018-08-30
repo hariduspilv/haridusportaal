@@ -1,0 +1,9 @@
+menu_item_role_access.config:
+  path: '/admin/config/menu-item-role-access'
+  defaults:
+    _form: '\Drupal\menu_item_role_access\Form\ConfigForm'
+    _title: 'Configuration for Menu Item Role Access module'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
