@@ -79,13 +79,13 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.rootScope.set('langOptions', opts);
   }
   ngOnInit(){
-    this.pathWatcher();
+    
     this.userData = this.user.getData();
-    /*
+    this.pathWatcher();
     if(this.userData.isExpired === true){
       this.router.navigateByUrl('');
     }
-    */
+    
   }
   ngOnDestroy(){
     for (let sub of this.subscriptions) {
