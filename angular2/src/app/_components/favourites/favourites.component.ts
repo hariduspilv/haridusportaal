@@ -231,7 +231,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       this.isFavouriteExisting( this.existingFavouriteItems);
       //console.log('Page exists: ',this.existing);
 
-      if(this.existing == true) this.openFavouriteSnackbar();
     });
 
     this.subscriptions = [ ...this.subscriptions, subscribe];
