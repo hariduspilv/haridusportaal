@@ -30,6 +30,8 @@ export class HttpService {
       
     }
 
+
+    //console.log(headers);
     return headers;
   }
 
