@@ -1,0 +1,1 @@
+{"query ($ownershipType: [Int], $investmentMeasure: [Int], $investmentDeadline: [Int], $levelOfDetail: Int!) {\n  CustomSubsidyProjectQuery(ownership_type: $ownershipType, investment_measure: $investmentMeasure, investment_deadline: $investmentDeadline, detail: $levelOfDetail) {\n    investmentLocation\n    investmentAmountSum\n  }\n}\n":1}
