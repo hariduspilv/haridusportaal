@@ -293,7 +293,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
     this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
 
-      console.log(data['data']);
       let entities = data['data']['CustomElasticQuery'];
 
       this.loading = false;

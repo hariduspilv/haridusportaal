@@ -144,9 +144,6 @@
   <div class="events__list-head">
     <div class="events__head">
       <div class="events__title text-left">{{ 'event.label' | translate | uppercase }}</div>
-
-      <favourites class="pull-right"></favourites>
-
       <div class="button-list text-right sm-hide">
         <div class="view-item pointer" (click)="changeView('list')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'list'">
           <mat-icon>list</mat-icon>
