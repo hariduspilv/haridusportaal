@@ -4,6 +4,7 @@ import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { eventsRegister } from '@app/_graph/events.graph';
+import { SettingsService } from '@app/_core/settings';
 
 @Component({
   selector: 'events-registration-dialog',
@@ -13,7 +14,7 @@ import { eventsRegister } from '@app/_graph/events.graph';
 export class EventsRegistratonDialog {
   
   form: FormGroup;
-  
+  iCalUrl = "";
   firstName: string;
   lastName: string;
   companyName: string;
@@ -30,11 +31,14 @@ export class EventsRegistratonDialog {
     private apollo: Apollo,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public settings: SettingsService
   ) { }
   
   
   ngOnInit() {
+
+    this.iCalUrl = this.settings.url+"/calendarexport/"+this.data.nid;
 
     this.form = this.fb.group({
       firstName: [this.firstName, [Validators.required]],

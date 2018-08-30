@@ -129,7 +129,7 @@
       <div class="dialog__actions--success">
         <div class="row text-center">
           <div class="col-12">
-            <button role="button" tabindex="0" mat-raised-button color="primary" (click)="close()">{{ 'event.registration_form_add_to_calendar' | translate }}</button>
+            <a href="{{ iCalUrl }}" target="_blank" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'event.registration_form_add_to_calendar' | translate }}</a>
           </div>
           <div class="dialog__actions--success__close col-12"><a class="btn-link" href="javascript:void(0)" (click)="close()" tabindex="0">{{ 'event.registration_form_close' | translate }}</a></div>
         </div>
