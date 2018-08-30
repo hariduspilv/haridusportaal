@@ -1,3 +1,4 @@
+
 <div class="dashboard main-container">
   <div class="row">
     <div class="col-8">
@@ -9,14 +10,14 @@
         <div class="button-list sm-hide">
           <ng-container *ngFor="let item of mainMenu[lang]">
               <div class="view-item pointer text-center" [routerLink]="item.link" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" >
-                <mat-icon>list</mat-icon>
-                <div class="title" >{{item.label | translate }}</div>
+                <mat-icon>{{ mainMenuCommonAttrs[item._id].icon }}</mat-icon>
+                <div class="title" >{{ mainMenuCommonAttrs[item._id].label | translate }}</div>
               </div>
           </ng-container>
-         
         </div><!--/button-list-->
 
         <router-outlet></router-outlet>
+        
       </div>
     </div><!--/col-8-->
     <div class="col-4">

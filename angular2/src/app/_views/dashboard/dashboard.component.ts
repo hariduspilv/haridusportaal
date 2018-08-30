@@ -15,17 +15,25 @@ export class DashboardComponent implements OnInit, OnDestroy{
   
  
   subscriptions: Subscription[] = [];
+  
   public mainMenu = {
-    "et": [ {_id: 1, link: '/et/toolaud/taotlused', label: 'frontpage.dashboard_tabs_applications'},
-          {_id: 2, link: '/et/toolaud/tunnistused', label: 'frontpage.dashboard_tabs_certificates'},
-          {_id: 3, link: '/et/toolaud/opingud', label: 'frontpage.dashboard_tabs_studies'},
-          {_id: 4, link: '/et/toolaud/opetan', label: 'frontpage.dashboard_tabs_teachings'}],
+    "et": [ {_id: 1, link: '/et/toolaud/taotlused'},
+          {_id: 2, link: '/et/toolaud/tunnistused'},
+          {_id: 3, link: '/et/toolaud/opingud'},
+          {_id: 4, link: '/et/toolaud/opetan'}],
 
-    "en": [ {_id: 1,link: '/en/dashboard/applications', label: 'frontpage.dashboard_tabs_applications'},
-          {_id: 2,link: '/en/dashboard/certificates', label: 'frontpage.dashboard_tabs_certificates'},
-          {_id: 3,link: '/en/dashboard/studies', label: 'frontpage.dashboard_tabs_studies'},
-          {_id: 4,link: '/en/dashboard/teachings', label: 'frontpage.dashboard_tabs_teachings'}]
+    "en": [ {_id: 1, link: '/en/dashboard/applications'},
+          {_id: 2, link: '/en/dashboard/certificates'},
+          {_id: 3, link: '/en/dashboard/studies'},
+          {_id: 4, link: '/en/dashboard/teachings'}]
   };
+
+  public mainMenuCommonAttrs = {
+    1: {icon: 'description', label: 'frontpage.dashboard_tabs_applications'},
+    2: {icon: 'class', label: 'frontpage.dashboard_tabs_certificates'},
+    3: {icon: 'local_library', label: 'frontpage.dashboard_tabs_studies'},
+    4: {icon: 'school', label: 'frontpage.dashboard_tabs_teachings'}
+  }
   public userData;
 
   constructor(
@@ -73,10 +81,10 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.rootScope.set('langOptions', opts);
   }
   ngOnInit(){
-    this.pathWatcher();
+    
     this.userData = this.user.getData();
+    this.pathWatcher();
     if(this.userData.isExpired === true){
-      console.log('Should redirect');
       this.router.navigateByUrl('');
     }
     

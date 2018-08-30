@@ -1,4 +1,10 @@
 <div class="favourites__wrapper" attr.aria-label="{{'Favourites dropdown, clickable'}}" *ngIf="!userLoggedOut">
+    
+    <mat-icon tabindex="0" class="primary" role="button" (click)="toggleFavouritesButton()" *ngIf="existingFavouriteItems">
+      {{ existing === true ? 'star' : 'star_border' }}
+    </mat-icon>
+    
+  <!--
   <mat-icon tabindex="0" class="primary" role="button" (click)="toggleFavouritesPanel()">star_rate</mat-icon>
   <div class="favourites__dropdown" *ngIf="favouritesDropdown">
     <mat-spinner *ngIf="loading"></mat-spinner>
@@ -41,4 +47,5 @@
     </ng-container>
 
   </div>
+  -->
 </div>
