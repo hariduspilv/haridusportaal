@@ -92,12 +92,18 @@ $grid-columns: 12;
   .sm-flex{display: flex !important;}
 }
 @include break-on(md, max) {
-  .md-hide{display:none !important;}
+  .md-hide{display: none !important;}
   .md-show{display: block !important;}
   .md-flex{display: flex !important;}
 }
 
 /* Common styles across components */
+
+.mininav { }
+
+@include break-on(md, max) {
+.mininav { width: 100%!important; flex-direction: row-reverse; }
+}
 
 .grow {flex-grow: 1;}
 .wrap {@include break-on(sm, max) {flex-wrap: wrap;}}
@@ -406,4 +412,8 @@ button{cursor:pointer;}
     position: absolute;
     height: 0px;
     width: 0px;
+  }
+
+.favourites__wrapper {
+    color: #2e3374;
   }
