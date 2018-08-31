@@ -374,6 +374,30 @@ custom_translation_module.settings:
         choose_type:
           type: label
           label: 'Content'
+        see_comparison:
+          type: label
+          label: 'Content'
+        add_to_favourites_label:
+          type: label
+          label: 'Content'
+        add_to_favourites_add:
+          type: label
+          label: 'Content'
+        add_to_favourites_add_success:
+          type: label
+          label: 'Content'
+        add_to_favourites_remove:
+          type: label
+          label: 'Content'
+        add_to_favourites_remove_success:
+          type: label
+          label: 'Content'
+        add_to_favourites_title:
+          type: label
+          label: 'Content'
+        back:
+          type: label
+          label: 'Content'
     newsletter:
       type: mapping
       label: 'Newsletter translations'
