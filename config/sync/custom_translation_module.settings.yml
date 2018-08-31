@@ -195,6 +195,8 @@ button:
   choose_type: 'Vali tüüp'
   remove_from_comparison: 'Eemalda võrdlusest'
   see_comparison: 'Vaata võrdlust'
+  search_from_page: 'Otsi lehelt'
+  back: Tagasi
 newsletter:
   title: 'Uudiskiri - test test tekst tekst kui pikk see siis saab olla ma'
   intro: 'Mingi äge sissejuhatuse tekst, mida saab muuta siit: http://test-htm.wiseman.ee:30000/et/admin/config/custom_translation_module/customtranslation'
@@ -265,6 +267,8 @@ studyProgramme:
   related_filter_location: 'Otsi asukoha järgi'
   related_no_results: 'Sarnased erialad puuduvad'
   compare_modal_title: 'Erialade võrdlemine'
-  compare_modal_content: '<p> Maksimaalne võrreldavate erialade arv on ületatud.</p>'
+  compare_modal_content: ''
   non_active: 'Eriala ei ole aktiivne'
   added_to_comparison: 'Eriala(d) lisatud võrdlusesse'
+errors:
+  enter_valid_date: 'Sisesta korrektne kuupäev'
