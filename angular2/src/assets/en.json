@@ -16,7 +16,27 @@
     "dashboard_tabs_teachings":"Teachings",
     "dashboard_tabs_certificates_error_technical":"Sorry, a technical error has occurred. Please try again later.",
     "dashboard_tabs_certificates_professional": "Professional certificates",
-    "dashboard_tabs_certificates_examinations": "State examinations"
+    "dashboard_tabs_certificates_examinations": "State examinations",
+    "dashboard_tabs_certificates_number":"Certificate number",
+    "dashboard_tabs_certificates_name":"Certificate name",
+    "dashboard_tabs_certificates_type":"Type",
+    "dashboard_tabs_certificates_standard":"Standard",
+    "dashboard_tabs_certificates_ekr":"EKR level",
+    "dashboard_tabs_certificates_eqf":"EQF level",
+    "dashboard_tabs_certificates_specialization":"Specialization",
+    "dashboard_tabs_certificates_part":"Part of vocation",
+    "dashboard_tabs_certificates_competence":"Competence",
+    "dashboard_tabs_certificates_field":"Field",
+    "dashboard_tabs_certificates_field_topic":"Topic",
+    "dashboard_tabs_certificates_qualification":"Academic qualification",
+    "dashboard_tabs_certificates_language":"Examination language",
+    "dashboard_tabs_certificates_issuer":"Issuer",
+    "dashboard_tabs_certificates_issued_at":"Issued at",
+    "dashboard_tabs_certificates_valid_from":"Valid from",
+    "dashboard_tabs_certificates_valid_to":"Valid to",
+    "dashboard_tabs_certificates_isco":"Profession classification (ISCO)",
+    "dashboard_tabs_certificates_duplicate":"Duplicate",
+    "dashboard_tabs_certificates_notvalid":"Invalid"
   },
   "article": {
     "contact": "Contact",
@@ -237,7 +257,8 @@
     "add_to_favourites_remove": "Remove from favourites",
     "add_to_favourites_remove_success": "Successfully removed from favourites",
     "add_to_favourites_title": "Title",
-    "back": "Tagasi"
+    "back": "Back",
+    "back_to_dashboard":"Back to dashboard"
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"
