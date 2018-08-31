@@ -1,4 +1,4 @@
-<aside attr.aria-label=" {{''}}" role="navigation" tabindex="0"  *ngIf="data" class="side-menu-wrapper">
+<aside attr.aria-label=" {{''}}" role="navigation" *ngIf="data" class="side-menu-wrapper">
 
   <ul *ngFor="let item of data" class="ul-styleless category" [class.empty-parent]="item.links.length == 0 && item.url.path === '#nolink'">
     <ng-container *ngIf="item.url.path && item.url.path !== '#category' && item.url.path !== '#nocategory'">
@@ -8,7 +8,7 @@
           <mat-icon *ngIf="item.links && item.links.length > 0">chevron_right</mat-icon>
         </a>
         
-        <a href="javascript:void(0);" tabindex="0" [routerLink]="[item.url.path]" [class.active]="routeIncludes(item.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0 && item.url.path !== '#nolink'">
+        <a href="javascript:void(0);" [routerLink]="[item.url.path]" [class.active]="routeIncludes(item.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0 && item.url.path !== '#nolink'">
           <span>{{ item.label }}</span>
         </a>
         <ul class="ul-styleless submenu deep" *ngIf="item.links">
@@ -29,7 +29,7 @@
     </ng-container>
     <ng-container  *ngIf="item.url.path && (item.url.path === '#category' || item.url.path === '#nocategory')">
       <div *ngIf="item.url.path && item.url.path === '#category'" class="menu-category">{{ item.label | uppercase }}</div>
-      <ul class="ul-styleless submenu" *ngIf="item.links" tabindex="0">
+      <ul class="ul-styleless submenu" *ngIf="item.links">
         <li *ngFor="let item2 of item.links" [class.has-children]="item2.links.length > 0">
           <!-- Dropdown link -->
           <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" appToggleClass="menu-open"  tabindex="0" role="link">

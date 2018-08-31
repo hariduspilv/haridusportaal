@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
   
  
   subscriptions: Subscription[] = [];
+  
   public mainMenu = {
     "et": [ {_id: 1, link: '/et/toolaud/taotlused'},
           {_id: 2, link: '/et/toolaud/tunnistused'},
@@ -26,11 +27,12 @@ export class DashboardComponent implements OnInit, OnDestroy{
           {_id: 3, link: '/en/dashboard/studies'},
           {_id: 4, link: '/en/dashboard/teachings'}]
   };
+
   public mainMenuCommonAttrs = {
-    1: {icon: 'list', label: 'frontpage.dashboard_tabs_applications'},
-    2: {icon: 'list', label: 'frontpage.dashboard_tabs_certificates'},
-    3: {icon: 'list', label: 'frontpage.dashboard_tabs_studies'},
-    4: {icon: 'list', label: 'frontpage.dashboard_tabs_teachings'}
+    1: {icon: 'description', label: 'frontpage.dashboard_tabs_applications'},
+    2: {icon: 'class', label: 'frontpage.dashboard_tabs_certificates'},
+    3: {icon: 'local_library', label: 'frontpage.dashboard_tabs_studies'},
+    4: {icon: 'school', label: 'frontpage.dashboard_tabs_teachings'}
   }
   public userData;
 
@@ -79,13 +81,13 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.rootScope.set('langOptions', opts);
   }
   ngOnInit(){
-    this.pathWatcher();
+    
     this.userData = this.user.getData();
-    /*
+    this.pathWatcher();
     if(this.userData.isExpired === true){
       this.router.navigateByUrl('');
     }
-    */
+    
   }
   ngOnDestroy(){
     for (let sub of this.subscriptions) {

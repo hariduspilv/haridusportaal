@@ -251,5 +251,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         sub.unsubscribe();
       }
     }
+    //this.snackbar.dismiss()
   }
 }
