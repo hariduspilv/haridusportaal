@@ -968,7 +968,6 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#default_value' => $config->get('button.back'),
 		];
 
-
 		$form['newsletter'] = [
 			'#type' => 'details',
 			'#title' => $this->t('Newsletter translations'),
