@@ -48,6 +48,11 @@ import { FavouritesListComponent } from './_components/favouritesList/favourites
 import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
 import { CertificatesComponent } from '@app/_components/certificates/certificates.component';
+import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
+
+import { ApplicationsComponent } from '@app/_components/applications/applications.component';
+import { StudiesComponent } from '@app/_components/studies/studies.component';
+import { TeachingsComponent } from '@app/_components/teachings/teachings.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -94,7 +99,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     RecentEventsComponent,
     FavouritesComponent,
     FavouritesListComponent,
-    CertificatesComponent
+    CertificatesComponent,
+    CertificatesDetailedComponent,
+    ApplicationsComponent,
+    StudiesComponent,
+    TeachingsComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent],
