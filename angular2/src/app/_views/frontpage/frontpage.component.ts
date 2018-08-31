@@ -17,6 +17,7 @@ export class FrontpageComponent {
 	events: any;
 	lang: string;
   allPath: any;
+  eventPath: any;
   
   constructor (
     private rootScope:RootScopeService,
@@ -54,8 +55,11 @@ export class FrontpageComponent {
 
   getEvents() {
     let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=frontPageEvents:1&variables=";
+    let date = new Date();
+    var formattedDate = `${date.getFullYear()}-${date.getMonth() <= 8 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)}-${date.getDate() <= 9 ? '0' + date.getDate() : date.getDate()}`;
     let variables = {
-      lang: this.rootScope.get('currentLang').toUpperCase()
+      lang: this.rootScope.get('currentLang').toUpperCase(),
+      currentDate: formattedDate
     }
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
       this.events = data['data']['nodeQuery']['entities'];
@@ -64,14 +68,16 @@ export class FrontpageComponent {
 
   ngOnInit() {
 
-		this.lang = this.router.url;
+    this.lang = this.router.url;
 		let that = this;
 		
 		this.route.params.subscribe( params => {
 			if (this.lang == "/en") {
-				this.allPath = "/en/news";
+        this.allPath = "/en/news";
+        this.eventPath = "/en/events";
 			} else if (this.lang == "/et") {
-				this.allPath = "/et/uudised";
+        this.allPath = "/et/uudised";
+        this.eventPath = "/et/sundmused";
       } else if (this.lang !== '') {
         this.router.navigateByUrl(`/et/404`);
       }
