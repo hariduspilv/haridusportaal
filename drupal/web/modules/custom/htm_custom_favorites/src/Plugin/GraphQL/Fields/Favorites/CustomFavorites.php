@@ -20,6 +20,7 @@ use Drupal\Core\Language\LanguageManager;
  *   name = "CustomFavorites",
  *   description = @Translation("Loads all user favorites"),
  *   type = "[Entity]",
+ *
  * )
  */
 class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginInterface{

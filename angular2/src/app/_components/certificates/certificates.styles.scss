@@ -34,19 +34,3 @@ mat-panel-title {font-size: $small;}
   font-family: 'Material Icons';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
 ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}
-
-.certification-table {
-  border: .0625rem solid $gray;
-  border-collapse: collapse;
-  width: 100%;
-  font-size: $small; 
-  tr{
-    border: .0625rem solid $gray;
-    td{
-      padding: 15px;
-      border: .0625rem solid $gray;
-      width: 33%;
-    }
-  }
-  
-}
