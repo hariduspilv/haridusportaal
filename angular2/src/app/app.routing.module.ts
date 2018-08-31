@@ -52,8 +52,8 @@ const appRoutes: Routes = [
   { path: ':lang/study-programmes', component: StudyProgrammeComponent},
   { path: ':lang/study-programmes/:id', component: StudyProgrammeSingleComponent},
 
-  { path: ':lang/toolaud/tunnistused/:name', component: CertificatesDetailedComponent},
-  { path: ':lang/dashboard/certificates/:name', component: CertificatesDetailedComponent},
+  { path: ':lang/toolaud/tunnistused/:id', component: CertificatesDetailedComponent},
+  { path: ':lang/dashboard/certificates/:id', component: CertificatesDetailedComponent},
 
   { path: ':lang/dashboard', component: DashboardComponent,
     children: [
