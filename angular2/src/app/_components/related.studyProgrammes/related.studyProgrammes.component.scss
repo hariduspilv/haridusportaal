@@ -7,12 +7,6 @@
     @include break-on(sm, min) {margin-bottom: 5.25rem;}
   }
 }
-.grow {flex-grow: 1;}
-.wrap {@include break-on(sm, max) {flex-wrap: wrap;}}
-.btn {@include break-on(sm, max) {padding-top: $medium;}}
-.full {flex-basis: 100%; 
-  @include break-on(sm, min) {padding-right: $small;}
-}
 .studyProgramme {padding-bottom: $xxl;background: $white;border-top: $gutter solid $light-blue;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0; padding-bottom: $medium;}
   .months {margin-top: $medium;

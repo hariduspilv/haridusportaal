@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { RootScopeService, MetaTagsService, NewsService} from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Apollo } from 'apollo-angular';
+import { recentQuery } from '@app/_graph/events.graph';
+import { HttpService } from '@app/_services/httpService';
 @Component({
   templateUrl: './frontpage.component.html',
   styleUrls: ['./frontpage.component.scss']
@@ -10,7 +13,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class FrontpageComponent {
 
   error: boolean;
-	content: any;
+	news: any;
+	events: any;
 	lang: string;
   allPath: any;
   
@@ -20,7 +24,9 @@ export class FrontpageComponent {
     private metaTags: MetaTagsService,
     private translate: TranslateService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private apollo: Apollo,
+    private http: HttpService
   ) {
 
     this.route.params.subscribe( params => {
@@ -45,6 +51,17 @@ export class FrontpageComponent {
       'et': '/et',
     });
   }
+
+  getEvents() {
+    let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=frontPageEvents:1&variables=";
+    let variables = {
+      lang: this.rootScope.get('currentLang').toUpperCase()
+    }
+    this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+      this.events = data['data']['nodeQuery']['entities'];
+    });
+  }
+
   ngOnInit() {
 
 		this.lang = this.router.url;
@@ -64,9 +81,9 @@ export class FrontpageComponent {
 			if ( data['nodeQuery'] == null ) {
 				that.error = true;
 			} else {
-				that.content = data['nodeQuery']['entities'];
+				that.news = data['nodeQuery']['entities'];
 			}
 		});
-		
+		this.getEvents()
 	}
 }
