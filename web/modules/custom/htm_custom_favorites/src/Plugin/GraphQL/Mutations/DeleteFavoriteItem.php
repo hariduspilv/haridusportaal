@@ -106,7 +106,7 @@ class DeleteFavoriteItem extends CreateEntityBase{
 					}
 				}
 				$entity->favorites->setValue($paragraphs);
-
+				$entity->save();
 				if($entity->favorites->count() > 0){
 					return $this->resolveOutputUpdate($entity, $args, $info);
 				}else{
