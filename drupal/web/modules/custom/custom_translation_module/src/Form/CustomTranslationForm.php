@@ -960,6 +960,49 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.see_comparison'),
 		];
+		$form['button']['add_to_favourites_label'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Add to favorites label'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.add_to_favourites_label'),
+		];
+		$form['button']['add_to_favourites_add'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Add to favorites add button'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.add_to_favourites_add'),
+		];
+		$form['button']['add_to_favourites_add_success'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Add to favorites sucess message'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.add_to_favourites_add_success'),
+		];
+		$form['button']['add_to_favourites_remove'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Remove favorite'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.add_to_favourites_remove'),
+		];
+		$form['button']['add_to_favourites_remove_success'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Remove favorite sucess message'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.add_to_favourites_remove_success'),
+		];
+		$form['button']['add_to_favourites_title'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Add to favorites title'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.add_to_favourites_title'),
+		];
+
 		$form['button']['back'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Back'),
