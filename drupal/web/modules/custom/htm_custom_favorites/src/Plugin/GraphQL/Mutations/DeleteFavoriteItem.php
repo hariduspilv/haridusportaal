@@ -102,13 +102,15 @@ class DeleteFavoriteItem extends CreateEntityBase{
 						//remove from entity
 						unset($paragraphs[$index]);
 						//delete paragraph from DB
-						$paragraph->delete();
+						#$paragraph->delete();
 					}
 				}
+				dump($paragraphs);
 				$entity->favorites->setValue($paragraphs);
 
 				if($entity->favorites->count() > 0){
-					$entity->save();
+					#dump($entity->favorites->count());
+					#$entity->save();
 					return $this->resolveOutputUpdate($entity, $args, $info);
 				}else{
 					$entity->delete();
