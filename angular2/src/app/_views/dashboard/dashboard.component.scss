@@ -5,5 +5,10 @@
 .dashboard{
   &__username{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
 }
-.button-list {display: flex;flex-basis: 100%;justify-content: center;}
+.button-list {display: flex;flex-basis: 100%;justify-content: center; margin-top: 20px; }
 .view-item {width: 25%; margin: 0 auto;}
+
+.button-list .view-item.mat-menu-item-active { border-bottom: 3px solid #fd8208; }
+.button-list .view-item { border-bottom: 3px solid #eeeeee; }
+.button-list .title { font-weight: 300; font-size: 14px; line-height: 1.71; color: #333333; margin-bottom: 12px; }
+

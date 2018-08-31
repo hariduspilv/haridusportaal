@@ -4,7 +4,7 @@ export const recentQuery = gql`
 query(
   $lang: LanguageId!
 ){
-  nodeQuery(limit: 1, sort: {field: "field_event_date.entity.field_event_date", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language: $lang }]}) {
+  nodeQuery(limit: 3, sort: {field: "field_event_date.entity.field_event_date", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["event"], language: $lang }]}) {
     entities {
       ... on NodeEvent {
         title: entityLabel

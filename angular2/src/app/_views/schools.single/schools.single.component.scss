@@ -2,7 +2,7 @@
 #schools-single {
   @include break-on(sm, min) {margin-top: $gutter;margin-left: $small;margin-right: $small;}
   @include break-on(lg, min) {margin-left: -$gutter;margin-right: -$gutter;}
-  h1 {color: #333333;margin-bottom: $small;font-size: $medium;}
+  h1 {color: #333333;font-size: $medium;}
   #school-data {
     border-collapse: collapse;
     width: 100%;

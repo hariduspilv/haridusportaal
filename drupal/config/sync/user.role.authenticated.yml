@@ -36,6 +36,7 @@ permissions:
   - 'use text format default_html'
   - 'use text format editor'
   - 'view any article content'
+  - 'view any dashboard content'
   - 'view any event content'
   - 'view any news content'
   - 'view any page content'
