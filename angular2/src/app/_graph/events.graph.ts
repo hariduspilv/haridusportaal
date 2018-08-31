@@ -486,6 +486,7 @@ mutation(
       entityCreated
       
     }
+    errors
     violations {
       message
       path

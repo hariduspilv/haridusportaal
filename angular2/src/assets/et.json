@@ -16,7 +16,27 @@
     "dashboard_tabs_teachings":"Õpetan",
     "dashboard_tabs_certificates_error_technical":"Vabandame. Kutsetunnistuste andmete Kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.",
     "dashboard_tabs_certificates_professional": "Kutsetunnistused",
-    "dashboard_tabs_certificates_examinations": "Riigieksamid"
+    "dashboard_tabs_certificates_examinations": "Riigieksamid",
+    "dashboard_tabs_certificates_number":"Tunnistuse number",
+    "dashboard_tabs_certificates_name":"Tunnistuse nimi",
+    "dashboard_tabs_certificates_type":"Tüüp",
+    "dashboard_tabs_certificates_standard":"Kutsestandard",
+    "dashboard_tabs_certificates_ekr":"EKR tase",
+    "dashboard_tabs_certificates_eqf":"EQF tase",
+    "dashboard_tabs_certificates_specialization":"Spetsialiseerumine",
+    "dashboard_tabs_certificates_part":"Osakutse",
+    "dashboard_tabs_certificates_competence":"Kompetents",
+    "dashboard_tabs_certificates_field":"Valdkond",
+    "dashboard_tabs_certificates_field_topic":"Kutseala",
+    "dashboard_tabs_certificates_qualification":"Hariduslik kvalifikatsioon",
+    "dashboard_tabs_certificates_language":"Kutseeksami keel",
+    "dashboard_tabs_certificates_issuer":"Väljastaja",
+    "dashboard_tabs_certificates_issued_at":"Välja antud",
+    "dashboard_tabs_certificates_valid_from":"Kehtib alates",
+    "dashboard_tabs_certificates_valid_to":"Kehtib kuni",
+    "dashboard_tabs_certificates_isco":"Ametite (ISCO) klassifikaator",
+    "dashboard_tabs_certificates_duplicate":"Duplikaat",
+    "dashboard_tabs_certificates_notvalid":"Kehtetu"
   },
   "article": {
     "contact": "Kontakt",
@@ -237,7 +257,8 @@
     "add_to_favourites_remove": "Eemalda lemmikutest",
     "add_to_favourites_remove_success": "Lemmik edukalt eemaldatud",
     "add_to_favourites_title": "Pealkiri",
-    "back": "Tagasi"
+    "back": "Tagasi",
+    "back_to_dashboard":"Tagasi töölauale"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"

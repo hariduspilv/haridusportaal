@@ -133,9 +133,8 @@ class CreateEventRegistration extends CreateEntityBase{
 		$entity = $storage->create($input);
 		#dump(!$this->canRegister($input, $storage));
 		if(!$this->canRegister($input, $storage)){
-			return new EntityCrudOutputWrapper(NULL, NULL, [
-					$this->t('Registration limit reached'),
-			]);
+			//error 1 means registrations full
+			return new EntityCrudOutputWrapper(NULL, NULL, [1]);
 		}else{
 			return $this->resolveOutput($entity, $args, $info);
 		}

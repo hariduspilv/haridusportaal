@@ -24,6 +24,7 @@ export class EventsRegistratonDialog {
   step: number = 0;
   lang: any;
   loader: boolean = false;
+  response: any;
 
   constructor(
     private fb: FormBuilder,
@@ -69,6 +70,14 @@ export class EventsRegistratonDialog {
       },
     })
     .subscribe(({data}) => {
+
+      /*
+        ERROR MESSAGES
+        1 => "No more free spaces"
+        2 => "Something else"
+      */
+
+      this.response = data['createEventRegistration'];
       this.step = 1;
       this.loader = false;
     }, (data) => {
