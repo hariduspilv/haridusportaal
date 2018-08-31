@@ -1635,7 +1635,7 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#title' => $this->t('Enter valid date error message'),
 			'#maxlength' => 64,
 			'#size' => 64,
-			'#default_value' => $config->get('studyProgramme.enter_valid_date'),
+			'#default_value' => $config->get('errors.enter_valid_date'),
 		];
 
 
