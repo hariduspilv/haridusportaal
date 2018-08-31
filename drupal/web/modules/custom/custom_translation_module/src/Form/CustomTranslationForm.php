@@ -85,15 +85,11 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['frontpage']['favourites_list_none_message'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Favorites list none message'),
-			'#maxlength' => 64,
-			'#size' => 64,
 			'#default_value' => $config->get('frontpage.favourites_list_none_message'),
 		];
 		$form['frontpage']['favourites_snackbar_message'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Favorites snacbar message'),
-			'#maxlength' => 64,
-			'#size' => 64,
 			'#default_value' => $config->get('frontpage.favourites_snackbar_message'),
 		];
 		$form['frontpage']['favourites_snackbar_action'] = [
@@ -143,8 +139,6 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['frontpage']['dashboard_tabs_certificates_error_technical'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Dashboard certificates error technical'),
-			'#maxlength' => 64,
-			'#size' => 64,
 			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_error_technical'),
 		];
 		$form['frontpage']['dashboard_tabs_certificates_professional'] = [
