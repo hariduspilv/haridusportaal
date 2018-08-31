@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '@app/_services/httpService';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'certificates',
   templateUrl: './certificates.template.html',
@@ -21,6 +21,7 @@ export class CertificatesComponent implements OnInit{
   ];
 
   constructor(
+    public router: Router,
     public http: HttpService,
   ) {}
 
@@ -46,14 +47,19 @@ export class CertificatesComponent implements OnInit{
         this.error = true;
       } else {
         this.professionalCertificates = response['value']['kutsetunnistused']
-     
+        let temp = [];
         //DUMMY DATA from dummy data :)
-        for(let i = 2; i < 10; i++){
-          let cert = JSON.parse(JSON.stringify(this.professionalCertificates[0]));
-          cert.nimi += 'ddata' + i;
-          cert.valjaantud = cert.valjaantud.substring(0, 3) + "0" + i + cert.valjaantud.substring(5, cert.valjaantud.length);
-          this.professionalCertificates.push(cert);
+        for(let x = 0; x < this.professionalCertificates.length; x++){
+          for(let i = 2; i < 10; i++){
+            let cert = JSON.parse(JSON.stringify(this.professionalCertificates[x]));
+            cert.nimi += 'ddata' + i;
+            cert.valjaantud = cert.valjaantud.substring(0, 3) + "0" + i + cert.valjaantud.substring(5, cert.valjaantud.length);
+            
+            cert.path = this.router.url + '/' + cert.registrinumber;
+            temp.push(cert);
+          }
         }
+        this.professionalCertificates = temp;
        
         let regex = /(\d{2}).(\d{2}).(\d{4})/;
         this.professionalCertificates = this.professionalCertificates.sort(function(a,b){
