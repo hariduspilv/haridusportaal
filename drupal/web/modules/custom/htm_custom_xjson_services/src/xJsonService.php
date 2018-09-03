@@ -139,8 +139,8 @@ class xJsonService implements xJsonServiceInterface {
 	 */
 	public function buildForm($response_body){
 		$definition = $this->getEntityJsonObject()['body'];
-
 		$response_json['header'] = $response_body['header'];
+		#dump($response_body['body']);
 		foreach($response_body['body']['steps'] as $step_index => $step){
 			if(isset($step['data_elements'])){
 				foreach($step['data_elements'] as $data_element_index => $data_element){
@@ -174,7 +174,6 @@ class xJsonService implements xJsonServiceInterface {
 	 */
 	public function buildFormv2($response){
 		$return = [];
-
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
@@ -202,7 +201,22 @@ class xJsonService implements xJsonServiceInterface {
 					//Add step non data_elements
 					unset($definition_body['steps'][$step_key]['data_elements']);
 					$return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
+
+					// add each step messages aswel
+					if(isset($response_body['steps'][$step_key]['messages'])){
+						$return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
+					}else{
+						$return['body']['steps'][$step_key]['messages'] = [];
+					}
+				}else{
+					// add all other steps aswel
+					$return['body']['steps'][$step_key] = $step['title'];
 				}
+			}
+			if($response_body['messages']){
+				$return['body']['messages'] = $response_body['messages'];
+			}else{
+				$return['body']['messages'] = [];
 			}
 		}else{
 			$return['body'] = $response_body;
@@ -222,7 +236,7 @@ class xJsonService implements xJsonServiceInterface {
 		$required_keys = ['form_name', 'endpoint'];
 		$acceptable_activity_keys = ['SAVE', 'SUBMIT', 'VIEW'];
 
-		if(!$header['first']) array_push($required_keys, ...['identifier', 'acceptable_activity']);
+		#if(!$header['first']) array_push($required_keys, ...['identifier', 'acceptable_activity']);
 		foreach ($required_keys as $key){
 			if(!$header[$key]) throw new HttpException('400', "$key missing");
 			if(!$header['first']){
@@ -250,7 +264,7 @@ class xJsonService implements xJsonServiceInterface {
 		}else{
 			$element_def['value'] = $value;
 		}
-		$this->validateDataElement($element_def);
+		#$this->validateDataElement($element_def);
 		return ($this->validateDataElement($element_def)) ? $element_def : [];
 	}
 
