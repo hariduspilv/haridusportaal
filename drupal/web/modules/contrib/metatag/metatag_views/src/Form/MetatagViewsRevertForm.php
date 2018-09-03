@@ -9,7 +9,7 @@ use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Defines a confirmation form for deleting mymodule data.
+ * Defines a form for reverting views metatags.
  */
 class MetatagViewsRevertForm extends ConfirmFormBase {
 
@@ -116,7 +116,7 @@ class MetatagViewsRevertForm extends ConfirmFormBase {
     $config_name = $this->view->getConfigDependencyName();
     $config_path = 'display.' . $this->displayId . '.display_options.display_extenders.metatag_display_extender.metatags';
 
-    $configuration = $this->configFactory()->getEditable($config_name)
+    $this->configFactory()->getEditable($config_name)
       ->clear($config_path)
       ->save();
 

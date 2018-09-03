@@ -69,6 +69,21 @@ interface DrupalMemcacheInterface {
   public function delete($key);
 
   /**
+   * Add an item to Memcache if it doesn't exist already.
+   *
+   * @param string $key
+   *   The key to add.
+   * @param mixed $value
+   *   The value to add.
+   * @param int $expire
+   *   The expiration time in seconds.
+   *
+   * @return bool
+   *   TRUE on success or FALSE on failure.
+   */
+  public function add($key, $value, $expire = 0);
+
+  /**
    * Prepares the memcache key.
    *
    * @param string $key
