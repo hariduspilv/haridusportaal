@@ -1,9 +1,19 @@
 # Changelog
 
-### Unreleased
+### 1.1.2 - 2018/Aug/21
 
-* List pending changes here.
+* Allow SiteAliasFileLoader::loadMultiple to be filtered by location. (#3)
 
-### 0.1.0 - 2018/Jun/17
+### 1.1.0 + 1.1.1 - 2018/Aug/14
 
-* Created from template `consolidation/site-alias`
+* Add wildcard site alias environments. (#2)
+* Remove legacy AliasRecord definition; causes more problems than it solves.
+
+### 1.0.1 - 2018/Aug/7
+
+* Allow addSearchLocation to take an array
+
+### 1.0.0 - 2018/July/5
+
+* Initial release
+
