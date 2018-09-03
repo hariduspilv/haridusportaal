@@ -3,6 +3,7 @@
 namespace Drupal\metatag\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
+use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Config\InstallStorage;
 use Drupal\Core\Config\StorageInterface;
@@ -118,6 +119,28 @@ class MetatagDefaults extends ConfigEntityBase implements MetatagDefaultsInterfa
       // Save the combination of the existing tags + the new tags.
       $this->set('tags', $combined_tags);
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function sort(ConfigEntityInterface $a, ConfigEntityInterface $b) {
+    // Put always Global in 1st place and front page later if available.
+    if ($a->id() == 'global') {
+      return -1;
+    }
+    elseif ($b->id() == 'global') {
+      return 1;
+    }
+    elseif ($a->id() == 'front') {
+      return -1;
+    }
+    elseif ($b->id() == 'front') {
+      return 1;
+    }
+
+    // Use the default sort function.
+    return parent::sort($a, $b);
   }
 
 }

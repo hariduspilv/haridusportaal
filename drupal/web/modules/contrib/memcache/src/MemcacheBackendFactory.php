@@ -8,12 +8,13 @@
 namespace Drupal\memcache;
 
 use Drupal\Core\Lock\LockBackendInterface;
+use Drupal\Core\Cache\CacheFactoryInterface;
 use Drupal\Core\Cache\CacheTagsChecksumInterface;
 
 /**
- * Class DatabaseBackendFactory.
+ * Class MemcacheBackendFactory.
  */
-class MemcacheBackendFactory {
+class MemcacheBackendFactory implements CacheFactoryInterface {
 
   /**
    * The lock backend that should be used.

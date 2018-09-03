@@ -26,6 +26,8 @@ class MetatagViewsEditForm extends FormBase {
   protected $metatagManager;
 
   /**
+   * The Views manager.
+   *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $viewsManager;
@@ -84,7 +86,7 @@ class MetatagViewsEditForm extends FormBase {
     }
 
     $form['metatags'] = $this->metatagManager->form($metatags, $form, ['view']);
-    $form['metatags']['#title'] = t('Metatags');
+    $form['metatags']['#title'] = $this->t('Metatags');
     $form['metatags']['#type'] = 'fieldset';
 
     // Need to create that AFTER the $form['metatags'] as the whole form is
@@ -99,7 +101,7 @@ class MetatagViewsEditForm extends FormBase {
 
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => t('Submit'),
+      '#value' => $this->t('Submit'),
     ];
 
     return $form;

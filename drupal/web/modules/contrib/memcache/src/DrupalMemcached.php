@@ -7,6 +7,8 @@
 
 namespace Drupal\memcache;
 
+use Drupal\Component\Utility\Timer;
+
 /**
  * Class DrupalMemcached.
  */
@@ -20,10 +22,10 @@ class DrupalMemcached extends DrupalMemcacheBase {
 
     $this->memcache = new \Memcached();
 
-    $default_opts = array(
+    $default_opts = [
       \Memcached::OPT_COMPRESSION => FALSE,
       \Memcached::OPT_DISTRIBUTION => \Memcached::DISTRIBUTION_CONSISTENT,
-    );
+    ];
     foreach ($default_opts as $key => $value) {
       $this->memcache->setOption($key, $value);
     }
@@ -67,19 +69,50 @@ class DrupalMemcached extends DrupalMemcacheBase {
    * {@inheritdoc}
    */
   public function set($key, $value, $exp = 0, $flag = FALSE) {
+    $collect_stats = $this->stats_init();
+
     $full_key = $this->key($key);
-    return $this->memcache->set($full_key, $value, $exp);
+    $result = $this->memcache->set($full_key, $value, $exp);
+
+    if ($collect_stats) {
+      $this->stats_write('set', 'cache', [$full_key => (int)$result]);
+    }
+
+    return $result;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function add($key, $value, $expire = 0) {
+    $collect_stats = $this->stats_init();
+
+    $full_key = $this->key($key);
+    $result = $this->memcache->add($full_key, $value, $expire);
+
+    if ($collect_stats) {
+      $this->stats_write('add', 'cache', [$full_key => (int)$result]);
+    }
+
+    return $result;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getMulti(array $keys) {
-    $full_keys = array();
+    $collect_stats = $this->stats_init();
+    $multi_stats   = [];
 
-    foreach ($keys as $cid) {
+    $full_keys = [];
+
+    foreach ($keys as $key => $cid) {
       $full_key = $this->key($cid);
       $full_keys[$cid] = $full_key;
+
+      if ($collect_stats) {
+        $multi_stats[$key] = FALSE;
+      }
     }
 
     if (PHP_MAJOR_VERSION === 7) {
@@ -91,15 +124,25 @@ class DrupalMemcached extends DrupalMemcacheBase {
 
     // If $results is FALSE, convert it to an empty array.
     if (!$results) {
-      $results = array();
+      $results = [];
+    }
+
+    if ($collect_stats) {
+      foreach ($multi_stats as $key => $value) {
+        $multi_stats[$key] = isset($results[$key]) ? TRUE : FALSE;
+      }
     }
 
     // Convert the full keys back to the cid.
-    $cid_results = array();
+    $cid_results = [];
     $cid_lookup = array_flip($full_keys);
 
     foreach (array_filter($results) as $key => $value) {
       $cid_results[$cid_lookup[$key]] = $value;
+    }
+
+    if ($collect_stats) {
+      $this->stats_write('getMulti', 'cache', $multi_stats);
     }
 
     return $cid_results;

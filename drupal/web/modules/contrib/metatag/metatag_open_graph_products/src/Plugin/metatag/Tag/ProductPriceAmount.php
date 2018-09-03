@@ -2,7 +2,7 @@
 
 namespace Drupal\metatag_open_graph_products\Plugin\metatag\Tag;
 
-use \Drupal\metatag\Plugin\metatag\Tag\MetaPropertyBase;
+use Drupal\metatag\Plugin\metatag\Tag\MetaPropertyBase;
 
 /**
  * Provides a plugin for the 'product:price:amount' meta tag.
