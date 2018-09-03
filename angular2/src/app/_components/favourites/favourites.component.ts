@@ -119,7 +119,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       } else {
         this.existingItem = false;
         this.existing = false;
-        this.snackbar.dismiss();
+        this.openFavouriteSnackbar('remove');
         //console.log('Page exists: ',this.existing);
       }
       this.getFavouritesList();
@@ -163,19 +163,26 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.existing = true;
         //console.log('Page exists: ',this.existing);
         this.getFavouritesList();
-        this.openFavouriteSnackbar();
+        this.openFavouriteSnackbar('add');
       } 
       
       sub.unsubscribe();
     });
   }
-  openFavouriteSnackbar() {
-    
-      let message = `${this.translate.get('frontpage.favourites_snackbar_message')['value']}`;
-      let action = `${this.translate.get('frontpage.favourites_snackbar_action')['value']}`;
+  openFavouriteSnackbar(operation: string) {
+    let message, action;
+      if(operation === 'add'){
+        message = `${this.translate.get('frontpage.favourites_snackbar_message')['value']}`;
+        action = `${this.translate.get('frontpage.favourites_snackbar_action')['value']}`;
+      } else if ('remove'){
+        message = `${this.translate.get('frontpage.favourites_snackbar_message_remove')['value']}`;
+        action = ``;
+      }
+      
       let snackBarRef = this.snackbar.open(message, action, {
         duration: 600000,
       });
+      
       snackBarRef.afterDismissed().subscribe((obj) => {
         if (obj.dismissedByAction) {
           this.router.navigateByUrl(this.lang + this.redirectUrls[this.lang]);
@@ -251,5 +258,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         sub.unsubscribe();
       }
     }
+   if(this.snackbar) this.snackbar.dismiss();
   }
 }
