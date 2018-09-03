@@ -14,6 +14,7 @@ use GraphQL\Type\Definition\ResolveInfo;
  *   name = "RegistrationCount",
  *   type = "Int",
  *   parents = {"NodeEvent"},
+ *   response_cache_tags = {"event_reg_entity_list"}
  * )
  */
 class CustomEventRegistrationsCount extends FieldPluginBase {
@@ -25,8 +26,8 @@ class CustomEventRegistrationsCount extends FieldPluginBase {
 		$query = \Drupal::entityQuery('event_reg_entity');
 		$query->accessCheck(TRUE);
 		$query->condition('event_reference', $value->id(), '=');
-		yield new CacheableValue($query->count()->execute(), ['event_reg_entity_list']);
-		#yield $query->count()->execute();
+		#yield new CacheableValue($query->count()->execute(), ['event_reg_entity_list']);
+		yield $query->count()->execute();
 
 	}
 
