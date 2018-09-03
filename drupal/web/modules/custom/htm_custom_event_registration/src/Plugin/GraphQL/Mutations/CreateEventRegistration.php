@@ -145,7 +145,7 @@ class CreateEventRegistration extends CreateEntityBase{
 		$node = Node::load($input['event_reference']);
 		$registration_count = (int) $node->get('field_max_number_of_participants')->value;
 		$registred = count($storage->loadByProperties(['event_reference' => $input['event_reference']]));
-		return ($registred > $registration_count) ? FALSE : TRUE;
+		return ($registred >= $registration_count) ? FALSE : TRUE;
 
 	}
 
