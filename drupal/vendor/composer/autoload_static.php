@@ -105,6 +105,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
             'Symfony\\Bridge\\PhpUnit\\' => 23,
             'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 49,
+            'SelfUpdate\\' => 11,
         ),
         'R' => 
         array (
@@ -157,7 +158,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         ),
         'D' => 
         array (
-            'Drush\\SiteAlias\\' => 16,
             'Drush\\Internal\\' => 15,
             'Drush\\' => 6,
             'Drupal\\redis\\' => 13,
@@ -375,6 +375,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/stecman/symfony-console-completion/src',
         ),
+        'SelfUpdate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/consolidation/self-update/src',
+        ),
         'Robo\\' => 
         array (
             0 => __DIR__ . '/..' . '/consolidation/robo/src',
@@ -474,10 +478,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Elasticsearch\\' => 
         array (
             0 => __DIR__ . '/..' . '/elasticsearch/elasticsearch/src/Elasticsearch',
-        ),
-        'Drush\\SiteAlias\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/consolidation/site-alias/src/legacy',
         ),
         'Drush\\Internal\\' => 
         array (
