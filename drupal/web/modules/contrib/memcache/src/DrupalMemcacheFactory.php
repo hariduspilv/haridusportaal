@@ -34,22 +34,22 @@ class DrupalMemcacheFactory {
   /**
    * @var \Drupal\memcache\DrupalMemcacheInterface[]
    */
-  protected $memcacheCache = array();
+  protected $memcacheCache = [];
 
   /**
    * @var array
    */
-  protected $memcacheServers = array();
+  protected $memcacheServers = [];
 
   /**
    * @var array
    */
-  protected $memcacheBins = array();
+  protected $memcacheBins = [];
 
   /**
    * @var array
    */
-  protected $failedConnectionCache = array();
+  protected $failedConnectionCache = [];
 
   /**
    * Constructs a DrupalMemcacheFactory object.
@@ -181,7 +181,7 @@ class DrupalMemcacheFactory {
       $cluster->close();
     }
 
-    $this->memcacheCache = array();
+    $this->memcacheCache = [];
   }
 
 }

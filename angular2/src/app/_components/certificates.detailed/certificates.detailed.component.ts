@@ -16,7 +16,7 @@ export class CertificatesDetailedComponent implements OnInit{
   public certificate: {};
   public dashboardLink;
 
-  private loading: boolean;
+  public loading: boolean;
   private error: boolean;
   
   public subscriptions: Subscription[] = [];

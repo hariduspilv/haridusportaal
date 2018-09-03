@@ -80,9 +80,9 @@ function metatag_form_field_config_edit_form_alter(&$form, FormStateInterface $f
 
     // Step through the default value structure and erase any '#default_value'
     // items that are found.
-    foreach ($form['default_value']['widget'][0] as $key => &$outer) {
+    foreach ($form['default_value']['widget'][0] as &$outer) {
       if (is_array($outer)) {
-        foreach ($outer as $key => &$inner) {
+        foreach ($outer as &$inner) {
           if (is_array($inner) && isset($inner['#default_value'])) {
             if (is_array($inner['#default_value'])) {
               $inner['#default_value'] = [];
@@ -116,6 +116,10 @@ function metatag_page_attachments(array &$attachments) {
   if (!$metatag_attachments) {
     return NULL;
   }
+
+  // Trigger hook_metatags_attachments_alter().
+  // Allow modules to rendered metatags prior to attaching.
+  \Drupal::service('module_handler')->alter('metatags_attachments', $metatag_attachments);
 
   // If any Metatag items were found, append them.
   if (!empty($metatag_attachments['#attached']['html_head'])) {
@@ -193,7 +197,30 @@ function metatag_entity_view_alter(array &$build, EntityInterface $entity, Entit
     return;
   }
 
+  // Panelized entities still use the original entity's controller, but with
+  // custom built entities. In those cases hook_entity_view_alter might be
+  // called too early, where meta links are not yet set.
+  // @see \Drupal\node\Controller\NodeController::view
+  if ($display->getThirdPartySetting('panelizer', 'enable', FALSE)) {
+    $build['#pre_render'][] = '_metatag_panelizer_pre_render';
+    return;
+  }
+
   _metatag_remove_duplicate_entity_tags($build);
+}
+
+/**
+ * Pre render callback for entities processed by Panelizer.
+ *
+ * @param array $element
+ *   The render array being processed.
+ *
+ * @return array
+ *   The filtered render array.
+ */
+function _metatag_panelizer_pre_render(array $element) {
+  _metatag_remove_duplicate_entity_tags($element);
+  return $element;
 }
 
 /**
@@ -377,18 +404,10 @@ function metatag_preprocess_html(&$variables) {
   if (!empty($attachments['#attached']['html_head'])) {
     foreach ($attachments['#attached']['html_head'] as $key => $attachment) {
       if (!empty($attachment[1]) && $attachment[1] == 'title') {
-        // It's safe to access the value directly because it was already
-        // processed in MetatagManager::generateElements().
-        $variables['head_title_array'] = [];
         // Empty head_title to avoid the site name and slogan to be appended to
         // the meta title.
         $variables['head_title'] = [];
         $variables['head_title']['title'] = html_entity_decode($attachment[0]['#attributes']['content'], ENT_QUOTES);
-        // Original:
-        // $variables['head_title_array']['title'] =
-        //   $attachment[0]['#attributes']['content'];
-        // $variables['head_title'] = implode(' | ',
-        //   $variables['head_title_array']);
         break;
       }
     }
@@ -430,9 +449,14 @@ function metatag_get_tags_from_route($entity = NULL) {
   // Trigger hook_metatags_alter().
   // Allow modules to override tags or the entity used for token replacements.
   $context = [
-    'entity' => $entity,
+    'entity' => &$entity,
   ];
   \Drupal::service('module_handler')->alter('metatags', $metatags, $context);
+
+  // If the entity was changed above, use that for generating the meta tags.
+  if (isset($context['entity'])) {
+    $entity = $context['entity'];
+  }
 
   return $metatag_manager->generateElements($metatags, $entity);
 }
@@ -503,8 +527,8 @@ function metatag_entity_base_field_info(EntityTypeInterface $entity_type) {
       ->setLabel(t('Metatags'))
       ->setDescription(t('The meta tags for the entity.'))
       ->setClass('\Drupal\metatag\Plugin\Field\MetatagEntityFieldItemList')
-      ->setQueryable(FALSE)
       ->setComputed(TRUE)
+      ->setTranslatable(TRUE)
       ->setTargetEntityTypeId($entity_type->id());
   }
 

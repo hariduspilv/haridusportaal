@@ -5,8 +5,6 @@ namespace Drupal\metatag_hreflang\Plugin\Derivative;
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Create a new hreflang tag plugin for each enabled language.
