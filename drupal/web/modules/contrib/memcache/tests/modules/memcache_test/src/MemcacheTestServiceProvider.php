@@ -20,11 +20,6 @@ class MemcacheTestServiceProvider implements ServiceModifierInterface {
     $definition->setFactory([new Reference('memcache.lock.factory'), 'get']);
 
     $container->setDefinition('lock', $definition);
-
-    $definition = new Definition('Drupal\Core\Lock\LockBackendInterface');
-    $definition->setFactory([new Reference('memcache.lock.factory'), 'getPersistent']);
-
-    $container->setDefinition('lock.persistent', $definition);
   }
 
 }

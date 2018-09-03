@@ -1,0 +1,16 @@
+name: Memcache Admin
+description: Adds a User Interface to monitor the Memcache for this site.
+package: Performance and scalability
+
+type: module
+# core: 8.x
+
+configure: memcache_admin.settings
+
+dependancies:
+  - memcache
+# Information added by Drupal.org packaging script on 2018-08-29
+version: '8.x-2.0-alpha6'
+core: '8.x'
+project: 'memcache'
+datestamp: 1535568485
