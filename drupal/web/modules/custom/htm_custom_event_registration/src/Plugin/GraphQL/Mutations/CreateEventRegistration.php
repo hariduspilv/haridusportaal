@@ -2,7 +2,6 @@
 
 namespace Drupal\htm_custom_event_registration\Plugin\GraphQL\Mutations;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
