@@ -46,13 +46,4 @@ class MemcacheLockFactory {
     return new MemcacheLockBackend($this->bin, $this->factory->get($this->bin));
   }
 
-  /**
-   * Gets a persistent lock backend instance.
-   *
-   * @return \Drupal\Core\Lock\LockBackendInterface
-   */
-  public function getPersistent() {
-    return new PersistentMemcacheLockBackend($this->bin, $this->factory->get($this->bin));
-  }
-
 }

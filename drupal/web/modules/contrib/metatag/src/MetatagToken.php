@@ -3,6 +3,7 @@
 namespace Drupal\metatag;
 
 use Drupal\Core\Utility\Token;
+use Drupal\Core\Render\BubbleableMetadata;
 
 /**
  * Token handling service. Uses core token service or contributed Token.
@@ -35,17 +36,20 @@ class MetatagToken {
    *   Arguments for token->replace().
    * @param array $options
    *   Any additional options necessary.
+   * @param \Drupal\Core\Render\BubbleableMetadata|null $bubbleable_metadata
+   *   (optional) An object to which static::generate() and the hooks and
+   *   functions that it invokes will add their required bubbleable metadata.
    *
    * @return mixed|string
    *   The processed string.
    */
-  public function replace($string, array $data = [], array $options = []) {
+  public function replace($string, array $data = [], array $options = [], BubbleableMetadata $bubbleable_metadata = NULL) {
     // Set default requirements for metatag unless options specify otherwise.
     $options = $options + [
       'clear' => TRUE,
     ];
 
-    $replaced = $this->token->replace($string, $data, $options);
+    $replaced = $this->token->replace($string, $data, $options, $bubbleable_metadata);
 
     // Ensure that there are no double-slash sequences due to empty token
     // values.
