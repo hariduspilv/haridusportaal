@@ -110,7 +110,7 @@ class DeleteFavoriteItem extends CreateEntityBase{
 				if($entity->favorites->count() > 0){
 					return $this->resolveOutputUpdate($entity, $args, $info);
 				}else{
-					#$entity->delete();
+					$entity->delete();
 					return new EntityCrudOutputWrapper(NULL, NULL);
 				}
 			}else{
