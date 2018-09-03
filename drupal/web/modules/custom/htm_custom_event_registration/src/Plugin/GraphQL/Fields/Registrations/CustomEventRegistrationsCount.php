@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_event_registration\Plugin\GraphQL\Fields\Registrations;
 
+use Drupal\graphql\GraphQL\Cache\CacheableValue;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -24,8 +25,8 @@ class CustomEventRegistrationsCount extends FieldPluginBase {
 		$query = \Drupal::entityQuery('event_reg_entity');
 		$query->accessCheck(TRUE);
 		$query->condition('event_reference', $value->id(), '=');
-
-		yield $query->count()->execute();
+		yield new CacheableValue($query->count()->execute(), ['event_reg_entity_list']);
+		#yield $query->count()->execute();
 
 	}
 
