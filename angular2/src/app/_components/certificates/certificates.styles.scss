@@ -25,7 +25,7 @@ mat-panel-title {font-size: $small;}
   position: relative;text-align: center;width: $medium;color: $red;
   height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
 }
-::ng-deep .mat-expansion-indicator {font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: .0625rem solid $gray;
+::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;
 }
 ::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; 
 }
@@ -34,3 +34,23 @@ mat-panel-title {font-size: $small;}
   font-family: 'Material Icons';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
 ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}
+
+
+.mat-expansion-panel.mat-expanded { 
+  background: transparent;
+}
+
+.mat-expansion-panel {
+ background: $light-orange;
+   border: .0625rem solid $light-orange;
+}
+
+.dashboard-table td {
+ color: $black;
+}
+
+
+
+
+
+
