@@ -59,7 +59,7 @@
         <span>{{ 'event.label' | translate | uppercase }}</span>
         <span class="view-all"><a attr.aria-label="{{ 'button.view_all' | translate }}" [routerLink]="eventPath" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
       </div>
-      <div class="col-4 sm-12 pointer" *ngFor="let item of events; let first = first;" [routerLink]="[item.entityUrl.path]">
+      <div class="col-4 sm-12 pointer event__elem" *ngFor="let item of events; let first = first;" [routerLink]="[item.entityUrl.path]">
         <span class="subtext" *ngIf="item.fieldEventMainDate">{{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
         <h1>{{ item.entityLabel }}</h1>
         <div class="subtext--bottom" *ngIf="item.fieldOrganizer" tabindex="0" attr.aria-label="{{'author'}}{{ item.fieldOrganizer }}">{{ item.fieldOrganizer }}</div>
