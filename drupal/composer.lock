@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e88c2a73ae14da660e57743a5f818e8f",
+    "content-hash": "d1641a1397e0f0e6dd0a73d565ef0d7a",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1783,6 +1783,57 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/admin_toolbar",
                 "issues": "https://www.drupal.org/project/issues/admin_toolbar"
+            }
+        },
+        {
+            "name": "drupal/adv_varnish",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/adv_varnish",
+                "reference": "8.x-2.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/adv_varnish-8.x-2.1.zip",
+                "reference": "8.x-2.1",
+                "shasum": "5f053ea57163664ab6c3987ee42172f6abdc1dc4"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x": "2.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-2.1",
+                    "datestamp": "1516359786",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "claymor",
+                    "homepage": "https://www.drupal.org/user/3193903"
+                },
+                {
+                    "name": "shumer",
+                    "homepage": "https://www.drupal.org/user/2297432"
+                }
+            ],
+            "description": "Advanced Varnish Integration",
+            "homepage": "https://www.drupal.org/project/adv_varnish",
+            "support": {
+                "source": "http://cgit.drupalcode.org/adv_varnish"
             }
         },
         {
@@ -4247,7 +4298,8 @@
             "homepage": "https://www.drupal.org/project/kafka",
             "support": {
                 "source": "http://cgit.drupalcode.org/kafka"
-            }
+            },
+            "time": "2017-01-22T18:52:33+00:00"
         },
         {
             "name": "drupal/key",
@@ -5989,6 +6041,64 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/ultimate_cron"
             }
+        },
+        {
+            "name": "drupal/varnish",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/varnish",
+                "reference": "419778603e850c8039b3fb2f8266152a13e8c34e"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.x-dev",
+                    "datestamp": "1509973985",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "JeremyFrench",
+                    "homepage": "https://www.drupal.org/user/419876"
+                },
+                {
+                    "name": "MiSc",
+                    "homepage": "https://www.drupal.org/user/382892"
+                },
+                {
+                    "name": "deadbeef",
+                    "homepage": "https://www.drupal.org/user/93644"
+                },
+                {
+                    "name": "fabsor",
+                    "homepage": "https://www.drupal.org/user/255704"
+                },
+                {
+                    "name": "joshk",
+                    "homepage": "https://www.drupal.org/user/3313"
+                }
+            ],
+            "description": "Integration with varnish from Drupal.",
+            "homepage": "https://www.drupal.org/project/varnish",
+            "support": {
+                "source": "http://cgit.drupalcode.org/varnish"
+            },
+            "time": "2018-07-20T10:25:44+00:00"
         },
         {
             "name": "drupal/varnish_purge",
@@ -12059,7 +12169,8 @@
         "drupal/kafka": 20,
         "drupal/material_admin": 15,
         "drupal/maxlength": 10,
-        "drupal/queue_ui": 20
+        "drupal/queue_ui": 20,
+        "drupal/varnish": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

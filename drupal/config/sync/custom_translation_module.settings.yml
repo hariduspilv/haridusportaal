@@ -68,6 +68,18 @@ frontpage:
   favourites_limit_modal_title: 'Lisa lemmikutesse'
   favourites_limit_modal_content: 'Portaalis saab salvestada kuni 10 lemmikut'
   favourites_limit_modal_close: 'Sulge aken'
+  favourites_list_label: 'Minu lemmikud'
+  favourites_list_none_message: 'Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides.'
+  favourites_snackbar_message: 'Leht lisatud lemmikuks. Lemmikuid näed enda Töölaualt.'
+  favourites_snackbar_action: 'Vaata oma töölauda'
+  dashboard_label: Töölaud
+  dashboard_tabs_applications: Taotlused
+  dashboard_tabs_certificates: Tunnistused
+  dashboard_tabs_studies: Õpingud
+  dashboard_tabs_teachings: Õpetan
+  dashboard_tabs_certificates_error_technical: 'Vabandame. Kutsetunnistuste andmete Kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.'
+  dashboard_tabs_certificates_professional: Kutsetunnistused
+  dashboard_tabs_certificates_examinations: Riigieksamid
 article:
   contact: Kontakt
   hyperlinks: Lingid
@@ -197,9 +209,15 @@ button:
   see_comparison: 'Vaata võrdlust'
   search_from_page: 'Otsi lehelt'
   back: Tagasi
+  add_to_favourites_label: ''
+  add_to_favourites_add: ''
+  add_to_favourites_add_success: ''
+  add_to_favourites_remove: ''
+  add_to_favourites_remove_success: ''
+  add_to_favourites_title: ''
 newsletter:
   title: 'Uudiskiri - test test tekst tekst kui pikk see siis saab olla ma'
-  intro: 'Mingi äge sissejuhatuse tekst, mida saab muuta siit: http://test-htm.wiseman.ee:30000/et/admin/config/custom_translation_module/customtranslation'
+  intro: 'Mingi äge sissejuhatuse tekst, mida saab muuta ja värki!'
   confirm_subscription: 'Kinnita tellimus'
   email: 'Sisesta oma e-kirja aadress'
   valid_email: 'SIsesta korrektne epost'

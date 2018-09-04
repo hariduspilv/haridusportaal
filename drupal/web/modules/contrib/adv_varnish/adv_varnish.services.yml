@@ -1,0 +1,29 @@
+parameters:
+  channel: adv_varnish
+
+services:
+  adv_varnish.event_subscriber:
+    class: Drupal\adv_varnish\EventSubscriber\AdvCacheableResponseSubscriber
+    arguments: ['@language_manager', '@config.factory', '@page_cache_request_policy', '@page_cache_response_policy', '@cache_contexts_manager', '@adv_varnish.controller', '%http.response.debug_cacheability_headers%']
+    tags:
+      - {name: event_subscriber}
+
+  adv_varnish.handler:
+    class: Drupal\adv_varnish\Varnish
+    arguments: ['@config.factory', '@adv_varnish.logger', '@current_user']
+
+  adv_varnish.controller:
+    class: Drupal\adv_varnish\Controller\VarnishAdvController
+    arguments: ['@adv_varnish.handler', '@request_stack', '@current_user']
+
+  adv_varnish.logger:
+    class: Drupal\Core\Logger\LoggerChannel
+    factory: logger.factory:get
+    arguments: ['%channel%']
+
+  cache_tags.invalidator.adv_varnish:
+    class: Drupal\adv_varnish\Cache\VarnishAdvCacheTagsInvalidator
+    properties:
+      varnishHandler: "@adv_varnish.handler"
+    tags:
+      - { name: cache_tags_invalidator}
