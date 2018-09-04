@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
 import { Observable, Subscription } from '../../../../node_modules/rxjs';
-import { MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatSnackBar, MatSnackBarConfig, MAT_SNACK_BAR_DATA } from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from '@app/_services/userService';
@@ -11,20 +11,9 @@ import { UserService } from '@app/_services/userService';
   selector: 'favourites',
   templateUrl: './favourites.template.html',
   styleUrls: ['./favourites.styles.scss'],
-
-})
-
-@Component({
-  selector: 'your-snack-bar',
-  template: '<a href="#"></a>',
 })
 
 export class FavouritesComponent implements OnInit, OnDestroy{
-  /** 
-    * if (this.id === undefined)
-    * then (this.type = 'search')
-    * otherwise (this.type = 'page')
-    **/
     @Input() title: string;
     @Input() id: string;
 
@@ -177,58 +166,31 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     });
   }
   openFavouriteSnackbar(operation: string) {
-    let message, action, extraClasses;
+    let config = new MatSnackBarConfig();
+    let message, action;
+    
     if(operation === 'add'){
       message = `${this.translate.get('frontpage.favourites_snackbar_message')['value']}`;
       action = `${this.translate.get('frontpage.favourites_snackbar_action')['value']}`;
-           extraClasses = ['background-green'];
+      config.extraClasses = ['background-green', 'add'];
+         
     } else if ('remove'){
       message = `${this.translate.get('frontpage.favourites_snackbar_message_remove')['value']}`;
-      action = ``;
-           extraClasses = ['background-green'];
+      config.extraClasses = ['background-green'];
     }
+      
+    config.duration = 600000;
 
+    let snackBarRef = this.snackbar.open(message, action ? action : undefined, config);
 
-
-   let snackBarRef = this.snackbar.open(message, action, {
-    duration: 600000,
-     extraClasses: extraClasses,
-  });
-
-   snackBarRef.afterDismissed().subscribe((obj) => {
-    if (obj.dismissedByAction) {
-      this.router.navigateByUrl(this.lang + this.redirectUrls[this.lang]);
-    }
-  })
+    snackBarRef.afterDismissed().subscribe((obj) => {
+      if (obj.dismissedByAction) {
+        this.router.navigateByUrl(this.lang + this.redirectUrls[this.lang]);
+      }
+    });
 
  }
 
-
-
-  /*
-  toggleFavouritesPanel(): any {
-    
-   
-    if(this.favouritesDropdown == true) return this.favouritesDropdown = false;
-    else this.favouritesDropdown = true;
-    
-    let sub = this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
-      this.loading = false;
-      this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favorites'];
-      
-      this.isFavouriteExisting( this.existingFavouriteItems);
-      console.log(this.existingItem);
-      console.log(this.existing);
-      if(this.existing === false){
-        if( this.existingFavouriteItems.length >= this.maxFavouriteItems) {
-          this.openDialog();
-          this.favouritesDropdown = false;
-        }
-      }
-      sub.unsubscribe();
-    });
-  }
-  */
   toggleFavouritesButton(){
     this.isFavouriteExisting( this.existingFavouriteItems);
     //console.log('Page exists: ',this.existing);
@@ -276,3 +238,4 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     if(this.snackbar) this.snackbar.dismiss();
   }
 }
+
