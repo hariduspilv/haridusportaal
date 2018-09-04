@@ -1,0 +1,27 @@
+adv_varnish.settings:
+  path: '/admin/config/development/adv_varnish_config'
+  defaults:
+    _form: '\Drupal\adv_varnish\Form\VarnishAdvCacheSettingsForm'
+    _title: 'Adv Varnish Settings'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _permission: 'configure com varnish settings'
+adv_varnish.purge:
+  path: '/admin/config/development/adv_varnish/purge'
+  defaults:
+    _form: '\Drupal\adv_varnish\Form\VarnishAdvCachePurgeForm'
+    _title: 'Adv Varnish Purge'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _permission: 'configure advanced varnish cache'
+adv_varnish.esi:
+  path: '/adv-varnish/esi/{type}'
+  defaults:
+    _controller: '\Drupal\adv_varnish\Controller\VarnishAdvEsiController::esi'
+  requirements:
+    # PUBLIC callback for Varnish ESI.
+    _access: 'TRUE'
+  options:
+    no_cache: 'TRUE'
