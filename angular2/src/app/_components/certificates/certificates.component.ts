@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class CertificatesComponent implements OnInit{
   public loading = {};
 
-  public error: boolean = null;
+  public error: boolean = false;
 
   public professionalCertificates: any;
   public examResults: any;
@@ -46,25 +46,18 @@ export class CertificatesComponent implements OnInit{
       if(response['error']){
         this.error = true;
       } else {
-        this.professionalCertificates = response['value']['kutsetunnistused']
-        let temp = [];
-        //DUMMY DATA from dummy data :)
-        for(let x = 0; x < this.professionalCertificates.length; x++){
-          for(let i = 2; i < 10; i++){
-            let cert = JSON.parse(JSON.stringify(this.professionalCertificates[x]));
-            cert.nimi += 'ddata' + i;
-            cert.valjaantud = cert.valjaantud.substring(0, 3) + "0" + i + cert.valjaantud.substring(5, cert.valjaantud.length);
-            
-            cert.path = this.router.url + '/' + cert.registrinumber;
-            temp.push(cert);
-          }
+        this.professionalCertificates = response['value']['kutsetunnistused'];
+        
+        if(this.professionalCertificates.length){  
+          this.professionalCertificates.forEach(certificate => {
+            certificate.path = this.router.url + '/' + certificate.registrinumber;
+          })
+          let regex = /(\d{2}).(\d{2}).(\d{4})/;
+          this.professionalCertificates = this.professionalCertificates.sort(function(a,b){
+            return Number(new Date(a.valjaantud.replace( regex , "$2/$1/$3" ))) - Number(new Date(b.valjaantud.replace( regex, "$2/$1/$3")));
+          });
         }
-        this.professionalCertificates = temp;
-       
-        let regex = /(\d{2}).(\d{2}).(\d{4})/;
-        this.professionalCertificates = this.professionalCertificates.sort(function(a,b){
-          return Number(new Date(a.valjaantud.replace( regex , "$2/$1/$3" ))) - Number(new Date(b.valjaantud.replace( regex, "$2/$1/$3")));
-        });
+        
         sub.unsubscribe();
       }
     });
