@@ -48,7 +48,10 @@ export class CertificatesComponent implements OnInit{
       } else {
         this.professionalCertificates = response['value']['kutsetunnistused'];
         
-        if(this.professionalCertificates.length){        
+        if(this.professionalCertificates.length){  
+          this.professionalCertificates.forEach(certificate => {
+            certificate.path = this.router.url + '/' + certificate.registrinumber;
+          })
           let regex = /(\d{2}).(\d{2}).(\d{4})/;
           this.professionalCertificates = this.professionalCertificates.sort(function(a,b){
             return Number(new Date(a.valjaantud.replace( regex , "$2/$1/$3" ))) - Number(new Date(b.valjaantud.replace( regex, "$2/$1/$3")));
