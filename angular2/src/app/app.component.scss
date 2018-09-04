@@ -342,12 +342,20 @@ button{cursor:pointer;}
 }
 
 .mat-snack-bar-container.background-green {
+  
  border-radius: 0.25rem; background-color: #ffffff; border: solid 0.09375rem #008d53;
   button {
  font-size: 1rem; font-weight: normal; font-style: normal; font-stretch: normal; line-height: 0; color: #2e3374;
   }
  .mat-simple-snackbar { font-size: 1rem; font-weight: normal; font-style: normal; font-stretch: normal; 
-  line-height: 1.38; letter-spacing: normal; text-align: left; color: #333333; }
+  line-height: 1.38; letter-spacing: normal; text-align: left; color: #333333; 
+    
+  }
+  &.add {
+    .mat-simple-snackbar:before {
+      content: "+"
+    };
+  }
 }
 
 
