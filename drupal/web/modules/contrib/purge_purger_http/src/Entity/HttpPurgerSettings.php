@@ -132,14 +132,14 @@ class HttpPurgerSettings extends PurgerSettingsBase implements PurgerSettingsInt
    *
    * @var float
    */
-  public $timeout = 1.0;
+  public $timeout = 5.0;
 
   /**
    * The number of seconds to wait while trying to connect to a server.
    *
    * @var float
    */
-  public $connect_timeout = 1.0;
+  public $connect_timeout = 5.0;
 
   /**
    * Cooldown time.
