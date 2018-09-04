@@ -77,6 +77,7 @@
         "drush/drush": "^9.0.0",
         "elasticsearch/elasticsearch": "~5.0",
         "eluceo/ical": "^0.14.0",
+        "jumbojett/openid-connect-php": "^0.6.0",
         "league/csv": "^8.0",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
