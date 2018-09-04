@@ -1,0 +1,29 @@
+query (
+  $lang: String,
+  $offset: Int,
+  $limit: Int,
+  $search_term: String!) {
+  CustomElasticQuery(offset: $offset, limit: $limit, elasticsearch_index: ["elasticsearch_index_drupaldb_articles","elasticsearch_index_drupaldb_events", "elasticsearch_index_drupaldb_news","elasticsearch_index_drupaldb_schools", "elasticsearch_index_drupaldb_study_programmes"],
+    filter: {conjunction: AND,
+      conditions: [
+        {operator: EQUAL, field: "langcode", value: [$lang]}]},
+  	score: {search_value: $search_term, conditions:[
+      {field:"title", weight:5},
+      {field:"field_body_summary", weight:2},
+      {field:"field_body", weight:1},
+      {field:"field_accordion_body", weight:1},
+      {field:"field_accordion_title", weight:2},
+      {field:"field_event_type", weight:1},
+      {field:"field_description", weight:1},
+      {field:"field_tag", weight:2},
+      {field:"field_organizer", weight:1},
+      {field:"field_author", weight:1},
+      {field:"field_short_description", weight: 2},
+      {field:"field_registration_code", weight:5}
+    ]}) {
+    ContentType
+    Nid
+    Title
+    EntityPath
+  }
+}
