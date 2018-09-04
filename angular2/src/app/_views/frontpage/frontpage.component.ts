@@ -55,6 +55,9 @@ export class FrontpageComponent {
 
   getEvents() {
     let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=frontPageEvents:1&variables=";
+    if (window.location.host === ('test.edu.ee')) {
+      url = "https://api.test.edu.ee/graphql?queryId=frontPageEvents:1&variables=";
+    }
     let date = new Date();
     var formattedDate = `${date.getFullYear()}-${date.getMonth() <= 8 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)}-${date.getDate() <= 9 ? '0' + date.getDate() : date.getDate()}`;
     let variables = {
