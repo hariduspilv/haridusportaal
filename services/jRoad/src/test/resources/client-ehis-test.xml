@@ -7,7 +7,7 @@
 	                    http://www.springframework.org/schema/context
 	                    http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-  <import resource="classpath:client-ehis.xml"/>
+  <import resource="classpath:client.xml"/>
 
   <!--<bean id="xRoadServiceConfigurationProvider"-->
   <!--class="com.nortal.jroad.client.service.configuration.provider.PropertiesBasedXRoadServiceConfigurationProvider">-->

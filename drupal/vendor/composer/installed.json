@@ -2132,6 +2132,59 @@
         }
     },
     {
+        "name": "drupal/adv_varnish",
+        "version": "2.1.0",
+        "version_normalized": "2.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/adv_varnish",
+            "reference": "8.x-2.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/adv_varnish-8.x-2.1.zip",
+            "reference": "8.x-2.1",
+            "shasum": "5f053ea57163664ab6c3987ee42172f6abdc1dc4"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.1",
+                "datestamp": "1516359786",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "claymor",
+                "homepage": "https://www.drupal.org/user/3193903"
+            },
+            {
+                "name": "shumer",
+                "homepage": "https://www.drupal.org/user/2297432"
+            }
+        ],
+        "description": "Advanced Varnish Integration",
+        "homepage": "https://www.drupal.org/project/adv_varnish",
+        "support": {
+            "source": "http://cgit.drupalcode.org/adv_varnish"
+        }
+    },
+    {
         "name": "drupal/better_exposed_filters",
         "version": "3.0.0-alpha4",
         "version_normalized": "3.0.0.0-alpha4",
@@ -5440,6 +5493,163 @@
         }
     },
     {
+        "name": "drupal/purge",
+        "version": "3.0.0-beta8",
+        "version_normalized": "3.0.0.0-beta8",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/purge",
+            "reference": "8.x-3.0-beta8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/purge-8.x-3.0-beta8.zip",
+            "reference": "8.x-3.0-beta8",
+            "shasum": "5b6a53d6adcfa0d4e081edf2563d366fc7205bc4"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-3.x": "3.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-3.0-beta8",
+                "datestamp": "1502719311",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Beta releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "SqyD",
+                "homepage": "https://www.drupal.org/user/106525"
+            },
+            {
+                "name": "djbobbydrake",
+                "homepage": "https://www.drupal.org/user/336378"
+            },
+            {
+                "name": "nielsvm",
+                "homepage": "https://www.drupal.org/user/163285"
+            }
+        ],
+        "description": "Provides a generic external cache invalidation API and queue service.",
+        "homepage": "https://www.drupal.org/project/purge",
+        "support": {
+            "source": "http://cgit.drupalcode.org/purge"
+        }
+    },
+    {
+        "name": "drupal/purge_purger_http",
+        "version": "1.0.0-beta4",
+        "version_normalized": "1.0.0.0-beta4",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/purge_purger_http",
+            "reference": "8.x-1.0-beta4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/purge_purger_http-8.x-1.0-beta4.zip",
+            "reference": "8.x-1.0-beta4",
+            "shasum": "5360945ffba59f447214b5c1dc283d644881c338"
+        },
+        "require": {
+            "drupal/core": "~8.0",
+            "drupal/purge": "*",
+            "drupal/purge_tokens": "*"
+        },
+        "require-dev": {
+            "drupal/purge": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0-beta4",
+                "datestamp": "1473237239",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Project has not opted into security advisory coverage!"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "nielsvm",
+                "homepage": "https://www.drupal.org/user/163285"
+            }
+        ],
+        "description": "Generic and highly configurable purger that makes HTTP requests, best suits custom configurations.",
+        "homepage": "https://www.drupal.org/project/purge_purger_http",
+        "support": {
+            "source": "http://cgit.drupalcode.org/purge_purger_http"
+        }
+    },
+    {
+        "name": "drupal/purge_tokens",
+        "version": "3.0.0-beta8",
+        "version_normalized": "3.0.0.0-beta8",
+        "require": {
+            "drupal/core": "~8.0",
+            "drupal/purge": "self.version"
+        },
+        "type": "metapackage",
+        "extra": {
+            "branch-alias": {
+                "dev-3.x": "3.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-3.0-beta8",
+                "datestamp": "1502719311",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Beta releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "SqyD",
+                "homepage": "https://www.drupal.org/user/106525"
+            },
+            {
+                "name": "djbobbydrake",
+                "homepage": "https://www.drupal.org/user/336378"
+            },
+            {
+                "name": "nielsvm",
+                "homepage": "https://www.drupal.org/user/163285"
+            }
+        ],
+        "description": "Adds tokens support for external cache invalidation.",
+        "homepage": "https://www.drupal.org/project/purge",
+        "support": {
+            "source": "http://cgit.drupalcode.org/purge"
+        }
+    },
+    {
         "name": "drupal/queue_ui",
         "version": "dev-2.x",
         "version_normalized": "dev-2.x",
@@ -6339,6 +6549,122 @@
         "homepage": "https://www.drupal.org/project/ultimate_cron",
         "support": {
             "source": "http://cgit.drupalcode.org/ultimate_cron"
+        }
+    },
+    {
+        "name": "drupal/varnish",
+        "version": "dev-1.x",
+        "version_normalized": "dev-1.x",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/varnish",
+            "reference": "419778603e850c8039b3fb2f8266152a13e8c34e"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.x-dev",
+                "datestamp": "1509973985",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Dev releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "source",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "JeremyFrench",
+                "homepage": "https://www.drupal.org/user/419876"
+            },
+            {
+                "name": "MiSc",
+                "homepage": "https://www.drupal.org/user/382892"
+            },
+            {
+                "name": "deadbeef",
+                "homepage": "https://www.drupal.org/user/93644"
+            },
+            {
+                "name": "fabsor",
+                "homepage": "https://www.drupal.org/user/255704"
+            },
+            {
+                "name": "joshk",
+                "homepage": "https://www.drupal.org/user/3313"
+            }
+        ],
+        "description": "Integration with varnish from Drupal.",
+        "homepage": "https://www.drupal.org/project/varnish",
+        "support": {
+            "source": "http://cgit.drupalcode.org/varnish"
+        }
+    },
+    {
+        "name": "drupal/varnish_purge",
+        "version": "1.11.0",
+        "version_normalized": "1.11.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/varnish_purge",
+            "reference": "8.x-1.11"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/varnish_purge-8.x-1.11.zip",
+            "reference": "8.x-1.11",
+            "shasum": "fbfa2eeb52e402775185f9069d0c8c34c7d4f1d8"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "require-dev": {
+            "drupal/purge": "*",
+            "drupal/purge_tokens": "*",
+            "drupal/varnish_purger": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.11",
+                "datestamp": "1530614920",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "MiSc",
+                "homepage": "https://www.drupal.org/user/382892"
+            },
+            {
+                "name": "deadbeef",
+                "homepage": "https://www.drupal.org/user/93644"
+            }
+        ],
+        "homepage": "https://www.drupal.org/project/varnish_purge",
+        "support": {
+            "source": "http://cgit.drupalcode.org/varnish_purge"
         }
     },
     {
