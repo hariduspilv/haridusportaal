@@ -1,0 +1,13 @@
+adv_varnish.collection:
+  title: 'COM Varnish Settings'
+  route_name: adv_varnish.settings
+  base_route: system.admin_config_development
+adv_varnish.config_form:
+  title: 'COM Varnish Settings'
+  route_name: adv_varnish.settings
+  parent_id: adv_varnish.collection
+adv_varnish.purge_form:
+  title: 'Varnish Purge'
+  route_name: adv_varnish.purge
+  parent_id: adv_varnish.collection
+  weight: 3

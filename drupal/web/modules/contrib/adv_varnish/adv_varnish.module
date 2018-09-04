@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * @file
+ * Contains adv_varnish.module..
+ */
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function adv_varnish_toolbar_alter(&$items) {
+  // Alter toolbar menu, due to possible varnish cache issues.
+  // Update user tab name.
+  $items['user']['tab']['#title'] = t('My account');
+}
+
+/**
+ * Implements hook_hook_info().
+ */
+function adv_varnish_hook_info() {
+  $hooks['esi_adv_varnish'] = [
+    'group' => 'adv_varnish',
+  ];
+  return $hooks;
+}
+
+/**
+ * ESI use.
+ *
+ * @return bool
+ *   true/false.
+ */
+function adv_varnish_is_esi() {
+  $esi = &drupal_static(__FUNCTION__);
+  if (isset($esi['is_esi'])) {
+    return $esi['is_esi'];
+  }
+  $esi = [];
+  $general = \Drupal::config('adv_varnish.settings')->get('general');
+  $esi['is_esi'] = \Drupal::currentUser()->id() == '1' ? FALSE : !empty($general['esi']);
+  return $esi['is_esi'];
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function adv_varnish_views_pre_render($view) {
+  // Create static dom_id for views.
+  // In case we load view with ESI && AJAX.
+  if ($view->ajaxEnabled() && isset($view->element['#attached']['drupalSettings']['views']['ajaxViews'])) {
+    $ajax_view = $view->element['#attached']['drupalSettings']['views']['ajaxViews'];
+    $new_ajax_views = [];
+    foreach ($ajax_view as $settings) {
+      $view_dom_id = hash('sha256', implode('__', [$settings['view_name'], $settings['view_display_id']]));
+      $settings['view_dom_id'] = $view_dom_id;
+      $new_ajax_views['views_dom_id:' . $view_dom_id] = $settings;
+      $view->dom_id = $view_dom_id;
+    }
+    $view->element['#attached']['drupalSettings']['views']['ajaxViews'] = $new_ajax_views;
+  }
+
+  return $view;
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function adv_varnish_module_implements_alter(&$implementations, $hook) {
+  // Reorder implements.
+  $module = 'adv_varnish';
+  if ($hook == 'views_pre_render' && isset($implementations[$module])) {
+    $group = $implementations[$module];
+    unset($implementations[$module]);
+    $implementations[$module] = $group;
+  }
+}

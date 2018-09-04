@@ -4,6 +4,7 @@ import { MaterialModule } from './_core/material.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material';
 
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
@@ -129,6 +130,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     AppPipes,
+    MatSnackBarModule,
     AgmJsMarkerClustererModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E'
