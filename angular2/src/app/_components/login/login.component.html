@@ -15,7 +15,7 @@
     <span class="login pointer sm-hide">{{ 'button.login' | translate }}</span>
   </a>
   <div class="dropdown-menu-overlay" (click)="toggleLogin()" *ngIf="loginVisible"></div>
-  <div class="dropdown-menu" *ngIf="loginVisible" cdkTrapFocus>
+  <div class="dropdown-menu" *ngIf="loginVisible">
 
     <mat-spinner *ngIf="loader"></mat-spinner>
 

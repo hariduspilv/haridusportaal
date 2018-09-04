@@ -77,8 +77,9 @@
   .altered {
     .section__form {padding: 0;}
     .content--listItem--altered .subtext {font-size: .875rem; line-height: 1.25rem;padding-top: 0;padding-bottom: $gutter;color: $dark-gray;
-      &--bottom {font-size: .875rem; line-height: 1.25rem;padding-top: $half-gutter; padding-bottom: $medium;color: $dark-gray;}
+      &--bottom {font-size: .875rem; line-height: 1.25rem;padding-top: $half-gutter; padding-bottom: 0;color: $dark-gray;}
     }
+    .event__elem {margin-bottom: $medium;}
   }
   .view-all {float: right;}
 }
