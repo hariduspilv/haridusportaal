@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class CertificatesComponent implements OnInit{
   public loading = {};
 
-  public error: boolean = null;
+  public error: boolean = false;
 
   public professionalCertificates: any;
   public examResults: any;
