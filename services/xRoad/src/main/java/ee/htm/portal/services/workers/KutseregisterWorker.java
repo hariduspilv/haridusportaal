@@ -119,7 +119,7 @@ public class KutseregisterWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash()
-        .put(KUTSEREGISTER_REDIS_KEY, "kutsetunnistused_" + personalCode, responseNode.toString());
+        .put(KUTSEREGISTER_REDIS_KEY, "kutsetunnistused_" + personalCode, responseNode);
 
     return responseNode;
   }
