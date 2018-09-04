@@ -13,8 +13,8 @@ import { HttpService } from '@app/_services/httpService';
 export class FrontpageComponent {
 
   error: boolean;
-	news: any;
-	events: any;
+	news: Array<Object> = [];
+	events: Array<Object> = [];
 	lang: string;
   allPath: any;
   eventPath: any;

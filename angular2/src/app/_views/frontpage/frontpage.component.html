@@ -68,7 +68,7 @@
   </div>
 </ng-template>
 
-<div class="frontpage" *ngIf="events && events.length && news && news.length">
+<div class="frontpage" *ngIf="events && news">
   <div class="section section--search">
     <div class="content--middle">
       <h1 class="lead-title">
@@ -87,12 +87,12 @@
       <ng-container *ngTemplateOutlet="origin"></ng-container>
     </div>
   </div>
-  <div class="section section--list--item main-container">
+  <div class="section section--list--item main-container" *ngIf="news && news.length">
     <div class="content--listItem">
       <ng-container *ngTemplateOutlet="newsItem"></ng-container>
     </div>
   </div>
-  <div class="section section--list main-container">
+  <div class="section section--list main-container" *ngIf="news && news.length">
     <div class="content">
       <recent-news frontpage="true" title="news"></recent-news>
     </div>
@@ -106,7 +106,7 @@
       </div>
     </div><!--/main-container-->
   </div><!--/section-->
-  <div class="section section--list altered main-container">
+  <div class="section section--list altered main-container" *ngIf="events && events.length">
     <div class="content--listItem content--listItem--altered">
       <ng-container *ngTemplateOutlet="eventsList"></ng-container>
     </div>
