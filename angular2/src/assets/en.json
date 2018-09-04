@@ -3,7 +3,7 @@
     "label": "Home",
     "navigate": "Go to homepage",
     "favourites_limit_modal_title": "Add to favourites",
-    "favourites_limit_modal_content": "You can add up to 10 favourites",
+    "favourites_limit_modal_content": "You can add up to 10 favourites. Remove page from favourites by clicking on the star icon of already favourited page.",
     "favourites_limit_modal_close": "Close window",
     "favourites_list_label" : "My favourites",
     "favourites_list_none_message" : "You don't have any favourites added. You can do so by clicking on the star icon on topic pages and lists.",
