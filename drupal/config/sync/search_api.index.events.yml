@@ -18,6 +18,11 @@ name: Events
 description: ''
 read_only: false
 field_settings:
+  content_type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
   entity_path:
     label: URI
     property_path: search_api_url
