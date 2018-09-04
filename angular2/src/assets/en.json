@@ -15,6 +15,7 @@
     "dashboard_tabs_certificates":"Certificates",
     "dashboard_tabs_studies":"Studies",
     "dashboard_tabs_teachings":"Teachings",
+    "dashboard_tabs_certificates_no_results": "No certificates.",
     "dashboard_tabs_certificates_error_technical":"Sorry, a technical error has occurred. Please try again later.",
     "dashboard_tabs_certificates_professional": "Professional certificates",
     "dashboard_tabs_certificates_examinations": "State examinations",

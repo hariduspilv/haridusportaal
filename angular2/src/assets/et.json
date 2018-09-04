@@ -15,6 +15,7 @@
     "dashboard_tabs_certificates":"Tunnistused",
     "dashboard_tabs_studies":"Õpingud",
     "dashboard_tabs_teachings":"Õpetan",
+    "dashboard_tabs_certificates_no_results": "Kutsetunnistused puuduvad",
     "dashboard_tabs_certificates_error_technical":"Vabandame. Kutsetunnistuste andmete Kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.",
     "dashboard_tabs_certificates_professional": "Kutsetunnistused",
     "dashboard_tabs_certificates_examinations": "Riigieksamid",
