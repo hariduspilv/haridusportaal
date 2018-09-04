@@ -1,0 +1,5 @@
+adv_varnish.settings:
+  title: 'Adv Varnish'
+  route_name: adv_varnish.settings
+  parent: system.performance_settings
+  description: 'Manage Adv Varnish cache configuration'

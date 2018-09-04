@@ -1,0 +1,6 @@
+varnish_image_purge.admin_config:
+  title: Varnish image purge
+  parent: system.admin_config_development
+  description: 'Configure Varnish image purge'
+  route_name: varnish_image_purge.configuration
+  weight: 0
