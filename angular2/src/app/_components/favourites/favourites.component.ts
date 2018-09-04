@@ -176,7 +176,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
          
     } else if ('remove'){
       message = `${this.translate.get('frontpage.favourites_snackbar_message_remove')['value']}`;
-      config.extraClasses = ['background-green'];
+      config.extraClasses = ['background-green-removed'];
     }
       
     config.duration = 600000;
