@@ -15,7 +15,7 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Vp
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudResponseDocument.VpTaotlusSissetulekudResponse;
 
 /**
- * <code>ehisv6</code> EHIS (Eesti Hariduse Infosüsteem -- Haridus- ja Teadusministeerium) database
+ * <code>ehis</code> EHIS (Eesti Hariduse Infosüsteem -- Haridus- ja Teadusministeerium) database
  * X-tee v6 service.
  *
  * parameter userId - if null gets its value from xroad.properties id-code
