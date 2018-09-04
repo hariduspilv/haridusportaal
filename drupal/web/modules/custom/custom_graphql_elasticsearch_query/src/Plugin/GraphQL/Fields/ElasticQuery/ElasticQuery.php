@@ -22,7 +22,7 @@ use Drupal\graphql\Utility\StringHelper;
 *   response_cache_contexts = {"languages:language_url"},
 *   arguments = {
 *     "filter" = "EntityQueryFilterInput",
-*     "elasticsearch_index" = "String!",
+*     "elasticsearch_index" = "[String!]",
 *     "sort" = "[EntityQuerySortInput]",
 *     "limit" = "Int",
 *     "score" = "ElasticScoreQueryInput",
@@ -135,7 +135,8 @@ protected function getElasticQuery($args){
   }else{
     $params = [
       'from' => $args['offset'],
-      'size' => $args['limit']
+      'size' => $args['limit'],
+      'index' => $args['elasticsearch_index']
     ];
   }
 
