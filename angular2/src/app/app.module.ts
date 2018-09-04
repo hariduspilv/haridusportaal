@@ -54,6 +54,7 @@ import { CertificatesDetailedComponent } from '@app/_components/certificates.det
 import { ApplicationsComponent } from '@app/_components/applications/applications.component';
 import { StudiesComponent } from '@app/_components/studies/studies.component';
 import { TeachingsComponent } from '@app/_components/teachings/teachings.component';
+import { XjsonComponent } from '@app/_views/xjson/xjson.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -104,7 +105,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CertificatesDetailedComponent,
     ApplicationsComponent,
     StudiesComponent,
-    TeachingsComponent
+    TeachingsComponent,
+    XjsonComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent],
