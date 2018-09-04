@@ -28,6 +28,7 @@ permissions:
   - 'restful post mobile_id_rest_resource'
   - 'restful post mobile_id_rest_response_resource'
   - 'restful post personal_card_rest_resource'
+  - 'restful post xjson_rest_resource'
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'
