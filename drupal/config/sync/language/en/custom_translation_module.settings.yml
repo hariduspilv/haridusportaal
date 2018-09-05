@@ -62,7 +62,7 @@ event:
   registration_form_valid_email: 'Enter a correct email'
   registration_form_send: Send
   registration_form_close: 'Close window'
-  registration_form_add_to_calendar: 'Add the event to your calendar'
+  registration_form_add_to_calendar: 'Add the event to your calendar (iCal)'
   registration_ended: 'Event registration ended'
   registration_not_started: 'Event registration not started'
   registration_form_cancel: Cancel
