@@ -23,7 +23,7 @@
       color: white;
       left: 2.5rem;
       top: .33rem;
-      @include break-on (xl, min) {top: .6875rem;}
+      @include break-on (xl, min) {top: .5rem;}
     }
   }
   a {text-decoration: none;}
