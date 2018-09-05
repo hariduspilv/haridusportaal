@@ -3,11 +3,40 @@
   <div class="row">
     <div class="col-8">
       <div class="block padding-block border-blue">
-        <div class="block-title">TAOTLUSED</div>
+        <mat-spinner *ngIf="!data"></mat-spinner>
+        <ng-container *ngIf="data">
+          <div class="block-title" *ngIf="data.header.form_name">{{data.header.form_name}}</div>
 
-        <div class="xjson__title">{{data.header.form_name}}</div>    
-        
-      </div>
+          <div class="xjson__title" *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</div>    
+          <p *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
+
+          <ul class="xjson__navigation">
+            <li [class.active]="opened_step === step" *ngFor="let step of objectKeys(data.body.steps)">
+              <a [class.disabled]="isStepDisabled(step)" (click)="selectStep(step)">
+                <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}</ng-container>
+                <ng-container *ngIf="!data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step]) }}</ng-container>
+              </a>
+            </li>
+          </ul>
+          <!-- STEP BODY -->
+          <div class="xjson__step-title" *ngIf="data.body.steps[opened_step].title"> {{ selectLanguage(data.body.steps[opened_step].title) }} </div>
+          <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction"> {{ selectLanguage(data.body.steps[opened_step].introduction) }} </div>
+
+          <form (submit)="submitForm()" *ngIf="objectKeys(data_elements).length > 0">
+            <ng-container *ngFor="let element of objectKeys(data_elements)">
+              
+              <div class="xjson__heading" *ngIf="data_elements[element].title">
+                  {{ selectLanguage(data_elements[element].title) }}
+              </div>
+              {{data_elements[element].type}}
+              
+            </ng-container>
+          </form>
+          <!-- /STEP BODY -->
+
+          <a href="javascript:void(0);" (click)="selectStep(link.step)" *ngFor="let link of navigationLinks">{{ link.label }}</a>
+        </ng-container>
+      </div> <!--/block border-blue-->
     </div><!--/col-8-->
     
   </div><!--/row-->      
