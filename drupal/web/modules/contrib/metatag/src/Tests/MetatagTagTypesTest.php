@@ -117,8 +117,8 @@ class MetatagTagTypesTest extends WebTestBase {
   /**
    * Tests the 'secure' meta tag attribute.
    *
-   * Tests insecure values in og:image:secure_url (a tag with secure attribue
-   * set to TRUE) and in og:image (a tag with secure attribue set to FALSE). To
+   * Tests insecure values in og:image:secure_url (a tag with secure attribute
+   * set to TRUE) and in og:image (a tag with secure attribute set to FALSE). To
    * To pass og:image_secure should be changed to https:// and og:image
    * unchanged.
    */

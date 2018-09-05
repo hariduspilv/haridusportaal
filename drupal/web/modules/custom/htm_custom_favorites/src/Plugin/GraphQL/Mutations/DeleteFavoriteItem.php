@@ -9,7 +9,6 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\CreateEntityBase;
-use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\user\Entity\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -110,7 +109,7 @@ class DeleteFavoriteItem extends CreateEntityBase{
 				if($entity->favorites->count() > 0){
 					return $this->resolveOutputUpdate($entity, $args, $info);
 				}else{
-					#$entity->delete();
+					$entity->delete();
 					return new EntityCrudOutputWrapper(NULL, NULL);
 				}
 			}else{

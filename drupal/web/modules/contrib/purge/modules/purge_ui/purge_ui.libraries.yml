@@ -1,0 +1,12 @@
+dashboard:
+  css:
+    layout:
+      css/dashboard.css: {}
+  dependencies:
+    - core/drupal.ajax
+    - core/jquery
+    - core/drupal
+diagnostics:
+  css:
+    component:
+      css/diagnostics.css: {}

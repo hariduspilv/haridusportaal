@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_favorites\Plugin\GraphQL\Fields\Favorites;
 
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\graphql\GraphQL\Cache\CacheableValue;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 use Drupal\user\Entity\User;
@@ -20,6 +21,7 @@ use Drupal\Core\Language\LanguageManager;
  *   name = "CustomFavorites",
  *   description = @Translation("Loads all user favorites"),
  *   type = "[Entity]",
+ *   response_cache_tags = {"favorite_entity_list"}
  *
  * )
  */
@@ -82,7 +84,8 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 			$query->condition('user_idcode', $this->getUserIDcode());
 			$entity = $query->execute();
 			foreach($entity as $item){
-				yield $this->entityTypeManager->getStorage('favorite_entity')->load($item);
+				$entity = $this->entityTypeManager->getStorage('favorite_entity')->load($item);
+				yield new CacheableValue($entity, [$entity]);
 			}
 		}else{
 			return NULL;

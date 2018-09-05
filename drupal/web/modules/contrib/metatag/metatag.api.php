@@ -31,11 +31,29 @@ function hook_metatag_route_entity(\Drupal\Core\Routing\RouteMatchInterface $rou
  * @param array $metatags
  *   The special meta tags to be added to the page.
  * @param array $context
- *   The context, containing the entity used for token replacements.
+ *   The context for the current meta tags being generated. Will contain the
+ *   following:
+ *   'entity' - The entity being processed; passed by reference.
  */
-function hook_metatags_alter(array &$metatags, array $context) {
+function hook_metatags_alter(array &$metatags, array &$context) {
   // Exclude meta tags on frontpage.
   if (\Drupal::service('path.matcher')->isFrontPage()) {
     $metatags = NULL;
+  }
+}
+
+/**
+ * Alter the meta tags for any page prior to page attachment.
+ *
+ * @param array $metatag_attachments
+ *   An array of metatag objects to be attached to the current page.
+ */
+function hook_metatags_attachments_alter(array &$metatag_attachments) {
+  if (\Drupal::service('path.matcher')->isFrontPage() && \Drupal::currentUser()->isAnonymous()) {
+    foreach ($metatag_attachments['#attached']['html_head'] as $id => $attachment) {
+      if ($attachment[1] == 'title') {
+        $metatag_attachments['#attached']['html_head'][$id][0]['#attributes']['content'] = 'Front Page Title for Anonymous Users';
+      }
+    }
   }
 }

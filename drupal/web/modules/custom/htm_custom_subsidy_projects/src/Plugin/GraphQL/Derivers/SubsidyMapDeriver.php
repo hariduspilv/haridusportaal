@@ -26,7 +26,8 @@ class SubsidyMapDeriver extends DeriverBase {
       'lat' => 'String',
       'lon' => 'String',
       'investmentLocation' => 'String',
-      'investmentAmountSum' => 'Int'
+      'investmentAmountSum' => 'Int',
+			'schoolInfo' => 'Entity'
     );
 
     foreach($fields as $field => $type){

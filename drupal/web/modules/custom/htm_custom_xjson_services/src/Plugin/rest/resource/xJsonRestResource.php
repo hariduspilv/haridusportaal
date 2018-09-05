@@ -105,7 +105,8 @@ class xJsonRestResource extends ResourceBase {
 		}
 
 		if(empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
-
+		#dump($request_body);
+		#return new ModifiedResourceResponse($request_body, 200);
 		$client = \Drupal::httpClient();
 		try {
 			/*TODO make post URL configurable*/

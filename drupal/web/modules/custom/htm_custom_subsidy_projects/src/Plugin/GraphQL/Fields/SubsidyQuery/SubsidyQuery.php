@@ -6,6 +6,7 @@ use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
+use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
 use Elasticsearch\ClientBuilder;
@@ -114,7 +115,7 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
       );
     }
 
-    if($args['detail'] == 1 || $args['detail'] == 2){
+			if($args['detail'] == 1 || $args['detail'] == 2){
       foreach($responsevalues as $value){
         if(!in_array($value['_source']['school_location'][0], $responselocations)){
           $responselocations[$value['_source']['ehis_id'][0]] = $value['_source']['school_location'][0];
@@ -151,6 +152,7 @@ class SubsidyQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         $results[$ehis_id]['lat'] = $value['lat'][0];
         $results[$ehis_id]['lon'] = $value['lon'][0];
         $results[$ehis_id]['investmentAmountSum'] += $value['investment_amount'][0];
+        $results[$ehis_id]['schoolInfo'] = Node::load($value['nid'][0]);
       }
       foreach($results as $result){
         yield $result;

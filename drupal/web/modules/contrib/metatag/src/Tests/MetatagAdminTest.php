@@ -3,7 +3,9 @@
 namespace Drupal\metatag\Tests;
 
 use Drupal\metatag\MetatagManager;
+use Drupal\metatag\Entity\MetatagDefaults;
 use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\metatag\Functional\MetatagHelperTrait;
 
 /**
  * Tests the Metatag administration.
@@ -11,6 +13,8 @@ use Drupal\simpletest\WebTestBase;
  * @group metatag
  */
 class MetatagAdminTest extends WebTestBase {
+
+  use MetatagHelperTrait;
 
   /**
    * {@inheritdoc}
@@ -439,6 +443,55 @@ class MetatagAdminTest extends WebTestBase {
     // Confirm that non protected defaults can be deleted.
     $this->drupalGet('/admin/config/search/metatag/node__article');
     $this->assertLink('Delete');
+  }
+
+  /**
+   * Test that metatag list page pager works as expected.
+   */
+  public function testListPager() {
+    $this->loginUser1();
+
+    $this->drupalGet('admin/config/search/metatag');
+    $this->assertLinkByHref('/admin/config/search/metatag/global');
+    $this->assertLinkByHref('/admin/config/search/metatag/front');
+    $this->assertLinkByHref('/admin/config/search/metatag/403');
+    $this->assertLinkByHref('/admin/config/search/metatag/404');
+    $this->assertLinkByHref('/admin/config/search/metatag/node');
+    $this->assertLinkByHref('/admin/config/search/metatag/taxonomy_term');
+    $this->assertLinkByHref('/admin/config/search/metatag/user');
+
+    // Create 50 vocabularies and generate metatag defaults for all of them.
+    for ($i = 0; $i < 50; $i++) {
+      $vocabulary = $this->createVocabulary();
+      MetatagDefaults::create([
+        'id' => 'taxonomy_term__' . $vocabulary->id(),
+        'label' => 'Taxonomy term: ' . $vocabulary->label(),
+      ])->save();
+    }
+
+    // Reload the page.
+    $this->drupalGet('admin/config/search/metatag');
+    $this->assertLinkByHref('/admin/config/search/metatag/global');
+    $this->assertLinkByHref('/admin/config/search/metatag/front');
+    $this->assertLinkByHref('/admin/config/search/metatag/403');
+    $this->assertLinkByHref('/admin/config/search/metatag/404');
+    $this->assertLinkByHref('/admin/config/search/metatag/node');
+    $this->assertLinkByHref('/admin/config/search/metatag/taxonomy_term');
+    // User entity not visible because it has been pushed to the next page.
+    $this->assertNoLinkByHref('/admin/config/search/metatag/user');
+    $this->clickLinkPartialName('Next');
+
+    // Go to next page and confirm that parents are loaded and user us present.
+    $this->assertLinkByHref('/admin/config/search/metatag/global');
+    $this->assertLinkByHref('/admin/config/search/metatag/taxonomy_term');
+    // Main links not visible in the 2nd page.
+    $this->assertNoLinkByHref('/admin/config/search/metatag/front');
+    $this->assertNoLinkByHref('/admin/config/search/metatag/403');
+    $this->assertNoLinkByHref('/admin/config/search/metatag/404');
+    $this->assertNoLinkByHref('/admin/config/search/metatag/node');
+    // User is present because was pushed to page 2.
+    $this->assertLinkByHref('/admin/config/search/metatag/user');
+
   }
 
 }

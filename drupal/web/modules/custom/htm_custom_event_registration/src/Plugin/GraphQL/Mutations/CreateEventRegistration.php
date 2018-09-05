@@ -2,7 +2,6 @@
 
 namespace Drupal\htm_custom_event_registration\Plugin\GraphQL\Mutations;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
@@ -145,7 +144,7 @@ class CreateEventRegistration extends CreateEntityBase{
 		$node = Node::load($input['event_reference']);
 		$registration_count = (int) $node->get('field_max_number_of_participants')->value;
 		$registred = count($storage->loadByProperties(['event_reference' => $input['event_reference']]));
-		return ($registred > $registration_count) ? FALSE : TRUE;
+		return ($registred >= $registration_count) ? FALSE : TRUE;
 
 	}
 

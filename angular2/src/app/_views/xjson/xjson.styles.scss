@@ -1,0 +1,7 @@
+@import "../../../assets/styles/typography.scss"; 
+@import "../../../assets/styles/layout.scss"; 
+
+.main-container{margin:0 1.5rem;}
+.xjson{
+  &__title{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
+}

@@ -95,6 +95,9 @@ metatag.metatag_tag.theme_color:
 metatag.metatag_tag.viewport:
   type: label
   label: 'Mobile: Viewport'
+metatag.metatag_tag.web_manifest:
+  type: label
+  label: 'Mobile: Web Manifest'
 metatag.metatag_tag.x_ua_compatible:
   type: label
   label: 'X-UA-Compatible'
