@@ -94,6 +94,7 @@ class CreateFavoriteItem extends CreateEntityBase{
 		//dump($args);
 		//die();
 		return [
+			'user_idcode' => $this->getCurrentUserIdCode(),
 			'favorites' => [
 				'field_favorite_title' => $args['input']['favorite_title'],
 				'field_page' => isset($args['input']['page_id']) ? $args['input']['page_id'] : NULL ,
@@ -108,6 +109,8 @@ class CreateFavoriteItem extends CreateEntityBase{
 	 */
 	public function resolve($value, array $args, ResolveContext $context, ResolveInfo $info)
 	{
+		$user_idcode = $this->getCurrentUserIdCode();
+
 
 		$entityTypeId = $this->pluginDefinition['entity_type'];
 		$input = $this->extractEntityInput($value, $args, $context, $info);
