@@ -24,7 +24,7 @@ use Drupal\graphql\Utility\StringHelper;
 *   arguments = {
 *     "filter" = "EntityQueryFilterInput",
 *     "elasticsearch_index" = "[String!]",
-*     "entity_path" = "Boolean",
+*     "content_type" = "Boolean",
 *     "sort" = "[EntityQuerySortInput]",
 *     "limit" = "Int",
 *     "score" = "ElasticScoreQueryInput",
