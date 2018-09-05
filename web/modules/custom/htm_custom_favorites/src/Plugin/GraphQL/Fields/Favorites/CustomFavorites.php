@@ -86,7 +86,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 			$entity = $query->execute();
 			foreach($entity as $item){
 				$entity = $this->entityTypeManager->getStorage('favorite_entity')->load($item);
-				yield new CacheableValue($entity, [$entity]);
+				yield new CacheableValue($entity, [$entity, $this->currentUser]);
 			}
 		}else{
 			return NULL;
