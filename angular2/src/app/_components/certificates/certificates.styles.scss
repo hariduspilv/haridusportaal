@@ -9,8 +9,9 @@
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
   }
+  &-body { padding: 0 1rem 1rem }
   &-spacing {margin: 0 0 $half-gutter 0;}
-  &-header {height: 2.5rem !important;padding-right:$small;
+  &-header {height: 2.5rem !important;padding-right:$small; padding-left:$small;
     &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: $gutter;}}
 }
 mat-panel-title {font-size: $small;}
@@ -48,9 +49,6 @@ mat-panel-title {font-size: $small;}
 .dashboard-table td {
  color: $black;
 }
-
-
-
 
 
 
