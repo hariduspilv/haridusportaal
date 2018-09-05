@@ -111,14 +111,6 @@ class CreateFavoriteItem extends CreateEntityBase{
 	{
 		$user_idcode = $this->getCurrentUserIdCode();
 
-		//$paragraph = $this->entityTypeManager->getStorage('paragraph')->loadByProperties(['id' => '40']);
-		//$para = reset($paragraph);
-		//if($para) $para->delete();
-		/*
-		  if (($key = array_search($del_val, $messages)) !== false) {
-    		unset($messages[$key]);
-			}
-		*/
 
 		$entityTypeId = $this->pluginDefinition['entity_type'];
 		$input = $this->extractEntityInput($value, $args, $context, $info);
