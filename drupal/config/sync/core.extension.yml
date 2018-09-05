@@ -64,6 +64,7 @@ module:
   htm_custom_event_registration: 0
   htm_custom_exports: 0
   htm_custom_favorites: 0
+  htm_custom_harid_authentication: 0
   htm_custom_professional_certific: 0
   htm_custom_subsidy_projects: 0
   htm_custom_tokens: 0
