@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 
+use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 use Drupal\rest\ModifiedResourceResponse;
@@ -97,7 +98,7 @@ class xJsonRestResource extends ResourceBase {
     if (!$this->currentUser->isAuthenticated()) {
       throw new AccessDeniedHttpException();
     }
-    #dump($data);
+
     if($data['form_info']){
 			$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
 		}else{

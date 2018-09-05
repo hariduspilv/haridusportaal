@@ -1,13 +1,34 @@
-query(
-  $ownershipType: [Int],
-  $investmentMeasure: [Int],
-  $investmentDeadline: [Int],
-  $levelOfDetail: Int!
-){
-  CustomSubsidyProjectQuery(ownership_type:$ownershipType,investment_measure:$investmentMeasure,investment_deadline:$investmentDeadline,detail:$levelOfDetail){
-    nid
-    lat
-    lon
-    investmentAmountSum
-  }
+query ($ownershipType: [Int], $investmentMeasure: [Int], $investmentDeadline: [Int], $levelOfDetail: Int!) {
+CustomSubsidyProjectQuery(ownership_type: $ownershipType, investment_measure: $investmentMeasure, investment_deadline: $investmentDeadline, detail: $levelOfDetail) {
+nid
+lat
+lon
+investmentAmountSum
+schoolInfo{
+... on NodeSchool{
+entityLabel
+fieldRegistrationCode
+fieldOwnershipType {
+entity{
+entityLabel
+}
+}
+CustomSubsidyProjects {
+... on SubsidyProjectEntity{
+entityLabel
+investmentMeasure{
+entity{
+entityLabel
+}
+}
+investmentProject
+investmentDeadline{
+unix
+}
+investmentAmount
+}
+}
+}
+}
+}
 }
