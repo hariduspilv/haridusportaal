@@ -67,7 +67,7 @@ class xJsonService implements xJsonServiceInterface {
 				'first' => TRUE,
 				'current_step' => null,
 				'identifier' => null,
-				'acceptable_activity' => null,
+				'acceptable_activity' => 'CONTINUE',
 				'agents' => [
 					['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
 				]
