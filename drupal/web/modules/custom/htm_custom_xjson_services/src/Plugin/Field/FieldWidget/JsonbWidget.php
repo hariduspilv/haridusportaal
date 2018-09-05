@@ -38,19 +38,28 @@ class JsonbWidget extends StringTextareaWidget {
 	 * {@inheritdoc}
 	 */
 	public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-
+		$id = $items->getName();
 		$element['value'] = $element + [
 			'#type' => 'textarea',
-			'#suffix' => new FormattableMarkup('<div id="jsoneditor" style="width: 100%; height: 800px;"></div>', []),
+			'#suffix' => new FormattableMarkup("<div id='$id' style='width: 100%; height: 800px;'></div>", []),
 			'#attached' => [
 				'library' => ['htm_custom_xjson_services/myform'],
-				'drupalSettings' => ['json_object' => isset($form_state->getUserInput()[$items->getName()]) ? $form_state->getUserInput()[$items->getName()][0]['value'] : $items[$delta]->value]
+				'drupalSettings' => [
+					"$id" =>
+						isset($form_state->getUserInput()[$items->getName()])
+							? $form_state->getUserInput()[$items->getName()][0]['value']
+							: $items[$delta]->value
+				]
+
 			],
 			'#element_validate' => [[$this, 'validateJsonStructure']],
 			'#attributes' => [
 				'style' => 'display:none',
 			],
 		];
+		if(preg_match("/test/", $id)){
+			unset($element['value']['#element_validate']);
+		}
 
 		return $element;
 	}

@@ -67,6 +67,7 @@ class xJsonService implements xJsonServiceInterface {
 				'first' => TRUE,
 				'current_step' => null,
 				'identifier' => null,
+				'acceptable_activity' => ['CONTINUE'],
 				'agents' => [
 					['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
 				]
@@ -240,7 +241,9 @@ class xJsonService implements xJsonServiceInterface {
 		foreach ($required_keys as $key){
 			if(!$header[$key]) throw new HttpException('400', "$key missing");
 			if(!$header['first']){
-				if(!in_array($aa = $header['acceptable_activity'], $acceptable_activity_keys)) throw new HttpException("400","acceptable_activity $aa value not acceptable");
+				foreach($acceptable_activity_keys as $acceptable_activity_key){
+					if(!in_array($aa = $acceptable_activity_key, $acceptable_activity_keys))throw new HttpException("400","acceptable_activity $aa value not acceptable");
+				}
 			}
 		}
 	}
@@ -365,5 +368,21 @@ class xJsonService implements xJsonServiceInterface {
 				dump($e->getMessage());
 			}
 			return [];
+	}
+
+	public function getTestForm($form_name = NULL){
+		$id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
+		$entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
+
+		$connection = \Drupal::database();
+		$query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition_test->'header'->>'form_name' = :id", array(':id' => $id));
+		$result = $query->fetchField();
+		if($result){
+			$entity = $entityStorage->load($result);
+			return ($entity) ? Json::decode($entity->get('xjson_definition_test')->value) : NULL;
+		}else{
+			return NULL;
+		}
+
 	}
 }
