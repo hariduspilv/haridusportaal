@@ -92,6 +92,11 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#title' => $this->t('Favorites snacbar message'),
 			'#default_value' => $config->get('frontpage.favourites_snackbar_message'),
 		];
+		$form['frontpage']['favourites_snackbar_message_remove'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Favorites snacbar message remove'),
+			'#default_value' => $config->get('frontpage.favourites_snackbar_message_remove'),
+		];
 		$form['frontpage']['favourites_snackbar_action'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Favorites snackbar action'),
