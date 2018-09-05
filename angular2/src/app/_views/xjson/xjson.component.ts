@@ -18,9 +18,11 @@ export class XjsonComponent implements OnInit, OnDestroy{
 
   public data;
   public opened_step;
+  public max_step;
   public current_acceptable_activity
   public data_elements;
   public navigationLinks;
+  public activityButtons;
 
   constructor(
     private rootScope: RootScopeService,
@@ -65,31 +67,30 @@ export class XjsonComponent implements OnInit, OnDestroy{
     if(list[0] != opened) {
       let previous = list[list.indexOf(opened) - 1]
       if(this.isStepDisabled(previous) === false){
-        output.push({label: 'previous_page', step: previous});
+        output.push({label: 'button.xjson_previous', step: previous});
       }
     }
     if(list[list.length-1] != opened) {
-      let next = list[list.indexOf(opened) + 1]
+      let next = list[list.indexOf(opened) + 1];
       if(this.isStepDisabled(next) === false){
-        output.push({label: 'next_page', step: next});
+        output.push({label: 'button.xjson_next', step: next});
       }
     }
-
     return output;
   }
 
   isStepDisabled(step): boolean {
-   
+    let max_step = this.max_step;
     let steps = Object.keys(this.data.body.steps);
 
-    let isBeforeCurrentStep = steps.indexOf(step) < steps.indexOf(this.opened_step) ? true: false;
-    let isAfterCurrentStep = steps.indexOf(step) > steps.indexOf(this.opened_step) ? true: false;
+    let isBeforeCurrentStep = steps.indexOf(step) < steps.indexOf(max_step) ? true: false;
+    let isAfterCurrentStep = steps.indexOf(step) > steps.indexOf(max_step) ? true: false;
     //let isCurrentStep = this.opened_step === step ? true: false;
 
     if(isBeforeCurrentStep === true) {
       return false;
     } else if(isAfterCurrentStep === true) {
-      let isNextToCurrentStep = (steps.indexOf(this.opened_step) + 1) === steps.indexOf(step) ? true : false;
+      let isNextToCurrentStep = (steps.indexOf(max_step) + 1) === steps.indexOf(step) ? true : false;
 
       if(this.current_acceptable_activity.includes('CONTINUE')){
         if(isNextToCurrentStep === true) return false;
@@ -101,14 +102,19 @@ export class XjsonComponent implements OnInit, OnDestroy{
       } else return true;
       
     } else {
+      // ...step is the max_step(current_step) so it can't be disabled
       return false;
     }    
   }
 
   submitForm(activity: string){
-    
-    //this.data.header["activity"] = "SUBMIT";
-    //this.data form => "value": []
+    if(activity == 'EDIT') console.log('Would prompt user with modal, asking for confirmation of the action');
+    else {
+      console.log('Would submit form with this.data.header["activity"]= ', activity)
+      //this.data.header["activity"] = "SUBMIT";
+      //this.data form => "value": []
+    }
+   
   }
 
   errorHandler(message){
@@ -116,27 +122,67 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   selectStep(step){
-    if(step === this.opened_step) return this.errorHandler('This step is already selected');
-    else {
-      if(this.isStepDisabled(step)) return this.errorHandler('This step is disabled');
+    if(step === this.opened_step) {
+      return this.errorHandler('This step is already selected');
+    } else {
+      if(this.isStepDisabled(step)){
+        return this.errorHandler('This step is disabled');
+      }
       this.opened_step = step;
       this.viewController(this.data)
     }
   }
 
-  viewController(xjson){
-    this.data = xjson;
-    
-    this.data_elements = this.data.body.steps[this.opened_step].data_elements;
+  setActivityButtons(activities: string[]): {}[]{
+    let output = [];
+    let editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
+    let nonButtonActivities = ['VIEW'];
+    if(this.opened_step < this.max_step){
+      let displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
+      if(displayEditButton) output.push({label: 'button.xjson_edit' , action: 'EDIT', style: 'secondary'})
 
-    if(this.data_elements){
-      this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
-      
     } else {
-      let payload = {form_name: this.form_name, form_info: xjson}
-    
-      this.getData(payload)
+      activities.forEach(activity => {
+        if(!nonButtonActivities.includes(activity)) {
+          output.push({label: 'button.xjson_' + activity.toLowerCase() , action: activity, style: 'primary'})
+        }
+      })
     }
+
+    
+   
+   
+    return output
+  }
+
+  getData(data){
+    let subscribe = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
+      console.log(response);
+      if(!response['header']) return this.errorHandler('Missing header from response');
+      if(!response['body']) return this.errorHandler('Missing body from response');
+      if(!response['body']['steps']) return this.errorHandler('Missing body.steps from response');
+
+      //response['header']['current_step'] = 'step_3' //testing
+      //response['header']['acceptable_activity'] = ['SAVE','SUBMIT']; //testing
+
+      if(response['header']['current_step']) {
+        this.max_step = response['header']['current_step'];
+      }
+      if(response['header']['acceptable_activity']){
+        this.current_acceptable_activity = response['header']['acceptable_activity'];
+       
+        let acceptableActivityIncludesTarget = this.current_acceptable_activity.some(key => {
+          return ['SUBMIT','SAVE','CONTINUE'].includes(key);
+        })
+        if(acceptableActivityIncludesTarget && !response['header']['current_step']){
+          return this.errorHandler('Missing current_step while acceptable_activity is SUBMIT, SAVE or CONTINUE')
+        }
+      }
+     
+      this.stepController(response)
+
+      subscribe.unsubscribe();
+    });
 
   }
 
@@ -158,33 +204,22 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.viewController(xjson);
   }
 
-  getData(data){
-    let subscribe = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
-      console.log(response);
-      if(!response['header']) return this.errorHandler('Missing header from response');
-      if(!response['body']) return this.errorHandler('Missing body from response');
-      if(!response['body']['steps']) return this.errorHandler('Missing body.steps from response');
+  viewController(xjson){
+    this.data = xjson;
+    
+    this.data_elements = this.data.body.steps[this.opened_step].data_elements;
 
-      //response['header']['current_step'] = 'step_3'
-      //response['header']['acceptable_activity'] = ['SAVE'];
-
-      if(response['header']['acceptable_activity']){
-        this.current_acceptable_activity = response['header']['acceptable_activity'];
-       
-        let acceptableActivityIncludesTarget = this.current_acceptable_activity.some(key => {
-          return ['SUBMIT','SAVE','CONTINUE'].includes(key);
-        })
-        if(acceptableActivityIncludesTarget && !response['header']['current_step']){
-          return this.errorHandler('Missing current_step while acceptable_activity is SUBMIT, SAVE or CONTINUE')
-        }
-      }
+    if(!this.data_elements){
+      let payload = {form_name: this.form_name, form_info: xjson}
+      this.getData(payload)
      
-      this.stepController(response)
-
-      subscribe.unsubscribe();
-    });
+    } else {
+      this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
+      this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity)
+    }
 
   }
+
   ngOnInit(){
     this.pathWatcher();
 

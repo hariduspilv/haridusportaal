@@ -33,8 +33,14 @@
             </ng-container>
           </form>
           <!-- /STEP BODY -->
+          <div class="button-row">
+            <ng-container *ngFor="let activity of activityButtons">
+                <button  role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">{{ activity.label | translate }}</button>
+            </ng-container>
+          </div>
+          
 
-          <a href="javascript:void(0);" (click)="selectStep(link.step)" *ngFor="let link of navigationLinks">{{ link.label }}</a>
+          <a href="javascript:void(0);" (click)="selectStep(link.step)" *ngFor="let link of navigationLinks">{{ link.label | translate }}</a>
         </ng-container>
       </div> <!--/block border-blue-->
     </div><!--/col-8-->
