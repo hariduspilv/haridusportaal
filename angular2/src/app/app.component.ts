@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   @ViewChild('sidenav') sidenav;
 
   mode: any;
+  opened: any;
   debounce: any;
   debounceDelay: any;
   isSidenavCloseDisabled: boolean;
