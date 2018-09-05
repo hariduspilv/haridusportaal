@@ -21,7 +21,8 @@ use Drupal\Core\Language\LanguageManager;
  *   name = "CustomFavorites",
  *   description = @Translation("Loads all user favorites"),
  *   type = "[Entity]",
- *   response_cache_tags = {"favorite_entity_list"}
+ *   response_cache_tags = {"favorite_entity_list"},
+ *   response_cache_context = {"user"}
  *
  * )
  */
@@ -85,7 +86,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 			$entity = $query->execute();
 			foreach($entity as $item){
 				$entity = $this->entityTypeManager->getStorage('favorite_entity')->load($item);
-				yield new CacheableValue($entity, [$entity]);
+				yield new CacheableValue($entity, [$entity, $this->currentUser]);
 			}
 		}else{
 			return NULL;
