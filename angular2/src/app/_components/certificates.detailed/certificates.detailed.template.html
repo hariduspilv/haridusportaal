@@ -11,7 +11,7 @@
           <ng-container *ngIf="certificate.kehtetu === true">{{ 'frontpage.dashboard_tabs_certificates_notvalid' | translate }}</ng-container>
           <ng-container *ngIf="certificate.duplikaat === true">{{ 'frontpage.dashboard_tabs_certificates_duplicate' | translate }}</ng-container>
 
-          <a [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
+          <a class="pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
          
           <table class="dashboard-table">
             <tbody>
