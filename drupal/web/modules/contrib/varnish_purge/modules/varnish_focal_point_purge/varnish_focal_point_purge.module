@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * Contains varnish_focal_point_purge.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\Core\Entity\EntityInterface;
+use GuzzleHttp\Client;
+use Drupal\Core\Link;
+use Drupal\file\FileInterface;
+
+/**
+ * Implements hook_help().
+ */
+function varnish_focal_point_purge_help($route_name, RouteMatchInterface $route_match) {
+
+
+  switch ($route_name) {
+    case 'help.page.varnish_focal_point_purge':
+      $output = '';
+      $output .= '<h2>' . t('About') . '</h2>';
+      $output .= '<p>' . t('Purge focal point entities after they are updated') . '</p>';
+      $output .= '<p>' . t('You need to setup Varnish to listen to the request method URIBAN. Example:') . '</p>';
+      $output .= '<pre><code>if (req.method == "URIBAN") {<br />';
+      $output .= '  ban("req.http.host == " + req.http.host + " && req.url == " + req.url);<br />';
+      $output .= '  # Throw a synthetic page so the request won\'t go to the backend.<br />';
+      $output .= '  return (synth(200, "Ban added."));<br />';
+      $output .= '}</code></pre>';
+
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function varnish_focal_point_purge_entity_update(EntityInterface $entity) {
+
+  if ($entity->bundle() == 'focal_point') {
+    // Get the name(s) of the varnish purge configs, they get random suffix.
+    // This is ugly, should be done better I guess.
+    $query = \Drupal::database()->select('config', 'c');
+    $query->fields('c', ['name']);
+    $query->condition('c.name', $query->escapeLike('varnish_purger.settings') . '%', 'LIKE');
+    $varnish_purgers = $query->execute()->fetchAllKeyed(0, 0);
+
+    // Set the array to use for varnish purgers.
+    $purgers = [];
+
+    if (isset($varnish_purgers)) {
+
+      foreach ($varnish_purgers as $key => $value) {
+        $config_purge = \Drupal::config($key);
+        $purgers[$key]['hostname'] = $config_purge->get('hostname');
+        $purgers[$key]['port'] = $config_purge->get('port');
+      }
+
+      $client = new Client();
+      $styles = ImageStyle::loadMultiple();
+      $file = File::load($entity->entity_id->value);
+      if ($file instanceof FileInterface) {
+        foreach ($styles as $style) {
+          /* @var $style Drupal\image\Entity\ImageStyle; */
+          foreach ($purgers as $key => $value) {
+            try {
+              $request = $client->request('URIBAN', $style->buildUrl($file->getFileUri()));
+            }
+            catch (Exception $e) {
+              \Drupal::logger('varnish_focal_point_purge')
+                ->error('URL not purged ' . $style->buildUrl($file->getFileUri()) . $e->getMessage());
+            }
+          }
+        }
+      }
+    }
+  }
+}

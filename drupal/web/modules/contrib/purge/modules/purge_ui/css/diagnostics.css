@@ -1,0 +1,47 @@
+
+/* Diagnostic report. */
+.purge-ui-diagnostic-report__status-title {
+  position: relative;
+  vertical-align: top;
+  width: 30%;
+  padding: 10px 6px 10px 40px; /* LTR */
+  box-sizing: border-box;
+  font-weight: bold;
+  background-color: transparent;
+}
+[dir="rtl"] .purge-ui-diagnostic-report__status-title {
+  padding: 10px 40px 10px 6px;
+}
+.purge-ui-diagnostic-report__status-icon:before {
+  content: "";
+  background-repeat: no-repeat;
+  height: 16px;
+  width: 16px;
+  display: block;
+  position: absolute;
+  left: 12px; /* LTR */
+  top: 12px;
+}
+[dir="rtl"] .purge-ui-diagnostic-report__status-icon:before {
+  left: auto;
+  right: 12px;
+}
+.purge-ui-diagnostic-report__status-icon--error:before {
+  background-image: url(../images/error.svg);
+}
+.purge-ui-diagnostic-report__status-icon--warning:before {
+  background-image: url(../images/warning.svg);
+}
+.purge-ui-diagnostic-report__entry {
+  border: 0;
+  border-top: 1px solid #ccc;
+}
+.purge-ui-diagnostic-report__entry:last-of-type {
+  border-bottom: 1px solid #bebfb9;
+}
+.purge-ui-diagnostic-report__entry__value {
+  font-weight: bolder;
+  font-family: "Lucida Console", Monaco, monospace;
+  padding-top: 6px;
+  padding-bottom: 1em;
+}

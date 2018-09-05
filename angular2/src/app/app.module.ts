@@ -4,6 +4,7 @@ import { MaterialModule } from './_core/material.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material';
 
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
@@ -53,6 +54,7 @@ import { CertificatesDetailedComponent } from '@app/_components/certificates.det
 import { ApplicationsComponent } from '@app/_components/applications/applications.component';
 import { StudiesComponent } from '@app/_components/studies/studies.component';
 import { TeachingsComponent } from '@app/_components/teachings/teachings.component';
+import { XjsonComponent } from '@app/_views/xjson/xjson.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -103,7 +105,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CertificatesDetailedComponent,
     ApplicationsComponent,
     StudiesComponent,
-    TeachingsComponent
+    TeachingsComponent,
+    XjsonComponent
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent],
@@ -127,6 +130,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     AppPipes,
+    MatSnackBarModule,
     AgmJsMarkerClustererModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E'

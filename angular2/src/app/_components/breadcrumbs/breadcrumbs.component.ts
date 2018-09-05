@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
@@ -11,7 +11,8 @@ import { MetaTagsService } from '@app/_services/metaTagsService';
 })
 
 export class BreadcrumbsComponent implements OnInit, OnDestroy {
-  
+  //@Input() custom: string;
+
   subscriptions: Subscription[] = [];
   
   path: string;
