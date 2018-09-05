@@ -123,7 +123,7 @@ class CreateFavoriteItem extends CreateEntityBase{
 			$input[$bundleKey] = $bundleName;
 		}
 		$storage = $this->entityTypeManager->getStorage($entityTypeId);
-		$entity = $storage->loadByProperties(['user_idcode' => ($id_code = $this->getCurrentUserIdCode()) ? $id_code : 0]);
+		$entity = $storage->loadByProperties(['user_idcode' => $this->getCurrentUserIdCode()]);
 
 		if(!$entity){
 			$entity = $storage->create($input);
