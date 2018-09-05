@@ -1232,7 +1232,6 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.add_to_favourites_title'),
 		];
-
 		$form['button']['back'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Back'),
@@ -1240,6 +1239,14 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.back'),
 		];
+		$form['button']['back_to_dashboard'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Back to dashboard'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.back_to_dashboard'),
+		];
+
 
 		$form['newsletter'] = [
 			'#type' => 'details',
