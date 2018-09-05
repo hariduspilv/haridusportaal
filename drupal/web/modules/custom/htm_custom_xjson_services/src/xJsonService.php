@@ -179,7 +179,7 @@ class xJsonService implements xJsonServiceInterface {
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
 		$definition_body = $this->getEntityJsonObject()['body'];
-		dump($response_body);
+
 		$this->validatexJsonHeader($response_header);
 
 		if($response_header) $return['header'] = $response_header;
