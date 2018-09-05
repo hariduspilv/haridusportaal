@@ -136,6 +136,12 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('frontpage.dashboard_tabs_teachings'),
 		];
+		$form['frontpage']['dashboard_tabs_certificates_no_results'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificates no result'),
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_no_results'),
+		];
+
 		$form['frontpage']['dashboard_tabs_certificates_error_technical'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Dashboard certificates error technical'),
@@ -155,6 +161,148 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_examinations'),
 		];
+		$form['frontpage']['dashboard_tabs_certificates_number'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate number'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_number'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_name'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate name'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_name'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_type'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate type'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_type'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_standard'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate standard'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_standard'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_ekr'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('EKR level'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_ekr'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_eqf'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('EQF level'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_eqf'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_specialization'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate specialization'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_specialization'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_part'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate specialization part'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_part'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_competence'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate competence'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_competence'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_field'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate field'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_field'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_field_topic'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate field topic'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_field_topic'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_qualification'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate qualification'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_qualification'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_language'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate language'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_language'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_issuer'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate issuer'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_issuer'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_issued_at'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate issued at'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_issued_at'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_valid_from'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate valid from'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_valid_from'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_valid_to'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate valid to'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_valid_to'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_isco'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate ISCO'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_isco'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_duplicate'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate dublicate'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_duplicate'),
+		];
+		$form['frontpage']['dashboard_tabs_certificates_notvalid'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Certificate not valid'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('frontpage.dashboard_tabs_certificates_notvalid'),
+		];
+
+
 
 
 		$form['article'] = [
