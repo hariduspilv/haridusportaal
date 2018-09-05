@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the OpenID Connect module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function openid_connect_schema() {
+  $schema['openid_connect_authmap'] = array(
+    'description' => 'Stores OpenID Connect authentication mapping.',
+    'fields' => array(
+      'aid' => array(
+        'description' => 'Primary Key: Unique authmap ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "User's {users}.uid.",
+      ),
+      'client_name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'The client name.',
+      ),
+      'sub' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Unique subject identifier.',
+      ),
+    ),
+    'primary key' => array('aid'),
+    'indexes' => array(
+      'uid' => array('uid'),
+      'identifier' => array('client_name', 'sub'),
+    ),
+    'foreign keys' => array(
+      'user' => array(
+        'table' => 'users',
+        'columns' => array('uid' => 'uid'),
+      ),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Add default config for Facebook and LinkedIn provider.
+ */
+function openid_connect_update_8101() {
+  $config_factory = \Drupal::configFactory();
+
+  $config = $config_factory->getEditable('openid_connect.settings.facebook');
+  $config->set('enabled', false);
+  $config->set('settings', [
+    'client_id' => '',
+    'client_secret' => '',
+    'api_version' => '',
+  ]);
+  $config->save(TRUE);
+
+  $config = $config_factory->getEditable('openid_connect.settings.linkedin');
+  $config->set('enabled', false);
+  $config->set('settings', [
+    'client_id' => '',
+    'client_secret' => '',
+  ]);
+  $config->save(TRUE);
+}
+
+/**
+ * Add default config for GitHub provider.
+ */
+function openid_connect_update_8102() {
+  $config_factory = \Drupal::configFactory();
+
+  $config = $config_factory->getEditable('openid_connect.settings.github');
+  $config->set('enabled', false);
+  $config->set('settings', [
+    'client_id' => '',
+    'client_secret' => '',
+  ]);
+  $config->save(TRUE);
+}
+
+/**
+ * Update the active config with the registration override value.
+ */
+function openid_connect_update_8103() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('openid_connect.settings');
+  $config->set('override_registration_settings', FALSE);
+  $config->save(TRUE);
+}
+
+/**
+ * Update the active config with the connect existing users value.
+ */
+function openid_connect_update_8104() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('openid_connect.settings');
+  $config->set('connect_existing_users', FALSE);
+  $config->save(TRUE);
+}

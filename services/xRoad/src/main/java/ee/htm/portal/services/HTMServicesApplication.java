@@ -10,6 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @SpringBootApplication
 @ComponentScan({"ee.htm.portal.services", "com.nortal.jroad.client"})
@@ -30,15 +32,6 @@ public class HTMServicesApplication {
   @Value("${spring.redis.port}")
   private Integer redisPort;
 
-//  @Bean
-//  JedisConnectionFactory redisConnectionFactory() {
-//    JedisConnectionFactory factory = new JedisConnectionFactory();
-//    factory.setHostName(redisHost);
-//    factory.setPort(redisPort);
-//    factory.setUsePool(true);
-//    return factory;
-//  }
-
   @Bean
   public LettuceConnectionFactory redisConnectionFactory() {
     return new LettuceConnectionFactory(new RedisStandaloneConfiguration(redisHost, redisPort));
@@ -48,6 +41,10 @@ public class HTMServicesApplication {
   RedisTemplate<String, Object> redisTemplate() {
     RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
     redisTemplate.setConnectionFactory(redisConnectionFactory());
+    redisTemplate.setKeySerializer(new StringRedisSerializer());
+    redisTemplate.setValueSerializer(new StringRedisSerializer());
+    redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+    redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
     return redisTemplate;
   }
 }

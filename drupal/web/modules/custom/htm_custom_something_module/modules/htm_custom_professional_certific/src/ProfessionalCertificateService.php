@@ -98,7 +98,7 @@ class ProfessionalCertificateService {
 
 	private function getCurrentUserIdCode(){
 		$account = $this->currentUser->getAccount();
-		return $account->get('field_user_idcode')->value;
+		return ($id_code = $account->get('field_user_idcode')->value) ? $id_code : 0;
 	}
 
 
