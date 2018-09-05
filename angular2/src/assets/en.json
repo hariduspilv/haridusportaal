@@ -262,6 +262,10 @@
     "back": "Back",
     "back_to_dashboard":"Back to dashboard"
   },
+      "tooltip": {
+    "share": "Share page",
+    "favourites": "Add as a favourite"
+  },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"
   },
