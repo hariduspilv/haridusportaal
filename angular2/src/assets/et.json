@@ -260,7 +260,17 @@
     "add_to_favourites_remove_success": "Lemmik edukalt eemaldatud",
     "add_to_favourites_title": "Pealkiri",
     "back": "Tagasi",
-    "back_to_dashboard":"Tagasi töölauale"
+    "back_to_dashboard":"Tagasi töölauale",
+    "xjson_save": "Salvesta",
+    "xjson_submit": "Esita",
+    "xjson_edit": "Muuda",
+    "xjson_continue": "Jätka",
+    "xjson_previous": "Eelmine",
+    "xjson_next": "Järgmine"
+  },
+    "tooltip": {
+    "share": "Jaga lehte",
+    "favourites": "Lisa lemmikuks"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"
