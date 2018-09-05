@@ -55,3 +55,4 @@ permissions:
   - 'view own study_programme content'
   - 'view published event registration entities'
   - 'view published favorite entity entities'
+  - 'view published subsidy project entities'
