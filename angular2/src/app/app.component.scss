@@ -99,10 +99,10 @@ $grid-columns: 12;
 
 /* Common styles across components */
 
-.mininav { }
 
 @include break-on(md, max) {
-  .mininav { width: 100%!important; flex-direction: row-reverse; }
+  .mininav { width: 100%!important; flex-direction: row; }
+  share { margin-left: inherit!important; }
 }
 
 .grow {flex-grow: 1;}
@@ -386,7 +386,7 @@ $grid-columns: 12;
 .mat-simple-snackbar {font-size: $small;}
 .mat-simple-snackbar-action {color: $white; text-decoration: underline;font-weight: 300;}
 @include break-on(sm, max) {
-  .mat-sidenav{top: 4rem !important;}
+  .mat-sidenav{ top: 4rem !important;}
 }
 
 

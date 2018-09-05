@@ -262,6 +262,10 @@
     "back": "Tagasi",
     "back_to_dashboard":"Tagasi töölauale"
   },
+    "tooltip": {
+    "share": "Jaga lehte",
+    "favourites": "Lisa lemmikuks"
+  },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"
   },
