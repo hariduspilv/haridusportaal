@@ -155,16 +155,11 @@ the default in this case but could be set using:
 
 Memcache locks can be enabled through the services.yml file.
 
-  services:
-    # Replaces the default lock backend with a memcache implementation.
-    lock:
-      class: Drupal\Core\Lock\LockBackendInterface
-      factory: memcache.lock.factory:get
-
-    # Replaces the default persistent lock backend with a memcache implementation.
-    lock.persistent:
-      class: Drupal\Core\Lock\LockBackendInterface
-      factory: memcache.lock.factory:getPersistent
+services:
+  # Replaces the default lock backend with a memcache implementation.
+  lock:
+    class: Drupal\Core\Lock\LockBackendInterface
+    factory: memcache.lock.factory:get
 
 ## Cache Container on bootstrap ##
 By default Drupal starts the cache_container on the database, in order to override that you can use the following code on your settings.php file. Make sure that the $class_load->addPsr4 is poiting to the right location of memcache (on this case modules/contrib/memcache/src)

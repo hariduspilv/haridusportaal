@@ -1,0 +1,10 @@
+{
+  "name": "drupal/varnish_purger",
+  "description": "Provides a purger for Varnish for Purger module.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "require": {
+    "drupal/purge": "~3.0"
+  },
+  "minimum-stability": "dev"
+}

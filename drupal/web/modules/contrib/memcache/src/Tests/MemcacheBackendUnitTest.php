@@ -1,14 +1,8 @@
 <?php
-
-/**
- * @file
- * Contains \Drupal\memcache\Tests\MemcacheBackendUnitTest.
- */
-
 namespace Drupal\memcache\Tests;
 
+use Drupal\KernelTests\Core\Cache\GenericCacheBackendUnitTestBase;
 use Drupal\memcache\MemcacheBackendFactory;
-use Drupal\system\Tests\Cache\GenericCacheBackendUnitTestBase;
 
 /**
  * Tests the MemcacheBackend.

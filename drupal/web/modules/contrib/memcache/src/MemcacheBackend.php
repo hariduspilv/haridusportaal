@@ -1,13 +1,8 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\memcache\MemcacheBackend.
- */
-
 namespace Drupal\memcache;
 
-use Drupal\Core\Cache\Cache;
+use Drupal\Component\Assertion\Inspector;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Cache\CacheTagsChecksumInterface;
 use Drupal\Core\Lock\LockBackendInterface;
@@ -23,6 +18,13 @@ class MemcacheBackend implements CacheBackendInterface {
    * @var string
    */
   protected $bin;
+
+  /**
+   * The (micro)time the bin was last deleted.
+   *
+   * @var float
+   */
+  protected $lastBinDeletionTime;
 
   /**
    * The lock count.
@@ -79,13 +81,15 @@ class MemcacheBackend implements CacheBackendInterface {
     $this->lock = $lock;
     $this->settings = $settings;
     $this->checksumProvider = $checksum_provider;
+
+    $this->ensureBinDeletionTimeIsSet();
   }
 
   /**
    * {@inheritdoc}
    */
   public function get($cid, $allow_invalid = FALSE) {
-    $cids = array($cid);
+    $cids = [$cid];
     $cache = $this->getMultiple($cids, $allow_invalid);
     return reset($cache);
   }
@@ -102,6 +106,10 @@ class MemcacheBackend implements CacheBackendInterface {
     $fetched = [];
 
     foreach ($cache as $key => $result) {
+      if (!$this->timeIsGreaterThanBinDeletionTime($result->created)) {
+        continue;
+      }
+
       if ($this->valid($result->cid, $result) || $allow_invalid) {
         // Add it to the fetched items to diff later.
         $fetched[$result->cid] = $result;
@@ -128,7 +136,7 @@ class MemcacheBackend implements CacheBackendInterface {
    * @return bool
    */
   protected function valid($cid, \stdClass $cache) {
-    $lock_key = "memcache_$cid:$this->bin";
+    $lock_key = "memcache:$this->bin:$cid";
     $cache->valid = FALSE;
 
     if ($cache) {
@@ -184,8 +192,10 @@ class MemcacheBackend implements CacheBackendInterface {
   /**
    * {@inheritdoc}
    */
-  public function set($cid, $data, $expire = CacheBackendInterface::CACHE_PERMANENT, array $tags = array()) {
-    assert('\Drupal\Component\Assertion\Inspector::assertAllStrings($tags)');
+  public function set($cid, $data, $expire = CacheBackendInterface::CACHE_PERMANENT, array $tags = []) {
+    assert(Inspector::assertAllStrings($tags));
+
+    $tags[] = "memcache:$this->bin";
     $tags = array_unique($tags);
     // Sort the cache tags so that they are stored consistently.
     sort($tags);
@@ -208,10 +218,10 @@ class MemcacheBackend implements CacheBackendInterface {
    */
   public function setMultiple(array $items) {
     foreach ($items as $cid => $item) {
-      $item += array(
+      $item += [
         'expire' => CacheBackendInterface::CACHE_PERMANENT,
-        'tags' => array(),
-      );
+        'tags' => [],
+      ];
 
       $this->set($cid, $item['data'], $item['expire'], $item['tags']);
     }
@@ -237,8 +247,7 @@ class MemcacheBackend implements CacheBackendInterface {
    * {@inheritdoc}
    */
   public function deleteAll() {
-    // Invalidate all keys, as we can't actually delete all?
-    $this->invalidateAll();
+    $this->updateBinLastDeletionTime();
   }
 
   /**
@@ -275,7 +284,7 @@ class MemcacheBackend implements CacheBackendInterface {
    * {@inheritdoc}
    */
   public function invalidateAll() {
-    $this->memcache->flush();
+    $this->invalidateTags(["memcache:$this->bin"]);
   }
 
   /**
@@ -289,7 +298,7 @@ class MemcacheBackend implements CacheBackendInterface {
    * {@inheritdoc}
    */
   public function removeBin() {
-    // Do nothing here too?
+    $this->updateBinLastDeletionTime();
   }
 
   /**
@@ -316,7 +325,89 @@ class MemcacheBackend implements CacheBackendInterface {
    * @return string
    */
   protected function key($cid) {
-    return $this->bin . '-' . $cid;
+    return sprintf('%s:%s', $this->bin, $cid);
+  }
+
+  /**
+   * Determines if a (micro)time is greater than the last bin deletion time.
+   *
+   * @internal
+   *
+   * @param float $item_microtime
+   *
+   * @return bool
+   */
+  protected function timeIsGreaterThanBinDeletionTime($item_microtime) {
+    $last_bin_deletion = $this->getBinLastDeletionTime();
+
+    // If there is time, assume FALSE as there is no previous deletion time
+    // to compare with.
+    if (!$last_bin_deletion) {
+      return FALSE;
+    }
+
+    // Clocks on a single server can drift. Multiple servers may have slightly
+    // differing opinions about the current time. Given that, do not assume
+    // 'now' on this server is always later than our stored timestamp.
+    // Also add 1 millisecond, to ensure that caches written earlier in the same
+    // millisecond are invalidated. It is possible that caches will be later in
+    // the same millisecond and are then incorrectly invalidated, but that only
+    // costs one additional roundtrip to the persistent cache.
+    return (($item_microtime + .001) > $last_bin_deletion);
+  }
+
+  /**
+   * Gets the last invalidation time for the bin.
+   *
+   * @internal
+   *
+   * @return mixed
+   */
+  protected function getBinLastDeletionTime() {
+    if (!isset($this->lastBinDeletionTime)) {
+      $this->lastBinDeletionTime = $this->memcache->get($this->getBinLastDeletionTimeKey());
+    }
+
+    return $this->lastBinDeletionTime;
+  }
+
+  /**
+   * Updates the last invalidation time for the bin.
+   *
+   * @internal
+   *
+   * @return bool|\Drupal\memcache\DrupalMemcacheInterface
+   */
+  protected function updateBinLastDeletionTime() {
+    $now = round(microtime(TRUE), 3);
+
+    $return = $this->memcache->set($this->getBinLastDeletionTimeKey(), $now);
+
+    $this->lastBinDeletionTime = $now;
+
+    return $return;
+  }
+
+  /**
+   * Ensures a last bin deletion time has been set.
+   *
+   * @internal
+   */
+  protected function ensureBinDeletionTimeIsSet() {
+    if (!$this->getBinLastDeletionTime()) {
+      $this->updateBinLastDeletionTime();
+    }
+  }
+
+  /**
+   * Gets the invalidation time cache key.
+   *
+   * @internal
+   *
+   * @return string
+   */
+  protected function getBinLastDeletionTimeKey() {
+    return sprintf('bin_deletion:%s', $this->bin);
   }
 
 }

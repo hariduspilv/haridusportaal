@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\metatag\MetatagManager;
+use Drupal\page_manager\Entity\PageVariant;
 
 /**
  * Class MetatagDefaultsForm.
@@ -49,8 +50,8 @@ class MetatagDefaultsForm extends EntityForm {
       $options = $this->getAvailableBundles();
       $form['id'] = [
         '#type' => 'select',
-        '#title' => t('Type'),
-        '#description' => t('Select the type of default meta tags you would like to add.'),
+        '#title' => $this->t('Type'),
+        '#description' => $this->t('Select the type of default meta tags you would like to add.'),
         '#options' => $options,
         '#required' => TRUE,
         '#default_value' => $default_type,
@@ -75,8 +76,26 @@ class MetatagDefaultsForm extends EntityForm {
       $values = $metatag_defaults->get('tags');
     }
 
-    // Add metatag form fields.
-    $form = $metatag_manager->form($values, $form);
+    // Retrieve configuration settings.
+    $settings = $this->config('metatag.settings');
+    $entity_type_groups = $settings->get('entity_type_groups');
+
+    // Find the current entity type and bundle.
+    $metatag_defaults_id = $metatag_defaults->id();
+    $type_parts = explode('__', $metatag_defaults_id);
+    $entity_type = $type_parts[0];
+    $entity_bundle = isset($type_parts[1]) ? $type_parts[1] : NULL;
+
+    // See if there are requested groups for this entity type and bundle.
+    $groups = !empty($entity_type_groups[$entity_type]) && !empty($entity_type_groups[$entity_type][$entity_bundle]) ? $entity_type_groups[$entity_type][$entity_bundle] : [];
+    // Limit the form to requested groups, if any.
+    if (!empty($groups)) {
+      $form = $metatag_manager->form($values, $form, [$entity_type], $groups);
+    }
+    // Otherwise, display all groups.
+    else {
+      $form = $metatag_manager->form($values, $form);
+    }
 
     return $form;
   }
@@ -143,7 +162,21 @@ class MetatagDefaultsForm extends EntityForm {
         // Get the bundle label.
         $bundle_manager = \Drupal::service('entity_type.bundle.info');
         $bundle_info = $bundle_manager->getBundleInfo($entity_type);
-        $entity_label .= ': ' . $bundle_info[$entity_bundle]['label'];
+        if ($entity_type === 'page_variant') {
+          // Check if page manager is enabled and try to load the page variant
+          // so the label of the variant can be used.
+          $moduleHandler = \Drupal::service('module_handler');
+          if ($moduleHandler->moduleExists('metatag_page_manager')) {
+            $page_variant = PageVariant::load($entity_bundle);
+            $page = $page_variant->getPage();
+            if ($page_variant) {
+              $entity_label .= ': ' . $page->label() . ': ' . $page_variant->label();
+            }
+          }
+        }
+        else {
+          $entity_label .= ': ' . $bundle_info[$entity_bundle]['label'];
+        }
       }
 
       // Set the label to the config entity.
@@ -192,7 +225,7 @@ class MetatagDefaultsForm extends EntityForm {
    */
   protected function getAvailableBundles() {
     $options = [];
-    $entity_types = $this->getSupportedEntityTypes();
+    $entity_types = static::getSupportedEntityTypes();
     /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager */
     $entity_manager = \Drupal::service('entity_type.manager');
     /** @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface $bundle_info */
@@ -221,7 +254,7 @@ class MetatagDefaultsForm extends EntityForm {
    * @return array
    *   A list of available entity types as $machine_name => $label.
    */
-  protected function getSupportedEntityTypes() {
+  public static function getSupportedEntityTypes() {
     $entity_types = [];
 
     /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager */
@@ -255,7 +288,7 @@ class MetatagDefaultsForm extends EntityForm {
         // viewable.
         $links = $definition->get('links');
         if (!empty($links)) {
-          $entity_types[$entity_name] = $this->getEntityTypeLabel($definition);
+          $entity_types[$entity_name] = static::getEntityTypeLabel($definition);
         }
       }
     }
@@ -266,13 +299,13 @@ class MetatagDefaultsForm extends EntityForm {
   /**
    * Returns the text label for the entity type specified.
    *
-   * @param Drupal\Core\Entity\EntityTypeInterface $entityType
+   * @param \Drupal\Core\Entity\EntityTypeInterface $entityType
    *   The entity type to process.
    *
    * @return string
    *   A label.
    */
-  protected function getEntityTypeLabel(EntityTypeInterface $entityType) {
+  public static function getEntityTypeLabel(EntityTypeInterface $entityType) {
     $label = $entityType->getLabel();
 
     if (is_a($label, 'Drupal\Core\StringTranslation\TranslatableMarkup')) {
