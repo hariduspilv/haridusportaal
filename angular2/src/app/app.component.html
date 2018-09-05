@@ -4,9 +4,9 @@
 
 <div class="inline" style="height: 100%;">
 	<mat-sidenav-container class="example-container"  style="min-height:100%;">
-
-		<mat-sidenav #sidenav mode="{{ mode }}" style="width:16.25rem;" tabindex="0" [disableClose]="isSidenavCloseDisabled" fixedInViewport="true">
-			<app-side-menu  tabindex="0" ></app-side-menu>
+		
+		<mat-sidenav #sidenav mode="{{mode}}" [(opened)]="opened" [disableClose]="isSidenavCloseDisabled" fixedInViewport="true">
+			<app-side-menu></app-side-menu>
 		</mat-sidenav>
 
 

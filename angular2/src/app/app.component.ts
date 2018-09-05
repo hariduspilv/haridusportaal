@@ -67,6 +67,7 @@ export class AppComponent implements OnInit {
       }
 
       if (event instanceof NavigationError) {
+        history.replaceState({}, '', '/et');
         this.router.navigateByUrl(`/et/404`);
       }
         
