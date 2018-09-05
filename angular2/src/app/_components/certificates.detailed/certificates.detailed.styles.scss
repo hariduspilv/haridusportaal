@@ -11,6 +11,25 @@
       padding: 15px;
       border: .0625rem solid $gray;
       width: 33%;
+      color: $black;
+      &:last-of-type {
+        font-weight: 500;
+      }
     }
   }
+}
+
+h1 { 
+display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+  color: $black;
+  margin-bottom: 1rem;
+}
+
+.top-link {
+  line-height: 1.875rem;
+    margin-bottom: 1rem;
 }
