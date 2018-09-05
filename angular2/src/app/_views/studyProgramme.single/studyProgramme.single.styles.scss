@@ -65,3 +65,5 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
     &:hover {text-decoration: underline;}}
 }
 @include break-on(sm, max) {.block {margin-bottom: 0;}}
+
+.mininav { width: 100%!important; flex-direction: row-reverse; }
