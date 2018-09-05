@@ -260,7 +260,13 @@
     "add_to_favourites_remove_success": "Successfully removed from favourites",
     "add_to_favourites_title": "Title",
     "back": "Back",
-    "back_to_dashboard":"Back to dashboard"
+    "back_to_dashboard":"Back to dashboard",
+    "xjson_save": "Save",
+    "xjson_submit": "Submit",
+    "xjson_edit": "Edit",
+    "xjson_continue": "Continue",
+    "xjson_previous": "Previous",
+    "xjson_next": "Next"
   },
       "tooltip": {
     "share": "Share page",

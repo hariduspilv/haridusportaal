@@ -38,3 +38,4 @@ permissions:
   - 'view own page content'
   - 'view own school content'
   - 'view own study_programme content'
+  - 'view published subsidy project entities'
