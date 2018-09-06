@@ -99,10 +99,9 @@ $grid-columns: 12;
 
 /* Common styles across components */
 
-.mininav { }
-
 @include break-on(md, max) {
-  .mininav { width: 100%!important; flex-direction: row-reverse; }
+  .mininav { width: 100%!important; flex-direction: row; }
+  share { margin-left: inherit!important; }
 }
 
 .grow {flex-grow: 1;}
@@ -264,7 +263,7 @@ $grid-columns: 12;
   .mat-menu-item-active-parent{font-weight: bold !important;}
   .mat-menu-item img{height:$medium; vertical-align: middle; margin-right:.375rem; margin-top:-$half-gutter;}
   .mat-icon {height: 1.5rem !important; width: $medium !important;}
-  .mat-sidenav{top:4rem !important;-ms-overflow-style: none;}
+  .mat-sidenav{top:4rem !important;-ms-overflow-style: none;width:16.25rem;}
   .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
   .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
   .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
@@ -366,7 +365,7 @@ $grid-columns: 12;
 &.add {
   .mat-simple-snackbar:before {
    font-family: 'Material Icons';
-   content: "check_circle_outline"; -webkit-font-feature-settings: 'liga'; color: $white; background: $success; position: absolute;
+   content: "check_circle_outline";font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $success; position: absolute;
    left: 0px; top: 0px; bottom: 0px; font-size: 1.875rem; display: flex; align-items: center; padding: 0 0.9375rem; };
  }
 }
@@ -386,7 +385,7 @@ $grid-columns: 12;
 .mat-simple-snackbar {font-size: $small;}
 .mat-simple-snackbar-action {color: $white; text-decoration: underline;font-weight: 300;}
 @include break-on(sm, max) {
-  .mat-sidenav{top: 4rem !important;}
+  .mat-sidenav{ top: 4rem !important;}
 }
 
 

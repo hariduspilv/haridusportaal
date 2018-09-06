@@ -82,6 +82,7 @@ export class FrontpageComponent {
         this.allPath = "/et/uudised";
         this.eventPath = "/et/sundmused";
       } else if (this.lang !== '') {
+        history.replaceState({}, '', '/et');
         this.router.navigateByUrl(`/et/404`);
       }
 		});
