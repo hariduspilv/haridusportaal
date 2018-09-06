@@ -55,7 +55,6 @@ export class FrontpageComponent {
   }
 
   getEvents() {
-    this.loading = true;
     let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=frontPageEvents:1&variables=";
     if (window.location.host === ('test.edu.ee')) {
       url = "https://api.test.edu.ee/graphql?queryId=frontPageEvents:1&variables=";
@@ -68,9 +67,6 @@ export class FrontpageComponent {
     }
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
       this.events = data['data']['nodeQuery']['entities'];
-      this.loading = false;
-    }, (err) => {
-      this.loading = false;
     });
   }
 
@@ -78,7 +74,7 @@ export class FrontpageComponent {
 
     this.lang = this.router.url;
 		let that = this;
-		
+		that.loading = true;
 		this.route.params.subscribe( params => {
 			if (this.lang == "/en") {
         this.allPath = "/en/news";
@@ -90,15 +86,17 @@ export class FrontpageComponent {
         history.replaceState({}, '', '/et');
         this.router.navigateByUrl(`/et/404`);
       }
-		});
-		
+    });
+    
+    this.getEvents()
 		this.newsService.getRecent(null, function(data){
 			if ( data['nodeQuery'] == null ) {
-				that.error = true;
+        that.error = true;
+        that.loading = false;
 			} else {
-				that.news = data['nodeQuery']['entities'];
-			}
+        that.news = data['nodeQuery']['entities'];
+        that.loading = false;
+      }
 		});
-		this.getEvents()
 	}
 }
