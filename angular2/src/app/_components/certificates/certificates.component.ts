@@ -57,8 +57,7 @@ export class CertificatesComponent implements OnInit{
             return Number(new Date(b.valjaantud.replace( regex , "$2/$1/$3" ))) - Number(new Date(a.valjaantud.replace( regex, "$2/$1/$3")));
           });
           this.professionalCertificates.forEach(certificate => {
-            let arr = certificate.valjaantud.split("-").reverse();
-            certificate.valjaantud = arr.join('.');
+            certificate.valjaantud = certificate.valjaantud.split("-").reverse().join('.');
           })
         }
         

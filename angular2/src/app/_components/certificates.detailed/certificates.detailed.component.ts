@@ -58,7 +58,10 @@ export class CertificatesDetailedComponent implements OnInit{
         console.log(this.professionalCertificates);
         
         this.certificate = this.professionalCertificates.find(cert => cert.registrinumber == this.certificateId);
-        
+        this.certificate['valjaantud'] = this.certificate['valjaantud'].split("-").reverse().join('.');
+        this.certificate['kehtibalates'] = this.certificate['kehtibalates'].split("-").reverse().join('.');
+        this.certificate['kehtibkuni'] = this.certificate['kehtibkuni'].split("-").reverse().join('.');
+          
         let url = this.path.split('/');
         this.dashboardLink = url.splice(0,url.length-1).join('/');
       
