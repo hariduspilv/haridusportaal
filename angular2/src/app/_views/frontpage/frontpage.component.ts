@@ -18,6 +18,7 @@ export class FrontpageComponent {
 	lang: string;
   allPath: any;
   eventPath: any;
+  loading: boolean = true;
   
   constructor (
     private rootScope:RootScopeService,
@@ -54,6 +55,7 @@ export class FrontpageComponent {
   }
 
   getEvents() {
+    this.loading = true;
     let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=frontPageEvents:1&variables=";
     if (window.location.host === ('test.edu.ee')) {
       url = "https://api.test.edu.ee/graphql?queryId=frontPageEvents:1&variables=";
@@ -66,6 +68,9 @@ export class FrontpageComponent {
     }
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
       this.events = data['data']['nodeQuery']['entities'];
+      this.loading = false;
+    }, (err) => {
+      this.loading = false;
     });
   }
 
