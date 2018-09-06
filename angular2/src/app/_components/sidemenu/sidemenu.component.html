@@ -1,34 +1,32 @@
 <aside attr.aria-label=" {{''}}" role="navigation" *ngIf="data" class="side-menu-wrapper">
 
   <ul *ngFor="let item of data" class="ul-styleless category" [class.empty-parent]="item.links.length == 0 && item.url.path === '#nolink'">
-    <ng-container *ngIf="item.url.path && item.url.path !== '#category' && item.url.path !== '#nocategory'">
-      <li [class.has-children]="item.links.length > 0">
-        <a href="javascript:void(0);"  mat-menu-item *ngIf="item.links && item.links.length > 0" appToggleClass="menu-open">
-          <span>{{ item.label }}</span>
-          <mat-icon *ngIf="item.links && item.links.length > 0">chevron_right</mat-icon>
-        </a>
-        
-        <a href="javascript:void(0);" [routerLink]="[item.url.path]" [class.active]="routeIncludes(item.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0 && item.url.path !== '#nolink'">
-          <span>{{ item.label }}</span>
-        </a>
-        <ul class="ul-styleless submenu deep" *ngIf="item.links">
-          <li *ngFor="let item2 of item.links">
-            <!-- Dropdown link -->
-            <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" appToggleClass="menu-open" tabindex="0">
-              <span>{{ item2.label }}</span>
-              <mat-icon *ngIf="item2.links && item2.links.length > 0">chevron_right</mat-icon>
-            </a>
-  
-            <!-- Internal link -->
-            <a href="javascript:void(0);" [routerLink]="[item2.url.path]" [class.active]="routeIncludes(item2.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.links.length == 0 && item2.url.path !== '#nolink'" tabindex="0">
-              <span>{{ item2.label }}</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-    </ng-container>
-    <ng-container  *ngIf="item.url.path && (item.url.path === '#category' || item.url.path === '#nocategory')">
-      <div *ngIf="item.url.path && item.url.path === '#category'" class="menu-category">{{ item.label | uppercase }}</div>
+    <li *ngIf="item.url.path && item.url.path !== '#category' && item.url.path !== '#nocategory'" [class.has-children]="item.links.length > 0">
+      <a href="javascript:void(0);"  mat-menu-item *ngIf="item.links && item.links.length > 0" appToggleClass="menu-open">
+        <span>{{ item.label }}</span>
+        <mat-icon *ngIf="item.links && item.links.length > 0">chevron_right</mat-icon>
+      </a>
+      
+      <a href="javascript:void(0);" [routerLink]="[item.url.path]" [class.active]="routeIncludes(item.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0 && item.url.path !== '#nolink'">
+        <span>{{ item.label }}</span>
+      </a>
+      <ul class="ul-styleless submenu deep" *ngIf="item.links">
+        <li *ngFor="let item2 of item.links">
+          <!-- Dropdown link -->
+          <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" appToggleClass="menu-open" tabindex="0">
+            <span>{{ item2.label }}</span>
+            <mat-icon *ngIf="item2.links && item2.links.length > 0">chevron_right</mat-icon>
+          </a>
+
+          <!-- Internal link -->
+          <a href="javascript:void(0);" [routerLink]="[item2.url.path]" [class.active]="routeIncludes(item2.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.links.length == 0 && item2.url.path !== '#nolink'" tabindex="0">
+            <span>{{ item2.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li *ngIf="item.url.path && item.url.path === '#category'" class="menu-category">{{ item.label | uppercase }}</li>
+    <li class="menu-open" *ngIf="item.url.path && (item.url.path === '#category' || item.url.path === '#nocategory')">
       <ul class="ul-styleless submenu" *ngIf="item.links">
         <li *ngFor="let item2 of item.links" [class.has-children]="item2.links.length > 0">
           <!-- Dropdown link -->
@@ -58,7 +56,7 @@
           </ul>
         </li>
       </ul>
-    </ng-container>
+    </li>
   </ul>
 
   

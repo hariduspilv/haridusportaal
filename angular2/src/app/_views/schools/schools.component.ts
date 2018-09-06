@@ -267,6 +267,9 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     }
     
     let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=schoolMapQuery:1&variables=";
+    if (window.location.host === ('test.edu.ee')) {
+      url = "https://api.test.edu.ee/graphql?queryId=schoolMapQuery:1&variables=";
+    }
     let variables = {
       lang: this.lang.toUpperCase(),
       offset: this.offset,

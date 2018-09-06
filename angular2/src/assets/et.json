@@ -3,7 +3,7 @@
     "label": "Avaleht",
     "navigate": "Mine avalehele",
     "favourites_limit_modal_title": "Lisa lemmikutesse",
-    "favourites_limit_modal_content": "Portaalis saab salvestada kuni 10 lemmikut",
+    "favourites_limit_modal_content": "Portaalis saab salvestada kuni 10 lemmikut. Kustutamiseks eemalda leheküljelt täheke",
     "favourites_limit_modal_close": "Sulge aken",
     "favourites_list_label" : "Minu lemmikud",
     "favourites_list_none_message" : "Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides.",
@@ -15,6 +15,7 @@
     "dashboard_tabs_certificates":"Tunnistused",
     "dashboard_tabs_studies":"Õpingud",
     "dashboard_tabs_teachings":"Õpetan",
+    "dashboard_tabs_certificates_no_results": "Kutsetunnistused puuduvad",
     "dashboard_tabs_certificates_error_technical":"Vabandame. Kutsetunnistuste andmete Kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.",
     "dashboard_tabs_certificates_professional": "Kutsetunnistused",
     "dashboard_tabs_certificates_examinations": "Riigieksamid",
@@ -259,7 +260,13 @@
     "add_to_favourites_remove_success": "Lemmik edukalt eemaldatud",
     "add_to_favourites_title": "Pealkiri",
     "back": "Tagasi",
-    "back_to_dashboard":"Tagasi töölauale"
+    "back_to_dashboard":"Tagasi töölauale",
+    "xjson_save": "Salvesta",
+    "xjson_submit": "Esita",
+    "xjson_edit": "Muuda",
+    "xjson_continue": "Jätka",
+    "xjson_previous": "Eelmine",
+    "xjson_next": "Järgmine"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"

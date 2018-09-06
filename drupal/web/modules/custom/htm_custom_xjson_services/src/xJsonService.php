@@ -67,7 +67,7 @@ class xJsonService implements xJsonServiceInterface {
 				'first' => TRUE,
 				'current_step' => null,
 				'identifier' => null,
-				"acceptable_activity" => ['CONTINUE'],
+				'acceptable_activity' => ['CONTINUE'],
 				'agents' => [
 					['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
 				]
@@ -241,7 +241,9 @@ class xJsonService implements xJsonServiceInterface {
 		foreach ($required_keys as $key){
 			if(!$header[$key]) throw new HttpException('400', "$key missing");
 			if(!$header['first']){
-				if(!in_array($aa = $header['acceptable_activity'], $acceptable_activity_keys)) throw new HttpException("400","acceptable_activity $aa value not acceptable");
+				foreach($acceptable_activity_keys as $acceptable_activity_key){
+					if(!in_array($aa = $acceptable_activity_key, $acceptable_activity_keys))throw new HttpException("400","acceptable_activity $aa value not acceptable");
+				}
 			}
 		}
 	}

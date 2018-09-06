@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * purge_ui's visualization of Purge's diagnostics.
+ *
+ * Available variables:
+ * - diagnostics: each diagnostic item contains:
+ *   - title: The title of the diagnostic.
+ *   - value: (optional) The diagnostic's status.
+ *   - description: (optional) The diagnostic's description.
+ *   - severity_title: The title of the severity.
+ *   - severity_status: Indicates the severity status.
+ *
+ * @ingroup themeable
+ */
+ #}
+{{ attach_library('purge_ui/diagnostics') }}
+<table class="purge-ui-diagnostic-report">
+  <tbody>
+  {% for diagnostic in diagnostics %}
+    {% if diagnostic.severity_status == 'ok' %}
+    <tr class="purge-ui-diagnostic-report__entry purge-ui-diagnostic-report__entry--{{ diagnostic.severity_status }} color-success">
+    {% else %}
+    <tr class="purge-ui-diagnostic-report__entry purge-ui-diagnostic-report__entry--{{ diagnostic.severity_status }} color-{{ diagnostic.severity_status }}">
+    {% endif %}
+      {% if diagnostic.severity_status in ['warning', 'error'] %}
+        <td class="purge-ui-diagnostic-report__status-title purge-ui-diagnostic-report__status-icon purge-ui-diagnostic-report__status-icon--{{ diagnostic.severity_status }}">
+      {% else %}
+        <td class="purge-ui-diagnostic-report__status-title">
+      {% endif %}
+        {{ diagnostic.title }}
+      </td>
+      <td>
+        <div class="purge-ui-diagnostic-report__entry__value">
+          {% if ', ' in diagnostic.value %}
+          {% for value in diagnostic.value|split(', ') %}
+            {{value}}<br />
+          {% endfor %}
+          {% else %}
+            {{ diagnostic.value }}
+          {% endif %}
+        </div>
+        {% if diagnostic.description %}
+          <div class="purge-ui-diagnostic-report__entry__description">{{ diagnostic.description }}</div>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
