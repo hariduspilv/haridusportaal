@@ -9,6 +9,8 @@
 .view-item {width: 25%; margin: 0 auto;}
 
 .button-list .view-item.mat-menu-item-active { border-bottom: 3px solid #fd8208; }
+.button-list .view-item.mat-menu-item-active mat-icon { color: $black; }
+.button-list .view-item mat-icon { color: $blue; }
 .button-list .view-item { border-bottom: 3px solid #eeeeee; }
 .button-list .title { font-weight: 300; font-size: 14px; line-height: 1.71; color: #333333; margin-bottom: 12px; }
 

@@ -27,9 +27,9 @@
 
           <div *ngIf="languages" class="languages pull-right">
             <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
-              <button role="button" mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu open'}} {{ item.argument }} " tabindex="0">{{ item.argument | uppercase }}</button>
+              <button [class.mat-menu-item-active]="item.argument === activeLanguage" role="button" mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu open'}} {{ item.argument }} " tabindex="0">{{ item.argument | uppercase }}</button>
             </mat-menu>
-            <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">more_vert</mat-icon></button>
+            <a href="javascript:void(0)" [matMenuTriggerFor]="appMenu" >{{activeLanguage | uppercase}}</a>
           </div>
 
   
@@ -42,11 +42,11 @@
 
     <app-login class="sm-show"></app-login>
 
-    <div *ngIf="languages" class="sm-show pull-right">
+    <div *ngIf="languages" class="languages sm-show pull-right">
       <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before" attr.aria-label="{{'Search button, clickable'}}" role="button">
-        <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu'}} {{ item.argument }} ">{{ item.argument | uppercase }}</button>
+        <button mat-menu-item [class.mat-menu-item-active]="item.argument === activeLanguage" *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu'}} {{ item.argument }} ">{{ item.argument | uppercase }}</button>
       </mat-menu>
-      <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">more_vert</mat-icon></button>
+      <a href="javascript:void(0)" [matMenuTriggerFor]="appMenu" >{{activeLanguage | uppercase}}</a>
     </div>
   </div><!--/inline-->
 </mat-toolbar>

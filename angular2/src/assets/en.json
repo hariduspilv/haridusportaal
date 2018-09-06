@@ -112,7 +112,7 @@
     "registration_form_close": "Close window",
     "registration_form_cancel": "Cancel",
     "registration_form_thanks": "Thank you for registering for an event!",
-    "registration_form_add_to_calendar": "Add event to your own calendar",
+    "registration_form_add_to_calendar": "Add event to your own calendar (iCal)",
     "registration_ended": "Registration has ended",
     "registration_not_started": "Registration is not available yet",
     "registration_full": "Event is full"
@@ -267,6 +267,10 @@
     "xjson_continue": "Continue",
     "xjson_previous": "Previous",
     "xjson_next": "Next"
+  },
+      "tooltip": {
+    "share": "Share page",
+    "favourites": "Add as a favourite"
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"

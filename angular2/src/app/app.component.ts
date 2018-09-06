@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   @ViewChild('sidenav') sidenav;
 
   mode: any;
+  opened: any;
   debounce: any;
   debounceDelay: any;
   isSidenavCloseDisabled: boolean;
@@ -67,6 +68,7 @@ export class AppComponent implements OnInit {
       }
 
       if (event instanceof NavigationError) {
+        history.replaceState({}, '', '/et');
         this.router.navigateByUrl(`/et/404`);
       }
         

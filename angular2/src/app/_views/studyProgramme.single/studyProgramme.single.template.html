@@ -9,14 +9,14 @@
 
         <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>
         <div class="row title sm-flex">
-          <div class="col-7 sm-10">
+          <div class="col-10 flex">
             <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
           </div><!--/col-8-->
           
                      <div class="mininav col-2 flex text-right">
             <div class="fill"></div>
-            <favourites [id]="data.nid" [title]="data.title"></favourites>
             <share [title]="data.entityLabel"></share>
+                        <favourites [id]="data.nid" [title]="data.title"></favourites>
           </div>
 
           <div class="col-12 flex">
@@ -25,10 +25,10 @@
 
         </div><!--/row-->
         <div class="row title sm-hide">
-          <div class="col-7 sm-10">
+          <div class="col-5 sm-10">
             <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
           </div><!--/col-8-->
-          <div class="col-5 flex text-right">
+          <div class="col-7 flex text-right">
             <div class="fill"></div>
             <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
             <favourites [id]="data.nid" [title]="data.entityLabel"></favourites>
