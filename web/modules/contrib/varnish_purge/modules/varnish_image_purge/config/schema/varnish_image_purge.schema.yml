@@ -1,0 +1,15 @@
+# Schema for the configuration files of the Varnish Image Purge module.
+
+varnish_image_purge.configuration:
+  type: config_object
+  label: 'Settings for Varnish Image Purge'
+  mapping:
+    entity_types:
+      type: sequence
+      label: 'List of entity types to purge image on.'
+      sequence:
+        type: sequence
+        label: 'Entity type'
+        sequence:
+          type: string
+          label: 'Bundle'

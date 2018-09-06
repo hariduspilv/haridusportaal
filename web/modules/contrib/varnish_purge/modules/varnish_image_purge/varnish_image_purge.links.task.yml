@@ -1,0 +1,4 @@
+varnish_image_purge.configuration:
+  title: 'Varnish image purge'
+  route_name: varnish_image_purge.configuration
+  base_route: system.performance_settings

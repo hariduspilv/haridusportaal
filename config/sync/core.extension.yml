@@ -64,6 +64,7 @@ module:
   htm_custom_event_registration: 0
   htm_custom_exports: 0
   htm_custom_favorites: 0
+  htm_custom_harid_authentication: 0
   htm_custom_professional_certific: 0
   htm_custom_subsidy_projects: 0
   htm_custom_tokens: 0
@@ -95,6 +96,7 @@ module:
   monolog: 0
   node: 0
   node_view_permissions: 0
+  openid_connect: 0
   options: 0
   page_cache: 0
   path: 0

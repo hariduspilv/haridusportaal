@@ -1,0 +1,16 @@
+services:
+  plugin.manager.openid_connect_client.processor:
+    class: Drupal\openid_connect\Plugin\OpenIDConnectClientManager
+    parent: default_plugin_manager
+
+  openid_connect.authmap:
+    class: Drupal\openid_connect\Authmap
+    arguments: ["@database"]
+
+  openid_connect.claims:
+    class: Drupal\openid_connect\Claims
+    arguments: ["@config.factory", "@module_handler"]
+
+  openid_connect.state_token:
+    class: Drupal\openid_connect\StateToken
+    arguments: []
