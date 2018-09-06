@@ -102,8 +102,8 @@ class JwtTokenRestResource extends ResourceBase {
   /**
    * Responds to POST requests.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
+   * @param $data
+   *   POST data
    *
    * @return \Drupal\rest\ModifiedResourceResponse
    *   The HTTP response object.
