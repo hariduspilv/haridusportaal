@@ -212,7 +212,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
 
     this.watchSearch();
 
-    if (window.innerWidth <= 900) {
+    if (window.innerWidth <= 1024) {
       this.filterFull = true;
       this.showFilter = false;
     }

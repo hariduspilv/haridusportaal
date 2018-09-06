@@ -18,8 +18,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit {
 
   ngOnInit() {
 
-    this.showFilter = window.innerWidth > 900;
-    this.filterFull = window.innerWidth < 900;
+    this.showFilter = window.innerWidth > 1024;
+    this.filterFull = window.innerWidth < 1024;
 
   }
 
