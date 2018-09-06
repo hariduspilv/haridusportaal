@@ -3,7 +3,7 @@
     "label": "Home",
     "navigate": "Go to homepage",
     "favourites_limit_modal_title": "Add to favourites",
-    "favourites_limit_modal_content": "You can add up to 10 favourites",
+    "favourites_limit_modal_content": "You can add up to 10 favourites. Remove page from favourites by clicking on the star icon of already favourited page.",
     "favourites_limit_modal_close": "Close window",
     "favourites_list_label" : "My favourites",
     "favourites_list_none_message" : "You don't have any favourites added. You can do so by clicking on the star icon on topic pages and lists.",
@@ -15,6 +15,7 @@
     "dashboard_tabs_certificates":"Certificates",
     "dashboard_tabs_studies":"Studies",
     "dashboard_tabs_teachings":"Teachings",
+    "dashboard_tabs_certificates_no_results": "No certificates.",
     "dashboard_tabs_certificates_error_technical":"Sorry, a technical error has occurred. Please try again later.",
     "dashboard_tabs_certificates_professional": "Professional certificates",
     "dashboard_tabs_certificates_examinations": "State examinations",
@@ -259,7 +260,13 @@
     "add_to_favourites_remove_success": "Successfully removed from favourites",
     "add_to_favourites_title": "Title",
     "back": "Back",
-    "back_to_dashboard":"Back to dashboard"
+    "back_to_dashboard":"Back to dashboard",
+    "xjson_save": "Save",
+    "xjson_submit": "Submit",
+    "xjson_edit": "Edit",
+    "xjson_continue": "Continue",
+    "xjson_previous": "Previous",
+    "xjson_next": "Next"
   },
   "notFound": {
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"

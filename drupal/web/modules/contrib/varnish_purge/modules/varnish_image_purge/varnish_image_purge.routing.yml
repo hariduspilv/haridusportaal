@@ -1,0 +1,7 @@
+varnish_image_purge.configuration:
+  path: '/admin/config/development/varnish_image_purge'
+  defaults:
+    _title: 'Varnish image purge'
+    _form: '\Drupal\varnish_image_purge\Form\VarnishImagePurgeConfiguration'
+  requirements:
+    _permission: 'administer site configuration'

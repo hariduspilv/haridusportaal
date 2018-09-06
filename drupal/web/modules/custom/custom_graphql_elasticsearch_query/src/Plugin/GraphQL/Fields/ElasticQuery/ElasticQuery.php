@@ -13,6 +13,7 @@ use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
 use Drupal\graphql\Utility\StringHelper;
 
 
+
 /**
 * @GraphQLField(
 *   id = "custom_elasticsearch_query",
@@ -22,7 +23,8 @@ use Drupal\graphql\Utility\StringHelper;
 *   response_cache_contexts = {"languages:language_url"},
 *   arguments = {
 *     "filter" = "EntityQueryFilterInput",
-*     "elasticsearch_index" = "String!",
+*     "elasticsearch_index" = "[String!]",
+*     "content_type" = "Boolean",
 *     "sort" = "[EntityQuerySortInput]",
 *     "limit" = "Int",
 *     "score" = "ElasticScoreQueryInput",
@@ -115,6 +117,9 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
   }else{
     $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
   }
+  if(isset($args['content_type']) && $args['content_type'] == true){
+    $responsevalues = $this->getContentTypeLabels($responsevalues);
+  }
   foreach($responsevalues as $value){
     foreach($value['_source'] as $key => $keyvalue){
       $value['_source'][StringHelper::camelCase($key)] = $keyvalue;
@@ -123,6 +128,21 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     yield $value['_source'];
   }
   //yield $this->getQuery($value, $args, $context, $info);
+}
+
+protected function getContentTypeLabels($responsevalues){
+  foreach($responsevalues as $value){
+    if(isset($value['_source']['langcode'])){
+      $language = \Drupal::languageManager()->getLanguage($value['source']['langcode'][0]);
+      \Drupal::languageManager()->setConfigOverrideLanguage($language);
+      $contentTypes = \Drupal::service('entity.manager')->getStorage('node_type')->loadByProperties(['type' => $value['_source']['content_type'][0]]);
+      foreach($contentTypes as $type){
+        $value['_source']['content_type'][0] = $type->label();
+        $response[] = $value;
+      }
+    }
+  }
+  return $response;
 }
 
 protected function getElasticQuery($args){
@@ -135,7 +155,8 @@ protected function getElasticQuery($args){
   }else{
     $params = [
       'from' => $args['offset'],
-      'size' => $args['limit']
+      'size' => $args['limit'],
+      'index' => $args['elasticsearch_index']
     ];
   }
 
