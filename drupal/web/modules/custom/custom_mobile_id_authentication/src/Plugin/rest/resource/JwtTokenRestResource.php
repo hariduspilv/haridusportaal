@@ -102,8 +102,8 @@ class JwtTokenRestResource extends ResourceBase {
   /**
    * Responds to POST requests.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
+   * @param $data
+   *   POST data
    *
    * @return \Drupal\rest\ModifiedResourceResponse
    *   The HTTP response object.
@@ -112,12 +112,12 @@ class JwtTokenRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-		if(
-				$this->currentUser->isAnonymous()
-				||
-				!$data['username'] || !$data['password']
-		){
-			return new ModifiedResourceResponse('Username or password missing', 401);
+		if(!$data['username'] || !$data['password']){
+			return new ModifiedResourceResponse('Username or password missing', 403);
+		}
+		
+		if($this->currentUser->isAnonymous()){
+			return new ModifiedResourceResponse('Authentication failed', 403);
 		}
 		
 		if($data['username'] && $data['password']){
