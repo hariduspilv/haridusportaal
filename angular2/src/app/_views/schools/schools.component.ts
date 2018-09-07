@@ -74,7 +74,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
           height: 50,
           width: 28
       }
-    ]
+    ],
+    styles: []
   }
 
   bounds = {
@@ -366,6 +367,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   ngOnInit() {
 
+    this.mapOptions.styles = this.rootScope.get("mapStyles");
+    
     this.showFilter = window.innerWidth > 1024;
     this.filterFull = window.innerWidth < 1024;
 
