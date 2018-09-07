@@ -118,16 +118,6 @@
                     <td>{{ data.fieldAdmissionStatus | titleCase }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldAccreditationStatus">
-                    <td>Akrediteerimise otsus</td>
-                    <td>{{ data.fieldAccreditationStatus | titleCase }}</td>
-                  </tr>
-
-                  <tr *ngIf="data.fieldAccreditationValidUntil">
-                    <td>Akrediteerimise otsuse kehtivuse lõpp</td>
-                    <td>{{ data.fieldAccreditationValidUntil.unix * 1000 | date:"dd.MM.yyyy" }}</td>
-                  </tr>
-
                   <tr *ngIf="data.fieldWebPageAddress">
                     <td>Õppekava kirjeldava veebilehe aadress</td>
                     <td><a href="{{ data.fieldWebPageAddress.uri }}" target="_blank">Vaata õppekava kirjeldust õppeasutuse veebilehel</a></td>

@@ -1,21 +1,11 @@
-{
-  CustomFavorites {
-    ... on FavoriteEntity {
-      favorites {
-        targetId
-        entity {
-          ... on ParagraphFavoriteItem {
-            fieldFavoriteTitle
-            fieldType
-            fieldPage {
-              entity {
-                entityLabel
-                entityUrl {
-                  path
-                }
-              }
-            }
-            fieldSearch
+query ($language: LanguageId!){
+  CustomFavorites(language:$language){
+    ... on FavoriteEntity{
+      favoritesNew{
+        entity{
+          entityLabel
+          entityUrl{
+            path
           }
         }
       }

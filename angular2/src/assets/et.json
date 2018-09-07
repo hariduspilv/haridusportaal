@@ -60,7 +60,7 @@
     "confirm_subscription": "Kinnita tellimus",
     "email": "Email",
     "valid_email": "Sisesta korrektne email",
-    
+    "order_to_email": "Telli teemad e-postile",
     "modal_title": "UUDISKIRJA TELLIMINE",
     "modal_content": "<p>Tänud haridusteemade vastu huvi tundmast!</p><p>Olete edukalt liitunud uudiskirjaga.</p>",
     "modal_close": "Sulge aken",
@@ -266,7 +266,8 @@
     "xjson_edit": "Muuda",
     "xjson_continue": "Jätka",
     "xjson_previous": "Eelmine",
-    "xjson_next": "Järgmine"
+    "xjson_next": "Järgmine",
+    "rss_order": "Telli teemad RSS-iga"
   },
     "tooltip": {
     "share": "Jaga lehte",
