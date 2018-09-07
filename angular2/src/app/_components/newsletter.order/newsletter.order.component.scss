@@ -17,10 +17,12 @@
             @include break-on(xxs, min) {margin: $half-gutter;flex: 0 1 calc(50% - .5rem);}
           }
         }
-        @include break-on(xxs, min) {padding: $medium 0;flex-flow: row wrap;}
+        @include break-on(sm, min) {padding: $medium 0;flex-flow: row wrap;}
+        @include break-on(xxs, min) {padding: $medium $large;flex-flow: row wrap;}
+        @include break-on(xxs, max) {padding: $medium $large;}
       }
       &__input {
-        @include break-on(xxs, min) {padding: 0 $medium;}
+        @include break-on(xxs, min) {padding: 0 $gutter;}
       }
     }
     &--message {display: flex;flex-direction: column;align-items: center;justify-content: center;min-height: 20vh;
@@ -28,7 +30,7 @@
       &__subcontent {text-align: center;line-height: 1.375rem;}
     }
   }
-  button {width: stretch;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+  button {width: 100%;box-sizing: border-box;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 }
 .checkbox {
   &__container {display: block;position: relative;padding-left: 1.75rem;
@@ -43,4 +45,11 @@
     .label {font-size: .875rem;}
     input:checked ~ .checkmark:after {display: block;}
   }
+}
+.outer {line-height: 2.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
+  @include break-on(xxs, max) {line-height: 2rem;text-align: center;}
+}
+.btn {@include break-on(xxs, max) {width: 100%;}}
+.grow.full.short {overflow: hidden;
+  @include break-on(sm, min) {flex-grow: 0;flex-basis: auto;}
 }
