@@ -66,8 +66,11 @@ $grid-columns: 12;
     @include break-on(sm, max) {
       .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
     }
-    @include break-on(md, max) {
-      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
+    @include break-on(xs, max) {
+      .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(xxs, max) {
+      .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
     }
   }
   [class*='col']{padding:$gutter; box-sizing: border-box;}
@@ -82,10 +85,17 @@ $grid-columns: 12;
     .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
   }
 }
+.xs-show{display:none !important;}
+.xs-flex{display:none !important;}
 .sm-show{display:none !important;}
 .sm-flex{display:none !important;}
 .md-show{display:none !important;}
 .md-flex{display:none !important;}
+@include break-on(xs, max) {
+  .xs-hide{display:none !important;}
+  .xs-show{display: block !important;}
+  .xs-flex{display: flex !important;}
+}
 @include break-on(sm, max) {
   .sm-hide{display:none !important;}
   .sm-show{display: block !important;}
@@ -105,10 +115,13 @@ $grid-columns: 12;
 }
 
 .grow {flex-grow: 1;}
-.wrap {@include break-on(sm, max) {flex-wrap: wrap;}}
-.btn {@include break-on(sm, max) {padding-top: $medium;}}
+.wrap {@include break-on(sm, max) {flex-wrap: wrap;}
+  &.xxs {flex-wrap: nowrap;@include break-on(xxs, max) {flex-wrap: wrap;}}
+}
+.btn {@include break-on(xxs, max) {padding-top: $medium;}}
 .full {flex-basis: 100%; 
   @include break-on(sm, min) {padding-right: $small;}
+  @include break-on(xxs, min) {padding-right: $small;}
 }
 .pull-right{float:right;}
 .text-center{text-align:center;}

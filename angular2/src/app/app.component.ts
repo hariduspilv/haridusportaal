@@ -97,7 +97,7 @@ export class AppComponent implements OnInit {
 
     this.debounce = setTimeout(function() {
 
-      if ( window.innerWidth >= 900 ) {
+      if ( window.innerWidth >= 1024 ) {
         _that.sidenav.open();
         _that.mode = 'side';
         _that.isSidenavCloseDisabled = true;
