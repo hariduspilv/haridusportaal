@@ -60,7 +60,7 @@
     "confirm_subscription": "Confirm order",
     "Email": "Email",
     "valid_email": "Enter the correct email",
-    
+    "order_to_email": "Order to email",
     "modal_title": "ORDERING NEWSLETTER",
     "modal_content": "<p> Thank you for your interest in education! </ p> <p> You have successfully joined the newsletter. </ p>",
     "modal_close": "Close window",
@@ -266,7 +266,8 @@
     "xjson_edit": "Edit",
     "xjson_continue": "Continue",
     "xjson_previous": "Previous",
-    "xjson_next": "Next"
+    "xjson_next": "Next",
+    "rss_order": "Subscribe by RSS"
   },
       "tooltip": {
     "share": "Share page",
