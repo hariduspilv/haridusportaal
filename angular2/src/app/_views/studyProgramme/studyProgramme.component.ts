@@ -213,8 +213,8 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
   ngOnInit() {
 
-    this.showFilter = window.innerWidth > 900;
-    this.filterFull = window.innerWidth < 900;
+    this.showFilter = window.innerWidth > 1024;
+    this.filterFull = window.innerWidth < 1024;
     
     this.setPaths();
     this.pathWatcher();
