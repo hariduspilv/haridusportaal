@@ -16,7 +16,8 @@ import {
   NotFoundComponent,
   StudyProgrammeCompareComponent,
   DashboardComponent,
-  SchoolsFundingComponent
+  SchoolsFundingComponent,
+  XjsonComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { CertificatesComponent } from '@app/_components/certificates/certificates.component';
@@ -52,6 +53,8 @@ const appRoutes: Routes = [
   { path: ':lang/erialad/:id', component: StudyProgrammeSingleComponent},
   { path: ':lang/study-programmes', component: StudyProgrammeComponent},
   { path: ':lang/study-programmes/:id', component: StudyProgrammeSingleComponent},
+
+  {path: ':lang/xjson/:form_name', component: XjsonComponent},
 
   { path: ':lang/toolaud/tunnistused/:id', component: CertificatesDetailedComponent},
   { path: ':lang/dashboard/certificates/:id', component: CertificatesDetailedComponent},
@@ -101,6 +104,7 @@ export const routedComponents = [
   StudyProgrammeCompareComponent,
   DashboardComponent,
   SchoolsFundingComponent,
-  CertificatesComponent
+  CertificatesComponent,
+  XjsonComponent
 ];
 

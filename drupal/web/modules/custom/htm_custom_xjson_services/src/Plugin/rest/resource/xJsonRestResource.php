@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 
+use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 use Drupal\rest\ModifiedResourceResponse;
@@ -97,7 +98,7 @@ class xJsonRestResource extends ResourceBase {
     if (!$this->currentUser->isAuthenticated()) {
       throw new AccessDeniedHttpException();
     }
-    #dump($data);
+
     if($data['form_info']){
 			$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
 		}else{
@@ -105,7 +106,8 @@ class xJsonRestResource extends ResourceBase {
 		}
 
 		if(empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
-
+		#dump($request_body);
+		#return new ModifiedResourceResponse($request_body, 200);
 		$client = \Drupal::httpClient();
 		try {
 			/*TODO make post URL configurable*/
@@ -114,7 +116,11 @@ class xJsonRestResource extends ResourceBase {
 			]);
 			$response = json_decode($request->getBody(), TRUE);
 			#dump($response);
-			$builded_response = $this->xJsonService->buildFormv2($response);
+			if($data['test'] && $data['test'] === TRUE){
+				$builded_response = $this->xJsonService->getTestForm();
+			}else{
+				$builded_response = $this->xJsonService->buildFormv2($response);
+			}
 
 			if(empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
 

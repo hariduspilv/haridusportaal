@@ -23,13 +23,16 @@
       color: white;
       left: 2.5rem;
       top: .33rem;
-      @include break-on (xl, min) {top: .6875rem;}
+      @include break-on (xl, min) {top: .5rem;}
     }
   }
   a {text-decoration: none;}
   @include break-on(sm, max) {display: none;}
 }
-.languages {position: relative;top: .125rem;}
+.languages {position: relative;top: .125rem;padding-left: $half-gutter;
+  a {color: $white;text-decoration: none;font-size: $small;font-weight: 400;}
+  @include break-on(sm, min) {top: .3125rem;}
+}
 .loginbar {margin-left: $xxl; display: flex;
   @include break-on(xl, min) {position: relative;top: .1875rem;}
 }

@@ -20,6 +20,9 @@ metatag.metatag_tag.og_fax_number:
 metatag.metatag_tag.og_image:
   type: label
   label: 'Open Graph: Image'
+metatag.metatag_tag.og_image_alt:
+  type: label
+  label: 'Open Graph: Image alt'
 metatag.metatag_tag.og_image_height:
   type: label
   label: 'Open Graph: Image height'

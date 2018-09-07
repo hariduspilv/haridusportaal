@@ -1,0 +1,21 @@
+@import "../../../assets/styles/typography.scss"; 
+@import "../../../assets/styles/layout.scss"; 
+
+.main-container{margin:0 1.5rem;}
+.xjson{
+  &__title{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
+  &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
+  &__step-introduction{width:100%; color:$gray; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
+  &__navigation{
+    .active {
+      font-weight: bold;
+      a{
+        text-decoration: none;
+      }
+    }
+    a {
+      cursor: pointer;
+      &.disabled{ color: gray; text-decoration: none; cursor: not-allowed;}
+    }
+  }
+}

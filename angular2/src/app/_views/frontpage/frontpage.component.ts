@@ -13,11 +13,12 @@ import { HttpService } from '@app/_services/httpService';
 export class FrontpageComponent {
 
   error: boolean;
-	news: any;
-	events: any;
+	news: Array<Object> = [];
+	events: Array<Object> = [];
 	lang: string;
   allPath: any;
   eventPath: any;
+  loading: boolean = true;
   
   constructor (
     private rootScope:RootScopeService,
@@ -55,6 +56,9 @@ export class FrontpageComponent {
 
   getEvents() {
     let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=frontPageEvents:1&variables=";
+    if (window.location.host === ('test.edu.ee')) {
+      url = "https://api.test.edu.ee/graphql?queryId=frontPageEvents:1&variables=";
+    }
     let date = new Date();
     var formattedDate = `${date.getFullYear()}-${date.getMonth() <= 8 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)}-${date.getDate() <= 9 ? '0' + date.getDate() : date.getDate()}`;
     let variables = {
@@ -70,7 +74,7 @@ export class FrontpageComponent {
 
     this.lang = this.router.url;
 		let that = this;
-		
+		that.loading = true;
 		this.route.params.subscribe( params => {
 			if (this.lang == "/en") {
         this.allPath = "/en/news";
@@ -79,17 +83,20 @@ export class FrontpageComponent {
         this.allPath = "/et/uudised";
         this.eventPath = "/et/sundmused";
       } else if (this.lang !== '') {
+        history.replaceState({}, '', '/et');
         this.router.navigateByUrl(`/et/404`);
       }
-		});
-		
+    });
+    
+    this.getEvents()
 		this.newsService.getRecent(null, function(data){
 			if ( data['nodeQuery'] == null ) {
-				that.error = true;
+        that.error = true;
+        that.loading = false;
 			} else {
-				that.news = data['nodeQuery']['entities'];
-			}
+        that.news = data['nodeQuery']['entities'];
+        that.loading = false;
+      }
 		});
-		this.getEvents()
 	}
 }
