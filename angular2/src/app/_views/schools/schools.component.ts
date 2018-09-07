@@ -366,8 +366,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   ngOnInit() {
 
-    this.showFilter = window.innerWidth > 900;
-    this.filterFull = window.innerWidth < 900;
+    this.showFilter = window.innerWidth > 1024;
+    this.filterFull = window.innerWidth < 1024;
 
     this.setPaths();
     this.pathWatcher();
