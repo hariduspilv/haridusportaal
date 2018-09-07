@@ -65,8 +65,11 @@ export class LoginComponent implements OnInit{
       this.loginVisible = false;
 
       this.user = this.userService.storeData(data['token']);
-      this.userService.triggerPageReload();
-
+      //this.userService.triggerPageReload();  
+      switch(this.router.url.split('/')[1]){
+        case 'et': this.router.navigateByUrl('/et/toolaud'); break;
+        case 'en': this.router.navigateByUrl('/en/dashboard'); break;
+      }
     });
 
   }
