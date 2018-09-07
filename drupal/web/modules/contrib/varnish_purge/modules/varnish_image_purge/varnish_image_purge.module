@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * @file
+ * Contains varnish_image_purge.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\Core\Entity\EntityInterface;
+use GuzzleHttp\Client;
+use Drupal\Core\Link;
+use Drupal\file\FileInterface;
+
+/**
+ * Implements hook_help().
+ */
+function varnish_image_purge_help($route_name, RouteMatchInterface $route_match) {
+
+  $admin_link_text = t('administer Varnish image purge');
+  $admin_link_link = Link::createFromRoute($admin_link_text, 'varnish_image_purge.configuration');
+
+  $output_admin_link = $admin_link_link->toString()->getGeneratedLink();
+
+  switch ($route_name) {
+    case 'help.page.varnish_image_purge':
+      $output = '';
+      $output .= '<h2>' . t('About') . '</h2>';
+      $output .= '<p>' . t('Purge image styles after entity update') . '</p>';
+      $output .= '<p>' . t('You need to setup Varnish to listen to the request method URIBAN. Example:') . '</p>';
+      $output .= '<pre><code>if (req.method == "URIBAN") {<br />';
+      $output .= '  ban("req.http.host == " + req.http.host + " && req.url == " + req.url);<br />';
+      $output .= '  # Throw a synthetic page so the request won\'t go to the backend.<br />';
+      $output .= '  return (synth(200, "Ban added."));<br />';
+      $output .= '}</code></pre>';
+      $output .= '<h2>' . t('Adminster') . '</h2>';
+      $output .= '<p>' . t('By default every image belonging to any entity is purged.');
+      $output .= t('To specify which entities that should have image purged on edit, go to @output_admin_link', ['@output_admin_link' => $output_admin_link]);
+      $output .= '</p>';
+
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function varnish_image_purge_entity_update(EntityInterface $entity) {
+
+  $bundle = $entity->bundle();
+  $entity_type = $entity->getEntityTypeId();
+  $entity_field_manager = \Drupal::service('entity_field.manager');
+
+  $entity_types_to_purge = \Drupal::config('varnish_image_purge.configuration')
+    ->get('entity_types');
+
+  if (empty($entity_types_to_purge) || (isset($entity_types_to_purge[$entity_type]) && in_array($bundle, $entity_types_to_purge[$entity_type]))) {
+    // Get the name(s) of the varnish purge configs, they get random suffix.
+    // This is ugly, should be done better I guess.
+    $query = \Drupal::database()->select('config', 'c');
+    $query->fields('c', ['name']);
+    $query->condition('c.name', $query->escapeLike('varnish_purger.settings') . '%', 'LIKE');
+    $varnish_purgers = $query->execute()->fetchAllKeyed(0, 0);
+
+    // Set the array to use for varnish purgers.
+    $purgers = [];
+
+    if (isset($varnish_purgers)) {
+
+      foreach ($varnish_purgers as $key => $value) {
+        $config_purge = \Drupal::config($key);
+        $purgers[$key]['hostname'] = $config_purge->get('hostname');
+        $purgers[$key]['port'] = $config_purge->get('port');
+      }
+
+      $class = \Drupal::entityTypeManager()
+        ->getDefinition($entity_type)
+        ->getOriginalClass();
+      $interface = 'Drupal\Core\Entity\FieldableEntityInterface';
+
+      if (in_array($interface, class_implements($class))) {
+        $field_definitions = $entity_field_manager->getFieldDefinitions($entity_type, $bundle);
+        if (isset($field_definitions)) {
+          $field_images = [];
+          foreach ($field_definitions as $field_definition) {
+            /* @var $field_definition Drupal\field\Entity\FieldConfig; */
+            if ($field_definition->getType() == 'image') {
+              $field_images[] = $field_definition->getName();
+            }
+          }
+          if (count($field_images) > 0) {
+            $client = new Client();
+            $styles = ImageStyle::loadMultiple();
+            foreach ($field_images as $field_image) {
+              if ($entity->$field_image->isEmpty()) {
+                continue;
+              }
+              foreach($entity->$field_image as $delta => $image_field) {
+                $file = File::load($image_field->target_id);
+                if ($file instanceof FileInterface) {
+                  foreach ($styles as $style) {
+                    /* @var $style Drupal\image\Entity\ImageStyle; */
+                    foreach ($purgers as $key => $value) {
+                      try {
+                        $request = $client->request('URIBAN', $style->buildUrl($file->getFileUri()));
+                      }
+                      catch (Exception $e) {
+                        \Drupal::logger('varnish_image_purge')
+                          ->error('URL not purged ' . $style->buildUrl($file->getFileUri()) . $e->getMessage());
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

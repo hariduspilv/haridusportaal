@@ -51,7 +51,7 @@ function metatag_get_view_tags($view, $display_id = NULL) {
 /**
  * Implements hook_metatags_alter().
  */
-function metatag_views_metatags_alter(&$metatags, $context) {
+function metatag_views_metatags_alter(array &$metatags, array &$context) {
   if (!$context['entity'] instanceof ViewEntityInterface) {
     return;
   }

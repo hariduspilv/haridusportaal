@@ -20,7 +20,7 @@ class MemcacheLockBackend extends LockBackendAbstract {
    *
    * @var array
    */
-  protected $locks = array();
+  protected $locks = [];
 
   /**
    * The bin name for this lock.
@@ -38,6 +38,9 @@ class MemcacheLockBackend extends LockBackendAbstract {
 
   /**
    * Constructs a new MemcacheLockBackend.
+   *
+   * @param string $bin
+   * @param \Drupal\memcache\DrupalMemcacheInterface $memcache
    */
   public function __construct($bin, DrupalMemcacheInterface $memcache) {
     $this->bin = $bin;
@@ -72,7 +75,7 @@ class MemcacheLockBackend extends LockBackendAbstract {
     }
     else {
       if ($this->lockMayBeAvailable($name)) {
-        $success = $this->memcache->set($key, $lock_id, $timeout);
+        $success = $this->memcache->add($key, $lock_id, $timeout);
 
         if (!$success) {
           return FALSE;
@@ -127,9 +130,13 @@ class MemcacheLockBackend extends LockBackendAbstract {
 
   /**
    * Gets a storage key based on the lock name.
+   *
+   * @param string $name
+   *
+   * @return string
    */
   protected function getKey($name) {
-    return 'lock:' . $this->bin . ':' . $name;
+    return sprintf('lock:%s:%s', $this->bin, $name);
   }
 
 }

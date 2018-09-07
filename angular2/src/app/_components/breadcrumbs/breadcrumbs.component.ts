@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit, OnDestroy} from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 
@@ -11,7 +11,8 @@ import { MetaTagsService } from '@app/_services/metaTagsService';
 })
 
 export class BreadcrumbsComponent implements OnInit, OnDestroy {
-  
+  //@Input() custom: string;
+
   subscriptions: Subscription[] = [];
   
   path: string;
@@ -41,6 +42,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     .subscribe(({data}) => {
 
       if( !data['route'] ){
+        history.replaceState({}, '', `/${this.lang}`);
         this.router.navigateByUrl(`/${this.lang}/404`);
       }
       this.metaTags.set(data['route']['entity']['entityMetatags']);
@@ -49,22 +51,31 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
     this.subscriptions = [...this.subscriptions, breadcrumbSubscription];
   }
+  private updateBreadcrumbs(){
+    this.path = this.router.url;
+    if( this.path !== this.prevPath ){
+      this.prevPath = this.path;
+      this.breadcrumb = [];
+      this.getData();
+    }
+  }
   ngOnInit() {
     const paramsSub = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         
-        this.path = this.router.url;
         this.lang = params['lang'];
-
-        if( this.path !== this.prevPath ){
-          this.prevPath = this.path;
-          this.breadcrumb = [];
-          this.getData();
-        }
+        this.updateBreadcrumbs();
+       
       }
     );
+    const eventsSub = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {       
+        this.updateBreadcrumbs();
+      }
+    });
 
     this.subscriptions = [...this.subscriptions, paramsSub];
+    this.subscriptions = [...this.subscriptions, eventsSub];
     
     
   }
