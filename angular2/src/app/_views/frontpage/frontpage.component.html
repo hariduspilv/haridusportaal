@@ -1,6 +1,6 @@
 <ng-template #search>
   <div class="section__form">
-    <div class="flex wrap">
+    <div class="flex wrap xxs">
       <div class="grow full">
         <div class="round-input__wrapper">
           <span class="round-input__title">Märksõna</span>
@@ -10,34 +10,34 @@
         </div>
       </div>
       <div class="btn">
-        <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+        <button attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
       </div>
     </div>
   </div>
 </ng-template>
 
 <ng-template #origin>
-  <article class="row">
-    <div class="col-12">
+  <article class="row origin">
+    <div class="col-12 header">
       <h1>Mis on Eduportaal?</h1>
     </div>
-    <div class="col-3 sm-12 pointer column-center">
-      <img src="../../assets/img/frontpage-img-1.svg">
+    <div class="col-3 sm-6 xxs-12 column-center spaced">
+      <img alt="Info õppimise kohta" src="../../assets/img/frontpage-ikoon1.svg">
       <div class="section__text--strong">Info õppimise kohta:</div>
       <div class="section__text">õppekavad, õppeasutused,<br> erialad.</div>
     </div>
-    <div class="col-3 sm-12 pointer column-center">
-      <img src="../../assets/img/frontpage-img-2.svg">
+    <div class="col-3 sm-6 xxs-12 column-center spaced">
+      <img alt="Hariduse taotlused" src="../../assets/img/frontpage-ikoon2.svg">
       <div class="section__text--strong">Hariduse taotlused:</div>
       <div class="section__text">taotluste esitamine<br> riiklikele asutustele.</div>
     </div>
-    <div class="col-3 sm-12 pointer column-center">
-      <img src="../../assets/img/frontpage-img-3.svg">
+    <div class="col-3 sm-6 xxs-12 column-center">
+      <img alt="Haridusmaastiku info" src="../../assets/img/frontpage-ikoon3.svg">
       <div class="section__text--strong">Haridusmaastiku info:</div>
       <div class="section__text">ülevaade sündmustest ja<br> uudistest.</div>
     </div>
-    <div class="col-3 sm-12 pointer column-center">
-      <img src="../../assets/img/frontpage-img-1.svg">
+    <div class="col-3 sm-6 xxs-12 column-center">
+      <img alt="OSKA teemad" src="../../assets/img/frontpage-ikoon4.svg">
       <div class="section__text--strong">OSKA teemad:</div>
       <div class="section__text">taotluste esitamine<br> riiklikele asutustele.</div>
     </div>
@@ -46,6 +46,14 @@
 
 <ng-template #newsItem>
   <article class="news-list__recent__elem">
+    <div class="title">{{ 'news.label' | translate | uppercase }}</div>
+    <div attr.aria-label="{{ 'title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="[news[0].entityTranslation.entityUrl.path]"><h1> {{ news[0].entityTranslation.entityLabel }}</h1></a></div>
+    <div class="author">{{ news[0].entityTranslation.fieldAuthor }} {{ news[0].entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</div>
+  </article>
+</ng-template>
+
+<ng-template #newsItemMobile>
+  <article class="news-list__recent__elem main-container">
     <div class="title">{{ 'news.label' | translate | uppercase }}</div>
     <div attr.aria-label="{{ 'title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="[news[0].entityTranslation.entityUrl.path]"><h1> {{ news[0].entityTranslation.entityLabel }}</h1></a></div>
     <div class="author">{{ news[0].entityTranslation.fieldAuthor }} {{ news[0].entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</div>
@@ -68,11 +76,28 @@
   </div>
 </ng-template>
 
-<div class="frontpage" *ngIf="events && news">
+<ng-template #eventsListMobile>
+  <div class="section__form main-container">
+    <article class="row">
+      <div class="col-12 title">
+        <span>{{ 'event.label' | translate | uppercase }}</span>
+        <span class="view-all"><a attr.aria-label="{{ 'button.view_all' | translate }}" [routerLink]="eventPath" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
+      </div>
+      <div class="col-4 sm-12 pointer event__elem" *ngFor="let item of events; let first = first;" [routerLink]="[item.entityUrl.path]">
+        <span class="subtext" *ngIf="item.fieldEventMainDate">{{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
+        <h1>{{ item.entityLabel }}</h1>
+        <div class="subtext--bottom" *ngIf="item.fieldOrganizer" tabindex="0" attr.aria-label="{{'author'}}{{ item.fieldOrganizer }}">{{ item.fieldOrganizer }}</div>
+      </div>
+    </article>
+  </div>
+</ng-template>
+<mat-spinner *ngIf="loading" ></mat-spinner>
+<div class="frontpage" *ngIf="!loading && events && news">
   <div class="section section--search">
-    <div class="content--middle">
+    <div class="content--middle search">
       <h1 class="lead-title">
-        <span class="sm-show">Hoia end<br> haridusinfoga kursis!</span>
+        <span class="sm-show xxs">Hoia end<br> haridusinfoga kursis!</span>
+        <span class="sm-show sm">Hoia end haridusinfoga kursis!</span>
         <span class="sm-hide"><b>Eduportaal -</b><br>hoia end haridusinfoga kursis!</span>
       </h1>
       <div class="section__block--search">
@@ -87,28 +112,38 @@
       <ng-container *ngTemplateOutlet="origin"></ng-container>
     </div>
   </div>
-  <div class="section section--list--item main-container" *ngIf="news && news.length">
+  <div class="section section--list--item sm-show" *ngIf="news && news.length">
+    <div class="content--listItem">
+      <ng-container *ngTemplateOutlet="newsItemMobile"></ng-container>
+    </div>
+  </div>
+  <div class="section section--list--item main-container sm-hide" *ngIf="news && news.length">
     <div class="content--listItem">
       <ng-container *ngTemplateOutlet="newsItem"></ng-container>
     </div>
   </div>
-  <div class="section section--list main-container" *ngIf="news && news.length">
+  <div class="section section--news main-container" *ngIf="news && news.length">
     <div class="content">
       <recent-news frontpage="true" title="news"></recent-news>
     </div>
   </div>
   <div class="section section--newsletter">
-    <div class="content--middle">
+    <div class="content--middle newsletter">
       <div class="section__block--newsletter">
-        <div class="section__content">
+        <div class="section__content xl__before">
           <newsletter-order></newsletter-order>
         </div>
       </div>
     </div><!--/main-container-->
   </div><!--/section-->
-  <div class="section section--list altered main-container" *ngIf="events && events.length">
+  <div class="section section--list altered main-container sm-hide" *ngIf="events && events.length">
     <div class="content--listItem content--listItem--altered">
       <ng-container *ngTemplateOutlet="eventsList"></ng-container>
+    </div>
+  </div>
+  <div class="section section--list altered sm-show" *ngIf="events && events.length">
+    <div class="content--listItem content--listItem--altered">
+      <ng-container *ngTemplateOutlet="eventsListMobile"></ng-container>
     </div>
   </div>
 </div><!--/frontpage-->

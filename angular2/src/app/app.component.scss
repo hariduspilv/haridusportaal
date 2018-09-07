@@ -5,6 +5,8 @@
 @import "../assets/styles/sidebar.scss";
 @import "../assets/styles/layout.scss";
 
+html{overflow:-moz-scrollbars-vertical}
+
 /* You can add global styles to this file, and also import other style files */
 body{margin:0; padding:0; padding-top:4rem; background: $light-gray;}
 body::-webkit-scrollbar { display: none; }
@@ -66,8 +68,11 @@ $grid-columns: 12;
     @include break-on(sm, max) {
       .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
     }
-    @include break-on(md, max) {
-      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
+    @include break-on(xs, max) {
+      .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(xxs, max) {
+      .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
     }
   }
   [class*='col']{padding:$gutter; box-sizing: border-box;}
@@ -82,10 +87,17 @@ $grid-columns: 12;
     .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
   }
 }
+.xs-show{display:none !important;}
+.xs-flex{display:none !important;}
 .sm-show{display:none !important;}
 .sm-flex{display:none !important;}
 .md-show{display:none !important;}
 .md-flex{display:none !important;}
+@include break-on(xs, max) {
+  .xs-hide{display:none !important;}
+  .xs-show{display: block !important;}
+  .xs-flex{display: flex !important;}
+}
 @include break-on(sm, max) {
   .sm-hide{display:none !important;}
   .sm-show{display: block !important;}
@@ -105,10 +117,13 @@ $grid-columns: 12;
 }
 
 .grow {flex-grow: 1;}
-.wrap {@include break-on(sm, max) {flex-wrap: wrap;}}
-.btn {@include break-on(sm, max) {padding-top: $medium;}}
+.wrap {@include break-on(sm, max) {flex-wrap: wrap;}
+  &.xxs {flex-wrap: nowrap;@include break-on(xxs, max) {flex-wrap: wrap;}}
+}
+.btn {@include break-on(xxs, max) {padding-top: $medium;}}
 .full {flex-basis: 100%; 
   @include break-on(sm, min) {padding-right: $small;}
+  @include break-on(xxs, min) {padding-right: $small;}
 }
 .pull-right{float:right;}
 .text-center{text-align:center;}
@@ -439,6 +454,18 @@ $grid-columns: 12;
     .title{margin-top:0; font-weight: bold; font-size:20px; color:#333;}
     .si-content{max-width:100% !important; max-height:99999px !important; overflow: visible !important;}
     .button{height:62px; line-height:62px; margin:0 -24px -24px -24px; text-align: center; display: block; border-top:#c7c7c9 1px solid; font-size:16px;}
+  }
+  .snazzy-scrollarea{max-height:200px; overflow: auto;
+    p{margin:1.25rem 0;}
+  }
+  .link{font-size:1rem; margin:1rem 0; display:inline-block;}
+  .snazzy-entry{border-top:$light-gray 1px solid; border-bottom:$gray 1px solid; padding:1rem 0; margin-bottom:-1px; }
+  hr{border:none; margin:0; background:$gray; height:1px; overflow: hidden; display:block; margin:0 -24px;}
+
+  .tab-buttons{margin-bottom:-1rem;
+    button{appearance:none; border:$gray 1px solid; border-radius:2rem; height:2.5rem; line-height:2.5rem; padding:0 1.5rem; color:$black; text-decoration: none; background:$white;  font-size:0.875rem; margin-right:0.75rem; margin-bottom:1rem;
+      &:hover{color:$blue; border-color:$blue;}
+    }
   }
 }
 

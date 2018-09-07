@@ -18,6 +18,7 @@ export class FrontpageComponent {
 	lang: string;
   allPath: any;
   eventPath: any;
+  loading: boolean = true;
   
   constructor (
     private rootScope:RootScopeService,
@@ -73,7 +74,7 @@ export class FrontpageComponent {
 
     this.lang = this.router.url;
 		let that = this;
-		
+		that.loading = true;
 		this.route.params.subscribe( params => {
 			if (this.lang == "/en") {
         this.allPath = "/en/news";
@@ -85,15 +86,17 @@ export class FrontpageComponent {
         history.replaceState({}, '', '/et');
         this.router.navigateByUrl(`/et/404`);
       }
-		});
-		
+    });
+    
+    this.getEvents()
 		this.newsService.getRecent(null, function(data){
 			if ( data['nodeQuery'] == null ) {
-				that.error = true;
+        that.error = true;
+        that.loading = false;
 			} else {
-				that.news = data['nodeQuery']['entities'];
-			}
+        that.news = data['nodeQuery']['entities'];
+        that.loading = false;
+      }
 		});
-		this.getEvents()
 	}
 }
