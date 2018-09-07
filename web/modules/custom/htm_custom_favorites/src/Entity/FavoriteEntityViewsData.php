@@ -5,7 +5,7 @@ namespace Drupal\htm_custom_favorites\Entity;
 use Drupal\views\EntityViewsData;
 
 /**
- * Provides Views data for Favorite entity entities.
+ * Provides Views data for Favorite entities.
  */
 class FavoriteEntityViewsData extends EntityViewsData {
 

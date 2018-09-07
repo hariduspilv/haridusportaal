@@ -23,7 +23,6 @@ class CustomEntityField extends EntityFieldBase {
 	 */
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 		if ($value instanceof FieldableEntityInterface) {
-			//dump($value);
 			$definition = $this->getPluginDefinition();
 			$name = $definition['field'];
 			if ($value->hasField($name)) {
@@ -33,11 +32,10 @@ class CustomEntityField extends EntityFieldBase {
 
 				if ($access->isAllowed()) {
 					foreach ($items as $item) {
-
 						// Do not yield untranslated paragraphs
 						if(empty($definition['property'])){
 							/** @var \Drupal\Core\Entity\ContentEntityBase $entity */
-							if(($entity = $item->entity) && $item->entity->isTranslatable() && ($item->entity->getEntityTypeId() === 'paragraph' || $item->entity->getEntityTypeId() === 'taxonomy_term')){
+							if(($entity = $item->entity) && $item->entity->isTranslatable() /*&& ($item->entity->getEntityTypeId() === 'paragraph' || $item->entity->getEntityTypeId() === 'taxonomy_term')*/){
 								$translated = ($entity->hasTranslation($context->getContext('language', $info)));
 								if(!$translated) continue;
 							}
