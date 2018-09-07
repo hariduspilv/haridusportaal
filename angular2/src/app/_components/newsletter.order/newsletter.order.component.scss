@@ -13,11 +13,14 @@
         &__elem {margin-bottom: $quarter;
           &:last-child {margin-bottom: 0;}
           @include break-on(sm, min) {margin: $half-gutter;flex: 0 1 calc(25% - .5rem);}
+          @include break-on(sm, max) {
+            @include break-on(xxs, min) {margin: $half-gutter;flex: 0 1 calc(50% - .5rem);}
+          }
         }
-        @include break-on(sm, min) {padding: $medium 0;flex-flow: row wrap;}
+        @include break-on(xxs, min) {padding: $medium 0;flex-flow: row wrap;}
       }
       &__input {
-        @include break-on(sm, min) {padding: 0 $medium;}
+        @include break-on(xxs, min) {padding: 0 $medium;}
       }
     }
     &--message {display: flex;flex-direction: column;align-items: center;justify-content: center;min-height: 20vh;
