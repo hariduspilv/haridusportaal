@@ -17,9 +17,9 @@
         </div>
       </div><!--block__content--form__checklist-->
 
-      <div class="block__content--form__input">
+      <div class="block__content--form__input mb-20 p-0">
         <div class="row">
-          <div class="col-8 sm-12">
+          <div class="col-7 sm-12">
             <div class="round-input__wrapper" [class.error]="errors.email && !emailFocus">
               <span class="round-input__title" [class.exists]="email">{{ 'newsletter.email' | translate }}</span>
               <div class="round-input__field-wrapper" [class.spacing]="email">
@@ -33,7 +33,7 @@
               </div>
             </div>
           </div><!--/col-8-->
-          <div class="col-4 sm-12">
+          <div class="col-5 sm-12">
             <button mat-raised-button color="primary">{{ 'button.newsletter_submit' | translate }} </button>
           </div><!--/col-4-->
         </div>
