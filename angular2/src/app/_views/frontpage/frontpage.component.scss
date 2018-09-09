@@ -11,7 +11,11 @@
     .content {
       &--listItem {padding: $medium;border-radius: $half-gutter;background-color: #bee3e8;
         .title {line-height: 2;color: $dark-gray;padding-bottom: $half-gutter;}
-        h1 {color: $blue;text-align: left;padding-bottom: $gutter;}
+        h1 {color: $blue;text-align: left;padding-bottom: $gutter;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
         .author {font-size: .875rem;line-height: 1.43;color: $dark-gray;}
         &--altered {background-color: $white;}
       }
@@ -152,3 +156,7 @@
     }
   }
 }
+
+        a:hover {
+          text-decoration: underline;
+        }

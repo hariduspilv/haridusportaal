@@ -4,11 +4,13 @@
 }
 
 .login-wrapper { position: relative;
+        @include break-on(sm, max) { position: static; }
   .login {position: relative; z-index: 2; appearance: none; border:none; background:none;padding: 0 $gutter;top: .125rem;
     text-decoration: none;color: $white;font-size: $small;font-weight: 300;
   }
   .dropdown-menu{position:absolute;background:#fff;right:$small;top:100%;padding:$medium;padding-top:$small;width:13.125rem;box-shadow:0 .1875rem .0625rem -.125rem rgba(0,0,0,.2),0 .125rem .125rem 0 rgba(0,0,0,.14),0 .0625rem .3125rem 0 rgba(0,0,0,.12);
     border-top: $gutter solid $red;border-radius: $half-gutter;margin-top: $quarter;
+          @include break-on(sm, max) { left: 0; right: 0; width: auto; margin-top: 0px; }
     .round-input__wrapper:focus-within .round-input__title {color: $blue;display: block;width: fit-content;font-weight: 400;line-height: 1.2rem;}
     .round-input__wrapper.complete {
       .round-input__title {color: $blue;display: block;width: fit-content;font-weight: 400;line-height: 1.2rem;}

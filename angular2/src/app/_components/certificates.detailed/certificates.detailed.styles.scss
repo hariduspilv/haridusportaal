@@ -12,6 +12,7 @@
       border: .0625rem solid $gray;
       width: 33%;
       color: $black;
+      text-transform: capitalize;
       &:last-of-type {
         font-weight: 500;
       }

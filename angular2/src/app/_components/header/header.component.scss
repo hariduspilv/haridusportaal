@@ -73,3 +73,10 @@ input:focus:-ms-input-placeholder { color:transparent; }
   &__flex {display: flex;}
 }
 .mob-space {flex: 1 1 auto;}
+
+app-login {
+  position: relative;
+      @include break-on(sm, max) {
+  position: static;
+      }
+}
