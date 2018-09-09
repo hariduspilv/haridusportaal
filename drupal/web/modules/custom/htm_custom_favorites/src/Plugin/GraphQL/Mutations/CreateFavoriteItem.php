@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_favorites\Plugin\GraphQL\Mutations;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
@@ -12,6 +13,7 @@ use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\CreateEntityBase;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\user\Entity\User;
 use GraphQL\Type\Definition\ResolveInfo;
+use http\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Drupal\custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator;
@@ -28,12 +30,19 @@ use Drupal\Core\Language\LanguageManager;
  *   type = "EntityCrudOutput!",
  *   arguments = {
  *     "input" = "FavoriteInput",
- * 		 "language" = "LanguageId!"
- *   }
+ *     "language" = "LanguageId!"
+ *   },
+ *   contextual_arguments = {"language"}
  * )
  */
 class CreateFavoriteItem extends CreateEntityBase{
 
+	/**
+	 * The language context service.
+	 *
+	 * @var \Drupal\graphql\GraphQLLanguageContext
+	 */
+	protected $languageContext;
 	/**
 	 * The entity type manager.
 	 *
@@ -90,64 +99,41 @@ class CreateFavoriteItem extends CreateEntityBase{
 	 * @return array
 	 */
 	protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info){
-		//dump($this->currentUser);
-		//dump($args);
-		//die();
 		return [
 			'user_idcode' => $this->getCurrentUserIdCode(),
-			'favorites' => [
-				'field_favorite_title' => $args['input']['favorite_title'],
-				'field_page' => isset($args['input']['page_id']) ? $args['input']['page_id'] : NULL ,
-				'field_search' => isset($args['input']['search']) ? $args['input']['search'] : NULL,
-				'field_type' => $args['input']['type'],
+			'favorites_new' => [
+				'target_id' => isset($args['input']['page_id']) ? $args['input']['page_id'] : NULL,
+				'title' => ''
 			]
 		];
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function resolve($value, array $args, ResolveContext $context, ResolveInfo $info)
 	{
-		$user_idcode = $this->getCurrentUserIdCode();
-
+		//set context manually
+		$context->setContext('language', $args['language'], $info);
 
 		$entityTypeId = $this->pluginDefinition['entity_type'];
-		$input = $this->extractEntityInput($value, $args, $context, $info);
-
-		$favs = $input['favorites'];
-		unset($input['favorites']);
-
-		$entityDefinition = $this->entityTypeManager->getDefinition($entityTypeId);
-		if ($entityDefinition->hasKey('bundle')) {
-			$bundleName = $this->pluginDefinition['entity_bundle'];
-			$bundleKey = $entityDefinition->getKey('bundle');
-			// Add the entity's bundle with the correct key.
-			$input[$bundleKey] = $bundleName;
-		}
 		$storage = $this->entityTypeManager->getStorage($entityTypeId);
+		/** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
 		$entity = $storage->loadByProperties(['user_idcode' => $this->getCurrentUserIdCode()]);
-
-		if(!$entity){
-			$entity = $storage->create($input);
-
-			/*set favorites*/
-			$entity->favorites[] = $this->createNewFavoriteParagraph($favs);
-
-			return $this->resolveOutput($entity, $args, $info);
+		if (!$entity) {
+			return parent::resolve($value, $args, $context, $info);
 		}else{
 			$entity = reset($entity);
-			try {
-				foreach ($input as $key => $value) {
-					$entity->get($key)->setValue($value);
-				}
-				if($entity->favorites->count() >= 10){
-					return new EntityCrudOutputWrapper($entity, NULL, [
-							$this->t('Favorite limit reached (max 10)')
-					]);
-				}else{
-					/*append favorites*/
-					$entity->favorites[] = $this->createNewFavoriteParagraph($favs);
+			$input = $this->extractEntityInput($value, $args, $context, $info);
+			try{
+				foreach($input as $key => $value){
+					$field = $entity->get($key);
+					if($field instanceof EntityReferenceFieldItemListInterface){
+						$favorites = $entity->get('favorites_new')->getValue();
+						$key = array_search($input['favorites_new']['target_id'], array_column($favorites, 'target_id'));
+						if(!$key && $key !== (int) 0){
+							$field->appendItem($value);
+						}else{
+							throw new \InvalidArgumentException('This page already exists');
+						}
+					}
 				}
 			}
 			catch (\InvalidArgumentException $exception) {
@@ -155,39 +141,19 @@ class CreateFavoriteItem extends CreateEntityBase{
 						$this->t('The entity update failed with exception: @exception.', ['@exception' => $exception->getMessage()]),
 				]);
 			}
-
-			return $this->resolveOutputUpdate($entity, $args, $info);
-		}
-	}
-
-	public function resolveOutputUpdate(EntityInterface $entity, array $args, ResolveInfo $info){
-		if (!$entity->access('create')) {
-			return new EntityCrudOutputWrapper(NULL, NULL, [
-					$this->t('You do not have the necessary permissions to create entities of this type.'),
-			]);
-		}
-		if ($entity instanceof ContentEntityInterface) {
 			if (($violations = $entity->validate()) && $violations->count()) {
 				return new EntityCrudOutputWrapper(NULL, $violations);
 			}
-		}
-		if (($status = $entity->save()) && $status === SAVED_UPDATED) {
-			return new EntityCrudOutputWrapper($entity);
+			if (($status = $entity->save()) && $status === SAVED_UPDATED) {
+				return new EntityCrudOutputWrapper($entity->getTranslation('et'));
+			}
+			return NULL;
 		}
 	}
+
 
 	protected function getCurrentUserIdCode(){
 		return User::load($this->currentUser->id())->field_user_idcode->value;
-	}
-
-	protected function createNewFavoriteParagraph($items){
-		//dump($items);
-		$paragraph = Paragraph::create([
-			'type' => 'favorite_item',
-		] + $items);
-		$paragraph->save();
-		//dump($paragraph->id());
-		return $paragraph;
 	}
 
 }
