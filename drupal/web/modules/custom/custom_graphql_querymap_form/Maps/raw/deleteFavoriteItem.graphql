@@ -1,12 +1,23 @@
-mutation($id: Int!){
-  deleteFavoriteItem(id: $id){
-    entity{
-      entityId
-    }
+mutation($id:Int!, $language: LanguageId!){
+  deleteFavoriteItem(id:$id, language:$language){
     violations {
       message
       path
       code
+    }
+    entity {
+      ... on FavoriteEntity{
+        favoritesNew{
+         targetId
+          entity{
+            entityLabel
+            entityUrl {
+              routed
+              path
+            }
+          }
+        }
+      }
     }
     errors
   }
