@@ -16,7 +16,6 @@ class AuthenticationController extends ControllerBase {
     $oidc->setResponseTypes(array('id_token'));
     $oidc->addScope(array('openid'));
     $oidc->setAllowImplicitFlow(true);
-    $oidc->addAuthParam(array('response_mode' => 'form_post'));
     $oidc->authenticate();
     $sub[] = $oidc->getVerifiedClaims('name');
     $sub[] = $oidc->getVerifiedClaims('sub');
