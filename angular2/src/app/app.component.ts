@@ -89,6 +89,10 @@ export class AppComponent implements OnInit {
     this.menuStyle();
   }
 
+  focusMainContent() {
+    document.getElementById('mainContent').focus()
+  }
+
   menuStyle() {
 
     const _that = this;
