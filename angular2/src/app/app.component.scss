@@ -268,7 +268,7 @@ mat-icon { color: $black; }
   }
 
   .inline__items {padding-top: .375rem;
-    .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;}
+    .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;white-space: nowrap;}
   }
   .bar {padding: 0 $half-gutter;}
   .nonActive {padding: $half-gutter $quarter;border-radius: $quarter;font-size: .875rem;line-height: 1.125rem;white-space: nowrap;
