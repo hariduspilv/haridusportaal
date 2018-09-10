@@ -135,14 +135,12 @@ class CreateFavoriteItem extends CreateEntityBase{
 						}
 					}
 				}
-				if($entity->favorites->count() >= 10) {
-					return new EntityCrudOutputWrapper($entity, NULL, [1]);
+				if($entity->favorites_new->count() >= 10) {
+					throw new \InvalidArgumentException((int) 1);
 				}
 			}
 			catch (\InvalidArgumentException $exception) {
-				return new EntityCrudOutputWrapper(NULL, NULL, [
-						$this->t('The entity update failed with exception: @exception.', ['@exception' => $exception->getMessage()]),
-				]);
+				return new EntityCrudOutputWrapper(NULL, NULL, [$exception->getMessage()]);
 			}
 			if (($violations = $entity->validate()) && $violations->count()) {
 				return new EntityCrudOutputWrapper(NULL, $violations);
@@ -155,7 +153,8 @@ class CreateFavoriteItem extends CreateEntityBase{
 	}
 
 
-	protected function getCurrentUserIdCode(){
+	protected function getCurrentUserIdCode()
+	{
 		return User::load($this->currentUser->id())->field_user_idcode->value;
 	}
 }

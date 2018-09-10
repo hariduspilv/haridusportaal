@@ -70,16 +70,16 @@ class FavoriteEntity extends ContentEntityBase implements FavoriteEntityInterfac
     ];
   }
 
-	public function preSave(EntityStorageInterface $storage)
+	/*public function preSave(EntityStorageInterface $storage)
 	{
+		parent::preSave($storage);
 		if(!$this->hasTranslation('en')){
 			$this->addTranslation('en', ['user_idcode'=> $this->get('user_idcode')->value]);
 		}
 		if(!$this->hasTranslation('et')){
 			$this->addTranslation('et', ['user_idcode'=> $this->get('user_idcode')->value]);
 		}
-		parent::preSave($storage);
-	}
+	}*/
 
 	/**
    * {@inheritdoc}
