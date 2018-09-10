@@ -16,7 +16,7 @@
     <div class="fill-space sm-hide">
       <div class="fill-space__flex">
         <div class="searchbar">
-          <span class="search">
+          <span class="search" [hidden]="hideElement">
             <input role="search" class="search-input round-input" tabindex="0" placeholder="{{'button.search_from_page' | translate}}" attr.aria-label="{{'You are on search field'}}" />
             <a href="javascript:void(0)" class="search-icn" attr.aria-label="{{'Search button, clickable'}}"></a>
           </span>

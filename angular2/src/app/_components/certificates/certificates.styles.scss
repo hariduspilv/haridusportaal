@@ -1,6 +1,6 @@
 @import "../../../assets/styles/typography.scss"; 
 
-.mat-expansion-panel {box-shadow: none !important;border: .0625rem solid $gray; border-radius: .125rem;margin-bottom: $half-gutter;
+.mat-expansion-panel {box-shadow: none !important;border: .0625rem solid $light-orange; border-radius: .125rem;margin-bottom: $half-gutter;
   mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
   }
@@ -36,14 +36,12 @@ mat-panel-title {font-size: $small;}
 }
 ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}
 
+.mat-expansion-panel {
+ background: $light-orange;
+}
 
 .mat-expansion-panel.mat-expanded { 
   background: transparent;
-}
-
-.mat-expansion-panel {
- background: $light-orange;
-   border: .0625rem solid $light-orange;
 }
 
 .dashboard-table td {

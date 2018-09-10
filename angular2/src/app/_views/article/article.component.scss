@@ -48,21 +48,23 @@ _:-ms-lang(x), .article-image {width: 100%;margin:0;}
 .description {padding: $small $medium; color: $black; line-height: 1.375rem; padding-bottom: 0;}
 ::ng-deep .description > *:last-child {margin-bottom: 0;}
 .short {@extend .description; font-weight: 500; padding-bottom: $small;}
-.mat-expansion-panel {box-shadow: none !important;border: .0625rem solid $gray; border-radius: .125rem;margin-bottom: $half-gutter;
-  mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+.mat-expansion-panel {box-shadow: none !important;border: 0rem solid $gray; border-radius: .125rem;margin-bottom: $half-gutter;
+  mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis; 
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
   }
-  &.mat-expanded {border-left: .1875rem solid $dark-orange;
+  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid $dark-orange; 
     mat-panel-title {white-space: normal;
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
   }
+  &-body { padding: 0 1rem 1rem }
   &-spacing {margin: 0 0 $half-gutter 0;}
-  &-header {height: 2.5rem !important;padding-right:$small;
-    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: $gutter;}}
+  &-header {height: 2.5rem !important;padding-right:$small; padding-left:$small;
+    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: $gutter; }
+  }
 }
 mat-panel-title {font-size: $small;}
-.accordion {padding: $medium; padding-top: $small;}
+.accordion {padding: 0 1.5rem 1.5rem; padding-top: $large;}
 ::ng-deep .accordion__body {line-height: 1.375rem;font-size: $small;padding-top: $gutter;
   p {margin: 0;}
 }
@@ -73,7 +75,7 @@ mat-panel-title {font-size: $small;}
   position: relative;text-align: center;width: $medium;color: $red;
   height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
 }
-::ng-deep .mat-expansion-indicator {font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: .0625rem solid $gray;
+::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;
 }
 ::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; 
 }
@@ -82,3 +84,15 @@ mat-panel-title {font-size: $small;}
   font-family: 'Material Icons';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
 ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}
+
+.mat-expansion-panel.mat-expanded { 
+  background: transparent;
+}
+
+.mat-expansion-panel {
+ background: $light-orange;
+}
+
+.dashboard-table td {
+ color: $black;
+}
