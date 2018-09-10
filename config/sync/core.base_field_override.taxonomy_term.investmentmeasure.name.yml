@@ -1,0 +1,18 @@
+uuid: 3bea5e3f-99a1-4ab7-8ae2-abd522a5158d
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.investmentmeasure
+id: taxonomy_term.investmentmeasure.name
+field_name: name
+entity_type: taxonomy_term
+bundle: investmentmeasure
+label: Nimi
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

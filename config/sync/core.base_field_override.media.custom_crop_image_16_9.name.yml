@@ -1,0 +1,20 @@
+uuid: e5513bab-f998-438c-a034-5808ef225da5
+langcode: et
+status: true
+dependencies:
+  config:
+    - media.type.custom_crop_image_16_9
+id: media.custom_crop_image_16_9.name
+field_name: name
+entity_type: media
+bundle: custom_crop_image_16_9
+label: Nimi
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: string

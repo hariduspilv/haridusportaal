@@ -1,0 +1,20 @@
+uuid: c15b6752-826d-4ac9-afb2-4973eb7acdc0
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+id: event_reg_entity.event_reg_entity.participant_last_name
+field_name: participant_last_name
+entity_type: event_reg_entity
+bundle: event_reg_entity
+label: 'Osaleja perekonnanimi'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: string

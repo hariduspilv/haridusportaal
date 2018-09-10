@@ -1,0 +1,18 @@
+uuid: e55451fa-2b83-4162-9cdb-94102910b870
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+id: event_reg_entity.event_reg_entity.participant_idcode
+field_name: participant_idcode
+entity_type: event_reg_entity
+bundle: event_reg_entity
+label: IDcode
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
