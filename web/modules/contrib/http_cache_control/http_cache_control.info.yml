@@ -1,0 +1,12 @@
+name: HTTP Cache Control
+type: module
+description: Module for implementing s-max-age
+# core: 8.x
+package: performance
+# project: http_cache_control
+
+# Information added by Drupal.org packaging script on 2018-09-06
+version: '8.x-1.0'
+core: '8.x'
+project: 'http_cache_control'
+datestamp: 1536274983

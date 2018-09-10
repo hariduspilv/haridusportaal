@@ -1,0 +1,33 @@
+ # Schema for the configuration files of the purge_queuer_url module.
+purge_queuer_url.settings:
+  type: config_object
+  label: 'purge_queuer_url settings.'
+  mapping:
+    queue_paths:
+      type: boolean
+      label: 'Whether to queue paths (true) instead of URLs or not (false).'
+      translatable: false
+    host_override:
+      type: boolean
+      label: 'Whether to override the hostname (true) or keep as is (false).'
+      translatable: false
+    host:
+      type: string
+      label: 'The hostname to set with when host_override is true.'
+      translatable: false
+    scheme_override:
+      type: boolean
+      label: 'Whether to override the scheme (true) or keep as is (false).'
+      translatable: false
+    scheme:
+      type: string
+      label: 'The scheme to set with when scheme_override is true, e.g. "http".'
+      translatable: false
+    blacklist:
+      label: 'A list of string patterns that will not get queued.'
+      type: sequence
+      translatable: false
+      sequence:
+        type: string
+        label: 'String that cannot be present in a fully qualified URL.'
+        translatable: false
