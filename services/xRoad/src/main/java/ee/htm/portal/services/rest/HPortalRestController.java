@@ -1,6 +1,7 @@
 package ee.htm.portal.services.rest;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import ee.htm.portal.services.workers.EeIsikukaartWorker;
 import ee.htm.portal.services.workers.KutseregisterWorker;
 import ee.htm.portal.services.workers.VPTWorker;
 import org.apache.log4j.Logger;
@@ -24,6 +25,9 @@ public class HPortalRestController {
 
   @Autowired
   KutseregisterWorker kutseregisterWorker;
+
+  @Autowired
+  EeIsikukaartWorker eeIsikukaartWorker;
 
   @RequestMapping(value = "/postDocument", method = RequestMethod.POST,
       produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
@@ -54,5 +58,11 @@ public class HPortalRestController {
       @PathVariable("requestTimestamp") Long timestamp) {
     return new ResponseEntity<>(kutseregisterWorker.work(personalCode, invalidBoolean, timestamp),
         HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/eeIsikukaart/{personalCode}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getEeIsikukaart(@PathVariable("personalCode") String personalcode,
+      @PathVariable("requestTimestamp") Long timestamp) {
+    return new ResponseEntity<>(eeIsikukaartWorker.work(personalcode, timestamp), HttpStatus.OK);
   }
 }
