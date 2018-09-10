@@ -1,19 +1,23 @@
-mutation ($title: String!, $search_params: String, $type: String!, $page_id: Int, $lang: LanguageId!) {
-  createFavoriteItem(input: {favorite_title: $title, page_id: $page_id, type: $type, search: $search_params}, language: $lang) {
-    errors
-    violations {
-      path
-      code
-      message
-    }
-    entity {
+mutation($id:Int!, $language: LanguageId!){
+  createFavoriteItem(input:{page_id:$id}, language:$language){
+    entity{
       ... on FavoriteEntity{
-        favorites{
+        favoritesNew{
+          targetId
           entity{
-            fieldFavoriteTitle
+            entityLabel
+            entityUrl{
+              path
+            }
           }
         }
       }
+    }
+    errors
+    violations {
+      message
+      path
+      code
     }
   }
 }
