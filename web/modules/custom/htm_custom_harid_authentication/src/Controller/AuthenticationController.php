@@ -23,8 +23,7 @@ class AuthenticationController extends ControllerBase {
     $oidc->addScope('email');
     $oidc->authenticate();
     kint($oidc);
-    kint($oidc->requestUserInfo());
-    kint($clientCredentialsToken);
+    kint($oidc->requestUserInfo('personal_code'));
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     #kint($actual_link);
