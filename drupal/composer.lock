@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "985466ac1b56c67d2a41f99aae9ae4d4",
+    "content-hash": "5d64745f456f4b0faf3f95b117e39861",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3444,6 +3444,53 @@
             }
         },
         {
+            "name": "drupal/http_cache_control",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/http_cache_control",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/http_cache_control-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "91e160fd1f944f9058d8bf27b092e29b169b88e0"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1536274980",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Waihi",
+                    "homepage": "https://www.drupal.org/user/188162"
+                }
+            ],
+            "description": "Module for implementing s-max-age",
+            "homepage": "https://www.drupal.org/project/http_cache_control",
+            "support": {
+                "source": "http://cgit.drupalcode.org/http_cache_control"
+            }
+        },
+        {
             "name": "drupal/image_style_warmer",
             "version": "1.0.0-alpha4",
             "source": {
@@ -4761,6 +4808,54 @@
             "homepage": "https://www.drupal.org/project/purge_purger_http",
             "support": {
                 "source": "http://cgit.drupalcode.org/purge_purger_http"
+            }
+        },
+        {
+            "name": "drupal/purge_queuer_url",
+            "version": "1.0.0-rc1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/purge_queuer_url",
+                "reference": "8.x-1.0-rc1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/purge_queuer_url-8.x-1.0-rc1.zip",
+                "reference": "8.x-1.0-rc1",
+                "shasum": "743b9adf43118c151e606198e9c1e5c2129c8524"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/purge": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-rc1",
+                    "datestamp": "1504610044",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "nielsvm",
+                    "homepage": "https://www.drupal.org/user/163285"
+                }
+            ],
+            "description": "Queues URLs or paths to your Purge queue utilizing a traffic database.",
+            "homepage": "https://www.drupal.org/project/purge_queuer_url",
+            "support": {
+                "source": "http://cgit.drupalcode.org/purge_queuer_url"
             }
         },
         {

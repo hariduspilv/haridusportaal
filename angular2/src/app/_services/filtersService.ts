@@ -93,12 +93,8 @@ export class FiltersService {
   clearField(name:any){
     this.filterFormItems[name] = '';
   }
-  filterSubmit($event:any = false) {
+  filterSubmit() {
 
-    if( $event ){
-      $event.preventDefault();
-    }
-    
     let urlParams = {};
 
     for( var i in this.filterFormItems ){
@@ -121,8 +117,6 @@ export class FiltersService {
       }
     }
 
-    console.log("asd");
-    console.log(urlParams);
     this.router.navigate([], {
       queryParams: urlParams,
       replaceUrl: true

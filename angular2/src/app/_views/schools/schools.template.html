@@ -7,7 +7,7 @@
   </a> 
 </div>
 
-<form (submit)="filterSubmit($event)" class="filter-wrapper" *ngIf="showFilter">
+<form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
   <div class="main-container">
     <div class="row form-first-row" [class.short-filter]="!filterFull">
       <div class="col-4 sm-12 form-col">
@@ -169,10 +169,10 @@
 
   <ng-container *ngIf="view == 'map'">
     <div class="map--wrapper">
-      <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" maxZoom="16" [styles]="mapOptions.styles">
+      <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" maxZoom="16">
         <agm-marker-cluster [styles]="mapOptions.clusterStyles" maxZoom="15">
           <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.Lat)"  [longitude]="parseFloat(marker.Lon)" >
-            <agm-snazzy-info-window [closeWhenOthersOpen]="true" maxHeight="9999">
+            <agm-snazzy-info-window [closeWhenOthersOpen]="true">
               <ng-template>
                 <p class="title">{{ marker.FieldSchoolName }}</p>
                 <p *ngIf="marker.FieldAddress">{{ 'school.legal_address' | translate }}: <b>{{ marker.FieldAddress }}</b></p>

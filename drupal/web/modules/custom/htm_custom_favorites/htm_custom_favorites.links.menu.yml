@@ -1,14 +1,14 @@
 
-# Favorite menu items definition
+# Favorite entity menu items definition
 entity.favorite_entity.collection:
-  title: 'Favorite list'
+  title: 'Favorite entity list'
   route_name: entity.favorite_entity.collection
-  description: 'List Favorite entities'
+  description: 'List Favorite entity entities'
   parent: system.admin_structure
   weight: 100
 
 favorite_entity.admin.structure.settings:
-  title: 'Favorite settings'
-  description: 'Configure Favorite entities'
+  title: 'Favorite entity settings'
+  description: 'Configure Favorite entity entities'
   route_name: favorite_entity.settings
   parent: system.admin_structure

@@ -28,16 +28,15 @@ export class HttpService {
         headers = headers.append('Authorization', `Bearer ${token}`);
       }
       
-      headers = headers.append('Cache-Control', 'no-cache');
-
     }
+
 
     //console.log(headers);
     return headers;
   }
 
   parseUrl(url){
-    if( !url.match(/.*\s*:\/\/\s*/) && !url.match("/assets") ){
+    if( !url.match(/.*\s*:\/\/\s*/) ){
       return this.settings.url+url;
     }else{
       return url;

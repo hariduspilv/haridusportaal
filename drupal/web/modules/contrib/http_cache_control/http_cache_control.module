@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * @file
+ * Contains http_cache_control.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function http_cache_control_form_system_performance_settings_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $config = \Drupal::service('config.factory')->get('system.performance');
+
+  // Regardless to whether s-maxage is used or not, this control will always
+  // dictate the cache lifetime shared by proxies and sometimes browsers.
+  $form['caching']['page_cache_maximum_age']['#title'] = t('Shared cache maximum age');
+  $form['caching']['page_cache_maximum_age']['#description'] = t('The maximum time a page can be cached by proxies. This is used as the value for s-maxage in Cache-Control headers.');
+
+  $form['caching']['http_max_age'] = [
+    '#type' => 'select',
+    '#title' => t('Browser cache maximum age'),
+    '#default_value' => $config->get('cache.http.max_age'),
+    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
+    '#description' => t('The maximum time a page can be cached by browsers. This is used as the value for max-age in Cache-Control headers.'),
+  ];
+
+  $form['caching']['404_max_age'] = [
+    '#type' => 'select',
+    '#title' => t('404 cache maximum age'),
+    '#default_value' => $config->get('cache.http.404_max_age'),
+    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
+    '#description' => t('The maximum time a 404 page can be cached by proxies. Browsers will inherit the browser cache maximum age.'),
+  ];
+
+  $form['caching']['302_max_age'] = [
+    '#type' => 'select',
+    '#title' => t('302 cache maximum age'),
+    '#default_value' => $config->get('cache.http.302_max_age'),
+    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
+    '#description' => t('The maximum time a 302 Temporary Redirect can be cached by proxies. Browsers will inherit the browser cache maximum age.'),
+  ];
+
+  $form['caching']['301_max_age'] = [
+    '#type' => 'select',
+    '#title' => t('301 cache maximum age'),
+    '#default_value' => $config->get('cache.http.301_max_age'),
+    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
+    '#description' => t('The maximum time a 301 Permanent Redirect can be cached by proxies. Browsers will inherit the browser cache maximum age.'),
+  ];
+
+  $form['caching']['5xx_max_age'] = [
+    '#type' => 'select',
+    '#title' => t('5xx cache maximum age'),
+    '#default_value' => $config->get('cache.http.5xx_max_age'),
+    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
+    '#description' => t('The maximum time a 500 level response can be cached by proxies. Note: this is subject to Drupal being able to render the response.'),
+  ];
+
+  $form['#submit'][] = 'http_cache_control_form_system_performance_settings_submit';
+}
+
+/**
+ * Additional form submit handler for System Performance Settings form.
+ */
+function http_cache_control_form_system_performance_settings_submit(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::service('config.factory')->getEditable('system.performance');
+  $config
+    ->set('cache.http.max_age', $form_state->getValue('http_max_age'))
+    ->set('cache.http.404_max_age', $form_state->getValue('404_max_age'))
+    ->set('cache.http.302_max_age', $form_state->getValue('302_max_age'))
+    ->set('cache.http.301_max_age', $form_state->getValue('301_max_age'))
+    ->save();
+}

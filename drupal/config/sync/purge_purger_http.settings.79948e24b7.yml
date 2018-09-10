@@ -4,7 +4,7 @@ status: true
 dependencies: {  }
 id: 79948e24b7
 name: 'Nginx Purge'
-invalidationtype: tag
+invalidationtype: url
 hostname: proxy-nginx
 port: 80
 path: /
@@ -13,7 +13,7 @@ scheme: http
 verify: '1'
 headers:
   -
-    field: Purge-Cache-Tags
+    field: Purge-Cache-Url
     value: '[invalidation:expression]'
 body: ''
 body_content_type: text/plain

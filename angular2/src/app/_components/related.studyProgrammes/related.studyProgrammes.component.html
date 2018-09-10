@@ -2,7 +2,7 @@
   
   <div class="block-title">{{ 'studyProgramme.related_label' | translate | uppercase }}</div>
 
-  <form class="block-form" (submit)="filterSubmit($event)">
+  <form class="block-form" (submit)="filterSubmit()">
     <div class="flex wrap">
       <div class="grow full">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.location">

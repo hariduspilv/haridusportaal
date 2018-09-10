@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityChangedInterface;
 use Drupal\user\EntityOwnerInterface;
 
 /**
- * Provides an interface for defining Favorite entities.
+ * Provides an interface for defining Favorite entity entities.
  *
  * @ingroup htm_custom_favorites
  */
@@ -16,61 +16,42 @@ interface FavoriteEntityInterface extends ContentEntityInterface, EntityChangedI
   // Add get/set methods for your configuration properties here.
 
   /**
-   * Gets the Favorite name.
-   *
-   * @return string
-   *   Name of the Favorite.
-   */
-  public function getName();
-
-  /**
-   * Sets the Favorite name.
-   *
-   * @param string $name
-   *   The Favorite name.
-   *
-   * @return \Drupal\htm_custom_favorites\Entity\FavoriteEntityInterface
-   *   The called Favorite entity.
-   */
-  public function setName($name);
-
-  /**
-   * Gets the Favorite creation timestamp.
+   * Gets the Favorite entity creation timestamp.
    *
    * @return int
-   *   Creation timestamp of the Favorite.
+   *   Creation timestamp of the Favorite entity.
    */
   public function getCreatedTime();
 
   /**
-   * Sets the Favorite creation timestamp.
+   * Sets the Favorite entity creation timestamp.
    *
    * @param int $timestamp
-   *   The Favorite creation timestamp.
+   *   The Favorite entity creation timestamp.
    *
    * @return \Drupal\htm_custom_favorites\Entity\FavoriteEntityInterface
-   *   The called Favorite entity.
+   *   The called Favorite entity entity.
    */
   public function setCreatedTime($timestamp);
 
   /**
-   * Returns the Favorite published status indicator.
+   * Returns the Favorite entity published status indicator.
    *
-   * Unpublished Favorite are only visible to restricted users.
+   * Unpublished Favorite entity are only visible to restricted users.
    *
    * @return bool
-   *   TRUE if the Favorite is published.
+   *   TRUE if the Favorite entity is published.
    */
   public function isPublished();
 
   /**
-   * Sets the published status of a Favorite.
+   * Sets the published status of a Favorite entity.
    *
    * @param bool $published
-   *   TRUE to set this Favorite to published, FALSE to set it to unpublished.
+   *   TRUE to set this Favorite entity to published, FALSE to set it to unpublished.
    *
    * @return \Drupal\htm_custom_favorites\Entity\FavoriteEntityInterface
-   *   The called Favorite entity.
+   *   The called Favorite entity entity.
    */
   public function setPublished($published);
 

@@ -9,7 +9,7 @@ id: paragraph.homepage_topics.field_topic_title
 field_name: field_topic_title
 entity_type: paragraph
 bundle: homepage_topics
-label: 'Topic title'
+label: 'Teema pealkiri'
 description: ''
 required: false
 translatable: false
