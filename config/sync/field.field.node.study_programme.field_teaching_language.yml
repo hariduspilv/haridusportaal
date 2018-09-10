@@ -6,8 +6,6 @@ dependencies:
     - field.storage.node.field_teaching_language
     - node.type.study_programme
     - taxonomy.vocabulary.teaching_language
-  content:
-    - 'taxonomy_term:teaching_language:e1a3ab40-f17f-441e-9c34-9b36af343a8e'
 id: node.study_programme.field_teaching_language
 field_name: field_teaching_language
 entity_type: node
@@ -15,7 +13,7 @@ bundle: study_programme
 label: Õppekeel
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value:
   -
     target_uuid: e1a3ab40-f17f-441e-9c34-9b36af343a8e
