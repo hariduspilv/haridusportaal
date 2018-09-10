@@ -17,22 +17,22 @@ public class KutseregisterWorker extends Worker {
   @Autowired
   private KutseregisterV6XRoadService kutseregisterV6XRoadService;
 
-  private final String KUTSEREGISTER_REDIS_KEY = "KUTSEREGISTER";
-
   public ObjectNode work(String personalCode, boolean invalidBoolean, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("Kutseregister - kodanikKutsetunnistus.V2");
 
     responseNode.put("request_timestamp", timestamp)
         .put("response_timestamp", "")
         .put("key", "kutsetunnistused_" + personalCode);
-    ObjectNode value = responseNode.putObject("value");
 
     try {
       KodanikKutsetunnistusVastus response = kutseregisterV6XRoadService
           .kodanikKutsetunnistus(invalidBoolean, personalCode);
 
+      ObjectNode value = responseNode.putObject("value");
       value.put("kirjeid", response.isSetKirjeid() ? response.getKirjeid().intValue() : 0)
           .put("teade", response.isSetTeade() ? response.getTeade() : null);
       ArrayNode kutsetunnistused = value.putArray("kutsetunnistused");
@@ -103,23 +103,23 @@ public class KutseregisterWorker extends Worker {
           "Kutseregister - kodanikKutsetunnistus.V2 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
       LOGGER.error(e, e);
+
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
 
-      redisTemplate.opsForHash()
-          .put(KUTSEREGISTER_REDIS_KEY, "kutsetunnistused_" + personalCode, "Tehniline viga!");
+      redisTemplate.opsForHash().put(personalCode, "kodanikKutsetunnistus", "Tehniline viga!");
 
       responseNode.putObject("error")
           .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+      responseNode.remove("value");
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "KODANIKKUTSETUNNISTUS");
+    sender.send(logsTopic, null, logForDrupal, "kutseregister.kodanikKutsetunnistus.v2");
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
-    redisTemplate.opsForHash()
-        .put(KUTSEREGISTER_REDIS_KEY, "kutsetunnistused_" + personalCode, responseNode);
+    redisTemplate.opsForHash().put(personalCode, "kodanikKutsetunnistus", responseNode);
 
     return responseNode;
   }
