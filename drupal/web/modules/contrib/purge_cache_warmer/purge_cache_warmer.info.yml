@@ -1,0 +1,14 @@
+name: Purge Cache Warmer
+# core: 8.x
+description: Implements a cache warmer which rebuilds a URL after the cache is cleared.
+type: module
+package: Purge
+dependencies:
+  - purge
+  - purge_queuer_url
+
+# Information added by Drupal.org packaging script on 2017-01-19
+version: '8.x-1.0-alpha2'
+core: '8.x'
+project: 'purge_cache_warmer'
+datestamp: 1484828890
