@@ -12,7 +12,7 @@
           <label class="checkbox__container pointer">
             <span class="label">{{ item.entityLabel }}</span>
             <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" (change)="updateRSSLink()">
-            <span class="checkmark"></span>
+            <span class="checkmark" [class.checked]="formItems[item.entityId]"></span>
           </label>
         </div>
       </div><!--block__content--form__checklist-->
