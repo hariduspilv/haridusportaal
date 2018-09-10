@@ -16,7 +16,8 @@ class AuthenticationController extends ControllerBase {
     $oidc->providerConfigParam(array('token_endpoint' => 'https://test.harid.ee/et/access_tokens'));
     $oidc->addScope('personal_code');
     $oidc->authenticate();
-    kint($oidc->requestUserInfo('personal_code'));
+    $id = list('country','type','idcode') = explode(':', $oidc->requestUserInfo('personal_code'));
+    kint($id);
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     #kint($actual_link);
