@@ -142,9 +142,7 @@ class CreateFavoriteItem extends CreateEntityBase{
 					$entity->get($key)->setValue($value);
 				}
 				if($entity->favorites->count() >= 10){
-					return new EntityCrudOutputWrapper($entity, NULL, [
-							$this->t('Favorite limit reached (max 10)')
-					]);
+					return new EntityCrudOutputWrapper($entity, NULL, [1]);
 				}else{
 					/*append favorites*/
 					$entity->favorites[] = $this->createNewFavoriteParagraph($favs);
