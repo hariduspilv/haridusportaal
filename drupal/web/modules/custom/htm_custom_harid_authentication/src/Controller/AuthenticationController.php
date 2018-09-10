@@ -21,6 +21,7 @@ class AuthenticationController extends ControllerBase {
     $oidc->addScope('openid');
     $oidc->addScope('roles');
     $oidc->addScope('email');
+    $oidc->authenticate();
     kint($oidc);
     kint($oidc->requestUserInfo());
     kint($clientCredentialsToken);
