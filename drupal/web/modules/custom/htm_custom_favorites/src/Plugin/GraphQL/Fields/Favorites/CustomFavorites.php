@@ -22,7 +22,11 @@ use Drupal\Core\Language\LanguageManager;
  *   description = @Translation("Loads all user favorites"),
  *   type = "[Entity]",
  *   response_cache_tags = {"favorite_entity_list"},
- *   response_cache_context = {"user"}
+ *   response_cache_context = {"user"},
+ *   arguments = {
+ *     "language" = "LanguageId"
+ *   },
+ *   contextual_arguments = {"language"}
  *
  * )
  */
