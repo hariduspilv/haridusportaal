@@ -1,0 +1,20 @@
+uuid: c9102549-1d94-480f-a2f8-daa1232909ec
+langcode: et
+status: true
+dependencies:
+  config:
+    - media.type.crop_images
+id: media.crop_images.name
+field_name: name
+entity_type: media
+bundle: crop_images
+label: Nimi
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: string

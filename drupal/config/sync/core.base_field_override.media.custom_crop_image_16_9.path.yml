@@ -1,0 +1,20 @@
+uuid: a7476766-12b2-44e9-9f26-c93d50233011
+langcode: et
+status: true
+dependencies:
+  config:
+    - media.type.custom_crop_image_16_9
+  module:
+    - path
+id: media.custom_crop_image_16_9.path
+field_name: path
+entity_type: media
+bundle: custom_crop_image_16_9
+label: 'URL-i alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

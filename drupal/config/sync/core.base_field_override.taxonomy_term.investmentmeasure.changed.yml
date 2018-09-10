@@ -1,0 +1,18 @@
+uuid: 7bd12321-16d0-4694-bc1e-f3c0883f20cc
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.investmentmeasure
+id: taxonomy_term.investmentmeasure.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: investmentmeasure
+label: Muudetud
+description: 'Termi viimase muutmise aeg.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

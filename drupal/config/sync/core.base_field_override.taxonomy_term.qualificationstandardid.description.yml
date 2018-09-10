@@ -1,0 +1,20 @@
+uuid: dba6f898-8bb0-43c0-9cd5-e12746fa5a2b
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.qualificationstandardid
+  module:
+    - text
+id: taxonomy_term.qualificationstandardid.description
+field_name: description
+entity_type: taxonomy_term
+bundle: qualificationstandardid
+label: Kirjeldus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
