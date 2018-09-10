@@ -1,0 +1,20 @@
+uuid: d6df7515-090a-4a33-ae74-83469c341297
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+id: event_reg_entity.event_reg_entity.participant_organization
+field_name: participant_organization
+entity_type: event_reg_entity
+bundle: event_reg_entity
+label: 'Osaleja organisatsioon'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: string
