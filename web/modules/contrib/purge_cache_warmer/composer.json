@@ -1,0 +1,5 @@
+{
+  "name": "drupal/purge_cache_warmer",
+  "description": "Implements a cache warmer which rebuilds a URL after the cache is cleared.",
+  "type": "drupal-module"
+}
