@@ -267,7 +267,11 @@ class xJsonService implements xJsonServiceInterface {
 		}else{
 			$element_def['value'] = $value;
 		}
-		#$this->validateDataElement($element_def);
+
+		//Sort table values
+		$element_def = $this->sortTableValues($element_def);
+
+
 		return ($this->validateDataElement($element_def)) ? $element_def : [];
 	}
 
@@ -360,7 +364,7 @@ class xJsonService implements xJsonServiceInterface {
 		return $valid;
 	}
 
-	public function xJsonGetDocumentById($file_id){
+	/*public function xJsonGetDocumentById($file_id){
 			try{
 				$redis_client = ClientFactory::getClient();
 			}catch (\RedisException $e){
@@ -368,9 +372,9 @@ class xJsonService implements xJsonServiceInterface {
 				dump($e->getMessage());
 			}
 			return [];
-	}
+	}*/
 
-	public function getTestForm($form_name = NULL){
+	/*public function getTestForm($form_name = NULL){
 		$id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
 		$entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
 
@@ -383,6 +387,36 @@ class xJsonService implements xJsonServiceInterface {
 		}else{
 			return NULL;
 		}
+	}*/
 
+	public function buildTestResponse(){
+		$id = $this->getFormNameFromRequest();
+		$entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
+
+		$connection = \Drupal::database();
+		$query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition_test->'header'->>'form_name' = :id", array(':id' => $id));
+		$result = $query->fetchField();
+		if($result){
+			$entity = $entityStorage->load($result);
+			return $this->buildFormv2(Json::decode($entity->get('xjson_definition_test')->value));
+		}else{
+			return NULL;
+		}
 	}
+
+	function sortTableValues($table_element){
+
+		$table_cols = array_keys($table_element['table_columns']);
+
+		if(is_array($table_element['value'])){
+			foreach($table_element['value'] as &$value){
+				$properOrderedArray = array_merge(array_flip($table_cols), $value);
+				$keys = array_keys(array_diff_key(array_flip($table_cols), $value));
+				$value = $properOrderedArray;
+				foreach ($keys as $key) $value[$key] = NULL;
+			}
+		}
+		return $table_element;
+	}
+
 }
