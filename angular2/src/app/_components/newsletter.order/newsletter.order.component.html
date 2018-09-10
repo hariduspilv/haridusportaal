@@ -17,6 +17,7 @@
         </div>
       </div><!--block__content--form__checklist-->
 
+
       <div class="block__content--form__input">
         <div class="flex wrap xxs">
           <ng-container *ngIf="!order">
@@ -26,6 +27,7 @@
             <div class="btn">
               <div class="outer">
                 <a href="http://test-htm.wiseman.ee:30000/et/custom/rss.xml{{ rssIDs }}" target="_blank">{{ 'button.rss_order' | translate }} </a>
+
               </div>
             </div>
           </ng-container>
@@ -44,10 +46,12 @@
                 </div>
               </div>
             </div>
+
             <div class="btn">
               <button mat-raised-button color="primary">{{ 'button.newsletter_submit' | translate }} </button>
             </div>
           </ng-container>
+
         </div>
       </div><!--block__content--form__input-->
     </form><!--block__content--form-->
