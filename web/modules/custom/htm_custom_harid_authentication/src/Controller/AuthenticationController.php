@@ -15,7 +15,6 @@ class AuthenticationController extends ControllerBase {
     $oidc->setResponseTypes(array('code'));
     $oidc->addScope(array('personal_code'));
     $oidc->setAllowImplicitFlow(true);
-    $oidc->addAuthParam(array('response_mode' => 'form_post'));
     $oidc->authenticate();
     kint($oidc);
     die();
