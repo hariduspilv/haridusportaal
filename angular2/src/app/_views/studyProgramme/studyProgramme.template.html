@@ -5,7 +5,7 @@
       <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
     </a> 
   </div>
-  <form (submit)="filterSubmit($event)" class="filter-wrapper" *ngIf="showFilter">
+  <form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
     <div class="main-container">
       <div class="row form-first-row" [class.short-filter]="!filterFull">
         <div class="col-4 sm-12 form-col">

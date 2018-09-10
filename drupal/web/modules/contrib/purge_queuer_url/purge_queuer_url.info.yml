@@ -1,0 +1,13 @@
+name: URLs queuer
+type: module
+description: 'Queues URLs or paths to your Purge queue utilizing a traffic database.'
+package: "Purge - queuers"
+# core: 8.x
+dependencies:
+  - purge
+
+# Information added by Drupal.org packaging script on 2017-09-05
+version: '8.x-1.0-rc1'
+core: '8.x'
+project: 'purge_queuer_url'
+datestamp: 1504610051

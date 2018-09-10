@@ -4,13 +4,13 @@
  * @file
  * Contains favorite_entity.page.inc.
  *
- * Page callback for Favorite entities.
+ * Page callback for Favorite entity entities.
  */
 
 use Drupal\Core\Render\Element;
 
 /**
- * Prepares variables for Favorite templates.
+ * Prepares variables for Favorite entity templates.
  *
  * Default template: favorite_entity.html.twig.
  *

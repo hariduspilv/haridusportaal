@@ -10,7 +10,10 @@ use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
  *   id = "favorite_input",
  *   name = "FavoriteInput",
  *   fields = {
- *     "page_id" = "Int"
+ *   	 "favorite_title" = "String!",
+ *     "page_id" = "Int",
+ *   	 "type" = "String!",
+ *   	 "search" = "String",
  *   }
  * )
  */

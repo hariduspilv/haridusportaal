@@ -22,7 +22,7 @@ third_party_settings:
     unpublish_revision: false
 name: Avaleht
 type: avaleht
-description: ''
+description: 'Siit saab seadistada avalehel kuvatavat'
 help: ''
 new_revision: true
 preview_mode: 1
