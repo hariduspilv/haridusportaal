@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy , SimpleChanges} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
 import { Observable, Subscription } from '../../../../node_modules/rxjs';
@@ -53,11 +53,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         (params: ActivatedRoute) => {
 
           this.lang = params['lang'];
-        }
-        );
+      });
 
       this.subscriptions = [...this.subscriptions, subscribe];
     }
+    
     getFavouritesList():void{
       this.loading= true;
 
@@ -122,9 +122,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   }
   isFavouriteExisting(list){
     this.existing = list.some(item => {
-      if(item.targetId == this.id ){
-        this.existingItem = item;
-        return true
+      if(item.entity != null){
+        if(item.targetId == this.id ){
+          this.existingItem = item;
+          return true
+        }
       }
     });
     console.log(this.existing);
@@ -195,7 +197,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     if( this.existingFavouriteItems.length >= this.maxFavouriteItems) return false;
     else return true;
   }
-  ngOnInit(){
+  initiateComponent(){
     this.pathWatcher();
 
     this.userLoggedOut = this.user.getData()['isExpired'];
@@ -210,10 +212,8 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       
       subscribe.unsubscribe();
     });
-
-    
   }
-  ngOnDestroy(){
+  destroyComponent(){
     console.log('destroying!');
     /* Clear all subscriptions */
     for (let sub of this.subscriptions) {
@@ -222,6 +222,18 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       }
     }
     if(this.snackbar) this.snackbar.dismiss();
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.id.firstChange == false){
+      this.destroyComponent();
+      this.initiateComponent();
+    }
+  }
+  ngOnInit(){
+    this.initiateComponent();
+  }
+  ngOnDestroy(){
+    this.destroyComponent();
   }
 }
 
