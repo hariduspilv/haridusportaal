@@ -27,7 +27,6 @@
             <div class="btn">
               <div class="outer">
                 <a href="http://test-htm.wiseman.ee:30000/et/custom/rss.xml{{ rssIDs }}" target="_blank">{{ 'button.rss_order' | translate }} </a>
-
               </div>
             </div>
           </ng-container>
@@ -63,6 +62,6 @@
   </div>
   <div class="block__content--message" *ngIf="subscribedStatus && subscribedFailure">
     <div class="block__content--message__content" role="alert">{{ 'newsletter.subscription_failed' | translate }}</div>
-    <div class="block__content--message__subcontent" role="alert">{{ subscribedFailure }}</div>
+    <button class="again" type="button" (click)="resetView()" attr.aria-label="{{'button.try_again' | translate}}" mat-raised-button color="primary">{{ 'button.try_again' | translate }} </button>
   </div>
 </div><!--block-->

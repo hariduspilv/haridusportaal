@@ -31,7 +31,9 @@
     }
   }
 
-  button {width: 100%;box-sizing: border-box;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+  button {width: 100%;box-sizing: border-box;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+    &.again {width: 100%; @include break-on(sm, min){width: auto;}}
+  }
 
 }
 .checkbox {
