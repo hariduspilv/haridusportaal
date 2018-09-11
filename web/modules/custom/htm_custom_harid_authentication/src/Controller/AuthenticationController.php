@@ -24,7 +24,7 @@ class AuthenticationController extends ControllerBase {
       }
 
       if(isset($account)){
-        $this->getJwt();
+        $this->getJwt($account);
       }else{
         $message = t('Unable to authenticate user.');
         throw new HttpException(500, $message);
@@ -41,7 +41,7 @@ class AuthenticationController extends ControllerBase {
 
   }
 
-  public function getJwt(){
+  public function getJwt($account){
     $request_url = $_SERVER['HTTP_HOST'];
     $request_url .= '/api/v1/token?_format=json';
 
