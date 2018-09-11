@@ -14,12 +14,10 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class HeaderComponent {
 
-hideElement = false;
-
+  hideElement = false;
+  param: any;
   languages: any;
-
   logoLink: any;
-
   activeLanguage: any;
 
   constructor(
