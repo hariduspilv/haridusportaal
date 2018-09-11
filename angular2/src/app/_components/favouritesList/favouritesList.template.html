@@ -9,9 +9,9 @@
     <ul class="list" *ngIf="list.length">
 
       <li *ngFor="let item of list">
-       
-        <a [routerLink]="[item.entity.entityUrl.path]"> <mat-icon>link</mat-icon> {{item.entity.entityLabel}} </a>
-
+        <ng-container *ngIf="item.entity">
+          <a [routerLink]="[item.entity.entityUrl.path]"> <mat-icon>link</mat-icon> {{item.entity.entityLabel}} </a>
+        </ng-container>
       </li>
 
     </ul>
