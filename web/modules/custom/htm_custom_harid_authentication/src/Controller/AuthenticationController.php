@@ -76,7 +76,7 @@ class AuthenticationController extends ControllerBase {
       $message = t('Unable to authenticate user.');
       throw new HttpException(500, $message);
     }
-    $userInfo = $oidc->requestUserInfo('personal_code');
+    $userInfo = $oidc->requestUserInfo();
     return $userInfo;
   }
 
