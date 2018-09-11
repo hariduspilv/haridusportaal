@@ -77,6 +77,8 @@ class AuthenticationController extends ControllerBase {
       throw new HttpException(500, $message);
     }
     $userInfo = $oidc->requestUserInfo();
+    kint($userInfo);
+    die();
     return $userInfo;
   }
 
