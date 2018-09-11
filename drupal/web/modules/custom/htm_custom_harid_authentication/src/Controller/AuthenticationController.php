@@ -38,7 +38,7 @@ class AuthenticationController extends ControllerBase {
       'Content-Type' => 'application/json'
     );
 
-    kint($account->field_user_idcode);
+    kint($account->field_user_idcode->value);
     die();
 
     $params['body'] = json_encode(array(
