@@ -27,4 +27,14 @@ count
 }
 }
 }
+
+investmentDeadline: subsidyProjectEntityQuery{
+  entities{
+    ... on SubsidyProjectEntity{
+      investmentDeadline{
+        value
+      }
+    }
+  }
+}
 }

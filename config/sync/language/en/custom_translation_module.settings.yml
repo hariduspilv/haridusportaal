@@ -62,7 +62,7 @@ event:
   registration_form_valid_email: 'Enter a correct email'
   registration_form_send: Send
   registration_form_close: 'Close window'
-  registration_form_add_to_calendar: 'Add the event to your calendar'
+  registration_form_add_to_calendar: 'Add the event to your calendar (iCal)'
   registration_ended: 'Event registration ended'
   registration_not_started: 'Event registration not started'
   registration_form_cancel: Cancel
@@ -173,3 +173,41 @@ studyProgramme:
   filter_iscedf_detailed: 'Curriculum group'
   filter_open_admission: 'Only open admission'
   no_result: 'No results'
+frontpage:
+  label: Frontpage
+  navigate: 'Go to frontpage'
+  favourites_limit_modal_title: 'Add to favourites'
+  favourites_limit_modal_content: 'You can save up to 10 favourites'
+  favourites_limit_modal_close: 'Close window'
+  favourites_list_label: 'My favourites'
+  favourites_list_none_message: 'You have not added any favourites yet. You can add them by clicking the star icon while visiting a page.'
+  favourites_snackbar_message: 'Page added as a favourite. You can view your favourites on dashboard.'
+  favourites_snackbar_action: 'View dashboard'
+  dashboard_label: Dashboard
+  dashboard_tabs_applications: Applications
+  dashboard_tabs_certificates: Certificates
+  dashboard_tabs_studies: Studies
+  dashboard_tabs_teachings: Teaching
+  dashboard_tabs_certificates_error_technical: 'Apologies, there was a technical error. Try again later.'
+  dashboard_tabs_certificates_professional: 'Professional certificate'
+  dashboard_tabs_certificates_examinations: Examinations
+  dashboard_tabs_certificates_number: 'Certificate number'
+  dashboard_tabs_certificates_name: 'Certificate name'
+  dashboard_tabs_certificates_type: Type
+  dashboard_tabs_certificates_standard: Standard
+  dashboard_tabs_certificates_ekr: 'EKR level'
+  dashboard_tabs_certificates_eqf: 'EQF level'
+  dashboard_tabs_certificates_specialization: Specialization
+  dashboard_tabs_certificates_part: 'Part of vocation'
+  dashboard_tabs_certificates_competence: Competence
+  dashboard_tabs_certificates_field: Field
+  dashboard_tabs_certificates_field_topic: Topic
+  dashboard_tabs_certificates_qualification: 'Academic qualification'
+  dashboard_tabs_certificates_language: 'Examination language'
+  dashboard_tabs_certificates_issuer: Issuer
+  dashboard_tabs_certificates_issued_at: 'Issued at'
+  dashboard_tabs_certificates_valid_from: 'Valid from'
+  dashboard_tabs_certificates_valid_to: 'Valid to'
+  dashboard_tabs_certificates_isco: 'Profession classification (ISCO)'
+  dashboard_tabs_certificates_duplicate: Duplicate
+  dashboard_tabs_certificates_notvalid: Invalid

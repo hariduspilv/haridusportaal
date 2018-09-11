@@ -11,7 +11,7 @@ id: node.avaleht.field_supernews_unpublish_date
 field_name: field_supernews_unpublish_date
 entity_type: node
 bundle: avaleht
-label: 'Supernews unpublish date'
+label: 'Superuudise varjamise kuupäev'
 description: ''
 required: false
 translatable: false
