@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains term_csv_export_import.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function term_csv_export_import_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the term_csv_export_import module.
+    case 'help.page.term_csv_export_import':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Helper module to quickly import a list of terms with parent structure.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

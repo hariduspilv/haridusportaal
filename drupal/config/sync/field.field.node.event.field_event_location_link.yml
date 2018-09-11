@@ -1,0 +1,23 @@
+uuid: 5fa91800-1ad0-4989-949a-d9f32c18d8b6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_location_link
+    - node.type.event
+  module:
+    - link
+id: node.event.field_event_location_link
+field_name: field_event_location_link
+entity_type: node
+bundle: event
+label: 'Sündmuse asukoha link'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

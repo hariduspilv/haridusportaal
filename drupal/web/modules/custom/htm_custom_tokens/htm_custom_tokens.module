@@ -1,0 +1,192 @@
+<?php
+
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\image\Entity\ImageStyle;
+/**
+ * @file
+ * Contains htm_custom_tokens.module.
+ */
+
+/**
+ * Implements hook_token_info().
+ */
+function htm_custom_tokens_token_info() {
+	$eventtype = [
+		'name' => t('HTM custom event tokens'),
+		'description' => t('Tokens for events.'),
+	];
+	$eventtoken['event_start_end'] = [
+		'name' => t('Event start and end date'),
+		'description' => t('Get referencing event start and end date'),
+	];
+	$eventtoken['custom_event_link'] = [
+		'name' => t('Link to event'),
+		'description' => t('Get referencing event link'),
+	];
+
+	$subscriptiontype = [
+		'name' => t('HTM custom subscription tokens'),
+		'description' => t('Tokens for subscriptions.'),
+	];
+	$subscriptiontoken['news'] = [
+		'name' => t('News item'),
+		'description' => t('Get referencing news item.'),
+	];
+	$subscriptiontoken['events'] = [
+		'name' => t('Event item'),
+		'description' => t('Get referencing event item.'),
+	];
+	$subscriptiontoken['newtags'] = [
+		'name' => t('New tags'),
+		'description' => t('Get new tags to subscribe to.'),
+	];
+	$subscriptiontoken['tags'] = [
+		'name' => t('Current tags'),
+		'description' => t('Get current subscribed tags.'),
+	];
+	$subscriptiontoken['subscribe_link'] = [
+		'name' => t('Subscription confirmation link'),
+		'description' => t('Get link for confirming your subscription.'),
+	];
+	$custom_node_token['custom_url'] = [
+		'name' => t('custom node url'),
+		'description' => t('override default node url'),
+	];
+	$custom_node_token['custom_img'] = [
+		'name' => t('custom node image for twitter'),
+		'description' => t('Custom image for twitter card'),
+	];
+
+	return [
+		'types' => ['htm_custom_event_tokens' => $eventtype, 'htm_custom_subscription_tokens' => $subscriptiontype],
+		'tokens' => ['htm_custom_event_tokens' => $eventtoken, 'htm_custom_subscription_tokens' => $subscriptiontoken, 'node' => $custom_node_token]
+	];
+}
+
+/**
+ * Implements hook_tokens()
+ */
+function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata){
+	/*dump($type);
+	dump($tokens);*/
+	$replacements = [];
+	if($type === 'node'){
+		/* @var $node \Drupal\Core\Entity\Entity */
+		$node = $data['node'];
+		$node_type = $node->getType();
+		#$node_type = $node
+		$fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+
+		foreach($tokens as $name => $original){
+			#dump($name);
+			switch ($name){
+				case 'summary':
+					#dump($node_type);
+					switch ($node_type) {
+						case 'news':
+							$body = $node->get('field_short_description')->getString();
+							$replacements[$original] = $body;
+							break;
+						case 'article':
+							$body = $node->get('field_body_summary')->getString();
+							$replacements[$original] = $body;
+							break;
+						case 'event':
+							$body = $node->get('field_description_summary')->getString();
+							$replacements[$original] = $body;
+							break;
+					}
+					break;
+				case 'custom_url':
+					$url = $fe_url . $node->url();
+					$replacements[$original] = $url;
+					break;
+				case 'custom_img':
+					switch ($node_type){
+						case 'news':
+							$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_introduction_image')->entity->getFileUri());
+							$replacements[$original] = $image;
+							break;
+						case 'article':
+							$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_image')->entity->getFileUri());
+							$replacements[$original] = $image;
+							break;
+						case 'event':
+							if($node->get('field_picture')->entity != NULL){
+								$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_picture')->entity->getFileUri());
+								$replacements[$original] = $image;
+							}
+							break;
+					}
+					#dump($node);
+					break;
+			}
+		}
+	}
+	if($type === 'htm_custom_event_tokens' && !empty($data['event_reg_entity'])){
+		foreach($tokens as $name => $original){
+			switch ($name){
+				case 'event_start_end':
+					$entity = $data['event_reg_entity'];
+					$replacements[$original] = $entity->getReferenceEventDates('d.m.Y');
+					break;
+				case 'custom_event_link':
+					if($path = $options['custom_link_path']){
+						$alias = \Drupal::service('path.alias_manager')->getAliasByPath('/node/'.$data['ref_event']->id());
+						//dump($alias);
+						$link = $path .'/'. $options['langcode'] . $alias;
+						$replacements[$original] = '<a href="'.$link.'">' . t('link üritusele', [], ['langcode' => $options['langcode']]) . '</a>';
+					}
+					break;
+			}
+		}
+	}
+
+
+	if($type === 'htm_custom_subscription_tokens'){
+		foreach($tokens as $name => $original){
+			switch ($name){
+				case 'subscribe_link':
+					$entity = $data['subscription_entity'];
+					$langcode = $entity->language->value;
+					$uuid = $entity->uuid();
+					$replacements[$original] = '<a href="'.$options['custom_link_path'].'/'.$langcode.'?confirmsubscription='.$uuid.'">kinnita minu tellimus</a>';
+					break;
+				case 'unsubscribe_link':
+					$entity = $data['subscription_entity'];
+					$langcode = $entity->language->value;
+					$uuid = $entity->uuid();
+					$replacements[$original] = '<a href="'.$options['custom_link_path'].'/'.$langcode.'?unsubscribe='.$uuid.'">tühista minu tellimus</a>';
+					break;
+				case 'newtags':
+					foreach($data['newtags'] as $tag){
+						$newtaglabels[] = $tag->label();
+					}
+					$replacements[$original] = implode(', ', $newtaglabels);
+					break;
+				case 'tags':
+					foreach($data['tags'] as $tag){
+						$taglabels[] = $tag->label();
+					}
+					$replacements[$original] = implode(', ', $taglabels);
+					break;
+				case 'news':
+					foreach($data['news'] as $node){
+						$newslinks[] = ('<a href="'.$options['custom_link_path'].$node->url().'">'.$node->label().'</a>');
+					}
+					$replacements[$original] = implode('<br>', $newslinks);
+					break;
+				case 'events':
+					foreach($data['events'] as $node){
+						$eventlinks[] = ('<a href="'.$options['custom_link_path'].$node->url().'">'.$node->label().'</a>');
+					}
+					$replacements[$original] = implode('<br>', $eventlinks);
+					break;
+			}
+		}
+	}
+
+	#dump($replacements);
+	return $replacements;
+
+}

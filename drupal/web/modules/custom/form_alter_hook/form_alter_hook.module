@@ -6,6 +6,7 @@
 */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 
 /**
 * Implements hook_help().
@@ -29,6 +30,10 @@ function form_alter_hook_help($route_name, RouteMatchInterface $route_match) {
   * Implements hook_form_alter() on behalf of form_alter_hook.module.
   */
   function form_alter_hook_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+		#dump('test');
+    if(isset($form['field_teaching_language']['widget']['#options']['_none'])){
+      unset($form['field_teaching_language']['widget']['#options']['_none']);
+    }
 
     if ($form_id === 'node_event_form' || $form_id === 'node_event_edit_form') {
       //hide remove button from date entry
@@ -59,41 +64,21 @@ function form_alter_hook_help($route_name, RouteMatchInterface $route_match) {
         $second_rform_element = 'field_registration_date][0][subform][field_registration_last_date][0';
 
         //get values for registration first and last date
-        $fregdate = $form_state->getValue('field_registration_date')[0]['subform'];
-        $start = $fregdate['field_registration_first_date'][0]['value'];
-        $end = $fregdate['field_registration_last_date'][0]['value'];
+        if(isset($form_state->getValue('field_registration_date')[0]['subform'])){
+          $fregdate = $form_state->getValue('field_registration_date')[0]['subform'];
+          $start = $fregdate['field_registration_first_date'][0]['value'];
+          $end = $fregdate['field_registration_last_date'][0]['value'];
 
-        //get fields for error display
-        if($start->format('U') < time()){
-          $form_state->setErrorByName($first_rform_element, t('Registration start date must be greater than current date'));
-        }
-        if($start->format('U') > $end->format('U')){
-          $form_state->setErrorByName($first_rform_element, t('Registration start date must be smaller than end date'));
-          $form_state->setErrorByName($second_rform_element, t('Registration end date must be greater than start date'));
+          //get fields for error display
+          if(!is_array($end) && !is_array($start)){
+            if($start->format('U') > $end->format('U')){
+              $form_state->setErrorByName($first_rform_element, t('Registration start date must be smaller than end date'));
+              $form_state->setErrorByName($second_rform_element, t('Registration end date must be greater than start date'));
+            }
+          }
         }
       }
 
-      $events = $form_state->getValue('field_event_date');
-      $delta = 0;
-
-      while (!empty($events[$delta])) {
-        $edatefields = $form_state->getValue('field_event_date')[$delta]['subform'];
-        $edatestartfield = 'field_event_date]['.$delta.'][subform][field_event_start_time';
-        $edateendfield = 'field_event_date]['.$delta.'][subform][field_event_end_time';
-        $estart = $edatefields['field_event_start_time'][0]['value'];
-        $eend = $edatefields['field_event_end_time'][0]['value'];
-
-        if($estart < 0 || $estart > 86400){
-          $form_state->setErrorByName($edatestartfield, t('Event start time must be between 00:00 and 24:00'));
-        }
-        if($eend < 0 || $eend > 86400){
-          $form_state->setErrorByName($edateendfield, t('Event end time must be between 00:00 and 24:00'));
-        }
-        if($estart > $eend){
-          $form_state->setErrorByName($edateendfield, t('Event end time can not be earlier than start time'));
-        }
-        $delta++;
-      }
     }
   }
 
@@ -101,3 +86,21 @@ function form_alter_hook_help($route_name, RouteMatchInterface $route_match) {
     $format['hh:mm'] = 'hh:mm';
     return $format;
   }
+
+  function form_alter_hook_preprocess_views_view_row_rss(&$variables){
+		$fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+		foreach($variables['item_elements'] as &$item_element){
+			if($item_element['key'] === 'guid'){
+				/* @var $item_value \Drupal\Core\Render\Markup */
+				$item_value = $item_element['value'];
+				$item_element['value'] = $fe_url . $item_value;
+			}
+		}
+		try{
+			$request = \Symfony\Component\HttpFoundation\Request::create($variables['link']);
+             		$url_from_request = Url::createFromRequest($request);
+
+                	$variables['link'] = $fe_url . $url_from_request->toString();
+		}catch(\Exception $e){
+		}
+	}

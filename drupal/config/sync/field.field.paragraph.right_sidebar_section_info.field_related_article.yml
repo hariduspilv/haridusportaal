@@ -1,0 +1,23 @@
+uuid: 1d913118-0027-4b19-b545-3e456e4a852e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_related_article
+    - paragraphs.paragraphs_type.right_sidebar_section_info
+  module:
+    - link
+id: paragraph.right_sidebar_section_info.field_related_article
+field_name: field_related_article
+entity_type: paragraph
+bundle: right_sidebar_section_info
+label: 'Seotud artikkel'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link

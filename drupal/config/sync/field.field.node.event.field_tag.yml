@@ -10,8 +10,8 @@ id: node.event.field_tag
 field_name: field_tag
 entity_type: node
 bundle: event
-label: Tags
-description: ''
+label: Sildid
+description: 'Maks. <b>4</b> Sildid eralda komaga'
 required: true
 translatable: true
 default_value: {  }

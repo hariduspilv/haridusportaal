@@ -340,4 +340,14 @@ class NodeTest extends ResourceTestBase {
     $this->assertResourceResponse(200, FALSE, $response, $this->getExpectedCacheTags(), $expected_cache_contexts, FALSE, 'UNCACHEABLE');
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected static function getIncludePermissions() {
+    return [
+      'uid.type' => ['administer users'],
+      'uid.roles' => ['administer permissions'],
+    ];
+  }
+
 }

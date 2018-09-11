@@ -1,0 +1,8 @@
+system.performance_settings:
+  title: 'Performance'
+  route_name: system.performance_settings
+  base_route: system.performance_settings
+image_style_warmer.settings:
+  title: 'Image Style Warmer'
+  route_name: image_style_warmer.settings
+  base_route: system.performance_settings

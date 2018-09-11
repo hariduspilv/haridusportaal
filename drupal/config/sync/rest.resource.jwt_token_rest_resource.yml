@@ -1,0 +1,17 @@
+uuid: 55ff8b9f-18f8-4dd9-a248-67b696b80e99
+langcode: et
+status: true
+dependencies:
+  module:
+    - custom_mobile_id_authentication
+    - serialization
+id: jwt_token_rest_resource
+plugin_id: jwt_token_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - json_authentication_provider

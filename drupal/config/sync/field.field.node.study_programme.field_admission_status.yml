@@ -1,0 +1,19 @@
+uuid: d3710bb9-7173-434a-b565-acf1395df8a1
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_admission_status
+    - node.type.study_programme
+id: node.study_programme.field_admission_status
+field_name: field_admission_status
+entity_type: node
+bundle: study_programme
+label: 'Vastuvõtu olek'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

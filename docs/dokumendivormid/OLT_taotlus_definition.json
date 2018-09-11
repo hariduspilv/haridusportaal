@@ -1,0 +1,98 @@
+{
+"header" : {
+	"form_name" : "OLT_TAOTLUS",
+	"endpoint": "EHIS",
+	"number_of_steps": "1",
+},
+"body" : {
+	"title": {
+		"et" :  "Õpetaja lähtetoetuse taotlus"
+	},
+	"steps" : {
+		"step_1" : {
+			"title" : {
+				"keele 2-täheline kood" : "Taotleja ja töökoha andmed"
+			},
+			"data_elements" : {
+				"step_1_h1" : {
+					"type": "heading",
+					"title" : {
+						"et": "Taotleja andmed"
+					}
+				},
+
+				"first_name" : {
+					"type" : "text",
+					"title" : {
+						"et": "Eesnimi"
+					},
+					"read_only" : true
+				},
+
+				"last_name" : {
+					"type" : "text",
+					"title" : {
+						"et": "Perekonnanimi"
+					},
+					"read_only" : true
+				},
+
+				"email_address" : {
+					"type" : "email",
+					"title" : {
+						"et": "E-posti aadress"
+					},
+					"required" : true
+				},
+
+				jne
+
+				"step_1_h2" : {
+					"type": "heading",
+					"title" : {
+						"et": "Töökoha andmed"
+					}
+				},
+
+				"workplace" : {
+					"type": "table",
+					"title" : {
+						"keele 2-täheline kood" : "Töökoha andmed"
+					},
+					"add_del_rows" : false,
+					"table_columns" : {
+						"educational_institution_id" : {
+							"hidden" : true
+						},
+						"educational_institution_name" : {
+							"title" : {
+								"et"  : "Õppeasutuse nimetus"
+							},
+							"readonly" : true
+						},
+						"position" : {
+							"title" : {
+								"et"  : "Ametikoht"
+							},
+							"readonly" : true
+						},
+					}
+				}
+			}
+		},
+		"step_submit_result" : {
+			"title" : {
+				"et" : "Esitamise tulemus"
+			},
+		}
+	}
+},
+"messages" : {
+	"MESSAGE_01" : {
+		"message_type" : "ERROR",
+		"message_text" : {
+			"et" : "Kõik on katki ja kole ja toetust ei saa"
+		}
+	}
+}
+}

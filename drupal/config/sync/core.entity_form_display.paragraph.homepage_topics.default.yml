@@ -1,0 +1,44 @@
+uuid: 6f6b64ca-0ba1-4936-8f58-b3ae47ff8722
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.homepage_topics.field_topic_link
+    - field.field.paragraph.homepage_topics.field_topic_text
+    - field.field.paragraph.homepage_topics.field_topic_title
+    - paragraphs.paragraphs_type.homepage_topics
+  module:
+    - link
+id: paragraph.homepage_topics.default
+targetEntityType: paragraph
+bundle: homepage_topics
+mode: default
+content:
+  field_topic_link:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_topic_text:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_topic_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

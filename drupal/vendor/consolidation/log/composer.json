@@ -25,10 +25,30 @@
     },
     "require-dev": {
         "phpunit/phpunit": "4.*",
-        "satooshi/php-coveralls": "dev-master",
+        "g1a/composer-test-scenarios": "^1",
+        "satooshi/php-coveralls": "^2",
         "squizlabs/php_codesniffer": "2.*"
     },
     "minimum-stability": "stable",
+    "scripts": {
+        "cs": "phpcs -n --standard=PSR2 src",
+        "cbf": "phpcbf -n --standard=PSR2 src",
+        "unit": "phpunit",
+        "lint": [
+            "find src -name '*.php' -print0 | xargs -0 -n1 php -l",
+            "find tests/src -name '*.php' -print0 | xargs -0 -n1 php -l"
+        ],
+        "test": [
+            "@lint",
+            "@unit",
+            "@cs"
+        ],
+        "scenario": "scenarios/install",
+        "post-update-cmd": [
+            "create-scenario symfony4 'symfony/console:^4.0'",
+            "create-scenario symfony2 'symfony/console:^2.8' --platform-php '5.5' --no-lockfile"
+        ]
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.x-dev"

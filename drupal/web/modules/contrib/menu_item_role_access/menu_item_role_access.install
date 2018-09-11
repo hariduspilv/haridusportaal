@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Installation and update hooks for the menu item role access module.
+ */
+
+/**
+ * Install the default configuration for this module.
+ *
+ * At this point no config exists for this module so we can safely install all
+ * of its config.
+ */
+function menu_item_role_access_update_8001() {
+  // Since no config yet exists for this module we can install the entire config
+  // directory.
+  \Drupal::service('config.installer')
+    ->installDefaultConfig('module', 'menu_item_role_access');
+}
+
+/**
+ * Apply the entity definition updates.
+ *
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function menu_item_role_access_update_8002() {
+  \Drupal::entityDefinitionUpdateManager()->applyUpdates();
+}

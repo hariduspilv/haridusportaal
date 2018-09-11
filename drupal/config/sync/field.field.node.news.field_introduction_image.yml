@@ -6,15 +6,22 @@ dependencies:
     - field.storage.node.field_introduction_image
     - node.type.news
   module:
+    - content_translation
     - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: '0'
 id: node.news.field_introduction_image
 field_name: field_introduction_image
 entity_type: node
 bundle: news
-label: Avafoto
+label: Pilt
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -22,11 +29,11 @@ settings:
   file_extensions: 'png gif jpg jpeg'
   max_filesize: ''
   max_resolution: ''
-  min_resolution: ''
+  min_resolution: 1208x680
   alt_field: true
   alt_field_required: true
-  title_field: false
-  title_field_required: false
+  title_field: true
+  title_field_required: true
   default_image:
     uuid: ''
     alt: ''

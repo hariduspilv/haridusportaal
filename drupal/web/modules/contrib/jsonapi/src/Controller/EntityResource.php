@@ -32,6 +32,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
  * Process all entity requests.
@@ -136,13 +137,17 @@ class EntityResource {
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity object.
+   * @param string[] $field_names
+   *   (optional) An array of field names. If specified, filters the violations
+   *   list to include only this set of fields. Defaults to NULL,
+   *   which means that all violations will be reported.
    *
    * @throws \Drupal\jsonapi\Exception\EntityAccessDeniedHttpException
    *   If validation errors are found.
    *
    * @see \Drupal\rest\Plugin\rest\resource\EntityResourceValidationTrait::validate()
    */
-  protected function validate(EntityInterface $entity) {
+  protected function validate(EntityInterface $entity, array $field_names = NULL) {
     if (!$entity instanceof FieldableEntityInterface) {
       return;
     }
@@ -152,6 +157,13 @@ class EntityResource {
     // Remove violations of inaccessible fields as they cannot stem from our
     // changes.
     $violations->filterByFieldAccess();
+
+    // Filter violations based on the given fields.
+    if ($field_names !== NULL) {
+      $violations->filterByFields(
+        array_diff(array_keys($entity->getFieldDefinitions()), $field_names)
+      );
+    }
 
     if (count($violations) > 0) {
       // Instead of returning a generic 400 response we use the more specific
@@ -195,9 +207,18 @@ class EntityResource {
       $received_attributes = array_keys($document['data']['attributes']);
       foreach ($received_attributes as $field_name) {
         $internal_field_name = $this->resourceType->getInternalName($field_name);
-        $field_access = $entity->get($internal_field_name)->access('edit', NULL, TRUE);
-        if (!$field_access->isAllowed()) {
-          throw new EntityAccessDeniedHttpException(NULL, $field_access, '/data/attributes/' . $field_name, sprintf('The current user is not allowed to POST the selected field (%s).', $field_name));
+        try {
+          $field_access = $entity->get($internal_field_name)->access('edit', NULL, TRUE);
+          if (!$field_access->isAllowed()) {
+            throw new EntityAccessDeniedHttpException(NULL, $field_access, '/data/attributes/' . $field_name, sprintf('The current user is not allowed to POST the selected field (%s).', $field_name));
+          }
+        }
+        catch (\InvalidArgumentException $e) {
+          throw new UnprocessableEntityHttpException(sprintf(
+            'The attribute %s does not exist on the %s resource type.',
+            $internal_field_name,
+            $this->resourceType->getTypeName()
+          ));
         }
       }
     }
@@ -233,7 +254,9 @@ class EntityResource {
       [],
       'individual'
     );
-    $response->headers->set('Location', $entity_url);
+    if ($entity_url) {
+      $response->headers->set('Location', $entity_url);
+    }
 
     // Return response object with updated headers info.
     return $response;
@@ -271,12 +294,13 @@ class EntityResource {
     }
     $data += ['attributes' => [], 'relationships' => []];
     $field_names = array_merge(array_keys($data['attributes']), array_keys($data['relationships']));
+
     array_reduce($field_names, function (EntityInterface $destination, $field_name) use ($parsed_entity) {
       $this->updateEntityField($parsed_entity, $destination, $field_name);
       return $destination;
     }, $entity);
 
-    $this->validate($entity);
+    $this->validate($entity, $field_names);
     $entity->save();
     return $this->buildWrappedResponse($entity);
   }
@@ -323,7 +347,21 @@ class EntityResource {
     $params = isset($route_params['_json_api_params']) ? $route_params['_json_api_params'] : [];
     $query = $this->getCollectionQuery($entity_type_id, $params);
 
-    $results = $query->execute();
+    try {
+      $results = $query->execute();
+    }
+    catch (\LogicException $e) {
+      // Ensure good DX when an entity query involves a config entity type.
+      // @todo Core should throw a better exception.
+      if (strpos($e->getMessage(), 'Getting the base fields is not supported for entity type') === 0) {
+        preg_match('/entity type (.*)\./', $e->getMessage(), $matches);
+        $config_entity_type_id = $matches[1];
+        throw new BadRequestHttpException(sprintf("Filtering on config entities is not supported by Drupal's entity API. You tried to filter on a %s config entity.", $config_entity_type_id));
+      }
+      else {
+        throw $e;
+      }
+    }
 
     $storage = $this->entityTypeManager->getStorage($entity_type_id);
     // We request N+1 items to find out if there is a next page for the pager.
@@ -517,13 +555,59 @@ class EntityResource {
       $field_name = $field_list->getName();
       throw new EntityAccessDeniedHttpException($entity, $field_access, '/data/relationships/' . $field_name, sprintf('The current user is not allowed to PATCH the selected field (%s).', $field_name));
     }
+    $original_field_list = clone $field_list;
     // Time to save the relationship.
     foreach ($parsed_field_list as $field_item) {
       $field_list->appendItem($field_item->getValue());
     }
     $this->validate($entity);
     $entity->save();
-    return $this->getRelationship($entity, $related_field, $request, 201);
+    $status = static::relationshipArityIsAffected($original_field_list, $field_list)
+      ? 200
+      : 204;
+    return $this->getRelationship($entity, $related_field, $request, $status);
+  }
+
+  /**
+   * Checks whether relationship arity is affected.
+   *
+   * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $old
+   *   The old (stored) entity references.
+   * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $new
+   *   The new (updated) entity references.
+   *
+   * @return bool
+   *   Whether entities already being referenced now have additional references.
+   *
+   * @see \Drupal\jsonapi\Normalizer\Value\RelationshipNormalizerValue::ensureUniqueResourceIdentifierObjects()
+   */
+  protected static function relationshipArityIsAffected(EntityReferenceFieldItemListInterface $old, EntityReferenceFieldItemListInterface $new) {
+    $old_targets = static::toTargets($old);
+    $new_targets = static::toTargets($new);
+    $relationship_count_changed = count($old_targets) !== count($new_targets);
+    $existing_relationships_updated = !empty(array_unique(array_intersect($old_targets, $new_targets)));
+    return $relationship_count_changed && $existing_relationships_updated;
+  }
+
+  /**
+   * Maps a list of entity reference field objects to a list of targets.
+   *
+   * @param \Drupal\Core\Field\EntityReferenceFieldItemListInterface $relationship_list
+   *   A list of entity reference field objects.
+   *
+   * @return string[]|int[]
+   *   A list of targets.
+   */
+  protected static function toTargets(EntityReferenceFieldItemListInterface $relationship_list) {
+    $main_property_name = $relationship_list->getFieldDefinition()
+      ->getFieldStorageDefinition()
+      ->getMainPropertyName();
+
+    $values = [];
+    foreach ($relationship_list->getIterator() as $relationship) {
+      $values[] = $relationship->getValue()[$main_property_name];
+    }
+    return $values;
   }
 
   /**
@@ -562,7 +646,7 @@ class EntityResource {
     $this->{$method}($entity, $parsed_field_list);
     $this->validate($entity);
     $entity->save();
-    return $this->getRelationship($entity, $related_field, $request);
+    return $this->getRelationship($entity, $related_field, $request, 204);
   }
 
   /**
@@ -655,7 +739,7 @@ class EntityResource {
     // Save the entity and return the response object.
     $this->validate($entity);
     $entity->save();
-    return $this->getRelationship($entity, $related_field, $request, 201);
+    return $this->getRelationship($entity, $related_field, $request, 204);
   }
 
   /**
@@ -818,8 +902,13 @@ class EntityResource {
         $field_name = $this->resourceType->getInternalName($field_name);
         $destination_field_list = $destination->get($field_name);
       }
-      catch (\Exception $e) {
-        throw new BadRequestHttpException(sprintf('The provided field (%s) does not exist in the entity with ID %s.', $field_name, $destination->uuid()));
+      catch (\InvalidArgumentException $e) {
+        $resource_type = $this->resourceTypeRepository->get($destination->getEntityTypeId(), $destination->bundle());
+        throw new UnprocessableEntityHttpException(sprintf(
+          'The attribute %s does not exist on the %s resource type.',
+          $field_name,
+          $resource_type->getTypeName()
+        ));
       }
 
       $origin_field_list = $origin->get($field_name);

@@ -13,7 +13,7 @@ _core:
 id: taxonomy_term
 label: 'Taxonomy term'
 module: taxonomy
-description: 'Content belonging to a certain taxonomy term.'
+description: 'Teatud taksonoomia termiga seotud sisu.'
 tag: default
 base_table: node_field_data
 base_field: nid
@@ -45,7 +45,7 @@ display:
         options:
           submit_button: Apply
           reset_button: false
-          reset_button_label: Reset
+          reset_button_label: Tühista
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
           sort_asc_label: Asc
@@ -106,7 +106,7 @@ display:
           exception:
             value: ''
             title_enable: false
-            title: All
+            title: Kõik
           title_enable: true
           title: '{{ arguments.tid }}'
           default_argument_type: fixed

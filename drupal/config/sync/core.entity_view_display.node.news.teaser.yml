@@ -29,8 +29,12 @@ hidden:
   field_additional_images: true
   field_author: true
   field_introduction_image: true
+  field_metatags: true
   field_news_description: true
   field_news_link: true
   field_news_tag: true
+  field_news_video: true
   field_shor: true
+  field_short_description: true
+  field_tag: true
   langcode: true

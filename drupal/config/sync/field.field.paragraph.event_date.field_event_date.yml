@@ -6,14 +6,14 @@ dependencies:
     - field.storage.paragraph.field_event_date
     - paragraphs.paragraphs_type.event_date
   module:
-    - graphql_custom_translation
+    - datetime
 id: paragraph.event_date.field_event_date
 field_name: field_event_date
 entity_type: paragraph
 bundle: event_date
-label: 'Event Date'
+label: 'Sündmuse lisakuupäev'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

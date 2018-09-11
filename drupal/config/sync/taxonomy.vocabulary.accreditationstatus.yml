@@ -1,0 +1,9 @@
+uuid: 9fbd7e3f-fa62-43d8-98ec-87cc811b3799
+langcode: et
+status: true
+dependencies: {  }
+name: AccreditationStatus
+vid: accreditationstatus
+description: ''
+hierarchy: 0
+weight: 0

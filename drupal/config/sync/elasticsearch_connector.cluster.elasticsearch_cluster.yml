@@ -1,0 +1,14 @@
+uuid: b0700c3f-8887-4c9f-b824-5e40d6f7c4fd
+langcode: et
+status: '1'
+dependencies: {  }
+cluster_id: elasticsearch_cluster
+name: 'Elasticsearch Cluster'
+url: 'http://elasticsearch:9200'
+options:
+  multiple_nodes_connection: false
+  use_authentication: 1
+  authentication_type: Basic
+  username: elastic
+  password: changeme
+  timeout: '3'

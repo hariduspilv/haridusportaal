@@ -1,0 +1,21 @@
+uuid: b80497fd-e018-468e-a073-156f67f3e8e3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_main_end_time
+    - node.type.event
+  module:
+    - hms_field
+id: node.event.field_event_main_end_time
+field_name: field_event_main_end_time
+entity_type: node
+bundle: event
+label: 'Südnmuse põhikuupäeva lõpu kellaaeg'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: hms

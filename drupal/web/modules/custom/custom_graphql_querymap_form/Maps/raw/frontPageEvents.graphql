@@ -1,0 +1,22 @@
+query ($lang: LanguageId!, $currentDate: [String]) {
+  nodeQuery(offset: 0, limit: 3, sort: {field: "field_event_main_date", direction: ASC},
+    filter: {conjunction: AND, conditions: [
+      {field: "type", value: "event", language: $lang},
+      {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_date", value: $currentDate },
+    ]}) {
+    entities(language: $lang) {
+      ... on NodeEvent {
+        entityUrl {
+          path
+        }
+        fieldOrganizer
+        fieldEventMainDate {
+          value
+          date
+          unix
+        }
+        entityLabel
+      }
+    }
+  }
+}

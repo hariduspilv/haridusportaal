@@ -69,7 +69,7 @@ function bef_test_install() {
  *   TID of the newly created term.
  */
 function _bef_test_add_term($name, $parent = 0) {
-  $term = \Drupal::entityManager()->getStorage('taxonomy_term')->create([
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->create([
     'vid' => 'bef_test_location',
     'name' => $name,
     'parent' => [$parent],

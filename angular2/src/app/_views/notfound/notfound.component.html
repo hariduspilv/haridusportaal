@@ -1,0 +1,13 @@
+<div class="notFound">
+  <div class="flex" *ngIf="loaded">
+    <div class="error__head">Oi-oi!</div>
+    <div class="error__explanation" innerHtml="{{'notFound.explanation' | translate}}"></div>
+    <div class="error__button"><button role="link" attr.aria-label="{{'frontpage.navigate' | translate}}" mat-raised-button routerLink="{{toFrontpage()}}" color="primary" tabindex="0">{{'frontpage.navigate' | translate}} tab
+  </button></div>
+    <div class="error__links">
+      <a routerLink="{{constructUrl('school')}}" role="link" attr.aria-label="{{'school.label' | translate}}" tabindex="0"><span>{{'school.label' | translate}}</span></a>
+      <a routerLink="{{constructUrl('events')}}" role="link" attr.aria-label="{{'event.label' | translate}}" tabindex="0"><span>{{'event.label' | translate}}</span></a>
+      <a routerLink="{{constructUrl('news')}}" role="link" attr.aria-label="{{'news.label' | translate}}" tabindex="0"><span>{{'news.label' | translate}}</span></a>
+    </div>
+  </div>
+</div>

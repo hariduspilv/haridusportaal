@@ -1,0 +1,95 @@
+"header" : {
+	"form_name" : "VPT_TAOTLUS",
+	"acceptable_activity" : "SAVE",
+	"current_step" : kui pole ühtegi errorMessage-t siis "step_2" ja kui on vähemalt üks errorMessage siis "step_1",
+	"identifier" : vpTaotlusIsikudResponse.taotlus_id,
+	"agents" : [
+		{ "person_id" : taolteja isikukood, "role" : "TAOTLEJA" },
+	]
+},
+"body" : {
+	"steps": {
+		"step_0" : {
+			ei muutu, kantakse edasi putDocumentRequest-st
+		},
+
+		"step_1" : {
+			ei muutu, kantakse edasi putDocumentRequest-st
+		},
+
+
+		"step_2" : {
+			"data_elements" : {
+				"family_members_tax_register_data_ok" : {
+					"value" : [
+						{ "family_member_name" : isikInfoDtos.eesnimi+perenimi kus emtaRegistrist on true,
+						}
+					]
+				},
+
+				"family_members_tax_register_data_missing" : {
+					"value" : [
+						{	"family_member_name" : isikInfoDtos.eesnimi+perenimi kus emtaRegistrist on false ja  emtaMitteResident on false ,
+						}
+					]
+				},
+
+				"family_members_income" : {
+					"value" : lisatudIsikuteSissetulek,
+					"required" : true kui family_members_tax_register_data_missing pole tühi,
+					"hidden" : true kui family_members_tax_register_data_missing on tühi
+				},
+
+				"family_members_income_proof" : {
+					"value" : [
+						{ "file_name" : faili_nimi , "file_identifier" : faili_id }
+					],
+					"required" : true kui family_members_tax_register_data_missing pole tühi,
+					"hidden" : true kui family_members_tax_register_data_missing on tühi
+				},
+
+				"family_members_nonresident" : {
+					"value" : [
+						{ "family_member_name" : isikInfoDtos.eesnimi+perenimi kus emtaMitteResident = true ,
+						}
+					]
+				},
+
+				"family_members_nonresident_income" : {
+					"value" : nonResidentSissetulek,
+					"required" : true kui family_members_nonresident pole tühi,
+					"hidden" : true kui family_members_nonresident on tühi
+				},
+
+				"family_members_nonresident_income_proof" : {
+					"value" : [
+						{ "file_name" : faili_nimi , "file_identifier" : faili_id }
+					],
+					"required" : true kui family_members_nonresident pole tühi,
+					"hidden" : true kui family_members_nonresident on tühi
+				},
+			}
+		}
+	},
+	"messages" : ["temp_message_cc"],
+},
+"messages" : {
+	"temp_message_cc" : {
+		"message_type" : "ERROR",
+		"message_text" : {
+			"et" : vpTaotlusSissetulekudResponse.hoiatusDto.ErrorMessages.kirjeldus,
+		}
+	},
+	"temp_message_cc" : {
+		"message_type" : "WARNING",
+		"message_text" : {
+			"et" : vpTaotlusSissetulekudResponse.hoiatusDto.WarningMessages.kirjeldus,
+		}
+	},
+	"temp_message_cc" : {
+		"message_type" : "NOTICE",
+		"message_text" : {
+			"et" : vpTaotlusSissetulekudResponse.hoiatusDto.NoticeMessages.kirjeldus,
+		}
+	}
+}

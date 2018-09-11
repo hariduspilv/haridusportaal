@@ -1,0 +1,11 @@
+uuid: d4ee797d-7e80-425d-89f2-12052ad08d42
+langcode: et
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Ztuf7377rQNvzw2VpakSqAaNGNQN2qY1lrpZCL5RmWo
+id: favorite_item
+label: 'Favorite item'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

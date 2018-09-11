@@ -1,0 +1,33 @@
+uuid: 0d18ecc5-3b8b-4c4b-9215-aa5dd315984e
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: kool_pattern_eng
+label: 'Kool pattern ENG'
+type: 'canonical_entities:node'
+pattern: 'school/[node:title]'
+selection_criteria:
+  ace602f0-c21a-4f36-8aa1-11d0ffdc67bc:
+    id: node_type
+    bundles:
+      school: school
+    negate: false
+    context_mapping:
+      node: node
+    uuid: ace602f0-c21a-4f36-8aa1-11d0ffdc67bc
+  1371f3e6-5e5b-4af9-b8dd-ffcd6f05366d:
+    id: language
+    langcodes:
+      en: en
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 1371f3e6-5e5b-4af9-b8dd-ffcd6f05366d
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

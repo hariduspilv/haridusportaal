@@ -1,0 +1,66 @@
+  @import "../../../assets/styles/typography.scss"; 
+  article {padding-bottom: $xxl;
+    a {color: $blue;
+      .mat-icon {color: $blue;}
+    }
+  } 
+  .share-btn {
+    .mat-button {min-width: $medium;width: $medium;padding: 0;position: relative;bottom: 0.3125rem;}
+    .mat-icon {line-height: 1.3;
+      @include break-on(sm, max) {right: $small;position: relative;}
+    }
+  }
+  .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;
+    a {float: right;}}
+  .news-list {border-top: $gutter solid $light-blue;background: $white;
+    @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium;}
+    @include break-on(lg, min) {margin-left: 0;}
+    &__recent {@extend .news-list;border-top: $gutter solid $orange;
+      a:hover { text-decoration: underline; }
+      .news-title { a:hover{text-decoration: none;}}
+      @include break-on(sm, min) {border-radius: $half-gutter; margin-left: 0;}
+      &__elem {padding-bottom: $xxl;}
+      &.horizontal {border-top: none;background: transparent;
+        .news-title {padding-top: $medium;}
+        .news-list__recent__elem {flex: 1;padding: 0 0 $xxl 0;
+          @include break-on(sm, min) {padding: 0 $gutter $xxl $gutter;}
+        }
+        .news-list__recent__block {display: flex;flex: 3;flex-direction: column;padding: $gutter 0 0 0;overflow: hidden;
+          @include break-on(sm, min) {padding: $gutter $small 0 $small;flex-direction: row;}
+        }
+        .title__recent {
+          @include break-on(sm, min) {padding: 0;padding-top:$small;}
+        }
+        .author {overflow: hidden;text-overflow: ellipsis;
+          @include break-on(sm, min) {padding: 0; padding-top: $half-gutter;word-break: break-word;overflow: normal;}
+        }
+      }
+    }
+  }
+  .title {font-size: $small;line-height: 2;padding: 0 $medium;
+    h1 {color:$black;}
+    &__recent {padding: $small $medium 0 $medium;}
+  }
+  .author {padding: $half-gutter $medium 0 $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;}
+  .description {padding: $small $medium; color: $black; line-height: 1.375rem; padding-bottom: 0;}
+  .short {@extend .description; font-weight: 500; padding-bottom: $small;}
+  .article-image {width:100%; max-width:100%; height: auto;
+    @include break-on(sm, min) {width: stretch;max-width: 100%;margin: 0 1.5rem;}
+    img { width: 100%; }
+  }
+  .image-alt-text {font-size: .875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small; overflow: hidden;
+    @include break-on(sm, min) {padding: 0 0 $small 0; white-space: nowrap; text-overflow: ellipsis;}
+  }
+  _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
+  _:-ms-lang(x), .article-image {width: 100%;margin:0;}
+  .news-single {
+    @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}
+    @include break-on(lg, min) {padding-right: 0;}
+  }
+  .links {padding: 0 $medium;}
+  .breadcrumb { padding-bottom: $gutter;}
+
+  ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
+    font-family: 'Material Icons';content: 'launch' !important;position: relative;top: 0.1875rem;
+  }
+  ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}

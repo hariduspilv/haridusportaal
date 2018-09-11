@@ -6,7 +6,7 @@ dependencies:
     - field.storage.paragraph.field_registration_first_date
     - paragraphs.paragraphs_type.registration_period
   module:
-    - graphql_custom_translation
+    - datetime
 id: paragraph.registration_period.field_registration_first_date
 field_name: field_registration_first_date
 entity_type: paragraph
@@ -14,7 +14,7 @@ bundle: registration_period
 label: 'Registration First Date'
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }

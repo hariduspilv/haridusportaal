@@ -1,36 +1,108 @@
-<mat-spinner *ngIf="!content && !error"></mat-spinner>
+<breadcrumbs></breadcrumbs>
+<div class="main-container">
+  <mat-spinner *ngIf="!content && !error"></mat-spinner>
 
-<div *ngIf="error" class="text-center">
-  <h1>404: Page not found</h1>
-  <button mat-raised-button>Go back</button>
-</div><!--/error-->
+  <div *ngIf="error" class="text-center">
+    <h1>404: Page not found</h1>
+    <button mat-raised-button>Go back</button>
+  </div><!--/error-->
 
-<div *ngIf="content">
-  
-  
-  <ul class="breadcrumb mt-0">
-    <li *ngFor="let item of breadcrumb">
-      <a [routerLink]="[item.url.path]">
-        <span>{{ item.text }}</span>
-      </a>
-    </li>
-    <li>
-      <span>{{ content.title | ellipsis:30 }}</span>
-    </li>
-  </ul>
-  
-  <article>
-    <h1>{{ content.title }}</h1>
-    <p><b>{{ content.body.summary }}</b></p>
+  <div *ngIf="content">
+    <div class="row article-wrapper">
+      <div class="col-8 sm-12">
+        <div class="article">
+          <div class="article-title" attr.aria-label="{{'event.group' | translate}}">KÕRGHARIDUS</div>
+          <article [class.extraBottom]="!(content.fieldVideo.length > 0) && !(accordionSection.length > 0) && fieldRightSidebar === null">
+            <div class="row title">
+                <div class="col-10 flex">
+                  <h1 class="mt-0 mb-0">{{ content.title }}</h1>
+                </div><!--/col-10-->
+                  <div class="mininav col-2 flex text-right">
+                  <favourites [id]="content.nid" [title]="content.title"></favourites>
+                  <share [title]="content.title"></share>
+                </div><!--/col-1-->
+            </div><!--/row-->
+            <div class="short" attr.aria-label="{{'description.short' | translate}}" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>
 
-    <mat-card *ngIf="content.fieldImage" class="article-image">
-      <mat-card-content>
-        <img  src="{{ content.fieldImage.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
-        <p>{{ content.fieldImage.alt }}</p>
-      </mat-card-content>
-    </mat-card>
+            <div *ngIf="content.fieldImage" class="article-image pull-right">
+              <img src="{{ content.fieldImage.derivative.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
+              <div aria-hidden="true" class="image-alt-text" *ngIf="content.fieldImage.alt">{{ content.fieldImage.alt }}</div>
+            </div>
+            
+            <div class="description" attr.aria-label="{{'description' | translate}}" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
+          </article>
 
-    <div [innerHTML]="content.body.value"></div>
-  </article>
-  
-</div><!--/content-->
+          <video-component *ngIf="content.fieldVideo && content.fieldVideo.length > 0" [videos]="content.fieldVideo"></video-component>
+          
+          <div class="accordion" *ngIf="accordionSection.length > 0">
+            <mat-accordion multi>
+              <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of accordionSection; let first = first;">
+                <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+                  <mat-panel-title>
+
+                    {{accordionItem.entity.fieldAccordionTitle}}
+
+                  </mat-panel-title>
+                  <!-- <mat-panel-description></mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <div class="accordion__body" [innerHTML]="accordionItem.entity.fieldBody.value"></div>
+                <div class="accordion__links" *ngIf="accordionItem.entity.fieldRelatedArticle">
+                  <ul class="link-list mt-0 mb-0">
+                    <li *ngFor="let articleLink of accordionItem.entity.fieldRelatedArticle"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}"class="link"><span><mat-icon>launch</mat-icon></span>{{articleLink.title}}</a></li>
+                  </ul>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+              
+        </div>
+      </div>
+          
+      <div class="col-4 sm-12" *ngIf="fieldRightSidebar !== null">
+        <aside class="sidebar">
+          <div class="sidebar__item" *ngIf="fieldAdditional !== null">
+            <h1 class="mt-0 sidebar__title"> {{ fieldAdditionalTitle }}</h1>
+            <div class="sidebar__paragraph" [innerHTML]="fieldAdditionalBody"></div>
+          </div>
+          
+          <div class="sidebar__item" *ngIf="fieldContactSection !== null">
+            <h1 class="mt-0 sidebar__title">Kontakt</h1>
+            <div class="sidebar__paragraph">
+              <div><span role="text" attr.aria-label="{{'Ogranization:'}} {{fieldContactOrganization | translate}}">{{fieldContactOrganization}}</span></div>
+              <div><span role="text" attr.aria-label="{{'Organizer:'}} {{fieldContactPerson | translate}}">{{fieldContactPerson}}</span></div>
+              <div><a attr.aria-label="{{'Organizer phone:'}} {{'participantPhone' | translate}}" tabindex="0" href="tel:{{fieldContactPhone}}" alt="" class="sm-show">{{fieldContactPhone}}</a></div>
+              <div class="sm-hide"><span role="text" attr.aria-label="{{'Participant phone:'}} {{fieldContactPhone | translate}}">{{fieldContactPhone}}</span></div>
+
+              <div><a attr.aria-label="{{'E-mail:'}} {{fieldContactEmail | translate}}" href="mailto:{{fieldContactEmail}}" alt="">{{fieldContactEmail}}</a></div>
+            </div>
+          </div>
+          
+          <div class="sidebar__item" *ngIf="articleLinks.length > 0">
+            <h1 class="mt-0 sidebar__title">Leia kiiresti</h1>
+            <div class="sidebar__paragraph">
+              <ul class="link-list mt-0 mb-0">
+                  <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{articleLink.title | translate}}"class="link"><mat-icon>launch</mat-icon>{{articleLink.title}}</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="sidebar__item" *ngIf="relatedArticles.length > 0">
+            <h1 class="mt-0 sidebar__title">Sarnased teemad</h1>
+            <div class="sidebar__paragraph">
+              <ul class="link-list mt-0 mb-0">
+                <li *ngFor="let relatedArticle of relatedArticles">
+                  <a href="{{relatedArticle.url.path}}" tabindex="0" [attr.target]="relatedArticle.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{relatedArticle.title | translate}}" class="link related">
+                    <div><mat-icon>link</mat-icon></div>
+                    <div>{{relatedArticle.title}}</div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+
+    </div>
+  </div><!--/content-->
+</div>

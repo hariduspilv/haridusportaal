@@ -1,13 +1,15 @@
 import { Component, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SideMenuService, RootScopeService } from '../../_services';
+import { SideMenuService, RootScopeService } from '@app/_services';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Router } from '@angular/router';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
 
 export class HeaderComponent {
@@ -18,7 +20,13 @@ export class HeaderComponent {
 
   activeLanguage: any;
 
-  constructor(private sidemenu: SideMenuService, private apollo: Apollo, private rootScope: RootScopeService, private router: Router, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(
+    private sidemenu: SideMenuService,
+    private apollo: Apollo,
+    private rootScope: RootScopeService,
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef,
+    private translate: TranslateService) {
 
     this.logoLink = '/et';
 
@@ -52,11 +60,22 @@ export class HeaderComponent {
 
       this.languages = data['availableLanguages'];
     });
+
+    router.events.subscribe( (event: Event) => {
+      if (event instanceof RoutesRecognized) {
+
+        let params = event.state.root.firstChild.params;
+        
+        rootScope.set('currentLang', params['lang'] );
+        this.activeLanguage = params['lang'];
+      }
+    });
   }
 
   title = 'app';
 
   changeLanguage(lang): void{
+
 
     const langOptions = this.rootScope.get('langOptions');
 
@@ -68,6 +87,7 @@ export class HeaderComponent {
 
     this.activeLanguage = lang;
 
+    this.translate.use(lang)
     this.logoLink = '/'+this.activeLanguage;
     this.changeDetectorRef.detectChanges();
 

@@ -10,7 +10,7 @@ _core:
 id: watchdog
 label: Watchdog
 module: views
-description: 'Recent log messages'
+description: 'Viimased logiteated'
 tag: ''
 base_table: watchdog
 base_field: wid
@@ -42,7 +42,7 @@ display:
         options:
           submit_button: Filtreeri
           reset_button: true
-          reset_button_label: Reset
+          reset_button_label: Tühista
           exposed_sorts_label: 'Sort by'
           expose_sort_order: false
           sort_asc_label: Asc
@@ -250,7 +250,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Severity
+          label: Tõsidus
           exclude: true
           alter:
             alter_text: false
@@ -349,7 +349,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Date
+          label: Kuupäev
           exclude: false
           alter:
             alter_text: false
@@ -401,7 +401,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Message
+          label: Teade
           exclude: false
           alter:
             alter_text: false
@@ -451,7 +451,7 @@ display:
           relationship: uid
           group_type: group
           admin_label: ''
-          label: Kasutaja
+          label: User
           exclude: false
           alter:
             alter_text: false
@@ -611,7 +611,7 @@ display:
           exposed: true
           expose:
             operator_id: severity_op
-            label: Severity
+            label: Tõsidus
             description: ''
             use_operator: false
             operator: severity_op
@@ -650,7 +650,7 @@ display:
           expose:
             label: ''
           plugin_id: standard
-      title: 'Recent log messages'
+      title: 'Viimased logiteated'
       header: {  }
       footer: {  }
       empty:
@@ -664,7 +664,7 @@ display:
           empty: true
           tokenize: false
           content:
-            value: 'No log messages available.'
+            value: 'Logis ei ole teateid.'
             format: basic_html
           plugin_id: text
       relationships:

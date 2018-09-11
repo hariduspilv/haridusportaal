@@ -1,0 +1,39 @@
+
+<div class="accordion">
+    <mat-accordion multi>
+      <mat-expansion-panel [expanded]="first ? true : false" (opened)="dataController(accordionItem._id)" *ngFor="let accordionItem of accordionSection; let first = first;">
+        <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+          <mat-panel-title>
+            {{ accordionItem.label | translate }}
+          </mat-panel-title>
+          <!-- <mat-panel-description></mat-panel-description> -->
+        </mat-expansion-panel-header>
+
+        <div class="col-12" *ngIf="loading[accordionItem._id]">
+            <mat-spinner></mat-spinner>
+        </div><!--/col-12-->
+
+        <ng-container *ngIf="!loading[accordionItem._id]">
+
+          <ng-container *ngIf="accordionItem._id === 'professional-certificates'">
+            <div *ngIf="error">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</div>
+            <div *ngIf="professionalCertificates.length < 1">{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</div>
+            <table class="dashboard-table" *ngIf="!error">
+              <tbody>
+                  <tr *ngFor="let certificate of professionalCertificates">
+                    <td>{{ certificate.nimi }}</td>
+                    <td>{{ certificate.valjaantud }}</td>
+                    <td><a [routerLink]="[certificate.path]">{{ 'button.view_more' | translate }}</a></td>
+                  </tr>
+              </tbody>
+            </table>
+          </ng-container>
+
+          <ng-container *ngIf="accordionItem._id === 'state-exams'">
+            <!-- under construction -->
+          </ng-container>
+
+        </ng-container><!--end of *ngIf="!loading[accordionItem._id]"-->
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>

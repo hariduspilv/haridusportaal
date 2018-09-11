@@ -1,13 +1,587 @@
 custom_translation_module.settings:
   type: config_object
-  label: 'Site information custom'
+  label: 'Custom translations'
   mapping:
-    field1:
-      type: label
-      label: 'Site name custom'
-    field2:
-      type: label
-      label: 'ming uus'
-    field3:
-      type: label
-      label: 'ming uus'
+    article:
+      type: mapping
+      label: 'Article translations'
+      mapping:
+        contact:
+          type: label
+          label: 'Content'
+        hyperlinks:
+          type: label
+          label: 'Content'
+        similar_articles:
+          type: label
+          label: 'Content'
+    news:
+      type: mapping
+      label: 'News translations'
+      mapping:
+        label:
+          type: label
+          label: 'Content'
+        all:
+          type: label
+          label: 'Content'
+        recent:
+          type: label
+          label: 'Content'
+        filter_name:
+          type: label
+          label: 'Content'
+        filter_tag:
+          type: label
+          label: 'Content'
+        title:
+          type: label
+          label: 'Content'
+        no_results:
+          type: label
+          label: 'Content'
+    event:
+      type: mapping
+      label: 'Events translations'
+      mapping:
+        label:
+          type: label
+          label: 'Content'
+        tags:
+          type: label
+          label: 'Content'
+        status:
+          type: label
+          label: 'Content'
+        free:
+          type: label
+          label: 'Content'
+        register:
+          type: label
+          label: 'Content'
+        invite:
+          type: label
+          label: 'Content'
+        practical_info:
+          type: label
+          label: 'Content'
+        passed:
+          type: label
+          label: 'Content'
+        group:
+          type: label
+          label: 'Content'
+        list:
+          type: label
+          label: 'Content'
+        calendar:
+          type: label
+          label: 'Content'
+        entrance:
+          type: label
+          label: 'Content'
+        related:
+          type: label
+          label: 'Content'
+        start_time:
+          type: label
+          label: 'Content'
+        location:
+          type: label
+          label: 'Content'
+        place_and_time:
+          type: label
+          label: 'Content'
+        participant_email:
+          type: label
+          label: 'Content'
+        participant_phone:
+          type: label
+          label: 'Content'
+        participant_last_name:
+          type: label
+          label: 'Content'
+        participant_first_name:
+          type: label
+          label: 'Content'
+        participant_organization:
+          type: label
+          label: 'Content'
+        participant_created:
+          type: label
+          label: 'Content'
+        participant_comment:
+          type: label
+          label: 'Content'
+        participant_index:
+          type: label
+          label: 'Content'
+        participant_list:
+          type: label
+          label: 'Content'
+        participant_count:
+          type: label
+          label: 'Content'
+        participants_list_view:
+          type: label
+          label: 'Content'
+        filter_name:
+          type: label
+          label: 'Content'
+        filter_tags:
+          type: label
+          label: 'Content'
+        filter_types:
+          type: label
+          label: 'Content'
+        filter_status:
+          type: contactlabel
+          label: 'Content'
+        registration_form:
+          type: label
+          label: 'Content'
+        registration_form_required:
+          type: label
+          label: 'Content'
+        registration_form_valid_email:
+          type: label
+          label: 'Content'
+        registration_form_send:
+          type: label
+          label: 'Content'
+        registration_form_close:
+          type: label
+          label: 'Content'
+        registration_form_cancel:
+          type: label
+          label: 'Content'
+        registration_form_add_to_calendar:
+          type: label
+          label: 'Content'
+        registration_ended:
+          type: label
+          label: 'Content'
+        registration_not_started:
+          type: label
+          label: 'Content'
+        registration_full:
+          type: label
+          label: 'Content'
+    login:
+      type: mapping
+      label: 'Login translations'
+      mapping:
+        username:
+          type: label
+          label: 'Content'
+        password:
+          type: label
+          label: 'Content'
+        error:
+          type: text
+          label: 'Content'
+        success:
+          type: text
+          label: 'Content'
+    time:
+      type: mapping
+      label: 'Date translations'
+      mapping:
+        date:
+          type: label
+          label: 'Content'
+        date_format:
+          type: label
+          label: 'Date format'
+        monday:
+          type: label
+          label: 'Content'
+        monday_short:
+          type: label
+          label: 'Content'
+        tuesday:
+          type: label
+          label: 'Content'
+        tuesday_short:
+          type: label
+          label: 'Content'
+        wednesday:
+          type: label
+          label: 'Content'
+        wednesday_short:
+          type: label
+          label: 'Content'
+        thursday:
+          type: label
+          label: 'Content'
+        thursday_short:
+          type: label
+          label: 'Content'
+        friday:
+          type: label
+          label: 'Content'
+        friday_short:
+          type: label
+          label: 'Content'
+        saturday:
+          type: label
+          label: 'Content'
+        saturday_short:
+          type: label
+          label: 'Content'
+        sunday:
+          type: label
+          label: 'Content'
+        sunday_short:
+          type: label
+          label: 'Content'
+        january:
+          type: label
+          label: 'Content'
+        february:
+          type: label
+          label: 'Content'
+        march:
+          type: label
+          label: 'Content'
+        april:
+          type: label
+          label: 'Content'
+        may:
+          type: label
+          label: 'Content'
+        june:
+          type: label
+          label: 'Content'
+        july:
+          type: label
+          label: 'Content'
+        august:
+          type: label
+          label: 'Content'
+        september:
+          type: label
+          label: 'Content'
+        october:
+          type: label
+          label: 'Content'
+        november:
+          type: label
+          label: 'Content'
+        december:
+          type: label
+          label: 'Content'
+        date_period_from:
+          type: label
+          label: 'Content'
+        date_period_to:
+          type: label
+          label: 'Content'
+        from:
+          type: label
+          label: 'Content'
+        to:
+          type: label
+          label: 'Content'
+        duration_year_singular:
+          type: label
+          label: 'Content'
+        duration_year_plural:
+          type: label
+          label: 'Content'
+        duration_month_singular:
+          type: label
+          label: 'Content'
+        duration_month_plural:
+          type: label
+          label: 'Content'
+        time_of_day:
+          type: label
+          label: 'Content'
+    button:
+      type: mapping
+      label: 'Button translations'
+      mapping:
+        search:
+          type: label
+          label: 'Content'
+        load_more:
+          type: label
+          label: 'Content'
+        all:
+          type: label
+          label: 'Content'
+        map_closer:
+          type: label
+          label: 'Content'
+        add_to_comparison:
+          type: label
+          label: 'Content'
+        search_people:
+          type: label
+          label: 'Content'
+        view_all:
+          type: label
+          label: 'Content'
+        view_more:
+          type: label
+          label: 'Content'
+        read_more:
+          type: label
+          label: 'Content'
+        show_all:
+          type: label
+          label: 'Content'
+        register:
+          type: label
+          label: 'Content'
+        calendar_add:
+          type: label
+          label: 'Content'
+        search_detailed:
+          type: label
+          label: 'Content'
+        search_detailed_short:
+          type: label
+          label: 'Content'
+        search_brief:
+          type: label
+          label: 'Content'
+        search_brief_short:
+          type: label
+          label: 'Content'
+        search_close:
+          type: label
+          label: 'Content'
+        login:
+          type: label
+          label: 'Content'
+        logout:
+          type: label
+          label: 'Content'
+        filter_close:
+          type: label
+          label: 'Content'
+        filter:
+          type: label
+          label: 'Content'
+        search_people:
+          type: label
+          label: 'Content'
+        newsletter_submit:
+          type: label
+          label: 'Content'
+        choose_type:
+          type: label
+          label: 'Content'
+        see_comparison:
+          type: label
+          label: 'Content'
+        add_to_favourites_label:
+          type: label
+          label: 'Content'
+        add_to_favourites_add:
+          type: label
+          label: 'Content'
+        add_to_favourites_add_success:
+          type: label
+          label: 'Content'
+        add_to_favourites_remove:
+          type: label
+          label: 'Content'
+        add_to_favourites_remove_success:
+          type: label
+          label: 'Content'
+        add_to_favourites_title:
+          type: label
+          label: 'Content'
+        back:
+          type: label
+          label: 'Content'
+    newsletter:
+      type: mapping
+      label: 'Newsletter translations'
+      mapping:
+        title:
+          type: label
+          label: 'Content'
+        intro:
+          type: label
+          label: 'Content'
+        confirm_subscription:
+          type: label
+          label: 'Content'
+        email:
+          type: label
+          label: 'Content'
+        valid_email:
+          type: label
+          label: 'Content'
+        modal_title:
+          type: label
+          label: 'Content'
+        modal_content:
+          type: label
+          label: 'Content'
+        modal_close:
+          type: text
+          label: 'Content'
+        unsubscribe_title:
+          type: label
+          label: 'Content'
+        unsubscribe_content:
+          type: label
+          label: 'Content'
+        subscription_thanks_content:
+          type: label
+          label: 'Content'
+        subscription_thanks_subcontent:
+          type: label
+          label: 'Content'
+        subscription_choose_one:
+          type: label
+          label: 'Content'
+        subscription_failed:
+          type: label
+          label: 'Content'
+    school:
+      type: mapping
+      label: 'School translations'
+      mapping:
+        label:
+          type: label
+          label: 'Content'
+        institutions:
+          type: label
+          label: 'Content'
+        location:
+          type: label
+          label: 'Content'
+        name:
+          type: label
+          label: 'Content'
+        institution_type:
+          type: label
+          label: 'Content'
+        institution_select_type:
+          type: label
+          label: 'Content'
+        institution_sublevel:
+          type: label
+          label: 'Content'
+        language:
+          type: label
+          label: 'Content'
+        ownership:
+          type: label
+          label: 'Content'
+        available_dormitory:
+          type: label
+          label: 'Content'
+        dormitory:
+          type: label
+          label: 'Content'
+        special_needs_long:
+          type: label
+          label: 'Content'
+        special_needs_short:
+          type: label
+          label: 'Content'
+        list:
+          type: label
+          label: 'Content'
+        map:
+          type: label
+          label: 'Content'
+        no_result:
+          type: label
+          label: 'Content'
+        legal_address:
+          type: label
+          label: 'Content'
+        defacto_address:
+          type: label
+          label: 'Content'
+        website:
+          type: label
+          label: 'Content'
+        contact_info:
+          type: label
+          label: 'Content'
+        contact:
+          type: label
+          label: 'Content'
+        register_code_short:
+          type: label
+          label: 'Content'
+        available:
+          type: label
+          label: 'Content'
+        unavailable:
+          type: label
+          label: 'Content'
+    studyProgramme:
+      type: mapping
+      label: 'Study programme translations'
+      mapping:
+        label:
+          type: label
+          label: 'Content'
+        level:
+          type: label
+          label: 'Content'
+        accreditation:
+          type: label
+          label: 'Content'
+        valid_accreditation:
+          type: label
+          label: 'Content'
+        languages:
+          type: label
+          label: 'Content'
+        study_duration:
+          type: label
+          label: 'Content'
+        study_group:
+          type: label
+          label: 'Content'
+        admission_status:
+          type: label
+          label: 'Content'
+        filter_title:
+          type: label
+          label: 'Content'
+        filter_type:
+          type: label
+          label: 'Content'
+        filter_language:
+          type: label
+          label: 'Content'
+        filter_school:
+          type: label
+          label: 'Content'
+        filter_location:
+          type: label
+          label: 'Content'
+        filter_iscedf_broad:
+          type: label
+          label: 'Content'
+        filter_iscedf_narrow:
+          type: label
+          label: 'Content'
+        filter_iscedf_detailed:
+          type: label
+          label: 'Content'
+        filter_open_admission:
+          type: label
+          label: 'Content'
+        no_result:
+          type: label
+          label: 'Content'
+    notFound:
+      type: mapping
+      label: 'Not found translations'
+      mapping:
+        explanation:
+          type: label
+          label: 'Content'

@@ -1,0 +1,19 @@
+uuid: 6f1ff5f3-60aa-49b2-b465-06be046e100e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ehis_id
+    - node.type.school
+id: node.school.field_ehis_id
+field_name: field_ehis_id
+entity_type: node
+bundle: school
+label: 'EHIS id'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

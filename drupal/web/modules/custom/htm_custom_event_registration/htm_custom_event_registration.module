@@ -1,0 +1,190 @@
+<?php
+
+use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Render\BubbleableMetadata;
+
+/**
+ * Implements hook_mail().
+ */
+function htm_custom_event_registration_mail($key, &$message, $params) {
+
+	$options = array(
+			'langcode' => $message['langcode'],
+	);
+ 	switch ($key) {
+ 		case 'event_registration_email':
+			$token_service = \Drupal::token();
+			$entity = $params['entity'];
+			$link_root = $params['link_root'];
+
+ 			$title = $token_service->replace($params['subject'], ['event_reg_entity' => $entity], ['clear' => TRUE, 'langcode' => $message['langcode']]);
+ 			$body = $token_service->replace($params['body'], ['event_reg_entity' => $entity, 'ref_event' => $params['ref_event']], ['clear' => TRUE, 'langcode' => $message['langcode'], 'custom_link_path' => $link_root]);
+
+ 			$render = [
+				'#theme' => 'registration_email_template',
+				'#body' => nl2br(html_entity_decode($body))
+			];
+
+			$message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+			$message['from'] = \Drupal::config('system.site')->get('mail');
+			$message['subject'] = $title;
+			$message['body'][] = \Drupal::service('renderer')->render($render);
+
+			break;
+ 	}
+}
+
+/**
+ * Implements hook_theme()
+ */
+function htm_custom_event_registration_theme($existing, $type, $theme, $path){
+	return [
+		'registration_email_template' => [
+			'variables' => ['body' => ''],
+			'template' => 'registration_email_template',
+		]
+	];
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+	if ($entity->getEntityTypeId() === 'event_reg_entity') {
+
+		$langcode = $entity->language->value;
+
+		$mailManager = \Drupal::service('plugin.manager.mail');
+		$module = 'htm_custom_event_registration';
+		$key = 'event_registration_email';
+		$to = $entity->participant_email->value;
+
+
+		// load email config
+		$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+		$translated_reference_event = $entity->event_reference->entity->getTranslation($langcode);
+
+		$params['subject'] = $config->get('emails.email_event_registration.registration_email_subject');
+		$params['body'] = $config->get('emails.email_event_registration.registration_email_body');
+		$params['entity'] = $entity;
+		$params['link_root'] = $config->get('general.fe_url');
+		$params['ref_event'] = $translated_reference_event;
+		// I think we do not need this one!
+		$params['title'] = 'Üritusele registreerumise kinnitus';
+
+		$send = true;
+
+		ob_start();
+		$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+		ob_clean();
+
+		if ($result['result'] !== true) {
+			$message = t('There was a problem sending email notification to @email', array('@email' => $to));
+			\Drupal::logger('htm_custom_event_registration')->error($message);
+			//throw new Error($message);
+		}else{
+			$message = t('An email notification has been sent to @email', array('@email' => $to));
+			\Drupal::logger('htm_custom_event_registration')->notice($message);
+		}
+
+		// Now send to organizer aswell
+
+		$to = $translated_reference_event->field_contact_email->value;
+
+		if(!empty($to)){
+			$params['subject'] = $config->get('emails.email_event_registration.organizer_email_subject');
+			$params['body'] = $config->get('emails.email_event_registration.organizer_email_body');
+
+			ob_start();
+			$result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+			ob_clean();
+
+			if ($result['result'] !== true) {
+				$message = t('There was a problem sending email notification to @email', array('@email' => $to));
+				\Drupal::logger('htm_custom_event_registration')->error($message);
+				//throw new Error($message);
+			}else{
+				$message = t('An email notification has been sent to @email', array('@email' => $to));
+				\Drupal::logger('htm_custom_event_registration')->notice($message);
+			}
+		}
+
+	}
+}
+
+/*
+ * hook_cron();
+ **/
+function htm_custom_event_registration_cron() {
+	$query = \Drupal::entityQuery('node')
+		->condition('type' , 'event')
+		->condition('status', '1');
+	$nids = $query->execute();
+	$nodes = \Drupal\node\Entity\Node::loadMultiple($nids);
+	$now = strtotime('now');
+	$expired_events = [];
+
+	foreach($nodes as $entity){
+		$event_date = _get_event_dates($entity);
+
+		$d1 = $now - $event_date['last'];
+		$d2 = strtotime('30 days') - $now;
+		$d3 = $d2 - $d1;
+
+		if($d3 <= 0){
+			$expired_events[] = $entity->id();
+		}
+	}
+
+	$rnids = \Drupal::entityQuery('event_reg_entity')->execute();
+
+	$node_storage = \Drupal::entityTypeManager()->getStorage('event_reg_entity');
+	$registrations = $node_storage->loadMultiple($rnids);
+
+	foreach($registrations as $registration){
+		$ref = $registration->get('event_reference')->entity;
+		if(!$ref || in_array($ref->id(), $expired_events)) $registration->delete();
+	}
+
+
+}
+
+/**
+ * @param $event \Drupal\node\Entity\Node
+ * @return array
+ */
+function _get_event_dates($event){
+	#dump($event);
+	$last_event_date = 0;
+	$first_event_date = strtotime('now');
+	foreach($event->field_event_date as $event_date){
+		$unix_event_date = strtotime($event_date->entity->field_event_date->value);
+		$last_event_date = ($unix_event_date >= $last_event_date)
+			? $unix_event_date
+			: $last_event_date;
+		$first_event_date = ($first_event_date >= $unix_event_date)
+			? $unix_event_date
+			: $first_event_date;
+	}
+
+	return ['start' => $first_event_date, 'last' => $last_event_date];
+}
+
+function _get_config($langcode, $config_name){
+	$language_manager = \Drupal::service('language_manager');
+
+	$language = $language_manager->getLanguage($langcode);
+
+	// Remember original language before this operation.
+	$original_language = $language_manager->getConfigOverrideLanguage();
+	// Set the translation target language on the configuration factory.
+	$language_manager->setConfigOverrideLanguage($language);
+
+	// load config
+	$config  = \Drupal::config($config_name);
+
+	// Set the configuration language back.
+	$language_manager->setConfigOverrideLanguage($original_language);
+
+	return $config;
+}

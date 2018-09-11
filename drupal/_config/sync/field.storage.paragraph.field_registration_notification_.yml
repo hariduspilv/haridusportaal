@@ -1,0 +1,18 @@
+uuid: 8c938403-e378-40ac-b42b-5f3dc0884354
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_registration_notification_
+field_name: field_registration_notification_
+entity_type: paragraph
+type: email
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
