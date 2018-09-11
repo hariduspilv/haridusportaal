@@ -8,7 +8,7 @@
   &__head {display: flex; border-bottom: .0625rem solid $gray;}
   &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $small $medium $small $medium; flex-basis: 50%;}
   .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;cursor:pointer;color:$blue;
-    .mat-icon{margin-top: $gutter;}
+    .htm-icon{margin-top: 0.625rem;}
     .title {font-size: .875rem;}
     &.active {color: $black;
       &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}

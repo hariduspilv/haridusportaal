@@ -10,11 +10,11 @@
 
       <li *ngFor="let item of list">
         <ng-container *ngIf="item.entity.fieldType == 'page'">
-          <a [routerLink]="[item.entity.fieldPage.entity.entityUrl.path]"> <mat-icon>link</mat-icon> {{item.entity.fieldFavoriteTitle}} </a>
+          <a [routerLink]="[item.entity.fieldPage.entity.entityUrl.path]"> <span class="htm-icon">link</span> {{item.entity.fieldFavoriteTitle}} </a>
         </ng-container>
         
         <ng-container *ngIf="item.entity.fieldType == 'search'">
-          <a href="{{item.entity.fieldSearch}}"> <mat-icon>link</mat-icon> {{item.entity.fieldFavoriteTitle}}</a>
+          <a href="{{item.entity.fieldSearch}}"> <span class="htm-icon">link</span> {{item.entity.fieldFavoriteTitle}}</a>
         </ng-container>
 
       </li>

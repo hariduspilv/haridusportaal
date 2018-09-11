@@ -38,7 +38,7 @@
         &.active{color:$black;
           &:after{position:absolute; bottom:0; left:0; right:0; height:3px; background:$dark-orange; overflow: hidden; content:" ";}
         }
-        .mat-icon{width:100% !important; line-height:1.5rem; font-size:1.5rem; margin-bottom:2px;}
+        .htm-icon{width:100% !important; line-height:1.5rem; font-size:1.5rem; margin-bottom:2px;}
       }
     }
   }
