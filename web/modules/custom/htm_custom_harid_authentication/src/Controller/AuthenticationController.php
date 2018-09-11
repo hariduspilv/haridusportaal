@@ -15,8 +15,8 @@ class AuthenticationController extends ControllerBase {
   public function startAuthentication() {
 
       $userInfo = $this->getHarIdAuthentication();
-      $account = $this->getAccount($userInfo);
-      $jwt = $this->getJwt($account);
+      $account = $this->getAccount($userInfo->personal_code);
+      $jwt = $this->getJwt($account, $userInfo);
 
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -30,7 +30,7 @@ class AuthenticationController extends ControllerBase {
 
   }
 
-  public function getJwt($account){
+  public function getJwt($account, $userInfo){
     $request_url = $_SERVER['HTTP_HOST'];
     $request_url .= '/api/v1/token?_format=json';
 
@@ -42,8 +42,8 @@ class AuthenticationController extends ControllerBase {
     die();
 
     $params['body'] = json_encode(array(
-      'first_name' => $account->getAccountName(),
-      'last_name' => $account->getPassword()
+      'name' => $userInfo->name,
+      'id_code' => $account->getPassword()
     ));
 
     $client = \Drupal::httpClient();
@@ -69,12 +69,8 @@ class AuthenticationController extends ControllerBase {
     $oidc = new OpenIDConnectClient('https://test.harid.ee', '0855cd5d8e5418a5e8c3dd3187dd0a6f', 'f75da21ad0d015fb71dba9895204429e57c7c9fa375779c00ae055cefcf9feac');
     #$oidc->providerConfigParam(array('token_endpoint' => 'https://test.harid.ee/et/access_tokens'));
     $oidc->addScope('personal_code');
-    $oidc->addScope('phone');
-    $oidc->addScope('address');
     $oidc->addScope('profile');
     $oidc->addScope('openid');
-    $oidc->addScope('roles');
-    $oidc->addScope('email');
     try{
       $oidc->authenticate();
     }catch(OpenIDConnectClientException $e){
@@ -82,8 +78,6 @@ class AuthenticationController extends ControllerBase {
       throw new HttpException(500, $message);
     }
     $userInfo = $oidc->requestUserInfo();
-    kint($userInfo);
-    die();
     return $userInfo;
   }
 
