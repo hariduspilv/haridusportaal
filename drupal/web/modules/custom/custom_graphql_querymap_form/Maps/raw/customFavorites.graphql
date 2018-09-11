@@ -2,6 +2,7 @@ query ($language: LanguageId!){
   CustomFavorites(language:$language){
     ... on FavoriteEntity{
       favoritesNew{
+        targetId
         entity{
           entityLabel
           entityUrl{

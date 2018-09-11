@@ -1,0 +1,20 @@
+uuid: 35da5750-ba1a-44b1-b8c0-df9773ab7bb5
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+id: event_reg_entity.event_reg_entity.event_reference
+field_name: event_reference
+entity_type: event_reg_entity
+bundle: event_reg_entity
+label: Sündmus
+description: 'The user ID of author of the Event registration entity.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

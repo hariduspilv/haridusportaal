@@ -71,7 +71,7 @@ export class FrontpageComponent {
   }
 
   ngOnInit() {
-
+    (document.activeElement as HTMLElement).blur();
     this.lang = this.router.url;
 		let that = this;
 		that.loading = true;

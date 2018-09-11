@@ -12,7 +12,7 @@ id: node.avaleht.field_topics
 field_name: field_topics
 entity_type: node
 bundle: avaleht
-label: Topics
+label: Teemad
 description: ''
 required: false
 translatable: false
@@ -39,6 +39,9 @@ settings:
         enabled: false
       event_date:
         weight: 14
+        enabled: false
+      favorite_item:
+        weight: 15
         enabled: false
       link:
         weight: 15

@@ -63,26 +63,26 @@ class CreateFavoriteItem extends CreateEntityBase{
 	public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition)
 	{
 		return new static(
-			$configuration,
-			$pluginId,
-			$pluginDefinition,
-			$container->get('entity_type.manager'),
-			$container->get('custom_graphql_functions.language_negotiator'),
-			$container->get('current_user'),
-			$container->get('language_manager'));
+				$configuration,
+				$pluginId,
+				$pluginDefinition,
+				$container->get('entity_type.manager'),
+				$container->get('custom_graphql_functions.language_negotiator'),
+				$container->get('current_user'),
+				$container->get('language_manager'));
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function __construct(
-		array $configuration,
-		$pluginId,
-		$pluginDefinition,
-		EntityTypeManagerInterface $entityTypeManager,
-		CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
-		AccountInterface $currentUser,
-		LanguageManager $languageManager)
+			array $configuration,
+			$pluginId,
+			$pluginDefinition,
+			EntityTypeManagerInterface $entityTypeManager,
+			CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
+			AccountInterface $currentUser,
+			LanguageManager $languageManager)
 	{
 		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
 		$this->CustomGraphqlLanguageNegotiator = $CustomGraphqlLanguageNegotiator;
@@ -100,11 +100,11 @@ class CreateFavoriteItem extends CreateEntityBase{
 	 */
 	protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info){
 		return [
-			'user_idcode' => $this->getCurrentUserIdCode(),
-			'favorites_new' => [
-				'target_id' => isset($args['input']['page_id']) ? $args['input']['page_id'] : NULL,
-				'title' => ''
-			]
+				'user_idcode' => $this->getCurrentUserIdCode(),
+				'favorites_new' => [
+						'target_id' => isset($args['input']['page_id']) ? $args['input']['page_id'] : NULL,
+						'title' => ''
+				]
 		];
 	}
 
@@ -135,11 +135,12 @@ class CreateFavoriteItem extends CreateEntityBase{
 						}
 					}
 				}
+				if($entity->favorites_new->count() >= 10) {
+					throw new \InvalidArgumentException((int) 1);
+				}
 			}
 			catch (\InvalidArgumentException $exception) {
-				return new EntityCrudOutputWrapper(NULL, NULL, [
-						$this->t('The entity update failed with exception: @exception.', ['@exception' => $exception->getMessage()]),
-				]);
+				return new EntityCrudOutputWrapper(NULL, NULL, [$exception->getMessage()]);
 			}
 			if (($violations = $entity->validate()) && $violations->count()) {
 				return new EntityCrudOutputWrapper(NULL, $violations);
@@ -152,8 +153,8 @@ class CreateFavoriteItem extends CreateEntityBase{
 	}
 
 
-	protected function getCurrentUserIdCode(){
+	protected function getCurrentUserIdCode()
+	{
 		return User::load($this->currentUser->id())->field_user_idcode->value;
 	}
-
 }

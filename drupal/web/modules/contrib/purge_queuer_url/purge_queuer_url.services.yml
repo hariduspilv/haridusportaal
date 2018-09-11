@@ -1,0 +1,16 @@
+services:
+  purge_queuer_url.queuer:
+    class: Drupal\purge_queuer_url\Plugin\Purge\Queuer\UrlAndPathQueuer
+    tags:
+      - { name: cache_tags_invalidator }
+    calls:
+      - [setContainer, ['@service_container']]
+  purge_queuer_url.registry:
+    class: Drupal\purge_queuer_url\TrafficRegistry
+    public: true
+    arguments: ['@database']
+  http_middleware.purge_queuer_url_registrar:
+    class: Drupal\purge_queuer_url\StackMiddleware\UrlRegistrar
+    arguments: ['@purge_queuer_url.registry', '@config.factory']
+    tags:
+      - { name: http_middleware, priority: 250 }
