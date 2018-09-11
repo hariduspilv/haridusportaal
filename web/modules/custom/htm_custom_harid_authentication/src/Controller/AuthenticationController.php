@@ -23,7 +23,24 @@ class AuthenticationController extends ControllerBase {
         throw new HttpException(500, $message);
       }
       if(isset($account)){
-        kint($_SERVER);
+        kint($account);
+        die();
+        $request_url = $_SERVER['HTTP_HOST'];
+        $request_url .= '/api/v1/token?_format=json';
+
+        $params['headers'] = array(
+          'Content-Type' => 'application/json'
+        );
+
+        $params['body'] = json_encode(array(
+          'username' => ''
+        ));
+
+        $client = \Drupal::httpClient();
+        $response = $client->post($request_url, $params);
+
+        $request_url = $_SERVER['HTTP_HOST'];
+        $request_url .= '/api/v1/token?_format=json';
       }
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
