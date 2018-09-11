@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_harid_authentication\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Jumbojett\OpenIDConnectClient;
+use Jumbojett\OpenIDConnectClientException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
@@ -16,6 +17,12 @@ class AuthenticationController extends ControllerBase {
       $oidc = new OpenIDConnectClient('https://test.harid.ee', '0855cd5d8e5418a5e8c3dd3187dd0a6f', 'f75da21ad0d015fb71dba9895204429e57c7c9fa375779c00ae055cefcf9feac');
       #$oidc->providerConfigParam(array('token_endpoint' => 'https://test.harid.ee/et/access_tokens'));
       $oidc->addScope('personal_code');
+      try{
+        $oidc->authenticate();
+      }catch(OpenIDConnectClientException $e){
+        $message = t('Unable to authenticate.');
+        throw new HttpException(500, $message);
+      }
       $oidc->authenticate();
       $userInfo = $oidc->requestUserInfo('personal_code');
       if($userInfo != NULL){
