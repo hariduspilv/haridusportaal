@@ -16,8 +16,6 @@ class AuthenticationController extends ControllerBase {
       #$oidc->providerConfigParam(array('token_endpoint' => 'https://test.harid.ee/et/access_tokens'));
       $oidc->addScope('personal_code');
       $oidc->authenticate();
-      kint($oidc);
-      die();
       $userInfo = $oidc->requestUserInfo('personal_code');
       if($userInfo != NULL){
         $account = $this->getAccount($userInfo);
