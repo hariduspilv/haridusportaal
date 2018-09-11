@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.2.1 - 2018-08-28
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#92](https://github.com/zendframework/zend-stdlib/pull/92) fixes serialization of `SplPriorityQueue` by ensuring its `$serial`
+  property is also serialized.
+
+- [#91](https://github.com/zendframework/zend-stdlib/pull/91) fixes behavior in the `ArrayObject` implementation that was not
+  compatible with PHP 7.3.
+
+## 3.2.0 - 2018-04-30
+
+### Added
+
+- [#87](https://github.com/zendframework/zend-stdlib/pull/87) adds support for PHP 7.2.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#87](https://github.com/zendframework/zend-stdlib/pull/87) removes support for HHVM.
+
+### Fixed
+
+- Nothing.
+
 ## 3.1.1 - 2018-04-12
 
 ### Added

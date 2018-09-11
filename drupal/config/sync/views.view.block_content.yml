@@ -10,7 +10,7 @@ _core:
 id: block_content
 label: 'Custom block library'
 module: views
-description: 'Find and manage custom blocks.'
+description: 'Otsi ja halda kohandatud plokke.'
 tag: default
 base_table: block_content_field_data
 base_field: id
@@ -42,7 +42,7 @@ display:
         options:
           submit_button: Apply
           reset_button: false
-          reset_button_label: Reset
+          reset_button_label: Tühista
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
           sort_asc_label: Asc
@@ -122,7 +122,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Block description'
+          label: 'Ploki kirjeldus'
           exclude: false
           alter:
             alter_text: false
@@ -187,7 +187,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Block type'
+          label: 'Ploki tüüp'
           exclude: false
           alter:
             alter_text: false
@@ -252,7 +252,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Updated
+          label: Uuendatud
           exclude: false
           alter:
             alter_text: false
@@ -366,7 +366,7 @@ display:
           exposed: true
           expose:
             operator_id: info_op
-            label: 'Block description'
+            label: 'Ploki kirjeldus'
             description: ''
             use_operator: false
             operator: info_op
@@ -406,7 +406,7 @@ display:
           exposed: true
           expose:
             operator_id: type_op
-            label: 'Block type'
+            label: 'Ploki tüüp'
             description: ''
             use_operator: false
             operator: type_op

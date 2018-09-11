@@ -1,0 +1,12 @@
+term_csv_export_import.import:
+  base_route: term_csv_export_import.import
+  route_name: term_csv_export_import.import
+  description: 'Import Taxonomy Terms as CSV'
+  title: Term CSV Import
+  weight: 0
+term_csv_export_import.export:
+  base_route: term_csv_export_import.import
+  route_name: term_csv_export_import.export
+  description: 'Export Taxonomy Terms as CSV'
+  title: Term CSV Export
+  weight: 0

@@ -1,0 +1,23 @@
+uuid: 48f83664-c3f0-4c94-a04c-108c81d0f1ec
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_duration_years
+    - node.type.study_programme
+id: node.study_programme.field_duration_years
+field_name: field_duration_years
+entity_type: node
+bundle: study_programme
+label: 'Nominaalkestus (aastad)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

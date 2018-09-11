@@ -1,0 +1,163 @@
+<breadcrumbs></breadcrumbs>
+<div class="news-component">
+  <div class="sm-show text-right filter-control">
+    <a href="javascript:void(0);" (click)="showFilter = !showFilter">
+      <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+      <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+    </a> 
+  </div>
+  <form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
+    <div class="main-container">
+      <div class="row form-first-row" [class.short-filter]="!filterFull">
+        <div class="col-4 sm-12 form-col">
+          <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
+            <span class="round-input__title">{{ 'news.filter_name' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field" attr.aria-label="{{'You are currently on Filter navigation, where you can enter news title and pick start and end date'}}" placeholder="{{ 'news.filter_name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
+            </div>
+          </div><!--/round-inpuit__wrapper-->
+        </div><!--/col-4-->
+        <div class="col-25 sm-6 form-col">
+          <div class="round-input__wrapper" [class.complete]="filterFormItems.dateFrom" [class.error]="checkValidity('dateFrom') && !dateFromFocus">
+            <span class="round-input__title">{{ 'time.date_period_from'  | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input autocomplete="off" id="dateFrom" class="round-input__field"  
+                placeholder="{{ 'time.date_period_from'  | translate }}"
+                [matDatepicker]="datepickerFrom" [(ngModel)]="filterFormItems.dateFrom"
+                [max]="filterFormItems.dateTo"
+                name="dateFrom"
+                maxlength="10"
+                dateFormatter
+                (focus)="dateFromFocus = true"
+                (blur)="dateFromFocus = false" />
+              <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
+              <mat-datepicker #datepickerFrom></mat-datepicker>
+            </div>
+            <div class="round-input__error">
+              <div class="round-input__error--text error-2 error-sm-4" role="alert" *ngIf="checkValidity('dateFrom') && !dateFromFocus">{{ 'errors.enter_valid_date' | translate }}</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-25 sm-6 form-col">
+          <div class="round-input__wrapper" [class.complete]="filterFormItems.dateTo" [class.error]="checkValidity('dateTo') && !dateToFocus">
+            <span class="round-input__title">{{ 'time.date_period_to'  | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input autocomplete="off" id="dateTo" class="round-input__field"
+              placeholder="{{ 'time.date_period_to'  | translate }}"
+              [matDatepicker]="datepickerTo"
+              [(ngModel)]="filterFormItems.dateTo"
+              [min]="filterFormItems.dateFrom"
+              name="dateTo"
+              maxlength="10"
+              dateFormatter 
+              (focus)="dateToFocus = true"
+              (blur)="dateToFocus = false" />
+              <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
+              <mat-datepicker #datepickerTo></mat-datepicker>
+            </div>
+            <div class="round-input__error">
+              <div class="round-input__error--text error-2 error-sm-4" role="alert" *ngIf="checkValidity('dateTo') && !dateToFocus">{{ 'errors.enter_valid_date' | translate }}</div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-3 align-end text-right sm-12 inline-flex sm-hide form-col" *ngIf="!filterFull">
+          <div class="align-center filter-state sm-hide">       
+            <a role="button" class="pointer" (click)="filterFull = !filterFull" aria-expanded="false">
+              <span class="md-hide">{{ 'button.search_detailed' | translate}}</span>
+              <span class="md-show">{{ 'button.search_detailed_short' | translate}}</span>
+            </a>
+          </div>
+          <div class="button-row">
+            <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+          </div>
+        </div><!--/col-3-->
+      </div><!--/row-->
+    
+      <div class="row form-additional-row" *ngIf="filterFull">
+        <div class="col-9 sm-12 form-col">
+    
+          <div class="ng-select__wrapper__mt">
+            <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">{{ 'news.filter_tag' | translate }}</span>
+            <ng-select
+            tabindex="0"
+            role="select"
+             attr.aria-label="{{'Specific search selectbox, choose your options'}}"
+            [class.exists]="filterFormItems.types && filterFormItems.types.length"
+            [items]="tags | async"
+            [multiple]="true"
+            [loading]="loading"
+            bindLabel="name"
+            name="types"
+            [(ngModel)]="filterFormItems.types"
+            placeholder="{{ 'news.tag' | translate }}"
+            (clear)="clearField('types')"
+            [dropdownPosition]="'bottom'"></ng-select>      
+          </div>
+          
+        </div>
+        <div class="col-3 align-end text-right sm-12 inline-flex form-col">
+          <div class="align-center filter-state sm-hide">       
+            <a class="btn-link pointer" (click)="filterFull = !filterFull" aria-expanded="true">
+              <span class="md-hide">{{ 'button.search_brief' | translate}}</span>
+              <span class="md-show">{{ 'button.search_brief_short' | translate}}</span>
+            </a>
+          </div>
+          <div class="button-row">
+            <button mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+          </div>
+        </div><!--/col-3-->
+      </div><!--/row-->
+    </div>
+  </form>
+
+  <mat-spinner *ngIf="!list"></mat-spinner>
+  <div class="news-list main-container" *ngIf="list">
+    <div class="news-title">{{ 'news.label' | translate | uppercase }}</div>
+   
+    <div>
+      <div *ngFor="let item of list" class="news-item pointer" [routerLink]="[item.entityUrl.path]">
+        <mat-card>
+          <mat-card-content>
+            <div class="row">
+              <div class="col-8 sm-hide">
+                <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
+                
+                <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                <div class="tags" *ngIf="item.fieldTag">
+                  <mat-chip-list>
+                      <span *ngFor="let tag of item.fieldTag" class="mat-chip-wrapper">
+                        <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
+                      </span>
+                  </mat-chip-list>
+                </div><!--/row-->
+                
+                <div class="description">{{ item.fieldShortDescription }}</div>
+              </div>
+              <div class="col-4 sm-12 pointer" *ngIf="item.fieldIntroductionImage">
+                <img src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
+              </div>
+            </div>
+            <div class="sm-show col-12">
+              <div class="mb-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }}</h1></a></div>
+              <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+            </div><!--/col-12-->
+          </mat-card-content>
+        </mat-card>
+      </div><!--ngFor-->
+
+      <div class="text-center actions" *ngIf="!listEnd">
+        <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
+        <button mat-raised-button color="primary" (click)="loadMore()" role="button" *ngIf="!loading" attr.aria-label="{{'click to load more events'}}">
+          {{ "button.load_more" | translate }}
+        </button>
+      </div><!--/text-center-->
+      <div class="text-center actions__error" *ngIf="(list != null && list.length) === 0">
+        <p tabindex="0" role="button" >{{ 'news.no_results' | translate }}</p>
+      </div><!--/text-center-->
+      
+    </div><!--/ngIf-->
+  </div>
+</div>
+

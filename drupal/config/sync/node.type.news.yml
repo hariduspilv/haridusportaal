@@ -20,9 +20,9 @@ third_party_settings:
     unpublish_enable: false
     unpublish_required: false
     unpublish_revision: false
-name: News
+name: Uudised
 type: news
-description: 'Add news to Haridusportaal.'
+description: 'Lisa uudiseid'
 help: ''
 new_revision: true
 preview_mode: 1

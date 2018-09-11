@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * Install, update, and uninstall functions for the Taxonomy Import module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function taxonomy_import_install() {
+}
+/**
+ * Implements hook_uninstall().
+ */
+function taxonomy_import_uninstall() {
+  drupal_flush_all_caches();
+}

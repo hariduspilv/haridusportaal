@@ -1,0 +1,8 @@
+bypass adv varnish cache:
+  title: 'Bypass Varnish'
+  description: 'Varnish will not be used for users with this permission set.'
+  restrict access: TRUE
+configure adv varnish settings:
+  title: 'Configure Adv Varnish settings'
+  description: 'This permission allow access to varnish configuration page.'
+  restrict access: TRUE

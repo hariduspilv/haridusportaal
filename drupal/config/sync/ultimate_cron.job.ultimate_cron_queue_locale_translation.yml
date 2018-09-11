@@ -1,10 +1,10 @@
-uuid: 9ba1856c-bcd9-44de-a268-0f5b2f9c44a1
+uuid: 56865e75-6090-403c-8521-3dd8c1459b88
 langcode: et
 status: true
 dependencies:
   module:
     - locale
-title: 'Queue: Update translations'
+title: 'Queue: Uuenda tõlkeid'
 id: ultimate_cron_queue_locale_translation
 weight: 10
 module: locale

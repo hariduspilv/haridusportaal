@@ -1,0 +1,22 @@
+<div class="dialog" cdkTrapFocus>
+  <div class="row">
+    <div class="col-12" style="position: relative;">
+      <span class="dialog__text--medium">{{ data.title }}</span>
+      <div class="pull-right" attr.aria-label="{{'Click to close modal'}}" role="close">
+        <mat-icon mat-icon-button>close
+
+          <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0"></button>
+
+        </mat-icon>
+      </div>
+    </div>
+  </div>
+  <div class="dialog__success--modal">
+    <div class="dialog__success--content" [innerHtml]="data.content" tabindex="0"></div>
+    <div class="dialog__actions--success">
+      <div class="text-center">
+        <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="Close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a></div>
+      </div>
+    </div>
+  </div>
+</div>

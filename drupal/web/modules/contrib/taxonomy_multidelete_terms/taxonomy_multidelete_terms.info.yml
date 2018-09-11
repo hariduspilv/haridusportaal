@@ -1,0 +1,14 @@
+name: Taxonomy Multi-delete Terms
+description : This module help to delete multiple terms at one time.
+
+type: module
+# core: 8.x
+
+dependencies:
+  - taxonomy
+
+# Information added by Drupal.org packaging script on 2017-03-21
+version: '8.x-1.1'
+core: '8.x'
+project: 'taxonomy_multidelete_terms'
+datestamp: 1490103488

@@ -3,7 +3,6 @@
 namespace Drupal\jsonapi\Normalizer;
 
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Uuid\Uuid;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -57,13 +56,6 @@ class JsonApiDocumentTopLevelNormalizer extends NormalizerBase implements Denorm
   protected $resourceTypeRepository;
 
   /**
-   * The field resolver.
-   *
-   * @var \Drupal\jsonapi\Context\FieldResolver
-   */
-  protected $fieldResolver;
-
-  /**
    * Constructs a JsonApiDocumentTopLevelNormalizer object.
    *
    * @param \Drupal\jsonapi\LinkManager\LinkManager $link_manager
@@ -72,14 +64,11 @@ class JsonApiDocumentTopLevelNormalizer extends NormalizerBase implements Denorm
    *   The entity type manager.
    * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resource_type_repository
    *   The JSON API resource type repository.
-   * @param \Drupal\jsonapi\Context\FieldResolver $field_resolver
-   *   The JSON API field resolver.
    */
-  public function __construct(LinkManager $link_manager, EntityTypeManagerInterface $entity_type_manager, ResourceTypeRepositoryInterface $resource_type_repository, FieldResolver $field_resolver) {
+  public function __construct(LinkManager $link_manager, EntityTypeManagerInterface $entity_type_manager, ResourceTypeRepositoryInterface $resource_type_repository) {
     $this->linkManager = $link_manager;
     $this->entityTypeManager = $entity_type_manager;
     $this->resourceTypeRepository = $resource_type_repository;
-    $this->fieldResolver = $field_resolver;
   }
 
   /**
@@ -179,40 +168,17 @@ class JsonApiDocumentTopLevelNormalizer extends NormalizerBase implements Denorm
    * {@inheritdoc}
    */
   public function normalize($object, $format = NULL, array $context = []) {
-    $value_extractor = $this->buildNormalizerValue($object->getData(), $format, $context);
-    if (!empty($context['cacheable_metadata'])) {
-      $context['cacheable_metadata']->addCacheableDependency($value_extractor);
-    }
-    $normalized = $value_extractor->rasterizeValue();
-    $included = array_filter($value_extractor->rasterizeIncludes());
-    if (!empty($included)) {
-      foreach ($included as $included_item) {
-        if ($included_item['data'] === FALSE) {
-          unset($included_item['data']);
-          $normalized = NestedArray::mergeDeep($normalized, $included_item);
-        }
-        else {
-          $normalized['included'][] = $included_item['data'];
-        }
-      }
-    }
-
-    return $normalized;
-  }
-
-  /**
-   * Build the normalizer value.
-   *
-   * @return \Drupal\jsonapi\Normalizer\Value\JsonApiDocumentTopLevelNormalizerValue
-   *   The normalizer value.
-   */
-  public function buildNormalizerValue($data, $format = NULL, array $context = []) {
+    $data = $object->getData();
     if (empty($context['expanded'])) {
       $context += $this->expandContext($context['request'], $context['resource_type']);
     }
 
     if ($data instanceof EntityReferenceFieldItemListInterface) {
-      return $this->serializer->normalize($data, $format, $context);
+      $normalizer_values = [
+        $this->serializer->normalize($data, $format, $context),
+      ];
+      $link_context = ['link_manager' => $this->linkManager];
+      return new JsonApiDocumentTopLevelNormalizerValue($normalizer_values, $context, $link_context, FALSE);
     }
     $is_collection = $data instanceof EntityCollection;
     $include_count = $context['resource_type']->includeCount();
@@ -254,15 +220,22 @@ class JsonApiDocumentTopLevelNormalizer extends NormalizerBase implements Denorm
   protected function expandContext(Request $request, ResourceType $resource_type) {
     // Translate ALL the includes from the public field names to the internal.
     $includes = array_filter(explode(',', $request->query->get('include')));
-    $public_includes = array_map(function ($include_str) use ($resource_type) {
-      $resolved = $this->fieldResolver->resolveInternal(
-        $resource_type->getEntityTypeId(),
-        $resource_type->getBundle(),
-        trim($include_str)
-      );
-      // We don't need the entity information for the includes. Clean it.
-      return preg_replace('/\.entity\./', '.', $resolved);
+    // The primary resource type for 'related' routes is different than the
+    // primary resource type of individual and relationship routes and is
+    // determined by the relationship field name.
+    $related = $request->get('_on_relationship') ? FALSE : $request->get('related');
+    $public_includes = array_map(function ($include) use ($resource_type, $related) {
+      $trimmed = trim($include);
+      // If the request is a related route, prefix the path with the related
+      // field name so that the path can be resolved from the base resource
+      // type. Then, remove it after the path is resolved.
+      $path_parts = explode('.', $related ? "{$related}.{$trimmed}" : $trimmed);
+      return array_map(function ($resolved) use ($related) {
+        return implode('.', $related ? array_slice($resolved, 1) : $resolved);
+      }, FieldResolver::resolveInternalIncludePath($resource_type, $path_parts));
     }, $includes);
+    // Flatten the resolved possible include paths.
+    $public_includes = array_reduce($public_includes, 'array_merge', []);
     // Build the expanded context.
     $context = [
       'account' => NULL,

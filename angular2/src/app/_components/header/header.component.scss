@@ -1,0 +1,72 @@
+@import "../../../assets/styles/typography.scss"; 
+.mat-toolbar.mat-primary {background: $blue;height: 4rem;}
+.header-logo {text-align: center;margin-left: 1.25rem;text-decoration: none;letter-spacing: 0.5px;font-size: 1.25rem;line-height: 1.4;color: $white;
+  span {font-weight: 300;}
+  span.bold {font-weight: 500;}
+  @include break-on(sm, min) {width: 16.25rem;margin-left: 0;
+  }
+}
+.search-input  {height: 2.5rem;border-radius: 1.25rem;background-color: rgba(255, 255, 255, 0.1);border: .0625rem solid rgba(255, 255, 255, 0);
+  color: $white;padding: 0 $small 0 2.5rem;font-size: $small;width: 100%;box-sizing: border-box;max-width: 40.625rem;margin-left: $medium;
+}
+.searchbar {
+  position: relative;
+  flex: 3;
+  .search {flex-basis: 75%;}
+  .search-icn {
+    &::before {
+      position: absolute;
+      font-family: 'Material Icons';
+      font-feature-settings: "liga";
+      font-size: 1.25rem;
+      content: 'search';
+      color: white;
+      left: 2.5rem;
+      top: .33rem;
+      @include break-on (xl, min) {top: .6875rem;}
+    }
+  }
+  a {text-decoration: none;}
+  @include break-on(sm, max) {display: none;}
+}
+.languages {position: relative;top: .125rem;}
+.loginbar {margin-left: $xxl; display: flex;
+  @include break-on(xl, min) {position: relative;top: .1875rem;}
+}
+mat-icon { 
+  &.search { padding-right: 1rem;
+    @include break-on(sm, max) {position:relative; top: .0625rem;}
+  }
+  &.person { padding-right: 0.75rem;
+    @include break-on(sm, min) {padding-right: 0;}
+  }
+  &.more {padding-right: 0.75rem;
+    @include break-on(sm, min) {padding-right: 0;}
+  }
+}
+mat-toolbar button {min-width: $medium; width: $medium; padding: 0;}
+
+//Placeholder
+::-webkit-input-placeholder { color: white; }
+::-moz-placeholder { color: white; }
+:-ms-input-placeholder { color: white; }
+:-moz-placeholder { color: white; }
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; }
+input:focus::-moz-placeholder { color:transparent; }
+input:focus:-ms-input-placeholder { color:transparent; }
+
+.fill-space {
+  /* This fills the remaining space, by using flexbox. 
+  Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+  margin: 0 auto;
+  max-width: 1180px;
+  @include break-on(xl, min) {max-width: 1485px;}
+  @include break-on(xxl, min) {max-width: 1965px;}
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    max-width: none !important;
+  }
+  &__flex {display: flex;}
+}
+.mob-space {flex: 1 1 auto;}

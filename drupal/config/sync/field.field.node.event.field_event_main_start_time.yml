@@ -1,0 +1,21 @@
+uuid: a7aeb121-33ac-4787-b131-8d68cfe07bc3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_main_start_time
+    - node.type.event
+  module:
+    - hms_field
+id: node.event.field_event_main_start_time
+field_name: field_event_main_start_time
+entity_type: node
+bundle: event
+label: 'Sündmuse põhikuupäeva alguse kellaaeg'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: hms

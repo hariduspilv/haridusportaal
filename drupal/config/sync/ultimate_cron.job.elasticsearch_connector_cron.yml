@@ -1,0 +1,17 @@
+uuid: aee8531b-017c-4dee-a434-2b1027adeef7
+langcode: et
+status: true
+dependencies:
+  module:
+    - elasticsearch_connector
+title: 'Default cron handler'
+id: elasticsearch_connector_cron
+weight: 0
+module: elasticsearch_connector
+callback: elasticsearch_connector_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

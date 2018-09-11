@@ -111,10 +111,10 @@ class SortNormalizerTest extends KernelTestBase {
    */
   protected function getFieldResolver($entity_type_id, $bundle) {
     $field_resolver = $this->prophesize(FieldResolver::class);
-    $field_resolver->resolveInternal('foo', 'bar', 'lorem')->willReturn('foo');
-    $field_resolver->resolveInternal('foo', 'bar', 'ipsum')->willReturn('bar');
-    $field_resolver->resolveInternal('foo', 'bar', 'dolor')->willReturn('baz');
-    $field_resolver->resolveInternal('foo', 'bar', 'sit')->willReturn('qux');
+    $field_resolver->resolveInternalEntityQueryPath('foo', 'bar', 'lorem')->willReturn('foo');
+    $field_resolver->resolveInternalEntityQueryPath('foo', 'bar', 'ipsum')->willReturn('bar');
+    $field_resolver->resolveInternalEntityQueryPath('foo', 'bar', 'dolor')->willReturn('baz');
+    $field_resolver->resolveInternalEntityQueryPath('foo', 'bar', 'sit')->willReturn('qux');
     return $field_resolver->reveal();
   }
 

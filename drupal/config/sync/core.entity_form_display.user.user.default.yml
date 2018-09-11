@@ -3,6 +3,7 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_user_idcode
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
@@ -21,6 +22,14 @@ content:
     region: content
   contact:
     weight: 5
+    region: content
+  field_user_idcode:
+    weight: 31
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   language:
     weight: 0

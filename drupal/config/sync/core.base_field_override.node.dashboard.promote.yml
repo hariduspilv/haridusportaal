@@ -1,0 +1,22 @@
+uuid: e1e0e92e-92b9-4a54-ad93-8de30f698c5b
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.dashboard
+id: node.dashboard.promote
+field_name: promote
+entity_type: node
+bundle: dashboard
+label: 'Ülendatud esilehele'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

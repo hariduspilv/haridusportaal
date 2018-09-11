@@ -1,0 +1,3 @@
+services:
+  maxlength.widget_settings:
+    class: Drupal\maxlength\WidgetSettings

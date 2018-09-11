@@ -1,0 +1,7 @@
+module_missing_message_fixer.form:
+    path: /admin/config/system/module-missing-message-fixer
+    defaults:
+        _title: 'Missing Module Message Fixer'
+        _form: \Drupal\module_missing_message_fixer\Form\ModuleMissingMessageFixerForm
+    requirements:
+        _permission: 'administer module missing message fixer'

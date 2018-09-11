@@ -1,0 +1,5 @@
+structure_sync:
+  title: Structure sync
+  description: 'Sync structure items that are stored as content.'
+  parent: system.admin_structure
+  route_name: structure_sync.general.form

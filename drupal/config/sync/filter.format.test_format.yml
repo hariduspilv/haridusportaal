@@ -1,0 +1,17 @@
+uuid: e9141135-725a-447b-bc7c-b2ff97efaef8
+langcode: et
+status: true
+dependencies: {  }
+name: 'Test format'
+format: test_format
+weight: -8
+filters:
+  filter_html:
+    id: filter_html
+    provider: filter
+    status: true
+    weight: -10
+    settings:
+      allowed_html: '<a target title href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id>'
+      filter_html_help: true
+      filter_html_nofollow: false

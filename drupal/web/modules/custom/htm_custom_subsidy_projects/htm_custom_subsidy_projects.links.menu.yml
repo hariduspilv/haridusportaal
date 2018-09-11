@@ -1,0 +1,14 @@
+
+# Subsidy project menu items definition
+entity.subsidy_project_entity.collection:
+  title: 'Subsidy project list'
+  route_name: entity.subsidy_project_entity.collection
+  description: 'List Subsidy project entities'
+  parent: system.admin_structure
+  weight: 100
+
+subsidy_project_entity.admin.structure.settings:
+  title: 'Subsidy project settings'
+  description: 'Configure Subsidy project entities'
+  route_name: subsidy_project_entity.settings
+  parent: system.admin_structure

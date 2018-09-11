@@ -1,0 +1,36 @@
+uuid: 8c701de8-2e5c-4b3f-b3e9-09ed1d5a739c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.media.custom_crop_image_16_9.field_media_image_1
+    - image.style.thumbnail
+    - media.type.custom_crop_image_16_9
+  module:
+    - image_widget_crop
+id: media.custom_crop_image_16_9.default
+targetEntityType: media
+bundle: custom_crop_image_16_9
+mode: default
+content:
+  field_media_image_1:
+    weight: 0
+    settings:
+      show_default_crop: true
+      warn_multiple_usages: true
+      preview_image_style: thumbnail
+      crop_preview_image_style: custom_crop_style_16_9_
+      crop_list:
+        - '16_9'
+      progress_indicator: throbber
+      show_crop_area: false
+    third_party_settings: {  }
+    type: image_widget_crop
+    region: content
+hidden:
+  created: true
+  langcode: true
+  name: true
+  path: true
+  status: true
+  uid: true

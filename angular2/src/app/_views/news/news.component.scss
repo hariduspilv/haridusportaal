@@ -1,0 +1,44 @@
+@import "../../../assets/styles/typography.scss";
+.news-component {padding-bottom: $xxl;
+  a:hover { text-decoration: underline; }
+  .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
+  .title {padding: $small $medium 0 $medium;
+    @include break-on(sm, min) {padding: 0;}
+  }
+  .author {padding: $half-gutter $medium $gutter $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;
+    @include break-on(sm, min) {padding: 0; padding-top: $gutter; padding-bottom: $small;}
+  }
+  .description {padding-top: $small;font-size: $small;max-height: 3.5rem;overflow: hidden;}
+}
+.news-list {border-top: $gutter solid $light-blue;background: $white;
+  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;}
+}
+.tags {padding: 0;}
+.mat-card {box-shadow: none !important;padding: $medium;
+  @include break-on(sm, max) {padding: 0 !important;}
+}
+.news-item {padding-top: $xxl;
+  &:first-child {padding-top: 0.375rem;}
+  &:first-child {.mat-card {padding-top: 0;}}
+  @include break-on(sm, min) {padding-top: 0; border-top: solid .0625rem $gray;
+    &:first-child { border-top: none; }
+  }
+  &:hover {
+    a {text-decoration: underline;}
+  }
+}
+.actions {padding-top: $medium;
+  button { margin: 0 $medium; width: stretch;}
+  @include break-on(sm, min) {background: $light-gray;
+    button { margin: 0 $medium; width: auto;}
+  }
+  &__error {padding-bottom: $small;}
+}
+.col-25 {width: 20.83%;}
+.inline-flex {display: inline-flex;justify-content: flex-end;} 
+
+::ng-deep .description a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
+  font-family: 'Material Icons';content: 'launch' !important;position: relative;top: 0.1875rem;
+}
+::ng-deep .description a[target="_blank"] {text-decoration: none;}
+::ng-deep .mat-calendar-body-selected {background-color: $blue;}

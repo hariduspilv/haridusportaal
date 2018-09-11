@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * JSON Feed module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function json_feed_theme($existing, $type, $theme, $path) {
+  return [
+    'json_feed_icon' => [
+      'variables' => ['url' => NULL, 'title' => NULL],
+    ],
+  ];
+}

@@ -5,11 +5,33 @@ import { EllipsisPipe } from './ellipsis.pipe';
 import { UnixToTimePipe } from './unixToTime.pipe';
 import { WeekDayPipe } from './weekday.pipe';
 import { UrlPipe } from './url.pipe';
+import { FilterPipe } from './filter.pipe';
+import { GroupByPipe } from './groupBy.pipe';
+import { RemoveProtocolPipe } from './removeProtocol.pipe';
+import { titleCasePipe } from './titleCase.pipe';
 
 @NgModule({
-  declarations:[EllipsisPipe, UnixToTimePipe, WeekDayPipe, UrlPipe],
+  declarations:[
+    EllipsisPipe,
+    UnixToTimePipe,
+    WeekDayPipe,
+    UrlPipe,
+    FilterPipe,
+    GroupByPipe,
+    RemoveProtocolPipe,
+    titleCasePipe
+  ],
   imports:[CommonModule],
-  exports:[EllipsisPipe, UnixToTimePipe, WeekDayPipe, UrlPipe]
+  exports:[
+    EllipsisPipe,
+    UnixToTimePipe,
+    WeekDayPipe,
+    UrlPipe,
+    FilterPipe,
+    GroupByPipe,
+    RemoveProtocolPipe,
+    titleCasePipe
+  ]
 })
 
 export class AppPipes{}

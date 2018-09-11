@@ -108,6 +108,17 @@ class FileTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
+  protected function createAnotherEntity($key) {
+    /* @var \Drupal\file\FileInterface $duplicate */
+    $duplicate = parent::createAnotherEntity($key);
+    $duplicate->setFileUri("public://$key.txt");
+    $duplicate->save();
+    return $duplicate;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getExpectedDocument() {
     $self_url = Url::fromUri('base:/jsonapi/file/file/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
     $normalization = [
@@ -199,6 +210,10 @@ class FileTest extends ResourceTestBase {
   protected function getExpectedUnauthorizedAccessMessage($method) {
     if ($method === 'GET') {
       return "The 'access content' permission is required.";
+    }
+    // @todo Make this unconditional when JSON API requires Drupal 8.6 or newer.
+    if (floatval(\Drupal::VERSION) >= 8.6 && ($method === 'PATCH' || $method === 'DELETE')) {
+      return "Only the file owner can update or delete the file entity.";
     }
     return parent::getExpectedUnauthorizedAccessMessage($method);
   }

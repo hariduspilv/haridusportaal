@@ -7,15 +7,17 @@ dependencies:
     - field.field.node.news.field_additional_images
     - field.field.node.news.field_author
     - field.field.node.news.field_introduction_image
+    - field.field.node.news.field_metatags
     - field.field.node.news.field_news_description
     - field.field.node.news.field_news_link
-    - field.field.node.news.field_news_tag
-    - field.field.node.news.field_shor
-    - image.style.kokki_stiil
+    - field.field.node.news.field_news_video
+    - field.field.node.news.field_short_description
+    - field.field.node.news.field_tag
     - node.type.news
   module:
-    - image
+    - htm_custom_video_field
     - link
+    - metatag
     - text
     - user
 id: node.news.default
@@ -30,15 +32,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-  field_additional_images:
-    weight: 106
-    label: above
-    settings:
-      image_style: ''
-      image_link: ''
-    third_party_settings: {  }
-    type: image
-    region: content
   field_author:
     weight: 102
     label: above
@@ -47,14 +40,12 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-  field_introduction_image:
-    weight: 105
+  field_metatags:
+    weight: 112
     label: above
-    settings:
-      image_style: kokki_stiil
-      image_link: ''
+    settings: {  }
     third_party_settings: {  }
-    type: image
+    type: metatag_empty_formatter
     region: content
   field_news_description:
     weight: 104
@@ -75,20 +66,27 @@ content:
     third_party_settings: {  }
     type: link
     region: content
-  field_news_tag:
-    weight: 107
+  field_news_video:
+    weight: 114
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: custom_video_formatter_type
+    region: content
+  field_short_description:
+    weight: 111
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_tag:
+    weight: 113
     label: above
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
-    region: content
-  field_shor:
-    weight: 109
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: text_default
     region: content
   links:
     weight: 100
@@ -96,4 +94,6 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_additional_images: true
+  field_introduction_image: true
   langcode: true

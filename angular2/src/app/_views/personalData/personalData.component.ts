@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SettingsService } from '@app/_core/settings';
 
 @Component({
   templateUrl: './personalData.component.html'
@@ -21,7 +22,9 @@ export class PersonalDataComponent {
   constructor(
     private snackbar: MatSnackBar,
     public viewContainerRef: ViewContainerRef,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private settings: SettingsService
+    ) {
 
     let that = this;
     this.submitCounter = 0;
@@ -31,7 +34,7 @@ export class PersonalDataComponent {
       error: []
     };
 
-    let tokenUrl = "http://test-htm.wiseman.ee:30000/et/rest/session/token";
+    let tokenUrl = this.settings.url+"/et/rest/session/token";
 
     var headers = new Headers();
     headers.set('Content-Type', 'text/html');
@@ -43,7 +46,7 @@ export class PersonalDataComponent {
     .subscribe(data => {
       that.token = data;
     }, error => {
-        console.log(error);
+
     });
   }
 
@@ -55,7 +58,7 @@ export class PersonalDataComponent {
   submit(form:any): void{
 
     let that = this;
-    let endPoint = "http://test-htm.wiseman.ee:30000/personal-card?_format=json";
+    let endPoint = this.settings.url+"/personal-card?_format=json";
 
     let regex = new RegExp(/([1,3,4,5,6]\d{10})$/);
     let personalCode = form.personalCode || "false";
@@ -63,8 +66,6 @@ export class PersonalDataComponent {
     this.status = "default";
     this.statusText = "";
     this.content = [];
-
-    console.log(personalCode);
 
     if( this.loading ){
       this.snackbar.open('Ära rapsi.. Ma ju laen veel..', 'OK', {
@@ -92,7 +93,6 @@ export class PersonalDataComponent {
       })
       .subscribe( data => {
         that.content = data;
-        console.log(that.content);
         this.loading = false;
       }, error => {
         that.content = error;

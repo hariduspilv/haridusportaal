@@ -1,0 +1,14 @@
+label: 'Processors used for this index'
+tips:
+  search-api-index-processors-introduction:
+    label: 'Processors used for this index'
+    body: 'Processors customize different aspects of an index''s functionality. They can keep items from being indexed, change how certain fields are indexed and influence searches.'
+  search-api-index-processors-enable:
+    label: 'Enable processors'
+    body: 'This lists all processors available for this index and lets you choose the ones that should be active. (Note: Some processors cannot be disabled.)'
+  search-api-index-processors-weights:
+    label: 'Processor order'
+    body: 'This shows you which enabled processors will be active in the different parts of the indexing/searching workflow, and lets you re-arrange them. This should usually not be necessary, and only be used by advanced users as some processors will lead to unexpected results when used in the wrong order.'
+  search-api-index-processors-settings:
+    label: 'Processor settings'
+    body: 'Some processors have additional configuration available, which you are able to change here.'

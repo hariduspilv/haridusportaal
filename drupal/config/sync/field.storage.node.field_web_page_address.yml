@@ -1,0 +1,19 @@
+uuid: 27c03d00-e5f3-4572-a1fd-07f636c2ad12
+langcode: et
+status: true
+dependencies:
+  module:
+    - link
+    - node
+id: node.field_web_page_address
+field_name: field_web_page_address
+entity_type: node
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -8,9 +8,9 @@ dependencies:
 _core:
   default_config_hash: rRWxAX-IQkJ5viACQRovRkC784EyCl9493GU_G23n2Q
 id: files
-label: Files
+label: Failid
 module: file
-description: 'Find and manage files.'
+description: 'Otsi ja halda faile.'
 tag: default
 base_table: file_managed
 base_field: fid
@@ -42,7 +42,7 @@ display:
         options:
           submit_button: Filtreeri
           reset_button: false
-          reset_button_label: Reset
+          reset_button_label: Tühista
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
           sort_asc_label: Asc
@@ -250,7 +250,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'MIME type'
+          label: MIME-tüüp
           exclude: false
           alter:
             alter_text: false
@@ -302,7 +302,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Size
+          label: Suurus
           exclude: false
           alter:
             alter_text: false
@@ -398,8 +398,8 @@ display:
           type: boolean
           settings:
             format: custom
-            format_custom_false: Temporary
-            format_custom_true: Permanent
+            format_custom_false: Ajutine
+            format_custom_true: Alaline
           plugin_id: field
           entity_type: file
           entity_field: status
@@ -410,7 +410,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Upload date'
+          label: 'Üleslaadimise kuupäev'
           exclude: false
           alter:
             alter_text: false
@@ -466,7 +466,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Changed date'
+          label: 'Muutmise kuupäev'
           exclude: false
           alter:
             alter_text: false
@@ -522,7 +522,7 @@ display:
           relationship: fid
           group_type: sum
           admin_label: ''
-          label: 'Used in'
+          label: Kasutuskoht
           exclude: false
           alter:
             alter_text: false
@@ -626,7 +626,7 @@ display:
           exposed: true
           expose:
             operator_id: filemime_op
-            label: 'MIME type'
+            label: MIME-tüüp
             description: ''
             use_operator: false
             operator: filemime_op
@@ -695,7 +695,7 @@ display:
           entity_type: file
           entity_field: status
       sorts: {  }
-      title: Files
+      title: Failid
       header: {  }
       footer: {  }
       empty:
@@ -704,7 +704,7 @@ display:
           table: views
           field: area_text_custom
           empty: true
-          content: 'No files available.'
+          content: 'Ühtegi faili pole saadaval.'
           plugin_id: text_custom
       relationships:
         fid:
@@ -731,13 +731,13 @@ display:
   page_1:
     display_plugin: page
     id: page_1
-    display_title: 'Files overview'
+    display_title: 'Failide ülevaade'
     position: 1
     display_options:
       path: admin/content/files
       menu:
         type: tab
-        title: Files
+        title: Failid
         description: ''
         menu_name: admin
         weight: 0
@@ -768,7 +768,7 @@ display:
   page_2:
     display_plugin: page
     id: page_2
-    display_title: 'File usage'
+    display_title: 'Faili kasutus'
     position: 2
     display_options:
       display_description: ''
@@ -816,7 +816,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: Entity
+          label: Olem
           exclude: false
           alter:
             alter_text: false
@@ -866,7 +866,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Entity type'
+          label: 'Olemi tüüp'
           exclude: false
           alter:
             alter_text: false
@@ -915,7 +915,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Registering module'
+          label: 'Registreerin moodulit'
           exclude: false
           alter:
             alter_text: false
@@ -964,7 +964,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Use count'
+          label: 'Kasutuse loendur'
           exclude: false
           alter:
             alter_text: false
@@ -1015,7 +1015,7 @@ display:
           suffix: ''
           plugin_id: numeric
       group_by: false
-      title: 'File usage'
+      title: 'Faili kasutus'
       arguments:
         fid:
           id: fid
@@ -1028,9 +1028,9 @@ display:
           exception:
             value: all
             title_enable: false
-            title: All
+            title: Kõik
           title_enable: true
-          title: 'File usage information for {{ arguments.fid }}'
+          title: 'Kasutusinfo failile {{ arguments.fid }}'
           default_argument_type: fixed
           default_argument_options:
             argument: ''

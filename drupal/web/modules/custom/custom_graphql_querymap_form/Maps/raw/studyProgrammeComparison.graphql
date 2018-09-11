@@ -1,0 +1,46 @@
+query studyProgrammeComparison($nidValues: [String], $lang: LanguageId!) {
+  nodeQuery(filter: {conjunction: AND, conditions: [{operator: EQUAL, field: "type", value: ["study_programme"], language: $lang}, {operator: IN, field: "nid", value: $nidValues, language: $lang}]}) {
+    entities(language: $lang) {
+      ... on NodeStudyProgramme {
+        nid
+        entityUrl {
+          path
+        }
+        name: title
+        EducationalInstitution: fieldEducationalInstitution {
+          entity {
+            name: title
+          }
+        }
+        level: fieldStudyProgrammeLevel {
+          entity {
+            name
+          }
+        }
+        degreeOrDiplomaAwarded: fieldDegreeOrDiplomaAwarded {
+          entity {
+            name
+          }
+        }
+        specialization: fieldSpecialization
+        teachingLanguage: fieldTeachingLanguage {
+          entity {
+            name
+          }
+        }
+        practicalTrainingAmount: fieldPracticalTrainingAmount
+        durationYears: fieldDurationYears
+        durationMonths: fieldDurationMonths
+        admissionStatus: fieldAdmissionStatus
+        accreditationStatus: fieldAccreditationStatus
+        accreditationValidUntil: fieldAccreditationValidUntil {
+          value
+          date
+          unix
+        }
+        fieldAmount
+        fieldAmountUnit
+      }
+    }
+  }
+}

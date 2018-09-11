@@ -1,0 +1,23 @@
+uuid: 206501cc-4653-4d23-ae78-a512a08bea4e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_type
+    - paragraphs.paragraphs_type.favorite_item
+  module:
+    - options
+_core:
+  default_config_hash: _WBrX8TreEvXoxJL3HBBB7mwFC4cIunpG2N8jj31sgM
+id: paragraph.favorite_item.field_type
+field_name: field_type
+entity_type: paragraph
+bundle: favorite_item
+label: Type
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

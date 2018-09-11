@@ -79,7 +79,7 @@ class ImageStyleTest extends ResourceTestBase {
    */
   protected function getExpectedDocument() {
     $self_url = Url::fromUri('base:/jsonapi/image_style/image_style/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
-    return [
+    $doc = [
       'jsonapi' => [
         'meta' => [
           'links' => [
@@ -105,6 +105,7 @@ class ImageStyleTest extends ResourceTestBase {
               'id' => 'image_scale_and_crop',
               'weight' => 0,
               'data' => [
+                'anchor' => 'center-center',
                 'width' => 120,
                 'height' => 121,
               ],
@@ -118,6 +119,10 @@ class ImageStyleTest extends ResourceTestBase {
         ],
       ],
     ];
+    if (floatval(\Drupal::VERSION) < 8.6) {
+      unset($doc['data']['attributes']['effects'][$this->effectUuid]['data']['anchor']);
+    }
+    return $doc;
   }
 
   /**

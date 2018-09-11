@@ -1,0 +1,29 @@
+uuid: 45bf8b74-d4cd-4234-b57e-078fec4e6cb5
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tag
+    - node.type.news
+    - taxonomy.vocabulary.tags
+id: node.news.field_tag
+field_name: field_tag
+entity_type: node
+bundle: news
+label: Sildid
+description: 'Max <b>4</b> tags separated by comma'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

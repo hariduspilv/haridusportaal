@@ -1,0 +1,24 @@
+
+<div class="block padding-block border-orange">
+  <div class="block-title-big">{{ 'frontpage.favourites_list_label' | translate }}</div>
+
+  <mat-spinner *ngIf="loading" ></mat-spinner>
+  <ng-container *ngIf="!loading">
+    <p *ngIf="!list.length" class="explain">{{ 'frontpage.favourites_list_none_message' | translate }}</p>
+
+    <ul *ngIf="list.length">
+
+      <li *ngFor="let item of list">
+        <ng-container *ngIf="item.entity.fieldType == 'page'">
+          <a [routerLink]="[item.entity.fieldPage.entity.entityUrl.path]"> <mat-icon>link</mat-icon> {{item.entity.fieldFavoriteTitle}} </a>
+        </ng-container>
+        
+        <ng-container *ngIf="item.entity.fieldType == 'search'">
+          <a href="{{item.entity.fieldSearch}}"> <mat-icon>link</mat-icon> {{item.entity.fieldFavoriteTitle}}</a>
+        </ng-container>
+
+      </li>
+
+    </ul>
+  </ng-container>
+</div>

@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.school.field_created_from_ehis_datetime
     - field.field.node.school.field_educational_institution_ty
     - field.field.node.school.field_ehis_id
+    - field.field.node.school.field_metatags
     - field.field.node.school.field_ownership_type
     - field.field.node.school.field_registration_code
     - field.field.node.school.field_school_contact_email
@@ -21,9 +22,9 @@ dependencies:
     - field.field.node.school.field_update_location_from_ehis
     - node.type.school
   module:
+    - metatag
     - paragraphs
     - readonly_field_widget
-    - shs
 id: node.school.default
 targetEntityType: node
 bundle: school
@@ -49,13 +50,9 @@ content:
     region: content
   field_educational_institution_ty:
     weight: 2
-    settings:
-      display_node_count: false
-      create_new_items: false
-      create_new_levels: false
-      force_deepest: false
+    settings: {  }
     third_party_settings: {  }
-    type: options_shs
+    type: options_select
     region: content
   field_ehis_id:
     weight: 14
@@ -64,6 +61,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_metatags:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_firehose
     region: content
   field_ownership_type:
     weight: 3

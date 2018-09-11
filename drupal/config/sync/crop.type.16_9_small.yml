@@ -1,0 +1,12 @@
+uuid: bd50bedf-21c8-4c20-8950-c8c571d2601b
+langcode: et
+status: true
+dependencies: {  }
+label: '16:9 Small'
+id: 16_9_small
+description: ''
+aspect_ratio: '16:9'
+soft_limit_width: null
+soft_limit_height: null
+hard_limit_width: 566
+hard_limit_height: 318

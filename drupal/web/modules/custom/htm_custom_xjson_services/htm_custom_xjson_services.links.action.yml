@@ -1,0 +1,5 @@
+entity.x_json_entity.add_form:
+  route_name: entity.x_json_entity.add_form
+  title: 'Add xJson entity'
+  appears_on:
+    - entity.x_json_entity.collection

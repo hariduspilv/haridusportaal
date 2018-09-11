@@ -1,0 +1,5 @@
+module_missing_message_fixer.form:
+    route_name: module_missing_message_fixer.form
+    title: 'Missing Module Message Fixer'
+    description: 'This module display a list of missing module that appear after the Drupal 7.50 release and lets you fix the entries.'
+    parent: system.admin_config_system

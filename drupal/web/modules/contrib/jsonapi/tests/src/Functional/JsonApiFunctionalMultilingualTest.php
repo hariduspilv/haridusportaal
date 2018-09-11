@@ -47,7 +47,7 @@ class JsonApiFunctionalMultilingualTest extends JsonApiFunctionalTestBase {
    * Tests reading multilingual content.
    */
   public function testReadMultilingual() {
-    $this->createDefaultContent(5, 5, TRUE, TRUE, static::IS_MULTILINGUAL);
+    $this->createDefaultContent(5, 5, TRUE, TRUE, static::IS_MULTILINGUAL, FALSE);
 
     // Test reading an individual entity.
     $output = Json::decode($this->drupalGet('/ca/jsonapi/node/article/' . $this->nodes[0]->uuid(), ['query' => ['include' => 'field_tags,field_image']]));

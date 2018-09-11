@@ -1,0 +1,18 @@
+uuid: 9dbeaa99-9ca8-43d0-8b67-240c8153026f
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.school_location
+id: paragraph.school_location.created
+field_name: created
+entity_type: paragraph
+bundle: school_location
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created
