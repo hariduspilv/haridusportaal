@@ -23,8 +23,6 @@ class AuthenticationController extends ControllerBase {
         throw new HttpException(500, $message);
       }
       if(isset($account)){
-        kint($account);
-        die();
         $request_url = $_SERVER['HTTP_HOST'];
         $request_url .= '/api/v1/token?_format=json';
 
@@ -33,10 +31,13 @@ class AuthenticationController extends ControllerBase {
         );
 
         $params['body'] = json_encode(array(
-          'username' => ''
+          'username' => $account->getAccountName(),
+          'password' => $account->getPassword()
         ));
 
         $client = \Drupal::httpClient();
+        kint($params);
+        die();
         $response = $client->post($request_url, $params);
 
         $request_url = $_SERVER['HTTP_HOST'];
