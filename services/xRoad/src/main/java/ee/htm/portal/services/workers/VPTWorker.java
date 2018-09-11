@@ -36,12 +36,71 @@ public class VPTWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(VPTWorker.class);
 
+  private static final String VPT_FILES_KEY = "VPT_FILES";
+
   @Resource
   private EhisV6XRoadService ehisV6XRoadService;
 
-  private static final String VPT_FILES_KEY = "VPT_FILES";
+  public void getDocuments(String personalCode) {
+    ObjectNode documentsResponse = nodeFactory.objectNode();
 
-  public ObjectNode work(ObjectNode jsonNode) {
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - VpTaotlusOpingud.v1");
+
+    try {
+      VpTaotlusOpingudResponse response = ehisV6XRoadService
+          .vptOpingud(personalCode, null, personalCode);
+
+      ArrayNode documentsArrayNode = documentsResponse.putArray("documets");
+      response.getTaotluseAjaluguList().forEach(
+          ajalugu -> documentsArrayNode.addObject()
+              .put("form_name",
+                  ajalugu.getOlek().equalsIgnoreCase("Menetluses") ?
+                      "VPT_ESITATUD_TAOTLUS"
+                      : "VPT_ESITATUD_TAOTLUS_OTSUS")
+              .put("identifier", ajalugu.getId())
+              .put("document_date",
+                  ajalugu.isSetEsitamiseKuupaev() && ajalugu.getEsitamiseKuupaev() != null
+                      ? simpleDateFormat.format(
+                      ((Calendar) ajalugu.getEsitamiseKuupaev()).getTimeInMillis())
+                      : null)
+              .put("status", ajalugu.getOlek()));
+
+      if (response.getHoiatusDto().getErrorMessagesList().isEmpty()) {
+        if (response.isSetTaotluseId() && response.getTaotluseId() != null
+            && !response.getTaotluseId().equals("")) {
+          documentsResponse.putArray("drafts").addObject()
+              .put("form_name", "VPT_TAOTLUS")
+              .put("identifier", (Long) response.getTaotluseId());
+        } else {
+          documentsResponse.putArray("acceptable_forms").addObject()
+              .put("form_name", "VPT_TAOTLUS");
+        }
+      }
+
+      logForDrupal.setMessage("EHIS - VpTaotlusOpingud.v1 teenuselt andmete pärimine õnnestus.");
+    } catch (Exception e) {
+      LOGGER.error(e, e);
+
+      logForDrupal.setSeverity("ERROR");
+      logForDrupal.setMessage(e.getMessage());
+
+      documentsResponse.putObject("error")
+          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlusOpingud.v1");
+
+    redisTemplate.opsForHash().put(personalCode, "vpTaotlus", documentsResponse);
+  }
+
+  public void getDocument() {
+
+  }
+
+  public ObjectNode postDocument(ObjectNode jsonNode) {
     String currentStep = jsonNode.get("header").get("current_step").isNull() ? null
         : jsonNode.get("header").get("current_step").asText();
     Long applicationId = jsonNode.get("header").get("identifier").isNull() ? null
@@ -555,52 +614,7 @@ public class VPTWorker extends Worker {
     return jsonNode;
   }
 
-  private void setIsikInfoDto(List<IsikInfoDto> isikInfoDtoList, JsonNode item) {
-    IsikInfoDto person = IsikInfoDto.Factory.newInstance();
-    person.setIsikukood(item.get("personal_id").asText());
-    person.setPerenimi(item.get("last_name").asText());
-    person.setEesnimi(item.get("first_name").asText());
-
-    try {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(simpleDateFormat.parse(item.get("birth_date").asText()));
-      person.setSynniaeg(cal);
-    } catch (ParseException e) {
-      LOGGER.error(e, e);
-    }
-
-    person.setSugulusaste(Sugulusaste.Enum.forString(item.get("relationship").asText()));
-    person.setArvestatudPereliikmeks(item.get("family_member").asBoolean());
-    person.setOmandabHaridust(item.get("studies").asBoolean());
-    person.setRahvastikuRegistrist(item.get("data_from_population_register").asBoolean());
-    person.setEmtaRegistrist(item.get("data_from_tax_register").asBoolean());
-    person.setEmtaMitteResident(item.get("non_resident").asBoolean());
-    isikInfoDtoList.add(person);
-  }
-
-  private void setMessages(ObjectNode jsonNode, List<Message> list, String type, String step) {
-    if (type.equalsIgnoreCase("ERROR") && !list.isEmpty()) {
-      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
-    }
-
-    list.forEach(item -> {
-      Long timestamp = System.currentTimeMillis();
-      if (StringUtils.isNotBlank(step)) {
-        ((ArrayNode) jsonNode.get("body").get("steps").get(step).get("messages"))
-            .add(type.toLowerCase() + "_" + timestamp);
-      } else {
-        ((ArrayNode) jsonNode.get("body").get("messages"))
-            .add(type.toLowerCase() + "_" + timestamp);
-      }
-      ((ObjectNode) jsonNode.get("messages"))
-          .putObject(type.toLowerCase() + "_" + timestamp)
-          .put("message_type", type.toUpperCase())
-          .putObject("message_text")
-          .put("et", item.getKirjeldus());
-    });
-  }
-
-  public ObjectNode getDocument(String documentId, String personalCode) {
+  public ObjectNode getDocumentFile(String documentId, String personalCode) {
     Long applicationId;
     String documentType;
     ObjectNode documentResponse = nodeFactory.objectNode();
@@ -644,5 +658,50 @@ public class VPTWorker extends Worker {
     sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlusDokument.v1");
 
     return documentResponse;
+  }
+
+  private void setIsikInfoDto(List<IsikInfoDto> isikInfoDtoList, JsonNode item) {
+    IsikInfoDto person = IsikInfoDto.Factory.newInstance();
+    person.setIsikukood(item.get("personal_id").asText());
+    person.setPerenimi(item.get("last_name").asText());
+    person.setEesnimi(item.get("first_name").asText());
+
+    try {
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(simpleDateFormat.parse(item.get("birth_date").asText()));
+      person.setSynniaeg(cal);
+    } catch (ParseException e) {
+      LOGGER.error(e, e);
+    }
+
+    person.setSugulusaste(Sugulusaste.Enum.forString(item.get("relationship").asText()));
+    person.setArvestatudPereliikmeks(item.get("family_member").asBoolean());
+    person.setOmandabHaridust(item.get("studies").asBoolean());
+    person.setRahvastikuRegistrist(item.get("data_from_population_register").asBoolean());
+    person.setEmtaRegistrist(item.get("data_from_tax_register").asBoolean());
+    person.setEmtaMitteResident(item.get("non_resident").asBoolean());
+    isikInfoDtoList.add(person);
+  }
+
+  private void setMessages(ObjectNode jsonNode, List<Message> list, String type, String step) {
+    if (type.equalsIgnoreCase("ERROR") && !list.isEmpty()) {
+      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+    }
+
+    list.forEach(item -> {
+      Long timestamp = System.currentTimeMillis();
+      if (StringUtils.isNotBlank(step)) {
+        ((ArrayNode) jsonNode.get("body").get("steps").get(step).get("messages"))
+            .add(type.toLowerCase() + "_" + timestamp);
+      } else {
+        ((ArrayNode) jsonNode.get("body").get("messages"))
+            .add(type.toLowerCase() + "_" + timestamp);
+      }
+      ((ObjectNode) jsonNode.get("messages"))
+          .putObject(type.toLowerCase() + "_" + timestamp)
+          .put("message_type", type.toUpperCase())
+          .putObject("message_text")
+          .put("et", item.getKirjeldus());
+    });
   }
 }
