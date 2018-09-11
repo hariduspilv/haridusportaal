@@ -23,24 +23,130 @@
           <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction"> {{ selectLanguage(data.body.steps[opened_step].introduction) }} </div>
 
           <form (submit)="submitForm()" *ngIf="objectKeys(data_elements).length > 0">
-            <ng-container *ngFor="let element of objectKeys(data_elements)">
+
+            <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
               
-              <div class="xjson__heading" *ngIf="data_elements[element].title">
-                  {{ selectLanguage(data_elements[element].title) }}
-              </div>
-              {{data_elements[element].type}}
+              <div class="row" *ngIf="!data_elements[element].hidden"><!-- Form elements -->
+                
+                <ng-container *ngIf="data_elements[element].type == 'heading'">
+                    <div class="col-12 xjson__heading" *ngIf="data_elements[element].title">
+                        {{ selectLanguage(data_elements[element].title) }}
+                    </div>
+                </ng-container> <!-- /HEADING -->
+
+                <ng-container *ngIf="data_elements[element].type == 'text'">
+                  
+                  <div class="col-12">
+                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
+                        <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}</span>
+                        <div class="round-input__field-wrapper">
+                          <input class="round-input__field" type="text" placeholder="{{selectLanguage(data_elements[element].title)}}" [disabled]="data_elements[element].readonly" [(ngModel)]='data_elements[element].value' [name]="element" [attr.required]="data_elements[element].required"/>
+                        </div>
+                      </div><!--/round-inpuit__wrapper-->
+                  </div><!--/col-12-->
+                
+                </ng-container> <!-- /TEXT -->
+
+                <ng-container *ngIf="data_elements[element].type == 'email'">
+                  
+                  <div class="col-12">
+                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
+                        <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}</span>
+                        <div class="round-input__field-wrapper">
+                            <input class="round-input__field" type="email" placeholder="{{selectLanguage(data_elements[element].title)}}" [disabled]="data_elements[element].readonly" [(ngModel)]='data_elements[element].value' [name]="element" [attr.required]="data_elements[element].required"/>
+                        </div>
+                      </div><!--/round-inpuit__wrapper-->
+                  </div><!--/col-12-->
+                
+                </ng-container> <!-- /EMAIL -->
+
+                <ng-container *ngIf="data_elements[element].type == 'checkbox'">
+                  <div class="col-12">
+                    <div class="custom-checkbox">
+                        <mat-checkbox [(ngModel)]="data_elements[element].value" [name]="element" [disabled]="data_elements[element].readonly" [required]="data_elements[element].required"> {{ selectLanguage(data_elements[element].title) }}</mat-checkbox>
+                    </div>
+                      
+                  </div><!--/col-12-->              
+                </ng-container> <!-- /CHECKBOX -->
+
+                <ng-container *ngIf="data_elements[element].type == 'number'">
+                  
+                  <div class="col-12">
+                    <div class="round-input__wrapper" [class.complete]="data_elements[element].value != undefined">
+                      <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}</span>
+                      <div class="round-input__field-wrapper">
+                          <input class="round-input__field" type="number" [(ngModel)]='data_elements[element].value' [disabled]="data_elements[element].readonly" [name]="element" [attr.required]="data_elements[element].required"/>
+                      </div>
+                    </div><!--/round-inpuit__wrapper-->
+                  </div><!--/col-12-->
+                
+                </ng-container> <!-- /NUMBER -->
+
+                <ng-container *ngIf="data_elements[element].type == 'file'">
+                  
+                  <div class="col-12">
+                      FILE INPUT for {{selectLanguage(data_elements[element].title)}}
+                  </div><!--/col-12-->
+                
+                </ng-container> <!-- /NUMBER -->
+
+                <ng-container *ngIf="data_elements[element].type == 'table'">
+                  <div class="col-12 xjson__heading" *ngIf="data_elements[element].title">
+                    {{ selectLanguage(data_elements[element].title) }}
+                  </div>
+                  <div class="col-12">
+                    <table class="xjson__table">
+                      <tr>
+                        <th *ngFor="let col of objectKeys(data_elements[element].table_columns)">
+                         {{col}}
+                         <!-- {{ selectLanguage(data_elements[element].table_columns[col].title) }} -->
+                        </th>
+                      </tr>
+                      <tr *ngFor="let row of data_elements[element].value; let i = index">
+                        <td *ngFor="let col of objectKeys(row)">
+                          {{col}}
+                          <!-- {{ row[value] }} -->
+                          <ng-container *ngIf="error[element]">
+                            <ng-container *ngIf="error[element].row == i && error[element].column == col">
+                                <div class="error">
+                                    {{ error[element].message }}
+                                </div>
+                            </ng-container>
+                          </ng-container> <!-- TABLE COLUMN VALIDATION ERROR MESSAGE -->
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  
+                </ng-container> <!-- /TABLE -->
+
+                <ng-container *ngIf="error[element] && error[element].row == undefined">
+                  <div class="error">
+                    {{ error[element].message }}
+                    <ng-container *ngIf="error[element].row != undefined"> | row: {{ error[element].row }}</ng-container>
+                    <ng-container *ngIf="error[element].column != undefined"> | column: {{ error[element].column }}</ng-container>
+                  
+                  </div>
+                </ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
               
+              </div> <!-- row -->
+             
             </ng-container>
           </form>
-          <!-- /STEP BODY -->
-          <div class="button-row">
-            <ng-container *ngFor="let activity of activityButtons">
-                <button  role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">{{ activity.label | translate }}</button>
+         
+          <div class="row button-list">
+            
+            <ng-container *ngFor="let link of navigationLinks">
+              <a href="javascript:void(0);" (click)="selectStep(link.step)" >{{ link.label | translate }}</a>
             </ng-container>
+
+            <ng-container *ngFor="let activity of activityButtons">
+              <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">{{ activity.label | translate }}</button>
+            </ng-container>
+   
           </div>
           
-
-          <a href="javascript:void(0);" (click)="selectStep(link.step)" *ngFor="let link of navigationLinks">{{ link.label | translate }}</a>
+          <!-- /STEP BODY -->
         </ng-container>
       </div> <!--/block border-blue-->
     </div><!--/col-8-->
