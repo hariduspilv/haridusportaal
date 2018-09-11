@@ -24,7 +24,7 @@ class AuthenticationController extends ControllerBase {
           $values = array(
             'name' => user_password(20),
             'pass' => user_password(50),
-            'field_user_idcode' => $params['UserIDCode'],
+            'field_user_idcode' => $id_code,
             'status' => 1,
           );
           $account = entity_create('user', $values);
