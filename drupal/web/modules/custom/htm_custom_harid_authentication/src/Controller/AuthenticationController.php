@@ -41,7 +41,7 @@ class AuthenticationController extends ControllerBase {
         $response = $client->post($request_url, $params);
         $response_body = $response->getBody();
         $response_data = json_decode($response_body->getContents());
-        kint($response_data);
+        kint($response_data->message);
         die();
       }
     die();
