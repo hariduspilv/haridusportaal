@@ -4,6 +4,8 @@
 @import "../assets/styles/controls.scss";
 @import "../assets/styles/sidebar.scss";
 @import "../assets/styles/layout.scss";
+@import "../assets/styles/style.css";
+
 
 html{overflow:-moz-scrollbars-vertical}
 
@@ -135,7 +137,7 @@ $grid-columns: 12;
 .btn-link { color: $blue; background-color: $white; border: transparent 0px solid; text-decoration: underline; 
   font-size: 1rem; }
   .button-row {@include break-on(sm, max) {padding-top: $gutter; width: 100%;}}
-  .filter-state { margin: 0 auto; position: relative; right: 8px;
+  .filter-state { margin: 0 auto; position: relative; right: 8px; text-align: center;
   a:hover {
     text-decoration: none;
    }
@@ -480,6 +482,9 @@ mat-icon { color: $black; }
       &:hover{color:$blue; border-color:$blue;}
     }
   }
+}
+.link-list a:visited {
+  color: $red;
 }
 
 .grecaptcha-badge{z-index:9999;}
