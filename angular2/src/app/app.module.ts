@@ -56,6 +56,7 @@ import { ApplicationsComponent } from '@app/_components/applications/application
 import { StudiesComponent } from '@app/_components/studies/studies.component';
 import { TeachingsComponent } from '@app/_components/teachings/teachings.component';
 import { XjsonComponent } from '@app/_views/xjson/xjson.component';
+import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -108,10 +109,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     StudiesComponent,
     TeachingsComponent,
     XjsonComponent,
-    SearchComponent
+    SearchComponent,
+    ConfirmPopupDialog
   ],
 
-  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent],
+  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent, ConfirmPopupDialog],
 
   imports: [
     BrowserModule,

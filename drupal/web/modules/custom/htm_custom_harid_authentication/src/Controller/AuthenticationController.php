@@ -4,69 +4,22 @@ namespace Drupal\htm_custom_harid_authentication\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Jumbojett\OpenIDConnectClient;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Flood\FloodInterface;
-use Drupal\custom_mobile_id_authentication\UserAuthInterface;
+use Jumbojett\OpenIDConnectClientException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class AuthenticationController.
  */
 class AuthenticationController extends ControllerBase {
 
-  /**
-  * The config factory.
-  *
-  * @var \Drupal\Core\Config\ConfigFactoryInterface
-  */
-  protected $configFactory;
-  /**
-  * The user auth service.
-  *
-  * @var \Drupal\custom_mobile_id_authentication\UserAuthInterface
-  */
-  protected $userAuth;
-  /**
-  * The flood service.
-  *
-  * @var \Drupal\Core\Flood\FloodInterface
-  */
-  protected $flood;
-  /**
-  * The entity type manager.
-  *
-  * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-  */
-  protected $entityManager;
-  /**
-  * Constructs a HTTP basic authentication provider object.
-  *
-  * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-  *   The config factory.
-  * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-  *   The entity type manager service.
-  */
-  public function __construct(ConfigFactoryInterface $config_factory, UserAuthInterface $user_auth, FloodInterface $flood, EntityTypeManagerInterface $entity_manager) {
-    $this->configFactory = $config_factory;
-    $this->userAuth = $user_auth;
-    $this->flood = $flood;
-    $this->entityManager = $entity_manager;
-  }
-
   public function startAuthentication() {
-    $flood_config = $this->configFactory->get('user.flood');
 
-    if ($this->flood->isAllowed('json_authentication_provider.failed_login_ip', $flood_config->get('ip_limit'), $flood_config->get('ip_window'))) {
-      $oidc = new OpenIDConnectClient('https://test.harid.ee', '0855cd5d8e5418a5e8c3dd3187dd0a6f', 'f75da21ad0d015fb71dba9895204429e57c7c9fa375779c00ae055cefcf9feac');
-      #$oidc->providerConfigParam(array('token_endpoint' => 'https://test.harid.ee/et/access_tokens'));
-      $oidc->addScope('personal_code');
-      $oidc->authenticate();
-      $userInfo = $oidc->requestUserInfo('personal_code');
-      if($userInfo != NULL){
-        list($country,$type,$id_code) = explode(':', $oidc->requestUserInfo('personal_code'));
-        kint($id_code);
-      }
-    }
+      $userInfo = $this->getHarIdAuthentication();
+      $account = $this->getAccount($userInfo->personal_code);
+      $jwt = $this->getJwt($account, $userInfo);
+      kint($jwt);
+      die();
+
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     #kint($actual_link);
@@ -77,6 +30,77 @@ class AuthenticationController extends ControllerBase {
     #dump($clientCredentialsToken);
     #die();
 
+  }
+
+  public function getJwt($account, $userInfo){
+    $request_url = $_SERVER['HTTP_HOST'];
+    $request_url .= '/api/v1/token?_format=json';
+
+    $params['headers'] = array(
+      'Content-Type' => 'application/json'
+    );
+
+    $params['body'] = json_encode(array(
+      'name' => $userInfo->name,
+      'id_code' => $account->field_user_idcode->value
+    ));
+
+    $client = \Drupal::httpClient();
+    try{
+      $response = $client->post($request_url, $params);
+    }catch(HttpException $e){
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
+    }
+    $response = $client->post($request_url, $params);
+    $response_body = $response->getBody();
+    $response_data = json_decode($response_body->getContents());
+    if($response_data->message === 'Login succeeded'){
+      $token = $response_data->token;
+      return $token;
+    }else{
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
+    }
+  }
+
+  public function getHarIdAuthentication(){
+    $oidc = new OpenIDConnectClient('https://test.harid.ee', '0855cd5d8e5418a5e8c3dd3187dd0a6f', 'f75da21ad0d015fb71dba9895204429e57c7c9fa375779c00ae055cefcf9feac');
+    #$oidc->providerConfigParam(array('token_endpoint' => 'https://test.harid.ee/et/access_tokens'));
+    $oidc->addScope('personal_code');
+    $oidc->addScope('profile');
+    $oidc->addScope('openid');
+    try{
+      $oidc->authenticate();
+    }catch(OpenIDConnectClientException $e){
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
+    }
+    $userInfo = $oidc->requestUserInfo();
+    return $userInfo;
+  }
+
+  public function getAccount($userInfo){
+    list($country,$type,$id_code) = explode(':', $userInfo);
+    $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['field_user_idcode' => $id_code]);
+    if(empty($users)){
+      $values = array(
+        'name' => user_password(20),
+        'pass' => user_password(50),
+        'field_user_idcode' => $id_code,
+        'status' => 1,
+      );
+      $account = entity_create('user', $values);
+      $account->save();
+    }else{
+      $account = reset($users);
+    }
+    if(isset($account)){
+      return $account;
+    }else{
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
+    }
   }
 
 }

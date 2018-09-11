@@ -127,11 +127,11 @@
       <div class="schools__title text-left">{{ 'school.label' | translate | uppercase }}</div>      
       <div class="button-list text-right">
         <div tabindex="0" class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
-          <mat-icon>list</mat-icon>
+          <span class="htm-icon">list</span>
           <div class="title">{{ 'school.list' | translate }}</div>
         </div>
         <div tabindex="0" class="view-item" (click)="changeView('map')" [class.active]="view === 'map'">
-          <mat-icon>location_on</mat-icon>
+          <span class="htm-icon">location_on</span>
           <div class="title">{{ 'school.map' | translate }}</div>
         </div>
       </div><!--/button-list-->

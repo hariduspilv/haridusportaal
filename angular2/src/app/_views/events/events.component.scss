@@ -57,7 +57,7 @@
         border-bottom: .0625rem solid $gray;padding: $gutter $small $medium 0;margin: 0 0 $small 9.25rem;
         .info {
           &.bar span.time{padding-right: $xxl;
-            .mat-icon{vertical-align: middle;}
+            .htm-icon{vertical-align: middle;}
           }
           &.bar span.location{padding-right: $xxl;}
           .repeat {position: relative;top: .375rem;}
@@ -120,7 +120,7 @@
           }
           .close {align-self: baseline;text-align: right;
             &.more {width: 100%;padding-right: 0;padding-left: 0;
-              a .mat-icon {color: $dark-gray; }
+              a .htm-icon {color: $dark-gray; }
             }
           }
           a {color:black;}
@@ -148,7 +148,7 @@
   .navigation {padding-top: $small; padding-bottom: $medium;display: flex;align-items: center;justify-content: center;
     .month {h1{color: $black;}}
     .icon-wrapper { padding: 0 $small; height: 24px; width: 24px;
-      .mat-icon {
+      .htm-icon {
         &:hover { background: $light-gray; border-radius: 3.125rem; }
       }
     }
@@ -157,7 +157,9 @@
   .center {align-items: center;}
   .tags {padding-left: 0;}
   .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;color:$blue;
-    .mat-icon{margin-top: $gutter;}
+    .htm-icon{margin-top: 0.625rem;
+    display: inline-block;
+    fill: currentColor;}
     .title {font-size: .875rem;}
     &.active {color: $black;
       &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
@@ -178,9 +180,9 @@
       width: 24px;
     }
 
-    .title__close mat-icon { 
+    .title__close .htm-icon { 
       top: -1px;
       right: -5px;
     }
 
-    mat-icon { position: relative; }
+    .htm-icon { position: relative; }
