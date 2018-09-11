@@ -1,0 +1,57 @@
+<div class="row sm-hide crumbs" attr.aria-label="{{'breadcrumbs' | translate}}">
+  <div class="col-12">
+    <ul class="main-container breadcrumb mt-0 mb-0" *ngIf="breadcrumbs && !loading">
+      <li *ngFor="let breadcrumbEl of breadcrumbs; let last = last">
+        <a [routerLink]="[breadcrumbEl.url]" *ngIf="!last">
+          <span role="link" attr.aria-label="{{'Breadcrumb'}}">{{ breadcrumbEl.text }}</span>
+        </a>
+        <span role="dialog" attr.aria-current="{{'page'}}" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<form (submit)="getResults(param)" class="filter-wrapper">
+  <div class="main-container">
+    <div class="flex wrap">
+      <div class="grow full">
+        <div class="round-input__wrapper" [class.complete]="param">
+          <span class="round-input__title">{{'search.keyword' | translate}}</span>
+          <div class="round-input__field-wrapper">
+            <input attr.aria-label="{{'search.keyword' | translate}}" class="round-input__field" placeholder="{{'search.keyword' | translate}}" [(ngModel)]='param' name="param" />
+          </div>
+        </div>
+      </div>
+      <div class="btn">
+        <button attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="main-container">
+  <div class="search">
+    <div class="search__body">
+      <div class="search__title">{{ 'search.results' | translate | uppercase }}</div>
+      <mat-spinner *ngIf="loading"></mat-spinner>
+      <ng-container *ngIf="results && results.length">
+        <ng-container *ngFor="let item of results;let i = index;">
+          <div *ngIf="i < listLimit" class="search__sub pointer" [routerLink]="[item.EntityPath]">  
+            <div class="search__sub--category">{{ item.ContentType }}</div>
+            <div class="search__sub--title"><h1>{{ item.Title }}</h1></div>
+          </div><!--ngFor-->
+        </ng-container>
+      </ng-container>
+    </div><!--/search__body-->
+    <div class="text-center actions__error" *ngIf="!loading && results !== null && results.length === 0">
+      <div class="alert" role="alert">{{'search.no_results_start' | translate}} "{{route.snapshot.queryParams['term']}}" <span innerHtml="{{'search.no_results_end' | translate}}"></span></div>
+    </div><!--/text-center-->
+    <div class="text-center actions__error" *ngIf="!loading && !results">
+      <div class="alert" role="alert">{{ 'news.no_results' | translate }}</div>
+    </div><!--/text-center-->
+  </div>
+  <div class="text-center actions" *ngIf="listLength > listLimit && results && results.length">
+    <button mat-raised-button color="primary" (click)="loadMore()" role="button" attr.aria-label="{{'click to load more'}}" >{{ 'button.load_more' | translate }}</button>
+  </div><!--/text-center-->
+</div>
+
+

@@ -31,7 +31,6 @@
 }
 .languages {position: relative;top: .125rem;padding-left: $half-gutter;
   a {color: $white;text-decoration: none;font-size: $small;font-weight: 400;}
-  @include break-on(sm, min) {top: .3125rem;}
 }
 .loginbar {margin-left: $xxl; display: flex;
   @include break-on(xl, min) {position: relative;top: .1875rem;}
@@ -76,7 +75,7 @@ input:focus:-ms-input-placeholder { color:transparent; }
 
 app-login {
   position: relative;
-      @include break-on(sm, max) {
-  position: static;
-      }
+  @include break-on(sm, max) {
+    position: static;
+  }
 }
