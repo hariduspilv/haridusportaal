@@ -39,7 +39,7 @@ class ProfessionalCertificateService {
 
 
 	private function invokeWithRedis ($service_name, $params) {
-		if($redis_response = $this->getValue($params['key'], $params['field'])){
+		if($redis_response = $this->getValue($params['id_code'], $service_name)){
 			$redis_response['redis_hit'] = TRUE;
 			return $redis_response;
 		}else{
@@ -72,28 +72,29 @@ class ProfessionalCertificateService {
 	public function test(){
 		$json = '{\"request_timestamp\":1234,\"response_timestamp\":1536053148436,\"key\":\"kutsetunnistused_39505090897\",\"value\":{\"kirjeid\":1,\"teade\":null,\"kutsetunnistused\":[{\"registrinumber\":\"106697\",\"nimi\":\"nimi10587570\",\"isikukood\":\"39505090897\",\"synniaeg\":null,\"tyyp\":\"kutsetunnistus\",\"standard\":\"Turvasüsteemide tehnik, tase 5\",\"ekrtase\":5,\"eqftase\":5,\"spetsialiseerumine\":null,\"osakutse\":null,\"lisavali\":null,\"kompetentsid\":\"Turvasüsteemide paigaldamine ja hooldamine; Tulekahjusignalisatsioonisüsteemi paigaldamine ja hooldamine\",\"valdkond\":\"IT, TELEKOMMUNIKATSIOON JA ELEKTROONIKA\",\"kutseala\":\"Elektroonika\",\"hariduslikkval\":null,\"keel\":\"eesti keel\",\"valjastaja\":\"Eesti Turvaettevõtete Liit\",\"valjaantud\":\"2016-01-28\",\"kehtibalates\":\"2016-01-28\",\"kehtibkuni\":\"2019-01-27\",\"isco\":\"3 Tehnikud ja keskastme spetsialistid: Loodus- ja inseneriteaduste keskastme spetsialistid\",\"reaid\":null,\"duplikaat\":null,\"kehtetu\":null,\"kustutatud\":null}]}}';
 		$clean = str_replace('\\"', '"', $json);
-		$this->client->hset('KUTSEREGISTER', 'kutsetunnistused_39505090897', $clean);
+		$this->client->hset('50001275887', 'kodanikKutsetunnistus', $clean);
 	}
 
 	private function getValue($key, $field){
 		$response = [];
-		if($data = $this->client->hGet($key, $this->buildHash($field))){
+		if($data = $this->client->hGet($key, $field)){
 			$response = json_decode($data, TRUE);
 		}
 
 		return $response;
 	}
 
-	public function getProfessionalCertificate(array $params){
+	public function getProfessionalCertificate(array $params = []){
 		// build url params for GET request
 		$params['url'] = [$this->getCurrentUserIdCode(), 'true', time()];
+		$params['id_code'] = $this->getCurrentUserIdCode();
 		return $this->invokeWithRedis('kodanikKutsetunnistus', $params);
 	}
 
-	private function buildHash($field){
+	/*private function buildHash($field){
 		#return (string) $field . '111';
 		return (string) $field . $this->getCurrentUserIdCode();
-	}
+	}*/
 
 
 	private function getCurrentUserIdCode(){
