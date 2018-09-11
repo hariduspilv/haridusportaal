@@ -21,11 +21,18 @@ public class HPortalRestController {
   @Autowired
   VPTWorker vptWorker;
 
+  @RequestMapping(value = "/getDocuments/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getDocuments(@PathVariable("personalCode") String personalCode) {
+    new Thread(() -> vptWorker.getDocuments(personalCode)).start();
+
+    return new ResponseEntity<>("{\"MESSAGE\":\"WORKING\"}", HttpStatus.OK);
+  }
+
   @RequestMapping(value = "/postDocument", method = RequestMethod.POST,
       produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
   public ResponseEntity<?> postDocument(@RequestBody ObjectNode requestJson) {
     if (requestJson.get("header").get("form_name").asText().equalsIgnoreCase("VPT_TAOTLUS")) {
-      return new ResponseEntity<>(vptWorker.work(requestJson), HttpStatus.OK);
+      return new ResponseEntity<>(vptWorker.postDocument(requestJson), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request JSON - " + requestJson);
@@ -36,7 +43,8 @@ public class HPortalRestController {
   public ResponseEntity<?> getDockumentFile(@PathVariable("documentId") String documentId,
       @PathVariable("personalCode") String personalCode) {
     if (documentId.startsWith("VPT_")) {
-      return new ResponseEntity<>(vptWorker.getDocument(documentId, personalCode), HttpStatus.OK);
+      return new ResponseEntity<>(vptWorker.getDocumentFile(documentId, personalCode),
+          HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request documentId - " + documentId);
