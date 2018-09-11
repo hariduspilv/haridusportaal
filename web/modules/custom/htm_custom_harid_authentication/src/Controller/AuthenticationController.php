@@ -36,12 +36,10 @@ class AuthenticationController extends ControllerBase {
         ));
 
         $client = \Drupal::httpClient();
-        kint($params);
-        die();
         $response = $client->post($request_url, $params);
 
-        $request_url = $_SERVER['HTTP_HOST'];
-        $request_url .= '/api/v1/token?_format=json';
+        kint($response);
+        die();
       }
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
