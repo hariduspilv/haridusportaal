@@ -39,8 +39,9 @@ class AuthenticationController extends ControllerBase {
 
         $client = \Drupal::httpClient();
         $response = $client->post($request_url, $params);
-        $contents = json_decode($response->getBody()->getContents());
-        kint($contents);
+        $response_body = $response->getBody();
+        $response_data = json_decode($response_body->getContents());
+        kint($response_data);
         die();
       }
     die();
