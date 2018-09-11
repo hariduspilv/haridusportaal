@@ -132,8 +132,6 @@ class JwtTokenRestResource extends ResourceBase {
 
   protected function generateIdCodeToken($data){
 		$event = new JwtAuthGenerateEvent(new JsonWebToken());
-    $event->addClaim('first_name', $data['first_name']);
-		$event->addClaim('last_name', $data['last_name']);
     $event->addClaim('name', $data['name']);
     $event->addClaim('id_code', $data['id_code']);
 		$this->eventDispatcher->dispatch(JwtAuthEvents::GENERATE, $event);
