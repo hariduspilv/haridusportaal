@@ -20,14 +20,14 @@
             (mousedown)="tableService.scrollStart('tableRef')" 
             (touchend)="tableService.scrollEnd()" 
             (mouseup)="tableService.scrollEnd()">
-            <mat-icon>keyboard_arrow_left</mat-icon>
+            <span class="htm-icon">keyboard_arrow_left</span>
           </div>
           <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
             (touchstart)="tableService.scrollStart('tableRef', true)"
             (mousedown)="tableService.scrollStart('tableRef', true)"
             (touchend)="tableService.scrollEnd(true)"
             (mouseup)="tableService.scrollEnd(true)">
-            <mat-icon>keyboard_arrow_right</mat-icon>
+            <span class="htm-icon">keyboard_arrow_right</span>
           </div>
           <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
             <table class="scrollableTable">

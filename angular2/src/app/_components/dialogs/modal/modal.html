@@ -3,11 +3,11 @@
     <div class="col-12" style="position: relative;">
       <span class="dialog__text--medium">{{ data.title }}</span>
       <div class="pull-right" attr.aria-label="{{'Click to close modal'}}" role="close">
-        <mat-icon mat-icon-button class="close-icon">close
+        <span class="htm-icon">close
 
           <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0"></button>
 
-        </mat-icon>
+        </span>
       </div>
     </div>
   </div>

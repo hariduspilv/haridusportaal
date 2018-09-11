@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
 import { Observable, Subscription } from '../../../../node_modules/rxjs';
@@ -37,14 +37,16 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     public subscriptions: Subscription[] = [];
 
     constructor(
-      private route: ActivatedRoute,
-      private router: Router,
-      private http: HttpService,
+      public route: ActivatedRoute,
+      public router: Router,
+      public http: HttpService,
       public dialog: MatDialog,
-      private translate: TranslateService,
-      private user: UserService,
-      private snackbar: MatSnackBar,
-      ) {}
+      public translate: TranslateService,
+      public user: UserService,
+      public snackbar: MatSnackBar,
+      ) {
+        
+      }
 
     pathWatcher() { 
       let subscribe = this.route.params.subscribe(
@@ -58,12 +60,16 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     }
     getFavouritesList():void{
       this.loading= true;
-      let sub = this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
+
+      let variables = {
+        language: this.lang.toUpperCase()
+      }
+      let subscription = this.http.get('/graphql?queryId=customFavorites:1&variables=' + JSON.stringify(variables)).subscribe(response => {
 
 
         if(response['data']['CustomFavorites'].length) {
-          this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favorites'];
-          this.list = response['data']['CustomFavorites'][0]['favorites'];
+          this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favoritesNew'];
+          this.list = response['data']['CustomFavorites'][0]['favoritesNew'];
         }
         else {
           this.existingFavouriteItems = [];
@@ -71,7 +77,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         }
 
         this.loading = false;
-        sub.unsubscribe();
+        subscription.unsubscribe();
       });
     }
     openDialog(): void {
@@ -87,63 +93,41 @@ export class FavouritesComponent implements OnInit, OnDestroy{
    compileVariables(){
 
     let output = {
-      lang: this.lang.toUpperCase(),
-      title:  this.title
+      language: this.lang.toUpperCase(),
+      id: this.id
     };
-
-    if(!this.id) {
-      output['search_params'] = this.router.url;
-      output['type'] = 'search';
-    }
-    else if(this.id) {
-      output['page_id'] = this.id;
-      output['type'] = 'page';
-    }
     return output;
   }
   removeFavouriteItem(item){
-    //console.log(item.targetId);
+   
     let data = { 
       queryId: "deleteFavoriteItem:1",
-      variables: { id: item.targetId}
+      variables: { 
+        id: item.targetId,
+        language: this.lang.toUpperCase()
+      }
     }
 
-    let sub = this.http.post('/graphql',data).subscribe(response => {
-
-      if(response['errors']) {
-        console.error('something went terribly wrong');
+    let sub = this.http.post('/graphql', data).subscribe(response => {
+      if(response['data']['deleteFavoriteItem']['errors'].length) {
+        console.error('something went terribly wrong with favourite item deletion');
       } else {
         this.existingItem = false;
         this.existing = false;
         this.openFavouriteSnackbar('remove');
-        //console.log('Page exists: ',this.existing);
       }
       this.getFavouritesList();
       sub.unsubscribe();
     });
   }
   isFavouriteExisting(list){
-    let variables = this.compileVariables();
-    this.existing = false;
-    list.forEach(item => {
-      if(item.entity.fieldType == variables['type']){
-        switch(variables['type']){
-          case 'search': 
-          if(item.entity.fieldSearch === variables['search_params']) {
-
-            this.existingItem = item;
-            this.existing = true; 
-
-          } break;
-          case 'page':
-          if(item.entity.fieldPage.entity.entityUrl.path === this.router.url) {
-            this.existing = true; 
-            this.existingItem = item;
-
-          } break;
-        };
+    this.existing = list.some(item => {
+      if(item.targetId == this.id ){
+        this.existingItem = item;
+        return true
       }
     });
+    console.log(this.existing);
   }
   submitFavouriteItem(): void {   
 
@@ -153,11 +137,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
 
     let sub = this.http.post('/graphql', data).subscribe(response => {
-      //console.log(response);
+      
       if(response['data']['createFavoriteItem']){
 
         this.existing = true;
-        //console.log('Page exists: ',this.existing);
+        
         this.getFavouritesList();
         this.openFavouriteSnackbar('add');
       } 
@@ -193,7 +177,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
   toggleFavouritesButton(){
     this.isFavouriteExisting( this.existingFavouriteItems);
-    //console.log('Page exists: ',this.existing);
 
     if(this.existing === true){
 
@@ -216,19 +199,22 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     this.pathWatcher();
 
     this.userLoggedOut = this.user.getData()['isExpired'];
-    let subscribe = this.http.get('/graphql?queryId=customFavorites:1').subscribe(response => {
 
+    let variables = { language: this.lang.toUpperCase() }
+    let subscribe = this.http.get('/graphql?queryId=customFavorites:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+     
       if(response['data']['CustomFavorites'].length)
-        this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favorites'];
+        this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favoritesNew'];
       else this.existingFavouriteItems = [];
       this.isFavouriteExisting( this.existingFavouriteItems);
-      //console.log('Page exists: ',this.existing);
-
+      
+      subscribe.unsubscribe();
     });
 
-    this.subscriptions = [ ...this.subscriptions, subscribe];
+    
   }
   ngOnDestroy(){
+    console.log('destroying!');
     /* Clear all subscriptions */
     for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {

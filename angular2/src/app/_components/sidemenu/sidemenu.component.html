@@ -4,7 +4,7 @@
     <li *ngIf="item.url.path && item.url.path !== '#category' && item.url.path !== '#nocategory'" [class.has-children]="item.links.length > 0">
       <a href="javascript:void(0);"  mat-menu-item *ngIf="item.links && item.links.length > 0" appToggleClass="menu-open">
         <span>{{ item.label }}</span>
-        <mat-icon *ngIf="item.links && item.links.length > 0">chevron_right</mat-icon>
+        <span class="htm-icon" *ngIf="item.links && item.links.length > 0">chevron_right</span>
       </a>
       
       <a href="javascript:void(0);" [routerLink]="[item.url.path]" [class.active]="routeIncludes(item.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0 && item.url.path !== '#nolink'">
@@ -15,7 +15,7 @@
           <!-- Dropdown link -->
           <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" appToggleClass="menu-open">
             <span>{{ item2.label }}</span>
-            <mat-icon *ngIf="item2.links && item2.links.length > 0">chevron_right</mat-icon>
+            <span class="htm-icon" *ngIf="item2.links && item2.links.length > 0">chevron_right</span>
           </a>
 
           <!-- Internal link -->
@@ -32,7 +32,7 @@
           <!-- Dropdown link -->
           <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" appToggleClass="menu-open"  role="link">
             <span>{{ item2.label }}</span>
-            <mat-icon *ngIf="item2.links && item2.links.length > 0">chevron_right</mat-icon>
+            <span class="htm-icon" *ngIf="item2.links && item2.links.length > 0">chevron_right</span>
           </a>
 
           <!-- Internal link -->
@@ -50,7 +50,7 @@
               <!-- External link-->
               <a href="{{ item3.url.path }}" mat-menu-item *ngIf="!item3.url.internal" target="_blank">
                 <span>{{ item3.label }}</span>
-                <mat-icon>launch</mat-icon>
+                <span class="htm-icon">launch</span>
               </a>
             </li>
           </ul>

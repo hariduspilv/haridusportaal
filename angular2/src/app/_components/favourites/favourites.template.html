@@ -1,11 +1,12 @@
 <div class="favourites__wrapper" attr.aria-label="{{'Favourites dropdown, clickable'}}" *ngIf="!userLoggedOut">
     
-    <mat-icon matTooltip="{{ 'tooltip.favourites' | translate }}" matTooltipPosition="above" tabindex="0" class="primary" role="button" (click)="toggleFavouritesButton()" *ngIf="existingFavouriteItems">
+    <span
+     matTooltip="{{ 'tooltip.favourites' | translate }}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()" *ngIf="existingFavouriteItems">
       {{ existing === true ? 'star' : 'star_border' }}
-    </mat-icon>
+    </span>
     
   <!--
-  <mat-icon tabindex="0" class="primary" role="button" (click)="toggleFavouritesPanel()">star_rate</mat-icon>
+  <span tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesPanel()">star_rate</span>
   <div class="favourites__dropdown" *ngIf="favouritesDropdown">
     <mat-spinner *ngIf="loading"></mat-spinner>
     <ng-container *ngIf="!loading">
