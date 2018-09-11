@@ -45,9 +45,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       public user: UserService,
       public snackbar: MatSnackBar,
       ) {
-        this.router.routeReuseStrategy.shouldReuseRoute = function() {
-          return false;
-        };
+        
       }
 
     pathWatcher() { 
