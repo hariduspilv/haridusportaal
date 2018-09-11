@@ -1,0 +1,18 @@
+uuid: fcdd2aa3-8ee0-4e9f-90d9-007ab63394cf
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.qualificationstandardid
+id: taxonomy_term.qualificationstandardid.name
+field_name: name
+entity_type: taxonomy_term
+bundle: qualificationstandardid
+label: Nimi
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

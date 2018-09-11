@@ -1,4 +1,4 @@
-# Favorite entity routing definition
+# Favorite routing definition
 favorite_entity.settings_tab:
   route_name: favorite_entity.settings
   title: 'Settings'

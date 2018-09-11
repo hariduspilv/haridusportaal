@@ -9,6 +9,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\CreateEntityBase;
+use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\DeleteEntityBase;
 use Drupal\user\Entity\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,11 +24,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   name = "deleteFavoriteItem",
  *   type = "EntityCrudOutput!",
  *   arguments = {
- *     "id" = "Int!"
- *   }
+ *     "id" = "Int!",
+ *   	 "language" = "LanguageId!"
+ *   },
+ *   contextual_arguments = {"language"}
  * )
  */
-class DeleteFavoriteItem extends CreateEntityBase{
+class DeleteFavoriteItem extends DeleteEntityBase {
 
 	/**
 	 * The entity type manager.
@@ -75,8 +78,7 @@ class DeleteFavoriteItem extends CreateEntityBase{
 	 */
 	protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info){
 		return [
-			'user_idcode' => $this->getCurrentUserIdCode(),
-			'id' => $args['input']['id'],
+			'id' => $args['id'],
 		];
 	}
 
@@ -85,59 +87,49 @@ class DeleteFavoriteItem extends CreateEntityBase{
 	 */
 	public function resolve($value, array $args, ResolveContext $context, ResolveInfo $info)
 	{
-		$para_id = $args['id'];
+		//set context manually
+		$context->setContext('language', $args['language'], $info);
 		$entityTypeId = $this->pluginDefinition['entity_type'];
-
 		$storage = $this->entityTypeManager->getStorage($entityTypeId);
+
+		/** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
 		$entity = $storage->loadByProperties(['user_idcode' => $this->getCurrentUserIdCode()]);
 
-		$paragraph = $this->entityTypeManager->getStorage('paragraph')->load($para_id);
-		if($entity){
-			if($paragraph){
-				$entity = reset($entity);
-
-				foreach($paragraphs = $entity->favorites->getValue() as $index => $favorite){
-					if($favorite['target_id'] == $para_id){
-						//remove from entity
-						unset($paragraphs[$index]);
-						//delete paragraph from DB
-						$paragraph->delete();
-					}
+		if (!$entity) {
+			return parent::resolve($value, $args, $context, $info);
+		}else{
+			$entity = reset($entity);
+			#dump($entity);
+			$input = $this->extractEntityInput($value, $args, $context, $info);
+			try{
+				$favorites = $entity->get('favorites_new')->getValue();
+				$key = array_search($input['id'], array_column($favorites, 'target_id'));
+				if($key || $key === (int) 0){
+					$entity->get('favorites_new')->removeItem($key);
+				} else {
+					throw new \InvalidArgumentException('This page does not exist');
 				}
-				$entity->favorites->setValue($paragraphs);
-				$entity->save();
-				if($entity->favorites->count() > 0){
-					return $this->resolveOutputUpdate($entity, $args, $info);
-				}else{
-					$entity->delete();
-					return new EntityCrudOutputWrapper(NULL, NULL);
-				}
-			}else{
-				return new EntityCrudOutputWrapper(NULL, NULL, [
-						$this->t('Favorite not found')
+			}
+			catch (\InvalidArgumentException $exception) {
+				return new EntityCrudOutputWrapper($entity, NULL, [
+						$this->t('The entity update failed with exception: @exception.', ['@exception' => $exception->getMessage()]),
 				]);
 			}
-		}else{
-			return new EntityCrudOutputWrapper(NULL, NULL, [
-					$this->t('This user has no favorites')
-			]);
-		}
-	}
-
-	public function resolveOutputUpdate(EntityInterface $entity, array $args, ResolveInfo $info){
-		if (!$entity->access('create')) {
-			return new EntityCrudOutputWrapper(NULL, NULL, [
-					$this->t('You do not have the necessary permissions to create entities of this type.'),
-			]);
-		}
-		if ($entity instanceof ContentEntityInterface) {
 			if (($violations = $entity->validate()) && $violations->count()) {
 				return new EntityCrudOutputWrapper(NULL, $violations);
 			}
+			if (($status = $entity->save()) && $status === SAVED_UPDATED) {
+				$favorites_new = $entity->get('favorites_new')->getValue();
+				#dump($favorites_new);
+				if(empty($favorites_new)){
+					$entity->delete();
+					return new EntityCrudOutputWrapper(NULL, NULL);
+				}
+				return new EntityCrudOutputWrapper($entity);
+			}
+			return NULL;
 		}
-		if (($status = $entity->save()) && $status === SAVED_UPDATED) {
-			return new EntityCrudOutputWrapper($entity);
-		}
+
 	}
 
 	protected function getCurrentUserIdCode(){

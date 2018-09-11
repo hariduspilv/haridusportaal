@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Installation routines for the URL and path queuer module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function purge_queuer_url_schema() {
+  $schema['purge_queuer_url_tag'] = [
+    'description' => 'Cache tags previously sent out for cached pages.',
+    'fields' => [
+      'tagid' => [
+        'description' => 'Cache tag ID.',
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      'tag' => [
+        'description' => 'Namespace-prefixed tag string.',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+    ],
+    'primary key' => ['tagid'],
+  ];
+  $schema['purge_queuer_url'] = [
+    'description' => 'URLs for which the page cache rendered entries.',
+    'fields' => [
+      'urlid' => [
+        'description' => 'URL ID.',
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      'url' => [
+        'description' => 'The fully qualified URL for which a page was rendered.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'tag_ids' => array(
+        'description' => 'Space-separated list of cache tag IDs for this entry.',
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      ),
+    ],
+    'primary key' => ['urlid'],
+  ];
+  return $schema;
+}

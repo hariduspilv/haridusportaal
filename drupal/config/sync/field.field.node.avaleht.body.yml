@@ -11,7 +11,7 @@ id: node.avaleht.body
 field_name: body
 entity_type: node
 bundle: avaleht
-label: Body
+label: Sisu
 description: ''
 required: false
 translatable: true

@@ -7,7 +7,7 @@
   </a> 
 </div>
 
-<form (submit)="filterSubmit()" class="filter-wrapper" *ngIf="showFilter">
+<form (submit)="filterSubmit($event)" class="filter-wrapper" *ngIf="showFilter">
   <div class="main-container">
     <div class="row form-first-row" [class.short-filter]="!filterFull">
       <div class="col-4 sm-12 form-col">
@@ -30,8 +30,8 @@
       <div class="col-3 align-end text-right sm-12 inline-flex sm-hide form-col" *ngIf="!filterFull">
         <div class="align-center filter-state sm-hide">       
           <a role="button" tabindex="0"  href="javascript:void(0);"  (click)="filterFull = !filterFull" aria-expanded="false">
-            <span class="md-hide">{{ 'button.search_detailed' | translate }}</span>
-            <span class="md-show">{{ 'button.filter' | translate }}</span>
+            <span>{{ 'button.search_detailed' | translate }}</span>
+      
           </a>
         </div>
         <div class="button-row">
@@ -127,11 +127,11 @@
       <div class="schools__title text-left">{{ 'school.label' | translate | uppercase }}</div>      
       <div class="button-list text-right">
         <div tabindex="0" class="view-item" (click)="changeView('list')" [class.active]="view === 'list'">
-          <mat-icon>list</mat-icon>
+          <span class="htm-icon">list</span>
           <div class="title">{{ 'school.list' | translate }}</div>
         </div>
         <div tabindex="0" class="view-item" (click)="changeView('map')" [class.active]="view === 'map'">
-          <mat-icon>location_on</mat-icon>
+          <span class="htm-icon">location_on</span>
           <div class="title">{{ 'school.map' | translate }}</div>
         </div>
       </div><!--/button-list-->
@@ -169,10 +169,10 @@
 
   <ng-container *ngIf="view == 'map'">
     <div class="map--wrapper">
-      <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" maxZoom="16">
+      <agm-map (mapReady)="mapReady($event)" style="height:525px" *ngIf="list" maxZoom="16" [styles]="mapOptions.styles">
         <agm-marker-cluster [styles]="mapOptions.clusterStyles" maxZoom="15">
           <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of list" [latitude]="parseFloat(marker.Lat)"  [longitude]="parseFloat(marker.Lon)" >
-            <agm-snazzy-info-window [closeWhenOthersOpen]="true">
+            <agm-snazzy-info-window [closeWhenOthersOpen]="true" maxHeight="9999">
               <ng-template>
                 <p class="title">{{ marker.FieldSchoolName }}</p>
                 <p *ngIf="marker.FieldAddress">{{ 'school.legal_address' | translate }}: <b>{{ marker.FieldAddress }}</b></p>
