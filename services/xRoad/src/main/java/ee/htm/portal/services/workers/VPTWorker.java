@@ -96,8 +96,29 @@ public class VPTWorker extends Worker {
     redisTemplate.opsForHash().put(personalCode, "vpTaotlus", documentsResponse);
   }
 
-  public void getDocument() {
+  public ObjectNode getDocument(String documetType, String documentId) {
+    ObjectNode documentResponse = nodeFactory.objectNode();
 
+    documentResponse.putObject("header")
+        .put("form_name", documetType)
+        .put("current_step", "step_0")
+        .put("identifier", documentId)
+        .putArray("acceptable_activity")
+        .add("VIEW");
+
+    ObjectNode dataElementsNode = documentResponse.putObject("body").putObject("steps")
+        .putObject("step_0").putObject("data_elements");
+    dataElementsNode.putObject("application_file").putObject("value")
+        .put("file_name", "taotlus.zip")
+        .put("file_identifier", "VPT_TAOTLUS_ZIP_" + documentId);
+
+    if (documetType.equalsIgnoreCase("VPT_ESITATUD_TAOTLUS_OTSUS")) {
+      dataElementsNode.putObject("decision_file").putObject("value")
+          .put("file_name", "otsus.bdoc")
+          .put("file_identifier", "VPT_OTSUS_DDOC_" + documentId);
+    }
+
+    return documentResponse;
   }
 
   public ObjectNode postDocument(ObjectNode jsonNode) {
