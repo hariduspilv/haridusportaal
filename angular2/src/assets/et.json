@@ -267,7 +267,8 @@
     "xjson_continue": "Jätka",
     "xjson_previous": "Eelmine",
     "xjson_next": "Järgmine",
-    "rss_order": "Telli teemad RSS-iga"
+    "rss_order": "Telli teemad RSS-iga",
+    "try_again": "Proovi uuesti"
   },
     "tooltip": {
     "share": "Jaga lehte",
