@@ -6,7 +6,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 1rem;
-            @include break-on(sm, max) { font-size: 0.875rem; } 
+            @include break-on(sm, max) { font-size: 1rem; } 
     ::placeholder {color: $dark-gray; opacity: 1; font-size: 0.875rem; overflow: hidden; font-size: 1rem;
             @include break-on(sm, max) { font-size: 0.875rem; } }
     &:focus-within {
@@ -174,7 +174,6 @@
       font-size: $quarter;
       left: $medium;
     }
-    @include break-on(sm, max) {font-size: .875rem;}
   }
 }
 .ng-select__wrapper, .ng-select__wrapper__mt {
@@ -186,7 +185,6 @@
       top: .5625rem;
       font-size: $quarter;
       left: $medium;
-      @include break-on(sm, min) {margin-top: .125rem;}
     }
   }
 }
