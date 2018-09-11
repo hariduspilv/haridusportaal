@@ -18,20 +18,7 @@ class AuthenticationController extends ControllerBase {
       $oidc->authenticate();
       $userInfo = $oidc->requestUserInfo('personal_code');
       if($userInfo != NULL){
-        list($country,$type,$id_code) = explode(':', $oidc->requestUserInfo('personal_code'));
-        $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['field_user_idcode' => $id_code]);
-        if(empty($users)){
-          $values = array(
-            'name' => user_password(20),
-            'pass' => user_password(50),
-            'field_user_idcode' => $id_code,
-            'status' => 1,
-          );
-          $account = entity_create('user', $values);
-          $account->save();
-        }else{
-          $account = reset($users);
-        }
+        $account = $this->getAccount();
         kint($account);
       }
     die();
@@ -44,6 +31,24 @@ class AuthenticationController extends ControllerBase {
     #dump($clientCredentialsToken);
     #die();
 
+  }
+
+  protected function getAccount(){
+    list($country,$type,$id_code) = explode(':', $userInfo);
+    $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['field_user_idcode' => $id_code]);
+    if(empty($users)){
+      $values = array(
+        'name' => user_password(20),
+        'pass' => user_password(50),
+        'field_user_idcode' => $id_code,
+        'status' => 1,
+      );
+      $account = entity_create('user', $values);
+      $account->save();
+    }else{
+      $account = reset($users);
+    }
+    return $account;
   }
 
 }
