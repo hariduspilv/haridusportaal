@@ -46,7 +46,6 @@ class AuthenticationController extends ControllerBase {
     }catch(OpenIDConnectClientException $e){
       return NULL;
     }
-    $oidc->authenticate();
     $userInfo = $oidc->requestUserInfo('personal_code');
     return $userInfo;
   }
