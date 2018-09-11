@@ -19,7 +19,7 @@ class AuthenticationController extends ControllerBase {
       $userInfo = $oidc->requestUserInfo('personal_code');
       if($userInfo != NULL){
         list($country,$type,$id_code) = explode(':', $oidc->requestUserInfo('personal_code'));
-        $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['field_user_idcode' => intval($idcode)]);
+        $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['field_user_idcode' => $id_code]);
         if(empty($users)){
           $values = array(
             'name' => user_password(20),
