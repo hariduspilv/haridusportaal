@@ -279,5 +279,12 @@
   },
   "errors": {
     "enter_valid_date": "Sisesta korrektne kuupäev"
+  },
+  "search": {
+    "label": "Otsing",
+    "results": "Otsingutulemused",
+    "keyword": "Märksõna",
+    "no_results_start": "Otsingule",
+    "no_results_end": "vastavaid tulemusi ei leitud.<br> Proovi otsida mõne teise märksõnaga."
   }
 }
