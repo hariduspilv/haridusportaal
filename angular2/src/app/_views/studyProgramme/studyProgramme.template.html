@@ -201,7 +201,7 @@
             <span class="bar" *ngIf="item.fieldTeachingLanguage">|</span>
             <span class="item" *ngIf="item.fieldTeachingLanguage">
               <ng-container *ngFor="let item of item.fieldTeachingLanguage; let i = index;">
-                <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.entityLabel }}
+                <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.entityLabel | titleCase }}
               </ng-container>  
             </span>
           </div>
