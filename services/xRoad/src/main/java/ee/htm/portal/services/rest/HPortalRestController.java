@@ -36,6 +36,16 @@ public class HPortalRestController {
     return new ResponseEntity<>("{\"MESSAGE\":\"WORKING\"}", HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/getDocument/{documentType}/{documentId}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getDocuments(@PathVariable("documentType") String documentType, @PathVariable("documentId") String documentId) {
+    if (documentType.startsWith("VPT_ESITATUD")) {
+      return new ResponseEntity<>(vptWorker.getDocument(documentType, documentId), HttpStatus.OK);
+    }
+
+    LOGGER.error("Tundmatu request documentId - " + documentId);
+    return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
+  }
+
   @RequestMapping(value = "/postDocument", method = RequestMethod.POST,
       produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
   public ResponseEntity<?> postDocument(@RequestBody ObjectNode requestJson) {
