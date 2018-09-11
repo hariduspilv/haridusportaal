@@ -40,6 +40,9 @@
     "dashboard_tabs_certificates_duplicate":"Duplikaat",
     "dashboard_tabs_certificates_notvalid":"Kehtetu"
   },
+  "xjson":{
+    "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?"
+  },
   "article": {
     "contact": "Kontakt",
     "hyperlinks": "",
@@ -261,12 +264,14 @@
     "add_to_favourites_title": "Pealkiri",
     "back": "Tagasi",
     "back_to_dashboard":"Tagasi töölauale",
-    "xjson_save": "Salvesta",
-    "xjson_submit": "Esita",
-    "xjson_edit": "Muuda",
-    "xjson_continue": "Jätka",
-    "xjson_previous": "Eelmine",
-    "xjson_next": "Järgmine"
+    "save": "Salvesta",
+    "submit": "Esita",
+    "edit": "Muuda",
+    "continue": "Jätka",
+    "previous": "Tagasi",
+    "next": "Järgmine",
+    "yes": "Jah",
+    "cancel": "Katkesta"
   },
     "tooltip": {
     "share": "Jaga lehte",
