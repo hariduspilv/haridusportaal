@@ -76,10 +76,10 @@ export class FrontpageComponent {
 		let that = this;
 		that.loading = true;
 		this.route.params.subscribe( params => {
-			if (this.lang == "/en") {
+			if (this.lang === '/en' || this.lang.includes('/en?')) {
         this.allPath = "/en/news";
         this.eventPath = "/en/events";
-			} else if (this.lang == "/et") {
+			} else if (this.lang === '/et' || this.lang.includes('/et?')) {
         this.allPath = "/et/uudised";
         this.eventPath = "/et/sundmused";
       } else if (this.lang !== '') {
