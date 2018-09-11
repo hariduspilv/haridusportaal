@@ -16,7 +16,7 @@
   .search-icn {
     &::before {
       position: absolute;
-      font-family: 'Material Icons';
+      font-family: 'htm-icon';
       font-feature-settings: "liga";
       font-size: 1.25rem;
       content: 'search';
@@ -36,7 +36,7 @@
 .loginbar {margin-left: $xxl; display: flex;
   @include break-on(xl, min) {position: relative;top: .1875rem;}
 }
-mat-icon { 
+.htm-icon { 
   &.search { padding-right: 1rem;
     @include break-on(sm, max) {position:relative; top: .0625rem;}
   }

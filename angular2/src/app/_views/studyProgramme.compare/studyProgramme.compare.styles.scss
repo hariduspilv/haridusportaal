@@ -11,7 +11,7 @@
 table {width: 100%;border-collapse: collapse; margin: 0;
   thead {background: $light-gray;
     .sortable {&:hover { color: $dark-gray;}}
-    .mat-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
+    .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
   }
   th {white-space: normal; font-weight: normal;}
   th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;
@@ -42,7 +42,7 @@ table {width: 100%;border-collapse: collapse; margin: 0;
   .map-wrapper {position: relative; margin:-1.5rem -1.5rem 1.5rem -1.5rem; display: block;
     a {position:absolute;bottom:0;width:stretch;background-color: rgba(0, 0, 0, 0.6);color:$white;align-items: center;justify-content: center;
       font-weight: normal;line-height: 1.25;font-size: $small;display: flex; padding: $small;text-decoration:none;
-      .mat-icon {font-size: 1.25rem;height: 1.25rem !important;}
+      .htm-icon {font-size: 1.25rem;height: 1.25rem !important;}
     }  
   }
 
