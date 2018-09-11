@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   @ViewChild('sidenav') sidenav;
 
   mode: any;
+  opened: any;
   debounce: any;
   debounceDelay: any;
   isSidenavCloseDisabled: boolean;
@@ -67,6 +68,7 @@ export class AppComponent implements OnInit {
       }
 
       if (event instanceof NavigationError) {
+        history.replaceState({}, '', '/et');
         this.router.navigateByUrl(`/et/404`);
       }
         
@@ -87,6 +89,10 @@ export class AppComponent implements OnInit {
     this.menuStyle();
   }
 
+  focusMainContent() {
+    document.getElementById('mainContent').focus()
+  }
+
   menuStyle() {
 
     const _that = this;
@@ -95,7 +101,7 @@ export class AppComponent implements OnInit {
 
     this.debounce = setTimeout(function() {
 
-      if ( window.innerWidth >= 900 ) {
+      if ( window.innerWidth >= 1024 ) {
         _that.sidenav.open();
         _that.mode = 'side';
         _that.isSidenavCloseDisabled = true;

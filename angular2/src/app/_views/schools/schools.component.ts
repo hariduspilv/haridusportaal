@@ -74,7 +74,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
           height: 50,
           width: 28
       }
-    ]
+    ],
+    styles: []
   }
 
   bounds = {
@@ -267,6 +268,9 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     }
     
     let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=schoolMapQuery:1&variables=";
+    if (window.location.host === ('test.edu.ee')) {
+      url = "https://api.test.edu.ee/graphql?queryId=schoolMapQuery:1&variables=";
+    }
     let variables = {
       lang: this.lang.toUpperCase(),
       offset: this.offset,
@@ -363,8 +367,10 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   ngOnInit() {
 
-    this.showFilter = window.innerWidth > 900;
-    this.filterFull = window.innerWidth < 900;
+    this.mapOptions.styles = this.rootScope.get("mapStyles");
+    
+    this.showFilter = window.innerWidth > 1024;
+    this.filterFull = window.innerWidth < 1024;
 
     this.setPaths();
     this.pathWatcher();

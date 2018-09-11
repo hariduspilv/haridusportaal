@@ -1,5 +1,5 @@
 @import "../../../assets/styles/typography.scss"; 
-.mat-toolbar.mat-primary {background: $blue;height: 4rem;}
+.mat-toolbar.mat-primary {background: $blue;height: 4rem;box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);}
 .header-logo {text-align: center;margin-left: 1.25rem;text-decoration: none;letter-spacing: 0.5px;font-size: 1.25rem;line-height: 1.4;color: $white;
   span {font-weight: 300;}
   span.bold {font-weight: 500;}
@@ -23,13 +23,16 @@
       color: white;
       left: 2.5rem;
       top: .33rem;
-      @include break-on (xl, min) {top: .6875rem;}
+      @include break-on (xl, min) {top: .5rem;}
     }
   }
   a {text-decoration: none;}
   @include break-on(sm, max) {display: none;}
 }
-.languages {position: relative;top: .125rem;}
+.languages {position: relative;top: .125rem;padding-left: $half-gutter;
+  a {color: $white;text-decoration: none;font-size: $small;font-weight: 400;}
+  @include break-on(sm, min) {top: .3125rem;}
+}
 .loginbar {margin-left: $xxl; display: flex;
   @include break-on(xl, min) {position: relative;top: .1875rem;}
 }
@@ -70,3 +73,10 @@ input:focus:-ms-input-placeholder { color:transparent; }
   &__flex {display: flex;}
 }
 .mob-space {flex: 1 1 auto;}
+
+app-login {
+  position: relative;
+      @include break-on(sm, max) {
+  position: static;
+      }
+}

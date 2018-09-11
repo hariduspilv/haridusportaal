@@ -1,0 +1,5 @@
+services:
+  cache_tags:
+    class: '\Drupal\cache_tags\EventSubscriber\AddCacheTags'
+    tags:
+      - { name: 'event_subscriber' }

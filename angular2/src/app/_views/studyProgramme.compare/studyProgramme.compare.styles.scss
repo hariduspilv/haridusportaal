@@ -53,6 +53,6 @@ table {width: 100%;border-collapse: collapse; margin: 0;
   &__recent {padding: $small $medium 0 $medium;}
 }
 .action {
-  &--back {align-items: center;justify-content: flex-end;padding-right: $large;}
+  &--back {align-items: center;justify-content: flex-end;padding-right: $large; text-transfrom: capitalize; }
 }
 .fill{flex-grow: 1;}

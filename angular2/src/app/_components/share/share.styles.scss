@@ -19,10 +19,15 @@
       &:hover {background-color: $orange;}
     }
   }
-  &:hover, &:focus, &:focus-within {background-color: $black;transition: background-color 0.25s;  
+  &:hover, &:focus, &:focus-within {background-color: $blue;transition: background-color 0.25s;  
     .share__component {
       &__buttons {opacity: 1;}
       .mat-icon.primary {color: $white;}
     }
   }
+}
+
+.share__wrapper { 
+  height: 1.5rem;
+  width: 1.5rem;
 }

@@ -3,6 +3,8 @@ import { HttpService } from '@app/_services/httpService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from '../../../../node_modules/rxjs';
 import { RootScopeService } from '@app/_services/rootScopeService';
+import { UserService } from '@app/_services/userService';
+
 @Component({
   selector: 'certificates-detailed',
   templateUrl: './certificates.detailed.template.html',
@@ -15,6 +17,8 @@ export class CertificatesDetailedComponent implements OnInit{
   public certificateId: any;
   public certificate: {};
   public dashboardLink;
+  
+  public userData;
 
   public loading: boolean;
   private error: boolean;
@@ -22,6 +26,7 @@ export class CertificatesDetailedComponent implements OnInit{
   public subscriptions: Subscription[] = [];
 
   constructor(
+    private user: UserService,
     private rootScope: RootScopeService,
     public http: HttpService,
     private route: ActivatedRoute,
@@ -58,7 +63,10 @@ export class CertificatesDetailedComponent implements OnInit{
         console.log(this.professionalCertificates);
         
         this.certificate = this.professionalCertificates.find(cert => cert.registrinumber == this.certificateId);
-        
+        this.certificate['valjaantud'] = this.certificate['valjaantud'].split("-").reverse().join('.');
+        this.certificate['kehtibalates'] = this.certificate['kehtibalates'].split("-").reverse().join('.');
+        this.certificate['kehtibkuni'] = this.certificate['kehtibkuni'].split("-").reverse().join('.');
+          
         let url = this.path.split('/');
         this.dashboardLink = url.splice(0,url.length-1).join('/');
       
@@ -69,7 +77,10 @@ export class CertificatesDetailedComponent implements OnInit{
     
   }
   ngOnInit(){
-    
+    this.userData = this.user.getData();
+    if(this.userData.isExpired === true){
+      this.router.navigateByUrl('');
+    }
     this.pathWatcher();
     this.loadCertificate();
   }

@@ -100,7 +100,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   @HostListener('window:resize', ['$event'])
   onResize(event){
-    if( window.innerWidth < 900 && this.view == "calendar" ){
+    if( window.innerWidth < 1024 && this.view == "calendar" ){
       this.changeView("list");
     }
   }
@@ -260,7 +260,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }else{
       this.changeView("list", false);
     }
-    if (window.innerWidth <= 900) {
+    if (window.innerWidth <= 1024) {
       this.filterFull = true;
       this.showFilter = false;
     }

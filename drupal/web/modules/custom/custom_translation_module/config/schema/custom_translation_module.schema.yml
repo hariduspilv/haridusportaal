@@ -2,6 +2,127 @@ custom_translation_module.settings:
   type: config_object
   label: 'Custom translations'
   mapping:
+    frontpage:
+      type: mapping
+      label: 'Frontpage translations'
+      mapping:
+        label:
+          type: label
+          label: 'Content'
+        navigate:
+          type: label
+          label: 'Content'
+        favourites_limit_modal_title:
+          type: label
+          label: 'Content'
+        favourites_limit_modal_content:
+          type: label
+          label: 'Content'
+        favourites_limit_modal_close:
+          type: label
+          label: 'Content'
+        favourites_list_label:
+          type: label
+          label: 'Content'
+        favourites_list_none_message:
+          type: label
+          label: 'Content'
+        favourites_snackbar_message:
+          type: label
+          label: 'Content'
+        favourites_snackbar_message_remove:
+          type: label
+          label: 'Content'
+        favourites_snackbar_action:
+          type: label
+          label: 'Content'
+        dashboard_label:
+          type: label
+          label: 'Content'
+        dashboard_tabs_applications:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates:
+          type: label
+          label: 'Content'
+        dashboard_tabs_studies:
+          type: label
+          label: 'Content'
+        dashboard_tabs_teachings:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_no_results:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_error_technical:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_professional:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_examinations:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_number:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_name:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_type:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_standard:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_ekr:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_eqf:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_specialization:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_part:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_competence:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_field:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_field_topic:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_qualification:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_language:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_issuer:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_issued_at:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_valid_from:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_valid_to:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_isco:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_duplicate:
+          type: label
+          label: 'Content'
+        dashboard_tabs_certificates_notvalid:
+          type: label
+          label: 'Content'
     article:
       type: mapping
       label: 'Article translations'
