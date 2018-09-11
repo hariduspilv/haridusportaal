@@ -98,12 +98,17 @@ class xJsonRestResource extends ResourceBase {
     if (!$this->currentUser->isAuthenticated()) {
       throw new AccessDeniedHttpException();
     }
-
-    if($data['form_info']){
-			$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
-		}else{
-			$request_body = $this->xJsonService->getBasexJsonForm(true);
+		if(($data['test'] && $data['test'] === TRUE)) {
+			$response = $this->xJsonService->buildTestResponse();
+			return new ModifiedResourceResponse($response);
+		} else {
+			if($data['form_info']){
+				$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
+			}else{
+				$request_body = $this->xJsonService->getBasexJsonForm(true);
+			}
 		}
+
 
 		if(empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
 		#dump($request_body);
@@ -115,12 +120,7 @@ class xJsonRestResource extends ResourceBase {
 					'json' => $request_body,
 			]);
 			$response = json_decode($request->getBody(), TRUE);
-			#dump($response);
-			if($data['test'] && $data['test'] === TRUE){
-				$builded_response = $this->xJsonService->getTestForm();
-			}else{
-				$builded_response = $this->xJsonService->buildFormv2($response);
-			}
+			$builded_response = $this->xJsonService->buildFormv2($response);
 
 			if(empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
 
