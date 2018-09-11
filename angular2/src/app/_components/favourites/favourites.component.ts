@@ -129,7 +129,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         }
       }
     });
-    console.log(this.existing);
   }
   submitFavouriteItem(): void {   
 
@@ -214,7 +213,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     });
   }
   destroyComponent(){
-    console.log('destroying!');
+    
     /* Clear all subscriptions */
     for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
