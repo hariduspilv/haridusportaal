@@ -17,6 +17,8 @@ class AuthenticationController extends ControllerBase {
       $userInfo = $this->getHarIdAuthentication();
       $account = $this->getAccount($userInfo->personal_code);
       $jwt = $this->getJwt($account, $userInfo);
+      kint($jwt);
+      die();
 
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -38,12 +40,9 @@ class AuthenticationController extends ControllerBase {
       'Content-Type' => 'application/json'
     );
 
-    kint($account->field_user_idcode->value);
-    die();
-
     $params['body'] = json_encode(array(
       'name' => $userInfo->name,
-      'id_code' => $account->getPassword()
+      'id_code' => $account->field_user_idcode->value
     ));
 
     $client = \Drupal::httpClient();
