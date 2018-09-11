@@ -20,8 +20,19 @@ class AuthenticationController extends ControllerBase {
       if($userInfo != NULL){
         list($country,$type,$id_code) = explode(':', $oidc->requestUserInfo('personal_code'));
         $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['field_user_idcode' => intval($idcode)]);
-        kint($users);
-        die();
+        if(empty($users)){
+          $values = array(
+            'name' => user_password(20),
+            'pass' => user_password(50),
+            'field_user_idcode' => $params['UserIDCode'],
+            'status' => 1,
+          );
+          $account = entity_create('user', $values);
+          $account->save();
+        }else{
+          $account = reset($users);
+        }
+        kint($account);
       }
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
