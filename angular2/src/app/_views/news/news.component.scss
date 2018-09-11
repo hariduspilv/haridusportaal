@@ -38,7 +38,7 @@
 .inline-flex {display: inline-flex;justify-content: flex-end;} 
 
 ::ng-deep .description a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
-  font-family: 'Material Icons';content: 'launch' !important;position: relative;top: 0.1875rem;
+  font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
 ::ng-deep .description a[target="_blank"] {text-decoration: none;}
 ::ng-deep .mat-calendar-body-selected {background-color: $blue;}

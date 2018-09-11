@@ -5,7 +5,8 @@
 .xjson{
   &__title{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
   &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
-  &__step-introduction{width:100%; color:$gray; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
+  &__step-introduction{width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none;}
+  &__heading{width:100%; color:$blue; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
   &__navigation{
     .active {
       font-weight: bold;
@@ -18,4 +19,16 @@
       &.disabled{ color: gray; text-decoration: none; cursor: not-allowed;}
     }
   }
+  &__table{
+    margin: 0 auto;
+    width: 500px;
+    border-collapse: collapse;
+    border: 1px solid $gray;
+    
+    th {background-color: $light-gray;border-bottom: 0px; padding: 15px;}
+    td {border: 1px solid $gray; border-bottom: 2px solid $light-gray; border-top: 0px; padding: 15px;}
+  }
 }
+
+.error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
+.button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 30px;}

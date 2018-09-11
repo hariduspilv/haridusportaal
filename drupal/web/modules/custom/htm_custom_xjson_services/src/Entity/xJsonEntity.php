@@ -270,8 +270,8 @@ class xJsonEntity extends RevisionableContentEntityBase implements xJsonEntityIn
 						'weight' => -4,
 				]);
 		$fields['xjson_definition_test'] = BaseFieldDefinition::create('json')
-				->setLabel(t('xJson definition for testing'))
-				->setDescription(t('xJson definition field for testing'))
+				->setLabel(t('xJson response for testing'))
+				->setDescription(t('xJson response field for testing'))
 				->setRevisionable(TRUE)
 				->setDefaultValue('')
 				->setDisplayOptions('form', [

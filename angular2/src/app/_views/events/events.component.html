@@ -145,11 +145,11 @@
       <div class="events__title text-left">{{ 'event.label' | translate | uppercase }}</div>
       <div class="button-list text-right sm-hide">
         <div class="view-item pointer" (click)="changeView('list')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'list'">
-          <mat-icon>list</mat-icon>
+          <span class="htm-icon">list</span>
           <div class="title" >{{ 'school.list' | translate }}</div>
         </div>
         <div class="view-item pointer" (click)="changeView('calendar')" attr.aria-label="{{ 'event.calendar' | translate }}" tabindex="0" [class.active]="view === 'calendar'">
-          <mat-icon>today</mat-icon>
+          <span class="htm-icon">today</span>
           <div class="title">{{ 'event.calendar' | translate }}</div>
         </div>
       </div><!--/button-list-->
@@ -239,13 +239,13 @@
     <div class="navigation text-center">
       <span tabindex="0" attr.aria-label="{{'Previous month'}}">
          <span class="icon-wrapper">
-        <mat-icon class="pointer" (click)="changeMonth(-1);">chevron_left</mat-icon>
+        <span class="pointer htm-icon" (click)="changeMonth(-1);">chevron_left</span>
       </span>
       </span>
       <span class="month"><h1 tabindex="0">{{ 'time.' + monthName | lowercase | translate }} <ng-container *ngIf="year !== current.year">{{ year }}</ng-container></h1></span>
       <span  tabindex="0" attr.aria-label="{{'Next month'}}">
         <span class="icon-wrapper">
-        <mat-icon class="pointer" (click)="changeMonth(1);">chevron_right</mat-icon>
+        <span class="htm-icon pointer" (click)="changeMonth(1);">chevron_right</span>
       </span>
       </span>
     </div><!--/text-center-->
@@ -284,9 +284,9 @@
                       <span class="title__strong" >{{ event.title }}</span>
 
                       <div class="title__close" attr.aria-label="{{'Click to close modal'}}" role="close">
-                        <mat-icon mat-icon-button>close
+                        <span class="htm-icon">close
                           <button class="btn-hidden pointer" (click)="closePopup()" tabindex="0"></button>
-                        </mat-icon>
+                        </span>
                       </div>
                     </div>
                     
@@ -316,7 +316,7 @@
                     <div class="header__strong">{{day.i}}. {{ 'time.'+ monthName | lowercase | translate}}</div>
 
                   </div>
-                  <span class="close more"><a class="pointer" (click)="closeMore()"><mat-icon>close</mat-icon></a></span>
+                  <span class="close more"><a class="pointer" (click)="closeMore()"><span class="htm-icon">close</span></a></span>
                 </div>
                 <div class="popup__scroll">
                   <ng-container *ngFor="let event of parseDay( day ); let i = index;">
