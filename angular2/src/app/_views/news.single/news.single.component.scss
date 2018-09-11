@@ -1,12 +1,12 @@
   @import "../../../assets/styles/typography.scss"; 
   article {padding-bottom: $xxl;
     a {color: $blue;
-      .mat-icon {color: $blue;}
+      .htm-icon {color: $blue;}
     }
   } 
   .share-btn {
     .mat-button {min-width: $medium;width: $medium;padding: 0;position: relative;bottom: 0.3125rem;}
-    .mat-icon {line-height: 1.3;
+    .htm-icon {line-height: 1.3;
       @include break-on(sm, max) {right: $small;position: relative;}
     }
   }
@@ -23,9 +23,8 @@
       &__elem {padding-bottom: $xxl;}
       &.horizontal {border-top: none;background: transparent;
         .news-title {padding-top: $medium;
-          @include break-on(sm, max) {
-            @include break-on(xxs, min) {padding: 0; padding-top: $medium;}
-          }
+          @include break-on(sm, max) {padding: 0 0 $gutter 0;}
+          @include break-on(xxs, max) {padding: 0 $medium $gutter $medium;}
         }
         .news-list__recent__elem {flex: 1;padding: 0 0 $xxl 0;
           @include break-on(sm, min) {padding: 0 $gutter $xxl $gutter;}
@@ -34,7 +33,8 @@
           @include break-on(sm, min) {padding: $gutter $small 0 $small;flex-direction: row;}
         }
         .title__recent {
-          @include break-on(xxs, min) {padding: 0; padding-top: $small;}
+          @include break-on(xxs, min) {padding: 0; padding-top: $gutter;}
+          @include break-on(xxs, max) {padding-top: $gutter;}
         }
         .author {overflow: hidden;text-overflow: ellipsis;
           @include break-on(xxs, min) {padding: 0; padding-top: $half-gutter;word-break: break-word;overflow: normal;}
@@ -66,6 +66,6 @@
   .breadcrumb { padding-bottom: $gutter;}
 
   ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
-    font-family: 'Material Icons';content: 'launch' !important;position: relative;top: 0.1875rem;
+    font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
   }
   ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}

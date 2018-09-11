@@ -1,0 +1,22 @@
+uuid: fcb2808e-4486-42a7-8ad9-425f1e0ca70e
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+id: node.study_programme.status
+field_name: status
+entity_type: node
+bundle: study_programme
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

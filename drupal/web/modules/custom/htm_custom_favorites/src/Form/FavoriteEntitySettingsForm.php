@@ -35,7 +35,7 @@ class FavoriteEntitySettingsForm extends FormBase {
   }
 
   /**
-   * Defines the settings form for Favorite entity entities.
+   * Defines the settings form for Favorite entities.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
@@ -46,7 +46,7 @@ class FavoriteEntitySettingsForm extends FormBase {
    *   Form definition array.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['favoriteentity_settings']['#markup'] = 'Settings form for Favorite entity entities. Manage field settings here.';
+    $form['favoriteentity_settings']['#markup'] = 'Settings form for Favorite entities. Manage field settings here.';
     return $form;
   }
 

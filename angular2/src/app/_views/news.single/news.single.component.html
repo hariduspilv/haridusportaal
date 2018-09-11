@@ -4,7 +4,7 @@
   <div class="row news-single" *ngIf="content">
     <div class="col-8 sm-12">
       <div class="news-list">
-        <div class="news-title" tabindex="0">{{ 'news' | translate | uppercase }}</div>
+        <div class="news-title">{{ 'news' | translate | uppercase }}</div>
         <article>
           <div class="row title">
               <div class="col-10 flex">
@@ -16,7 +16,7 @@
               </div><!--/col-10-->
           </div><!--/row-->
       
-          <div class="author" tabindex="0" attr.aria-label="{{'author'}}{{ content.fieldAuthor }}">
+          <div class="author" attr.aria-label="{{'author'}}{{ content.fieldAuthor }}">
             {{ content.fieldAuthor }} {{ content.created*1000 | date:"dd.MM.yyyy" }}
           </div>
           <div class="row">
@@ -36,7 +36,7 @@
           <div class="row links" *ngIf="content.fieldNewsLink">
               <div class="col-12">
                 <ul class="link-list mt-0 mb-0">
-                    <li *ngFor="let item of content.fieldNewsLink"><a href="{{ item.url.path | url }}" target="_blank" class="link"><mat-icon>launch</mat-icon>{{ item.title }}</a></li>
+                    <li *ngFor="let item of content.fieldNewsLink"><a href="{{ item.url.path | url }}" target="_blank" class="link"><span class="htm-icon">launch</span>{{ item.title }}</a></li>
                 </ul>
               </div><!--/col-12-->
           </div> <!--/row-->

@@ -3,9 +3,9 @@
     <div class="col-12" style="position: relative;">
       <span class="dialog__text--medium">{{ 'event.registration_form' | translate | uppercase }}</span>
       <div class="pull-right" attr.aria-label="{{'Click to close modal'}}" role="close">
-        <mat-icon mat-icon-button>close
+        <span class="htm-icon">close
           <button class="btn-hidden" (click)="close()" tabindex="0"></button>
-        </mat-icon>
+        </span>
       </div>
     </div>
 
@@ -69,79 +69,79 @@
             <div class="round-input__wrapper" 
             [class.error]="isInvalidField('email') && form.controls.email.errors.email && !emailFocus" 
             [class.complete]="!isInvalidField('email') && form.controls.email.value && !emailFocus">
-              <span class="round-input__title">{{ 'event.participant_email' | translate }} *</span>
-              <div class="round-input__field-wrapper">
-                <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{'Required input'}}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
-              </div>
-              <div class="round-input__error">
-                <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">
-                  {{ 'event.registration_form_valid_email' | translate }}
-                </div>
-              </div>
+            <span class="round-input__title">{{ 'event.participant_email' | translate }} *</span>
+            <div class="round-input__field-wrapper">
+              <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{'Required input'}}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
             </div>
-          </div>
-
-          <div class="col-6 sm-12 form-col">
-            <div class="round-input__wrapper" [class.complete]="form.controls.telephone.value">
-              <span class="round-input__title">{{ 'event.participant_phone' | translate }}</span>
-              <div class="round-input__field-wrapper">
-                <input maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_phone' | translate }}" formControlName="telephone"/>
-              </div>
-              <div class="round-input__error">
-                <div class="round-input__error--text" role="alert"></div>
+            <div class="round-input__error">
+              <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">
+                {{ 'event.registration_form_valid_email' | translate }}
               </div>
             </div>
           </div>
         </div>
-        <div class="row form-additional-row">
-          <div class="col-12 sm-12 form-col">
-            <div class="round-input__area">
-              <textarea class="round-input__area__elem" autosize placeholder="{{ 'event.participant_comment' | translate }}" formControlName="marked"></textarea>
+
+        <div class="col-6 sm-12 form-col">
+          <div class="round-input__wrapper" [class.complete]="form.controls.telephone.value">
+            <span class="round-input__title">{{ 'event.participant_phone' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_phone' | translate }}" formControlName="telephone"/>
+            </div>
+            <div class="round-input__error">
+              <div class="round-input__error--text" role="alert"></div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="dialog__actions row" *ngIf="step === 0 && !loader">
-        <div class="col-12 text-right">
-
-          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
-          <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'event.registration_form_send' | translate }}</button>
-          <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
-          <!-- [disabled]="form.invalid" -->
-       
-                <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && save($event)"></re-captcha>
-                
-        </div>
-      </div>
-
-
-    </form>
-
-    <div class="col-12" *ngIf="loader">
-      <mat-spinner></mat-spinner>
-    </div><!--/col-12-->
-    
-    <div class="dialog__success" *ngIf="step === 1">
-
-      <div class="dialog__success__title">
-        <h1 *ngIf="response && response.errors.length == 0">{{ 'event.registration_form_thanks' | translate }}</h1>
-        <ng-container *ngFor="let item of response.errors">
-          <h1 *ngIf="item == 1">{{ 'event.registration_full' | translate }}</h1>
-        </ng-container>
-      </div>
-
-      <div class="dialog__actions--success">
-        <div class="row text-center">
-          <div class="col-12" >
-              <ng-container *ngIf="response && response.errors.length == 0">
-              <a href="{{ iCalUrl }}" target="_blank" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'event.registration_form_add_to_calendar' | translate }}</a>
-            </ng-container>
-
+      <div class="row form-additional-row">
+        <div class="col-12 sm-12 form-col">
+          <div class="round-input__area">
+            <textarea class="round-input__area__elem" autosize placeholder="{{ 'event.participant_comment' | translate }}" formControlName="marked"></textarea>
           </div>
-          <div class="dialog__actions--success__close col-12"><a class="btn-link" href="javascript:void(0)" (click)="close()" tabindex="0">{{ 'event.registration_form_close' | translate }}</a></div>
         </div>
       </div>
     </div>
+
+    <div class="dialog__actions row" *ngIf="step === 0 && !loader">
+      <div class="col-12 text-right">
+
+        <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
+        <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'event.registration_form_send' | translate }}</button>
+        <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
+        <!-- [disabled]="form.invalid" -->
+        
+        <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && save($event)"></re-captcha>
+        
+      </div>
+    </div>
+
+
+  </form>
+
+  <div class="col-12" *ngIf="loader">
+    <mat-spinner></mat-spinner>
+  </div><!--/col-12-->
+  
+  <div class="dialog__success" *ngIf="step === 1">
+
+    <div class="dialog__success__title">
+      <h1 *ngIf="response && response.errors.length == 0">{{ 'event.registration_form_thanks' | translate }}</h1>
+      <ng-container *ngFor="let item of response.errors">
+        <h1 *ngIf="item == 1">{{ 'event.registration_full' | translate }}</h1>
+      </ng-container>
+    </div>
+
+    <div class="dialog__actions--success">
+      <div class="row text-center">
+        <div class="col-12" >
+          <ng-container *ngIf="response && response.errors.length == 0">
+            <a href="{{ iCalUrl }}" target="_blank" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'event.registration_form_add_to_calendar' | translate }}</a>
+          </ng-container>
+
+        </div>
+        <div class="dialog__actions--success__close col-12"><a class="btn-link" href="javascript:void(0)" (click)="close()" tabindex="0">{{ 'event.registration_form_close' | translate }}</a></div>
+      </div>
+    </div>
   </div>
+</div>
 </div>

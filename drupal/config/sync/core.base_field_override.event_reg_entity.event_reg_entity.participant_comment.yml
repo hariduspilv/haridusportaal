@@ -1,0 +1,18 @@
+uuid: ef41da48-8261-4140-89de-5c4833211f6c
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+id: event_reg_entity.event_reg_entity.participant_comment
+field_name: participant_comment
+entity_type: event_reg_entity
+bundle: event_reg_entity
+label: Kommentaar
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

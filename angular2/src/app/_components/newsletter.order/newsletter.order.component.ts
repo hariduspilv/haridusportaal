@@ -52,7 +52,10 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     
   }
   ngOnInit() {
+    this.initialize()
+  }
 
+  initialize() {
     if( this.route.snapshot.queryParams['confirmsubscription'] ){
       this.subscriptionModal(this.route.snapshot.queryParams['confirmsubscription']);
     }
@@ -84,9 +87,12 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
 
       }
     )
-
     this.subscriptions = [...this.subscriptions, paramsSub];
-
+  }
+  resetView() {
+    this.subscribedStatus = false;
+    this.subscribedFailure = '';
+    this.initialize()
   }
 
   submit() {
@@ -144,11 +150,11 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     
     let dialogRef = this.dialog;
 
-    this.translate.get("newsletter.modal.title").subscribe( (responseData) =>{
+    this.translate.get("newsletter.modal_title").subscribe( (responseData) =>{
       let data = {
-        title: this.translate.get("newsletter.modal.title")['value'],
-        content: this.translate.get("newsletter.modal.content")['value'],
-        close: this.translate.get("newsletter.modal.close")['value']
+        title: this.translate.get("newsletter.modal_title")['value'],
+        content: this.translate.get("newsletter.modal_content")['value'],
+        close: this.translate.get("newsletter.modal_close")['value']
       };
   
       dialogRef.open(Modal, {
@@ -172,11 +178,11 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     
     let dialogRef = this.dialog;
 
-    this.translate.get("newsletter.unsubscribe.title").subscribe( (responseData) =>{
+    this.translate.get("newsletter.unsubscribe_title").subscribe( (responseData) =>{
       let data = {
-        title: this.translate.get("newsletter.unsubscribe.title")['value'],
-        content: this.translate.get("newsletter.unsubscribe.content")['value'],
-        close: this.translate.get("newsletter.modal.close")['value']
+        title: this.translate.get("newsletter.unsubscribe_title")['value'],
+        content: this.translate.get("newsletter.unsubscribe_content")['value'],
+        close: this.translate.get("newsletter.modal_close")['value']
       };
   
       dialogRef.open(Modal, {

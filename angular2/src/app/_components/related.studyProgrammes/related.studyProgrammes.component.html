@@ -2,7 +2,7 @@
   
   <div class="block-title">{{ 'studyProgramme.related_label' | translate | uppercase }}</div>
 
-  <form class="block-form" (submit)="filterSubmit()">
+  <form class="block-form" (submit)="filterSubmit($event)">
     <div class="flex wrap">
       <div class="grow full">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
@@ -44,6 +44,10 @@
           <span class="item" *ngIf="item.FieldSchoolWebsite">
             <a href="{{ item.FieldSchoolWebsite }}">{{ item.FieldSchoolWebsite | removeProtocol }}</a>
           </span>
+          <span class="bar" *ngIf="item.FieldDurationYears">|</span>
+          <span class="item" *ngIf="item.FieldDurationYears">{{ item.FieldDurationYears }} aastat <ng-container *ngIf="item.FieldDurationMonths && item.FieldDurationMonths !== '0'">{{ item.FieldDurationMonths }} kuud</ng-container></span>
+          <span class="bar" *ngIf="item.FieldTeachingLanguage">|</span>
+          <span class="item" *ngIf="item.FieldTeachingLanguage">{{item.FieldTeachingLanguage.toString() | titleCase}}</span>
         </div>
       </div>
       <!--/studyProgramme__item-->

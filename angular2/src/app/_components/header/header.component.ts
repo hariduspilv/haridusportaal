@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService, RootScopeService } from '@app/_services';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { RouterModule, Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -13,6 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 
 export class HeaderComponent {
+
+hideElement = false;
 
   languages: any;
 
@@ -70,6 +72,17 @@ export class HeaderComponent {
         this.activeLanguage = params['lang'];
       }
     });
+
+  router.events.subscribe((event) => {
+    if (event instanceof NavigationEnd) {
+      if (event.url === '/et' || event.url === '/en' || event.url === '/ru' ) {
+        this.hideElement = true;
+      }  else {
+        this.hideElement = false;
+      }
+    }
+  });
+
   }
 
   title = 'app';

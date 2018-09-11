@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "985466ac1b56c67d2a41f99aae9ae4d4",
+    "content-hash": "356220c0bcc902346106b0d58bb82f19",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1773,6 +1773,57 @@
             }
         },
         {
+            "name": "drupal/cache_tags",
+            "version": "1.0.0-beta1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/cache_tags",
+                "reference": "8.x-1.0-beta1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/cache_tags-8.x-1.0-beta1.zip",
+                "reference": "8.x-1.0-beta1",
+                "shasum": "9d9f4d086b52468e1d83df383e141befacf7d5ac"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-beta1",
+                    "datestamp": "1475098139",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Mikke Schirén",
+                    "homepage": "https://www.drupal.org/u/misc"
+                }
+            ],
+            "description": "Adds a configurable Cache-Tags header.",
+            "homepage": "http://drupal.org/project/cache_tags",
+            "support": {
+                "source": "http://cgit.drupalcode.org/cache_tags",
+                "issues": "https://www.drupal.org/project/issues/cache_tags"
+            }
+        },
+        {
             "name": "drupal/conditional_fields",
             "version": "1.0.0-alpha4",
             "source": {
@@ -3444,6 +3495,53 @@
             }
         },
         {
+            "name": "drupal/http_cache_control",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/http_cache_control",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/http_cache_control-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "91e160fd1f944f9058d8bf27b092e29b169b88e0"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1536274980",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Waihi",
+                    "homepage": "https://www.drupal.org/user/188162"
+                }
+            ],
+            "description": "Module for implementing s-max-age",
+            "homepage": "https://www.drupal.org/project/http_cache_control",
+            "support": {
+                "source": "http://cgit.drupalcode.org/http_cache_control"
+            }
+        },
+        {
             "name": "drupal/image_style_warmer",
             "version": "1.0.0-alpha4",
             "source": {
@@ -4390,6 +4488,52 @@
             }
         },
         {
+            "name": "drupal/nginx_cache_clear",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/nginx_cache_clear",
+                "reference": "01bd370a6dfa0f64923d10afffd1e6a2c1a69b0d"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.x-dev",
+                    "datestamp": "1530254920",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "binny_zyxware",
+                    "homepage": "https://www.drupal.org/user/3123091"
+                },
+                {
+                    "name": "zyxware",
+                    "homepage": "https://www.drupal.org/user/222163"
+                }
+            ],
+            "description": "D8 Nginx Cache Clear Module",
+            "homepage": "https://www.drupal.org/project/nginx_cache_clear",
+            "support": {
+                "source": "http://cgit.drupalcode.org/nginx_cache_clear"
+            },
+            "time": "2018-06-29T06:50:36+00:00"
+        },
+        {
             "name": "drupal/node_view_permissions",
             "version": "1.2.0",
             "source": {
@@ -4712,6 +4856,59 @@
             }
         },
         {
+            "name": "drupal/purge_cache_warmer",
+            "version": "1.0.0-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/purge_cache_warmer",
+                "reference": "8.x-1.0-alpha2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/purge_cache_warmer-8.x-1.0-alpha2.zip",
+                "reference": "8.x-1.0-alpha2",
+                "shasum": "afc1fc4a38ce04dab849dea3ed3266cfc4211a35"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/purge": "*",
+                "drupal/purge_queuer_url": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha2",
+                    "datestamp": "1484828884",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "abhishek-anand",
+                    "homepage": "https://www.drupal.org/user/468982"
+                },
+                {
+                    "name": "adam.weingarten",
+                    "homepage": "https://www.drupal.org/user/2677413"
+                }
+            ],
+            "description": "Implements a cache warmer which rebuilds a URL after the cache is cleared.",
+            "homepage": "https://www.drupal.org/project/purge_cache_warmer",
+            "support": {
+                "source": "http://cgit.drupalcode.org/purge_cache_warmer"
+            }
+        },
+        {
             "name": "drupal/purge_purger_http",
             "version": "1.0.0-beta4",
             "source": {
@@ -4761,6 +4958,54 @@
             "homepage": "https://www.drupal.org/project/purge_purger_http",
             "support": {
                 "source": "http://cgit.drupalcode.org/purge_purger_http"
+            }
+        },
+        {
+            "name": "drupal/purge_queuer_url",
+            "version": "1.0.0-rc1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/purge_queuer_url",
+                "reference": "8.x-1.0-rc1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/purge_queuer_url-8.x-1.0-rc1.zip",
+                "reference": "8.x-1.0-rc1",
+                "shasum": "743b9adf43118c151e606198e9c1e5c2129c8524"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/purge": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-rc1",
+                    "datestamp": "1504610044",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "nielsvm",
+                    "homepage": "https://www.drupal.org/user/163285"
+                }
+            ],
+            "description": "Queues URLs or paths to your Purge queue utilizing a traffic database.",
+            "homepage": "https://www.drupal.org/project/purge_queuer_url",
+            "support": {
+                "source": "http://cgit.drupalcode.org/purge_queuer_url"
             }
         },
         {
@@ -11881,6 +12126,7 @@
         "drupal/kafka": 20,
         "drupal/material_admin": 15,
         "drupal/maxlength": 10,
+        "drupal/nginx_cache_clear": 20,
         "drupal/queue_ui": 20,
         "drupal/varnish": 20
     },
