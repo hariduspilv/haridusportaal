@@ -31,8 +31,10 @@ class AuthenticationController extends ControllerBase {
         );
 
         $params['body'] = json_encode(array(
-          'username' => $account->getAccountName(),
-          'password' => $account->getPassword()
+          #'username' => $account->getAccountName(),
+          #'password' => $account->getPassword()
+          'username' => 'testkasutaja',
+          'password' => 'parool'
         ));
 
         $client = \Drupal::httpClient();
