@@ -22,27 +22,12 @@ class AuthenticationController extends ControllerBase {
         $message = t('Missing user info in response.');
         throw new HttpException(500, $message);
       }
+
       if(isset($account)){
-        $request_url = $_SERVER['HTTP_HOST'];
-        $request_url .= '/api/v1/token?_format=json';
-
-        $params['headers'] = array(
-          'Content-Type' => 'application/json'
-        );
-
-        $params['body'] = json_encode(array(
-          #'username' => $account->getAccountName(),
-          #'password' => $account->getPassword()
-          'username' => 'testkasutaja',
-          'password' => 'parool'
-        ));
-
-        $client = \Drupal::httpClient();
-        $response = $client->post($request_url, $params);
-        $response_body = $response->getBody();
-        $response_data = json_decode($response_body->getContents());
-        kint($response_data->message);
-        die();
+        $this->getJwt();
+      }else{
+        $message = t('Unable to authenticate user.');
+        throw new HttpException(500, $message);
       }
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -56,6 +41,38 @@ class AuthenticationController extends ControllerBase {
 
   }
 
+  public function getJwt(){
+    $request_url = $_SERVER['HTTP_HOST'];
+    $request_url .= '/api/v1/token?_format=json';
+
+    $params['headers'] = array(
+      'Content-Type' => 'application/json'
+    );
+
+    kint($account->getAccountName());
+    kint($account->getPassword());
+    die();
+
+    $params['body'] = json_encode(array(
+      'username' => $account->getAccountName(),
+      'password' => $account->getPassword()
+    ));
+
+    $client = \Drupal::httpClient();
+    try{
+      $response = $client->post($request_url, $params);
+    }catch(HttpException $e){
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
+    }
+    $response = $client->post($request_url, $params);
+    $response_body = $response->getBody();
+    $response_data = json_decode($response_body->getContents());
+    if($response_data->message === 'Login succeeded'){
+      $token = $response_data->token;
+    }
+  }
+
   public function getHarIdAuthentication(){
     $oidc = new OpenIDConnectClient('https://test.harid.ee', '0855cd5d8e5418a5e8c3dd3187dd0a6f', 'f75da21ad0d015fb71dba9895204429e57c7c9fa375779c00ae055cefcf9feac');
     #$oidc->providerConfigParam(array('token_endpoint' => 'https://test.harid.ee/et/access_tokens'));
@@ -63,7 +80,8 @@ class AuthenticationController extends ControllerBase {
     try{
       $oidc->authenticate();
     }catch(OpenIDConnectClientException $e){
-      return NULL;
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
     }
     $userInfo = $oidc->requestUserInfo('personal_code');
     return $userInfo;
