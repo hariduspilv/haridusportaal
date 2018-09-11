@@ -52,7 +52,10 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     
   }
   ngOnInit() {
+    this.initialize()
+  }
 
+  initialize() {
     if( this.route.snapshot.queryParams['confirmsubscription'] ){
       this.subscriptionModal(this.route.snapshot.queryParams['confirmsubscription']);
     }
@@ -84,9 +87,12 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
 
       }
     )
-
     this.subscriptions = [...this.subscriptions, paramsSub];
-
+  }
+  resetView() {
+    this.subscribedStatus = false;
+    this.subscribedFailure = '';
+    this.initialize()
   }
 
   submit() {
