@@ -18,7 +18,7 @@ class AuthenticationController extends ControllerBase {
       $oidc->authenticate();
       $userInfo = $oidc->requestUserInfo('personal_code');
       if($userInfo != NULL){
-        $account = $this->getAccount();
+        $account = $this->getAccount($userInfo);
         kint($account);
       }
     die();
@@ -33,7 +33,7 @@ class AuthenticationController extends ControllerBase {
 
   }
 
-  protected function getAccount(){
+  protected function getAccount($userInfo){
     list($country,$type,$id_code) = explode(':', $userInfo);
     $users = \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['field_user_idcode' => $id_code]);
     if(empty($users)){
