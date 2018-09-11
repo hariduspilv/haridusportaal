@@ -15,20 +15,9 @@ class AuthenticationController extends ControllerBase {
   public function startAuthentication() {
 
       $userInfo = $this->getHarIdAuthentication();
-
-      if($userInfo != NULL){
-        $account = $this->getAccount($userInfo);
-      }else{
-        $message = t('Missing user info in response.');
-        throw new HttpException(500, $message);
-      }
-
-      if(isset($account)){
-        $this->getJwt($account);
-      }else{
-        $message = t('Unable to authenticate user.');
-        throw new HttpException(500, $message);
-      }
+      $account = $this->getAccount($userInfo);
+      $jwt = $this->getJwt($account);
+      
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     #kint($actual_link);
@@ -49,13 +38,9 @@ class AuthenticationController extends ControllerBase {
       'Content-Type' => 'application/json'
     );
 
-    kint($account->getAccountName());
-    kint($account->getPassword());
-    die();
-
     $params['body'] = json_encode(array(
-      'username' => $account->getAccountName(),
-      'password' => $account->getPassword()
+      'first_name' => $account->getAccountName(),
+      'last_name' => $account->getPassword()
     ));
 
     $client = \Drupal::httpClient();
@@ -70,6 +55,10 @@ class AuthenticationController extends ControllerBase {
     $response_data = json_decode($response_body->getContents());
     if($response_data->message === 'Login succeeded'){
       $token = $response_data->token;
+      return $token;
+    }else{
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
     }
   }
 
@@ -102,7 +91,12 @@ class AuthenticationController extends ControllerBase {
     }else{
       $account = reset($users);
     }
-    return $account;
+    if(isset($account)){
+      return $account;
+    }else{
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
+    }
   }
 
 }

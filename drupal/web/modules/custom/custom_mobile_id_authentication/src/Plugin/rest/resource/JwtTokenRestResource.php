@@ -112,28 +112,25 @@ class JwtTokenRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-		if(!$data['username'] || !$data['password']){
-			return new ModifiedResourceResponse('Username or password missing', 403);
-		}
-		
-		if($this->currentUser->isAnonymous()){
-			return new ModifiedResourceResponse('Authentication failed', 403);
-		}
-		
-		if($data['username'] && $data['password']){
+    if($data['username'] && $data['password']){
 			$response['message'] = $this->t('Login succeeded');
 			$response['token'] = $this->generateToken();
 			return new ModifiedResourceResponse($response, 200);
 		}
-
-		if(isset($data['id_code'])){
+    else if($data['id_code']){
 			$response['message'] = $this->t('Login succeeded');
-			$response['token'] = $this->generateMobileIdToken($data);
+			$response['token'] = $this->generateIdCodeToken($data);
 			return new ModifiedResourceResponse($response, 200);
+		}
+    else if(!$data['username'] || !$data['password']){
+			return new ModifiedResourceResponse('Username or password missing', 403);
+		}
+    else if($this->currentUser->isAnonymous()){
+			return new ModifiedResourceResponse('Authentication failed', 403);
 		}
   }
 
-  protected function generateMobileIdToken($data){
+  protected function generateIdCodeToken($data){
 		$event = new JwtAuthGenerateEvent(new JsonWebToken());
     $event->addClaim('first_name', $data['first_name']);
 		$event->addClaim('last_name', $data['last_name']);
