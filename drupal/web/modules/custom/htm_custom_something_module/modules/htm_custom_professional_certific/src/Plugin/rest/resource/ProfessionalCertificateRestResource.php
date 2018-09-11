@@ -96,9 +96,9 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		if (!$this->currentUser->hasPermission('access content')) {
 			throw new AccessDeniedHttpException();
 		}
-
+		#$this->certificate->test();
 		try{
-			$json = $this->certificate->getProfessionalCertificate(['key' => 'KUTSEREGISTER', 'field' => 'kutsetunnistused_']);
+			$json = $this->certificate->getProfessionalCertificate();
 			return new ModifiedResourceResponse($json);
 		}catch (RequestException $e){
 			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());

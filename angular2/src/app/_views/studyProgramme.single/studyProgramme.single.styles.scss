@@ -9,7 +9,7 @@ article {
 table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   thead {background: $light-gray;
     .sortable {&:hover { color: $dark-gray;}}
-    .mat-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
+    .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
   }
   th {white-space: nowrap; font-weight: normal;}
   th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;

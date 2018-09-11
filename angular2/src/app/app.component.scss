@@ -19,7 +19,7 @@ html, body { -ms-overflow-style: none; }
 
 /* Force Rubik font over material default */
 body [class^='mat-'], body [class*=' mat-'] {font-family: 'Rubik', sans-serif; } 
-body .material-icons {font-family: 'Material Icons';font-size: $medium;}
+body .htm-icon {font-family: 'htm-icon';font-size: $medium;}
 
 h1{font-size:2rem; line-height:120%;}
 strong, b { font-weight: 500; }
@@ -120,7 +120,7 @@ $grid-columns: 12;
 
 .grow {flex-grow: 1;}
 .wrap {@include break-on(sm, max) {flex-wrap: wrap;}
-  &.xxs {flex-wrap: nowrap;@include break-on(xxs, max) {flex-wrap: wrap;}}
+&.xxs {flex-wrap: nowrap;@include break-on(xxs, max) {flex-wrap: wrap;}}
 }
 .btn {@include break-on(xxs, max) {padding-top: $medium;}}
 .full {flex-basis: 100%; 
@@ -138,9 +138,9 @@ $grid-columns: 12;
   font-size: 1rem; }
   .button-row {@include break-on(sm, max) {padding-top: $gutter; width: 100%;}}
   .filter-state { margin: 0 auto; position: relative; right: 8px; text-align: center;
-  a:hover {
-    text-decoration: none;
-   }
+    a:hover {
+      text-decoration: none;
+    }
   }
   .filter-control {padding: $medium;}
   .filter-wrapper {background: $white; padding: 0 $medium; margin-bottom: $xxl;
@@ -157,7 +157,7 @@ $grid-columns: 12;
   .link-list{list-style:none; padding:0; margin:$small 0;
     a[href]{color:rgba(0,0,0,.87); text-decoration: none; line-height:$medium; color:$blue;
       &:hover {text-decoration: none;}
-      .mat-icon{vertical-align: top; margin-right:$gutter; color:$blue;}
+      .htm-icon{vertical-align: top; margin-right:$gutter; color:$blue;}
     }
     li{margin-bottom:0.625rem;
       &:last-child{margin-bottom:0;}
@@ -196,7 +196,7 @@ $grid-columns: 12;
   .p-0{padding:0 !important;}
   .button-height{margin:.375rem 0;}
   .event-details{
-    .mat-icon{vertical-align: middle;}
+    .htm-icon{vertical-align: middle;}
   }
   .dateBlock{width:9.375rem; text-decoration: none;
     .dateBlock-inner{background:#E0E0E0; border-radius:$half-gutter; font-size: 0.8125rem; display: block; text-decoration: none;
@@ -209,7 +209,7 @@ $grid-columns: 12;
       &+*{margin-left:.625rem;}
     }
     .view-item:hover { color: $black; 
-mat-icon { color: $black; }
+      .htm-icon { color: $black; }
     }
   }
   .normal-text{color:rgba(0,0,0,.87); text-decoration:none;}
@@ -232,7 +232,7 @@ mat-icon { color: $black; }
   .scrollableTable {width: 100%;border-collapse: collapse;margin-top: 0;
     thead {background: $light-gray;
       .sortable {&:hover { color: $dark-gray;}}
-      .mat-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
+      .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
     }
     th {white-space: nowrap;}
     th, td {line-height: 1.38rem;font-size: 1rem;font-weight: 500;padding: $gutter $medium;text-align:left;border: .0625rem solid $gray;}
@@ -252,7 +252,7 @@ mat-icon { color: $black; }
     &__table {overflow:auto;}
     &__rectangle {width: 4rem;height: 4rem;border-radius: 50%;background-color: $blue;position: absolute;right: $medium;top: 50%;z-index: 5;user-select: none;
       box-shadow: 0 .125rem .125rem 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
-      .mat-icon {position: relative;top: $quarter;left: $quarter;font-size: 2.5rem;color: $white;}
+      .htm-icon {position: relative;top: $quarter;left: $quarter;font-size: 2.5rem;color: $white;}
       &--left {left: $medium;
         @include break-on(sm, min) {left: $xxl;}
       }
@@ -279,8 +279,8 @@ mat-icon { color: $black; }
   }
   /* Material design overrides and styles */
   .disabled {
-  pointer-events: none!important;
-}
+    pointer-events: none!important;
+  }
   button{cursor:pointer;}
   .mat-checkbox .mat-checkbox-checkmark {left: 0px !important;}
   .mat-dialog-container {padding: 0 !important;border-radius:$half-gutter !important;}
@@ -288,10 +288,11 @@ mat-icon { color: $black; }
   .mat-menu-item-active{font-weight: bold !important;}
   .mat-menu-item-active-parent{font-weight: bold !important;}
   .mat-menu-item img{height:$medium; vertical-align: middle; margin-right:.375rem; margin-top:-$half-gutter;}
-  .mat-icon {height: 1.5rem !important; width: $medium !important;}
+  .htm-icon {height: 1.5rem !important; width: $medium !important;}
   .mat-sidenav{top:4rem !important;-ms-overflow-style: none;width:16.25rem;}
   .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
   .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
+    .mat-sidenav .mat-menu-item span.htm-icon{ font-size: 1.5rem!important; }
   .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
     &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
     &:hover {background-color: #454B92;}
@@ -313,10 +314,10 @@ mat-icon { color: $black; }
     @include break-on(sm, min) {padding-top:1rem;}
   }
   .mat-sidenav li.has-children > .mat-menu-item{position: relative; padding-right:2.5rem;}
-  .mat-sidenav li.has-children .mat-icon{position: absolute; top:50%; right:1.125rem; margin-top:-$quarter; margin-right:0;} 
+  .mat-sidenav li.has-children .htm-icon{position: absolute; top:50%; right:1.125rem; margin-top: -0.55rem; margin-right:0;} 
   .mat-sidenav li ul{display: none;}
   .mat-sidenav li.menu-open > ul{display: block;}
-  .mat-sidenav li.menu-open > a .mat-icon{transform:rotate(90deg);}
+  .mat-sidenav li.menu-open > a .htm-icon{transform:rotate(90deg);}
   .mat-form-label{padding-top:1.25rem; text-align: center;}
   .mat-spinner{margin:3.125rem auto;}
   .mat-chip[ng-reflect-router-link]{cursor: pointer !important;}
@@ -391,7 +392,7 @@ mat-icon { color: $black; }
 }
 &.add {
   .mat-simple-snackbar:before {
-   font-family: 'Material Icons';
+   font-family: 'htm-icon';
    content: "check_circle_outline";font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $success; position: absolute;
    left: 0px; top: 0px; bottom: 0px; font-size: 1.875rem; display: flex; align-items: center; padding: 0 0.9375rem; };
  }
@@ -416,7 +417,7 @@ mat-icon { color: $black; }
 }
 
 
-  .sidebar__item a { text-decoration: none; }
+.sidebar__item a { text-decoration: none; }
 
 
 

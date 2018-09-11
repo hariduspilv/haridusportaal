@@ -40,6 +40,9 @@
     "dashboard_tabs_certificates_duplicate":"Duplicate",
     "dashboard_tabs_certificates_notvalid":"Invalid"
   },
+  "xjson":{
+    "edit_step_confirm_modal_content": "Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?"
+  },
   "article": {
     "contact": "Contact",
     "hyperlinks": "",
@@ -261,14 +264,15 @@
     "add_to_favourites_title": "Title",
     "back": "Back",
     "back_to_dashboard":"Back to dashboard",
-    "xjson_save": "Save",
-    "xjson_submit": "Submit",
-    "xjson_edit": "Edit",
-    "xjson_continue": "Continue",
-    "xjson_previous": "Previous",
-    "xjson_next": "Next",
-    "rss_order": "Subscribe by RSS",
-    "try_again": "Try again"
+    "save": "Save",
+    "submit": "Submit",
+    "edit": "Edit",
+    "continue": "Continue",
+    "previous": "Previous",
+    "next": "Next",
+    "yes": "Yes",
+    "cancel": "Cancel"
+    
   },
       "tooltip": {
     "share": "Share page",
