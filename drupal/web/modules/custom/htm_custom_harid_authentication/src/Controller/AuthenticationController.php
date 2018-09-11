@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_harid_authentication\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Jumbojett\OpenIDConnectClient;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class AuthenticationController.
@@ -19,7 +20,9 @@ class AuthenticationController extends ControllerBase {
       $userInfo = $oidc->requestUserInfo('personal_code');
       if($userInfo != NULL){
         $account = $this->getAccount($userInfo);
-        kint($account);
+      }else{
+        $message = t('Missing user info in response.');
+        throw new HttpException(500, $message);
       }
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
