@@ -2,9 +2,9 @@
   <div class="inline">
 
     <div class="menu-burger pointer">
-      <span tabindex="0"  role="navigation" >
-      <mat-icon (click)="toggleSideNav()" class="sm-show">menu</mat-icon>
-</span>
+      <span tabindex="0"  role="navigation">
+        <mat-icon (click)="toggleSideNav()" class="sm-show">menu</mat-icon>
+      </span>
     </div><!--/menu-burger-->
     
     <a role="link" attr.aria-label="{{'This icon is clickable, which leads to Home page'}}" [routerLink]="[logoLink]" class="header-logo" tabindex="0">
@@ -13,10 +13,10 @@
     </a>
     <!-- This fills the remaining space of the current row -->
     <!-- <div class="head-container"> -->
-    <span class="fill-space sm-hide">
+    <div class="fill-space sm-hide">
       <div class="fill-space__flex">
         <div class="searchbar">
-          <span class="search">
+          <span class="search" [hidden]="hideElement">
             <input role="search" class="search-input round-input" tabindex="0" placeholder="{{'button.search_from_page' | translate}}" attr.aria-label="{{'You are on search field'}}" />
             <a href="javascript:void(0)" class="search-icn" attr.aria-label="{{'Search button, clickable'}}"></a>
           </span>
@@ -27,26 +27,26 @@
 
           <div *ngIf="languages" class="languages pull-right">
             <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
-              <button role="button" mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu open'}} {{ item.argument }} " tabindex="0">{{ item.argument | uppercase }}</button>
+              <button [class.mat-menu-item-active]="item.argument === activeLanguage" role="button" mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu open'}} {{ item.argument }} " tabindex="0">{{ item.argument === 'et' ? 'EST' : 'ENG' }}</button>
             </mat-menu>
-            <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">more_vert</mat-icon></button>
+            <a href="javascript:void(0)" [matMenuTriggerFor]="appMenu" >{{activeLanguage === 'et' ? 'EST' : 'ENG'}}</a>
           </div>
 
   
 
         </div>
       </div>
-    </span>
+    </div>
     <span class="mob-space sm-show"></span>
     <mat-icon class="search sm-show">search</mat-icon>
 
     <app-login class="sm-show"></app-login>
 
-    <div *ngIf="languages" class="sm-show pull-right">
+    <div *ngIf="languages" class="languages sm-show pull-right">
       <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before" attr.aria-label="{{'Search button, clickable'}}" role="button">
-        <button mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu'}} {{ item.argument }} ">{{ item.argument | uppercase }}</button>
+        <button mat-menu-item [class.mat-menu-item-active]="item.argument === activeLanguage" *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'language menu'}} {{ item.argument }} ">{{ item.argument === 'et' ? 'EST' : 'ENG' }}</button>
       </mat-menu>
-      <button mat-button [matMenuTriggerFor]="appMenu" ><mat-icon class="more">more_vert</mat-icon></button>
+      <a href="javascript:void(0)" [matMenuTriggerFor]="appMenu" >{{activeLanguage === 'et' ? 'EST' : 'ENG'}}</a>
     </div>
   </div><!--/inline-->
 </mat-toolbar>

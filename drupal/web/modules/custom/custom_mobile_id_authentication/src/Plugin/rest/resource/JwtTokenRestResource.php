@@ -102,8 +102,8 @@ class JwtTokenRestResource extends ResourceBase {
   /**
    * Responds to POST requests.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
+   * @param $data
+   *   POST data
    *
    * @return \Drupal\rest\ModifiedResourceResponse
    *   The HTTP response object.
@@ -112,18 +112,25 @@ class JwtTokenRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-  	if($this->currentUser->isAnonymous()){
-  		$response['message'] = $this->t('Login failed');
-		}else{
-  		$response['message'] = $this->t('Login succeeded');
-      if(isset($data['id_code'])){
-        $response['token'] = $this->generateMobileIdToken($data);
-      }else{
-        $response['token'] = $this->generateToken();
-      }
+		if(!$data['username'] || !$data['password']){
+			return new ModifiedResourceResponse('Username or password missing', 403);
+		}
+		
+		if($this->currentUser->isAnonymous()){
+			return new ModifiedResourceResponse('Authentication failed', 403);
+		}
+		
+		if($data['username'] && $data['password']){
+			$response['message'] = $this->t('Login succeeded');
+			$response['token'] = $this->generateToken();
+			return new ModifiedResourceResponse($response, 200);
 		}
 
-    return new ModifiedResourceResponse($response, 200);
+		if(isset($data['id_code'])){
+			$response['message'] = $this->t('Login succeeded');
+			$response['token'] = $this->generateMobileIdToken($data);
+			return new ModifiedResourceResponse($response, 200);
+		}
   }
 
   protected function generateMobileIdToken($data){

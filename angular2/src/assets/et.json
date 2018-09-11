@@ -58,9 +58,9 @@
     "title": "Uudiskiri - telli endale huvitavad lood",
     "intro": "Sissejuhatus",
     "confirm_subscription": "Kinnita tellimus",
-    "email": "Email",
+    "email": "Sisesta oma e-posti aadress",
     "valid_email": "Sisesta korrektne email",
-    
+    "order_to_email": "Telli teemad e-postile",
     "modal_title": "UUDISKIRJA TELLIMINE",
     "modal_content": "<p>Tänud haridusteemade vastu huvi tundmast!</p><p>Olete edukalt liitunud uudiskirjaga.</p>",
     "modal_close": "Sulge aken",
@@ -112,7 +112,7 @@
     "registration_form_close": "Sulge aken",
     "registration_form_cancel": "Tühista",
     "registration_form_thanks": "Täname sündmusele registreerimise eest!",
-    "registration_form_add_to_calendar": "Lisa sündmus enda kalendrisse",
+    "registration_form_add_to_calendar": "Saada sündmus enda kalendrisse (iCal)",
     "registration_ended": "Sündmusele registreerimine on lõppenud",
     "registration_not_started": "Sündmusele registreerimine pole veel alanud",
     "registration_full": "Sündmuse kohad on täis"
@@ -260,7 +260,19 @@
     "add_to_favourites_remove_success": "Lemmik edukalt eemaldatud",
     "add_to_favourites_title": "Pealkiri",
     "back": "Tagasi",
-    "back_to_dashboard":"Tagasi töölauale"
+    "back_to_dashboard":"Tagasi töölauale",
+    "xjson_save": "Salvesta",
+    "xjson_submit": "Esita",
+    "xjson_edit": "Muuda",
+    "xjson_continue": "Jätka",
+    "xjson_previous": "Eelmine",
+    "xjson_next": "Järgmine",
+    "rss_order": "Telli teemad RSS-iga",
+    "try_again": "Proovi uuesti"
+  },
+    "tooltip": {
+    "share": "Jaga lehte",
+    "favourites": "Lisa lemmikuks"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"

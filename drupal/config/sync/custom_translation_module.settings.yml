@@ -80,6 +80,28 @@ frontpage:
   dashboard_tabs_certificates_error_technical: 'Vabandame. Kutsetunnistuste andmete Kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.'
   dashboard_tabs_certificates_professional: Kutsetunnistused
   dashboard_tabs_certificates_examinations: Riigieksamid
+  favourites_snackbar_message_remove: ''
+  dashboard_tabs_certificates_no_results: ''
+  dashboard_tabs_certificates_number: 'Tunnistuse number'
+  dashboard_tabs_certificates_name: 'Tunnistuse nimi'
+  dashboard_tabs_certificates_type: Tüüp
+  dashboard_tabs_certificates_standard: Kutsestandard
+  dashboard_tabs_certificates_ekr: 'EKR tase'
+  dashboard_tabs_certificates_eqf: 'EQF tase'
+  dashboard_tabs_certificates_specialization: Spetsialiseerumine
+  dashboard_tabs_certificates_part: Osakutse
+  dashboard_tabs_certificates_competence: Kompetents
+  dashboard_tabs_certificates_field: Valdkond
+  dashboard_tabs_certificates_field_topic: Kutseala
+  dashboard_tabs_certificates_qualification: 'Hariduslik kvalifikatsioon'
+  dashboard_tabs_certificates_language: 'Kutseeksami keel'
+  dashboard_tabs_certificates_issuer: Väljastaja
+  dashboard_tabs_certificates_issued_at: 'Välja antud'
+  dashboard_tabs_certificates_valid_from: 'Kehtib alates'
+  dashboard_tabs_certificates_valid_to: 'Kehtib kuni'
+  dashboard_tabs_certificates_isco: 'Ametite (ISCO) klassifikaator'
+  dashboard_tabs_certificates_duplicate: Dublikaat
+  dashboard_tabs_certificates_notvalid: Kehtetu
 article:
   contact: Kontakt
   hyperlinks: Lingid
@@ -132,7 +154,7 @@ event:
   registration_form_close: 'Sulge aken'
   registration_form_cancel: Tühista
   registration_form_thanks: 'Täname sündmusele registreerimise eest!'
-  registration_form_add_to_calendar: 'Lisa sündmus enda kalendrisse'
+  registration_form_add_to_calendar: 'Saada sündmus enda kalendrisse (iCal)'
   registration_ended: 'Sündmusele registreerimine on lõppenud'
   registration_not_started: 'Sündmusele registreerimine pole veel alanud'
   registration_full: 'Sündmuse registreerimise kohad on täis'
@@ -209,12 +231,13 @@ button:
   see_comparison: 'Vaata võrdlust'
   search_from_page: 'Otsi lehelt'
   back: Tagasi
-  add_to_favourites_label: ''
-  add_to_favourites_add: ''
-  add_to_favourites_add_success: ''
-  add_to_favourites_remove: ''
-  add_to_favourites_remove_success: ''
-  add_to_favourites_title: ''
+  add_to_favourites_label: 'Lemikutesse lisamine'
+  add_to_favourites_add: 'Lisa lemikutesse'
+  add_to_favourites_add_success: 'Lemmik edukalt lisatud'
+  add_to_favourites_remove: 'Eemalda lemmikutest'
+  add_to_favourites_remove_success: 'Lekkim edukalt eemaldatud'
+  add_to_favourites_title: Pealkiri
+  back_to_dashboard: 'Tagasi töölauale'
 newsletter:
   title: 'Uudiskiri - test test tekst tekst kui pikk see siis saab olla ma'
   intro: 'Mingi äge sissejuhatuse tekst, mida saab muuta ja värki!'

@@ -1,6 +1,6 @@
 @import "../../../assets/styles/typography.scss"; 
 
-.mat-expansion-panel {box-shadow: none !important;border: .0625rem solid $gray; border-radius: .125rem;margin-bottom: $half-gutter;
+.mat-expansion-panel {box-shadow: none !important;border: .0625rem solid $light-orange; border-radius: .125rem;margin-bottom: $half-gutter;
   mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
   }
@@ -9,8 +9,9 @@
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
   }
+  &-body { padding: 0 1rem 1rem }
   &-spacing {margin: 0 0 $half-gutter 0;}
-  &-header {height: 2.5rem !important;padding-right:$small;
+  &-header {height: 2.5rem !important;padding-right:$small; padding-left:$small;
     &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: $gutter;}}
 }
 mat-panel-title {font-size: $small;}
@@ -25,7 +26,7 @@ mat-panel-title {font-size: $small;}
   position: relative;text-align: center;width: $medium;color: $red;
   height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
 }
-::ng-deep .mat-expansion-indicator {font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: .0625rem solid $gray;
+::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;
 }
 ::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; 
 }
@@ -34,3 +35,17 @@ mat-panel-title {font-size: $small;}
   font-family: 'Material Icons';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
 ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}
+
+.mat-expansion-panel {
+ background: $light-orange;
+}
+
+.mat-expansion-panel.mat-expanded { 
+  background: transparent;
+}
+
+.dashboard-table td {
+ color: $black;
+}
+
+

@@ -1,0 +1,12 @@
+administer openid connect clients:
+  title: 'Administer OpenID Connect clients'
+  restrict access: TRUE
+
+manage own openid connect accounts:
+  title: 'Manage own connected accounts'
+  restrict access: TRUE
+
+openid connect set own password:
+  title: 'Set a password for local authentication'
+  description: 'If the account is connected with an external provider, the user needs this permission in order to set their own password.'
+  restrict access: TRUE

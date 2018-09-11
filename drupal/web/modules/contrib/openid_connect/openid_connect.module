@@ -1,0 +1,642 @@
+<?php
+
+/**
+ * @file
+ * A pluggable client implementation for the OpenID Connect protocol.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function openid_connect_entity_property_info_alter(&$info) {
+  $properties = &$info['user']['properties'];
+  if (!isset($properties['timezone'])) {
+
+    // Adds the missing timezone property.
+    $properties['timezone'] = [
+      'label' => t('Time zone'),
+      'description' => t("The user's time zone."),
+      'options list' => 'system_time_zones',
+      'getter callback' => 'entity_property_verbatim_get',
+      'setter callback' => 'entity_property_verbatim_set',
+      'schema field' => 'timezone',
+    ];
+
+  }
+}
+
+/**
+ * Implements hook_user_insert().
+ */
+function openid_connect_user_insert(EntityInterface $entity) {
+  if (isset($entity->openid_connect_client) && isset($entity->openid_connect_sub)) {
+    openid_connect_connect_account($entity, $entity->openid_connect_client, $entity->openid_connect_sub);
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function openid_connect_user_cancel($edit, $account, $method) {
+  $authmap = \Drupal::service('openid_connect.authmap');
+  $authmap->deleteAssociation($account->id());
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ */
+function openid_connect_user_delete(EntityInterface $entity) {
+  $authmap = \Drupal::service('openid_connect.authmap');
+  $authmap->deleteAssociation($entity->id());
+}
+
+/**
+ * Implements hook_user_format_name_alter().
+ */
+function openid_connect_user_format_name_alter(&$name, $account) {
+  // Ensure that usernames are not displayed if they are email addresses, or if
+  // they are generated names starting with 'oidc_'.
+  $oidc_name = \Drupal::service('user.data')->get('openid_connect', $account->id(), 'oidc_name');
+  if (!empty($oidc_name) && (strpos($name, 'oidc_') === 0 || strpos($name, '@'))) {
+    $name = $oidc_name;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function openid_connect_form_user_form_alter(&$form, &$form_state) {
+  if (isset($form['account'])) {
+    $account_form = &$form['account'];
+  }
+  else {
+    $account_form = &$form;
+  }
+
+  $account = \Drupal::currentUser();
+  $access = openid_connect_set_password_access($account);
+  if (!$access) {
+    $account_form['current_pass']['#access'] = FALSE;
+    $account_form['current_pass_required_values']['#value'] = [];
+    $account_form['pass']['#access'] = FALSE;
+    $account_form['pass']['#required'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function openid_connect_form_user_profile_form_alter(&$form, &$form_state) {
+  if (isset($form['account'])) {
+    $account_form = &$form['account'];
+  }
+  else {
+    $account_form = &$form;
+  }
+
+  $account = \Drupal::currentUser();
+  if (!empty($account_form['pass']['#access']) && !openid_connect_set_password_access($account)) {
+    $account_form['current_pass']['#access'] = FALSE;
+    $account_form['current_pass_required_values']['#value'] = [];
+    $account_form['pass']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Saves user profile information into a user account.
+ *
+ * @param \Drupal\user\UserInterface $account
+ *   An user account object.
+ * @param array $userinfo
+ *   An array with information about the user.
+ */
+function openid_connect_save_userinfo(UserInterface $account, array $userinfo) {
+  $properties = \Drupal::entityManager()->getFieldDefinitions('user', 'user');
+  $properties_skip = _openid_connect_user_properties_to_skip();
+  foreach ($properties as $property_name => $property) {
+    if (isset($properties_skip[$property_name])) {
+      continue;
+    }
+
+    $userinfo_mappings = \Drupal::config('openid_connect.settings')
+      ->get('userinfo_mappings');
+    if (isset($userinfo_mappings[$property_name])) {
+      $claim = $userinfo_mappings[$property_name];
+      if ($claim && isset($userinfo[$claim])) {
+
+        $property_type = $property->getType();
+        // Set the user property, while ignoring exceptions from invalid values.
+        try {
+          switch ($property_type) {
+            case 'string':
+            case 'string_long':
+            case 'datetime':
+              $account->set($property_name, $userinfo[$claim]);
+              break;
+
+            case 'image':
+              // Create file object from remote URL.
+              $basename = explode('?', drupal_basename($userinfo[$claim]))[0];
+              $data = file_get_contents($userinfo[$claim]);
+              $file = file_save_data(
+                $data,
+                'public://user-picture-' . $account->id() . '-' . $basename,
+                FILE_EXISTS_RENAME
+              );
+
+              // Cleanup the old file.
+              if ($file) {
+                $old_file = $account->$property_name->entity;
+                if ($old_file) {
+                  $old_file->delete();
+                }
+              }
+
+              $account->set(
+                $property_name,
+                [
+                  'target_id' => $file->id(),
+                ]
+              );
+              break;
+
+            default:
+              \Drupal::logger('openid_connect')->error(
+                'Could not save user info, property type not implemented: %property_type',
+                [
+                  '%property_type' => $property_type,
+                ]
+              );
+              break;
+
+          }
+        }
+        // Catch the error if the field does not exist.
+        catch (\InvalidArgumentException $e) {
+          \Drupal::logger('openid_connect')->error($e->getMessage());
+        }
+      }
+    }
+  }
+
+  // Save the display name additionally in the user account 'data', for use in
+  // openid_connect_username_alter().
+  if (isset($userinfo['name'])) {
+    \Drupal::service('user.data')->set('openid_connect', $account->id(), 'oidc_name', $userinfo['name']);
+  }
+
+  $account->save();
+}
+
+/**
+ * Logs in a user.
+ *
+ * @param \Drupal\user\UserInterface $account
+ *   The user account.
+ */
+function openid_connect_login_user(UserInterface $account) {
+  user_login_finalize($account);
+}
+
+/**
+ * Save the current path in the session, for redirecting after authorization.
+ */
+function openid_connect_save_destination() {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $path = $current_path == '/user/login' ? '/user' : $current_path;
+
+  // The destination could contain query parameters. Ensure that they are
+  // preserved.
+  $query = \Drupal::request()->getQueryString();
+
+  $_SESSION['openid_connect_destination'] = [
+    $path,
+    ['query' => $query],
+  ];
+}
+
+/**
+ * Creates a user indicating sub-id and login provider.
+ *
+ * @param string $sub
+ *   The subject identifier.
+ * @param array $userinfo
+ *   The user claims, containing at least 'email'.
+ * @param string $client_name
+ *   The machine name of the client.
+ * @param int $status
+ *   The initial user status.
+ *
+ * @return object|false
+ *   The user object or FALSE on failure.
+ */
+function openid_connect_create_user($sub, array $userinfo, $client_name, $status = 1) {
+  /** @var \Drupal\user\Entity\User $account */
+  $account = User::create([
+    'name' => openid_connect_generate_username($sub, $userinfo, $client_name),
+    'pass' => user_password(),
+    'mail' => $userinfo['email'],
+    'init' => $userinfo['email'],
+    'status' => $status,
+    'openid_connect_client' => $client_name,
+    'openid_connect_sub' => $sub,
+  ]);
+  $account->save();
+  return $account;
+}
+
+/**
+ * Generate a username for a new account.
+ *
+ * @param string $sub
+ *   The subject identifier.
+ * @param array $userinfo
+ *   The user claims.
+ * @param string $client_name
+ *   The client identifier.
+ *
+ * @return string
+ *   A unique username.
+ */
+function openid_connect_generate_username($sub, array $userinfo, $client_name) {
+  $name = 'oidc_' . $client_name . '_' . $sub;
+  $candidates = ['preferred_username', 'name'];
+  foreach ($candidates as $candidate) {
+    if (!empty($userinfo[$candidate])) {
+      $name = trim($userinfo[$candidate]);
+      break;
+    }
+  }
+
+  // Ensure there are no duplicates.
+  for ($original = $name, $i = 1; openid_connect_username_exists($name); $i++) {
+    $name = $original . '_' . $i;
+  }
+
+  return $name;
+}
+
+/**
+ * Check if a user name already exists.
+ *
+ * @param string $name
+ *   A name to test.
+ *
+ * @return bool
+ *   TRUE if a user exists with the given name, FALSE otherwise.
+ */
+function openid_connect_username_exists($name) {
+  return db_query(
+    'SELECT COUNT(*) FROM {users_field_data} WHERE name = :name',
+    [
+      ':name' => $name,
+    ]
+  )->fetchField() > 0;
+}
+
+/**
+ * Find whether the user is allowed to change their own password.
+ *
+ * @param object $account
+ *   A user account object.
+ *
+ * @return bool
+ *   TRUE if access is granted, FALSE otherwise.
+ */
+function openid_connect_set_password_access($account) {
+  if ($account->hasPermission('openid connect set own password')) {
+    return TRUE;
+  }
+
+  /* @var \Drupal\openid_connect\Authmap $authmap */
+  $authmap = \Drupal::service('openid_connect.authmap');
+  $connected_accounts = $authmap->getConnectedAccounts($account);
+
+  return empty($connected_accounts);
+}
+
+/**
+ * Returns user properties that can be skipped when mapping user profile info.
+ */
+function _openid_connect_user_properties_to_skip() {
+  $properties_to_skip = [
+    'uid', 'uuid', 'langcode', 'preferred_langcode', 'preferred_admin_langcode',
+    'name', 'pass', 'mail', 'status', 'created', 'changed', 'access', 'login',
+    'init', 'roles', 'default_langcode',
+  ];
+  \Drupal::moduleHandler()->alter('openid_connect_user_properties_to_skip', $properties_to_skip);
+  return array_combine($properties_to_skip, $properties_to_skip);
+}
+
+/**
+ * Connect an external OpenID Connect account to a Drupal user account.
+ *
+ * @param object $account
+ *   The Drupal user object.
+ * @param string $client_name
+ *   The client machine name.
+ * @param string $sub
+ *   The 'sub' property identifying the external account.
+ */
+function openid_connect_connect_account($account, $client_name, $sub) {
+  /* @var \Drupal\openid_connect\Authmap $authmap */
+  $authmap = \Drupal::service('openid_connect.authmap');
+  $authmap->createAssociation($account, $client_name, $sub);
+}
+
+/**
+ * Disconnect an external OpenID Connect account from a Drupal user account.
+ *
+ * @param object $account
+ *   The Drupal user object.
+ * @param string $client_name
+ *   The client machine name.
+ */
+function openid_connect_disconnect_account($account, $client_name) {
+  /* @var \Drupal\openid_connect\Authmap $authmap */
+  $authmap = \Drupal::service('openid_connect.authmap');
+  $authmap->deleteAssociation($account->id(), $client_name);
+}
+
+/**
+ * Get the 'sub' property from the user data and/or user claims.
+ *
+ * The 'sub' (Subject Identifier) is a unique ID for the external provider to
+ * identify the user.
+ *
+ * @param array $user_data
+ *   The user data as returned from
+ *   OpenIDConnectClientInterface::decodeIdToken().
+ * @param array $userinfo
+ *   The user claims as returned from
+ *   OpenIDConnectClientInterface::retrieveUserInfo().
+ *
+ * @return string|false
+ *   The sub, or FALSE if there was an error.
+ */
+function openid_connect_extract_sub(array $user_data, array $userinfo) {
+  if (!isset($user_data['sub']) && !isset($userinfo['sub'])) {
+    return FALSE;
+  }
+  elseif (!isset($user_data['sub'])) {
+    return $userinfo['sub'];
+  }
+  elseif (isset($userinfo['sub']) && $user_data['sub'] != $userinfo['sub']) {
+    return FALSE;
+  }
+  return $user_data['sub'];
+}
+
+/**
+ * Complete the authorization after tokens have been retrieved.
+ *
+ * @param object $client
+ *   The client.
+ * @param array $tokens
+ *   The tokens as returned from OpenIDConnectClientInterface::retrieveTokens().
+ * @param string|array &$destination
+ *   The path to redirect to after authorization.
+ *
+ * @return bool
+ *   TRUE on success, FALSE on failure.
+ */
+function openid_connect_complete_authorization($client, array $tokens, &$destination) {
+  if (\Drupal::currentUser()->isAuthenticated()) {
+    throw new \RuntimeException('User already logged in');
+  }
+
+  /* @var \Drupal\openid_connect\Authmap $authmap */
+  $authmap = \Drupal::service('openid_connect.authmap');
+  $user_data = $client->decodeIdToken($tokens['id_token']);
+  $userinfo = $client->retrieveUserInfo($tokens['access_token']);
+
+  $context = [
+    'user_data' => $user_data,
+  ];
+  \Drupal::moduleHandler()->alter('openid_connect_userinfo', $userinfo, $context);
+
+  $logger = \Drupal::logger('openid_connect');
+
+  if ($userinfo && empty($userinfo['email'])) {
+    $message = 'No e-mail address provided by @provider';
+    $variables = ['@provider' => $client->getPluginId()];
+    $logger->error($message . ' (@code @error). Details: @details', $variables);
+    return FALSE;
+  }
+
+  $sub = openid_connect_extract_sub($user_data, $userinfo);
+  if (empty($sub)) {
+    $message = 'No "sub" found from @provider';
+    $variables = ['@provider' => $client->getPluginId()];
+    $logger->error($message . ' (@code @error). Details: @details', $variables);
+    return FALSE;
+  }
+
+  /* @var \Drupal\user\UserInterface $account */
+  $account = $authmap->userLoadBySub($sub, $client->getPluginId());
+  $results = \Drupal::moduleHandler()->invokeAll('openid_connect_pre_authorize', [
+    $tokens, $account, $userinfo, $client->getPluginId(), $sub,
+  ]);
+
+  // Deny access if any module returns FALSE.
+  if (in_array(FALSE, $results, TRUE)) {
+    $message = 'Login denied for @email via pre-authorize hook.';
+    $variables = ['@email' => $userinfo['email']];
+    $logger->error($message, $variables);
+    return FALSE;
+  }
+
+  // If any module returns an account, set local $account to that.
+  foreach ($results as $result) {
+    if ($result instanceof UserInterface) {
+      $account = $result;
+      break;
+    }
+  }
+
+  if ($account) {
+    // An existing account was found. Save user claims.
+    if (\Drupal::config('openid_connect.settings')->get('always_save_userinfo')) {
+      openid_connect_save_userinfo($account, $userinfo);
+    }
+  }
+  else {
+    // Check whether the e-mail address is valid.
+    if (!\Drupal::service('email.validator')->isValid($userinfo['email'])) {
+      drupal_set_message(
+        t(
+          'The e-mail address is not valid: @email',
+          [
+            '@email' => $userinfo['email'],
+          ]
+        ),
+        'error'
+      );
+      return FALSE;
+    }
+
+    // Check whether there is an e-mail address conflict.
+    if ($account = user_load_by_mail($userinfo['email'])) {
+      $connect_existing_users = \Drupal::config('openid_connect.settings')
+        ->get('connect_existing_users');
+      if ($connect_existing_users) {
+        // Connect existing user account with this sub.
+        openid_connect_connect_account($account, $client->getPluginId(), $sub);
+      }
+      else {
+        drupal_set_message(
+          t('The e-mail address is already taken: @email',
+            [
+              '@email' => $userinfo['email'],
+            ]
+          ),
+          'error'
+        );
+        return FALSE;
+      }
+    }
+
+    // Check Drupal user register settings before saving.
+    $register = \Drupal::config('user.settings')
+      ->get('register');
+    // Respect possible override from OpenID-Connect settings.
+    $register_override = \Drupal::config('openid_connect.settings')
+      ->get('override_registration_settings');
+    if ($register === USER_REGISTER_ADMINISTRATORS_ONLY && $register_override) {
+      $register = USER_REGISTER_VISITORS;
+    }
+
+    if (empty($account)) {
+      switch ($register) {
+        case USER_REGISTER_ADMINISTRATORS_ONLY:
+          // Deny user registration.
+          drupal_set_message(t('Only administrators can register new accounts.'), 'error');
+          return FALSE;
+
+        case USER_REGISTER_VISITORS:
+          // Create a new account if register settings is set to visitors or
+          // override is active.
+          $account = openid_connect_create_user($sub, $userinfo, $client->getPluginId(), 1);
+          break;
+
+        case USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL:
+          // Create a new account and inform the user of the pending approval.
+          $account = openid_connect_create_user($sub, $userinfo, $client->getPluginId(), 0);
+          drupal_set_message(t('Thank you for applying for an account. Your account is currently pending approval by the site administrator.'));
+          break;
+      }
+    }
+
+    // Store the newly created account.
+    openid_connect_save_userinfo($account, $userinfo);
+    $authmap->createAssociation($account, $client->getPluginId(), $sub);
+  }
+
+  openid_connect_login_user($account);
+
+  \Drupal::moduleHandler()->invokeAll(
+    'openid_connect_post_authorize',
+    [
+      $tokens, $account, $userinfo, $client->getPluginId(),
+    ]
+  );
+
+  return TRUE;
+}
+
+/**
+ * Connect the current user's account to an external provider.
+ *
+ * @param object $client
+ *   The client.
+ * @param array $tokens
+ *   The tokens as returned from OpenIDConnectClientInterface::retrieveTokens().
+ *
+ * @return bool
+ *   TRUE on success, FALSE on failure.
+ */
+function openid_connect_connect_current_user($client, array $tokens) {
+  /* @var \Drupal\Core\Session\AccountProxyInterface $user */
+  $user = \Drupal::currentUser();
+  if (!$user->isAuthenticated()) {
+    throw new \RuntimeException('User not logged in');
+  }
+
+  /* @var \Drupal\openid_connect\Authmap $authmap */
+  $authmap = \Drupal::service('openid_connect.authmap');
+  $user_data = $client->decodeIdToken($tokens['id_token']);
+  $userinfo = $client->retrieveUserInfo($tokens['access_token']);
+
+  $context = [
+    'user_data' => $user_data,
+  ];
+  \Drupal::moduleHandler()->alter('openid_connect_userinfo', $userinfo, $context);
+
+  $logger = \Drupal::logger('openid_connect');
+  $provider_param = ['@provider' => $client->getPluginId()];
+
+  if ($userinfo && empty($userinfo['email'])) {
+    $message = 'No e-mail address provided by @provider';
+    $variables = $provider_param;
+    $logger->error($message . ' (@code @error). Details: @details', $variables);
+    return FALSE;
+  }
+
+  $sub = openid_connect_extract_sub($user_data, $userinfo);
+  if (empty($sub)) {
+    $message = 'No "sub" found from @provider';
+    $variables = $provider_param;
+    $logger->error($message . ' (@code @error). Details: @details', $variables);
+    return FALSE;
+  }
+
+  /* @var \Drupal\user\UserInterface $account */
+  $account = $authmap->userLoadBySub($sub, $client->getPluginId());
+  $results = \Drupal::moduleHandler()->invokeAll('openid_connect_pre_authorize', [
+    $tokens, $account, $userinfo, $client->getPluginId(), $sub
+  ]);
+
+  // Deny access if any module returns FALSE.
+  if (in_array(FALSE, $results, TRUE)) {
+    $message = 'Login denied for @email via pre-authorize hook.';
+    $variables = ['@email' => $userinfo['email']];
+    $logger->error($message, $variables);
+    return FALSE;
+  }
+
+  // If any module returns an account, set local $account to that.
+  foreach ($results as $result) {
+    if ($result instanceof UserInterface) {
+      $account = $result;
+      break;
+    }
+  }
+
+  if ($account && $account->id() !== $user->id()) {
+    drupal_set_message(t('Another user is already connected to this @provider account.', $provider_param), 'error');
+    return FALSE;
+  }
+
+  if (!$account) {
+    $account = User::load($user->id());
+    openid_connect_connect_account($account, $client->getPluginId(), $sub);
+  }
+
+  $always_save_userinfo = \Drupal::config('openid_connect.settings')->get('always_save_userinfo');
+  if ($always_save_userinfo) {
+    openid_connect_save_userinfo($account, $userinfo);
+  }
+
+  \Drupal::moduleHandler()->invokeAll(
+    'openid_connect_post_authorize',
+    [
+      $tokens, $account, $userinfo, $client->getPluginId(),
+    ]
+  );
+
+  return TRUE;
+}

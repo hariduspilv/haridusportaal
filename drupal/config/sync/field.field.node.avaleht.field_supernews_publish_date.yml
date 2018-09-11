@@ -11,7 +11,7 @@ id: node.avaleht.field_supernews_publish_date
 field_name: field_supernews_publish_date
 entity_type: node
 bundle: avaleht
-label: 'Supernews publish date'
+label: 'Superduudise avaldamise kuupäev'
 description: ''
 required: false
 translatable: false

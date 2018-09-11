@@ -10,7 +10,7 @@ id: node.avaleht.field_supernews
 field_name: field_supernews
 entity_type: node
 bundle: avaleht
-label: Supernews
+label: Superuudis
 description: ''
 required: false
 translatable: false
