@@ -4,14 +4,14 @@
 
   <mat-spinner *ngIf="loading" ></mat-spinner>
   <ng-container *ngIf="!loading">
-    <p *ngIf="!list.length" class="explain">{{ 'frontpage.favourites_list_none_message' | translate }}</p>
+    <p *ngIf="!existingFavouriteItems.length" class="explain">{{ 'frontpage.favourites_list_none_message' | translate }}</p>
 
-    <ul class="list" *ngIf="list.length">
+    <ul class="list" *ngIf="existingFavouriteItems.length">
 
-      <li *ngFor="let item of list">
-        <ng-container *ngIf="item.entity">
-          <a [routerLink]="[item.entity.entityUrl.path]"> <mat-icon>link</mat-icon> {{item.entity.entityLabel}} </a>
-        </ng-container>
+      <li *ngFor="let item of existingFavouriteItems">
+       
+        <a [routerLink]="[item.entity.entityUrl.path]"> <mat-icon>link</mat-icon> {{item.entity.entityLabel}} </a>
+       
       </li>
 
     </ul>
