@@ -3,13 +3,14 @@
 namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\htm_custom_ehis_connector\Base64Image;
+use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -18,8 +19,8 @@ use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
  *   id = "x_json_file_rest_resource",
  *   label = @Translation("X json file rest resource"),
  *   uri_paths = {
- *     "canonical" = "/xjson_service/file/{file_id}",
- *     "create" = "/xjson_service/file"
+ *     "canonical" = "/xjson_service/documentFile/{file_id}",
+ *     "create" = "/xjson_service/postDocumentFile"
  *   }
  * )
  */
@@ -54,10 +55,10 @@ class xJsonFileRestResource extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-		xJsonServiceInterface $xJsonService,
+		EhisConnectorService $ehisConnectorService,
     AccountProxyInterface $current_user) {
 			parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-			$this->xJsonService = $xJsonService;
+			$this->ehisService = $ehisConnectorService;
 			$this->currentUser = $current_user;
   }
 
@@ -71,7 +72,7 @@ class xJsonFileRestResource extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('htm_custom_xjson_services'),
-			$container->get('htm_custom_xjson_services.default'),
+			$container->get('htm_custom_ehis_connector.default'),
       $container->get('current_user')
     );
   }
@@ -89,7 +90,7 @@ class xJsonFileRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function get($file_id) {
-		$this->xJsonService->xJsonGetDocumentById('test');
+		#$this->xJsonService->xJsonGetDocumentById('test');
 		#dump('tere');
 		#dump('test');
     // You must to implement the logic of your REST Resource here.
@@ -115,13 +116,23 @@ class xJsonFileRestResource extends ResourceBase {
    */
   public function post($data) {
 
+  	$img = new Base64Image($data['file']);
+		if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
+			return new ModifiedResourceResponse('Failed to save', 400);
+		}
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
 
-    return new ModifiedResourceResponse($data, 201);
+    return new ModifiedResourceResponse(
+			[
+				'mime_type' => $img->getMimeType(),
+				'id '=> $img->getFileIdentifier(),
+				'file_name' => $img->getFileName()
+			], 200);
   }
+
 
 }
