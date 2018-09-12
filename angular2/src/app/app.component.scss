@@ -113,9 +113,6 @@ $grid-columns: 12;
 
 /* Common styles across components */
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { 
-  share { }
-}
 share { margin-left: 0px!important; margin-right: 0px!important }
 .flex.mininav { text-align: inherit!important; justify-content: flex-end; padding-right: 1rem;
   favourites { margin-right: 0rem; }
