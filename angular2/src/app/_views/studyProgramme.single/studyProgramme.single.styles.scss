@@ -72,11 +72,10 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   @include break-on(sm, max) {.block {margin-bottom: 0;}}
 
   .flex.mininav { padding-right: 1rem; }
+  favourites { margin-right: 0rem; margin-left: 1rem; }
   @include break-on(sm, max) {
     .flex.mininav { width: 100%!important; flex-direction: row-reverse; 
-favourites { margin-right: 1rem!important; margin-left: 0rem!important; }
+      favourites { margin-right: 1rem!important; margin-left: 0rem!important; }
     }
   }
-  favourites { margin-right: 0rem!important; margin-left: 1rem; }
-
 
