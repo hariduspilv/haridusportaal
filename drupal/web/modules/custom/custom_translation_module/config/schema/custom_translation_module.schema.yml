@@ -659,6 +659,9 @@ custom_translation_module.settings:
         municipalities:
           type: label
           label: 'Content'
+        support_projects:
+          type: label
+          label: 'Content'
     studyProgramme:
       type: mapping
       label: 'Study programme translations'

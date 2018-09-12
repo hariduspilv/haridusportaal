@@ -113,10 +113,28 @@ $grid-columns: 12;
 
 /* Common styles across components */
 
-@include break-on(md, max) {
-  .mininav { width: 100%!important; flex-direction: row; }
-  share { margin-left: inherit!important; }
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { 
+  share { }
 }
+share { margin-left: 0px!important; margin-right: 0px!important }
+.flex.mininav { text-align: inherit!important; justify-content: flex-end; padding-right: 1rem;
+  favourites { margin-right: 0rem; }
+}
+
+@include break-on(md, max) {
+  .flex.mininav { flex-direction: row; justify-content: flex-start; 
+    share { margin-left: inherit!important; }
+  }
+}
+@include break-on(sm, max) {
+ favourites { margin-right: 1rem; }
+}
+
+@include break-on(sm, max) {
+  favourites { margin-right: 0rem;   
+  }
+}
+
 
 .grow {flex-grow: 1;}
 .wrap {@include break-on(sm, max) {flex-wrap: wrap;}
@@ -157,9 +175,9 @@ $grid-columns: 12;
   .link-list{list-style:none; padding:0; margin:$small 0;
     a[href]{color:rgba(0,0,0,.87); text-decoration: none; line-height:$medium; color:$blue;
       &:hover {text-decoration: none;}
-  &:visited {
-  color: $red!important;
-}
+      &:visited {
+        color: $red!important;
+      }
       .htm-icon{vertical-align: top; margin-right:$gutter; color:$blue;}
     }
     li{margin-bottom:0.625rem;
@@ -295,7 +313,7 @@ $grid-columns: 12;
   .mat-sidenav{top:4rem !important;-ms-overflow-style: none;width:16.25rem;}
   .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
   .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
-    .mat-sidenav .mat-menu-item span.htm-icon{ font-size: 1.5rem!important; }
+  .mat-sidenav .mat-menu-item span.htm-icon{ font-size: 1.5rem!important; }
   .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
     &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
     &:hover {background-color: #454B92;}
