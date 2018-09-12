@@ -320,3 +320,6 @@ studyProgramme:
   added_to_comparison: 'Eriala(d) lisatud võrdlusesse'
 errors:
   enter_valid_date: 'Sisesta korrektne kuupäev'
+tooltip:
+  favourites: Lemmikutesse
+  share: Jaga
