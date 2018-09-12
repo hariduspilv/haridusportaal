@@ -113,8 +113,9 @@ $grid-columns: 12;
 
 /* Common styles across components */
 
+.mininav { text-align: unset!important; }
 @include break-on(md, max) {
-  .mininav { width: 100%!important; flex-direction: row; }
+  .mininav { width: 100%!important; flex-direction: row; text-align: right!important; }
   share { margin-left: inherit!important; }
 }
 
@@ -407,7 +408,7 @@ $grid-columns: 12;
 }
 
 @include break-on(sm, max) {
-  .mat-simple-snackbar button { text-align: left; margin-left: 0px; padding: 0px; margin-top: 1.25rem; margin-bottom: 1rem; }
+  .mat-simple-snackbar button { text-align: left; margin-left: 0px; padding: 0.4375rem 0; margin-top: 0.875rem; margin-bottom: 0.7rem; }
 }
 @include break-on(sm, min) {
   .mat-simple-snackbar { flex-direction: row;}
