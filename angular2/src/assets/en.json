@@ -145,7 +145,21 @@
     "contact": "Contact",
     "register_code_short": "Reg. code",
     "available": "Available",
-    "unavailable": "None"
+    "unavailable": "None",
+    "register_code": "Register code",
+    "institution_ownership": "Ownership type",
+    "support_projects": "Support projects",
+    "investment_measure" : "Investment measure",
+    "investment_deadline_year":"Implementation year",
+    "investment_deadline": "Implementation deadline",
+    "investment_project": "Project",
+    "investment_max_amount": "Maximum amount",
+    "investment_amount_million_short": "MM",
+    "municipalities": "Municipalities",
+    "municipalities_detailed": "Towns/districts",
+    "counties": "Counties",
+    "select_investment_measure_year": "Choose investment measure year",
+    "selected_year_investment_measure": "year's investment measure"
   },
   "studyProgramme": {
     "label": "Specialties",
