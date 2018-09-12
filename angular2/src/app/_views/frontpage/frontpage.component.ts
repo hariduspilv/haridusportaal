@@ -13,12 +13,12 @@ import { HttpService } from '@app/_services/httpService';
 export class FrontpageComponent {
 
   error: boolean;
-	news: Array<Object> = [];
-	events: Array<Object> = [];
+	news: any = false;
+	events: any = false;
+	generalData: any = false;
 	lang: string;
   allPath: any;
   eventPath: any;
-  loading: boolean = true;
   
   constructor (
     private rootScope:RootScopeService,
@@ -66,7 +66,30 @@ export class FrontpageComponent {
       currentDate: formattedDate
     }
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
-      this.events = data['data']['nodeQuery']['entities'];
+      if (data['errors'] && data['errors'].length) {
+        this.events = [];
+      } else {
+        this.events = data['data']['nodeQuery']['entities'];
+      }
+    },(data) => {
+      this.events = [];
+    });
+  }
+  
+  getGeneral() {
+    let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=frontPageQuery:1&variables=";
+    if (window.location.host === ('test.edu.ee')) {
+      url = "https://api.test.edu.ee/graphql?queryId=frontPageQuery:1&variables=";
+    }
+    let variables = {lang: this.rootScope.get('currentLang').toUpperCase()}
+    this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+      if (data['errors'] && data['errors'].length) {
+        this.generalData = [];
+      } else {
+        this.generalData = data['data']['nodeQuery']['entities'];
+      }
+    },(data) => {
+      this.generalData = [];
     });
   }
 
@@ -80,7 +103,6 @@ export class FrontpageComponent {
     (document.activeElement as HTMLElement).blur();
     this.lang = this.router.url;
 		let that = this;
-		that.loading = true;
 		this.route.params.subscribe( params => {
 			if (this.lang === '/en' || this.lang.includes('/en?')) {
         this.allPath = "/en/news";
@@ -94,14 +116,14 @@ export class FrontpageComponent {
       }
     });
     
+    this.getGeneral()
     this.getEvents()
 		this.newsService.getRecent(null, function(data){
 			if ( data['nodeQuery'] == null ) {
         that.error = true;
-        that.loading = false;
+        that.news = [];
 			} else {
         that.news = data['nodeQuery']['entities'];
-        that.loading = false;
       }
 		});
 	}
