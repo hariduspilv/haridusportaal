@@ -99,7 +99,7 @@ function custom_subscription_administration_entity_update(Drupal\Core\Entity\Ent
 			$newtags = explode(", ", $fields['newtags'][0]['value']);
 			$params['newtags'] = \Drupal\taxonomy\Entity\Term::loadMultiple($newtags);
 		}else{
-			$params['newtags'] = '';
+			$params['newtags'] = [];
 		}
 		foreach($entity->tag as $tag){
 			$params['tags'][] = $tag->getValue()['target_id'];
