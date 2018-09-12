@@ -137,7 +137,7 @@ class CreateFavoriteItem extends CreateEntityBase{
 						}
 					}
 				}
-				if($entity->favorites_new->count() >= 10) {
+				if($entity->favorites_new->count() >= 11) {
 					throw new \InvalidArgumentException((int) 1);
 				}
 			}
