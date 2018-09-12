@@ -1251,6 +1251,13 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.back_to_dashboard'),
 		];
+    $form['button']['rss_order'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Order topics by RSS'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.rss_order'),
+		];
 
 
 		$form['newsletter'] = [
@@ -1292,6 +1299,13 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('newsletter.valid_email'),
 		];
+    $form['newsletter']['order_to_email'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Order to email'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('newsletter.order_to_email'),
+		];
 		$form['newsletter']['modal_title'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Newsletter modal title'),
@@ -1302,7 +1316,7 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['newsletter']['modal_content'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Newsletter modal content'),
-			#'#default_value' => $config->get('newsletter.modal_content')['value'],
+			'#default_value' => $config->get('newsletter.modal_content')['value'],
 		];
 		$form['newsletter']['modal_close'] = [
 			'#type' => 'textfield',
@@ -1523,6 +1537,41 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#maxlength' => 64,
 			'#size' => 64,
 			'#default_value' => $config->get('school.unavailable'),
+		];
+    $form['school']['institution_ownership'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Institution ownership'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.institution_ownership'),
+		];
+    $form['school']['investment_measure'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Investment measure'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.investment_measure'),
+		];
+    $form['school']['investment_deadline_year'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Investment deadline'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.investment_deadline_year'),
+		];
+    $form['school']['municipalities'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Municipalities'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.municipalities'),
+		];
+    $form['school']['support_projects'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Subsidy projects'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.support_projects'),
 		];
 
 		$form['studyProgramme'] = [
@@ -1796,6 +1845,25 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#maxlength' => 64,
 			'#size' => 64,
 			'#default_value' => $config->get('errors.enter_valid_date'),
+		];
+
+    $form['tooltip'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Tooltip translations')
+    ];
+    $form['tooltip']['favourites'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Favourites'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('tooltip.favourites'),
+		];
+    $form['tooltip']['share'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Share'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('tooltip.share'),
 		];
 
 

@@ -80,7 +80,7 @@ frontpage:
   dashboard_tabs_certificates_error_technical: 'Vabandame. Kutsetunnistuste andmete Kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.'
   dashboard_tabs_certificates_professional: Kutsetunnistused
   dashboard_tabs_certificates_examinations: Riigieksamid
-  favourites_snackbar_message_remove: ''
+  favourites_snackbar_message_remove: 'Lehekülg on lemmikutest eemaldatud.'
   dashboard_tabs_certificates_no_results: ''
   dashboard_tabs_certificates_number: 'Tunnistuse number'
   dashboard_tabs_certificates_name: 'Tunnistuse nimi'
@@ -238,6 +238,7 @@ button:
   add_to_favourites_remove_success: 'Lekkim edukalt eemaldatud'
   add_to_favourites_title: Pealkiri
   back_to_dashboard: 'Tagasi töölauale'
+  rss_order: 'Telli teemad RSS-iga'
 newsletter:
   title: 'Uudiskiri - test test tekst tekst kui pikk see siis saab olla ma'
   intro: 'Mingi äge sissejuhatuse tekst, mida saab muuta ja värki!'
@@ -251,6 +252,7 @@ newsletter:
   subscription_thanks_subcontent: 'Palume kinnitada uudiskirjaga liitumise soov lingi kaudu, mille '
   subscription_choose_one: 'Vali vähemalt üks uudiskiri'
   subscription_failed: 'Tellimuse edastamine ebaõnnestus'
+  order_to_email: 'Telli teemad e-postile'
 school:
   label: Õppeasutused
   institutions: Õppekohad
@@ -276,6 +278,11 @@ school:
   register_code_short: 'Reg. kood'
   available: Olemas
   unavailable: Puudub
+  institution_ownership: Omandivorm
+  investment_measure: Rahastusmeede
+  investment_deadline_year: 'Rakendamise tähtaeg'
+  municipalities: Omavalitsused
+  support_projects: Toetusprojektid
 studyProgramme:
   label: Erialad
   level: 'Õppekava tase'
@@ -313,3 +320,6 @@ studyProgramme:
   added_to_comparison: 'Eriala(d) lisatud võrdlusesse'
 errors:
   enter_valid_date: 'Sisesta korrektne kuupäev'
+tooltip:
+  favourites: Lemmikutesse
+  share: Jaga
