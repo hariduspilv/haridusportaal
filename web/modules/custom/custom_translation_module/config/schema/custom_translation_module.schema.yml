@@ -519,6 +519,9 @@ custom_translation_module.settings:
         back:
           type: label
           label: 'Content'
+        rss_order:
+          type: label
+          label: 'Content'
     newsletter:
       type: mapping
       label: 'Newsletter translations'
