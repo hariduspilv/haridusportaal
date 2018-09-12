@@ -55,7 +55,7 @@
     "filter_name": "Enter news name",
     "filter_tag": "News Tags",
     "title": "Title",
-    "no_result": "No Search Results"
+    "no_results": "No Search Results"
   },
   "newsletter": {
     "title": "Newsletter - order interesting stories",
@@ -283,5 +283,12 @@
   },
   "errors": {
     "enter_valid_date": "Enter valid date"
+  },
+  "search": {
+    "label": "Search",
+    "results": "Search results",
+    "keyword": "Keyword",
+    "no_results_start": "Matching results for keyword",
+    "no_results_end": "not found.<br> Try a different query."
   }
 }

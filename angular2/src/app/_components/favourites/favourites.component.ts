@@ -227,4 +227,3 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     this.destroyComponent();
   }
 }
-

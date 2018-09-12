@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService, RootScopeService } from '@app/_services';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { RouterModule, Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { Router, Event, NavigationEnd, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -14,12 +14,10 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class HeaderComponent {
 
-hideElement = false;
-
+  hideElement = false;
+  param: any;
   languages: any;
-
   logoLink: any;
-
   activeLanguage: any;
 
   constructor(
@@ -71,18 +69,15 @@ hideElement = false;
         rootScope.set('currentLang', params['lang'] );
         this.activeLanguage = params['lang'];
       }
-    });
-
-  router.events.subscribe((event) => {
-    if (event instanceof NavigationEnd) {
-      if (event.url === '/et' || event.url === '/en' || event.url === '/ru' ) {
-        this.hideElement = true;
-      }  else {
-        this.hideElement = false;
+      if (event instanceof NavigationEnd) {
+        let partials = ['/et/otsing', '/en/search'];
+        if (event.url === '/et' || event.url === '/en' || event.url === '/ru' || event.url.includes('/et/otsing') || event.url.includes('/en/search')) {
+          this.hideElement = true;
+        }  else {
+          this.hideElement = false;
+        }
       }
-    }
-  });
-
+    });
   }
 
   title = 'app';
@@ -110,6 +105,12 @@ hideElement = false;
 
   toggleSideNav(): void {
     this.sidemenu.sendMessage();
+  }
+
+  searchRoute(param) {
+    if (!param) {param = ''}
+    let url = this.rootScope.get('currentLang') === '/et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
+    this.router.navigateByUrl(url)
   }
 
 }
