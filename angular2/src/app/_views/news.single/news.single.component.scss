@@ -1,8 +1,6 @@
   @import "../../../assets/styles/typography.scss"; 
 
-a:visited {
-  color: $red!important;
-}
+a:visited {color: $red;}
 
   article {padding-bottom: $xxl;
     a {color: $blue;
