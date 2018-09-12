@@ -16,6 +16,7 @@ class NotificationController extends ControllerBase {
   *   Return Hello string.
   */
   public function notify() {
+    $mailitems = [];
     $content_types = ['news', 'event'];
     $notification_tags = $this->get_notification_tags($content_types);
     $subscription_entities = $this->get_subscription_entities('subscription_entity', $notification_tags);
@@ -23,8 +24,8 @@ class NotificationController extends ControllerBase {
       foreach($subscription_entities as $entity){
         $mailitems[] = $this->notification_email_content($notification_tags, $entity, $content_types);
       }
-      return $mailitems;
     }
+    return $mailitems;
   }
 
   public function get_notification_tags($content_types){
@@ -56,8 +57,7 @@ class NotificationController extends ControllerBase {
 
   public function get_subscription_entities($entity_type, $tags){
     $entities = [];
-
-    if(count($tags > 0)){
+    if(count($tags) > 0){
       $query = \Drupal::entityQuery($entity_type);
       $result_ids = $query
       ->condition('status', 1)
@@ -66,7 +66,6 @@ class NotificationController extends ControllerBase {
 
       $entities = \Drupal::entityTypeManager()->getStorage($entity_type)->loadMultiple($result_ids);
     }
-
     return $entities;
   }
 
