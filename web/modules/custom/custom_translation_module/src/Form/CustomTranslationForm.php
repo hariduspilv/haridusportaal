@@ -1538,6 +1538,34 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('school.unavailable'),
 		];
+    $form['school']['institution_ownership'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Institution ownership'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.institution_ownership'),
+		];
+    $form['school']['investment_measure'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Investment measure'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.investment_measure'),
+		];
+    $form['school']['investment_deadline_year'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Investment deadline'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.investment_deadline_year'),
+		];
+    $form['school']['municipalities'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Municipalities'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.municipalities'),
+		];
 
 		$form['studyProgramme'] = [
 			'#type' => 'details',
