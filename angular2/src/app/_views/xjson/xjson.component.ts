@@ -14,7 +14,7 @@ import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confi
 export class XjsonComponent implements OnInit, OnDestroy{
  
   public objectKeys = Object.keys;
-
+  public test: boolean;
   public lang: string;
   public form_name: string;
   public subscriptions: Subscription[] = [];
@@ -23,7 +23,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
   public data;
   public opened_step;
   public max_step;
-  public current_acceptable_activity
+  public current_acceptable_activity: string[];
   public data_elements;
   public navigationLinks;
   public activityButtons;
@@ -46,7 +46,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   pathWatcher() { 
-    let subscribe = this.route.params.subscribe(
+    let params = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.form_name = params['form_name']
         this.lang = params['lang'];
@@ -54,8 +54,16 @@ export class XjsonComponent implements OnInit, OnDestroy{
         this.setPaths();
       }
     );
+    let strings = this.route.queryParams.subscribe(
+      (strings: ActivatedRoute) => {
+        this.test = (strings['test'] === 'true');
 
-    this.subscriptions = [...this.subscriptions, subscribe];
+        this.setPaths();
+      }
+    );
+
+    this.subscriptions = [...this.subscriptions, params];
+    this.subscriptions = [...this.subscriptions, strings];
   }
 
   promptEditConfirmation() {
@@ -238,12 +246,13 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   errorHandler(message){
-    console.log('ERROR: ', message);
+    console.log('DEBUG_ERROR: ', message);
+    alert('DEBUG_ERROR: ' + message);
   }
 
   selectStep(step){
     if(step === this.opened_step) {
-      return this.errorHandler('This step is already selected');
+      return //to nothing
     } else {
       if(this.isStepDisabled(step)){
         return this.errorHandler('This step is disabled');
@@ -272,51 +281,49 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   getData(data){
-    let test = true;
-    if(test) {
+    
+    if(this.test) {
       data.test = true; //TEST
-      if(this.data != undefined){
-        if(this.data.header.activity != undefined) {
-          console.log('Changing current_step locally');
-          this.stepController(JSON.parse(JSON.stringify(data)))
-        }
-      }
     }
-
-    let subscribe = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
+    alert(JSON.stringify(data));
+    let subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
       console.log(response);
       if(!response['header']) return this.errorHandler('Missing header from response');
       if(!response['body']) return this.errorHandler('Missing body from response');
       if(!response['body']['steps']) return this.errorHandler('Missing body.steps from response');
 
-      if(test === true){
-        response['header']['current_step'] = 'step_3' //testing
-        response['header']['acceptable_activity'] = ['SAVE','SUBMIT']; //testing
-      }
-
       if(response['header']['current_step']) {
+        //current step exists?
+        if(Object.keys(response['body']['steps']).some(step => step == response['header']['current_step']) == false){
+          response['header']['current_step'] = Object.keys(response['body']['steps'])[0];
+        }
+        
         this.max_step = response['header']['current_step'];
       }
       if(response['header']['acceptable_activity']){
+        if((!(response['header']['acceptable_activity'] instanceof Array))) {
+          return this.errorHandler('Acceptable activity is a string!');
+        }
         this.current_acceptable_activity = response['header']['acceptable_activity'];
        
         let acceptableActivityIncludesTarget = this.current_acceptable_activity.some(key => {
           return ['SUBMIT','SAVE','CONTINUE'].includes(key);
         })
+      
         if(acceptableActivityIncludesTarget && !response['header']['current_step']){
-          return this.errorHandler('Missing current_step while acceptable_activity is SUBMIT, SAVE or CONTINUE')
+          return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE')
         }
       }
      
       this.stepController(response)
 
-      subscribe.unsubscribe();
+      subscription.unsubscribe();
     });
 
   }
 
   stepController(xjson){
-
+   
     if(xjson.header.current_step === null || xjson.header.current_step === undefined) {
       if(Object.keys(xjson.body.steps).length === 0) return this.errorHandler('No steps available');
 
@@ -329,13 +336,11 @@ export class XjsonComponent implements OnInit, OnDestroy{
         this.errorHandler('Missing current_step from body.steps array')
       }
     }
-
     this.viewController(xjson);
   }
 
   viewController(xjson){
     this.data = xjson;
-    
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
 
     if(!this.data_elements){
