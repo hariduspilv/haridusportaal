@@ -98,18 +98,17 @@
                     <table class="xjson__table">
                       <tr>
                         <th *ngFor="let col of objectKeys(data_elements[element].table_columns)">
-                         {{col}}
-                         <!-- {{ selectLanguage(data_elements[element].table_columns[col].title) }} -->
+                          {{ selectLanguage(data_elements[element].table_columns[col].title) }}
                         </th>
                       </tr>
                       <tr *ngFor="let row of data_elements[element].value; let i = index">
                         <td *ngFor="let col of objectKeys(row)">
-                          {{col}}
-                          <!-- {{ row[value] }} -->
+                        
+                          {{ row[col] }}
                           <ng-container *ngIf="error[element]">
                             <ng-container *ngIf="error[element].row == i && error[element].column == col">
                                 <div class="error">
-                                    {{ error[element].message }}
+                                  {{ error[element].message }}
                                 </div>
                             </ng-container>
                           </ng-container> <!-- TABLE COLUMN VALIDATION ERROR MESSAGE -->
