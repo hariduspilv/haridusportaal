@@ -727,3 +727,13 @@ custom_translation_module.settings:
         explanation:
           type: label
           label: 'Content'
+    tooltip:
+      type: mapping
+      label: 'Tooltip translations'
+      mapping:
+        favourites:
+          type: label
+          label: 'Content'
+        share:
+          type: label
+          label: 'Content'
