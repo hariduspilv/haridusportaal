@@ -1566,6 +1566,13 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('school.municipalities'),
 		];
+    $form['school']['support_projects'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Subsidy projects'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.support_projects'),
+		];
 
 		$form['studyProgramme'] = [
 			'#type' => 'details',
