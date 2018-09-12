@@ -127,13 +127,9 @@ share { margin-left: 0px!important; margin-right: 0px!important }
   }
 }
 @include break-on(sm, max) {
- favourites { margin-right: 1rem; }
+ favourites { margin-right: 1rem!important; }
 }
 
-@include break-on(sm, max) {
-  favourites { margin-right: 0rem;   
-  }
-}
 
 
 .grow {flex-grow: 1;}
