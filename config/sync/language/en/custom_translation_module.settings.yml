@@ -219,3 +219,6 @@ frontpage:
   dashboard_tabs_certificates_duplicate: Duplicate
   dashboard_tabs_certificates_notvalid: Invalid
   favourites_snackbar_message_remove: 'This page has been removed from favourites.'
+tooltip:
+  favourites: Favourites
+  share: Share
