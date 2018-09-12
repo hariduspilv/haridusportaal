@@ -123,9 +123,11 @@ share { margin-left: 0px!important; margin-right: 0px!important }
 
 @include break-on(md, max) {
   .flex.mininav { flex-direction: row; justify-content: flex-start; 
-    favourites { margin-right: 1rem; }
     share { margin-left: inherit!important; }
   }
+}
+@include break-on(sm, max) {
+ favourites { margin-right: 1rem; }
 }
 
 @include break-on(sm, max) {
