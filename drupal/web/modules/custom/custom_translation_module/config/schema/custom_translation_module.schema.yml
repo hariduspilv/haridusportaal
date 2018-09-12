@@ -647,6 +647,18 @@ custom_translation_module.settings:
         unavailable:
           type: label
           label: 'Content'
+        institution_ownership:
+          type: label
+          label: 'Content'
+        investment_measure:
+          type: label
+          label: 'Content'
+        investment_deadline_year:
+          type: label
+          label: 'Content'
+        municipalities:
+          type: label
+          label: 'Content'
     studyProgramme:
       type: mapping
       label: 'Study programme translations'
