@@ -20,7 +20,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     private maxFavouriteItems = 10;
     public existingFavouriteItems;
 
-    public list;
     public loading: boolean;
     public displaySuccess: boolean;
     public userLoggedOut: boolean;
@@ -67,15 +66,17 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       let subscription = this.http.get('/graphql?queryId=customFavorites:1&variables=' + JSON.stringify(variables)).subscribe(response => {
 
 
-        if(response['data']['CustomFavorites'].length) {
-          this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favoritesNew'];
-          this.list = response['data']['CustomFavorites'][0]['favoritesNew'];
+        if(response['data']['CustomFavorites'][0]['favoritesNew'].length) {
+          this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favoritesNew'].filter(item => {
+            return item.entity != null;
+          });
+          
         }
         else {
           this.existingFavouriteItems = [];
-          this.list = [];
         }
-
+        
+        if(this.id != undefined) this.isFavouriteExisting( this.existingFavouriteItems);
         this.loading = false;
         subscription.unsubscribe();
       });
@@ -138,8 +139,9 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
 
     let sub = this.http.post('/graphql', data).subscribe(response => {
-      
-      if(response['data']['createFavoriteItem']){
+      if(response['data']['createFavoriteItem']["errors"].length){
+        this.openDialog();
+      } else if(response['data']['createFavoriteItem']){
 
         this.existing = true;
         
@@ -200,17 +202,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     this.pathWatcher();
 
     this.userLoggedOut = this.user.getData()['isExpired'];
-
-    let variables = { language: this.lang.toUpperCase() }
-    let subscribe = this.http.get('/graphql?queryId=customFavorites:1&variables=' + JSON.stringify(variables)).subscribe(response => {
-     
-      if(response['data']['CustomFavorites'].length)
-        this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favoritesNew'];
-      else this.existingFavouriteItems = [];
-      this.isFavouriteExisting( this.existingFavouriteItems);
-      
-      subscribe.unsubscribe();
-    });
+    this.getFavouritesList();
   }
   destroyComponent(){
     
@@ -235,4 +227,3 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     this.destroyComponent();
   }
 }
-

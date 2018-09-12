@@ -4,49 +4,5 @@
      matTooltip="{{ 'tooltip.favourites' | translate }}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()" *ngIf="existingFavouriteItems">
       {{ existing === true ? 'star' : 'star_border' }}
     </span>
-    
-  <!--
-  <span tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesPanel()">star_rate</span>
-  <div class="favourites__dropdown" *ngIf="favouritesDropdown">
-    <mat-spinner *ngIf="loading"></mat-spinner>
-    <ng-container *ngIf="!loading">
-
-      <ng-container *ngIf="!existing">
-        <form (submit)="submitFavouriteItem()">
-          <div class="row">
-          <div class="col-12 header" tabindex="0">{{ 'button.add_to_favourites_label' | translate | uppercase }}</div>
-            <div class="col-12">
-              <ng-container *ngIf="!displaySuccess">
-                <div class="round-input__field-wrapper mb-20 mt-0">
-                  <input class="round-input__field" placeholder="{{ 'button.add_to_favourites_title' | translate}}" [(ngModel)]='title' name="title" />
-                </div>
-
-                <button role="button" mat-raised-button color="primary">{{ 'button.add_to_favourites_add' | translate }}</button>
-              </ng-container>
-              <ng-container *ngIf="displaySuccess">
-                <p>{{ 'button.add_to_favourites_add_success' | translate }}</p>
-              </ng-container>
-            </div>
-          </div>
-        </form>
-      </ng-container>
-
-      <ng-container *ngIf="existing">
-        <div class="col-12 header" tabindex="0">{{ 'frontpage.favourites_list_label' | translate | uppercase }}</div>
-        <ng-container *ngIf="displaySuccess">
-          <p> {{ 'button.add_to_favourites_remove_success' | translate }}</p>
-        </ng-container>
-        <ng-container *ngIf="!displaySuccess">
-          <p> {{ existingItem.entity.fieldFavoriteTitle }} </p>
-
-          <form (submit)="removeFavouriteItem(existingItem)">
-            <button role="button" mat-raised-button color="primary">{{ 'button.add_to_favourites_remove' | translate }}</button>
-          </form>
-        </ng-container>
-        
-      </ng-container>
-    </ng-container>
-
-  </div>
-  -->
+  
 </div>
