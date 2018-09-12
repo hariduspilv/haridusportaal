@@ -29,7 +29,7 @@ class CustomEntityField extends EntityFieldBase {
 				/** @var \Drupal\Core\Field\FieldItemListInterface $items */
 				$items = $value->get($name);
 				$access = $items->access('view', NULL, TRUE);
-
+				/*dump($access);*/
 				if ($access->isAllowed()) {
 					foreach ($items as $item) {
 						// Do not yield untranslated paragraphs
@@ -40,9 +40,12 @@ class CustomEntityField extends EntityFieldBase {
 								if(!$translated) continue;
 							}
 						}
-
-						$output = !empty($definition['property']) ? $this->resolveItem($item, $args, $context, $info) : $item;
-						yield new CacheableValue($output, [$access]);
+						$access = $entity->access('view', NULL, TRUE);
+						if($access->isAllowed()){
+							#$entity->addCacheableDependency($access);
+							$output = !empty($definition['property']) ? $this->resolveItem($item, $args, $context, $info) : $item;
+							yield new CacheableValue($output, [$access]);
+						}
 					}
 				}
 			}
