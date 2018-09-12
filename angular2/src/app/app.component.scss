@@ -4,7 +4,7 @@
 @import "../assets/styles/controls.scss";
 @import "../assets/styles/sidebar.scss";
 @import "../assets/styles/layout.scss";
-@import "../assets/styles/style.css";
+@import "../assets/styles/style.scss";
 
 
 html{overflow:-moz-scrollbars-vertical}
@@ -157,6 +157,9 @@ $grid-columns: 12;
   .link-list{list-style:none; padding:0; margin:$small 0;
     a[href]{color:rgba(0,0,0,.87); text-decoration: none; line-height:$medium; color:$blue;
       &:hover {text-decoration: none;}
+  &:visited {
+  color: $red!important;
+}
       .htm-icon{vertical-align: top; margin-right:$gutter; color:$blue;}
     }
     li{margin-bottom:0.625rem;
@@ -483,9 +486,6 @@ $grid-columns: 12;
       &:hover{color:$blue; border-color:$blue;}
     }
   }
-}
-.link-list a:visited {
-  color: $red;
 }
 
 .grecaptcha-badge{z-index:9999;}
