@@ -62,7 +62,7 @@ class FavoriteEntity extends ContentEntityBase implements FavoriteEntityInterfac
 
 	public function __construct(array $values, $entity_type, $bundle = FALSE, array $translations = [])
 	{
-		$translations[] = ['et', 'en'];
+		#$translations[] = ['et', 'en'];
 		parent::__construct($values, $entity_type, $bundle, $translations);
 	}
 
