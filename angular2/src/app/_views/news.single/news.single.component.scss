@@ -62,7 +62,6 @@ a:visited {
     @include break-on(sm, min) {padding: 0 0 $small 0; white-space: nowrap; text-overflow: ellipsis;}
   }
   _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
-  _:-ms-lang(x), .article-image {; margin:0;}
   .news-single {
     @include break-on(sm, min) {padding-top: $gutter; padding-bottom: $medium; padding-right: $medium;}
     @include break-on(lg, min) {padding-right: 0;}
