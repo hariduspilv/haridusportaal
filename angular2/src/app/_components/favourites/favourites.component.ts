@@ -66,7 +66,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       let subscription = this.http.get('/graphql?queryId=customFavorites:1&variables=' + JSON.stringify(variables)).subscribe(response => {
 
 
-        if(response['data']['CustomFavorites']['favoritesNew'].length) {
+        if(response['data']['CustomFavorites'] && response['data']['CustomFavorites']['favoritesNew'].length) {
           this.existingFavouriteItems = response['data']['CustomFavorites']['favoritesNew'].filter(item => item.entity != null );
         }
         else {
