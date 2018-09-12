@@ -1865,6 +1865,17 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('tooltip.share'),
 		];
+    $form['search'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Search translations')
+    ];
+    $form['search']['keyword'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Keyword'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('search.keyword'),
+		];
 
 
 
