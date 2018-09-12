@@ -13,10 +13,10 @@
             <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
           </div><!--/col-8-->
           
-                     <div class="mininav col-2 flex text-right">
+          <div class="mininav col-2 flex text-right">
             <div class="fill"></div>
             <share [title]="data.entityLabel"></share>
-                        <favourites [id]="data.nid" [title]="data.title"></favourites>
+            <favourites [id]="data.nid" [title]="data.title"></favourites>
           </div>
 
           <div class="col-12 flex">
@@ -92,7 +92,7 @@
                     <td>Õppekeel(ed)</td>
                     <td>
                       <ng-container *ngFor="let item of data.fieldTeachingLanguage; let i = index;">
-                          <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.entityLabel | titleCase }}
+                        <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.entityLabel | titleCase }}
                       </ng-container>
                     </td>
                   </tr>
@@ -157,7 +157,7 @@
           <ng-container *ngIf="data.fieldSchoolWebsite"><a  tabindex="0" attr.aria-label="{{' Website: '}} {{ data.fieldSchoolWebsite | removeProtocol }}" href="{{ data.fieldSchoolWebsite | url }}" target="_blank">{{ data.fieldSchoolWebsite | removeProtocol }}</a></ng-container>
         </p>
       </div><!--/block-->
-    
+      
 
       <ng-container *ngFor="let item of data.fieldEducationalInstitution.entity.fieldSchoolLocation; let i = index">
         <div class="block padding-block border-orange mob-bottom" *ngIf="item.entity.fieldLocationType == 'L'">

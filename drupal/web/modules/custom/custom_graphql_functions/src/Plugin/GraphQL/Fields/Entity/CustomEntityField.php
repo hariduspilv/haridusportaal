@@ -40,12 +40,12 @@ class CustomEntityField extends EntityFieldBase {
 								if(!$translated) continue;
 							}
 						}
-						$access = $entity->access('view', NULL, TRUE);
-						if($access->isAllowed()){
+						#$access = $entity->access('view', NULL, TRUE);
+						#if($access->isAllowed()){
 							#$entity->addCacheableDependency($access);
 							$output = !empty($definition['property']) ? $this->resolveItem($item, $args, $context, $info) : $item;
 							yield new CacheableValue($output, [$access]);
-						}
+						#}
 					}
 				}
 			}
