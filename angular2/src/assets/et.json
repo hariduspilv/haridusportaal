@@ -44,6 +44,7 @@
     "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?"
   },
   "article": {
+    "label": "Artikkel",
     "contact": "Kontakt",
     "hyperlinks": "",
     "similar_articles": ""
