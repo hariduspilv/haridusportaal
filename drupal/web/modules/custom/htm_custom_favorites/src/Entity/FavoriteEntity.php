@@ -60,7 +60,14 @@ class FavoriteEntity extends ContentEntityBase implements FavoriteEntityInterfac
 
   use EntityChangedTrait;
 
-  /**
+	public function __construct(array $values, $entity_type, $bundle = FALSE, array $translations = [])
+	{
+		$translations[] = ['et', 'en'];
+		parent::__construct($values, $entity_type, $bundle, $translations);
+	}
+
+
+	/**
    * {@inheritdoc}
    */
   public static function preCreate(EntityStorageInterface $storage_controller, array &$values) {
