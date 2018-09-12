@@ -35,6 +35,7 @@ import {TranslateModule, TranslateLoader, TranslatePipe} from '@ngx-translate/co
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BreadcrumbsComponent } from './_components/breadcrumbs/breadcrumbs.component';
 import { ShareComponent } from './_components/share/share.component';
+import { SearchComponent } from './_views/search/search.component';
 
 import { SettingsService } from './_core/settings';
 import { SchoolStudyProgrammesComponent } from './_components/school.study.programmes/school.study.programmes.component';
@@ -108,6 +109,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     StudiesComponent,
     TeachingsComponent,
     XjsonComponent,
+    SearchComponent,
     ConfirmPopupDialog
   ],
 

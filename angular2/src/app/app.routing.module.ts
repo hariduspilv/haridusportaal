@@ -17,7 +17,8 @@ import {
   StudyProgrammeCompareComponent,
   DashboardComponent,
   SchoolsFundingComponent,
-  XjsonComponent
+  XjsonComponent,
+  SearchComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { CertificatesComponent } from '@app/_components/certificates/certificates.component';
@@ -75,6 +76,9 @@ const appRoutes: Routes = [
       { path: 'opetan', component: TeachingsComponent},
       { path: '**', redirectTo: 'taotlused', pathMatch: 'full' }
     ]},
+
+  { path: ':lang/otsing', component: SearchComponent },
+  { path: ':lang/search', component: SearchComponent },
 
   { path: ':lang/isikukaart', component: PersonalDataComponent },
   { path: '', redirectTo: '/et', pathMatch: 'full' },

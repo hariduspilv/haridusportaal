@@ -1,4 +1,10 @@
 @import "../../../assets/styles/typography.scss";
+
+a:visited {
+  color: $red!important;
+}
+
+
 #schools-single {
   @include break-on(sm, min) {margin-top: $gutter;margin-left: $small;margin-right: $small;}
   @include break-on(lg, min) {margin-left: -$gutter;margin-right: -$gutter;}
