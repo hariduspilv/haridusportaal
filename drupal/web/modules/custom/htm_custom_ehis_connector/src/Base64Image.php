@@ -46,8 +46,7 @@ class Base64Image{
 		if(isset($mimeTypes[$mimeType])){
 			return '.' . $mimeTypes[$mimeType];
 		} else {
-			$split = explode('/', $mimeType);
-			return '.' . $split[1];
+			throw new BadRequestHttpException('File type unknown');
 		}
 	}
 
