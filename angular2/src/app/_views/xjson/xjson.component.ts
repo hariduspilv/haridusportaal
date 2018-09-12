@@ -14,7 +14,7 @@ import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confi
 export class XjsonComponent implements OnInit, OnDestroy{
  
   public objectKeys = Object.keys;
-
+  public test: boolean;
   public lang: string;
   public form_name: string;
   public subscriptions: Subscription[] = [];
@@ -46,7 +46,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   pathWatcher() { 
-    let subscribe = this.route.params.subscribe(
+    let params = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.form_name = params['form_name']
         this.lang = params['lang'];
@@ -54,8 +54,16 @@ export class XjsonComponent implements OnInit, OnDestroy{
         this.setPaths();
       }
     );
+    let strings = this.route.queryParams.subscribe(
+      (strings: ActivatedRoute) => {
+        this.test = (strings['test'] === 'true');
 
-    this.subscriptions = [...this.subscriptions, subscribe];
+        this.setPaths();
+      }
+    );
+
+    this.subscriptions = [...this.subscriptions, params];
+    this.subscriptions = [...this.subscriptions, strings];
   }
 
   promptEditConfirmation() {
@@ -273,11 +281,11 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   getData(data){
-    let test = true;
-    if(test) {
+    
+    if(this.test) {
       data.test = true; //TEST
     }
-
+    alert(JSON.stringify(data));
     let subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
       console.log(response);
       if(!response['header']) return this.errorHandler('Missing header from response');
@@ -333,7 +341,6 @@ export class XjsonComponent implements OnInit, OnDestroy{
 
   viewController(xjson){
     this.data = xjson;
-    console.log();
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
 
     if(!this.data_elements){
