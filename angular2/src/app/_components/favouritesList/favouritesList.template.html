@@ -9,14 +9,9 @@
     <ul class="list" *ngIf="list.length">
 
       <li *ngFor="let item of list">
-        <ng-container *ngIf="item.entity.fieldType == 'page'">
-          <a [routerLink]="[item.entity.fieldPage.entity.entityUrl.path]"> <span class="htm-icon">insert_link</span> {{item.entity.fieldFavoriteTitle}} </a>
+        <ng-container *ngIf="item.entity">
+          <a [routerLink]="[item.entity.entityUrl.path]"> <span class="htm-icon">insert_link</span> {{item.entity.entityLabel}}  </a>
         </ng-container>
-        
-        <ng-container *ngIf="item.entity.fieldType == 'search'">
-          <a href="{{item.entity.fieldSearch}}"> <span class="htm-icon">link</span> {{item.entity.fieldFavoriteTitle}}</a>
-        </ng-container>
-
       </li>
 
     </ul>

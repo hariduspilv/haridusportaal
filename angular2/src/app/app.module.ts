@@ -35,6 +35,7 @@ import {TranslateModule, TranslateLoader, TranslatePipe} from '@ngx-translate/co
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { BreadcrumbsComponent } from './_components/breadcrumbs/breadcrumbs.component';
 import { ShareComponent } from './_components/share/share.component';
+import { SearchComponent } from './_views/search/search.component';
 
 import { SettingsService } from './_core/settings';
 import { SchoolStudyProgrammesComponent } from './_components/school.study.programmes/school.study.programmes.component';
@@ -55,6 +56,7 @@ import { ApplicationsComponent } from '@app/_components/applications/application
 import { StudiesComponent } from '@app/_components/studies/studies.component';
 import { TeachingsComponent } from '@app/_components/teachings/teachings.component';
 import { XjsonComponent } from '@app/_views/xjson/xjson.component';
+import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -106,10 +108,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     ApplicationsComponent,
     StudiesComponent,
     TeachingsComponent,
-    XjsonComponent
+    XjsonComponent,
+    SearchComponent,
+    ConfirmPopupDialog
   ],
 
-  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent],
+  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent, ConfirmPopupDialog],
 
   imports: [
     BrowserModule,
