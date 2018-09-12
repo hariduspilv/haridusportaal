@@ -66,17 +66,15 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       let subscription = this.http.get('/graphql?queryId=customFavorites:1&variables=' + JSON.stringify(variables)).subscribe(response => {
 
 
-        if(response['data']['CustomFavorites'][0]['favoritesNew'].length) {
-          this.existingFavouriteItems = response['data']['CustomFavorites'][0]['favoritesNew'].filter(item => {
-            return item.entity != null;
-          });
-          
+        if(response['data']['CustomFavorites']['favoritesNew'].length) {
+          this.existingFavouriteItems = response['data']['CustomFavorites']['favoritesNew'].filter(item => item.entity != null );
         }
         else {
           this.existingFavouriteItems = [];
         }
         
         if(this.id != undefined) this.isFavouriteExisting( this.existingFavouriteItems);
+        
         this.loading = false;
         subscription.unsubscribe();
       });
@@ -122,6 +120,8 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     });
   }
   isFavouriteExisting(list){
+    if(!list.length) return false;
+
     this.existing = list.some(item => {
       if(item.entity != null){
         if(item.targetId == this.id ){
