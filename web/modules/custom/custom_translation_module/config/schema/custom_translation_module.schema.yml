@@ -538,6 +538,9 @@ custom_translation_module.settings:
         valid_email:
           type: label
           label: 'Content'
+        order_to_email:
+          type: label
+          label: 'Content'
         modal_title:
           type: label
           label: 'Content'
