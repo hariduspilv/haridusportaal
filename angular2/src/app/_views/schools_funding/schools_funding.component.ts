@@ -314,8 +314,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
   setPaths() {
     this.rootScope.set('langOptions', {
-      'en': '/en/school_funding',
-      'et': '/et/koolide_rahastus'
+      'en': '/en/school-funding',
+      'et': '/et/koolide-rahastus'
     });
   }
 
