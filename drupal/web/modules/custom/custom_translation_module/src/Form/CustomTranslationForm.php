@@ -1251,6 +1251,13 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('button.back_to_dashboard'),
 		];
+    $form['button']['rss_order'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Order topics by RSS'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('button.rss_order'),
+		];
 
 
 		$form['newsletter'] = [
@@ -1309,7 +1316,7 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['newsletter']['modal_content'] = [
 			'#type' => 'text_format',
 			'#title' => $this->t('Newsletter modal content'),
-			#'#default_value' => $config->get('newsletter.modal_content')['value'],
+			'#default_value' => $config->get('newsletter.modal_content')['value'],
 		];
 		$form['newsletter']['modal_close'] = [
 			'#type' => 'textfield',
