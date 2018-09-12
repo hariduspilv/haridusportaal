@@ -3,6 +3,8 @@
 namespace Drupal\htm_custom_favorites\Plugin\GraphQL\Fields\Favorites;
 
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\GraphQL\Cache\CacheableValue;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
@@ -20,9 +22,9 @@ use Drupal\Core\Language\LanguageManager;
  *   secure = true,
  *   name = "CustomFavorites",
  *   description = @Translation("Loads all user favorites"),
- *   type = "[Entity]",
+ *   type = "Entity",
  *   response_cache_tags = {"favorite_entity_list"},
- *   response_cache_context = {"user"},
+ *   response_cache_context = {"user", "languages:language_content"},
  *   arguments = {
  *     "language" = "LanguageId"
  *   },
@@ -83,20 +85,81 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 	 * {@inheritdoc}
 	 */
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
-		if($this->currentUser->isAuthenticated() && $this->getUserIDcode()){
-			$query = \Drupal::entityQuery('favorite_entity');
-			$query->accessCheck(TRUE);
-			$query->condition('user_idcode', $this->getUserIDcode());
-			$entity = $query->execute();
-			foreach($entity as $item){
-				$entity = $this->entityTypeManager->getStorage('favorite_entity')->load($item);
-				yield new CacheableValue($entity, [$entity]);
+		#if($this->currentUser->isAuthenticated() && $this->getUserIDcode()) {
+			$storage = $this->entityTypeManager->getStorage('favorite_entity');
+			if (!$entity = reset($storage->loadByProperties(['user_idcode' => $this->getUserIDcode()]))) {
+				return $this->resolveMissingEntity($value, $args, $info);
 			}
-		}else{
-			return NULL;
+			if ($entity instanceof TranslatableInterface && $entity->isTranslatable()) {
+				return $this->resolveEntityTranslation($entity, $args, $info);
+			}
+			return $this->resolveEntity($entity, $args, $info);
+		#}
+		#return NULL;
+	}
+
+	/**
+	 * @param \Drupal\Core\Entity\EntityInterface $entity
+	 *   The entity to resolve.
+	 * @param \Drupal\Core\Url $url
+	 *   The url of the entity to resolve.
+	 * @param array $args
+	 *   The field arguments array.
+	 * @param \GraphQL\Type\Definition\ResolveInfo $info
+	 *   The resolve info object.
+	 *
+	 * @return \Generator
+	 */
+	protected function resolveEntity(EntityInterface $entity, array $args, ResolveInfo $info) {
+		$access = $entity->access('view', NULL, TRUE);
+		#dump($access);
+		if ($access->isAllowed()) {
+			yield $entity->addCacheableDependency($access);
+		}
+		else {
+			yield new CacheableValue(NULL, [$access]);
 		}
 	}
+
+	/**
+	 * m
+	 *
+	 * @param array $value
+	 *   The url of the entity to resolve.
+	 * @param array $args
+	 *   The field arguments array.
+	 * @param \GraphQL\Type\Definition\ResolveInfo $info
+	 *   The resolve info object.
+	 *
+	 * @return \Generator
+	 */
+	protected function resolveMissingEntity($value, $args, $info) {
+		yield (new CacheableValue(NULL))->addCacheTags(['4xx-response']);
+	}
+
+	/**
+	 * Resolves the entity translation from the given url context.
+	 *
+	 * @param \Drupal\Core\Entity\EntityInterface $entity
+	 *   The entity to resolve.
+	 * @param \Drupal\Core\Url $url
+	 *   The url of the entity to resolve.
+	 * @param array $args
+	 *   The field arguments array.
+	 * @param \GraphQL\Type\Definition\ResolveInfo $info
+	 *   The resolve info object.
+	 *
+	 * @return \Iterator
+	 */
+	protected function resolveEntityTranslation(EntityInterface $entity, array $args, ResolveInfo $info) {
+		if ($entity instanceof TranslatableInterface && isset($args['language'])) {
+			$entity = $entity->getTranslation($args['language']);
+		}
+		return $this->resolveEntity($entity, $args, $info);
+	}
+
+
 	private function getUserIDcode(){
-		return User::load($this->currentUser->id())->field_user_idcode->value;
+		return ($code = User::load($this->currentUser->id())->field_user_idcode->value) ? $code : 0 ;
 	}
 }
