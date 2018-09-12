@@ -1,4 +1,8 @@
 @import "../../../assets/styles/typography.scss"; 
+
+
+a:visited { color: $red!important; }
+
 article {padding-bottom: $xxl;
   a {color: $blue;padding-right: $small;
     .htm-icon {color: $blue;}

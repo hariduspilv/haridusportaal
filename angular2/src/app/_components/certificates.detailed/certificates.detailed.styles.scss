@@ -12,7 +12,9 @@
       border: .0625rem solid $gray;
       width: 33%;
       color: $black;
-      text-transform: capitalize;
+      &:first-letter { 
+        text-transform: uppercase; 
+      }
       &:last-of-type {
         font-weight: 500;
       }
@@ -21,7 +23,7 @@
 }
 
 h1 { 
-display: inline-block;
+  display: inline-block;
   font-size: 1.5rem;
   font-weight: 500;
   line-height: 1.25;
@@ -32,13 +34,13 @@ display: inline-block;
 
 .top-link {
   line-height: 1.875rem;
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .highlighted {
-    border-radius: 0.78125rem;
+  border-radius: 0.78125rem;
   background-color: $aqua;
-    font-size: 0.875rem;
+  font-size: 0.875rem;
   line-height: 1.29;
   color: #333333;
   margin-left: 1rem;
