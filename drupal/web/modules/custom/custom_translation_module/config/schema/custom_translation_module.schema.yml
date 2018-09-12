@@ -737,3 +737,10 @@ custom_translation_module.settings:
         share:
           type: label
           label: 'Content'
+    search:
+      type: mapping
+      label: 'Search translations'
+      mapping:
+        keyword:
+          type: label
+          label: 'Content'
