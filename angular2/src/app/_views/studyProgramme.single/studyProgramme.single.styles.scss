@@ -38,7 +38,7 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   h2{font-size:1.25rem; line-height:100%; margin:0 0 -7px 0;}
   
   &.border-orange{border-top-color:$orange;}
-    .flex{display:flex;
+  .flex{display:flex;
   }
 
   map-wrapper { margin:-1.5rem -1.5rem 1.5rem -1.5rem; display: block;}
@@ -68,7 +68,14 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
 .border-orange{
   a {text-decoration: none;
     &:hover {text-decoration: underline;}}
-}
-@include break-on(sm, max) {.block {margin-bottom: 0;}}
+  }
+  @include break-on(sm, max) {.block {margin-bottom: 0;}}
 
-.mininav { width: 100%!important; flex-direction: row-reverse; }
+  .flex.mininav { padding-right: 1rem; }
+  favourites { margin-right: 0rem; margin-left: 1rem; }
+  @include break-on(sm, max) {
+    .flex.mininav { width: 100%!important; flex-direction: row-reverse; 
+      favourites { margin-right: 1rem!important; margin-left: 0rem!important; }
+    }
+  }
+
