@@ -134,7 +134,7 @@ share { margin-left: 0px!important; margin-right: 0px!important }
 &.xxs {flex-wrap: nowrap;@include break-on(xxs, max) {flex-wrap: wrap;}}
 }
 .btn {@include break-on(xxs, max) {padding-top: $medium;}}
-.full {flex-basis: 100%; 
+.full {flex-basis: 100%;z-index: 5;
   @include break-on(sm, min) {padding-right: $small;}
   @include break-on(xxs, min) {padding-right: $small;}
 }
