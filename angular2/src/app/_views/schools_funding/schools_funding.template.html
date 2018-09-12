@@ -4,7 +4,7 @@
       <div class="col-4 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.ownershipType">
           <mat-form-field>
-            <mat-select placeholder="Õppeasutuse omandivorm" [(ngModel)]="filterFormItems.ownershipType" name="ownershipType">
+            <mat-select placeholder="{{ 'school.institution_ownership' | translate }}" [(ngModel)]="filterFormItems.ownershipType" name="ownershipType">
               <mat-option>{{ 'button.all' | translate }}</mat-option>
               <ng-container  *ngIf="filterData.ownerShipType && filterData.ownerShipType.entities">
                 <ng-container *ngFor="let item of filterData.ownerShipType.entities">
@@ -20,7 +20,7 @@
       <div class="col-3 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.investmentMeasure">
           <mat-form-field>
-            <mat-select placeholder="Rahastusmeede" [(ngModel)]="filterFormItems.investmentMeasure" name="investmentMeasure">
+            <mat-select placeholder="{{ 'school.investment_measure' | translate }}" [(ngModel)]="filterFormItems.investmentMeasure" name="investmentMeasure">
               <mat-option>{{ 'button.all' | translate }}</mat-option>
               <ng-container  *ngIf="filterData.investmentMeasure && filterData.investmentMeasure.entities">
                 <ng-container *ngFor="let item of filterData.investmentMeasure.entities">
@@ -36,7 +36,7 @@
       <div class="col-3 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.investmentDeadline">
           <mat-form-field>
-            <mat-select placeholder="Rakendamise tähtaja aasta" [(ngModel)]="filterFormItems.investmentDeadline" name="investmentDeadline">
+            <mat-select placeholder="{{ 'school.investment_deadline_year' | translate }}" [(ngModel)]="filterFormItems.investmentDeadline" name="investmentDeadline">
               <mat-option>{{ 'button.all' | translate }}</mat-option>
               <mat-option [value]="item.toString()" *ngFor="let item of filterData.investmentDeadline">
                 {{ item }}
@@ -60,15 +60,15 @@
     <div class="col-12">
       <div class="block padding-block">
         <div class="block__head">
-          <div class="block__head__title">ÕPPEASUTUSED: TOETUSPROJEKTID</div>
+          <div class="block__head__title">{{ 'school.label' | translate | uppercase }}: {{ 'school.support_projects' | translate | uppercase}}</div>
           <div class="block__head__buttons sm-hide">
             <div class="view-item" (click)="changeView('schools')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'schools'">
               <span class="htm-icon">home</span>
-              <div class="title" >Õppeastused</div>
+              <div class="title" >{{ 'school.label' | translate }}</div>
             </div>
             <div class="view-item" (click)="changeView('areas')" attr.aria-label="{{ 'event.calendar' | translate }}" tabindex="0" [class.active]="view === 'areas'">
               <span class="htm-icon">location_on</span>
-              <div class="title">Haldusüksused</div>
+              <div class="title">{{ 'school.municipalities' | translate }}</div>
             </div>
           </div><!--/block__head__buttons-->
         </div><!--/block__hed-->
@@ -85,12 +85,12 @@
                     <p class="title">{{ marker.schoolInfo.entityLabel }}</p>
                     
                     <ng-container *ngIf="!infoWindowFunding">
-                      <p *ngIf="marker.schoolInfo.fieldRegistrationCode">Registrikood: <b>{{ marker.schoolInfo.fieldRegistrationCode }}</b></p>
-                      <p *ngIf="marker.schoolInfo.fieldOwnershipType">Omandivorm: <b>{{ marker.schoolInfo.fieldOwnershipType }}</b></p>
+                      <p *ngIf="marker.schoolInfo.fieldRegistrationCode">{{ 'school.register_code' | translate }}: <b>{{ marker.schoolInfo.fieldRegistrationCode }}</b></p>
+                      <p *ngIf="marker.schoolInfo.fieldOwnershipType">{{ 'school.ownership' | translate }}: <b>{{ marker.schoolInfo.fieldOwnershipType }}</b></p>
                     </ng-container>
                     <hr />
                     <ng-container *ngIf="!infoWindowFunding">
-                        <p>Vali rahastusmeetme aasta:</p>
+                        <p>{{ 'school.select_investment_measure_year' | translate }}:</p>
                         <div class="tab-buttons">
                           <ng-container *ngFor="let item of groupYears(marker.schoolInfo.CustomSubsidyProjects)">
                             <button (click)="showFunding(item, infoWindow)">{{ item }} </button>
@@ -99,16 +99,16 @@
                     </ng-container>
 
                     <ng-container *ngIf="infoWindowFunding">
-                      <a href="javascript:void(0);" (click)="showFunding(false)" class="link">&lt; Tagasi</a>
+                      <a href="javascript:void(0);" (click)="showFunding(false)" class="link">&lt; {{ 'button.back' | translate }}</a>
                       <div class="snazzy-scrollarea">
-                        <p>{{ infoWindowFunding }}-aasta  rahastusmeetmed</p>
+                        <p>{{ infoWindowFunding }}-{{ 'school.selected_year_investment_measure' | translate }}</p>
                         <ng-container *ngFor="let item of parseInfoWindowMarkerData(marker.schoolInfo.CustomSubsidyProjects)">
                           <ng-container *ngIf="item.year == infoWindowFunding">
                             <p>
-                              Rahastusmeede: <b>{{ item.investmentMeasure.entity.entityLabel }}</b><br />
-                              Projekt: <b>{{ item.investmentProject }}</b><br />
-                              Maksimaalne summa: <b>{{ item.investmentAmount }}</b><br />
-                              Rakendamise tähtaeg: <b>{{ item.investmentDeadline.unix*1000 | date:"dd.MM.yyyy" }}</b>
+                              {{ 'school.investment_measure' | translate }}: <b>{{ item.investmentMeasure.entity.entityLabel }}</b><br />
+                              {{ 'school.investment_project' | translate }}: <b>{{ item.investmentProject }}</b><br />
+                              {{ 'school.investment_max_amount' | translate }}: <b>{{ item.investmentAmount }}</b><br />
+                              {{ 'school.investment_deadline' | translate }}: <b>{{ item.investmentDeadline.unix*1000 | date:"dd.MM.yyyy" }}</b>
                             </p>
                           </ng-container>
                         </ng-container>
@@ -124,8 +124,8 @@
             </agm-data-layer>
           </agm-map>
           <div class="polygons-toggle" *ngIf="polygons">
-            <button (click)="changeLayer('county')" [class.active]="polygonLayer == 'county'">Maakonnad</button>
-            <button (click)="changeLayer('kov')" [class.active]="polygonLayer == 'kov'">Vallad/Linnad</button>
+            <button (click)="changeLayer('county')" [class.active]="polygonLayer == 'county'">{{ 'school.counties' | translate }}</button>
+            <button (click)="changeLayer('kov')" [class.active]="polygonLayer == 'kov'">{{ 'school.municipalities_detailed' | translate }}</button>
           </div>
         </div><!--/map-wrapper-->
 
@@ -133,7 +133,7 @@
           <div class="mapLegend">
             <div class="mapLegend__block" *ngFor="let item of heatMapRanges">
               <div class="mapLegend__color" [style.background-color]="item.color"></div>
-              {{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount| legendCurrency:"max" }} mln €
+              {{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount| legendCurrency:"max" }} {{ 'school.investment_amount_million_short' | translate }} €
             </div>
           </div><!--/map-legend-->
         </ng-container>
