@@ -143,7 +143,7 @@
       @include break-on(xxs, max) {padding: $medium $small;}
       &.cloud__additions {position: relative;
         @include break-on(sm, min) {
-          &:before {display:block;position: absolute;z-index: 3;top: 1rem;left: -8.5rem;
+          &:before {display:block;position: absolute;z-index: auto;top: 1rem;left: -8.5rem;
             content: url(/assets/img/frontpage-small-cloud-1.svg);
           }
         }
