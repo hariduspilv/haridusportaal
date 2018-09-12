@@ -32,7 +32,9 @@ use Drupal\Core\Language\LanguageManager;
  *     "input" = "FavoriteInput",
  *     "language" = "LanguageId!"
  *   },
- *   contextual_arguments = {"language"}
+ *   contextual_arguments = {"language"},
+ *   response_cache_tags = {"favorite_entity_list"},
+ *   response_cache_context = {"user"}
  * )
  */
 class CreateFavoriteItem extends CreateEntityBase{
@@ -135,7 +137,7 @@ class CreateFavoriteItem extends CreateEntityBase{
 						}
 					}
 				}
-				if($entity->favorites_new->count() >= 10) {
+				if($entity->favorites_new->count() >= 11) {
 					throw new \InvalidArgumentException((int) 1);
 				}
 			}
@@ -146,7 +148,7 @@ class CreateFavoriteItem extends CreateEntityBase{
 				return new EntityCrudOutputWrapper(NULL, $violations);
 			}
 			if (($status = $entity->save()) && $status === SAVED_UPDATED) {
-				return new EntityCrudOutputWrapper($entity->getTranslation('et'));
+				return new EntityCrudOutputWrapper($entity);
 			}
 			return NULL;
 		}
