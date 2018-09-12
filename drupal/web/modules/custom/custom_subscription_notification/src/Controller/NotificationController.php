@@ -43,7 +43,7 @@ class NotificationController extends ControllerBase {
     foreach($nodes as $node){
       $nodetags = $node->toArray()['field_tag'];
       foreach($nodetags as $tag){
-        if(isset($tag['target_id'])){
+        if($tag['target_id'] != ''){
           $tags[] = $tag['target_id'];
         }
       }
