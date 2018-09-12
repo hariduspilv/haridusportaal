@@ -1292,6 +1292,13 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('newsletter.valid_email'),
 		];
+    $form['newsletter']['order_to_email'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Order to email'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('newsletter.order_to_email'),
+		];
 		$form['newsletter']['modal_title'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Newsletter modal title'),
