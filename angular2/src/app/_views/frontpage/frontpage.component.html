@@ -1,16 +1,23 @@
 <ng-template #search>
-  <form class="section__form cloud__additions" (submit)="searchRoute(param)">
+  <form class="section__form cloud__additions">
     <div class="flex wrap xxs">
       <div class="grow full">
-        <div class="round-input__wrapper">
-          <span class="round-input__title">Märksõna</span>
+        <div class="round-input__wrapper" 
+          [class.complete]="!searchFocus && param"
+          [class.error]="!searchFocus && !param && searchError">
+          <span class="round-input__title">{{'search.keyword' | translate}}</span>
           <div class="round-input__field-wrapper">
-            <input attr.aria-label="{{ 'search.keyword' | translate }}" class="round-input__field" placeholder="{{ 'search.keyword' | translate }}" [(ngModel)]='param' name="param" />
+            <input attr.aria-label="{{ 'search.keyword' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" [class.focused]='searchFocus' placeholder="{{ 'search.keyword' | translate }}" [(ngModel)]='param' name="param" />
+          </div>
+          <div class="round-input__error">
+            <div class="round-input__error--text" *ngIf="!searchFocus && searchError">
+              <span role="alert">{{ 'Otsingu käivitamiseks sisesta otsitav märksõna' }}</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="btn">
-        <button attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+        <button (click)="searchRoute(param)" attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
       </div>
     </div>
   </form>

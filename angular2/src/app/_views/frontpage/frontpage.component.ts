@@ -13,6 +13,7 @@ import { HttpService } from '@app/_services/httpService';
 export class FrontpageComponent {
 
   error: boolean;
+  searchError: boolean = false;
 	news: any = false;
 	events: any = false;
 	generalData: any = false;
@@ -94,9 +95,12 @@ export class FrontpageComponent {
   }
 
   searchRoute(param) {
-    if (!param) {param = ''}
-    let url = this.lang === '/et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
-    this.router.navigateByUrl(url)
+    if (!param) {
+      this.searchError = true;
+    } else {
+      let url = this.lang === '/et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
+      this.router.navigateByUrl(url)
+    }
   }
 
   ngOnInit() {
