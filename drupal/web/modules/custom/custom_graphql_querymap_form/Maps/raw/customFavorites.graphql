@@ -1,11 +1,12 @@
-query ($language: LanguageId!){
-  CustomFavorites(language:$language){
-    ... on FavoriteEntity{
-      favoritesNew{
+query ($language: LanguageId!) {
+  CustomFavorites(language: $language) {
+    ... on FavoriteEntity {
+      favoritesNew {
         targetId
-        entity{
+        entity {
+          entityAccess(operation:"VIEW")
           entityLabel
-          entityUrl{
+          entityUrl {
             path
           }
         }
