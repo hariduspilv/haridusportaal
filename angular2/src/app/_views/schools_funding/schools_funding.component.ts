@@ -11,7 +11,7 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 })
 
 export class SchoolsFundingComponent extends FiltersService implements OnInit, OnDestroy {
-
+  lang: string;
   subscriptions: Subscription[] = [];
   parseFloat = parseFloat;
   toString = toString;
@@ -168,7 +168,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
     let url = "/graphql?queryId=subsidyProjectFilters:1&variables=";
     let variables = {
-      "lang":"ET"
+      "lang": this.lang.toUpperCase()
     }
 
     let subscription = this.http.get(url+JSON.stringify( variables ) ).subscribe( data => {
@@ -312,10 +312,28 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.polygonLayer = name;
     this.getData();
   }
+  setPaths() {
+    this.rootScope.set('langOptions', {
+      'en': '/en/school-funding',
+      'et': '/et/koolide-rahastus'
+    });
+  }
+
+  pathWatcher() { 
+    let subscribe = this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.lang = params['lang'];
+      }
+    );
+
+    this.subscriptions = [...this.subscriptions, subscribe];
+  }
 
   ngOnInit() {
 
     this.mapOptions.styles = this.rootScope.get("mapStyles");
+    this.setPaths();
+    this.pathWatcher();
     this.getFilters();
     this.watchSearch();
   }

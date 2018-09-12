@@ -44,8 +44,8 @@ const appRoutes: Routes = [
   { path: ':lang/school/:id', component: SchoolsSingleComponent },
   { path: ':lang/kool/:id', component: SchoolsSingleComponent },
 
-  { path: ':lang/koolide_rahastus', component: SchoolsFundingComponent},
-  { path: ':lang/school_funding', component: SchoolsFundingComponent},
+  { path: ':lang/koolide-rahastus', component: SchoolsFundingComponent},
+  { path: ':lang/school-funding', component: SchoolsFundingComponent},
 
   { path: ':lang/erialad/vordlus', component: StudyProgrammeCompareComponent},
   { path: ':lang/study-programmes/compare', component: StudyProgrammeCompareComponent},
