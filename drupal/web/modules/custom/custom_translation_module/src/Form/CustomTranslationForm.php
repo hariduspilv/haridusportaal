@@ -1847,6 +1847,25 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#default_value' => $config->get('errors.enter_valid_date'),
 		];
 
+    $form['tooltip'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Tooltip translations')
+    ];
+    $form['tooltip']['favourites'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Favourites'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('tooltip.favourites'),
+		];
+    $form['tooltip']['share'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Share'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('tooltip.share'),
+		];
+
 
 
 
