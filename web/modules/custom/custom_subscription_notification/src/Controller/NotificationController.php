@@ -19,10 +19,12 @@ class NotificationController extends ControllerBase {
     $content_types = ['news', 'event'];
     $notification_tags = $this->get_notification_tags($content_types);
     $subscription_entities = $this->get_subscription_entities('subscription_entity', $notification_tags);
-    foreach($subscription_entities as $entity){
-      $mailitems[] = $this->notification_email_content($notification_tags, $entity, $content_types);
+    if(count($subscription_entities > 0)){
+      foreach($subscription_entities as $entity){
+        $mailitems[] = $this->notification_email_content($notification_tags, $entity, $content_types);
+      }
+      return $mailitems;
     }
-    return $mailitems;
   }
 
   public function get_notification_tags($content_types){
@@ -53,13 +55,17 @@ class NotificationController extends ControllerBase {
   }
 
   public function get_subscription_entities($entity_type, $tags){
-    $query = \Drupal::entityQuery($entity_type);
-    $result_ids = $query
-    ->condition('status', 1)
-    ->condition('tag', $tags, 'IN')
-    ->execute();
+    $entities = [];
 
-    $entities = \Drupal::entityTypeManager()->getStorage($entity_type)->loadMultiple($result_ids);
+    if(count($tags > 0)){
+      $query = \Drupal::entityQuery($entity_type);
+      $result_ids = $query
+      ->condition('status', 1)
+      ->condition('tag', $tags, 'IN')
+      ->execute();
+
+      $entities = \Drupal::entityTypeManager()->getStorage($entity_type)->loadMultiple($result_ids);
+    }
 
     return $entities;
   }
