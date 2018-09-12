@@ -113,7 +113,7 @@ $grid-columns: 12;
 
 /* Common styles across components */
 
-.mininav { text-align: unset!important; }
+.mininav { text-align: inherit!important; }
 @include break-on(md, max) {
   .mininav { width: 100%!important; flex-direction: row; text-align: right!important; }
   share { margin-left: inherit!important; }
