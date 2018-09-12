@@ -22,6 +22,13 @@ export class SearchComponent {
     'en': [{"text": "Home", "url": "/en"}],
     'et': [{"text": "Avaleht", "url": "/et"}]
   };
+  types = [
+    {"name": "article.label", "index": "elasticsearch_index_drupaldb_articles", "value": true},
+    {"name": "news.label", "index": "elasticsearch_index_drupaldb_news", "value": true},
+    {"name": "event.label", "index": "elasticsearch_index_drupaldb_events", "value": true},
+    {"name": "school.label", "index": "elasticsearch_index_drupaldb_schools", "value": true},
+    {"name": "studyProgramme.label", "index": "elasticsearch_index_drupaldb_study_programmes", "value": true},
+  ];
   
   constructor (
     private rootScope:RootScopeService,
@@ -53,9 +60,13 @@ export class SearchComponent {
     if (window.location.host === ('test.edu.ee')) {
       url = "https://api.test.edu.ee/graphql?queryId=homeSearch:1&variables=";
     }
+    
+    let indexes = this.types.filter(elem => elem.value).map(item => item.index);
+
     let variables = {
       lang: this.rootScope.get('currentLang').toUpperCase(),
-      search_term: term
+      search_term: term,
+      indexes: indexes
     }
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
       this.results = data['data']['CustomElasticQuery'];
@@ -89,6 +100,10 @@ export class SearchComponent {
       var crumbUrl = lang === 'et' ? `/${lang}/otsing` : `/${lang}/search`;
     }
     return [...crumbs, {text: crumbText, url: crumbUrl}];
+  }
+
+  filterView(id) {
+    this.types[id].value = !this.types[id].value;
   }
 
 }

@@ -9,6 +9,12 @@
     &:last-child {border-bottom: none;padding-bottom: 0;}
     &--category {font-size: 0.875rem;line-height: 1.43;color: $dark-gray;padding-bottom: $half-gutter;}
   }
+  &__chips {display: flex;flex-wrap: wrap;margin: -$quarter $small .25rem;
+    &--chip {border-radius: 1.25rem;padding: $gutter $medium;border: solid .0625rem $gray;text-decoration: none;
+      margin: $quarter $gutter;font-size: .875rem;line-height: 1.25rem;color: $black;font-weight: 300;
+      &.selected {background-color: $aqua;}
+    }
+  }
   .alert {padding: $large $medium;font-size: $medium;line-height: $large;color: $black;}
 }
 .actions {margin-bottom: $xxl;margin-left: $medium; margin-right: $medium;
