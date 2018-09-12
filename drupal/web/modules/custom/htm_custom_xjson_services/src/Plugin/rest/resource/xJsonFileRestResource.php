@@ -115,7 +115,9 @@ class xJsonFileRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-
+		if(!$data['file']){
+			return new ModifiedResourceResponse('File missing', 400);
+		}
   	$img = new Base64Image($data['file']);
 		if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
 			return new ModifiedResourceResponse('Failed to save', 400);
