@@ -1,4 +1,0 @@
-services:
-  htm_custom_professional_certific.default:
-    class: Drupal\htm_custom_professional_certific\ProfessionalCertificateService
-    arguments: ['@current_user', '@redis.factory']
