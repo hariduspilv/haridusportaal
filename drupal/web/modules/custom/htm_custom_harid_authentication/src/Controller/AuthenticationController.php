@@ -15,16 +15,11 @@ class AuthenticationController extends ControllerBase {
   public function startAuthentication() {
 
       $userInfo = $this->getHarIdAuthentication();
+      $account = $this->getAccount($userInfo->personal_code);
+      $jwt = $this->getJwt($account, $userInfo);
+      kint($jwt);
+      die();
 
-      if($userInfo != NULL){
-        $account = $this->getAccount($userInfo);
-      }else{
-        $message = t('Missing user info in response.');
-        throw new HttpException(500, $message);
-      }
-      if(isset($account)){
-        kint($_SERVER);
-      }
     die();
     #$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     #kint($actual_link);
@@ -37,16 +32,51 @@ class AuthenticationController extends ControllerBase {
 
   }
 
+  public function getJwt($account, $userInfo){
+    $request_url = $_SERVER['HTTP_HOST'];
+    $request_url .= '/api/v1/token?_format=json';
+
+    $params['headers'] = array(
+      'Content-Type' => 'application/json'
+    );
+
+    $params['body'] = json_encode(array(
+      'name' => $userInfo->name,
+      'id_code' => $account->field_user_idcode->value
+    ));
+
+    $client = \Drupal::httpClient();
+    try{
+      $response = $client->post($request_url, $params);
+    }catch(HttpException $e){
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
+    }
+    $response = $client->post($request_url, $params);
+    $response_body = $response->getBody();
+    $response_data = json_decode($response_body->getContents());
+    if($response_data->message === 'Login succeeded'){
+      $token = $response_data->token;
+      return $token;
+    }else{
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
+    }
+  }
+
   public function getHarIdAuthentication(){
     $oidc = new OpenIDConnectClient('https://test.harid.ee', '0855cd5d8e5418a5e8c3dd3187dd0a6f', 'f75da21ad0d015fb71dba9895204429e57c7c9fa375779c00ae055cefcf9feac');
     #$oidc->providerConfigParam(array('token_endpoint' => 'https://test.harid.ee/et/access_tokens'));
     $oidc->addScope('personal_code');
+    $oidc->addScope('profile');
+    $oidc->addScope('openid');
     try{
       $oidc->authenticate();
     }catch(OpenIDConnectClientException $e){
-      return NULL;
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
     }
-    $userInfo = $oidc->requestUserInfo('personal_code');
+    $userInfo = $oidc->requestUserInfo();
     return $userInfo;
   }
 
@@ -65,7 +95,12 @@ class AuthenticationController extends ControllerBase {
     }else{
       $account = reset($users);
     }
-    return $account;
+    if(isset($account)){
+      return $account;
+    }else{
+      $message = t('Unable to authenticate user.');
+      throw new HttpException(500, $message);
+    }
   }
 
 }

@@ -242,7 +242,7 @@ newsletter:
   title: 'Uudiskiri - test test tekst tekst kui pikk see siis saab olla ma'
   intro: 'Mingi äge sissejuhatuse tekst, mida saab muuta ja värki!'
   confirm_subscription: 'Kinnita tellimus'
-  email: 'Sisesta oma e-kirja aadress'
+  email: 'Sisesta oma e-posti aadress'
   valid_email: 'SIsesta korrektne epost'
   modal_title: 'UUDISKIRJA TELLIMINE'
   modal_close: 'Sulge aken'
@@ -263,8 +263,8 @@ school:
   ownership: Omandivorm
   available_dormitory: 'Õpilaskodu/ühiselamu olemas'
   dormitory: Õpilaskodu
-  special_needs_long: HEV
-  special_needs_short: 'Hariduslikud erivajadused'
+  special_needs_long: 'Hariduslikud erivajadused'
+  special_needs_short: HEV
   list: Nimekiri
   map: Kaart
   no_result: 'Otsingu tingimistele vastavaid õppeasutusi ei leitud'

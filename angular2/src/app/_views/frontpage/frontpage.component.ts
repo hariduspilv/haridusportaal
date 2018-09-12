@@ -70,6 +70,12 @@ export class FrontpageComponent {
     });
   }
 
+  searchRoute(param) {
+    if (!param) {param = ''}
+    let url = this.lang === '/et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
+    this.router.navigateByUrl(url)
+  }
+
   ngOnInit() {
     (document.activeElement as HTMLElement).blur();
     this.lang = this.router.url;

@@ -1,11 +1,11 @@
 <ng-template #search>
-  <div class="section__form">
+  <form class="section__form" (submit)="searchRoute(param)">
     <div class="flex wrap xxs">
       <div class="grow full">
         <div class="round-input__wrapper">
           <span class="round-input__title">Märksõna</span>
           <div class="round-input__field-wrapper">
-            <input attr.aria-label="Märksõna" class="round-input__field" placeholder="Märksõna" [(ngModel)]='param' name="param" />
+            <input attr.aria-label="{{ 'search.keyword' | translate }}" class="round-input__field" placeholder="{{ 'search.keyword' | translate }}" [(ngModel)]='param' name="param" />
           </div>
         </div>
       </div>
@@ -13,7 +13,7 @@
         <button attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
       </div>
     </div>
-  </div>
+  </form>
 </ng-template>
 
 <ng-template #origin>

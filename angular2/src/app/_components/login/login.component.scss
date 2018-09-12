@@ -1,6 +1,6 @@
 @import "../../../assets/styles/typography.scss"; 
 :host{position: relative; z-index: 2; 
-  @include break-on(sm, min) {top: .1875rem;}
+  @include break-on(sm, min) {top: 0;}
 }
 
 .login-wrapper { position: relative;
