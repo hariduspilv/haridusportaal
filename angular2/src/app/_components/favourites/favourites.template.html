@@ -1,4 +1,4 @@
-<div class="favourites__wrapper" attr.aria-label="{{'Favourites dropdown, clickable'}}" *ngIf="!userLoggedOut">
+<div class="favourites__wrapper" attr.aria-label="{{'Favourites dropdown, clickable'}}" *ngIf="!userLoggedOut && !initializing">
     
     <span
      matTooltip="{{ 'tooltip.favourites' | translate }}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()" *ngIf="existingFavouriteItems">
