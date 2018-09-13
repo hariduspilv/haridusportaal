@@ -63,8 +63,8 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['frontpage']['favourites_limit_modal_content'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Add to favorites modal content'),
-			'#maxlength' => 64,
-			'#size' => 64,
+			'#maxlength' => 150,
+			'#size' => 150,
 			'#default_value' => $config->get('frontpage.favourites_limit_modal_content'),
 		];
 		$form['frontpage']['favourites_limit_modal_close'] = [
