@@ -83,7 +83,7 @@ _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
 ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
   font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
-::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}
+::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: underline;}
 ::ng-deep .events__list__item__body p:first-child {margin-top: 0;}
 ::ng-deep .events__list__item__body p:last-child {margin-bottom: 0;}
 

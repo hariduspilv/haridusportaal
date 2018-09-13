@@ -15,7 +15,7 @@
   }
   &__item {padding:$medium; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
     &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;
-      &:hover{text-decoration: underline;}
+      &:hover{text-decoration: none;}
     }
     &__col{width:50%; box-sizing: border-box;
       &:first-child{padding-right:1.5rem;}
