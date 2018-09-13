@@ -519,6 +519,9 @@ custom_translation_module.settings:
         back:
           type: label
           label: 'Content'
+        back_to_dashboard:
+          type: label
+          label: 'Content'
         rss_order:
           type: label
           label: 'Content'
@@ -662,6 +665,33 @@ custom_translation_module.settings:
         support_projects:
           type: label
           label: 'Content'
+        municipalities_detailed:
+          type: label
+          label: 'Content'
+        counties:
+          type: label
+          label: 'Content'
+        investment_amount_million_short:
+          type: label
+          label: 'Content'
+        register_code:
+          type: label
+          label: 'Content'
+        select_investment_measure_year:
+          type: label
+          label: 'Content'
+        selected_year_investment_measure:
+          type: label
+          label: 'Content'
+        investment_project:
+          type: label
+          label: 'Content'
+        investment_max_amount:
+          type: label
+          label: 'Content'
+        investment_deadline:
+          type: label
+          label: 'Content'
     studyProgramme:
       type: mapping
       label: 'Study programme translations'
@@ -725,5 +755,22 @@ custom_translation_module.settings:
       label: 'Not found translations'
       mapping:
         explanation:
+          type: label
+          label: 'Content'
+    tooltip:
+      type: mapping
+      label: 'Tooltip translations'
+      mapping:
+        favourites:
+          type: label
+          label: 'Content'
+        share:
+          type: label
+          label: 'Content'
+    search:
+      type: mapping
+      label: 'Search translations'
+      mapping:
+        keyword:
           type: label
           label: 'Content'

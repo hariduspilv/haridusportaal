@@ -283,6 +283,15 @@ school:
   investment_deadline_year: 'Rakendamise tähtaeg'
   municipalities: Omavalitsused
   support_projects: Toetusprojektid
+  municipalities_detailed: Omavalitsused
+  counties: Maakonnad
+  investment_amount_million_short: miljonit
+  register_code: Registrikood
+  select_investment_measure_year: 'Valitud rahastusmeetme aasta'
+  selected_year_investment_measure: 'Valitud aasta rahastusmeede'
+  investment_project: Toetusprojekt
+  investment_max_amount: 'Investeeringu summa'
+  investment_deadline: 'Investeeringu tähtaeg'
 studyProgramme:
   label: Erialad
   level: 'Õppekava tase'
@@ -320,3 +329,8 @@ studyProgramme:
   added_to_comparison: 'Eriala(d) lisatud võrdlusesse'
 errors:
   enter_valid_date: 'Sisesta korrektne kuupäev'
+tooltip:
+  favourites: Lemmikutesse
+  share: Jaga
+search:
+  keyword: Otsingusõna

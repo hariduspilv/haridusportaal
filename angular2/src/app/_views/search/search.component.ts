@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RootScopeService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
+import { Subscription } from 'rxjs/Subscription';
 @Component({
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
@@ -10,6 +11,7 @@ import { HttpService } from '@app/_services/httpService';
 export class SearchComponent {
   
   results: any = false;
+  dataSubscription: Subscription;
   breadcrumbs: any = false;
   path: any;
   lang: any;
@@ -22,6 +24,15 @@ export class SearchComponent {
     'en': [{"text": "Home", "url": "/en"}],
     'et': [{"text": "Avaleht", "url": "/et"}]
   };
+  types = [
+    {"name": "article.label", "sumLabel": "Artikkel", "index": "elasticsearch_index_drupaldb_articles", "value": false},
+    {"name": "news.label", "sumLabel": "Uudis", "index": "elasticsearch_index_drupaldb_news", "value": false},
+    {"name": "event.label", "sumLabel": "Sündmus", "index": "elasticsearch_index_drupaldb_events", "value": false},
+    {"name": "school.label", "sumLabel": "Kool", "index": "elasticsearch_index_drupaldb_schools", "value": false},
+    {"name": "studyProgramme.label", "sumLabel": "Õppekava", "index": "elasticsearch_index_drupaldb_study_programmes", "value": false},
+  ];
+  sums = {"Artikkel": 0, "Kool": 0, "Sündmus": 0, "Uudis": 0, "Õppekava": 0};
+    
   
   constructor (
     private rootScope:RootScopeService,
@@ -45,6 +56,9 @@ export class SearchComponent {
   }
 
   getResults(term) {
+    if( this.dataSubscription !== undefined ){
+      this.dataSubscription.unsubscribe();
+    }
     this.results = false;
     this.loading = true;
     this.listLimit = this.listStep;
@@ -53,15 +67,26 @@ export class SearchComponent {
     if (window.location.host === ('test.edu.ee')) {
       url = "https://api.test.edu.ee/graphql?queryId=homeSearch:1&variables=";
     }
+    
+    let indexes = this.types.filter(elem => elem.value).map(item => item.index);
+
     let variables = {
       lang: this.rootScope.get('currentLang').toUpperCase(),
-      search_term: term
+      search_term: term,
+      indexes: indexes
     }
-    this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+    this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
       this.results = data['data']['CustomElasticQuery'];
+      
+      this.sums = {"Artikkel": 0, "Kool": 0, "Sündmus": 0, "Uudis": 0, "Õppekava": 0};
+      this.results.forEach(res => {
+        this.sums[res.ContentType] += 1;
+      });
+      
       this.breadcrumbs = this.constructCrumbs()
       this.listLength = this.results.length
       this.loading = false;
+      this.dataSubscription.unsubscribe();
     });
   }
   
@@ -89,6 +114,11 @@ export class SearchComponent {
       var crumbUrl = lang === 'et' ? `/${lang}/otsing` : `/${lang}/search`;
     }
     return [...crumbs, {text: crumbText, url: crumbUrl}];
+  }
+
+  filterView(id) {
+    this.types[id].value = !this.types[id].value;
+    this.getResults(this.param)
   }
 
 }

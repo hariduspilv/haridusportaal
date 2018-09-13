@@ -61,6 +61,7 @@ module:
   history: 0
   hms_field: 0
   htm_custom_admin_form: 0
+  htm_custom_ehis_connector: 0
   htm_custom_event_registration: 0
   htm_custom_exports: 0
   htm_custom_favorites: 0

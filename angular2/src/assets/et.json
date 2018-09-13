@@ -44,6 +44,7 @@
     "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?"
   },
   "article": {
+    "label": "Artikkel",
     "contact": "Kontakt",
     "hyperlinks": "",
     "similar_articles": ""
@@ -302,6 +303,7 @@
     "results": "Otsingutulemused",
     "keyword": "Märksõna",
     "no_results_start": "Otsingule",
-    "no_results_end": "vastavaid tulemusi ei leitud.<br> Proovi otsida mõne teise märksõnaga."
+    "no_results_end": "vastavaid tulemusi ei leitud.<br> Proovi otsida mõne teise märksõnaga.",
+    "filter_results": "Filtreeri tulemusi"
   }
 }
