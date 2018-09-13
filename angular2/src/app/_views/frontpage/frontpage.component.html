@@ -1,5 +1,5 @@
 <ng-template #search>
-  <form class="section__form cloud__additions">
+  <form class="section__form cloud__additions" [class.focusedError]='!searchFocus && !param && searchError'>
     <div class="flex wrap xxs">
       <div class="grow full">
         <div class="round-input__wrapper" 
@@ -7,7 +7,7 @@
           [class.error]="!searchFocus && !param && searchError">
           <span class="round-input__title">{{'button.search_from_page' | translate}}</span>
           <div class="round-input__field-wrapper">
-            <input attr.aria-label="{{ 'button.search_from_page' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" [class.focused]='searchFocus' placeholder="{{ 'button.search_from_page' | translate }}" [(ngModel)]='param' name="param" />
+            <input attr.aria-label="{{ 'button.search_from_page' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" placeholder="{{ 'button.search_from_page' | translate }}" [(ngModel)]='param' name="param" />
           </div>
           <div class="round-input__error">
             <div class="round-input__error--text error-9" *ngIf="!searchFocus && searchError">
@@ -33,14 +33,14 @@
         <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
         <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
+        <a href="javascript:void(0)" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
       </a> 
-      <div class="col-3 sm-6 xxs-12" *ngIf="item.entity.fieldTopicLink && !item.entity.fieldTopicLink.url.routed">
-        <a class="column-center spaced pointer" href="{{item.entity.fieldTopicLink.url.path}}" target="_blank">
-          <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
-          <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
-          <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
-        </a>
-      </div> 
+      <a *ngIf="item.entity.fieldTopicLink && !item.entity.fieldTopicLink.url.routed" class="col-3 sm-6 xxs-12 column-center spaced pointer" href="{{item.entity.fieldTopicLink.url.path}}" target="_blank">
+        <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
+        <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
+        <a href="javascript:void(0)" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
+      </a>
     </ng-container>
   </article>
 </ng-template>
