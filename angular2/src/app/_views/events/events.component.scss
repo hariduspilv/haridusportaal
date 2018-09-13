@@ -6,7 +6,7 @@
   }
   & > *:nth-child(2) {margin-top: 0;}
   &__block {
-    &:hover {.title {text-decoration: underline;}}
+    &:hover {.title {text-decoration: none;}}
     &:last-child {
       .events__content {padding-bottom: $gutter; border-bottom:none;}
     }
@@ -91,16 +91,15 @@
         &__strong {font-weight: 500 !important;}
         .marker {width: .4375rem;height: .4375rem;background-color:$aqua; border-radius: 50%; display: inline-block;}
         &.active {box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);}
-        &:hover {text-decoration: underline;}
+        &:hover {text-decoration: none;}
         &__more {display:flex; margin-left: 0; padding: 0;white-space: normal;
           &:hover {color: $blue; text-decoration: none;
-            .content__strong {text-decoration: underline;}
+            .content__strong {text-decoration: none;}
           }
         }
       }
     }
     .more {padding-top: $half-gutter; padding-left: .625rem;
-      // a:hover {color: $dark-gray;}
     }
     .disableMore {.more__hidden {display: none;}}
   }
@@ -186,3 +185,4 @@
     }
 
     .htm-icon { position: relative; }
+    .title a { text-decoration: none; }

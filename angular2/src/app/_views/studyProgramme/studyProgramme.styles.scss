@@ -23,7 +23,7 @@
     }
     &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;
       @include break-on(sm, min) {margin-bottom:0.23rem; }
-      &:hover{text-decoration: underline;}
+      &:hover{text-decoration: none;}
     }
     &__head {font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-bottom: $half-gutter;}
     &__col{width:33%; box-sizing: border-box;
