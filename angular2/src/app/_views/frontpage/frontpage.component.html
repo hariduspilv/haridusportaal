@@ -1,16 +1,23 @@
 <ng-template #search>
-  <form class="section__form" (submit)="searchRoute(param)">
+  <form class="section__form cloud__additions" [class.focusedError]='!searchFocus && !param && searchError'>
     <div class="flex wrap xxs">
       <div class="grow full">
-        <div class="round-input__wrapper">
-          <span class="round-input__title">Märksõna</span>
+        <div class="round-input__wrapper" attr.aria-live="assertive" 
+          [class.complete]="!searchFocus && param"
+          [class.error]="!searchFocus && !param && searchError">
+          <span class="round-input__title">{{'button.search_from_page' | translate}}</span>
           <div class="round-input__field-wrapper">
-            <input attr.aria-label="{{ 'search.keyword' | translate }}" class="round-input__field" placeholder="{{ 'search.keyword' | translate }}" [(ngModel)]='param' name="param" />
+            <input attr.aria-label="{{ 'button.search_from_page' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" placeholder="{{ 'button.search_from_page' | translate }}" [(ngModel)]='param' name="param" />
+          </div>
+          <div class="round-input__error">
+            <div class="round-input__error--text error-9" *ngIf="!searchFocus && searchError">
+              <span role="alert">{{ 'Otsingu käivitamiseks sisesta otsitav märksõna' }}</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="btn">
-        <button attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+        <button (click)="searchRoute(param)" attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
       </div>
     </div>
   </form>
@@ -19,44 +26,38 @@
 <ng-template #origin>
   <article class="row origin">
     <div class="col-12 header">
-      <h1>Mis on Eduportaal?</h1>
+      <h1>{{generalData[0].fieldHeadBlockTitle}}</h1>
     </div>
-    <div class="col-3 sm-6 xxs-12 column-center spaced">
-      <img alt="Info õppimise kohta" src="../../assets/img/frontpage-ikoon1.svg">
-      <div attr.aria-label="Category" class="section__text--strong">Info õppimise kohta:</div>
-      <div attr.aria-label="Description" class="section__text">õppekavad, õppeasutused,<br> erialad.</div>
-    </div>
-    <div class="col-3 sm-6 xxs-12 column-center spaced">
-      <img alt="Hariduse taotlused" src="../../assets/img/frontpage-ikoon2.svg">
-      <div attr.aria-label="Category" class="section__text--strong">Hariduse taotlused:</div>
-      <div attr.aria-label="Description" class="section__text">taotluste esitamine<br> riiklikele asutustele.</div>
-    </div>
-    <div class="col-3 sm-6 xxs-12 column-center">
-      <img alt="Haridusmaastiku info" src="../../assets/img/frontpage-ikoon3.svg">
-      <div attr.aria-label="Category" class="section__text--strong">Haridusmaastiku info:</div>
-      <div attr.aria-label="Description" class="section__text">ülevaade sündmustest ja<br> uudistest.</div>
-    </div>
-    <div class="col-3 sm-6 xxs-12 column-center">
-      <img alt="OSKA teemad" src="../../assets/img/frontpage-ikoon4.svg">
-      <div attr.aria-label="Category" class="section__text--strong">OSKA teemad:</div>
-      <div attr.aria-label="Description" class="section__text">taotluste esitamine<br> riiklikele asutustele.</div>
-    </div>
+    <ng-container *ngFor="let item of generalData[0].fieldTopics; let i = index;">
+      <a href="javascript:void(0)" class="col-3 sm-6 xxs-12 column-center spaced pointer" *ngIf="item.entity.fieldTopicLink && item.entity.fieldTopicLink.url.routed" [routerLink]="item.entity.fieldTopicLink.url.path">
+        <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
+        <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
+        <a href="javascript:void(0)" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
+      </a> 
+      <a *ngIf="item.entity.fieldTopicLink && !item.entity.fieldTopicLink.url.routed" class="col-3 sm-6 xxs-12 column-center spaced pointer" href="{{item.entity.fieldTopicLink.url.path}}" target="_blank">
+        <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
+        <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
+        <a href="javascript:void(0)" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
+      </a>
+    </ng-container>
   </article>
 </ng-template>
 
 <ng-template #newsItem>
   <article class="news-list__recent__elem">
     <div class="title">{{ 'news.label' | translate | uppercase }}</div>
-    <div attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="[news[0].entityTranslation.entityUrl.path]"><h1> {{ news[0].entityTranslation.entityLabel }}</h1></a></div>
-    <div attr.aria-label="Author" class="author">{{ news[0].entityTranslation.fieldAuthor }} {{ news[0].entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</div>
+    <div attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="generalData[0].fieldSupernews.entity.entityUrl.path"><h1> {{ generalData[0].fieldSupernews.entity.title }}</h1></a></div>
+    <div attr.aria-label="Author" class="author">{{ generalData[0].fieldSupernews.entity.fieldAuthor }} {{ generalData[0].fieldSupernews.entity.created*1000 | date:"dd.MM.yyyy" }}</div>
   </article>
 </ng-template>
 
 <ng-template #newsItemMobile>
   <article class="news-list__recent__elem main-container">
     <div class="title">{{ 'news.label' | translate | uppercase }}</div>
-    <div attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="[news[0].entityTranslation.entityUrl.path]"><h1> {{ news[0].entityTranslation.entityLabel }}</h1></a></div>
-    <div attr.aria-label="Author" class="author">{{ news[0].entityTranslation.fieldAuthor }} {{ news[0].entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</div>
+    <div attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="generalData[0].fieldSupernews.entity.entityUrl.path"><h1> {{ generalData[0].fieldSupernews.entity.title }}</h1></a></div>
+    <div attr.aria-label="Author" class="author">{{ generalData[0].fieldSupernews.entity.fieldAuthor }} {{ generalData[0].fieldSupernews.entity.created*1000 | date:"dd.MM.yyyy" }}</div>
   </article>
 </ng-template>
 
@@ -65,7 +66,7 @@
     <article class="row">
       <div class="col-12 title">
         <span>{{ 'event.label' | translate | uppercase }}</span>
-        <span class="view-all"><a attr.aria-label="{{ 'button.view_all' | translate }}" [routerLink]="eventPath" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
+        <span class="view-all"><a attr.aria-label="{{ 'button.view_all' | translate }}: {{ 'event.label' | translate }}" [routerLink]="eventPath" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
       </div>
       <div class="col-4 sm-12 pointer event__elem" *ngFor="let item of events; let first = first;" [routerLink]="[item.entityUrl.path]">
         <span attr.aria-label="{{'event.start_time' | translate}}" class="subtext" *ngIf="item.fieldEventMainDate">{{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
@@ -81,7 +82,7 @@
     <article class="row">
       <div class="col-12 title">
         <span>{{ 'event.label' | translate | uppercase }}</span>
-        <span class="view-all"><a attr.aria-label="{{ 'button.view_all' | translate }}" [routerLink]="eventPath" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
+        <span class="view-all"><a attr.aria-label="{{ 'button.view_all' | translate }}: {{ 'event.label' | translate }}" [routerLink]="eventPath" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
       </div>
       <div class="col-4 sm-12 pointer event__elem" *ngFor="let item of events; let first = first;" [routerLink]="[item.entityUrl.path]">
         <span attr.aria-label="{{'event.start_time' | translate}}" class="subtext" *ngIf="item.fieldEventMainDate">{{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
@@ -91,8 +92,8 @@
     </article>
   </div>
 </ng-template>
-<mat-spinner *ngIf="loading" ></mat-spinner>
-<div class="frontpage" *ngIf="!loading && events && news">
+<mat-spinner *ngIf="!events || !news || !generalData" ></mat-spinner>
+<div class="frontpage" *ngIf="events && news && generalData">
   <div class="section section--search">
     <div class="content--middle search">
       <h1 class="lead-title">
@@ -101,23 +102,23 @@
         <span class="sm-hide"><b>Eduportaal -</b><br>hoia end haridusinfoga kursis!</span>
       </h1>
       <div class="section__block--search">
-        <div class="section__content">
+        <div class="section__content star__additions">
           <ng-container *ngTemplateOutlet="search"></ng-container>
         </div>
       </div>
     </div>
   </div>
-  <div class="section section--origin main-container">
+  <div class="section section--origin main-container" *ngIf="generalData && generalData.length">
     <div class="content">
       <ng-container *ngTemplateOutlet="origin"></ng-container>
     </div>
   </div>
-  <div class="section section--list--item sm-show" *ngIf="news && news.length">
+  <div class="section section--list--item sm-show" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews">
     <div class="content--listItem">
       <ng-container *ngTemplateOutlet="newsItemMobile"></ng-container>
     </div>
   </div>
-  <div class="section section--list--item main-container sm-hide" *ngIf="news && news.length">
+  <div class="section section--list--item main-container sm-hide" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews">
     <div class="content--listItem">
       <ng-container *ngTemplateOutlet="newsItem"></ng-container>
     </div>
@@ -129,7 +130,7 @@
   </div>
   <div class="section section--newsletter">
     <div class="content--middle newsletter">
-      <div class="section__block--newsletter">
+      <div class="section__block--newsletter star__additions">
         <div class="section__content xl__additions">
           <newsletter-order></newsletter-order>
         </div>

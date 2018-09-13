@@ -62,7 +62,6 @@ class FavoriteEntity extends ContentEntityBase implements FavoriteEntityInterfac
 
 	public function __construct(array $values, $entity_type, $bundle = FALSE, array $translations = [])
 	{
-		#$translations[] = ['et', 'en'];
 		parent::__construct($values, $entity_type, $bundle, $translations);
 	}
 
@@ -77,16 +76,16 @@ class FavoriteEntity extends ContentEntityBase implements FavoriteEntityInterfac
     ];
   }
 
-	/*public function preSave(EntityStorageInterface $storage)
+	public function preSave(EntityStorageInterface $storage)
 	{
+		foreach($this->languageManager()->getLanguages() as $langcode => $data){
+			if(!$this->hasTranslation($langcode)){
+				$this->addTranslation($langcode, ['user_idcode'=> $this->get('user_idcode')->value]);
+			}
+		}
+		#$this->save();
 		parent::preSave($storage);
-		if(!$this->hasTranslation('en')){
-			$this->addTranslation('en', ['user_idcode'=> $this->get('user_idcode')->value]);
-		}
-		if(!$this->hasTranslation('et')){
-			$this->addTranslation('et', ['user_idcode'=> $this->get('user_idcode')->value]);
-		}
-	}*/
+	}
 
 	/**
    * {@inheritdoc}
@@ -175,7 +174,7 @@ class FavoriteEntity extends ContentEntityBase implements FavoriteEntityInterfac
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'user')
       ->setSetting('handler', 'default')
-      ->setTranslatable(TRUE)
+     # ->setTranslatable(TRUE)
       ->setDisplayOptions('view', [
         'label' => 'hidden',
         'type' => 'author',
@@ -211,7 +210,7 @@ class FavoriteEntity extends ContentEntityBase implements FavoriteEntityInterfac
 		$fields['favorites_new'] = BaseFieldDefinition::create('favorite_field_type')
 			->setLabel('Favorite')
 			->setCardinality(10)
-			->setTranslatable(TRUE)
+			#->setTranslatable(TRUE)
 			->setDisplayOptions('form',[
 					'type' => 'favorite_widget_type',
 			]);
@@ -224,6 +223,17 @@ class FavoriteEntity extends ContentEntityBase implements FavoriteEntityInterfac
         'type' => 'boolean_checkbox',
         'weight' => -3,
       ]);
+
+		/*$fields['language'] = BaseFieldDefinition::create('language')
+			->setLabel(t('Language'))
+			#->setTranslatable(TRUE)
+			#->setDefaultValue('en')
+			->setDisplayOptions('form', [
+					'type' => 'language_select',
+			]);*/
+		/*$fields['langcode'] = BaseFieldDefinition::create('language')
+				->setLabel(t('Language code'))
+				->setDescription(t('The language code of Contact entity.'));*/
 
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))

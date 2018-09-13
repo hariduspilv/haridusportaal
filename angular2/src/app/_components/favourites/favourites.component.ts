@@ -20,6 +20,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     private maxFavouriteItems = 10;
     public existingFavouriteItems;
 
+    public initializing: boolean;
     public loading: boolean;
     public displaySuccess: boolean;
     public userLoggedOut: boolean;
@@ -64,9 +65,10 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         language: this.lang.toUpperCase()
       }
       let subscription = this.http.get('/graphql?queryId=customFavorites:1&variables=' + JSON.stringify(variables)).subscribe(response => {
-
-
-        if(response['data']['CustomFavorites']['favoritesNew'].length) {
+        this.loading = false;
+        if(this.initializing == true) this.initializing = false;
+        
+        if(response['data']['CustomFavorites'] && response['data']['CustomFavorites']['favoritesNew'].length) {
           this.existingFavouriteItems = response['data']['CustomFavorites']['favoritesNew'].filter(item => item.entity != null );
         }
         else {
@@ -75,7 +77,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         
         if(this.id != undefined) this.isFavouriteExisting( this.existingFavouriteItems);
         
-        this.loading = false;
+        
         subscription.unsubscribe();
       });
     }
@@ -199,6 +201,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     else return true;
   }
   initiateComponent(){
+    this.initializing = true;
     this.pathWatcher();
 
     this.userLoggedOut = this.user.getData()['isExpired'];

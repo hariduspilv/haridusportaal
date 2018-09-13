@@ -63,8 +63,8 @@ class CustomTranslationForm extends ConfigFormBase {
 		$form['frontpage']['favourites_limit_modal_content'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Add to favorites modal content'),
-			'#maxlength' => 64,
-			'#size' => 64,
+			'#maxlength' => 150,
+			'#size' => 150,
 			'#default_value' => $config->get('frontpage.favourites_limit_modal_content'),
 		];
 		$form['frontpage']['favourites_limit_modal_close'] = [
@@ -1566,12 +1566,75 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('school.municipalities'),
 		];
+    $form['school']['municipalities_detailed'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Municipalities detailed'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.municipalities_detailed'),
+		];
+    $form['school']['counties'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Counties'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.counties'),
+		];
     $form['school']['support_projects'] = [
 			'#type' => 'textfield',
 			'#title' => $this->t('Subsidy projects'),
 			'#maxlength' => 64,
 			'#size' => 64,
 			'#default_value' => $config->get('school.support_projects'),
+		];
+    $form['school']['investment_amount_million_short'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Investment amount million short'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.investment_amount_million_short'),
+		];
+    $form['school']['register_code'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('School register code'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.register_code'),
+		];
+    $form['school']['select_investment_measure_year'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Selected investment measure year'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.select_investment_measure_year'),
+		];
+    $form['school']['selected_year_investment_measure'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Selected year investment measure'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.selected_year_investment_measure'),
+		];
+    $form['school']['investment_project'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Investment project'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.investment_project'),
+		];
+    $form['school']['investment_max_amount'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Investment max amount'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.investment_max_amount'),
+		];
+    $form['school']['investment_deadline'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Investment deadline'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('school.investment_deadline'),
 		];
 
 		$form['studyProgramme'] = [
@@ -1845,6 +1908,36 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#maxlength' => 64,
 			'#size' => 64,
 			'#default_value' => $config->get('errors.enter_valid_date'),
+		];
+
+    $form['tooltip'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Tooltip translations')
+    ];
+    $form['tooltip']['favourites'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Favourites'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('tooltip.favourites'),
+		];
+    $form['tooltip']['share'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Share'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('tooltip.share'),
+		];
+    $form['search'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Search translations')
+    ];
+    $form['search']['keyword'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Keyword'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('search.keyword'),
 		];
 
 
