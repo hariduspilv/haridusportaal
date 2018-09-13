@@ -303,6 +303,7 @@
     "results": "Otsingutulemused",
     "keyword": "Märksõna",
     "no_results_start": "Otsingule",
-    "no_results_end": "vastavaid tulemusi ei leitud.<br> Proovi otsida mõne teise märksõnaga."
+    "no_results_end": "vastavaid tulemusi ei leitud.<br> Proovi otsida mõne teise märksõnaga.",
+    "filter_results": "Filtreeri tulemusi"
   }
 }

@@ -188,7 +188,7 @@
             <ng-container *ngFor="let event of eventList[yearKey][monthKey][dayKey]; let first = first; let last = last">
               <div class="events__block pointer"  [routerLink]="event.entityUrl.path">
                 <div class="events__content">
-                  <div class="title">{{ event.title }}</div>
+             <div class="title"><a href="javascript:void();"><h1>{{ event.title }}</h1></a></div>
                   <div class="sm-show info">
                     <span>{{ event.firstEventTime | unixToTime }}</span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
@@ -281,7 +281,7 @@
                 <div class="popupcontent">
                   <div class="event__block">
                     <div class="title">
-                      <span class="title__strong" >{{ event.title }}</span>
+                      <h1><span class="title__strong" >{{ event.title }}</span></h1>
 
                       <div class="title__close" attr.aria-label="{{'Click to close modal'}}" role="close">
                         <span class="htm-icon">close
