@@ -24,7 +24,7 @@
 </ng-template>
 
 <ng-template #origin>
-  <article class="row origin">
+  <article class="row origin" [class.extra-bottom]="!superNewsShown">
     <div class="col-12 header">
       <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown">{{generalData[0].fieldHeadBlockTitle}}</h1>
     </div>
@@ -130,7 +130,7 @@
   </div>
   <div class="section section--news main-container" *ngIf="news && news.length">
     <div class="content">
-      <recent-news frontpage="true" title="news"></recent-news>
+      <recent-news frontpage="true"></recent-news>
     </div>
   </div>
   <div class="section section--newsletter">
