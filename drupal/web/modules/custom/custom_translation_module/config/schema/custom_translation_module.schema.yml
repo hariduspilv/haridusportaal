@@ -519,6 +519,9 @@ custom_translation_module.settings:
         back:
           type: label
           label: 'Content'
+        back_to_dashboard:
+          type: label
+          label: 'Content'
         rss_order:
           type: label
           label: 'Content'
