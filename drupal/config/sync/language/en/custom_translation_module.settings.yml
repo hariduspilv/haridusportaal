@@ -191,6 +191,7 @@ studyProgramme:
   filter_iscedf_detailed: 'Curriculum group'
   filter_open_admission: 'Only open admission'
   no_result: 'No results'
+  no_results: 'No results'
 frontpage:
   label: Frontpage
   navigate: 'Go to frontpage'
