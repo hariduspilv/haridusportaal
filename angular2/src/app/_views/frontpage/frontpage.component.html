@@ -2,7 +2,7 @@
   <form class="section__form cloud__additions" [class.focusedError]='!searchFocus && !param && searchError'>
     <div class="flex wrap xxs">
       <div class="grow full">
-        <div class="round-input__wrapper" 
+        <div class="round-input__wrapper" attr.aria-live="assertive" 
           [class.complete]="!searchFocus && param"
           [class.error]="!searchFocus && !param && searchError">
           <span class="round-input__title">{{'button.search_from_page' | translate}}</span>

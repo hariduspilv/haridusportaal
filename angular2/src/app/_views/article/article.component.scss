@@ -38,7 +38,7 @@ article {padding-bottom: $small;
 .article {border-top: $gutter solid $light-blue;background: $white;
   @include break-on(sm, min) {border-radius: $half-gutter;height:100%;}
   &-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
-  &-image {width:100%; max-width:100%; height: auto;
+  &-image {max-width:100%; height: auto;
     @include break-on(sm, min) {width: stretch;max-width: 100%;margin: 0 1.5rem;}
     img { width: 100%; }
   }
@@ -55,8 +55,9 @@ _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
 ::ng-deep .description > *:last-child {margin-bottom: 0;}
 .short {@extend .description; font-weight: 500; padding-bottom: $small;}
 .mat-expansion-panel {box-shadow: none !important;border: 0rem solid $gray; border-radius: .125rem;margin-bottom: $half-gutter;
-  mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis; 
+  mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis; text-decoration: none;
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+  &:hover {text-decoration: underline;}
   }
   &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid $dark-orange; 
     mat-panel-title {white-space: normal;
@@ -66,7 +67,7 @@ _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
   &-body { padding: 0 1rem 1rem }
   &-spacing {margin: 0 0 $half-gutter 0;}
   &-header {height: 2.5rem !important;padding-right:$small; padding-left:$small;
-    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: $gutter; }
+    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0; }
   }
 }
 mat-panel-title {font-size: $small;}
@@ -89,7 +90,7 @@ mat-panel-title {font-size: $small;}
 ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
   font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
-::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: none;}
+::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: underline;}
 
 .mat-expansion-panel.mat-expanded { 
   background: transparent;

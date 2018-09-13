@@ -149,7 +149,7 @@
     <ng-container *ngFor="let item of list">
       <div class="schools__item">
           <div class="schools__item__head sm-hide" *ngIf="item.FieldEducationalInstitutionTy">{{ item.FieldEducationalInstitutionTy }}</div>
-          <h1><a [routerLink]="item.EntityPath" class="schools__item__title">{{ item.FieldSchoolName }}</a></h1>
+          <a href="javascript:void();" [routerLink]="item.EntityPath" class="schools__item__title"><h1>{{ item.FieldSchoolName }}</h1></a>
           <div class="inline__items sm-hide">
             <span class="item" attr.aria-label="{{'Aadress:'}} {{ item.FieldAddress }}" *ngIf="item.FieldAddress">{{ item.FieldAddress }}</span>
             <span class="bar" *ngIf="item.FieldSchoolWebpageAddress">|</span>
