@@ -1,0 +1,29 @@
+{
+  "name": "drupal/easychart",
+  "description": "A visual editor for the world's best web charting tool: Highcharts.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "keywords": ["Highcharts", "chart", "drupal"],
+  "homepage": "https://www.drupal.org/project/easychart",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Jan-Yves Vanhaverbeke",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Thomas Daem",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Kristof De Jaeger",
+      "homepage": "http://realize.be/",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/easychart",
+    "irc": "irc://irc.freenode.org/drupal-contribute",
+    "source": "http://git.drupal.org/project/easychart.git"
+  }
+}

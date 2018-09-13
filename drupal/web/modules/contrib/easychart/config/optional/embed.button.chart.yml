@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.easychart
+  module:
+    - easychart
+    - entity_embed
+    - node
+label: Chart
+id: chart
+type_id: entity
+type_settings:
+  entity_type: node
+  bundles:
+    - easychart
+  display_plugins:
+    - easychart
+  entity_browser: ''
+  entity_browser_settings: null
+icon_uuid: null

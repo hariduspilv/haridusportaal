@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.easychart.easychart
+    - node.type.easychart
+  module:
+    - easychart
+    - user
+id: node.easychart.default
+targetEntityType: node
+bundle: easychart
+mode: default
+content:
+  easychart:
+    weight: 1
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: easychart_default
+hidden:
+  links: true
