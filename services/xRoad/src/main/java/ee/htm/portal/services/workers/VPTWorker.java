@@ -23,6 +23,7 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Vp
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,7 +37,7 @@ public class VPTWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(VPTWorker.class);
 
-  private static final String VPT_FILES_KEY = "VPT_FILES";
+  private static final String VPT_FILES_KEY = "VPT_documents";
 
   @Resource
   private EhisV6XRoadService ehisV6XRoadService;
@@ -363,8 +364,8 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> custodyFiles = new ArrayList<>();
           stepOneDataElements.get("custody_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             custodyFiles.add(failInfoDto);
           });
@@ -374,8 +375,8 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> personFailInfoDtoList = new ArrayList<>();
           stepOneDataElements.get("family_members_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             personFailInfoDtoList.add(failInfoDto);
           });
@@ -515,8 +516,8 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> addedFiles = new ArrayList<>();
           stepTwoDataElements.get("family_members_income_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             addedFiles.add(failInfoDto);
           });
@@ -528,8 +529,8 @@ public class VPTWorker extends Worker {
           stepTwoDataElements.get("family_members_nonresident_income_proof")
               .get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             nonResidentFiles.add(failInfoDto);
           });
