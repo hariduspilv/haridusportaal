@@ -336,6 +336,14 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#size' => 64,
 			'#default_value' => $config->get('article.similar_articles'),
 		];
+    $form['article']['label'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Article label'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('article.label'),
+		];
+
 
 		$form['news'] = [
 			'#type' => 'details',
@@ -1938,6 +1946,41 @@ class CustomTranslationForm extends ConfigFormBase {
 			'#maxlength' => 64,
 			'#size' => 64,
 			'#default_value' => $config->get('search.keyword'),
+		];
+    $form['search']['label'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Search label'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('search.label'),
+		];
+    $form['search']['results'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Search results'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('search.results'),
+		];
+    $form['search']['no_results_start'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('No results text start'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('search.no_results_start'),
+		];
+    $form['search']['no_results_end'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('No results text end'),
+			'#maxlength' => 150,
+			'#size' => 150,
+			'#default_value' => $config->get('search.no_results_end'),
+		];
+    $form['search']['filter_results'] = [
+			'#type' => 'textfield',
+			'#title' => $this->t('Filter results'),
+			'#maxlength' => 64,
+			'#size' => 64,
+			'#default_value' => $config->get('search.filter_results'),
 		];
 
 
