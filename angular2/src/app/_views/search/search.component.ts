@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class SearchComponent {
   
   results: any = false;
+  filteredResults: any = false;
   dataSubscription: Subscription;
   breadcrumbs: any = false;
   path: any;
@@ -25,13 +26,13 @@ export class SearchComponent {
     'et': [{"text": "Avaleht", "url": "/et"}]
   };
   types = [
-    {"name": "article.label", "sumLabel": "Artikkel", "index": "elasticsearch_index_drupaldb_articles", "value": false},
-    {"name": "news.label", "sumLabel": "Uudis", "index": "elasticsearch_index_drupaldb_news", "value": false},
-    {"name": "event.label", "sumLabel": "Sündmus", "index": "elasticsearch_index_drupaldb_events", "value": false},
-    {"name": "school.label", "sumLabel": "Kool", "index": "elasticsearch_index_drupaldb_schools", "value": false},
-    {"name": "studyProgramme.label", "sumLabel": "Õppekava", "index": "elasticsearch_index_drupaldb_study_programmes", "value": false},
+    {"name": "article.label", "sumLabel": "Artikkel", "value": false, "sum": 0},
+    {"name": "news.label", "sumLabel": "Uudis", "value": false, "sum": 0},
+    {"name": "event.label", "sumLabel": "Sündmus", "value": false, "sum": 0},
+    {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
+    {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
   ];
-  sums = {"Artikkel": 0, "Kool": 0, "Sündmus": 0, "Uudis": 0, "Õppekava": 0};
+  // sums = {"Artikkel": 0, "Kool": 0, "Sündmus": 0, "Uudis": 0, "Õppekava": 0};
     
   
   constructor (
@@ -52,13 +53,14 @@ export class SearchComponent {
       'en': '/en/search',
       'et': '/et/otsing',
     });
-    this.breadcrumbs = this.constructCrumbs()
+    this.breadcrumbs = this.constructCrumbs();
   }
 
   getResults(term) {
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
+    this.filteredResults = false;
     this.results = false;
     this.loading = true;
     this.listLimit = this.listStep;
@@ -67,33 +69,42 @@ export class SearchComponent {
     if (window.location.host === ('test.edu.ee')) {
       url = "https://api.test.edu.ee/graphql?queryId=homeSearch:1&variables=";
     }
-    
-    let indexes = this.types.filter(elem => elem.value).map(item => item.index);
 
     let variables = {
       lang: this.rootScope.get('currentLang').toUpperCase(),
-      search_term: term,
-      indexes: indexes
+      search_term: term
     }
     this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
-      this.results = data['data']['CustomElasticQuery'];
+      this.results = this.filteredResults = data['data']['CustomElasticQuery'];
       
-      this.sums = {"Artikkel": 0, "Kool": 0, "Sündmus": 0, "Uudis": 0, "Õppekava": 0};
-      this.results.forEach(res => {
-        this.sums[res.ContentType] += 1;
+      this.types.forEach(type => {type.sum = 0;type.value = false});
+      this.filteredResults.forEach(res => {
+        this.types.forEach(type => {
+          if(type.sumLabel === res.ContentType) {type.sum += 1;}
+        });
       });
+      this.types.sort((a, b) => b.sum - a.sum)
       
       this.breadcrumbs = this.constructCrumbs()
-      this.listLength = this.results.length
+      this.listLength = this.filteredResults.length;
       this.loading = false;
       this.dataSubscription.unsubscribe();
     });
   }
-  
+
   loadMore() {
     const {listLimit, listLength, listStep} = this;
+    let newFocusIndex = listLimit;
     this.listLimit = listLimit + listStep < listLength ? listLimit + listStep : listLength;
+    // this.setFocus(`result_${newFocusIndex}`)
   }
+
+  // ngAfterViewInit() {
+  //   this.setFocus('result_0')
+  // }  
+  // setFocus(id) {)
+  //   document.getElementById(id).focus()
+  // }
   
   updateParams(toUpdate, param) {
     const queryParams = Object.assign({}, this.route.snapshot.queryParams);
@@ -118,7 +129,13 @@ export class SearchComponent {
 
   filterView(id) {
     this.types[id].value = !this.types[id].value;
-    this.getResults(this.param)
+    var typeArr = [];
+    this.types.forEach((type) => {
+      if (type.value) {typeArr.push(type.sumLabel)}
+    });
+    typeArr = !typeArr.length ? ["Artikkel", "Kool", "Sündmus", "Uudis", "Õppekava"] : typeArr;
+    this.filteredResults = this.results.filter(res => typeArr.includes(res.ContentType));
+    this.listLength = this.filteredResults.length;
   }
 
 }
