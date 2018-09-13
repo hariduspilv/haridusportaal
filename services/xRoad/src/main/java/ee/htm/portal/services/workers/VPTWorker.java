@@ -97,13 +97,13 @@ public class VPTWorker extends Worker {
     redisTemplate.opsForHash().put(personalCode, "vpTaotlus", documentsResponse);
   }
 
-  public ObjectNode getDocument(String documetType, String documentId) {
+  public ObjectNode getDocument(String formName, String identifier) {
     ObjectNode documentResponse = nodeFactory.objectNode();
 
     documentResponse.putObject("header")
-        .put("form_name", documetType)
+        .put("form_name", formName)
         .put("current_step", "step_0")
-        .put("identifier", documentId)
+        .put("identifier", identifier)
         .putArray("acceptable_activity")
         .add("VIEW");
 
@@ -111,12 +111,12 @@ public class VPTWorker extends Worker {
         .putObject("step_0").putObject("data_elements");
     dataElementsNode.putObject("application_file").putObject("value")
         .put("file_name", "taotlus.zip")
-        .put("file_identifier", "VPT_TAOTLUS_ZIP_" + documentId);
+        .put("file_identifier", "VPT_TAOTLUS_ZIP_" + identifier);
 
-    if (documetType.equalsIgnoreCase("VPT_ESITATUD_TAOTLUS_OTSUS")) {
+    if (formName.equalsIgnoreCase("VPT_ESITATUD_TAOTLUS_OTSUS")) {
       dataElementsNode.putObject("decision_file").putObject("value")
           .put("file_name", "otsus.bdoc")
-          .put("file_identifier", "VPT_OTSUS_DDOC_" + documentId);
+          .put("file_identifier", "VPT_OTSUS_DDOC_" + identifier);
     }
 
     return documentResponse;
