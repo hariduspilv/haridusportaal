@@ -1794,7 +1794,7 @@ class CustomTranslationForm extends ConfigFormBase {
 				'#title' => $this->t('Study programme filter no result'),
 				'#maxlength' => 64,
 				'#size' => 64,
-				'#default_value' => $config->get('studyProgramme.no_result'),
+				'#default_value' => $config->get('studyProgramme.no_results'),
 		];
 		$form['studyProgramme']['related_label'] = [
 				'#type' => 'textfield',
