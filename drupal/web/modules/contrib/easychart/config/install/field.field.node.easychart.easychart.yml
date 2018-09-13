@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.easychart
+    - node.type.easychart
+  module:
+    - easychart
+id: node.easychart.easychart
+field_name: easychart
+entity_type: node
+bundle: easychart
+label: Chart
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: easychart
