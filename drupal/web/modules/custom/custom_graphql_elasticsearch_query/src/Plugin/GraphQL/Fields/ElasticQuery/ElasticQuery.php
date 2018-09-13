@@ -133,7 +133,7 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
 protected function getContentTypeLabels($responsevalues){
   foreach($responsevalues as $value){
     if(isset($value['_source'])){
-      $language = \Drupal::languageManager()->getLanguage($value['source']['langcode'][0]);
+      $language = \Drupal::languageManager()->getLanguage($value['_source']['langcode'][0]);
       \Drupal::languageManager()->setConfigOverrideLanguage($language);
       $contentTypes = \Drupal::service('entity.manager')->getStorage('node_type')->loadByProperties(['type' => $value['_source']['content_type'][0]]);
       foreach($contentTypes as $type){
