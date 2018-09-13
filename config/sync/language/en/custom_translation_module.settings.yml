@@ -161,6 +161,15 @@ school:
   investment_deadline_year: 'Investment deadline'
   municipalities: Municipalities
   support_projects: 'Subsidy projects'
+  municipalities_detailed: Municipalities
+  counties: Counties
+  investment_amount_million_short: million
+  register_code: 'Register code'
+  select_investment_measure_year: 'Selected investment measure year'
+  selected_year_investment_measure: 'Selected year investment measure'
+  investment_project: 'Investment project'
+  investment_max_amount: 'Investment max amount'
+  investment_deadline: 'Investment deadline'
 studyProgramme:
   label: Studyprogrammes
   level: 'Curriculum level'
@@ -222,3 +231,5 @@ frontpage:
 tooltip:
   favourites: Favourites
   share: Share
+search:
+  keyword: Keyword
