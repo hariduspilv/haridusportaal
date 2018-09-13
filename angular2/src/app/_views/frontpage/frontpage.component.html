@@ -26,21 +26,26 @@
 <ng-template #origin>
   <article class="row origin">
     <div class="col-12 header">
-      <h1>{{generalData[0].fieldHeadBlockTitle}}</h1>
+      <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown">{{generalData[0].fieldHeadBlockTitle}}</h1>
     </div>
     <ng-container *ngFor="let item of generalData[0].fieldTopics; let i = index;">
       <a href="javascript:void(0)" class="col-3 sm-6 xxs-12 column-center spaced pointer" *ngIf="item.entity.fieldTopicLink && item.entity.fieldTopicLink.url.routed" [routerLink]="item.entity.fieldTopicLink.url.path">
         <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
         <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
-        <a href="javascript:void(0)" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
+        <a href="javascript:void(0)" [routerLink]="item.entity.fieldTopicLink.url.path" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
       </a> 
       <a *ngIf="item.entity.fieldTopicLink && !item.entity.fieldTopicLink.url.routed" class="col-3 sm-6 xxs-12 column-center spaced pointer" href="{{item.entity.fieldTopicLink.url.path}}" target="_blank">
         <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
         <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
-        <a href="javascript:void(0)" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
+        <a href="{{item.entity.fieldTopicLink.url.path}}" target="_blank" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
       </a>
+      <div class="col-3 sm-6 xxs-12 column-center spaced" *ngIf="!item.entity.fieldTopicLink && (item.entity.fieldTopicTitle || item.entity.fieldTopicText)">
+        <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
+        <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
+      </div> 
     </ng-container>
   </article>
 </ng-template>
@@ -113,12 +118,12 @@
       <ng-container *ngTemplateOutlet="origin"></ng-container>
     </div>
   </div>
-  <div class="section section--list--item sm-show" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews">
+  <div class="section section--list--item sm-show" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
     <div class="content--listItem">
       <ng-container *ngTemplateOutlet="newsItemMobile"></ng-container>
     </div>
   </div>
-  <div class="section section--list--item main-container sm-hide" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews">
+  <div class="section section--list--item main-container sm-hide" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
     <div class="content--listItem">
       <ng-container *ngTemplateOutlet="newsItem"></ng-container>
     </div>
