@@ -95,7 +95,8 @@
       @include break-on(sm, max) {padding: 4rem $medium $medium;}
       @include break-on(xxs, max) {padding: 0;padding-top: 4rem;}
     }
-    &__text {color: $black; font-size: $small; line-height: 1.375rem;text-align: center;
+    &__link {color: $blue; font-size: $small; line-height: 1.375rem;text-align: center;margin-top: $gutter;}
+    &__text {color: $black; font-size: $small; line-height: 1.375rem;text-align: center;max-width: 16rem;
       &--strong {color: $black;font-weight: 500;}
     }
     &--newsletter {position: relative;background-image: linear-gradient(#275489, #2E3374);margin-bottom: 9rem;margin-top: 9rem;
@@ -140,6 +141,7 @@
       }
     }
     &__form {border-radius: $half-gutter;padding: $medium;background: $white;
+      @include break-on(sm, min) {&.focusedError {padding: $medium $medium $large $medium;}}
       @include break-on(xxs, max) {padding: $medium $small;}
       &.cloud__additions {position: relative;
         @include break-on(sm, min) {
@@ -197,7 +199,9 @@
     h1.lead-title {text-align: center;width: 100%;box-sizing: border-box;padding-bottom: $xxl;color: $white;font-weight: 300;
       @include break-on(sm, max) {position: relative;padding-bottom: $medium;padding-top: 0;}
     }
-    a.column-center {text-decoration: none;}
+    a.column-center {text-decoration: none;padding: 0;
+      &:hover a.section__link {text-decoration: none;}
+    }
     .column-center {display: flex;flex-direction: column;align-items: center;z-index: 2;
       img {width: 7.5rem;}
       @include break-on(sm, max) {
