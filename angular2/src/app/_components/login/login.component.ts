@@ -50,12 +50,11 @@ export class LoginComponent implements OnInit{
     this.loader = true;
     this.user = false;
     this.userService.clearStorage();
-    this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password']
+    this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password'];
     this.http.post(this.postUrl, this.formModels).subscribe(data => {
       this.formModels['password'] = '';
       this.loader = false;
       this.data = data;
-
       if( !data['token'] ){ this.error = true; return false; }
 
       for( let i in this.formModels ){
@@ -70,6 +69,10 @@ export class LoginComponent implements OnInit{
         case 'et': this.router.navigateByUrl('/et/toolaud'); break;
         case 'en': this.router.navigateByUrl('/en/dashboard'); break;
       }
+    }, (data) => {
+      this.formModels['password'] = '';
+      this.loader = false;
+      if( !data['token'] ){ this.error = true; return false; }
     });
 
   }
