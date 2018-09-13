@@ -328,6 +328,7 @@ studyProgramme:
   compare_modal_content: ''
   non_active: 'Eriala ei ole aktiivne'
   added_to_comparison: 'Eriala(d) lisatud võrdlusesse'
+  no_results: 'Otsingutulemused puuduvad'
 errors:
   enter_valid_date: 'Sisesta korrektne kuupäev'
 tooltip:
