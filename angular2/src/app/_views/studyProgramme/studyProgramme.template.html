@@ -33,8 +33,8 @@
         <div class="col-3 align-end text-right sm-12 inline-flex form-col" *ngIf="!filterFull">
           <div class="align-center filter-state sm-hide">       
             <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="false">
-              <span class="md-hide">Täpsem otsing</span>
-              <span class="md-show">Täpne</span>
+              <span >Täpsem otsing</span>
+    
             </a>
           </div>
           <div class="button-row">
@@ -178,7 +178,7 @@
             <div class="col-grow">
               <div class="studyProgramme__item__head sm-hide" *ngIf="item.fieldStudyProgrammeLevel">{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</div>
               <span>
-                <h1><a [routerLink]="item.entityUrl.path" class="studyProgramme__item__title">{{ item.entityLabel }}</a></h1>
+                <a  href="javascript:void();" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.entityLabel }}</h1></a>
                 <div class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'"><h1>{{'studyProgramme.non_active' | translate}}</h1></div>
               </span>
             </div><!--col-9-->
