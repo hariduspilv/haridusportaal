@@ -36,13 +36,14 @@ public class HPortalRestController {
     return new ResponseEntity<>("{\"MESSAGE\":\"WORKING\"}", HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/getDocument/{documentType}/{documentId}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-  public ResponseEntity<?> getDocuments(@PathVariable("documentType") String documentType, @PathVariable("documentId") String documentId) {
-    if (documentType.startsWith("VPT_ESITATUD")) {
-      return new ResponseEntity<>(vptWorker.getDocument(documentType, documentId), HttpStatus.OK);
+  @RequestMapping(value = "/getDocument/{formName}/{identifier}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getDocuments(@PathVariable("formName") String formName,
+      @PathVariable("identifier") String identifier) {
+    if (formName.startsWith("VPT_ESITATUD")) {
+      return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
     }
 
-    LOGGER.error("Tundmatu request documentId - " + documentId);
+    LOGGER.error("Tundmatu request documentId - " + identifier);
     return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
   }
 
