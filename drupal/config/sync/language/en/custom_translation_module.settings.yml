@@ -27,6 +27,7 @@ article:
   contact: Contact
   hyperlinks: Links
   similar_articles: 'Related articles'
+  label: Article
 event:
   label: Events
   tags: 'Events'' labels'
@@ -131,6 +132,7 @@ button:
   newsletter_submit: 'Confirm subscription'
   choose_type: 'Select type'
   rss_order: 'Order topics by RSS'
+  back_to_dashboard: 'Back to dashboard'
 school:
   label: Schools
   institutions: Schools
@@ -233,3 +235,8 @@ tooltip:
   share: Share
 search:
   keyword: Keyword
+  label: Search
+  results: Results
+  no_results_start: Search
+  no_results_end: 'returned no results. Try another keyword.'
+  filter_results: 'Filter results'
