@@ -211,8 +211,11 @@
         &.missing-content {margin-bottom: $large} 
       }
     } 
-    @include break-on(xxs, max) {
-      .origin {
+    .origin {
+      @include break-on(sm, min) {
+        &.extra-bottom {margin-bottom: $small;}
+      }
+      @include break-on(xxs, max) {
         .header {margin-bottom: $gutter;}
         .column-center {
           &:nth-child(n) {margin-bottom: $small;}
