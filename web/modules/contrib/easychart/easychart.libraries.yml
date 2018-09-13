@@ -1,0 +1,44 @@
+# Libraries defined in the module.
+# The external libraries are defined in easychart_library_info_build().
+easychart.widget:
+  version: VERSION
+  js:
+    js/handsontable.full.min.js: {}
+    js/screenfull.min.js: {}
+    js/easychart.widget.js: {}
+  css:
+    theme:
+      css/handsontable.full.min.css: {}
+      css/easychart.widget.css: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalSettings
+    - core/drupal.ajax
+
+easychart.render:
+  version: VERSION
+  js:
+    js/easychart.render.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalSettings
+    - core/drupal.ajax
+
+easychart.admin:
+  version: VERSION
+  js:
+    js/easychart.admin.js: {}
+  css:
+    theme:
+      css/easychart.admin.css: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
+    - core/drupalSettings
+    - core/drupal.ajax
+    - core/jquery.ui.sortable
