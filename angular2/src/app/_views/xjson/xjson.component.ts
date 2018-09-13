@@ -79,7 +79,8 @@ export class XjsonComponent implements OnInit, OnDestroy{
         this.data.header.current_step = this.opened_step;
         this.data.header["activity"] = 'SAVE';
         let payload = {form_name: this.form_name, form_info: this.data}
-        this.getData(payload);
+        if(this.test === true) this.promptDebugDialog(payload)
+        else this.getData(payload);
       }
       this.dialogRef = null;
     });
@@ -240,7 +241,8 @@ export class XjsonComponent implements OnInit, OnDestroy{
         this.data.header["activity"] = activity;
         //console.log(this.data);
         let payload = {form_name: this.form_name, form_info: this.data};
-        this.getData(payload);
+        if(this.test === true) this.promptDebugDialog(payload)
+        else this.getData(payload);
       }
     }
   }
@@ -280,12 +282,52 @@ export class XjsonComponent implements OnInit, OnDestroy{
     return output
   }
 
+  promptDebugDialog(data) {
+    console.log(data);
+    if(this.test === false){
+      return this.getData(data);
+    }
+
+    this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
+      data: {
+        title: data.form_name,
+        content: JSON.stringify(data).split(',').join(',<br>'),
+        confirm: 'Jätka',
+        cancel: "Katkesta"
+      }
+    });
+    this.dialogRef.afterClosed().subscribe(result => {
+      if(result == true) {
+        
+        this.getData(data);
+      }
+      this.dialogRef = null;
+    });
+
+  }
+  setMaxStep(xjson){
+   
+    if(!Object.keys(xjson['body']['steps']).length){
+      //Any steps available?
+      return this.errorHandler('No steps available');
+      
+    } else if(Object.keys(xjson['body']['steps']).some(step => step == xjson['header']['current_step']) == false){
+       //current step does not exist?
+      this.max_step = Object.keys(xjson['body']['steps'])[0];
+    } else {
+
+      this.max_step = xjson['header']['current_step'];
+    }
+    
+  }
   getData(data){
     
     if(this.test) {
       data.test = true; //TEST
+      //alert(JSON.stringify(data));
+
     }
-    alert(JSON.stringify(data));
+    
     let subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
       console.log(response);
       if(!response['header']) return this.errorHandler('Missing header from response');
@@ -293,13 +335,9 @@ export class XjsonComponent implements OnInit, OnDestroy{
       if(!response['body']['steps']) return this.errorHandler('Missing body.steps from response');
 
       if(response['header']['current_step']) {
-        //current step exists?
-        if(Object.keys(response['body']['steps']).some(step => step == response['header']['current_step']) == false){
-          response['header']['current_step'] = Object.keys(response['body']['steps'])[0];
-        }
-        
-        this.max_step = response['header']['current_step'];
+        this.setMaxStep(response);
       }
+
       if(response['header']['acceptable_activity']){
         if((!(response['header']['acceptable_activity'] instanceof Array))) {
           return this.errorHandler('Acceptable activity is a string!');
@@ -323,19 +361,23 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   stepController(xjson){
-   
-    if(xjson.header.current_step === null || xjson.header.current_step === undefined) {
-      if(Object.keys(xjson.body.steps).length === 0) return this.errorHandler('No steps available');
-
-      this.opened_step = Object.keys(xjson.body.steps)[0];
+   /*
+    if(!xjson.header.current_step) {
+      if(!Object.keys(xjson.body.steps).length) return this.errorHandler('No steps available');
+      //this.max_step = Object.keys(xjson.body.steps)[0];
+      this.opened_step = this.max_step;
       
-    } else if (!this.opened_step){
+    } else {
       if(this.isItemExisting(Object.keys(xjson.body.steps), xjson.header.current_step)){
-        this.opened_step = xjson.header.current_step;
+        //this.max_step = xjson.header.current_step;
+        this.opened_step = this.max_step;
       } else {
         this.errorHandler('Missing current_step from body.steps array')
       }
-    }
+    } 
+    */
+    this.opened_step = this.max_step;
+
     this.viewController(xjson);
   }
 
@@ -345,7 +387,9 @@ export class XjsonComponent implements OnInit, OnDestroy{
 
     if(!this.data_elements){
       let payload = {form_name: this.form_name, form_info: xjson}
-      this.getData(payload)
+     
+      if(this.test === true) this.promptDebugDialog(payload)
+      else this.getData(payload)
      
     } else {
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
@@ -356,8 +400,10 @@ export class XjsonComponent implements OnInit, OnDestroy{
 
   ngOnInit(){
     this.pathWatcher();
-
-    this.getData({form_name: this.form_name});
+ 
+    let payload = {form_name: this.form_name}
+    if(this.test === true) this.promptDebugDialog(payload)
+    else this.getData(payload);
 
   };
 
