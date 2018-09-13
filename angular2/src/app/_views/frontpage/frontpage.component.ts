@@ -14,7 +14,8 @@ export class FrontpageComponent {
 
   error: boolean;
   searchError: boolean = false;
-	news: any = false;
+  news: any = false;
+  superNewsShown: boolean = false;
 	events: any = false;
 	generalData: any = false;
 	lang: string;
@@ -88,6 +89,7 @@ export class FrontpageComponent {
         this.generalData = [];
       } else {
         this.generalData = data['data']['nodeQuery']['entities'];
+        this.superNewsShown = this.superNewsValid();
       }
     },(data) => {
       this.generalData = [];
@@ -103,6 +105,14 @@ export class FrontpageComponent {
     }
   }
 
+  superNewsValid() {
+    var valid = true;
+    let superNewsPublished = this.generalData[0].fieldSupernewsPublishDate && this.generalData[0].fieldSupernewsPublishDate.date;
+    let superNewsUnPublished = this.generalData[0].fieldSupernewsUnpublishDate && this.generalData[0].fieldSupernewsUnpublishDate.date;
+    if (superNewsPublished) { superNewsPublished = new Date() > new Date(superNewsPublished); };
+    if (superNewsUnPublished) { superNewsUnPublished = new Date() < new Date(superNewsUnPublished); } else { superNewsUnPublished = true; };
+    return superNewsPublished && superNewsUnPublished;
+  }
   ngOnInit() {
     (document.activeElement as HTMLElement).blur();
     this.lang = this.router.url;
