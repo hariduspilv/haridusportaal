@@ -750,7 +750,7 @@ custom_translation_module.settings:
         filter_open_admission:
           type: label
           label: 'Content'
-        no_result:
+        no_results:
           type: label
           label: 'Content'
     notFound:
