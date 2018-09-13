@@ -310,7 +310,7 @@ share { margin-left: 0px!important; margin-right: 0px!important }
   .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
     &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
     &:hover {background-color: #454B92;}
-    &:focus {background-color: $white; border: 0.0625rem solid $blue; color: $blue; padding: 0rem 2.4375rem; }
+    // &:focus {background-color: $white; border: 0.0625rem solid $blue; color: $blue; padding: 0rem 2.4375rem; }
     @include break-on(sm, min) {width: auto;}
   }
   .mat-card{
