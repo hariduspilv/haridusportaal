@@ -5,9 +5,9 @@
         <div class="round-input__wrapper" 
           [class.complete]="!searchFocus && param"
           [class.error]="!searchFocus && !param && searchError">
-          <span class="round-input__title">{{'search.keyword' | translate}}</span>
+          <span class="round-input__title">{{'button.search_from_page' | translate}}</span>
           <div class="round-input__field-wrapper">
-            <input attr.aria-label="{{ 'search.keyword' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" [class.focused]='searchFocus' placeholder="{{ 'search.keyword' | translate }}" [(ngModel)]='param' name="param" />
+            <input attr.aria-label="{{ 'button.search_from_page' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" [class.focused]='searchFocus' placeholder="{{ 'button.search_from_page' | translate }}" [(ngModel)]='param' name="param" />
           </div>
           <div class="round-input__error">
             <div class="round-input__error--text error-9" *ngIf="!searchFocus && searchError">
@@ -29,12 +29,12 @@
       <h1>{{generalData[0].fieldHeadBlockTitle}}</h1>
     </div>
     <ng-container *ngFor="let item of generalData[0].fieldTopics; let i = index;">
-      <div class="col-3 sm-6 xxs-12 column-center spaced pointer" *ngIf="item.entity.fieldTopicLink.url.routed" [routerLink]="item.entity.fieldTopicLink.url.path">
+      <a href="javascript:void(0)" class="col-3 sm-6 xxs-12 column-center spaced pointer" *ngIf="item.entity.fieldTopicLink && item.entity.fieldTopicLink.url.routed" [routerLink]="item.entity.fieldTopicLink.url.path">
         <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
         <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
-      </div> 
-      <div class="col-3 sm-6 xxs-12" *ngIf="!item.entity.fieldTopicLink.url.routed">
+      </a> 
+      <div class="col-3 sm-6 xxs-12" *ngIf="item.entity.fieldTopicLink && !item.entity.fieldTopicLink.url.routed">
         <a class="column-center spaced pointer" href="{{item.entity.fieldTopicLink.url.path}}" target="_blank">
           <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
           <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
