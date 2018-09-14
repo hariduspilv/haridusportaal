@@ -27,13 +27,13 @@ export class SideMenuComponent {
     this.subscription = sidemenuService.updateLang().subscribe(status => {
       sidemenuService.getData( data => {
         this.data = data['menu']['links'];
-        // fixes sidebar - Not needed atm.
-        // [].forEach.call (document.querySelectorAll('.cdk-focus-trap-anchor'), (node) => {
-        //   node.parentNode.removeChild(node)
-        // });
       });
     });
 
+  }
+
+  closeParentNode(e) {
+    e.target.parentNode.classList.remove("menu-open");
   }
 
   routeIncludes(path) {

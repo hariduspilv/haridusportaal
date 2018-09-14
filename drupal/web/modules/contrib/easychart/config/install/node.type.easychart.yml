@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {}
+third_party_settings: {}
+name: Chart
+type: easychart
+description: 'Create a chart using the world''s best web charting tool: Highcharts'
+help: ''
+new_revision: false
+preview_mode: 0
+display_submitted: true

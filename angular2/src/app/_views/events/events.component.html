@@ -144,11 +144,11 @@
     <div class="events__head">
       <div class="events__title text-left">{{ 'event.label' | translate | uppercase }}</div>
       <div class="button-list text-right sm-hide">
-        <div class="view-item pointer" (click)="changeView('list')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'list'">
+        <div class="view-item pointer" (keyup.enter)="changeView('list')" (click)="changeView('list')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'list'">
           <span class="htm-icon">list</span>
           <div class="title" >{{ 'school.list' | translate }}</div>
         </div>
-        <div class="view-item pointer" (click)="changeView('calendar')" attr.aria-label="{{ 'event.calendar' | translate }}" tabindex="0" [class.active]="view === 'calendar'">
+        <div class="view-item pointer" (keyup.enter)="changeView('calendar')" (click)="changeView('calendar')" attr.aria-label="{{ 'event.calendar' | translate }}" tabindex="0" [class.active]="view === 'calendar'">
           <span class="htm-icon">today</span>
           <div class="title">{{ 'event.calendar' | translate }}</div>
         </div>
@@ -237,16 +237,16 @@
     <span attr.aria-label="{{' Location: '}} {{ 'event.calendar' | translate }} {{' tab '}}" tabindex="0"></span>
 
     <div class="navigation text-center">
-      <span tabindex="0" attr.aria-label="{{'Previous month'}}">
-         <span class="icon-wrapper">
-        <span class="pointer htm-icon" (click)="changeMonth(-1);">chevron_left</span>
-      </span>
+      <span tabindex="0" (keyup.enter)="changeMonth(-1);" attr.aria-label="{{'Previous month'}}">
+        <span class="icon-wrapper">
+          <span class="pointer htm-icon" (click)="changeMonth(-1);">chevron_left</span>
+        </span>
       </span>
       <span class="month"><h1 tabindex="0">{{ 'time.' + monthName | lowercase | translate }} <ng-container *ngIf="year !== current.year">{{ year }}</ng-container></h1></span>
-      <span  tabindex="0" attr.aria-label="{{'Next month'}}">
+      <span  tabindex="0" (keyup.enter)="changeMonth(1);" attr.aria-label="{{'Next month'}}">
         <span class="icon-wrapper">
-        <span class="htm-icon pointer" (click)="changeMonth(1);">chevron_right</span>
-      </span>
+          <span class="htm-icon pointer" (click)="changeMonth(1);">chevron_right</span>
+        </span>
       </span>
     </div><!--/text-center-->
     
@@ -269,7 +269,7 @@
 
             <ng-container *ngIf="i < maxEntries(day)">
 
-              <a class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" tabindex="0" attr.aria-label="{{'Event'}}">
+              <a href="javascript:void(0)" class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" (keyup.enter)="togglePopup(event.nid)" (keyup.esc)="popup = null" tabindex="0" attr.aria-label="Event {{event.title}}">
                 <span><div class="marker"></div></span>
                 <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
                 <span class="content__strong">{{ event.title }}</span>
@@ -277,26 +277,26 @@
             </ng-container>
             
             <ng-container *ngIf="popup === event.nid">
-              <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog">
+              <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog" (keyup.esc)="popup = null">
                 <div class="popupcontent">
                   <div class="event__block">
                     <div class="title">
                       <h1><span class="title__strong" >{{ event.title }}</span></h1>
 
-                      <div class="title__close" attr.aria-label="{{'Click to close modal'}}" role="close">
+                      <div class="title__close" role="close">
                         <span class="htm-icon">close
-                          <button class="btn-hidden pointer" (click)="closePopup()" tabindex="0"></button>
+                          <button class="btn-hidden pointer" id="firstClose" (click)="closePopup()" attr.aria-label="{{'Click to close modal'}}"></button>
                         </span>
                       </div>
                     </div>
                     
-                    <div tabindex="0"><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
-                    <div role="none" *ngIf="event.eventDates" tabindex="0"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
-                    <div *ngIf="event.location" tabindex="0"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
-                    <div *ngIf="event.fieldEntryType" tabindex="0"><span>{{ 'event.entrance' | translate }}: </span>{{ 'event.' + event.fieldEntryType | translate}}</div>
+                    <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
+                    <div role="none" *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
+                    <div *ngIf="event.location"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
+                    <div *ngIf="event.fieldEntryType"><span>{{ 'event.entrance' | translate }}: </span>{{ 'event.' + event.fieldEntryType | translate}}</div>
                   </div>
                   <div class="line"></div>
-                  <div class="event__more"><a href="javascript:void(0)" [routerLink]="event.entityUrl.path" tabindex="0">{{'button.view_more' | translate}}</a></div>
+                  <div class="event__more"><a href="javascript:void(0)" (blur)="trapFocus('firstClose')" [routerLink]="event.entityUrl.path" tabindex="0">{{'button.view_more' | translate}}</a></div>
                 </div>
               </div>
             </ng-container>
@@ -307,7 +307,7 @@
           </div>
 
           <div class="popup" *ngIf="morePopup === day">
-            <div class="popupcontent additional">
+            <div class="popupcontent additional" (keyup.esc)="popup = null">
               <div class="event__block event__block__more">
                 <div class="title">
                   <div class="header">
@@ -316,11 +316,11 @@
                     <div class="header__strong">{{day.i}}. {{ 'time.'+ monthName | lowercase | translate}}</div>
 
                   </div>
-                  <span class="close more"><a class="pointer" (click)="closeMore()"><span class="htm-icon">close</span></a></span>
+                  <span class="close more"><a href="javascript:void(0)" class="pointer" id="secondClose" (click)="closeMore()"><span class="htm-icon">close</span></a></span>
                 </div>
                 <div class="popup__scroll">
                   <ng-container *ngFor="let event of parseDay( day ); let i = index;">
-                    <a class="cal__event pointer" [routerLink]="event.entityUrl.path">
+                    <a href="javascript:void(0)" (blur)="trapFocus('secondClose')" class="cal__event pointer" [routerLink]="event.entityUrl.path">
                       <div class="content content__more">
                         <span><div class="marker"></div></span>
                         <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>

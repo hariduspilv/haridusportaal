@@ -71,6 +71,7 @@ class CustomMenuLinks extends FieldPluginBase implements ContainerFactoryPluginI
 					['callable' => 'menu.default_tree_manipulators:checkAccess'],
 					['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
 					['callable' => 'custom_graphql_functions.custom_tree_manipulators:checkAccess'],
+					['callable' => 'custom_graphql_functions.custom_tree_manipulators:OverrideLinks'],
 					['callable' => 'menu.default_tree_manipulators:generateIndexAndSort']
 			];
 

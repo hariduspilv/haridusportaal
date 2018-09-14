@@ -1,0 +1,46 @@
+easychart.options:
+  path: 'admin/config/media/easychart'
+  defaults:
+    _form: '\Drupal\easychart\Form\OptionsForm'
+    _title: 'Easychart'
+  requirements:
+    _permission: 'administer easychart settings'
+easychart.templates:
+  path: 'admin/config/media/easychart/templates'
+  defaults:
+    _form: '\Drupal\easychart\Form\TemplatesForm'
+    _title: 'Templates'
+  requirements:
+    _permission: 'administer easychart settings'
+easychart.presets:
+  path: 'admin/config/media/easychart/presets'
+  defaults:
+    _form: '\Drupal\easychart\Form\PresetsForm'
+    _title: 'Presets'
+  requirements:
+    _permission: 'administer easychart settings'
+easychart.reset_options_confirm_form:
+  path: 'admin/config/media/easychart/reset-options'
+  defaults:
+    _form: '\Drupal\easychart\Form\ResetOptionsConfirmForm'
+  requirements:
+    _permission: 'administer easychart settings'
+easychart.reset_templates_confirm_form:
+  path: 'admin/config/media/easychart/reset-templates'
+  defaults:
+    _form: '\Drupal\easychart\Form\ResetTemplatesConfirmForm'
+  requirements:
+    _permission: 'administer easychart settings'
+easychart.reset_presets_confirm_form:
+  path: 'admin/config/media/easychart/reset-presets'
+  defaults:
+    _form: '\Drupal\easychart\Form\ResetPresetsConfirmForm'
+  requirements:
+    _permission: 'administer easychart settings'
+easychart.settings:
+  path: 'admin/config/media/easychart/settings'
+  defaults:
+    _form: '\Drupal\easychart\Form\SettingsForm'
+    _title: 'Settings'
+  requirements:
+    _permission: 'administer easychart settings'

@@ -112,7 +112,13 @@ class JwtTokenRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-    if($data['username'] && $data['password']){
+    if($this->currentUser->isAnonymous()){
+			return new ModifiedResourceResponse('Authentication failed', 403);
+		}
+    else if(!$data['username'] || !$data['password']){
+			return new ModifiedResourceResponse('Username or password missing', 403);
+		}
+    else if($data['username'] && $data['password']){
 			$response['message'] = $this->t('Login succeeded');
 			$response['token'] = $this->generateToken();
 			return new ModifiedResourceResponse($response, 200);
@@ -121,12 +127,6 @@ class JwtTokenRestResource extends ResourceBase {
 			$response['message'] = $this->t('Login succeeded');
 			$response['token'] = $this->generateIdCodeToken($data);
 			return new ModifiedResourceResponse($response, 200);
-		}
-    else if(!$data['username'] || !$data['password']){
-			return new ModifiedResourceResponse('Username or password missing', 403);
-		}
-    else if($this->currentUser->isAnonymous()){
-			return new ModifiedResourceResponse('Authentication failed', 403);
 		}
   }
 

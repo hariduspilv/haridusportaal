@@ -6,7 +6,8 @@
       </div>
     </div>
     <div class="dialog__success--modal">
-      <div class="dialog__success--content" [innerHtml]="data.content" tabindex="0"></div>
+      <div class="dialog__success--content" tabindex="1" *ngIf="data.json" ><pre>{{ data.json | json}}</pre></div>
+      <div class="dialog__success--content" [innerHtml]="data.content" tabindex="2"></div>
       <div class="dialog__actions--success">
         <div class="text-center">
             <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="Confirm" (keyup.space)="dialogRef.close(true)" (keyup.enter)="dialogRef.close(true)" (click)="dialogRef.close(true)">{{ data.confirm }}</a></div>
