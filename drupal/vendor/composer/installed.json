@@ -3144,6 +3144,77 @@
         }
     },
     {
+        "name": "drupal/easychart",
+        "version": "3.4.0",
+        "version_normalized": "3.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/easychart",
+            "reference": "8.x-3.4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/easychart-8.x-3.4.zip",
+            "reference": "8.x-3.4",
+            "shasum": "6ec1848fd12b1515c16d841cc87a071883fa476c"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-3.x": "3.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-3.4",
+                "datestamp": "1475594996",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Jan-Yves Vanhaverbeke",
+                "homepage": "https://www.drupal.org/user/1823074",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Thomas Daem",
+                "homepage": "https://www.drupal.org/user/591438",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Kristof De Jaeger",
+                "homepage": "http://realize.be/",
+                "role": "Maintainer"
+            },
+            {
+                "name": "thomas_rz",
+                "homepage": "https://www.drupal.org/user/1142210"
+            }
+        ],
+        "description": "A visual editor for the world's best web charting tool: Highcharts.",
+        "homepage": "https://www.drupal.org/project/easychart",
+        "keywords": [
+            "Highcharts",
+            "chart",
+            "drupal"
+        ],
+        "support": {
+            "source": "http://git.drupal.org/project/easychart.git",
+            "issues": "https://www.drupal.org/project/issues/easychart",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
+    },
+    {
         "name": "drupal/editor_advanced_link",
         "version": "1.4.0",
         "version_normalized": "1.4.0.0",
@@ -12076,6 +12147,11 @@
         "name": "webflo/drupal-core-require-dev",
         "version": "8.5.6",
         "version_normalized": "8.5.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/webflo/drupal-core-require-dev.git",
+            "reference": "d44ea0ed342256d1036962069afd0518fa92449e"
+        },
         "require": {
             "behat/mink": "1.7.x-dev",
             "behat/mink-goutte-driver": "^1.2",

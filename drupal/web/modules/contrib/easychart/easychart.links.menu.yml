@@ -1,0 +1,5 @@
+easychart.options:
+  title: Easychart
+  description: 'Configure the options that will be available when creating charts.'
+  route_name: easychart.options
+  parent: system.admin_config_media

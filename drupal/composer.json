@@ -31,6 +31,7 @@
         "drupal/core": "~8.5.1",
         "drupal/devel": "~1.0",
         "drupal/dropzonejs": "^2.0@alpha",
+        "drupal/easychart": "^3.4",
         "drupal/editor_advanced_link": "^1.4",
         "drupal/editor_file": "^1.2",
         "drupal/elasticsearch_connector": "^5.0",

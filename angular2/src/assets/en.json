@@ -44,6 +44,7 @@
     "edit_step_confirm_modal_content": "Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?"
   },
   "article": {
+    "label": "Article",
     "contact": "Contact",
     "hyperlinks": "",
     "similar_articles": ""
@@ -303,6 +304,7 @@
     "results": "Search results",
     "keyword": "Keyword",
     "no_results_start": "Matching results for keyword",
-    "no_results_end": "not found.<br> Try a different query."
+    "no_results_end": "not found.<br> Try a different query.",
+    "filter_results": "Filter results"
   }
 }

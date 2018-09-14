@@ -1,0 +1,16 @@
+easychart.options:
+  title: 'Options'
+  route_name: easychart.options
+  base_route: easychart.options
+easychart.templates:
+  title: 'Templates'
+  route_name: easychart.templates
+  base_route: easychart.options
+easychart.presets:
+  title: 'Presets'
+  route_name: easychart.presets
+  base_route: easychart.options
+easychart.settings:
+  title: 'Settings'
+  route_name: easychart.settings
+  base_route: easychart.options

@@ -1,6 +1,6 @@
 @import "../../../assets/styles/typography.scss";
 .news-component {padding-bottom: $xxl;
-  a:hover { text-decoration: underline; }
+  a:hover { text-decoration: none; }
   .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
   .title {padding: $small $medium 0 $medium;
     @include break-on(sm, min) {padding: 0;}
@@ -24,7 +24,7 @@
     &:first-child { border-top: none; }
   }
   &:hover {
-    a {text-decoration: underline;}
+    a {text-decoration: none;}
   }
 }
 .actions {padding-top: $medium;
