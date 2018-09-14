@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy} from '@angular/core';
 import { Subscription } from '../../../../node_modules/rxjs';
 import { HttpService } from '@app/_services/httpService';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -6,6 +6,7 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
+import { DateFormatterDirective } from '@app/_directives/dateFormatter.directive';
 
 @Component({
   templateUrl: './xjson.template.html',
@@ -283,7 +284,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   promptDebugDialog(data) {
-    console.log(data);
+   
     if(this.test === false){
       return this.getData(data);
     }
@@ -291,7 +292,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
       data: {
         title: data.form_name,
-        content: JSON.stringify(data).split(',').join(',<br>'),
+        json: data,
         confirm: 'Jätka',
         cancel: "Katkesta"
       }
