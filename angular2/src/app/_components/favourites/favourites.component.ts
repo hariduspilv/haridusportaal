@@ -117,8 +117,9 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.existing = false;
         this.openFavouriteSnackbar('remove');
       }
-      this.getFavouritesList();
       this.loading = false;
+      this.getFavouritesList();
+      
       sub.unsubscribe();
     });
   }
@@ -142,8 +143,10 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
 
     let sub = this.http.post('/graphql', data).subscribe(response => {
+      this.loading = false;
       if(response['data']['createFavoriteItem']["errors"].length){
         this.openDialog();
+        if(this.snackbar) this.snackbar.dismiss();
       } else if(response['data']['createFavoriteItem']){
 
         this.existing = true;
@@ -151,7 +154,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.getFavouritesList();
         this.openFavouriteSnackbar('add');
       } 
-      this.loading = false;
+   
       sub.unsubscribe();
     });
   }
