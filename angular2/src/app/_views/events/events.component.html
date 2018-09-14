@@ -188,7 +188,7 @@
             <ng-container *ngFor="let event of eventList[yearKey][monthKey][dayKey]; let first = first; let last = last">
               <div class="events__block pointer"  [routerLink]="event.entityUrl.path">
                 <div class="events__content">
-             <div class="title"><a href="javascript:void();"><h1>{{ event.title }}</h1></a></div>
+             <a href="javascript:void();"><h1 class="title">{{ event.title }}</h1></a>
                   <div class="sm-show info">
                     <span>{{ event.firstEventTime | unixToTime }}</span>
                     <span>{{ event.location ? event.location.name : '' }}</span>

@@ -71,7 +71,7 @@ export class HeaderComponent {
       }
       if (event instanceof NavigationEnd) {
         let partials = ['/et/otsing', '/en/search'];
-        if (event.url === '/et' || event.url === '/en' || event.url === '/ru' || event.url.includes('/et/otsing') || event.url.includes('/en/search')) {
+        if (event.url === '/et' || event.url === '/en' || event.url === '/ru' || event.url.includes('/et/otsing') || event.url.includes('/en/search') || event.url.includes('/')) {
           this.hideElement = true;
         }  else {
           this.hideElement = false;
