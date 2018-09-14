@@ -135,6 +135,13 @@ export class SearchComponent {
     return this.types.filter((type) => type.value || !type.sum).length === 5 || this.types.filter((type) => !type.value).length === 5;
   }
 
+  filterAll() {
+    let typeArr = [];
+    this.types.forEach(type => type.value = false);
+    this.filteredResults = this.results;
+    this.listLength = this.filteredResults.length;
+  }
+
   filterView(id) {
     this.types[id].value = !this.types[id].value;
     var typeArr = [];
