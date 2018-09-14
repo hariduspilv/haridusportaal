@@ -138,10 +138,8 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   submitFavouriteItem(): void {   
     this.loading = true;
     let data = { queryId: "createFavoriteItem:1" }
-
     data['variables'] = this.compileVariables();
-
-
+    
     let sub = this.http.post('/graphql', data).subscribe(response => {
       this.loading = false;
       if(response['data']['createFavoriteItem']["errors"].length){
