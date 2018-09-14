@@ -65,7 +65,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         language: this.lang.toUpperCase()
       }
       let subscription = this.http.get('/graphql?queryId=customFavorites:1&variables=' + JSON.stringify(variables)).subscribe(response => {
-        this.loading = false;
+        
         if(this.initializing == true) this.initializing = false;
         
         if(response['data']['CustomFavorites'] && response['data']['CustomFavorites']['favoritesNew'].length) {
@@ -77,7 +77,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         
         if(this.id != undefined) this.isFavouriteExisting( this.existingFavouriteItems);
         
-        
+        this.loading = false;
         subscription.unsubscribe();
       });
     }
@@ -100,7 +100,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     return output;
   }
   removeFavouriteItem(item){
-   
+    this.loading = true;
     let data = { 
       queryId: "deleteFavoriteItem:1",
       variables: { 
@@ -118,6 +118,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.openFavouriteSnackbar('remove');
       }
       this.getFavouritesList();
+      this.loading = false;
       sub.unsubscribe();
     });
   }
@@ -134,7 +135,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     });
   }
   submitFavouriteItem(): void {   
-
+    this.loading = true;
     let data = { queryId: "createFavoriteItem:1" }
 
     data['variables'] = this.compileVariables();
@@ -150,7 +151,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.getFavouritesList();
         this.openFavouriteSnackbar('add');
       } 
-      
+      this.loading = false;
       sub.unsubscribe();
     });
   }
@@ -181,6 +182,8 @@ export class FavouritesComponent implements OnInit, OnDestroy{
  }
 
   toggleFavouritesButton(){
+    if(this.loading) return;
+
     this.isFavouriteExisting( this.existingFavouriteItems);
 
     if(this.existing === true){
