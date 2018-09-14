@@ -101,7 +101,7 @@ export class SearchComponent {
 
   ngAfterViewChecked() {
     if (this.filteredResults && !this.viewChecked) {
-      this.setFocus(1);
+      document.getElementById('initial').focus();
       this.viewChecked = true;
     }
   }  
@@ -140,6 +140,7 @@ export class SearchComponent {
     this.types.forEach(type => type.value = false);
     this.filteredResults = this.results;
     this.listLength = this.filteredResults.length;
+    this.allFilters = true;
   }
 
   filterView(id) {
