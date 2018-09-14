@@ -18,7 +18,6 @@ permissions:
   - 'administer nodes'
   - 'bypass node access'
   - 'create audio media'
-  - 'create avaleht content'
   - 'create content translations'
   - 'create crop_images media'
   - 'create custom_crop_image_16_9 media'

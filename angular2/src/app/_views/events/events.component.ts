@@ -648,4 +648,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
     return h + ':' + m;
   }
+
+  trapFocus(id) {
+    document.getElementById(id).focus();
+  }
 }

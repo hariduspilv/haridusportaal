@@ -1,0 +1,117 @@
+<?php
+
+/**
+ * @file
+ * Easychart module file.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\easychart\EasychartUpdate;
+use Drupal\file\Entity\File;
+
+/**
+ *  Implements hook_form_FORM_ID_alter().
+ *
+ * @param array $form
+ *   The form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state.
+ */
+function easychart_form_field_config_edit_form_alter(&$form, FormStateInterface $form_state) {
+  if ($form_state->getFormObject()->getEntity()->getType() == 'easychart') {
+    $form['default_value']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function easychart_cron() {
+  // We don't want to act every time cron runs (which could be every
+  // minute) so keep a time for the next run in state..
+  $interval = \Drupal::config('easychart.settings')->get('url_update_frequency');
+  $next_execution = \Drupal::state()->get('easychart_cron_next_execution', 0);
+
+  if (!empty($interval) && REQUEST_TIME >= $next_execution) {
+    EasychartUpdate::updateCSVFromUrl();
+    \Drupal::state()->set('easychart_cron_next_execution', REQUEST_TIME + $interval);
+  }
+}
+
+/**
+ * Implements hook_library_info_build().
+ */
+function easychart_library_info_build() {
+  $libraries = [];
+
+  // Used for rendering.
+  $libraries['lib.easycharts.render'] = [
+    'version' => 'VERSION',
+    'js' => [
+      base_path() . 'libraries/easychart/dist/ec.render.min.js' => [],
+    ]
+  ];
+
+  // The version numbers and remote for the next two libraries are used for
+  // drush integration.
+  $libraries['lib.highcharts'] = [
+    'version' => '4.2.7',
+    'remote' => 'http://code.highcharts.com/zips/Highcharts-4.2.7.zip',
+    'license' => [
+      'name' => 'Creative Commons Attribution - Non Commercial 3.0 License',
+      'gpl-compatible' => FALSE,
+    ],
+    'js' => [
+      base_path() . 'libraries/highcharts/js/highcharts.js' => [],
+      base_path() . 'libraries/highcharts/js/highcharts-3d.js' => [],
+      base_path() . 'libraries/highcharts/js/highcharts-more.js' => [],
+      base_path() . 'libraries/highcharts/js/modules/data.js' => [],
+      base_path() . 'libraries/highcharts/js/modules/funnel.js' => [],
+      base_path() . 'libraries/highcharts/js/modules/heatmap.js' => [],
+      base_path() . 'libraries/highcharts/js/modules/no-data-to-display.js' => [],
+      base_path() . 'libraries/highcharts/js/modules/solid-gauge.js' => [],
+      base_path() . 'libraries/highcharts/js/modules/treemap.js' => [],
+      base_path() . 'libraries/highcharts/js/modules/exporting.js' => [],
+    ]
+  ];
+
+  $libraries['lib.easycharts.full'] = [
+    'version' => '3.1.3',
+    'remote' => 'https://github.com/daemth/easychart/archive/master.zip',
+    'license' => [
+      'name' => 'MIT',
+      'url' => 'https://github.com/daemth/easychart/blob/master/LICENSE',
+      'gpl-compatible' => TRUE,
+    ],
+    'js' => [
+      base_path() . 'libraries/easychart/dist/ec.min.js' => [],
+    ]
+  ];
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_entity_presave().
+ *
+ * Copies the Easychart icon in case the chart embed button is installed.
+ */
+function easychart_entity_presave(EntityInterface $entity) {
+  // Install the chart file.
+  if ($entity->getEntityTypeId() == 'embed_button' && $entity->id() == 'chart' && $entity->isNew()) {
+    $path = drupal_get_path('module', 'easychart') . '/assets/chart.png';
+
+    /* @var $file \Drupal\file\FileInterface */
+    $file = File::create();
+    $file->setFileUri($path);
+    $file->setOwnerId(\Drupal::currentUser()->id());
+    $file->setMimeType('image/' . pathinfo($path, PATHINFO_EXTENSION));
+    $file->setFileName(\Drupal::service('file_system')->basename($path));
+
+    $chart_icon = file_copy($file, 'public://embed_buttons');
+    if ($chart_icon) {
+      $entity->icon_uuid = $chart_icon->uuid();
+    }
+  }
+}

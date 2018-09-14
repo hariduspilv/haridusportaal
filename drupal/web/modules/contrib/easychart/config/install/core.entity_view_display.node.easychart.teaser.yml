@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.easychart.easychart
+    - node.type.easychart
+  module:
+    - user
+id: node.easychart.teaser
+targetEntityType: node
+bundle: easychart
+mode: teaser
+content: {  }
+hidden:
+  easychart: true
+  links: true

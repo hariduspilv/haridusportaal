@@ -27,6 +27,7 @@ article:
   contact: Contact
   hyperlinks: Links
   similar_articles: 'Related articles'
+  label: Article
 event:
   label: Events
   tags: 'Events'' labels'
@@ -131,6 +132,8 @@ button:
   newsletter_submit: 'Confirm subscription'
   choose_type: 'Select type'
   rss_order: 'Order topics by RSS'
+  back_to_dashboard: 'Back to dashboard'
+  search_from_page: 'Search from page'
 school:
   label: Schools
   institutions: Schools
@@ -189,6 +192,7 @@ studyProgramme:
   filter_iscedf_detailed: 'Curriculum group'
   filter_open_admission: 'Only open admission'
   no_result: 'No results'
+  no_results: 'No results'
 frontpage:
   label: Frontpage
   navigate: 'Go to frontpage'
@@ -233,3 +237,8 @@ tooltip:
   share: Share
 search:
   keyword: Keyword
+  label: Search
+  results: Results
+  no_results_start: Search
+  no_results_end: 'returned no results. Try another keyword.'
+  filter_results: 'Filter results'
