@@ -1,6 +1,7 @@
 <?php
 namespace Drupal\htm_custom_ehis_connector;
 
+use Mimey\MimeTypes;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class Base64Image{
@@ -9,10 +10,13 @@ class Base64Image{
 	protected $fileName;
 	protected $mimeType;
 	protected $fileIdentifier;
+	protected $extensions;
 
-	public function __construct($base64Image)
+	public function __construct($base64Image, $custom_extensions = [])
 	{
 		$this->base64Image = $base64Image;
+		$this->mimes = new MimeTypes();
+		$this->extensions = $this->parseExtensions($custom_extensions);
 		$this->decodeBase64Image();
 	}
 
@@ -24,7 +28,7 @@ class Base64Image{
 
 		$f = finfo_open();
 		$mimeType = finfo_buffer($f, $this->fileData, FILEINFO_MIME_TYPE);
-		$ext = $this->getMimeTypeExtension($mimeType);
+		$ext = $this->validateFile($mimeType);
 		$this->mimeType = $mimeType;
 		$randomId = uniqid(rand());
 		$this->fileName = $randomId . $ext;
@@ -33,21 +37,27 @@ class Base64Image{
 
 	}
 
-	protected function getMimeTypeExtension($mimeType){
+	protected function validateFile($mimeType){
 		$insecure_filename = preg_match('/\/(x-php|php|pl|py|cgi|asp|js)(\.|$)/i', $mimeType);
 		if($insecure_filename){
 			throw new BadRequestHttpException('Potentially executable file!');
 		}
-		$mimeTypes = [
-			'image/png' => 'png',
-			'image/jpeg' => 'jpeg',
-			'application/pdf' => 'pdf'
-		];
+		$mimeTypes = $this->extensions;
 		if(isset($mimeTypes[$mimeType])){
 			return '.' . $mimeTypes[$mimeType];
 		} else {
-			throw new BadRequestHttpException('File type unknown');
+			throw new BadRequestHttpException('File type not allowed');
 		}
+	}
+
+	protected function parseExtensions($extensions){
+		$parsed = [];
+		foreach($extensions as $extension){
+			$mime_type = $this->mimes->getMimeType($extension);
+			$parsed[$mime_type] = $extension;
+		}
+
+		return $parsed;
 	}
 
 	public function getFileData(){

@@ -404,7 +404,7 @@ class xJsonService implements xJsonServiceInterface {
 		}
 	}
 
-	function sortTableValues($table_element){
+	protected function sortTableValues($table_element){
 
 		$table_cols = array_keys($table_element['table_columns']);
 
@@ -417,6 +417,20 @@ class xJsonService implements xJsonServiceInterface {
 			}
 		}
 		return $table_element;
+	}
+
+	public function searchDefinitionElement($key, $array, $form_name = NULL){
+		$results = [];
+		if($form_name) $array = $this->getEntityJsonObject($form_name);
+		if (is_array($array)) {
+			if (isset($array[$key])) {
+				$results[] = $array[$key];
+			}
+			foreach ($array as $subArray) {
+				$results = array_merge($results, $this->searchDefinitionElement($key, $subArray));
+			}
+		}
+		return $results;
 	}
 
 }
