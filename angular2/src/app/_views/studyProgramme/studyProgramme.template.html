@@ -73,10 +73,10 @@
         <div class="row form-additional-row">
             <div class="col-4 sm-12 form-col">
               <div class="round-input__wrapper">
-                <mat-form-field *ngIf="FilterOptions" >
+                <mat-form-field *ngIf="FilterOptions">
                   <mat-select placeholder="{{ 'studyProgramme.filter_language' | translate }}" [(ngModel)]='filterFormItems.language' name="language">
                     <mat-option>{{ 'all' | translate }}</mat-option>
-                    <mat-option  *ngFor="let language of FilterOptions.language" [value]="language.tid">
+                    <mat-option *ngFor="let language of FilterOptions.language" [value]="language.tid">
                       {{language.entityLabel}}
                     </mat-option>
                   </mat-select>
