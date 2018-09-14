@@ -133,6 +133,7 @@ button:
   choose_type: 'Select type'
   rss_order: 'Order topics by RSS'
   back_to_dashboard: 'Back to dashboard'
+  search_from_page: 'Search from page'
 school:
   label: Schools
   institutions: Schools
