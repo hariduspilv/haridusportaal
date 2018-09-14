@@ -429,6 +429,9 @@ custom_translation_module.settings:
         search:
           type: label
           label: 'Content'
+        search_from_page:
+          type: label
+          label: 'Content'
         load_more:
           type: label
           label: 'Content'

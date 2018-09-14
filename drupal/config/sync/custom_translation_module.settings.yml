@@ -212,7 +212,7 @@ button:
   add_to_comparison: 'Lisa võrdlusesse'
   search_people: 'Otsi inimesi'
   view_all: 'Vaata kõiki'
-  view_more: 'Vaata rohkem'
+  view_more: 'Vaata lähemalt'
   read_more: 'Loe rohkem'
   show_all: 'Näita kõiki'
   register: Registreeru
@@ -332,7 +332,7 @@ studyProgramme:
 errors:
   enter_valid_date: 'Sisesta korrektne kuupäev'
 tooltip:
-  favourites: Lemmikutesse
+  favourites: 'Lisa lemmikuks'
   share: Jaga
 search:
   keyword: Otsingusõna
