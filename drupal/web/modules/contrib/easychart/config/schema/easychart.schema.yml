@@ -1,0 +1,13 @@
+easychart.settings:
+  type: config_object
+  label: 'Easychart settings'
+  mapping:
+    presets:
+      type: string
+      label: 'Presets'
+    templates:
+      type: string
+      label: 'Templates'
+    url_update_frequency:
+      type: integer
+      label: 'Update frequency'

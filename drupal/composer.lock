@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "356220c0bcc902346106b0d58bb82f19",
+    "content-hash": "a5b82c0a4a39f62a618949626b5bbfac",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2742,6 +2742,75 @@
             }
         },
         {
+            "name": "drupal/easychart",
+            "version": "3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/easychart",
+                "reference": "8.x-3.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/easychart-8.x-3.4.zip",
+                "reference": "8.x-3.4",
+                "shasum": "6ec1848fd12b1515c16d841cc87a071883fa476c"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.x": "3.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-3.4",
+                    "datestamp": "1475594996",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Jan-Yves Vanhaverbeke",
+                    "homepage": "https://www.drupal.org/user/1823074",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Thomas Daem",
+                    "homepage": "https://www.drupal.org/user/591438",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Kristof De Jaeger",
+                    "homepage": "http://realize.be/",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "thomas_rz",
+                    "homepage": "https://www.drupal.org/user/1142210"
+                }
+            ],
+            "description": "A visual editor for the world's best web charting tool: Highcharts.",
+            "homepage": "https://www.drupal.org/project/easychart",
+            "keywords": [
+                "Highcharts",
+                "chart",
+                "drupal"
+            ],
+            "support": {
+                "source": "http://git.drupal.org/project/easychart.git",
+                "issues": "https://www.drupal.org/project/issues/easychart",
+                "irc": "irc://irc.freenode.org/drupal-contribute"
+            }
+        },
+        {
             "name": "drupal/editor_advanced_link",
             "version": "1.4.0",
             "source": {
@@ -4530,8 +4599,7 @@
             "homepage": "https://www.drupal.org/project/nginx_cache_clear",
             "support": {
                 "source": "http://cgit.drupalcode.org/nginx_cache_clear"
-            },
-            "time": "2018-06-29T06:50:36+00:00"
+            }
         },
         {
             "name": "drupal/node_view_permissions",

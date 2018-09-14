@@ -66,7 +66,7 @@ frontpage:
   label: Avaleht
   navigate: 'Mine avalehele'
   favourites_limit_modal_title: 'Lisa lemmikutesse'
-  favourites_limit_modal_content: 'Portaalis saab salvestada kuni 10 lemmikut'
+  favourites_limit_modal_content: 'Portaalis saab salvestada kuni 10 lemmikut. Kustutamiseks eemalda leheküljelt täheke.'
   favourites_limit_modal_close: 'Sulge aken'
   favourites_list_label: 'Minu lemmikud'
   favourites_list_none_message: 'Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides.'
@@ -106,6 +106,7 @@ article:
   contact: Kontakt
   hyperlinks: Lingid
   similar_articles: 'Sarnased artiklid'
+  label: Artikkel
 news:
   label: Uudised
   all: ''
@@ -211,7 +212,7 @@ button:
   add_to_comparison: 'Lisa võrdlusesse'
   search_people: 'Otsi inimesi'
   view_all: 'Vaata kõiki'
-  view_more: 'Vaata rohkem'
+  view_more: 'Vaata lähemalt'
   read_more: 'Loe rohkem'
   show_all: 'Näita kõiki'
   register: Registreeru
@@ -327,10 +328,16 @@ studyProgramme:
   compare_modal_content: ''
   non_active: 'Eriala ei ole aktiivne'
   added_to_comparison: 'Eriala(d) lisatud võrdlusesse'
+  no_results: 'Otsingutulemused puuduvad'
 errors:
   enter_valid_date: 'Sisesta korrektne kuupäev'
 tooltip:
-  favourites: Lemmikutesse
+  favourites: 'Lisa lemmikuks'
   share: Jaga
 search:
   keyword: Otsingusõna
+  label: Otsing
+  results: Otsingutulemused
+  no_results_start: Otsingule
+  no_results_end: 'vastavaid tulemusi ei leitud. Proovi otsida mõne teise märksõnaga.'
+  filter_results: 'Filtreeri tulemusi'

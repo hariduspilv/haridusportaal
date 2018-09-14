@@ -10,12 +10,12 @@
 
 
 
-  <a href="javascript:void(0)" class="login__actions" *ngIf="user.isExpired" (click)="toggleLogin()">
+  <a href="javascript:void(0)" class="login__actions" *ngIf="user.isExpired" (keyup.esc)="loginVisible = false;" (click)="toggleLogin()">
     <span class="person pointer htm-icon">person_outline</span>
     <span class="login pointer sm-hide">{{ 'button.login' | translate }}</span>
   </a>
-  <div class="dropdown-menu-overlay" (click)="toggleLogin()" *ngIf="loginVisible"></div>
-  <div class="dropdown-menu" *ngIf="loginVisible">
+  <div class="dropdown-menu-overlay" (click)="toggleLogin()" (keyup.esc)="loginVisible = false" *ngIf="loginVisible"></div>
+  <div class="dropdown-menu" *ngIf="loginVisible" (keyup.esc)="loginVisible = false">
 
     <mat-spinner *ngIf="loader"></mat-spinner>
 

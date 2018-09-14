@@ -195,7 +195,7 @@
     h1.lead-title {text-align: center;width: 100%;box-sizing: border-box;padding-bottom: $xxl;color: $white;font-weight: 300;
       @include break-on(sm, max) {position: relative;padding-bottom: $medium;padding-top: 0;}
     }
-    a.column-center {text-decoration: none;padding: 0;
+    a.column-center {text-decoration: none;
       &:hover a.section__link {text-decoration: none;}
     }
     .column-center {display: flex;flex-direction: column;align-items: center;z-index: 2;
@@ -206,12 +206,19 @@
         }
       }
     }
-    .header h1 {padding-top: $medium;} 
-    @include break-on(xxs, max) {
-      .origin {
+    .header h1 {padding-top: $medium;
+      @include break-on(sm, max) {
+        &.missing-content {margin-bottom: $large} 
+      }
+    } 
+    .origin {
+      @include break-on(sm, min) {
+        &.extra-bottom {margin-bottom: $small;}
+      }
+      @include break-on(xxs, max) {
         .header {margin-bottom: $gutter;}
         .column-center {
-          &:nth-child(n) {margin-bottom: $gutter;}
+          &:nth-child(n) {margin-bottom: $small;}
           &:last-child {margin-bottom: 0;}
         }
       }

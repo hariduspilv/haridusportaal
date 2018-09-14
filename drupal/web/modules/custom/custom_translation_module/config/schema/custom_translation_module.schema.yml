@@ -136,6 +136,9 @@ custom_translation_module.settings:
         similar_articles:
           type: label
           label: 'Content'
+        label:
+          type: label
+          label: 'Content'
     news:
       type: mapping
       label: 'News translations'
@@ -424,6 +427,9 @@ custom_translation_module.settings:
       label: 'Button translations'
       mapping:
         search:
+          type: label
+          label: 'Content'
+        search_from_page:
           type: label
           label: 'Content'
         load_more:
@@ -747,7 +753,7 @@ custom_translation_module.settings:
         filter_open_admission:
           type: label
           label: 'Content'
-        no_result:
+        no_results:
           type: label
           label: 'Content'
     notFound:
@@ -772,5 +778,20 @@ custom_translation_module.settings:
       label: 'Search translations'
       mapping:
         keyword:
+          type: label
+          label: 'Content'
+        label:
+          type: label
+          label: 'Content'
+        results:
+          type: label
+          label: 'Content'
+        no_results_start:
+          type: label
+          label: 'Content'
+        no_results_end:
+          type: label
+          label: 'Content'
+        filter_results:
           type: label
           label: 'Content'

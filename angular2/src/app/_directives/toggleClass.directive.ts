@@ -67,6 +67,10 @@ export class ToggleClassDirective implements OnInit, OnChanges {
       $event.stopPropagation();
 
       const currentClass = this.element.nativeElement.parentElement.attributes.class.nodeValue;
+      
+      // Close opened submenus
+      let openSubmenus = document.querySelectorAll('.subcategory.menu-open');
+      openSubmenus[0] && openSubmenus[0].classList.remove('menu-open');
 
       if ( currentClass.indexOf( this.className ) !== -1) {
         this.renderer.removeClass(this.element.nativeElement.parentElement, this.className );
@@ -75,5 +79,12 @@ export class ToggleClassDirective implements OnInit, OnChanges {
       }
 
     }
+    
+    //Removed logic from HostListener to avoid closing submenus while focus elsewhere (not on the menu)
+
+    // // Close on escape keypress
+    // @HostListener('document:keyup.escape', ['$event']) onKeydownHandler(evt: KeyboardEvent) {
+    //   this.renderer.removeClass(this.element.nativeElement.parentElement, this.className );
+    // }
 
 }

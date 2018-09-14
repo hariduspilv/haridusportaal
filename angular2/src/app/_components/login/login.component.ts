@@ -50,12 +50,11 @@ export class LoginComponent implements OnInit{
     this.loader = true;
     this.user = false;
     this.userService.clearStorage();
-    this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password']
+    this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password'];
     this.http.post(this.postUrl, this.formModels).subscribe(data => {
       this.formModels['password'] = '';
       this.loader = false;
       this.data = data;
-
       if( !data['token'] ){ this.error = true; return false; }
 
       for( let i in this.formModels ){
@@ -65,11 +64,26 @@ export class LoginComponent implements OnInit{
       this.loginVisible = false;
 
       this.user = this.userService.storeData(data['token']);
-      //this.userService.triggerPageReload();  
-      switch(this.router.url.split('/')[1]){
-        case 'et': this.router.navigateByUrl('/et/toolaud'); break;
-        case 'en': this.router.navigateByUrl('/en/dashboard'); break;
+      
+      let redirectUrl;
+      let lang = this.router.url.split('/')[1];
+      switch(lang){
+        case 'et': redirectUrl = '/et/toolaud';
+        case 'en': redirectUrl = '/en/dashboard';
+        default: redirectUrl = '/et/toolaud';
       }
+      
+      this.router.navigateByUrl(lang, {skipLocationChange: true}).then( () => {
+        this.router.navigateByUrl(redirectUrl);
+        this.sidemenu.triggerLang(true);
+      });
+    
+    
+      
+    }, (data) => {
+      this.formModels['password'] = '';
+      this.loader = false;
+      if( !data['token'] ){ this.error = true; return false; }
     });
 
   }

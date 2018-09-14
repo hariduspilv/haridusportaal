@@ -1,0 +1,5 @@
+'administer easychart settings':
+  title: 'Administer Easychart settings'
+  description: 'Configure default settings for the Easychart popup.'
+'access full easychart configuration':
+  title: 'Allow using all Easychart configuration options.'

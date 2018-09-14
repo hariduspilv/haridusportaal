@@ -1,0 +1,62 @@
+/* Admin configuration */
+#easychart-options-ui ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#easychart-options-ui .ec-vertical-tabs-wrapper {
+  float: left;
+  width: 240px;
+}
+#easychart-options-ui .ec-vertical-tabs li {
+  padding: 10px 0 10px 5px;
+  background: #f3f4ee;
+  height: 46px !important;
+}
+#easychart-options-ui .ec-vertical-tabs li input {
+  width: calc(100% - 40px);
+}
+#easychart-options-ui .ec-vertical-tabs li.active {
+  background-color: #e1e2dc;
+  margin-left: -10px;
+  padding-left: 15px;
+}
+#easychart-options-ui .ec-vertical-tabs-content-wrapper {
+  display: inline-block;
+  background: #e1e2dc;
+  padding: 10px 20px;
+  width: 566px;
+  min-height: 400px;
+}
+#easychart-options-ui .ui-icon {
+  cursor: move;
+}
+#easychart-options-ui .ec-group .ec-group-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  width: calc(100% - 26px);
+  margin-right: 0;
+}
+#easychart-options-ui .ec-options {
+  margin: 0.5em 0 0.5em 26px;
+}
+#easychart-options-ui .ec-add-option {
+  float: right;
+}
+#easychart-options-ui ul li.ec-option {
+  background-color: #fff;
+  width: 500px !important;
+  height: 45px !important;
+  padding: 10px;
+  border-bottom: 1px solid #e1e2dc;
+}
+#easychart-options-ui span.ui-icon {
+  display: inline-block;
+  margin-right: 10px;
+}
+#easychart-options-ui input {
+  display: inline-block;
+  margin-right: 10px;
+  width: 200px;
+}
