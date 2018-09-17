@@ -1,0 +1,11 @@
+uuid: f235ee55-c749-4a7a-a3bc-7c25647caa97
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_main_profession
+id: taxonomy_term.oska_main_profession
+target_entity_type_id: taxonomy_term
+target_bundle: oska_main_profession
+default_langcode: site_default
+language_alterable: false
