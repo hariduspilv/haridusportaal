@@ -40,7 +40,11 @@
     "dashboard_tabs_certificates_duplicate":"Duplikaat",
     "dashboard_tabs_certificates_notvalid":"Kehtetu"
   },
+  "xjson":{
+    "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?"
+  },
   "article": {
+    "label": "Artikkel",
     "contact": "Kontakt",
     "hyperlinks": "",
     "similar_articles": ""
@@ -58,9 +62,9 @@
     "title": "Uudiskiri - telli endale huvitavad lood",
     "intro": "Sissejuhatus",
     "confirm_subscription": "Kinnita tellimus",
-    "email": "Email",
+    "email": "Sisesta oma e-posti aadress",
     "valid_email": "Sisesta korrektne email",
-    
+    "order_to_email": "Telli teemad e-postile",
     "modal_title": "UUDISKIRJA TELLIMINE",
     "modal_content": "<p>Tänud haridusteemade vastu huvi tundmast!</p><p>Olete edukalt liitunud uudiskirjaga.</p>",
     "modal_close": "Sulge aken",
@@ -112,7 +116,7 @@
     "registration_form_close": "Sulge aken",
     "registration_form_cancel": "Tühista",
     "registration_form_thanks": "Täname sündmusele registreerimise eest!",
-    "registration_form_add_to_calendar": "Lisa sündmus enda kalendrisse",
+    "registration_form_add_to_calendar": "Saada sündmus enda kalendrisse (iCal)",
     "registration_ended": "Sündmusele registreerimine on lõppenud",
     "registration_not_started": "Sündmusele registreerimine pole veel alanud",
     "registration_full": "Sündmuse kohad on täis"
@@ -140,9 +144,23 @@
     "website": "Veebileht",
     "contact_info": "Kontaktinfo",
     "contact": "Kontakt",
-    "register_code_short": "Reg. kood",
     "available": "Olemas",
-    "unavailable": "Puudub"
+    "unavailable": "Puudub",
+    "register_code_short": "Reg. kood",
+    "register_code": "Registrikood",
+    "institution_ownership": "Õppeasutuse omandivorm",
+    "support_projects": "Toetusprojektid",
+    "investment_measure" : "Rahastusmeede",
+    "investment_deadline_year":"Rakendamise tähtaja aasta",
+    "investment_deadline": "Rakendamise tähtaeg",
+    "investment_project": "Projekt",
+    "investment_max_amount": "Maksimaalne summa",
+    "investment_amount_million_short": "mln",
+    "municipalities": "Haldusüksused",
+    "municipalities_detailed": "Vallad/linnad",
+    "counties": "Maakonnad",
+    "select_investment_measure_year": "Vali rahastusmeetme aasta",
+    "selected_year_investment_measure": "aasta rahastusmeetmed"
   },
   "studyProgramme": {
     "label": "Erialad",
@@ -260,12 +278,32 @@
     "add_to_favourites_remove_success": "Lemmik edukalt eemaldatud",
     "add_to_favourites_title": "Pealkiri",
     "back": "Tagasi",
-    "back_to_dashboard":"Tagasi töölauale"
+    "back_to_dashboard":"Tagasi töölauale",
+    "save": "Salvesta",
+    "submit": "Esita",
+    "edit": "Muuda",
+    "continue": "Jätka",
+    "previous": "Tagasi",
+    "next": "Järgmine",
+    "yes": "Jah",
+    "cancel": "Katkesta"
+  },
+    "tooltip": {
+    "share": "Jaga lehte",
+    "favourites": "Lisa lemmikuks"
   },
   "notFound": {
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"
   },
   "errors": {
     "enter_valid_date": "Sisesta korrektne kuupäev"
+  },
+  "search": {
+    "label": "Otsing",
+    "results": "Otsingutulemused",
+    "keyword": "Märksõna",
+    "no_results_start": "Otsingule",
+    "no_results_end": "vastavaid tulemusi ei leitud.<br> Proovi otsida mõne teise märksõnaga.",
+    "filter_results": "Filtreeri tulemusi"
   }
 }

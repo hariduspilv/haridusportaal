@@ -1,12 +1,14 @@
+
 $breakpoints: (
-  xs: 480px,
-  sm: 900px,
+  xxs: 480px,
+  xs: 720px,
+  sm: 1024px,
   md: 1280px,
   lg: 1440px,
   xl: 1920px,
   xxl: 2580px
 );
- 
+
 @mixin break-on($breakpoint, $type) {
   @if map-has-key($breakpoints, $breakpoint) {
     $mediaValue: map-get($breakpoints, $breakpoint);
@@ -43,6 +45,7 @@ $aqua: #bee3e8;
 $blue: #2e3374;
 $black: #333333;
 $success: #00854d;
+
 
 $gutter: 0.5rem;
 $half-gutter: $gutter / 2;
