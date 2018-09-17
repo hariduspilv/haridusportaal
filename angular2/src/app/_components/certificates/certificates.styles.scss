@@ -6,7 +6,7 @@
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
   }
   &.mat-expanded {border-left: .1875rem solid $dark-orange;
-    mat-panel-title {white-space: normal;
+    mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
   }
@@ -15,7 +15,7 @@
   &-header {height: 2.5rem !important;padding-right:$small; padding-left:$small;
     &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;}}
 }
-mat-panel-title {font-size: $small; text-decoration: none; 
+mat-panel-title {font-size: $small; text-decoration: none; color: $blue;
 &:hover {
   text-decoration: underline;
 }

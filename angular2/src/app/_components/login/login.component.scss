@@ -26,7 +26,7 @@
     @include break-on(sm, min) {margin-top: .875rem;}
     @include break-on(xl, min) {margin-top: .9375rem;}
     @include break-on(sm, max) {  &:after {
-      display: block; position: absolute; left: 0; right: 0; top: 0; bottom: 0; height: 100vh; content: ""; background: rgba(0,0,0,.288); z-index: -1; }
+      display: block; position: absolute; left: 0; right: 0; top: 0; bottom: 0; height: 100vh; content: ""; background: rgba(51,51,51,.9); opacity: 1; z-index: -1; }
     }
   }
   .error{color: $red;white-space: normal;font-size: .875rem;line-height: 120%;font-weight: normal;margin-top: $small;}
