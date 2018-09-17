@@ -1,0 +1,20 @@
+uuid: 7767c0b6-73a7-44cf-87fd-dfb71c17c8f7
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: taxonomy_term.field_study_programme
+field_name: field_study_programme
+entity_type: taxonomy_term
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

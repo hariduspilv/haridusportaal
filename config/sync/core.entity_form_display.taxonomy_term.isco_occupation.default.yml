@@ -1,0 +1,52 @@
+uuid: bb349ea5-9cac-4553-8e20-83807311795c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.isco_occupation.field_isco_code
+    - taxonomy.vocabulary.isco_occupation
+  module:
+    - path
+    - text
+id: taxonomy_term.isco_occupation.default
+targetEntityType: taxonomy_term
+bundle: isco_occupation
+mode: default
+content:
+  description:
+    type: text_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_isco_code:
+    weight: 31
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

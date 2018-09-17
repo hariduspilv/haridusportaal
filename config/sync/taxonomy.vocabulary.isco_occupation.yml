@@ -1,0 +1,9 @@
+uuid: 3177448d-fa90-4266-9ba3-1a0c0cf1a827
+langcode: et
+status: true
+dependencies: {  }
+name: 'ISCO Occupation'
+vid: isco_occupation
+description: ''
+hierarchy: 0
+weight: 0
