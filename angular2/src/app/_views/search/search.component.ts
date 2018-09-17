@@ -18,6 +18,8 @@ export class SearchComponent {
   lang: any;
   param: string = '';
   loading: boolean = true;
+  allFilters: boolean = true;
+  viewChecked: boolean = false;
   listLimit: number = 5;
   listStep: number = 5;
   listLength: number;
@@ -32,8 +34,6 @@ export class SearchComponent {
     {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
     {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
   ];
-  // sums = {"Artikkel": 0, "Kool": 0, "Sündmus": 0, "Uudis": 0, "Õppekava": 0};
-    
   
   constructor (
     private rootScope:RootScopeService,
@@ -84,7 +84,7 @@ export class SearchComponent {
         });
       });
       this.types.sort((a, b) => b.sum - a.sum)
-      
+      this.allFilters = this.checkForAllFilters();
       this.breadcrumbs = this.constructCrumbs()
       this.listLength = this.filteredResults.length;
       this.loading = false;
@@ -96,15 +96,19 @@ export class SearchComponent {
     const {listLimit, listLength, listStep} = this;
     let newFocusIndex = listLimit;
     this.listLimit = listLimit + listStep < listLength ? listLimit + listStep : listLength;
-    // this.setFocus(`result_${newFocusIndex}`)
+    this.setFocus(newFocusIndex);
   }
 
-  // ngAfterViewInit() {
-  //   this.setFocus('result_0')
-  // }  
-  // setFocus(id) {)
-  //   document.getElementById(id).focus()
-  // }
+  ngAfterViewChecked() {
+    if (this.filteredResults && !this.viewChecked) {
+      document.getElementById('initial').focus();
+      this.viewChecked = true;
+    }
+  }  
+  setFocus(id) {
+    let focusTarget = (id - 1).toString();
+    document.getElementById(focusTarget).focus();
+  }
   
   updateParams(toUpdate, param) {
     const queryParams = Object.assign({}, this.route.snapshot.queryParams);
@@ -127,6 +131,18 @@ export class SearchComponent {
     return [...crumbs, {text: crumbText, url: crumbUrl}];
   }
 
+  checkForAllFilters() {
+    return this.types.filter((type) => type.value || !type.sum).length === 5 || this.types.filter((type) => !type.value).length === 5;
+  }
+
+  filterAll() {
+    let typeArr = [];
+    this.types.forEach(type => type.value = false);
+    this.filteredResults = this.results;
+    this.listLength = this.filteredResults.length;
+    this.allFilters = true;
+  }
+
   filterView(id) {
     this.types[id].value = !this.types[id].value;
     var typeArr = [];
@@ -136,6 +152,7 @@ export class SearchComponent {
     typeArr = !typeArr.length ? ["Artikkel", "Kool", "Sündmus", "Uudis", "Õppekava"] : typeArr;
     this.filteredResults = this.results.filter(res => typeArr.includes(res.ContentType));
     this.listLength = this.filteredResults.length;
+    this.allFilters = this.checkForAllFilters();
   }
 
 }

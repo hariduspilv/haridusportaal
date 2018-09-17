@@ -8,7 +8,7 @@ $breakpoints: (
   xl: 1920px,
   xxl: 2580px
 );
- 
+
 @mixin break-on($breakpoint, $type) {
   @if map-has-key($breakpoints, $breakpoint) {
     $mediaValue: map-get($breakpoints, $breakpoint);

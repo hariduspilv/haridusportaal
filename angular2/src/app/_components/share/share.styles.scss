@@ -4,7 +4,7 @@
 }
 .share {position: absolute;border-radius: 50%;top: -$gutter;line-height: 1;
   font-size: $medium;height: $xxl;width: $xxl;
-  &__wrapper {position: relative;cursor:pointer;
+  &__wrapper {position: relative;cursor:pointer; margin-right: 1.5rem;
     @include break-on(sm, max) {right: $small;}
   }
   &__component {position: absolute;height: $medium;top: $quarter;right: $quarter;z-index: 10;color: $blue;
@@ -14,8 +14,8 @@
     &--elem {width: $large;height: $large;padding-top: $gutter;
       &:last-child {padding-top: $half-gutter;}
     }
-    img {width: $large;height: $large;background-color: $white;border-radius: 50%;
-      &:hover {background-color: $orange;}
+    a.fb-icn, a.tw-icn {width: $large;height: $large;background-color: $white;border-radius: 50%;
+      &:hover {background-color: $white;}
     }
   }
   &:hover, &:focus {background-color: $blue;transition: background-color 0.25s;  
@@ -26,7 +26,15 @@
   }
 }
 
-.share__wrapper { 
-  height: 1.5rem;
-  width: 1.5rem;
+.fb-icn {
+  background: url('/assets/img/fb-icn.svg') center center no-repeat; height: 2rem; width: 2rem; background-size: 2rem; display: block;
+}
+.fb-icn:hover {
+  background: url('/assets/img/fb-icn-a.svg') center center no-repeat; height: 2rem; width: 2rem; background-size: 2rem; display: block;
+}
+.tw-icn {
+  background: url('/assets/img/tw-icn.svg') center center no-repeat; height: 2rem; width: 2rem; background-size: 2rem; display: block;
+}
+.tw-icn:hover {
+  background: url('/assets/img/tw-icn-a.svg') center center no-repeat; height: 2rem; width: 2rem; background-size: 2rem; display: block;
 }

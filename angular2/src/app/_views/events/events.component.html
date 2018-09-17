@@ -188,7 +188,7 @@
             <ng-container *ngFor="let event of eventList[yearKey][monthKey][dayKey]; let first = first; let last = last">
               <div class="events__block pointer"  [routerLink]="event.entityUrl.path">
                 <div class="events__content">
-             <div class="title"><a href="javascript:void();"><h1>{{ event.title }}</h1></a></div>
+             <a href="javascript:void();"><h1 class="title">{{ event.title }}</h1></a>
                   <div class="sm-show info">
                     <span>{{ event.firstEventTime | unixToTime }}</span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
@@ -269,7 +269,7 @@
 
             <ng-container *ngIf="i < maxEntries(day)">
 
-              <a href="javascript:void(0)" class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" (keyup.enter)="togglePopup(event.nid)" (keyup.esc)="popup = null" tabindex="0" attr.aria-label="{{'Event'}}">
+              <a href="javascript:void(0)" class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" (keyup.enter)="togglePopup(event.nid)" (keyup.esc)="popup = null" tabindex="0" attr.aria-label="Event {{event.title}}">
                 <span><div class="marker"></div></span>
                 <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
                 <span class="content__strong">{{ event.title }}</span>
@@ -283,9 +283,9 @@
                     <div class="title">
                       <h1><span class="title__strong" >{{ event.title }}</span></h1>
 
-                      <div class="title__close" attr.aria-label="{{'Click to close modal'}}" role="close">
+                      <div class="title__close" role="close">
                         <span class="htm-icon">close
-                          <button class="btn-hidden pointer" id="firstClose" (click)="closePopup()" tabindex="0"></button>
+                          <button class="btn-hidden pointer" id="firstClose" (click)="closePopup()" attr.aria-label="{{'Click to close modal'}}"></button>
                         </span>
                       </div>
                     </div>

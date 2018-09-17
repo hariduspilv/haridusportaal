@@ -69,7 +69,7 @@ input:focus:-ms-input-placeholder { color:transparent; }
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     max-width: none !important;
   }
-  &__flex {display: flex;}
+  &__flex {display: flex; align-items: center; }
 }
 .mob-space {flex: 1 1 auto;}
 
@@ -78,4 +78,14 @@ app-login {
   @include break-on(sm, max) {
     position: static;
   }
+}
+
+.languages .htm-icon {
+  position: relative;
+  top: 6px;
+  margin-left: 0px;
+}
+
+.inline {
+  min-height: 2.5rem;
 }
