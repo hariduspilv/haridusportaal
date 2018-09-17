@@ -53,7 +53,7 @@ public class VPTWorker extends Worker {
       VpTaotlusOpingudResponse response = ehisV6XRoadService
           .vptOpingud(personalCode, null, personalCode);
 
-      ArrayNode documentsArrayNode = documentsResponse.putArray("documets");
+      ArrayNode documentsArrayNode = documentsResponse.putArray("documents");
       response.getTaotluseAjaluguList().forEach(
           ajalugu -> documentsArrayNode.addObject()
               .put("form_name",
