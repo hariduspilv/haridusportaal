@@ -1,10 +1,52 @@
 {
   "frontpage": {
     "label": "Home",
-    "navigate": "Go to homepage"
+    "navigate": "Go to homepage",
+    "favourites_limit_modal_title": "Add to favourites",
+    "favourites_limit_modal_content": "You can add up to 10 favourites. Remove page from favourites by clicking on the star icon of already favourited page.",
+    "favourites_limit_modal_close": "Close window",
+    "favourites_list_label" : "My favourites",
+    "favourites_list_none_message" : "You don't have any favourites added. You can do so by clicking on the star icon on topic pages and lists.",
+    "favourites_snackbar_message": "This page has been added to favourites. Favourites can be viewed from the Dashboard.",
+    "favourites_snackbar_message_remove": "This page has been removed from favourites.",
+    "favourites_snackbar_action": "Show dashboard",
+    "dashboard_label": "Dashboard",
+    "dashboard_tabs_applications": "Applications",
+    "dashboard_tabs_certificates":"Certificates",
+    "dashboard_tabs_studies":"Studies",
+    "dashboard_tabs_teachings":"Teachings",
+    "dashboard_tabs_certificates_no_results": "No certificates.",
+    "dashboard_tabs_certificates_error_technical":"Sorry, a technical error has occurred. Please try again later.",
+    "dashboard_tabs_certificates_professional": "Professional certificates",
+    "dashboard_tabs_certificates_examinations": "State examinations",
+    "dashboard_tabs_certificates_number":"Certificate number",
+    "dashboard_tabs_certificates_name":"Certificate name",
+    "dashboard_tabs_certificates_type":"Type",
+    "dashboard_tabs_certificates_standard":"Standard",
+    "dashboard_tabs_certificates_ekr":"EKR level",
+    "dashboard_tabs_certificates_eqf":"EQF level",
+    "dashboard_tabs_certificates_specialization":"Specialization",
+    "dashboard_tabs_certificates_part":"Part of vocation",
+    "dashboard_tabs_certificates_competence":"Competence",
+    "dashboard_tabs_certificates_field":"Field",
+    "dashboard_tabs_certificates_field_topic":"Topic",
+    "dashboard_tabs_certificates_qualification":"Academic qualification",
+    "dashboard_tabs_certificates_language":"Examination language",
+    "dashboard_tabs_certificates_issuer":"Issuer",
+    "dashboard_tabs_certificates_issued_at":"Issued at",
+    "dashboard_tabs_certificates_valid_from":"Valid from",
+    "dashboard_tabs_certificates_valid_to":"Valid to",
+    "dashboard_tabs_certificates_isco":"Profession classification (ISCO)",
+    "dashboard_tabs_certificates_duplicate":"Duplicate",
+    "dashboard_tabs_certificates_notvalid":"Invalid"
+  },
+  "xjson":{
+    "edit_step_confirm_modal_content": "Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?"
   },
   "article": {
+    "label": "Article",
     "contact": "Contact",
+    "hyperlinks": "",
     "similar_articles": ""
   },
   "news": {
@@ -14,15 +56,15 @@
     "filter_name": "Enter news name",
     "filter_tag": "News Tags",
     "title": "Title",
-    "no_result": "No Search Results"
+    "no_results": "No Search Results"
   },
   "newsletter": {
     "title": "Newsletter - order interesting stories",
     "intro": "Introduction",
     "confirm_subscription": "Confirm order",
-    "Email": "Email",
+    "Email": "Enter your email address",
     "valid_email": "Enter the correct email",
-    
+    "order_to_email": "Order to email",
     "modal_title": "ORDERING NEWSLETTER",
     "modal_content": "<p> Thank you for your interest in education! </ p> <p> You have successfully joined the newsletter. </ p>",
     "modal_close": "Close window",
@@ -49,6 +91,7 @@
     "related": "Similar events",
     "start_time": "Start time",
     "location": "Location",
+    "repeat": "Repeatable event",
     "place_and_time": "time and place",
     "participant_email": "Email",
     "participant_phone": "Phone",
@@ -73,7 +116,10 @@
     "registration_form_close": "Close window",
     "registration_form_cancel": "Cancel",
     "registration_form_thanks": "Thank you for registering for an event!",
-    "registration_form_add_to_calendar": "Add event to your own calendar"
+    "registration_form_add_to_calendar": "Add event to your own calendar (iCal)",
+    "registration_ended": "Registration has ended",
+    "registration_not_started": "Registration is not available yet",
+    "registration_full": "Event is full"
 
   },
   "school": {
@@ -100,7 +146,21 @@
     "contact": "Contact",
     "register_code_short": "Reg. code",
     "available": "Available",
-    "unavailable": "None"
+    "unavailable": "None",
+    "register_code": "Register code",
+    "institution_ownership": "Ownership type",
+    "support_projects": "Support projects",
+    "investment_measure" : "Investment measure",
+    "investment_deadline_year":"Implementation year",
+    "investment_deadline": "Implementation deadline",
+    "investment_project": "Project",
+    "investment_max_amount": "Maximum amount",
+    "investment_amount_million_short": "MM",
+    "municipalities": "Municipalities",
+    "municipalities_detailed": "Towns/districts",
+    "counties": "Counties",
+    "select_investment_measure_year": "Choose investment measure year",
+    "selected_year_investment_measure": "year's investment measure"
   },
   "studyProgramme": {
     "label": "Specialties",
@@ -123,18 +183,20 @@
     "filter_iscedf_detailed": "Curriculum Group",
     "filter_open_admission": "Only open to reception",
     "no_results": "No Search Results",
-    "related.label": "Related study programmes",
-    "related.filter_location": "Search by location",
-    "related.no_results": "No related study programmes",
+    "related_label": "Related study programmes",
+    "related_filter_location": "Search by location",
+    "related_no_results": "No related study programmes",
     "compare_modal_title": "Study programme comparison",
-    "compare_modal_content": "<p> max reched </p><p>U can unly added max 3 stody prugrammes</ p>",
+    "compare_modal_content": "<p>Maximum capacity reached.</p><p>You can only add 3 study programmes to comparison.</ p>",
     "compare_modal_close": "Close window",
     "school": "School",
     "degree_or_diploma": "Degree or diploma",
     "specialization": "Specialization",
     "study_capacity": "Capacity",
     "internship_capacity": "Internship capacity",
-    "nominal_time": "Nominal time"
+    "nominal_time": "Nominal time",
+    "non_active": "Course not active",
+    "added_to_comparison": "Programme added to comparison"
   },
   "login": {
     "username": "Username",
@@ -179,8 +241,8 @@
     "duration_year_plural": "Years",
     "duration_month_singular": "Month",
     "duration_month_plural": "Months",
-    "time_of_day": "Clock"
-
+    "time_of_day": "Clock",
+    "years": "Years"
   },
   "button": {
     "all": "All",
@@ -188,6 +250,7 @@
     "add_to_comparison": "Add to comparison",
     "remove_from_comparison":"Remove from comparison",
     "search": "Search",
+    "search_from_page": "Search from page",
     "search_detailed": "Advanced Search",
     "search_detailed_short": "Exact",
     "search_brief": "Narrow search",
@@ -206,9 +269,42 @@
     "login": "Log in",
     "logout": "Log out",
     "search_close": "",
-    "select_type": ""
+    "select_type": "",
+    "see_comparison": "See comparison",
+    "add_to_favourites_label": "Favourites",
+    "add_to_favourites_add": "Add to favourites",
+    "add_to_favourites_add_success": "Successfully added to favourites",
+    "add_to_favourites_remove": "Remove from favourites",
+    "add_to_favourites_remove_success": "Successfully removed from favourites",
+    "add_to_favourites_title": "Title",
+    "back": "Back",
+    "back_to_dashboard":"Back to dashboard",
+    "save": "Save",
+    "submit": "Submit",
+    "edit": "Edit",
+    "continue": "Continue",
+    "previous": "Previous",
+    "next": "Next",
+    "yes": "Yes",
+    "cancel": "Cancel"
+    
+  },
+  "tooltip": {
+    "share": "Share page",
+    "favourites": "Add as a favourite"
   },
   "notFound": {
-    "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </ b>"
+    "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </b>"
+  },
+  "errors": {
+    "enter_valid_date": "Enter valid date"
+  },
+  "search": {
+    "label": "Search",
+    "results": "Search results",
+    "keyword": "Keyword",
+    "no_results_start": "Matching results for keyword",
+    "no_results_end": "not found.<br> Try a different query.",
+    "filter_results": "Filter results"
   }
 }

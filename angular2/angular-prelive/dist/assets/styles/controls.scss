@@ -5,24 +5,32 @@
     padding-right: 0.125rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    ::placeholder {color: $dark-gray; opacity: 1; font-size: 0.875rem; overflow: hidden;}
+    font-size: 1rem;
+            @include break-on(sm, max) { font-size: 1rem; } 
+    ::placeholder {color: $dark-gray; opacity: 1; font-size: 0.875rem; overflow: hidden; font-size: 1rem;
+            @include break-on(sm, max) { font-size: 0.875rem; } }
     &:focus-within {
-      ::placeholder {color: transparent;}
+      ::placeholder {color: transparent; font-size: 1rem;
+            @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $blue; display: inline-block;}
       .round-input__field-wrapper {border-color: $blue; margin-top: 0;}
     }
     &.error {
-      ::placeholder {color: transparent;}
+      ::placeholder {color: transparent;  font-size: 1rem;
+            @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $red; display: inline-block;}
       .round-input__field-wrapper {border-color: $red; margin-top: 0;}
+
     }
     &.complete {
-      ::placeholder {color: transparent;}
+      ::placeholder {color: transparent;  font-size: 1rem;
+            @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {display: inline-block;}
       .round-input__field-wrapper {margin-top: 0;}
     }
     &.success {
-      ::placeholder {color: transparent;}
+      ::placeholder {color: transparent;  font-size: 1rem;
+            @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $success; display: inline-block;}
       .round-input__field-wrapper {border-color: $success; margin-top: 0;}
     }
@@ -64,18 +72,18 @@
   &__field {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: 400;
-    font-size: 0.875rem;
+    font-weight: 300;
+    font-size: 1rem;
     line-height: 2;
     height: 1.375rem;
     padding: $gutter 0 $gutter $small;
     border: none;
     border-radius: 1.25rem;
-    width: 100%;
+    width: 100%; 
     &::placeholder{
-      @include break-on(sm, max) {font-size:1rem;}  
+      @include break-on(sm, max) {font-size:0.875rem;}  
     }
-    @include break-on(sm, max) {font-size:1rem;}
+    @include break-on(sm, max) {font-size:0.875rem;}
   }
   &__clear {
     &.mat-icon-button, .mat-icon-button {
@@ -98,8 +106,10 @@
     left: $medium;
     &.exists {display: inline-block;}
   }
-  &__error {color: $red;margin-bottom: .3875rem;
-    &--text {position: absolute;padding-left: $small;font-size: 0.875rem; line-height: $medium;}
+  &__error {color: $red;line-height: $medium;
+    &--text { padding-left: $small;font-size: 0.875rem;
+      ;white-space: pre-line; min-width: 100%; line-height: 18px; padding-top: 2px; 
+    }
   }
   &__area {width: 100%;padding-top: .125rem;
     &__elem {box-sizing: border-box; font-family: 'Rubik', sans-serif;
@@ -111,6 +121,8 @@
       border-radius: $half-gutter;;
       border: solid 0.0625rem $gray;
       padding: $gutter $small;
+      appearance:none;
+      @include break-on(sm, max) {font-size:1rem;}
       &:focus {border-color: $blue;}
     }
     &:focus-within {
@@ -123,7 +135,7 @@
   border: solid .0625rem #c7c7c9;
   padding: 0;
   height: 2.5rem;
-  border-radius: 1.25rem;
+  border-radius: 1.25rem; 
   &.exists {height: auto;min-height: 2.5rem;}
   &.ng-select-opened {border: solid .0625rem $blue;}
   &.ng-select .ng-select-container {min-height: 1.875rem;
@@ -154,7 +166,7 @@
     background: $white;
     z-index: 1000;
     font-weight: 300;
-    font-size: $small;
+    font-size: 0.875rem;
     left: $gutter;
     &.exists {
       color: $blue;
@@ -163,11 +175,9 @@
       font-size: $quarter;
       left: $medium;
     }
-    @include break-on(sm, min) {font-size: .875rem;}
   }
 }
-.ng-select__wrapper, .ng-select__wrapper__second {
-  margin-top: -.3125rem;
+.ng-select__wrapper, .ng-select__wrapper__mt {
   &:focus-within {
     color: red;
     .ng-select__title {
@@ -176,11 +186,10 @@
       top: .5625rem;
       font-size: $quarter;
       left: $medium;
-      @include break-on(sm, min) {margin-top: .125rem;}
     }
   }
 }
-.ng-select__wrapper__second {margin-top: -$quarter}
+.ng-select__wrapper__mt {margin-top: -1.25rem;}
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper {border: none;}
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper .ng-clear {top: 0;color:$red;}
 .ng-select .ng-clear-wrapper .ng-clear {color: rgba(0, 0, 0, .87);font-size: 1.75rem !important;position: relative;right: $gutter; top: 0.3125rem;}
@@ -192,8 +201,8 @@
 .form-spacer-20{height:1.25rem;
   &+.custom-checkbox{margin-top:-6px;}
 }
-.custom-checkbox{margin-bottom:0.375rem; color:$dark-gray; font-size:0.88rem;}
-.mat-checkbox{color:$dark-gray; font-size:0.88rem;
+.custom-checkbox{color:$dark-gray;font-size:0.875rem;}
+.mat-checkbox{color:$dark-gray; font-size:0.875rem;
   .mat-checkbox-frame{border:#c7c7c9 1px solid;}
   .mat-checkbox-background{background:transparent !important;}
   .mat-checkbox-checkmark-path{stroke:$blue !important;}
