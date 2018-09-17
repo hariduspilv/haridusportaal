@@ -1,0 +1,29 @@
+uuid: ba986bf9-56e3-412c-a7f4-8c705d0c89e2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_isced_f_detailed
+    - taxonomy.vocabulary.isced_f
+    - taxonomy.vocabulary.oska_main_profession
+id: taxonomy_term.oska_main_profession.field_isced_f_detailed
+field_name: field_isced_f_detailed
+entity_type: taxonomy_term
+bundle: oska_main_profession
+label: 'ISCED-F Detailed'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      isced_f: isced_f
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
