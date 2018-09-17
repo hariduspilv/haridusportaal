@@ -1,10 +1,10 @@
 @import "../../../assets/styles/typography.scss";
 
-    .htm-icon { position: relative; }
-    a h1, a { text-decoration: none!important; }
-    a:hover h1, a:hover { text-decoration: underline!important; }
- a:visited h1 { color: red!important; }
-    .events__content .title:visited { color: red!important; }
+.htm-icon { position: relative; }
+a h1, a { text-decoration: none!important; }
+a:hover h1, a:hover { text-decoration: underline!important; }
+a:visited h1 { color: red!important; }
+.events__content .title:visited { color: red!important; }
 
 .events {padding-bottom: $xxl;background: $white;border-top: $gutter solid $light-blue;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0;}
@@ -183,10 +183,22 @@
         bottom: 0px;
         border: 0px solid transparent;
         background: transparent;
-        width: 24px;
+        width: 1.5rem;
       }
 
       .title__close .htm-icon { 
-        top: -1px;
-        right: -5px;
+        top: 0.1875rem;
+        right: -0.3125rem;
       }
+
+      .event__header {
+       padding: $small $medium $small $medium;
+       border-bottom: solid 1px $gray;
+       .title {
+         display: flex;
+       } 
+     }
+
+     .title__strong {
+      font-size: 1.25rem; font-weight: 500; line-height: 1.5; letter-spacing: normal; text-align: left; color: $black;
+    }

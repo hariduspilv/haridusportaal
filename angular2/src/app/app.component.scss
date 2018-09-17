@@ -153,8 +153,11 @@ share { margin-left: 0px!important; margin-right: 0px!important }
   font-size: 1rem; }
   .button-row {@include break-on(sm, max) {padding-top: $gutter; width: 100%;}}
   .filter-state { margin: 0 auto; position: relative; right: 8px; text-align: center;
-    a:hover {
+    a {
       text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
     }
   }
   .filter-control {padding: $medium;}
@@ -535,9 +538,13 @@ share { margin-left: 0px!important; margin-right: 0px!important }
   margin: -0.1875rem 0 0 0; border-left: 0 solid transparent; border-right: 0 solid transparent; border-top: 0 solid transparent;
 }
 
-.cdk-overlay-backdrop.cdk-overlay-backdrop-showing { background: rgba(51,51,51,0.9); }
+.cdk-overlay-dark-backdrop { background: rgba(51,51,51,0.9); }
 
 .mat-select-value {
   font-size: 0.875rem;
   color: $dark-gray;
+}
+
+.round-input__wrapper .mat-form-field:focus {
+  border: 1px solid $blue;
 }
