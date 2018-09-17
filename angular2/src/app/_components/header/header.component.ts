@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class HeaderComponent {
 
-  hideElement = false;
+  hideElement = true;
   param: any;
   languages: any;
   logoLink: any;
@@ -70,8 +70,8 @@ export class HeaderComponent {
         this.activeLanguage = params['lang'];
       }
       if (event instanceof NavigationEnd) {
-        let partials = ['/et/otsing', '/en/search'];
-        if (event.url === '/et' || event.url === '/en' || event.url === '/ru' || event.url.includes('/et/otsing') || event.url.includes('/en/search')) {
+        let partials = ['/et', '/en', '/ru', '/'];
+        if (partials.includes(event.url)) {
           this.hideElement = true;
         }  else {
           this.hideElement = false;

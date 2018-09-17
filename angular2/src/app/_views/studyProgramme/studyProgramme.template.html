@@ -21,7 +21,7 @@
           <div class="round-input__wrapper">
             <mat-form-field *ngIf="FilterOptions" >
               <mat-select placeholder="{{ 'studyProgramme.filter_type' | translate }}" [(ngModel)]='filterFormItems.type' name="type">
-                <mat-option>{{ 'all' | translate }}</mat-option>
+                <mat-option>{{ 'button.all' | translate }}</mat-option>
                 <mat-option *ngFor="let type of FilterOptions.type" [value]="type.tid">
                   {{type.entityLabel}}
                 </mat-option>
@@ -48,7 +48,7 @@
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select placeholder="{{ 'studyProgramme.level' | translate }}" [(ngModel)]='filterFormItems.level' name="level">
-                    <mat-option>{{ 'all' | translate }}</mat-option>
+                    <mat-option>{{ 'button.all' | translate }}</mat-option>
                     <mat-option  *ngFor="let level of FilterOptions.level" [value]="level.tid">
                       {{level.entityLabel}}
                     </mat-option>
@@ -61,7 +61,7 @@
               <div class="round-input__wrapper">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select placeholder="{{ 'studyProgramme.filter_iscedf_broad' | translate }}" (change)="isceChange(filterFormItems.iscedf_broad, 'iscedf_broad')" [(ngModel)]='filterFormItems.iscedf_broad' name="iscedf_broad">
-                    <mat-option>{{ 'all' | translate }}</mat-option>
+                    <mat-option>{{ 'button.all' | translate }}</mat-option>
                     <mat-option *ngFor="let iscedf_broad of FilterOptions.iscedf_broad" [value]="iscedf_broad.entityId">
                       {{iscedf_broad.entityLabel}}
                     </mat-option>
@@ -73,10 +73,10 @@
         <div class="row form-additional-row">
             <div class="col-4 sm-12 form-col">
               <div class="round-input__wrapper">
-                <mat-form-field *ngIf="FilterOptions" >
+                <mat-form-field *ngIf="FilterOptions">
                   <mat-select placeholder="{{ 'studyProgramme.filter_language' | translate }}" [(ngModel)]='filterFormItems.language' name="language">
-                    <mat-option>{{ 'all' | translate }}</mat-option>
-                    <mat-option  *ngFor="let language of FilterOptions.language" [value]="language.tid">
+                    <mat-option>{{ 'button.all' | translate }}</mat-option>
+                    <mat-option *ngFor="let language of FilterOptions.language" [value]="language.tid">
                       {{language.entityLabel}}
                     </mat-option>
                   </mat-select>
@@ -88,7 +88,7 @@
               <div class="round-input__wrapper" [class.disabled]="!filterFormItems.iscedf_broad">
                 <mat-form-field *ngIf="FilterOptions" >
                   <mat-select [disabled]="!filterFormItems.iscedf_broad" placeholder="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}" (change)="isceChange(filterFormItems.iscedf_narrow, 'iscedf_narrow')" [(ngModel)]='filterFormItems.iscedf_narrow' name="iscedf_narrow">
-                    <mat-option>{{ 'all' | translate }}</mat-option>
+                    <mat-option>{{ 'button.all' | translate }}</mat-option>
                     <mat-option *ngFor="let iscedf_narrow of FilterOptions.iscedf_narrow" [value]="iscedf_narrow.entityId">
                       {{iscedf_narrow.entityLabel}}
                     </mat-option>
@@ -116,7 +116,7 @@
               <div class="round-input__wrapper" [class.disabled]="!filterFormItems.iscedf_narrow">
                 <mat-form-field *ngIf="FilterOptions">
                   <mat-select  [disabled]="!filterFormItems.iscedf_narrow" placeholder="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}" (change)="isceChange(filterFormItems.iscedf_detailed, 'iscedf_detailed')" [(ngModel)]='filterFormItems.iscedf_detailed' name="iscedf_detailed">
-                    <mat-option>{{ 'all' | translate }}</mat-option>
+                    <mat-option>{{ 'button.all' | translate }}</mat-option>
                     <mat-option  *ngFor="let iscedf_detailed of FilterOptions.iscedf_detailed" [value]="iscedf_detailed.entityId">
                       {{iscedf_detailed.entityLabel}}
                     </mat-option>

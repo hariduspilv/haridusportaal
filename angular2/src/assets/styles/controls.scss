@@ -20,6 +20,7 @@
             @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $red; display: inline-block;}
       .round-input__field-wrapper {border-color: $red; margin-top: 0;}
+
     }
     &.complete {
       ::placeholder {color: transparent;  font-size: 1rem;
@@ -106,8 +107,8 @@
     &.exists {display: inline-block;}
   }
   &__error {color: $red;line-height: $medium;
-    &--text {position: absolute;padding-left: $small;font-size: 0.875rem;
-      overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+    &--text { padding-left: $small;font-size: 0.875rem;
+      ;white-space: pre-line; min-width: 100%; line-height: 18px; padding-top: 2px; 
     }
   }
   &__area {width: 100%;padding-top: .125rem;
@@ -165,7 +166,7 @@
     background: $white;
     z-index: 1000;
     font-weight: 300;
-    font-size: 1rem;
+    font-size: 0.875rem;
     left: $gutter;
     &.exists {
       color: $blue;

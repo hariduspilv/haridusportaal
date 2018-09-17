@@ -35,6 +35,7 @@
       <div *ngIf="filteredResults && filteredResults.length" class="search__title--filter">{{ 'search.filter_results' | translate }}:</div>
       <ng-container *ngIf="filteredResults && filteredResults.length">
         <div class="search__chips" role="group" attr.aria-label="Search filter">
+          <a id="initial" (keyup.enter)="filterAll()" (click)="filterAll()" *ngIf="results && results.length" href="javascript:void(0)" attr.aria-label="Filter: {{'button.all' | translate}} {{'search.results' | translate}}, status: {{allFilters ? 'On': 'Off'}}, count: {{ results.length }}" class="search__chips--chip pointer" [class.selected]="allFilters">{{'button.all' | translate}} <span>({{results.length}})</span></a>
           <ng-container *ngFor="let chip of types; let i = index;">
             <a *ngIf="chip.sum" href="javascript:void(0)" attr.aria-label="{{chip.name | translate}}, status: {{chip.value ? 'On': 'Off'}}, count: {{ chip.sum }}" (click)="filterView(i)" class="search__chips--chip pointer" [class.selected]="chip.value">{{chip.name | translate}} <span>({{chip.sum}})</span></a>
           </ng-container>
@@ -43,7 +44,7 @@
       <mat-spinner *ngIf="loading"></mat-spinner>
       <ng-container *ngIf="filteredResults && filteredResults.length">
         <ng-container *ngFor="let item of filteredResults;let i = index;">
-          <a tabindex="0" id="result-{{i}}" href="javascript:void(0)" attr.aria-label="{{ item.ContentType }}: {{ item.Title }}" *ngIf="i < listLimit" class="search__sub pointer" [routerLink]="[item.EntityPath]">  
+          <a tabindex="0" id="{{i}}" href="javascript:void(0)" attr.aria-label="{{ item.ContentType }}: {{ item.Title }}" *ngIf="i < listLimit" class="search__sub pointer" [routerLink]="[item.EntityPath]">  
             <div class="search__sub--category">{{ item.ContentType }}</div>
             <div class="search__sub--title"><h1>{{ item.Title }}</h1></div>
           </a><!--ngFor-->

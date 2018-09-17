@@ -14,7 +14,11 @@
       @include break-on(sm, min) {font-size: $medium;line-height: 1.25;padding-top: $large;}
     }
     &__button {padding-top: $xxl;text-align: center;
-      button {width: auto; color: $blue; background-color: $white;}
+      button {width: auto; color: $blue; background-color: $white;
+        &:hover {
+          background-color: $aqua;
+        }
+      }
     }
     &__links {padding-top: $small;text-align: center;
       a {padding-right: $medium;font-weight: 300;font-size: $small;

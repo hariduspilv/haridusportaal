@@ -1,4 +1,4 @@
-<a role="button" href="javascript:void(0)" (click)="focusMainContent()" (keyup.enter)="focusMainContent()" (keyup.space)="focusMainContent()" class="maincontent" name="maincontent">Skip to main content</a>
+<button tabindex="0" role="button" (click)="focusMainContent()" (keyup.enter)="focusMainContent()" (keyup.space)="focusMainContent()" class="maincontent" attr.aria-label="Skip to main content">Skip to main content</button>
 
 <app-header></app-header>
 
@@ -9,8 +9,8 @@
 		</mat-sidenav>
 
 
-		<mat-sidenav-content role="contentinfo" id="mainContent" tabindex="0">
-
+		<mat-sidenav-content role="contentinfo">
+			<a href="javascript:void(0)" attr.aria-label="{{'Main content start point'}}" id="mainContent"></a>
 			<router-outlet ></router-outlet>
 
 		</mat-sidenav-content>
