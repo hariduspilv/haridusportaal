@@ -41,4 +41,7 @@
     border-bottom: solid .0625rem $gray;
     &.empty-parent {border: none;}
   }
+  a:visited {
+    color: $blue;
+  }
 }
