@@ -1,0 +1,19 @@
+uuid: 4f652771-1fd7-4f59-b455-ce11d3df5815
+langcode: et
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_isco_reference
+field_name: field_isco_reference
+entity_type: taxonomy_term
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
