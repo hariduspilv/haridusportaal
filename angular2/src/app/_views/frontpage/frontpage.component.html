@@ -3,24 +3,24 @@
     <div class="flex wrap xxs">
       <div class="grow full">
         <div class="round-input__wrapper" attr.aria-live="assertive" 
-          [class.complete]="!searchFocus && param"
-          [class.error]="!searchFocus && !param && searchError">
-          <span class="round-input__title">{{'button.search_from_page' | translate}}</span>
-          <div class="round-input__field-wrapper">
-            <input attr.aria-label="{{ 'button.search_from_page' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" placeholder="{{ 'button.search_from_page' | translate }}" [(ngModel)]='param' name="param" />
-          </div>
-          <div class="round-input__error">
-            <div class="round-input__error--text error-9" *ngIf="!searchFocus && searchError">
-              <span role="alert">{{ 'Otsingu käivitamiseks sisesta otsitav märksõna' }}</span>
-            </div>
+        [class.complete]="!searchFocus && param"
+        [class.error]="!searchFocus && !param && searchError">
+        <span class="round-input__title">{{'button.search_from_page' | translate}}</span>
+        <div class="round-input__field-wrapper">
+          <input attr.aria-label="{{ 'button.search_from_page' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" placeholder="{{ 'button.search_from_page' | translate }}" [(ngModel)]='param' name="param" />
+        </div>
+        <div class="round-input__error">
+          <div class="round-input__error--text error-9" *ngIf="!searchFocus && searchError">
+            <span role="alert">{{ 'Otsingu käivitamiseks sisesta otsitav märksõna' }}</span>
           </div>
         </div>
       </div>
-      <div class="btn">
-        <button (click)="searchRoute(param)" attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
-      </div>
     </div>
-  </form>
+    <div class="btn">
+      <button (click)="searchRoute(param)" attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+    </div>
+  </div>
+</form>
 </ng-template>
 
 <ng-template #origin>
@@ -33,13 +33,13 @@
         <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
         <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
-        <a href="javascript:void(0)" [routerLink]="item.entity.fieldTopicLink.url.path" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
+        <span [routerLink]="item.entity.fieldTopicLink.url.path" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</span>
       </a> 
       <a *ngIf="item.entity.fieldTopicLink && !item.entity.fieldTopicLink.url.routed" class="col-3 sm-6 xxs-12 column-center spaced pointer" href="{{item.entity.fieldTopicLink.url.path}}" target="_blank">
         <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
         <div attr.aria-label="Category" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="Description" class="section__text">{{item.entity.fieldTopicText}}</div>
-        <a href="{{item.entity.fieldTopicLink.url.path}}" target="_blank" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</a>
+        <span target="_blank" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</span>
       </a>
       <div class="col-3 sm-6 xxs-12 column-center spaced" *ngIf="!item.entity.fieldTopicLink && (item.entity.fieldTopicTitle || item.entity.fieldTopicText)">
         <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
@@ -67,90 +67,91 @@
 </ng-template>
 
 <ng-template #eventsList>
-  <div class="section__form">
+  <div class="section__form events__recent__elem">
     <article class="row">
       <div class="col-12 title">
         <span>{{ 'event.label' | translate | uppercase }}</span>
         <span class="view-all"><a attr.aria-label="{{ 'button.view_all' | translate }}: {{ 'event.label' | translate }}" [routerLink]="eventPath" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
       </div>
-      <div class="col-4 sm-12 pointer event__elem" *ngFor="let item of events; let first = first;" [routerLink]="[item.entityUrl.path]">
+      <a href="javascript:void();" class="col-4 sm-12 pointer event__elem" *ngFor="let item of events; let first = first;" [routerLink]="[item.entityUrl.path]">
+
         <span attr.aria-label="{{'event.start_time' | translate}}" class="subtext" *ngIf="item.fieldEventMainDate">{{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
-        <h1>{{ item.entityLabel }}</h1>
+        <h1 class="event-title">{{ item.entityLabel }}</h1>
         <div class="subtext--bottom" *ngIf="item.fieldOrganizer" attr.aria-label="{{'event.participant_organization' | translate}}">{{ item.fieldOrganizer }}</div>
-      </div>
+      </a>
     </article>
   </div>
 </ng-template>
 
 <ng-template #eventsListMobile>
   <div class="section__form main-container">
-    <article class="row">
+    <article class="row events__recent__elem">
       <div class="col-12 title">
         <span>{{ 'event.label' | translate | uppercase }}</span>
         <span class="view-all"><a attr.aria-label="{{ 'button.view_all' | translate }}: {{ 'event.label' | translate }}" [routerLink]="eventPath" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
       </div>
-      <div class="col-4 sm-12 pointer event__elem" *ngFor="let item of events; let first = first;" [routerLink]="[item.entityUrl.path]">
-        <span attr.aria-label="{{'event.start_time' | translate}}" class="subtext" *ngIf="item.fieldEventMainDate">{{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
-        <h1>{{ item.entityLabel }}</h1>
-        <div class="subtext--bottom" *ngIf="item.fieldOrganizer" attr.aria-label="{{'event.participant_organization' | translate}}">{{ item.fieldOrganizer }}</div>
-      </div>
-    </article>
-  </div>
-</ng-template>
-<mat-spinner *ngIf="!events || !news || !generalData" ></mat-spinner>
-<div class="frontpage" *ngIf="events && news && generalData">
-  <div class="section section--search">
-    <div class="content--middle search">
-      <h1 class="lead-title">
-        <span class="sm-show xxs">Hoia end<br> haridusinfoga kursis!</span>
-        <span class="sm-show sm">Hoia end haridusinfoga kursis!</span>
-        <span class="sm-hide"><b>Eduportaal -</b><br>hoia end haridusinfoga kursis!</span>
-      </h1>
-      <div class="section__block--search">
-        <div class="section__content star__additions">
-          <ng-container *ngTemplateOutlet="search"></ng-container>
+      <a href="javascript:void();" class="col-4 sm-12 pointer event__elem" *ngFor="let item of events; let first = first;" [routerLink]="[item.entityUrl.path]">
+          <span attr.aria-label="{{'event.start_time' | translate}}" class="subtext" *ngIf="item.fieldEventMainDate">{{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
+          <h1>{{ item.entityLabel }}</h1>
+          <div class="subtext--bottom" *ngIf="item.fieldOrganizer" attr.aria-label="{{'event.participant_organization' | translate}}">{{ item.fieldOrganizer }}</div>
+        </a>
+      </article>
+    </div>
+  </ng-template>
+  <mat-spinner *ngIf="!events || !news || !generalData" ></mat-spinner>
+  <div class="frontpage" *ngIf="events && news && generalData">
+    <div class="section section--search">
+      <div class="content--middle search">
+        <h1 class="lead-title">
+          <span class="sm-show xxs">Hoia end<br> haridusinfoga kursis!</span>
+          <span class="sm-show sm">Hoia end haridusinfoga kursis!</span>
+          <span class="sm-hide"><b>Eduportaal -</b><br>hoia end haridusinfoga kursis!</span>
+        </h1>
+        <div class="section__block--search">
+          <div class="section__content star__additions">
+            <ng-container *ngTemplateOutlet="search"></ng-container>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="section section--origin main-container" *ngIf="generalData && generalData.length">
-    <div class="content">
-      <ng-container *ngTemplateOutlet="origin"></ng-container>
-    </div>
-  </div>
-  <div class="section section--list--item sm-show" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
-    <div class="content--listItem">
-      <ng-container *ngTemplateOutlet="newsItemMobile"></ng-container>
-    </div>
-  </div>
-  <div class="section section--list--item main-container sm-hide" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
-    <div class="content--listItem">
-      <ng-container *ngTemplateOutlet="newsItem"></ng-container>
-    </div>
-  </div>
-  <div class="section section--news main-container" *ngIf="news && news.length">
-    <div class="content">
-      <recent-news frontpage="true"></recent-news>
-    </div>
-  </div>
-  <div class="section section--newsletter">
-    <div class="content--middle newsletter">
-      <div class="section__block--newsletter star__additions">
-        <div class="section__content xl__additions">
-          <newsletter-order></newsletter-order>
-        </div>
+    <div class="section section--origin main-container" *ngIf="generalData && generalData.length">
+      <div class="content">
+        <ng-container *ngTemplateOutlet="origin"></ng-container>
       </div>
-    </div><!--/main-container-->
-  </div><!--/section-->
-  <div class="section section--list altered main-container sm-hide" *ngIf="events && events.length">
-    <div class="content--listItem content--listItem--altered">
-      <ng-container *ngTemplateOutlet="eventsList"></ng-container>
     </div>
-  </div>
-  <div class="section section--list altered sm-show" *ngIf="events && events.length">
-    <div class="content--listItem content--listItem--altered">
-      <ng-container *ngTemplateOutlet="eventsListMobile"></ng-container>
+    <div class="section section--list--item sm-show" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
+      <div class="content--listItem">
+        <ng-container *ngTemplateOutlet="newsItemMobile"></ng-container>
+      </div>
     </div>
-  </div>
-</div><!--/frontpage-->
+    <div class="section section--list--item main-container sm-hide" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
+      <div class="content--listItem">
+        <ng-container *ngTemplateOutlet="newsItem"></ng-container>
+      </div>
+    </div>
+    <div class="section section--news main-container" *ngIf="news && news.length">
+      <div class="content">
+        <recent-news frontpage="true"></recent-news>
+      </div>
+    </div>
+    <div class="section section--newsletter">
+      <div class="content--middle newsletter">
+        <div class="section__block--newsletter star__additions">
+          <div class="section__content xl__additions">
+            <newsletter-order></newsletter-order>
+          </div>
+        </div>
+      </div><!--/main-container-->
+    </div><!--/section-->
+    <div class="section section--list altered main-container sm-hide" *ngIf="events && events.length">
+      <div class="content--listItem content--listItem--altered">
+        <ng-container *ngTemplateOutlet="eventsList"></ng-container>
+      </div>
+    </div>
+    <div class="section section--list altered sm-show" *ngIf="events && events.length">
+      <div class="content--listItem content--listItem--altered">
+        <ng-container *ngTemplateOutlet="eventsListMobile"></ng-container>
+      </div>
+    </div>
+  </div><!--/frontpage-->
 
