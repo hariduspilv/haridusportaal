@@ -165,7 +165,7 @@
       <ng-container *ngFor="let monthKey of objectKeys(eventList[yearKey])">
 
         <div class="events__month">
-          <h1 tabindex="0">{{ 'time.' + getMonthName(monthKey) | translate }}
+          <h1>{{ 'time.' + getMonthName(monthKey) | translate }}
             <ng-container *ngIf="parseInt(yearKey) !== current.year">
               - {{ yearKey }}
             </ng-container>
@@ -186,9 +186,9 @@
 
           <div>
             <ng-container *ngFor="let event of eventList[yearKey][monthKey][dayKey]; let first = first; let last = last">
-              <div class="events__block pointer"  [routerLink]="event.entityUrl.path">
+              <a href="javascript:void();" class="events__block pointer"  [routerLink]="event.entityUrl.path">
                 <div class="events__content">
-             <a href="javascript:void();"><h1 class="title">{{ event.title }}</h1></a>
+             <h1 class="title">{{ event.title }}</h1>
                   <div class="sm-show info">
                     <span>{{ event.firstEventTime | unixToTime }}</span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
@@ -215,7 +215,7 @@
                     </mat-chip-list>
                   </div><!--/row-->
                 </div>
-              </div>
+              </a>
             </ng-container><!--/event repeat-->
           </div>
         </ng-container><!--/day repeat-->
