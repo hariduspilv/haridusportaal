@@ -21,9 +21,9 @@ html, body { -ms-overflow-style: none; }
 body [class^='mat-'], body [class*=' mat-'] {font-family: 'Rubik', sans-serif; } 
 body .htm-icon {font-family: 'htm-icon';font-size: $medium;}
 
-h1{font-size:2rem; line-height:120%; }
+h1{ font-size:2rem; line-height:120%; }
 a h1 { text-decoration: none; }
-a h1:hover { text-decoration: underline; }
+a h1:hover, a:hover h1 { text-decoration: underline; }
 a:visited, a:visited h1 { color: #623258; }
 strong, b { font-weight: 500; }
 a {color: $blue}
@@ -32,7 +32,8 @@ input:-webkit-autofill {
   box-shadow: 0 0 0 $medium white inset;
 }
 
-a {text-decoration: underline; &:hover {text-decoration: none;}}
+a {text-decoration: underline;
+ &:hover {text-decoration: none;}}
 html{
   font-size: 100%;
   height:100%;
@@ -326,6 +327,8 @@ share { margin-left: 0px!important; margin-right: 0px!important }
     .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
     .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
     .mat-sidenav .mat-menu-item span.htm-icon{ font-size: 1.5rem!important; }
+    .mat-sidenav .active { border-left: 5px solid transparent; font-weight: normal!important; -webkit-transition: border-left 0s cubic-bezier(0, 0, 0, 0);
+    transition: border-left 0s cubic-bezier(0, 0, 0, 0); }
     .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
       &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
       &:hover {background-color: #454B92;}
