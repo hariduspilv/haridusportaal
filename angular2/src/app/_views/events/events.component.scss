@@ -1,16 +1,16 @@
 @import "../../../assets/styles/typography.scss";
 
 .htm-icon { position: relative; }
-a h1, a { text-decoration: none!important; }
-a:hover h1, a:hover { text-decoration: underline!important; }
-a:visited h1 { color: red!important; }
-.events__content .title:visited { color: red!important; }
-
 .events {padding-bottom: $xxl;background: $white;border-top: $gutter solid $light-blue;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0;}
   .months {margin-top: $medium;
     @include break-on(sm, min) {margin-top:-$medium;}
   }
+
+a:visited, a:visited h1 { color: #623258; }
+a h1, a { text-decoration: none; }
+a h1:hover { text-decoration: underline; }
+
   & > *:nth-child(2) {margin-top: 0;}
   &__block {
     &:hover {.title {text-decoration: none;}}
@@ -32,7 +32,7 @@ a:visited h1 { color: red!important; }
       }
     }
   }
-  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $small $medium $small $medium; flex-basis: 50%;}
+  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 0.9375rem 1.5rem; flex-basis: 50%;}
   &__month {padding: 0 $medium;
     @include break-on(sm, min) {padding-top:$small; padding-left: 8.5rem;}
     h1{color: $black;}}
@@ -163,6 +163,7 @@ a:visited h1 { color: red!important; }
   .center {align-items: center;}
   .tags {padding-left: 0;}
   .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;color:$blue;
+    .title { font-size: 0.875rem; }
     .htm-icon{margin-top: 0.5rem;
       display: inline-block;
       fill: currentColor;}
