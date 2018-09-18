@@ -51,11 +51,19 @@
           {{ 'time.time_of_day' | translate }}
           {{ content.entity.fieldEventMainStartTime | unixToTime }} - {{ content.entity.fieldEventMainEndTime | unixToTime }}
         </span>
+        <ng-container *ngIf="content.entity && content.entity.fieldEventDate">
+          <div *ngFor="let item of content.entity.fieldEventDate">
+            {{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
+            {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
+            {{ 'time.time_of_day' | translate }}
+            {{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}
+          </div>
+        </ng-container>
       </div>
     </div>
     <div class="events__list__item__footer" aria-hidden="true">
       {{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}
-      <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri">{{ content.entity.fieldEventLocationLink.uri | removeProtocol }}</a></div>
+      <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri" target="_blank">{{ content.entity.fieldEventLocationLink.uri | removeProtocol }}</a></div>
     </div> 
   </div>
 </div>
@@ -70,7 +78,7 @@
       <div class="child" tabindex="0" role="text" attr.aria-label="{{'Event Organizer '}} {{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
       <div class="child" tabindex="0" role="text" attr.aria-label="{{'Contact person '}} {{ content.entity.fieldContactPerson }}">{{ content.entity.fieldContactPerson }}</div>
       <div class="child" tabindex="0" role="text" attr.aria-label="{{'Phone '}} {{ content.entity.fieldContactPhone }}">{{ content.entity.fieldContactPhone }}</div>
-      <a href="javascript:void(0)" class="child" role="link"  attr.aria-label="{{'e-Mail '}} {{ content.entity.fieldContactEmail }}">{{ content.entity.fieldContactEmail }}</a>
+      <a href="mailto:{{content.entity.fieldContactEmail}}" class="child" role="link"  attr.aria-label="{{'e-Mail '}} {{ content.entity.fieldContactEmail }}">{{ content.entity.fieldContactEmail }}</a>
     </div>
   </div>
 </div>
