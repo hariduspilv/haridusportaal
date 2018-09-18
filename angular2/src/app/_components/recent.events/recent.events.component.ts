@@ -71,6 +71,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 			eventStartDate: this.content.entity.fieldEventMainDate,
 			eventStartTime: this.content.entity.fieldEventMainStartTime,
 			eventEndTime: this.content.entity.fieldEventMainEndTime,
+			eventExtraDates: this.content.entity.fieldEventDate,
 			nid: this.nid,
 			lang: this.lang
 		  }
