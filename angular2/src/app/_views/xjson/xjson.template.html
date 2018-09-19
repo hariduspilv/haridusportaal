@@ -27,6 +27,7 @@
             <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
               
               <div class="row" *ngIf="!data_elements[element].hidden"><!-- Form elements -->
+                
                 <div class="col-12">
 
                   <ng-container *ngIf="data_elements[element].helpertext">
@@ -47,26 +48,32 @@
 
                   <ng-container *ngIf="data_elements[element].type == 'text'">
                     <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
-                      <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}</span>
+                      <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
                       <div class="round-input__field-wrapper">
-                        <input class="round-input__field" type="text" placeholder="{{selectLanguage(data_elements[element].title)}}" [readonly]="data_elements[element].readonly" [(ngModel)]='data_elements[element].value' [name]="element" [attr.required]="data_elements[element].required"/>
+                        <input class="round-input__field" type="text" 
+                        placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
+                        [readonly]="data_elements[element].readonly" 
+                        [(ngModel)]='data_elements[element].value' 
+                        [name]="element" 
+                        [attr.required]="data_elements[element].required"/>
                       </div>
                     </div><!--/round-input__wrapper-->
                   </ng-container> <!-- /TEXT -->
 
                   <ng-container *ngIf="data_elements[element].type == 'textarea'">
+                    <span>{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
                     <div class="round-input__area">
                       <textarea class="round-input__area__elem" 
-                      
                       [readonly]="data_elements[element].readonly" 
                       [(ngModel)]='data_elements[element].value' 
-                      placeholder="{{selectLanguage(data_elements[element].title)}}"  
+                      placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"  
                       [name]="element" ></textarea>
                     </div>
                   </ng-container> <!-- /TEXTAREA -->
 
                   <ng-container *ngIf="data_elements[element].type == 'selectlist'">
-                    <mat-select placeholder="{{selectLanguage(data_elements[element].title) }}"
+                    <span>{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
+                    <mat-select placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                     [attr.multiple]="data_elements[element].multiple">
                       <mat-option *ngFor="let option of objectKeys(data_elements[element].options)" 
                       [value]="option">
@@ -77,39 +84,66 @@
 
                   <ng-container *ngIf="data_elements[element].type == 'email'">
                     <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
-                      <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}</span>
+                      <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
                       <div class="round-input__field-wrapper">
-                          <input class="round-input__field" type="email" placeholder="{{selectLanguage(data_elements[element].title)}}" [readonly]="data_elements[element].readonly" [(ngModel)]='data_elements[element].value' [name]="element" [attr.required]="data_elements[element].required"/>
+                          <input class="round-input__field" type="email" 
+                          placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
+                          [readonly]="data_elements[element].readonly" 
+                          [(ngModel)]='data_elements[element].value' 
+                          [name]="element" 
+                          [attr.required]="data_elements[element].required"/>
                       </div>
                     </div><!--/round-inpuit__wrapper-->
                   </ng-container> <!-- /EMAIL -->
 
                   <ng-container *ngIf="data_elements[element].type == 'checkbox'">
                     <div class="custom-checkbox">
-                      <mat-checkbox [(ngModel)]="data_elements[element].value" [name]="element" [disabled]="data_elements[element].readonly" [required]="data_elements[element].required"> {{ selectLanguage(data_elements[element].title) }}</mat-checkbox>
+                      <mat-checkbox [(ngModel)]="data_elements[element].value" 
+                      [name]="element" 
+                      [disabled]="data_elements[element].readonly" 
+                      [required]="data_elements[element].required"> 
+                      {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
+                      </mat-checkbox>
                     </div>            
                   </ng-container> <!-- /CHECKBOX -->
 
                   <ng-container *ngIf="data_elements[element].type == 'number'">
-                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value != undefined">
-                        <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}</span>
-                        <div class="round-input__field-wrapper">
-                            <input class="round-input__field" type="number" [min]="data_elements[element].min" [max]="data_elements[element].max" [(ngModel)]='data_elements[element].value' [readonly]="data_elements[element].readonly" [name]="element" [attr.required]="data_elements[element].required"/>
-                        </div>
-                      </div><!--/round-inpuit__wrapper-->
+                    <div class="round-input__wrapper" [class.complete]="data_elements[element].value != undefined">
+                      <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
+                      <div class="round-input__field-wrapper">
+                        <input class="round-input__field" type="number" 
+                        [min]="data_elements[element].min" 
+                        [max]="data_elements[element].max" 
+                        [(ngModel)]='data_elements[element].value' 
+                        [readonly]="data_elements[element].readonly" 
+                        [name]="element" 
+                        [attr.required]="data_elements[element].required"/>
+                      </div>
+                    </div><!--/round-inpuit__wrapper-->
                   </ng-container> <!-- /NUMBER -->
 
+                  <ng-container *ngIf="data_elements[element].type == 'date'">
+                    <input matInput 
+                    [matDatepicker]="picker" 
+                    placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
+                    [(ngModel)]="data_elements[element].value"
+                    dateFormatter
+                    [name]="element">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </ng-container> <!-- /DATE -->
+
                   <ng-container *ngIf="data_elements[element].type == 'file'">
-                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value != undefined">
-                        <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}</span>
-                        <div class="round-input__field-wrapper">
-                          <input class="round-input__field" type="file" 
-                          (change)="fileChange($event, data_elements[element])" 
-                          placeholder="{{selectLanguage(data_elements[element].title)}}" 
-                          accept=".pdf,.doc,.docx"
-                          [attr.multiple]="data_elements[element].multiple">
-                        </div>
-                      </div><!--/round-inpuit__wrapper-->
+                    <div class="round-input__wrapper" [class.complete]="data_elements[element].value != undefined">
+                      <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
+                      <div class="round-input__field-wrapper">
+                        <input class="round-input__field" type="file" 
+                        (change)="fileChange($event, data_elements[element])" 
+                        placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
+                        accept=".pdf,.doc,.docx"
+                        [attr.multiple]="data_elements[element].multiple">
+                      </div>
+                    </div><!--/round-inpuit__wrapper-->
                   </ng-container> <!-- /FILE -->
 
                   <ng-container *ngIf="data_elements[element].type == 'table'">
