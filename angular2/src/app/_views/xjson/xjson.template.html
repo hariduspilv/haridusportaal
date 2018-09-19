@@ -74,11 +74,28 @@
                   <ng-container *ngIf="data_elements[element].type == 'selectlist'">
                     <span>{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
                     <mat-select placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                    [attr.multiple]="data_elements[element].multiple">
-                      <mat-option *ngFor="let option of objectKeys(data_elements[element].options)" 
-                      [value]="option">
-                        {{ selectLanguage(data_elements[element].options[option]) }}
-                      </mat-option>
+                    [(ngModel)]='data_elements[element].value'
+                    [name]="element"
+                    [compareWith]="compareFn"
+                    [multiple]="data_elements[element].multiple">
+                      <mat-option *ngIf="!data_elements[element].multiple">-- None --</mat-option>
+                      <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
+                        <ng-container *ngIf="!data_elements[element].options[option]['options']">
+                          <mat-option
+                          [value]="option">
+                            {{ selectLanguage(data_elements[element].options[option]) }}
+                          </mat-option>
+                        </ng-container>
+
+                        <ng-container *ngIf="data_elements[element].options[option]['options']">
+                          <mat-optgroup [label]="selectLanguage(data_elements[element].options[option])">
+                            <mat-option *ngFor="let sub_key of objectKeys(data_elements[element].options[option]['options'])"
+                            [value]="sub_key">
+                              {{ selectLanguage(data_elements[element].options[option]['options'][sub_key]) }}
+                            </mat-option>
+                          </mat-optgroup>
+                        </ng-container>
+                      </ng-container>
                     </mat-select>
                   </ng-container> <!-- /SELECTLIST -->
 
@@ -114,7 +131,7 @@
                         <input class="round-input__field" type="number" 
                         [min]="data_elements[element].min" 
                         [max]="data_elements[element].max" 
-                        [(ngModel)]='data_elements[element].value' 
+                        [(ngModel)]="data_elements[element].value" 
                         [readonly]="data_elements[element].readonly" 
                         [name]="element" 
                         [attr.required]="data_elements[element].required"/>
