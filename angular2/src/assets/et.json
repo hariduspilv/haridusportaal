@@ -4,7 +4,7 @@
     "navigate": "Mine avalehele",
     "favourites_limit_modal_title": "Lisa lemmikutesse",
     "favourites_limit_modal_content": "Portaalis saab salvestada kuni 10 lemmikut. Kustutamiseks eemalda leheküljelt täheke",
-    "favourites_limit_modal_close": "Sulge aken",
+    "favourites_limit_modal_close": "Sulge",
     "favourites_list_label" : "Minu lemmikud",
     "favourites_list_none_message" : "Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides.",
     "favourites_snackbar_message": "Lehekülg lisatud lemmikuks. Lemmikuid näed enda Töölaualt.",
@@ -38,7 +38,16 @@
     "dashboard_tabs_certificates_valid_to":"Kehtib kuni",
     "dashboard_tabs_certificates_isco":"Ametite (ISCO) klassifikaator",
     "dashboard_tabs_certificates_duplicate":"Duplikaat",
-    "dashboard_tabs_certificates_notvalid":"Kehtetu"
+    "dashboard_tabs_certificates_notvalid":"Kehtetu",
+    "dashboard_tabs_personal_label":"Isikuandmed",
+    "isikukood": "Isikukood",
+    "synniKp": "Sünniaeg",
+    "elukohamaa": "Elukohamaa",
+    "rrElukoht": "Elukoht rahvastikuregistris",
+    "kodakondsus": "Kodakondsus",
+    "elamisluba": "Elamisluba",
+    "oppelaenOigus": "Õppelaenuõiguslikkus",
+    "reason": "Põhjus"
   },
   "xjson":{
     "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?"
@@ -296,7 +305,9 @@
     "explanation": "Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>"
   },
   "errors": {
-    "enter_valid_date": "Sisesta korrektne kuupäev"
+    "enter_valid_date": "Sisesta korrektne kuupäev",
+    "personal_data_request": "Vabandame. Eesti Hariduse Infosüsteemist isikuandmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.",
+    "personal_data_missing": "Isikuandmed Eesti Hariduse Infosüsteemis puuduvad."
   },
   "search": {
     "label": "Otsing",
