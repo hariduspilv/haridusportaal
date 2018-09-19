@@ -79,8 +79,22 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
-  uniqueDatepicker(rowi, coli){
-    return rowi + '_' + coli;
+  fileChange(event, model) {
+    let fileList: FileList = event.target.files;
+    if(fileList.length > 0) {
+        let file: File = fileList[0];
+
+        let data:FormData = new FormData();
+        data.append('uploadFile', file, file.name);
+       
+        let subscription = this.http.fileUpload('', data).subscribe(response => {
+
+          //TODO: attach ID to model.value
+          //model.value.push(<response.data.whatever>)
+          console.log(response);
+          subscription.unsubscribe();
+        });
+    }
   }
   tableColumnName(element, index){
     return Object.keys(this.data_elements[element].table_columns)[index];
