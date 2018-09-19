@@ -128,8 +128,8 @@
       <div class="col-3 align-end text-right sm-12 inline-flex form-col">
         <div class="align-center filter-state sm-hide">       
           <a role="button" class="btn-link pointer" (click)="filterFull = !filterFull" aria-expanded="true">
-            <span>{{ 'button.search_brief' | translate}}</span>
- 
+            <span class="md-hide">{{ 'button.search_brief' | translate}}</span>
+            <span class="md-show">{{ 'button.search_brief_short' | translate}}</span>
           </a>
         </div>
         <div class="button-row">
@@ -165,7 +165,7 @@
       <ng-container *ngFor="let monthKey of objectKeys(eventList[yearKey])">
 
         <div class="events__month">
-          <h1>{{ 'time.' + getMonthName(monthKey) | translate }}
+          <h1 tabindex="0">{{ 'time.' + getMonthName(monthKey) | translate }}
             <ng-container *ngIf="parseInt(yearKey) !== current.year">
               - {{ yearKey }}
             </ng-container>
@@ -186,9 +186,9 @@
 
           <div>
             <ng-container *ngFor="let event of eventList[yearKey][monthKey][dayKey]; let first = first; let last = last">
-              <a href="javascript:void();" class="events__block pointer"  [routerLink]="event.entityUrl.path">
+              <div class="events__block pointer"  [routerLink]="event.entityUrl.path">
                 <div class="events__content">
-             <h1 class="title">{{ event.title }}</h1>
+             <div class="title"><a href="javascript:void();"><h1>{{ event.title }}</h1></a></div>
                   <div class="sm-show info">
                     <span>{{ event.firstEventTime | unixToTime }}</span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
@@ -215,7 +215,7 @@
                     </mat-chip-list>
                   </div><!--/row-->
                 </div>
-              </a>
+              </div>
             </ng-container><!--/event repeat-->
           </div>
         </ng-container><!--/day repeat-->
@@ -279,10 +279,9 @@
             <ng-container *ngIf="popup === event.nid">
               <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog" (keyup.esc)="popup = null">
                 <div class="popupcontent">
-                 
-                  <div class="event__header">
+                  <div class="event__block">
                     <div class="title">
-                      <span class="title__strong" >{{ event.title }}</span>
+                      <h1><span class="title__strong" >{{ event.title }}</span></h1>
 
                       <div class="title__close" role="close">
                         <span class="htm-icon">close
@@ -290,9 +289,6 @@
                         </span>
                       </div>
                     </div>
-                  </div>
-
-                     <div class="event__block">
                     
                     <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
                     <div role="none" *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>

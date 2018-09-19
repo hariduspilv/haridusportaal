@@ -6,14 +6,26 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
-import { DateFormatterDirective } from '@app/_directives/dateFormatter.directive';
+import { TableService } from '@app/_services/tableService';
+import { DATEPICKER_FORMAT } from '@app/_services/filtersService';
+
+import * as _moment from 'moment';
+const moment = _moment;
+import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 @Component({
   templateUrl: './xjson.template.html',
-  styleUrls: ['./xjson.styles.scss']
+  styleUrls: ['./xjson.styles.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: DATEPICKER_FORMAT},
+  ]
 })
 export class XjsonComponent implements OnInit, OnDestroy{
- 
+  tableOverflown: boolean = false;
+  elemAtStart: boolean = true;
+
   public objectKeys = Object.keys;
   public test: boolean;
   public lang: string;
@@ -37,6 +49,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     private http: HttpService,
     private route: ActivatedRoute,
     private router: Router,
+    private tableService: TableService
   ) {}
 
   setPaths() {
@@ -67,6 +80,34 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, strings];
   }
 
+  compareFn(a, b) {
+    return a && b ? a == b : a == b;
+  }
+
+  fileChange(event, model) {
+    let fileList: FileList = event.target.files;
+    if(fileList.length > 0) {
+        let file: File = fileList[0];
+
+        let data:FormData = new FormData();
+        data.append('uploadFile', file, file.name);
+       
+        let subscription = this.http.fileUpload('', data).subscribe(response => {
+
+          //TODO: attach ID to model.value
+          //model.value.push(<response.data.whatever>)
+          console.log(response);
+          subscription.unsubscribe();
+        });
+    }
+  }
+  tableColumnName(element, index){
+    return Object.keys(this.data_elements[element].table_columns)[index];
+  }
+  tableColumnAttribute(element, index, attribute){
+    return this.data_elements[element].table_columns[ this.tableColumnName(element, index) ][attribute]
+  }
+  
   promptEditConfirmation() {
 		 this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
 		  data: {
@@ -130,9 +171,8 @@ export class XjsonComponent implements OnInit, OnDestroy{
       return false;
     }    
   }
-  isValidField(field){  
+  isValidField(field){
     //check for required field
-
     if(field.required === true){
       if(field.value === undefined) return {valid: false, message: 'Puudub kohustuslik väärtus'}
       //else if (field.value.length == 0) return {valid: false, message: 'Puudub kohustuslik väärtus'}
@@ -161,38 +201,12 @@ export class XjsonComponent implements OnInit, OnDestroy{
     return {valid: true, message:'valid'};
   }
   tableValidation(table){
-    /*
-    {
-      "value": [
-        {
-          "institution_id": 61,
-          "institution_name": "Tartu Ülikool",
-          "type": "511 bakalaureuseõpe (vv alates 01.06.2002)",
-          "type_coded": 12508,
-          "study_programme": "Loodusteadused ja tehnoloogia",
-          "study_programme_EHISid": 144918,
-          "start_date": 1504396800000,
-          "learning_load": "täiskoormusega õpe",
-          "learning_load_code": 14473,
-          "completion_rate": 0,
-          "academic_leave_start": null,
-          "first_semester_end": null
-        }
-      ],
-      "type": "table",
-      "title": {
-        "et": "Õpingute andmed andmed"
-      },
-      "add_del_rows": false
-    } */
-    //let validation = this.isValidField(elements[field]);
-   
     for (let row of table.value) {
       //console.log(row);
       for (let col of Object.keys(row)) {
-        let column_properties = table.table_columns[col];
+        let column_properties = JSON.parse(JSON.stringify(table.table_columns[col]));
         column_properties.value = row[col];
-
+        console.log(column_properties);
         let validation = this.isValidField(column_properties);
         if(validation.valid != true){
           validation['row'] = table.value.indexOf(row);
@@ -212,7 +226,6 @@ export class XjsonComponent implements OnInit, OnDestroy{
       if(elements[field].type == 'table'){
         let validation = this.tableValidation(elements[field]);
         if(validation.valid !== true) {
-          console.log(validation);
           return this.error[field] = validation;
         }
       }
@@ -229,7 +242,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
   submitForm(activity: string){
     this.error = {};
-
+    console.log(this.data_elements);
     if(activity == 'EDIT') {
       
       this.promptEditConfirmation();
@@ -382,6 +395,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.viewController(xjson);
   }
 
+
   viewController(xjson){
     this.data = xjson;
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
@@ -398,7 +412,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     }
 
   }
-
+  
   ngOnInit(){
     this.pathWatcher();
  
