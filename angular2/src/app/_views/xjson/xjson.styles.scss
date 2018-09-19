@@ -7,34 +7,35 @@
   &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
   &__step-introduction{width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none;}
   &__heading{width:100%; color:$blue; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
-  &__navigation{ list-style-type: none; padding-left: 0; display: flex;
+  &__navigation{ list-style-type: none; padding-left: 0; display: flex; margin-top: 3rem;
     .xjson__navigation__step.active {
-      font-weight: bold;
+      font-weight: bold; margin-bottom: 3rem;
       a{
         text-decoration: none;
-              &:before {
-                width: 35px; height: 35px; background-color: $light-blue; border-radius: 35px; display: block;
-        line-height: 35px; text-align: center; margin: 0 auto 10px auto; z-index: 1;
-      }
+        &:before {
+          width: 35px; height: 35px; background-color: $light-blue; border-radius: 35px; display: block;
+          line-height: 35px; text-align: center; margin: 0 auto 0px auto; z-index: 1; margin-top: -5px;
+        }
       }
     }
     .xjson__navigation__step { position: relative; text-align: center; width: 25%;
       &:after {
         content: "";
-        position: absolute; width: 100%; height: 3px; background-color: $aqua; top: 15px; left: -50%;
+        position: absolute; width: 100%; height: 3px; background-color: $aqua; top: 10px; left: -50%;
         z-index: 0; 
       }
       &:first-child:after { 
         content: none;
       }     
-a {
-      &:before {
-        content: counter(step);
-        counter-increment: step;
-        width: 25px; height: 25px; background-color: $aqua; border-radius: 25px; display: block;
-        line-height: 25px; text-align: center; margin: 0 auto 10px auto; z-index: 1;
+      a {
+        &:before {
+          content: counter(step);
+          counter-increment: step;
+          width: 25px; height: 25px; background-color: $aqua; border-radius: 25px; display: block;
+          line-height: 25px; text-align: center; margin: 0 auto 0px auto; z-index: 1; position: absolute;
+          left: 0; right: 0;
+        }
       }
-    }
     }
     .xjson__navigation__step.active:before { 
 
@@ -44,8 +45,12 @@ a {
 
     }
     a {
-      cursor: pointer; margin: 50px 0 0 0; 
+      cursor: pointer; margin: 0 0 0 0; font-size: 0.875rem;
       &.disabled{ color: gray; text-decoration: none; cursor: not-allowed;}
+    }
+
+    .xjson__navigation__stepname {
+      position: relative; margin-bottom: 2rem; display: block; margin-top: 2rem;
     }
   }
 }
