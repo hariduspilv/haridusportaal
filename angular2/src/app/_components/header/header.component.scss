@@ -30,8 +30,12 @@
   @include break-on(sm, max) {display: none;}
 }
 .languages {position: relative;top: .125rem;padding-left: $half-gutter;
+    @include break-on(xl, min) { top: 0rem; }
+        @include break-on(xxl, min) { top: -.25rem; }
   a {color: $white;text-decoration: none;font-size: $small;font-weight: 400;}
 }
+
+
 .loginbar {margin-left: $xxl; display: flex;
   @include break-on(xl, min) {position: relative;top: .1875rem;}
 }
