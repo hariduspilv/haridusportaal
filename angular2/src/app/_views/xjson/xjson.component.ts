@@ -79,6 +79,11 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
+
+  compareFn(a, b) {
+    return a && b ? a == b : a == b;
+  }
+
   fileChange(event, model) {
     let fileList: FileList = event.target.files;
     if(fileList.length > 0) {
@@ -237,7 +242,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
   submitForm(activity: string){
     this.error = {};
-
+    console.log(this.data_elements);
     if(activity == 'EDIT') {
       
       this.promptEditConfirmation();
