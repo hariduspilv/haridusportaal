@@ -60,4 +60,15 @@ export class HttpService {
       headers: headers
     });
   }
+  fileUpload(url, data){
+    url = this.parseUrl(url);
+    let headers = this.createAuthorizationHeader();
+
+    headers = headers.append('Content-Type', 'multipart/form-data');
+    headers = headers.append('Accept', 'application/json');
+
+    return this.http.post(url, data, {
+      headers: headers
+    });
+  }
 }

@@ -154,12 +154,15 @@ share { margin-left: 0px!important; margin-right: 0px!important }
 }
 
 @include break-on(md, max) {
-  .flex.mininav { flex-direction: row; justify-content: flex-start; 
+  .flex.mininav { flex-direction: row; justify-content: inherit; height: 47px;
     share { margin-left: inherit!important; }
   }
 }
+
 @include break-on(sm, max) {
- favourites { margin-right: 1rem!important; }
+    .flex.mininav { justify-content: inherit; margin: 0 0 0 -.5rem;
+  }
+ favourites { margin-right: 1rem!important; margin-left: 0.5rem; }
 }
 
 
