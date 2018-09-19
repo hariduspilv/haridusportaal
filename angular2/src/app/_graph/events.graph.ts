@@ -220,6 +220,7 @@ query(
             }
           }
           fieldAttachmentFile {
+            description
             entity {
               entityLabel
               entityType

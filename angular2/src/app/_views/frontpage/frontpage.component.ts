@@ -107,11 +107,12 @@ export class FrontpageComponent {
 
   superNewsValid() {
     var valid = true;
-    let superNewsPublished = this.generalData[0].fieldSupernewsPublishDate && this.generalData[0].fieldSupernewsPublishDate.date;
-    let superNewsUnPublished = this.generalData[0].fieldSupernewsUnpublishDate && this.generalData[0].fieldSupernewsUnpublishDate.date;
-    if (superNewsPublished) { superNewsPublished = new Date() > new Date(superNewsPublished); };
-    if (superNewsUnPublished) { superNewsUnPublished = new Date() < new Date(superNewsUnPublished); } else { superNewsUnPublished = true; };
-    return superNewsPublished && superNewsUnPublished;
+    let superNewsPublished = this.generalData[0].fieldSupernewsPublishDate && (this.generalData[0].fieldSupernewsPublishDate.unix * 1000);
+    let superNewsUnPublished = this.generalData[0].fieldSupernewsUnpublishDate && this.generalData[0].fieldSupernewsUnpublishDate.unix && (this.generalData[0].fieldSupernewsUnpublishDate.unix * 1000);
+    let dateNow = new Date();
+    if (superNewsPublished) { var superNewsPublishedVal = dateNow > new Date(superNewsPublished) };
+    if (superNewsUnPublished) { var superNewsUnPublishedVal = dateNow < new Date(superNewsUnPublished) } else { superNewsUnPublishedVal = true; };
+    return superNewsPublishedVal && superNewsUnPublishedVal;
   }
   ngOnInit() {
     (document.activeElement as HTMLElement).blur();
