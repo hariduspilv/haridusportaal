@@ -4,13 +4,8 @@
 }
 
 .login-wrapper { position: relative;
-  @include break-on(sm, max) { position: relative; }
+  @include break-on(sm, max) { position: static; }
 
-  &.logged:before { 
-    @include break-on(md, max) { 
-      content: ""; display: block; height: 0.5rem; width: 0.5rem; background: $success; border-radius: 0.625rem; margin-right: 0.5rem; position: absolute; top: 0.7rem; left: 1.65rem;;
-    }
-  }
 
   .login {position: relative; z-index: 2; appearance: none; border:none; background:none;padding: 0 $gutter;top: .125rem;
     text-decoration: none;color: $white;font-size: $small;font-weight: 300;
@@ -46,9 +41,14 @@
   }
 }
     @include break-on(md, max) {
-.login__actions { 
+.login__actions { position: relative;
   .login { display: none; }
   .person { padding-right: 0.75rem; }
+        &.logged:before { 
+    @include break-on(md, max) { 
+      content: ""; display: block; height: 0.625rem; width: 0.625rem; background: $success; border-radius: 1rem; margin-right: 0.5rem; position: absolute; top: 0.8rem; left: 1.1rem; z-index: 3;
+    }
+  }
  }
 }
 .dropdown-menu-overlay{position: fixed; top:0; left:0; bottom:0; right:0; background:transparent;}
