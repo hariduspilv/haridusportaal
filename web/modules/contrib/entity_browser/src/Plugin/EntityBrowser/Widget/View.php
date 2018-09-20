@@ -136,7 +136,7 @@ class View extends WidgetBase implements ContainerFactoryPluginInterface {
 
     // When rebuilding makes no sense to keep checkboxes that were previously
     // selected.
-    if (!empty($form['view']['entity_browser_select']) && $form_state->isRebuilding()) {
+    if (!empty($form['view']['entity_browser_select'])) {
       foreach (Element::children($form['view']['entity_browser_select']) as $child) {
         $form['view']['entity_browser_select'][$child]['#process'][] = ['\Drupal\entity_browser\Plugin\EntityBrowser\Widget\View', 'processCheckbox'];
         $form['view']['entity_browser_select'][$child]['#process'][] = ['\Drupal\Core\Render\Element\Checkbox', 'processAjaxForm'];
@@ -159,7 +159,10 @@ class View extends WidgetBase implements ContainerFactoryPluginInterface {
    * @see \Drupal\Core\Render\Element\Checkbox::processCheckbox()
    */
   public static function processCheckbox(&$element, FormStateInterface $form_state, &$complete_form) {
-    $element['#checked'] = FALSE;
+    if ($form_state->isRebuilding()) {
+      $element['#checked'] = FALSE;
+    }
+
     return $element;
   }
 

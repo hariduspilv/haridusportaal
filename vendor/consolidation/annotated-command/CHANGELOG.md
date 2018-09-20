@@ -1,5 +1,9 @@
 # Change Log
 
+### 2.9.0 & 2.9.1 - 19 Sept 2018
+
+- Improve commandfile discovery for extensions installed via Composer. (#156)
+
 ### 2.8.5 - 18 Aug 2018
 
 - Add dependencies.yml for dependencies.io
