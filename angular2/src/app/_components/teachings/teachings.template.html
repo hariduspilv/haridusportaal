@@ -1,0 +1,27 @@
+
+<div class="accordion">
+    <h2 class="section--header">{{ 'frontpage.teachings_data' | translate }}</h2>
+    <mat-spinner *ngIf="loading && !error"></mat-spinner>
+    <div *ngIf="error">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</div>
+    <mat-accordion multi *ngIf="!loading && content && !error">
+      <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let item of content; let first = first;">
+        <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+          <mat-panel-title>
+            {{ content.oppeasutus }}
+          </mat-panel-title>
+          <!-- <mat-panel-description></mat-panel-description> -->
+        </mat-expansion-panel-header>
+  
+        <table class="dashboard-table" *ngIf="!error && content">
+          <tbody>
+            <tr>
+              <td>{{ item }}</td>
+              <!-- <td>{{ certificate.valjaantud }}</td>
+              <td class="text-center"><a [routerLink]="[certificate.path]">{{ 'button.view_more' | translate }}</a></td> -->
+            </tr>
+          </tbody>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  

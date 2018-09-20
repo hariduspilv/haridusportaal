@@ -47,7 +47,37 @@
     "kodakondsus": "Nationality",
     "elamisluba": "Permit of residence",
     "oppelaenOigus": "Loan privileges",
-    "reason": "Reason"
+    "reason": "Reason",
+    "studies_data": "Õpingute andmed-ENG",
+    "teachings_data": "Õpetamiste andmed-ENG",
+    "oppeasutus": "Õppeasutus-ENG",
+    "haridustase": "Haridustase-ENG",
+    "oppekava": "Õppekava-ENG",
+    "oppekeel": "Õppekeel-ENG",
+    "opeklass": "Õpe/klass-ENG",
+    "opeParallel": "Paralleeli tunnus-ENG",
+    "klassiLiik": "Klassi liik-ENG",
+    "klassAste": "Kooliaste-ENG",
+    "oppAlgus": "Õppimise alguse-ENG",
+    "oppLopp": "Õppimise lõpp-ENG",
+    "staatus": "Staatus-ENG",
+    "tunnistusDiplom": "Tunnistuse/Diplomi number-ENG",
+    "oppevorm": "Õppevorm-ENG",
+    "koormus": "Õppekoormus-ENG",
+    "kestus": "Õppekava järgne nominaalkestus-ENG",
+    "ryhmaLiik": "Rühma liik-ENG",
+    "ryhmaNimetus": "Rühma nimetus-ENG",
+    "koht": "Osakoha suurus-ENG",
+    "finAllikas": "Finantseerimise allikas-ENG",
+    "akadPuhkus": "Akadeemiline puhkus-ENG",
+    "ennistamine": "Ennistamine-ENG",
+    "puudumised": "Põhjuseta puudumised eelmisel õppeveerandil (%)-ENG",
+    "kutseKoolitus": "Kutsealane eelkoolitus-ENG",
+    "oppekavaKood": "Õppekava kood-ENG",
+    "oppekavaNimetus": "Õppekava nimetus-ENG",
+    "nimetus": "Nimetus-ENG",
+    "algusKp": "Alguskuupäev-ENG",
+    "loppKp": "Lõppkuupäev-ENG"
   },
   "xjson":{
     "edit_step_confirm_modal_content": "Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?"
@@ -308,7 +338,9 @@
   "errors": {
     "enter_valid_date": "Enter valid date",
     "personal_data_request": "Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.",
-    "personal_data_missing": "Relevant data missing from the Estonian Education Infosystem."
+    "personal_data_missing": "Relevant data missing from the Estonian Education Infosystem.",
+    "studies_data_request": "Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.",
+    "studies_data_missing": "Relevant data missing from the Estonian Education Infosystem."
   },
   "search": {
     "label": "Search",
