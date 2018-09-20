@@ -59,9 +59,9 @@ class xJsonService implements xJsonServiceInterface {
 	}
 
 
-	public function getBasexJsonForm($first = FALSE, $response_info = []){
+	public function getBasexJsonForm($first = FALSE, $response_info = [], $form_name = NULL){
 		$baseJson = [];
-		if($first && !empty($this->getEntityJsonObject())){
+		if($first && !empty($this->getEntityJsonObject($form_name))){
 			$definition_header = $this->getxJsonHeader();
 			$baseJson['header'] = $definition_header +[
 				'first' => TRUE,
@@ -82,7 +82,7 @@ class xJsonService implements xJsonServiceInterface {
 			/*TODO fix empty arrays*/
 			$baseJson['messages'] = ['empty' => 'empty'];
 
-		} elseif(!empty($response_info) && !empty($this->getEntityJsonObject())){
+		} elseif(!empty($response_info) && !empty($this->getEntityJsonObject($form_name))){
 			$baseJson = $response_info;
 			unset($baseJson['header']['first']);
 			$definition_header = $this->getxJsonHeader();
@@ -133,41 +133,6 @@ class xJsonService implements xJsonServiceInterface {
 	}
 
 	/**
-	 * @param $response_body
-	 * @return array
-	 * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-	 * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-	 */
-	public function buildForm($response_body){
-		$definition = $this->getEntityJsonObject()['body'];
-		$response_json['header'] = $response_body['header'];
-		#dump($response_body['body']);
-		foreach($response_body['body']['steps'] as $step_index => $step){
-			if(isset($step['data_elements'])){
-				foreach($step['data_elements'] as $data_element_index => $data_element){
-					if(isset($definition['steps'][$step_index]['data_elements'][$data_element_index])){
-						$element_from_def = $definition['steps'][$step_index]['data_elements'][$data_element_index];
-						if(is_array($data_element)){
-							$element_with_def = $step['data_elements'][$data_element_index] + $element_from_def;
-						}else{
-							$element_with_def = $element_from_def += [
-									'value' => $data_element
-							];
-						}
-						$response_body['body']['steps'][$step_index]['data_elements'][$data_element_index] = $element_with_def;
-					}else{
-						// if something is broken exit immediately
-						return $response_body;
-					}
-				}
-			}
-			return $response_body;
-		}
-		return $response_body;
-	}
-
-
-	/**
 	 * @param $response
 	 * @return array
 	 * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
@@ -178,9 +143,10 @@ class xJsonService implements xJsonServiceInterface {
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
-		$definition_body = $this->getEntityJsonObject()['body'];
 
 		$this->validatexJsonHeader($response_header);
+		$form_name = $response['header']['form_name'];
+		$definition_body = $this->getEntityJsonObject($form_name)['body'];
 
 		if($response_header) $return['header'] = $response_header;
 		if($response_messages) $return['messages'] = $response_messages;
@@ -196,13 +162,11 @@ class xJsonService implements xJsonServiceInterface {
 								$return_element = $this->mergeElementValue($element, $response_element);
 							}
 						}
-
 						$return['body']['steps'][$step_key]['data_elements'][$element_key] = $return_element;
 					}
 					//Add step non data_elements
 					unset($definition_body['steps'][$step_key]['data_elements']);
 					$return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
-
 					// add each step messages aswel
 					if(isset($response_body['steps'][$step_key]['messages'])){
 						$return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
@@ -362,31 +326,6 @@ class xJsonService implements xJsonServiceInterface {
 		}
 		return $valid;
 	}
-
-	/*public function xJsonGetDocumentById($file_id){
-			try{
-				$redis_client = ClientFactory::getClient();
-			}catch (\RedisException $e){
-				throw new \HttpResponseException('puuduvärk');
-				dump($e->getMessage());
-			}
-			return [];
-	}*/
-
-	/*public function getTestForm($form_name = NULL){
-		$id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
-		$entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
-
-		$connection = \Drupal::database();
-		$query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition_test->'header'->>'form_name' = :id", array(':id' => $id));
-		$result = $query->fetchField();
-		if($result){
-			$entity = $entityStorage->load($result);
-			return ($entity) ? Json::decode($entity->get('xjson_definition_test')->value) : NULL;
-		}else{
-			return NULL;
-		}
-	}*/
 
 	public function buildTestResponse(){
 		$id = $this->getFormNameFromRequest();
