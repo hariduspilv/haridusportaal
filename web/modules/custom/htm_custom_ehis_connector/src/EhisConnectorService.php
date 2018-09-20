@@ -133,7 +133,6 @@ class EhisConnectorService {
 	 */
 	private function getCurrentUserIdCode(){
 		$account = $this->currentUser->getAccount();
-		#return '4710824929699';
 		return ($id_code = $account->get('field_user_idcode')->value) ? $id_code : 0;
 	}
 
@@ -166,12 +165,15 @@ class EhisConnectorService {
 	public function getApplications(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode()];
 		$params['id_code'] = $this->getCurrentUserIdCode();
+
 		// we need to start getDocument service
-		$init = $this->invoke('getDocuments', $params);
-		if(isset($init['MESSAGE']) && $init['MESSAGE'] === 'WORKING'){
-			return $this->invokeWithRedis('vpTaotlus', $params);
+		if($params['init'] === TRUE){
+			$init = $this->invokeWithRedis('getDocuments', $params, FALSE);
+			if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
+				throw new RequestException('Service down');
+			}
 		}else{
-			throw new RequestException('Service down');
+			return $this->invokeWithRedis('vpTaotlus', $params);
 		}
 	}
 

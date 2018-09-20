@@ -107,7 +107,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 			case 'applications':
 				$method = 'getApplications';
 				#$this->certificate->testApplications();
-				$params = [];
+				$params = ['init' => $tab];
 				break;
 			default:
 				throw new BadRequestHttpException('Service name not found');
