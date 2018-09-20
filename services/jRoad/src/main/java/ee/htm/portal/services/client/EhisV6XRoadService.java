@@ -2,6 +2,7 @@ package ee.htm.portal.services.client;
 
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentDocument.VpTaotlusDokument;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentResponseDocument.VpTaotlusDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusEsitamineDocument.VpTaotlusEsitamine;
@@ -42,4 +43,6 @@ public interface EhisV6XRoadService {
 
   VpTaotlusDokumentResponse vpTaotlusDokument(VpTaotlusDokument request, String userId)
       throws XRoadServiceConsumptionException;
+
+  MtsysKlfTeenusResponse mtsysKlfTeenus(String userId) throws XRoadServiceConsumptionException;
 }

@@ -5,6 +5,8 @@ import com.nortal.jroad.client.service.XRoadDatabaseService;
 import ee.htm.portal.services.database.EhisXRoadDatabase;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartDocument.EeIsikukaart;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusDocument;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentDocument.VpTaotlusDokument;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentResponseDocument.VpTaotlusDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusEsitamineDocument.VpTaotlusEsitamine;
@@ -18,6 +20,8 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Vp
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudDocument.VpTaotlusSissetulekud;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudResponseDocument.VpTaotlusSissetulekudResponse;
 import javax.annotation.Resource;
+import org.apache.xmlbeans.SchemaType;
+import org.apache.xmlbeans.XmlObject;
 import org.springframework.stereotype.Service;
 
 @Service("ehisv6XTeeService")
@@ -98,5 +102,13 @@ public class EhisV6XRoadServiceImpl extends XRoadDatabaseService implements Ehis
     }
 
     return ehisXRoadDatabase.vpTaotlusDokumentV1(request, userId);
+  }
+
+  public MtsysKlfTeenusResponse mtsysKlfTeenus(String userId) throws XRoadServiceConsumptionException {
+    XmlObject reguest = XmlObject.Factory.newInstance();
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return ehisXRoadDatabase.mtsysKlfTeenusV1(reguest, userId);
+    }
+    return ehisXRoadDatabase.mtsysKlfTeenusV1(reguest, userId);
   }
 }
