@@ -40,7 +40,7 @@
       if (!this.model.get('dataLoaded')) {
         // Create new item collection.
         this.model.itemCollection = new Drupal.shs.WidgetItemCollection({
-          url: this.container.app.getConfig('baseUrl') + '/' + this.container.app.getConfig('fieldName') + '/' + this.container.app.getConfig('bundle') + '/' + this.model.get('id')
+          url: Drupal.url(this.container.app.getConfig('baseUrl') + '/' + this.container.app.getConfig('fieldName') + '/' + this.container.app.getConfig('bundle') + '/' + this.model.get('id'))
         });
       }
 

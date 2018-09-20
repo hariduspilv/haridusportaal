@@ -70,10 +70,10 @@ class MemcacheStatisticsController extends ControllerBase {
         $stats     = $stats[$bin];
         $aggregate = array_pop($stats);
 
-        if ($memcache->memcache() instanceof \Memcached) {
+        if ($memcache->getMemcache() instanceof \Memcached) {
           $version = t('Memcached v@version', ['@version' => phpversion('Memcached')]);
         }
-        elseif ($memcache->memcache() instanceof \Memcache) {
+        elseif ($memcache->getMemcache() instanceof \Memcache) {
           $version = t('Memcache v@version', ['@version' => phpversion('Memcache')]);
         }
         else {
