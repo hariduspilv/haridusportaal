@@ -105,18 +105,4 @@ interface DrupalMemcacheInterface {
    */
   public function flush();
 
-  /**
-   * Closes the memacache instance connection.
-   */
-  public function close();
-
-  /**
-   * Adds a memcache server.
-   *
-   * @param string $server_path
-   *   The server path including port.
-   * @param bool $persistent
-   *   Whether this server connection is persistent or not.
-   */
-  public function addServer($server_path, $persistent = FALSE);
 }

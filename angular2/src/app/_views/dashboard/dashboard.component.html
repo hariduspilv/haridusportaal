@@ -9,10 +9,10 @@
 
         <div class="button-list">
           <ng-container *ngFor="let item of mainMenu[lang]">
-              <div class="view-item pointer text-center" [routerLink]="item.link" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" >
+              <a href="javascript:void(0)" class="view-item pointer text-center" [routerLink]="item.link" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" attr.aria-label="{{ 'event.list' | translate }}: {{mainMenuCommonAttrs[item._id].label | translate}}">
                 <span class="htm-icon">{{ mainMenuCommonAttrs[item._id].icon }}</span>
                 <div class="title sm-hide">{{ mainMenuCommonAttrs[item._id].label | translate }}</div>
-              </div>
+              </a>
           </ng-container>
         </div><!--/button-list-->
 

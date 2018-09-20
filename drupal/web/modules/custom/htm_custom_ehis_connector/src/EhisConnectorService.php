@@ -85,7 +85,6 @@ class EhisConnectorService {
 			/*TODO make post URL configurable*/
 			$response = $client->get(self::LOIME_DEFAULT_URL.$service_name . '/' . implode($params['url'], '/'));
 			$response = json_decode($response->getBody()->getContents(), TRUE);
-			$response['redis_hit'] = FALSE;
 			return $response;
 		}catch (RequestException $e){
 			throw $e;
@@ -103,7 +102,7 @@ class EhisConnectorService {
 	}
 	public function testApplications(){
 		$json = '{"documents":[{"form_name":"VPT_ESITATUD_TAOTLUS_OTSUS","identifier":38328,"document_date":"2015-01-21","status":"Heaks kiidetud"},{"form_name":"VPT_ESITATUD_TAOTLUS_OTSUS","identifier":3424,"document_date":"2013-09-03","status":"Tagasi lükatud"}]}';
-		$this->client->hset('47108249296', 'vpTaotlus', $json);
+		$this->client->hset('get', 'vpTaotlus', $json);
 	}
 
 	/**
@@ -165,16 +164,20 @@ class EhisConnectorService {
 	public function getApplications(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode()];
 		$params['id_code'] = $this->getCurrentUserIdCode();
-
+		#dump($params['init']);
 		// we need to start getDocument service
-		if($params['init'] === TRUE){
+		if($params['init']){
 			$init = $this->invokeWithRedis('getDocuments', $params, FALSE);
 			if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
 				throw new RequestException('Service down');
 			}
-		}else{
-			return $this->invokeWithRedis('vpTaotlus', $params);
 		}
+		
+		return $this->invokeWithRedis('vpTaotlus', $params);
+	}
+
+	public function getDocument(array $params = []){
+		return $this->invoke('getDocument', $params);
 	}
 
 	/**

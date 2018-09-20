@@ -13,7 +13,7 @@
     "dashboard_label": "Töölaud",
     "dashboard_tabs_applications": "Taotlused",
     "dashboard_tabs_certificates":"Tunnistused",
-    "dashboard_tabs_studies":"Õpingud",
+    "dashboard_tabs_studies":"Õpin",
     "dashboard_tabs_teachings":"Õpetan",
     "dashboard_tabs_certificates_no_results": "Kutsetunnistused puuduvad",
     "dashboard_tabs_certificates_error_technical":"Vabandame. Kutsetunnistuste andmete Kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.",
@@ -47,7 +47,37 @@
     "kodakondsus": "Kodakondsus",
     "elamisluba": "Elamisluba",
     "oppelaenOigus": "Õppelaenuõiguslikkus",
-    "reason": "Põhjus"
+    "reason": "Põhjus",
+    "studies_data": "Õpingute andmed",
+    "teachings_data": "Õpetamiste andmed",
+    "oppeasutus": "Õppeasutus",
+    "haridustase": "Haridustase",
+    "oppekava": "Õppekava",
+    "oppekeel": "Õppekeel",
+    "opeklass": "Õpe/klass",
+    "opeParallel": "Paralleeli tunnus",
+    "klassiLiik": "Klassi liik",
+    "klassAste": "Kooliaste",
+    "oppAlgus": "Õppimise alguse",
+    "oppLopp": "Õppimise lõpp",
+    "staatus": "Staatus",
+    "tunnistusDiplom": "Tunnistuse/Diplomi number",
+    "oppevorm": "Õppevorm",
+    "koormus": "Õppekoormus",
+    "kestus": "Õppekava järgne nominaalkestus",
+    "ryhmaLiik": "Rühma liik",
+    "ryhmaNimetus": "Rühma nimetus",
+    "koht": "Osakoha suurus",
+    "finAllikas": "Finantseerimise allikas",
+    "akadPuhkus": "Akadeemiline puhkus",
+    "ennistamine": "Ennistamine",
+    "puudumised": "Põhjuseta puudumised eelmisel õppeveerandil (%)",
+    "kutseKoolitus": "Kutsealane eelkoolitus",
+    "oppekavaKood": "Õppekava kood",
+    "oppekavaNimetus": "Õppekava nimetus",
+    "nimetus": "Nimetus",
+    "algusKp": "Alguskuupäev",
+    "loppKp": "Lõppkuupäev"
   },
   "xjson":{
     "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?"
@@ -307,7 +337,9 @@
   "errors": {
     "enter_valid_date": "Sisesta korrektne kuupäev",
     "personal_data_request": "Vabandame. Eesti Hariduse Infosüsteemist isikuandmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.",
-    "personal_data_missing": "Isikuandmed Eesti Hariduse Infosüsteemis puuduvad."
+    "studies_data_request": "Vabandame. Eesti Hariduse Infosüsteemist õpingute andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.",
+    "personal_data_missing": "Eesti Hariduse Infosüsteemis isikuandmed puuduvad.",
+    "studies_data_missing": "Eesti Hariduse Infosüsteemis õpingute andmed puuduvad."
   },
   "search": {
     "label": "Otsing",

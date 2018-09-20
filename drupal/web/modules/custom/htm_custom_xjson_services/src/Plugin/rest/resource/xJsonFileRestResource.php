@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *   label = @Translation("X json file rest resource"),
  *   uri_paths = {
  *     "canonical" = "/xjson_service/documentFile/{file_id}",
- *     "create" = "/xjson_service/postDocumentFile"
+ *     "create" = "/xjson_service/documentFile"
  *   }
  * )
  */
