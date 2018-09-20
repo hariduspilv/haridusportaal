@@ -279,9 +279,10 @@
             <ng-container *ngIf="popup === event.nid">
               <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog" (keyup.esc)="popup = null">
                 <div class="popupcontent">
-                  <div class="event__block">
+                  <div class="event__header">
+
                     <div class="title">
-                      <h1><span class="title__strong" >{{ event.title }}</span></h1>
+                      <span class="title__strong" >{{ event.title }}</span>
 
                       <div class="title__close" role="close">
                         <span class="htm-icon">close
@@ -289,6 +290,8 @@
                         </span>
                       </div>
                     </div>
+                  </div>
+                    <div class="event__block">
                     
                     <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
                     <div role="none" *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
