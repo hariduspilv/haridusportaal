@@ -120,7 +120,7 @@ GQL;
         'fieldText' => [
           'value' => 'Foo',
           'processed' => "<p>Foo</p>\n",
-          'format' => 'null',
+          'format' => null,
         ],
       ],
     ], $metadata);
@@ -171,11 +171,33 @@ GQL;
         'body' => [
           'value' => 'http://www.drupal.org',
           'processed' => "<p><a href=\"http://www.drupal.org\">http://www.drupal.org</a></p>\n",
-          'summary' => 'null',
+          'summary' => null,
           'summaryProcessed' => '',
         ],
       ],
     ], $metadata);
+  }
+
+  /**
+   * Verify that fields are assigned correctly among bundles.
+   */
+  public function testFieldAssignment() {
+    $this->createContentType(['type' => 'a']);
+    $this->createContentType(['type' => 'b']);
+    $this->addField('boolean', 'field_a', FALSE, 'A', 'a');
+    $this->addField('boolean', 'field_b', FALSE, 'B', 'b');
+
+    // Verify that the fields for a given bundle are there.
+    $this->assertGraphQLFields([
+      ['NodeA', 'fieldA', 'Boolean'],
+      ['NodeB', 'fieldB', 'Boolean'],
+    ]);
+
+    // Verify that the fields of another bundle are *not* there.
+    $this->assertGraphQLFields([
+      ['NodeA', 'fieldB', 'Boolean'],
+      ['NodeB', 'fieldA', 'Boolean'],
+    ], TRUE);
   }
 
   /**
@@ -345,7 +367,7 @@ GQL;
         'summary' => 'test summary',
         'summaryProcessed' => "<p>test summary</p>\n",
         'processed' => "<p>test</p>\n",
-        'format' => 'null',
+        'format' => null,
       ],
       'fieldText' => [
         ['value' => 'a'],
