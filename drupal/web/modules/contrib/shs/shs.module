@@ -59,45 +59,60 @@ function shs_get_class_definitions($field_name, array $context = []) {
  *
  * @return array
  *   List of parents for each default value.
+ *
+ * @deprecated since version 8.x-1.0-alpha2+1-dev
+ *   This function has been replaced by service 'shs.widget_defaults' and will
+ *   be removed in version 8.x-1.1.
  */
 function shs_term_get_parents($default_values, $settings, $target_type) {
-  $parents = [];
-  if (!is_array($default_values)) {
-    $default_values = [$default_values];
-  }
-  foreach ($default_values as $delta => $value) {
-    if ($settings['anyValue'] === $value) {
-      $parents[$delta] = [
-        [
-          'parent' => 0,
-          'defaultValue' => $settings['anyValue'],
-        ]
-      ];
-      continue;
-    }
-    try {
-      $storage = Drupal::entityTypeManager()->getStorage($target_type);
-      $parent_terms = array_reverse(array_keys($storage->loadAllParents($value)));
-      $keys = array_merge([0], $parent_terms);
-      $values = array_merge($parent_terms, [$value]);
-      $parents[$delta] = [];
-      foreach ($keys as $index => $key) {
-        $parents[$delta][] = [
-          'parent' => $key,
-          'defaultValue' => $values[$index] ?: $settings['anyValue'],
-        ];
+  /** @var Drupal\shs\WidgetDefaultsInterface $widget_defaults */
+  $widget_defaults = \Drupal::service('shs.widget_defaults');
+  return $widget_defaults->getParentDefaults($default_values, $settings['any_value'], $target_type);
+}
+
+/**
+ * Helper function to load only a single ancestry for a given term.
+ *
+ * A single ancestry is needed because for terms with multiple parents, the
+ * hierarchy cannot be determined.
+ *
+ * @param integer $tid
+ *   The taxonomy term ID.
+ * @param string $target_type
+ *   The entity type. Defaults to 'taxonomy_term'.
+ * @return array An array of term parents.
+ * An array of term parents.
+ *
+ * @see \Drupal\taxonomy\TermStorage::loadAllParents
+ *
+ * @todo Remove this when https://www.drupal.org/node/2793243 lands.
+ */
+function shs_term_load_all_parents($tid, $target_type = 'taxonomy_term') {
+  $parents_all = &drupal_static(__FUNCTION__, []);
+  if (!isset($parents_all[$tid])) {
+    $parents = array();
+    /** @var \Drupal\taxonomy\TermStorageInterface $storage */
+    $storage = \Drupal::entityTypeManager()->getStorage($target_type);
+    if ($term = $storage->load($tid)) {
+      $parents[$term->id()] = $term;
+      $terms_to_search[] = $term->id();
+
+      while ($tid = array_shift($terms_to_search)) {
+        if ($new_parents = $storage->loadParents($tid)) {
+          // Here, only take the first parent found. This differs from
+          // the `loadAllParents` method.
+          if ($new_parent = reset($new_parents)) {
+            if (!isset($parents[$new_parent->id()])) {
+              $parents[$new_parent->id()] = $new_parent;
+              $terms_to_search[] = $new_parent->id();
+            }
+          }
+        }
       }
     }
-    catch (Exception $ex) {
-      $parents[$delta] = [
-        [
-          'parent' => 0,
-          'defaultValue' => $settings['anyValue'],
-        ]
-      ];
-    }
+    $parents_all[$tid] = $parents;
   }
-  return $parents;
+  return $parents_all[$tid];
 }
 
 /**
@@ -109,8 +124,9 @@ function shs_term_get_parents($default_values, $settings, $target_type) {
  * @return boolean
  */
 function shs_term_has_children($tid) {
-  $query = Database::getConnection()->select('taxonomy_term_hierarchy', 'h');
-  $query->condition('h.parent', $tid);
+  $query = Database::getConnection()->select('taxonomy_term_field_data', 't');
+  $query->innerJoin('taxonomy_term__parent', 'p', 'p.entity_id = t.tid');
+  $query->condition('p.parent_target_id', $tid);
   $query->addTag('term_access');
   return ($query->countQuery()->execute()->fetchField() > 0);
 }

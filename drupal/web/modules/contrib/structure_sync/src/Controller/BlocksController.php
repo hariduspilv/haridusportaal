@@ -65,6 +65,8 @@ class BlocksController extends ControllerBase {
         'langcode' => $block->langcode->getValue()[0]['value'],
         'uuid' => $block->uuid(),
         'bundle' => $block->bundle(),
+        'revision_id' => null,
+        'rev_id_current' => null,
       ];
 
       $entityFieldManager = StructureSyncHelper::getEntityFieldManager();
