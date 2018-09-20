@@ -4,6 +4,9 @@ namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
+use Drupal\htm_custom_xjson_services\xJsonService;
+use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
+use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
@@ -53,9 +56,11 @@ class xJsonGetDocument extends ResourceBase {
 		array $serializer_formats,
 		LoggerInterface $logger,
 		EhisConnectorService $ehisConnectorService,
+		xJsonService $xJsonService,
 		AccountProxyInterface $current_user) {
 			parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 			$this->ehisService = $ehisConnectorService;
+			$this->xJsonService = $xJsonService;
 			$this->currentUser = $current_user;
 	}
 
@@ -70,6 +75,7 @@ class xJsonGetDocument extends ResourceBase {
 			$container->getParameter('serializer.formats'),
 			$container->get('logger.factory')->get('htm_custom_xjson_services'),
 			$container->get('htm_custom_ehis_connector.default'),
+			$container->get('htm_custom_xjson_services.default'),
 			$container->get('current_user')
 		);
 	}
@@ -91,6 +97,18 @@ class xJsonGetDocument extends ResourceBase {
 		$params['url'] = [$form_name, $file_id];
 		$response = $this->ehisService->getDocument($params);
 
-		return new ResourceResponse($response, 200);
+		$response['header'] += [
+			'endpoint' => 'empty'
+		];
+
+		$form_name = $response['header']['form_name'];
+
+		$builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
+		if(empty($builded_header)) return new ModifiedResourceResponse('Form header build failed', 400);
+
+		$builded_response = $this->xJsonService->buildFormv2($builded_header);
+		if(empty($builded_response)) return new ModifiedResourceResponse('Form building failed', 400);
+
+		return new ResourceResponse($builded_response);
 	}
 }
