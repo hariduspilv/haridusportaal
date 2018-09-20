@@ -117,6 +117,37 @@ $grid-columns: 12;
 
 /* Common styles across components */
 
+.dashboard-table {
+  border: .0625rem solid $gray;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: $small; 
+  tr{
+    border: .0625rem solid $gray;
+    &.extraRow {background-color: #f6f6f6;
+      border-top: solid .125rem $dark-gray;
+    }
+    td{
+      padding: 15px;
+      border: .0625rem solid $gray;
+      width: 33%;
+      color: $black;
+      &:first-letter { 
+        text-transform: uppercase; 
+      }
+      &:last-of-type {
+        font-weight: 500;
+      }
+      &.additional {border-bottom: .0625rem solid $dark-gray;
+        &--1 {width: 5%; background-color: #f6f6f6;}
+        &--2 {width: 45%;}
+        &--3 {width: 50%;}
+        &.lastRow {border-bottom: .0625rem solid $gray;}
+      }
+    }
+  }
+}
+
 share { margin-left: 0px!important; margin-right: 0px!important }
 .flex.mininav { text-align: inherit!important; justify-content: flex-end; padding-right: 1rem;
   favourites { margin-right: 0rem; margin-top: -0.125rem; }
