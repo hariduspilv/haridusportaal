@@ -4,7 +4,14 @@
 }
 
 .login-wrapper { position: relative;
-  @include break-on(sm, max) { position: static; }
+  @include break-on(sm, max) { position: relative; }
+
+  &.logged:before { 
+    @include break-on(md, max) { 
+      content: ""; display: block; height: 0.5rem; width: 0.5rem; background: $success; border-radius: 0.625rem; margin-right: 0.5rem; position: absolute; top: 0.7rem; left: 1.65rem;;
+    }
+  }
+
   .login {position: relative; z-index: 2; appearance: none; border:none; background:none;padding: 0 $gutter;top: .125rem;
     text-decoration: none;color: $white;font-size: $small;font-weight: 300;
   }
