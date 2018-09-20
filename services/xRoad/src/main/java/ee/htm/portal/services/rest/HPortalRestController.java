@@ -3,6 +3,7 @@ package ee.htm.portal.services.rest;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.workers.EeIsikukaartWorker;
 import ee.htm.portal.services.workers.KutseregisterWorker;
+import ee.htm.portal.services.workers.MtsysWorker;
 import ee.htm.portal.services.workers.VPTWorker;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class HPortalRestController {
 
   @Autowired
   EeIsikukaartWorker eeIsikukaartWorker;
+
+  @Autowired
+  MtsysWorker mtsysWorker;
 
   @RequestMapping(value = "/getDocuments/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDocuments(@PathVariable("personalCode") String personalCode) {
@@ -83,5 +87,10 @@ public class HPortalRestController {
   public ResponseEntity<?> getEeIsikukaart(@PathVariable("personalCode") String personalcode,
       @PathVariable("requestTimestamp") Long timestamp) {
     return new ResponseEntity<>(eeIsikukaartWorker.work(personalcode, timestamp), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/mtsysKlfTeenus" , method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getMtsysKlfTeenus() {
+    return new ResponseEntity<>(mtsysWorker.getMtsysKlf(), HttpStatus.OK);
   }
 }
