@@ -1,27 +1,5 @@
 @import "../../../assets/styles/typography.scss"; 
 
-.dashboard-table {
-  border: .0625rem solid $gray;
-  border-collapse: collapse;
-  width: 100%;
-  font-size: $small; 
-  tr{
-    border: .0625rem solid $gray;
-    td{
-      padding: 15px;
-      border: .0625rem solid $gray;
-      width: 33%;
-      color: $black;
-      &:first-letter { 
-        text-transform: uppercase; 
-      }
-      &:last-of-type {
-        font-weight: 500;
-      }
-    }
-  }
-}
-
 h1 { 
   display: inline-block;
   font-size: 1.5rem;

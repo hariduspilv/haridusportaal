@@ -4,7 +4,7 @@
     "navigate": "Go to homepage",
     "favourites_limit_modal_title": "Add to favourites",
     "favourites_limit_modal_content": "You can add up to 10 favourites. Remove page from favourites by clicking on the star icon of already favourited page.",
-    "favourites_limit_modal_close": "Close window",
+    "favourites_limit_modal_close": "Close",
     "favourites_list_label" : "My favourites",
     "favourites_list_none_message" : "You don't have any favourites added. You can do so by clicking on the star icon on topic pages and lists.",
     "favourites_snackbar_message": "This page has been added to favourites. Favourites can be viewed from the Dashboard.",
@@ -38,7 +38,16 @@
     "dashboard_tabs_certificates_valid_to":"Valid to",
     "dashboard_tabs_certificates_isco":"Profession classification (ISCO)",
     "dashboard_tabs_certificates_duplicate":"Duplicate",
-    "dashboard_tabs_certificates_notvalid":"Invalid"
+    "dashboard_tabs_certificates_notvalid":"Invalid",
+    "dashboard_tabs_personal_label":"Personal data",
+    "isikukood": "ID code",
+    "synniKp": "Date of birth",
+    "elukohamaa": "Nation",
+    "rrElukoht": "Residence in registry",
+    "kodakondsus": "Nationality",
+    "elamisluba": "Permit of residence",
+    "oppelaenOigus": "Loan privileges",
+    "reason": "Reason"
   },
   "xjson":{
     "edit_step_confirm_modal_content": "Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?"
@@ -297,7 +306,9 @@
     "explanation": "It looks like the page you were looking for was not found. <br> Error code: <b> 404 </b>"
   },
   "errors": {
-    "enter_valid_date": "Enter valid date"
+    "enter_valid_date": "Enter valid date",
+    "personal_data_request": "Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.",
+    "personal_data_missing": "Relevant data missing from the Estonian Education Infosystem."
   },
   "search": {
     "label": "Search",

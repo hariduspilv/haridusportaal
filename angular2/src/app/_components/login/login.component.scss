@@ -8,7 +8,7 @@
 
   &:before { 
     @include break-on(md, max) { 
-      content: ""; display: block; height: 0.5rem; width: 0.5rem; background: $success; border-radius: 0.625rem; margin-right: 0.5rem; position: absolute; top: 0.7rem; left: 1.7rem;;
+      content: ""; display: block; height: 0.5rem; width: 0.5rem; background: $success; border-radius: 0.625rem; margin-right: 0.5rem; position: absolute; top: 0.7rem; left: 1.65rem;;
     }
   }
 

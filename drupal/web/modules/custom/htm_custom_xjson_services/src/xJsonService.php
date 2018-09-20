@@ -269,8 +269,7 @@ class xJsonService implements xJsonServiceInterface {
 		}
 
 		//Sort table values
-		$element_def = $this->sortTableValues($element_def);
-
+		if($element_type === 'table') $element_def = $this->sortTableValues($element_def);
 
 		return ($this->validateDataElement($element_def)) ? $element_def : [];
 	}
@@ -313,7 +312,8 @@ class xJsonService implements xJsonServiceInterface {
 					return $keys;
 				};
 				$option_keys = $recfunc($element['options']);
-				if($element['value'] && !in_array($element['value'], $option_keys)) $valid = false;
+				/*TODO check also if value is array*/
+				#if($element['value'] && !in_array($element['value'], $option_keys)) $valid = false;
 
 				break;
 			case 'file':
@@ -351,7 +351,6 @@ class xJsonService implements xJsonServiceInterface {
 				$additional_keys = [];
 				break;
 			default:
-				$additional_keys = [];
 				throw new HttpException('400', 'some error');
 				break;
 		}
