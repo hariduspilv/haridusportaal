@@ -33,7 +33,7 @@
       }
     }
   }
-  .xjson__navigation__step { position: relative; text-align: center; flex-grow: 1; flex-basis: 0; max-width: 101x;
+  .xjson__navigation__step { position: relative; text-align: center; flex-grow: 1; flex-basis: 0; max-width: 110px;
        @include break-on(xl, min) { max-width: 150px}
     &:after {
       content: "";
