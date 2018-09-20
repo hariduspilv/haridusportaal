@@ -104,6 +104,11 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 				$method = 'getPersonalCard';
 				$params = ['tab' => $tab];
 				break;
+			case 'applications':
+				$method = 'getApplications';
+				#$this->certificate->testApplications();
+				$params = [];
+				break;
 			default:
 				throw new BadRequestHttpException('Service name not found');
 				break;
