@@ -7,7 +7,9 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\Plugin\Field\FieldWidget\OptionsSelectWidget;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\shs\WidgetDefaults;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Plugin implementation of the 'options_shs' widget.
@@ -21,7 +23,49 @@ use Drupal\Core\Url;
  *   multiple_values = TRUE
  * )
  */
-class OptionsShsWidget extends OptionsSelectWidget {
+class OptionsShsWidget extends OptionsSelectWidget implements ContainerFactoryPluginInterface {
+
+  /**
+   * The widget defaults SHS service.
+   *
+   * @var \Drupal\shs\WidgetDefaults
+   */
+  protected $widgetDefaults;
+
+  /**
+   * Constructs a new OptionsShsWidget object.
+   *
+   * @param string $plugin_id
+   *   Plugin id.
+   * @param mixed $plugin_definition
+   *   Plugin definition.
+   * @param \Drupal\Core\Field\FieldDefinitionInterface $field_definition
+   *   Field definition.
+   * @param array $settings
+   *   Field settings.
+   * @param array $third_party_settings
+   *   Third party settings.
+   * @param \Drupal\shs\WidgetDefaults $widget_defaults
+   *   The widget defaults SHS service.
+   */
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, WidgetDefaults $widget_defaults) {
+    parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
+    $this->widgetDefaults = $widget_defaults;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $plugin_id,
+      $plugin_definition,
+      $configuration['field_definition'],
+      $configuration['settings'],
+      $configuration['third_party_settings'],
+      $container->get('shs.widget_defaults')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -125,25 +169,19 @@ class OptionsShsWidget extends OptionsSelectWidget {
     ];
 
     $bundle = reset($target_bundles);
+    $cardinality = $this->fieldDefinition->getFieldStorageDefinition()->getCardinality();
 
     // Define default parents for the widget.
-    $parents = [
-      [
-        [
-          'parent' => 0,
-          'defaultValue' => $settings_additional['anyValue'],
-        ]
-      ]
-    ];
+    $parents = $this->widgetDefaults->getInitialParentDefaults($settings_additional['anyValue'], $cardinality);
     if ($default_value) {
-      $parents = shs_term_get_parents($default_value, $settings_additional, $this->fieldDefinition->getItemDefinition()->getSetting('target_type'));
+      $parents = $this->widgetDefaults->getParentDefaults($default_value, $settings_additional['anyValue'], $this->fieldDefinition->getItemDefinition()->getSetting('target_type'), $cardinality);
     }
 
     $settings_shs = [
       'settings' => $this->getSettings() + $settings_additional,
       'bundle' => $bundle,
-      'baseUrl' => Url::fromUri('base:/shs-term-data')->toString(),
-      'cardinality' => $this->fieldDefinition->getFieldStorageDefinition()->getCardinality(),
+      'baseUrl' => 'shs-term-data',
+      'cardinality' => $cardinality,
       'parents' => $parents,
       'defaultValue' => $default_value,
     ];
@@ -230,13 +268,18 @@ class OptionsShsWidget extends OptionsSelectWidget {
     if (empty($element['#shs']['settings']['force_deepest']) || $form_state->hasAnyErrors()) {
       return;
     }
-    if (($element['#shs']['settings']['anyValue'] === $element['#value']) && count($element['#options']) > 1) {
-      $form_state->setError($element, t('You need to select a term from the deepest level in field @name.', ['@name' => $element['#title']]));
-      return;
-    }
     $value = $element['#value'];
     if (!is_array($value)) {
       $value = [$value];
+    }
+    if ($element['#shs']['settings']['anyValue'] === reset($value)) {
+      if (!$element['#required']) {
+        return;
+      }
+      elseif (count($element['#options']) > 1) {
+        $form_state->setError($element, t('You need to select a term from the deepest level in field @name.', ['@name' => $element['#title']]));
+        return;
+      }
     }
     foreach ($value as $element_value) {
       if (shs_term_has_children($element_value)) {
