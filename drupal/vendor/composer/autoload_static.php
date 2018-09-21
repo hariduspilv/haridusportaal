@@ -121,6 +121,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Mimey\\' => 6,
             'Masterminds\\' => 12,
             'MakinaCorpus\\Lucene\\' => 20,
         ),
@@ -404,6 +405,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'Mimey\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ralouphie/mimey/src',
         ),
         'Masterminds\\' => 
         array (
