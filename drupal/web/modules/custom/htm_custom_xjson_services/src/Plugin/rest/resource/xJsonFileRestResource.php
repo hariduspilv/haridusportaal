@@ -120,6 +120,12 @@ class xJsonFileRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
+		// You must to implement the logic of your REST Resource here.
+		// Use current user after pass authentication to validate access.
+		if (!$this->currentUser->hasPermission('access content')) {
+			throw new AccessDeniedHttpException();
+		}
+
   	$requiredDataParams = ['form_name', 'data_element', 'file'];
   	foreach($requiredDataParams as $param){
   		if(!in_array($param, array_keys($data)) || empty($data[$param]))
@@ -127,27 +133,45 @@ class xJsonFileRestResource extends ResourceBase {
 					'@param_name' => $param,
 				]));
 		}
-
 		$element_extensions = $this->getFileElementExtensions($data);
-  	$img = new Base64Image($data['file'], $element_extensions);
+		if(is_array($data['file'])){
+			foreach($data['file'] as $file){
+				$img[] = new Base64Image($file, $element_extensions);
+				if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
+					return new ModifiedResourceResponse('Failed to save', 400);
+				}
+			}
+		}else{
+			$img = new Base64Image($data['file'], $element_extensions);
+			if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
+				return new ModifiedResourceResponse('Failed to save', 400);
+			}
+		}
 
 		#dump($img);
 		/*if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
 			return new ModifiedResourceResponse('Failed to save', 400);
 		}*/
-    // You must to implement the logic of your REST Resource here.
-    // Use current user after pass authentication to validate access.
-    if (!$this->currentUser->hasPermission('access content')) {
-      throw new AccessDeniedHttpException();
-    }
+		$return = [];
+    if(is_array($img)){
+    	foreach($img as $item){
+    		$return[] = [
+					'mime_type' => $item->getMimeType(),
+					'id'=> $item->getFileIdentifier(),
+					'file_name' => $item->getFileName()
+				];
+			}
+			return new ModifiedResourceResponse($return);
+		}else{
+			return new ModifiedResourceResponse(
+					[
+							'mime_type' => $img->getMimeType(),
+							'id'=> $img->getFileIdentifier(),
+							'file_name' => $img->getFileName()
+					], 200);
+		}
 
-    return new ModifiedResourceResponse(
-			[
-				'mime_type' => $img->getMimeType(),
-				'id '=> $img->getFileIdentifier(),
-				'file_name' => $img->getFileName()
-			], 200);
-  }
+	}
 
   protected function getFileElementExtensions($data){
 		$defElement = $this->xJsonService->searchDefinitionElement($data['data_element'],NULL,  $data['form_name']);
