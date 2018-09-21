@@ -267,6 +267,9 @@ class JsonbWidget extends StringTextareaWidget {
 					}
 					break;
 				case 'file':
+					if($step !== 'step_submit_result'){
+						if(!isset($element['acceptable_extensions']) || !is_array($element['acceptable_extensions'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.file acceptable_extensions attribute missing or not array");
+					}
 					if($table){
 						$additional_keys = ['width', 'acceptable_extensions'];
 					}else{
