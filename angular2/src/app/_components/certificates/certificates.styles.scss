@@ -63,5 +63,7 @@
 .section--header {margin-bottom: 1rem;
   @include break-on(sm, max) {margin: 0 1.5rem 1rem;}
 }
-
+.accordion .error {
+  @include break-on(sm, max) {margin: 0 1.5rem;}
+}
 
