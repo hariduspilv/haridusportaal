@@ -285,7 +285,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     let nonButtonActivities = ['VIEW'];
     if(this.opened_step < this.max_step){
       let displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-      if(displayEditButton) output.push({label: 'button.edit' , action: 'EDIT', style: 'secondary'})
+      if(displayEditButton) output.push({label: 'button.edit' , action: 'EDIT', style: 'primary'})
 
     } else {
       activities.forEach(activity => {

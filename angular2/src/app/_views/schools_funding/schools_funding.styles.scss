@@ -3,7 +3,7 @@
 .button-row{
 	margin-left: 1rem;   
 	@include break-on(sm, max) { margin-left: 0; margin-top: 1rem; }
-  button{ text-align:center; padding-left:0; padding-right:0;}
+  button{ text-align:center; }
 }
 
 .flex-end {
