@@ -85,6 +85,7 @@
         "eluceo/ical": "^0.14.0",
         "jumbojett/openid-connect-php": "^0.6.0",
         "league/csv": "^8.0",
+        "ralouphie/mimey": "^2.0",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3"
