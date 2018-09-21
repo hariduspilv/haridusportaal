@@ -1,9 +1,27 @@
 @import "../../../assets/styles/typography.scss";
 
-.button-row{width:100%;
-  button{width:100%; text-align:center; padding-left:0; padding-right:0;}
+.button-row{
+	margin-left: 1rem;   
+	@include break-on(sm, max) { margin-left: 0; margin-top: 1rem; }
+  button{ text-align:center; padding-left:0; padding-right:0;}
 }
 
+.flex-end {
+	display: flex; 
+		@include break-on(sm, max) { display: block; }
+	.round-input__wrapper {
+		width: 100%;
+	}
+}
+
+.mat-form-field-wrapper {
+		@include break-on(sm, max) { padding-bottom: 0px; }
+}
+.round-input__wrapper .mat-form-field {
+		@include break-on(sm, max) 
+			{ margin-top: 1.5rem; }
+		}
+.filter-wrapper { margin-top: 2rem; }
 .block{border-top-color:$light-blue;}
 
 .row-wrapper{max-width:1130px; margin-left: auto !important; margin-right:auto !important; padding:0 1rem;}

@@ -183,7 +183,8 @@ class ShsChosenTaxonomyIndexTid extends ShsTaxonomyIndexTid {
       'settings' => $settings_shs,
       'object' => $this,
     ];
-    $settings_shs['classes'] = shs_get_class_definitions($this->definition['field_name'], $context);
+    $field_name = isset($this->definition['field_name']) ? $this->definition['field_name'] : $this->realField;
+    $settings_shs['classes'] = shs_get_class_definitions($field_name, $context);
 
     $form['value']['#attached']['drupalSettings']['shs'][$form['value']['#attributes']['data-shs-selector']] = $form['value']['#shs'] = $settings_shs;
     $form['value']['#attached']['library'][] = 'shs_chosen/shs_chosen.form';

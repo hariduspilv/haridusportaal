@@ -1,0 +1,141 @@
+
+  {
+    "header": {
+      "endpoint": "EHIS",
+      "form_name": "MTSYS_TEGEVUSLUBA",
+      "acceptable_activity" : "VIEW",
+  		"current_step" : "step_0",
+  		"identifier" : tegevusloaAndmed.id
+  	},
+    "body": {
+      "steps": {
+        "step_0": {
+          "title": {
+            "et": "Tegevusluba"
+          },
+          "data_elements": {
+            "tegevusloaLiik" : {
+              "value" : tegevusloaAndmed.klLiik (klassifikaatori nimetused lisab BE)
+            },
+            "tegevusloaStaatus" : {
+              "value" : tegevusloaAndmed.klStaatus
+            },
+            "tegevusloaNumber": {
+              "value" : tegevusloaAndmed.loaNumber
+            },
+            "oppekavaNimetus": {
+              "value" : tegevusloaAndmed.nimetus,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "kaskkirjaNr": {
+              "value" : tegevusloaAndmed.kaskkirjaNr,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "kaskkirjaKuupaev": {
+              "value" : tegevusloaAndmed.kaskkirjaKp,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "alguseKuupaev": {
+              "value" : tegevusloaAndmed.kehtivAlates,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "lopuKuupaev": {
+              "value" : tegevusloaAndmed.kehtivKuni,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "tuhistamiseKuupaev": {
+              "value" : tegevusloaAndmed.tyhistamiseKp,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "laagriNimetus": {
+              "value" : tegevusloaAndmed.laagriNimetus,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "kohtadeArvLaagris": {
+              "value" : tegevusloaAndmed.kohtadeArvLaagris,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "tkkLiik" : {
+              "value" : tegevusloaAndmed.klTkkLiik,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "keeleTase" : {
+              "value" : tegevusloaAndmed.klEkTase,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "soidukiteKategooria" : {
+              "value" : tegevusloaAndmed.klSoidukiKategooria,
+              "hidden" : true kui puudub value või klLiik = "18098" (majandustegevuse teade)
+            },
+            "oppeTasemed": {
+              "value" : [
+                { "nimetus" : tegevusloaAndmed.oppetasemed.oppekavatase.nimetus ja kui onKehtiv=false, siis lisada (Kehtetu) },
+              ]
+            },
+            "oppekavaRuhmad": {
+              "value" : [
+                { "nimetus" : tegevusloaAndmed.opperyhmad.opperyhm.oppetase.nimetus ja kui onKehtiv=false, siis lisada (Kehtetu) },
+              ]
+            },
+            "valisAadress" : {
+              "value" : tegevusloaAndmed.aadressid.onValismaa,
+              "hidden" : "true" kui pole väärtust
+            },
+            "aadressid": {
+              "value" : [
+                { "maakond" : tegevusloaAndmed.aadressid.aadress.maakond  },
+                { "omavalitsus" : tegevusloaAndmed.aadressid.aadress.omavalitsus  },
+                { "asula" :  tegevusloaAndmed.aadressid.aadress.asula },
+                { "aadress" :  tegevusloaAndmed.aadressid.aadress.adsAadressHumanReadable }
+              ]
+            },
+            "oppeasutuseNimetus": {
+              "value" : kontaktandmed.kooliNimetus
+            },
+            "omanik": {
+              "value" : kontaktandmed.omanik
+            },
+            "kontaktisik": {
+              "value" : kontaktandmed.kontaktisik
+            },
+            "telefon": {
+              "value" : kontaktandmed.oppeasutuseYldTelefon
+            },
+            "epost": {
+              "value" : kontaktandmed.oppeasutuseEpost
+            },
+            "koduleht": {
+              "value" : kontaktandmed.koduleht
+            },
+            "peatamised" : {
+              "value" : [
+                { "algusKp" : peatamised.peatamine.algusKp },
+                { "loppKp" : peatamised.peatamine.loppKp }
+              ]
+            },
+            "dokumendid" : {
+              "value" : [
+                { "liik" : dokumendid.dokument.klLiik },
+                { "fail" : { "file_name" : dokumendid.dokument.failinimi , "file_identifier" : REDIS id (content salvestada REDIS-sse) } },
+                { "kommentaar": dokumendid.dokument.kommentaar }
+              ]
+            },
+          }
+        }
+      },
+      "messages" : ["infotekst", "muudatusetaotlus"] vt allpool messages definitsioone
+    },
+    "messages" : {
+      "infotekst" : { kui on infotekst
+        "message_type" : "NOTICE",
+        "message_text" : {
+          "et" : infotekst  }
+      },
+      "muudatusetaotlus" : { kui on tegevusloaAndmed.taotlusId
+        "message_type" : "NOTICE",
+        "message_text" : {
+          "et" : "Tegevusloa kohta on vormistatud muudatuse taotlus"
+        }
+      }
+    }
+  }
