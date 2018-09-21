@@ -233,6 +233,7 @@ share { margin-left: 0px!important; margin-right: 0px!important }
       &:last-child{margin-bottom:0;}
     }
   }
+  @include break-on(sm, min) {.crumbs {min-height: 2.0625rem;}}
   breadcrumbs .row {min-height: 2.0625rem;}
   .breadcrumb{display: none; padding:0; margin:1rem 0;margin-left: 1.5rem; margin-right: 1.5rem;font-size: .875rem;
     @include break-on(sm, min) {display: block;}

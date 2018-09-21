@@ -31,5 +31,4 @@
     .btn {width: auto;padding-top: 0;margin-left: $small;}
   }
 }
-@include break-on(sm, min) {.crumbs {min-height: 2.0625rem;}}
 .grow.full {padding-right: 0;}
