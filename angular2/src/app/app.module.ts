@@ -110,7 +110,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TeachingsComponent,
     XjsonComponent,
     SearchComponent,
-    ConfirmPopupDialog
+    ConfirmPopupDialog   
   ],
 
   entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent, ConfirmPopupDialog],
