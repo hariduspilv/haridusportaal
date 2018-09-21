@@ -77,7 +77,14 @@
     "oppekavaNimetus": "Õppekava nimetus-ENG",
     "nimetus": "Nimetus-ENG",
     "algusKp": "Alguskuupäev-ENG",
-    "loppKp": "Lõppkuupäev-ENG"
+    "loppKp": "Lõppkuupäev-ENG",
+    "tootamine": "Pedagoogina ja õppejõuna töötamineENG",
+    "kvalifikatsioon": "Õppejõu kvalifikatsioonENG",
+    "tasemeharidus": "Tasemeharidus kvalifikatsioonENG",
+    "taiendkoolitus": "TäiendkoolitusENG",
+    "lead_title_xxs": "Hoia end<br> haridusinfoga kursis!ENG",
+    "lead_title_sm": "Hoia end haridusinfoga kursis!ENG",
+    "lead_title": "<b>Eduportaal -</b><br>hoia end haridusinfoga kursis!ENG"
   },
   "xjson":{
     "edit_step_confirm_modal_content": "Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?"

@@ -203,17 +203,19 @@ export const SingleQuery = gql`
             fieldSchoolWebpageAddress
             fieldSchoolLocation {
               entity {
-                fieldAddress
-                fieldLocationType
-                fieldSchoolLocation {
-                  entity {
-                    name
+                ... on ParagraphSchoolLocation {
+                  fieldAddress
+                  fieldLocationType
+                  fieldSchoolLocation {
+                    entity {
+                      name
+                    }
                   }
-                }
-                fieldCoordinates {
-                  lat
-                  lon
-                  zoom
+                  fieldCoordinates {
+                    lat
+                    lon
+                    zoom
+                  }
                 }
               }
             }

@@ -77,7 +77,14 @@
     "oppekavaNimetus": "Õppekava nimetus",
     "nimetus": "Nimetus",
     "algusKp": "Alguskuupäev",
-    "loppKp": "Lõppkuupäev"
+    "loppKp": "Lõppkuupäev",
+    "tootamine": "Pedagoogina ja õppejõuna töötamine",
+    "kvalifikatsioon": "Õppejõu kvalifikatsioon",
+    "tasemeharidus": "Tasemeharidus kvalifikatsioon",
+    "taiendkoolitus": "Täiendkoolitus",
+    "lead_title_xxs": "Hoia end<br> haridusinfoga kursis!",
+    "lead_title_sm": "Hoia end haridusinfoga kursis!",
+    "lead_title": "<b>Eduportaal -</b><br>hoia end haridusinfoga kursis!"
   },
   "xjson":{
     "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?"
