@@ -132,9 +132,9 @@ class xJsonFileRestResource extends ResourceBase {
   	$img = new Base64Image($data['file'], $element_extensions);
 
 		#dump($img);
-		/*if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
+		if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
 			return new ModifiedResourceResponse('Failed to save', 400);
-		}*/
+		}
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->hasPermission('access content')) {
