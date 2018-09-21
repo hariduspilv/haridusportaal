@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnDestroy} from '@angular/core';
+import { Component, OnInit, Input, OnDestroy} from '@angular/core';
 import { Subscription } from '../../../../node_modules/rxjs';
 import { HttpService } from '@app/_services/httpService';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -23,6 +23,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
   ]
 })
 export class XjsonComponent implements OnInit, OnDestroy{
+
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
 
@@ -80,10 +81,21 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, strings];
   }
 
-  compareFn(a, b) {
+  selectListCompare(a, b) {
     return a && b ? a == b : a == b;
   }
-
+  isFieldDisabled(readonly:boolean): boolean{
+    
+    if(readonly === true || this.max_step != this.opened_step  ) {
+      return true;
+    } else {
+      if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
+        return false;
+      } else { 
+        return true;
+      }
+    }
+  }
   fileChange(event, model) {
     let fileList: FileList = event.target.files;
     if(fileList.length > 0) {
@@ -375,21 +387,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   stepController(xjson){
-   /*
-    if(!xjson.header.current_step) {
-      if(!Object.keys(xjson.body.steps).length) return this.errorHandler('No steps available');
-      //this.max_step = Object.keys(xjson.body.steps)[0];
-      this.opened_step = this.max_step;
-      
-    } else {
-      if(this.isItemExisting(Object.keys(xjson.body.steps), xjson.header.current_step)){
-        //this.max_step = xjson.header.current_step;
-        this.opened_step = this.max_step;
-      } else {
-        this.errorHandler('Missing current_step from body.steps array')
-      }
-    } 
-    */
+   
     this.opened_step = this.max_step;
 
     this.viewController(xjson);
@@ -407,12 +405,13 @@ export class XjsonComponent implements OnInit, OnDestroy{
       else this.getData(payload)
      
     } else {
+      
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
       this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity)
     }
 
   }
-  
+ 
   ngOnInit(){
     this.pathWatcher();
  
