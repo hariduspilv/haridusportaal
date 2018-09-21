@@ -58,6 +58,7 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'Mimey\\' => array($vendorDir . '/ralouphie/mimey/src'),
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
     'MakinaCorpus\\Lucene\\' => array($vendorDir . '/makinacorpus/php-lucene/src'),
     'League\\Csv\\' => array($vendorDir . '/league/csv/src'),

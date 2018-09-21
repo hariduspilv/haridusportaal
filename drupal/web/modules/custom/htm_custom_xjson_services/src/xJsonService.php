@@ -342,10 +342,10 @@ class xJsonService implements xJsonServiceInterface {
 		}
 	}
 
-	function sortTableValues($table_element){
+	protected function sortTableValues($table_element){
 
 		$table_cols = array_keys($table_element['table_columns']);
-
+		#dump($table_element['value']);
 		if(is_array($table_element['value'])){
 			foreach($table_element['value'] as &$value){
 				$properOrderedArray = array_merge(array_flip($table_cols), $value);
@@ -355,6 +355,20 @@ class xJsonService implements xJsonServiceInterface {
 			}
 		}
 		return $table_element;
+	}
+
+	public function searchDefinitionElement($key, $array, $form_name = NULL){
+		$results = [];
+		if($form_name) $array = $this->getEntityJsonObject($form_name);
+		if (is_array($array)) {
+			if (isset($array[$key])) {
+				$results[] = $array[$key];
+			}
+			foreach ($array as $subArray) {
+				$results = array_merge($results, $this->searchDefinitionElement($key, $subArray));
+			}
+		}
+		return $results;
 	}
 
 }
