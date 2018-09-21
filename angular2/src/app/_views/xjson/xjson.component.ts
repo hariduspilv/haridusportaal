@@ -85,10 +85,15 @@ export class XjsonComponent implements OnInit, OnDestroy{
     return a && b ? a == b : a == b;
   }
   isFieldDisabled(readonly:boolean): boolean{
-    if(readonly == true || this.max_step != this.opened_step) {
+    
+    if(readonly === true || this.max_step != this.opened_step  ) {
       return true;
     } else {
-      return false
+      if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
+        return false;
+      } else { 
+        return true;
+      }
     }
   }
   fileChange(event, model) {

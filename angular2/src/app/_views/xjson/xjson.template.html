@@ -218,7 +218,9 @@
                     <div class="xjson__heading" *ngIf="data_elements[element].title">
                       {{ selectLanguage(data_elements[element].title) }}
                     </div>
-                  
+                    <ng-container *ngIf="data_elements[element].helpertext">
+                        {{ selectLanguage(data_elements[element].helpertext) }}
+                    </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
                       <div class="scrollable">
                         <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
                           (touchstart)="tableService.scrollStart('tableRef')" 
@@ -280,14 +282,14 @@
 
                                     <ng-container *ngSwitchCase="'date'">
                                         <input matInput
-                                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                         [matDatepicker]="picker" 
                                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
                                         [(ngModel)]="row[col]"
                                         dateFormatter
                                         [name]="col">
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
+                                        <mat-datepicker #picker
+                                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
                                     </ng-container> <!-- /DATE -->
 
                                     <ng-container *ngSwitchCase="'checkbox'">
