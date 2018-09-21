@@ -345,7 +345,7 @@ class xJsonService implements xJsonServiceInterface {
 	protected function sortTableValues($table_element){
 
 		$table_cols = array_keys($table_element['table_columns']);
-
+		#dump($table_element['value']);
 		if(is_array($table_element['value'])){
 			foreach($table_element['value'] as &$value){
 				$properOrderedArray = array_merge(array_flip($table_cols), $value);
