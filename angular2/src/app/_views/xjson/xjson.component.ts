@@ -84,7 +84,18 @@ export class XjsonComponent implements OnInit, OnDestroy{
   selectListCompare(a, b) {
     return a && b ? a == b : a == b;
   }
- 
+  isFieldDisabled(readonly:boolean): boolean{
+    
+    if(readonly === true || this.max_step != this.opened_step  ) {
+      return true;
+    } else {
+      if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
+        return false;
+      } else { 
+        return true;
+      }
+    }
+  }
   fileChange(event, model) {
     let fileList: FileList = event.target.files;
     if(fileList.length > 0) {
