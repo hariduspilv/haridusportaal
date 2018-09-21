@@ -157,7 +157,7 @@ class xJsonFileRestResource extends ResourceBase {
     	foreach($img as $item){
     		$return[] = [
 					'mime_type' => $item->getMimeType(),
-					'id '=> $item->getFileIdentifier(),
+					'id'=> $item->getFileIdentifier(),
 					'file_name' => $item->getFileName()
 				];
 			}
@@ -166,7 +166,7 @@ class xJsonFileRestResource extends ResourceBase {
 			return new ModifiedResourceResponse(
 					[
 							'mime_type' => $img->getMimeType(),
-							'id '=> $img->getFileIdentifier(),
+							'id'=> $img->getFileIdentifier(),
 							'file_name' => $img->getFileName()
 					], 200);
 		}
