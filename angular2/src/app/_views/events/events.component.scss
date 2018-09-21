@@ -7,7 +7,7 @@
     @include break-on(sm, min) {margin-top:-$medium;}
   }
 
-a:visited, a:visited h1 { color: #623258; }
+a:visited, a:visited h1 { color: $visited; }
 a h1, a { text-decoration: none; }
 a h1:hover { text-decoration: underline; }
 

@@ -95,7 +95,7 @@ class MemcacheAdminSubscriber implements EventSubscriberInterface {
                 $memcache_stats['all'][$row][3] = new HtmlEscapedText($stats[3]);
               }
 
-              $buiild = [
+              $build = [
                 '#theme'  => 'table',
                 '#header' => [
                   t('ms'),
