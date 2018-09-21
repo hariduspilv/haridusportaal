@@ -227,7 +227,7 @@ class xJsonService implements xJsonServiceInterface {
 		}
 
 		if(is_array($value)){
-			$element_def += $value;
+			$element_def[] = $value;
 		}else{
 			$element_def['value'] = $value;
 		}
