@@ -5,12 +5,14 @@ namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\Base64Image;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
+use Drupal\htm_custom_xjson_services\xJsonService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -56,9 +58,11 @@ class xJsonFileRestResource extends ResourceBase {
     array $serializer_formats,
     LoggerInterface $logger,
 		EhisConnectorService $ehisConnectorService,
+    xJsonService $xJsonService,
     AccountProxyInterface $current_user) {
 			parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 			$this->ehisService = $ehisConnectorService;
+			$this->xJsonService = $xJsonService;
 			$this->currentUser = $current_user;
   }
 
@@ -73,6 +77,7 @@ class xJsonFileRestResource extends ResourceBase {
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('htm_custom_xjson_services'),
 			$container->get('htm_custom_ehis_connector.default'),
+      $container->get('htm_custom_xjson_services.default'),
       $container->get('current_user')
     );
   }
@@ -115,13 +120,21 @@ class xJsonFileRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-		if(!$data['file']){
-			return new ModifiedResourceResponse('File missing', 400);
+  	$requiredDataParams = ['form_name', 'data_element', 'file'];
+  	foreach($requiredDataParams as $param){
+  		if(!in_array($param, array_keys($data)) || empty($data[$param]))
+  			return new ModifiedResourceResponse($this->t('Param: @param_name missing or empty', [
+					'@param_name' => $param,
+				]));
 		}
-  	$img = new Base64Image($data['file']);
-		if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
+
+		$element_extensions = $this->getFileElementExtensions($data);
+  	$img = new Base64Image($data['file'], $element_extensions);
+
+		#dump($img);
+		/*if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
 			return new ModifiedResourceResponse('Failed to save', 400);
-		}
+		}*/
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->hasPermission('access content')) {
@@ -135,6 +148,22 @@ class xJsonFileRestResource extends ResourceBase {
 				'file_name' => $img->getFileName()
 			], 200);
   }
+
+  protected function getFileElementExtensions($data){
+		$defElement = $this->xJsonService->searchDefinitionElement($data['data_element'],NULL,  $data['form_name']);
+		if(empty($defElement)) return new ModifiedResourceResponse('data_element not found', 400);
+		if(count($defElement) > 1){
+			/*@TODO mby we need to do something with them aswel*/
+			throw new HttpException('400', 'Found multiple elements');
+		}else{
+			$defElement = reset($defElement);
+		}
+		if($defElement['type'] != 'file'){
+			throw new HttpException('400','Found data_element type is not file');
+		}else{
+			return $defElement['acceptable_extensions'];
+		}
+	}
 
 
 }
