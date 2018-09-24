@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class TeachingsComponent{
   
   content: any = false;
+  openAccordion: any = false;
   loading: boolean = false;
   error: boolean = false;
   dataErr: boolean = false;
@@ -25,7 +26,7 @@ export class TeachingsComponent{
     let sub = this.http.get('/dashboard/eeIsikukaart/teachings?_format=json').subscribe(response => {
       if(response['error']){
         this.error = true;
-        this.dataErr = true;
+        this.requestErr = true;
       } else {
         this.content = response['value'];
         var errorVal = true;
@@ -41,6 +42,7 @@ export class TeachingsComponent{
         }
       }
       sub.unsubscribe();
+      this.openAccordion = this.rootScope.get('teachingsAccordion') || 0;
       this.loading = false;
     }, error => {
       this.loading = false;
@@ -52,9 +54,10 @@ export class TeachingsComponent{
   parseTypeTranslation(type) {
     return `frontpage.${type}`;
   }
-
-  setTeachingsDetail(work, route) {
+  
+  setTeachingsDetail(work, route, accordion) {
     this.rootScope.set('teachingsDetail', work);
+    this.rootScope.set('teachingsAccordion', accordion);
     this.router.navigateByUrl(`${this.router.url}/${route}`)
   }
 }
