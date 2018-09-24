@@ -461,7 +461,7 @@ share { margin-left: 0px!important; margin-right: 0px!important }
   }
 
   .mat-simple-snackbar:before {
-   font-family: 'htm-icon';
+   font-family: 'htm-icon'; speak: none;
    content: "check_circle_outline";font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $success; position: absolute;
    left: 0px; top: 0px; bottom: 0px; font-size: 1.875rem; display: flex; align-items: center; padding: 0 0.9375rem; };
 

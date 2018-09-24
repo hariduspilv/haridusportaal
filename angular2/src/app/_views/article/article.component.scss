@@ -55,7 +55,7 @@ article {padding-bottom: $small;
   .short {@extend .description; font-weight: 500; padding-bottom: $small;}
 
   .mat-expansion-panel { box-shadow: none !important;border: .0625rem solid $light-orange; border-radius: .125rem; border-left: .1875rem solid $light-orange; margin-bottom: $half-gutter;
-    &.mat-expanded {border-left: .1875rem solid $dark-orange;
+    &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid $dark-orange;
       mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
         @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
       }
