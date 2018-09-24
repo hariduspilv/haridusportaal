@@ -15,7 +15,13 @@
     <div class="dialog__success--content" [innerHtml]="data.content" tabindex="0"></div>
     <div class="dialog__actions--success">
       <div class="text-center">
-        <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="Close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a></div>
+        <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="Close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a>
+        </div>
+
+<!--           <a href="javascript:void(0)" role="link" class="pointer" [routerLink]="['']" aria-expanded="true" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">
+            <span>{{ 'button.BUTTON' | translate }}</span>
+          </a> -->
+
       </div>
     </div>
   </div>
