@@ -25,7 +25,7 @@ export class StudiesComponent{
         this.dataErr = true;
       } else {
         let resultData = response['value']['oping'];
-        this.content = resultData.sort(function(a, b) {
+        this.content = resultData.sort((a, b) => {
           let arrA = a.oppAlgus.split('.');
           let valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;
           let arrB = b.oppAlgus.split('.');

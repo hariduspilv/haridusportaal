@@ -5,7 +5,6 @@ a:visited {
 }
 
 
-
 .article-wrapper {
   @include break-on(sm, min) {padding: $gutter $medium $medium $medium;}
   @include break-on(lg, min) {padding-left: 0;padding-right: 0;}
@@ -56,9 +55,6 @@ article {padding-bottom: $small;
   .short {@extend .description; font-weight: 500; padding-bottom: $small;}
 
   .mat-expansion-panel { box-shadow: none !important;border: .0625rem solid $light-orange; border-radius: .125rem; border-left: .1875rem solid $light-orange; margin-bottom: $half-gutter;
-    mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
-      @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-    }
     &.mat-expanded {border-left: .1875rem solid $dark-orange;
       mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
         @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
@@ -66,8 +62,8 @@ article {padding-bottom: $small;
     }
     &-body { padding: 0 1rem 1rem }
     &-spacing {margin: 0 0 $half-gutter 0;}
-    &-header {height: 2.5rem !important;padding-right:$small; padding-left:$small; background: transparent!important;
-      &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;}}
+    &-header { padding: 0.5rem 1rem; height: auto!important;padding-right:$small; padding-left:$small;
+      &.mat-expanded { height: auto!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0.5rem 1rem; }}
       &:hover {
         border-left: .1875rem solid $dark-orange;
         ::ng-deep .mat-expansion-indicator{ background: $red;
@@ -80,7 +76,7 @@ article {padding-bottom: $small;
     mat-panel-title {font-size: $small; text-decoration: none; color: $black;
     }
     .accordion {padding: 0; padding-top: $large; padding: 0 1.5rem 1.5rem 1.5rem; 
-    @include break-on(sm, max) {padding: 0 0rem 1.5rem 0rem;}
+      @include break-on(sm, max) {padding: 0 0rem 1.5rem 0rem;}
     }
     ::ng-deep .accordion__body {line-height: 1.375rem;font-size: $small;padding-top: $gutter;
       p {margin: 0;}
@@ -102,12 +98,12 @@ article {padding-bottom: $small;
 }
 ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: underline;}
 
-.mat-expansion-panel.mat-expanded { 
-  background: transparent;
+.mat-expansion-panel-header {
+ background: $light-orange!important;
 }
 
-.mat-expansion-panel {
- background: $light-orange;
+.mat-expansion-panel-header.mat-expanded { 
+  background: transparent!important;
 }
 
 .dashboard-table td {
