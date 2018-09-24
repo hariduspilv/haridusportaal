@@ -5,8 +5,8 @@
 .main-container{@include break-on(sm, min) {margin:0 1.5rem;}}
 .dashboard{
   &__username{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; font-weight: 500;
-    a {text-decoration: none;
-      &:hover, &:focus {text-decoration: underline;}
+    a {text-decoration: underline;
+      &:hover, &:focus {text-decoration: none;}
     }
   }
   @include break-on(sm, min) {margin-top: .5rem;}
