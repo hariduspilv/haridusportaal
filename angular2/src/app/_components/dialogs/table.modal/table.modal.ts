@@ -45,16 +45,6 @@ export class TableModal {
         
         this.content = response['value']['isikuandmed'];
 
-        // Simulate oppelaenOigus with values
-        this.content['oppelaenOigus'] = [{ "oigus":"", "pohjus":['Esimene pohjus', 'Teine']}];
-
-        // Formate date of birth
-        if(this.content['synniKp']) {
-          let dateOfBirth = this.content['synniKp'];
-          let dateOfBirthArr = dateOfBirth.split('-');
-          this.content['synniKp'] = `${dateOfBirthArr[2]}.${dateOfBirthArr[1]}.${dateOfBirthArr[0]}`;
-        }
-
         this.loading = false;
         sub.unsubscribe();
       }

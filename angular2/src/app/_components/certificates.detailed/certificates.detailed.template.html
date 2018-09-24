@@ -11,8 +11,8 @@
           <ng-container *ngIf="certificate.kehtetu === true"><span class="highlighted">{{ 'frontpage.dashboard_tabs_certificates_notvalid' | translate }}</span></ng-container>
           <ng-container *ngIf="certificate.duplikaat === true"><span class="highlighted">{{ 'frontpage.dashboard_tabs_certificates_duplicate' | translate }}</span></ng-container>
 
-          <a href="javascript:void(0)" class="sm-hide pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
-          <a href="javascript:void(0)" class="sm-show top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
+          <a href="javascript:void(0)" id="backToDashboard" class="sm-hide pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
+          <a href="javascript:void(0)" id="backToDashboard" class="sm-show top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
           <div class="table-holder">
             <table class="dashboard-table">
               <tbody>

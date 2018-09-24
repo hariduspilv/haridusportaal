@@ -245,27 +245,31 @@ query(
           fieldOrganizer
           fieldEventDate {
             entity {
-              fieldEventDate {
-                value
-                date
-                unix
+              ... on ParagraphEventDate {
+                fieldEventDate {
+                  value
+                  date
+                  unix
+                }
+                fieldEventStartTime
+                fieldEventEndTime
               }
-              fieldEventStartTime
-              fieldEventEndTime
             }
           }
           fieldEntryType
           fieldRegistrationDate{
             entity {
-              fieldRegistrationFirstDate {
-                value
-                date
-                unix
-              }
-              fieldRegistrationLastDate{
-                value
-                date
-                unix
+              ... on ParagraphRegistrationPeriod {
+                fieldRegistrationFirstDate {
+                  value
+                  date
+                  unix
+                }
+                fieldRegistrationLastDate{
+                  value
+                  date
+                  unix
+                }
               }
             }
           }
