@@ -44,8 +44,8 @@ export class SearchComponent {
 
   ngOnInit() {
     if( this.route.snapshot.queryParams['term'] ){
-      this.getResults(this.route.snapshot.queryParams['term'])
-      this.param = this.route.snapshot.queryParams['term'] 
+      this.param = this.route.snapshot.queryParams['term'];
+      this.getResults(this.param);
     } else {
       this.loading = false;
     }
@@ -85,7 +85,7 @@ export class SearchComponent {
       });
       this.types.sort((a, b) => b.sum - a.sum)
       this.allFilters = this.checkForAllFilters();
-      this.breadcrumbs = this.constructCrumbs()
+      this.breadcrumbs = this.constructCrumbs();
       this.listLength = this.filteredResults.length;
       this.loading = false;
       this.dataSubscription.unsubscribe();
@@ -100,11 +100,12 @@ export class SearchComponent {
   }
 
   ngAfterViewChecked() {
-    if (this.filteredResults && !this.viewChecked) {
+    if (this.filteredResults && !this.viewChecked && document.getElementById('initial')) {
       document.getElementById('initial').focus();
       this.viewChecked = true;
     }
   }  
+
   setFocus(id) {
     let focusTarget = (id - 1).toString();
     document.getElementById(focusTarget).focus();
