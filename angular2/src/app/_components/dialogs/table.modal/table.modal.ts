@@ -34,7 +34,7 @@ export class TableModal {
         this.loading = false;
         this.error = true;
         if (response['error']['message_text']) {
-          this.errorMessage = response['error']['message_text'][this.rootScope.get('currentLang')];
+          this.errorMessage = response['error']['message_text'];
         }
       } else {
         
