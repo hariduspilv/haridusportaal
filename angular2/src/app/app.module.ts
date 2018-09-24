@@ -52,6 +52,7 @@ import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
 import { CertificatesComponent } from '@app/_components/certificates/certificates.component';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
+import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
 
 import { ApplicationsComponent } from '@app/_components/applications/applications.component';
 import { StudiesComponent } from '@app/_components/studies/studies.component';
@@ -107,6 +108,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FavouritesListComponent,
     CertificatesComponent,
     CertificatesDetailedComponent,
+    TeachingsDetailedComponent,
     ApplicationsComponent,
     StudiesComponent,
     TeachingsComponent,
