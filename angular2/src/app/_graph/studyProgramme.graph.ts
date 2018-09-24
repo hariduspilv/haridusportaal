@@ -93,10 +93,12 @@ query studyProgrammeList (
         fieldSchoolWebsite
         fieldEducationalInstitution {
           entity{
-            entityLabel
-            fieldSchoolContactEmail
-            fieldSchoolContactPhone
-            entityId
+            ... on NodeSchool {
+              entityLabel
+              fieldSchoolContactEmail
+              fieldSchoolContactPhone
+              entityId
+            }
           }
         }
         fieldTeachingLanguage {
@@ -165,18 +167,20 @@ query(
           }
           fieldEducationalInstitution {
             entity{
-              entityLabel
-              fieldRegistrationCode
-              fieldSchoolContactEmail
-              fieldSchoolContactPhone
-              fieldSchoolLocation{
-                entity{
-                  ... on ParagraphSchoolLocation{
-                    fieldAddress
-                    fieldLocationType
-                    fieldCoordinates{
-                      lat
-                      lon
+              ... on NodeSchool {
+                entityLabel
+                fieldRegistrationCode
+                fieldSchoolContactEmail
+                fieldSchoolContactPhone
+                fieldSchoolLocation{
+                  entity{
+                    ... on ParagraphSchoolLocation{
+                      fieldAddress
+                      fieldLocationType
+                      fieldCoordinates{
+                        lat
+                        lon
+                      }
                     }
                   }
                 }

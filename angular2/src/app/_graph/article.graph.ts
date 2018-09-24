@@ -37,45 +37,53 @@ query getArticleData($path: String!) {
           }
           fieldAccordionSection {
             entity {
-              fieldAccordionTitle
-              fieldRelatedArticle {
-                url {
-                  path
+              ... on ParagraphAccordion {
+                fieldAccordionTitle
+                fieldRelatedArticle {
+                  url {
+                    path
+                  }
+                  title
                 }
-                title
-              }
-              fieldBody {
-                value
+                fieldBody {
+                  value
+                }
               }
             }
           }
           fieldRightSidebar {
             entity {
-              fieldAdditional {
-                entity {
-                  fieldTitle
-                  fieldAdditionalBody
+              ... on ParagraphRightSidebarSectionInfo {
+                fieldAdditional {
+                  entity {
+                    ... on ParagraphAdditionalSection{
+                      fieldTitle
+                      fieldAdditionalBody
+                    }
+                  }
                 }
-              }
-              fieldContactSection {
-                entity {
-                  fieldPhone
-                  fieldPerson
-                  fieldEmail
-                  fieldOrganization
+                fieldContactSection {
+                  entity {
+                    ... on ParagraphContactSection {
+                      fieldPhone
+                      fieldPerson
+                      fieldEmail
+                      fieldOrganization
+                    }
+                  }
                 }
-              }
-              fieldRelatedArticle{
-                url {
-                  path
+                fieldRelatedArticle{
+                  url {
+                    path
+                  }
+                  title
                 }
-                title
-              }
-              fieldHyperlinks {
-                url {
-                  path
+                fieldHyperlinks {
+                  url {
+                    path
+                  }
+                  title
                 }
-                title
               }
             }
           }

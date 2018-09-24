@@ -118,7 +118,7 @@ export class FrontpageComponent {
     (document.activeElement as HTMLElement).blur();
     this.lang = this.router.url;
 		let that = this;
-		this.route.params.subscribe( params => {
+		this.route.params.subscribe(params => {
 			if (this.lang === '/en' || this.lang.includes('/en?')) {
         this.allPath = "/en/news";
         this.eventPath = "/en/events";
@@ -129,10 +129,10 @@ export class FrontpageComponent {
         history.replaceState({}, '', '/et');
         this.router.navigateByUrl(`/et/404`);
       }
+      this.getGeneral()
+      this.getEvents()
     });
-    
-    this.getGeneral()
-    this.getEvents()
+
 		this.newsService.getRecent(null, function(data){
 			if ( data['nodeQuery'] == null ) {
         that.error = true;
@@ -140,6 +140,6 @@ export class FrontpageComponent {
 			} else {
         that.news = data['nodeQuery']['entities'];
       }
-		});
+    });
 	}
 }
