@@ -17,6 +17,7 @@ export class TeachingsDetailedComponent implements OnInit{
   public userData;
   public content: any = false;
   public breadcrumbs: any = false;
+  public viewChecked: boolean = false;
   public loading: boolean;
   subscribe: Subscription;
   initialCrumbs = {
@@ -61,6 +62,13 @@ export class TeachingsDetailedComponent implements OnInit{
     }
     this.breadcrumbs = this.constructCrumbs();
     this.loading = false;
+  }
+
+  ngAfterViewChecked() {
+    if (this.content && !this.loading && this.dashboardLink && !this.viewChecked) {
+      document.getElementById('backToDashboard').focus();
+      this.viewChecked = true;
+    }
   }
 
   ngOnDestroy() {
