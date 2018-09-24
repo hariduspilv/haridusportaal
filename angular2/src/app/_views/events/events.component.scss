@@ -197,6 +197,7 @@ a h1:hover { text-decoration: underline; }
        border-bottom: solid 1px $gray;
        .title {
          display: flex;
+         justify-content: space-between;
        } 
      }
 
