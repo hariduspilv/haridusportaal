@@ -22,7 +22,7 @@ public class Worker {
 
   protected JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
-  protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+  protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
   protected LogForDrupal logForDrupal = new LogForDrupal(null, "notice",
       new Timestamp(System.currentTimeMillis()), null,
