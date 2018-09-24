@@ -75,7 +75,10 @@ export class TeachingsComponent{
   
   setTeachingsDetail(work, route) {
     this.rootScope.set('teachingsDetail', work);
-    this.rootScope.set('teachingsAccordion', this.accordionStates);
     this.router.navigateByUrl(`${this.router.url}/${route}`)
+  }
+
+  ngOnDestroy() {
+    this.rootScope.set('teachingsAccordion', this.accordionStates);
   }
 }
