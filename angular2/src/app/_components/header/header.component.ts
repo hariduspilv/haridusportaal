@@ -109,7 +109,7 @@ export class HeaderComponent {
 
   searchRoute(param) {
     if (!param) {param = ''}
-    let url = this.rootScope.get('currentLang') === '/et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
+    let url = this.rootScope.get('currentLang') === 'et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
     this.router.navigateByUrl(url)
   }
 
