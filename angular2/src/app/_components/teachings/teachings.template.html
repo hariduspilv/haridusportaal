@@ -9,8 +9,8 @@
   <mat-accordion multi *ngIf="!loading && content && !error">
     
     <!-- contentType -->
-    <ng-container *ngFor="let type of contentTypes; let first = first;">
-      <mat-expansion-panel [expanded]="first ? true : false" *ngIf="content[type] && content[type].length">
+    <ng-container *ngFor="let type of contentTypes; let first = first; let ind = index;">
+      <mat-expansion-panel [expanded]="ind === openAccordion" *ngIf="content[type] && content[type].length">
         <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
           <mat-panel-title>
             {{ parseTypeTranslation(type) | translate }}
@@ -22,7 +22,7 @@
             <tbody>
               <tr *ngFor="let work of content[type];">
                 <td>{{ work.oppeasutus }}</td>
-                <td class="text-center"><a href="javascript:void(0)" (click)="setTeachingsDetail(work, type)">{{ 'button.view_more' | translate }}</a></td>
+                <td class="text-center"><a href="javascript:void(0)" (click)="setTeachingsDetail(work, type, ind)">{{ 'button.view_more' | translate }}</a></td>
               </tr>
             </tbody>
           </table>

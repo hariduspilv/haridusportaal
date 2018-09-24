@@ -14,7 +14,7 @@
 .view-item {width: 25%; margin: 0 auto;}
 
 .htm-icon {margin: 1rem 0;
-  @include break-on(sm, min) {margin: 1rem 0 .5rem;}
+  @include break-on(xxs, min) {margin: 1rem 0 .5rem;}
 }
 .button-list .view-item.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange; }
 .button-list .view-item.mat-menu-item-active .htm-icon { color: $black; }
@@ -26,4 +26,5 @@
 }
 .button-list .title { font-weight: 300; font-size: .875rem; line-height: 1.71; color: $black; margin-bottom: .75rem; }
 
-::ng-deep .mat-expansion-panel-body {overflow: scroll;}
+::ng-deep .mat-expansion-panel-body {overflow-y: auto;-ms-overflow-style: none;}
+
