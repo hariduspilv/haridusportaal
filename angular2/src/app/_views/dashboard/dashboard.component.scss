@@ -20,15 +20,16 @@
 .htm-icon {margin: 1rem 0;
   @include break-on(xxs, min) {margin: 1rem 0 .5rem;}
 }
-.button-list .view-item.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange; }
-.button-list .view-item.mat-menu-item-active .htm-icon { color: $black; }
+.button-list .view-item.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange; 
+  .htm-icon, .title {color: $black;}
+}
 .button-list .view-item .htm-icon { color: $blue; }
 .button-list .view-item { border-bottom: .175rem solid $light-gray; 
   &:hover, &:focus {border-bottom: 0.1875rem solid $dark-orange;
-    .htm-icon, .title {color: $black;}
+    .htm-icon, .title {color: #0F7B8A;}
   }
 }
-.button-list .title { font-weight: 300; font-size: .875rem; line-height: 1.71; color: $black; margin-bottom: .75rem; }
+.button-list .title { font-weight: 300; font-size: .875rem; line-height: 1.71; color: $blue; margin-bottom: .75rem; }
 
 ::ng-deep .mat-expansion-panel-body {overflow-y: auto;-ms-overflow-style: none;}
 
