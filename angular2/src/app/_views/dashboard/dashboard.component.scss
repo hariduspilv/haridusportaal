@@ -26,4 +26,4 @@
 }
 .button-list .title { font-weight: 300; font-size: .875rem; line-height: 1.71; color: $black; margin-bottom: .75rem; }
 
-::ng-deep .mat-expansion-panel-body {overflow: scroll;}
+::ng-deep .mat-expansion-panel-body {overflow: auto;}
