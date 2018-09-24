@@ -70,12 +70,8 @@ export class HeaderComponent {
         this.activeLanguage = params['lang'];
       }
       if (event instanceof NavigationEnd) {
-        let partials = ['/et', '/en', '/ru', '/'];
-        if (partials.includes(event.url)) {
-          this.hideElement = true;
-        }  else {
-          this.hideElement = false;
-        }
+        var partials = ['/et', '/en', '/ru', '/'];
+        this.hideElement = partials.includes(event.url) || event.url.includes('/et/otsing') || event.url.includes('/en/search');
       }
     });
   }
