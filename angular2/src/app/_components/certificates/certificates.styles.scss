@@ -5,7 +5,7 @@
   mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
   }
-  &.mat-expanded {border-left: .1875rem solid $dark-orange;
+  &.mat-expanded {border-color: $gray; border-left: .1875rem solid $dark-orange;
     mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
