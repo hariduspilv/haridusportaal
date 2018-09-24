@@ -25,29 +25,43 @@ public class EeIsikukaartWorker extends Worker {
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EHIS - eeIsikukaart.v1");
 
-    responseNode.put("request_timestamp", timestamp).put("response_timestamp", "").put("key", "eeisikukaart_" + personalCode);
+    responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
+        .put("key", "eeisikukaart_" + personalCode);
 
     try {
-      EeIsikukaartResponse response = ehisV6XRoadService.eeIsikukaart(personalCode, "xml", personalCode);
+      EeIsikukaartResponse response = ehisV6XRoadService
+          .eeIsikukaart(personalCode, "xml", personalCode);
 
       ObjectNode valueNode = responseNode.putObject("value");
 
       ObjectNode isikukandmedNode = valueNode.putObject("isikuandmed");
       isikukandmedNode.put("isikukood", response.getIsikukaart().getIsikuandmed().getIsikukood());
-      isikukandmedNode.put("synniKp", simpleDateFormat.format(response.getIsikukaart().getIsikuandmed().getSynniKp().getTime()));
+      isikukandmedNode.put("synniKp", simpleDateFormat
+          .format(response.getIsikukaart().getIsikuandmed().getSynniKp().getTime()));
       isikukandmedNode.put("eesnimi", response.getIsikukaart().getIsikuandmed().getEesnimi());
       isikukandmedNode.put("perenimi", response.getIsikukaart().getIsikuandmed().getPerenimi());
-      isikukandmedNode.put("elukohamaa", response.getIsikukaart().getIsikuandmed().isSetElukohamaa() ? response.getIsikukaart().getIsikuandmed().getElukohamaa() : null);
-      isikukandmedNode.put("rrElukoht", response.getIsikukaart().getIsikuandmed().isSetRrElukoht() ? response.getIsikukaart().getIsikuandmed().getRrElukoht() : null);
-      isikukandmedNode.put("kodakondsus", response.getIsikukaart().getIsikuandmed().isSetKodakondsus() ? response.getIsikukaart().getIsikuandmed().getKodakondsus() : null);
-      isikukandmedNode.put("elamisluba", response.getIsikukaart().getIsikuandmed().isSetElamisluba() ? response.getIsikukaart().getIsikuandmed().getElamisluba() : null);
+      isikukandmedNode.put("elukohamaa",
+          response.getIsikukaart().getIsikuandmed().isSetElukohamaa() ? response.getIsikukaart()
+              .getIsikuandmed().getElukohamaa() : null);
+      isikukandmedNode.put("rrElukoht",
+          response.getIsikukaart().getIsikuandmed().isSetRrElukoht() ? response.getIsikukaart()
+              .getIsikuandmed().getRrElukoht() : null);
+      isikukandmedNode.put("kodakondsus",
+          response.getIsikukaart().getIsikuandmed().isSetKodakondsus() ? response.getIsikukaart()
+              .getIsikuandmed().getKodakondsus() : null);
+      isikukandmedNode.put("elamisluba",
+          response.getIsikukaart().getIsikuandmed().isSetElamisluba() ? response.getIsikukaart()
+              .getIsikuandmed().getElamisluba() : null);
 
       if (response.getIsikukaart().getIsikuandmed().isSetOppelaenOigus()) {
         ObjectNode oppeleanOigusNode = isikukandmedNode.putObject("oppelaenOigus");
-        oppeleanOigusNode.put("oigus", response.getIsikukaart().getIsikuandmed().getOppelaenOigus().isSetOigus() ? response.getIsikukaart().getIsikuandmed().getOppelaenOigus().getOigus() : null);
+        oppeleanOigusNode.put("oigus",
+            response.getIsikukaart().getIsikuandmed().getOppelaenOigus().isSetOigus() ? response
+                .getIsikukaart().getIsikuandmed().getOppelaenOigus().getOigus() : null);
 
         ArrayNode laenPohjus = oppeleanOigusNode.putArray("pohjus");
-        response.getIsikukaart().getIsikuandmed().getOppelaenOigus().getPohjusList().forEach(pohjus -> laenPohjus.add(pohjus));
+        response.getIsikukaart().getIsikuandmed().getOppelaenOigus().getPohjusList()
+            .forEach(pohjus -> laenPohjus.add(pohjus));
       } else {
         isikukandmedNode.putObject("oppelaenOigus");
       }
@@ -64,7 +78,8 @@ public class EeIsikukaartWorker extends Worker {
         oping.getOppekavaList().forEach(oppekava -> oppekavaArrayNode.addObject()
             .put("klOppekava", oppekava.isSetKlOppekava() ? oppekava.getKlOppekava() : null)
             .put("oppekavaKood", oppekava.isSetOppekavaKood() ? oppekava.getOppekavaKood() : null)
-            .put("oppekavaNimetus", oppekava.isSetOppekavaNimetus() ? oppekava.getOppekavaNimetus() : null));
+            .put("oppekavaNimetus",
+                oppekava.isSetOppekavaNimetus() ? oppekava.getOppekavaNimetus() : null));
 
         opingNode.put("oppekeel", oping.isSetOppekeel() ? oping.getOppekeel() : null)
             .put("opeklass", oping.isSetOpeKlass() ? oping.getOpeKlass() : null)
@@ -75,21 +90,33 @@ public class EeIsikukaartWorker extends Worker {
         ArrayNode oppevormArrayNode = opingNode.putArray("oppevorm");
         oping.getOppevormList().forEach(oppevorm -> oppevormArrayNode.addObject()
             .put("nimetus", oppevorm.getNimetus())
-            .put("algusKp", oppevorm.isSetAlgusKp() ? simpleDateFormat.format(oppevorm.getAlgusKp().getTime()) : null)
-            .put("loppKp", oppevorm.isSetLoppKp() ? simpleDateFormat.format(oppevorm.getLoppKp().getTime()) : null));
+            .put("algusKp",
+                oppevorm.isSetAlgusKp() ? simpleDateFormat.format(oppevorm.getAlgusKp().getTime())
+                    : null)
+            .put("loppKp",
+                oppevorm.isSetLoppKp() ? simpleDateFormat.format(oppevorm.getLoppKp().getTime())
+                    : null));
 
         ArrayNode koormusArrayNode = opingNode.putArray("koormus");
         oping.getKoormusList().forEach(koormus -> oppevormArrayNode.addObject()
             .put("nimetus", koormus.getNimetus())
-            .put("algusKp", koormus.isSetAlgusKp() ? simpleDateFormat.format(koormus.getAlgusKp().getTime()) : null)
-            .put("loppKp", koormus.isSetLoppKp() ? simpleDateFormat.format(koormus.getLoppKp().getTime()) : null));
+            .put("algusKp",
+                koormus.isSetAlgusKp() ? simpleDateFormat.format(koormus.getAlgusKp().getTime())
+                    : null)
+            .put("loppKp",
+                koormus.isSetLoppKp() ? simpleDateFormat.format(koormus.getLoppKp().getTime())
+                    : null));
 
         opingNode.put("kestus", oping.isSetKestus() ? oping.getKestus() : null);
 
         if (oping.isSetOppekavataitmine()) {
           opingNode.putObject("oppekavataitine")
-              .put("protsent", oping.getOppekavataitmine().isSetProtsent() ? oping.getOppekavataitmine() .getProtsent() : null)
-              .put("otsusKp", oping.getOppekavataitmine().isSetOtsusKp() ? oping.getOppekavataitmine().getOtsusKp() : null);
+              .put("protsent",
+                  oping.getOppekavataitmine().isSetProtsent() ? oping.getOppekavataitmine()
+                      .getProtsent() : null)
+              .put("otsusKp",
+                  oping.getOppekavataitmine().isSetOtsusKp() ? oping.getOppekavataitmine()
+                      .getOtsusKp() : null);
         } else {
           opingNode.putObject("oppekavataitine");
         }
@@ -101,33 +128,48 @@ public class EeIsikukaartWorker extends Worker {
         ArrayNode finAllikasArrayNode = opingNode.putArray("finAllikas");
         oping.getFinAllikasList().forEach(finAllikas -> finAllikasArrayNode.addObject()
             .put("nimetus", finAllikas.getNimetus())
-            .put("algusKp", finAllikas.isSetAlgusKp() ? simpleDateFormat.format(finAllikas.getAlgusKp().getTime()) : null)
-            .put("loppKp", finAllikas.isSetLoppKp() ? simpleDateFormat.format(finAllikas.getLoppKp().getTime()) : null));
+            .put("algusKp", finAllikas.isSetAlgusKp() ? simpleDateFormat
+                .format(finAllikas.getAlgusKp().getTime()) : null)
+            .put("loppKp",
+                finAllikas.isSetLoppKp() ? simpleDateFormat.format(finAllikas.getLoppKp().getTime())
+                    : null));
 
         ArrayNode akadPuhkusArrayNode = opingNode.putArray("akadPuhkus");
         oping.getAkadPuhkusList().forEach(akadPuhkus -> finAllikasArrayNode.addObject()
             .put("nimetus", akadPuhkus.getNimetus())
-            .put("algusKp", akadPuhkus.isSetAlgusKp() ? simpleDateFormat.format(akadPuhkus.getAlgusKp().getTime()) : null)
-            .put("loppKp", akadPuhkus.isSetLoppKp() ? simpleDateFormat.format(akadPuhkus.getLoppKp().getTime()) : null));
+            .put("algusKp", akadPuhkus.isSetAlgusKp() ? simpleDateFormat
+                .format(akadPuhkus.getAlgusKp().getTime()) : null)
+            .put("loppKp",
+                akadPuhkus.isSetLoppKp() ? simpleDateFormat.format(akadPuhkus.getLoppKp().getTime())
+                    : null));
 
         ArrayNode ennistamineArrayNode = opingNode.putArray("ennistamine");
         oping.getEnnistamineList().forEach(ennistamine -> finAllikasArrayNode.addObject()
             .put("nimetus", ennistamine.getNimetus())
-            .put("algusKp", ennistamine.isSetAlgusKp() ? simpleDateFormat.format(ennistamine.getAlgusKp().getTime()) : null)
-            .put("loppKp", ennistamine.isSetLoppKp() ? simpleDateFormat.format(ennistamine.getLoppKp().getTime()) : null));
+            .put("algusKp", ennistamine.isSetAlgusKp() ? simpleDateFormat
+                .format(ennistamine.getAlgusKp().getTime()) : null)
+            .put("loppKp", ennistamine.isSetLoppKp() ? simpleDateFormat
+                .format(ennistamine.getLoppKp().getTime()) : null));
 
         opingNode.put("puudumised", oping.isSetPuudumised() ? oping.getPuudumised() : null)
-            .put("staatus", oping.isSetStaatus() ? oping.getStaatus(): null)
-            .put("tunnistusDiplom", oping.isSetTunnistusDiplom() ? oping.getTunnistusDiplom() : null);
+            .put("staatus", oping.isSetStaatus() ? oping.getStaatus() : null)
+            .put("tunnistusDiplom",
+                oping.isSetTunnistusDiplom() ? oping.getTunnistusDiplom() : null);
 
         ArrayNode kutseKoolitusArrayNode = opingNode.putArray("kutseKoolitus");
         oping.getKutseKoolitusList().forEach(kutseKoolitus -> kutseKoolitusArrayNode.addObject()
             .put("oppeasutus", kutseKoolitus.getOppeasutus())
             .put("algusKp", simpleDateFormat.format(kutseKoolitus.getAlgusKp().getTime()))
             .putObject("oppekava")
-              .put("klOppekava", kutseKoolitus.getOppekava().isSetKlOppekava() ? kutseKoolitus.getOppekava().getKlOppekava() : null)
-              .put("oppekavaKood", kutseKoolitus.getOppekava().isSetOppekavaKood() ? kutseKoolitus.getOppekava().getOppekavaKood() : null)
-              .put("oppekavaNimetus", kutseKoolitus.getOppekava().isSetOppekavaNimetus() ? kutseKoolitus.getOppekava().getOppekavaNimetus() : null));
+            .put("klOppekava",
+                kutseKoolitus.getOppekava().isSetKlOppekava() ? kutseKoolitus.getOppekava()
+                    .getKlOppekava() : null)
+            .put("oppekavaKood",
+                kutseKoolitus.getOppekava().isSetOppekavaKood() ? kutseKoolitus.getOppekava()
+                    .getOppekavaKood() : null)
+            .put("oppekavaNimetus",
+                kutseKoolitus.getOppekava().isSetOppekavaNimetus() ? kutseKoolitus.getOppekava()
+                    .getOppekavaNimetus() : null));
       });
 
       ArrayNode tootamineArrayNode = valueNode.putArray("tootamine");
@@ -137,22 +179,30 @@ public class EeIsikukaartWorker extends Worker {
             .put("oppeasutus", tootamine.getOppeasutus())
             .put("oppeasutusId", tootamine.getOppeasutusId().intValue())
             .put("ametikoht", tootamine.getAmetikoht())
-            .put("ametikohtAlgus", tootamine.isSetAmetikohtAlgus() ? simpleDateFormat.format(tootamine.getAmetikohtAlgus().getTime()) : null)
-            .put("ametikohtLopp", tootamine.isSetAmetikohtLopp() ? simpleDateFormat.format(tootamine.getAmetikohtLopp().getTime()) : null)
-            .put("onTunniandja", tootamine.isSetOnTunniandja() ? tootamine.getOnTunniandja().intValue() : null)
-            .put("onOppejoud", tootamine.isSetOnOppejoud() ? tootamine.getOnOppejoud().intValue() : null)
+            .put("ametikohtAlgus", tootamine.isSetAmetikohtAlgus() ? simpleDateFormat
+                .format(tootamine.getAmetikohtAlgus().getTime()) : null)
+            .put("ametikohtLopp", tootamine.isSetAmetikohtLopp() ? simpleDateFormat
+                .format(tootamine.getAmetikohtLopp().getTime()) : null)
+            .put("onTunniandja",
+                tootamine.isSetOnTunniandja() ? tootamine.getOnTunniandja().intValue() : null)
+            .put("onOppejoud",
+                tootamine.isSetOnOppejoud() ? tootamine.getOnOppejoud().intValue() : null)
             .put("kehtiv", tootamine.getKehtiv().intValue())
             .put("taitmiseViis", tootamine.isSetTaitmiseViis() ? tootamine.getTaitmiseViis() : null)
-            .put("amtikohtKoormus", tootamine.isSetAmetikohtKoormus() ? tootamine.getAmetikohtKoormus() : null)
+            .put("amtikohtKoormus",
+                tootamine.isSetAmetikohtKoormus() ? tootamine.getAmetikohtKoormus() : null)
             .put("tooleping", tootamine.isSetTooleping() ? tootamine.getTooleping() : null)
-            .put("ametikohtKvalVastavus", tootamine.isSetAmetikohtKvalVastavus() ? tootamine.getAmetikohtKvalVastavus() : null)
+            .put("ametikohtKvalVastavus",
+                tootamine.isSetAmetikohtKvalVastavus() ? tootamine.getAmetikohtKvalVastavus()
+                    : null)
             .put("ametijark", tootamine.isSetAmetijark() ? tootamine.getAmetijark() : null);
 
         ArrayNode oppekavaArrayNode = tootamineNode.putArray("oppekava");
         tootamine.getOppekavaList().forEach(oppekava -> oppekavaArrayNode.addObject()
             .put("klOppekava", oppekava.isSetKlOppekava() ? oppekava.getKlOppekava() : null)
             .put("oppekavaKood", oppekava.isSetOppekavaKood() ? oppekava.getOppekavaKood() : null)
-            .put("oppekavaNimetus", oppekava.isSetOppekavaNimetus() ? oppekava.getOppekavaNimetus() : null));
+            .put("oppekavaNimetus",
+                oppekava.isSetOppekavaNimetus() ? oppekava.getOppekavaNimetus() : null));
 
         ArrayNode oppeaineArrayNode = tootamineNode.putArray("oppeaine");
         tootamine.getOppeaineList().forEach(oppeaine -> oppeaineArrayNode.addObject()
@@ -161,40 +211,58 @@ public class EeIsikukaartWorker extends Worker {
             .put("maht", oppeaine.isSetMaht() ? oppeaine.getMaht() : null)
             .put("kvalVastavus", oppeaine.isSetKvalVastavus() ? oppeaine.getKvalVastavus() : null));
 
-        tootamineNode.put("haridustase", tootamine.isSetHaridustase() ? tootamine.getHaridustase() : null)
-            .put("lapsehooldusPuhkus", tootamine.isSetLapsehooldusPuhkus() ? tootamine.getLapsehooldusPuhkus() : null);
+        tootamineNode
+            .put("haridustase", tootamine.isSetHaridustase() ? tootamine.getHaridustase() : null)
+            .put("lapsehooldusPuhkus",
+                tootamine.isSetLapsehooldusPuhkus() ? tootamine.getLapsehooldusPuhkus() : null);
       });
 
       ArrayNode taiendkoolitusArrayNode = valueNode.putArray("taiendkoolitus");
-      response.getIsikukaart().getTaiendkoolitusList().forEach(taiendkoolitus -> taiendkoolitusArrayNode.addObject()
-          .put("oppeasutus", taiendkoolitus.isSetOppeasutus() ? taiendkoolitus.getOppeasutus() : null)
-          .put("nimetus", taiendkoolitus.isSetNimetus() ? taiendkoolitus.getNimetus() : null)
-          .put("liik", taiendkoolitus.isSetLiik() ? taiendkoolitus.getLiik() : null)
-          .put("loppKp", taiendkoolitus.isSetLoppKp() ? simpleDateFormat.format(taiendkoolitus.getLoppKp().getTime()) : null)
-          .put("maht", taiendkoolitus.isSetMaht() ? taiendkoolitus.getMaht() : null));
+      response.getIsikukaart().getTaiendkoolitusList()
+          .forEach(taiendkoolitus -> taiendkoolitusArrayNode.addObject()
+              .put("oppeasutus",
+                  taiendkoolitus.isSetOppeasutus() ? taiendkoolitus.getOppeasutus() : null)
+              .put("nimetus", taiendkoolitus.isSetNimetus() ? taiendkoolitus.getNimetus() : null)
+              .put("liik", taiendkoolitus.isSetLiik() ? taiendkoolitus.getLiik() : null)
+              .put("loppKp", taiendkoolitus.isSetLoppKp() ? simpleDateFormat
+                  .format(taiendkoolitus.getLoppKp().getTime()) : null)
+              .put("maht", taiendkoolitus.isSetMaht() ? taiendkoolitus.getMaht() : null));
 
       ArrayNode tasemeharidusArrayNode = valueNode.putArray("tasemeharidus");
-      response.getIsikukaart().getTasemeharidusList().forEach(tasemeharidus -> tasemeharidusArrayNode.addObject()
-          .put("kvalDokument", tasemeharidus.isSetKvalDokument() ? tasemeharidus.getKvalDokument() : null)
-          .put("kvalVastavus", tasemeharidus.isSetKvalVastavus() ? tasemeharidus.getKvalVastavus() : null)
-          .put("oppeasutus", tasemeharidus.isSetOppeasutus() ? tasemeharidus.getOppeasutus() : null)
-          .put("erialaOppekava", tasemeharidus.isSetErialaOppekava()? tasemeharidus.getErialaOppekava() : null)
-          .put("lopetanud", tasemeharidus.isSetLopetanud() ? simpleDateFormat.format(tasemeharidus.getLopetanud().getTime()) : null)
-          .put("dokument", tasemeharidus.isSetDokument() ? tasemeharidus.getDokument() : null));
+      response.getIsikukaart().getTasemeharidusList()
+          .forEach(tasemeharidus -> tasemeharidusArrayNode.addObject()
+              .put("kvalDokument",
+                  tasemeharidus.isSetKvalDokument() ? tasemeharidus.getKvalDokument() : null)
+              .put("kvalVastavus",
+                  tasemeharidus.isSetKvalVastavus() ? tasemeharidus.getKvalVastavus() : null)
+              .put("oppeasutus",
+                  tasemeharidus.isSetOppeasutus() ? tasemeharidus.getOppeasutus() : null)
+              .put("erialaOppekava",
+                  tasemeharidus.isSetErialaOppekava() ? tasemeharidus.getErialaOppekava() : null)
+              .put("lopetanud", tasemeharidus.isSetLopetanud() ? simpleDateFormat
+                  .format(tasemeharidus.getLopetanud().getTime()) : null)
+              .put("dokument", tasemeharidus.isSetDokument() ? tasemeharidus.getDokument() : null));
 
       ArrayNode kvalifikatsioonArrayNode = valueNode.putArray("kvalifikatsioon");
-      response.getIsikukaart().getKvalifikatsioonList().forEach(kvalifikatsioon -> kvalifikatsioonArrayNode.addObject()
-          .put("oppeasutus", kvalifikatsioon.isSetOppeasutus() ? kvalifikatsioon.getOppeasutus() : null)
-          .put("dokument", kvalifikatsioon.isSetDokument() ? kvalifikatsioon.getDokument() : null)
-          .put("nimetus", kvalifikatsioon.isSetNimetus() ? kvalifikatsioon.getNimetus() : null)
-          .put("vastavus", kvalifikatsioon.isSetVastavus() ? kvalifikatsioon.getVastavus() : null)
-          .put("aasta", kvalifikatsioon.isSetAasta() ? kvalifikatsioon.getAasta().intValue() : null)
-          .put("riik", kvalifikatsioon.isSetRiik() ? kvalifikatsioon.getRiik() : null));
+      response.getIsikukaart().getKvalifikatsioonList()
+          .forEach(kvalifikatsioon -> kvalifikatsioonArrayNode.addObject()
+              .put("oppeasutus",
+                  kvalifikatsioon.isSetOppeasutus() ? kvalifikatsioon.getOppeasutus() : null)
+              .put("dokument",
+                  kvalifikatsioon.isSetDokument() ? kvalifikatsioon.getDokument() : null)
+              .put("nimetus", kvalifikatsioon.isSetNimetus() ? kvalifikatsioon.getNimetus() : null)
+              .put("vastavus",
+                  kvalifikatsioon.isSetVastavus() ? kvalifikatsioon.getVastavus() : null)
+              .put("aasta",
+                  kvalifikatsioon.isSetAasta() ? kvalifikatsioon.getAasta().intValue() : null)
+              .put("riik", kvalifikatsioon.isSetRiik() ? kvalifikatsioon.getRiik() : null));
 
       logForDrupal.setMessage("EHIS - eeIsikukaart.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      if (e instanceof XRoadServiceConsumptionException && ((XRoadServiceConsumptionException) e).getFaultString() != null) {
-        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text").put("et",  ((XRoadServiceConsumptionException) e).getFaultString());
+      if (e instanceof XRoadServiceConsumptionException
+          && ((XRoadServiceConsumptionException) e).getFaultString() != null) {
+        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
+            .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
       } else {
         LOGGER.error(e, e);
 
@@ -203,7 +271,8 @@ public class EeIsikukaartWorker extends Worker {
 
         redisTemplate.opsForHash().put(personalCode, "eeIsikukaart", "Tehniline viga!");
 
-        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
+            .put("et", "Tehniline viga!");
       }
       responseNode.remove("value");
     }
