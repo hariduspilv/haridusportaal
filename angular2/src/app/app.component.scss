@@ -93,16 +93,16 @@ $grid-columns: 12;
     .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
   }
 }
-.xs-show{display:none !important;}
-.xs-flex{display:none !important;}
+.xxs-show{display:none !important;}
+.xxs-flex{display:none !important;}
 .sm-show{display:none !important;}
 .sm-flex{display:none !important;}
 .md-show{display:none !important;}
 .md-flex{display:none !important;}
-@include break-on(xs, max) {
-  .xs-hide{display:none !important;}
-  .xs-show{display: block !important;}
-  .xs-flex{display: flex !important;}
+@include break-on(xxs, max) {
+  .xxs-hide{display:none !important;}
+  .xxs-show{display: block !important;}
+  .xxs-flex{display: flex !important;}
 }
 @include break-on(sm, max) {
   .sm-hide{display:none !important;}
@@ -132,6 +132,7 @@ $grid-columns: 12;
       padding: 1rem;
       border: .0625rem solid $gray;
       width: 33%;
+      a {font-weight: 400;}
       color: $black;
       &:first-letter { 
         text-transform: uppercase; 

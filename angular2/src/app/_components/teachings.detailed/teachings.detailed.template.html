@@ -19,8 +19,8 @@
         <mat-spinner *ngIf="loading"></mat-spinner>
         <ng-container *ngIf="content && !loading && dashboardLink">
           <h1 *ngIf="content.oppeasutus">{{ content.oppeasutus }}</h1>
-          <a href="javascript:void(0)" attr.aria-label="{{'button.back_to_dashboard' | translate}}" class="sm-hide pull-right top-link" [routerLink]="dashboardLink">{{ 'button.back_to_dashboard' | translate }}</a>
-          <a href="javascript:void(0)" attr.aria-label="{{'button.back_to_dashboard' | translate}}" class="sm-show top-link" [routerLink]="dashboardLink">{{ 'button.back_to_dashboard' | translate }}</a>
+          <a href="javascript:void(0)" id="backToDashboard" attr.aria-label="{{'button.back_to_dashboard' | translate}}" class="sm-hide pull-right top-link" [routerLink]="dashboardLink">{{ 'button.back_to_dashboard' | translate }}</a>
+          <a href="javascript:void(0)" id="backToDashboard" attr.aria-label="{{'button.back_to_dashboard' | translate}}" class="sm-show top-link" [routerLink]="dashboardLink">{{ 'button.back_to_dashboard' | translate }}</a>
           <div class="table-holder">
             <table class="dashboard-table" *ngIf="!error && content">
               <tbody>

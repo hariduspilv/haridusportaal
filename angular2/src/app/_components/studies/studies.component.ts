@@ -22,7 +22,7 @@ export class StudiesComponent{
     let sub = this.http.get('/dashboard/eeIsikukaart/studies?_format=json').subscribe(response => {
       if(response['error']){
         this.error = true;
-        this.dataErr = true;
+        this.requestErr = true;
       } else {
         let resultData = response['value']['oping'];
         this.content = resultData.sort((a, b) => {

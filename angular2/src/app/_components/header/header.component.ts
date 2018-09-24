@@ -70,12 +70,8 @@ export class HeaderComponent {
         this.activeLanguage = params['lang'];
       }
       if (event instanceof NavigationEnd) {
-        let partials = ['/et', '/en', '/ru', '/'];
-        if (partials.includes(event.url)) {
-          this.hideElement = true;
-        }  else {
-          this.hideElement = false;
-        }
+        var partials = ['/et', '/en', '/ru', '/'];
+        this.hideElement = partials.includes(event.url) || event.url.includes('/et/otsing') || event.url.includes('/en/search');
       }
     });
   }
@@ -109,7 +105,7 @@ export class HeaderComponent {
 
   searchRoute(param) {
     if (!param) {param = ''}
-    let url = this.rootScope.get('currentLang') === '/et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
+    let url = this.rootScope.get('currentLang') === 'et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
     this.router.navigateByUrl(url)
   }
 

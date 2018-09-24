@@ -96,21 +96,67 @@ export class XjsonComponent implements OnInit, OnDestroy{
       }
     }
   }
-  fileChange(event, model) {
-    let fileList: FileList = event.target.files;
-    if(fileList.length > 0) {
-        let file: File = fileList[0];
 
-        let data:FormData = new FormData();
-        data.append('uploadFile', file, file.name);
-       
-        let subscription = this.http.fileUpload('', data).subscribe(response => {
+  parseAcceptableExtentsions(list: string[]): string {
+    return list.map(extentsion => '.'+ extentsion).join(',')
+  }
 
-          //TODO: attach ID to model.value
-          //model.value.push(<response.data.whatever>)
-          console.log(response);
-          subscription.unsubscribe();
-        });
+  fileDelete(id, model){
+    console.log('FILE DELETION');
+    console.log(model);
+    let subscription = this.http.get('/xjson_service/documentFile').subscribe(response => {
+            
+      console.log(response);
+      
+      
+      subscription.unsubscribe();
+    });
+  }
+  fileDownload(id){
+    console.log('FILE DOWNLOAD');
+    console.log(id);
+    
+  }
+  fileUpload(event, model, element) {
+    console.log(model);
+    console.log(event);
+    console.log(element);
+   
+    if(event.target.files && event.target.files.length > 0) {
+      
+      for(let file of  event.target.files) {
+        let reader = new FileReader();
+        console.log(file.name);
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          let payload = {
+            file: reader.result.split(',')[1],
+            form_name: this.form_name,
+            data_element: element
+          }
+          let subscription = this.http.fileUpload('/xjson_service/documentFile', payload).subscribe(response => {
+            console.log(response);
+            let new_file = {
+              file_name: file.name,
+              file_identifier: response['id']
+            };
+            
+            if(model.value instanceof Array){
+              model.value.push(new_file)
+            } else {
+              if(model.value.file_name){
+                model.value = [model.value];
+                model.value.push(new_file);
+              } else {
+                model.value = new_file
+              }
+            }
+            subscription.unsubscribe();
+          });
+        };
+      }
+      
+
     }
   }
   tableColumnName(element, index){
@@ -429,5 +475,4 @@ export class XjsonComponent implements OnInit, OnDestroy{
       }
     }
   };
-
 };
