@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.client.EhisV6XRoadService;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartOping;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -67,12 +69,17 @@ public class EeIsikukaartWorker extends Worker {
       }
 
       ArrayNode opingArrayNode = valueNode.putArray("oping");
-      response.getIsikukaart().getOpingList().forEach(oping -> {
+      SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY");
+      for (EeIsikukaartOping oping : response.getIsikukaart().getOpingList()) {
         ObjectNode opingNode = opingArrayNode.addObject();
         opingNode.put("haridustase", oping.getHaridustase())
             .put("oppeasutus", oping.getOppeasutus())
-            .put("oppAlgus", oping.isSetOppAlgus() ? oping.getOppAlgus() : null)
-            .put("oppLopp", oping.isSetOppLopp() ? oping.getOppLopp() : null);
+            .put("oppAlgus",
+                oping.isSetOppAlgus() ? simpleDateFormat.format(sdf.parse(oping.getOppAlgus()))
+                    : null)
+            .put("oppLopp",
+                oping.isSetOppLopp() ? simpleDateFormat.format(sdf.parse(oping.getOppLopp()))
+                    : null);
 
         ArrayNode oppekavaArrayNode = opingNode.putArray("oppekava");
         oping.getOppekavaList().forEach(oppekava -> oppekavaArrayNode.addObject()
@@ -170,7 +177,7 @@ public class EeIsikukaartWorker extends Worker {
             .put("oppekavaNimetus",
                 kutseKoolitus.getOppekava().isSetOppekavaNimetus() ? kutseKoolitus.getOppekava()
                     .getOppekavaNimetus() : null));
-      });
+      }
 
       ArrayNode tootamineArrayNode = valueNode.putArray("tootamine");
       response.getIsikukaart().getTootamineList().forEach(tootamine -> {
