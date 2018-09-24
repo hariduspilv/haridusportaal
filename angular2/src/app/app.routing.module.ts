@@ -21,6 +21,7 @@ import {
   SearchComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
+import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
 import { CertificatesComponent } from '@app/_components/certificates/certificates.component';
 import { ApplicationsComponent } from '@app/_components/applications/applications.component';
 import { StudiesComponent } from '@app/_components/studies/studies.component';
@@ -59,6 +60,8 @@ const appRoutes: Routes = [
 
   { path: ':lang/toolaud/tunnistused/:id', component: CertificatesDetailedComponent},
   { path: ':lang/dashboard/certificates/:id', component: CertificatesDetailedComponent},
+  { path: ':lang/toolaud/opetan/:type', component: TeachingsDetailedComponent},
+  { path: ':lang/dashboard/teachings/:type', component: TeachingsDetailedComponent},
 
   { path: ':lang/dashboard', component: DashboardComponent,
     children: [

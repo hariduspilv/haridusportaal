@@ -1,5 +1,6 @@
 @import "../../../assets/styles/typography.scss"; 
 
+.main-container{@include break-on(sm, min) {margin:.5rem 1.5rem 0;}}
 h1 { 
   display: inline-block;
   font-size: 1.5rem;
@@ -9,6 +10,10 @@ h1 {
   color: $black;
   margin-bottom: 1rem;
 }
+
+.block-title {line-height: 2rem;}
+.table-holder {overflow: scroll;}
+.padding-block {padding: 1rem 1.5rem 3rem;}
 
 .top-link {
   line-height: 1.875rem;
