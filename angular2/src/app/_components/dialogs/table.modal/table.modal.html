@@ -34,7 +34,7 @@
         </tbody>
       </table>
     </div>
-    <div class="dialog__success--content dialog__success--content--error" *ngIf="error">
+    <div class="dialog__success--content dialog__success--content--error" *ngIf="error" role="alert">
       <span *ngIf="!errorMessage">{{'errors.personal_data_missing' | translate}}</span>
       <span *ngIf="errorMessage">{{'errors.personal_data_request' | translate}}</span>
     </div>

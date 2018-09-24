@@ -25,7 +25,7 @@
 }
 .button-list .view-item .htm-icon { color: $blue; }
 .button-list .view-item { border-bottom: .175rem solid $light-gray; 
-  &:hover, &:focus {border-bottom: 0.1875rem solid $dark-orange;
+  &:hover {border-bottom: 0.1875rem solid $dark-orange;
     .htm-icon, .title {color: #0F7B8A;}
   }
 }
