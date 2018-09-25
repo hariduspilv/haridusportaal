@@ -143,14 +143,14 @@ class xJsonService implements xJsonServiceInterface {
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
-
+		
 		$this->validatexJsonHeader($response_header);
 		$form_name = $response['header']['form_name'];
 		$definition_body = $this->getEntityJsonObject($form_name)['body'];
 
 		if($response_header) $return['header'] = $response_header;
 		if($response_messages) $return['messages'] = $response_messages;
-
+		
 		if($response_body && !empty($response_body['steps'])){
 			foreach($definition_body['steps'] as $step_key => $step){
 				if(isset($response_body['steps'][$step_key])){
@@ -169,6 +169,7 @@ class xJsonService implements xJsonServiceInterface {
 					$return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
 					// add each step messages aswel
 					if(isset($response_body['steps'][$step_key]['messages'])){
+						#dump($response_body['steps'][$step_key]['messages']);
 						$return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
 					}else{
 						$return['body']['steps'][$step_key]['messages'] = [];
@@ -178,12 +179,13 @@ class xJsonService implements xJsonServiceInterface {
 					$return['body']['steps'][$step_key] = $step['title'];
 				}
 			}
-			#dump($response_body['messages']);
-			if($response_body['steps']['messages']){
+			#unset($response_body['steps']);
+			#dump($response_body);
+			if($response_body['messages']){
 				#dump($response_body['messages']);
-				$return['body']['steps']['messages'] = $response_body['steps']['messages'];
+				$return['body']['messages'] = $response_body['messages'];
 			}else{
-				$return['body']['steps']['messages'] = [];
+				$return['body']['messages'] = [];
 			}
 		}else{
 			$return['body'] = $response_body;
