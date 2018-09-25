@@ -100,22 +100,32 @@ export class XjsonComponent implements OnInit, OnDestroy{
   parseAcceptableExtentsions(list: string[]): string {
     return list.map(extentsion => '.'+ extentsion).join(',')
   }
+  canUploadFile(element): boolean{
+    var singeFileRestrictionApplies = (element.multiple === false && element.value.length > 0);
+    var isCurrentStepOpened = this.max_step === this.opened_step;
+    var isAcceptedActivity = ['SUBMIT', 'SAVE'].some(activity => this.current_acceptable_activity.includes(activity));
+    if(singeFileRestrictionApplies || !isCurrentStepOpened || !isAcceptedActivity){
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   fileDelete(id, model){
     console.log('FILE DELETION');
     console.log(model);
-    let subscription = this.http.get('/xjson_service/documentFile').subscribe(response => {
-            
-      console.log(response);
-      
-      
-      subscription.unsubscribe();
-    });
+    let target = model.value.find(file => file.file_identifier === id);
+    model.value.splice(model.value.indexOf(target), 1);
   }
   fileDownload(id){
     console.log('FILE DOWNLOAD');
     console.log(id);
     
+  }
+  changeFile(event, model, element){
+    model.value = [];
+    console.log(model);
+    this.fileUpload(event, model, element);
   }
   fileUpload(event, model, element) {
     console.log(model);
@@ -140,17 +150,8 @@ export class XjsonComponent implements OnInit, OnDestroy{
               file_name: file.name,
               file_identifier: response['id']
             };
-            
-            if(model.value instanceof Array){
-              model.value.push(new_file)
-            } else {
-              if(model.value.file_name){
-                model.value = [model.value];
-                model.value.push(new_file);
-              } else {
-                model.value = new_file
-              }
-            }
+            model.value.push(new_file)
+
             subscription.unsubscribe();
           });
         };
