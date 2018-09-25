@@ -52,7 +52,7 @@
     "teachings_data": "Õpetamiste andmed-ENG",
     "oppeasutus": "Õppeasutus-ENG",
     "haridustase": "Haridustase-ENG",
-    "oppekava": "Õppekava-ENG",
+    "oppekava": "Õppekava(d)-ENG",
     "oppekeel": "Õppekeel-ENG",
     "opeklass": "Õpe/klass-ENG",
     "opeParallel": "Paralleeli tunnus-ENG",
@@ -84,7 +84,30 @@
     "taiendkoolitus": "TäiendkoolitusENG",
     "lead_title_xxs": "Hoia end<br> haridusinfoga kursis!ENG",
     "lead_title_sm": "Hoia end haridusinfoga kursis!ENG",
-    "lead_title": "<b>Eduportaal -</b><br>hoia end haridusinfoga kursis!ENG"
+    "lead_title": "<b>Eduportaal -</b><br>hoia end haridusinfoga kursis!ENG",
+    "ametikoht": "Ametikoht ENG",
+    "ametikohtAlgus": "Töötamise algus ENG",
+    "ametikohtLopp": "Töötamise lõpp ENG",
+    "ametikohtKoormus": "Koormus ENG",
+    "ametikohtKvalVastavus": "Kvalifikatsiooninõuetele vastavus ENG",
+    "taitmiseViis": "Ametikoha täitmise viis ENG",
+    "tooleping": "Tööleping ENG",
+    "ametijark": "Ametijärk ENG",
+    "oppeaine": "Õppeaine ENG",
+    "lapsehooldusPuhkus": "lapsehoolduspuhkusel ENG",
+    "dokument": "Dokument ENG",
+    "kraadNimetus": "Kvalifikatsiooni/akadeemilise kraadi nimetus ENG",
+    "kvalifikatsioonVastavus": "Vastavus kehtivas raamistikus ENG",
+    "aasta": "Aasta ENG",
+    "riik": "Riik ENG",
+    "kvalDokument": "Kvalifikatsiooni dokument ENG",
+    "kvalVastavus": "Kvalifikatsioon kehtivas raamistikus ENG",
+    "erialaOppekava": "Eriala/õppekava ENG",
+    "lopetanud": "Lõpetamise kuupäev ENG",
+    "dokumentNr": "Dokumendi nr. ENG",
+    "koolitusNimetus": "Koolituse nimetus ENG",
+    "liik": "Liik ENG",
+    "maht": "Maht ENG"
   },
   "xjson":{
     "edit_step_confirm_modal_content": "Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?"
@@ -347,7 +370,9 @@
     "personal_data_request": "Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.",
     "personal_data_missing": "Relevant data missing from the Estonian Education Infosystem.",
     "studies_data_request": "Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.",
-    "studies_data_missing": "Relevant data missing from the Estonian Education Infosystem."
+    "studies_data_missing": "Relevant data missing from the Estonian Education Infosystem.",
+    "teachings_data_request": "Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.",
+    "teachings_data_missing": "Relevant data missing from the Estonian Education Infosystem."
   },
   "search": {
     "label": "Search",

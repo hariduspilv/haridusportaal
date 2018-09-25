@@ -9,7 +9,7 @@
 
 a:visited, a:visited h1 { color: $visited; }
 a h1, a { text-decoration: none; }
-a h1:hover { text-decoration: underline; }
+a:hover h1 { text-decoration: underline; }
 
   & > *:nth-child(2) {margin-top: 0;}
   &__block {
@@ -197,6 +197,7 @@ a h1:hover { text-decoration: underline; }
        border-bottom: solid 1px $gray;
        .title {
          display: flex;
+         justify-content: space-between;
        } 
      }
 
