@@ -12,7 +12,6 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 export class Modal {
 
-  constructor(
 
     constructor(
     private router: Router,
