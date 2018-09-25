@@ -1,0 +1,26 @@
+
+htm_custom_translations_new.translation_form:
+  path: '/admin/config/htm_custom_translations_new/translation'
+  defaults:
+    _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormList'
+    _title: 'TranslationForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
+htm_custom_translations_new.add_translation:
+  path: '/admin/config/htm_custom_translations_new/translation/add'
+  defaults:
+    _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormAddTranslation'
+    _title: 'Add new translation'
+  requirements:
+    _permission: 'access content'
+
+htm_custom_translations_new.edit_translation:
+  path: '/admin/config/htm_custom_translations_new/translation/edit/{translation_key}'
+  defaults:
+    _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormAddTranslation'
+    _title: 'Edit translation'
+  requirements:
+    _permission: 'access content'
