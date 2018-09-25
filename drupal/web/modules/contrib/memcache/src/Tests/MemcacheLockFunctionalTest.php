@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\memcache\Tests\MemcacheLockFunctionalTest.
- */
-
 namespace Drupal\memcache\Tests;
 
 use Drupal\Tests\system\Functional\Lock\LockFunctionalTest;

@@ -55,7 +55,7 @@ class ConfigUITest extends WebTestBase {
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('/admin/config/content/entity_browser');
     $this->assertResponse(200, 'Admin user is able to navigate to the entity browser listing page.');
-    $this->assertText('There is no Entity browser yet.', 'Entity browsers table is empty.');
+    $this->assertText('There are no entity browser entities yet.', 'Entity browsers table is empty.');
 
     // Add page.
     $this->clickLink('Add Entity browser');
@@ -275,7 +275,7 @@ class ConfigUITest extends WebTestBase {
     $this->drupalPostForm(NULL, [], 'Delete Entity Browser');
 
     $this->assertText('Entity browser Test entity browser was deleted.', 'Confirmation message found.');
-    $this->assertText('There is no Entity browser yet.', 'Entity browsers table is empty.');
+    $this->assertText('There are no entity browser entities yet.', 'Entity browsers table is empty.');
     $this->drupalLogout();
   }
 

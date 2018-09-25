@@ -354,7 +354,7 @@ class EntityReferenceItem extends FieldItemBase implements OptionsProviderInterf
    * {@inheritdoc}
    */
   public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data) {
-    $element['target_type'] = [
+      $element['target_type'] = [
       '#type' => 'select',
       '#title' => t('Type of item to reference'),
       '#options' => \Drupal::entityManager()->getEntityTypeLabels(TRUE),

@@ -31,18 +31,18 @@ class CustomDateTimeItem extends DateTimeItem {
 				->setLabel(t('Date value'))
 				->setRequired(TRUE);
 
-		$properties['date'] = DataDefinition::create('any')
+		$properties['selected_oska_valdkonnad']= DataDefinition::create('any')
 				->setLabel(t('Computed date'))
 				->setDescription(t('The computed DateTime object.'))
 				->setComputed(TRUE)
 				->setClass('\Drupal\datetime\DateTimeComputed')
 				->setSetting('date source', 'value');
 
-		$properties['unix'] = DataDefinition::create('any')
+		$properties['entity'] = DataDefinition::create('entity_refernce')
 				->setLabel(t('Computed date'))
 				->setDescription(t('The computed DateTime object.'))
 				->setComputed(TRUE)
-				->setClass('\Drupal\custom_unix_datetime_field\UnixDateTime')
+				->setClass('\Drupal\custom_unix_datetime_field\getEntityFromTargetID')
 				->setSetting('date source', 'value');
 
 		return $properties;

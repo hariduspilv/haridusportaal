@@ -153,7 +153,7 @@ abstract class WidgetBase extends PluginSettingsBase implements WidgetInterface 
    * - table display and drag-n-drop value reordering
    */
   protected function formMultipleElements(FieldItemListInterface $items, array &$form, FormStateInterface $form_state) {
-    $field_name = $this->fieldDefinition->getName();
+      $field_name = $this->fieldDefinition->getName();
     $cardinality = $this->fieldDefinition->getFieldStorageDefinition()->getCardinality();
     $parents = $form['#parents'];
 
@@ -398,7 +398,7 @@ abstract class WidgetBase extends PluginSettingsBase implements WidgetInterface 
    * {@inheritdoc}
    */
   public function flagErrors(FieldItemListInterface $items, ConstraintViolationListInterface $violations, array $form, FormStateInterface $form_state) {
-    $field_name = $this->fieldDefinition->getName();
+      $field_name = $this->fieldDefinition->getName();
 
     $field_state = static::getWidgetState($form['#parents'], $field_name, $form_state);
 

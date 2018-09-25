@@ -27,9 +27,11 @@ class FavoriteFieldType extends EntityReferenceItem {
 
 	public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
 		$properties = parent::propertyDefinitions($field_definition);
+
 		$properties['title'] = DataDefinition::create('string')
 			->setLabel(new TranslatableMarkup('Title'))
 			->setRequired(TRUE);
+
 		return $properties;
 	}
 

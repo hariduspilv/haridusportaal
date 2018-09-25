@@ -42,7 +42,7 @@
       }
 
       this.collection = new Drupal.shs.WidgetCollection({
-        url: this.app.getConfig('baseUrl') + '/' + this.app.getConfig('fieldName') + '/' + this.app.getConfig('bundle')
+        url: Drupal.url(this.app.getConfig('baseUrl') + '/' + this.app.getConfig('fieldName') + '/' + this.app.getConfig('bundle'))
       });
       this.collection.reset();
 
