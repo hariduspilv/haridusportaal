@@ -178,10 +178,12 @@ class xJsonService implements xJsonServiceInterface {
 					$return['body']['steps'][$step_key] = $step['title'];
 				}
 			}
-			if($response_body['messages']){
-				$return['body']['messages'] = $response_body['messages'];
+			#dump($response_body['messages']);
+			if($response_body['steps']['messages']){
+				#dump($response_body['messages']);
+				$return['body']['steps']['messages'] = $response_body['steps']['messages'];
 			}else{
-				$return['body']['messages'] = [];
+				$return['body']['steps']['messages'] = [];
 			}
 		}else{
 			$return['body'] = $response_body;
@@ -283,11 +285,11 @@ class xJsonService implements xJsonServiceInterface {
 			case 'file':
 				if($table) $additional_keys = ['width', 'acceptable_extensions'];
 				else $additional_keys = ['multiple', 'acceptable_extensions'];
-				if($element['value']){
-					if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
-						$valid = false;
-					}
-				}
+				#if($element['value']){
+				#	if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
+				#		$valid = false;
+				#	}
+				#}
 				break;
 			case 'table':
 				$additional_keys = ['add_del_rows', 'table_columns'];
