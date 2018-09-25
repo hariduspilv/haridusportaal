@@ -18,6 +18,7 @@
               </a>
             </li>
           </ul>
+
           <!-- STEP BODY -->
           <div class="xjson__step-title" *ngIf="data.body.steps[opened_step].title"> {{ selectLanguage(data.body.steps[opened_step].title) }} </div>
           <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction"> {{ selectLanguage(data.body.steps[opened_step].introduction) }} </div>
@@ -204,23 +205,33 @@
                     <ng-container *ngIf="data_elements[element].helpertext">
                       {{ selectLanguage(data_elements[element].helpertext) }}<br>
                     </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                    <ng-container *ngIf="data_elements[element].value.length">
+
+                    <ng-container *ngIf="data_elements[element].value">
+
                       <ng-container *ngFor="let file of data_elements[element].value">
-                        <a (click)="fileDownload(file.file_identifier)" >{{ file.file_name }}</a><br>
+                        <a (click)="fileDownload(file.file_identifier)" >{{ file.file_name }}</a>
+
+                        <ng-container *ngIf="data_elements[element].multiple == false">
+                            ASENDA
+                            <input type="file" (change)="changeFile($event, data_elements[element], element)" [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"/>
+                        </ng-container>
+
+                        <button (click)="fileDelete(file.file_identifier, data_elements[element])">EEMALDA</button>
+                        
                       </ng-container>
                     </ng-container>
-                    <ng-container *ngIf="!data_elements[element].value.length">
-                      <a (click)="fileDownload(data_elements[element].value.file_identifier)" >{{ data_elements[element].value.file_name }}</a>
-                      <a (click)="fileDelete(data_elements[element].value.file_identifier, data_elements[element])" >KUSTUTA</a>
-                      <br>
-                    </ng-container>
-                    <input type="file"
-                    
-                    (change)="fileUpload($event, data_elements[element], element)" 
-                    placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
-                    [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
-                    [attr.multiple]="data_elements[element].multiple ? true : null">
-                    
+
+                    <div class="dropzone">
+                      DRAG AND DROP
+                      <input type="file"
+                        [attr.disabled]="canUploadFile(data_elements[element]) ? null : true"
+                        (change)="fileUpload($event, data_elements[element], element)" 
+                        placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
+                        [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
+                        [attr.multiple]="data_elements[element].multiple ? true : null"/>
+                        
+                    </div>
+                  
                    
                   </ng-container> <!-- /FILE -->
 
@@ -374,7 +385,7 @@
           </div>
           
           <!-- /STEP BODY -->
-        </ng-container>
+        </ng-container> <!-- /IF data-->
       </div> <!--/block border-blue-->
     </div><!--/col-8-->
     
