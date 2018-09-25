@@ -1,0 +1,14 @@
+
+# Oska entity menu items definition
+entity.oska_entity.collection:
+  title: 'Oska entity list'
+  route_name: entity.oska_entity.collection
+  description: 'List Oska entity entities'
+  parent: system.admin_structure
+  weight: 100
+
+oska_entity.admin.structure.settings:
+  title: 'Oska entity settings'
+  description: 'Configure Oska entity entities'
+  route_name: oska_entity.settings
+  parent: system.admin_structure
