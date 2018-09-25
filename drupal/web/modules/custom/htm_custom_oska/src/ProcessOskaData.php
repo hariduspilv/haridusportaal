@@ -135,8 +135,6 @@ class ProcessOskaData {
     public static function ProcessOskaDataFinishedCallback($success, $results, $operations){
         // The 'success' parameter means no fatal PHP errors were detected. All
         // other error management should be handled using 'results'.
-        #dump($results['values']);
-        #die();
         if ($success) {
             if(isset($results['error'])){
                 $message = [implode(', ', $results['error']), 'error'];

@@ -89,8 +89,7 @@ class OskaImportDataForm extends FormBase {
         $encoders = new CsvEncoder();
 
         $file_array = $encoders->decode(file_get_contents($form_state->getValue('file')), 'csv', ['csv_delimiter' => ';']);
-        #dump($file_array);
-        #die();
+
         $batch = [
             'title' => t('Processing Oska data ....--'),
             'operations' => [
