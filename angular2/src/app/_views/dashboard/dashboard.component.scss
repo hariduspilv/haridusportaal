@@ -4,7 +4,11 @@
 
 .main-container{@include break-on(sm, min) {margin:0 1.5rem;}}
 .dashboard{
-  &__username{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
+  &__username{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; font-weight: 500;
+    a {text-decoration: underline;
+      &:hover, &:focus {text-decoration: none;}
+    }
+  }
   @include break-on(sm, min) {margin-top: .5rem;}
 }
 .button-list {display: flex;flex-basis: 100%;justify-content: center; margin-top: 1rem; 
@@ -14,16 +18,22 @@
 .view-item {width: 25%; margin: 0 auto;}
 
 .htm-icon {margin: 1rem 0;
-  @include break-on(sm, min) {margin: 1rem 0 .5rem;}
+  @include break-on(xxs, min) {margin: 1rem 0 .5rem;}
 }
-.button-list .view-item.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange; }
-.button-list .view-item.mat-menu-item-active .htm-icon { color: $black; }
+.button-list .view-item.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange; 
+  .htm-icon, .title {color: $black; }
+}
+.button-list .view-item.mat-menu-item-active:hover { border-bottom: .1875rem solid $dark-orange; 
+  .htm-icon, .title {color: $black; }
+}
 .button-list .view-item .htm-icon { color: $blue; }
 .button-list .view-item { border-bottom: .175rem solid $light-gray; 
-  &:hover, &:focus {border-bottom: 0.1875rem solid $dark-orange;
-    .htm-icon, .title {color: $black;}
-  }
-}
-.button-list .title { font-weight: 300; font-size: .875rem; line-height: 1.71; color: $black; margin-bottom: .75rem; }
+	&:hover {border-bottom: 0.1875rem solid $light-gray;
+		.htm-icon, .title {color: #0F7B8A;}
+	}
 
-::ng-deep .mat-expansion-panel-body {overflow: scroll;}
+}
+.button-list .title { font-weight: 300; font-size: .875rem; line-height: 1.71; color: $blue; margin-bottom: .75rem; }
+
+::ng-deep .mat-expansion-panel-body {overflow-y: auto;-ms-overflow-style: none;}
+

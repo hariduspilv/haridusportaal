@@ -8,16 +8,16 @@
   &__step-introduction{width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none;}
   &__heading{width:100%; color:$blue; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
   &__navigation{ list-style-type: none; padding-left: 0; display: flex; padding-top: 1rem; margin-top: 2rem; justify-content: center;
-      @include break-on(sm, max) { 
+    @include break-on(sm, max) { 
       overflow-y: auto; justify-content: flex-start; margin-right: -1.5rem; max-width: inherit; min-width: 6.875rem;
-       }
+    }
     .xjson__navigation__step.disabled { 
-         &:after {
+     &:after {
       content: "";
       position: absolute; width: 100%; height: 0.3125rem; background-color: $light-gray;
       z-index: 0; 
     }
-     a{
+    a{
       text-decoration: none;
       &:before {
         width: 0.9375rem; height: 0.9375rem; background-color: $light-gray; border-radius: 3.125rem; display: block;
@@ -54,15 +54,22 @@
       }
     }
   }
-    a {
-      cursor: pointer; margin: 0 0 0 0; font-size: 0.875rem;
-      &.disabled{ color: gray; text-decoration: none; cursor: not-allowed;}
-    }
-    .xjson__navigation__stepname {
-      position: relative; margin-bottom: 2rem; display: block; margin-top: 2rem;
-    }
+  a {
+    cursor: pointer; margin: 0 0 0 0; font-size: 0.875rem;
+    &.disabled{ color: gray; text-decoration: none; cursor: not-allowed;}
   }
+  .xjson__navigation__stepname {
+    position: relative; margin-bottom: 2rem; display: block; margin-top: 2rem; -ms-word-break: break-all; 
+    word-break: break-all; word-break: break-word;-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; }
 }
+}
+.dropzone {display:block; height:50px;
+  background-color: #f3f
+}
+
+
+
+
 
 .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
 .button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 1.875rem;}
@@ -72,8 +79,10 @@ table {width: 100%;border-collapse: collapse; margin: 0;
     .sortable {&:hover { color: $dark-gray;}}
     .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
   }
-  th {white-space: normal; font-weight: normal;}
-  th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;
+  th {white-space: normal; font-weight: normal; background-color: $light-gray; 
+    font-size: 0.875rem;font-weight: 500;color: $black; }
+
+  th, td {line-height: 1.38rem;font-size: 0.875rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;
     &.highlighted {font-weight: 500;}
   }
   td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
@@ -85,5 +94,5 @@ table {width: 100%;border-collapse: collapse; margin: 0;
       .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;font-size: .875rem;left: $gutter;top: $half-gutter;}
     }
   }
-  .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
+  .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none; }
 }

@@ -22,6 +22,7 @@ export class CertificatesDetailedComponent implements OnInit{
 
   public loading: boolean;
   private error: boolean;
+  private viewChecked: boolean = false;
   
   public subscriptions: Subscription[] = [];
 
@@ -84,4 +85,12 @@ export class CertificatesDetailedComponent implements OnInit{
     this.pathWatcher();
     this.loadCertificate();
   }
+
+  ngAfterViewChecked() {
+    if (this.certificate && !this.loading && this.dashboardLink && !this.viewChecked) {
+      document.getElementById('backToDashboard').focus();
+      this.viewChecked = true;
+    }
+  }
+
 }

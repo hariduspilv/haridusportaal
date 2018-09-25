@@ -83,6 +83,9 @@
     &::placeholder{
       @include break-on(sm, max) {font-size:0.875rem;}  
     }
+        &:focus {
+          border-color: $blue;
+        }
     @include break-on(sm, max) {font-size:0.875rem;}
   }
   &__clear {
@@ -210,3 +213,12 @@
   .mat-checkbox-checkmark{left:5px !important;}
   input:focus~.mat-checkbox-frame{border-color:$blue !important;}
 }
+
+
+      .mat-focused {
+       border: solid .0625rem $blue!important;
+      }
+            .mat-focused label {
+       color: $blue!important;
+      }
+
