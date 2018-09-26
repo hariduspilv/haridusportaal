@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_ehis_connector;
 use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\redis\ClientFactory;
+use Drupal\user\Entity\User;
 use GuzzleHttp\Exception\RequestException;
 
 /**
@@ -131,8 +132,8 @@ class EhisConnectorService {
 	 * @return int
 	 */
 	private function getCurrentUserIdCode(){
-		$account = $this->currentUser->getAccount();
-		return ($id_code = $account->get('field_user_idcode')->value) ? $id_code : 0;
+		$user_id = $this->currentUser->id();
+		return ($id_code = User::load($user_id)->get('field_user_idcode')->value) ? $id_code : 0;
 	}
 
 	/**
@@ -178,6 +179,11 @@ class EhisConnectorService {
 
 	public function getDocument(array $params = []){
 		return $this->invoke('getDocument', $params);
+	}
+
+	public function getDocumentFile(array $params = []){
+		$params['url'] = [$params['file_id'], $this->getCurrentUserIdCode()];
+		return $this->invoke('getDocumentFile', $params);
 	}
 
 	/**

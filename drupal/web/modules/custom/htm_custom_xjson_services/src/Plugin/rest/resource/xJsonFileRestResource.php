@@ -9,8 +9,11 @@ use Drupal\htm_custom_xjson_services\xJsonService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
+use Hshn\Base64EncodedFile\HttpFoundation\File\Base64EncodedFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -95,16 +98,24 @@ class xJsonFileRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function get($file_id) {
-		#$this->xJsonService->xJsonGetDocumentById('test');
-		#dump('tere');
-		#dump('test');
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
 
-    return new ResourceResponse($file_id, 200);
+    $file_obj = $this->ehisService->getDocumentFile(['file_id' => $file_id]);
+		if($file_obj && $file_obj['fileName'] && $file_obj['value']){
+			$sym_file = new Base64EncodedFile($file_obj['value']);
+			$response = new BinaryFileResponse($sym_file->getRealPath());
+			$response->setContentDisposition(
+					ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+					$file_obj['fileName']
+			);
+			return $response;
+		}else{
+			return new ModifiedResourceResponse('File not found', 400);
+		}
   }
 
   /**
