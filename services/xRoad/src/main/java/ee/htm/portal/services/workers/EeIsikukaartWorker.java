@@ -3,7 +3,7 @@ package ee.htm.portal.services.workers;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
-import ee.htm.portal.services.client.EhisV6XRoadService;
+import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
 import java.sql.Timestamp;
 import javax.annotation.Resource;
@@ -16,9 +16,9 @@ public class EeIsikukaartWorker extends Worker {
   private static final Logger LOGGER = Logger.getLogger(EeIsikukaartWorker.class);
 
   @Resource
-  private EhisV6XRoadService ehisV6XRoadService;
+  private EhisXRoadService ehisXRoadService;
 
-  public ObjectNode work(String personalCode, Long timestamp) {
+  public ObjectNode getEeIsikukaart(String personalCode, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
@@ -26,10 +26,10 @@ public class EeIsikukaartWorker extends Worker {
     logForDrupal.setType("EHIS - eeIsikukaart.v1");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
-        .put("key", "eeisikukaart_" + personalCode);
+        .put("key", "eeIsikukaart");
 
     try {
-      EeIsikukaartResponse response = ehisV6XRoadService
+      EeIsikukaartResponse response = ehisXRoadService
           .eeIsikukaart(personalCode, "xml", personalCode);
 
       ObjectNode valueNode = responseNode.putObject("value");

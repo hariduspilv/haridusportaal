@@ -3,7 +3,7 @@ package ee.htm.portal.services.workers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import ee.htm.portal.services.client.EhisV6XRoadService;
+import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.FailInfoDto;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.IsikInfoDto;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Message;
@@ -40,7 +40,7 @@ public class VPTWorker extends Worker {
   private static final String VPT_FILES_KEY = "VPT_documents";
 
   @Resource
-  private EhisV6XRoadService ehisV6XRoadService;
+  private EhisXRoadService ehisXRoadService;
 
   public void getDocuments(String personalCode) {
     ObjectNode documentsResponse = nodeFactory.objectNode();
@@ -50,7 +50,7 @@ public class VPTWorker extends Worker {
     logForDrupal.setType("EHIS - VpTaotlusOpingud.v1");
 
     try {
-      VpTaotlusOpingudResponse response = ehisV6XRoadService
+      VpTaotlusOpingudResponse response = ehisXRoadService
           .vptOpingud(personalCode, null, personalCode);
 
       ArrayNode documentsArrayNode = documentsResponse.putArray("documents");
@@ -142,7 +142,7 @@ public class VPTWorker extends Worker {
         jsonNode.putObject("messages");
 
 //region NULL
-        VpTaotlusOpingudResponse response = ehisV6XRoadService
+        VpTaotlusOpingudResponse response = ehisXRoadService
             .vptOpingud(applicantPersonalCode, null, applicantPersonalCode);
 
 //region STEP_0 vpTaotlusOpingud response
@@ -254,7 +254,7 @@ public class VPTWorker extends Worker {
         request.getOppimineDtosList().addAll(oppimineDtoList);
 //endregion;
 
-        VpTaotlusIsikudResponse response = ehisV6XRoadService
+        VpTaotlusIsikudResponse response = ehisXRoadService
             .vpTaotlusIsikud(request, applicantPersonalCode);
 
 //region STEP_1 vpTaotlusIsikud response
@@ -393,7 +393,7 @@ public class VPTWorker extends Worker {
         request.getIsikInfoDtosList().addAll(isikInfoDtoList);
 //endregion;
 
-        VpTaotlusSissetulekudResponse response = ehisV6XRoadService
+        VpTaotlusSissetulekudResponse response = ehisXRoadService
             .vpTaotlusSissetulekud(request, applicantPersonalCode);
 
 //region STEP_2 vpTaotlusSissetulekud response
@@ -540,7 +540,7 @@ public class VPTWorker extends Worker {
         }
 //endregion;
 
-        VpTaotlusKontaktResponse response = ehisV6XRoadService
+        VpTaotlusKontaktResponse response = ehisXRoadService
             .vpTaotlusKontakt(request, applicantPersonalCode);
 
 //region STEP_3 vpTaotlusKontakt response
@@ -584,7 +584,7 @@ public class VPTWorker extends Worker {
             .get("value").asBoolean());
 //endregion;
 
-        VpTaotlusEsitamineResponse response = ehisV6XRoadService
+        VpTaotlusEsitamineResponse response = ehisXRoadService
             .vpTaotlusEsitamine(request, applicantPersonalCode);
 
 //region SUBMIT vpTaotlusEsitamine respone
@@ -662,7 +662,7 @@ public class VPTWorker extends Worker {
       request.setTaotlejaIsikukood(personalCode);
       request.setDokumendiLiik(documentType);
       request.setTaotluseId(applicationId);
-      VpTaotlusDokumentResponse response = ehisV6XRoadService
+      VpTaotlusDokumentResponse response = ehisXRoadService
           .vpTaotlusDokument(request, personalCode);
 
       documentResponse.put("fileName", response.getFilename()).put("size", response.getSize())

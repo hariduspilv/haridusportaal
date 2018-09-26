@@ -2,7 +2,7 @@ package ee.htm.portal.services.workers;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import ee.htm.portal.services.client.KutseregisterV6XRoadService;
+import ee.htm.portal.services.client.KutseregisterXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.kutseregister.producers.producer.kutseregister.KodanikKutsetunnistusVastusDocument.KodanikKutsetunnistusVastus;
 import java.sql.Timestamp;
 import org.apache.log4j.Logger;
@@ -15,9 +15,9 @@ public class KutseregisterWorker extends Worker {
   private static final Logger LOGGER = Logger.getLogger(KutseregisterWorker.class);
 
   @Autowired
-  private KutseregisterV6XRoadService kutseregisterV6XRoadService;
+  private KutseregisterXRoadService kutseregisterXRoadService;
 
-  public ObjectNode work(String personalCode, boolean invalidBoolean, Long timestamp) {
+  public ObjectNode getKodanikKutsetunnistus(String personalCode, boolean invalidBoolean, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
@@ -26,10 +26,10 @@ public class KutseregisterWorker extends Worker {
 
     responseNode.put("request_timestamp", timestamp)
         .put("response_timestamp", "")
-        .put("key", "kutsetunnistused_" + personalCode);
+        .put("key", "kodanikKutsetunnistus");
 
     try {
-      KodanikKutsetunnistusVastus response = kutseregisterV6XRoadService
+      KodanikKutsetunnistusVastus response = kutseregisterXRoadService
           .kodanikKutsetunnistus(invalidBoolean, personalCode);
 
       ObjectNode value = responseNode.putObject("value");
