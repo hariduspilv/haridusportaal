@@ -9,6 +9,11 @@
 
           <div class="xjson__title" *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</div>    
           <p *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
+          <ng-container *ngIf="data.body.messages">
+            <div [class]="data.messages[message].message_type" *ngFor="let message of data.body.messages">
+              {{ selectLanguage(data.messages[message].message_text)}}
+            </div>
+          </ng-container>
 
           <ul class="xjson__navigation">
             <li class="xjson__navigation__step" [class.active]="opened_step === step" [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps)">
@@ -22,6 +27,12 @@
           <!-- STEP BODY -->
           <div class="xjson__step-title" *ngIf="data.body.steps[opened_step].title"> {{ selectLanguage(data.body.steps[opened_step].title) }} </div>
           <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction"> {{ selectLanguage(data.body.steps[opened_step].introduction) }} </div>
+          
+          <ng-container *ngIf="data.body.steps[opened_step].messages">
+              <div  *ngFor="let message of data.body.steps[opened_step].messages">
+                {{ selectLanguage(data.messages[message].message_text)}}
+              </div>
+          </ng-container>
 
           <form (submit)="submitForm()" *ngIf="objectKeys(data_elements).length > 0">
 
@@ -53,7 +64,7 @@
                       <div class="round-input__field-wrapper">
                         <input class="round-input__field" type="text" 
                         placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
-                        [readonly]="data_elements[element].readonly" 
+                        [attr.disabled]="isFieldDisabled(data_elements[element].readonly)"
                         [(ngModel)]='data_elements[element].value' 
                         [name]="element" 
                         [attr.required]="data_elements[element].required"/>
@@ -69,7 +80,7 @@
 
                     <div class="round-input__area">
                       <textarea class="round-input__area__elem" 
-                      [readonly]="data_elements[element].readonly" 
+                      [attr.disabled]="isFieldDisabled(data_elements[element].readonly)"
                       [(ngModel)]='data_elements[element].value' 
                       placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"  
                       [name]="element" ></textarea>
@@ -143,7 +154,7 @@
                       <div class="round-input__field-wrapper">
                           <input class="round-input__field" type="email" 
                           placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
-                          [readonly]="data_elements[element].readonly" 
+                          [attr.disabled]="isFieldDisabled(data_elements[element].readonly)"
                           [(ngModel)]='data_elements[element].value' 
                           [name]="element" 
                           [attr.required]="data_elements[element].required"/>
@@ -155,12 +166,14 @@
                     <div class="custom-checkbox">
                       <mat-checkbox [(ngModel)]="data_elements[element].value" 
                       [name]="element" 
-                      [disabled]="data_elements[element].readonly" 
+                      [disabled]="isFieldDisabled(data_elements[element].readonly)"
                       [required]="data_elements[element].required"> 
                       {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
+
                       <ng-container *ngIf="data_elements[element].helpertext">
                         {{ selectLanguage(data_elements[element].helpertext) }}
                       </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+
                       </mat-checkbox>
                     </div>            
                   </ng-container> <!-- /CHECKBOX -->
@@ -177,7 +190,7 @@
                         [min]="data_elements[element].min" 
                         [max]="data_elements[element].max" 
                         [(ngModel)]="data_elements[element].value" 
-                        [readonly]="data_elements[element].readonly" 
+                        [attr.disabled]="isFieldDisabled(data_elements[element].readonly)"
                         [name]="element" 
                         [attr.required]="data_elements[element].required"/>
                       </div>
@@ -213,10 +226,13 @@
 
                         <ng-container *ngIf="data_elements[element].multiple == false">
                             ASENDA
-                            <input type="file" (change)="changeFile($event, data_elements[element], element)" [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"/>
+                            <input type="file"
+                              [attr.disabled]="isFieldDisabled(data_elements[element].readonly)"
+                              (change)="changeFile($event, data_elements[element], element)" 
+                              [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"/>
                         </ng-container>
 
-                        <button (click)="fileDelete(file.file_identifier, data_elements[element])">EEMALDA</button>
+                        <button *ngIf="!isFieldDisabled(data_elements[element].readonly)" (click)="fileDelete(file.file_identifier, data_elements[element])">EEMALDA</button>
                         
                       </ng-container>
                     </ng-container>
@@ -224,7 +240,7 @@
                     <div class="dropzone">
                       DRAG AND DROP
                       <input type="file"
-                        [attr.disabled]="canUploadFile(data_elements[element]) ? null : true"
+                        [attr.disabled]="canUploadFile(data_elements[element])"
                         (change)="fileUpload($event, data_elements[element], element)" 
                         placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
                         [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
@@ -235,7 +251,7 @@
                    
                   </ng-container> <!-- /FILE -->
 
-                  <ng-container *ngIf="data_elements[element].type == 'table'">
+                  <ng-container *ngIf="data_elements[element].type == 'table'"> <!-- START OF TABLE-->
                     <div class="xjson__heading" *ngIf="data_elements[element].title">
                       {{ selectLanguage(data_elements[element].title) }}
                     </div>
@@ -281,14 +297,14 @@
                                     <ng-container *ngSwitchCase="'text'">  
                                       <input type="text" 
                                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
-                                        [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                        [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                         [(ngModel)]='row[col]' [name]="row[col]"/>
                                     </ng-container> <!-- /TEXT --> 
 
                                     <ng-container *ngSwitchCase="'email'">  
                                       <input type="email" 
                                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
-                                        [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                        [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                         [(ngModel)]='row[col]' [name]="row[col]"/>
                                     </ng-container> <!-- /EMAIL -->
                                     
@@ -297,12 +313,13 @@
                                         [min]="tableColumnAttribute(element, colIndex, 'min')" 
                                         [max]="tableColumnAttribute(element, colIndex, 'max')"  
                                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
-                                        [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                        [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                         [(ngModel)]='row[col]' [name]="row[col]"/>
                                     </ng-container> <!-- /NUMBER -->
 
                                     <ng-container *ngSwitchCase="'date'">
                                         <input matInput
+                                        [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                         [matDatepicker]="picker" 
                                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
                                         [(ngModel)]="row[col]"
@@ -310,7 +327,8 @@
                                         [name]="col">
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker
-                                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+                                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
+                                        </mat-datepicker>
                                     </ng-container> <!-- /DATE -->
 
                                     <ng-container *ngSwitchCase="'checkbox'">
@@ -327,7 +345,7 @@
 
                                     <ng-container *ngSwitchCase="'selectlist'">
                                       <mat-select
-                                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                      [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                         [(ngModel)]="row[col]" 
                                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title')) }}">
                                         <mat-option *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
@@ -350,6 +368,7 @@
                                       </div>
                                     </ng-container>
                                   </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
+
                                 </td>
                               </ng-container> <!-- END OF *NGFOR COLUMNS-->
                             </tr>  <!-- END OF *NGFOR COLUMNS-->
