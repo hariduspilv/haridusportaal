@@ -20,7 +20,15 @@ htm_custom_translations_new.add_translation:
 htm_custom_translations_new.edit_translation:
   path: '/admin/config/htm_custom_translations_new/translation/edit/{translation_key}'
   defaults:
-    _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormAddTranslation'
+    _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormEditTranslation'
     _title: 'Edit translation'
+  requirements:
+    _permission: 'access content'
+
+htm_custom_translations_new.delete_translation:
+  path: '/admin/config/htm_custom_translations_new/translation/delete/{translation_key}'
+  defaults:
+    _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormDeleteTranslation'
+    _title: 'Delete translation'
   requirements:
     _permission: 'access content'
