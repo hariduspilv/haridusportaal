@@ -1,7 +1,7 @@
 package ee.htm.portal.services.workers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import ee.htm.portal.services.client.EhisV6XRoadService;
+import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -14,10 +14,10 @@ public class MtsysWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(MtsysWorker.class);
 
-  @Resource
-  private EhisV6XRoadService ehisV6XRoadService;
-
   private static final String MTSYSKLF_KEY = "klassifikaator";
+
+  @Resource
+  private EhisXRoadService ehisXRoadService;
 
   public ObjectNode getMtsysKlf() {
     ObjectNode mtsysKlfResponse = nodeFactory.objectNode();
@@ -27,7 +27,7 @@ public class MtsysWorker extends Worker {
     logForDrupal.setType("EHIS - mtsysKlfTeenus.v1");
 
     try {
-      MtsysKlfTeenusResponse response = ehisV6XRoadService.mtsysKlfTeenus(null);
+      MtsysKlfTeenusResponse response = ehisXRoadService.mtsysKlfTeenus(null);
 
       ObjectNode tegevusloaLiigidNode = mtsysKlfResponse.putObject("tegevusloaLiigid");
       response.getTegevusloaLiigid().getTegevusloaLiikList().forEach(

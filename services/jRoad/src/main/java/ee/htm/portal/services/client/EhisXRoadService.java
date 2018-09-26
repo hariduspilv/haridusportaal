@@ -21,7 +21,7 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Vp
  *
  * parameter userId - if null gets its value from xroad.properties id-code
  */
-public interface EhisV6XRoadService {
+public interface EhisXRoadService {
 
   EeIsikukaartResponse eeIsikukaart(String personalCode, String format, String userId)
       throws XRoadServiceConsumptionException;

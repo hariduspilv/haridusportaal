@@ -41,7 +41,8 @@ public class HPortalRestController {
   }
 
   @RequestMapping(value = "/getDocument/{formName}/{identifier}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-  public ResponseEntity<?> getDocuments(@PathVariable("formName") String formName,
+  public ResponseEntity<?> getDocuments(
+      @PathVariable("formName") String formName,
       @PathVariable("identifier") String identifier) {
     if (formName.startsWith("VPT_ESITATUD")) {
       return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
@@ -63,7 +64,8 @@ public class HPortalRestController {
   }
 
   @RequestMapping(value = "/getDocumentFile/{documentId}/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-  public ResponseEntity<?> getDockumentFile(@PathVariable("documentId") String documentId,
+  public ResponseEntity<?> getDockumentFile(
+      @PathVariable("documentId") String documentId,
       @PathVariable("personalCode") String personalCode) {
     if (documentId.startsWith("VPT_")) {
       return new ResponseEntity<>(vptWorker.getDocumentFile(documentId, personalCode),
@@ -79,17 +81,18 @@ public class HPortalRestController {
       @PathVariable("personalCode") String personalCode,
       @PathVariable("invalidBoolean") boolean invalidBoolean,
       @PathVariable("requestTimestamp") Long timestamp) {
-    return new ResponseEntity<>(kutseregisterWorker.work(personalCode, invalidBoolean, timestamp),
+    return new ResponseEntity<>(kutseregisterWorker.getKodanikKutsetunnistus(personalCode, invalidBoolean, timestamp),
         HttpStatus.OK);
   }
 
   @RequestMapping(value = "/eeIsikukaart/{personalCode}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-  public ResponseEntity<?> getEeIsikukaart(@PathVariable("personalCode") String personalcode,
+  public ResponseEntity<?> getEeIsikukaart(
+      @PathVariable("personalCode") String personalcode,
       @PathVariable("requestTimestamp") Long timestamp) {
-    return new ResponseEntity<>(eeIsikukaartWorker.work(personalcode, timestamp), HttpStatus.OK);
+    return new ResponseEntity<>(eeIsikukaartWorker.getEeIsikukaart(personalcode, timestamp), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/mtsysKlfTeenus" , method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/mtsysKlfTeenus", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getMtsysKlfTeenus() {
     return new ResponseEntity<>(mtsysWorker.getMtsysKlf(), HttpStatus.OK);
   }
