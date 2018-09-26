@@ -2,9 +2,11 @@ package ee.htm.portal.services.rest;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.workers.EeIsikukaartWorker;
+import ee.htm.portal.services.workers.EisWorker;
 import ee.htm.portal.services.workers.KutseregisterWorker;
 import ee.htm.portal.services.workers.MtsysWorker;
 import ee.htm.portal.services.workers.VPTWorker;
+import java.math.BigInteger;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,9 @@ public class HPortalRestController {
 
   @Autowired
   MtsysWorker mtsysWorker;
+
+  @Autowired
+  EisWorker eisWorker;
 
   @RequestMapping(value = "/getDocuments/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDocuments(@PathVariable("personalCode") String personalCode) {
@@ -95,5 +100,40 @@ public class HPortalRestController {
   @RequestMapping(value = "/mtsysKlfTeenus", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getMtsysKlfTeenus() {
     return new ResponseEntity<>(mtsysWorker.getMtsysKlf(), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/testsessioonidKod/{personalCode}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getTestsessioonidKod(
+      @PathVariable("personalCode") String personalCode,
+      @PathVariable("requestTimestamp") Long timestamp) {
+    return new ResponseEntity<>(
+        eisWorker.getTestsessioonidKod(personalCode, timestamp), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/testidKod/{personalCode}/{testSessionId}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getTestidKod(
+      @PathVariable("personalCode") String personalCode,
+      @PathVariable("testSessionId") BigInteger testSessionId,
+      @PathVariable("requestTimestamp") Long timestamp) {
+    return new ResponseEntity<>(
+        eisWorker.getTestidKod(personalCode, testSessionId, timestamp), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/eTunnistusKod/{personalCode}/{tunnistusId}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getETunnistusKod(
+      @PathVariable("personalCode") String personalCode,
+      @PathVariable("tunnistusId") BigInteger tunnistusId,
+      @PathVariable("requestTimestamp") Long timestamp) {
+    return new ResponseEntity<>(
+        eisWorker.getETunnistusKod(personalCode, tunnistusId, timestamp), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/eTunnistusKehtivus/{personalCode}/{tunnistusNr}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getETunnistusKehtivus(
+      @PathVariable("personalCode") String personalCode,
+      @PathVariable("tunnistusNr") String tunnistusNr,
+      @PathVariable("requestTimestamp") Long timestamp) {
+    return new ResponseEntity<>(
+        eisWorker.getETunnistusKehtivus(personalCode, tunnistusNr, timestamp), HttpStatus.OK);
   }
 }
