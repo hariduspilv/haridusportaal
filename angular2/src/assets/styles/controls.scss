@@ -214,7 +214,14 @@
   input:focus~.mat-checkbox-frame{border-color:$blue !important;}
 }
 
+.mat-focused {
+ border: solid .0625rem $blue!important;
+}
+      .mat-focused label {
+ color: $blue!important;
+}
 
-      .mat-focused {
-       border: solid .0625rem $blue!important;
-      }
+.round-input__area__elem {
+  font-size: 0.875rem;
+  font-weight: normal;
+}
