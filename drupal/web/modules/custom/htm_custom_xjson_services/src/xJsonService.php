@@ -143,14 +143,14 @@ class xJsonService implements xJsonServiceInterface {
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
-
+		
 		$this->validatexJsonHeader($response_header);
 		$form_name = $response['header']['form_name'];
 		$definition_body = $this->getEntityJsonObject($form_name)['body'];
 
 		if($response_header) $return['header'] = $response_header;
 		if($response_messages) $return['messages'] = $response_messages;
-
+		
 		if($response_body && !empty($response_body['steps'])){
 			foreach($definition_body['steps'] as $step_key => $step){
 				if(isset($response_body['steps'][$step_key])){
@@ -169,6 +169,7 @@ class xJsonService implements xJsonServiceInterface {
 					$return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
 					// add each step messages aswel
 					if(isset($response_body['steps'][$step_key]['messages'])){
+						#dump($response_body['steps'][$step_key]['messages']);
 						$return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
 					}else{
 						$return['body']['steps'][$step_key]['messages'] = [];
@@ -178,7 +179,10 @@ class xJsonService implements xJsonServiceInterface {
 					$return['body']['steps'][$step_key] = $step['title'];
 				}
 			}
+			#unset($response_body['steps']);
+			#dump($response_body);
 			if($response_body['messages']){
+				#dump($response_body['messages']);
 				$return['body']['messages'] = $response_body['messages'];
 			}else{
 				$return['body']['messages'] = [];
@@ -283,11 +287,11 @@ class xJsonService implements xJsonServiceInterface {
 			case 'file':
 				if($table) $additional_keys = ['width', 'acceptable_extensions'];
 				else $additional_keys = ['multiple', 'acceptable_extensions'];
-				if($element['value']){
-					if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
-						$valid = false;
-					}
-				}
+				#if($element['value']){
+				#	if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
+				#		$valid = false;
+				#	}
+				#}
 				break;
 			case 'table':
 				$additional_keys = ['add_del_rows', 'table_columns'];
