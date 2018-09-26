@@ -85,15 +85,18 @@ export class XjsonComponent implements OnInit, OnDestroy{
     return a && b ? a == b : a == b;
   }
   isFieldDisabled(readonly:boolean): boolean{
-    
-    if(readonly === true || this.max_step != this.opened_step  ) {
+    console.log('%s, %s', this.opened_step, this.max_step)
+    if(readonly === true) {
+      console.log("readonly === true");
       return true;
-    } else {
-      if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
-        return false;
-      } else { 
-        return true;
-      }
+    } else if (this.max_step != this.opened_step){
+      console.log("this.max_step != this.opened_step");
+      return true;
+    } else if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
+      console.log("acceptable activity is SUBMIT or SAVE");
+      return false;
+    } else { 
+      return true;
     }
   }
 
@@ -234,7 +237,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     //check for required field
     if(field.required === true){
       if(field.value === undefined) return {valid: false, message: 'Puudub kohustuslik väärtus'}
-      //else if (field.value.length == 0) return {valid: false, message: 'Puudub kohustuslik väärtus'}
+      //else if (!field.value) return {valid: false, message: 'Puudub kohustuslik väärtus'}
     }
     //check for minlength
     if(field.minlength !== undefined){
