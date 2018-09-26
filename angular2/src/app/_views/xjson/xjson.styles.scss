@@ -1,6 +1,8 @@
 @import "../../../assets/styles/typography.scss"; 
 @import "../../../assets/styles/layout.scss"; 
 
+input { font-size: 0.875rem; }
+
 .main-container{margin:0 1.5rem;}
 .xjson{
   &__title{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
@@ -69,8 +71,6 @@
 
 
 
-
-
 .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
 .button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 1.875rem;}
 
@@ -96,3 +96,17 @@ table {width: 100%;border-collapse: collapse; margin: 0;
   }
   .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none; }
 }
+
+input.inner-flexbox {
+  width: 100%;
+}
+.step-datepicker {
+  display: inline-flex; -webkit-box-align: stretch; -ms-flex-align: stretch; align-items: stretch; width: 100%;
+  border: solid 0.0625rem $gray; border-radius: 1.25rem; background: $white; color: $black;
+  font-size: 0.875rem; padding: 0.5rem 0 0.5rem 1rem;
+}
+
+.step-datepicker:focus { 
+  border-color: $blue;
+ }
+
