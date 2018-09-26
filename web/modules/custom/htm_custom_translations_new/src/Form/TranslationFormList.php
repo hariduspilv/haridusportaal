@@ -39,8 +39,8 @@ class TranslationFormList extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('htm_custom_translations_new.translation');
-    /*dump($config->getRawData());*/
-		#$config->delete();
+		$config_values = $config->get();
+
     $header = [
     	'key' => $this->t('Translation key'),
 			'translation_languages' => $this->t('Languages'),
@@ -55,12 +55,14 @@ class TranslationFormList extends ConfigFormBase {
 					'@add-url' => Url::fromRoute('htm_custom_translations_new.add_translation')->toString(),
 			]),
 		];
+
 		$languages = \Drupal::languageManager()->getLanguages();
-    foreach($config->getRawData() as $key => $data){
+		$mapped_config = $this->flatten($config_values);
+		#dump($mapped_config);
+    foreach($mapped_config as $key => $data){
 			$form['table'][$key]['key'] = [
-				'#plain_text' => $this->formatter->parseSlash($key),
+				'#plain_text' => $key,
 			];
-			#dump($data);
 			foreach($languages as $lang_key => $value){
 				$form['table'][$key]['translation_languages'][] = [
 					'#type' => 'item',
@@ -79,36 +81,29 @@ class TranslationFormList extends ConfigFormBase {
 			];
 			$form['table'][$key]['operations']['#links']['edit'] = [
 				'title' => $this->t('Edit'),
-				'url' => Url::fromRoute('htm_custom_translations_new.edit_translation', ['type'=> 'edit', 'translation_key' => $key]),
+				'url' => Url::fromRoute('htm_custom_translations_new.edit_translation', ['translation_key' => $key]),
 			];
 			$form['table'][$key]['operations']['#links']['delete'] = [
 				'title' => $this->t('Delete'),
-				'url' => Url::fromRoute('<none>'),
+				'url' => Url::fromRoute('htm_custom_translations_new.delete_translation', ['translation_key' => $key]),
 			];
 
 		}
-
-
-
     return $form;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
-  }
+	private function flatten($array, $prefix = '') {
+		$result = array();
+		foreach($array as $key=>$value) {
+			if(is_array($value) && !isset($value['translation_type'])) {
+				$result = $result + $this->flatten($value, $prefix . $key . '.');
+			}
+			else {
+				$result[$prefix . $key] = $value;
+			}
+		}
+		return $result;
+	}
 
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    parent::submitForm($form, $form_state);
-
-    $this->config('htm_custom_translations_new.translation')
-      ->set('text', $form_state->getValue('text'))
-      ->save();
-  }
 
 }
