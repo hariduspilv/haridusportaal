@@ -208,9 +208,6 @@ share { margin-left: 0px!important; margin-right: 0px!important }
     }
     .align-end {margin-bottom: auto;
     }
-    .mat-checkbox-label {
-      color: $black;
-    }
     input {
       font-size: 0.875rem;
       &::placeholder { font-size: 0.875rem; }
@@ -594,7 +591,28 @@ share { margin-left: 0px!important; margin-right: 0px!important }
   font-size: 0.875rem;
   color: $dark-gray;
 }
-
 .round-input__wrapper .mat-form-field:focus {
   border: 1px solid $blue;
+}
+
+
+.mat-checkbox {
+  .mat-checkbox-inner-container {
+  margin: 0px 8px auto 0;
+}
+  .mat-checkbox-layout {
+    white-space: inherit; display: inline-flex;
+    .mat-checkbox-label {
+      color: $black;
+    }
+  }
+}
+
+.flexbox {
+  display: flex;
+  width: 100%;
+}
+
+.mat-datepicker-toggle .mat-icon-button .mat-button-wrapper>* {
+  fill: $red!important;
 }
