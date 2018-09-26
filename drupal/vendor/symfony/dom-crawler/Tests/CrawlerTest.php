@@ -1027,7 +1027,7 @@ HTML;
     /**
      * @dataProvider getBaseTagData
      */
-    public function testBaseTag($baseValue, $linkValue, $expectedUri, $currentUri = null, $description = '')
+    public function testBaseTag($baseValue, $linkValue, $expectedUri, $currentUri = null, $description = null)
     {
         $crawler = new Crawler('<html><base href="'.$baseValue.'"><a href="'.$linkValue.'"></a></html>', $currentUri);
         $this->assertEquals($expectedUri, $crawler->filterXPath('//a')->link()->getUri(), $description);
