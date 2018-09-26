@@ -11,6 +11,7 @@ plugin_id: x_json_file_rest_resource
 granularity: resource
 configuration:
   methods:
+    - GET
     - POST
   formats:
     - json

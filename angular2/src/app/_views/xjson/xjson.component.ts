@@ -84,27 +84,37 @@ export class XjsonComponent implements OnInit, OnDestroy{
   selectListCompare(a, b) {
     return a && b ? a == b : a == b;
   }
-  isFieldDisabled(readonly:boolean): boolean{
+  isFieldDisabled(readonly): boolean{
     
-    if(readonly === true || this.max_step != this.opened_step  ) {
+    if(readonly === true) {
+      
       return true;
+    } else if (this.max_step != this.opened_step){
+      
+      return true;
+    } else if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
+      
+      return false;
     } else {
-      if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
-        return false;
-      } else { 
-        return true;
-      }
+      return true;
     }
   }
-
-  parseAcceptableExtentsions(list: string[]): string {
-    return list.map(extentsion => '.'+ extentsion).join(',')
+  
+  parseAcceptableExtentsions(list: string[]) {
+    if(!list) {
+      return '*/*';
+    } else {
+      return list.map(extentsion => '.'+ extentsion).join(',')
+    }
   }
   canUploadFile(element): boolean{
+    
     var singeFileRestrictionApplies = (element.multiple === false && element.value.length > 0);
-    var isCurrentStepOpened = this.max_step === this.opened_step;
-    var isAcceptedActivity = ['SUBMIT', 'SAVE'].some(activity => this.current_acceptable_activity.includes(activity));
-    if(singeFileRestrictionApplies || !isCurrentStepOpened || !isAcceptedActivity){
+  
+    if(this.isFieldDisabled(element.readonly)){
+      return false;
+    } else if(singeFileRestrictionApplies){
+      console.log('singeFileRestrictionApplies');
       return false;
     } else {
       return true;
@@ -234,7 +244,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     //check for required field
     if(field.required === true){
       if(field.value === undefined) return {valid: false, message: 'Puudub kohustuslik väärtus'}
-      //else if (field.value.length == 0) return {valid: false, message: 'Puudub kohustuslik väärtus'}
+      //else if (!field.value) return {valid: false, message: 'Puudub kohustuslik väärtus'}
     }
     //check for minlength
     if(field.minlength !== undefined){
@@ -254,8 +264,10 @@ export class XjsonComponent implements OnInit, OnDestroy{
     }
     //check for email format
     if(field.type === 'email'){
-      let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if(reg.test(field.value) === false) return {valid: false, message: 'Palun sisesta sobilik email' }
+      if(field.required === true){
+        let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(reg.test(field.value) === false) return {valid: false, message: 'Palun sisesta sobilik email' }
+      }
     }
     return {valid: true, message:'valid'};
   }
