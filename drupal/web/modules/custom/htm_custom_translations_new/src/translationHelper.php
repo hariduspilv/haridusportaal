@@ -35,11 +35,20 @@ class translationHelper{
 			}
 		}
 		$result = array_map(function($v){
-			$elem = [
-				'translation_type' => (preg_match("/<[^<]+>/",$v,$m)) ? 'text_format' : 'textarea',
-				'et' => $v,
-				'en' => '',
-			];
+			if((preg_match("/<[^<]+>/",$v,$m))){
+				$elem = [
+					'translation_type' => 'text_format',
+					'et' => ['format' => 'text_format', 'value' => $v],
+					'en' => '',
+				];
+			}else{
+				$elem = [
+					'translation_type' => 'textarea',
+					'et' => $v,
+					'en' => '',
+				];
+			}
+
 			return $elem;
 		}, $result);
 		return $result;
