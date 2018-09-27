@@ -22,6 +22,7 @@ export class CertificatesDetailedComponent implements OnInit{
 
   public loading: boolean;
   private error: boolean;
+  private viewChecked: boolean = false;
   
   public subscriptions: Subscription[] = [];
 
@@ -53,7 +54,7 @@ export class CertificatesDetailedComponent implements OnInit{
 
     this.loading = true;
 
-    let sub = this.http.get('/professional-certificate?_format=json').subscribe(response => {
+    let sub = this.http.get('/dashboard/kodanikKutsetunnistus/null?_format=json').subscribe(response => {
       this.loading = false;
 
       if(response['error']){
@@ -84,4 +85,12 @@ export class CertificatesDetailedComponent implements OnInit{
     this.pathWatcher();
     this.loadCertificate();
   }
+
+  ngAfterViewChecked() {
+    if (this.certificate && !this.loading && this.dashboardLink && !this.viewChecked) {
+      document.getElementById('backToDashboard').focus();
+      this.viewChecked = true;
+    }
+  }
+
 }

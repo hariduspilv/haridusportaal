@@ -1,0 +1,49 @@
+add oska entity entities:
+  title: 'Create new Oska entity entities'
+
+administer oska entity entities:
+  title: 'Administer Oska entity entities'
+  description: 'Allow to access the administration form to configure Oska entity entities.'
+  restrict access: true
+
+delete oska entity entities:
+  title: 'Delete Oska entity entities'
+
+edit oska entity entities:
+  title: 'Edit Oska entity entities'
+
+view published oska entity entities:
+  title: 'View published Oska entity entities'
+
+view unpublished oska entity entities:
+  title: 'View unpublished Oska entity entities'
+
+view all oska entity revisions:
+  title: 'View all Oska entity revisions'
+
+revert all oska entity revisions:
+  title: 'Revert all Oska entity revisions'
+  description: 'Role requires permission <em>view Oska entity revisions</em> and <em>edit rights</em> for oska entity entities in question or <em>administer oska entity entities</em>.'
+
+delete all oska entity revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Oska entity revisions</em> and <em>delete rights</em> for oska entity entities in question or <em>administer oska entity entities</em>.'
+add oska entity entities:
+  title: 'Create new Oska entity entities'
+
+administer oska entity entities:
+  title: 'Administer Oska entity entities'
+  description: 'Allow to access the administration form to configure Oska entity entities.'
+  restrict access: true
+
+delete oska entity entities:
+  title: 'Delete Oska entity entities'
+
+edit oska entity entities:
+  title: 'Edit Oska entity entities'
+
+view published oska entity entities:
+  title: 'View published Oska entity entities'
+
+view unpublished oska entity entities:
+  title: 'View unpublished Oska entity entities'

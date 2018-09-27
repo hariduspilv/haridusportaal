@@ -3,28 +3,14 @@
 namespace Drupal\shs\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\shs\Cache\ShsCacheableJsonResponse;
 use Drupal\shs\Cache\ShsTermCacheDependency;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Controller for getting taxonomy terms.
  */
 class ShsController extends ControllerBase {
-
-  /**
-   * Constructs a new ShsController object
-   */
-  public function __construct() {
-
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static();
-  }
 
   /**
    * Load term data.
@@ -51,27 +37,38 @@ class ShsController extends ControllerBase {
     $cache_tags = [];
     $result = [];
 
+    $langcode_current = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
     $entity_manager = \Drupal::getContainer()->get('entity.manager');
     $storage = $entity_manager->getStorage('taxonomy_term');
-    $terms = $storage->loadTree($bundle, $entity_id, 1, TRUE);
+
+    $translation_enabled = FALSE;
+    if (\Drupal::moduleHandler()->moduleExists('content_translation')) {
+      /** @var \Drupal\content_translation\ContentTranslationManagerInterface $translation_manager */
+      $translation_manager = \Drupal::service('content_translation.manager');
+      // If translation is enabled for the vocabulary, we need to load the full
+      // term objects to get the translation for the current language.
+      $translation_enabled = $translation_manager->isEnabled('taxonomy_term', $bundle);
+    }
+    $terms = $storage->loadTree($bundle, $entity_id, 1, $translation_enabled);
 
     foreach ($terms as $term) {
-      $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-      if ($term->hasTranslation($langcode)) {
+      $langcode = $langcode_current;
+      if ($translation_enabled && $term->hasTranslation($langcode)) {
         $term = $term->getTranslation($langcode);
       }
       else {
         $langcode = $term->default_langcode;
       }
 
+      $tid = $translation_enabled ? $term->id() : $term->tid;
       $result[] = (object) [
-        'tid' => $term->id(),
-        'name' => $term->getName(),
-        'description__value' => $term->getDescription(),
+        'tid' => $tid,
+        'name' => $translation_enabled ? $term->getName() : $term->name,
+        'description__value' => $translation_enabled ? $term->getDescription() : $term->description__value,
         'langcode' => $langcode,
-        'hasChildren' => shs_term_has_children($term->id()),
+        'hasChildren' => shs_term_has_children($tid),
       ];
-      $cache_tags[] = sprintf('taxonomy_term:%d', $term->id());
+      $cache_tags[] = sprintf('taxonomy_term:%d', $tid);
     }
 
     $response->addCacheableDependency(new ShsTermCacheDependency($cache_tags));

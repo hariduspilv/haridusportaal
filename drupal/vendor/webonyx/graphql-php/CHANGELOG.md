@@ -1,8 +1,36 @@
 # Changelog
-#### v0.11.6
-- Switched to MIT License
-- Restored `noLocation` option for parser
-- Several minor bugfixes and improvements
+#### v0.12.6
+- Bugfix: Call to a member function getLocation() on null (#336)
+- Fixed several errors discovered by static analysis (#329)
+
+#### v0.12.5
+- Execution performance optimization for lists
+
+#### v0.12.4
+- Allow stringeable objects to be serialized by StringType (#303)
+
+#### v0.12.3
+- StandardServer: add support for the multipart/form-data content type (#300)
+
+#### v0.12.2
+- SchemaPrinter: Use multi-line block for trailing quote (#294)
+
+#### v0.12.1
+- Fixed bug in validation rule OverlappingFieldsCanBeMerged (#292)
+- Added one more breaking change note in UPGRADE.md (#291)
+- Spec compliance: remove `data` entry from response on top-level error (#281)
+
+## v0.12.0
+- RFC: Block String (multi-line strings via triple-quote """string""")
+- GraphQL Schema SDL: Descriptions as strings (including multi-line)
+- Changed minimum required PHP version to 5.6
+
+Improvements:
+- Allow extending GraphQL errors with additional properties
+- Fixed parsing of default values in Schema SDL
+- Handling several more cases in findBreakingChanges
+- StandardServer: expect `operationName` (instead of `operation`) in input
+
 
 #### v0.11.5
 - Allow objects with __toString in IDType
@@ -128,4 +156,4 @@ Improvements:
 - New docs and examples
 
 ## Older versions
-Look at [Github Releases Page](https://github.com/webonyx/graphql-php/releases).
+Look at [GitHub Releases Page](https://github.com/webonyx/graphql-php/releases).

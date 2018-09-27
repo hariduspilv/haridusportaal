@@ -34,7 +34,7 @@
           </mat-form-field>
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
-      <div class="col-3 sm-12">
+      <div class="col-5 sm-12 align-end flex-end">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.investmentDeadline">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.investment_deadline_year' | translate }}" [(ngModel)]="filterFormItems.investmentDeadline" name="investmentDeadline">
@@ -45,12 +45,10 @@
             </mat-select>
           </mat-form-field>
         </div><!--/round-inpuit__wrapper-->
-      </div><!--/col-4-->
-      <div class="col-2 align-end sm-12 ">
-        <div class="button-row">
+                <div class="button-row">
           <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate }}</button>
         </div>
-      </div><!--/col-3-->
+      </div><!--/col-4-->
     </div><!--/row-->
 
   </div>

@@ -98,7 +98,7 @@ export class NewsGraph {
                   tid
                 }
               }
-              fieldVideo {
+              fieldNewsVideo {
                 input
                 videoDomain
                 videoDescription

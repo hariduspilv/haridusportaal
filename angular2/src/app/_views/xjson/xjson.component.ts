@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnDestroy} from '@angular/core';
+import { Component, OnInit, Input, OnDestroy} from '@angular/core';
 import { Subscription } from '../../../../node_modules/rxjs';
 import { HttpService } from '@app/_services/httpService';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -23,6 +23,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
   ]
 })
 export class XjsonComponent implements OnInit, OnDestroy{
+
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
 
@@ -79,8 +80,95 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
-  uniqueDatepicker(rowi, coli){
-    return rowi + '_' + coli;
+
+  selectListCompare(a, b) {
+    return a && b ? a == b : a == b;
+  }
+  isFieldDisabled(readonly): boolean{
+    
+    if(readonly === true) {
+      
+      return true;
+    } else if (this.max_step != this.opened_step){
+      
+      return true;
+    } else if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
+      
+      return false;
+    } else {
+      return true;
+    }
+  }
+  
+  parseAcceptableExtentsions(list: string[]) {
+    if(!list) {
+      return '*/*';
+    } else {
+      return list.map(extentsion => '.'+ extentsion).join(',')
+    }
+  }
+  canUploadFile(element): boolean{
+    
+    var singeFileRestrictionApplies = (element.multiple === false && element.value.length > 0);
+  
+    if(this.isFieldDisabled(element.readonly)){
+      return false;
+    } else if(singeFileRestrictionApplies){
+      console.log('singeFileRestrictionApplies');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  fileDelete(id, model){
+    console.log('FILE DELETION');
+    console.log(model);
+    let target = model.value.find(file => file.file_identifier === id);
+    model.value.splice(model.value.indexOf(target), 1);
+  }
+  fileDownload(id){
+    console.log('FILE DOWNLOAD');
+    console.log(id);
+    
+  }
+  changeFile(event, model, element){
+    model.value = [];
+    console.log(model);
+    this.fileUpload(event, model, element);
+  }
+  fileUpload(event, model, element) {
+    console.log(model);
+    console.log(event);
+    console.log(element);
+   
+    if(event.target.files && event.target.files.length > 0) {
+      
+      for(let file of  event.target.files) {
+        let reader = new FileReader();
+        console.log(file.name);
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          let payload = {
+            file: reader.result.split(',')[1],
+            form_name: this.form_name,
+            data_element: element
+          }
+          let subscription = this.http.fileUpload('/xjson_service/documentFile', payload).subscribe(response => {
+            console.log(response);
+            let new_file = {
+              file_name: file.name,
+              file_identifier: response['id']
+            };
+            model.value.push(new_file)
+
+            subscription.unsubscribe();
+          });
+        };
+      }
+      
+
+    }
   }
   tableColumnName(element, index){
     return Object.keys(this.data_elements[element].table_columns)[index];
@@ -156,7 +244,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     //check for required field
     if(field.required === true){
       if(field.value === undefined) return {valid: false, message: 'Puudub kohustuslik väärtus'}
-      //else if (field.value.length == 0) return {valid: false, message: 'Puudub kohustuslik väärtus'}
+      //else if (!field.value) return {valid: false, message: 'Puudub kohustuslik väärtus'}
     }
     //check for minlength
     if(field.minlength !== undefined){
@@ -176,8 +264,10 @@ export class XjsonComponent implements OnInit, OnDestroy{
     }
     //check for email format
     if(field.type === 'email'){
-      let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if(reg.test(field.value) === false) return {valid: false, message: 'Palun sisesta sobilik email' }
+      if(field.required === true){
+        let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(reg.test(field.value) === false) return {valid: false, message: 'Palun sisesta sobilik email' }
+      }
     }
     return {valid: true, message:'valid'};
   }
@@ -223,7 +313,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
   submitForm(activity: string){
     this.error = {};
-
+    console.log(this.data_elements);
     if(activity == 'EDIT') {
       
       this.promptEditConfirmation();
@@ -265,7 +355,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     let nonButtonActivities = ['VIEW'];
     if(this.opened_step < this.max_step){
       let displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-      if(displayEditButton) output.push({label: 'button.edit' , action: 'EDIT', style: 'secondary'})
+      if(displayEditButton) output.push({label: 'button.edit' , action: 'EDIT', style: 'primary'})
 
     } else {
       activities.forEach(activity => {
@@ -356,21 +446,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
   }
 
   stepController(xjson){
-   /*
-    if(!xjson.header.current_step) {
-      if(!Object.keys(xjson.body.steps).length) return this.errorHandler('No steps available');
-      //this.max_step = Object.keys(xjson.body.steps)[0];
-      this.opened_step = this.max_step;
-      
-    } else {
-      if(this.isItemExisting(Object.keys(xjson.body.steps), xjson.header.current_step)){
-        //this.max_step = xjson.header.current_step;
-        this.opened_step = this.max_step;
-      } else {
-        this.errorHandler('Missing current_step from body.steps array')
-      }
-    } 
-    */
+   
     this.opened_step = this.max_step;
 
     this.viewController(xjson);
@@ -388,12 +464,13 @@ export class XjsonComponent implements OnInit, OnDestroy{
       else this.getData(payload)
      
     } else {
+      
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
       this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity)
     }
 
   }
-  
+ 
   ngOnInit(){
     this.pathWatcher();
  
@@ -411,5 +488,4 @@ export class XjsonComponent implements OnInit, OnDestroy{
       }
     }
   };
-
 };
