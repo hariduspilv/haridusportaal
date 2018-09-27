@@ -195,6 +195,8 @@
                   [matDatepicker]="picker" 
                   placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
                   [(ngModel)]="data_elements[element].value"
+                  [value]="getDatepickerValue(element, element)"
+                  (dateInput)="setDatepickerValue($event, element)"
                   dateFormatter
                   [name]="element">
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
