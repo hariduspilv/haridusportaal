@@ -6,7 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\htm_custom_translations_new\formatKey;
+use Drupal\htm_custom_translations_new\translationHelper;
 
 /**
  * Class TranslationFormList.
@@ -15,7 +15,7 @@ class TranslationFormList extends ConfigFormBase {
 	public function __construct(ConfigFactoryInterface $config_factory)
 	{
 		parent::__construct($config_factory);
-		$this->formatter = new formatKey();
+		$this->formatter = new translationHelper();
 	}
 
 	/**
@@ -57,7 +57,7 @@ class TranslationFormList extends ConfigFormBase {
 		];
 
 		$languages = \Drupal::languageManager()->getLanguages();
-		$mapped_config = $this->flatten($config_values);
+		$mapped_config = $this->formatter->flatten($config_values);
 		#dump($mapped_config);
     foreach($mapped_config as $key => $data){
 			$form['table'][$key]['key'] = [
@@ -92,18 +92,7 @@ class TranslationFormList extends ConfigFormBase {
     return $form;
   }
 
-	private function flatten($array, $prefix = '') {
-		$result = array();
-		foreach($array as $key=>$value) {
-			if(is_array($value) && !isset($value['translation_type'])) {
-				$result = $result + $this->flatten($value, $prefix . $key . '.');
-			}
-			else {
-				$result[$prefix . $key] = $value;
-			}
-		}
-		return $result;
-	}
+
 
 
 }
