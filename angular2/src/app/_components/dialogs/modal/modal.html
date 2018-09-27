@@ -15,17 +15,12 @@
     <div class="dialog__success--content" [innerHtml]="data.content" tabindex="0"></div>
     <div class="dialog__actions--success">
       <div class="text-center">
-        <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="Close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a>
-        </div>
+        <div class="dialog__actions--success__close">
+          <a href="javascript:void(0)" aria-label="Close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a>
+ 
 
-<!--           <a href="javascript:void(0)" role="link" class="pointer" [routerLink]="['']" aria-expanded="true" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">
-            <span>{{ 'button.BUTTON' | translate }}</span>
-          </a> -->
-
-
-<!--             <a href="{{ iCalUrl }}" target="_blank" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'event.registration_form_add_to_calendar' | translate }}</a> -->
-
-          
+        <a *ngIf="data.linkStatus" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" [routerLink]="[dashboardLink]" href="javascript:void(0)" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'data.dashboardLink' | translate }}</a>
+       </div>
 
       </div>
     </div>
