@@ -2,7 +2,7 @@ package ee.htm.portal.services.workers;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import ee.htm.portal.services.client.KutseregisterV6XRoadService;
+import ee.htm.portal.services.client.KutseregisterXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.kutseregister.producers.producer.kutseregister.KodanikKutsetunnistusVastusDocument.KodanikKutsetunnistusVastus;
 import java.sql.Timestamp;
 import org.apache.log4j.Logger;
@@ -15,24 +15,24 @@ public class KutseregisterWorker extends Worker {
   private static final Logger LOGGER = Logger.getLogger(KutseregisterWorker.class);
 
   @Autowired
-  private KutseregisterV6XRoadService kutseregisterV6XRoadService;
+  private KutseregisterXRoadService kutseregisterXRoadService;
 
-  private final String KUTSEREGISTER_REDIS_KEY = "KUTSEREGISTER";
-
-  public ObjectNode work(String personalCode, boolean invalidBoolean, Long timestamp) {
+  public ObjectNode getKodanikKutsetunnistus(String personalCode, boolean invalidBoolean, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("Kutseregister - kodanikKutsetunnistus.V2");
 
     responseNode.put("request_timestamp", timestamp)
         .put("response_timestamp", "")
-        .put("key", "kutsetunnistused_" + personalCode);
-    ObjectNode value = responseNode.putObject("value");
+        .put("key", "kodanikKutsetunnistus");
 
     try {
-      KodanikKutsetunnistusVastus response = kutseregisterV6XRoadService
+      KodanikKutsetunnistusVastus response = kutseregisterXRoadService
           .kodanikKutsetunnistus(invalidBoolean, personalCode);
 
+      ObjectNode value = responseNode.putObject("value");
       value.put("kirjeid", response.isSetKirjeid() ? response.getKirjeid().intValue() : 0)
           .put("teade", response.isSetTeade() ? response.getTeade() : null);
       ArrayNode kutsetunnistused = value.putArray("kutsetunnistused");
@@ -103,23 +103,23 @@ public class KutseregisterWorker extends Worker {
           "Kutseregister - kodanikKutsetunnistus.V2 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
       LOGGER.error(e, e);
+
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
 
-      redisTemplate.opsForHash()
-          .put(KUTSEREGISTER_REDIS_KEY, "kutsetunnistused_" + personalCode, "Tehniline viga!");
+      redisTemplate.opsForHash().put(personalCode, "kodanikKutsetunnistus", "Tehniline viga!");
 
       responseNode.putObject("error")
           .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+      responseNode.remove("value");
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "KODANIKKUTSETUNNISTUS");
+    sender.send(logsTopic, null, logForDrupal, "kutseregister.kodanikKutsetunnistus.v2");
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
-    redisTemplate.opsForHash()
-        .put(KUTSEREGISTER_REDIS_KEY, "kutsetunnistused_" + personalCode, responseNode);
+    redisTemplate.opsForHash().put(personalCode, "kodanikKutsetunnistus", responseNode);
 
     return responseNode;
   }
