@@ -22,8 +22,6 @@ class AuthenticationController extends ControllerBase {
       $oidc->providerConfigParam(array('authorization_endpoint' => 'https://tara.ria.ee/oidc/authorize'));
       $oidc->addScope('openid');
       $oidc->setResponseTypes(array('code'));
-      kint($oidc);
-      die();
       try{
           $oidc->authenticate();
       }catch(OpenIDConnectClientException $e){
