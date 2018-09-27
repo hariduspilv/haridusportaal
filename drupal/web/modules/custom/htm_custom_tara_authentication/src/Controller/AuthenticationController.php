@@ -15,9 +15,12 @@ class AuthenticationController extends ControllerBase {
 
   public function startAuthentication() {
       $tara_secret = settings::get('tara_secret');
+      $random_hash = bin2hex(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM));
 
       $oidc = new OpenIDConnectClient('https://tara.ria.ee', 'eduportaal', $tara_secret);
       $oidc->addScope('openid');
+      $oidc->setResponseTypes(array('code'));
+      $oidc->setState($random_hash);
       kint($oidc);
       die();
       try{
