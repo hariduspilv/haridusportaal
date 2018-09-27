@@ -18,6 +18,8 @@ class AuthenticationController extends ControllerBase {
 
       $oidc = new OpenIDConnectClient('https://tara.ria.ee', 'eduportaal', $tara_secret);
       $oidc->addScope('openid');
+      kint($oidc);
+      die();
       try{
           $oidc->authenticate();
       }catch(OpenIDConnectClientException $e){
