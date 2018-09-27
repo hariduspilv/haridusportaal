@@ -225,6 +225,7 @@
     "investment_project": "Projekt",
     "investment_max_amount": "Maksimaalne summa",
     "investment_amount_million_short": "mln",
+    "investment_amount_thousand_short": "tuh",
     "municipalities": "Haldusüksused",
     "municipalities_detailed": "Vallad/linnad",
     "counties": "Maakonnad",

@@ -1,15 +1,21 @@
 @import "../../../assets/styles/typography.scss"; 
 @import "../../../assets/styles/layout.scss"; 
 
-.main-container{margin:0 1.5rem;}
+input { font-size: 0.875rem; }
+
+.main-container{
+@include break-on(sm, min) {
+margin:0 1.5rem;}
+}
+
 .xjson{
   &__title{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
-  &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
+  &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500; margin-bottom: 0.5rem; }
   &__step-introduction{width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none;}
   &__heading{width:100%; color:$blue; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
   &__navigation{ list-style-type: none; padding-left: 0; display: flex; padding-top: 1rem; margin-top: 2rem; justify-content: center;
     @include break-on(sm, max) { 
-      overflow-y: auto; justify-content: flex-start; margin-right: -1.5rem; max-width: inherit; min-width: 6.875rem;
+      overflow-y: auto; justify-content: flex-start; margin-left: -1.5rem; margin-right: -1.5rem; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem;
     }
     .xjson__navigation__step.disabled { 
      &:after {
@@ -63,9 +69,7 @@
     word-break: break-all; word-break: break-word;-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; }
 }
 }
-
-
-
+.dropzone {display:block; height:100px; border: 2px dotted red; color: red; }
 
 
 
@@ -94,3 +98,17 @@ table {width: 100%;border-collapse: collapse; margin: 0;
   }
   .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none; }
 }
+
+input.inner-flexbox {
+  width: 100%;
+}
+.step-datepicker {
+  display: inline-flex; -webkit-box-align: stretch; -ms-flex-align: stretch; align-items: stretch; width: 100%;
+  border: solid 0.0625rem $gray; border-radius: 1.25rem; background: $white; color: $black;
+  font-size: 0.875rem; padding: 0.5rem 0 0.5rem 1rem;
+}
+
+.step-datepicker:focus { 
+  border-color: $blue;
+ }
+
