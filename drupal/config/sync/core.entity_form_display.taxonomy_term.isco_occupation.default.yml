@@ -5,15 +5,13 @@ dependencies:
   config:
     - field.field.taxonomy_term.isco_occupation.field_isco_code
     - taxonomy.vocabulary.isco_occupation
-  module:
-    - path
 id: taxonomy_term.isco_occupation.default
 targetEntityType: taxonomy_term
 bundle: isco_occupation
 mode: default
 content:
   field_isco_code:
-    weight: 3
+    weight: 2
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -34,11 +32,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  path:
-    type: path
-    weight: 2
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
   description: true
+  path: true

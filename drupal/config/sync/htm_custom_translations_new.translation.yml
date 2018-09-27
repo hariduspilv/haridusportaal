@@ -13,4 +13,8 @@ uudised:
     translation_type: textarea
     et: Uudised
     en: News
-langcode: et
+frontpage:
+  navigate:
+    translation_type: textarea
+    et: 'Mine avalehele'
+    en: 'Go to frontpage'
