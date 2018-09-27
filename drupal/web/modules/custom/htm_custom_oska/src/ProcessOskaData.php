@@ -46,7 +46,7 @@ class ProcessOskaData {
             $object['valdkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['valdkond']);
             $object['alavaldkond'] = self::addTaxonomyTerm('taxonomy_term', 'oska_field', $item['alavaldkond'], $item['valdkond']);
             $object['pohikutseala'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_main_profession', $item['pohikutseala']);
-            $object['aasta'] = strlen($item['aasta'])==4 ? $item['aasta'] : FALSE;
+            $object['aasta'] = strlen($item['aasta'])==4 && is_numeric($item['aasta']) ? $item['aasta'] : FALSE;
             $object['silt'] = is_string($item['silt']) ? $item['silt'] : FALSE;
             $object['vaartus'] = is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
             if(
@@ -60,7 +60,7 @@ class ProcessOskaData {
 
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
-                        if($value == false){
+                        if($value === FALSE){
                             return $key;
                         }
                     }
@@ -162,7 +162,7 @@ class ProcessOskaData {
             ]);
             $entity->save();
         }
-        return ($entity) ? $entity->id() : FALSE;
+        return ($entity) ? $entity->id() : '';
     }
 
     public function checkTaxonomyTerm($entity_type, $vocabulary, $name){
@@ -176,7 +176,7 @@ class ProcessOskaData {
 
         $entity = reset($storage->loadByProperties($properties));
 
-        return ($entity) ? $entity->id() : FALSE;
+        return ($entity) ? $entity->id() : '';
     }
 
     private function deleteAllEntities(){
