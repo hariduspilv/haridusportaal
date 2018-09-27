@@ -7,7 +7,7 @@
 
 namespace Drupal\memcache\Lock;
 
-use Drupal\memcache\DrupalMemcacheFactory;
+use Drupal\memcache\Driver\MemcacheDriverFactory;
 
 /**
  * THe memcache lock factory.
@@ -24,16 +24,16 @@ class MemcacheLockFactory {
   /**
    * The memcache factory.
    *
-   * @var \Drupal\memcache\DrupalMemcacheFactory
+   * @var \Drupal\memcache\Driver\MemcacheDriverFactory
    */
   protected $factory;
 
   /**
    * Constructs a new MemcacheLockBackend.
    *
-   * @param \Drupal\memcache\DrupalMemcacheFactory $memcache_factory
+   * @param \Drupal\memcache\Driver\MemcacheDriverFactory $memcache_factory
    */
-  public function __construct(DrupalMemcacheFactory $memcache_factory) {
+  public function __construct(MemcacheDriverFactory $memcache_factory) {
     $this->factory = $memcache_factory;
   }
 
