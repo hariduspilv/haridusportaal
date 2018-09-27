@@ -4,8 +4,6 @@ status: true
 dependencies:
   config:
     - taxonomy.vocabulary.oska_indicator
-  module:
-    - path
 id: taxonomy_term.oska_indicator.default
 targetEntityType: taxonomy_term
 bundle: oska_indicator
@@ -26,12 +24,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  path:
-    type: path
-    weight: 3
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   translation:
     weight: 2
     region: content
@@ -39,3 +31,4 @@ content:
     third_party_settings: {  }
 hidden:
   description: true
+  path: true
