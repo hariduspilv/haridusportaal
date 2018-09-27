@@ -91,10 +91,19 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, strings];
   }
   setDatepickerValue(event, element, rowindex, col){
-    this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    if(rowindex == undefined|| col == undefined){
+      this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    } else {
+      this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    }
   }
   getDatepickerValue(element, rowindex, col){
-    return this.data_elements[element].value[rowindex][col];
+    if(rowindex == undefined|| col == undefined){
+      return this.data_elements[element].value
+    } else {
+      return this.data_elements[element].value[rowindex][col];
+    }
+   
   }
   selectListCompare(a, b) {
     return a && b ? a == b : a == b;
@@ -129,7 +138,6 @@ export class XjsonComponent implements OnInit, OnDestroy{
     if(this.isFieldDisabled(element.readonly)){
       return false;
     } else if(singeFileRestrictionApplies){
-      console.log('singeFileRestrictionApplies');
       return false;
     } else {
       return true;
