@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\htm_custom_translations_new\formatKey;
+use Drupal\htm_custom_translations_new\translationHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -37,7 +37,7 @@ abstract class TranslationFormBase extends ConfigFormBase {
 	public function __construct(MessengerInterface $messenger, LanguageManagerInterface $language_manager) {
 		$this->messenger = $messenger;
 		$this->languageManager = $language_manager;
-		$this->keyformatter = new formatKey();
+		$this->keyformatter = new translationHelper();
 	}
 
 	/**
@@ -112,32 +112,44 @@ abstract class TranslationFormBase extends ConfigFormBase {
 		$redirect = FALSE;
 
 		$config_key = 'htm_custom_translations_new.translation';
-		$translation = $form_state->getValues()['translation'];
-		$translation_key = $translation['key'];
-		$translation_type = $form_state->getValues()['translation']['translation_type'];
-		if($form_state->get('delete_old_key')){
-			$translationKeyDefaultValue = $form['translation']['key']['#default_value'];
-			$this->config($config_key)->clear($translationKeyDefaultValue);
-			$redirect = TRUE;
-		}
-		$this->config($config_key)->set("$translation_key.translation_type", $translation_type);
-		foreach($translation['translations'] as $key => $value){
-			$this->config($config_key)->set("$translation_key.$key", $value)->save();
-		}
 
 		switch ($this->actionType()){
 			case 'add':
-				$this->messenger->addMessage('Translation saved');
-				break;
 			case 'edit':
-				$this->messenger->addMessage('Translation updated');
+			$translation = $form_state->getValues()['translation'];
+			$translation_key = $translation['key'];
+			$translation_type = $form_state->getValues()['translation']['translation_type'];
+
+			if($form_state->get('delete_old_key')){
+					$translationKeyDefaultValue = $form['translation']['key']['#default_value'];
+					$this->config($config_key)->clear($translationKeyDefaultValue);
+					$redirect = TRUE;
+				}
+				$this->config($config_key)->set("$translation_key.translation_type", $translation_type);
+				foreach($translation['translations'] as $key => $value){
+					$this->config($config_key)->set("$translation_key.$key", $value)->save();
+				}
+
+				$message = ($this->actionType() === 'add') ? $this->t('Translation saved') : $this->t('Translation updated');
+				$this->messenger->addMessage($message);
 				if($redirect){
 					$form_state->setRedirect('htm_custom_translations_new.edit_translation', ['type'=> 'edit', 'translation_key' => $translation_key]);
 				}
+				break;
+			case 'import':
+				$json = json_decode(file_get_contents($form_state->getValue('upload')), true);
+				$flatten = $this->keyformatter->flattenImportJson($json);
+				foreach($flatten as $key => $value){
+					$this->config($config_key)->set($key, $value);
+				}
+				$this->config($config_key)->save();
 				break;
 			default:
 				$this->messenger->addError('Action type not recognized');
 				break;
 		}
+	}
+	protected function SaveConfig(){
+
 	}
 }
