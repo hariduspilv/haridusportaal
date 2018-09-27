@@ -60,7 +60,7 @@ class ProcessOskaData {
 
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
-                        if($value == false){
+                        if($value === FALSE){
                             return $key;
                         }
                     }
@@ -162,7 +162,7 @@ class ProcessOskaData {
             ]);
             $entity->save();
         }
-        return ($entity) ? $entity->id() : TRUE;
+        return ($entity) ? $entity->id() : '';
     }
 
     public function checkTaxonomyTerm($entity_type, $vocabulary, $name){
@@ -176,7 +176,7 @@ class ProcessOskaData {
 
         $entity = reset($storage->loadByProperties($properties));
 
-        return ($entity) ? $entity->id() : TRUE;
+        return ($entity) ? $entity->id() : '';
     }
 
     private function deleteAllEntities(){
