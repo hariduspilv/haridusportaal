@@ -63,6 +63,7 @@ article {padding-bottom: $small;
     &-body { padding: 0 1rem 1rem }
     &-spacing {margin: 0 0 $half-gutter 0;}
     &-header { padding: 0.5rem 1rem; height: auto!important;padding-right:$small; padding-left:$small;
+              &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
       &.mat-expanded { height: auto!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0.5rem 1rem; }}
       &:hover {
         border-left: .1875rem solid $dark-orange;
@@ -105,10 +106,10 @@ article {padding-bottom: $small;
 .mat-expansion-panel-header.mat-expanded { 
   background: transparent!important;
 }
-
 .dashboard-table td {
  color: $black;
 }
+.mat-expansion-panel-content { background: $white; }
 
 @include break-on(sm, max) {
   .flex.mininav { width: 100%!important;
