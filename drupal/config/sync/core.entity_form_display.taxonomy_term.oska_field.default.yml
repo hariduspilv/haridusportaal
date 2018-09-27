@@ -8,22 +8,13 @@ dependencies:
     - taxonomy.vocabulary.oska_field
   module:
     - image
-    - text
 id: taxonomy_term.oska_field.default
 targetEntityType: taxonomy_term
 bundle: oska_field
 mode: default
 content:
-  description:
-    type: text_textarea
-    weight: 1
-    region: content
-    settings:
-      placeholder: ''
-      rows: 5
-    third_party_settings: {  }
   field_description_image:
-    weight: 3
+    weight: 2
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
@@ -32,7 +23,7 @@ content:
     region: content
   langcode:
     type: language_select
-    weight: 2
+    weight: 1
     region: content
     settings:
       include_locked: true
@@ -46,4 +37,5 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
+  description: true
   path: true
