@@ -1,4 +1,5 @@
 <breadcrumbs></breadcrumbs>
+
 <form (submit)="filterSubmit($event)" class="filter-wrapper">
   <div class="main-container">
     <div class="row">
@@ -85,7 +86,7 @@
                     
                     <ng-container *ngIf="!infoWindowFunding">
                       <p *ngIf="marker.schoolInfo.fieldRegistrationCode">{{ 'school.register_code' | translate }}: <b>{{ marker.schoolInfo.fieldRegistrationCode }}</b></p>
-                      <p *ngIf="marker.schoolInfo.fieldOwnershipType">{{ 'school.ownership' | translate }}: <b>{{ marker.schoolInfo.fieldOwnershipType }}</b></p>
+                      <p *ngIf="marker.schoolInfo.fieldOwnershipType">{{ 'school.ownership' | translate }}: <b>{{ marker.schoolInfo.fieldOwnershipType.entity.entityLabel }}</b></p>
                     </ng-container>
                     <hr />
                     <ng-container *ngIf="!infoWindowFunding">
@@ -128,11 +129,11 @@
           </div>
         </div><!--/map-wrapper-->
 
-        <ng-container *ngIf="heatMapRanges.length > 0">
+        <ng-container *ngIf="heatMapRanges.length > 0 && polygonData.length > 0">
           <div class="mapLegend">
             <div class="mapLegend__block" *ngFor="let item of heatMapRanges">
               <div class="mapLegend__color" [style.background-color]="item.color"></div>
-              {{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount| legendCurrency:"max" }} {{ 'school.investment_amount_million_short' | translate }} €
+              {{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount| legendCurrency:"max" }} €
             </div>
           </div><!--/map-legend-->
         </ng-container>

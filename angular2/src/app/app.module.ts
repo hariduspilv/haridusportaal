@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Component } from '@angular/core';
+import { NgModule, Component, APP_INITIALIZER, Injector } from '@angular/core';
 import { MaterialModule } from './_core/material.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './_core/graphql.module';
@@ -32,8 +32,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 /* Translate module */
 import {HttpClientModule, HttpClient} from '@angular/common/http';
-import {TranslateModule, TranslateLoader, TranslatePipe} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateModule, TranslateLoader, TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LOCATION_INITIALIZED } from '@angular/common';
 import { BreadcrumbsComponent } from './_components/breadcrumbs/breadcrumbs.component';
 import { ShareComponent } from './_components/share/share.component';
 import { SearchComponent } from './_views/search/search.component';
@@ -65,6 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   let localAddress = ['192', '10'];
   let translateUrls = {
     "localhost": ["/assets/", ".json"],
+
     //"localhost": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     // "htm.twn.ee": ["/assets/", ".json"],
     "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/translations?_format=json"],
@@ -84,6 +86,22 @@ export function HttpLoaderFactory(http: HttpClient) {
   }
  
   return new TranslateHttpLoader(http, path[0], path[1]);
+}
+
+export function appInitializerFactory(translate: TranslateService, injector: Injector) {
+  return () => new Promise<any>((resolve: any) => {
+    const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+    locationInitialized.then(() => {
+      const langToSet = 'et'
+      translate.use(langToSet).subscribe(() => {
+        console.info(`Successfully initialized '${langToSet}' language.'`);
+      }, err => {
+        console.error(`Problem with '${langToSet}' language initialization.'`);
+      }, () => {
+        resolve(null);
+      });
+    });
+  });
 }
 
 @NgModule({
@@ -123,11 +141,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     HttpClientModule,
     TranslateModule.forRoot({
-        loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-        }
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
     }),
     MaterialModule,
     AppModules,
@@ -158,7 +176,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     SettingsService,
     TableService,
     HttpService,
-    UserService
+    UserService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [TranslateService, Injector],
+      multi: true
+    }
   ],
 
   exports: [
