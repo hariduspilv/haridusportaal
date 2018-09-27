@@ -62,10 +62,11 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   map: any;
 
+
   mapOptions = {
-    lat: 58.8754705,
-    lng: 24.5567241,
-    zoom: 8,
+    lat: 58.5822061,
+    lng: 24.7065513,
+    zoom: 7.2,
     icon: "/assets/marker.png",
     clusterStyles: [
       {
