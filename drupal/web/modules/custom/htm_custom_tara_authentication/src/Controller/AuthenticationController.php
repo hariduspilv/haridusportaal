@@ -3,6 +3,11 @@
 namespace Drupal\htm_custom_tara_authentication\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\openid_connect\Plugin\OpenIDConnectClientInterface;
+use Jumbojett\OpenIDConnectClient;
+use Jumbojett\OpenIDConnectClientException;
+use Drupal\Core\Site\Settings;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class AuthenticationController.
@@ -10,10 +15,22 @@ use Drupal\Core\Controller\ControllerBase;
 class AuthenticationController extends ControllerBase {
 
   public function startAuthentication() {
-    return [
-      '#type' => 'markup',
-      '#markup' => $this->t('Implement method: startAuthentication')
-    ];
+      $tara_secret = settings::get('tara_secret');
+
+      $oidc = new OpenIDConnectClient('https://tara-test.ria.ee', 'eduportaal', $tara_secret);
+      $oidc->providerConfigParam(array('authorization_endpoint' => 'https://tara-test.ria.ee/oidc/authorize'));
+      $oidc->addScope('openid');
+      $oidc->setResponseTypes(array('code'));
+      try{
+          $oidc->authenticate();
+      }catch(OpenIDConnectClientException $e){
+          $message = t('Unable to authenticate user.');
+          throw new HttpException(500, $message);
+      }
+      $userInfo = $oidc->requestUserInfo();
+      kint($oidc);
+      kint($userInfo);
+      die();
   }
 
 }

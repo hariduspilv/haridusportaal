@@ -7,7 +7,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 import { TableService } from '@app/_services/tableService';
-
+import { SettingsService } from '@app/_core/settings'
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -60,7 +60,8 @@ export class XjsonComponent implements OnInit, OnDestroy{
     private http: HttpService,
     private route: ActivatedRoute,
     private router: Router,
-    private tableService: TableService
+    private tableService: TableService,
+    public settings: SettingsService
   ) {}
 
   setPaths() {
@@ -143,31 +144,19 @@ export class XjsonComponent implements OnInit, OnDestroy{
       return true;
     }
   }
-
+ 
   fileDelete(id, model){
-    console.log('FILE DELETION');
-    console.log(model);
     let target = model.value.find(file => file.file_identifier === id);
     model.value.splice(model.value.indexOf(target), 1);
   }
-  fileDownload(id){
-    console.log('FILE DOWNLOAD');
-    console.log(id);
-    
-  }
-  changeFile(event, model, element){
-    model.value = [];
-    console.log(model);
-    this.fileUpload(event, model, element);
-  }
-  fileUpload(event, model, element) {
-    console.log(model);
-    console.log(event);
-    console.log(element);
-   
-    if(event.target.files && event.target.files.length > 0) {
-      
-      for(let file of  event.target.files) {
+
+  fileEventHandler(e, element){
+    e.preventDefault();
+    let files = e.target.files || e.dataTransfer.files;
+    let model = this.data_elements[element];
+
+    if(files && files.length > 0) {
+      for(let file of files) {
         let reader = new FileReader();
         console.log(file.name);
         reader.readAsDataURL(file);
@@ -184,13 +173,11 @@ export class XjsonComponent implements OnInit, OnDestroy{
               file_identifier: response['id']
             };
             model.value.push(new_file)
-
+  
             subscription.unsubscribe();
           });
         };
       }
-      
-
     }
   }
   tableColumnName(element, index){

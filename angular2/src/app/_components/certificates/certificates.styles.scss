@@ -13,9 +13,11 @@
   &-body { padding: 0 $medium !important;}
   &-spacing {margin: 0 0 $half-gutter 0;}
   &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem; background: transparent!important;
-    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;}
+    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;
+    }
+        &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
   }
-  &:hover, &:focus-within {
+  &:hover {
     border-left: .1875rem solid $dark-orange;
       ::ng-deep .mat-expansion-indicator{ background: $red;
       &:after {
@@ -66,4 +68,6 @@
 .accordion .error {
   @include break-on(sm, max) {margin: 0 1.5rem;}
 }
+
+.mat-expansion-panel-content { background: $white; }
 
