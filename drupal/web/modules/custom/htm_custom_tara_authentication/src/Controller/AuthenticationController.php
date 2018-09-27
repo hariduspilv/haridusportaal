@@ -21,6 +21,8 @@ class AuthenticationController extends ControllerBase {
       try{
           $oidc->authenticate();
       }catch(OpenIDConnectClientException $e){
+          kint($e);
+          die();
           $message = t('Unable to authenticate user.');
           throw new HttpException(500, $message);
       }
