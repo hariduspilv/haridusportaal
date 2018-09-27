@@ -7,19 +7,29 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 import { TableService } from '@app/_services/tableService';
-import { DATEPICKER_FORMAT } from '@app/_services/filtersService';
+
 
 import * as _moment from 'moment';
 const moment = _moment;
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
+const XJSON_DATEPICKER_FORMAT = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  }
+};
 @Component({
   templateUrl: './xjson.template.html',
   styleUrls: ['./xjson.styles.scss'],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: DATEPICKER_FORMAT},
+    {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
   ]
 })
 export class XjsonComponent implements OnInit, OnDestroy{
@@ -80,7 +90,21 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
-
+  setDatepickerValue(event, element, rowindex, col){
+    if(rowindex == undefined|| col == undefined){
+      this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    } else {
+      this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    }
+  }
+  getDatepickerValue(element, rowindex, col){
+    if(rowindex == undefined|| col == undefined){
+      return this.data_elements[element].value
+    } else {
+      return this.data_elements[element].value[rowindex][col];
+    }
+   
+  }
   selectListCompare(a, b) {
     return a && b ? a == b : a == b;
   }
@@ -114,7 +138,6 @@ export class XjsonComponent implements OnInit, OnDestroy{
     if(this.isFieldDisabled(element.readonly)){
       return false;
     } else if(singeFileRestrictionApplies){
-      console.log('singeFileRestrictionApplies');
       return false;
     } else {
       return true;
@@ -277,7 +300,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
       for (let col of Object.keys(row)) {
         let column_properties = JSON.parse(JSON.stringify(table.table_columns[col]));
         column_properties.value = row[col];
-        console.log(column_properties);
+        
         let validation = this.isValidField(column_properties);
         if(validation.valid != true){
           validation['row'] = table.value.indexOf(row);

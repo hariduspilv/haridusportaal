@@ -39,6 +39,7 @@ class JsonbWidget extends StringTextareaWidget {
 	 */
 	public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
 		$id = $items->getName();
+		#dump($items[$delta]->value);
 		$element['value'] = $element + [
 			'#type' => 'textarea',
 			'#suffix' => new FormattableMarkup("<div id='$id' style='width: 100%; height: 800px;'></div>", []),
