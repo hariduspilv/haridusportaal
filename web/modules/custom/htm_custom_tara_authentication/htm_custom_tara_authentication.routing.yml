@@ -1,0 +1,8 @@
+
+htm_custom_tara_authentication.authentication_controller_startAuthentication:
+  path: '/custom/login/tara/return'
+  defaults:
+    _controller: '\Drupal\htm_custom_tara_authentication\Controller\AuthenticationController::startAuthentication'
+    _title: 'startAuthentication'
+  requirements:
+    _permission: 'access content'
