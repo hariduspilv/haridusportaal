@@ -43,20 +43,14 @@ class ProcessOskaData {
 
         foreach ($items as $index => $item){
             $object['naitaja'] = self::addTaxonomyTerm('taxonomy_term', 'oska_indicator', $item['naitaja']);
-            $object['valdkond'] = self::addTaxonomyTerm('taxonomy_term', 'oska_field', $item['valdkond']);
-            $object['alavaldkond'] = self::addTaxonomyChild('taxonomy_term', 'oska_field', $item['alavaldkond'], $item['valdkond']);
-            $object['pohikutseala'] = self::addTaxonomyTerm('taxonomy_term', 'oska_main_profession', $item['pohikutseala']);
+            $object['valdkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['valdkond']);
+            $object['alavaldkond'] = self::addTaxonomyTerm('taxonomy_term', 'oska_field', $item['alavaldkond'], $item['valdkond']);
+            $object['pohikutseala'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_main_profession', $item['pohikutseala']);
             $object['aasta'] = strlen($item['aasta'])==4 ? $item['aasta'] : FALSE;
             $object['silt'] = is_string($item['silt']) ? $item['silt'] : FALSE;
-            $object['vaartus'] = $item['vaartus'];
+            $object['vaartus'] = is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
             if(
                 !$object['naitaja']
-                ||
-                !$object['valdkond']
-                ||
-                !$object['alavaldkond']
-                ||
-                !$object['pohikutseala']
                 ||
                 !$object['aasta']
                 ||
@@ -171,7 +165,7 @@ class ProcessOskaData {
         return ($entity) ? $entity->id() : FALSE;
     }
 
-    public function addTaxonomyChild($entity_type, $vocabulary, $name, $parent){
+    public function checkTaxonomyTerm($entity_type, $vocabulary, $name){
 
         $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
 
@@ -180,24 +174,9 @@ class ProcessOskaData {
             'name' => $name
         ];
 
-        $child_entity = reset($storage->loadByProperties($properties));
+        $entity = reset($storage->loadByProperties($properties));
 
-        if(!$child_entity){
-            $properties = [
-                'vid' => $vocabulary,
-                'name' => $parent
-            ];
-
-            $parent_entity = reset($storage->loadByProperties($properties));
-
-            $child_entity = Term::create([
-                'name' => $name,
-                'vid' => $vocabulary,
-                'parent' => $parent_entity->id()
-            ]);
-            $child_entity->save();
-        }
-        return ($child_entity) ? $child_entity->id() : FALSE;
+        return ($entity) ? $entity->id() : FALSE;
     }
 
     private function deleteAllEntities(){
