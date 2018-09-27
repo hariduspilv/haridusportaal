@@ -2,14 +2,13 @@
 
 namespace Drupal\htm_custom_translations_new\Plugin\rest\resource;
 
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
@@ -24,6 +23,12 @@ use Drupal\Core\Entity\EntityInterface;
  */
 class TranslationsNewRestResource extends ResourceBase {
 
+	/**
+	 * The language manager.
+	 *
+	 * @var \Drupal\Core\Language\LanguageManagerInterface
+	 */
+	protected $languageManager;
   /**
    * A current user instance.
    *
@@ -53,10 +58,11 @@ class TranslationsNewRestResource extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    AccountProxyInterface $current_user) {
+    AccountProxyInterface $current_user,
+		LanguageManagerInterface $languageManager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-
     $this->currentUser = $current_user;
+    $this->languageManager = $languageManager;
   }
 
   /**
@@ -69,7 +75,8 @@ class TranslationsNewRestResource extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('graphql_custom_translation'),
-      $container->get('current_user')
+      $container->get('current_user'),
+			$container->get('language_manager')
     );
   }
 
@@ -87,17 +94,35 @@ class TranslationsNewRestResource extends ResourceBase {
    */
   public function get() {
 		$config = \Drupal::config('htm_custom_translations_new.translation');
-		$values = $config->getOriginal();
+		$values = $config->get();
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
-
+    $current_lang = $this->languageManager->getCurrentLanguage()->getId();
+    #dump($current_lang);
+		#dump($values);
+		$values = $this->flatten($values, '', $current_lang);
 		$response = new ResourceResponse($values, 200);
     $response->addCacheableDependency($config);
 
     return $response;
   }
+
+	private function flatten($array, $prefix = '', $lang_code) {
+		$result = array();
+		foreach($array as $key => $value) {
+			if(is_array($value) && !isset($value['translation_type'])) {
+				$result[$key] = $this->flatten($value, $key, $lang_code);
+			}
+			else {
+				$translation_value = ($value['translation_type'] === 'text_format') ? $value[$lang_code]['value'] : $value[$lang_code];
+				$result[$key] = $translation_value;
+			}
+		}
+		#dump($result);
+		return $result;
+	}
 
 }
