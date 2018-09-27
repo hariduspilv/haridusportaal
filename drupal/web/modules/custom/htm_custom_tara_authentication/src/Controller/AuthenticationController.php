@@ -20,7 +20,7 @@ class AuthenticationController extends ControllerBase {
       $oidc = new OpenIDConnectClient('https://tara.ria.ee', 'eduportaal', $tara_secret);
       $oidc->addScope('openid');
       $oidc->setResponseTypes(array('code'));
-      $oidc->setState($random_hash);
+      $oidc->$this->setState($random_hash);
       kint($oidc);
       die();
       try{
