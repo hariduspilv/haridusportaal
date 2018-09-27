@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_xjson_services;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\user\Entity\User;
 use GuzzleHttp\Exception\BadResponseException;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -40,10 +41,11 @@ class xJsonService implements xJsonServiceInterface {
 	 * @param RequestStack $request_stack
 	 * @param EntityTypeManagerInterface $entityTypeManager
 	 */
-	public function __construct(AccountProxyInterface $current_user, RequestStack $request_stack, EntityTypeManagerInterface $entityTypeManager) {
+	public function __construct(AccountProxyInterface $current_user, RequestStack $request_stack, EntityTypeManagerInterface $entityTypeManager, EhisConnectorService $ehisConnectorService) {
     $this->currentUser = $current_user;
     $this->currentRequestContent = json_decode($request_stack->getCurrentRequest()->getContent());
     $this->entityTypeManager = $entityTypeManager;
+    $this->ehisconnector = $ehisConnectorService;
   }
 
 	public function getxJsonHeader(){
@@ -156,12 +158,12 @@ class xJsonService implements xJsonServiceInterface {
 				if(isset($response_body['steps'][$step_key])){
 					foreach($definition_body['steps'][$step_key]['data_elements'] as $element_key => $element){
 						$return_element = $element;
-						if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
+						#if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
 							$response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
 							if(!empty($this->mergeElementValue($element, $response_element))) {
 								$return_element = $this->mergeElementValue($element, $response_element);
 							}
-						}
+						#}
 						$return['body']['steps'][$step_key]['data_elements'][$element_key] = $return_element;
 					}
 					//Add step non data_elements
@@ -193,7 +195,6 @@ class xJsonService implements xJsonServiceInterface {
 		//Add body information
 		unset($definition_body['steps']);
 		$return['body'] += $definition_body;
-
 		return $return;
 	}
 
@@ -238,11 +239,11 @@ class xJsonService implements xJsonServiceInterface {
 
 		//Sort table values
 		if($element_type === 'table') $element_def = $this->sortTableValues($element_def);
-
+		#dump($element_def);
 		return ($this->validateDataElement($element_def)) ? $element_def : [];
 	}
 
-	public function validateDataElement($element, $table = false){
+	public function validateDataElement(&$element, $table = false){
 		$valid = true;
 		$element_type = $element['type'];
 		$default_acceptable_keys = ['type', 'title', 'helpertext', 'required', 'hidden', 'readonly', 'default_value', 'value'];
@@ -268,7 +269,11 @@ class xJsonService implements xJsonServiceInterface {
 				break;
 			case 'selectlist':
 				if($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options'];
-				else $additional_keys = ['multiple', 'empty_option', 'options'];
+				else $additional_keys = ['multiple', 'empty_option', 'options', 'classificator'];
+				if(isset($element['classificator'])){
+					$params['hash'] = 'oppekavaOppetasemeds';
+					$element['options'] = $this->ehisconnector->getOptionsTaxonomy($params);
+				}
 
 				$recfunc = function($options, $keys = []) use (&$recfunc) {
 					foreach($options as $key => $option){
@@ -279,6 +284,7 @@ class xJsonService implements xJsonServiceInterface {
 					}
 					return $keys;
 				};
+
 				$option_keys = $recfunc($element['options']);
 				/*TODO check also if value is array*/
 				#if($element['value'] && !in_array($element['value'], $option_keys)) $valid = false;
