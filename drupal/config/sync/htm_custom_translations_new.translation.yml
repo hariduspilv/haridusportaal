@@ -1,0 +1,16 @@
+_core: {  }
+avaleht:
+  uudised:
+    translation_type: text_format
+    et:
+      value: "<p>Avalehe uudiste tekst eestikeeles</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+uudised:
+  label:
+    translation_type: textarea
+    et: Uudised
+    en: News
+langcode: et
