@@ -1,27 +1,6 @@
 @import "../../../assets/styles/typography.scss"; 
 
-.dashboard-table {
-  border: .0625rem solid $gray;
-  border-collapse: collapse;
-  width: 100%;
-  font-size: $small; 
-  tr{
-    border: .0625rem solid $gray;
-    td{
-      padding: 15px;
-      border: .0625rem solid $gray;
-      width: 33%;
-      color: $black;
-      &:first-letter { 
-        text-transform: uppercase; 
-      }
-      &:last-of-type {
-        font-weight: 500;
-      }
-    }
-  }
-}
-
+.main-container{@include break-on(sm, min) {margin:.5rem 1.5rem 0;}}
 h1 { 
   display: inline-block;
   font-size: 1.5rem;
@@ -31,6 +10,10 @@ h1 {
   color: $black;
   margin-bottom: 1rem;
 }
+
+.block-title {line-height: 2rem;}
+.table-holder {overflow-y: auto;}
+.padding-block {padding: 1rem 1.5rem 3rem;}
 
 .top-link {
   line-height: 1.875rem;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SideMenuService } from '@app/_services';
+import { SideMenuService, RootScopeService } from '@app/_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -34,7 +34,8 @@ export class LoginComponent implements OnInit{
     private http: HttpClient,
     private sidemenu: SideMenuService,
     private settings: SettingsService,
-    private userService: UserService
+    private userService: UserService,
+    private rootScope: RootScopeService
   ) {
     this.postUrl = this.settings.url+this.settings.login;
   }
@@ -94,7 +95,7 @@ export class LoginComponent implements OnInit{
   logOut() {
     this.userService.logout();
     this.user = this.userService.getData();
-    
+    this.rootScope.set('teachingsAccordion', 0);
   }
 
   /*

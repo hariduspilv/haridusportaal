@@ -3,6 +3,9 @@ import { UserService } from '@app/_services/userService';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { TableModal } from '@app/_components/dialogs/table.modal/table.modal';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: "dashboard.component.html",
@@ -40,7 +43,9 @@ export class DashboardComponent implements OnInit, OnDestroy{
     private rootScope: RootScopeService,
     private router: Router,
     private route: ActivatedRoute,
-    private user: UserService
+    private user: UserService,
+    public dialog: MatDialog,
+    public translate: TranslateService
   ){
 
   }
@@ -77,7 +82,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
     unselectedLangs.forEach(language => {
       opts[language] = this.mainMenu[language].find(counterpartLink => counterpartLink._id == selectedLink._id).link
     })
-    //console.log(opts);
     this.rootScope.set('langOptions', opts);
   }
   ngOnInit(){
@@ -95,5 +99,20 @@ export class DashboardComponent implements OnInit, OnDestroy{
         sub.unsubscribe();
       }
     }
+  }
+
+  dataModal() {
+    let dialogRef = this.dialog;
+    let data = {
+      title: this.userData.username,
+      pretitle: this.translate.get('frontpage.dashboard_tabs_personal_label')['value'],
+      close: this.translate.get('frontpage.favourites_limit_modal_close')['value'],
+      fieldsTranslationSrc: 'frontpage',
+      fields: ['isikukood', 'synniKp', 'elukohamaa', 'rrElukoht', 'kodakondsus', 'elamisluba', 'oppelaenOigus'],
+      contentUrl: '/dashboard/eeIsikukaart/personal_data?_format=json'
+    };
+    dialogRef.open(TableModal, {
+      data: data
+    });
   }
 }

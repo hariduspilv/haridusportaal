@@ -37,7 +37,7 @@
           <div class="accordion" *ngIf="accordionSection.length > 0">
             <mat-accordion multi>
               <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of accordionSection; let first = first;">
-                <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+                <mat-expansion-panel-header>
                   <mat-panel-title>
 
                     {{accordionItem.entity.fieldAccordionTitle}}

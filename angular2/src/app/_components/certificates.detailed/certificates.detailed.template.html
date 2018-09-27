@@ -1,6 +1,6 @@
 <div class="dashboard main-container">
   <div class="row">
-    <div class="col-8">
+    <div class="col-8 sm-12">
       <div class="block padding-block border-blue">
         <div class="block-title">{{ 'frontpage.dashboard_label' | translate | uppercase }}</div>
         <mat-spinner *ngIf="loading"></mat-spinner>
@@ -11,84 +11,86 @@
           <ng-container *ngIf="certificate.kehtetu === true"><span class="highlighted">{{ 'frontpage.dashboard_tabs_certificates_notvalid' | translate }}</span></ng-container>
           <ng-container *ngIf="certificate.duplikaat === true"><span class="highlighted">{{ 'frontpage.dashboard_tabs_certificates_duplicate' | translate }}</span></ng-container>
 
-          <a class="pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
-         
-          <table class="dashboard-table">
-            <tbody>
-              <tr *ngIf="certificate.registrinumber">
-                <td>{{ 'frontpage.dashboard_tabs_certificates_number' | translate }}</td>
-                <td>{{certificate.registrinumber}}</td>
-              </tr>
-              <tr *ngIf="certificate.nimi">
-                <td>{{ 'frontpage.dashboard_tabs_certificates_name' | translate }}</td>
-                <td>{{certificate.nimi}}</td>
-              </tr>
-              <tr *ngIf="certificate.tyyp">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_type' | translate }}</td>
-                <td>{{certificate.tyyp}}</td>
-              </tr>
-              <tr *ngIf="certificate.standard">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_standard' | translate }}</td>
-                <td>{{certificate.standard}}</td>
-              </tr>
-              <tr *ngIf="certificate.ekrtase">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_ekr' | translate }}</td>
-                <td>{{certificate.ekrtase}}</td>
-              </tr>
-              <tr *ngIf="certificate.eqftase">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_eqf' | translate }}</td>
-                <td>{{certificate.eqftase}}</td>
-              </tr>
-              <tr *ngIf="certificate.spetsialiseerumine">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_specialization' | translate }}</td>
-                <td>{{certificate.spetsialiseerumine}}</td>
-              </tr>
-              <tr *ngIf="certificate.osakutse">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_part' | translate }}</td>
-                <td>{{certificate.osakutse}}</td>
-              </tr>
-              <tr *ngIf="certificate.kompetentsid">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_competence' | translate }}</td>
-                <td>{{certificate.kompetentsid}}</td>
-              </tr>
-              <tr *ngIf="certificate.valdkond">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_field' | translate }}</td>
-                <td>{{certificate.valdkond}}</td>
-              </tr>
-              <tr *ngIf="certificate.kutseala">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_field_topic' | translate }}</td>
-                <td>{{certificate.kutseala}}</td>
-              </tr>
-              <tr *ngIf="certificate.hariduslikkval">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_qualification' | translate }}</td>
-                <td>{{certificate.hariduslikkval}}</td>
-              </tr>
-              <tr *ngIf="certificate.keel">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_language' | translate }}</td>
-                <td>{{certificate.keel}}</td>
-              </tr>
-              <tr *ngIf="certificate.valjastaja">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_issuer' | translate }}</td>
-                <td>{{certificate.valjastaja}}</td>
-              </tr>
-              <tr *ngIf="certificate.valjaantud">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_issued_at' | translate }}</td>
-                <td>{{certificate.valjaantud}}</td>
-              </tr>
-              <tr *ngIf="certificate.kehtibalates">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_valid_from' | translate }}</td>
-                <td>{{certificate.kehtibalates}}</td>
-              </tr>
-              <tr *ngIf="certificate.kehtibkuni">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_valid_to' | translate }}</td>
-                <td>{{certificate.kehtibkuni}}</td>
-              </tr>
-              <tr *ngIf="certificate.isco">
-                  <td>{{ 'frontpage.dashboard_tabs_certificates_isco' | translate }}</td>
-                <td>{{certificate.isco}}</td>
-              </tr>
-            </tbody>
-          </table>
+          <a href="javascript:void(0)" id="backToDashboard" class="sm-hide pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
+          <a href="javascript:void(0)" id="backToDashboard" class="sm-show top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
+          <div class="table-holder">
+            <table class="dashboard-table">
+              <tbody>
+                <tr *ngIf="certificate.registrinumber">
+                  <td>{{ 'frontpage.dashboard_tabs_certificates_number' | translate }}</td>
+                  <td>{{certificate.registrinumber}}</td>
+                </tr>
+                <tr *ngIf="certificate.nimi">
+                  <td>{{ 'frontpage.dashboard_tabs_certificates_name' | translate }}</td>
+                  <td>{{certificate.nimi}}</td>
+                </tr>
+                <tr *ngIf="certificate.tyyp">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_type' | translate }}</td>
+                  <td>{{certificate.tyyp}}</td>
+                </tr>
+                <tr *ngIf="certificate.standard">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_standard' | translate }}</td>
+                  <td>{{certificate.standard}}</td>
+                </tr>
+                <tr *ngIf="certificate.ekrtase">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_ekr' | translate }}</td>
+                  <td>{{certificate.ekrtase}}</td>
+                </tr>
+                <tr *ngIf="certificate.eqftase">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_eqf' | translate }}</td>
+                  <td>{{certificate.eqftase}}</td>
+                </tr>
+                <tr *ngIf="certificate.spetsialiseerumine">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_specialization' | translate }}</td>
+                  <td>{{certificate.spetsialiseerumine}}</td>
+                </tr>
+                <tr *ngIf="certificate.osakutse">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_part' | translate }}</td>
+                  <td>{{certificate.osakutse}}</td>
+                </tr>
+                <tr *ngIf="certificate.kompetentsid">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_competence' | translate }}</td>
+                  <td>{{certificate.kompetentsid}}</td>
+                </tr>
+                <tr *ngIf="certificate.valdkond">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_field' | translate }}</td>
+                  <td>{{certificate.valdkond}}</td>
+                </tr>
+                <tr *ngIf="certificate.kutseala">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_field_topic' | translate }}</td>
+                  <td>{{certificate.kutseala}}</td>
+                </tr>
+                <tr *ngIf="certificate.hariduslikkval">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_qualification' | translate }}</td>
+                  <td>{{certificate.hariduslikkval}}</td>
+                </tr>
+                <tr *ngIf="certificate.keel">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_language' | translate }}</td>
+                  <td>{{certificate.keel}}</td>
+                </tr>
+                <tr *ngIf="certificate.valjastaja">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_issuer' | translate }}</td>
+                  <td>{{certificate.valjastaja}}</td>
+                </tr>
+                <tr *ngIf="certificate.valjaantud">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_issued_at' | translate }}</td>
+                  <td>{{certificate.valjaantud}}</td>
+                </tr>
+                <tr *ngIf="certificate.kehtibalates">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_valid_from' | translate }}</td>
+                  <td>{{certificate.kehtibalates}}</td>
+                </tr>
+                <tr *ngIf="certificate.kehtibkuni">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_valid_to' | translate }}</td>
+                  <td>{{certificate.kehtibkuni}}</td>
+                </tr>
+                <tr *ngIf="certificate.isco">
+                    <td>{{ 'frontpage.dashboard_tabs_certificates_isco' | translate }}</td>
+                  <td>{{certificate.isco}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </ng-container>
       </div>
     </div>

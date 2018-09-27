@@ -13,6 +13,7 @@ import { RootScopeService, NewsService, MetaTagsService, TableService } from './
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog';
 import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
 import { Modal } from './_components/dialogs/modal/modal';
+import { TableModal } from './_components/dialogs/table.modal/table.modal';
 import { VideoComponent } from './_components/video/video.component';
 import { HttpModule } from '@angular/http';
 import { EmbedVideo } from 'ngx-embed-video';
@@ -51,6 +52,7 @@ import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
 import { CertificatesComponent } from '@app/_components/certificates/certificates.component';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
+import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
 
 import { ApplicationsComponent } from '@app/_components/applications/applications.component';
 import { StudiesComponent } from '@app/_components/studies/studies.component';
@@ -64,8 +66,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   let translateUrls = {
     "localhost": ["/assets/", ".json"],
     //"localhost": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
-    //"htm.twn.ee": ["/assets/", ".json"],
-    "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
+    "htm.twn.ee": ["/assets/", ".json"],
+    // "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
     "otherwise": ["https://api.test.edu.ee/", "/base_settings?_format=json"]
   }
 
@@ -94,6 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BreadcrumbsComponent,
     ShareComponent,
     Modal,
+    TableModal,
     VideoComponent,
     SchoolStudyProgrammesComponent,
     StudyProgrammeCompareComponent,
@@ -105,15 +108,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     FavouritesListComponent,
     CertificatesComponent,
     CertificatesDetailedComponent,
+    TeachingsDetailedComponent,
     ApplicationsComponent,
     StudiesComponent,
     TeachingsComponent,
     XjsonComponent,
     SearchComponent,
-    ConfirmPopupDialog
+    ConfirmPopupDialog   
   ],
 
-  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, Modal, VideoComponent, StudyProgrammeCompareComponent, ConfirmPopupDialog],
+  entryComponents: [ EventsRegistratonDialog, ImagePopupDialog, TableModal, Modal, VideoComponent, StudyProgrammeCompareComponent, ConfirmPopupDialog],
 
   imports: [
     BrowserModule,

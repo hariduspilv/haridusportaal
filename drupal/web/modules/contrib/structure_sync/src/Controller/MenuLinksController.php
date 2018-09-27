@@ -61,24 +61,23 @@ class MenuLinksController extends ControllerBase {
     $customMenuLinks = [];
     foreach ($menuLinks as $menuLink) {
       $customMenuLinks[] = [
-        'menu_name' => $menuLink->menu_name->getValue()[0]['value'],
-        'title' => $menuLink->title->getValue()[0]['value'],
-        'parent' => $menuLink->parent->getValue()[0]['value'],
-        'uri' => $menuLink->link->getValue()[0]['uri'],
-        'link_title' => $menuLink->link->getValue()[0]['title'],
-        'description' => $menuLink->description->getValue()[0]['value'],
-        'enabled' => $menuLink->enabled->getValue()[0]['value'],
-        'expanded' => $menuLink->expanded->getValue()[0]['value'],
-        'weight' => $menuLink->weight->getValue()[0]['value'],
-        'langcode' => $menuLink->langcode->getValue()[0]['value'],
+        'menu_name' => $menuLink->menu_name->value,
+        'title' => $menuLink->title->value,
+        'parent' => $menuLink->parent->value,
+        'uri' => $menuLink->link->uri,
+        'link_title' => $menuLink->link->title,
+        'description' => $menuLink->description->value,
+        'enabled' => $menuLink->enabled->value,
+        'expanded' => $menuLink->expanded->value,
+        'weight' => $menuLink->weight->value,
+        'langcode' => $menuLink->langcode->value,
         'uuid' => $menuLink->uuid(),
-        'options' => !empty($menuLink->link->getValue()[0]['options']) ? $menuLink->link->getValue()[0]['options'] : NULL,
       ];
 
       if (array_key_exists('drush', $form) && $form['drush'] === TRUE) {
         drush_log('Exported "' . $menuLink->title->getValue()[0]['value'] . '" of menu "' . $menuLink->menu_name->getValue()[0]['value'] . '"', 'ok');
       }
-      StructureSyncHelper::logMessage('Exported "' . $menuLink->title->getValue()[0]['value'] . '" of menu "' . $menuLink->menu_name->getValue()[0]['value'] . '"');
+      StructureSyncHelper::logMessage('Exported "' . $menuLink->title->value . '" of menu "' . $menuLink->menu_name->value . '"');
     }
 
     $this->config->set('menus', $customMenuLinks)->save();
@@ -222,14 +221,14 @@ class MenuLinksController extends ControllerBase {
       $uuidsInConfig[] = $menuLink['uuid'];
     }
 
-    if(!empty($uuidsInConfig)) {
-      $query = StructureSyncHelper::getEntityQuery('menu_link_content');
-      $query->condition('uuid', $uuidsInConfig, 'NOT IN');
-      $ids = $query->execute();
-      $controller = StructureSyncHelper::getEntityManager()
-        ->getStorage('menu_link_content');
-      $entities = $controller->loadMultiple($ids);
-      $controller->delete($entities);
+    if (!empty($uuidsInConfig)) {
+        $query = StructureSyncHelper::getEntityQuery('menu_link_content');
+        $query->condition('uuid', $uuidsInConfig, 'NOT IN');
+        $ids = $query->execute();
+        $controller = StructureSyncHelper::getEntityManager()
+            ->getStorage('menu_link_content');
+        $entities = $controller->loadMultiple($ids);
+        $controller->delete($entities);
     }
 
     if (array_key_exists('drush', $context) && $context['drush'] === TRUE) {
@@ -250,13 +249,13 @@ class MenuLinksController extends ControllerBase {
       $uuidsInConfig[] = $menuLink['uuid'];
     }
     $entities = [];
-    if(!empty($uuidsInConfig)) {
-      $query = StructureSyncHelper::getEntityQuery('menu_link_content');
-      $query->condition('uuid', $uuidsInConfig, 'IN');
-      $ids = $query->execute();
-      $controller = StructureSyncHelper::getEntityManager()
-        ->getStorage('menu_link_content');
-      $entities = $controller->loadMultiple($ids);
+    if (!empty($uuidsInConfig)) {
+        $query = StructureSyncHelper::getEntityQuery('menu_link_content');
+        $query->condition('uuid', $uuidsInConfig, 'IN');
+        $ids = $query->execute();
+        $controller = StructureSyncHelper::getEntityManager()
+            ->getStorage('menu_link_content');
+        $entities = $controller->loadMultiple($ids);
     }
 
     $parents = array_column($menus, 'parent');
@@ -300,7 +299,6 @@ class MenuLinksController extends ControllerBase {
               'link' => [
                 'uri' => $menuLink['uri'],
                 'title' => $menuLink['link_title'],
-                'options' => !empty($menuLink['options']) ? $menuLink['options'] : NULL,
               ],
               'menu_name' => $menuLink['menu_name'],
               'expanded' => $menuLink['expanded'] === '1' ? TRUE : FALSE,
@@ -322,7 +320,6 @@ class MenuLinksController extends ControllerBase {
                     ->set('link', [
                       'uri' => $menuLink['uri'],
                       'title' => $menuLink['link_title'],
-                      'options' => !empty($menuLink['options']) ? $menuLink['options'] : NULL,
                     ])
                     ->set('expanded', $menuLink['expanded'] === '1' ? TRUE : FALSE)
                     ->set('enabled', $menuLink['enabled'] === '1' ? TRUE : FALSE)
@@ -388,7 +385,6 @@ class MenuLinksController extends ControllerBase {
         'link' => [
           'uri' => $menuLink['uri'],
           'title' => $menuLink['link_title'],
-          'options' => !empty($menuLink['options']) ? $menuLink['options'] : NULL,
         ],
         'menu_name' => $menuLink['menu_name'],
         'expanded' => $menuLink['expanded'] === '1' ? TRUE : FALSE,
@@ -434,7 +430,6 @@ class MenuLinksController extends ControllerBase {
         'link' => [
           'uri' => $menuLink['uri'],
           'title' => $menuLink['link_title'],
-          'options' => !empty($menuLink['options']) ? $menuLink['options'] : NULL,
         ],
         'menu_name' => $menuLink['menu_name'],
         'expanded' => $menuLink['expanded'] === '1' ? TRUE : FALSE,

@@ -24,7 +24,9 @@
       if (typeof drupalSettings.entity_browser_reopen_browser !== 'undefined' &&  drupalSettings.entity_browser_reopen_browser) {
         var data_drupal_selector = '[data-drupal-selector^="edit-' + drupalSettings.entity_browser_reopen_browser.replace(/_/g, '-') + '-entity-browser-entity-browser-' + '"]';
         var $launch_browser_element = $(context).find(data_drupal_selector);
-        $launch_browser_element.click();
+        if (!drupalSettings.entity_browser.iframe[$launch_browser_element.attr('data-uuid')].auto_open) {
+          $launch_browser_element.click();
+        }
         // In case this is inside a fieldset closed by default, open it so the
         // user doesn't need to guess the browser is open but hidden there.
         var $fieldset_summary = $launch_browser_element.closest('details').find('summary');

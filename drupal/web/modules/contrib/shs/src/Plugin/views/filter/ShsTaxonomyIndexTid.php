@@ -4,7 +4,6 @@ namespace Drupal\shs\Plugin\views\filter;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
 use Drupal\taxonomy\Plugin\views\filter\TaxonomyIndexTid;
 
 /**
@@ -101,12 +100,14 @@ class ShsTaxonomyIndexTid extends TaxonomyIndexTid {
     }
 
     if (!empty($default_value)) {
-      $parents = shs_term_get_parents($default_value, $settings_additional, 'taxonomy_term');
+      /** @var Drupal\shs\WidgetDefaultsInterface $widget_defaults */
+      $widget_defaults = \Drupal::service('shs.widget_defaults');
+      $parents = $widget_defaults->getParentDefaults($default_value, $settings_additional, 'taxonomy_term');
     }
     $settings_shs = [
       'settings' => $settings_additional, // @todo: allow individual settings per filter
       'bundle' => $bundle,
-      'baseUrl' => Url::fromUri('base:/shs-term-data')->toString(),
+      'baseUrl' => 'shs-term-data',
       'cardinality' => $this->options['expose']['multiple'] ? -1 : 1,
       'parents' => $parents,
       'defaultValue' => $default_value,
