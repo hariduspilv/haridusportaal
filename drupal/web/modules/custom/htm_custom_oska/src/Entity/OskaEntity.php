@@ -222,7 +222,6 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
               ),
           ))
           ->setDisplayConfigurable('form', TRUE)
-          ->setRequired(TRUE)
           ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
       $fields['oska_sub_field'] = BaseFieldDefinition::create('entity_reference')
@@ -251,7 +250,6 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
               ),
           ))
           ->setDisplayConfigurable('form', TRUE)
-          ->setRequired(TRUE)
           ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
       $fields['oska_main_profession'] = BaseFieldDefinition::create('entity_reference')
@@ -280,7 +278,6 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
               ),
           ))
           ->setDisplayConfigurable('form', TRUE)
-          ->setRequired(TRUE)
           ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
       $fields['oska_indicator'] = BaseFieldDefinition::create('entity_reference')
@@ -331,8 +328,7 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
               'weight' => -4,
           ])
           ->setDisplayConfigurable('form', TRUE)
-          ->setDisplayConfigurable('view', TRUE)
-          ->setRequired(TRUE);
+          ->setDisplayConfigurable('view', TRUE);
 
       $fields['year'] = BaseFieldDefinition::create('string')
           ->setLabel(t('Year'))
@@ -352,8 +348,7 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
               'weight' => -4,
           ])
           ->setDisplayConfigurable('form', TRUE)
-          ->setDisplayConfigurable('view', TRUE)
-          ->setRequired(TRUE);
+          ->setDisplayConfigurable('view', TRUE);
 
       $fields['value'] = BaseFieldDefinition::create('string')
           ->setLabel(t('Value'))
@@ -373,8 +368,7 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
               'weight' => -4,
           ])
           ->setDisplayConfigurable('form', TRUE)
-          ->setDisplayConfigurable('view', TRUE)
-          ->setRequired(TRUE);
+          ->setDisplayConfigurable('view', TRUE);
 
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))

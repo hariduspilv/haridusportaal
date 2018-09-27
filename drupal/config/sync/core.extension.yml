@@ -19,6 +19,7 @@ module:
   contextual: 0
   crop: 0
   ctools: 0
+  custom_alter_entity_autocomplete: 0
   custom_datetime_unix_value: 0
   custom_graphql_elasticsearch_query: 0
   custom_graphql_functions: 0
@@ -66,9 +67,11 @@ module:
   htm_custom_exports: 0
   htm_custom_favorites: 0
   htm_custom_harid_authentication: 0
+  htm_custom_oska: 0
   htm_custom_professional_certific: 0
   htm_custom_subsidy_projects: 0
   htm_custom_tokens: 0
+  htm_custom_translations_new: 0
   htm_custom_video_field: 0
   htm_custom_xjson_services: 0
   image: 0

@@ -6,6 +6,7 @@ dependencies:
     - field.field.taxonomy_term.oska_main_profession.field_emtak_code
     - field.field.taxonomy_term.oska_main_profession.field_isced_f_detailed
     - field.field.taxonomy_term.oska_main_profession.field_isco_reference
+    - field.field.taxonomy_term.oska_main_profession.field_oska_field
     - field.field.taxonomy_term.oska_main_profession.field_study_programme
     - taxonomy.vocabulary.oska_main_profession
   module:
@@ -42,6 +43,15 @@ content:
     region: content
   field_isco_reference:
     weight: 31
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_oska_field:
+    weight: 35
     settings:
       match_operator: CONTAINS
       size: 60

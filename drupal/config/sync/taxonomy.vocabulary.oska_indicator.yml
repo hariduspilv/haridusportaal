@@ -1,0 +1,9 @@
+uuid: 8802bbc0-f407-472b-a148-d16232a3d630
+langcode: et
+status: true
+dependencies: {  }
+name: 'Oska indicator'
+vid: oska_indicator
+description: ''
+hierarchy: 0
+weight: 0
