@@ -1,0 +1,10 @@
+htm_custom_translations_new.add_new_translation:
+  route_name: htm_custom_translations_new.add_translation
+  title: 'Add new translation'
+  appears_on:
+    - htm_custom_translations_new.translation_form
+htm_custom_translations_new.back:
+  route_name: htm_custom_translations_new.translation_form
+  title: '← Back'
+  appears_on:
+    - htm_custom_translations_new.new_translation

@@ -12,7 +12,7 @@ entity_type: node
 bundle: event
 label: Sildid
 description: 'Maks. <b>4</b> Sildid eralda komaga'
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''

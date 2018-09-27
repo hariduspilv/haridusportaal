@@ -37,10 +37,10 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   
   mapOptions = {
     center: {
-      lat: 58.7822061,
-      lng: 24.5065513
+      lat: 58.5822061,
+      lng: 24.7065513
     },
-    zoom: 8,
+    zoom: 7.2,
     icon: "/assets/marker.png",
     clusterStyles: [
       {
@@ -115,6 +115,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   changeView( view:String = "schools" ) {
     this.view = view;
     localStorage.setItem("schools_funding.view", view.toString() );
+    this.map.setZoom(this.mapOptions.zoom);
+    this.map.setCenter(this.mapOptions.center);
     this.getData();
   }
   

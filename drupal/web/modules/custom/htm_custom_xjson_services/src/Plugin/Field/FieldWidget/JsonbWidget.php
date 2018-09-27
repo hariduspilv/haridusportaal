@@ -39,6 +39,7 @@ class JsonbWidget extends StringTextareaWidget {
 	 */
 	public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
 		$id = $items->getName();
+		#dump($items[$delta]->value);
 		$element['value'] = $element + [
 			'#type' => 'textarea',
 			'#suffix' => new FormattableMarkup("<div id='$id' style='width: 100%; height: 800px;'></div>", []),
@@ -257,13 +258,16 @@ class JsonbWidget extends StringTextareaWidget {
 					if($table){
 						$additional_keys = ['width', 'multiple', 'empty_option', 'options'];
 					}else{
-						$additional_keys = ['multiple', 'empty_option', 'options'];
+						$additional_keys = ['multiple', 'empty_option', 'options', 'classificator'];
 					}
-					if(isset($element['options']) && count($element['options']) >= 1){
+					if(isset($element['options']) && isset($element['classificator'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.selectlist cannot have both options and classificator attribute");
+					if(isset($element['options']) && is_array($element['options']) && count($element['options']) >= 1){
 						$option_keys = $this->ValidateOptionElement($element['options'], null, $step, $parent_key, $key);
 						if(isset($element['default_value']) && !in_array($element['default_value'], $option_keys)) $this->setErrorMessage("$step.data_elements.$parent_key.$key.default_value does not match options");
+					}elseif(isset($element['classificator'])){
+						// its fine
 					}else{
-						$this->setErrorMessage("$step.data_elements.$parent_key.$key.selectlist missing options attribute");
+						$this->setErrorMessage("$step.data_elements.$parent_key.$key.selectlist missing options or classificator attribute");
 					}
 					break;
 				case 'file':

@@ -7,19 +7,29 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 import { TableService } from '@app/_services/tableService';
-import { DATEPICKER_FORMAT } from '@app/_services/filtersService';
+import { SettingsService } from '@app/_core/settings'
 
 import * as _moment from 'moment';
 const moment = _moment;
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
+const XJSON_DATEPICKER_FORMAT = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  }
+};
 @Component({
   templateUrl: './xjson.template.html',
   styleUrls: ['./xjson.styles.scss'],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: DATEPICKER_FORMAT},
+    {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
   ]
 })
 export class XjsonComponent implements OnInit, OnDestroy{
@@ -50,7 +60,8 @@ export class XjsonComponent implements OnInit, OnDestroy{
     private http: HttpService,
     private route: ActivatedRoute,
     private router: Router,
-    private tableService: TableService
+    private tableService: TableService,
+    public settings: SettingsService
   ) {}
 
   setPaths() {
@@ -80,51 +91,72 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
-
+  setDatepickerValue(event, element, rowindex, col){
+    if(rowindex == undefined|| col == undefined){
+      this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    } else {
+      this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    }
+  }
+  getDatepickerValue(element, rowindex, col){
+    if(rowindex == undefined|| col == undefined){
+      return this.data_elements[element].value
+    } else {
+      return this.data_elements[element].value[rowindex][col];
+    }
+   
+  }
   selectListCompare(a, b) {
     return a && b ? a == b : a == b;
   }
-  isFieldDisabled(readonly:boolean): boolean{
+  isFieldDisabled(readonly): boolean{
     
-    if(readonly === true || this.max_step != this.opened_step  ) {
+    if(readonly === true) {
+      
       return true;
+    } else if (this.max_step != this.opened_step){
+      
+      return true;
+    } else if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
+      
+      return false;
     } else {
-      if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
-        return false;
-      } else { 
-        return true;
-      }
+      return true;
     }
   }
-
-  parseAcceptableExtentsions(list: string[]): string {
-    return list.map(extentsion => '.'+ extentsion).join(',')
+  
+  parseAcceptableExtentsions(list: string[]) {
+    if(!list) {
+      return '*/*';
+    } else {
+      return list.map(extentsion => '.'+ extentsion).join(',')
+    }
   }
-
-  fileDelete(id, model){
-    console.log('FILE DELETION');
-    console.log(model);
-    let subscription = this.http.get('/xjson_service/documentFile').subscribe(response => {
-            
-      console.log(response);
-      
-      
-      subscription.unsubscribe();
-    });
-  }
-  fileDownload(id){
-    console.log('FILE DOWNLOAD');
-    console.log(id);
+  canUploadFile(element): boolean{
     
+    var singeFileRestrictionApplies = (element.multiple === false && element.value.length > 0);
+  
+    if(this.isFieldDisabled(element.readonly)){
+      return false;
+    } else if(singeFileRestrictionApplies){
+      return false;
+    } else {
+      return true;
+    }
   }
-  fileUpload(event, model, element) {
-    console.log(model);
-    console.log(event);
-    console.log(element);
-   
-    if(event.target.files && event.target.files.length > 0) {
-      
-      for(let file of  event.target.files) {
+ 
+  fileDelete(id, model){
+    let target = model.value.find(file => file.file_identifier === id);
+    model.value.splice(model.value.indexOf(target), 1);
+  }
+
+  fileEventHandler(e, element){
+    e.preventDefault();
+    let files = e.target.files || e.dataTransfer.files;
+    let model = this.data_elements[element];
+
+    if(files && files.length > 0) {
+      for(let file of files) {
         let reader = new FileReader();
         console.log(file.name);
         reader.readAsDataURL(file);
@@ -140,23 +172,12 @@ export class XjsonComponent implements OnInit, OnDestroy{
               file_name: file.name,
               file_identifier: response['id']
             };
-            
-            if(model.value instanceof Array){
-              model.value.push(new_file)
-            } else {
-              if(model.value.file_name){
-                model.value = [model.value];
-                model.value.push(new_file);
-              } else {
-                model.value = new_file
-              }
-            }
+            model.value.push(new_file)
+  
             subscription.unsubscribe();
           });
         };
       }
-      
-
     }
   }
   tableColumnName(element, index){
@@ -233,7 +254,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     //check for required field
     if(field.required === true){
       if(field.value === undefined) return {valid: false, message: 'Puudub kohustuslik väärtus'}
-      //else if (field.value.length == 0) return {valid: false, message: 'Puudub kohustuslik väärtus'}
+      //else if (!field.value) return {valid: false, message: 'Puudub kohustuslik väärtus'}
     }
     //check for minlength
     if(field.minlength !== undefined){
@@ -253,8 +274,10 @@ export class XjsonComponent implements OnInit, OnDestroy{
     }
     //check for email format
     if(field.type === 'email'){
-      let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if(reg.test(field.value) === false) return {valid: false, message: 'Palun sisesta sobilik email' }
+      if(field.required === true){
+        let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(reg.test(field.value) === false) return {valid: false, message: 'Palun sisesta sobilik email' }
+      }
     }
     return {valid: true, message:'valid'};
   }
@@ -264,7 +287,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
       for (let col of Object.keys(row)) {
         let column_properties = JSON.parse(JSON.stringify(table.table_columns[col]));
         column_properties.value = row[col];
-        console.log(column_properties);
+        
         let validation = this.isValidField(column_properties);
         if(validation.valid != true){
           validation['row'] = table.value.indexOf(row);
