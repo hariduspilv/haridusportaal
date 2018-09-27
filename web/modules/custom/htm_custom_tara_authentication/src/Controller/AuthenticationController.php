@@ -3,6 +3,7 @@
 namespace Drupal\htm_custom_tara_authentication\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\openid_connect\Plugin\OpenIDConnectClientInterface;
 use Jumbojett\OpenIDConnectClient;
 use Jumbojett\OpenIDConnectClientException;
 use Drupal\Core\Site\Settings;
@@ -18,9 +19,9 @@ class AuthenticationController extends ControllerBase {
       $random_hash = bin2hex(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM));
 
       $oidc = new OpenIDConnectClient('https://tara.ria.ee', 'eduportaal', $tara_secret);
+      $oidc->providerConfigParam(array('authorization_endpoint' => 'https://tara.ria.ee/oidc/authorize'));
       $oidc->addScope('openid');
       $oidc->setResponseTypes(array('code'));
-      $oidc->$this->setState((string)$random_hash);
       kint($oidc);
       die();
       try{
