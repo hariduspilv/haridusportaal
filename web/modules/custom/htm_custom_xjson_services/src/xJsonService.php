@@ -34,7 +34,7 @@ class xJsonService implements xJsonServiceInterface {
 	 */
 	protected $entityTypeManager;
 
-
+	#protected $ehisconnector;
 	/**
 	 * xJsonService constructor.
 	 * @param AccountProxyInterface $current_user
@@ -142,6 +142,7 @@ class xJsonService implements xJsonServiceInterface {
 	 */
 	public function buildFormv2($response){
 		$return = [];
+		dump($response);
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
