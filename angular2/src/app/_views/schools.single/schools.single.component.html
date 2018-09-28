@@ -2,15 +2,15 @@
   <div class="block padding-block sm-top" id="school-contact-block">
     <h2>{{ 'school.contact' | translate }}</h2>
     <ul>
-      <li><a href="tel:{{ data.fieldSchoolContactPhone }}" tabindex="0" attr.aria-label="{{' Phone: '}} {{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
-      <li><a href="mailto:{{ data.fieldSchoolContactEmail }}" tabindex="0" attr.aria-label="{{' E-mail: '}} {{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
-      <li><a href="{{ data.fieldSchoolWebpageAddress | url }}" tabindex="0" attr.aria-label="{{' Aadress: '}} {{ data.fieldSchoolWebpageAddress | removeProtocol }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
+      <li *ngIf="data.fieldSchoolContactPhone" ><a href="tel:{{ data.fieldSchoolContactPhone }}" tabindex="0" attr.aria-label="{{' Phone: '}} {{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
+      <li *ngIf="data.fieldSchoolContactEmail"><a href="mailto:{{ data.fieldSchoolContactEmail }}" tabindex="0" attr.aria-label="{{' E-mail: '}} {{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
+      <li *ngIf="data.fieldSchoolWebpageAddress"><a href="{{ data.fieldSchoolWebpageAddress | url }}" tabindex="0" attr.aria-label="{{' Aadress: '}} {{ data.fieldSchoolWebpageAddress | removeProtocol }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
     </ul>
   </div>
   <ng-container *ngFor="let location of data.fieldSchoolLocation" tabindex="-1">
     <div *ngIf="location.entity.fieldLocationType == 'L'" class="block location-block">
-     
-      <map-wrapper tabindex="-1" [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
+
+      <map-wrapper aria-hidden="true" [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
 
       <div class="padding-block">
         <h2>{{ 'school.legal_address' | translate }}</h2>
@@ -39,14 +39,14 @@
           </div>
         </div>
         <div class="scrollable padded">
-          <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
-            (touchstart)="tableService.scrollStart('tableRef')" 
-            (mousedown)="tableService.scrollStart('tableRef')" 
-            (touchend)="tableService.scrollEnd()" 
+          <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart"
+            (touchstart)="tableService.scrollStart('tableRef')"
+            (mousedown)="tableService.scrollStart('tableRef')"
+            (touchend)="tableService.scrollEnd()"
             (mouseup)="tableService.scrollEnd()">
             <span class="htm-icon">keyboard_arrow_left</span>
           </div>
-          <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
+          <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown"
             (touchstart)="tableService.scrollStart('tableRef', true)"
             (mousedown)="tableService.scrollStart('tableRef', true)"
             (touchend)="tableService.scrollEnd(true)"
