@@ -7,19 +7,29 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 import { TableService } from '@app/_services/tableService';
-import { DATEPICKER_FORMAT } from '@app/_services/filtersService';
+import { SettingsService } from '@app/_core/settings'
 
 import * as _moment from 'moment';
 const moment = _moment;
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
+const XJSON_DATEPICKER_FORMAT = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  }
+};
 @Component({
   templateUrl: './xjson.template.html',
   styleUrls: ['./xjson.styles.scss'],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: DATEPICKER_FORMAT},
+    {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
   ]
 })
 export class XjsonComponent implements OnInit, OnDestroy{
@@ -50,7 +60,8 @@ export class XjsonComponent implements OnInit, OnDestroy{
     private http: HttpService,
     private route: ActivatedRoute,
     private router: Router,
-    private tableService: TableService
+    private tableService: TableService,
+    public settings: SettingsService
   ) {}
 
   setPaths() {
@@ -80,7 +91,21 @@ export class XjsonComponent implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
-
+  setDatepickerValue(event, element, rowindex, col){
+    if(rowindex == undefined|| col == undefined){
+      this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    } else {
+      this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    }
+  }
+  getDatepickerValue(element, rowindex, col){
+    if(rowindex == undefined|| col == undefined){
+      return this.data_elements[element].value
+    } else {
+      return this.data_elements[element].value[rowindex][col];
+    }
+   
+  }
   selectListCompare(a, b) {
     return a && b ? a == b : a == b;
   }
@@ -114,37 +139,24 @@ export class XjsonComponent implements OnInit, OnDestroy{
     if(this.isFieldDisabled(element.readonly)){
       return false;
     } else if(singeFileRestrictionApplies){
-      console.log('singeFileRestrictionApplies');
       return false;
     } else {
       return true;
     }
   }
-
+ 
   fileDelete(id, model){
-    console.log('FILE DELETION');
-    console.log(model);
     let target = model.value.find(file => file.file_identifier === id);
     model.value.splice(model.value.indexOf(target), 1);
   }
-  fileDownload(id){
-    console.log('FILE DOWNLOAD');
-    console.log(id);
-    
-  }
-  changeFile(event, model, element){
-    model.value = [];
-    console.log(model);
-    this.fileUpload(event, model, element);
-  }
-  fileUpload(event, model, element) {
-    console.log(model);
-    console.log(event);
-    console.log(element);
-   
-    if(event.target.files && event.target.files.length > 0) {
-      
-      for(let file of  event.target.files) {
+
+  fileEventHandler(e, element){
+    e.preventDefault();
+    let files = e.target.files || e.dataTransfer.files;
+    let model = this.data_elements[element];
+
+    if(files && files.length > 0) {
+      for(let file of files) {
         let reader = new FileReader();
         console.log(file.name);
         reader.readAsDataURL(file);
@@ -161,13 +173,11 @@ export class XjsonComponent implements OnInit, OnDestroy{
               file_identifier: response['id']
             };
             model.value.push(new_file)
-
+  
             subscription.unsubscribe();
           });
         };
       }
-      
-
     }
   }
   tableColumnName(element, index){
@@ -277,7 +287,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
       for (let col of Object.keys(row)) {
         let column_properties = JSON.parse(JSON.stringify(table.table_columns[col]));
         column_properties.value = row[col];
-        console.log(column_properties);
+        
         let validation = this.isValidField(column_properties);
         if(validation.valid != true){
           validation['row'] = table.value.indexOf(row);

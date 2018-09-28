@@ -13,6 +13,7 @@ export class SearchComponent {
   results: any = false;
   filteredResults: any = false;
   dataSubscription: Subscription;
+  paramSubscription: Subscription;
   breadcrumbs: any = false;
   path: any;
   lang: any;
@@ -23,17 +24,18 @@ export class SearchComponent {
   listLimit: number = 5;
   listStep: number = 5;
   listLength: number;
-  initialCrumbs = {
+  initialCrumbs: any = {
     'en': [{"text": "Home", "url": "/en"}],
     'et': [{"text": "Avaleht", "url": "/et"}]
   };
-  types = [
+  types: Array<any> = [
     {"name": "article.label", "sumLabel": "Artikkel", "value": false, "sum": 0},
     {"name": "news.label", "sumLabel": "Uudis", "value": false, "sum": 0},
     {"name": "event.label", "sumLabel": "Sündmus", "value": false, "sum": 0},
     {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
     {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
   ];
+  typeArr: any = [];
   
   constructor (
     private rootScope:RootScopeService,
@@ -43,23 +45,51 @@ export class SearchComponent {
   ) {}
 
   ngOnInit() {
-    if( this.route.snapshot.queryParams['term'] ){
+
+    this.paramSubscription = this.route.queryParams.subscribe( params => {
+      // Params name change on language change.
+      // if(this.route.snapshot.params['lang'] === 'en') {
+      //   this.types[0].sumLabel = 'Article';
+      //   this.types[1].sumLabel = 'Uudised';
+      // }
+      if(this.route.snapshot.queryParams['term'] !== this.param && this.param.length) {
+        this.param = this.route.snapshot.queryParams['term'];
+        var queryTypes = this.route.snapshot.queryParams['type'];
+        if (queryTypes && queryTypes instanceof Array) {
+          this.typeArr = queryTypes;
+        } else if (queryTypes) {
+          this.typeArr.push(queryTypes);
+        }
+        this.getResults(this.param, this.typeArr);
+      }
+    });
+
+    if (this.route.snapshot.queryParams['term']) {
       this.param = this.route.snapshot.queryParams['term'];
-      this.getResults(this.param);
+      var queryTypes = this.route.snapshot.queryParams['type'];
+      if (queryTypes && queryTypes instanceof Array) {
+        this.typeArr = queryTypes;
+      } else if (queryTypes) {
+        this.typeArr.push(queryTypes);
+      }
+      this.getResults(this.param, this.typeArr);
     } else {
       this.loading = false;
     }
+
     this.rootScope.set('langOptions', {
       'en': '/en/search',
       'et': '/et/otsing',
     });
+
     this.breadcrumbs = this.constructCrumbs();
   }
 
-  getResults(term) {
+  getResults(term, type) {
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
+    this.typeArr = type;
     this.filteredResults = false;
     this.results = false;
     this.loading = true;
@@ -75,14 +105,19 @@ export class SearchComponent {
       search_term: term
     }
     this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+      this.updateParams('type', type.length ? type : null);
       this.results = this.filteredResults = data['data']['CustomElasticQuery'];
       
-      this.types.forEach(type => {type.sum = 0;type.value = false});
+      this.types.forEach(type => {type.sum = 0;type.value = this.typeArr.includes(type.sumLabel)});
+      
       this.filteredResults.forEach(res => {
         this.types.forEach(type => {
           if(type.sumLabel === res.ContentType) {type.sum += 1;}
         });
       });
+      this.filteredResults = this.results.filter(res => this.typeArr.includes(res.ContentType));
+      this.filteredResults = !this.typeArr.length ? this.results : this.filteredResults;
+
       this.types.sort((a, b) => b.sum - a.sum)
       this.allFilters = this.checkForAllFilters();
       this.breadcrumbs = this.constructCrumbs();
@@ -105,6 +140,10 @@ export class SearchComponent {
       this.viewChecked = true;
     }
   }  
+
+  ngOnDestroy() {
+    this.paramSubscription.unsubscribe();
+  }
 
   setFocus(id) {
     let focusTarget = (id - 1).toString();
@@ -137,21 +176,24 @@ export class SearchComponent {
   }
 
   filterAll() {
-    let typeArr = [];
+    this.typeArr = [];
     this.types.forEach(type => type.value = false);
     this.filteredResults = this.results;
+    this.updateParams('type', null);
     this.listLength = this.filteredResults.length;
     this.allFilters = true;
   }
 
   filterView(id) {
     this.types[id].value = !this.types[id].value;
-    var typeArr = [];
+    this.typeArr = [];
     this.types.forEach((type) => {
-      if (type.value) {typeArr.push(type.sumLabel)}
+      if (type.value) {this.typeArr.push(type.sumLabel)}
     });
-    typeArr = !typeArr.length ? ["Artikkel", "Kool", "Sündmus", "Uudis", "Õppekava"] : typeArr;
-    this.filteredResults = this.results.filter(res => typeArr.includes(res.ContentType));
+    this.typeArr = !this.typeArr.length ? [] : this.typeArr;
+    this.filteredResults = this.results.filter(res => this.typeArr.includes(res.ContentType));
+    this.filteredResults = !this.typeArr.length ? this.results : this.filteredResults;
+    this.updateParams('type', this.typeArr.length ? this.typeArr : null);
     this.listLength = this.filteredResults.length;
     this.allFilters = this.checkForAllFilters();
   }

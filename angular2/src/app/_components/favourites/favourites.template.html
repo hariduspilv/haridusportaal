@@ -1,8 +1,16 @@
 <div class="favourites__wrapper" attr.aria-label="{{'Favourites dropdown, clickable'}}" *ngIf="!userLoggedOut && !initializing">
     
-    <span
-     matTooltip="{{ 'tooltip.favourites' | translate }}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()" *ngIf="existingFavouriteItems">
-      {{ existing === true ? 'star' : 'star_border' }}
+    <span *ngIf="existingFavouriteItems && existing"
+     matTooltip="{{  'tooltip.favouritesRemove' | translate}}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">
+      {{  'star'  }}
+    </span>
+    
+     <span *ngIf="existingFavouriteItems && !existing "
+     matTooltip="{{ 'button.favourites' | translate}}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">
+      {{ 'star_border' }}
     </span>
   
 </div>
+
+
+<!-- {{ existing === true ? 'tooltip.favourites'}} -->
