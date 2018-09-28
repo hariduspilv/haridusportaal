@@ -54,7 +54,7 @@ class EhisConnectorService {
 				do {
 					$current_time = DateTimePlus::createFromDateTime(new \Datetime());
 					$diff_sec = $start_time->diff($current_time, TRUE)->s;
-					if($redis_response = $this->getValue($params['id_code'], $service_name)){
+					if($redis_response = $this->getValue($params['key'], $params['hash'])){
 						$redis_response['redis_hit'] = TRUE;
 						return $redis_response;
 					}
@@ -64,7 +64,7 @@ class EhisConnectorService {
 
 				break;
 			default:
-				if($redis_response = $this->getValue($params['id_code'], $service_name)){
+				if($redis_response = $this->getValue($params['key'], $params['hash'])){
 					$redis_response['redis_hit'] = TRUE;
 					return $redis_response;
 				}else{
@@ -106,6 +106,52 @@ class EhisConnectorService {
 		$this->client->hset('get', 'vpTaotlus', $json);
 	}
 
+	public function testOptions(){
+		$json = '{
+    "18052": {
+      "et": "Noortelaagri tegevusluba (püsilaager)",
+      "valid": true
+    },
+    "18053": {
+      "et": "Turvatöötaja õppe korraldaja tegevusluba",
+      "valid": true
+    },
+    "18055": {
+      "et": "Mootorsõidukijuhi koolitusasutuse tegevusluba",
+      "valid": true
+    },
+    "18057": {
+      "et": "Üldhariduskooli tegevusluba",
+      "valid": true
+    },
+    "18058": {
+      "et": "Koolieelse lasteasutuse tegevusluba",
+      "valid": true
+    },
+    "18098": {
+      "et": "Täiskasvanuhariduse majandustegevusteade",
+      "valid": false
+    },
+    "18099": {
+      "et": "Vedurijuhi koolituse tegevusluba",
+      "valid": true
+    },
+    "18100": {
+      "et": "Eesti keele tasemeeksami koolituse tegevusluba",
+      "valid": true
+    },
+    "18102": {
+      "et": "Lasteaed-põhikool tegevusluba",
+      "valid": true
+    },
+    "18189": {
+      "et": "Noortelaagri tegevusluba (projektlaager)",
+      "valid": true
+    }
+  }';
+		$this->client->hSet('klassifikaator', 'tegevusloaLiigid', $json);
+	}
+
 	/**
 	 * @param $key
 	 * @param $field
@@ -143,7 +189,8 @@ class EhisConnectorService {
 	public function getProfessionalCertificate(array $params = []){
 		// build url params for GET request
 		$params['url'] = [$this->getCurrentUserIdCode(), 'true', time()];
-		$params['id_code'] = $this->getCurrentUserIdCode();
+		$params['key'] = $this->getCurrentUserIdCode();
+		$params['hash'] = 'kodanikKutsetunnistus';
 		return $this->invokeWithRedis('kodanikKutsetunnistus', $params, FALSE);
 	}
 
@@ -153,8 +200,9 @@ class EhisConnectorService {
 	 */
 	public function getPersonalCard(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode(), time()];
-		$params['id_code'] = $this->getCurrentUserIdCode();
-		$response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
+		$params['key'] = $this->getCurrentUserIdCode();
+		$params['hash'] = 'eeIsikukaart';
+ 		$response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
 		return $this->filterPersonalCard($response, $params['tab']);
 	}
 
@@ -164,7 +212,8 @@ class EhisConnectorService {
 	 */
 	public function getApplications(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode()];
-		$params['id_code'] = $this->getCurrentUserIdCode();
+		$params['key'] = $this->getCurrentUserIdCode();
+		$params['hash'] = 'getDocuments';
 		#dump($params['init']);
 		// we need to start getDocument service
 		if($params['init']){
@@ -184,6 +233,16 @@ class EhisConnectorService {
 	public function getDocumentFile(array $params = []){
 		$params['url'] = [$params['file_id'], $this->getCurrentUserIdCode()];
 		return $this->invoke('getDocumentFile', $params);
+	}
+
+	public function getOptionsTaxonomy(array $params = []){
+		$params['key'] = 'klassifikaator';
+		$return = $this->invokeWithRedis('mtsysKlfTeenus', $params, FALSE);
+		if(!$return['redis_hit']){
+
+			return (isset($return[$params['hash']])) ? $return[$params['hash']] : [];
+		}
+		return $return;
 	}
 
 	/**

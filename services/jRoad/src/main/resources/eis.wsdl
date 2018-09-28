@@ -1,0 +1,4349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                  xmlns:tns="http://eis.x-road.eu/v4" 
+                  xmlns:xrd="http://x-road.eu/xsd/xroad.xsd" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:id="http://x-road.eu/xsd/identifiers"
+                  xmlns="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" 
+                  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+                  targetNamespace="http://eis.x-road.eu/v4">
+  <!-- 
+       Eksamite infosüsteemi X-tee teenused
+  -->
+  <wsdl:types>
+	<schema targetNamespace="http://eis.x-road.eu/v4" 
+            xmlns="http://www.w3.org/2001/XMLSchema">
+	  <import namespace="http://x-road.eu/xsd/xroad.xsd" 
+              schemaLocation="http://x-road.eu/xsd/xroad.xsd" />
+	  <simpleType name="t_kehtiv">
+		<restriction base="string">
+		  <enumeration value="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kehtetu</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		  <enumeration value="1">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kehtiv</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		</restriction>
+	  </simpleType>
+      
+	  <simpleType name="t_eksam_staatus">
+		<restriction base="string">
+		  <enumeration value="1">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemus teada</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		  <enumeration value="2">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Puudus eksamilt</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		  <enumeration value="3">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemus tühistatud</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		  <enumeration value="4">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemus ei ole teada</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		</restriction>
+	  </simpleType>
+
+	  <complexType name="sais_eksamid_paring">
+		<all>
+		  <element name="isikukood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Isikukood: </xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade: </xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="sais_apellatsioonid_paring">
+		<all>
+		  <element name="aasta" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Aasta: </xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+	  <complexType name="chk_teis_reg_vastus">
+		<all>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+	  <complexType name="kontakt_paring">
+		<all>
+		  <element name="isikukood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Isikukood: </xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="sais_eksamid_vastus">
+		<all>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="sais_eksam_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Registreeritud riigieksamid (maksimumtulemused aine ja kursuse kaupa)</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:sais_eksam_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="rvtunnistused">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Rahvusvaheliste eksamite tunnistused</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:sais_rvtunnistus" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		</all>
+	  </complexType>
+      
+	  <complexType name="sais_apellatsioonid_vastus">
+		<all>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="sais_apellatsioonid_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Apelleeritud riigieksamid (maksimumtulemused aine ja kursuse kaupa)</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:sais_apellatsioonid_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="riigikeeletase_paring">
+		<all>
+		  <element name="isikukood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Isikukood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tase">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Keeleoskuse tase</xrd:title>
+			  </appinfo>
+			</annotation>
+	        <simpleType>
+		      <restriction base="string">
+		        <enumeration value="A1"/>
+		        <enumeration value="A2"/>
+		        <enumeration value="B1"/>
+		        <enumeration value="B2"/>
+		        <enumeration value="C1"/>
+		        <enumeration value="C2"/>
+		      </restriction>
+	        </simpleType>
+      	  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="riigikeeletase_vastus">
+		<sequence>
+		  <element name="sooritatud" type="boolean" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kas küsitud taseme (või sellest kõrgema taseme) riigikeeleeksam on sooritatud</xrd:title>
+                <xrd:technotes>
+                  true - eksam on sooritatud, tase on olemas
+                  false - eksamisooritust ei ole, taseme olemasolu ei ole teada
+                </xrd:technotes>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="teade" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Veateade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+      
+	  <complexType name="re_eksam_jada_item">
+		<all>
+		  <element name="nimetus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami aine</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aeg" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Toimumise aeg</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="staatus" type="string">
+            <!--
+				<element name="staatus" type="tns:t_eksam_staatus">
+            -->
+			<annotation>
+			  <appinfo>
+				<xrd:title>Staatus</xrd:title>
+                <!--
+					<xrd:notes>Tulemus ei ole teada; Tulemus teada; Puudus eksamilt; Tulemus tühistatud</xrd:notes>
+                -->
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tulemus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="id" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="on_osatulemus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="sais_eksam_jada_item">
+		<sequence>
+		  <element name="nimetus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami aine</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami aine kood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kursus" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kursus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="keeletase" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Keeleoskuse tase</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kuupaev" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami toimumise kuupäev</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tulemus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="keele_kood" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami sooritamise keele kood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="keele_nimetus" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami sooritamise keele nimetus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tunnistuse_nr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse number</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="sais_rvtunnistus">
+		<sequence>
+		  <element name="nimetus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami aine</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami aine kood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tunnistusenimetus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse nimetus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="rveksam_kood" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami kood klassifikaatoris</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="keeletase" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Keeleoskuse tase</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kuupaev" type="date" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse väljastamise kuupäev</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tulemus" type="float" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Arvuline tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tulemusviis">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemuse esitamise viis</xrd:title>
+			  </appinfo>
+			</annotation>
+            <simpleType>
+			  <restriction base="string">
+				<enumeration value="P">
+				  <annotation>
+					<appinfo>
+					  <xrd:title>Pallides</xrd:title>
+					</appinfo>
+				  </annotation>
+				</enumeration>
+				<enumeration value="S">
+				  <annotation>
+					<appinfo>
+					  <xrd:title>Protsentides</xrd:title>
+					</appinfo>
+				  </annotation>
+				</enumeration>
+				<enumeration value="T">
+				  <annotation>
+					<appinfo>
+					  <xrd:title>Astmetena</xrd:title>
+					</appinfo>
+				  </annotation>
+				</enumeration>
+			  </restriction>
+			</simpleType>
+		  </element>
+		  <element name="max_tulemus" type="float" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Maksimaalne võimalik arvuline tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aste_tahis" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemuse aste</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aste_alates" type="float" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemuse astme alumine arvuline piir</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aste_kuni" type="float" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemuse astme ülemine arvuline piir</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+
+		  <element name="osatulemused" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Osaoskuste tulemused</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:sais_rvosatulemus" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+
+		  <element name="tunnistuse_nr" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse number</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="sais_rvosatulemus">
+		<sequence>
+		  <element name="nimetus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Osaoskuse nimetus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tulemus" type="float" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Arvuline tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="max_tulemus" type="float" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Maksimaalne võimalik arvuline tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aste_tahis" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemuse aste</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aste_alates" type="float" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemuse astme alumine arvuline piir</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aste_kuni" type="float" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemuse astme ülemine arvuline piir</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+        </sequence>
+	  </complexType>     
+      
+	  <complexType name="sais_apellatsioonid_jada_item">
+		<sequence>
+		  <element name="isikukood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Isikukood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="nimetus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami aine</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami aine kood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kursus" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kursus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="keeletase" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Keeleoskuse tase</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kuupaev" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami toimumise kuupäev</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tulemus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="keele_kood" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami sooritamise keele kood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="keele_nimetus" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami sooritamise keele nimetus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="e_tunnistus_am_paring">
+		<all>
+		  <element name="tunnistus_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistuse id</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="e_tunnistus_am_vastus">
+		<all>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tunnistus" type="base64Binary">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="e_tunnistus_kehtivus_paring">
+		<all>
+		  <element name="isikukood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistuse omaniku isikukood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tunnistus_nr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistuse unikaalne number</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="e_tunnistus_kehtivus_vastus">
+		<all>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="nimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistuse omaniku ees- ja perekonnanimi</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tunnistus_nr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistuse number</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kehtiv" type="tns:t_kehtiv">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistuse olek</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="eksam_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Registreeritud riigieksamid</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:re_eksam_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="tunnistus" type="base64Binary">
+			<annotation>
+			  <appinfo>
+				<xrd:title>LAADI ALLA E-TUNNISTUS</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="e_tunnistus_list_notar_paring">
+		<all>
+		  <element name="isikukood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Isikukood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="e_tunnistus_list_notar_vastus">
+		<all>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="e_tunnistus_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistused</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:e_tunnistus_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="riigieksamid_ehis_paring">
+		<all>
+		  <element name="isikukoodid" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Isikukoodid </xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+	  <complexType name="riigieksamid_ehis_vastus">
+		<all>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>kood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="ret64" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Vastuse andmed (zip fail, base64)</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+	  
+	  <complexType name="e_tunnistus_jada_item">
+		<all>
+		  <element name="tunnistus_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tunnistus_nr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistuse number</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="nimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksaminandi nimi</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="isikukood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Isikukood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aasta" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-Tunnistuse aasta</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+
+      <!-- eesti.ee portaalis oma riigieksamite andmete vaatamise teenused -->
+
+	  <complexType name="testsessioonid_kod_vastus">
+		<all>
+		  <element name="teade" type="string"/>
+		  <element name="testsessioonid_kod_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testsessiooni testidel osalemine</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:testsessioonid_kod_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		</all>
+	  </complexType>
+	  
+	  <complexType name="testsessioonid_kod_jada_item">
+		<all>
+		  <element name="nimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testsessioon</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="oppeaasta" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Õppeaasta</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="testsessioon_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testsessiooni id</xrd:title>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="testid_kod_paring">
+		<all>
+		  <element name="testsessioon_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testsessiooni id</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="testid_kod_vastus">
+		<sequence>
+		  <element name="teade" type="string"/>
+		  <element name="testid_kod_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testidel osalemine</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:testid_kod_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="tunnistus_id" type="integer" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+	  
+	  <complexType name="testid_kod_jada_item">
+		<sequence>
+		  <element name="test_nimi" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testi nimi</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="osa_nimi" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testiosa nimi</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="osa_kuupaev" type="date" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testiosa toimumise aeg</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="osa_koht" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testiosa toimumise koht</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="osa_aadress" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testiosa toimumise koha aadress</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="staatus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Staatus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tulemus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="tulemused_riigiportaali_paring">
+		<sequence>
+		  <element name="alates" type="dateTime" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Aeg, millest alates tehtud muudatusi päritakse</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="alates_id" type="integer" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testisoorituse ID, millest väiksema ID-ga kirjeid ei väljastata</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aasta" type="integer" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Testimiskorra aasta</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="max_arv" type="integer" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Maksimaalne korraga väljastatavate soorituskirjete arv</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="tulemused_riigiportaali_vastus">
+        <choice>
+		  <sequence>
+		    <element name="veateade" type="string">
+			  <annotation>
+			    <appinfo>
+				  <xrd:title>Veateade</xrd:title>
+			    </appinfo>
+			  </annotation>
+            </element>
+          </sequence>
+          <sequence>
+		    <element name="aeg" type="dateTime">
+			  <annotation>
+			    <appinfo>
+				  <xrd:title>EISi serveri aeg</xrd:title>
+			    </appinfo>
+			  </annotation>
+		    </element>
+		    <element name="valjastatud_arv" type="integer">
+			  <annotation>
+			    <appinfo>
+				  <xrd:title>Manuses olevate testisoorituste kirjete arv</xrd:title>
+			    </appinfo>
+			  </annotation>
+		    </element>
+		    <element name="jaanud_arv" type="integer">
+			  <annotation>
+			    <appinfo>
+				  <xrd:title>Väljastamata jäänud testisoorituste kirjete arv</xrd:title>
+			    </appinfo>
+			  </annotation>
+		    </element>
+		    <element name="jargmine_id" type="integer" minOccurs="0">
+			  <annotation>
+			    <appinfo>
+				  <xrd:title>Esimese väljastamata jäänud testisoorituse ID</xrd:title>
+			    </appinfo>
+			  </annotation>
+		    </element>
+		    <element name="manus" type="base64Binary" minOccurs="0">
+			  <annotation>
+			    <appinfo>
+				  <xrd:title>Andmefail</xrd:title>
+			    </appinfo>
+			  </annotation>
+		    </element>
+          </sequence>
+        </choice>
+	  </complexType>     
+      
+	  <complexType name="e_tunnistus_kod_paring">
+		<all>
+		  <element name="tunnistus_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistuse id</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="e_tunnistus_kod_vastus">
+		<sequence>
+		  <element name="teade" type="string"/>
+		  <element name="tunnistusenr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse nr</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="valjastamisaeg" type="date">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse väljastamise kuupäev</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kehtiv" type="tns:t_kehtiv">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kehtivus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tunnistus" type="base64Binary">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-tunnistus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+	  
+	  <complexType name="load_cl_aine_vastus">
+		<all>
+		  <element name="cl_aine" type="tns:clv_jada"/>
+		</all>
+	  </complexType>
+	  <complexType name="clv_jada">
+		<sequence>
+		  <element name="item" minOccurs="0" maxOccurs="unbounded">
+            <!--
+                õppeaine nimetus on elemendi sisus
+                atribuut "riigieksam" - 1 või 0 vastavalt sellele, kas on riigieksami aine või mitte
+                atribuut "kehtetu" - 1, kui õppeaine enam ei ole kasutusel
+                atribuut "value" - õppeaine klassifikaatori kood
+            -->
+            <complexType>
+		      <simpleContent>
+		        <extension base="string">
+			      <attribute name="riigieksam" type="integer"/>
+			      <attribute name="kehtetu" type="integer"/>                  
+			      <attribute name="value" type="string"/>
+		        </extension>
+		      </simpleContent>
+            </complexType>
+          </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="load_cl_rveksam_vastus">
+		<all>
+		  <element name="cl_rveksam" type="tns:clrv_jada"/>
+		</all>
+	  </complexType>
+	  <complexType name="clrv_jada">
+		<sequence>
+		  <element name="item" minOccurs="0" maxOccurs="unbounded">
+            <!--
+                eksami nimetus on elemendi sisus
+                atribuut "aine" - õppeaine kood õppeainete klassifikaatoris
+                atribuut "keeletase" - eksami tase, nt "B1", "B2" (võib puududa)
+                atribuut "max_tulemus" - eksami maksimaalne võimalik arvuline tulemus (punktid või protsendid, võib puududa)
+                atribuut "value" - eksami klassifikaatori kood
+                NB! sama nimetuse ja koodiga võib olla mitu rida (kui aine, tase või max tulemus erinevad)
+            -->
+            <complexType>
+		      <simpleContent>
+		        <extension base="string">
+			      <attribute name="aine" type="string" use="required"/>
+			      <attribute name="keeletase" type="string"/>                  
+			      <attribute name="max_tulemus" type="float"/>
+			      <attribute name="value" type="string" use="required"/>
+		        </extension>
+		      </simpleContent>
+            </complexType>
+          </element>
+		</sequence>
+	  </complexType>
+	  
+      <!-- Tasemeeksamite ja seaduse tundmise eksamite teenused (eesti.ee portaali jaoks) -->
+
+	  <complexType name="load_cl_vastus">
+		<all>
+		  <element name="cl_tookoht" type="tns:cl_jada"/>
+		  <element name="cl_amet" type="tns:cl_jada"/>
+		  <element name="cl_haridus" type="tns:cl_jada"/>
+		  <element name="cl_kodak" type="tns:cl_jada"/>
+		</all>
+	  </complexType>
+	  <complexType name="cl_jada">
+		<sequence>
+		  <element name="item" type="tns:string_attr_item" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	  </complexType>
+	  <complexType name="string_attr_item">
+		<simpleContent>
+		  <extension base="string">
+			<attribute name="label" type="string"/>
+			<attribute name="value" type="integer"/>
+		  </extension>
+		</simpleContent>
+	  </complexType>
+
+	  <complexType name="aadress">
+		<all>
+		  <element name="lahiaadress" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Lähiaadress</xrd:title>
+				<xrd:fieldsize>40</xrd:fieldsize>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="indeks" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Postiindeks</xrd:title>
+				<xrd:fieldsize>40</xrd:fieldsize>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="kontakt_vastus">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="eesnimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eesnimi</xrd:title>
+				<xrd:notes>Eesnimi Rahvastikuregistris</xrd:notes>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="perenimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Perekonnanimi</xrd:title>
+				<xrd:notes>Perekonnanimi Rahvastikuregistris</xrd:notes>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kodak" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kodakondsus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="asula" type="integer" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Aadress (EHAK)</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aadress" type="tns:aadress">
+			<annotation>
+			  <appinfo>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kontakt_tel" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kontakttelefonid</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="epost_aadr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-posti aadress</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="epost_teavita" type="boolean">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="edasi1" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="edasi2" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="muuda_kontakt1_kod_paring">
+		<sequence>
+		  <element name="eesnimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eesnimi</xrd:title>
+				<xrd:notes>Eesnimi Rahvastikuregistris</xrd:notes>
+				<xrd:fieldtype>comment</xrd:fieldtype>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="perenimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Perekonnanimi</xrd:title>
+				<xrd:notes>Perekonnanimi Rahvastikuregistris</xrd:notes>
+				<xrd:fieldtype>comment</xrd:fieldtype>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kodak" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kodakondsus</xrd:title>
+				<xrd:fieldtype>comment</xrd:fieldtype>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="asula" type="integer" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Aadress (EHAK)</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aadress" type="tns:aadress">
+			<annotation>
+			  <appinfo>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="epost_aadr" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>E-posti aadress</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kontakt_tel" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kontakttelefonid</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="epost_teavita" type="boolean" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Palun aktiveerida e-teavitus</xrd:title>
+				<xrd:notes>Palun mind teavitada e-posti teel, kui REKK-i infosüsteemides muutuvad minuga seotud andmed (muutub registreerimisavalduse staatus, väljastatakse eksamikoha teade, tulemus või tunnistus)</xrd:notes>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="ArrayOfString">
+        <sequence>
+          <element name="item" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+	  </complexType>
+
+	  <complexType name="legacy_response">
+        <sequence>
+          <element name="url" type="xsd:string"/>
+        </sequence>
+	  </complexType>
+
+	  <complexType name="muuda_kontakt2_kod_paring">
+		<sequence>
+		  <element name="eesnimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eesnimi</xrd:title>
+				<xrd:notes>Eesnimi Rahvastikuregistris</xrd:notes>
+				<xrd:fieldtype>comment</xrd:fieldtype>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="perenimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Perekonnanimi</xrd:title>
+				<xrd:notes>Perekonnanimi Rahvastikuregistris</xrd:notes>
+				<xrd:fieldtype>comment</xrd:fieldtype>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kodak" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kodakondsus</xrd:title>
+				<xrd:fieldtype>comment</xrd:fieldtype>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="asula" type="integer" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Aadress (EHAK)</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aadress" type="tns:aadress">
+			<annotation>
+			  <appinfo>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kontakt_tel" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kontakttelefonid</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="epost_teavita" type="boolean" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Palun aktiveerida e-teavitus</xrd:title>
+				<xrd:notes>Palun mind teavitada e-posti teel, kui REKK-i infosüsteemides muutuvad minuga seotud andmed (muutub registreerimisavalduse staatus, väljastatakse eksamikoha teade, tulemus või tunnistus)</xrd:notes>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="muuda_kontakt1_vastus">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="edasi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="muuda_kontakt2_vastus">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="edasi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="reg_teis_init_kod_paring">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+				<xrd:fieldtype>comment</xrd:fieldtype>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="e_kood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="reg_teis_init_vastus">
+		<sequence>
+		  <element name="teade" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="konsult" type="string" minOccurs="0"/>
+		  <element name="edasi" type="string" minOccurs="0"/>
+		  <element name="edasi_hoiata" type="string" minOccurs="0"/>
+		  <element name="piirang" type="string" minOccurs="0"/>
+		  <element name="tookoht" type="string" minOccurs="0"/>
+		  <element name="tookoht_muu" type="string" minOccurs="0"/>          
+		  <element name="amet" type="string" minOccurs="0"/>
+		  <element name="amet_muu" type="string" minOccurs="0"/>
+		  <element name="haridus2" type="string" minOccurs="0"/>
+		  <element name="markus" type="string" minOccurs="0"/>
+		  <element name="eksamiteade" type="string" minOccurs="0"/>
+		  <element name="pk_id" type="string" minOccurs="0"/>
+		  <element name="reg_id" type="string" minOccurs="0"/>
+		  <element name="nimi" type="string" minOccurs="0"/>
+		  <element name="reg" type="tns:reg_tase" minOccurs="0"/>
+		  <element name="koht" type="tns:ArrayOfString" minOccurs="0"/>
+		  <element name="plaan1" type="tns:ArrayOfString" minOccurs="0"/>
+		  <element name="plaan2" type="tns:ArrayOfString" minOccurs="0"/>
+		  <element name="plaan3" type="tns:ArrayOfString" minOccurs="0"/>
+		  <element name="plaan4" type="tns:ArrayOfString" minOccurs="0"/>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="teis_del_kod_paring">
+		<sequence>
+		  <element name="id" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>id</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="teis_del_vastus">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="seis_del_kod_paring">
+		<sequence>
+		  <element name="id" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>id</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="seis_del_vastus">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="seis_andmed_paring">
+		<all>
+		  <element name="isikukood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Isikukood: </xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="seis_andmed_vastus">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="nimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Nimi</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="eksamitulemus_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>EV põhiseaduse ja kodakondsuse seaduse tundmise eksami tulemused</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:seis_eksam_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="tunnistus_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Väljastatud EV põhiseaduse ja kodakondsuse seaduse tundmise eksami tunnistused</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:seis_tunnistus_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="reg_staatus_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>EV põhiseaduse ja kodakondsuse seaduse tundmise eksamile registreerimise staatused</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:seis_reg_staatus_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="kohateade_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksamikoha teade</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:seis_kohateade_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		</sequence>
+	  </complexType>
+	  <complexType name="seis_eksam_jada_item">
+		<sequence>
+		  <element name="aeg" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Toimumise aeg</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="staatus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Staatus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tulemus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+	  <complexType name="seis_reg_staatus_jada_item">
+		<sequence>
+		  <element name="kpv" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Avalduse sisestamise kuupäev</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="koht" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Valitud koht ja aeg</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="staatus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Staatus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="id" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="dele" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+	  <complexType name="seis_kohateade_jada_item">
+		<sequence>
+		  <element name="eksam" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksam</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aeg" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kuupäev / kellaaeg</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="koht" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Toimumise koht</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+	  <complexType name="seis_tunnistus_jada_item">
+		<sequence>
+		  <element name="nbr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse number</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kpv" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse väljastamise kuupäev</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kehtiv" type="tns:t_kehtiv">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kehtiv/kehtetu</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tunnistus_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="teis_andmed_paring">
+		<all>
+		  <element name="isikukood" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Isikukood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</all>
+	  </complexType>
+
+	  <complexType name="teis_andmed_vastus">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="nimi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Nimi</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="eksamitulemus_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eesti keele A2, B1, B2 ja C1 tasemete tulemused on esitatud protsentides võimalikust punktisummast</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:teis_eksam_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="tunnistus_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Väljastatud eesti keele oskuse tunnistused</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:teis_tunnistus_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="reg_staatus_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eesti keele tasemeeksamile registreerimise staatused</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:teis_reg_staatus_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="kohateade_jada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksamikoha teade</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:teis_kohateade_jada_item" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="teis_eksam_jada_item">
+		<sequence>
+		  <element name="tase" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami tase</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aeg" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Toimumise aeg</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="staatus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Staatus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tulemus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tulemus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+	  <complexType name="teis_reg_staatus_jada_item">
+		<sequence>
+		  <element name="kpv" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Avalduse sisestamise kuupäev</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="koht" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Valitud tase, koht ja aeg</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="staatus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Staatus</xrd:title>
+                <!--
+					<xrd:notes>Avatud; Registreeritud; Avaldus tühistatud; Eksamiteade väljastatud</xrd:notes>
+                -->
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="dele" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="id" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+	  <complexType name="teis_kohateade_jada_item">
+		<sequence>
+		  <element name="eksam" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksam</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="aeg" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kuupäev / kellaaeg</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="koht" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Toimumise koht</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+	  <complexType name="teis_tunnistus_jada_item">
+		<sequence>
+		  <element name="nbr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse number</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kpv" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Tunnistuse väljastamise kuupäev</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kehtiv" type="tns:t_kehtiv">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kehtiv/kehtetu</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tunnistus_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:visibility>0</xrd:visibility>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="reg_tase">
+		<sequence>
+		  <element name="a2">
+			<annotation>
+			  <appinfo>
+				<xrd:title>A2 EESTI KEEL</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="vali" type="boolean">
+				  <annotation>
+					<appinfo>
+					  <xrd:title/>
+					</appinfo>
+				  </annotation>
+				</element>
+				<element name="koht" type="string">
+				  <annotation>
+					<appinfo>
+					  <xrd:title>Koht/aeg</xrd:title>
+					</appinfo>
+				  </annotation>
+				</element>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="b1">
+			<annotation>
+			  <appinfo>
+				<xrd:title>B1 EESTI KEEL</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="vali" type="boolean">
+				  <annotation>
+					<appinfo>
+					  <xrd:title/>
+					</appinfo>
+				  </annotation>
+				</element>
+				<element name="koht" type="string">
+				  <annotation>
+					<appinfo>
+					  <xrd:title>Koht/aeg</xrd:title>
+					</appinfo>
+				  </annotation>
+				</element>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="b2">
+			<annotation>
+			  <appinfo>
+				<xrd:title>B2 EESTI KEEL</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="vali" type="boolean">
+				  <annotation>
+					<appinfo>
+					  <xrd:title/>
+					</appinfo>
+				  </annotation>
+				</element>
+				<element name="koht" type="string">
+				  <annotation>
+					<appinfo>
+					  <xrd:title>Koht/aeg</xrd:title>
+					</appinfo>
+				  </annotation>
+				</element>
+			  </sequence>
+			</complexType>
+		  </element>
+		  <element name="c1">
+			<annotation>
+			  <appinfo>
+				<xrd:title>C1 EESTI KEEL</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="vali" type="boolean">
+				  <annotation>
+					<appinfo>
+					  <xrd:title/>
+					</appinfo>
+				  </annotation>
+				</element>
+				<element name="koht" type="string">
+				  <annotation>
+					<appinfo>
+					  <xrd:title>Koht/aeg</xrd:title>
+					</appinfo>
+				  </annotation>
+				</element>
+			  </sequence>
+			</complexType>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="reg_teis2_kod_paring">
+		<sequence>
+		  <element name="tookoht" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Töökoht</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tookoht_muu" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kui valisite töökohaks "Muu", palun täpsustage</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="amet" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Amet</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="amet_muu" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kui valisite ametiks "Muu", palun täpsustage</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="haridus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Haridus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="tase" type="tns:reg_tase">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Sooritatava taseme valik</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="konsult" type="tns:t_jahei" default="1">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Soovin konsultatsiooni</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="markus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Märkused</xrd:title>
+				<xrd:fieldtype>textarea</xrd:fieldtype>
+				<xrd:fieldcols>40</xrd:fieldcols>
+				<xrd:fieldrows>4</xrd:fieldrows>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="teade" type="tns:t_teade" default="1">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksamikutse ja sooritusteate saamisviisi eelistus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="reg_seis2_kod_paring">
+		<sequence>
+		  <element name="kuu" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksami sooritamise koht ja aeg</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="markus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Märkused</xrd:title>
+				<xrd:fieldtype>textarea</xrd:fieldtype>
+				<xrd:fieldcols>40</xrd:fieldcols>
+				<xrd:fieldrows>4</xrd:fieldrows>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="teade" type="tns:t_teade" default="1">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Eksamikutse ja sooritusteate saamisviisi eelistus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="reg_teis2_vastus">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kontakt" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="edasi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+	  <complexType name="reg_seis2_vastus">
+		<sequence>
+		  <element name="teade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kontakt" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="edasi" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title/>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <simpleType name="t_teade">
+		<restriction base="string">
+		  <enumeration value="1">
+			<annotation>
+			  <appinfo>
+				<xrd:title>e-post</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		  <enumeration value="2">
+			<annotation>
+			  <appinfo>
+				<xrd:title>lihtkiri</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		</restriction>
+	  </simpleType>
+
+	  <simpleType name="t_jahei">
+		<restriction base="string">
+		  <enumeration value="1">
+			<annotation>
+			  <appinfo>
+				<xrd:title>JAH</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		  <enumeration value="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>EI</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		</restriction>
+	  </simpleType>
+	  
+
+
+      <!-- Plankide teenused -->
+
+	  <simpleType name="oppetase">
+		<restriction base="string">
+		  <enumeration value="y">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Üldharidus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		  <enumeration value="u">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kutseharidus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		  <enumeration value="o">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kõrgharidus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </enumeration>
+		</restriction>
+	  </simpleType>
+
+	  <complexType name="plank_vabad_paring">
+		<sequence>
+		  <element name="kool_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kooli ID</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="oppetase" type="tns:oppetase" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Õppetase</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="liik_id" type="integer" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Plangiliigi ID</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="plank_vabad_vastus">
+		<sequence>
+		  <element name="teade" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Teade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kogus" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Vabade plankide kogus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="plangijada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Vabad plangid</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:plank_vaba_liik" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="plank_vaba_liik">
+		<sequence>
+		  <element name="oppetase" type="tns:oppetase">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Õppetase</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="liik_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Plangiliigi ID</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="nimetus" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Plangiliigi nimetus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="vahemikud">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Vahemikud</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:plank_vaba_vahemik" minOccurs="0" maxOccurs="unbounded"/>
+			  </sequence>
+			</complexType>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="plank_vaba_vahemik">
+		<sequence>
+		  <element name="alates" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Vahemiku algus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kuni" type="string" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Vahemiku lõpp</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="kogus" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Plankide arv vahemikus</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="plank_valjasta_paring">
+		<sequence>
+		  <element name="plangijada">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Väljastatud plangid</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:plank_valjasta_plank" minOccurs="0" maxOccurs="unbounded"/>                          
+              </sequence>
+            </complexType>
+          </element>
+        </sequence>
+      </complexType>
+
+      <complexType name="plank_valjasta_plank">
+        <sequence>
+		  <element name="kool_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kooli ID</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="plank_nr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Plangi nr</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="oppetase" type="tns:oppetase">
+			<annotation>
+  			  <appinfo>
+				<xrd:title>Õppetase</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="oppekava" type="string" minOccurs="0">
+			<annotation>
+  			  <appinfo>
+				<xrd:title>Õppekava kood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="medal" minOccurs="0">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Lisaks plangile väljastav medal</xrd:title>
+			  </appinfo>
+			</annotation>
+            <simpleType>
+			  <restriction base="integer">
+				<enumeration value="1">
+				  <annotation>
+					<appinfo>
+					  <xrd:title>Kuldmedal</xrd:title>
+					</appinfo>
+				  </annotation>
+				</enumeration>
+				<enumeration value="2">
+				  <annotation>
+					<appinfo>
+					  <xrd:title>Hõbemedal</xrd:title>
+					</appinfo>
+				  </annotation>
+				</enumeration>
+			  </restriction>
+			</simpleType>
+		  </element>
+		</sequence>
+	  </complexType>
+
+	  <complexType name="plank_valjasta_vastus">
+		<sequence>
+		  <element name="valjastatud_kogus" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Väljastatuks märgitud plankide arv</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+
+		  <element name="vead">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Plangid, mida ei olnud võimalik väljastatuks märkida</xrd:title>
+			  </appinfo>
+			</annotation>
+			<complexType>
+			  <sequence>
+				<element name="item" type="tns:plank_valjasta_viga" minOccurs="0" maxOccurs="unbounded"/>                          
+              </sequence>
+            </complexType>
+          </element>
+        </sequence>
+      </complexType>
+
+      <complexType name="plank_valjasta_viga">
+        <sequence>
+		  <element name="kool_id" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Kooli ID</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="plank_nr" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Plangi nr</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="oppetase" type="tns:oppetase">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Õppetase</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="oppekava" type="string">
+			<annotation>
+  			  <appinfo>
+				<xrd:title>Õppekava kood</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		  <element name="veateade" type="string">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Veateade</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+
+      <!--- katse
+	  <complexType name="katse_paring">
+		<sequence>
+          <element name="teade" type="xsd:string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Teade</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+		  <element name="asula" type="integer">
+			<annotation>
+			  <appinfo>
+				<xrd:title>Asula</xrd:title>
+			  </appinfo>
+			</annotation>
+		  </element>
+		</sequence>
+	  </complexType>
+      -->
+
+      <!-- teenuste document/literal juurelemendid -->
+
+      <element name="saisEksamid">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:sais_eksamid_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="saisEksamidResponse">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:sais_eksamid_paring"/>
+            <element name="response" type="tns:sais_eksamid_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="saisApellatsioonid">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:sais_apellatsioonid_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="saisApellatsioonidResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:sais_apellatsioonid_paring"/>
+	        <element name="response" type="tns:sais_apellatsioonid_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="riigikeeletase">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:riigikeeletase_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="riigikeeletaseResponse">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:riigikeeletase_paring"/>
+            <element name="response" type="tns:riigikeeletase_vastus"/>
+          </sequence>
+        </complexType>
+      </element>     
+      
+      <element name="e_tunnistus_am">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_am_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="e_tunnistus_amResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_am_paring"/>
+	        <element name="response" type="tns:e_tunnistus_am_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="e_tunnistus_am_notar">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_am_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="e_tunnistus_am_notarResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_am_paring"/>
+	        <element name="response" type="tns:e_tunnistus_am_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="e_tunnistus_kehtivus">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_kehtivus_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="e_tunnistus_kehtivusResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_kehtivus_paring"/>
+	        <element name="response" type="tns:e_tunnistus_kehtivus_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="e_tunnistus_list_notar">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_list_notar_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="e_tunnistus_list_notarResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_list_notar_paring"/>
+	        <element name="response" type="tns:e_tunnistus_list_notar_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="riigieksamid_ehis">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:riigieksamid_ehis_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="riigieksamid_ehisResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:riigieksamid_ehis_paring"/>
+	        <element name="response" type="tns:riigieksamid_ehis_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="testsessioonid_kod">
+	    <complexType>
+          <sequence>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="testsessioonid_kodResponse">
+	    <complexType>
+          <sequence>
+	        <element name="response" type="tns:testsessioonid_kod_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="testid_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:testid_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="testid_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:testid_kod_paring"/>
+	        <element name="response" type="tns:testid_kod_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="tulemused_riigiportaali">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:tulemused_riigiportaali_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="tulemused_riigiportaaliResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:tulemused_riigiportaali_paring"/>
+	        <element name="response" type="tns:tulemused_riigiportaali_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="e_tunnistus_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="e_tunnistus_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:e_tunnistus_kod_paring"/>
+	        <element name="response" type="tns:e_tunnistus_kod_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="load_cl_aine">
+	    <complexType>
+          <sequence>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="load_cl_aineResponse">
+	    <complexType>
+          <sequence>
+	        <element name="response" type="tns:load_cl_aine_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="load_cl_rveksam">
+	    <complexType>
+          <sequence>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="load_cl_rveksamResponse">
+	    <complexType>
+          <sequence>
+	        <element name="response" type="tns:load_cl_rveksam_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+      
+      <!-- tasemeeksamite ja seaduse tundmise eksamite teenused -->
+
+      <element name="load_cl">
+	    <complexType>
+          <sequence>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="load_clResponse">
+	    <complexType>
+          <sequence>
+	        <element name="response" type="tns:load_cl_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="teis_andmed_kod">
+	    <complexType>
+          <sequence>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="teis_andmed_kodResponse">
+	    <complexType>
+          <sequence>
+	        <element name="response" type="tns:teis_andmed_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="teis_andmed">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:teis_andmed_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="teis_andmedResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:teis_andmed_paring"/>
+	        <element name="response" type="tns:teis_andmed_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="seis_andmed_kod">
+	    <complexType>
+          <sequence>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="seis_andmed_kodResponse">
+	    <complexType>
+          <sequence>
+	        <element name="response" type="tns:seis_andmed_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="seis_andmed">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:seis_andmed_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="seis_andmedResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:seis_andmed_paring"/>
+	        <element name="response" type="tns:seis_andmed_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="teis_del_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:teis_del_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="teis_del_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:teis_del_kod_paring"/>
+	        <element name="response" type="tns:teis_del_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="seis_del_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:seis_del_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="seis_del_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:seis_del_kod_paring"/>
+	        <element name="response" type="tns:seis_del_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="reg_teis_init_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:reg_teis_init_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="reg_teis_init_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:reg_teis_init_kod_paring"/>
+	        <element name="response" type="tns:reg_teis_init_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="reg_seis_init_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:reg_teis_init_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="reg_seis_init_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:reg_teis_init_kod_paring"/>
+	        <element name="response" type="tns:reg_teis_init_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="reg_teis2_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:reg_teis2_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="reg_teis2_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:reg_teis2_kod_paring"/>
+	        <element name="response" type="tns:reg_teis2_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="reg_seis2_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:reg_seis2_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="reg_seis2_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:reg_seis2_kod_paring"/>
+	        <element name="response" type="tns:reg_seis2_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="kontakt_kod">
+	    <complexType>
+          <sequence>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="kontakt_kodResponse">
+	    <complexType>
+          <sequence>
+	        <element name="response" type="tns:kontakt_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="muuda_kontakt1_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:muuda_kontakt1_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="muuda_kontakt1_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:muuda_kontakt1_kod_paring"/>
+	        <element name="response" type="tns:muuda_kontakt1_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="muuda_kontakt2_kod">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:muuda_kontakt2_kod_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="muuda_kontakt2_kodResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:muuda_kontakt2_kod_paring"/>
+	        <element name="response" type="tns:muuda_kontakt2_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+
+      <!-- plankide teenused -->
+      <element name="plank_vabad">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:plank_vabad_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="plank_vabadResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:plank_vabad_paring"/>
+	        <element name="response" type="tns:plank_vabad_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="plank_valjasta">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:plank_valjasta_paring"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="plank_valjastaResponse">
+	    <complexType>
+          <sequence>
+            <element name="request" type="tns:plank_valjasta_paring"/>
+	        <element name="response" type="tns:plank_valjasta_vastus"/>
+          </sequence>
+        </complexType>
+      </element>
+
+
+      <element name="legacyX">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:ArrayOfString"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="legacyXResponse">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:ArrayOfString"/>
+            <element name="response" type="tns:legacy_response"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="legacyTE">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:ArrayOfString"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="legacyTEResponse">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:ArrayOfString"/>
+            <element name="response" type="tns:legacy_response"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="legacySE">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:ArrayOfString"/>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element name="legacySEResponse">
+        <complexType>
+          <sequence>
+            <element name="request" type="tns:ArrayOfString"/>
+            <element name="response" type="tns:legacy_response"/>
+          </sequence>
+        </complexType>
+      </element>
+
+    </schema>
+  </wsdl:types>
+
+  <message name="xheader">
+    <part name="client" element="xrd:client"/>
+    <part name="service" element="xrd:service"/>
+    <part name="id" element="xrd:id"/>
+    <part name="userId" element="xrd:userId"/>
+    <part name="protocolVersion" element="xrd:protocolVersion"/>
+  </message>
+
+  <message name="saisEksamid">
+	<part name="body" element="tns:saisEksamid"/>
+  </message>
+  <message name="saisEksamidResponse">
+	<part name="body" element="tns:saisEksamidResponse"/>
+  </message>
+
+  <message name="saisApellatsioonid">
+	<part name="body" element="tns:saisApellatsioonid"/>
+  </message>
+  <message name="saisApellatsioonidResponse">
+	<part name="body" element="tns:saisApellatsioonidResponse"/>
+  </message>
+
+  <message name="riigikeeletase">
+	<part name="body" element="tns:riigikeeletase"/>
+  </message>
+  <message name="riigikeeletaseResponse">
+	<part name="body" element="tns:riigikeeletaseResponse"/>
+  </message>
+  
+  <message name="e_tunnistus_am_notar">
+	<part name="body" element="tns:e_tunnistus_am_notar"/>
+  </message>
+  <message name="e_tunnistus_am_notarResponse">
+	<part name="body" element="tns:e_tunnistus_am_notarResponse"/>
+  </message>
+
+  <message name="e_tunnistus_am">
+	<part name="body" element="tns:e_tunnistus_am"/>
+  </message>
+  <message name="e_tunnistus_amResponse">
+	<part name="body" element="tns:e_tunnistus_amResponse"/>
+  </message>
+
+  <message name="e_tunnistus_kehtivus">
+	<part name="body" element="tns:e_tunnistus_kehtivus"/>
+  </message>
+  <message name="e_tunnistus_kehtivusResponse">
+	<part name="body" element="tns:e_tunnistus_kehtivusResponse"/>
+  </message>
+
+  <message name="e_tunnistus_list_notar">
+	<part name="body" element="tns:e_tunnistus_list_notar"/>
+  </message>
+  <message name="e_tunnistus_list_notarResponse">
+	<part name="body" element="tns:e_tunnistus_list_notarResponse"/>
+  </message>
+
+  <message name="riigieksamid_ehis">
+	<part name="body" element="tns:riigieksamid_ehis"/>
+  </message>
+  <message name="riigieksamid_ehisResponse">
+	<part name="body" element="tns:riigieksamid_ehisResponse"/>
+  </message>
+
+  <message name="testsessioonid_kod">
+	<part name="body" element="tns:testsessioonid_kod"/>
+  </message>
+  <message name="testsessioonid_kodResponse">
+	<part name="body" element="tns:testsessioonid_kodResponse"/>
+  </message>
+
+  <message name="testid_kod">
+	<part name="body" element="tns:testid_kod"/>
+  </message>
+  <message name="testid_kodResponse">
+	<part name="body" element="tns:testid_kodResponse"/>
+  </message>
+
+  <message name="tulemused_riigiportaali">
+	<part name="body" element="tns:tulemused_riigiportaali"/>
+  </message>
+  <message name="tulemused_riigiportaaliResponse">
+	<part name="body" element="tns:tulemused_riigiportaaliResponse"/>
+  </message>
+  
+  <message name="e_tunnistus_kod">
+	<part name="body" element="tns:e_tunnistus_kod"/>
+  </message>
+  <message name="e_tunnistus_kodResponse">
+	<part name="body" element="tns:e_tunnistus_kodResponse"/>
+  </message>
+
+  <message name="load_cl_aine">
+	<part name="body" element="tns:load_cl_aine"/>
+  </message>
+  <message name="load_cl_aineResponse">
+	<part name="body" element="tns:load_cl_aineResponse"/>
+  </message>
+
+  <message name="load_cl_rveksam">
+	<part name="body" element="tns:load_cl_rveksam"/>
+  </message>
+  <message name="load_cl_rveksamResponse">
+	<part name="body" element="tns:load_cl_rveksamResponse"/>
+  </message>
+
+  <!-- tasemeeksamite ja seaduse tundmise eksamite teenused -->
+
+  <message name="load_cl">
+	<part name="body" element="tns:load_cl"/>
+  </message>
+  <message name="load_clResponse">
+	<part name="body" element="tns:load_clResponse"/>
+  </message>
+
+  <message name="teis_andmed">
+	<part name="body" element="tns:teis_andmed"/>
+  </message>
+  <message name="teis_andmedResponse">
+	<part name="body" element="tns:teis_andmedResponse"/>
+  </message>
+
+  <message name="teis_andmed_kod">
+	<part name="body" element="tns:teis_andmed_kod"/>
+  </message>
+  <message name="teis_andmed_kodResponse">
+	<part name="body" element="tns:teis_andmed_kodResponse"/>
+  </message>
+
+  <message name="seis_andmed">
+	<part name="body" element="tns:seis_andmed"/>
+  </message>
+  <message name="seis_andmedResponse">
+	<part name="body" element="tns:seis_andmedResponse"/>
+  </message>
+
+  <message name="seis_andmed_kod">
+	<part name="body" element="tns:seis_andmed_kod"/>
+  </message>
+  <message name="seis_andmed_kodResponse">
+	<part name="body" element="tns:seis_andmed_kodResponse"/>
+  </message>
+
+  <message name="teis_del_kod">
+	<part name="body" element="tns:teis_del_kod"/>
+  </message>
+  <message name="teis_del_kodResponse">
+	<part name="body" element="tns:teis_del_kodResponse"/>
+  </message>
+
+  <message name="seis_del_kod">
+	<part name="body" element="tns:seis_del_kod"/>
+  </message>
+  <message name="seis_del_kodResponse">
+	<part name="body" element="tns:seis_del_kodResponse"/>
+  </message>
+
+  <message name="reg_teis_init_kod">
+	<part name="body" element="tns:reg_teis_init_kod"/>
+  </message>
+  <message name="reg_teis_init_kodResponse">
+	<part name="body" element="tns:reg_teis_init_kodResponse"/>
+  </message>
+
+  <message name="reg_seis_init_kod">
+	<part name="body" element="tns:reg_seis_init_kod"/>
+  </message>
+  <message name="reg_seis_init_kodResponse">
+	<part name="body" element="tns:reg_seis_init_kodResponse"/>
+  </message>
+  
+  <message name="reg_teis2_kod">
+	<part name="body" element="tns:reg_teis2_kod"/>
+  </message>
+  <message name="reg_teis2_kodResponse">
+	<part name="body" element="tns:reg_teis2_kodResponse"/>
+  </message>
+
+  <message name="reg_seis2_kod">
+	<part name="body" element="tns:reg_seis2_kod"/>
+  </message>
+  <message name="reg_seis2_kodResponse">
+	<part name="body" element="tns:reg_seis2_kodResponse"/>
+  </message>
+
+  <message name="kontakt_kod">
+	<part name="body" element="tns:kontakt_kod"/>
+  </message>
+  <message name="kontakt_kodResponse">
+	<part name="body" element="tns:kontakt_kodResponse"/>
+  </message>
+
+  <message name="muuda_kontakt1_kod">
+	<part name="body" element="tns:muuda_kontakt1_kod"/>
+  </message>
+  <message name="muuda_kontakt1_kodResponse">
+	<part name="body" element="tns:muuda_kontakt1_kodResponse"/>
+  </message>
+
+  <message name="muuda_kontakt2_kod">
+	<part name="body" element="tns:muuda_kontakt2_kod"/>
+  </message>
+  <message name="muuda_kontakt2_kodResponse">
+	<part name="body" element="tns:muuda_kontakt2_kodResponse"/>
+  </message>
+  
+
+  <!-- plankide teenused -->
+  <message name="plank_vabad">
+	<part name="body" element="tns:plank_vabad"/>
+  </message>
+  <message name="plank_vabadResponse">
+	<part name="body" element="tns:plank_vabadResponse"/>
+  </message>
+
+  <message name="plank_valjasta">
+	<part name="body" element="tns:plank_valjasta"/>
+  </message>
+  <message name="plank_valjastaResponse">
+	<part name="body" element="tns:plank_valjastaResponse"/>
+  </message>
+
+  <message name="legacyX">
+	<part name="body" element="tns:legacyX"/>
+  </message>
+  <message name="legacyXResponse">
+	<part name="body" element="tns:legacyXResponse"/>
+  </message>
+
+  <message name="legacyTE">
+	<part name="body" element="tns:legacyTE"/>
+  </message>
+  <message name="legacyTEResponse">
+	<part name="body" element="tns:legacyTEResponse"/>
+  </message>
+
+  <message name="legacySE">
+	<part name="body" element="tns:legacySE"/>
+  </message>
+  <message name="legacySEResponse">
+	<part name="body" element="tns:legacySEResponse"/>
+  </message>
+  
+  <portType name="xporttype">
+	<operation name="saisEksamid">
+	  <documentation>
+		<xrd:title>Riigi- ja rahvusvaheliste eksamite andmed (SAIS andmekogu jaoks)</xrd:title>
+	  </documentation>
+	  <input message="tns:saisEksamid"/>
+	  <output message="tns:saisEksamidResponse"/>
+	</operation>
+
+	<operation name="saisApellatsioonid">
+	  <documentation>
+		<xrd:title>Apelleeritud riigieksamite andmed (SAIS andmekogu jaoks)</xrd:title>
+	  </documentation>
+	  <input message="tns:saisApellatsioonid"/>
+	  <output message="tns:saisApellatsioonidResponse"/>
+	</operation>
+
+	<operation name="riigikeeletase">
+	  <documentation>
+		<xrd:title>Riigikeele tasemeeksami sooritatuse kontroll</xrd:title>
+	  </documentation>
+	  <input message="tns:riigikeeletase"/>
+	  <output message="tns:riigikeeletaseResponse"/>
+	</operation>
+    
+	<operation name="e_tunnistus_am_notar">
+	  <documentation>
+		<xrd:title>E-tunnistuse allalaadimine (notaritele)</xrd:title>
+		<xrd:actiontitle>Laadi alla</xrd:actiontitle>
+	  </documentation>
+	  <input message="tns:e_tunnistus_am_notar"/>
+	  <output message="tns:e_tunnistus_am_notarResponse"/>
+	</operation>
+
+	<operation name="e_tunnistus_am">
+	  <documentation>
+		<xrd:title>E-tunnistuse allalaadimine (ametnikule)</xrd:title>
+		<xrd:actiontitle>Laadi alla</xrd:actiontitle>
+	  </documentation>
+	  <input message="tns:e_tunnistus_am"/>
+	  <output message="tns:e_tunnistus_amResponse"/>
+	</operation>
+
+	<operation name="e_tunnistus_kehtivus">
+	  <documentation>
+		<xrd:title>E-tunnistuse kehtivuse kontroll</xrd:title>
+		<xrd:notes>10 minuti jooksul 3 korda järjest valede andmete sisestamisel blokeeritakse teenuse kasutamine Teile 24 tunniks.</xrd:notes>
+	  </documentation>
+	  <input message="tns:e_tunnistus_kehtivus"/>
+	  <output message="tns:e_tunnistus_kehtivusResponse"/>
+	</operation>
+
+	<operation name="e_tunnistus_list_notar">
+	  <documentation>
+		<xrd:title>E-tunnistuste otsing (notaritele)</xrd:title>
+	  </documentation>
+	  <input message="tns:e_tunnistus_list_notar"/>
+	  <output message="tns:e_tunnistus_list_notarResponse"/>
+	</operation>
+
+	<operation name="riigieksamid_ehis">
+	  <documentation>
+		<xrd:title>Riigieksamite andmed EHISele</xrd:title>
+	  </documentation>
+	  <input message="tns:riigieksamid_ehis"/>
+	  <output message="tns:riigieksamid_ehisResponse"/>
+	</operation>
+
+	<operation name="testsessioonid_kod">
+	  <documentation>
+		<xrd:title>Minu testsessioonid</xrd:title>
+	  </documentation>
+	  <input message="tns:testsessioonid_kod"/>
+	  <output message="tns:testsessioonid_kodResponse"/>
+	</operation>
+
+	<operation name="testid_kod">
+	  <documentation>
+		<xrd:title>Minu testid</xrd:title>
+	  </documentation>
+	  <input message="tns:testid_kod"/>
+	  <output message="tns:testid_kodResponse"/>
+	</operation>
+
+	<operation name="tulemused_riigiportaali">
+	  <documentation>
+		<xrd:title>Riigieksamitulemuste esitamine riigiportaali</xrd:title>
+	  </documentation>
+	  <input message="tns:tulemused_riigiportaali"/>
+	  <output message="tns:tulemused_riigiportaaliResponse"/>
+	</operation>
+    
+	<operation name="e_tunnistus_kod">
+	  <documentation>
+		<xrd:title>Minu tunnistus</xrd:title>
+	  </documentation>
+	  <input message="tns:e_tunnistus_kod"/>
+	  <output message="tns:e_tunnistus_kodResponse"/>
+	</operation>
+
+	<operation name="load_cl_aine">
+	  <documentation>
+		<xrd:title>Õppeainete klassifikaatori laadimine</xrd:title>
+	  </documentation>
+	  <input message="tns:load_cl_aine"/>
+	  <output message="tns:load_cl_aineResponse"/>
+	</operation>
+    
+	<operation name="load_cl_rveksam">
+	  <documentation>
+		<xrd:title>Rahvusvaheliselt tunnustatud eksamite klassifikaatori laadimine</xrd:title>
+	  </documentation>
+	  <input message="tns:load_cl_rveksam"/>
+	  <output message="tns:load_cl_rveksamResponse"/>
+	</operation>
+    
+    <!-- tasemeeksamite ja seaduse tundmise eksamite teenused -->
+
+	<operation name="load_cl">
+	  <documentation>
+		<xrd:title>laeb klassifikaatori</xrd:title>
+	  </documentation>
+	  <input message="tns:load_cl"/>
+	  <output message="tns:load_clResponse"/>
+	</operation>
+
+	<operation name="seis_andmed_kod">
+	  <documentation>
+		<xrd:title>EV Põhiseaduse ja Kodakondsuse seaduse tundmise eksami andmed</xrd:title>
+	  </documentation>
+	  <input message="tns:seis_andmed_kod"/>
+	  <output message="tns:seis_andmed_kodResponse"/>
+	</operation>
+
+	<operation name="teis_andmed_kod">
+	  <documentation>
+		<xrd:title>Eesti keele tasemeeksamite andmed</xrd:title>
+	  </documentation>
+	  <input message="tns:teis_andmed_kod"/>
+	  <output message="tns:teis_andmed_kodResponse"/>
+	</operation>
+
+	<operation name="teis_andmed">
+	  <documentation>
+		<xrd:title>Eesti keele tasemeeksamite andmed (ametnikule)</xrd:title>
+	  </documentation>
+	  <input message="tns:teis_andmed"/>
+	  <output message="tns:teis_andmedResponse"/>
+	</operation>
+
+	<operation name="seis_andmed">
+	  <documentation>
+		<xrd:title>EV Põhiseaduse ja Kodakondsuse seaduse tundmise eksami tulemused ja e-tunnistuse allalaadimine (ametnikule)</xrd:title>
+	  </documentation>
+	  <input message="tns:seis_andmed"/>
+	  <output message="tns:seis_andmedResponse"/>
+	</operation>
+
+	<operation name="teis_del_kod">
+	  <documentation>
+		<xrd:title>Eesti keele tasemeeksami registreerimise tühistamine</xrd:title>
+	  </documentation>
+	  <input message="tns:teis_del_kod"/>
+	  <output message="tns:teis_del_kodResponse"/>
+	</operation>
+
+	<operation name="seis_del_kod">
+	  <documentation>
+		<xrd:title>EV seaduse eksami reg tühistamine</xrd:title>
+	  </documentation>
+	  <input message="tns:seis_del_kod"/>
+	  <output message="tns:seis_del_kodResponse"/>
+	</operation>
+
+	<operation name="reg_teis_init_kod">
+	  <documentation>
+		<xrd:title>Eesti keele tasemeeksamile registreerimine</xrd:title>
+		<xrd:notes>Avaldusel paranduste tegemise, tasemeeksamist loobumise ja avalduse tühistamise &lt;a href="http://www.ekk.edu.ee/xtee/te_juhend.html" target="_blank" &gt;&lt;b&gt;&lt;u&gt;juhend&lt;/u&gt;&lt;/b&gt;&lt;/a&gt;.</xrd:notes>
+		<xrd:actiontitle>Edasi</xrd:actiontitle>
+	  </documentation>
+	  <input message="tns:reg_teis_init_kod"/>
+	  <output message="tns:reg_teis_init_kodResponse"/>
+	</operation>
+
+	<operation name="reg_seis_init_kod">
+	  <documentation>
+		<xrd:title>EV Põhiseaduse ja Kodakondsuse seaduse tundmise eksamile registreerimine</xrd:title>
+		<xrd:notes>Avaldusel paranduste tegemise, tasemeeksamist loobumise ja avalduse tühistamise &lt;a href="http://www.ekk.edu.ee/xtee/se_juhend.html" target="_blank" &gt;&lt;b&gt;&lt;u&gt;juhend&lt;/u&gt;&lt;/b&gt;&lt;/a&gt;.</xrd:notes>
+		<xrd:actiontitle>Edasi</xrd:actiontitle>
+	  </documentation>
+	  <input message="tns:reg_seis_init_kod"/>
+	  <output message="tns:reg_seis_init_kodResponse"/>
+	</operation>
+
+	<operation name="kontakt_kod">
+	  <documentation>
+		<xrd:title>Kontakt- ja teavitusandmed</xrd:title>
+	  </documentation>
+	  <input message="tns:kontakt_kod"/>
+	  <output message="tns:kontakt_kodResponse"/>
+	</operation>
+
+	<operation name="muuda_kontakt1_kod">
+	  <documentation>
+		<xrd:title>Kontakt- ja teavitusandmete muutmine</xrd:title>
+		<xrd:actiontitle>Salvesta andmed</xrd:actiontitle>
+	  </documentation>
+	  <input message="tns:muuda_kontakt1_kod"/>
+	  <output message="tns:muuda_kontakt1_kodResponse"/>
+	</operation>
+
+	<operation name="muuda_kontakt2_kod">
+	  <documentation>
+		<xrd:title>Kontakt- ja teavitusandmete muutmine</xrd:title>
+		<xrd:actiontitle>Salvesta andmed</xrd:actiontitle>
+	  </documentation>
+	  <input message="tns:muuda_kontakt2_kod"/>
+	  <output message="tns:muuda_kontakt2_kodResponse"/>
+	</operation>
+
+	<operation name="reg_teis2_kod">
+	  <documentation>
+		<xrd:title>Eesti keele tasemeeksamile registreerimine</xrd:title>
+		<xrd:notes>Tasemeeksamile mitteilmumisest palume teavitada
+        Sihtasutust Innove vähemalt 3 nädalat enne eksamit.Eksamile mitteilmumisel saate eksami uuesti sooritada mitte varem kui kolme kuu pärast.</xrd:notes>
+		<xrd:actiontitle>Salvesta andmed</xrd:actiontitle>
+	  </documentation>
+	  <input message="tns:reg_teis2_kod"/>
+	  <output message="tns:reg_teis2_kodResponse"/>
+	</operation>
+
+	<operation name="reg_seis2_kod">
+	  <documentation>
+		<xrd:title>EV Põhiseaduse ja Kodakondsuse seaduse tundmise eksamile registreerimine</xrd:title>
+		<xrd:notes>Eksamile mitteilmumisest palume eelnevalt
+        teavitada Sihtasutust Innove.</xrd:notes>
+		<xrd:actiontitle>Salvesta andmed</xrd:actiontitle>
+	  </documentation>
+	  <input message="tns:reg_seis2_kod"/>
+	  <output message="tns:reg_seis2_kodResponse"/>
+	</operation>
+
+
+    <!-- plankide teenused -->
+	<operation name="plank_vabad">
+	  <documentation>
+		<xrd:title>Kooli vabad plangid</xrd:title>
+	  </documentation>
+	  <input message="tns:plank_vabad"/>
+	  <output message="tns:plank_vabadResponse"/>
+	</operation>
+
+	<operation name="plank_valjasta">
+	  <documentation>
+		<xrd:title>Lõpudokumentide plankide väljastamine lõpetajatele</xrd:title>
+	  </documentation>
+	  <input message="tns:plank_valjasta"/>
+	  <output message="tns:plank_valjastaResponse"/>
+	</operation>
+
+	<operation name="legacyX">
+	  <documentation>
+		<xrd:title>Riigieksamitele registreerimine</xrd:title>
+	  </documentation>
+	  <input message="tns:legacyX"/>
+	  <output message="tns:legacyXResponse"/>
+	</operation>
+
+	<operation name="legacyTE">
+	  <documentation>
+		<xrd:title>Eesti keele tasemeeksamile registreerimine</xrd:title>
+	  </documentation>
+	  <input message="tns:legacyTE"/>
+	  <output message="tns:legacyTEResponse"/>
+	</operation>
+
+	<operation name="legacySE">
+	  <documentation>
+		<xrd:title>Põhiseaduse ja kodakondsuse seaduse tundmise eksamile registreerimine</xrd:title>
+	  </documentation>
+	  <input message="tns:legacySE"/>
+	  <output message="tns:legacyXResponse"/>
+	</operation>
+
+  </portType>
+
+  <binding name="xbinding" type="tns:xporttype">
+	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+	<operation name="saisEksamid">
+	  <xrd:version>v2</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="saisApellatsioonid">
+	  <xrd:version>v2</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="riigikeeletase">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+    
+	<operation name="e_tunnistus_am_notar">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+      <input>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+      </input>
+      <output>
+        <mime:multipartRelated>
+          <mime:part>
+            <soap:body use="literal"/>
+            <soap:header message="tns:xheader" part="client" use="literal"/>
+            <soap:header message="tns:xheader" part="userId" use="literal"/>
+            <soap:header message="tns:xheader" part="id" use="literal"/>
+            <soap:header message="tns:xheader" part="service" use="literal"/>
+            <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>            
+          </mime:part>
+        </mime:multipartRelated>
+      </output>
+	</operation>
+
+	<operation name="e_tunnistus_am">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+      <input>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+      </input>
+      <output>
+        <mime:multipartRelated>
+          <mime:part>
+            <soap:body use="literal"/>
+            <soap:header message="tns:xheader" part="client" use="literal"/>
+            <soap:header message="tns:xheader" part="userId" use="literal"/>
+            <soap:header message="tns:xheader" part="id" use="literal"/>
+            <soap:header message="tns:xheader" part="service" use="literal"/>
+            <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>            
+          </mime:part>
+        </mime:multipartRelated>
+      </output>
+	</operation>
+
+	<operation name="e_tunnistus_kehtivus">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+      <input>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+      </input>
+      <output>
+        <mime:multipartRelated>
+          <mime:part>
+            <soap:body use="literal"/>
+            <soap:header message="tns:xheader" part="client" use="literal"/>
+            <soap:header message="tns:xheader" part="userId" use="literal"/>
+            <soap:header message="tns:xheader" part="id" use="literal"/>
+            <soap:header message="tns:xheader" part="service" use="literal"/>
+            <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>            
+          </mime:part>
+        </mime:multipartRelated>
+      </output>
+	</operation>
+
+	<operation name="e_tunnistus_list_notar">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="riigieksamid_ehis">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="testsessioonid_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="testid_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+    <operation name="tulemused_riigiportaali">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="e_tunnistus_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+      <input>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+      </input>
+      <output>
+        <mime:multipartRelated>
+          <mime:part>
+            <soap:body use="literal"/>
+            <soap:header message="tns:xheader" part="client" use="literal"/>
+            <soap:header message="tns:xheader" part="userId" use="literal"/>
+            <soap:header message="tns:xheader" part="id" use="literal"/>
+            <soap:header message="tns:xheader" part="service" use="literal"/>
+            <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>            
+          </mime:part>
+        </mime:multipartRelated>
+      </output>
+    </operation>
+
+	<operation name="load_cl_aine">
+	  <xrd:version>v2</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+    
+	<operation name="load_cl_rveksam">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+    
+    <!-- tasemeeksamite ja seaduse tundmise eksamite teenused -->
+
+	<operation name="load_cl">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+	
+	<operation name="reg_seis_init_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="seis_andmed_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="teis_del_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="seis_del_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+	
+	<operation name="teis_andmed">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="seis_andmed">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="teis_andmed_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="reg_teis_init_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="kontakt_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </output>
+	</operation>
+
+	<operation name="muuda_kontakt1_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+	
+	<operation name="muuda_kontakt2_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+	
+	<operation name="reg_teis2_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="reg_seis2_kod">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+
+    <!-- plankide teenused -->
+	<operation name="plank_vabad">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="plank_valjasta">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>        
+	  </output>
+	</operation>
+
+	<operation name="legacyX">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </output>
+	</operation>
+
+	<operation name="legacyTE">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </output>
+	</operation>
+
+	<operation name="legacySE">
+	  <xrd:version>v1</xrd:version>
+	  <soap:operation soapAction="" style="document"/>
+	  <input>
+		<soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </input>
+	  <output>
+        <soap:body parts="body" use="literal"/>
+        <soap:header message="tns:xheader" part="client" use="literal"/>
+        <soap:header message="tns:xheader" part="userId" use="literal"/>
+        <soap:header message="tns:xheader" part="id" use="literal"/>
+        <soap:header message="tns:xheader" part="service" use="literal"/>
+        <soap:header message="tns:xheader" part="protocolVersion" use="literal"/>
+	  </output>
+	</operation>
+  </binding>
+
+  <service name="eis">
+	<port name="xport" binding="tns:xbinding">
+	  <soap:address location="http://adapterserver/adapter"/>
+	  <xrd:title>Eksamite infosüsteem</xrd:title>
+	</port>
+  </service>
+</wsdl:definitions>
