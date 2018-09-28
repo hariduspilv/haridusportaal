@@ -42,7 +42,7 @@
   position: relative;text-align: center;width: $medium;color: $red;
   height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
 }
-::ng-deep .mat-expansion-panel-content {padding: 0 $half-gutter;}
+::ng-deep .mat-expansion-panel-content {padding: 0 $half-gutter; background: $white!important; }
 ::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;}
 ::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; }
 ::ng-deep .mat-expanded .mat-expansion-indicator {background: $red; border: 0rem solid $red;}
@@ -69,5 +69,5 @@
   @include break-on(sm, max) {margin: 0 1.5rem;}
 }
 
-.mat-expansion-panel-content { background: $white; }
+
 

@@ -12,10 +12,10 @@ margin:0 1.5rem;}
   &__title{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
   &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500; margin-bottom: 0.5rem; }
   &__step-introduction{width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none;}
-  &__heading{width:100%; color:$blue; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500;}
-  &__navigation{ list-style-type: none; padding-left: 0; display: flex; padding-top: 1rem; margin-top: 2rem; justify-content: center;
+  &__heading{ width: 100%; display: block; font-size: 1rem; font-weight: 500; line-height: 1.38; text-align: left; color: #333333;}
+  &__navigation{ list-style-type: none; padding-left: 0; display: flex; padding-top: 1rem; margin-top: 2rem; overflow-y: auto; padding-bottom: 1rem;
     @include break-on(sm, max) { 
-      overflow-y: auto; justify-content: flex-start; margin-left: -1.5rem; margin-right: -1.5rem; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem;
+      justify-content: flex-start; margin-left: -1.5rem; margin-right: -1.5rem; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem;
     }
     .xjson__navigation__step.disabled { 
      &:after {
@@ -32,7 +32,7 @@ margin:0 1.5rem;}
     }
   }
   .xjson__navigation__step.active {
-    font-weight: bold; margin-bottom: 0rem;
+    font-weight: 500; margin-bottom: 0rem;
     a{
       text-decoration: none;
       &:before {
@@ -42,7 +42,7 @@ margin:0 1.5rem;}
       }
     }
   }
-  .xjson__navigation__step { position: relative; text-align: center; flex-grow: 1; flex-basis: 0; min-width: inherit; max-width: 6.875rem; 
+  .xjson__navigation__step { position: relative; text-align: center; flex-grow: 1; flex-basis: 0; min-width: 8rem; 
     &:after {
       content: "";
       position: absolute; width: 100%; height: 0.3125rem; background-color: $aqua; top: 0.625rem; left:-50%;
@@ -112,3 +112,6 @@ input.inner-flexbox {
   border-color: $blue;
  }
 
+.dropzone { 
+ border: solid 3px #eeeeee; border-radius: 0.25rem;
+}
