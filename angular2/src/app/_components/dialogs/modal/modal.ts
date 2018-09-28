@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { RootScopeService } from '@app/_services';
+import { Router } from '@angular/router';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
@@ -12,17 +13,19 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 export class Modal {
 
+  dashboardLink: string = "";
+
 
     constructor(
-    private router: Router,
-    private route: ActivatedRoute,
+      private rootScope: RootScopeService,
+      private router: Router,
     public dialogRef: MatDialogRef<Modal>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ){}
   
   ngOnInit() {
-
-
+    let lang = this.rootScope.get('currentLang');
+    this.dashboardLink = lang === 'et' ? 'et/toolaud' : 'en/dashboard';
   }  
   
   closeModal() {
