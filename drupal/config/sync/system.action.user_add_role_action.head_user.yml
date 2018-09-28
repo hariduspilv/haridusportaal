@@ -1,0 +1,14 @@
+uuid: a690c1e9-a2f1-494e-a290-460727e16d80
+langcode: et
+status: true
+dependencies:
+  config:
+    - user.role.head_user
+  module:
+    - user
+id: user_add_role_action.head_user
+label: 'Add the Head user role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: head_user
