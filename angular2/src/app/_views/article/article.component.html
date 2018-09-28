@@ -37,7 +37,7 @@
           <div class="accordion" *ngIf="accordionSection.length > 0">
             <mat-accordion multi>
               <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of accordionSection; let first = first;">
-                <mat-expansion-panel-header>
+                <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
                   <mat-panel-title>
 
                     {{accordionItem.entity.fieldAccordionTitle}}
@@ -46,7 +46,7 @@
                   <!-- <mat-panel-description></mat-panel-description> -->
                 </mat-expansion-panel-header>
                 <div class="accordion__body" [innerHTML]="accordionItem.entity.fieldBody.value"></div>
-                <div class="accordion__links" *ngIf="accordionItem.entity.fieldRelatedArticle">
+                <div class="accordion__links" *ngIf="accordionItem.entity.fieldRelatedArticle && accordionItem.entity.fieldRelatedArticle.length">
                   <ul class="link-list mt-0 mb-0">
                     <li *ngFor="let articleLink of accordionItem.entity.fieldRelatedArticle"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}"class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
                   </ul>

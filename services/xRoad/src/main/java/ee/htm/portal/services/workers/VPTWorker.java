@@ -3,7 +3,7 @@ package ee.htm.portal.services.workers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import ee.htm.portal.services.client.EhisV6XRoadService;
+import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.FailInfoDto;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.IsikInfoDto;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Message;
@@ -23,6 +23,7 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Vp
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,29 +37,116 @@ public class VPTWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(VPTWorker.class);
 
+  private static final String VPT_FILES_KEY = "VPT_documents";
+
   @Resource
-  private EhisV6XRoadService ehisV6XRoadService;
+  private EhisXRoadService ehisXRoadService;
 
-  private static final String VPT_FILES_KEY = "VPT_FILES";
+  public void getDocuments(String personalCode) {
+    ObjectNode documentsResponse = nodeFactory.objectNode();
 
-  public ObjectNode work(ObjectNode jsonNode) {
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - VpTaotlusOpingud.v1");
+
+    try {
+      VpTaotlusOpingudResponse response = ehisXRoadService
+          .vptOpingud(personalCode, null, personalCode);
+
+      ArrayNode documentsArrayNode = documentsResponse.putArray("documents");
+      response.getTaotluseAjaluguList().forEach(
+          ajalugu -> documentsArrayNode.addObject()
+              .put("form_name",
+                  ajalugu.getOlek().equalsIgnoreCase("Menetluses") ?
+                      "VPT_ESITATUD_TAOTLUS"
+                      : "VPT_ESITATUD_TAOTLUS_OTSUS")
+              .put("identifier", ajalugu.getId())
+              .put("document_date",
+                  ajalugu.isSetEsitamiseKuupaev() && ajalugu.getEsitamiseKuupaev() != null
+                      ? simpleDateFormat.format(
+                      ((Calendar) ajalugu.getEsitamiseKuupaev()).getTimeInMillis())
+                      : null)
+              .put("status", ajalugu.getOlek()));
+
+      if (response.getHoiatusDto().getErrorMessagesList().isEmpty()) {
+        if (response.isSetTaotluseId() && response.getTaotluseId() != null
+            && !response.getTaotluseId().equals("")) {
+          documentsResponse.putArray("drafts").addObject()
+              .put("form_name", "VPT_TAOTLUS")
+              .put("identifier", (Long) response.getTaotluseId());
+        } else {
+          documentsResponse.putArray("acceptable_forms").addObject()
+              .put("form_name", "VPT_TAOTLUS");
+        }
+      }
+
+      logForDrupal.setMessage("EHIS - VpTaotlusOpingud.v1 teenuselt andmete pärimine õnnestus.");
+    } catch (Exception e) {
+      LOGGER.error(e, e);
+
+      logForDrupal.setSeverity("ERROR");
+      logForDrupal.setMessage(e.getMessage());
+
+      documentsResponse.putObject("error")
+          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlusOpingud.v1");
+
+    redisTemplate.opsForHash().put(personalCode, "vpTaotlus", documentsResponse);
+  }
+
+  public ObjectNode getDocument(String formName, String identifier) {
+    ObjectNode documentResponse = nodeFactory.objectNode();
+
+    documentResponse.putObject("header")
+        .put("form_name", formName)
+        .put("current_step", "step_0")
+        .put("identifier", identifier)
+        .putArray("acceptable_activity")
+        .add("VIEW");
+
+    ObjectNode dataElementsNode = documentResponse.putObject("body").putObject("steps")
+        .putObject("step_0").putObject("data_elements");
+    dataElementsNode.putObject("application_file").putArray("value")
+        .addObject()
+        .put("file_name", "taotlus.zip")
+        .put("file_identifier", "VPT_TAOTLUS_ZIP_" + identifier);
+
+    if (formName.equalsIgnoreCase("VPT_ESITATUD_TAOTLUS_OTSUS")) {
+      dataElementsNode.putObject("decision_file").putArray("value")
+          .addObject()
+          .put("file_name", "otsus.bdoc")
+          .put("file_identifier", "VPT_OTSUS_DDOC_" + identifier);
+    }
+
+    return documentResponse;
+  }
+
+  public ObjectNode postDocument(ObjectNode jsonNode) {
     String currentStep = jsonNode.get("header").get("current_step").isNull() ? null
         : jsonNode.get("header").get("current_step").asText();
     Long applicationId = jsonNode.get("header").get("identifier").isNull() ? null
         : jsonNode.get("header").get("identifier").asLong();
     String applicantPersonalCode = jsonNode.get("header").get("agents").get(0).get("person_id")
         .asText();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(applicantPersonalCode);
 
     try {
       if (currentStep == null) {
+        jsonNode.putObject("body").putObject("steps");
+        ((ObjectNode) jsonNode.get("body")).putArray("messages");
+        jsonNode.putObject("messages");
+
 //region NULL
-        VpTaotlusOpingudResponse response = ehisV6XRoadService
+        VpTaotlusOpingudResponse response = ehisXRoadService
             .vptOpingud(applicantPersonalCode, null, applicantPersonalCode);
 
 //region STEP_0 vpTaotlusOpingud response
-        ObjectNode stepZeroDataElements = jsonNode.putObject("body")
-            .putObject("steps")
+        ObjectNode stepZeroDataElements = ((ObjectNode) jsonNode.get("body").get("steps"))
             .putObject("step_0").putObject("data_elements");
         ArrayNode values = stepZeroDataElements.putObject("studies").putArray("value");
 
@@ -82,18 +170,19 @@ public class VPTWorker extends Worker {
                         : null)
                 .put("completion_rate", item.getTaitmiseProtsent())
                 .put("academic_leave_start",
-                    item.isSetAkadeemilisePuhkuseAlustamiseKuupaev() ?
-                        simpleDateFormat
-                            .format(item.getAkadeemilisePuhkuseAlustamiseKuupaev())
+                    item.isSetAkadeemilisePuhkuseAlustamiseKuupaev()
+                        && item.getAkadeemilisePuhkuseAlustamiseKuupaev() != null ?
+                        simpleDateFormat.format(
+                            ((Calendar) item.getAkadeemilisePuhkuseAlustamiseKuupaev())
+                                .getTimeInMillis())
                         : null)
                 .put("first_semester_end",
-                    item.isSetEsimeseSemestriLoppKp() ?
-                        simpleDateFormat.format((Calendar) item.getEsimeseSemestriLoppKp())
+                    item.isSetEsimeseSemestriLoppKp() && item.getEsimeseSemestriLoppKp() != null ?
+                        simpleDateFormat.format(
+                            ((Calendar) item.getEsimeseSemestriLoppKp()).getTimeInMillis())
                         : null));
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_0")).putArray("messages");
-        jsonNode.putObject("messages");
-        ((ObjectNode) jsonNode.get("body")).putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
         setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING",
             "step_0");
@@ -102,8 +191,8 @@ public class VPTWorker extends Worker {
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_0");
 //endregion;
 
-        logForDrupal.setType("EHIS - VpTaotlusOpingud");
-        logForDrupal.setMessage("EHIS - VpTaotlusOpingud teenuselt andmete pärimine õnnestus.");
+        logForDrupal.setType("EHIS - VpTaotlusOpingud.v1");
+        logForDrupal.setMessage("EHIS - VpTaotlusOpingud.v1 teenuselt andmete pärimine õnnestus.");
 //endregion;
       } else if (currentStep.equalsIgnoreCase("step_0")) {
 //region STEP_0
@@ -165,7 +254,7 @@ public class VPTWorker extends Worker {
         request.getOppimineDtosList().addAll(oppimineDtoList);
 //endregion;
 
-        VpTaotlusIsikudResponse response = ehisV6XRoadService
+        VpTaotlusIsikudResponse response = ehisXRoadService
             .vpTaotlusIsikud(request, applicantPersonalCode);
 
 //region STEP_1 vpTaotlusIsikud response
@@ -223,15 +312,15 @@ public class VPTWorker extends Worker {
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_1")).putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
         setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING",
-            currentStep);
+            "step_1");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_1");
-        ((ObjectNode) jsonNode.get("header")).put("acceptable_activity", "SAVE");
+        ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("SAVE");
 //endregion;
 
-        logForDrupal.setType("EHIS - VpTaotlusIsikud");
-        logForDrupal.setMessage("EHIS - VpTaotlusIsikud teenuselt andmete pärimine õnnestus.");
+        logForDrupal.setType("EHIS - VpTaotlusIsikud.v1");
+        logForDrupal.setMessage("EHIS - VpTaotlusIsikud.v1 teenuselt andmete pärimine õnnestus.");
 //endregion;
       } else if (currentStep.equalsIgnoreCase("step_1")) {
 //region STEP_1
@@ -277,8 +366,8 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> custodyFiles = new ArrayList<>();
           stepOneDataElements.get("custody_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             custodyFiles.add(failInfoDto);
           });
@@ -288,8 +377,8 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> personFailInfoDtoList = new ArrayList<>();
           stepOneDataElements.get("family_members_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             personFailInfoDtoList.add(failInfoDto);
           });
@@ -304,7 +393,7 @@ public class VPTWorker extends Worker {
         request.getIsikInfoDtosList().addAll(isikInfoDtoList);
 //endregion;
 
-        VpTaotlusSissetulekudResponse response = ehisV6XRoadService
+        VpTaotlusSissetulekudResponse response = ehisXRoadService
             .vpTaotlusSissetulekud(request, applicantPersonalCode);
 
 //region STEP_2 vpTaotlusSissetulekud response
@@ -360,15 +449,15 @@ public class VPTWorker extends Worker {
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_2")).putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
         setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING",
-            currentStep);
+            "step_2");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_2");
 //endregion;
 
-        logForDrupal.setType("EHIS - VpTaotlusSissetulekud");
+        logForDrupal.setType("EHIS - VpTaotlusSissetulekud.v1");
         logForDrupal
-            .setMessage("EHIS - VpTaotlusSissetulekud teenuselt andmete pärimine õnnestus.");
+            .setMessage("EHIS - VpTaotlusSissetulekud.v1 teenuselt andmete pärimine õnnestus.");
 //endregion;
       } else if (currentStep.equalsIgnoreCase("step_2")) {
 //region STEP_2
@@ -429,8 +518,8 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> addedFiles = new ArrayList<>();
           stepTwoDataElements.get("family_members_income_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             addedFiles.add(failInfoDto);
           });
@@ -442,8 +531,8 @@ public class VPTWorker extends Worker {
           stepTwoDataElements.get("family_members_nonresident_income_proof")
               .get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-                failInfoDto.setContent((byte[]) redisTemplate.opsForHash()
-                    .get(VPT_FILES_KEY, item.get("file_identifier").asText()));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             nonResidentFiles.add(failInfoDto);
           });
@@ -451,7 +540,7 @@ public class VPTWorker extends Worker {
         }
 //endregion;
 
-        VpTaotlusKontaktResponse response = ehisV6XRoadService
+        VpTaotlusKontaktResponse response = ehisXRoadService
             .vpTaotlusKontakt(request, applicantPersonalCode);
 
 //region STEP_3 vpTaotlusKontakt response
@@ -462,16 +551,16 @@ public class VPTWorker extends Worker {
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_3")).putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
         setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING",
-            currentStep);
+            "step_3");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_3");
-        ((ObjectNode) jsonNode.get("header")).put("acceptable_activity", "SUBMIT");
+        ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("SUBMIT");
 //endregion;
 
-        logForDrupal.setType("EHIS - VpTaotlusSissetulekud");
+        logForDrupal.setType("EHIS - VpTaotlusSissetulekud.v1");
         logForDrupal
-            .setMessage("EHIS - VpTaotlusSissetulekud teenuselt andmete pärimine õnnestus.");
+            .setMessage("EHIS - VpTaotlusSissetulekud.v1 teenuselt andmete pärimine õnnestus.");
 //endregion;
       } else if (currentStep.equalsIgnoreCase("step_3")) {
 //region STEP_3
@@ -495,7 +584,7 @@ public class VPTWorker extends Worker {
             .get("value").asBoolean());
 //endregion;
 
-        VpTaotlusEsitamineResponse response = ehisV6XRoadService
+        VpTaotlusEsitamineResponse response = ehisXRoadService
             .vpTaotlusEsitamine(request, applicantPersonalCode);
 
 //region SUBMIT vpTaotlusEsitamine respone
@@ -521,31 +610,78 @@ public class VPTWorker extends Worker {
             .putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
         setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING",
-            currentStep);
+            "step_submit_result");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
-        ((ObjectNode) jsonNode.get("header")).put("acceptable_activity", "VIEW");
+        ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_submit_result");
 //endregion;
 //endregion;
       }
     } catch (Exception e) {
       LOGGER.error(e, e);
+
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
 
       Long timestamp = System.currentTimeMillis();
 
-      ((ObjectNode) jsonNode.get("header")).put("acceptable_activity", "VIEW");
+      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
       ((ArrayNode) jsonNode.get("body").get("messages")).add("error_" + timestamp);
       ((ObjectNode) jsonNode.get("messages")).putObject("error_" + timestamp)
           .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "VPT_TAOTLUS");
+    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlus... .v1");
 
     return jsonNode;
+  }
+
+  public ObjectNode getDocumentFile(String documentId, String personalCode) {
+    Long applicationId;
+    String documentType;
+    ObjectNode documentResponse = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - vpTaotlusDokument.v1");
+
+    try {
+      documentId = documentId.replace("VPT_", "");
+
+      if (documentId.contains("OTSUS_DIGIDOC")) {
+        documentType = "OTSUS_DIGIDOC";
+        applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
+      } else {
+        documentType = "TAOTLUS_ZIP";
+        applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
+      }
+
+      VpTaotlusDokument request = VpTaotlusDokument.Factory.newInstance();
+      request.setTaotlejaIsikukood(personalCode);
+      request.setDokumendiLiik(documentType);
+      request.setTaotluseId(applicationId);
+      VpTaotlusDokumentResponse response = ehisXRoadService
+          .vpTaotlusDokument(request, personalCode);
+
+      documentResponse.put("fileName", response.getFilename()).put("size", response.getSize())
+          .put("mediaType", response.getMediatype()).put("value", response.getByteArrayValue());
+      logForDrupal.setMessage("EHIS - vpTaotlusDokument.v1 teenuselt andmete pärimine õnnestus.");
+    } catch (Exception e) {
+      LOGGER.error(e, e);
+
+      logForDrupal.setSeverity("ERROR");
+      logForDrupal.setMessage(e.getMessage());
+
+      documentResponse.putObject("error")
+          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlusDokument.v1");
+
+    return documentResponse;
   }
 
   private void setIsikInfoDto(List<IsikInfoDto> isikInfoDtoList, JsonNode item) {
@@ -572,6 +708,10 @@ public class VPTWorker extends Worker {
   }
 
   private void setMessages(ObjectNode jsonNode, List<Message> list, String type, String step) {
+    if (type.equalsIgnoreCase("ERROR") && !list.isEmpty()) {
+      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+    }
+
     list.forEach(item -> {
       Long timestamp = System.currentTimeMillis();
       if (StringUtils.isNotBlank(step)) {
@@ -587,38 +727,5 @@ public class VPTWorker extends Worker {
           .putObject("message_text")
           .put("et", item.getKirjeldus());
     });
-  }
-
-  public ObjectNode getDocument(String documentId, String personalCode) {
-    Long applicationId;
-    String documentType;
-    ObjectNode documentResponse = nodeFactory.objectNode();
-
-    try {
-      documentId = documentId.replace("VPT_", "");
-
-      if (documentId.contains("OTSUS_DIGIDOC")) {
-        documentType = "OTSUS_DIGIDOC";
-        applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
-      } else {
-        documentType = "TAOTLUS_ZIP";
-        applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
-      }
-
-      VpTaotlusDokument request = VpTaotlusDokument.Factory.newInstance();
-      request.setTaotlejaIsikukood(personalCode);
-      request.setDokumendiLiik(documentType);
-      request.setTaotluseId(applicationId);
-      VpTaotlusDokumentResponse response = ehisV6XRoadService
-          .vpTaotlusDokument(request, personalCode);
-
-      documentResponse.put("fileName", response.getFilename()).put("size", response.getSize())
-          .put("mediaType", response.getMediatype()).put("value", response.getByteArrayValue());
-    } catch (Exception e) {
-      LOGGER.error(e, e);
-      documentResponse.putObject("error")
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
-    }
-    return documentResponse;
   }
 }
