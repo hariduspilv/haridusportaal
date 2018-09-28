@@ -225,6 +225,7 @@
     "investment_project": "Project",
     "investment_max_amount": "Maximum amount",
     "investment_amount_million_short": "MM",
+    "investment_amount_thousand_short": "K",
     "municipalities": "Municipalities",
     "municipalities_detailed": "Towns/districts",
     "counties": "Counties",

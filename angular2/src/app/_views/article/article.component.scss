@@ -62,8 +62,9 @@ article {padding-bottom: $small;
     }
     &-body { padding: 0 1rem 1rem }
     &-spacing {margin: 0 0 $half-gutter 0;}
-    &-header { padding: 0.5rem 1rem; height: auto!important;padding-right:$small; padding-left:$small;
-      &.mat-expanded { height: auto!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0.5rem 1rem; }}
+    &-header { height: 2.5rem !important;padding: 0 1.25rem;
+      &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
+      &.mat-expanded { height: 2.5rem!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0 1.25rem; }}
       &:hover {
         border-left: .1875rem solid $dark-orange;
         ::ng-deep .mat-expansion-indicator{ background: $red;
@@ -88,10 +89,9 @@ article {padding-bottom: $small;
     position: relative;text-align: center;width: $medium;color: $red;
     height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
   }
-  ::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;
-  }
-  ::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; 
-  }
+  ::ng-deep .mat-expansion-panel-content {padding: 0 $half-gutter;}
+  ::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;}
+  ::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; }
   ::ng-deep .mat-expanded .mat-expansion-indicator {background: $red; border: 0rem solid $red;}
   ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
   font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
@@ -105,10 +105,10 @@ article {padding-bottom: $small;
 .mat-expansion-panel-header.mat-expanded { 
   background: transparent!important;
 }
-
 .dashboard-table td {
  color: $black;
 }
+.mat-expansion-panel-content { background: $white; }
 
 @include break-on(sm, max) {
   .flex.mininav { width: 100%!important;

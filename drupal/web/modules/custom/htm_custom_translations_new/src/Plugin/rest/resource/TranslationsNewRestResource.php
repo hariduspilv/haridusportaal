@@ -101,8 +101,7 @@ class TranslationsNewRestResource extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
     $current_lang = $this->languageManager->getCurrentLanguage()->getId();
-    #dump($current_lang);
-		#dump($values);
+
 		$values = $this->flatten($values, '', $current_lang);
 		$response = new ResourceResponse($values, 200);
     $response->addCacheableDependency($config);

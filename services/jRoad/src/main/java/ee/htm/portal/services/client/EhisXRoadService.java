@@ -2,6 +2,7 @@ package ee.htm.portal.services.client;
 
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentDocument.VpTaotlusDokument;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentResponseDocument.VpTaotlusDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusEsitamineDocument.VpTaotlusEsitamine;
@@ -20,7 +21,7 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Vp
  *
  * parameter userId - if null gets its value from xroad.properties id-code
  */
-public interface EhisV6XRoadService {
+public interface EhisXRoadService {
 
   EeIsikukaartResponse eeIsikukaart(String personalCode, String format, String userId)
       throws XRoadServiceConsumptionException;
@@ -42,4 +43,6 @@ public interface EhisV6XRoadService {
 
   VpTaotlusDokumentResponse vpTaotlusDokument(VpTaotlusDokument request, String userId)
       throws XRoadServiceConsumptionException;
+
+  MtsysKlfTeenusResponse mtsysKlfTeenus(String userId) throws XRoadServiceConsumptionException;
 }

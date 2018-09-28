@@ -86,7 +86,8 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       data: {
         title: this.translate.get('frontpage.favourites_limit_modal_title')['value'].toUpperCase(),
         content: this.translate.get('frontpage.favourites_limit_modal_content')['value'],
-        close: this.translate.get('frontpage.favourites_limit_modal_close')['value']
+        close: this.translate.get('frontpage.favourites_limit_modal_close')['value'],
+        linkStatus: true
       }
     });
 
