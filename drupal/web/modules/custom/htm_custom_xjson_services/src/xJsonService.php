@@ -275,9 +275,9 @@ class xJsonService implements xJsonServiceInterface {
 				break;
 			case 'selectlist':
 				if($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options'];
-				else $additional_keys = ['multiple', 'empty_option', 'options', 'classificator'];
-				if(isset($element['classificator'])){
-					$params['hash'] = 'oppekavaOppetasemeds';
+				else $additional_keys = ['multiple', 'empty_option', 'options', 'options_list'];
+				if(isset($element['options_list'])){
+					$params['hash'] = $element['options_list'];
 					$element['options'] = $this->ehisconnector->getOptionsTaxonomy($params);
 				}
 
