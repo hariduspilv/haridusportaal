@@ -20,9 +20,9 @@ third_party_settings:
     unpublish_enable: false
     unpublish_required: false
     unpublish_revision: false
-name: Sündmus
+name: Event
 type: event
-description: 'Loo sündmus, mida kuvatakse kalendris'
+description: 'Add events'
 help: ''
 new_revision: true
 preview_mode: 1

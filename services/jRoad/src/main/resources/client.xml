@@ -28,8 +28,8 @@
   <!--</bean>-->
 
   <!-- Generated X-road database services implementation with minimal implementation -->
-  <!--<bean id="ehisV6XRoadDatabase" class="ee.htm.portal.services.database.EhisXRoadDatabaseImpl" />-->
+  <!--<bean id="ehisXRoadDatabase" class="ee.htm.portal.services.database.EhisXRoadDatabaseImpl" />-->
 
   <!-- X-road services implementation - usually services wrap generated database implementation -->
-  <!--<bean id="ehisv6XTeeService" class="ee.htm.portal.services.client.EhisV6XRoadServiceImpl" />-->
+  <!--<bean id="ehisXRoadService" class="ee.htm.portal.services.client.EhisXRoadServiceImpl/>-->
 </beans>

@@ -16,6 +16,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   parseFloat = parseFloat;
   toString = toString;
 
+  showFilter: boolean;
+  
   view: String = localStorage.getItem("schools_funding.view") || "schools";
 
   loading: boolean;
@@ -231,6 +233,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       }
     }
 
+    if( maxSum == 0 ){ maxSum = 1000000; }
+
     let sumPartial = maxSum / this.heatMapColors.length;
 
     let sumArray = [];
@@ -244,7 +248,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       if( multiplier !== 1 ){
         tmpArray['minAmount'] = parseFloat(i) * sumPartial;
       }else{
-        tmpArray['minAmount'] = "0";
+        tmpArray['minAmount'] = 1000;
       }
 
       tmpArray['color'] = this.heatMapColors[i];
@@ -283,7 +287,11 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       let color = this.heatMapColors[0];
 
       for( let o in this.heatMapRanges ){
-        if( match.investmentAmountSum >= this.heatMapRanges[o]['minAmount'] && match.investmentAmountSum <= this.heatMapRanges[o]['maxAmount'] ){
+
+        if( !match.investmentAmountSum ) {
+          color = "#fff";
+        }
+        else if( match.investmentAmountSum >= this.heatMapRanges[o]['minAmount'] && match.investmentAmountSum <= this.heatMapRanges[o]['maxAmount'] ){
           color = this.heatMapRanges[o]['color'];
           break;
         }

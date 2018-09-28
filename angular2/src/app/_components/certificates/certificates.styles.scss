@@ -51,14 +51,13 @@
 }
 ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: underline;}
 
-.mat-expansion-panel {
- background: $light-orange;
+.mat-expansion-panel-header {
+ background: $light-orange!important;
 }
 
-.mat-expansion-panel.mat-expanded { 
-  background: transparent;
+.mat-expansion-panel-header.mat-expanded { 
+  background: transparent!important;
 }
-
 .dashboard-table td {
  color: $black;
 }

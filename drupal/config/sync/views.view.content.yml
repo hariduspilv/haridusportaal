@@ -2,6 +2,8 @@ uuid: 8dbb7659-3d7a-4f96-a228-0332d8e7b2fd
 langcode: et
 status: true
 dependencies:
+  config:
+    - system.menu.admin
   module:
     - node
     - user
@@ -21,7 +23,7 @@ display:
       access:
         type: perm
         options:
-          perm: 'access content overview'
+          perm: 'administer nodes'
       cache:
         type: tag
       query:
@@ -639,6 +641,12 @@ display:
         menu_name: admin
         weight: -10
       display_extenders: {  }
+      defaults:
+        access: false
+      access:
+        type: perm
+        options:
+          perm: 'access content overview'
     display_plugin: page
     display_title: Page
     id: event_groups_manager

@@ -8,7 +8,8 @@ import ee.htm.portal.services.types.ee.riik.xtee.kutseregister.producers.produce
  *
  * parameter userId - if null gets its value from xroad.properties id-code
  */
-public interface KutseregisterV6XRoadService {
+public interface KutseregisterXRoadService {
 
-  KodanikKutsetunnistusVastus kodanikKutsetunnistus(boolean invalidBoolean, String userId) throws XRoadServiceConsumptionException;
+  KodanikKutsetunnistusVastus kodanikKutsetunnistus(boolean invalidBoolean, String userId)
+      throws XRoadServiceConsumptionException;
 }
