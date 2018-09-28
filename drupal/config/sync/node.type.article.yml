@@ -23,9 +23,9 @@ third_party_settings:
     unpublish_revision: false
 _core:
   default_config_hash: AeW1SEDgb1OTQACAWGhzvMknMYAJlcZu0jljfeU3oso
-name: Artikkel
+name: 'Sisuleht Artikkel'
 type: article
-description: '<em>Artikleid</em> kasutatakse aeguva sisu jaoks nagu uudised, pressiteated või blogi sissekanded.'
+description: ''
 help: ''
 new_revision: true
 preview_mode: 1
