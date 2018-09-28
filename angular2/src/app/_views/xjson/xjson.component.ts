@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy} from '@angular/core';
+import { Component, OnInit, AfterViewChecked, OnDestroy} from '@angular/core';
 import { Subscription } from '../../../../node_modules/rxjs';
 import { HttpService } from '@app/_services/httpService';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -18,7 +18,7 @@ const XJSON_DATEPICKER_FORMAT = {
     dateInput: 'YYYY-MM-DD',
   },
   display: {
-    dateInput: 'DD.MM.YYYY',
+    dateInput: 'DD-MM-YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
@@ -32,7 +32,7 @@ const XJSON_DATEPICKER_FORMAT = {
     {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
   ]
 })
-export class XjsonComponent implements OnInit, OnDestroy{
+export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
@@ -149,7 +149,7 @@ export class XjsonComponent implements OnInit, OnDestroy{
     let target = model.value.find(file => file.file_identifier === id);
     model.value.splice(model.value.indexOf(target), 1);
   }
-
+  
   fileEventHandler(e, element){
     e.preventDefault();
     let files = e.target.files || e.dataTransfer.files;
@@ -464,6 +464,8 @@ export class XjsonComponent implements OnInit, OnDestroy{
 
 
   viewController(xjson){
+    
+
     this.data = xjson;
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
 
@@ -477,17 +479,46 @@ export class XjsonComponent implements OnInit, OnDestroy{
       
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
       this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity)
+     
     }
-
+   
   }
- 
+  scrollPositionController(){
+   
+    if(this.opened_step){
+     
+      try { 
+        document.querySelector('#' + this.opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+      } catch (e) {
+        document.querySelector('#' + this.opened_step).scrollIntoView();
+      }
+
+      if(window.pageYOffset > 0){
+       
+        try { 
+          window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
+        } catch (e) {
+          window.scrollTo(0, 0);
+        }
+        try { 
+          document.querySelector('#' + this.opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+        } catch (e) {
+          document.querySelector('#' + this.opened_step).scrollIntoView();
+        }
+        
+      }
+    }
+  }
+  ngAfterViewChecked() {
+    this.scrollPositionController();
+  }
+
   ngOnInit(){
     this.pathWatcher();
  
     let payload = {form_name: this.form_name}
     if(this.test === true) this.promptDebugDialog(payload)
     else this.getData(payload);
-
   };
 
   ngOnDestroy(){

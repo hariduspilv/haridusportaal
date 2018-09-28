@@ -34,7 +34,7 @@ class xJsonService implements xJsonServiceInterface {
 	 */
 	protected $entityTypeManager;
 
-
+	#protected $ehisconnector;
 	/**
 	 * xJsonService constructor.
 	 * @param AccountProxyInterface $current_user
@@ -94,7 +94,9 @@ class xJsonService implements xJsonServiceInterface {
 					['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
 				]
 			] + $baseJson['header'];
+			dump($response_info);
 		}
+		#dump($baseJson);
 		return $baseJson;
 	}
 
@@ -142,16 +144,20 @@ class xJsonService implements xJsonServiceInterface {
 	 */
 	public function buildFormv2($response){
 		$return = [];
+		#dump($response);
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
 		
 		$this->validatexJsonHeader($response_header);
 		$form_name = $response['header']['form_name'];
-		$definition_body = $this->getEntityJsonObject($form_name)['body'];
-
+		$definition = $this->getEntityJsonObject($form_name);
+		$definition_body = $definition['body'];
+		
+		$return['messages'] = ($definition['messages']) ? $definition['messages'] : [] ;		
+			
 		if($response_header) $return['header'] = $response_header;
-		if($response_messages) $return['messages'] = $response_messages;
+		if($response_messages) $return['messages'] += $response_messages;
 		
 		if($response_body && !empty($response_body['steps'])){
 			foreach($definition_body['steps'] as $step_key => $step){
@@ -346,6 +352,7 @@ class xJsonService implements xJsonServiceInterface {
 		$result = $query->fetchField();
 		if($result){
 			$entity = $entityStorage->load($result);
+			#dump($entity->get('xjson_definition_test')->value);
 			return $this->buildFormv2(Json::decode($entity->get('xjson_definition_test')->value));
 		}else{
 			return NULL;
