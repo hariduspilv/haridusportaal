@@ -32,3 +32,11 @@ htm_custom_translations_new.delete_translation:
     _title: 'Delete translation'
   requirements:
     _permission: 'access content'
+htm_custom_translations_new.import_translation:
+  path: '/admin/config/htm_custom_translations_new/translation/import'
+  defaults:
+    _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormImport'
+    _title: 'Import translation'
+  requirements:
+    _permission: 'access content'
+
