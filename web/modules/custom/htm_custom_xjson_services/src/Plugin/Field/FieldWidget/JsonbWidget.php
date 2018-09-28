@@ -258,16 +258,16 @@ class JsonbWidget extends StringTextareaWidget {
 					if($table){
 						$additional_keys = ['width', 'multiple', 'empty_option', 'options'];
 					}else{
-						$additional_keys = ['multiple', 'empty_option', 'options', 'classificator'];
+						$additional_keys = ['multiple', 'empty_option', 'options', 'options_list'];
 					}
-					if(isset($element['options']) && isset($element['classificator'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.selectlist cannot have both options and classificator attribute");
+					if(isset($element['options']) && isset($element['options_list'])) $this->setErrorMessage("$step.data_elements.$parent_key.$key.selectlist cannot have both options and options_list attribute");
 					if(isset($element['options']) && is_array($element['options']) && count($element['options']) >= 1){
 						$option_keys = $this->ValidateOptionElement($element['options'], null, $step, $parent_key, $key);
 						if(isset($element['default_value']) && !in_array($element['default_value'], $option_keys)) $this->setErrorMessage("$step.data_elements.$parent_key.$key.default_value does not match options");
-					}elseif(isset($element['classificator'])){
+					}elseif(isset($element['options_list'])){
 						// its fine
 					}else{
-						$this->setErrorMessage("$step.data_elements.$parent_key.$key.selectlist missing options or classificator attribute");
+						$this->setErrorMessage("$step.data_elements.$parent_key.$key.selectlist missing options or options_list attribute");
 					}
 					break;
 				case 'file':
