@@ -7,7 +7,6 @@ label: 'Content editor'
 weight: 3
 is_admin: null
 permissions:
-  - 'access administration pages'
   - 'access browse_files entity browser pages'
   - 'access browse_files_modal entity browser pages'
   - 'access content overview'
