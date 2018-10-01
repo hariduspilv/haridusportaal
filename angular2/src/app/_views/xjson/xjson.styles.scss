@@ -13,9 +13,9 @@ margin:0 1.5rem;}
   &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500; margin-bottom: 0.5rem; }
   &__step-introduction{width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none;}
   &__heading{ width: 100%; display: block; font-size: 1rem; font-weight: 500; line-height: 1.38; text-align: left; color: #333333;}
-  &__navigation{ list-style-type: none; padding-left: 0; display: flex; padding-top: 1rem; margin-top: 2rem; overflow-y: auto; padding-bottom: 1rem;
+  &__navigation{ list-style-type: none; padding-left: 1.5rem; padding-right: 1.5rem; margin-left: -1.5rem; margin-right: -1.5rem; display: flex; padding-top: 1rem; margin-top: 2rem; overflow-y: auto; padding-bottom: 1rem;
     @include break-on(sm, max) { 
-      justify-content: flex-start; margin-left: -1.5rem; margin-right: -1.5rem; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem;
+      justify-content: flex-start; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem; padding-right: 1.5rem;
     }
     .xjson__navigation__step.disabled { 
      &:after {
@@ -43,6 +43,9 @@ margin:0 1.5rem;}
     }
   }
   .xjson__navigation__step { position: relative; text-align: center; flex-grow: 1; flex-basis: 0; min-width: 8rem; 
+    &:last-of-type {
+      margin-right: 0rem;
+    }
     &:after {
       content: "";
       position: absolute; width: 100%; height: 0.3125rem; background-color: $aqua; top: 0.625rem; left:-50%;
@@ -113,5 +116,24 @@ input.inner-flexbox {
  }
 
 .dropzone { 
- border: solid 3px #eeeeee; border-radius: 0.25rem;
+ border: dashed 3px $gray; border-radius: 0.25rem; position: relative;
 }
+
+.dropzone:before {
+font-family: 'htm-icon'; content: "add"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $gray; background: transparent; position: absolute;
+ left: 0px; top: 0px; right:0px; font-size: 3.75rem; align-items: center; text-align: center; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
