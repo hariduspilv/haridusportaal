@@ -25,12 +25,14 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
 		$auth_param = $request->get('jwt_token');
 		$matches = array();
 		if ($hasJWT = preg_match('/^Bearer (.*)/', $auth_header, $matches)) {
-			return $matches[1];
+			$return =  $matches[1];
 		}elseif($auth_param){
-			return $auth_param;
+			$return = $auth_param;
 		}else{
-			return false;
+			$return =false;
 		}
+
+		return $return;
 	}
 
 
