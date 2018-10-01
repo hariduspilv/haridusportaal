@@ -185,6 +185,23 @@
                 </div><!--/round-inpuit__wrapper-->
               </ng-container> <!-- /NUMBER -->
 
+              <ng-container *ngIf="data_elements[element].type == 'address'">
+                AADRESS
+                <script type="text/javascript" src="http://inaadress.maaamet.ee/inaadress/js/inaadress.min.js"></script>
+                
+                <script>
+                  var inAadress = new InAadress({"mode":1, "container":"test",
+                  "nocss": true })
+
+                  document.addEventListener('addressSelected', function(e){
+                    inAadress.hideResult();
+                  });
+                </script>
+                <div id="test" >
+                  
+                </div>
+              </ng-container> <!-- /ADDRESS -->
+
               <ng-container *ngIf="data_elements[element].type == 'date'">
                 <ng-container *ngIf="data_elements[element].helpertext">
                   {{ selectLanguage(data_elements[element].helpertext) }}
