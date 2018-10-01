@@ -46,9 +46,8 @@
 					"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
 					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
 					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
-					"width" : "Kuvatava andmevälja laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik; vaikimisi 20",
-					"maxlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 200",
-					"minlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 0"
+					"maxlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik",
+					"minlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik"
 				},
 
 				"data_element_name" : {
@@ -62,10 +61,8 @@
 					"required":  "Kas andmeelemendi väärtuse olemasolu on kohustuslik (true-false); mittekohustuslik; vaikimisi false",
 					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
 					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
-					"width" : "Kuvatava andmevälja laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik; vaikimisi 50",
-					"height" : "Kuvatava andmevälja kõrgus ridadaes; mittekohustuslik; vaikimisi 3",
-					"maxlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 500",
-					"minlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 0"
+					"maxlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik",
+					"minlength" : "Väärtuse maksimaalne sümbolite arv; mittekohustuslik"
 				},
 
 				"data_element_name" : {
@@ -139,7 +136,6 @@
 					"hidden" : "Kas andmeelement on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
 					"readonly" : "Kas andmeelemendi väärtuse olemasolu on muudetav (false) või mitte (true); mittekohustuslik; vaikimisi false",
 					"multiple" : "Kas saab valida ühe väärtuse (false) või mitu väärtust (true); mittekohustuslik; vaikimisi false",
-					"width" : "Kuvatava andmevälja laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik; vaikimisi pikim option"
 				},
 
 				"data_element_name" : {
@@ -201,9 +197,8 @@
 							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
 							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
 							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
 							"type" : "text - Tabeli väljades olevate väärtuste andmetüüp",
-							"maxlength" : "Tabeli väljade väärtuse maksimaalne sümbolite arv; mittekohustuslik; vaikimisi 200",
+							"maxlength" : "Tabeli väljade väärtuse maksimaalne sümbolite arv; mittekohustuslik",
 							"minlength" : "Tabeli väljade väärtuse maksimaalne sümbolite arv; mittekohustuslik",
 							"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
 						},
@@ -215,7 +210,6 @@
 							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
 							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
 							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
 							"type" : "number - Tabeli väljades olevate väärtuste andmetüüp",
 							"max" : "Tabeli väljade maksimaalne väärtus; mittekohustuslike",
 							"min" : "Tabeli väljade minimaalne väärtus; mittekohustuslik",
@@ -229,7 +223,6 @@
 							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
 							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
 							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
 							"type" : "date - Tabeli väljades olevate väärtuste andmetüüp",
 							"max" : "Tabeli väljade maksimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik",
 							"min" : "Tabeli väljade minimaalne väärtus; formaat YYYY-MM-DD; mittekohustuslik",
@@ -243,7 +236,6 @@
 							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
 							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
 							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
 							"type" : "checkbox  - Tabeli veerus olevate väärtuste andmetüüp",
 							"default_value" : "Lisatavasse ritta kirjutatav vaikeväärtus"
 						},
@@ -255,7 +247,6 @@
 							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
 							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
 							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
 							"type" : "selectlist - Tabeli veerus olevate väärtuste andmetüüp",
 							"emtpy_option" : {
 								"keele 2-täheline kood" : "Valimata väärtuse kohta kuvatav tekst, mittekohustuslik"
@@ -275,7 +266,6 @@
 							"hidden" : "Kas veerg on nähtav (false) või peidetud (true); mittekohustuslik; vaikimisi false",
 							"required" : "Kas tabeli veerus väärtuse olemasolu on kohustuslik (true-false)",
 							"readonly" : "Kas tabeli veerus väärtuse olemasolu on muudetav (false) või mitte (true)",
-							"width" : "Tabeli veeru laius tähemärkides (arvutatakse front-endis pikseliteks); mittekohustuslik",
 							"type" : "file - Tabeli veerus olevate väärtuste andmetüüp",
 						}
 					}
