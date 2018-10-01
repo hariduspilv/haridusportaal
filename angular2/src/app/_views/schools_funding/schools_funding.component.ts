@@ -16,6 +16,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   parseFloat = parseFloat;
   toString = toString;
 
+  showFilter: boolean;
+  
   view: String = localStorage.getItem("schools_funding.view") || "schools";
 
   loading: boolean;
@@ -232,7 +234,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     }
 
     if( maxSum == 0 ){ maxSum = 1000000; }
-    
+
     let sumPartial = maxSum / this.heatMapColors.length;
 
     let sumArray = [];
