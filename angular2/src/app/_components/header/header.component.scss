@@ -37,7 +37,8 @@
 
 
 .loginbar {margin-left: $xxl; display: flex;
-  @include break-on(xl, min) {position: relative;top: .1875rem;}
+  @include break-on(xl, min) {position: relative;top: 0rem; }
+    @include break-on(xxl, min) { top: .1875rem; }
 }
 .htm-icon { 
   &.search { padding-right: 1rem;
