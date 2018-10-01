@@ -137,6 +137,7 @@ abstract class TranslationFormBase extends ConfigFormBase {
 				}
 				break;
 			case 'import':
+				#$this->config($config_key)->delete();
 				$json = json_decode(file_get_contents($form_state->getValue('upload')), true);
 				$flatten = $this->keyformatter->flattenImportJson($json);
 
@@ -158,9 +159,9 @@ abstract class TranslationFormBase extends ConfigFormBase {
 				}, $flatten);
 
 				foreach($result as $key => $value){
-					$this->config($config_key)->set($key, $value);
+					$this->config($config_key)->set($key, $value)->save();
 				}
-				$this->config($config_key)->save();
+
 				break;
 			default:
 				$this->messenger->addError('Action type not recognized');
