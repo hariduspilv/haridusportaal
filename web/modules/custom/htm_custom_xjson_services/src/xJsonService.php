@@ -285,7 +285,7 @@ class xJsonService implements xJsonServiceInterface {
 					foreach($options as $key => $option){
 						$keys[] = $key;
 						if($option['options']){
-							return $recfunc($option['options'], $keys);
+							return $recfunc($option['options'], $keys);x
 						}
 					}
 					return $keys;
