@@ -38,14 +38,14 @@ class translationHelper{
 			if((preg_match("/<[^<]+>/",$v,$m))){
 				$elem = [
 					'translation_type' => 'text_format',
-					'et' => ['format' => 'text_format', 'value' => $v],
-					'en' => '',
+					#'et' => ['format' => 'text_format', 'value' => $v],
+					'en' => ['format' => 'text_format', 'value' => $v],
 				];
 			}else{
 				$elem = [
 					'translation_type' => 'textarea',
-					'et' => $v,
-					'en' => '',
+					#'et' => $v,
+					'en' => $v,
 				];
 			}
 
