@@ -90,7 +90,7 @@ table {width: 100%;border-collapse: collapse; margin: 0;
   th, td {line-height: 1.38rem;font-size: 0.875rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;
     &.highlighted {font-weight: 500;}
   }
-  td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
+  td.hidden, th.hidden {min-width:1.5rem; width: 1.5rem; background: $light-gray;padding:$gutter;}
   th.hidden {text-align: center;border-bottom: none;}
   td {font-weight: 400;
     &.hidden {border-top: none;border-bottom: none;
