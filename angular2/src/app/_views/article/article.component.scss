@@ -50,8 +50,11 @@ article {padding-bottom: $small;
   .title {font-size: $small;line-height: 2;padding: 0 $medium;
     h1 {color:$black;}
   }
-  .description {padding: $small $medium; color: $black; line-height: 1.375rem; padding-bottom: 0;}
+  .description {padding: $small $medium; color: $black; line-height: 1.375rem; padding-bottom: 0;
+     ::ng-deep ul { padding-left: 1.125rem!important; }
+  }
   ::ng-deep .description > *:last-child {margin-bottom: 0;}
+
   .short {@extend .description; font-weight: 500; padding-bottom: $small;}
 
   .mat-expansion-panel { box-shadow: none !important;border: .0625rem solid $light-orange; border-radius: .125rem; border-left: .1875rem solid $light-orange; margin-bottom: $half-gutter;
