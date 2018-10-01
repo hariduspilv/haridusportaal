@@ -17,7 +17,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   toString = toString;
 
   showFilter: boolean;
-  
+
   view: String = localStorage.getItem("schools_funding.view") || "schools";
 
   loading: boolean;
@@ -185,6 +185,11 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
 
   getData() {
+
+    if(this.map){
+      this.map.setZoom(this.mapOptions.zoom);
+      this.map.setCenter(this.mapOptions.center);
+    }
 
     this.loading = true;
 
