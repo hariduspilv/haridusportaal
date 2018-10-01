@@ -25,32 +25,15 @@ class translationHelper{
 	}
 
 	public function flattenImportJson($array, $prefix = ''){
-		$result = array();
-		foreach($array as $key=> $value) {
-			if(is_array($value)) {
-				$result = $result + $this->flatten($value, $prefix . $key . '.');
-			}
-			else {
-				$result[$prefix . $key] = $value;
-			}
-		}
-		$result = array_map(function($v){
-			if((preg_match("/<[^<]+>/",$v,$m))){
-				$elem = [
-					'translation_type' => 'text_format',
-					#'et' => ['format' => 'text_format', 'value' => $v],
-					'en' => ['format' => 'text_format', 'value' => $v],
-				];
-			}else{
-				$elem = [
-					'translation_type' => 'textarea',
-					#'et' => $v,
-					'en' => $v,
-				];
-			}
 
-			return $elem;
-		}, $result);
+		$result = array();
+		foreach ($array as $key => $value) {
+			if (is_array($value) && (!isset($value['et']) && !isset($value['en'])))
+				$result = array_merge($result, $this->flattenImportJson($value, $prefix . $key . '.'));
+			else
+				$result[$prefix . $key] = $value;
+		}
+
 		return $result;
 	}
 

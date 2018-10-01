@@ -137,12 +137,31 @@ abstract class TranslationFormBase extends ConfigFormBase {
 				}
 				break;
 			case 'import':
+				#$this->config($config_key)->delete();
 				$json = json_decode(file_get_contents($form_state->getValue('upload')), true);
 				$flatten = $this->keyformatter->flattenImportJson($json);
-				foreach($flatten as $key => $value){
-					$this->config($config_key)->set($key, $value);
+
+				$result = array_map(function($v){
+					if((preg_match("/<[^<]+>/",$v['et'],$m))){
+						$elem = [
+								'translation_type' => 'text_format',
+								'et' => ['format' => 'custom_editor', 'value' => (isset($v['et'])) ? $v['et'] : '' ],
+								'en' => ['format' => 'custom_editor', 'value' => (isset($v['en'])) ? $v['en'] : ''],
+						];
+					}else{
+						$elem = [
+								'translation_type' => 'textarea',
+								'et' => (isset($v['et'])) ? $v['et'] : '',
+								'en' => (isset($v['en'])) ? $v['en'] : '',
+						];
+					}
+					return $elem;
+				}, $flatten);
+
+				foreach($result as $key => $value){
+					$this->config($config_key)->set($key, $value)->save();
 				}
-				$this->config($config_key)->save();
+
 				break;
 			default:
 				$this->messenger->addError('Action type not recognized');
