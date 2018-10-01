@@ -197,7 +197,9 @@
                   placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
                   [(ngModel)]="data_elements[element].value"
                   [value]="getDatepickerValue(element, element)"
-                  (dateInput)="setDatepickerValue($event, element)"
+                  (dateChange)="setDatepickerValue($event, element)"
+                  (focus)="datepickerFocus = true"
+                  (blur)="datepickerFocus = false"
                   dateFormatter
                   [name]="element">
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -216,8 +218,8 @@
                 <ng-container *ngIf="data_elements[element].value">
 
                   <ng-container *ngFor="let file of data_elements[element].value">
-                    <a [href]="settings.url + '/xjson_service/documentFile/' + file.file_identifier" >{{ file.file_name }}</a>
-
+                    <a [href]="fileDownloadlink(file.file_identifier)" target="_blank" >{{ file.file_name }}</a>
+                    
                     <ng-container *ngIf="data_elements[element].multiple == false">
                       ASENDA
                       <input type="file" 

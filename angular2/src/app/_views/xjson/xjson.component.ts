@@ -43,6 +43,7 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
   public form_name: string;
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
+  public datepickerFocus: boolean;
 
   public data;
   public opened_step;
@@ -92,10 +93,12 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.subscriptions = [...this.subscriptions, strings];
   }
   setDatepickerValue(event, element, rowindex, col){
-    if(rowindex == undefined|| col == undefined){
-      this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
-    } else {
-      this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+    if(this.datepickerFocus === false){
+      if(rowindex == undefined|| col == undefined){
+        this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+      } else {
+        this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+      }
     }
   }
   getDatepickerValue(element, rowindex, col){
@@ -131,6 +134,12 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       return list.map(extentsion => '.'+ extentsion).join(',')
     }
+  }
+  fileDownloadlink(id){
+    console.log('localstorage read');
+    let token = localStorage.getItem('token');
+    console.log(this.settings.url + '/xjson_service/documentFile/' + id + '?token=' + token)
+    return this.settings.url + '/xjson_service/documentFile/' + id + '?token=' + token
   }
   canUploadFile(element): boolean{
     
