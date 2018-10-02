@@ -1,0 +1,22 @@
+uuid: 4e8ff8be-5e91-44a9-a4c0-925ed271b8b6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.oska_field_page
+  module:
+    - text
+id: node.oska_field_page.body
+field_name: body
+entity_type: node
+bundle: oska_field_page
+label: Body
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+field_type: text_with_summary
