@@ -80,7 +80,7 @@ content:
     type: string_textarea
     region: content
   field_oska_graph:
-    weight: 130
+    weight: 133
     settings: {  }
     third_party_settings: {  }
     type: oska_graph_widget_type
