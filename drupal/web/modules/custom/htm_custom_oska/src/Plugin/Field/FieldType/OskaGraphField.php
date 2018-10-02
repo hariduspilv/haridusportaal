@@ -120,7 +120,7 @@ class OskaGraphField extends FieldItemBase {
 
             return $graph_value;
         }else{
-            return NULL;
+            return "";
         }
 
 
