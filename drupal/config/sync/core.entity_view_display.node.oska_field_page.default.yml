@@ -4,9 +4,9 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_field_page.body
-    - field.field.node.oska_field_page.field_accordion
     - field.field.node.oska_field_page.field_attachment_file
     - field.field.node.oska_field_page.field_introduction
+    - field.field.node.oska_field_page.field_oska_field_accordion
     - field.field.node.oska_field_page.field_oska_graph
     - field.field.node.oska_field_page.field_picture
     - field.field.node.oska_field_page.field_video
@@ -33,15 +33,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-  field_accordion:
-    weight: 108
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
-    region: content
   field_attachment_file:
     weight: 105
     label: above
@@ -56,6 +47,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
+  field_oska_field_accordion:
+    type: entity_reference_revisions_entity_view
+    weight: 108
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
     region: content
   field_oska_graph:
     weight: 107
