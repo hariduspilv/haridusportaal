@@ -1,4 +1,4 @@
-uuid: aa1416f7-3c8c-4746-8523-af5002d76d75
+uuid: 617b53c3-cd40-42d1-b549-5dcbe1ecd7e7
 langcode: et
 status: true
 dependencies:
@@ -11,29 +11,13 @@ id: paragraph.main_profession_accordion.field_oska_graph
 field_name: field_oska_graph
 entity_type: paragraph
 bundle: main_profession_accordion
-label: 'Oska graph'
+label: 'Oska Graph'
 description: ''
 required: false
 translatable: false
 default_value:
-  -
-    graph_type: ''
-    oska_field: null
-    oska_sub_field: null
-    oska_main_profession: null
-    oska_indicator: null
-    year: {  }
-    value: null
-    filter_values: null
-  -
-    graph_type: ''
-    oska_field: null
-    oska_sub_field: null
-    oska_main_profession: null
-    oska_indicator: null
-    year: {  }
-    value: null
-    filter_values: null
+  - {  }
+  - {  }
 default_value_callback: ''
 settings: {  }
 field_type: oska_graph_field

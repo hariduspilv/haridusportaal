@@ -1,4 +1,4 @@
-uuid: 6e5b2d51-405b-4f63-8ef5-27e190c706e2
+uuid: 19193e38-48c1-42df-afe2-ee83e05aaba7
 langcode: et
 status: true
 dependencies:
@@ -11,29 +11,13 @@ id: node.oska_field_page.field_oska_graph
 field_name: field_oska_graph
 entity_type: node
 bundle: oska_field_page
-label: 'Oska graph'
+label: 'Oska Graph'
 description: ''
 required: false
 translatable: true
 default_value:
-  -
-    graph_type: ''
-    oska_field: null
-    oska_sub_field: null
-    oska_main_profession: null
-    oska_indicator: null
-    year: {  }
-    value: null
-    filter_values: null
-  -
-    graph_type: ''
-    oska_field: null
-    oska_sub_field: null
-    oska_main_profession: null
-    oska_indicator: null
-    year: {  }
-    value: null
-    filter_values: null
+  - {  }
+  - {  }
 default_value_callback: ''
 settings: {  }
 field_type: oska_graph_field
