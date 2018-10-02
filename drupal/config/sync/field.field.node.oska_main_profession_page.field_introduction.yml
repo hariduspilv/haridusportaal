@@ -1,0 +1,19 @@
+uuid: bb7a478a-4fd1-4e18-9590-e2d2717fc279
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_introduction
+    - node.type.oska_main_profession_page
+id: node.oska_main_profession_page.field_introduction
+field_name: field_introduction
+entity_type: node
+bundle: oska_main_profession_page
+label: Introduction
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
