@@ -114,7 +114,7 @@ class OskaGraphField extends FieldItemBase {
         }
         $entity_ids = $query->execute();
 
-        if($entity_ids){
+        if(count($entity_ids) > 0){
             $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple($entity_ids);
             $graph_value = $this->getGoogleGraphValue($entities);
 
