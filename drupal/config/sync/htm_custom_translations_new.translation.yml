@@ -1449,3 +1449,4 @@ search:
     translation_type: textarea
     et: 'Filtreeri tulemusi'
     en: 'Filter results'
+langcode: et

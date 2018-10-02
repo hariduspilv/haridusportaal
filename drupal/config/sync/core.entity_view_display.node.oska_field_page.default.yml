@@ -58,7 +58,7 @@ content:
     third_party_settings: {  }
     region: content
   field_oska_graph:
-    weight: 107
+    weight: 109
     label: above
     settings: {  }
     third_party_settings: {  }
