@@ -1,0 +1,27 @@
+uuid: 08488703-68df-4bb1-8824-5481a0a22323
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_attachment_file
+    - node.type.oska_field_page
+  module:
+    - file
+id: node.oska_field_page.field_attachment_file
+field_name: field_attachment_file
+entity_type: node
+bundle: oska_field_page
+label: 'Lisa failimanus'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: pdf
+  max_filesize: ''
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

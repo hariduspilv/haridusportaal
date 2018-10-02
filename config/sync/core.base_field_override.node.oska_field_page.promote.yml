@@ -1,0 +1,22 @@
+uuid: 7fadf4c2-26b2-47a5-a566-068d8ba42cee
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.oska_field_page
+id: node.oska_field_page.promote
+field_name: promote
+entity_type: node
+bundle: oska_field_page
+label: 'Ülendatud esilehele'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean
