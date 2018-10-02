@@ -1,18 +1,17 @@
-uuid: 28035653-df8f-4831-aee6-751dd9992446
+uuid: d1851b9a-220e-4a90-9179-e6d93726396b
 langcode: et
 status: true
 dependencies:
   module:
-    - htm_custom_video_field
     - node
-id: node.field_video
-field_name: field_video
+id: node.field_fixed_label
+field_name: field_fixed_label
 entity_type: node
-type: custom_video_field_type
+type: boolean
 settings: {  }
-module: htm_custom_video_field
+module: core
 locked: false
-cardinality: 2
+cardinality: 1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

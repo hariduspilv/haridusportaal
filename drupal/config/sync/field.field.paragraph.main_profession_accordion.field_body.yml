@@ -1,0 +1,21 @@
+uuid: 97de1e25-b75c-469c-9966-280527cf7676
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_body
+    - paragraphs.paragraphs_type.main_profession_accordion
+  module:
+    - text
+id: paragraph.main_profession_accordion.field_body
+field_name: field_body
+entity_type: paragraph
+bundle: main_profession_accordion
+label: Sisu
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

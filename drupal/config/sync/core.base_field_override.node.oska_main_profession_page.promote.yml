@@ -1,0 +1,22 @@
+uuid: 1ea0e6d3-4f64-4c24-a1d5-1753788af4cb
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.oska_main_profession_page
+id: node.oska_main_profession_page.promote
+field_name: promote
+entity_type: node
+bundle: oska_main_profession_page
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
