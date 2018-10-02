@@ -178,7 +178,7 @@ class EhisConnectorService {
 	 */
 	private function getCurrentUserIdCode(){
 		$user_id = $this->currentUser->id();
-		return '41103161417';
+		#return '41103161417';
 		return ($id_code = User::load($user_id)->get('field_user_idcode')->value) ? $id_code : 0;
 	}
 
