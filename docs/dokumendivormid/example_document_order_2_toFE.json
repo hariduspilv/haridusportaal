@@ -1,0 +1,311 @@
+{
+"header" : {
+	"form_name" : "ORDER",
+	"endpoint": "XYZ",
+	"number_of_steps": 2,
+	"acceptable_activity" : [ "SAVE", "SUBMIT" ],
+	"current_step" : "step_2",
+	"identifier" : "3465667463XYZ" ,
+	"created"  : "2018-05-24T13:22:11.111Z" ,
+	"modified"  : "2018-05-24T13:26:22.222Z" ,
+	"references" :[
+		{
+			"name" : "CONTRACT",
+			"identifier" : "3465667412ABC",
+			"date" : "2018-02-01"
+		},
+		{
+			"name" : "PRICELIST",
+			"identifier" : "777777412",
+			"date" : "2018-01-01"
+		}
+	],
+},
+"body" : {
+	"title": {
+		"et" : "Tellimus",
+		"en" : "Invoice"
+	},
+	"introduction": {
+		"et" : "Dokumendi vormi päises kuvatav selgitav tekst",
+		"en" : "Dokumendi vormi päises kuvatav selgitav tekst"
+	},
+
+	"steps" : {
+		"step_1" : {
+			"title" : {
+				"et" : "Klient ja tarnetingimused",
+				"en" : "Customer and terms of delivery "
+			},
+			"introduction" : {
+				"et" : "Sammu päises kuvatav selgitav tekst",
+				"en" : "Sammu päises kuvatav selgitav tekst"
+			},
+
+			"data_elements" : {
+				"step_1_heading_1" : {
+					"type": "heading",
+					"title" : {
+						"et" : "Klient",
+						"en" : "Customer"
+					}
+				},
+
+				"customer_name" : {
+					"type": "text",
+					"title" : {
+						"et": "Kliendi nimi" ,
+						"en": "Customer name"
+					},
+					"helpertext" : {
+						"et" : "Sisesta eesnimi ja perekonnanimi",
+						"en" : "Enter first name and last name"
+					},
+					"required":  true,
+					"maxlength" : 200,
+					"minlength" : 3,
+					"value" : "JUHAN JUURIKAS",
+					"messages" :  {
+						"message_type" : "NOTICE",
+						"message_text" : {
+							"et" : "Naljakas nimi",
+							"en" : "Funny name"
+						}
+					}
+				},
+
+				"customer_email" : {
+					"type": "email",
+					"title" : {
+						"et" : "E-posti aadress",
+						"en" : "E-mail address"
+					},
+					"required" : true,
+					"value" : "juhan.juurikas@inter.net"
+				},
+
+				"step_1_heading_2" : {
+					"type": "heading",
+					"title" : {
+						"et" : "Tarnetingimused",
+						"en" : "Terms of delivery"
+					}
+				},
+
+				"delivery_address" : {
+					"type": "address",
+					"title" : {
+						"et" : "Tarnida aadressile",
+						"en" : "Deliver to"
+					},
+					"value" : { "ads_id" : "12345", "maakond" : "Harjumaa", "kov" : "Saue vald", "asustusüksus" : "Alliku küla" }
+				},
+
+				"delivery_date" : {
+					"type": "date",
+					"title" : {
+						"et" : "Tarne kuupäev",
+						"en" : "Date of delivery"
+					},
+					"min" : "2018-05-15",
+					"value" : "2018-05-16"
+				},
+
+				"payment_method" : {
+					"type": "selectlist",
+					"title" : {
+						"et" : "Makseviis",
+						"en" : "Payment method"
+					},
+					"empty_option" : {
+						"et" : "-- Vali midagi --",
+						"en" : "-- Select something --"
+					},
+					"options" : {
+						"AD" : {
+							"et" : "Ettemaks",
+							"en" : "Advance payment"
+						},
+						"RC" : {
+							"et" : "Püsikliendi kuumakse",
+							"en" : "Regular customer monthly payment"
+						},
+						"DE" : {
+							"et" : "Kullerile",
+							"en" : "To courier",
+							"options" : {
+								"DECS" : {
+									"et" : "Sularahas",
+									"en" : "In cach"
+								},
+								"DECA" : {
+									"et" : "Kaardiga",
+									"en" : "By Card"
+								}
+							}
+						}
+					},
+					"required" : true,
+					"value": "DECS"
+				},
+
+				"comments" : {
+					"type": "textarea",
+					"title" : {
+						"et" :  "Märkused" ,
+						"en" : "Comments"
+					},
+					"value": "Laadida maha kuuri kõrvale"
+				},
+
+				"confirmation" : {
+					"type": "checkbox",
+					"title" : {
+						"et"  : "Olen tutvunud tüüptingimustega ja olen kõigega nõus",
+						"en" : " I have read the standard terms and I agree with everything"
+					},
+					"required": true,
+					"value" : true
+					},
+			}
+		},
+
+		"step_2" : {
+			"title" : {
+				"et" : "Kaubad",
+				"en" : "Items"
+			},
+			"introduction" : {
+				"et" : "Sammu päises kuvatav selgitav tekst",
+				"en" : "Sammu päises kuvatav selgitav tekst"
+			},
+
+			"data_elements" : {
+				"items" : {
+					"type": "tabel",
+					"title" : {
+						"et" : "Kaubanimetused",
+						"en" : "Items"
+					},
+
+					"table_columns" : {
+						"item_name" : {
+							"title" : {
+								"et"  : "Nimetus",
+								"en" : "Name"
+							},
+							"required" : true,
+							"type" : "text",
+							"maxlength" : 50,
+							"minlength" : 3
+						},
+
+						"quantity" : {
+							"title" : {
+								"et" : "Kogus" ,
+								"en" : "Quantity"
+							},
+							"required" : true,
+							"type" : "number",
+							"max" : 100,
+							"min" : 1
+						},
+
+						"measurement_unit" : {
+							"title" : {
+								"et" : "Ühik" ,
+								"en" : "Unit"
+							},
+							"required" : true,
+							"type" : "selectlist",
+							"emtpy_option" : {
+								"et" : "-- Vali midagi --",
+								"en" : "-- Select something --"
+							},
+							"options" : {
+								"TK" : {
+									"et" : "Tükk",
+									"en" : "Pieces",
+								},
+								"KG" : {
+									"et" : "KG",
+									"en" : "KG",
+								},
+								"L" : {
+									"et" : "L",
+									"en" : "L",
+								}
+							}
+						},
+
+						"fragile" : {
+							"title" : {
+								"et" : "Purunemisohtlik",
+								"en" : "Fragile"
+							},
+							"type" : "checkbox",
+							"value" : [ , , true]
+						},
+
+						"instruction" : {
+							"title" : {
+								"et" : "Käsitlemise juhend",
+								"en" : "Handling instruction"
+							},
+							"type" : "file",
+							"value" : { "file_name" : "leping.pdf" , "file_identifier" : "3465667463XYZ-001" }
+						}
+					},
+
+					"value" : [
+						[
+							{ "seq_no" : 1, "item_name" :	"Kruvid " },
+							{ "seq_no" : 2, "quantity" : 20 },
+							{ "seq_no" : 3, "measurement_unit" : "TK" }
+							{ "seq_no" : 4, "fragile" : "" }
+						],
+						[
+							{ "seq_no" : 1, "item_name" :	"Liistud" },
+							{ "seq_no" : 2, "quantity" : 12 },
+							{ "seq_no" : 3, "measurement_unit" : "KG" },
+							{ "seq_no" : 4, "fragile" : false }
+						],
+						{
+							"item_name" :	"Klaasid",
+							"quantity" : 55 ,
+							"measurement_unit" : "TK" ,
+							"instruction" : { "file_name" : "juhend.pdf" , "file_identifier" : "3465667463XYZ-222" }
+						}
+					]
+				},
+
+				"contract" : {
+					"type": "file",
+					"title" : {
+						"et" : "Lisage lepingu failid",
+						"en" : "Contract",
+					},
+					"helpertext" : {
+						"et" : "Failide suurus kuni 35 MB",
+						"en" : "Size limit is 35 MB"
+					},
+					"required":  true,
+					"multiple" : true,
+					"value" : [
+						{ "file_name" : "leping.pdf" , "file_identifier" : "3465667463XYZ-001" },
+						{ "file_name" : "lepingu lisa A.pdf" , "file_identifier" : "3465667463XYZ-002" }
+						{ "file_name" : "leping.bdoc" , "file_identifier" : "3465667463XYZ-002" }
+					]
+				},
+			},
+			"messages" : {
+				"message_type" : "WARNING",
+				"message_text" : {
+					"et" : "Kauba laovaru puudub",
+					"en" : "Items are out of stock"
+				}
+			}
+		}
+	}
+}
+}
