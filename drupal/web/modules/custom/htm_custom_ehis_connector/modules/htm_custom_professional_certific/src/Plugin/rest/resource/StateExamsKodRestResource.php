@@ -6,25 +6,24 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
-use GuzzleHttp\Exception\RequestException;
-use http\Exception\InvalidArgumentException;
+use Drupal\rest\ResourceResponse;
+use Elasticsearch\Common\Exceptions\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
  *
  * @RestResource(
- *   id = "dashboard_service_rest_resource",
- *   label = @Translation("Dashboard service rest resource"),
+ *   id = "state_exams_rest_resource",
+ *   label = @Translation("State exams rest resource"),
  *   uri_paths = {
- *     "canonical" = "/dashboard/{service_name}/{tab_index}"
+ *     "canonical" = "/state-exams/{session_id}"
  *   }
  * )
  */
-class ProfessionalCertificateRestResource extends ResourceBase {
+class StateExamsKodRestResource extends ResourceBase {
 
   /**
    * A current user instance.
@@ -34,7 +33,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
   protected $currentUser;
 
   /**
-   * Constructs a new ProfessionalCertificateRestResource object.
+   * Constructs a new StateExamsKodRestResource object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -50,13 +49,13 @@ class ProfessionalCertificateRestResource extends ResourceBase {
    *   A current user instance.
    */
   public function __construct(
-			array $configuration,
-			$plugin_id,
-			$plugin_definition,
-			array $serializer_formats,
-			LoggerInterface $logger,
-			AccountProxyInterface $current_user,
-			EhisConnectorService $ehisConnectorService) {
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    array $serializer_formats,
+    LoggerInterface $logger,
+    AccountProxyInterface $current_user,
+		EhisConnectorService $ehisConnectorService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 		$this->certificate = $ehisConnectorService;
     $this->currentUser = $current_user;
@@ -73,7 +72,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('htm_custom_professional_certific'),
       $container->get('current_user'),
-			$container->get('htm_custom_ehis_connector.default')
+      $container->get('htm_custom_ehis_connector.default')
     );
   }
 
@@ -83,44 +82,23 @@ class ProfessionalCertificateRestResource extends ResourceBase {
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity object.
    *
-   * @return \Drupal\rest\ModifiedResourceResponse
+   * @return \Drupal\rest\ResourceResponse
    *   The HTTP response object.
    *
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
-  public function get($service_name, $tab) {
-		// You must to implement the logic of your REST Resource here.
-		// Use current user after pass authentication to validate access.
-		if (!$this->currentUser->hasPermission('access content')) {
-			throw new AccessDeniedHttpException();
-		}
-  	switch ($service_name){
-			case 'certificates':
-				$method = $tab;
-				$params = [];
-				break;
-			case 'eeIsikukaart':
-				$method = 'getPersonalCard';
-				$params = ['tab' => $tab];
-				break;
-			case 'applications':
-				$method = 'getApplications';
-				#$this->certificate->testApplications();
-				$params = ['init' => (boolean) $tab];
-				break;
-			default:
-				throw new BadRequestHttpException('Service name not found');
-				break;
-		}
+  public function get($session_id) {
 
-		try{
-			$json = $this->certificate->{$method}($params);
-		}catch (RequestException $e){
-			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
-		}
+    // You must to implement the logic of your REST Resource here.
+    // Use current user after pass authentication to validate access.
+    if (!$this->currentUser->hasPermission('access content')) {
+      throw new AccessDeniedHttpException();
+    }
+    $params['session_id'] = $session_id;
+		$json = $this->certificate->gettestidKod($params);
 
-		return new ModifiedResourceResponse($json);
-	}
+    return new ResourceResponse($json, 200);
+  }
 
 }
