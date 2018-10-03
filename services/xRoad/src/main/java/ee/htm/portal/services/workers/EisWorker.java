@@ -9,6 +9,7 @@ import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKehtivusResponseD
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKehtivusVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodResponseDocument.ETunnistusKodResponse;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.ETunnistusKodVastus;
+import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodJadaItem;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestidKodVastus;
 import ee.htm.portal.services.types.eu.x_road.eis.v4.TestsessioonidKodVastus;
 import java.io.IOException;
@@ -99,9 +100,21 @@ public class EisWorker extends Worker {
 
       if (response.getTestidKodJada() != null
           && !response.getTestidKodJada().getItemList().isEmpty()) {
-        response.getTestidKodJada().getItemList().forEach(item ->
-            ((ArrayNode) responseNode.get("value").get("testid_kod_jada")).addObject()
-                .put("test_nimi", item.isSetTestNimi() ? item.getTestNimi() : null)
+        ObjectNode testNode = nodeFactory.objectNode();
+        boolean isNextTest = false;
+        for (TestidKodJadaItem item : response.getTestidKodJada().getItemList()) {
+          if (item.isSetTestNimi()) {
+            if (isNextTest) {
+              ((ArrayNode) responseNode.get("value").get("testid_kod_jada")).add(testNode);
+              testNode = nodeFactory.objectNode();
+            }
+            testNode.put("test_nimi", item.getTestNimi())
+                .put("staatus", "".equals(item.getStaatus()) ? null : item.getStaatus())
+                .put("tulemus", "".equals(item.getTulemus()) ? null : item.getTulemus())
+                .putArray("osad");
+            isNextTest =  true;
+          } else {
+            ((ArrayNode) testNode.get("osad")).addObject()
                 .put("osa_nimi", item.isSetOsaNimi() ? item.getOsaNimi() : null)
                 .put("osa_kuupaev", item.isSetOsaKuupaev() ?
                     simpleDateFormat.format(item.getOsaKuupaev().getTime())
@@ -109,8 +122,10 @@ public class EisWorker extends Worker {
                 .put("osa_koht", item.isSetOsaKoht() ? item.getOsaKoht() : null)
                 .put("osa_aadress", item.isSetOsaAadress() ? item.getOsaAadress() : null)
                 .put("staatus", "".equals(item.getStaatus()) ? null : item.getStaatus())
-                .put("tulemus", "".equals(item.getTulemus()) ? null : item.getTulemus())
-        );
+                .put("tulemus", "".equals(item.getTulemus()) ? null : item.getTulemus());
+          }
+        }
+        ((ArrayNode) responseNode.get("value").get("testid_kod_jada")).add(testNode);
       }
 
     } catch (Exception e) {
