@@ -195,15 +195,25 @@
                     type="text" 
                     aria-label="address" 
                     [(ngModel)]="data_elements[element].value"
-                    (ngModelChange)="addressAutocomplete(data_elements[element].value)"
+                    (ngModelChange)="addressAutocomplete(data_elements[element].value, 300, element)"
+                    (blur)="addressAutocompleteSelectionValidation(element)"
                     [name]="element" 
-                    [matAutocomplete]="auto">
+                    [matAutocomplete]="autoAddress">
                   </div>
                 </div>
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let address of autoCompleteContainer" [value]="address.pikkaadress">
-                    <span>{{ address.pikkaadress }}</span>
-                  </mat-option>
+                <mat-autocomplete 
+                  #autoAddress="matAutocomplete"
+                 [(ngModel)]="data_elements[element].value">
+                  <ng-container *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
+                    <mat-option *ngIf="!autoCompleteContainer[element].length" [value]="" disabled="true">
+                      <span>Otsingutulemusi ei leitud</span>
+                    </mat-option>
+                    <ng-container *ngIf="autoCompleteContainer[element].length">
+                      <mat-option  *ngFor="let address of autoCompleteContainer[element]" [value]="address.pikkaadress">
+                        <span>{{ address.pikkaadress }}</span>
+                      </mat-option>
+                    </ng-container>
+                  </ng-container>
                 </mat-autocomplete>
 
               </ng-container> <!-- /ADDRESS -->
