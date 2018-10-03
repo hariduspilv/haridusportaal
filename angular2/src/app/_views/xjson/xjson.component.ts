@@ -135,12 +135,12 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
       return list.map(extentsion => '.'+ extentsion).join(',')
     }
   }
+  
   fileDownloadlink(id){
-    console.log('localstorage read');
     let token = localStorage.getItem('token');
-    console.log(this.settings.url + '/xjson_service/documentFile/' + id + '?token=' + token)
-    return this.settings.url + '/xjson_service/documentFile/' + id + '?token=' + token
+    return this.settings.url + '/xjson_service/documentFile/' + id + '?jwt_token=' + token;
   }
+
   canUploadFile(element): boolean{
     
     var singeFileRestrictionApplies = (element.multiple === false && element.value.length > 0);

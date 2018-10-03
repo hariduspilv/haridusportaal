@@ -1,0 +1,16 @@
+uuid: a84312ae-22bd-4e8b-a0aa-d1185d45bcde
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.main_profession_tags
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.main_profession_tags
+target_entity_type_id: taxonomy_term
+target_bundle: main_profession_tags
+default_langcode: site_default
+language_alterable: false

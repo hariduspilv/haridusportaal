@@ -1,0 +1,23 @@
+uuid: 617b53c3-cd40-42d1-b549-5dcbe1ecd7e7
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_oska_graph
+    - paragraphs.paragraphs_type.main_profession_accordion
+  module:
+    - htm_custom_oska
+id: paragraph.main_profession_accordion.field_oska_graph
+field_name: field_oska_graph
+entity_type: paragraph
+bundle: main_profession_accordion
+label: 'Oska Graph'
+description: ''
+required: false
+translatable: false
+default_value:
+  - {  }
+  - {  }
+default_value_callback: ''
+settings: {  }
+field_type: oska_graph_field

@@ -1,0 +1,23 @@
+uuid: e3e58a28-e7ac-41e5-99aa-a64dc8da2a44
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_oska_graph
+    - node.type.oska_main_profession_page
+  module:
+    - htm_custom_oska
+id: node.oska_main_profession_page.field_oska_graph
+field_name: field_oska_graph
+entity_type: node
+bundle: oska_main_profession_page
+label: 'Oska Graph'
+description: ''
+required: false
+translatable: false
+default_value:
+  - {  }
+  - {  }
+default_value_callback: ''
+settings: {  }
+field_type: oska_graph_field

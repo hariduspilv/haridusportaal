@@ -1,0 +1,89 @@
+query oskaFieldDetailView ($path: String!) {
+route(path: $path) {
+... on EntityCanonicalUrl {
+languageSwitchLinks {
+active
+title
+language {
+id
+__typename
+}
+url {
+path
+routed
+pathAlias
+pathInternal
+__typename
+}
+__typename
+}
+entity {
+... on NodeOskaFieldPage{
+nid
+entityLabel
+fieldIntroduction
+fieldVideo{
+input
+videoDomain
+videoDescription
+videoId
+}
+body{
+value
+processed
+}
+fieldWebPageAddress {
+url {
+routed
+path
+__typename
+}
+title
+__typename
+}
+fieldAttachmentFile {
+description
+entity {
+entityLabel
+entityType
+entityChanged
+entityBundle
+entityCreated
+url
+filename
+filemime
+__typename
+}
+__typename
+}
+fieldOskaFieldAccordion {
+entity {
+... on ParagraphMainProfessionAccordion {
+fieldTitle
+fieldBody {
+value
+__typename
+}
+fieldLinks{
+url {
+routed
+path
+__typename
+}
+title
+__typename
+}
+__typename
+}
+__typename
+}
+__typename
+}
+}
+__typename
+}
+__typename
+}
+__typename
+}
+}
