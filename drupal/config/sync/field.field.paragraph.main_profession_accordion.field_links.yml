@@ -1,0 +1,23 @@
+uuid: a2e822df-6ba0-4243-a669-b7a710849886
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_links
+    - paragraphs.paragraphs_type.main_profession_accordion
+  module:
+    - link
+id: paragraph.main_profession_accordion.field_links
+field_name: field_links
+entity_type: paragraph
+bundle: main_profession_accordion
+label: Links
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

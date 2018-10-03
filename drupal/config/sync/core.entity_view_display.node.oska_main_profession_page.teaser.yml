@@ -1,0 +1,38 @@
+uuid: bd783c33-a948-48d1-8d04-e8032c28a9da
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.oska_main_profession_page.body
+    - node.type.oska_main_profession_page
+  module:
+    - text
+    - user
+id: node.oska_main_profession_page.teaser
+targetEntityType: node
+bundle: oska_main_profession_page
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_accordion: true
+  field_attachment_file: true
+  field_fixed_label: true
+  field_introduction: true
+  field_oska_graph: true
+  field_oska_main_profession_tags: true
+  field_picture: true
+  field_video: true
+  field_web_page_address: true
+  langcode: true
