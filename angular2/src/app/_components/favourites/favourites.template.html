@@ -1,7 +1,7 @@
 <div class="favourites__wrapper" attr.aria-label="{{'Favourites dropdown, clickable'}}" *ngIf="!userLoggedOut && !initializing">
     
     <span *ngIf="existingFavouriteItems && existing"
-     matTooltip="{{  'tooltip.favouritesRemove' | translate}}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">
+     matTooltip="{{  'tooltip.favourites_remove' | translate}}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">
       {{  'star'  }}
     </span>
     
