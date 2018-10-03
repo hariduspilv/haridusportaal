@@ -104,11 +104,11 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 				case 'custom_img':
 					switch ($node_type){
 						case 'news':
-							$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_introduction_image')->entity->getFileUri());
+							$image = ($node->get('field_introduction_image')->entity) ? ImageStyle::load('crop_large')->buildUrl($node->get('field_introduction_image')->entity->getFileUri()) : '';
 							$replacements[$original] = $image;
 							break;
 						case 'article':
-							$image =ImageStyle::load('crop_large')->buildUrl($node->get('field_image')->entity->getFileUri());
+							$image = ($node->get('field_image')->entity) ? ImageStyle::load('crop_large')->buildUrl($node->get('field_image')->entity->getFileUri()) : '';
 							$replacements[$original] = $image;
 							break;
 						case 'event':
