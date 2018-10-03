@@ -12,14 +12,16 @@
     </div>
   </div>
   <div class="dialog__success--modal">
-    <div class="dialog__success--content" [innerHtml]="data.content" tabindex="0"></div>
+    <div class="dialog__success--content" [innerHtml]="data.content"></div>
     <div class="dialog__actions--success">
       <div class="text-center">
         <div class="dialog__actions--success__close">
-          <a href="javascript:void(0)" aria-label="Close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a>
  
 
-        <a *ngIf="data.linkStatus" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" [routerLink]="[dashboardLink]" href="javascript:void(0)" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'data.dashboardLink' | translate }}</a>
+        <a *ngIf="data.linkStatus" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" [routerLink]="[dashboardLink]" href="javascript:void(0)" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'data.dashboard_link' | translate }}</a>
+ 
+          <a href="javascript:void(0)" aria-label="Close" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a>
+ 
        </div>
 
       </div>
