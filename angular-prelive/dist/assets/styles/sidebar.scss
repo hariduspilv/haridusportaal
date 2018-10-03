@@ -16,6 +16,12 @@
       border-left: .3125rem solid $dark-orange;
     }
   }
+
+
+.mat-menu-item-active-parent + .submenu a {
+     border-left: .3125rem solid $dark-orange;
+    transition: border-left .3s cubic-bezier(.55,0,.55,.2); 
+}
   .active {
     font-weight: 500 !important;
     border-left: .3125rem solid $dark-orange;
@@ -42,6 +48,6 @@
     &.empty-parent {border: none;}
   }
   a:visited {
-    color: $blue;
+    color: $black;
   }
 }

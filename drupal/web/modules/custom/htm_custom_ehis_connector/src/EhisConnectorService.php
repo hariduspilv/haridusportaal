@@ -105,7 +105,6 @@ class EhisConnectorService {
 		$json = '{"documents":[{"form_name":"VPT_ESITATUD_TAOTLUS_OTSUS","identifier":38328,"document_date":"2015-01-21","status":"Heaks kiidetud"},{"form_name":"VPT_ESITATUD_TAOTLUS_OTSUS","identifier":3424,"document_date":"2013-09-03","status":"Tagasi lükatud"}]}';
 		$this->client->hset('get', 'vpTaotlus', $json);
 	}
-
 	public function testOptions(){
 		$json = '{
     "18052": {
@@ -179,6 +178,7 @@ class EhisConnectorService {
 	 */
 	private function getCurrentUserIdCode(){
 		$user_id = $this->currentUser->id();
+		#return '41103161417';
 		return ($id_code = User::load($user_id)->get('field_user_idcode')->value) ? $id_code : 0;
 	}
 
@@ -192,6 +192,27 @@ class EhisConnectorService {
 		$params['key'] = $this->getCurrentUserIdCode();
 		$params['hash'] = 'kodanikKutsetunnistus';
 		return $this->invokeWithRedis('kodanikKutsetunnistus', $params, FALSE);
+	}
+
+	public function getTestSessions(array $params = []){
+		$params['url'] = [$this->getCurrentUserIdCode(), time()];
+		$params['key'] = $this->getCurrentUserIdCode();
+		$params['hash'] = 'testsessioonidKod';
+		return $this->invokeWithRedis('testsessioonidKod', $params, FALSE);
+	}
+
+	public function gettestidKod(array $params = []){
+		$params['url'] = [$this->getCurrentUserIdCode(), $params['session_id'], time()];
+		$params['key'] = $this->getCurrentUserIdCode();
+		$params['hash'] = 'testidKod';
+		return $this->invokeWithRedis('testidKod', $params, FALSE);
+	}
+
+	public function getCertificate(array $params = []){
+		$params['url'] = [$this->getCurrentUserIdCode(), $params['certificate_id'], time()];
+		$params['key'] = $this->getCurrentUserIdCode();
+		$params['hash'] = 'eTunnistusKod';
+		return $this->invokeWithRedis('eTunnistusKod', $params, FALSE);
 	}
 
 	/**

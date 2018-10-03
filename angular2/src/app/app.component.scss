@@ -204,7 +204,7 @@ share { margin-left: 0px!important; margin-right: 0px!important }
   .filter-control {padding: $medium;}
   .filter-wrapper {background: $white; padding: 0 $medium; margin-bottom: $xxl;
     @include break-on(sm, min) {padding: $medium; margin-bottom: $medium; margin-top: $small;
-      @include break-on(md, max) {padding: $medium $small;}
+      @include break-on(md, max) {padding: $small;}
     }
     .align-end {margin-bottom: auto;
     }
