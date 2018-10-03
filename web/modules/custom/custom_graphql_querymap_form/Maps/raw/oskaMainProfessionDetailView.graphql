@@ -1,0 +1,97 @@
+query oskaMainProfessionDetailView ($path: String!) {
+route(path: $path) {
+... on EntityCanonicalUrl {
+languageSwitchLinks {
+active
+title
+language {
+id
+__typename
+}
+url {
+path
+routed
+pathAlias
+pathInternal
+__typename
+}
+__typename
+}
+entity {
+... on NodeOskaMainProfessionPage{
+nid
+entityLabel
+fieldFixedLabel
+fieldIntroduction
+fieldVideo{
+input
+videoDomain
+videoDescription
+videoId
+}
+body{
+value
+processed
+}
+fieldWebPageAddress {
+url {
+routed
+path
+__typename
+}
+title
+__typename
+}
+fieldAttachmentFile {
+description
+entity {
+entityLabel
+entityType
+entityChanged
+entityBundle
+entityCreated
+url
+filename
+filemime
+__typename
+}
+__typename
+}
+fieldAccordion {
+entity {
+... on ParagraphMainProfessionAccordion {
+fieldTitle
+fieldBody {
+value
+__typename
+}
+fieldLinks{
+url {
+routed
+path
+__typename
+}
+title
+__typename
+}
+__typename
+}
+__typename
+}
+__typename
+}
+fieldOskaMainProfessionTags {
+entity {
+entityLabel
+__typename
+}
+__typename
+}
+}
+__typename
+}
+__typename
+}
+__typename
+}
+}

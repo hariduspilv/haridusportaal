@@ -1,4 +1,4 @@
-uuid: 2c335670-d149-4777-89e0-8deb2b698974
+uuid: 3af9b33a-ba13-42fb-ad21-da053f9a2d80
 langcode: et
 status: true
 dependencies:
@@ -7,9 +7,8 @@ dependencies:
     - scheduler
 third_party_settings:
   menu_ui:
-    available_menus:
-      - main
-    parent: 'main:'
+    available_menus: {  }
+    parent: ''
   scheduler:
     expand_fieldset: when_required
     fields_display_mode: vertical_tab
@@ -21,8 +20,8 @@ third_party_settings:
     unpublish_enable: false
     unpublish_required: false
     unpublish_revision: false
-name: 'OSKA Main Profession Page'
-type: oska_main_profession_page
+name: 'OSKA Field Page'
+type: oska_field_page
 description: ''
 help: ''
 new_revision: true

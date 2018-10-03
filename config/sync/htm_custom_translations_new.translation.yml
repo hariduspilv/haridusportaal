@@ -439,6 +439,10 @@ frontpage:
     translation_type: textarea
     et: Maht
     en: 'Maht ENG'
+  message:
+    translation_type: textarea
+    et: 'Oi oi'
+    en: Ups
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1252,7 +1256,7 @@ button:
   load_more:
     translation_type: textarea
     et: 'Lae rohkem'
-    en: 'Download More'
+    en: 'Load more'
   read_more:
     translation_type: textarea
     et: 'Loe rohkem'
@@ -1382,6 +1386,10 @@ tooltip:
     translation_type: textarea
     et: 'Lisa lemmikuks'
     en: 'Add as a favourite'
+  favourites_remove:
+    translation_type: textarea
+    et: 'Eemalda lemmikutest'
+    en: 'Remove from favourites'
 notFound:
   explanation:
     translation_type: text_format
@@ -1449,3 +1457,9 @@ search:
     translation_type: textarea
     et: 'Filtreeri tulemusi'
     en: 'Filter results'
+langcode: et
+data:
+  dashboard_link:
+    translation_type: textarea
+    et: 'Tagasi töölauale'
+    en: 'Back to dashboard'
