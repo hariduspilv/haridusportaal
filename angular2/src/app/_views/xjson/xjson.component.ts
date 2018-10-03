@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewChecked, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Subscription } from '../../../../node_modules/rxjs';
 import { HttpService } from '@app/_services/httpService';
+import { Jsonp } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -8,6 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 import { TableService } from '@app/_services/tableService';
 import { SettingsService } from '@app/_core/settings'
+import 'rxjs/add/operator/map';
+import {Observable} from "rxjs/Rx";
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -32,10 +35,11 @@ const XJSON_DATEPICKER_FORMAT = {
     {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
   ]
 })
-export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class XjsonComponent implements OnInit, OnDestroy {
 
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
+  autocompleteDebouncer;
 
   public objectKeys = Object.keys;
   public test: boolean;
@@ -53,12 +57,14 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
   public navigationLinks;
   public activityButtons;
   public error = {};
-
+  public autoCompleteContainer = [];
+  
   constructor(
     private translate: TranslateService,
     public dialog: MatDialog,
     private rootScope: RootScopeService,
     private http: HttpService,
+    private _jsonp: Jsonp,
     private route: ActivatedRoute,
     private router: Router,
     private tableService: TableService,
@@ -92,8 +98,11 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
+ 
   setDatepickerValue(event, element, rowindex, col){
+    console.log(this.datepickerFocus);
     if(this.datepickerFocus === false){
+      console.log('changing value');
       if(rowindex == undefined|| col == undefined){
         this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
       } else {
@@ -485,49 +494,72 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
       else this.getData(payload)
      
     } else {
-      
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
       this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity)
-     
+      this.scrollPositionController();
     }
    
   }
-  scrollPositionController(){
-   
-    if(this.opened_step){
-     
-      try { 
-        document.querySelector('#' + this.opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-      } catch (e) {
-        document.querySelector('#' + this.opened_step).scrollIntoView();
-      }
 
-      if(window.pageYOffset > 0){
-       
+  addressAutocomplete(searchText: string, debounceTime: number = 300) {
+    
+    clearTimeout(this.autocompleteDebouncer)
+    this.autoCompleteContainer = [];
+    let _this = this;
+    this.autocompleteDebouncer = setTimeout(function(){
+
+      let jsonp = _this._jsonp.get('http://inaadress.maaamet.ee/inaadress/gazetteer?address=' + searchText + '&callback=JSONP_CALLBACK')
+      .map(function(res){
+        return res.json() || {};
+      }).catch(function(error: any){return Observable.throw(error)});
+    
+      let sub = jsonp.subscribe(data => {
+        _this.autoCompleteContainer = data['addresses'];
+        sub.unsubscribe();
+      })
+
+    }, debounceTime)
+
+  }
+  
+  scrollPositionController(){
+    let _opened_step = this.opened_step;
+    setTimeout(function(){
+      if(_opened_step){
         try { 
-          window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
+          document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
         } catch (e) {
-          window.scrollTo(0, 0);
+          document.querySelector('#' + _opened_step).scrollIntoView();
         }
-        try { 
-          document.querySelector('#' + this.opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-        } catch (e) {
-          document.querySelector('#' + this.opened_step).scrollIntoView();
+  
+        if(window.pageYOffset > 0){
+         
+          try { 
+            window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
+          } catch (e) {
+            window.scrollTo(0, 0);
+          }
+          try { 
+            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+          } catch (e) {
+            document.querySelector('#' + _opened_step).scrollIntoView();
+          }
+          
         }
-        
       }
-    }
+    }, 0)
   }
-  ngAfterViewChecked() {
-    this.scrollPositionController();
-  }
+  
 
   ngOnInit(){
     this.pathWatcher();
- 
     let payload = {form_name: this.form_name}
-    if(this.test === true) this.promptDebugDialog(payload)
-    else this.getData(payload);
+
+    if(this.test === true) {
+      this.promptDebugDialog(payload)
+    } else {
+      this.getData(payload);
+    }
   };
 
   ngOnDestroy(){
