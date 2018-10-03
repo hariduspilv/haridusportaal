@@ -14,7 +14,7 @@ filters:
     status: true
     weight: -10
     settings:
-      allowed_html: '<a href hreflang title target data-entity-type data-entity-uuid> <em> <strong> <cite> <blockquote cite> <ul type> <ol start type> <li> <dl> <dt> <dd> <caption> <h3> <p>'
+      allowed_html: '<a href hreflang title target data-entity-type data-entity-uuid> <em> <strong> <cite> <blockquote cite> <ul type> <ol start type> <li> <dl> <dt> <dd> <caption> <h3> <p> <table class id> <tbody> <thead> <tfoot> <th> <td> <tr>'
       filter_html_help: true
       filter_html_nofollow: false
   filter_htmlcorrector:

@@ -1,466 +1,462 @@
-_core: {  }
-avaleht: {  }
-uudised: {  }
 frontpage:
-  navigate:
-    translation_type: textarea
-    et: 'Mine avalehele'
-    en: ''
-  dashboard_label:
-    translation_type: textarea
-    et: Töölaud
-    en: ''
-  favourites_limit_modal_title:
-    translation_type: textarea
-    et: 'Lisa lemmikutesse'
-    en: ''
-  favourites_limit_modal_content:
-    translation_type: textarea
-    et: 'Portaalis saab salvestada kuni 10 lemmikut. Kustutamiseks eemalda leheküljelt täheke'
-    en: ''
-  favourites_list_label:
-    translation_type: textarea
-    et: 'Minu lemmikud'
-    en: ''
-  favourites_list_none_message:
-    translation_type: textarea
-    et: 'Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides.'
-    en: ''
-  favourites_snackbar_message:
-    translation_type: textarea
-    et: 'Lehekülg lisatud lemmikuks. Lemmikuid näed enda Töölaualt.'
-    en: ''
-  favourites_snackbar_message_remove:
-    translation_type: textarea
-    et: 'Lehekülg on lemmikutest eemaldatud.'
-    en: ''
-  favourites_snackbar_action:
-    translation_type: textarea
-    et: 'Vaata oma töölauda'
-    en: ''
-  dashboard_tabs_applications:
-    translation_type: textarea
-    et: Taotlused
-    en: ''
-  dashboard_tabs_certificates:
-    translation_type: textarea
-    et: Tunnistused
-    en: ''
-  dashboard_tabs_studies:
-    translation_type: textarea
-    et: Õpin
-    en: ''
-  dashboard_tabs_teachings:
-    translation_type: textarea
-    et: Õpetan
-    en: ''
-  dashboard_tabs_certificates_no_results:
-    translation_type: textarea
-    et: 'Kutsetunnistused puuduvad'
-    en: ''
-  dashboard_tabs_certificates_error_technical:
-    translation_type: textarea
-    et: 'Vabandame. Kutsetunnistuste andmete kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.'
-    en: ''
-  dashboard_tabs_certificates_professional:
-    translation_type: textarea
-    et: Kutsetunnistused
-    en: ''
-  dashboard_tabs_certificates_examinations:
-    translation_type: textarea
-    et: Riigieksamid
-    en: ''
-  dashboard_tabs_certificates_number:
-    translation_type: textarea
-    et: 'Tunnistuse number'
-    en: ''
-  dashboard_tabs_certificates_name:
-    translation_type: textarea
-    et: 'Tunnistuse nimi'
-    en: ''
-  dashboard_tabs_certificates_type:
-    translation_type: textarea
-    et: Tüüp
-    en: ''
-  dashboard_tabs_certificates_standard:
-    translation_type: textarea
-    et: Kutsestandard
-    en: ''
-  dashboard_tabs_certificates_ekr:
-    translation_type: textarea
-    et: 'EKR tase'
-    en: ''
-  dashboard_tabs_certificates_eqf:
-    translation_type: textarea
-    et: 'EQF tase'
-    en: ''
-  dashboard_tabs_certificates_specialization:
-    translation_type: textarea
-    et: Spetsialiseerumine
-    en: ''
-  dashboard_tabs_certificates_part:
-    translation_type: textarea
-    et: Osakutse
-    en: ''
-  dashboard_tabs_certificates_competence:
-    translation_type: textarea
-    et: Kompetents
-    en: ''
-  dashboard_tabs_certificates_field:
-    translation_type: textarea
-    et: Valdkond
-    en: ''
-  dashboard_tabs_certificates_field_topic:
-    translation_type: textarea
-    et: Kutseala
-    en: ''
-  dashboard_tabs_certificates_qualification:
-    translation_type: textarea
-    et: 'Hariduslik kvalifikatsioon'
-    en: ''
-  dashboard_tabs_certificates_language:
-    translation_type: textarea
-    et: 'Kutseeksami keel'
-    en: ''
-  dashboard_tabs_certificates_issuer:
-    translation_type: textarea
-    et: Väljastaja
-    en: ''
-  dashboard_tabs_certificates_issued_at:
-    translation_type: textarea
-    et: 'Välja antud'
-    en: ''
-  dashboard_tabs_certificates_valid_from:
-    translation_type: textarea
-    et: 'Kehtib alates'
-    en: ''
-  dashboard_tabs_certificates_valid_to:
-    translation_type: textarea
-    et: 'Kehtib kuni'
-    en: ''
-  dashboard_tabs_certificates_isco:
-    translation_type: textarea
-    et: 'Ametite (ISCO) klassifikaator'
-    en: ''
-  dashboard_tabs_certificates_duplicate:
-    translation_type: textarea
-    et: Duplikaat
-    en: ''
-  dashboard_tabs_certificates_notvalid:
-    translation_type: textarea
-    et: Kehtetu
-    en: ''
-  dashboard_tabs_personal_label:
-    translation_type: textarea
-    et: Isikuandmed
-    en: ''
-  isikukood:
-    translation_type: textarea
-    et: Isikukood
-    en: ''
-  synniKp:
-    translation_type: textarea
-    et: Sünniaeg
-    en: ''
-  elukohamaa:
-    translation_type: textarea
-    et: Elukohamaa
-    en: ''
-  rrElukoht:
-    translation_type: textarea
-    et: 'Elukoht rahvastikuregistris'
-    en: ''
-  kodakondsus:
-    translation_type: textarea
-    et: Kodakondsus
-    en: ''
-  elamisluba:
-    translation_type: textarea
-    et: Elamisluba
-    en: ''
-  oppelaenOigus:
-    translation_type: textarea
-    et: Õppelaenuõiguslikkus
-    en: ''
-  reason:
-    translation_type: textarea
-    et: Põhjus
-    en: ''
-  studies_data:
-    translation_type: textarea
-    et: 'Õpingute andmed'
-    en: ''
-  teachings_data:
-    translation_type: textarea
-    et: 'Õpetamiste andmed'
-    en: ''
-  oppeasutus:
-    translation_type: textarea
-    et: Õppeasutus
-    en: ''
-  haridustase:
-    translation_type: textarea
-    et: Haridustase
-    en: ''
-  oppekava:
-    translation_type: textarea
-    et: Õppekava(d)
-    en: ''
-  oppekeel:
-    translation_type: textarea
-    et: Õppekeel
-    en: ''
-  opeklass:
-    translation_type: textarea
-    et: Õpe/klass
-    en: ''
-  opeParallel:
-    translation_type: textarea
-    et: 'Paralleeli tunnus'
-    en: ''
-  klassiLiik:
-    translation_type: textarea
-    et: 'Klassi liik'
-    en: ''
   label:
     translation_type: textarea
     et: Avaleht
-    en: ''
-  favourites_limit_modal_close:
+    en: Home
+  navigate:
     translation_type: textarea
-    et: Sulge
-    en: ''
-  klassAste:
+    et: 'Mine avalehele'
+    en: 'Go to homepage'
+  favourites_limit_modal_title:
     translation_type: textarea
-    et: Kooliaste
-    en: ''
-  oppAlgus:
+    et: 'Lisa lemmikutesse'
+    en: 'Add to favourites'
+  favourites_limit_modal_content:
     translation_type: textarea
-    et: 'Õppimise alguse'
-    en: ''
-  oppLopp:
-    translation_type: textarea
-    et: 'Õppimise lõpp'
-    en: ''
-  staatus:
-    translation_type: textarea
-    et: Staatus
-    en: ''
-  tunnistusDiplom:
-    translation_type: textarea
-    et: 'Tunnistuse/Diplomi number'
-    en: ''
-  oppevorm:
-    translation_type: textarea
-    et: Õppevorm
-    en: ''
-  koormus:
-    translation_type: textarea
-    et: Õppekoormus
-    en: ''
-  kestus:
-    translation_type: textarea
-    et: 'Õppekava järgne nominaalkestus'
-    en: ''
-  ryhmaLiik:
-    translation_type: textarea
-    et: 'Rühma liik'
-    en: ''
-  ryhmaNimetus:
-    translation_type: textarea
-    et: 'Rühma nimetus'
-    en: ''
-  koht:
-    translation_type: textarea
-    et: 'Osakoha suurus'
-    en: ''
-  finAllikas:
-    translation_type: textarea
-    et: 'Finantseerimise allikas'
-    en: ''
-  akadPuhkus:
-    translation_type: textarea
-    et: 'Akadeemiline puhkus'
-    en: ''
-  ennistamine:
-    translation_type: textarea
-    et: Ennistamine
-    en: ''
-  puudumised:
-    translation_type: textarea
-    et: 'Põhjuseta puudumised eelmisel õppeveerandil (%)'
-    en: ''
-  kutseKoolitus:
-    translation_type: textarea
-    et: 'Kutsealane eelkoolitus'
-    en: ''
-  oppekavaKood:
-    translation_type: textarea
-    et: 'Õppekava kood'
-    en: ''
-  oppekavaNimetus:
-    translation_type: textarea
-    et: 'Õppekava nimetus'
-    en: ''
-  nimetus:
-    translation_type: textarea
-    et: Nimetus
-    en: ''
-  algusKp:
-    translation_type: textarea
-    et: Alguskuupäev
-    en: ''
-  loppKp:
-    translation_type: textarea
-    et: Lõppkuupäev
-    en: ''
-  tootamine:
-    translation_type: textarea
-    et: 'Pedagoogina ja õppejõuna töötamine'
-    en: ''
-  kvalifikatsioon:
-    translation_type: textarea
-    et: 'Õppejõu kvalifikatsioon'
-    en: ''
-  tasemeharidus:
-    translation_type: textarea
-    et: 'Tasemeharidus kvalifikatsioon'
-    en: ''
-  taiendkoolitus:
-    translation_type: textarea
-    et: Täiendkoolitus
-    en: ''
-  lead_title_xxs:
-    translation_type: text_format
-    et:
-      format: text_format
-      value: 'Hoia end<br> haridusinfoga kursis!'
-    en: ''
-  lead_title_sm:
-    translation_type: textarea
-    et: 'Hoia end haridusinfoga kursis!'
-    en: ''
-  lead_title:
-    translation_type: text_format
-    et:
-      format: text_format
-      value: '<b>Eduportaal -</b><br>hoia end haridusinfoga kursis!'
-    en: ''
-  ametikoht:
-    translation_type: textarea
-    et: Ametikoht
-    en: ''
-  ametikohtAlgus:
-    translation_type: textarea
-    et: 'Töötamise algus'
-    en: ''
-  ametikohtLopp:
-    translation_type: textarea
-    et: 'Töötamise lõpp'
-    en: ''
-  ametikohtKoormus:
-    translation_type: textarea
-    et: Koormus
-    en: ''
-  ametikohtKvalVastavus:
-    translation_type: textarea
-    et: 'Kvalifikatsiooninõuetele vastavus'
-    en: ''
-  taitmiseViis:
-    translation_type: textarea
-    et: 'Ametikoha täitmise viis'
-    en: ''
-  tooleping:
-    translation_type: textarea
-    et: Tööleping
-    en: ''
-  ametijark:
-    translation_type: textarea
-    et: Ametijärk
-    en: ''
-  oppeaine:
-    translation_type: textarea
-    et: Õppeaine
-    en: ''
-  lapsehooldusPuhkus:
-    translation_type: textarea
-    et: lapsehoolduspuhkusel
-    en: ''
-  dokument:
-    translation_type: textarea
-    et: Dokument
-    en: ''
-  kraadNimetus:
-    translation_type: textarea
-    et: 'Kvalifikatsiooni/akadeemilise kraadi nimetus'
-    en: ''
-  kvalifikatsioonVastavus:
-    translation_type: textarea
-    et: 'Vastavus kehtivas raamistikus'
-    en: ''
-  aasta:
-    translation_type: textarea
-    et: Aasta
-    en: ''
-  riik:
-    translation_type: textarea
-    et: Riik
-    en: ''
-  kvalDokument:
-    translation_type: textarea
-    et: 'Kvalifikatsiooni dokument'
-    en: ''
-  kvalVastavus:
-    translation_type: textarea
-    et: 'Kvalifikatsioon kehtivas raamistikus'
-    en: ''
-  erialaOppekava:
-    translation_type: textarea
-    et: Eriala/õppekava
-    en: ''
-  lopetanud:
-    translation_type: textarea
-    et: 'Lõpetamise kuupäev'
-    en: ''
-  dokumentNr:
-    translation_type: textarea
-    et: 'Dokumendi nr.'
-    en: ''
-  koolitusNimetus:
-    translation_type: textarea
-    et: 'Koolituse nimetus'
-    en: ''
-  liik:
-    translation_type: textarea
-    et: Liik
-    en: ''
-  maht:
-    translation_type: textarea
-    et: Maht
-    en: ''
-  message:
-    translation_type: textarea
-    et: Oi-Oi
-    en: Oops
-fronpage:
+    et: 'Portaalis saab salvestada kuni 10 lemmikut. Kustutamiseks eemalda leheküljelt täheke'
+    en: 'You can add up to 10 favourites. Remove page from favourites by clicking on the star icon of already favourited page.'
   favourites_limit_modal_close:
     translation_type: textarea
     et: Sulge
     en: Close
+  favourites_list_label:
+    translation_type: textarea
+    et: 'Minu lemmikud'
+    en: 'My favourites'
+  favourites_list_none_message:
+    translation_type: textarea
+    et: 'Sul ei ole veel lemmikuid lisatud. Lemmikuid saad lisada teemalehtedel tähe ikoonil klikkides.'
+    en: 'You don''t have any favourites added. You can do so by clicking on the star icon on topic pages and lists.'
+  favourites_snackbar_message:
+    translation_type: textarea
+    et: 'Lehekülg lisatud lemmikuks. Lemmikuid näed enda Töölaualt.'
+    en: 'This page has been added to favourites. Favourites can be viewed from the Dashboard.'
+  favourites_snackbar_message_remove:
+    translation_type: textarea
+    et: 'Lehekülg on lemmikutest eemaldatud.'
+    en: 'This page has been removed from favourites.'
+  favourites_snackbar_action:
+    translation_type: textarea
+    et: 'Vaata oma töölauda'
+    en: 'Show dashboard'
+  dashboard_label:
+    translation_type: textarea
+    et: Töölaud
+    en: Dashboard
+  dashboard_tabs_applications:
+    translation_type: textarea
+    et: Taotlused
+    en: Applications
+  dashboard_tabs_certificates:
+    translation_type: textarea
+    et: Tunnistused
+    en: Certificates
+  dashboard_tabs_studies:
+    translation_type: textarea
+    et: Õpin
+    en: Studies
+  dashboard_tabs_teachings:
+    translation_type: textarea
+    et: Õpetan
+    en: Teachings
+  dashboard_tabs_certificates_no_results:
+    translation_type: textarea
+    et: 'Kutsetunnistused puuduvad'
+    en: 'No certificates.'
+  dashboard_tabs_certificates_error_technical:
+    translation_type: textarea
+    et: 'Vabandame. Kutsetunnistuste andmete kutseregistrist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.'
+    en: 'Sorry, a technical error has occurred. Please try again later.'
+  dashboard_tabs_certificates_professional:
+    translation_type: textarea
+    et: Kutsetunnistused
+    en: 'Professional certificates'
+  dashboard_tabs_certificates_examinations:
+    translation_type: textarea
+    et: Riigieksamid
+    en: 'State examinations'
+  dashboard_tabs_certificates_number:
+    translation_type: textarea
+    et: 'Tunnistuse number'
+    en: 'Certificate number'
+  dashboard_tabs_certificates_name:
+    translation_type: textarea
+    et: 'Tunnistuse nimi'
+    en: 'Certificate name'
+  dashboard_tabs_certificates_type:
+    translation_type: textarea
+    et: Tüüp
+    en: Type
+  dashboard_tabs_certificates_standard:
+    translation_type: textarea
+    et: Kutsestandard
+    en: Standard
+  dashboard_tabs_certificates_ekr:
+    translation_type: textarea
+    et: 'EKR tase'
+    en: 'EKR level'
+  dashboard_tabs_certificates_eqf:
+    translation_type: textarea
+    et: 'EQF tase'
+    en: 'EQF level'
+  dashboard_tabs_certificates_specialization:
+    translation_type: textarea
+    et: Spetsialiseerumine
+    en: Specialization
+  dashboard_tabs_certificates_part:
+    translation_type: textarea
+    et: Osakutse
+    en: 'Part of vocation'
+  dashboard_tabs_certificates_competence:
+    translation_type: textarea
+    et: Kompetents
+    en: Competence
+  dashboard_tabs_certificates_field:
+    translation_type: textarea
+    et: Valdkond
+    en: Field
+  dashboard_tabs_certificates_field_topic:
+    translation_type: textarea
+    et: Kutseala
+    en: Topic
+  dashboard_tabs_certificates_qualification:
+    translation_type: textarea
+    et: 'Hariduslik kvalifikatsioon'
+    en: 'Academic qualification'
+  dashboard_tabs_certificates_language:
+    translation_type: textarea
+    et: 'Kutseeksami keel'
+    en: 'Examination language'
+  dashboard_tabs_certificates_issuer:
+    translation_type: textarea
+    et: Väljastaja
+    en: Issuer
+  dashboard_tabs_certificates_issued_at:
+    translation_type: textarea
+    et: 'Välja antud'
+    en: 'Issued at'
+  dashboard_tabs_certificates_valid_from:
+    translation_type: textarea
+    et: 'Kehtib alates'
+    en: 'Valid from'
+  dashboard_tabs_certificates_valid_to:
+    translation_type: textarea
+    et: 'Kehtib kuni'
+    en: 'Valid to'
+  dashboard_tabs_certificates_isco:
+    translation_type: textarea
+    et: 'Ametite (ISCO) klassifikaator'
+    en: 'Profession classification (ISCO)'
+  dashboard_tabs_certificates_duplicate:
+    translation_type: textarea
+    et: Duplikaat
+    en: Duplicate
+  dashboard_tabs_certificates_notvalid:
+    translation_type: textarea
+    et: Kehtetu
+    en: Invalid
+  dashboard_tabs_personal_label:
+    translation_type: textarea
+    et: Isikuandmed
+    en: 'Personal data'
+  isikukood:
+    translation_type: textarea
+    et: Isikukood
+    en: 'ID code'
+  synniKp:
+    translation_type: textarea
+    et: Sünniaeg
+    en: 'Date of birth'
+  elukohamaa:
+    translation_type: textarea
+    et: Elukohamaa
+    en: Nation
+  rrElukoht:
+    translation_type: textarea
+    et: 'Elukoht rahvastikuregistris'
+    en: 'Residence in registry'
+  kodakondsus:
+    translation_type: textarea
+    et: Kodakondsus
+    en: Nationality
+  elamisluba:
+    translation_type: textarea
+    et: Elamisluba
+    en: 'Permit of residence'
+  oppelaenOigus:
+    translation_type: textarea
+    et: Õppelaenuõiguslikkus
+    en: 'Loan privileges'
+  reason:
+    translation_type: textarea
+    et: Põhjus
+    en: Reason
+  studies_data:
+    translation_type: textarea
+    et: 'Õpingute andmed'
+    en: 'Õpingute andmed-ENG'
+  teachings_data:
+    translation_type: textarea
+    et: 'Õpetamiste andmed'
+    en: 'Õpetamiste andmed-ENG'
+  oppeasutus:
+    translation_type: textarea
+    et: Õppeasutus
+    en: Õppeasutus-ENG
+  haridustase:
+    translation_type: textarea
+    et: Haridustase
+    en: Haridustase-ENG
+  oppekava:
+    translation_type: textarea
+    et: Õppekava(d)
+    en: Õppekava(d)-ENG
+  oppekeel:
+    translation_type: textarea
+    et: Õppekeel
+    en: Õppekeel-ENG
+  opeklass:
+    translation_type: textarea
+    et: Õpe/klass
+    en: Õpe/klass-ENG
+  opeParallel:
+    translation_type: textarea
+    et: 'Paralleeli tunnus'
+    en: 'Paralleeli tunnus-ENG'
+  klassiLiik:
+    translation_type: textarea
+    et: 'Klassi liik'
+    en: 'Klassi liik-ENG'
+  klassAste:
+    translation_type: textarea
+    et: Kooliaste
+    en: Kooliaste-ENG
+  oppAlgus:
+    translation_type: textarea
+    et: 'Õppimise alguse'
+    en: 'Õppimise alguse-ENG'
+  oppLopp:
+    translation_type: textarea
+    et: 'Õppimise lõpp'
+    en: 'Õppimise lõpp-ENG'
+  staatus:
+    translation_type: textarea
+    et: Staatus
+    en: Staatus-ENG
+  tunnistusDiplom:
+    translation_type: textarea
+    et: 'Tunnistuse/Diplomi number'
+    en: 'Tunnistuse/Diplomi number-ENG'
+  oppevorm:
+    translation_type: textarea
+    et: Õppevorm
+    en: Õppevorm-ENG
+  koormus:
+    translation_type: textarea
+    et: Õppekoormus
+    en: Õppekoormus-ENG
+  kestus:
+    translation_type: textarea
+    et: 'Õppekava järgne nominaalkestus'
+    en: 'Õppekava järgne nominaalkestus-ENG'
+  ryhmaLiik:
+    translation_type: textarea
+    et: 'Rühma liik'
+    en: 'Rühma liik-ENG'
+  ryhmaNimetus:
+    translation_type: textarea
+    et: 'Rühma nimetus'
+    en: 'Rühma nimetus-ENG'
+  koht:
+    translation_type: textarea
+    et: 'Osakoha suurus'
+    en: 'Osakoha suurus-ENG'
+  finAllikas:
+    translation_type: textarea
+    et: 'Finantseerimise allikas'
+    en: 'Finantseerimise allikas-ENG'
+  akadPuhkus:
+    translation_type: textarea
+    et: 'Akadeemiline puhkus'
+    en: 'Akadeemiline puhkus-ENG'
+  ennistamine:
+    translation_type: textarea
+    et: Ennistamine
+    en: Ennistamine-ENG
+  puudumised:
+    translation_type: textarea
+    et: 'Põhjuseta puudumised eelmisel õppeveerandil (%)'
+    en: 'Põhjuseta puudumised eelmisel õppeveerandil (%)-ENG'
+  kutseKoolitus:
+    translation_type: textarea
+    et: 'Kutsealane eelkoolitus'
+    en: 'Kutsealane eelkoolitus-ENG'
+  oppekavaKood:
+    translation_type: textarea
+    et: 'Õppekava kood'
+    en: 'Õppekava kood-ENG'
+  oppekavaNimetus:
+    translation_type: textarea
+    et: 'Õppekava nimetus'
+    en: 'Õppekava nimetus-ENG'
+  nimetus:
+    translation_type: textarea
+    et: Nimetus
+    en: Nimetus-ENG
+  algusKp:
+    translation_type: textarea
+    et: Alguskuupäev
+    en: Alguskuupäev-ENG
+  loppKp:
+    translation_type: textarea
+    et: Lõppkuupäev
+    en: Lõppkuupäev-ENG
+  tootamine:
+    translation_type: textarea
+    et: 'Pedagoogina ja õppejõuna töötamine'
+    en: 'Pedagoogina ja õppejõuna töötamineENG'
+  kvalifikatsioon:
+    translation_type: textarea
+    et: 'Õppejõu kvalifikatsioon'
+    en: 'Õppejõu kvalifikatsioonENG'
+  tasemeharidus:
+    translation_type: textarea
+    et: 'Tasemeharidus kvalifikatsioon'
+    en: 'Tasemeharidus kvalifikatsioonENG'
+  taiendkoolitus:
+    translation_type: textarea
+    et: Täiendkoolitus
+    en: TäiendkoolitusENG
+  lead_title_xxs:
+    translation_type: text_format
+    et:
+      format: custom_editor
+      value: 'Hoia end<br> haridusinfoga kursis!'
+    en:
+      format: custom_editor
+      value: 'Hoia end<br> haridusinfoga kursis!ENG'
+  lead_title_sm:
+    translation_type: textarea
+    et: 'Hoia end haridusinfoga kursis!'
+    en: 'Hoia end haridusinfoga kursis!ENG'
+  lead_title:
+    translation_type: text_format
+    et:
+      format: custom_editor
+      value: '<b>Eduportaal -</b><br>hoia end haridusinfoga kursis!'
+    en:
+      format: custom_editor
+      value: '<b>Eduportaal -</b><br>hoia end haridusinfoga kursis!ENG'
+  ametikoht:
+    translation_type: textarea
+    et: Ametikoht
+    en: 'Ametikoht ENG'
+  ametikohtAlgus:
+    translation_type: textarea
+    et: 'Töötamise algus'
+    en: 'Töötamise algus ENG'
+  ametikohtLopp:
+    translation_type: textarea
+    et: 'Töötamise lõpp'
+    en: 'Töötamise lõpp ENG'
+  ametikohtKoormus:
+    translation_type: textarea
+    et: Koormus
+    en: 'Koormus ENG'
+  ametikohtKvalVastavus:
+    translation_type: textarea
+    et: 'Kvalifikatsiooninõuetele vastavus'
+    en: 'Kvalifikatsiooninõuetele vastavus ENG'
+  taitmiseViis:
+    translation_type: textarea
+    et: 'Ametikoha täitmise viis'
+    en: 'Ametikoha täitmise viis ENG'
+  tooleping:
+    translation_type: textarea
+    et: Tööleping
+    en: 'Tööleping ENG'
+  ametijark:
+    translation_type: textarea
+    et: Ametijärk
+    en: 'Ametijärk ENG'
+  oppeaine:
+    translation_type: textarea
+    et: Õppeaine
+    en: 'Õppeaine ENG'
+  lapsehooldusPuhkus:
+    translation_type: textarea
+    et: lapsehoolduspuhkusel
+    en: 'lapsehoolduspuhkusel ENG'
+  dokument:
+    translation_type: textarea
+    et: Dokument
+    en: 'Dokument ENG'
+  kraadNimetus:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni/akadeemilise kraadi nimetus'
+    en: 'Kvalifikatsiooni/akadeemilise kraadi nimetus ENG'
+  kvalifikatsioonVastavus:
+    translation_type: textarea
+    et: 'Vastavus kehtivas raamistikus'
+    en: 'Vastavus kehtivas raamistikus ENG'
+  aasta:
+    translation_type: textarea
+    et: Aasta
+    en: 'Aasta ENG'
+  riik:
+    translation_type: textarea
+    et: Riik
+    en: 'Riik ENG'
+  kvalDokument:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni dokument'
+    en: 'Kvalifikatsiooni dokument ENG'
+  kvalVastavus:
+    translation_type: textarea
+    et: 'Kvalifikatsioon kehtivas raamistikus'
+    en: 'Kvalifikatsioon kehtivas raamistikus ENG'
+  erialaOppekava:
+    translation_type: textarea
+    et: Eriala/õppekava
+    en: 'Eriala/õppekava ENG'
+  lopetanud:
+    translation_type: textarea
+    et: 'Lõpetamise kuupäev'
+    en: 'Lõpetamise kuupäev ENG'
+  dokumentNr:
+    translation_type: textarea
+    et: 'Dokumendi nr.'
+    en: 'Dokumendi nr. ENG'
+  koolitusNimetus:
+    translation_type: textarea
+    et: 'Koolituse nimetus'
+    en: 'Koolituse nimetus ENG'
+  liik:
+    translation_type: textarea
+    et: Liik
+    en: 'Liik ENG'
+  maht:
+    translation_type: textarea
+    et: Maht
+    en: 'Maht ENG'
+  message:
+    translation_type: textarea
+    et: 'Oi oi'
+    en: Ups
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
     et: 'Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?'
-    en: ''
+    en: 'Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?'
 article:
   label:
     translation_type: textarea
     et: Artikkel
-    en: ''
+    en: Article
   contact:
     translation_type: textarea
     et: Kontakt
-    en: ''
+    en: Contact
   hyperlinks:
     translation_type: textarea
     et: ''
@@ -473,44 +469,44 @@ news:
   label:
     translation_type: textarea
     et: Uudised
-    en: ''
+    en: News
   all:
     translation_type: textarea
     et: 'Kõik uudised'
-    en: ''
+    en: 'All news'
   recent:
     translation_type: textarea
     et: 'Viimased uudised'
-    en: ''
+    en: 'Latest News'
   filter_name:
     translation_type: textarea
     et: 'Sisesta uudise nimi'
-    en: ''
+    en: 'Enter news name'
   filter_tag:
     translation_type: textarea
     et: 'Uudiste sildid'
-    en: ''
+    en: 'News Tags'
   title:
     translation_type: textarea
     et: Pealkiri
-    en: ''
+    en: Title
   no_results:
     translation_type: textarea
     et: 'Otsingutulemused puuduvad'
-    en: ''
+    en: 'No Search Results'
 newsletter:
   title:
     translation_type: textarea
     et: 'Uudiskiri - telli endale huvitavad lood'
-    en: ''
+    en: 'Newsletter - order interesting stories'
   intro:
     translation_type: textarea
     et: Sissejuhatus
-    en: ''
+    en: Introduction
   confirm_subscription:
     translation_type: textarea
     et: 'Kinnita tellimus'
-    en: ''
+    en: 'Confirm order'
   email:
     translation_type: textarea
     et: 'Sisesta oma e-posti aadress'
@@ -518,289 +514,293 @@ newsletter:
   valid_email:
     translation_type: textarea
     et: 'Sisesta korrektne email'
-    en: ''
+    en: 'Enter the correct email'
   order_to_email:
     translation_type: textarea
     et: 'Telli teemad e-postile'
-    en: ''
+    en: 'Order to email'
   modal_title:
     translation_type: textarea
     et: 'UUDISKIRJA TELLIMINE'
-    en: ''
+    en: 'ORDERING NEWSLETTER'
   modal_content:
     translation_type: text_format
     et:
-      format: text_format
+      format: custom_editor
       value: '<p>Tänud haridusteemade vastu huvi tundmast!</p><p>Olete edukalt liitunud uudiskirjaga.</p>'
-    en: ''
+    en:
+      format: custom_editor
+      value: '<p> Thank you for your interest in education! </ p> <p> You have successfully joined the newsletter. </ p>'
   modal_close:
     translation_type: textarea
     et: 'Sulge aken'
-    en: ''
+    en: 'Close window'
   unsubscribe_title:
     translation_type: textarea
     et: 'UUDISKIRJAST LOOBUMINE'
-    en: ''
+    en: 'NEW DISCLAIMER'
   unsubscribe_content:
     translation_type: text_format
     et:
-      format: text_format
+      format: custom_editor
       value: '<p>Tänud haridusteemade vastu huvi tundmast.</p><br /><p>Olete loobunud haridusteemalisest uudiskirjast.</p> <span>Külastage jätkuvalt veebiaadressi <a href=''http://www.eduportaal.ee'' target=''_blank''>www.eduportaal.ee</a>.</span>'
-    en: ''
+    en:
+      format: custom_editor
+      value: '<p> Thank you for your interest in education. </ p> <br /> <p> You have abandoned the education newsletter. </ p> <span> Continue to visit the <a href = ''http: // www website. .eduportaal.ee ''target ='' _ blank ''> www.eduportaal.ee </a>. </ span> '
   subscription_thanks_content:
     translation_type: textarea
     et: 'Tänud haridusteemade vastu huvi tundmast!'
-    en: ''
+    en: 'Thank you for your interest in education!'
   subscription_thanks_subcontent:
     translation_type: textarea
     et: 'Palume kinnitada uudiskirjaga liitumise soov lingi kaudu, mille edastasime tellimusega seotud e-posti aadressile'
-    en: ''
+    en: 'We kindly ask you to sign up for a newsletter through the link we provided to the order-related email address'
   subscription_choose_one:
     translation_type: textarea
     et: 'Vali vähemalt üks uudiskiri'
-    en: ''
+    en: 'Select at least one newsletter'
   subscription_failed:
     translation_type: textarea
     et: 'Tellimuse edastamine ebaõnnestus'
-    en: ''
+    en: 'Delivery of the order failed'
 event:
   label:
     translation_type: textarea
     et: Sündmused
-    en: ''
+    en: Events
   tags:
     translation_type: textarea
     et: 'Sündmuste sildid'
-    en: ''
+    en: 'Event Labels'
   status:
     translation_type: textarea
     et: 'Sündmuse staatus'
-    en: ''
+    en: 'Event status'
   free:
     translation_type: textarea
     et: Tasuta
-    en: ''
+    en: Free
   register:
     translation_type: textarea
     et: Registreerimisega
-    en: ''
+    en: 'By registration'
   invite:
     translation_type: textarea
     et: Kutsetega
-    en: ''
+    en: 'With invitations'
   practical_info:
     translation_type: textarea
     et: 'Praktiline info'
-    en: ''
+    en: 'Practical info'
   passed:
     translation_type: textarea
     et: 'Sündmus on möödunud'
-    en: ''
+    en: 'The event has passed'
   group:
     translation_type: textarea
     et: 'Sündmuse grupp'
-    en: ''
+    en: 'Event Group'
   list:
     translation_type: textarea
     et: List
-    en: ''
+    en: List
   calendar:
     translation_type: textarea
     et: Kalender
-    en: ''
+    en: Calendar
   entrance:
     translation_type: textarea
     et: Sissepääs
-    en: ''
+    en: Entrance
   related:
     translation_type: textarea
     et: 'Sarnased sündmused'
-    en: ''
+    en: 'Similar events'
   start_time:
     translation_type: textarea
     et: Algusaeg
-    en: ''
+    en: 'Start time'
   location:
     translation_type: textarea
     et: Asukoht
-    en: ''
+    en: Location
   repeat:
     translation_type: textarea
     et: 'Korduv üritus'
-    en: ''
+    en: 'Repeatable event'
   place_and_time:
     translation_type: textarea
     et: 'Toimumisaeg ja -koht'
-    en: ''
+    en: 'time and place'
   participant_email:
     translation_type: textarea
     et: E-post
-    en: ''
+    en: Email
   participant_phone:
     translation_type: textarea
     et: Telefon
-    en: ''
+    en: Phone
   participant_last_name:
     translation_type: textarea
     et: Perekonnanimi
-    en: ''
+    en: Surname
   participant_first_name:
     translation_type: textarea
     et: Eesnimi
-    en: ''
+    en: 'First Name'
   participant_organization:
     translation_type: textarea
     et: Ettevõte/Asutus
-    en: ''
+    en: 'Company / Institution'
   participant_created:
     translation_type: textarea
     et: 'Registreerimise aeg'
-    en: ''
+    en: 'Registration Time'
   participant_comment:
     translation_type: textarea
     et: Märkused
-    en: ''
+    en: Notes
   participant_index:
     translation_type: textarea
     et: 'jrk nr'
-    en: ''
+    en: 'jrk no'
   participant_list:
     translation_type: textarea
     et: 'Osalejate nimekiri'
-    en: ''
+    en: 'Participant List'
   participant_count:
     translation_type: textarea
     et: Osalejat
-    en: ''
+    en: Participant
   participants_list_view:
     translation_type: textarea
     et: 'Vaata osalejate nimekirja'
-    en: ''
+    en: 'View the list of participants'
   filter_name:
     translation_type: textarea
     et: 'Otsi sündmuste nime järgi'
-    en: ''
+    en: 'Search by event name'
   filter_tags:
     translation_type: textarea
     et: 'Sündmuse sildid'
-    en: ''
+    en: 'Event labels'
   filter_types:
     translation_type: textarea
     et: 'Sündmuse liigid'
-    en: ''
+    en: 'Event Types'
   filter_status:
     translation_type: textarea
     et: 'Sündmuse staatus'
-    en: ''
+    en: 'Event Status'
   contact:
     translation_type: textarea
     et: Kontakt
-    en: ''
+    en: Contact
   registration_form:
     translation_type: textarea
     et: Registreerimisvorm
-    en: ''
+    en: 'Registration Form'
   registration_form_required:
     translation_type: textarea
     et: 'Märgitud väljad on kohustuslikud'
-    en: ''
+    en: 'Marked fields are required'
   registration_form_valid_email:
     translation_type: textarea
     et: 'Sisesta korrektne email'
-    en: ''
+    en: 'Enter correct email'
   registration_form_send:
     translation_type: textarea
     et: Saada
-    en: ''
+    en: Send
   registration_form_close:
     translation_type: textarea
     et: 'Sulge aken'
-    en: ''
+    en: 'Close window'
   registration_form_cancel:
     translation_type: textarea
     et: Tühista
-    en: ''
+    en: Cancel
   registration_form_thanks:
     translation_type: textarea
     et: 'Täname sündmusele registreerimise eest!'
-    en: ''
+    en: 'Thank you for registering for an event!'
   registration_form_add_to_calendar:
     translation_type: textarea
     et: 'Saada sündmus enda kalendrisse (iCal)'
-    en: ''
+    en: 'Add event to your own calendar (iCal)'
   registration_ended:
     translation_type: textarea
     et: 'Sündmusele registreerimine on lõppenud'
-    en: ''
+    en: 'Registration has ended'
   registration_not_started:
     translation_type: textarea
     et: 'Sündmusele registreerimine pole veel alanud'
-    en: ''
+    en: 'Registration is not available yet'
   registration_full:
     translation_type: textarea
     et: 'Sündmuse kohad on täis'
-    en: ''
+    en: 'Event is full'
 school:
   label:
     translation_type: textarea
     et: Õppeasutused
-    en: ''
+    en: 'Educational institutions'
   institutions:
     translation_type: textarea
     et: Õppekohad
-    en: ''
+    en: 'Study places'
   location:
     translation_type: textarea
     et: Asukoht
-    en: ''
+    en: Location
   name:
     translation_type: textarea
     et: 'Kooli nimi'
-    en: ''
+    en: 'School Name'
   institution_type:
     translation_type: textarea
     et: Tüüp
-    en: ''
+    en: 'Type of educational institution'
   institution_select_type:
     translation_type: textarea
     et: 'Vali esmalt õppeasutuse tüüp'
-    en: ''
+    en: 'Select the type of institution first'
   institution_sublevel:
     translation_type: textarea
     et: 'Õppeasutuse alamtase'
-    en: ''
+    en: 'The lower secondary school level'
   language:
     translation_type: textarea
     et: Õppekeel
-    en: ''
+    en: 'The language of instruction'
   ownership:
     translation_type: textarea
     et: Omandivorm
-    en: ''
+    en: 'Form of ownership'
   available_dormitory:
     translation_type: textarea
     et: 'Õpilaskodu/ühiselamu olemas'
-    en: ''
+    en: 'Student home / dormitory available'
   dormitory:
     translation_type: textarea
     et: Õpilaskodu
-    en: ''
+    en: 'Student home'
   special_needs_short:
     translation_type: textarea
     et: HEV
-    en: ''
+    en: HEV
   special_needs_long:
     translation_type: textarea
     et: 'Hariduslikud erivajadused'
-    en: ''
+    en: 'Special Educational Needs'
   list:
     translation_type: textarea
     et: Nimekiri
-    en: ''
+    en: List
   map:
     translation_type: textarea
     et: Kaart
-    en: ''
+    en: Map
   no_results:
     translation_type: textarea
     et: 'Otsingu tingimustele vastavaid õppeasutusi ei leitud'
@@ -808,497 +808,499 @@ school:
   legal_address:
     translation_type: textarea
     et: 'Juriidiline aadress'
-    en: ''
+    en: 'Legal address'
   defacto_address:
     translation_type: textarea
     et: 'Tegutsemise asukoht'
-    en: ''
+    en: 'Location of operation'
   website:
     translation_type: textarea
     et: Veebileht
-    en: ''
+    en: Website
   contact_info:
     translation_type: textarea
     et: Kontaktinfo
-    en: ''
+    en: 'Contact Info'
   contact:
     translation_type: textarea
     et: Kontakt
-    en: ''
+    en: Contact
   available:
     translation_type: textarea
     et: Olemas
-    en: ''
+    en: Available
   unavailable:
     translation_type: textarea
     et: Puudub
-    en: ''
+    en: None
   register_code_short:
     translation_type: textarea
     et: 'Reg. kood'
-    en: ''
+    en: 'Reg. code'
   register_code:
     translation_type: textarea
     et: Registrikood
-    en: ''
+    en: 'Register code'
   institution_ownership:
     translation_type: textarea
     et: 'Õppeasutuse omandivorm'
-    en: ''
+    en: 'Ownership type'
   support_projects:
     translation_type: textarea
     et: Toetusprojektid
-    en: ''
+    en: 'Support projects'
   investment_measure:
     translation_type: textarea
     et: Rahastusmeede
-    en: ''
+    en: 'Investment measure'
   investment_deadline_year:
     translation_type: textarea
     et: 'Rakendamise tähtaja aasta'
-    en: ''
+    en: 'Implementation year'
   investment_deadline:
     translation_type: textarea
     et: 'Rakendamise tähtaeg'
-    en: ''
+    en: 'Implementation deadline'
   investment_project:
     translation_type: textarea
     et: Projekt
-    en: ''
+    en: Project
   investment_max_amount:
     translation_type: textarea
     et: 'Maksimaalne summa'
-    en: ''
+    en: 'Maximum amount'
   investment_amount_million_short:
     translation_type: textarea
     et: mln
-    en: ''
+    en: MM
   investment_amount_thousand_short:
     translation_type: textarea
     et: tuh
-    en: ''
+    en: K
   municipalities:
     translation_type: textarea
     et: Haldusüksused
-    en: ''
+    en: Municipalities
   municipalities_detailed:
     translation_type: textarea
     et: Vallad/linnad
-    en: ''
+    en: Towns/districts
   counties:
     translation_type: textarea
     et: Maakonnad
-    en: ''
+    en: Counties
   select_investment_measure_year:
     translation_type: textarea
     et: 'Vali rahastusmeetme aasta'
-    en: ''
+    en: 'Choose investment measure year'
   selected_year_investment_measure:
     translation_type: textarea
     et: 'aasta rahastusmeetmed'
-    en: ''
+    en: 'year''s investment measure'
 studyProgramme:
   label:
     translation_type: textarea
     et: Erialad
-    en: ''
+    en: Specialties
   level:
     translation_type: textarea
     et: 'Õppekava tase'
-    en: ''
+    en: 'Level of curriculum'
   accreditation:
     translation_type: textarea
     et: Akrediteering
-    en: ''
+    en: Accreditation
   valid_accreditation:
     translation_type: textarea
     et: 'Valid accreditation'
-    en: ''
+    en: 'Valid accreditation'
   accreditation_decision:
     translation_type: textarea
     et: 'Akrediteerimise otsus'
-    en: ''
+    en: 'Accreditation decision'
   accreditation_decision_till:
     translation_type: textarea
     et: 'Akrediteerimise otsuse kehtivuse lõpp'
-    en: ''
+    en: 'Accreditation decision due'
   languages:
     translation_type: textarea
     et: Õppekeel(ed)
-    en: ''
+    en: 'Teaching languages'
   study_duration:
     translation_type: textarea
     et: 'Õppe kestus'
-    en: ''
+    en: 'Duration of the course'
   study_group:
     translation_type: textarea
     et: 'Õppekava rühm'
-    en: ''
+    en: 'Curriculum Group'
   admission_status:
     translation_type: textarea
     et: 'Vastuvõtu olek'
-    en: ''
+    en: 'Receive status'
   filter_title:
     translation_type: textarea
     et: Eriala
-    en: ''
+    en: Specialty
   filter_type:
     translation_type: textarea
     et: 'Eriala tüüp'
-    en: ''
+    en: 'Specialty type'
   filter_language:
     translation_type: textarea
     et: Õppekeel
-    en: ''
+    en: 'The language of instruction'
   filter_school:
     translation_type: textarea
     et: Õppeasutus
-    en: ''
+    en: 'educational institution'
   filter_location:
     translation_type: textarea
     et: Asukoht
-    en: ''
+    en: Location
   filter_iscedf_broad:
     translation_type: textarea
     et: Õppevaldkond
-    en: ''
+    en: 'Field of study'
   filter_iscedf_narrow:
     translation_type: textarea
     et: Õppesuund
-    en: ''
+    en: 'Learning direction'
   filter_iscedf_detailed:
     translation_type: textarea
     et: Õppekavarühm
-    en: ''
+    en: 'Curriculum Group'
   filter_open_admission:
     translation_type: textarea
     et: 'Ainult avatud vastuvõtuga'
-    en: ''
+    en: 'Only open to reception'
   no_results:
     translation_type: textarea
     et: 'Otsingutulemused puuduvad'
-    en: ''
+    en: 'No Search Results'
   related_label:
     translation_type: textarea
     et: 'Sarnased erialad'
-    en: ''
+    en: 'Related study programmes'
   related_filter_location:
     translation_type: textarea
     et: 'Otsi asukoha järgi'
-    en: ''
+    en: 'Search by location'
   related_no_results:
     translation_type: textarea
     et: 'Sarnased erialad puuduvad'
-    en: ''
+    en: 'No related study programmes'
   compare_modal_title:
     translation_type: textarea
     et: 'Erialade võrdlemine'
-    en: ''
+    en: 'Study programme comparison'
   compare_modal_content:
     translation_type: text_format
     et:
-      format: text_format
+      format: custom_editor
       value: '<p> Maksimaalne võrreldavate erialade arv on ületatud.</p><br><p>Võrdlusesse saab lisada kuni 3 eriala.</p>'
-    en: ''
+    en:
+      format: custom_editor
+      value: '<p>Maximum capacity reached.</p><p>You can only add 3 study programmes to comparison.</ p>'
   compare_modal_close:
     translation_type: textarea
     et: 'Sulge aken'
-    en: ''
+    en: 'Close window'
   school:
     translation_type: textarea
     et: 'Õppeasutuse nimetus'
-    en: ''
+    en: School
   degree_or_diploma:
     translation_type: textarea
     et: 'Omistatav kraad või diplom'
-    en: ''
+    en: 'Degree or diploma'
   specialization:
     translation_type: textarea
     et: Spetsialiseerumine
-    en: ''
+    en: Specialization
   study_capacity:
     translation_type: textarea
     et: 'Õppekava maht'
-    en: ''
+    en: Capacity
   internship_capacity:
     translation_type: textarea
     et: 'Praktika maht'
-    en: ''
+    en: 'Internship capacity'
   nominal_time:
     translation_type: textarea
     et: Nominaalkestus
-    en: ''
+    en: 'Nominal time'
   non_active:
     translation_type: textarea
     et: 'Eriala ei ole aktiivne'
-    en: ''
+    en: 'Course not active'
   added_to_comparison:
     translation_type: textarea
-    et: 'Võrdluses on erialasid'
-    en: ''
+    et: 'Eriala(d) lisatud võrdlusesse'
+    en: 'Programme added to comparison'
 login:
   username:
     translation_type: textarea
     et: Kasutajanimi
-    en: ''
+    en: Username
   password:
     translation_type: textarea
     et: Parool
-    en: ''
+    en: Password
   error:
     translation_type: textarea
     et: 'Sisselogimine ebaõnnestus. Palun kontrollige kasutajanime ja parooli.'
-    en: ''
+    en: 'Login failed. Please check your username and password.'
   success:
     translation_type: textarea
     et: 'Sisselogimine õnnestus'
-    en: ''
+    en: 'Successful login'
 time:
   january:
     translation_type: textarea
     et: Jaanuar
-    en: ''
+    en: January
   february:
     translation_type: textarea
     et: Veebruar
-    en: ''
+    en: February
   march:
     translation_type: textarea
     et: Märts
-    en: ''
+    en: March
   april:
     translation_type: textarea
     et: Aprill
-    en: ''
+    en: April
   may:
     translation_type: textarea
     et: Mai
-    en: ''
+    en: May
   june:
     translation_type: textarea
     et: Juuni
-    en: ''
+    en: June
   july:
     translation_type: textarea
     et: Juuli
-    en: ''
+    en: July
   august:
     translation_type: textarea
     et: August
-    en: ''
+    en: August
   september:
     translation_type: textarea
     et: September
-    en: ''
+    en: September
   october:
     translation_type: textarea
     et: Oktoober
-    en: ''
+    en: October
   november:
     translation_type: textarea
     et: November
-    en: ''
+    en: November
   december:
     translation_type: textarea
     et: Detsember
-    en: ''
+    en: December
   monday:
     translation_type: textarea
     et: Esmaspäev
-    en: ''
+    en: Monday
   monday_short:
     translation_type: textarea
     et: E
-    en: ''
+    en: M
   tuesday:
     translation_type: textarea
     et: Teisipäev
-    en: ''
+    en: Tuesday
   tuesday_short:
     translation_type: textarea
     et: T
-    en: ''
+    en: T
   wednesday:
     translation_type: textarea
     et: Kolmapäev
-    en: ''
+    en: Wednesday
   wednesday_short:
     translation_type: textarea
     et: K
-    en: ''
+    en: W
   thursday:
     translation_type: textarea
     et: Neljapäev
-    en: ''
+    en: Thursday
   thursday_short:
     translation_type: textarea
     et: 'N'
-    en: ''
+    en: T
   friday:
     translation_type: textarea
     et: Reede
-    en: ''
+    en: Friday
   friday_short:
     translation_type: textarea
     et: R
-    en: ''
+    en: F
   saturday:
     translation_type: textarea
     et: Laupäev
-    en: ''
+    en: Saturday
   saturday_short:
     translation_type: textarea
     et: L
-    en: ''
+    en: S
   sunday:
     translation_type: textarea
     et: Pühapäev
-    en: ''
+    en: Sunday
   sunday_short:
     translation_type: textarea
     et: P
-    en: ''
+    en: S
   date:
     translation_type: textarea
     et: Kuupäev
-    en: ''
+    en: Date
   date_format:
     translation_type: textarea
     et: pp/kk/aa
-    en: ''
+    en: dd/mm/yyyy
   date_period_from:
     translation_type: textarea
     et: Alguskuupäev
-    en: ''
+    en: 'Start date'
   date_period_to:
     translation_type: textarea
     et: Lõpukuupäev
-    en: ''
+    en: 'End date'
   from:
     translation_type: textarea
     et: Alates
-    en: ''
+    en: From
   to:
     translation_type: textarea
     et: Kuni
-    en: ''
+    en: Till
   duration_year_singular:
     translation_type: textarea
     et: aasta
-    en: ''
+    en: Year
   duration_year_plural:
     translation_type: textarea
     et: aastat
-    en: ''
+    en: Years
   duration_month_singular:
     translation_type: textarea
     et: kuu
-    en: ''
+    en: Month
   duration_month_plural:
     translation_type: textarea
     et: kuud
-    en: ''
+    en: Months
   time_of_day:
     translation_type: textarea
     et: Kell
-    en: ''
+    en: Clock
   years:
     translation_type: textarea
     et: Aastat
-    en: ''
+    en: Years
 button:
   all:
     translation_type: textarea
     et: Kõik
-    en: ''
+    en: All
   map_closer:
     translation_type: textarea
     et: 'Vaata kaarti lähemalt'
-    en: ''
+    en: 'See the map for more'
   add_to_comparison:
     translation_type: textarea
     et: 'Lisa võrdlusesse'
-    en: ''
+    en: 'Add to comparison'
   remove_from_comparison:
     translation_type: textarea
     et: 'Eemalda võrdlusest'
-    en: ''
+    en: 'Remove from comparison'
   search:
     translation_type: textarea
     et: Otsi
-    en: ''
+    en: Search
   search_from_page:
     translation_type: textarea
     et: 'Otsi lehelt'
-    en: ''
+    en: 'Search from page'
   search_detailed:
     translation_type: textarea
     et: 'Täpsem otsing'
-    en: ''
+    en: 'Advanced Search'
   search_detailed_short:
     translation_type: textarea
     et: Täpne
-    en: ''
+    en: Exact
   search_brief:
     translation_type: textarea
     et: 'Kitsam otsing'
-    en: ''
+    en: 'Narrow search'
   search_brief_short:
     translation_type: textarea
     et: Kitsas
-    en: ''
+    en: Narrow
   search_people:
     translation_type: textarea
     et: 'Otsi inimesi'
-    en: ''
+    en: 'Search people'
   load_more:
     translation_type: textarea
     et: 'Lae rohkem'
-    en: ''
+    en: 'Load more'
   read_more:
     translation_type: textarea
     et: 'Loe rohkem'
-    en: ''
+    en: 'Read more'
   show_all:
     translation_type: textarea
     et: 'Näita kõiki'
-    en: ''
+    en: 'Show All'
   view_all:
     translation_type: textarea
     et: 'Vaata kõiki'
-    en: ''
+    en: 'View All'
   view_more:
     translation_type: textarea
     et: 'Vaata lähemalt'
-    en: ''
+    en: 'View More'
   filter:
     translation_type: textarea
     et: Filtreeri
-    en: ''
+    en: Filter
   filter_close:
     translation_type: textarea
     et: 'Sulge filter'
-    en: ''
+    en: 'Close the filter'
   register:
     translation_type: textarea
     et: Registreeru
-    en: ''
+    en: Register
   calendar_add:
     translation_type: textarea
     et: 'Lisa kalendrisse'
-    en: ''
+    en: 'Add to calendar'
   newsletter_submit:
     translation_type: textarea
     et: 'Kinnita tellimus'
-    en: ''
+    en: 'Confirm order'
   login:
     translation_type: textarea
     et: 'Logi sisse'
-    en: ''
+    en: 'Log in'
   logout:
     translation_type: textarea
     et: 'Logi välja'
-    en: ''
+    en: 'Log out'
   search_close:
     translation_type: textarea
     et: ''
@@ -1310,149 +1312,154 @@ button:
   see_comparison:
     translation_type: textarea
     et: 'Vaata võrdlust'
-    en: ''
+    en: 'See comparison'
   add_to_favourites_label:
     translation_type: textarea
     et: 'Lemmikutesse lisamine'
-    en: ''
+    en: Favourites
   add_to_favourites_add:
     translation_type: textarea
     et: 'Lisa lemmikutesse'
-    en: ''
+    en: 'Add to favourites'
   add_to_favourites_add_success:
     translation_type: textarea
     et: 'Lemmik edukalt lisatud'
-    en: ''
+    en: 'Successfully added to favourites'
   add_to_favourites_remove:
     translation_type: textarea
     et: 'Eemalda lemmikutest'
-    en: ''
+    en: 'Remove from favourites'
   add_to_favourites_remove_success:
     translation_type: textarea
     et: 'Lemmik edukalt eemaldatud'
-    en: ''
+    en: 'Successfully removed from favourites'
   add_to_favourites_title:
     translation_type: textarea
     et: Pealkiri
-    en: ''
+    en: Title
   back:
     translation_type: textarea
     et: Tagasi
-    en: ''
+    en: Back
   back_to_dashboard:
     translation_type: textarea
     et: 'Tagasi töölauale'
-    en: ''
+    en: 'Back to dashboard'
   save:
     translation_type: textarea
     et: Salvesta
-    en: ''
+    en: Save
   submit:
     translation_type: textarea
     et: Esita
-    en: ''
+    en: Submit
   edit:
     translation_type: textarea
     et: Muuda
-    en: ''
+    en: Edit
   continue:
     translation_type: textarea
     et: Jätka
-    en: ''
+    en: Continue
   previous:
     translation_type: textarea
     et: Tagasi
-    en: ''
+    en: Previous
   next:
     translation_type: textarea
     et: Järgmine
-    en: ''
+    en: Next
   'yes':
     translation_type: textarea
     et: Jah
-    en: ''
+    en: 'Yes'
   cancel:
     translation_type: textarea
     et: Katkesta
-    en: ''
+    en: Cancel
 tooltip:
   share:
     translation_type: textarea
     et: 'Jaga lehte'
-    en: ''
+    en: 'Share page'
   favourites:
     translation_type: textarea
     et: 'Lisa lemmikuks'
-    en: ''
-  favouritesRemove:
+    en: 'Add as a favourite'
+  favourites_remove:
     translation_type: textarea
-    et: 'Eemalda lemmikust'
-    en: 'Remove favourite'
+    et: 'Eemalda lemmikutest'
+    en: 'Remove from favourites'
 notFound:
   explanation:
     translation_type: text_format
     et:
-      format: text_format
+      format: custom_editor
       value: 'Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>'
-    en: ''
+    en:
+      format: custom_editor
+      value: 'It looks like the page you were looking for was not found. <br> Error code: <b> 404 </b>'
 errors:
   enter_valid_date:
     translation_type: textarea
     et: 'Sisesta korrektne kuupäev'
-    en: ''
+    en: 'Enter valid date'
   personal_data_request:
     translation_type: textarea
     et: 'Vabandame. Eesti Hariduse Infosüsteemist isikuandmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.'
-    en: ''
+    en: 'Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.'
   studies_data_request:
     translation_type: textarea
     et: 'Vabandame. Eesti Hariduse Infosüsteemist õpingute andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.'
-    en: ''
+    en: 'Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.'
   personal_data_missing:
     translation_type: textarea
     et: 'Eesti Hariduse Infosüsteemis isikuandmed puuduvad.'
-    en: ''
+    en: 'Relevant data missing from the Estonian Education Infosystem.'
   studies_data_missing:
     translation_type: textarea
     et: 'Eesti Hariduse Infosüsteemis õpingute andmed puuduvad.'
-    en: ''
+    en: 'Relevant data missing from the Estonian Education Infosystem.'
   teachings_data_missing:
     translation_type: textarea
     et: 'Eesti Hariduse Infosüsteemis õpetamisega seotud andmed puuduvad.'
-    en: ''
+    en: 'Relevant data missing from the Estonian Education Infosystem.'
   teachings_data_request:
     translation_type: textarea
     et: 'Vabandame. Eesti Hariduse Infosüsteemist õpetamisega seotud andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.'
-    en: ''
+    en: 'Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.'
 search:
   label:
     translation_type: textarea
     et: Otsing
-    en: ''
+    en: Search
   results:
     translation_type: textarea
     et: Otsingutulemused
-    en: ''
+    en: 'Search results'
   keyword:
     translation_type: textarea
     et: Märksõna
-    en: ''
+    en: Keyword
   no_results_start:
     translation_type: textarea
     et: Otsingule
-    en: ''
+    en: 'Matching results for keyword'
   no_results_end:
     translation_type: text_format
     et:
-      format: text_format
+      format: custom_editor
       value: 'vastavaid tulemusi ei leitud.<br> Proovi otsida mõne teise märksõnaga.'
-    en: ''
+    en:
+      format: custom_editor
+      value: 'not found.<br> Try a different query.'
   filter_results:
     translation_type: textarea
     et: 'Filtreeri tulemusi'
-    en: ''
+    en: 'Filter results'
+langcode: et
 data:
-  dashboardLink:
+  dashboard_link:
     translation_type: textarea
-    et: 'Liigu töölauale'
-    en: 'Move to dasboard'
+    et: 'Tagasi töölauale'
+    en: 'Back to dashboard'

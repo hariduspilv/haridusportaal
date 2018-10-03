@@ -99,6 +99,7 @@ class OskaGraphField extends FieldItemBase {
     }
 
     public function getGoogleGraphData($filter_values){
+        $condition_count = 0;
         $target_type = $this->definition->getSettings()['target_type'];
         unset($filter_values['graph_type']);
 
@@ -106,18 +107,33 @@ class OskaGraphField extends FieldItemBase {
 
         foreach($filter_values as $key => $filter){
             if(isset($filter[0]['target_id'])){
-                $filter_values[$key] = $this->cleanFilters($filter);
-                $query->condition($key.'.target_id', $this->cleanFilters($filter), 'IN');
+                $search_args = $this->cleanFilters($filter);
+                if($search_args != NULL){
+                    $query->condition($key.'.target_id', $search_args, 'IN');
+                    $condition_count++;
+                }
             }else{
-                $query->condition($key, $filter, 'IN');
+                if(count($filter) > 0){
+                    $query->condition($key, $filter, 'IN');
+                    $condition_count++;
+                }
             }
         }
-        $entity_ids = $query->execute();
+        if($condition_count > 0){
+            $entity_ids = $query->execute();
 
-        $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple($entity_ids);
-        $graph_value = $this->getGoogleGraphValue($entities);
+        }
 
-        return $graph_value;
+        if($entity_ids){
+            $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple($entity_ids);
+            $graph_value = $this->getGoogleGraphValue($entities);
+
+            return $graph_value;
+        }else{
+            return NULL;
+        }
+
+
     }
 
     public function cleanFilters($filters){

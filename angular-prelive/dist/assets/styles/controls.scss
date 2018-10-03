@@ -83,6 +83,9 @@
     &::placeholder{
       @include break-on(sm, max) {font-size:0.875rem;}  
     }
+        &:focus {
+          border-color: $blue;
+        }
     @include break-on(sm, max) {font-size:0.875rem;}
   }
   &__clear {
@@ -107,8 +110,8 @@
     &.exists {display: inline-block;}
   }
   &__error {color: $red;line-height: $medium;
-    &--text { padding-left: $small;font-size: 0.875rem;
-      ;white-space: pre-line; min-width: 100%; line-height: 18px; padding-top: 2px; 
+    &--text { padding-left: $small;font-size: 0.875rem; display: inline-block;
+      ;white-space: pre-line; min-width: 100%; line-height: 0; padding-top: 2px; 
     }
   }
   &__area {width: 100%;padding-top: .125rem;
@@ -209,4 +212,16 @@
   .mat-checkbox-ripple{display:none !important;}
   .mat-checkbox-checkmark{left:5px !important;}
   input:focus~.mat-checkbox-frame{border-color:$blue !important;}
+}
+
+.mat-focused {
+ border: solid .0625rem $blue!important;
+}
+      .mat-focused label {
+ color: $blue!important;
+}
+
+.round-input__area__elem {
+  font-size: 0.875rem;
+  font-weight: normal;
 }
