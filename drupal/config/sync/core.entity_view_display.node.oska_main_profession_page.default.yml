@@ -70,7 +70,7 @@ content:
     type: basic_string
     region: content
   field_oska_graph:
-    weight: 110
+    weight: 113
     label: above
     settings: {  }
     third_party_settings: {  }

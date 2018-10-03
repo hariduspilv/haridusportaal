@@ -1,20 +1,18 @@
-uuid: ff772d3f-2ee2-461c-b56c-b5909b2e9123
+uuid: 426f7c11-dcf1-42cc-967c-bb0eb59bf454
 langcode: et
 status: true
 dependencies:
   config:
-    - field.field.node.oska_main_profession_page.body
-    - field.field.node.oska_main_profession_page.field_accordion
-    - field.field.node.oska_main_profession_page.field_attachment_file
-    - field.field.node.oska_main_profession_page.field_fixed_label
-    - field.field.node.oska_main_profession_page.field_introduction
-    - field.field.node.oska_main_profession_page.field_oska_graph
-    - field.field.node.oska_main_profession_page.field_oska_main_profession_tags
-    - field.field.node.oska_main_profession_page.field_picture
-    - field.field.node.oska_main_profession_page.field_video
-    - field.field.node.oska_main_profession_page.field_web_page_address
+    - field.field.node.oska_field_page.body
+    - field.field.node.oska_field_page.field_attachment_file
+    - field.field.node.oska_field_page.field_introduction
+    - field.field.node.oska_field_page.field_oska_field_accordion
+    - field.field.node.oska_field_page.field_oska_graph
+    - field.field.node.oska_field_page.field_picture
+    - field.field.node.oska_field_page.field_video
+    - field.field.node.oska_field_page.field_web_page_address
     - image.style.thumbnail
-    - node.type.oska_main_profession_page
+    - node.type.oska_field_page
   module:
     - file
     - htm_custom_oska
@@ -25,9 +23,9 @@ dependencies:
     - path
     - scheduler
     - text
-id: node.oska_main_profession_page.default
+id: node.oska_field_page.default
 targetEntityType: node
-bundle: oska_main_profession_page
+bundle: oska_field_page
 mode: default
 content:
   body:
@@ -45,9 +43,24 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_accordion:
+  field_attachment_file:
+    weight: 125
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_introduction:
+    weight: 122
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_oska_field_accordion:
     type: entity_reference_paragraphs
-    weight: 131
+    weight: 128
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -57,45 +70,14 @@ content:
       default_paragraph_type: ''
     third_party_settings: {  }
     region: content
-  field_attachment_file:
-    weight: 126
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: file_generic
-    region: content
-  field_fixed_label:
-    weight: 122
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
-  field_introduction:
-    weight: 123
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textarea
-    region: content
   field_oska_graph:
-    weight: 133
+    weight: 129
     settings: {  }
     third_party_settings: {  }
     type: oska_graph_widget_type
     region: content
-  field_oska_main_profession_tags:
-    weight: 132
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete_tags
-    region: content
   field_picture:
-    weight: 127
+    weight: 126
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
@@ -103,7 +85,7 @@ content:
     type: image_image
     region: content
   field_video:
-    weight: 124
+    weight: 123
     settings:
       size: 60
       placeholder: ''
@@ -111,7 +93,7 @@ content:
     type: custom_video_widget_type
     region: content
   field_web_page_address:
-    weight: 125
+    weight: 124
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -166,6 +148,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
   uid:
     type: entity_reference_autocomplete
     weight: 5

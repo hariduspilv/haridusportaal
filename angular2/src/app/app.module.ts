@@ -15,7 +15,7 @@ import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.
 import { Modal } from './_components/dialogs/modal/modal';
 import { TableModal } from './_components/dialogs/table.modal/table.modal';
 import { VideoComponent } from './_components/video/video.component';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { EmbedVideo } from 'ngx-embed-video';
 
 /* Custom imports */
@@ -163,6 +163,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     }),
     AgmSnazzyInfoWindowModule,
     HttpModule,
+    JsonpModule,
     EmbedVideo.forRoot(),
     TextareaAutosizeModule,
     RecaptchaModule.forRoot(),

@@ -186,20 +186,26 @@
               </ng-container> <!-- /NUMBER -->
 
               <ng-container *ngIf="data_elements[element].type == 'address'">
-                AADRESS
-                <script type="text/javascript" src="http://inaadress.maaamet.ee/inaadress/js/inaadress.min.js"></script>
                 
-                <script>
-                  var inAadress = new InAadress({"mode":1, "container":"test",
-                  "nocss": true })
-
-                  document.addEventListener('addressSelected', function(e){
-                    inAadress.hideResult();
-                  });
-                </script>
-                <div id="test" >
-                  
+                <div class="round-input__wrapper" [class.complete]="data_elements[element].value != undefined">
+                  <span class="round-input__title">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
+                  <div class="round-input__field-wrapper">
+                    <input 
+                    class="round-input__field"
+                    type="text" 
+                    aria-label="address" 
+                    [(ngModel)]="data_elements[element].value"
+                    (ngModelChange)="addressAutocomplete(data_elements[element].value)"
+                    [name]="element" 
+                    [matAutocomplete]="auto">
+                  </div>
                 </div>
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let address of autoCompleteContainer" [value]="address.pikkaadress">
+                    <span>{{ address.pikkaadress }}</span>
+                  </mat-option>
+                </mat-autocomplete>
+
               </ng-container> <!-- /ADDRESS -->
 
               <ng-container *ngIf="data_elements[element].type == 'date'">
@@ -209,18 +215,19 @@
 
                 <div class="flexbox">
                   <input matInput class="inner-flexbox step-datepicker"
+                  autocomplete="off"
                   [disabled]="isFieldDisabled(data_elements[element].readonly)"
                   [matDatepicker]="picker" 
                   placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
                   [(ngModel)]="data_elements[element].value"
                   [value]="getDatepickerValue(element, element)"
+                  (dateInput)="setDatepickerValue($event, element)"
                   (dateChange)="setDatepickerValue($event, element)"
                   (focus)="datepickerFocus = true"
                   (blur)="datepickerFocus = false"
                   dateFormatter
-                  [name]="element"
-                  >
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  [name]="element">
+                  <mat-datepicker-toggle class="round-input__clear"  matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker
                   [disabled]="isFieldDisabled(data_elements[element].readonly)"></mat-datepicker>
                 </div>
