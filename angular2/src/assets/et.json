@@ -110,7 +110,8 @@
     "maht": "Maht"
   },
   "xjson":{
-    "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?"
+    "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?",
+    "table_delete_row_confirm_modal_content": "Kas olete kindel, et tahate tabeli rida kustutada?"
   },
   "article": {
     "label": "Artikkel",

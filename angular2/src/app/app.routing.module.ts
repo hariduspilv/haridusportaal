@@ -18,7 +18,8 @@ import {
   DashboardComponent,
   SchoolsFundingComponent,
   XjsonComponent,
-  SearchComponent
+  SearchComponent,
+  OskaAreasComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
@@ -80,6 +81,8 @@ const appRoutes: Routes = [
       { path: '**', redirectTo: 'taotlused', pathMatch: 'full' }
     ]},
 
+  { path: ':lang/oska/areas/:id', component:OskaAreasComponent},
+  
   { path: ':lang/otsing', component: SearchComponent },
   { path: ':lang/search', component: SearchComponent },
 
@@ -112,6 +115,7 @@ export const routedComponents = [
   DashboardComponent,
   SchoolsFundingComponent,
   CertificatesComponent,
-  XjsonComponent
+  XjsonComponent,
+  OskaAreasComponent
 ];
 

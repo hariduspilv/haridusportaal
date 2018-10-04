@@ -40,7 +40,7 @@ export class CertificatesComponent implements OnInit{
     
     this.loading[_id] = true;
 
-    let sub = this.http.get('/dashboard/kodanikKutsetunnistus/null?_format=json').subscribe(response => {
+    let sub = this.http.get('/dashboard/certificates/getProfessionalCertificate?_format=json').subscribe(response => {
       this.loading[_id] = false;
 
       if(response['error']){
