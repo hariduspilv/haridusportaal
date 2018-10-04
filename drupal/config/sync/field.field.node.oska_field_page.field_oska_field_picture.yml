@@ -1,0 +1,38 @@
+uuid: 778a344e-87bc-4a2b-8306-796869955b86
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_oska_field_picture
+    - node.type.oska_field_page
+  module:
+    - image
+id: node.oska_field_page.field_oska_field_picture
+field_name: field_oska_field_picture
+entity_type: node
+bundle: oska_field_page
+label: 'Oska Field Picture'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: '4 MB'
+  max_resolution: ''
+  min_resolution: 1208x680
+  alt_field: true
+  alt_field_required: true
+  title_field: true
+  title_field_required: true
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image

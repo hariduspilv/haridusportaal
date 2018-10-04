@@ -71,11 +71,19 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   }
   @include break-on(sm, max) {.block {margin-bottom: 0;}}
 
-  .flex.mininav { padding-right: 1rem; }
-  favourites { margin-right: 0rem; margin-left: 1rem; }
-  @include break-on(sm, max) {
-    .flex.mininav { width: 100%!important; flex-direction: row-reverse; 
-      favourites { margin-right: 1rem!important; margin-left: 0.5rem!important; }
+  .flex.mininav {
+    favourites { padding-right: 0px; 
+      @include break-on(sm, max) {
+        padding-right: 
+        1rem; 
+      }
+    }
+    share { margin-left: 0rem!important; }
+    compare { margin-left: 3rem;
+      @include break-on(sm, max) {
+        margin-left: 1.5rem;
+      }
     }
   }
+
 

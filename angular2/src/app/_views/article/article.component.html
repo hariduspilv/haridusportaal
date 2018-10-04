@@ -14,13 +14,16 @@
           <div class="article-title" attr.aria-label="{{'event.group' | translate}}">KÕRGHARIDUS</div>
           <article [class.extraBottom]="!(content.fieldVideo.length > 0) && !(accordionSection.length > 0) && fieldRightSidebar === null">
             <div class="row title">
-                <div class="col-10 sm-12 flex">
-                  <h1 class="mt-0 mb-0">{{ content.title }}</h1>
-                </div><!--/col-10-->
-                  <div class="mininav col-2 flex text-right">
-                  <favourites [id]="content.nid" [title]="content.title"></favourites>
-                  <share [title]="content.title"></share>
-                </div><!--/col-1-->
+              
+              <div class="col-12 sm-12 flex">
+                <h1 class="mt-0 mb-0">{{ content.title }}</h1>
+              </div><!--/col-10-->
+
+              <div class="mininav col-12 flex text-right">
+                <favourites [id]="content.nid" [title]="content.title"></favourites>
+                <share [title]="content.title"></share>
+              </div><!--/col-1-->
+
             </div><!--/row-->
             <div class="short" attr.aria-label="{{'description.short' | translate}}" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>
 
@@ -54,10 +57,10 @@
               </mat-expansion-panel>
             </mat-accordion>
           </div>
-              
+
         </div>
       </div>
-          
+
       <div class="col-4 sm-12" *ngIf="fieldRightSidebar !== null">
         <aside class="sidebar">
           <div class="sidebar__item" *ngIf="fieldAdditional !== null">
@@ -81,7 +84,7 @@
             <h1 class="mt-0 sidebar__title">Leia kiiresti</h1>
             <div class="sidebar__paragraph">
               <ul class="link-list mt-0 mb-0">
-                  <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{articleLink.title | translate}}"class="link"><span class="htm-icon">launch</span>{{articleLink.title}}</a></li>
+                <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{articleLink.title | translate}}"class="link"><span class="htm-icon">launch</span>{{articleLink.title}}</a></li>
               </ul>
             </div>
           </div>

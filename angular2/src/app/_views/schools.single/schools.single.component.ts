@@ -16,6 +16,7 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
   loading = true;
   data: any;
   path: String;
+  lang: String;
   types: any;
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
@@ -40,8 +41,12 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
       fetchPolicy: 'no-cache',
       errorPolicy: 'all',
     }).valueChanges.subscribe(({ data, loading }) => {
+      this.lang = this.rootScope.get('currentLang');
       this.loading = loading;
-      if (data) {
+      if( !data['route'] ){
+        history.replaceState({}, '', `/${this.lang}`);
+        this.router.navigateByUrl(`/${this.lang}/404`);
+      } else if (data) {
         this.data = data.route.entity;
         if (data.route.entity.fieldEducationalInstitutionTy.length) {
           let types = data.route.entity.fieldEducationalInstitutionTy.map(type => type.entity.entityId)
@@ -65,6 +70,11 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
       fetchPolicy: 'no-cache',
       errorPolicy: 'none',
     }).valueChanges.subscribe( ({data}) => {
+      this.lang = this.rootScope.get('currentLang');
+      if( !data['route'] ){
+        history.replaceState({}, '', `/${this.lang}`);
+        this.router.navigateByUrl(`/${this.lang}/404`);
+      }
       let initialData = data['taxonomyTermQuery']['entities'];
       let children = initialData.filter(elem => elem.parentId);
       let parents = initialData.filter(elem => !children.includes(elem))
