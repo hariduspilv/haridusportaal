@@ -4,21 +4,15 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_field_page.body
-    - field.field.node.oska_field_page.field_attachment_file
     - field.field.node.oska_field_page.field_introduction
     - field.field.node.oska_field_page.field_oska_field_accordion
+    - field.field.node.oska_field_page.field_oska_field_picture
     - field.field.node.oska_field_page.field_oska_graph
-    - field.field.node.oska_field_page.field_picture
-    - field.field.node.oska_field_page.field_video
-    - field.field.node.oska_field_page.field_web_page_address
     - node.type.oska_field_page
   module:
     - entity_reference_revisions
-    - file
     - htm_custom_oska
-    - htm_custom_video_field
     - image
-    - link
     - text
     - user
 id: node.oska_field_page.default
@@ -32,14 +26,6 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
-    region: content
-  field_attachment_file:
-    weight: 105
-    label: above
-    settings:
-      use_description_as_link_text: true
-    third_party_settings: {  }
-    type: file_default
     region: content
   field_introduction:
     weight: 102
@@ -57,15 +43,8 @@ content:
       link: ''
     third_party_settings: {  }
     region: content
-  field_oska_graph:
-    weight: 109
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: oska_graph_formatter_type
-    region: content
-  field_picture:
-    weight: 106
+  field_oska_field_picture:
+    weight: 110
     label: above
     settings:
       image_style: ''
@@ -73,24 +52,12 @@ content:
     third_party_settings: {  }
     type: image
     region: content
-  field_video:
-    weight: 103
+  field_oska_graph:
+    weight: 109
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: custom_video_formatter_type
-    region: content
-  field_web_page_address:
-    weight: 104
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    type: link
+    type: oska_graph_formatter_type
     region: content
   links:
     weight: 100

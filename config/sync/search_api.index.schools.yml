@@ -23,8 +23,9 @@ dependencies:
   module:
     - paragraphs
     - taxonomy
-    - search_api
     - node
+    - scheduler
+    - search_api
 id: schools
 name: Schools
 description: ''
@@ -35,6 +36,9 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: type
     type: string
+    dependencies:
+      module:
+        - node
   entity_path:
     label: URI
     property_path: search_api_url
@@ -68,6 +72,7 @@ field_settings:
         - field.storage.node.field_educational_institution_ty
       module:
         - taxonomy
+        - taxonomy
   field_educational_institution_ty_id:
     label: 'Õppeasutuse liik » Taxonomy term » Termini ID'
     datasource_id: 'entity:node'
@@ -77,6 +82,7 @@ field_settings:
       config:
         - field.storage.node.field_educational_institution_ty
       module:
+        - taxonomy
         - taxonomy
   field_ehis_id:
     label: 'EHIS id'
@@ -106,6 +112,7 @@ field_settings:
       config:
         - field.storage.node.field_ownership_type
       module:
+        - taxonomy
         - taxonomy
   field_ownership_type_id:
     label: Omandivorm
@@ -151,11 +158,15 @@ field_settings:
       module:
         - paragraphs
         - taxonomy
+        - taxonomy
   field_school_name:
     label: Pealkiri
     datasource_id: 'entity:node'
     property_path: title
     type: text
+    dependencies:
+      module:
+        - node
   field_school_webpage_address:
     label: Veebileht
     datasource_id: 'entity:node'
@@ -190,6 +201,7 @@ field_settings:
         - field.storage.node.field_teaching_language
       module:
         - taxonomy
+        - taxonomy
   field_teaching_language_id:
     label: Õppekeel
     datasource_id: 'entity:node'
@@ -203,6 +215,9 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: langcode
     type: text
+    dependencies:
+      module:
+        - node
   lat:
     label: 'Asukoht » Paragraph » Koordinaadid » Latitude'
     datasource_id: 'entity:node'
@@ -230,16 +245,33 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: nid
     type: integer
+    dependencies:
+      module:
+        - node
+  status:
+    label: Avaldatud
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    dependencies:
+      module:
+        - node
   title:
     label: Pealkiri
     datasource_id: 'entity:node'
     property_path: title
     type: text
+    dependencies:
+      module:
+        - node
   unpublish_on:
     label: 'Mitteavaldatuks märkimise aeg'
     datasource_id: 'entity:node'
     property_path: unpublish_on
     type: date
+    dependencies:
+      module:
+        - scheduler
 datasource_settings:
   'entity:node':
     bundles:
