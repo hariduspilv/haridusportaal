@@ -18,9 +18,11 @@
         <span>{{ data.eventStartTime | unixToTime }} - {{ data.eventEndTime | unixToTime }}</span>
         <ng-container *ngIf="data.eventExtraDates && data.eventExtraDates.length">
           <div *ngFor="let item of data.eventExtraDates">
-            <span class="capitalize">{{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
-            <span>{{ 'time.time_of_day' | translate }}</span>
-            <span>{{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}</span>
+            <ng-container *ngIf="item.fieldEventDate">
+              <span class="capitalize">{{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
+              <span>{{ 'time.time_of_day' | translate }}</span>
+              <span>{{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}</span>
+            </ng-container>
           </div>
         </ng-container>
       </div>
