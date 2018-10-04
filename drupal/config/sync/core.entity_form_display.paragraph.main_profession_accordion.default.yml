@@ -1,0 +1,57 @@
+uuid: cd7dc5dc-d1fb-40f8-9a96-8a9d70757b66
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.main_profession_accordion.field_body
+    - field.field.paragraph.main_profession_accordion.field_links
+    - field.field.paragraph.main_profession_accordion.field_oska_graph
+    - field.field.paragraph.main_profession_accordion.field_title
+    - paragraphs.paragraphs_type.main_profession_accordion
+  module:
+    - htm_custom_oska
+    - link
+    - maxlength
+    - text
+id: paragraph.main_profession_accordion.default
+targetEntityType: paragraph
+bundle: main_profession_accordion
+mode: default
+content:
+  field_body:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_links:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_oska_graph:
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_graph_widget_type
+    region: content
+  field_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

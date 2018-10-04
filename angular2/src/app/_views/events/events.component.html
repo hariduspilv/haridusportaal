@@ -164,7 +164,7 @@
       <ng-container *ngFor="let monthKey of objectKeys(eventList[yearKey])">
 
         <div class="events__month">
-          <h1 tabindex="0">{{ 'time.' + getMonthName(monthKey) | translate }}
+          <h1>{{ 'time.' + getMonthName(monthKey) | translate }}
             <ng-container *ngIf="parseInt(yearKey) !== current.year">
               - {{ yearKey }}
             </ng-container>

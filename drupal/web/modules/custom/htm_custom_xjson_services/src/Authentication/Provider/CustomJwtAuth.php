@@ -29,7 +29,7 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
 		}elseif($auth_param){
 			$return = $auth_param;
 		}else{
-			$return =false;
+			$return = false;
 		}
 
 		return $return;
