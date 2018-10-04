@@ -50,7 +50,7 @@ settings:
             - Format
   plugins:
     stylescombo:
-      styles: ''
+      styles: 'h3|t(''Heading'')'
     language:
       language_list: un
 image_upload:
