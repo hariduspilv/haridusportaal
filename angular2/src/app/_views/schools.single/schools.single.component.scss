@@ -52,7 +52,3 @@ a:visited {
   @include break-on(sm, max) {.block {margin-bottom: 0;}}
 }
 
-  @include break-on(sm, max) {
-    .flex.mininav { width: 100%!important;
-    }
-  }

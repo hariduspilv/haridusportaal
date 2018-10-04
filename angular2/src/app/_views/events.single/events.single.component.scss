@@ -98,8 +98,3 @@ _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
   background: transparent;
   width: 24px;
 }
-
-  @include break-on(sm, max) {
-    .flex.mininav { width: 100%!important;
-    }
-  }

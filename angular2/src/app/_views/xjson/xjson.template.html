@@ -251,10 +251,12 @@
                   {{ selectLanguage(data_elements[element].helpertext) }}<br>
                 </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
 
+<div class="loaded-files-list">
+
                 <ng-container *ngIf="data_elements[element].value">
 
                   <ng-container *ngFor="let file of data_elements[element].value">
-                    <a [href]="fileDownloadlink(file.file_identifier)" target="_blank" >{{ file.file_name }}</a>
+                    <a class="file-name" [href]="fileDownloadlink(file.file_identifier)" target="_blank" >{{ file.file_name }}</a>
                     
                     <ng-container *ngIf="data_elements[element].multiple == false">
                       ASENDA
@@ -264,10 +266,12 @@
                       [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"/>
                     </ng-container>
 
-                    <button [class.disabled]="isFieldDisabled(data_elements[element].readonly)" (click)="fileDelete(file.file_identifier, data_elements[element])">EEMALDA</button>
+                    <a href="#" [class.disabled]="isFieldDisabled(data_elements[element].readonly)" (click)="fileDelete(file.file_identifier, data_elements[element])"><span class="htm-icon">close</span></a>
                     
                   </ng-container>
                 </ng-container>
+
+</div>
 
                 <div class="dropzone" (drop)="fileEventHandler($event, element)" (dragover)="$event.preventDefault()">
                   <a href="javascript:void(0)" style="position:relative;">
@@ -282,6 +286,7 @@
 
                   Lae üles</a>
                 </div>
+
               </ng-container> <!-- /FILE -->
 
               <ng-container *ngIf="data_elements[element].type == 'table'">
