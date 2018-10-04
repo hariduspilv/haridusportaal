@@ -154,24 +154,15 @@ $grid-columns: 12;
   }
 }
 
-share { margin-left: 0px!important; margin-right: 0px!important }
-.flex.mininav { text-align: inherit!important; justify-content: flex-end; padding-right: 1rem;
-  favourites { margin-right: 0rem; margin-top: -0.125rem; }
-}
+.flex.mininav { text-align: inherit!important; padding-right: 1rem; margin: 0 0 0 -.5rem; height: 47px;
+  favourites { padding-right: 1rem; margin-top: 0rem; padding-left: 0.5rem;
+      @include break-on(sm, max) { padding-left: 0.5rem; } 
+  }
 
-@include break-on(md, max) {
-  .flex.mininav { flex-direction: row; justify-content: flex-end; height: 47px;
-    share { margin-left: inherit!important; }
+  share { margin-left: -1.5rem!important; margin-right: 0px!important;
+      @include break-on(sm, max) { margin-left: -0.5rem!important; } 
   }
 }
-
-@include break-on(sm, max) {
-  .flex.mininav { justify-content: inherit; margin: 0 0 0 -.5rem;
-  }
-  favourites { margin-right: 1rem!important; margin-left: 0.5rem; }
-}
-
-
 
 .grow {flex-grow: 1;}
 .wrap {@include break-on(sm, max) {flex-wrap: wrap;}

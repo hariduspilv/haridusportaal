@@ -121,9 +121,9 @@ input.inner-flexbox {
 
 .dropzone:before {
 font-family: 'htm-icon'; content: "add"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $gray; background: transparent; position: absolute;
- left: 0px; top: 0px; right:0px; font-size: 3.75rem; align-items: center; text-align: center; }
+ left: 0px; top: 0.75rem; right:0px; font-size: 3.75rem; align-items: center; text-align: center; }
 
-
+.loaded-files-list { display: flex; }
 
 
 
