@@ -269,12 +269,9 @@
                       (change)="data_elements[element].value = []; fileEventHandler($event, element)" 
                       [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"/>
                     </a>
-
+                  </ng-container>
                     <a class="close-icn" href="javascript:void(0)" [class.disabled]="isFieldDisabled(data_elements[element].readonly)" (click)="fileDelete(file.file_identifier, data_elements[element])"><span class="htm-icon">close</span></a>
 
-
-
-                  </ng-container>
 
                 </ng-container>
 

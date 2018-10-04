@@ -11,7 +11,7 @@ _core:
 id: material_admin_messages
 theme: material_admin
 region: status
-weight: 0
+weight: 3
 provider: null
 plugin: system_messages_block
 settings:
