@@ -269,13 +269,17 @@
                 </ng-container>
 
                 <div class="dropzone" (drop)="fileEventHandler($event, element)" (dragover)="$event.preventDefault()">
-                 
-                  <input type="file"
-                  [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
-                  (change)="fileEventHandler($event, element)" 
-                  placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
-                  [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
-                  [attr.multiple]="data_elements[element].multiple ? '' : null"/>
+                  <a href="javascript:void(0)" style="position:relative;">
+                    <input type="file"
+                    style="opacity: 0; position:absolute; left:0; top:0;"
+                    id="file"
+                    [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
+                    (change)="fileEventHandler($event, element)" 
+                    placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
+                    [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
+                    [attr.multiple]="data_elements[element].multiple ? '' : null"/>
+
+                  Lae üles</a>
                 </div>
               </ng-container> <!-- /FILE -->
 
