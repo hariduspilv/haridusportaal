@@ -9,13 +9,13 @@
 
         <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>
         <div class="row title sm-flex">
-          <div class="col-10 col-sm flex">
+          <div class="col-12 col-sm flex">
             <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
           </div><!--/col-8-->
           
           <div class="mininav col-12 flex text-right">
             <favourites [id]="data.nid" [title]="data.title"></favourites>
-   <share [title]="data.entityLabel"></share>
+            <share [title]="data.entityLabel"></share>
             <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
 
           </div>
@@ -29,7 +29,7 @@
           <div class="mininav col-12 flex text-right">
             <favourites [id]="data.nid" [title]="data.entityLabel"></favourites>
             <share [title]="data.entityLabel"></share>
-                        <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
+            <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
           </div>
         </div>
 
@@ -158,7 +158,7 @@
 
       <ng-container *ngFor="let item of data.fieldEducationalInstitution.entity.fieldSchoolLocation; let i = index">
         <div class="block padding-block border-orange mob-bottom" *ngIf="item.entity.fieldLocationType == 'L'">
-          
+
           <map-wrapper tabindex="-1" [latitude]="parseFloat(item.entity.fieldCoordinates.lat)" [longitude]="parseFloat(item.entity.fieldCoordinates.lon)" zoom="11"></map-wrapper>
 
           <h2>Juriidiline aadress</h2>
