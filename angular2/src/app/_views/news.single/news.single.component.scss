@@ -73,9 +73,5 @@
   }
   ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: underline;}
 
-    @include break-on(sm, max) {
-    .flex.mininav { width: 100%!important;
-    }
-  }
 
 
