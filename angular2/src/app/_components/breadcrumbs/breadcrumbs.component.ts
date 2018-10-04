@@ -34,9 +34,9 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
       variables: {
         path: this.path,
         lang: this.lang.toUpperCase(),
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all',
       },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all'
     })
     .valueChanges
     .subscribe(({data}) => {
