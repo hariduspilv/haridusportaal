@@ -52,7 +52,12 @@ body{height: calc(100% - 4rem);}
 /* Grid definition */
 
 .grid{margin:0 -$gutter;}
-.row{display: flex; width: auto;}
+.row{display: flex; width: auto;
+  &.wrapper__row{
+    @include break-on(sm, min) {padding: $gutter $medium $medium $medium;}
+    @include break-on(lg, min) {padding-left: 0;padding-right: 0;}
+  }
+}
 .row .col{flex-grow: 1; padding:$gutter;}
 .row .col .mat-card{width:100%; box-sizing: border-box; margin:0; float:none; max-width: 9999px;}
 .row .align-end {align-self: flex-end;}

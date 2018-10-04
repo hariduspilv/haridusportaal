@@ -195,38 +195,49 @@
                     type="text" 
                     aria-label="address" 
                     [(ngModel)]="data_elements[element].value"
-                    (ngModelChange)="addressAutocomplete(data_elements[element].value)"
+                    (ngModelChange)="addressAutocomplete(data_elements[element].value, 300, element)"
+                    (blur)="addressAutocompleteSelectionValidation(element)"
                     [name]="element" 
-                    [matAutocomplete]="auto">
+                    [matAutocomplete]="autoAddress">
                   </div>
                 </div>
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let address of autoCompleteContainer" [value]="address.pikkaadress">
-                    <span>{{ address.pikkaadress }}</span>
-                  </mat-option>
+                <mat-autocomplete 
+                  #autoAddress="matAutocomplete"
+                 [(ngModel)]="data_elements[element].value">
+                  <ng-container *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
+                    <mat-option *ngIf="!autoCompleteContainer[element].length" [value]="" disabled="true">
+                      <span>Otsingutulemusi ei leitud</span>
+                    </mat-option>
+                    <ng-container *ngIf="autoCompleteContainer[element].length">
+                      <mat-option  *ngFor="let address of autoCompleteContainer[element]" [value]="address.pikkaadress">
+                        <span>{{ address.pikkaadress }}</span>
+                      </mat-option>
+                    </ng-container>
+                  </ng-container>
                 </mat-autocomplete>
 
               </ng-container> <!-- /ADDRESS -->
 
               <ng-container *ngIf="data_elements[element].type == 'date'">
+                <div class="xjson__heading" *ngIf="data_elements[element].title">
+                  {{ selectLanguage(data_elements[element].title) }}
+                </div>
                 <ng-container *ngIf="data_elements[element].helpertext">
                   {{ selectLanguage(data_elements[element].helpertext) }}
                 </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
 
                 <div class="flexbox">
-                  <input matInput class="inner-flexbox step-datepicker"
-                  autocomplete="off"
+                  <input class="inner-flexbox step-datepicker"
+                  matInput
+                  [matDatepicker]="picker"
                   [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                  [matDatepicker]="picker" 
                   placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
-                  [(ngModel)]="data_elements[element].value"
                   [value]="getDatepickerValue(element, element)"
                   (dateInput)="setDatepickerValue($event, element)"
                   (dateChange)="setDatepickerValue($event, element)"
                   (focus)="datepickerFocus = true"
-                  (blur)="datepickerFocus = false"
-                  dateFormatter
-                  [name]="element">
+                  (blur)="datepickerFocus = false; setDatepickerValue($event, element)"
+                  name="{{element}}">
                   <mat-datepicker-toggle class="round-input__clear"  matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker
                   [disabled]="isFieldDisabled(data_elements[element].readonly)"></mat-datepicker>
@@ -263,13 +274,17 @@
 </div>
 
                 <div class="dropzone" (drop)="fileEventHandler($event, element)" (dragover)="$event.preventDefault()">
-                 
-                  <input type="file"
-                  [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
-                  (change)="fileEventHandler($event, element)" 
-                  placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
-                  [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
-                  [attr.multiple]="data_elements[element].multiple ? '' : null"/>
+                  <a href="javascript:void(0)" style="position:relative;">
+                    <input type="file"
+                    style="opacity: 0; position:absolute; left:0; top:0;"
+                    id="file"
+                    [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
+                    (change)="fileEventHandler($event, element)" 
+                    placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
+                    [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
+                    [attr.multiple]="data_elements[element].multiple ? '' : null"/>
+
+                  Lae üles</a>
                 </div>
 
               </ng-container> <!-- /FILE -->
@@ -341,13 +356,15 @@
                         </ng-container> <!-- /NUMBER -->
 
                         <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
-                         
+                          
                           <input matInput
                           [matDatepicker]="picker"
                           [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                           placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
                           [value]="getDatepickerValue(element, rowIndex, col)"
                           (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
+                          (focus)="datepickerFocus = true;"
+                          (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
                           name="{{element +_+ rowIndex + '_' + colIndex}}">
                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker

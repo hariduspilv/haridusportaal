@@ -14,16 +14,17 @@ import {Observable} from "rxjs/Rx";
 
 import * as _moment from 'moment';
 const moment = _moment;
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
-    dateInput: 'YYYY-MM-DD',
+    dateInput: 'DD.MM.YYYY',
   },
   display: {
-    dateInput: 'DD-MM-YYYY',
+    dateInput: 'DD.MM.YYYY',
     monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
+    dateA11yLabel: 'DD.MM.YYYY',
     monthYearA11yLabel: 'MMMM YYYY',
   }
 };
@@ -31,7 +32,7 @@ const XJSON_DATEPICKER_FORMAT = {
   templateUrl: './xjson.template.html',
   styleUrls: ['./xjson.styles.scss'],
   providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: DateAdapter, useClass: MomentDateAdapter},
     {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
   ]
 })
@@ -39,7 +40,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
-  autocompleteDebouncer;
+  
 
   public objectKeys = Object.keys;
   public test: boolean;
@@ -47,7 +48,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public form_name: string;
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
-  public datepickerFocus: boolean;
+  public datepickerFocus: boolean = false;
 
   public data;
   public opened_step;
@@ -57,8 +58,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public navigationLinks;
   public activityButtons;
   public error = {};
-  public autoCompleteContainer = [];
-  
+
+  public autoCompleteContainer = {};
+  public autocompleteDebouncer;
+  public autocompleteSubscription: Subscription;
+  public autocompleteLoader: boolean = true;
+
   constructor(
     private translate: TranslateService,
     public dialog: MatDialog,
@@ -100,13 +105,26 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
  
   setDatepickerValue(event, element, rowindex, col){
-    console.log(this.datepickerFocus);
+    
     if(this.datepickerFocus === false){
-      console.log('changing value');
-      if(rowindex == undefined|| col == undefined){
-        this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+      
+      if(rowindex == undefined || col == undefined){
+        if(event instanceof FocusEvent){
+          let string = JSON.parse(JSON.stringify(event.target['value']))
+          let date = moment(string).format('DD.MM.YYYY')
+          this.data_elements[element].value = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
+        } else {
+          this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+        }       
       } else {
-        this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+        if(event instanceof FocusEvent){
+          let string = JSON.parse(JSON.stringify(event.target['value']))
+          let date = moment(string).format('DD.MM.YYYY')
+          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
+        } else {
+          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+        } 
+        
       }
     }
   }
@@ -500,12 +518,28 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
    
   }
-
-  addressAutocomplete(searchText: string, debounceTime: number = 300) {
+  
+  addressAutocompleteSelectionValidation(element){
+    console.log(this.autoCompleteContainer[element]);
+    let condition = this.autoCompleteContainer[element].some(address => {
+      return address.pikkaadress === this.data_elements[element].value
+    })
+    console.log(condition);
+    if(!condition) this.data_elements[element].value = "";
     
-    clearTimeout(this.autocompleteDebouncer)
-    this.autoCompleteContainer = [];
+  }
+  addressAutocomplete(searchText: string, debounceTime: number = 300, element) {
+   
+    if(searchText.length < 3) return;
+
+    this.autocompleteLoader = true;
+
+    if(this.autocompleteDebouncer) clearTimeout(this.autocompleteDebouncer)
+    
+    if(this.autocompleteSubscription) this.autocompleteSubscription.unsubscribe();
+  
     let _this = this;
+
     this.autocompleteDebouncer = setTimeout(function(){
 
       let jsonp = _this._jsonp.get('http://inaadress.maaamet.ee/inaadress/gazetteer?address=' + searchText + '&callback=JSONP_CALLBACK')
@@ -513,10 +547,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
         return res.json() || {};
       }).catch(function(error: any){return Observable.throw(error)});
     
-      let sub = jsonp.subscribe(data => {
-        _this.autoCompleteContainer = data['addresses'];
-        sub.unsubscribe();
-      })
+      _this.autocompleteSubscription = jsonp.subscribe(data => {
+        if(data['error']) console.log('Something went wrong with In-ADS request')
+
+        _this.autocompleteLoader = false;
+        _this.autoCompleteContainer[element] = data['addresses'] || [];
+        _this.autocompleteSubscription.unsubscribe();
+        console.log( _this.autoCompleteContainer[element]);
+      })  
 
     }, debounceTime)
 
