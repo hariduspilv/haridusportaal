@@ -4,21 +4,15 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_field_page.body
-    - field.field.node.oska_field_page.field_attachment_file
     - field.field.node.oska_field_page.field_introduction
     - field.field.node.oska_field_page.field_oska_field_accordion
+    - field.field.node.oska_field_page.field_oska_field_picture
     - field.field.node.oska_field_page.field_oska_graph
-    - field.field.node.oska_field_page.field_picture
-    - field.field.node.oska_field_page.field_video
-    - field.field.node.oska_field_page.field_web_page_address
     - image.style.thumbnail
     - node.type.oska_field_page
   module:
-    - file
     - htm_custom_oska
-    - htm_custom_video_field
     - image
-    - link
     - paragraphs
     - path
     - scheduler
@@ -43,13 +37,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_attachment_file:
-    weight: 125
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: file_generic
-    region: content
   field_introduction:
     weight: 122
     settings:
@@ -70,35 +57,19 @@ content:
       default_paragraph_type: ''
     third_party_settings: {  }
     region: content
-  field_oska_graph:
-    weight: 129
-    settings: {  }
-    third_party_settings: {  }
-    type: oska_graph_widget_type
-    region: content
-  field_picture:
-    weight: 126
+  field_oska_field_picture:
+    weight: 130
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
     region: content
-  field_video:
-    weight: 123
-    settings:
-      size: 60
-      placeholder: ''
+  field_oska_graph:
+    weight: 129
+    settings: {  }
     third_party_settings: {  }
-    type: custom_video_widget_type
-    region: content
-  field_web_page_address:
-    weight: 124
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-    type: link_default
+    type: oska_graph_widget_type
     region: content
   langcode:
     type: language_select
