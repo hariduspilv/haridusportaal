@@ -52,7 +52,12 @@ body{height: calc(100% - 4rem);}
 /* Grid definition */
 
 .grid{margin:0 -$gutter;}
-.row{display: flex; width: auto;}
+.row{display: flex; width: auto;
+  &.wrapper__row{
+    @include break-on(sm, min) {padding: $gutter $medium $medium $medium;}
+    @include break-on(lg, min) {padding-left: 0;padding-right: 0;}
+  }
+}
 .row .col{flex-grow: 1; padding:$gutter;}
 .row .col .mat-card{width:100%; box-sizing: border-box; margin:0; float:none; max-width: 9999px;}
 .row .align-end {align-self: flex-end;}
@@ -154,24 +159,15 @@ $grid-columns: 12;
   }
 }
 
-share { margin-left: 0px!important; margin-right: 0px!important }
-.flex.mininav { text-align: inherit!important; justify-content: flex-end; padding-right: 1rem;
-  favourites { margin-right: 0rem; margin-top: -0.125rem; }
-}
+.flex.mininav { text-align: inherit!important; padding-right: 1rem; margin: 0 0 0 -.5rem; height: 47px;
+  favourites { padding-right: 1rem; margin-top: 0rem; padding-left: 0.5rem;
+      @include break-on(sm, max) { padding-left: 0.5rem; } 
+  }
 
-@include break-on(md, max) {
-  .flex.mininav { flex-direction: row; justify-content: flex-end; height: 47px;
-    share { margin-left: inherit!important; }
+  share { margin-left: -1.5rem!important; margin-right: 0px!important;
+      @include break-on(sm, max) { margin-left: -0.5rem!important; } 
   }
 }
-
-@include break-on(sm, max) {
-  .flex.mininav { justify-content: inherit; margin: 0 0 0 -.5rem;
-  }
-  favourites { margin-right: 1rem!important; margin-left: 0.5rem; }
-}
-
-
 
 .grow {flex-grow: 1;}
 .wrap {@include break-on(sm, max) {flex-wrap: wrap;}
@@ -372,7 +368,7 @@ share { margin-left: 0px!important; margin-right: 0px!important }
   .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
   .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
   .mat-sidenav .mat-menu-item span.htm-icon{ font-size: 1.5rem!important; }
-  .mat-sidenav .active { font-weight: normal!important; }
+  .mat-sidenav .isActive { font-weight: 500!important; }
   .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
     &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
     &:hover {background-color: #454B92;}
