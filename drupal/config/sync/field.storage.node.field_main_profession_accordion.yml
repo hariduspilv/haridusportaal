@@ -1,4 +1,4 @@
-uuid: 13761953-7361-4151-a817-6a350ef2f580
+uuid: 78ff0a3d-8469-4ec4-9c92-4e9b9a350cee
 langcode: et
 status: true
 dependencies:
@@ -6,8 +6,8 @@ dependencies:
     - entity_reference_revisions
     - node
     - paragraphs
-id: node.field_accordion
-field_name: field_accordion
+id: node.field_main_profession_accordion
+field_name: field_main_profession_accordion
 entity_type: node
 type: entity_reference_revisions
 settings:
