@@ -140,16 +140,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return a && b ? a == b : a == b;
   }
   isFieldDisabled(readonly): boolean{
-    
     if(readonly === true) {
-      
       return true;
+
     } else if (this.max_step != this.opened_step){
-      
       return true;
+
     } else if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
-      
       return false;
+
     } else {
       return true;
     }
@@ -222,7 +221,24 @@ export class XjsonComponent implements OnInit, OnDestroy {
   tableColumnAttribute(element, index, attribute){
     return this.data_elements[element].table_columns[ this.tableColumnName(element, index) ][attribute]
   }
-  
+  tableAddRow(element): void{
+    const defaultValueWouldBeAnArray = ['selectlist']
+    let table = this.data_elements[element];
+    let newRow = {};
+    for(let col in table.table_columns){
+      let column = table.table_columns[col];
+     if(column.default_value != undefined) {
+      newRow[col] = column.default_value;
+     } else {
+       if(defaultValueWouldBeAnArray.includes(column.type)){
+          newRow[col] = [];
+       } else {
+         newRow[col] = "";
+       }
+     }
+    }
+    table.value.push(newRow);
+  }
   promptEditConfirmation() {
 		 this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
 		  data: {
