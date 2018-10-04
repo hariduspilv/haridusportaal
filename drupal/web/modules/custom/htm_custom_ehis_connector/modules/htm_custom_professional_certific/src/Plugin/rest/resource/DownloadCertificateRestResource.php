@@ -99,8 +99,7 @@ class DownloadCertificateRestResource extends ResourceBase {
     }
 		$params['certificate_id'] = $certificate_id;
     $json = $this->certificate->getCertificate($params);
-    dump($json);
-    die();
+
     if($document = $json['value']['tunnistus']){
 			$sym_file = new Base64EncodedFile($document['value']);
 			$response = new BinaryFileResponse($sym_file->getRealPath());
