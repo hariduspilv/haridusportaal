@@ -140,16 +140,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return a && b ? a == b : a == b;
   }
   isFieldDisabled(readonly): boolean{
-    
     if(readonly === true) {
-      
       return true;
+
     } else if (this.max_step != this.opened_step){
-      
       return true;
+
     } else if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
-      
       return false;
+
     } else {
       return true;
     }
@@ -222,7 +221,36 @@ export class XjsonComponent implements OnInit, OnDestroy {
   tableColumnAttribute(element, index, attribute){
     return this.data_elements[element].table_columns[ this.tableColumnName(element, index) ][attribute]
   }
+  tableAddRow(element): void{
+    let table = this.data_elements[element];
+    let newRow = {};
+
+    for(let col in table.table_columns){
+      let column = table.table_columns[col];
+      if(column.default_value != undefined) {
+        newRow[col] = column.default_value;
+      } else {
+        newRow[col] = null;
+      }
+    }
+    table.value.push(newRow);
+  }
   
+  tableDeleteRow(element, rowIndex) {
+    this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
+     data: {
+       content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
+       confirm: this.translate.get('button.yes')['value'],
+       cancel: this.translate.get('button.cancel')['value'],
+     }
+   });
+   this.dialogRef.afterClosed().subscribe(result => {
+     if(result === true) {
+      this.data_elements[element].value.splice(rowIndex, 1);
+     }
+     this.dialogRef = null;
+   });
+ }
   promptEditConfirmation() {
 		 this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
 		  data: {
@@ -241,7 +269,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
       this.dialogRef = null;
     });
-
   }
   isItemExisting(list, target): boolean{
     return list.some(item => item == target);

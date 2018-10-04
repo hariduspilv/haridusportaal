@@ -110,7 +110,8 @@
     "maht": "Maht ENG"
   },
   "xjson":{
-    "edit_step_confirm_modal_content": "Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?"
+    "edit_step_confirm_modal_content": "Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?",
+    "table_delete_row_confirm_modal_content": "Are you sure you want to delete this row?"
   },
   "article": {
     "label": "Article",
