@@ -446,6 +446,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         if(this.params['dateTo'] && moment(this.params['dateTo'], 'DD-MM-YYYY').isValid()){
           this.eventsConfig.dateTo = moment(this.params['dateTo'], 'DD-MM-YYYY').format('YYYY-MM-DD').toString();
         }
+
+        if( this.view == "calendar" ){
+          this.eventsConfig.dateFrom = moment("01-"+this.month+"-"+this.year, 'DD-MM-YYYY').startOf("month").format('YYYY-MM-DD').toString();
+          this.eventsConfig.dateTo = moment("01-"+this.month+"-"+this.year, 'DD-MM-YYYY').endOf("month").format('YYYY-MM-DD').toString();
+          this.eventsConfig.limit = 999;
+          this.eventsConfig.offset = 0;
+        }
+        
         /*
         if( this.view == "list" ){
 
