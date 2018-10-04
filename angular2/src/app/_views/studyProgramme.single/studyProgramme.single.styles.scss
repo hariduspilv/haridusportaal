@@ -72,6 +72,7 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   @include break-on(sm, max) {.block {margin-bottom: 0;}}
 
   .flex.mininav {
+        flex-wrap: wrap;
     favourites { padding-right: 0px; 
       @include break-on(sm, max) {
         padding-right: 
@@ -85,5 +86,11 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
       }
     }
   }
+
+.mininav .important-pill{
+  height: 1.125rem;
+  top: 0;
+  margin-left: 1rem;
+}
 
 

@@ -22,7 +22,7 @@ body [class^='mat-'], body [class*=' mat-'] {font-family: 'Rubik', sans-serif; }
 body .htm-icon {font-family: 'htm-icon';font-size: $medium;}
 
 h1{ font-size:2rem; line-height:120%; }
-a h1 { text-decoration: none; }
+a h1 { text-decoration: none; display: inline-block; }
 a:hover h1 { text-decoration: underline; }
 a:visited, a:visited h1 { color: $visited; }
 strong, b { font-weight: 500; }
@@ -159,13 +159,13 @@ $grid-columns: 12;
   }
 }
 
-.flex.mininav { text-align: inherit!important; padding-right: 1rem; margin: 0 0 0 -.5rem; height: 47px;
+.flex.mininav { text-align: inherit!important; padding-right: 1rem; margin: 0 0 0 -.5rem; min-height: 2.9375rem;
   favourites { padding-right: 1rem; margin-top: 0rem; padding-left: 0.5rem;
-      @include break-on(sm, max) { padding-left: 0.5rem; } 
+    @include break-on(sm, max) { padding-left: 0.5rem; } 
   }
 
   share { margin-left: -1.5rem!important; margin-right: 0px!important;
-      @include break-on(sm, max) { margin-left: -0.5rem!important; } 
+    @include break-on(sm, max) { margin-left: -0.5rem!important; } 
   }
 }
 
@@ -592,8 +592,8 @@ $grid-columns: 12;
 
 .mat-checkbox {
   .mat-checkbox-inner-container {
-  margin: 0px 8px auto 0;
-}
+    margin: 0px 8px auto 0;
+  }
   .mat-checkbox-layout {
     white-space: inherit; display: inline-flex;
     .mat-checkbox-label {
@@ -610,3 +610,45 @@ $grid-columns: 12;
 .mat-datepicker-toggle .mat-icon-button .mat-button-wrapper>* {
   fill: $red!important;
 }
+
+
+a:hover .important-pill {
+  text-decoration: none!important;
+}
+
+.important-pill { 
+  font-size: 0.875rem;
+  line-height: 1.29;
+  color: $black;
+  border-radius: 0.78125rem;
+  background-color: $light-orange;
+  padding: 0.25rem 0.75rem 0.25rem;
+  font-weight: normal;
+  margin-left: 1rem;
+  pointer-events: none;
+  text-decoration: none;
+  display: inline-block;
+  top: -0.25rem;
+  position: relative;
+}
+
+.mininav .important-pill{
+  height: 1.125rem;
+  top: 0;
+  margin-left: 2rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
