@@ -82,14 +82,13 @@
                       {{ selectLanguage(data_elements[element].helpertext) }}
                     </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
 
-                    <mat-select placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                    <mat-select 
+                    placeholder="{{data_elements[element].empty_option ? selectLanguage(data_elements[element].empty_option) : ''}}"
                     [(ngModel)]='data_elements[element].value'
                     [disabled]="isFieldDisabled(data_elements[element].readonly)"
                     [name]="element"
                     [multiple]="data_elements[element].multiple">
                     <ng-container *ngIf="!data_elements[element].multiple">
-                      <mat-option *ngIf="!data_elements[element].multiple">-- None --</mat-option>
-
                       <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
                         <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
                           {{ selectLanguage(data_elements[element].options[option]) }}
@@ -324,6 +323,9 @@
                       </ng-container>
                       
                     </ng-container>
+                    <th *ngIf="data_elements[element].add_del_rows">
+                        extra tulp kustutamiseks...
+                    </th>
                   </tr>
                   <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
                     <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
@@ -389,7 +391,7 @@
                           [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                           [(ngModel)]="row[col]"
                           name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                          placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title')) }}">
+                          placeholder="{{tableColumnAttribute(element, colIndex, 'empty_option') ? selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}">
                             <mat-option *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
                             [value]="option">
                             {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
@@ -406,10 +408,22 @@
                         </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
                       </td>
                     </ng-container> <!-- END OF *NGFOR COLUMNS-->
+                    <td *ngIf="data_elements[element].add_del_rows">
+                      <a href="javascript:void(0);" (click)="tableDeleteRow(element, rowIndex)">Kustuta rida</a>
+                    </td>
+
                   </tr>  <!-- END OF *NGFOR COLUMNS-->
+
+                  <tr *ngIf="data_elements[element].add_del_rows">
+                    <td [attr.colspan]="objectKeys(data_elements[element].table_columns).length">
+                      <a href="javascript:void(0);" (click)="tableAddRow(element)">+ LISA RIDA</a>
+                    </td>
+                  </tr> <!-- ADD_DEL_ROWS -->
+
                 </table>
               </div>
             </div>
+            
           </ng-container> <!-- /TABLE -->
 
           <ng-container *ngIf="error[element] && error[element].row == undefined">
