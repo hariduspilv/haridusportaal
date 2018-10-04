@@ -1,18 +1,18 @@
-uuid: 4c11a309-64fa-42df-b341-527889d446f6
+uuid: 772d4415-8449-486c-aa19-1a0f5c4e654f
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_accordion
+    - field.storage.node.field_main_profession_accordion
     - node.type.oska_main_profession_page
     - paragraphs.paragraphs_type.main_profession_accordion
   module:
     - entity_reference_revisions
-id: node.oska_main_profession_page.field_accordion
-field_name: field_accordion
+id: node.oska_main_profession_page.field_main_profession_accordion
+field_name: field_main_profession_accordion
 entity_type: node
 bundle: oska_main_profession_page
-label: Accordion
+label: 'Main Profession Accordion'
 description: ''
 required: false
 translatable: false
@@ -25,30 +25,30 @@ settings:
     target_bundles:
       main_profession_accordion: main_profession_accordion
     target_bundles_drag_drop:
-      main_profession_accordion:
-        enabled: true
-        weight: 12
       accordion:
-        weight: 13
+        weight: 12
         enabled: false
       additional_section:
-        weight: 14
+        weight: 13
         enabled: false
       contact_section:
-        weight: 15
+        weight: 14
         enabled: false
       event_date:
-        weight: 16
+        weight: 15
         enabled: false
       favorite_item:
-        weight: 17
+        weight: 16
         enabled: false
       homepage_topics:
-        weight: 18
+        weight: 17
         enabled: false
       link:
-        weight: 19
+        weight: 18
         enabled: false
+      main_profession_accordion:
+        enabled: true
+        weight: 19
       registration_period:
         weight: 20
         enabled: false

@@ -5,11 +5,9 @@ dependencies:
   config:
     - field.field.paragraph.main_profession_accordion.field_body
     - field.field.paragraph.main_profession_accordion.field_links
-    - field.field.paragraph.main_profession_accordion.field_oska_graph
     - field.field.paragraph.main_profession_accordion.field_title
     - paragraphs.paragraphs_type.main_profession_accordion
   module:
-    - htm_custom_oska
     - link
     - maxlength
     - text
@@ -33,12 +31,6 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
-    region: content
-  field_oska_graph:
-    weight: 3
-    settings: {  }
-    third_party_settings: {  }
-    type: oska_graph_widget_type
     region: content
   field_title:
     weight: 0
