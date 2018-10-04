@@ -1,20 +1,20 @@
-uuid: a1f3729c-60e8-4332-8d5a-66d685af0d03
+uuid: ecc0d023-9b83-4558-9bcd-7b0eb45d09c8
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_video
+    - field.storage.node.field_oska_main_profession_video
     - node.type.oska_main_profession_page
   module:
     - htm_custom_video_field
-id: node.oska_main_profession_page.field_video
-field_name: field_video
+id: node.oska_main_profession_page.field_oska_main_profession_video
+field_name: field_oska_main_profession_video
 entity_type: node
 bundle: oska_main_profession_page
-label: Video
+label: 'Oska main profession video'
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }

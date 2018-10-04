@@ -1,17 +1,17 @@
-uuid: 08488703-68df-4bb1-8824-5481a0a22323
-langcode: et
+uuid: cf69b52f-84f7-4f09-8fbd-383776da11f0
+langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_attachment_file
+    - field.storage.node.field_oska_attachment_file
     - node.type.oska_field_page
   module:
     - file
-id: node.oska_field_page.field_attachment_file
-field_name: field_attachment_file
+id: node.oska_field_page.field_oska_attachment_file
+field_name: field_oska_attachment_file
 entity_type: node
 bundle: oska_field_page
-label: 'Lisa failimanus'
+label: 'Oska attachment file'
 description: ''
 required: false
 translatable: true

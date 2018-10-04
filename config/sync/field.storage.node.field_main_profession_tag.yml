@@ -1,12 +1,12 @@
-uuid: 20921133-d6c0-4a74-b33f-80cbe0ae43c0
+uuid: 07ebbe1c-c730-479e-b833-47453daf8545
 langcode: et
 status: true
 dependencies:
   module:
     - node
     - taxonomy
-id: node.field_oska_main_profession_tags
-field_name: field_oska_main_profession_tags
+id: node.field_main_profession_tag
+field_name: field_main_profession_tag
 entity_type: node
 type: entity_reference
 settings:

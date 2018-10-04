@@ -1,17 +1,17 @@
-uuid: 8627b333-1cb0-43c9-a7ef-81d6da44e279
-langcode: et
+uuid: 332cd2b5-ae74-4561-8acf-a2dbd54e8215
+langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_web_page_address
+    - field.storage.node.field_oska_web_page
     - node.type.oska_field_page
   module:
     - link
-id: node.oska_field_page.field_web_page_address
-field_name: field_web_page_address
+id: node.oska_field_page.field_oska_web_page
+field_name: field_oska_web_page
 entity_type: node
 bundle: oska_field_page
-label: Lingid
+label: 'Oska web page'
 description: ''
 required: false
 translatable: true
