@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewChecked, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { Subscription } from '../../../../node_modules/rxjs';
 import { HttpService } from '@app/_services/httpService';
+import { Jsonp } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -8,19 +9,22 @@ import { TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 import { TableService } from '@app/_services/tableService';
 import { SettingsService } from '@app/_core/settings'
+import 'rxjs/add/operator/map';
+import {Observable} from "rxjs/Rx";
 
 import * as _moment from 'moment';
 const moment = _moment;
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
-    dateInput: 'YYYY-MM-DD',
+    dateInput: 'DD.MM.YYYY',
   },
   display: {
-    dateInput: 'DD-MM-YYYY',
+    dateInput: 'DD.MM.YYYY',
     monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
+    dateA11yLabel: 'DD.MM.YYYY',
     monthYearA11yLabel: 'MMMM YYYY',
   }
 };
@@ -28,14 +32,15 @@ const XJSON_DATEPICKER_FORMAT = {
   templateUrl: './xjson.template.html',
   styleUrls: ['./xjson.styles.scss'],
   providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: DateAdapter, useClass: MomentDateAdapter},
     {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
   ]
 })
-export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class XjsonComponent implements OnInit, OnDestroy {
 
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
+  
 
   public objectKeys = Object.keys;
   public test: boolean;
@@ -43,7 +48,7 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
   public form_name: string;
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
-  public datepickerFocus: boolean;
+  public datepickerFocus: boolean = false;
 
   public data;
   public opened_step;
@@ -54,11 +59,17 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
   public activityButtons;
   public error = {};
 
+  public autoCompleteContainer = {};
+  public autocompleteDebouncer;
+  public autocompleteSubscription: Subscription;
+  public autocompleteLoader: boolean = true;
+
   constructor(
     private translate: TranslateService,
     public dialog: MatDialog,
     private rootScope: RootScopeService,
     private http: HttpService,
+    private _jsonp: Jsonp,
     private route: ActivatedRoute,
     private router: Router,
     private tableService: TableService,
@@ -92,12 +103,28 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
+ 
   setDatepickerValue(event, element, rowindex, col){
+    
     if(this.datepickerFocus === false){
-      if(rowindex == undefined|| col == undefined){
-        this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+      
+      if(rowindex == undefined || col == undefined){
+        if(event instanceof FocusEvent){
+          let string = JSON.parse(JSON.stringify(event.target['value']))
+          let date = moment(string).format('DD.MM.YYYY')
+          this.data_elements[element].value = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
+        } else {
+          this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+        }       
       } else {
-        this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+        if(event instanceof FocusEvent){
+          let string = JSON.parse(JSON.stringify(event.target['value']))
+          let date = moment(string).format('DD.MM.YYYY')
+          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
+        } else {
+          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+        } 
+        
       }
     }
   }
@@ -113,16 +140,15 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
     return a && b ? a == b : a == b;
   }
   isFieldDisabled(readonly): boolean{
-    
     if(readonly === true) {
-      
       return true;
+
     } else if (this.max_step != this.opened_step){
-      
       return true;
+
     } else if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
-      
       return false;
+
     } else {
       return true;
     }
@@ -195,7 +221,36 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
   tableColumnAttribute(element, index, attribute){
     return this.data_elements[element].table_columns[ this.tableColumnName(element, index) ][attribute]
   }
+  tableAddRow(element): void{
+    let table = this.data_elements[element];
+    let newRow = {};
+
+    for(let col in table.table_columns){
+      let column = table.table_columns[col];
+      if(column.default_value != undefined) {
+        newRow[col] = column.default_value;
+      } else {
+        newRow[col] = null;
+      }
+    }
+    table.value.push(newRow);
+  }
   
+  tableDeleteRow(element, rowIndex) {
+    this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
+     data: {
+       content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
+       confirm: this.translate.get('button.yes')['value'],
+       cancel: this.translate.get('button.cancel')['value'],
+     }
+   });
+   this.dialogRef.afterClosed().subscribe(result => {
+     if(result === true) {
+      this.data_elements[element].value.splice(rowIndex, 1);
+     }
+     this.dialogRef = null;
+   });
+ }
   promptEditConfirmation() {
 		 this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
 		  data: {
@@ -214,7 +269,6 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       this.dialogRef = null;
     });
-
   }
   isItemExisting(list, target): boolean{
     return list.some(item => item == target);
@@ -485,49 +539,92 @@ export class XjsonComponent implements OnInit, OnDestroy, AfterViewChecked {
       else this.getData(payload)
      
     } else {
-      
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
       this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity)
-     
+      this.scrollPositionController();
     }
    
   }
-  scrollPositionController(){
+  
+  addressAutocompleteSelectionValidation(element){
+    console.log(this.autoCompleteContainer[element]);
+    let condition = this.autoCompleteContainer[element].some(address => {
+      return address.pikkaadress === this.data_elements[element].value
+    })
+    console.log(condition);
+    if(!condition) this.data_elements[element].value = "";
+    
+  }
+  addressAutocomplete(searchText: string, debounceTime: number = 300, element) {
    
-    if(this.opened_step){
-     
-      try { 
-        document.querySelector('#' + this.opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-      } catch (e) {
-        document.querySelector('#' + this.opened_step).scrollIntoView();
-      }
+    if(searchText.length < 3) return;
 
-      if(window.pageYOffset > 0){
-       
+    this.autocompleteLoader = true;
+
+    if(this.autocompleteDebouncer) clearTimeout(this.autocompleteDebouncer)
+    
+    if(this.autocompleteSubscription) this.autocompleteSubscription.unsubscribe();
+  
+    let _this = this;
+
+    this.autocompleteDebouncer = setTimeout(function(){
+
+      let jsonp = _this._jsonp.get('http://inaadress.maaamet.ee/inaadress/gazetteer?address=' + searchText + '&callback=JSONP_CALLBACK')
+      .map(function(res){
+        return res.json() || {};
+      }).catch(function(error: any){return Observable.throw(error)});
+    
+      _this.autocompleteSubscription = jsonp.subscribe(data => {
+        if(data['error']) console.log('Something went wrong with In-ADS request')
+
+        _this.autocompleteLoader = false;
+        _this.autoCompleteContainer[element] = data['addresses'] || [];
+        _this.autocompleteSubscription.unsubscribe();
+        console.log( _this.autoCompleteContainer[element]);
+      })  
+
+    }, debounceTime)
+
+  }
+  
+  scrollPositionController(){
+    let _opened_step = this.opened_step;
+    setTimeout(function(){
+      if(_opened_step){
         try { 
-          window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
+          document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
         } catch (e) {
-          window.scrollTo(0, 0);
+          document.querySelector('#' + _opened_step).scrollIntoView();
         }
-        try { 
-          document.querySelector('#' + this.opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-        } catch (e) {
-          document.querySelector('#' + this.opened_step).scrollIntoView();
+  
+        if(window.pageYOffset > 0){
+         
+          try { 
+            window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
+          } catch (e) {
+            window.scrollTo(0, 0);
+          }
+          try { 
+            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+          } catch (e) {
+            document.querySelector('#' + _opened_step).scrollIntoView();
+          }
+          
         }
-        
       }
-    }
+    }, 0)
   }
-  ngAfterViewChecked() {
-    this.scrollPositionController();
-  }
+  
 
   ngOnInit(){
     this.pathWatcher();
- 
     let payload = {form_name: this.form_name}
-    if(this.test === true) this.promptDebugDialog(payload)
-    else this.getData(payload);
+
+    if(this.test === true) {
+      this.promptDebugDialog(payload)
+    } else {
+      this.getData(payload);
+    }
   };
 
   ngOnDestroy(){

@@ -19,7 +19,8 @@ export class NotFoundComponent {
   }
 
   constructor(private translate: TranslateService, private rootScope: RootScopeService, private sidemenu: SideMenuService, private router: Router) {
-    let langString = this.router.url && this.router.url.split('/').length > 1 && this.router.url.split('/')[1] ? this.router.url.split('/')[1] : 'et'
+    let langString = this.router.url && this.router.url.split('/').length > 1 && this.router.url.split('/')[1] ? this.router.url.split('/')[1] : 'et';
+    langString = langString === 'et' || langString === 'en' ? langString : 'et';
     this.rootScope.set('currentLang', langString);
   }
   

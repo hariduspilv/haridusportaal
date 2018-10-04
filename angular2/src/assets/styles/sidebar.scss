@@ -22,7 +22,7 @@
      border-left: .3125rem solid $dark-orange;
     transition: border-left .3s cubic-bezier(.55,0,.55,.2); 
 }
-  .active {
+  .isActive {
     font-weight: 500 !important;
     border-left: .3125rem solid $dark-orange;
     transition: border-left .3s cubic-bezier(.55,0,.55,.2);

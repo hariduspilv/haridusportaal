@@ -7,10 +7,10 @@
         <div class="events__title">{{ 'event.label' | translate | uppercase }}</div>
         <article>
           <div class="row title">
-            <div class="col-10 sm-12 flex">
+            <div class="col-12 flex">
               <h1 class="mt-0 mb-0">{{ content.entity.entityLabel }}</h1>
             </div><!--/col-10-->
-            <div class="mininav col-2 flex text-right">
+            <div class="mininav col-12 flex text-right">
               <favourites [id]="content.entity.nid" [title]="content.entity.entityLabel"></favourites>
               <share [title]="content.entity.entityLabel"></share>
             </div><!--/col-10-->
@@ -18,12 +18,11 @@
       
           <div class="row">
             <div class="col-12">
-              <div class="short" *ngIf="content.entity.fieldDescription" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
+              <div class="short" *ngIf="content.entity.fieldDescriptionSummary" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
               <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openImage()">
                 <img class="pointer" tabindex="0" src="{{ content.entity.fieldPicture.derivative.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
                 <div class="image-alt-text" *ngIf="content.entity.fieldPicture.alt" aria-hidden="true">{{ content.entity.fieldPicture.alt }}</div>
-              </div>
-
+              </div><!--/article-image-->
               <div class="description" [innerHTML]="content.entity.fieldDescription.value" *ngIf="content.entity.fieldDescription"></div>
             </div>
           </div>

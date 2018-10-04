@@ -18,7 +18,8 @@ import {
   DashboardComponent,
   SchoolsFundingComponent,
   XjsonComponent,
-  SearchComponent
+  SearchComponent,
+  OskaAreasComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
@@ -69,7 +70,7 @@ const appRoutes: Routes = [
       { path: 'certificates', component: CertificatesComponent},
       { path: 'studies', component: StudiesComponent},
       { path: 'teachings', component: TeachingsComponent},
-      { path: '**', redirectTo: 'applications', pathMatch: 'full' }
+      { path: '**', redirectTo: ':lang/404', pathMatch: 'full' }
     ]},
   { path: ':lang/toolaud', component: DashboardComponent,
     children: [
@@ -77,9 +78,11 @@ const appRoutes: Routes = [
       { path: 'tunnistused', component: CertificatesComponent},
       { path: 'opingud', component: StudiesComponent},
       { path: 'opetan', component: TeachingsComponent},
-      { path: '**', redirectTo: 'taotlused', pathMatch: 'full' }
+      { path: '**', redirectTo: ':lang/404', pathMatch: 'full' }
     ]},
 
+  { path: ':lang/oska/areas/:id', component:OskaAreasComponent},
+  
   { path: ':lang/otsing', component: SearchComponent },
   { path: ':lang/search', component: SearchComponent },
 
@@ -112,6 +115,7 @@ export const routedComponents = [
   DashboardComponent,
   SchoolsFundingComponent,
   CertificatesComponent,
-  XjsonComponent
+  XjsonComponent,
+  OskaAreasComponent
 ];
 

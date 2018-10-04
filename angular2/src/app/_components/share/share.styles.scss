@@ -18,7 +18,7 @@
       &:hover {background-color: $white;}
     }
   }
-  &:hover, &:focus {background-color: $blue;transition: background-color 0.25s;  
+  &:focus {background-color: $blue;transition: background-color 0.25s;  
     .share__component {
       &__buttons {opacity: 1;}
       .htm-icon.primary {color: $white;}
