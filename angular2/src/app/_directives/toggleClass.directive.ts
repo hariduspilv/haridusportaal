@@ -24,7 +24,7 @@ export class ToggleClassDirective implements OnInit, OnChanges {
 
             this.renderer.removeClass(this.element.nativeElement, 'mat-menu-item-active-parent' );
             this.renderer.removeClass( this.element.nativeElement.parentElement, 'menu-open' );
-            if ( hostElem.innerHTML.match(/(?:class)=(?:["']([^'"]+))(mat-menu-item-active)(?:['"])/gi) ) {
+            if ( hostElem.innerHTML.match(/(class=")([^"]*mat-menu-item-active(?!-)[^"]*|[^"]*isActive[^"]*)(")/gi)) {
               this.renderer.addClass( this.element.nativeElement, 'mat-menu-item-active-parent' );
               this.renderer.addClass( this.element.nativeElement.parentElement, 'menu-open' );
             }
@@ -42,7 +42,7 @@ export class ToggleClassDirective implements OnInit, OnChanges {
 
         this.renderer.removeClass(this.element.nativeElement, 'mat-menu-item-active-parent' );
         this.renderer.removeClass( this.element.nativeElement.parentElement, 'menu-open' );
-        if ( hostElem.innerHTML.match(/(?:class)=(?:["']([^'"]+))(mat-menu-item-active)(?:['"])/gi) ) {
+        if ( hostElem.innerHTML.match(/(class=")([^"]*mat-menu-item-active(?!-)[^"]*|[^"]*isActive[^"]*)(")/gi)) {
           this.renderer.addClass( this.element.nativeElement, 'mat-menu-item-active-parent' );
           this.renderer.addClass( this.element.nativeElement.parentElement, 'menu-open' );
         }
@@ -79,12 +79,5 @@ export class ToggleClassDirective implements OnInit, OnChanges {
       }
 
     }
-    
-    //Removed logic from HostListener to avoid closing submenus while focus elsewhere (not on the menu)
-
-    // // Close on escape keypress
-    // @HostListener('document:keyup.escape', ['$event']) onKeydownHandler(evt: KeyboardEvent) {
-    //   this.renderer.removeClass(this.element.nativeElement.parentElement, this.className );
-    // }
 
 }

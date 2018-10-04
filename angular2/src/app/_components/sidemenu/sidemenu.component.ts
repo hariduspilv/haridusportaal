@@ -37,8 +37,14 @@ export class SideMenuComponent {
   }
 
   routeIncludes(path) {
-    const current = this.router.url;
-    return (path.match(/\//g) || []).length > 1 && current.includes(path) && current !== path;
+    let current = this.router.url;
+    current = current.includes('?') ? current.split('?')[0] : current;
+    if ((current.match(/\//g) || []).length >= 3) {
+      let childSplitVar = current.split('/').pop();
+      let childCurrent = current.split(`/${childSplitVar}`)[0];
+      return childCurrent === path;
+    }
+    return (path.match(/\//g) || []).length > 1 && current === path;
   }
 
 }
