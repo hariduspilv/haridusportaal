@@ -112,8 +112,3 @@ article {padding-bottom: $small;
  color: $black;
 }
 .mat-expansion-panel-content { background: $white; }
-
-@include break-on(sm, max) {
-  .flex.mininav { width: 100%!important;
-  }
-}
