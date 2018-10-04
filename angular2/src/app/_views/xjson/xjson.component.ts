@@ -14,16 +14,17 @@ import {Observable} from "rxjs/Rx";
 
 import * as _moment from 'moment';
 const moment = _moment;
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
-    dateInput: 'YYYY-MM-DD',
+    dateInput: 'DD.MM.YYYY',
   },
   display: {
-    dateInput: 'DD-MM-YYYY',
+    dateInput: 'DD.MM.YYYY',
     monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
+    dateA11yLabel: 'DD.MM.YYYY',
     monthYearA11yLabel: 'MMMM YYYY',
   }
 };
@@ -31,7 +32,7 @@ const XJSON_DATEPICKER_FORMAT = {
   templateUrl: './xjson.template.html',
   styleUrls: ['./xjson.styles.scss'],
   providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: DateAdapter, useClass: MomentDateAdapter},
     {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
   ]
 })
@@ -47,7 +48,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public form_name: string;
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
-  public datepickerFocus: boolean;
+  public datepickerFocus: boolean = false;
 
   public data;
   public opened_step;
@@ -104,13 +105,26 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
  
   setDatepickerValue(event, element, rowindex, col){
-    console.log(this.datepickerFocus);
+    
     if(this.datepickerFocus === false){
-      console.log('changing value');
-      if(rowindex == undefined|| col == undefined){
-        this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+      
+      if(rowindex == undefined || col == undefined){
+        if(event instanceof FocusEvent){
+          let string = JSON.parse(JSON.stringify(event.target['value']))
+          let date = moment(string).format('DD.MM.YYYY')
+          this.data_elements[element].value = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
+        } else {
+          this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+        }       
       } else {
-        this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+        if(event instanceof FocusEvent){
+          let string = JSON.parse(JSON.stringify(event.target['value']))
+          let date = moment(string).format('DD.MM.YYYY')
+          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
+        } else {
+          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
+        } 
+        
       }
     }
   }
