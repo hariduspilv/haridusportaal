@@ -62,8 +62,24 @@ class OskaGraphWidgetType extends WidgetBase {
                     'pie' => $this->t('pie'),
                     'doughnut' => $this->t('doughnut'),
                     'scatter' => $this->t('scatter')
-                ]
+                ],
+                '#empty_option'  => t('Select graph type'),
+                '#ajax' => [
+                    'callback' => [$this,'ajax_dependent_graph_type_options_callback'],
+                    'wrapper' => 'secondary_graph_type_options',
+                    'method' => 'replace',
+                ],
             ];
+
+                $element['secondary_graph_type'] = [
+                    '#prefix' => '<div id="secondary_graph_type_options">',
+                    '#suffix' => '</div>',
+                    '#title' => $this->t('Secondary graph type'),
+                    '#size' => 256,
+                    '#type' => 'select',
+                    '#default_value' => isset($data['secondary_graph_type']) ? $data['secondary_graph_type'] : NULL,
+                    '#empty_option'  => t('Select secondary graph type'),
+                ];
 
             foreach($fields as $key => $field){
                 if($field instanceof \Drupal\Core\Field\EntityReferenceFieldItemList){
@@ -106,6 +122,45 @@ class OskaGraphWidgetType extends WidgetBase {
 
         return $element;
 
+    }
+
+    public function ajax_dependent_graph_type_options_callback(array &$form, FormStateInterface $form_state){
+        $parent_field = $this->fieldDefinition->getName();
+        $values = $form_state->getValues();
+        $element = [
+            '#prefix' => '<div id="secondary_graph_type_options">',
+            '#suffix' => '</div>',
+        ];
+        if(isset($values[$parent_field])){
+            $graph_type = $values[$parent_field][0]['graph_type'];
+        }
+
+        if($graph_type != ''){
+            switch($graph_type){
+                case 'line':
+                    $select_options = [
+                        'bar' => $this->t('bar'),
+                    ];
+                    break;
+                case 'bar':
+                    $select_options = [
+                        'line' => $this->t('line'),
+                    ];
+                    break;
+            }
+            if(count($select_options) > 0){
+                $element = [
+                    '#prefix' => '<div id="secondary_graph_type_options">',
+                    '#suffix' => '</div>',
+                    '#title' => $this->t('Secondary graph type'),
+                    '#size' => 256,
+                    '#type' => 'select',
+                    '#options' => $select_options,
+                    '#empty_option'  => t('Select graph type'),
+                ];
+            }
+        }
+        return $element;
     }
 
     public function getEntities($target_ids){
