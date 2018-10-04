@@ -40,6 +40,8 @@ hidden:
   field_body_summary: true
   field_image: true
   field_links: true
+  field_metatags: true
   field_related_pages: true
   field_right_sidebar: true
+  field_video: true
   langcode: true

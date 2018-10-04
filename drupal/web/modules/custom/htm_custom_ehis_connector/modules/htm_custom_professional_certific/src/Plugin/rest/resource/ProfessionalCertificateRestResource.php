@@ -96,8 +96,8 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 			throw new AccessDeniedHttpException();
 		}
   	switch ($service_name){
-			case 'kodanikKutsetunnistus':
-				$method = 'getProfessionalCertificate';
+			case 'certificates':
+				$method = $tab;
 				$params = [];
 				break;
 			case 'eeIsikukaart':
