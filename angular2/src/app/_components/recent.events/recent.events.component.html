@@ -53,10 +53,12 @@
         </span>
         <ng-container *ngIf="content.entity && content.entity.fieldEventDate">
           <div *ngFor="let item of content.entity.fieldEventDate">
-            {{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
-            {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
-            {{ 'time.time_of_day' | translate }}
-            {{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}
+            <ng-container *ngIf="item.entity.fieldEventDate">
+              {{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
+              {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
+              {{ 'time.time_of_day' | translate }}
+              {{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}
+            </ng-container>
           </div>
         </ng-container>
       </div>

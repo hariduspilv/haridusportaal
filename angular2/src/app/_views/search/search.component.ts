@@ -28,13 +28,23 @@ export class SearchComponent {
     'en': [{"text": "Home", "url": "/en"}],
     'et': [{"text": "Avaleht", "url": "/et"}]
   };
-  types: Array<any> = [
-    {"name": "article.label", "sumLabel": "Artikkel", "value": false, "sum": 0},
-    {"name": "news.label", "sumLabel": "Uudis", "value": false, "sum": 0},
-    {"name": "event.label", "sumLabel": "Sündmus", "value": false, "sum": 0},
-    {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
-    {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
-  ];
+  typesByLang: any = {
+    et: [
+      {"name": "article.label", "sumLabel": "Artikkel", "value": false, "sum": 0},
+      {"name": "news.label", "sumLabel": "Uudis", "value": false, "sum": 0},
+      {"name": "event.label", "sumLabel": "Sündmus", "value": false, "sum": 0},
+      {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
+      {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
+    ],
+    en: [
+      {"name": "article.label", "sumLabel": "Article", "value": false, "sum": 0},
+      {"name": "news.label", "sumLabel": "News", "value": false, "sum": 0},
+      {"name": "event.label", "sumLabel": "Event", "value": false, "sum": 0},
+      {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
+      {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
+    ]
+  };
+  types: Array<any>;
   typeArr: any = [];
   
   constructor (
@@ -47,11 +57,8 @@ export class SearchComponent {
   ngOnInit() {
 
     this.paramSubscription = this.route.queryParams.subscribe( params => {
-      // Params name change on language change.
-      // if(this.route.snapshot.params['lang'] === 'en') {
-      //   this.types[0].sumLabel = 'Article';
-      //   this.types[1].sumLabel = 'Uudised';
-      // }
+      this.lang = this.route.snapshot.params['lang'];
+      this.types = this.typesByLang[this.lang];
       if(this.route.snapshot.queryParams['term'] !== this.param && this.param.length) {
         this.param = this.route.snapshot.queryParams['term'];
         var queryTypes = this.route.snapshot.queryParams['type'];

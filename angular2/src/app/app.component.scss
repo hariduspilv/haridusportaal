@@ -368,7 +368,7 @@ $grid-columns: 12;
   .mat-sidenav .mat-menu-item{height:auto; padding-top:.875rem; padding-bottom:.875rem; line-height:120%;}
   .mat-sidenav .mat-menu-item span{white-space: normal; line-height: inherit; font-size: 0.8125rem;}
   .mat-sidenav .mat-menu-item span.htm-icon{ font-size: 1.5rem!important; }
-  .mat-sidenav .active { font-weight: normal!important; }
+  .mat-sidenav .isActive { font-weight: 500!important; }
   .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
     &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
     &:hover {background-color: #454B92;}
