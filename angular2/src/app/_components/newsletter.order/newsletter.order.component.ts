@@ -74,9 +74,9 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
           query: getTags,
           variables: {
             lang: this.lang.toUpperCase(),
-            fetchPolicy: 'no-cache',
-            errorPolicy: 'all'
           },
+          fetchPolicy: 'no-cache',
+          errorPolicy: 'all'
         })
         .valueChanges
         .subscribe(({data}) => {
@@ -132,10 +132,10 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
       variables: {
         lang: this.lang.toUpperCase(),
         email: this.email,
-        tags: output,
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
+        tags: output
       },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all'
     })
     .subscribe(({data}) => {
       this.subscribedStatus = true;
@@ -166,10 +166,10 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     const subscribe = this.apollo.mutate({
       mutation: activate,
       variables: {
-        token: token,
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
+        token: token
       },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all'
     }).subscribe();
     this.subscriptions = [...this.subscriptions, subscribe];
   }
@@ -195,9 +195,9 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
       mutation: deactivate,
       variables: {
         token: token,
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
       },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all'
     }).subscribe();
     this.subscriptions = [...this.subscriptions, unsubscribe];
   }

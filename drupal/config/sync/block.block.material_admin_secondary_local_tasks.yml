@@ -9,7 +9,7 @@ _core:
 id: material_admin_secondary_local_tasks
 theme: material_admin
 region: highlighted
-weight: 1
+weight: 5
 provider: null
 plugin: local_tasks_block
 settings:

@@ -1,0 +1,20 @@
+uuid: 874a5e6a-fcdc-4f69-aaa1-3571acdcbfc4
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_main_profession_tags
+field_name: field_main_profession_tags
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 5
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
