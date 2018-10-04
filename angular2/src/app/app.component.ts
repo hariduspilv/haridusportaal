@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
 
       if (event instanceof RoutesRecognized) {
         let params = event.state.root.firstChild.params;
-        if (params && params.lang) {
+        if (params && params.lang && (params.lang === 'et' || params.lang === 'en')) {
           translate.setDefaultLang(params['lang']);
         }
       }
