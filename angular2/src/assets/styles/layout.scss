@@ -30,7 +30,7 @@
 
   &__head {display: flex; margin:-1.5rem -1.5rem 1rem -1.5rem;
     @include break-on(sm, min) {border-bottom: 1px solid $gray;}
-
+    &.no-border{border:none;}
     &__title{padding:0.9375rem $medium; font-size:1rem; line-height:2rem; color:$dark-gray; flex-grow: 1;}
 
     &__buttons{flex-shrink: 0; display:flex;
