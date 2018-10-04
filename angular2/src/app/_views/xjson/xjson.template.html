@@ -323,6 +323,9 @@
                       </ng-container>
                       
                     </ng-container>
+                    <th *ngIf="data_elements[element].add_del_rows">
+                        extra tulp kustutamiseks...
+                    </th>
                   </tr>
                   <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
                     <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
@@ -405,6 +408,10 @@
                         </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
                       </td>
                     </ng-container> <!-- END OF *NGFOR COLUMNS-->
+                    <td *ngIf="data_elements[element].add_del_rows">
+                      <a href="javascript:void(0);" (click)="tableDeleteRow(element, rowIndex)">Kustuta rida</a>
+                    </td>
+
                   </tr>  <!-- END OF *NGFOR COLUMNS-->
 
                   <tr *ngIf="data_elements[element].add_del_rows">
