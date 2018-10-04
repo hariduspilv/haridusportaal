@@ -120,17 +120,18 @@ input { font-size: 0.875rem; }
     }
     .dropzone { 
      border: dashed 3px $gray; border-radius: 0.25rem; position: relative; padding: 1.375rem 0;
-     input { display: none; pointer-events: none; }
      .dropzone-text { position: absolute; left: 0; right: 0; top: 4.5rem; text-align: center; color: $blue;
-       .dropzone-add { line-height: 2; }
-     }
-   }
+       .dropzone-add { line-height: 2;position: relative;
+        input { opacity: 0; position: absolute; left: 0; right: 0; }
+      }
+    }
+  }
 
-.dropzone-title {
-  display: block;
-}
+  .dropzone-title {
+    display: block;
+  }
 
-   .close-icn {
+  .close-icn {
     color: $black; font-size: 1.5rem;
   }
 

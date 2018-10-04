@@ -289,7 +289,6 @@
                 <a class="dropzone-add" href="javascript:void(0)">
                   <input
                   type="file"
-                  id="file"
                   [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
                   (change)="fileEventHandler($event, element)" 
                   placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}" 
@@ -437,7 +436,6 @@
 
                 </table>
               </div>
->>>>>>> 4936c16e2bead6171cd637af05941e43b92360cb
             </div>
             <ng-container *ngIf="data_elements[element].helpertext">
               {{ selectLanguage(data_elements[element].helpertext) }}
