@@ -218,9 +218,6 @@ $grid-columns: 12;
   .link-list{list-style:none; padding:0; margin:$small 0;
     a[href]{color:rgba(0,0,0,.87); text-decoration: underline; line-height:$medium; color:$blue;
       &:hover {text-decoration: none;}
-      &:visited {
-        color: $red!important;
-      }
       .htm-icon{vertical-align: top; margin-right:$gutter; color:$blue;}
     }
     li{margin-bottom:0.625rem;
