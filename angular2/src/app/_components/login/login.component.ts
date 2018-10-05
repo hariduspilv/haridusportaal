@@ -71,9 +71,9 @@ export class LoginComponent implements OnInit{
       let redirectUrl;
       let lang = this.router.url.split('/')[1];
       switch(lang){
-        case 'et': redirectUrl = '/et/toolaud';
-        case 'en': redirectUrl = '/en/dashboard';
-        default: redirectUrl = '/et/toolaud';
+        case 'et': redirectUrl = '/et/toolaud/taotlused';
+        case 'en': redirectUrl = '/en/dashboard/certificates';
+        default: redirectUrl = '/et/toolaud/taotlused';
       }
       
       this.router.navigateByUrl(lang, {skipLocationChange: true}).then( () => {
