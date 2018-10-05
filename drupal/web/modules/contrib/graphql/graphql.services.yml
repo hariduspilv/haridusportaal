@@ -9,7 +9,7 @@ parameters:
     # disabled entirely.
     #
     # @default false
-    development: false
+    development: true
 
 services:
   # Check access for executing graphql queries.
