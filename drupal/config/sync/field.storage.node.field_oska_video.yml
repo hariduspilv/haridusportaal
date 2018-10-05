@@ -1,0 +1,19 @@
+uuid: 8b006f63-22da-42eb-b546-4f3542e16a55
+langcode: en
+status: true
+dependencies:
+  module:
+    - htm_custom_video_field
+    - node
+id: node.field_oska_video
+field_name: field_oska_video
+entity_type: node
+type: custom_video_field_type
+settings: {  }
+module: htm_custom_video_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

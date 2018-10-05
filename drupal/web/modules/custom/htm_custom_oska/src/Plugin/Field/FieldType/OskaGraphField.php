@@ -70,10 +70,10 @@ class OskaGraphField extends FieldItemBase {
     public function preSave()
     {
         $graph_type = $this->values['graph_type'];
+
         $this->values = [
             'value' => $this->getGoogleGraphData($this->values),
             'filter_values' => json_encode($this->values, TRUE),
-            'graph_type' => $graph_type
         ];
     }
 
@@ -121,10 +121,9 @@ class OskaGraphField extends FieldItemBase {
         }
         if($condition_count > 0){
             $entity_ids = $query->execute();
-
         }
 
-        if($entity_ids){
+        if(isset($entity_ids)){
             $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple($entity_ids);
             $graph_value = $this->getGoogleGraphValue($entities);
 

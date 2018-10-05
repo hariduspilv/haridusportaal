@@ -1,4 +1,4 @@
-query oskaFieldDetailView ($path: String!) {
+query oskaFieldDetailView($path: String!) {
 route(path: $path) {
 ... on EntityCanonicalUrl {
 languageSwitchLinks {
@@ -18,21 +18,21 @@ __typename
 __typename
 }
 entity {
-... on NodeOskaFieldPage{
+... on NodeOskaFieldPage {
 nid
 entityLabel
 fieldIntroduction
-fieldVideo{
+fieldOskaVideo {
 input
 videoDomain
 videoDescription
 videoId
 }
-body{
+body {
 value
 processed
 }
-fieldWebPageAddress {
+fieldOskaWebPage {
 url {
 routed
 path
@@ -41,7 +41,7 @@ __typename
 title
 __typename
 }
-fieldAttachmentFile {
+fieldOskaAttachmentFile {
 description
 entity {
 entityLabel
@@ -64,7 +64,7 @@ fieldBody {
 value
 __typename
 }
-fieldLinks{
+fieldLinks {
 url {
 routed
 path

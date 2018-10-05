@@ -1,10 +1,13 @@
 RewriteEngine on
 
+RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*) /redirect.php?q=$1 [L]
+
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
-
 RewriteRule ^(.*) /index.html [NC,L]
 
 <IfModule mod_deflate.c>
