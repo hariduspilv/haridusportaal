@@ -133,7 +133,7 @@ $grid-columns: 12;
     &.extraRow {background-color: #f6f6f6;
       border-top: solid .125rem $dark-gray;
     }
-    td{
+    td, th {
       padding: 1rem;
       border: .0625rem solid $gray;
       width: 33%;
@@ -155,7 +155,10 @@ $grid-columns: 12;
         &--3 {width: 50%;}
         &.lastRow {border-bottom: .0625rem solid $gray;}
       }
+      &.nonBreakable {white-space: nowrap;}
+      &.light {font-weight: 400;}
     }
+    th {font-weight: 500; background: $light-gray; text-align: left;}
   }
 }
 
@@ -514,7 +517,62 @@ $grid-columns: 12;
   
   .mat-expansion-panel-content{height:auto !important; visibility: visible !important;}
 }
+
+
 .mat-expansion-panel-body {padding: 0 1rem 1rem 1rem!important;}
+.mat-expansion-panel {box-shadow: none !important;border: .0625rem solid $light-orange; border-radius: .125rem; border-left: .1875rem solid $light-orange; margin-bottom: $half-gutter;
+  mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+    @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+  }
+  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid $dark-orange;
+    mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
+      @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
+    }
+  }
+  &-body { padding: 0 1rem 1rem }
+  &-spacing {margin: 0 0 $half-gutter 0;}
+  &-header { height: 2.5rem !important;padding: 0 1.25rem;
+    &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
+    &.mat-expanded { height: 2.5rem!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0 1.25rem; }
+  }
+  &:hover {
+    border-left: .1875rem solid $dark-orange;
+    ::ng-deep .mat-expansion-indicator{ background: $red;
+      &:after {
+        color: $white;
+      }
+    }
+  }
+}
+mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
+::ng-deep .accordion__body {line-height: 1.375rem;font-size: $small;padding-top: $gutter;
+  p {margin: 0;}
+}
+::ng-deep .accordion__links {line-height: 1.375rem;font-size: $small;padding-top: $small;
+}
+::ng-deep .mat-expansion-indicator::after {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';
+  content: 'keyboard_arrow_down' !important;border: none !important;transform: none !important;padding: 0 !important;
+  position: relative;text-align: center;width: $medium;color: $red;
+  height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
+}
+::ng-deep .mat-expansion-panel-content {padding: 0 $half-gutter; background: $white!important; }
+::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;}
+::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; }
+::ng-deep .mat-expanded .mat-expansion-indicator {background: $red; border: 0rem solid $red;}
+::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
+  font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
+}
+::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: underline;}
+
+.mat-expansion-panel-header {
+  width: 100%;
+  box-sizing: border-box;
+  background: $light-orange!important;
+}
+
+.mat-expansion-panel-header.mat-expanded { 
+  background: transparent!important;
+}
 
 
 // Units are in pixels. Because of google maps

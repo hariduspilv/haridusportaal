@@ -14,6 +14,9 @@ export class CertificatesComponent implements OnInit{
 
   public professionalCertificates: any;
   public examResults: any;
+  public examResultsErr: boolean;
+  public errData: boolean;
+  public errRequest: boolean;
 
   public accordionSection: {}[] = [
     {_id: 'professional-certificates', label: 'frontpage.dashboard_tabs_certificates_professional'},
@@ -63,16 +66,31 @@ export class CertificatesComponent implements OnInit{
         
         sub.unsubscribe();
       }
+    }, (err) => {
+      console.log(err);
+      this.loading[_id] = false;
     });
   }
 
   getExamResults(_id){
     this.loading[_id] = true;
-    
-    this.examResults = [];
+    let sub = this.http.get('/dashboard/certificates/getTestSessions?_format=json').subscribe(response => {
+      if(response['value']['teade'] || response['value']['testsessioonid_kod_jada'] === []){
+        this.examResultsErr = this.errData = true;
+      } else {
+        this.examResults = response['value']['testsessioonid_kod_jada'];
+        console.log(this.examResults);
+      };
+      this.loading[_id] = false;
+      sub.unsubscribe();
+    }, (err) => {
+      this.examResultsErr = this.errRequest = true;
+      console.log(err);
+      this.loading[_id] = false;
+    });
   }
 
   ngOnInit(){
-    
+  
   }
 }
