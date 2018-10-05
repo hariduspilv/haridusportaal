@@ -16,7 +16,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
+const IN_ADS_RES_LIMIT = 30;
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
     dateInput: 'DD.MM.YYYY',
@@ -569,7 +569,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     this.autocompleteDebouncer = setTimeout(function(){
 
-      let jsonp = _this._jsonp.get('http://inaadress.maaamet.ee/inaadress/gazetteer?address=' + searchText + '&callback=JSONP_CALLBACK')
+      let jsonp = _this._jsonp.get('http://inaadress.maaamet.ee/inaadress/gazetteer?address=' + searchText + '&results='+ IN_ADS_RES_LIMIT+'&callback=JSONP_CALLBACK')
       .map(function(res){
         return res.json() || {};
       }).catch(function(error: any){return Observable.throw(error)});
