@@ -1,5 +1,5 @@
 @import "../../../assets/styles/typography.scss"; 
-.video {padding: 0 $medium 0 $medium;
+.video {padding: 0 $medium 0 $medium; clear:both;
   &-container {position: relative;padding-bottom: 56.25%;/*16:9*/
     padding-top: 30px;height: 0;overflow: hidden;
   }
