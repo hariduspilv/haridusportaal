@@ -64,10 +64,10 @@ export class EventsRegistratonDialog {
         companyName: this.form.controls.companyName.value,
         telephone: this.form.controls.telephone.value,
         email: this.form.controls.email.value,
-        marked: this.form.controls.marked.value,
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
+        marked: this.form.controls.marked.value
       },
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all'
     })
     .subscribe(({data}) => {
 

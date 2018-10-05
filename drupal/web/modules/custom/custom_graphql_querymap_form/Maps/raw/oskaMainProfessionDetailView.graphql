@@ -1,4 +1,4 @@
-query oskaMainProfessionDetailView ($path: String!) {
+query oskaMainProfessionDetailView($path: String!) {
 route(path: $path) {
 ... on EntityCanonicalUrl {
 languageSwitchLinks {
@@ -18,22 +18,22 @@ __typename
 __typename
 }
 entity {
-... on NodeOskaMainProfessionPage{
+... on NodeOskaMainProfessionPage {
 nid
 entityLabel
 fieldFixedLabel
 fieldIntroduction
-fieldVideo{
+fieldOskaMainProfessionVideo {
 input
 videoDomain
 videoDescription
 videoId
 }
-body{
+body {
 value
 processed
 }
-fieldWebPageAddress {
+fieldOskaMainProfessionLinks {
 url {
 routed
 path
@@ -42,7 +42,7 @@ __typename
 title
 __typename
 }
-fieldAttachmentFile {
+fieldOskaMainProfessionFile {
 description
 entity {
 entityLabel
@@ -57,7 +57,7 @@ __typename
 }
 __typename
 }
-fieldAccordion {
+fieldMainProfessionAccordion {
 entity {
 ... on ParagraphMainProfessionAccordion {
 fieldTitle
@@ -65,7 +65,7 @@ fieldBody {
 value
 __typename
 }
-fieldLinks{
+fieldLinks {
 url {
 routed
 path
@@ -80,7 +80,7 @@ __typename
 }
 __typename
 }
-fieldOskaMainProfessionTags {
+fieldMainProfessionTag {
 entity {
 entityLabel
 __typename

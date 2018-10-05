@@ -4,23 +4,22 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_main_profession_page.body
-    - field.field.node.oska_main_profession_page.field_accordion
-    - field.field.node.oska_main_profession_page.field_attachment_file
     - field.field.node.oska_main_profession_page.field_fixed_label
     - field.field.node.oska_main_profession_page.field_introduction
-    - field.field.node.oska_main_profession_page.field_oska_graph
-    - field.field.node.oska_main_profession_page.field_oska_main_profession_tags
-    - field.field.node.oska_main_profession_page.field_picture
-    - field.field.node.oska_main_profession_page.field_video
-    - field.field.node.oska_main_profession_page.field_web_page_address
+    - field.field.node.oska_main_profession_page.field_main_profession_accordion
+    - field.field.node.oska_main_profession_page.field_main_profession_picture
+    - field.field.node.oska_main_profession_page.field_main_profession_tag
+    - field.field.node.oska_main_profession_page.field_oska_main_profession_file
+    - field.field.node.oska_main_profession_page.field_oska_main_profession_links
+    - field.field.node.oska_main_profession_page.field_oska_main_profession_video
     - image.style.thumbnail
     - node.type.oska_main_profession_page
   module:
     - file
-    - htm_custom_oska
     - htm_custom_video_field
     - image
     - link
+    - maxlength
     - paragraphs
     - path
     - scheduler
@@ -32,7 +31,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 121
+    weight: 13
     settings:
       rows: 9
       summary_rows: 3
@@ -41,13 +40,33 @@ content:
     region: content
   created:
     type: datetime_timestamp
-    weight: 10
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_accordion:
+  field_fixed_label:
+    weight: 10
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_introduction:
+    weight: 11
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 300
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_main_profession_accordion:
     type: entity_reference_paragraphs
-    weight: 131
+    weight: 26
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -57,36 +76,16 @@ content:
       default_paragraph_type: ''
     third_party_settings: {  }
     region: content
-  field_attachment_file:
-    weight: 126
+  field_main_profession_picture:
+    weight: 16
     settings:
       progress_indicator: throbber
+      preview_image_style: thumbnail
     third_party_settings: {  }
-    type: file_generic
+    type: image_image
     region: content
-  field_fixed_label:
-    weight: 122
-    settings:
-      display_label: true
-    third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
-  field_introduction:
-    weight: 123
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textarea
-    region: content
-  field_oska_graph:
-    weight: 133
-    settings: {  }
-    third_party_settings: {  }
-    type: oska_graph_widget_type
-    region: content
-  field_oska_main_profession_tags:
-    weight: 132
+  field_main_profession_tag:
+    weight: 17
     settings:
       match_operator: CONTAINS
       size: 60
@@ -94,40 +93,39 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete_tags
     region: content
-  field_picture:
-    weight: 127
+  field_oska_main_profession_file:
+    weight: 15
     settings:
       progress_indicator: throbber
-      preview_image_style: thumbnail
     third_party_settings: {  }
-    type: image_image
+    type: file_generic
     region: content
-  field_video:
-    weight: 124
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: custom_video_widget_type
-    region: content
-  field_web_page_address:
-    weight: 125
+  field_oska_main_profession_links:
+    weight: 14
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
     region: content
+  field_oska_main_profession_video:
+    weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: custom_video_widget_type
+    region: content
   langcode:
     type: language_select
-    weight: 2
+    weight: 1
     region: content
     settings:
       include_locked: true
     third_party_settings: {  }
   path:
     type: path
-    weight: 30
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -135,12 +133,12 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 15
+    weight: 4
     region: content
     third_party_settings: {  }
   publish_on:
     type: datetime_timestamp_no_default
-    weight: 30
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -148,27 +146,30 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 120
+    weight: 9
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 16
+    weight: 5
     region: content
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: -5
+    weight: 0
     region: content
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 2
     settings:
       match_operator: CONTAINS
       size: 60
@@ -177,7 +178,7 @@ content:
     third_party_settings: {  }
   unpublish_on:
     type: datetime_timestamp_no_default
-    weight: 30
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
