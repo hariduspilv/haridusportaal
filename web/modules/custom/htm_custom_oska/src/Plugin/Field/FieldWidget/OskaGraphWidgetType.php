@@ -201,6 +201,6 @@ class OskaGraphWidgetType extends WidgetBase {
                 break;
         }
 
-        return $select_options;
+        return isset($select_options) ? $select_options : NULL;
     }
 }
