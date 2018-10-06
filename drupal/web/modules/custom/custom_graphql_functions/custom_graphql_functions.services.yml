@@ -1,9 +1,9 @@
 services:
   custom_graphql_functions.language_negotiator:
     class: Drupal\custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator
-    arguments: ['@language_manager', '@plugin.manager.language_negotiation_method', '@config.factory', '@settings', '@request_stack', '@current_user']
-    #calls:
-    #  - [initLanguageManager]
+    arguments: ['@language_manager', '@plugin.manager.language_negotiation_method', '@config.factory', '@settings', '@request_stack', '@current_user', '@graphql.language_context']
+    calls:
+      - [initLanguageManager]
   custom_graphql_functions.custom_tree_manipulators:
     class: Drupal\custom_menu_uri_translation\Menu\CustomMenuLinkTreeManipulators
     arguments: ['@access_manager', '@current_user', '@entity_type.manager']

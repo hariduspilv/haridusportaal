@@ -1,9 +1,9 @@
 @import "../../../assets/styles/typography.scss"; 
-share{height:3rem;  display: block;}
+
 .short{font-weight: bold;}
 
-.mat-expansion-panel { box-shadow: none !important;border: .0625rem solid $light-orange; border-radius: .125rem; border-left: .1875rem solid $light-orange; margin-bottom: $half-gutter;
-  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid $dark-orange;
+.mat-expansion-panel { box-shadow: none !important;border: .0625rem solid $aqua; border-radius: .125rem; border-left: .1875rem solid $aqua; margin-bottom: $half-gutter; background:$aqua;
+  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid $light-blue; background:$white;
     mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
@@ -12,10 +12,10 @@ share{height:3rem;  display: block;}
   &-spacing {margin: 0 0 $half-gutter 0;}
   &-header { height: 2.5rem !important;padding: 0 1.25rem;
     &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
-    &.mat-expanded { height: 2.5rem!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0 1.25rem; }}
+    &.mat-expanded { height: 2.5rem!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0 1.25rem; background:$white;}}
     &:hover {
-      border-left: .1875rem solid $dark-orange;
-      ::ng-deep .mat-expansion-indicator{ background: $red;
+      border-left: .1875rem solid $light-blue;
+      ::ng-deep .mat-expansion-indicator{ background: $blue;
         &:after {
           color: $white;
         }
@@ -24,7 +24,7 @@ share{height:3rem;  display: block;}
   }
   mat-panel-title {font-size: $small; text-decoration: none; color: $black;
   }
-  .accordion {padding: 0; padding-top: $large;
+  .accordion {padding: 0;
     @include break-on(sm, max) {padding: 0 0rem 1.5rem 0rem;}
   }
   ::ng-deep .accordion__body {line-height: 1.375rem;font-size: $small;padding-top: $gutter;
@@ -34,15 +34,22 @@ share{height:3rem;  display: block;}
   }
   ::ng-deep .mat-expansion-indicator::after {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';
   content: 'keyboard_arrow_down' !important;border: none !important;transform: none !important;padding: 0 !important;
-  position: relative;text-align: center;width: $medium;color: $red;
+  position: relative;text-align: center;width: $medium;color: $blue;
   height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
 }
 ::ng-deep .mat-expansion-panel-content {padding: 0 $half-gutter;}
 ::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;}
 ::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; }
-::ng-deep .mat-expanded .mat-expansion-indicator {background: $red; border: 0rem solid $red;}
+::ng-deep .mat-expanded .mat-expansion-indicator {background: $blue; border: 0rem solid $blue;}
 ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
 font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
 
-::ng-deep.row.video{padding:0 !important;}
+::ng-deep.row.video{padding:1.6rem 0 0 0 !important;
+  .video-alt-text{padding-bottom:0.2rem;}
+}
+
+share{display:block; margin-bottom:0.6rem;}
+::ng-deep .share__wrapper{margin-left:-0.8rem; margin-top:0.6rem; height:2.5rem; }
+.block__head{margin-bottom:-0.5rem;}
+h1{color:$black; font-size:1.5rem; line-height:125%; margin:0;}

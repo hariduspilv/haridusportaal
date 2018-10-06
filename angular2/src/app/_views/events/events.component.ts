@@ -390,10 +390,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       let eventDate = moment(current['fieldEventMainDate']['unix']*1000).format("YYYY-MM-DDz");
       let dateString = this.year+"-"+this.month+"-";
       
-      
+
       for( var o in this.calendarDays ){
         for( var oo in this.calendarDays[o] ){
-          if( dateString+this.calendarDays[o][oo]['i'] == eventDate ){
+          
+          let day:any = parseInt(this.calendarDays[o][oo]['i']);
+          if( day < 10 ){ day = "0"+day; }
+
+          if( dateString+day == eventDate ){
             this.calendarDays[o][oo]['events'].push( current );
             break;
           }
