@@ -99,12 +99,14 @@ class OskaGraphWidgetType extends WidgetBase {
                         $selection_item = $value->$field_name_item->value;
                         $selection[$selection_item] = $selection_item;
                     }
+                    $title = $field->getFieldDefinition()->getLabel()->getUntranslatedString();
                     $element[$key] = [
-                        '#title' => $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString()),
+                        '#title' => $this->t($title),
                         '#type' => 'select',
-                        '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
                         '#options' => $selection,
                         '#multiple' => TRUE,
+                        '#empty_option'  => t('Select '.$title),
+                        '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
                     ];
                 }
             }
