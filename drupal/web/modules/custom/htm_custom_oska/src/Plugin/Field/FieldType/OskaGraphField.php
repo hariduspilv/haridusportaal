@@ -102,6 +102,7 @@ class OskaGraphField extends FieldItemBase {
         $condition_count = 0;
         $target_type = $this->definition->getSettings()['target_type'];
         unset($filter_values['graph_type']);
+        unset($filter_values['secondary_graph_type']);
 
         $query = \Drupal::entityQuery($target_type);
 
