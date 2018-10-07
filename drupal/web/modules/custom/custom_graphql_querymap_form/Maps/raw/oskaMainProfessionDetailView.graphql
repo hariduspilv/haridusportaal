@@ -23,6 +23,17 @@ nid
 entityLabel
 fieldFixedLabel
 fieldIntroduction
+fieldMainProfessionPicture{
+derivative(style: CROP_LARGE) {
+url
+__typename
+}
+width
+height
+alt
+title
+__typename
+}
 fieldOskaMainProfessionVideo {
 input
 videoDomain
