@@ -580,7 +580,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     let _this = this;
     let limit = this.data_elements[element].results || 10;
     let ihist = this.data_elements[element].ihist || 0;
-    let apartment = this.data_elements[element].appartment || 1;
+    let apartment = this.data_elements[element].appartment || 0;
 
     this.autocompleteDebouncer = setTimeout(function(){
         
