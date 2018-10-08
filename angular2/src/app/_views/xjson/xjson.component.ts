@@ -49,7 +49,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
   public datepickerFocus: boolean = false;
-
+  public temporaryModel = {};
   public data;
   public opened_step;
   public max_step;
@@ -529,11 +529,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   viewController(xjson){
     
-
     this.data = xjson;
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
+    
+    //Concat. all message arrays and display them at all times
     this.data_messages = this.data.body.messages;
-
     Object.keys(this.data.body.steps).forEach(item => {
       let step = this.data.body.steps[item];
       if(step.messages) {
@@ -557,15 +557,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
   
   addressAutocompleteSelectionValidation(element){
     console.log(this.autoCompleteContainer[element]);
-    if(this.autoCompleteContainer[element] ===  undefined) return this.data_elements[element].value = "";
-
-    let condition = this.autoCompleteContainer[element].some(address => {
-      return address.addressHumanReadable === this.data_elements[element].value
+    if(this.autoCompleteContainer[element] ===  undefined) return this.data_elements[element].value = null;
+    let _this = this;
+    let match = this.autoCompleteContainer[element].find(address => {
+      return address.addressHumanReadable === _this.temporaryModel[element]
     })
-    console.log(condition);
-    if(!condition) {
-      this.data_elements[element].value = "";
+    console.log(match);
+    if(!match) {
+      this.data_elements[element].value = null;
     }
+    else this.data_elements[element].value = this.inAdsFormatValue(match)
   }
   addressAutocomplete(searchText: string, debounceTime: number = 300, element) {
    

@@ -235,9 +235,9 @@
                     <input 
                     class="round-input__field"
                     type="text" 
-                    aria-label="address" 
-                    [(ngModel)]="data_elements[element].value"
-                    (ngModelChange)="addressAutocomplete(data_elements[element].value, 300, element)"
+                    aria-label="address"
+                    [(ngModel)]="temporaryModel[element]"
+                    (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
                     (blur)="addressAutocompleteSelectionValidation(element)"
                     [name]="element" 
                     [matAutocomplete]="autoAddress">
@@ -251,8 +251,8 @@
                     <span>Otsingutulemusi ei leitud</span>
                   </mat-option>
                   <ng-container *ngIf="autoCompleteContainer[element].length">
-                    <mat-option  *ngFor="let address of autoCompleteContainer[element]" [value]="address.pikkaadress">
-                      <span>{{ address.pikkaadress }}</span>
+                    <mat-option  *ngFor="let address of autoCompleteContainer[element]" [value]="address.addressHumanReadable">
+                      <span>{{ address.addressHumanReadable }}</span>
                     </mat-option>
                   </ng-container>
                 </ng-container>
