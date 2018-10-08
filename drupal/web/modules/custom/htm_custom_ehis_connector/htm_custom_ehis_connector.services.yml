@@ -1,6 +1,6 @@
 services:
   htm_custom_ehis_connector.default:
     class: Drupal\htm_custom_ehis_connector\EhisConnectorService
-    arguments: ['@current_user', '@redis.factory']
+    arguments: ['@current_user', '@redis.factory', '@logger.factory']
   htm_custom_ehis_connector.base64image:
     class: Drupal\htm_custom_ehis_connector\Base64Image

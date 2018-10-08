@@ -67,7 +67,7 @@
                       </div><!--/round-input__wrapper-->
                       
                       <ng-container *ngIf="data_elements[element].helpertext">
-                        <span class="tooltip" matTooltip="{{ 'tselectLanguage(data_elements[element].helpertext)' }}"  matTooltipPosition="above">
+                        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                         </span>
                       </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
                       
@@ -87,7 +87,7 @@
                         [name]="element" ></textarea>
                       </div>
                       <ng-container *ngIf="data_elements[element].helpertext">
-                        <span class="tooltip" matTooltip="{{ 'selectLanguage(data_elements[element].helpertext)' }}"  matTooltipPosition="above">
+                        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                         </span>
                       </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
                     </div>
@@ -97,6 +97,12 @@
                     <span>{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
                     
                     <div class="round-input__outer-wrapper multiselect-wrapper">
+
+
+                        <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
+                            <span class="round-input__title">{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>      
+                            <div class="round-input__field-wrapper">
+
                       <mat-select placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                       [(ngModel)]='data_elements[element].value'
                       [disabled]="isFieldDisabled(data_elements[element].readonly)"
@@ -147,7 +153,9 @@
                         </mat-option>
                       </ng-container>
                     </mat-select>
-                    
+      </div>              
+</div>
+
                     <ng-container *ngIf="data_elements[element].helpertext">
                       <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                       </span>
@@ -173,7 +181,7 @@
                       </div>
                       
                       <ng-container *ngIf="data_elements[element].helpertext">
-                        <span class="tooltip" matTooltip="{{ 'selectLanguage(data_elements[element].helpertext)' }}"  matTooltipPosition="above">
+                        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                         </span>
                       </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
                       
@@ -194,7 +202,7 @@
                   </div>
                   
                   <ng-container *ngIf="data_elements[element].helpertext">
-                    <span class="tooltip" matTooltip="{{ 'selectLanguage(data_elements[element].helpertext)' }}"  matTooltipPosition="above">
+                    <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                     </span>
                   </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
                 </div>            
@@ -219,7 +227,7 @@
                     </div>
                     
                     <ng-container *ngIf="data_elements[element].helpertext">
-                      <span class="tooltip" matTooltip="{{ 'selectLanguage(data_elements[element].helpertext)' }}"  matTooltipPosition="above">
+                      <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                       </span>
                     </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
                     
@@ -294,7 +302,7 @@
                       <mat-datepicker #picker></mat-datepicker>
                     </div>
                     <ng-container *ngIf="data_elements[element].helpertext">
-                      <span class="tooltip" matTooltip="{{ 'selectLanguage(data_elements[element].helpertext)' }}"  matTooltipPosition="above">
+                      <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                       </span>
                     </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
                   </div>
@@ -310,7 +318,7 @@
               <span class="xjson__heading">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
               
               <ng-container *ngIf="data_elements[element].helpertext">
-                <span class="tooltip" matTooltip="{{ 'selectLanguage(data_elements[element].helpertext)' }}"  matTooltipPosition="above">
+                <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                 </span>
               </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
 </div>
@@ -356,7 +364,7 @@
                 {{ selectLanguage(data_elements[element].title) }}
               </div>
               <ng-container *ngIf="data_elements[element].helpertext">
-                <span class="tooltip" matTooltip="{{ 'selectLanguage(data_elements[element].helpertext)' }}"  matTooltipPosition="above">
+                <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                 </span>
               </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
               <div class="scrollable">
@@ -489,7 +497,7 @@
       
     </div>
     <ng-container *ngIf="data_elements[element].helpertext">   
-      <span class="tooltip" matTooltip="{{ 'selectLanguage(data_elements[element].helpertext)' }}"  matTooltipPosition="above">
+      <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
       </span>
     </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
     <div class="scrollable">
