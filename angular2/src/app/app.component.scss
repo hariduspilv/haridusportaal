@@ -635,8 +635,9 @@ a:hover .important-pill {
   margin-left: 2rem;
 }
 
-
-
+.tooltip { display: flex; align-items: baseline; margin-top: 12px; margin-left: 0.5rem; }
+.tooltip:before { font-family: 'htm-icon'; content: "help_24px"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga'; color: $black;
+ display: flex; align-items: center; }
 
 
 
