@@ -66,20 +66,10 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#empty_option'  => t('Select graph type'),
                 '#ajax' => [
                     'callback' => [$this,'ajax_dependent_graph_type_options_callback'],
-                    'wrapper' => 'secondary_graph_type_options',
+                    'wrapper' => 'secondary_graph_type_options'.$delta,
                     'method' => 'replace',
                 ],
             ];
-
-                $element['secondary_graph_type'] = [
-                    '#prefix' => '<div id="secondary_graph_type_options">',
-                    '#suffix' => '</div>',
-                    '#title' => $this->t('Secondary graph type'),
-                    '#size' => 256,
-                    '#type' => 'select',
-                    '#default_value' => isset($data['secondary_graph_type']) ? $data['secondary_graph_type'] : NULL,
-                    '#empty_option'  => t('Select secondary graph type'),
-                ];
 
             foreach($fields as $key => $field){
                 if($field instanceof \Drupal\Core\Field\EntityReferenceFieldItemList){
@@ -109,14 +99,34 @@ class OskaGraphWidgetType extends WidgetBase {
                         $selection_item = $value->$field_name_item->value;
                         $selection[$selection_item] = $selection_item;
                     }
+                    $title = $field->getFieldDefinition()->getLabel()->getUntranslatedString();
                     $element[$key] = [
-                        '#title' => $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString()),
+                        '#title' => $this->t($title),
                         '#type' => 'select',
-                        '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
                         '#options' => $selection,
                         '#multiple' => TRUE,
+                        '#empty_option'  => t('Select '.$title),
+                        '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
                     ];
                 }
+            }
+
+            if(isset($data['graph_type'])){
+                $sec_graph_options = $this->getSecondaryGraphOptions($data['graph_type']);
+            }
+
+            $element['secondary_graph_type'] = [
+                '#prefix' => '<div id="secondary_graph_type_options'.$delta.'">',
+                '#suffix' => '</div>',
+                '#title' => $this->t('Secondary graph type'),
+                '#size' => 256,
+                '#disabled' => isset($sec_graph_options) ? FALSE : TRUE,
+                '#type' => isset($sec_graph_options) ? 'select' : 'hidden',
+                '#default_value' => isset($data['secondary_graph_type']) ? $data['secondary_graph_type'] : NULL,
+            ];
+
+            if(isset($sec_graph_options)){
+                $element['secondary_graph_type']['#options'] = $sec_graph_options;
             }
         }
 
@@ -125,15 +135,19 @@ class OskaGraphWidgetType extends WidgetBase {
     }
 
     public function ajax_dependent_graph_type_options_callback(array &$form, FormStateInterface $form_state){
-        $parent_field = $this->fieldDefinition->getName();
-        $values = $form_state->getValues();
+        $trigger_element = $form_state->getTriggeringElement();
+        $wrapper = $trigger_element['#ajax']['wrapper'];
+
         $element = [
-            '#prefix' => '<div id="secondary_graph_type_options">',
+            '#prefix' => '<div id="'.$wrapper.'">',
             '#suffix' => '</div>',
+            '#title' => $this->t('Secondary graph type'),
+            '#size' => 256,
+            '#disabled' => TRUE,
+            '#type' => 'hidden',
+            '#default_value' => NULL,
         ];
-        if(isset($values[$parent_field])){
-            $graph_type = $values[$parent_field][0]['graph_type'];
-        }
+        $graph_type = $trigger_element['#value'];
 
         if($graph_type != ''){
             switch($graph_type){
@@ -148,9 +162,10 @@ class OskaGraphWidgetType extends WidgetBase {
                     ];
                     break;
             }
+
             if(count($select_options) > 0){
                 $element = [
-                    '#prefix' => '<div id="secondary_graph_type_options">',
+                    '#prefix' => '<div id="'.$wrapper.'">',
                     '#suffix' => '</div>',
                     '#title' => $this->t('Secondary graph type'),
                     '#size' => 256,
@@ -160,6 +175,8 @@ class OskaGraphWidgetType extends WidgetBase {
                 ];
             }
         }
+        $form_state->setRebuild();
+
         return $element;
     }
 
@@ -169,5 +186,23 @@ class OskaGraphWidgetType extends WidgetBase {
             $entities[] = Term::load($target_id['target_id']);
         }
         return $entities;
+    }
+
+    public function getSecondaryGraphOptions($primary_graph_type){
+
+        switch($primary_graph_type){
+            case 'line':
+                $select_options = [
+                    'bar' => $this->t('bar'),
+                ];
+                break;
+            case 'bar':
+                $select_options = [
+                    'line' => $this->t('line'),
+                ];
+                break;
+        }
+
+        return isset($select_options) ? $select_options : NULL;
     }
 }
