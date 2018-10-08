@@ -14,13 +14,12 @@
           {{ data['fieldIntroduction'] }}
         </div>
 
-        <div *ngIf="data.fieldImage" class="article-image pull-right">
-          <img src="{{ data.fieldImage.derivative.url }}" alt="{{ data.fieldImage.alt }}" title="{{ data.fieldImage.title }}" style="max-width:100%;" />
-          <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldImage.alt">{{ data.fieldImage.alt }}</div>
+        <div *ngIf="data.fieldOskaFieldPicture && data.fieldOskaFieldPicture.length > 0" class="article-image pull-right">
+          <img src="{{ data.fieldOskaFieldPicture[0].derivative.url }}" alt="{{ data.fieldOskaFieldPicture[0].alt }}" title="{{ data.fieldOskaFieldPicture[0].title }}" style="max-width:100%;" />
+          <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture[0].alt">{{ data.fieldOskaFieldPicture[0].alt }}</div>
         </div>
 
-
-        <video-component *ngIf="data.fieldVideo && data.fieldVideo.length > 0" [videos]="data.fieldVideo"></video-component>
+        <video-component *ngIf="video" [videos]="video"></video-component>
 
         <div [innerHTML]="data['body']['value']" attr.aria-label="{{'description' | translate}}" ></div>
 
@@ -37,7 +36,7 @@
               </mat-expansion-panel-header>
               <div class="accordion__body">
                 <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
-                <ul class="link-list mt-0 mb-0">
+                <ul class="link-list mt-2 mb-0">
                   <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}"class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
                 </ul>
               </div><!--/accordion__body-->
@@ -50,7 +49,7 @@
 
     <div class="col-4">
       <div class="block border-orange padding-block">
-        asd
+        Block content
       </div>
     </div><!--/col-4-->
   </div><!--/row-->
