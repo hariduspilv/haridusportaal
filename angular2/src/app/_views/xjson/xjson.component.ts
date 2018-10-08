@@ -55,6 +55,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public max_step;
   public current_acceptable_activity: string[];
   public data_elements;
+  public data_messages;
   public navigationLinks;
   public activityButtons;
   public error = {};
@@ -531,6 +532,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     this.data = xjson;
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
+    this.data_messages = this.data.body.messages;
+
+    Object.keys(this.data.body.steps).forEach(item => {
+      let step = this.data.body.steps[item];
+      if(step.messages) {
+        this.data_messages = [...this.data_messages, ...step.messages];
+      }
+    })
 
     if(!this.data_elements){
       let payload = {form_name: this.form_name, form_info: xjson}
