@@ -75,7 +75,7 @@
                   </ng-container> <!-- /TEXT -->
                   
                   <ng-container *ngIf="data_elements[element].type == 'textarea'">
-                    <span>{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
+                    <span class="xjson__textarea__info">{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
                     
                     <div class="round-input__outer-wrapper">
                       <div class="round-input__area">
@@ -94,68 +94,68 @@
                   </ng-container> <!-- /TEXTAREA -->
                   
                   <ng-container *ngIf="data_elements[element].type == 'selectlist'">
-                    <span>{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
+          
                     
                     <div class="round-input__outer-wrapper multiselect-wrapper">
-
-
-                        <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
-                            <span class="round-input__title">{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>      
-                            <div class="round-input__field-wrapper">
-
-                      <mat-select placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                      [(ngModel)]='data_elements[element].value'
-                      [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                      [name]="element"
-                      [multiple]="data_elements[element].multiple">
-                      <ng-container *ngIf="!data_elements[element].multiple">
-                        <mat-option *ngIf="!data_elements[element].multiple">-- None --</mat-option>
-                        
-                        <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
-                          <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
-                            {{ selectLanguage(data_elements[element].options[option]) }}
-                          </mat-option>
+                      
+                      
+                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
+                        <span class="round-input__title">{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>      
+                        <div class="round-input__field-wrapper">
                           
-                          <ng-container *ngIf="data_elements[element].options[option].options">
-                            <mat-option disabled="true" [value]="null">
-                              {{ selectLanguage(data_elements[element].options[option]) }}
-                            </mat-option>
+                          <mat-select class="round-input__field" placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                          [(ngModel)]='data_elements[element].value'
+                          [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                          [name]="element"
+                          [multiple]="data_elements[element].multiple">
+                          <ng-container *ngIf="!data_elements[element].multiple">
+                            <mat-option *ngIf="!data_elements[element].multiple">-- None --</mat-option>
                             
-                            <ng-container *ngFor="let option2 of objectKeys(data_elements[element].options[option].options)">
-                              <!--level 2-->
-                              <mat-option *ngIf="!data_elements[element].options[option].options[option2].options" [value]="option2">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option].options[option2]) }}
+                            <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
+                              <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
+                                {{ selectLanguage(data_elements[element].options[option]) }}
                               </mat-option>
                               
-                              <ng-container *ngIf="data_elements[element].options[option].options[option2].options">
-                                
+                              <ng-container *ngIf="data_elements[element].options[option].options">
                                 <mat-option disabled="true" [value]="null">
-                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option]['options'][option2]) }}
+                                  {{ selectLanguage(data_elements[element].options[option]) }}
                                 </mat-option>
                                 
-                                <ng-container *ngFor="let option3 of objectKeys(data_elements[element].options[option].options[option2].options)">
-                                  <!--level 3-->
-                                  <mat-option *ngIf="!data_elements[element].options[option].options[option2].options[option3].options" [value]="option3">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option].options[option2].options[option3]) }}
+                                <ng-container *ngFor="let option2 of objectKeys(data_elements[element].options[option].options)">
+                                  <!--level 2-->
+                                  <mat-option *ngIf="!data_elements[element].options[option].options[option2].options" [value]="option2">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option].options[option2]) }}
                                   </mat-option>
+                                  
+                                  <ng-container *ngIf="data_elements[element].options[option].options[option2].options">
+                                    
+                                    <mat-option disabled="true" [value]="null">
+                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option]['options'][option2]) }}
+                                    </mat-option>
+                                    
+                                    <ng-container *ngFor="let option3 of objectKeys(data_elements[element].options[option].options[option2].options)">
+                                      <!--level 3-->
+                                      <mat-option *ngIf="!data_elements[element].options[option].options[option2].options[option3].options" [value]="option3">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option].options[option2].options[option3]) }}
+                                      </mat-option>
+                                      
+                                    </ng-container>
+                                  </ng-container>
                                   
                                 </ng-container>
                               </ng-container>
-                              
                             </ng-container>
                           </ng-container>
-                        </ng-container>
-                      </ng-container>
-                      
-                      <ng-container *ngIf="data_elements[element].multiple">
-                        <mat-option *ngFor="let option of objectKeys(data_elements[element].options)" [value]="option">
-                          {{ selectLanguage(data_elements[element].options[option]) }}
-                        </mat-option>
-                      </ng-container>
-                    </mat-select>
-      </div>              
-</div>
-
+                          
+                          <ng-container *ngIf="data_elements[element].multiple">
+                            <mat-option *ngFor="let option of objectKeys(data_elements[element].options)" [value]="option">
+                              {{ selectLanguage(data_elements[element].options[option]) }}
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </div>              
+                    </div>
+                    
                     <ng-container *ngIf="data_elements[element].helpertext">
                       <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                       </span>
@@ -269,12 +269,8 @@
             </ng-container> <!-- /ADDRESS -->
             
             <ng-container *ngIf="data_elements[element].type == 'date'">
-              <div class="xjson__heading" *ngIf="data_elements[element].title">
-                {{ selectLanguage(data_elements[element].title) }}
-              </div>
               
               <div class="round-input__outer-wrapper date-wrapper">
-                
                 
                 <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
                   <span class="round-input__title">{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}</span>
@@ -313,17 +309,17 @@
             </ng-container> <!-- /DATE -->
             
             <ng-container *ngIf="data_elements[element].type == 'file'">
-
-                <div class="round-input__outer-wrapper dropzone-wrapper">
-              <span class="xjson__heading">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
               
-              <ng-container *ngIf="data_elements[element].helpertext">
-                <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
-                </span>
-              </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-</div>
-
-
+              <div class="round-input__outer-wrapper dropzone-wrapper">
+                <span class="xjson__heading">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
+                
+                <ng-container *ngIf="data_elements[element].helpertext">
+                  <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
+                  </span>
+                </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+              </div>
+              
+              
               <div class="loaded-files-list">
                 <ng-container *ngIf="data_elements[element].value">
                   <ng-container *ngFor="let file of data_elements[element].value">
@@ -339,7 +335,7 @@
                 </ng-container>
               </div>
               
-
+              
               
               <div class="dropzone" (drop)="fileEventHandler($event, element)" (dragover)="$event.preventDefault()">
                 <div class="dropzone-text">
