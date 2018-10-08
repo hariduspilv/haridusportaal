@@ -194,7 +194,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(files && files.length > 0) {
       for(let file of files) {
         let reader = new FileReader();
-        console.log(file.name);
+        
         reader.readAsDataURL(file);
         reader.onload = () => {
           let payload = {
@@ -203,7 +203,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
             data_element: element
           }
           let subscription = this.http.fileUpload('/xjson_service/documentFile', payload).subscribe(response => {
-            console.log(response);
+            
             let new_file = {
               file_name: file.name,
               file_identifier: response['id']
@@ -347,7 +347,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
   tableValidation(table){
     for (let row of table.value) {
-      //console.log(row);
+      
       for (let col of Object.keys(row)) {
         let column_properties = JSON.parse(JSON.stringify(table.table_columns[col]));
         column_properties.value = row[col];
@@ -396,9 +396,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.validateForm(this.data_elements);
 
       if(Object.keys(this.error).length == 0){
-        //console.log('Would submit form with this.data.header["activity"]= ', activity)
+        
         this.data.header["activity"] = activity;
-        //console.log(this.data);
+        
         let payload = {form_name: this.form_name, form_info: this.data};
         if(this.test === true) this.promptDebugDialog(payload)
         else this.getData(payload);
@@ -556,13 +556,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
   
   addressAutocompleteSelectionValidation(element){
-    console.log(this.autoCompleteContainer[element]);
+    
     if(this.autoCompleteContainer[element] ===  undefined) return this.data_elements[element].value = null;
     let _this = this;
     let match = this.autoCompleteContainer[element].find(address => {
       return address.addressHumanReadable === _this.temporaryModel[element]
     })
-    console.log(match);
     if(!match) {
       this.data_elements[element].value = null;
     }
@@ -607,7 +606,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
           }
         })
         _this.autocompleteSubscription.unsubscribe();
-        console.log( _this.autoCompleteContainer[element]);
       })  
 
     }, debounceTime)
