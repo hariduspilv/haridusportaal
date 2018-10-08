@@ -254,6 +254,7 @@ class EhisConnectorService {
 	}
 
 	public function getDocument(array $params = []){
+		$params['url'][] = $this->getCurrentUserIdCode();
 		return $this->invoke('getDocument', $params);
 	}
 
