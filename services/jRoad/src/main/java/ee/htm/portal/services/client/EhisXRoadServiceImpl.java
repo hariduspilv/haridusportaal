@@ -4,7 +4,15 @@ import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.database.EhisXRoadDatabaseImpl;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartDocument.EeIsikukaart;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaDocument.MtsysEsitaTegevusluba;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaResponseDocument.MtsysEsitaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaDocument.MtsysLaeTegevusluba;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaResponseDocument.MtsysLaeTegevuslubaResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusloadDocument.MtsysTegevusload;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusloadResponseDocument.MtsysTegevusloadResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevuslubaDocument.MtsysTegevusluba;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevuslubaResponseDocument.MtsysTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentDocument.VpTaotlusDokument;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusDokumentResponseDocument.VpTaotlusDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusEsitamineDocument.VpTaotlusEsitamine;
@@ -17,6 +25,7 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Vp
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusOpingudResponseDocument.VpTaotlusOpingudResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudDocument.VpTaotlusSissetulekud;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.VpTaotlusSissetulekudResponseDocument.VpTaotlusSissetulekudResponse;
+import java.math.BigInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.springframework.stereotype.Service;
 
@@ -100,10 +109,52 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
 
   public MtsysKlfTeenusResponse mtsysKlfTeenus(String userId)
       throws XRoadServiceConsumptionException {
-    XmlObject reguest = XmlObject.Factory.newInstance();
     if (userId == null || userId.equalsIgnoreCase("-")) {
-      return mtsysKlfTeenusV1(reguest, userId);
+      return mtsysKlfTeenusV1(XmlObject.Factory.newInstance(), userId);
     }
-    return mtsysKlfTeenusV1(reguest, userId);
+
+    return mtsysKlfTeenusV1(XmlObject.Factory.newInstance(), userId);
+  }
+
+  public MtsysTegevusloadResponse mtsysTegevusload(String registrikood, String userId)
+      throws XRoadServiceConsumptionException {
+    MtsysTegevusload request = MtsysTegevusload.Factory.newInstance();
+    request.setRegistrikood(registrikood);
+
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysTegevusloadV1(request);
+    }
+
+    return mtsysTegevusloadV1(request, userId);
+  }
+
+  public MtsysTegevuslubaResponse mtsysTegevusluba(BigInteger taotlusId, String userId)
+      throws XRoadServiceConsumptionException {
+    MtsysTegevusluba request = MtsysTegevusluba.Factory.newInstance();
+    request.setTaotlusId(taotlusId);
+
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysTegevuslubaV1(request);
+    }
+
+    return mtsysTegevuslubaV1(request, userId);
+  }
+
+  public MtsysLaeTegevuslubaResponse mtsysLaeTegevusluba(MtsysLaeTegevusluba request, String userId)
+      throws XRoadServiceConsumptionException {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysLaeTegevuslubaV1(request);
+    }
+
+    return mtsysLaeTegevuslubaV1(request, userId);
+  }
+
+  public MtsysEsitaTegevuslubaResponse mtsysEsitaTegevusluba(MtsysEsitaTegevusluba request,
+      String userId) throws XRoadServiceConsumptionException {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysEsitaTegevuslubaV1(request);
+    }
+
+    return mtsysEsitaTegevuslubaV1(request, userId);
   }
 }
