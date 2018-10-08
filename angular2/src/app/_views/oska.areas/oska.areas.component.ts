@@ -9,6 +9,7 @@ import { HttpService } from 'app/_services/httpService';
 export class OskaAreasComponent implements OnInit{
 
   data: any = false;
+  video: any = false;
 
   constructor(
     private http: HttpService
@@ -21,6 +22,10 @@ export class OskaAreasComponent implements OnInit{
 
     let subscription = this.http.get(url).subscribe( (data) => {
       this.data = data['data']['route']['entity'];
+      
+      if( this.data.fieldOskaVideo ){
+        this.video = [this.data.fieldOskaVideo];
+      }
     });
   }
 
