@@ -10,8 +10,8 @@
           <div class="xjson__title" *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</div>    
           <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
           
-          <ng-container *ngIf="data.body.messages">
-            <div [class]="data.messages[message].message_type" *ngFor="let message of data.body.messages">
+          <ng-container *ngIf="data_messages">
+            <div [class]="data.messages[message].message_type" *ngFor="let message of data_messages">
               <div class="alert">{{ selectLanguage(data.messages[message].message_text)}}</div>
             </div>
           </ng-container>
@@ -28,12 +28,6 @@
           <!-- STEP BODY -->
           <div class="xjson__step-title" *ngIf="data.body.steps[opened_step].title"> {{ selectLanguage(data.body.steps[opened_step].title) }} </div>
           <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction"> {{ selectLanguage(data.body.steps[opened_step].introduction) }} </div>
-          
-          <ng-container *ngIf="data.body.steps[opened_step].messages">
-            <div *ngFor="let message of data.body.steps[opened_step].messages">
-              {{ selectLanguage(data.messages[message].message_text)}}
-            </div>
-          </ng-container>
           
           <form (submit)="submitForm()" *ngIf="objectKeys(data_elements).length > 0">
             
