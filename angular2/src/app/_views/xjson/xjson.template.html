@@ -221,8 +221,8 @@
                   <span>Otsingutulemusi ei leitud</span>
                 </mat-option>
                 <ng-container *ngIf="autoCompleteContainer[element].length">
-                  <mat-option  *ngFor="let address of autoCompleteContainer[element]" [value]="address.pikkaadress">
-                    <span>{{ address.pikkaadress }}</span>
+                  <mat-option  *ngFor="let address of autoCompleteContainer[element]" [value]="address.addressHumanReadable">
+                    <span>{{ address.addressHumanReadable }}</span>
                   </mat-option>
                 </ng-container>
               </ng-container>

@@ -16,7 +16,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-const IN_ADS_RES_LIMIT = 30;
+
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
     dateInput: 'DD.MM.YYYY',
@@ -548,12 +548,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
   
   addressAutocompleteSelectionValidation(element){
     console.log(this.autoCompleteContainer[element]);
+    if(this.autoCompleteContainer[element] ===  undefined) return this.data_elements[element].value = "";
+
     let condition = this.autoCompleteContainer[element].some(address => {
-      return address.pikkaadress === this.data_elements[element].value
+      return address.addressHumanReadable === this.data_elements[element].value
     })
     console.log(condition);
-    if(!condition) this.data_elements[element].value = "";
-    
+    if(!condition) {
+      this.data_elements[element].value = "";
+    }
   }
   addressAutocomplete(searchText: string, debounceTime: number = 300, element) {
    
@@ -566,10 +569,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(this.autocompleteSubscription) this.autocompleteSubscription.unsubscribe();
   
     let _this = this;
+    let limit = this.data_elements[element].results || 10;
+    let ihist = this.data_elements[element].ihist || 0;
+    let apartment = this.data_elements[element].appartment || 1;
 
     this.autocompleteDebouncer = setTimeout(function(){
-
-      let jsonp = _this._jsonp.get('http://inaadress.maaamet.ee/inaadress/gazetteer?address=' + searchText + '&results='+ IN_ADS_RES_LIMIT+'&callback=JSONP_CALLBACK')
+        
+      let url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist='+ ihist +'&appartment='+ apartment +'&address=' + searchText + '&results='+ limit + '&callback=JSONP_CALLBACK';
+      let jsonp = _this._jsonp.get(url)
       .map(function(res){
         return res.json() || {};
       }).catch(function(error: any){return Observable.throw(error)});
@@ -579,12 +586,38 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
         _this.autocompleteLoader = false;
         _this.autoCompleteContainer[element] = data['addresses'] || [];
+
+        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 != '0000' || address.kood7 != '0000'))
+        
+        _this.autoCompleteContainer[element].forEach(address => {
+          if(address.kort_nr){
+            address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
+          } else {
+            address.addressHumanReadable = address.pikkaadress;
+          }
+        })
         _this.autocompleteSubscription.unsubscribe();
         console.log( _this.autoCompleteContainer[element]);
       })  
 
     }, debounceTime)
 
+  }
+  inAdsFormatValue(address){
+    return {
+      "adr_id" : address.adr_id,
+      "ads_oid" : address.ads_oid,
+      "addressCoded" : address.koodaadress,
+      "county" : address.maakond,
+      "countyEHAK" : address.ehakmk,
+      "localGovernment" : address.omavalitsus,
+      "localGovernmentEHAK" : address.ehakov,
+      "settlementUnit" : address.asustusyksus,
+      "settlementUnitEHAK" : address.ehak,
+      "address" : address.aadresstekst,
+      "apartment" : address.kort_nr,
+      "addressHumanReadable" : address.addressHumanReadable
+      }
   }
   
   scrollPositionController(){
