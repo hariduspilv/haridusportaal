@@ -45,15 +45,18 @@ public class HPortalRestController {
     return new ResponseEntity<>("{\"MESSAGE\":\"WORKING\"}", HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/getDocument/{formName}/{identifier}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/getDocument/{formName}/{identifier}/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDocuments(
       @PathVariable("formName") String formName,
-      @PathVariable("identifier") String identifier) {
+      @PathVariable("identifier") String identifier,
+      @PathVariable("personalCode") String personalCode) {
     if (formName.startsWith("VPT_ESITATUD")) {
       return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
+    } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
+      return new ResponseEntity<>(mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode), HttpStatus.OK);
     }
 
-    LOGGER.error("Tundmatu request documentId - " + identifier);
+    LOGGER.error("Tundmatu request formName - " + formName);
     return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
   }
 

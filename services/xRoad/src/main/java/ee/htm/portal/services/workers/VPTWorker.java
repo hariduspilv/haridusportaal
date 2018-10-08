@@ -619,17 +619,7 @@ public class VPTWorker extends Worker {
 //endregion;
       }
     } catch (Exception e) {
-      LOGGER.error(e, e);
-
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
-
-      Long timestamp = System.currentTimeMillis();
-
-      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
-      ((ArrayNode) jsonNode.get("body").get("messages")).add("error_" + timestamp);
-      ((ObjectNode) jsonNode.get("messages")).putObject("error_" + timestamp)
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+      super.setXdzeisonError(LOGGER, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
