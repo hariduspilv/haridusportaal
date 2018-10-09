@@ -88,7 +88,7 @@ public class EisWorker extends Worker {
     logForDrupal.setType("EIS - testid_kod.v1");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
-        .put("key", "testidKod");
+        .put("key", "testidKod_" + testSessionId);
 
     try {
       TestidKodVastus response = eisXRoadService.testidKod(testSessionId, "EE" + personalCode);
@@ -112,7 +112,7 @@ public class EisWorker extends Worker {
                 .put("staatus", "".equals(item.getStaatus()) ? null : item.getStaatus())
                 .put("tulemus", "".equals(item.getTulemus()) ? null : item.getTulemus())
                 .putArray("osad");
-            isNextTest =  true;
+            isNextTest = true;
           } else {
             ((ArrayNode) testNode.get("osad")).addObject()
                 .put("osa_nimi", item.isSetOsaNimi() ? item.getOsaNimi() : null)
@@ -134,7 +134,7 @@ public class EisWorker extends Worker {
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
 
-      redisTemplate.opsForHash().put(personalCode, "testidKod", "Tehniline viga!");
+      redisTemplate.opsForHash().put(personalCode, "testidKod_" + testSessionId, "Tehniline viga!");
 
       responseNode.putObject("error")
           .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
@@ -146,7 +146,7 @@ public class EisWorker extends Worker {
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
-    redisTemplate.opsForHash().put(personalCode, "testidKod", responseNode);
+    redisTemplate.opsForHash().put(personalCode, "testidKod_" + testSessionId, responseNode);
 
     return responseNode;
   }
@@ -159,7 +159,7 @@ public class EisWorker extends Worker {
     logForDrupal.setType("EIS - e_tunnistus_kod.v1");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
-        .put("key", "eTunnistusKod");
+        .put("key", "eTunnistusKod_" + tunnistusId);
 
     try {
       XRoadMessage<ETunnistusKodResponse> responseXRoadMessage = eisXRoadService
@@ -182,7 +182,8 @@ public class EisWorker extends Worker {
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
 
-      redisTemplate.opsForHash().put(personalCode, "eTunnistusKod", "Tehniline viga!");
+      redisTemplate.opsForHash()
+          .put(personalCode, "eTunnistusKod_" + tunnistusId, "Tehniline viga!");
 
       responseNode.putObject("error")
           .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
@@ -194,7 +195,7 @@ public class EisWorker extends Worker {
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
-    redisTemplate.opsForHash().put(personalCode, "eTunnistusKod", responseNode);
+    redisTemplate.opsForHash().put(personalCode, "eTunnistusKod_" + tunnistusId, responseNode);
 
     return responseNode;
   }
@@ -207,7 +208,7 @@ public class EisWorker extends Worker {
     logForDrupal.setType("EIS - e_tunnistus_kehtivus.v1");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
-        .put("key", "eTunnistusKehtivus");
+        .put("key", "eTunnistusKehtivus_" + tunnistusNr);
 
     try {
       XRoadMessage<ETunnistusKehtivusResponse> responseXRoadMessage = eisXRoadService
@@ -240,7 +241,8 @@ public class EisWorker extends Worker {
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
 
-      redisTemplate.opsForHash().put(personalCode, "eTunnistusKehtivus", "Tehniline viga!");
+      redisTemplate.opsForHash()
+          .put(personalCode, "eTunnistusKehtivus_" + tunnistusNr, "Tehniline viga!");
 
       responseNode.putObject("error")
           .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
@@ -252,7 +254,7 @@ public class EisWorker extends Worker {
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
-    redisTemplate.opsForHash().put(personalCode, "eTunnistusKehtivus", responseNode);
+    redisTemplate.opsForHash().put(personalCode, "eTunnistusKehtivus_" + tunnistusNr, responseNode);
 
     return responseNode;
   }
