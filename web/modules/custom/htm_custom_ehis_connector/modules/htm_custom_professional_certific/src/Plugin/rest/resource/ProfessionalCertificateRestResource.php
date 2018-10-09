@@ -124,8 +124,9 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		$response = new ResourceResponse($json, 200);
 		$cache_metadata = new CacheableMetadata();
 		$cache_metadata->addCacheContexts(['url.query_args']);
-		$cache_metadata->addCacheableDependency($this->currentUser->getAccount());
+		#$cache_metadata->addCacheableDependency($this->currentUser->getAccount());
 		$response->addCacheableDependency($cache_metadata);
+		$response->addCacheableDependency($this->currentUser->getAccount());
 
 		return $response;
 	}
