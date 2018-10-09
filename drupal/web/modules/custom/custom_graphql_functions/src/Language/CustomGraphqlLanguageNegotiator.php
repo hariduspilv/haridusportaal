@@ -2,6 +2,7 @@
 
 namespace Drupal\custom_graphql_functions\Language;
 
+use Drupal\graphql\GraphQLLanguageContext;
 use Drupal\language\LanguageNegotiator;
 use Drupal\Core\Session\AccountInterface;
 
@@ -19,6 +20,13 @@ class CustomGraphqlLanguageNegotiator extends LanguageNegotiator {
 	 */
 	protected $currentUser;
 
+	/**
+	 * The graphql language context.
+	 *
+	 * @var \Drupal\graphql\GraphQLLanguageContext
+	 */
+	protected $languageContext;
+
 	var $languageCode = NULL;
 
 	/**
@@ -35,44 +43,42 @@ class CustomGraphqlLanguageNegotiator extends LanguageNegotiator {
 	 * @param \Drupal\Core\Session\AccountInterface $current_user
 	 *   The user instance.
 	 */
-	public function __construct($language_manager, $negotiator_manager, $config_factory, $settings, $requestStack, AccountInterface $current_user) {
+	public function __construct($language_manager, $negotiator_manager, $config_factory, $settings, $requestStack, AccountInterface $current_user, GraphQLLanguageContext $languageContext) {
 		parent::__construct($language_manager, $negotiator_manager, $config_factory, $settings, $requestStack);
 		$this->currentUser = $current_user;
+		$this->languageContext = $languageContext;
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	/*public static function create(ContainerInterface $container, $language_manager, $negotiator_manager, $config_factory, $requestStack) {
-		return new static(
-				$language_manager,
-				$negotiator_manager,
-				$config_factory,
-				$requestStack,
-				$container->get('current_user')
-		);
-	}*/
-
 
 	/**
    * {@inheritdoc}
    */
   public function initializeType($type) {
-    $language = NULL;
-    $method_id = static::METHOD_ID;
-    $availableLanguages = $this->languageManager->getLanguages();
 
-    if ($this->languageCode && isset($availableLanguages[$this->languageCode])) {
-      $language = $availableLanguages[$this->languageCode];
-    }
-
-		if (!$language) {
-			// If no other language was found use the default one.
-			$language = $this->languageManager->getDefaultLanguage();
+		$request = $this->requestStack->getCurrentRequest();
+		if($request->attributes->get('_graphql') || $request->attributes->get('_graphql_subrequest')){
+			$this->languageCode = $this->languageContext->getCurrentLanguage();
+			$language = NULL;
 			$method_id = static::METHOD_ID;
+			$availableLanguages = $this->languageManager->getLanguages();
+
+			if ($this->languageCode && isset($availableLanguages[$this->languageCode])) {
+				$language = $availableLanguages[$this->languageCode];
+			}
+
+			if (!$language) {
+				// If no other language was found use the default one.
+				$language = $this->languageManager->getDefaultLanguage();
+				$method_id = static::METHOD_ID;
+			}
+			return [$method_id => $language];
+		}else{
+  		return parent::initializeType($type);
 		}
 
-    return array($method_id => $language);
+
+
+
+
   }
 
   /**

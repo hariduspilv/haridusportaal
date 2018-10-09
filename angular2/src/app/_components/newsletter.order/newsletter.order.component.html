@@ -38,7 +38,7 @@
                   <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' name="email" placeholder="{{ 'newsletter.email' | translate }}" [(ngModel)]="email"/>
                 </div>
                 <div class="round-input__error">
-                  <div class="round-input__error--text" *ngIf="!emailFocus">
+                  <div class="round-input__error--text" *ngIf="!emailFocus" aria-live="assertive">
                     <span *ngIf="errors.items" role="alert">{{ 'newsletter.subscription_choose_one' | translate }}</span>
                     <span *ngIf="errors.email && !errors.items" role="alert">{{ 'newsletter.valid_email' | translate }}</span>
                   </div>
