@@ -16,7 +16,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-const IN_ADS_RES_LIMIT = 30;
+
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
     dateInput: 'DD.MM.YYYY',
@@ -49,12 +49,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
   public datepickerFocus: boolean = false;
-
+  public temporaryModel = {};
   public data;
   public opened_step;
   public max_step;
   public current_acceptable_activity: string[];
   public data_elements;
+  public data_messages;
   public navigationLinks;
   public activityButtons;
   public error = {};
@@ -193,7 +194,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(files && files.length > 0) {
       for(let file of files) {
         let reader = new FileReader();
-        console.log(file.name);
+        
         reader.readAsDataURL(file);
         reader.onload = () => {
           let payload = {
@@ -202,7 +203,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
             data_element: element
           }
           let subscription = this.http.fileUpload('/xjson_service/documentFile', payload).subscribe(response => {
-            console.log(response);
+            
             let new_file = {
               file_name: file.name,
               file_identifier: response['id']
@@ -346,7 +347,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
   tableValidation(table){
     for (let row of table.value) {
-      //console.log(row);
+      
       for (let col of Object.keys(row)) {
         let column_properties = JSON.parse(JSON.stringify(table.table_columns[col]));
         column_properties.value = row[col];
@@ -395,9 +396,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.validateForm(this.data_elements);
 
       if(Object.keys(this.error).length == 0){
-        //console.log('Would submit form with this.data.header["activity"]= ', activity)
+        
         this.data.header["activity"] = activity;
-        //console.log(this.data);
+        
         let payload = {form_name: this.form_name, form_info: this.data};
         if(this.test === true) this.promptDebugDialog(payload)
         else this.getData(payload);
@@ -528,9 +529,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   viewController(xjson){
     
-
     this.data = xjson;
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
+    
+    //Concat. all message arrays and display them at all times
+    this.data_messages = this.data.body.messages;
+    Object.keys(this.data.body.steps).forEach(item => {
+      let step = this.data.body.steps[item];
+      if(step.messages) {
+        this.data_messages = [...this.data_messages, ...step.messages];
+      }
+    })
 
     if(!this.data_elements){
       let payload = {form_name: this.form_name, form_info: xjson}
@@ -547,13 +556,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
   
   addressAutocompleteSelectionValidation(element){
-    console.log(this.autoCompleteContainer[element]);
-    let condition = this.autoCompleteContainer[element].some(address => {
-      return address.pikkaadress === this.data_elements[element].value
-    })
-    console.log(condition);
-    if(!condition) this.data_elements[element].value = "";
     
+    if(this.autoCompleteContainer[element] ===  undefined) return this.data_elements[element].value = null;
+    let _this = this;
+    let match = this.autoCompleteContainer[element].find(address => {
+      return address.addressHumanReadable === _this.temporaryModel[element]
+    })
+    if(!match) {
+      this.data_elements[element].value = null;
+    }
+    else this.data_elements[element].value = this.inAdsFormatValue(match)
   }
   addressAutocomplete(searchText: string, debounceTime: number = 300, element) {
    
@@ -566,10 +578,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(this.autocompleteSubscription) this.autocompleteSubscription.unsubscribe();
   
     let _this = this;
+    let limit = this.data_elements[element].results || 10;
+    let ihist = this.data_elements[element].ihist || 0;
+    let apartment = this.data_elements[element].appartment || 0;
 
     this.autocompleteDebouncer = setTimeout(function(){
-
-      let jsonp = _this._jsonp.get('http://inaadress.maaamet.ee/inaadress/gazetteer?address=' + searchText + '&results='+ IN_ADS_RES_LIMIT+'&callback=JSONP_CALLBACK')
+        
+      let url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist='+ ihist +'&appartment='+ apartment +'&address=' + searchText + '&results='+ limit + '&callback=JSONP_CALLBACK';
+      let jsonp = _this._jsonp.get(url)
       .map(function(res){
         return res.json() || {};
       }).catch(function(error: any){return Observable.throw(error)});
@@ -579,12 +595,37 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
         _this.autocompleteLoader = false;
         _this.autoCompleteContainer[element] = data['addresses'] || [];
+
+        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 != '0000' || address.kood7 != '0000'))
+        
+        _this.autoCompleteContainer[element].forEach(address => {
+          if(address.kort_nr){
+            address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
+          } else {
+            address.addressHumanReadable = address.pikkaadress;
+          }
+        })
         _this.autocompleteSubscription.unsubscribe();
-        console.log( _this.autoCompleteContainer[element]);
       })  
 
     }, debounceTime)
 
+  }
+  inAdsFormatValue(address){
+    return {
+      "adr_id" : address.adr_id,
+      "ads_oid" : address.ads_oid,
+      "addressCoded" : address.koodaadress,
+      "county" : address.maakond,
+      "countyEHAK" : address.ehakmk,
+      "localGovernment" : address.omavalitsus,
+      "localGovernmentEHAK" : address.ehakov,
+      "settlementUnit" : address.asustusyksus,
+      "settlementUnitEHAK" : address.ehak,
+      "address" : address.aadresstekst,
+      "apartment" : address.kort_nr,
+      "addressHumanReadable" : address.addressHumanReadable
+      }
   }
   
   scrollPositionController(){

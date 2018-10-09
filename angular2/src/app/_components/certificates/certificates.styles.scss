@@ -1,62 +1,40 @@
 
 @import "../../../assets/styles/typography.scss"; 
 
-.mat-expansion-panel {box-shadow: none !important;border: .0625rem solid $light-orange; border-radius: .125rem; border-left: .1875rem solid $light-orange; margin-bottom: $half-gutter;
+.mat-expansion-panel {margin-bottom: .25rem;border: .0625rem solid #bee3e8;border-left: .1875rem solid #bee3e8;
   mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
   }
-  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid $dark-orange;
+  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid #15adc2;
     mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
   }
   &-body { padding: 0 $medium !important;}
   &-spacing {margin: 0 0 $half-gutter 0;}
-  &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem; background: transparent!important;
-    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;
-    }
-        &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
+  &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;background: #bee3e8!important;
+    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;background: transparent!important;}
   }
   &:hover {
-    border-left: .1875rem solid $dark-orange;
-      ::ng-deep .mat-expansion-indicator{ background: $red;
+    border-left: .1875rem solid #15adc2;
+    ::ng-deep .mat-expansion-indicator{ background: $blue;
       &:after {
         color: $white;
       }
     }
   }
-  }
-  mat-panel-title {font-size: $small; text-decoration: none; color: $black;
-  }
-  .accordion {padding: 0; padding-top: $large; 
-    
-      @include break-on(sm, max) { margin: 0 -1.5rem; }
-     }
-  ::ng-deep .accordion__body {line-height: 1.375rem;font-size: $small;padding-top: $gutter;
-    p {margin: 0;}
-  }
-  ::ng-deep .accordion__links {line-height: 1.375rem;font-size: $small;padding-top: $small;
-  }
-  ::ng-deep .mat-expansion-indicator::after {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';
+}
+::ng-deep .mat-expansion-indicator::after {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';
   content: 'keyboard_arrow_down' !important;border: none !important;transform: none !important;padding: 0 !important;
-  position: relative;text-align: center;width: $medium;color: $red;
+  position: relative;text-align: center;width: $medium;color: $blue;
   height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
 }
 ::ng-deep .mat-expansion-panel-content {padding: 0 $half-gutter; background: $white!important; }
 ::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;}
 ::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; }
-::ng-deep .mat-expanded .mat-expansion-indicator {background: $red; border: 0rem solid $red;}
-::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
-  font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
-}
-::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: underline;}
-
-.mat-expansion-panel-header {
- background: $light-orange!important;
-}
-
-.mat-expansion-panel-header.mat-expanded { 
-  background: transparent!important;
+::ng-deep .mat-expanded .mat-expansion-indicator {background: $blue; border: 0rem solid $blue;}
+.accordion {padding: 0; padding-top: $large;   
+  @include break-on(sm, max) { margin: 0 -1.5rem; }
 }
 .dashboard-table td {
  color: $black;
@@ -67,6 +45,52 @@
 .accordion .error {
   @include break-on(sm, max) {margin: 0 1.5rem;}
 }
+::ng-deep .text--substrong { font-weight: 400;font-size: 1rem;padding-bottom: .5rem; span {font-weight: 500;}
+  &--head {@extend .text--substrong;padding-bottom: 0!important;}
+}
+.dashboard--detail.main-container{@include break-on(sm, min) {margin:.5rem 1.5rem 0;}}
+.dashboard--detail {
+  h1 { 
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.25;
+    text-align: left;
+    color: $black;
+    margin-bottom: 1rem;
+  }
+  
+  .block-title {line-height: 2rem;}
+  .table-holder {overflow-y: auto;}
+  .padding-block {padding: 1rem 1.5rem 3rem;}
+  
+  .top-link {
+    line-height: 1.875rem;
+    margin-bottom: 1rem;
+  }
+  
+  .highlighted {
+    border-radius: 0.78125rem;
+    background-color: $aqua;
+    font-size: 0.875rem;
+    line-height: 1.29;
+    color: #333333;
+    margin-left: 1rem;
+    padding: 0.3125rem 0.75rem;
+    position: relative;
+    top: -0.1875rem;
+  }
+  .scrollable {padding: 0;}
+  .text--substrong { font-weight: 400;font-size: 1rem;padding-bottom: .5rem; span {font-weight: 500;}}
+  .sidebar {background: $light-gray;
+    &__item {border-top: $gutter solid $orange;background: $white;padding: $small $medium $medium $medium;margin-bottom: 0;
+      @include break-on(sm, min) {border-radius: $half-gutter; margin-bottom: $small;}
+    }
+    &__title {font-size: 1.25rem; color: $black;}
+    &__paragraph {a {width: 100%; line-height: 2.5rem; box-sizing: border-box;}}
+  }
+}
+
 
 
 
