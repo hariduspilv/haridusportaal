@@ -319,8 +319,13 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       fillOpacity: 1,
       strokeColor: "#fff",
       strokeWeight: 1,
-      strokeOpacity: 1
+      strokeOpacity: 1,
+      clickable: true
     };
+  }
+
+  kmlClick($event) {
+
   }
 
   changeLayer(name){
