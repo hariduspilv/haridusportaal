@@ -201,8 +201,8 @@ $grid-columns: 12;
     }
   }
   .filter-control {padding: $medium;}
-  .filter-wrapper {background: $white; padding: 0 $medium; margin-bottom: $xxl;
-    @include break-on(sm, min) {padding: $medium; margin-bottom: $medium; margin-top: $small;
+  .filter-wrapper {background: $white; padding: 0 $small; margin-bottom: $xxl;
+    @include break-on(sm, min) {padding: $small; margin-bottom: $medium; margin-top: $small;
       @include break-on(md, max) {padding: $small;}
     }
     .align-end {margin-bottom: auto;
@@ -610,12 +610,12 @@ mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
 
 .mat-select-arrow-wrapper .mat-select-arrow {
   background: url('/assets/img/dropdown-orange.svg') center center no-repeat; height: 1.5rem; width: 1.5rem; background-size: 1.5rem; display: block;
-  margin: -0.1875rem 0 0 0; border-left: 0 solid transparent; border-right: 0 solid transparent; border-top: 0 solid transparent;
+  margin: -0.25rem -0.5rem 0 0; border-left: 0 solid transparent; border-right: 0 solid transparent; border-top: 0 solid transparent;
 }
 
 .disabled .mat-select-arrow-wrapper .mat-select-arrow {
   background: url('/assets/img/dropdown-gray.svg') center center no-repeat; height: 1.5rem; width: 1.5rem; background-size: 1.5rem; display: block;
-  margin: -0.1875rem 0 0 0; border-left: 0 solid transparent; border-right: 0 solid transparent; border-top: 0 solid transparent;
+  margin: -0.25rem -0.5rem 0 0; border-left: 0 solid transparent; border-right: 0 solid transparent; border-top: 0 solid transparent;
 }
 
 .cdk-overlay-dark-backdrop { background: rgba(51,51,51,0.9); }
@@ -655,19 +655,8 @@ a:hover .important-pill {
 }
 
 .important-pill { 
-  font-size: 0.875rem;
-  line-height: 1.29;
-  color: $black;
-  border-radius: 0.78125rem;
-  background-color: $light-orange;
-  padding: 0.25rem 0.75rem 0.25rem;
-  font-weight: normal;
-  margin-left: 1rem;
-  pointer-events: none;
-  text-decoration: none;
-  display: inline-block;
-  top: -0.25rem;
-  position: relative;
+  font-size: 0.875rem; line-height: 1.29; color: $black; border-radius: 0.78125rem; background-color: $light-orange; padding: 0.25rem 0.75rem 0.25rem;
+  font-weight: normal; margin-left: 1rem; pointer-events: none; text-decoration: none; display: inline-block; top: -0.25rem; position: relative;
 }
 
 .mininav .important-pill{
@@ -676,8 +665,9 @@ a:hover .important-pill {
   margin-left: 2rem;
 }
 
-
-
+.tooltip { display: flex; align-items: baseline; margin-top: 12px; margin-left: 0.5rem; }
+.tooltip:before { font-family: 'htm-icon'; content: "help_24px"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga'; color: $black;
+ display: flex; align-items: center; }
 
 
 
