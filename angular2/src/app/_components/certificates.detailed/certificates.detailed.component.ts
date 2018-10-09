@@ -24,13 +24,18 @@ export class CertificatesDetailedComponent implements OnInit{
   public tableOverflown: any = {};
   public elemAtStart: any = {};
   public opened: any = {};
+  public certificatesView: boolean = false;
+  public breadcrumbs;
   
   public userData;
 
   public loading: boolean;
   private error: boolean;
   private viewChecked: boolean = false;
-  
+  private initialCrumbs = {
+    'en': [{"text": "Home", "url": "/en"}, {"text": "Certificates", "url": "/en/dashboard/certificates"}],
+    'et': [{"text": "Avaleht", "url": "/et"}, {"text": "Tunnistused", "url": "/et/toolaud/tunnistused"}]
+  };
   public subscriptions: Subscription[] = [];
 
   constructor(
@@ -114,6 +119,16 @@ export class CertificatesDetailedComponent implements OnInit{
     });
     
   }
+  
+  constructCrumbs() {
+    let crumbs = this.initialCrumbs[this.lang];
+    let translations = {
+      'en': ['Certificate', 'Examinations'],
+      'et': ['Tunnistus', 'Eksamitulemused']
+    }
+    var crumbText = this.certificatesView ? translations[this.lang][0] : translations[this.lang][1];
+    return [...crumbs, {text: crumbText, url: ''}];
+  }
 
   downloadCertificate() {
     let token = localStorage.getItem('token');
@@ -121,6 +136,7 @@ export class CertificatesDetailedComponent implements OnInit{
   }
 
   ngOnInit(){
+    this.certificatesView = !this.route.snapshot.queryParams['exams'];
     this.userData = this.user.getData();
     if(this.userData.isExpired === true){
       this.router.navigateByUrl('');
@@ -131,11 +147,12 @@ export class CertificatesDetailedComponent implements OnInit{
     let url = this.path.split('/');
     this.dashboardLink = url.splice(0,url.length-1).join('/');
 
-    if (this.route.snapshot.queryParams['exams']) {
+    if (!this.certificatesView) {
       this.loadExaminations(this.certificateId);
     } else {
       this.loadCertificate();
     }
+    this.breadcrumbs = this.constructCrumbs();
   }
 
 }

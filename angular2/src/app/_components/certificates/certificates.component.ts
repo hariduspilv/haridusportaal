@@ -14,7 +14,7 @@ export class CertificatesComponent implements OnInit{
 
   public professionalCertificates: any;
   public examResults: any;
-  public examResultsErr: boolean;
+  public examResultsErr: string;
   public errData: boolean;
   public errRequest: boolean;
 
@@ -76,15 +76,14 @@ export class CertificatesComponent implements OnInit{
     this.loading[_id] = true;
     let sub = this.http.get('/dashboard/certificates/getTestSessions?_format=json').subscribe(response => {
       if(response['value']['teade'] || response['value']['testsessioonid_kod_jada'] === []){
-        this.examResultsErr = this.errData = true;
+        this.examResultsErr = response['value']['teade'];
       } else {
         this.examResults = response['value']['testsessioonid_kod_jada'];
-        console.log(this.examResults);
       };
       this.loading[_id] = false;
       sub.unsubscribe();
     }, (err) => {
-      this.examResultsErr = this.errRequest = true;
+      this.errRequest = true;
       console.log(err);
       this.loading[_id] = false;
     });
