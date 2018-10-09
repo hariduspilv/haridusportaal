@@ -68,7 +68,7 @@ export class CertificatesDetailedComponent implements OnInit{
 
     this.loading = true;
 
-    let sub = this.http.get('/dashboard/kodanikKutsetunnistus/null?_format=json').subscribe(response => {
+    let sub = this.http.get('/dashboard/certificates/getProfessionalCertificate?_format=json').subscribe(response => {
       this.loading = false;
 
       if(response['error']){
