@@ -16,7 +16,7 @@
               </div><!--/col-10-->
           </div><!--/row-->
       
-          <div class="author" attr.aria-label="{{'author'}}{{ content.fieldAuthor }}">
+          <div class="author" attr.aria-label="{{'author.author' | translate}}{{ content.fieldAuthor }}">
             {{ content.fieldAuthor }} {{ content.created*1000 | date:"dd.MM.yyyy" }}
           </div>
           <div class="row">

@@ -13,7 +13,7 @@
           <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
             <span class="round-input__title">{{ 'news.filter_name' | translate }}</span>
             <div class="round-input__field-wrapper">
-              <input class="round-input__field" attr.aria-label="{{'You are currently on Filter navigation, where you can enter news title and pick start and end date'}}" placeholder="{{ 'news.filter_name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
+              <input class="round-input__field" attr.aria-label="{{'filter.info' | translate }}" placeholder="{{ 'news.filter_name' | translate }} " [(ngModel)]='filterFormItems.title' name="title" />
             </div>
           </div><!--/round-inpuit__wrapper-->
         </div><!--/col-4-->
@@ -82,7 +82,7 @@
             <ng-select
             tabindex="0"
             role="select"
-             attr.aria-label="{{'Specific search selectbox, choose your options'}}"
+          attr.aria-label="{{'filter.select' | translate}}"
             [class.exists]="filterFormItems.types && filterFormItems.types.length"
             [items]="tags | async"
             [multiple]="true"
@@ -147,7 +147,7 @@
 
       <div class="text-center actions" *ngIf="!listEnd">
         <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-        <button mat-raised-button color="primary" (click)="loadMore()" role="button" *ngIf="!loading" attr.aria-label="{{'click to load more events'}}">
+        <button mat-raised-button color="primary" (click)="loadMore()" role="button" *ngIf="!loading">
           {{ "button.load_more" | translate }}
         </button>
       </div><!--/text-center-->

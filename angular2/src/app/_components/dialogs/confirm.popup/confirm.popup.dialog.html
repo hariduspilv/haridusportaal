@@ -10,10 +10,10 @@
       <div class="dialog__success--content" [innerHtml]="data.content" tabindex="2"></div>
       <div class="dialog__actions--success">
         <div class="text-center">
-            <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="Confirm" (keyup.space)="dialogRef.close(true)" (keyup.enter)="dialogRef.close(true)" (click)="dialogRef.close(true)">{{ data.confirm }}</a></div>
+            <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="{{'modal.confirm' | translate}}" (keyup.space)="dialogRef.close(true)" (keyup.enter)="dialogRef.close(true)" (click)="dialogRef.close(true)">{{ data.confirm }}</a></div>
         </div>
         <div class="text-center">
-          <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="Close" (keyup.space)="dialogRef.close(false)" (keyup.enter)="dialogRef.close(false)" (click)="dialogRef.close(false)">{{ data.cancel }}</a></div>
+          <div class="dialog__actions--success__close"><a href="javascript:void(0)" aria-label="{{'modal.close' | translate}}" (keyup.space)="dialogRef.close(false)" (keyup.enter)="dialogRef.close(false)" (click)="dialogRef.close(false)">{{ data.cancel }}</a></div>
         </div>
       </div>
     </div>

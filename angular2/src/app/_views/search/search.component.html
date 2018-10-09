@@ -1,9 +1,9 @@
-<div class="row sm-hide crumbs" attr.aria-label="{{'breadcrumbs' | translate}}">
+<div class="row sm-hide crumbs" attr.aria-label="{{'breadcrumbs.breadcrumb' | translate}}">
   <div class="col-12">
-    <ul class="main-container breadcrumb mt-0 mb-0" *ngIf="breadcrumbs && !loading">
+    <ul role="link" class="main-container breadcrumb mt-0 mb-0" *ngIf="breadcrumbs && !loading">
       <li *ngFor="let breadcrumbEl of breadcrumbs; let last = last">
         <a [routerLink]="[breadcrumbEl.url]" *ngIf="!last">
-          <span role="link" attr.aria-label="{{'Breadcrumb'}}">{{ breadcrumbEl.text }}</span>
+          <span role="link">{{ breadcrumbEl.text }}</span>
         </a>
         <span role="dialog" attr.aria-current="{{'page'}}" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
       </li>
@@ -59,7 +59,7 @@
     </div><!--/text-center-->
   </div>
   <div class="text-center actions" *ngIf="listLength > listLimit && filteredResults && filteredResults.length">
-    <button mat-raised-button color="primary" (click)="loadMore()" role="button" attr.aria-label="{{'click to load more'}}" >{{ 'button.load_more' | translate }}</button>
+    <button mat-raised-button color="primary" (click)="loadMore()" role="button" >{{ 'button.load_more' | translate }}</button>
   </div><!--/text-center-->
 </div>
 

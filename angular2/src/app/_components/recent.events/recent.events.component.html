@@ -77,10 +77,10 @@
   <div class="events__list__item">
     <div class="title"><h1>{{'event.contact' | translate}}</h1></div>
     <div class="events__list__item__body">
-      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Event Organizer '}} {{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
-      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Contact person '}} {{ content.entity.fieldContactPerson }}">{{ content.entity.fieldContactPerson }}</div>
-      <div class="child" tabindex="0" role="text" attr.aria-label="{{'Phone '}} {{ content.entity.fieldContactPhone }}">{{ content.entity.fieldContactPhone }}</div>
-      <a href="mailto:{{content.entity.fieldContactEmail}}" class="child" role="link"  attr.aria-label="{{'e-Mail '}} {{ content.entity.fieldContactEmail }}">{{ content.entity.fieldContactEmail }}</a>
+      <div class="child" tabindex="0" role="text" attr.aria-label="{{'event.organizer' | translate}} {{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}">{{ content.entity.fieldOrganizer ? content.entity.fieldOrganizer : '' }}</div>
+      <div class="child" tabindex="0" role="text" attr.aria-label="{{'event.person | translate'}} {{ content.entity.fieldContactPerson }}">{{ content.entity.fieldContactPerson }}</div>
+      <div class="child" tabindex="0" role="text" attr.aria-label="{{'event.phone | translate'}} {{ content.entity.fieldContactPhone }}">{{ content.entity.fieldContactPhone }}</div>
+      <a href="mailto:{{content.entity.fieldContactEmail}}" class="child" role="link"  attr.aria-label="{{'e-mail'}} {{ content.entity.fieldContactEmail }}">{{ content.entity.fieldContactEmail }}</a>
     </div>
   </div>
 </div>
