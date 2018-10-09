@@ -408,13 +408,13 @@
                       
                       <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
                         
-                        <input type="text" 
+                        <input class="contnent-input" type="text" 
                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
                         [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
                         [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
                       </ng-container> <!-- /TEXT --> 
                       
-                      <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">  
+                      <ng-container class="contnent-input" *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">  
                         <input type="email"
                         [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
@@ -422,7 +422,7 @@
                         [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
                       </ng-container> <!-- /EMAIL -->
                       
-                      <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">  
+                      <ng-container class="contnent-input" *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">  
                         <input type="number" 
                         [min]="tableColumnAttribute(element, colIndex, 'min')" 
                         [max]="tableColumnAttribute(element, colIndex, 'max')"  
@@ -554,14 +554,14 @@
             
             <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
               
-              <input type="text" 
+              <input class="contnent-input" type="text" 
               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
               [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
               [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
             </ng-container> <!-- /TEXT --> 
             
             <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">  
-              <input type="email"
+              <input class="contnent-input" type="email"
               [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
               [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
@@ -569,7 +569,7 @@
             </ng-container> <!-- /EMAIL -->
             
             <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">  
-              <input type="number" 
+              <input class="contnent-input" type="number" 
               [min]="tableColumnAttribute(element, colIndex, 'min')" 
               [max]="tableColumnAttribute(element, colIndex, 'max')"  
               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
@@ -578,19 +578,27 @@
             </ng-container> <!-- /NUMBER -->
             
             <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
+              <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
+                
+                <div class="round-input__field-wrapper">
+                  
+                  <input matInput class="round-input__field"
+                  [matDatepicker]="picker"
+                  [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                  placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                  [value]="getDatepickerValue(element, rowIndex, col)"
+                  (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
+                  (focus)="datepickerFocus = true;"
+                  (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
+                  name="{{element +_+ rowIndex + '_' + colIndex}}">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker
+                  [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+                </div>
+              </div>
               
-              <input matInput
-              [matDatepicker]="picker"
-              [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-              placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-              [value]="getDatepickerValue(element, rowIndex, col)"
-              (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
-              (focus)="datepickerFocus = true;"
-              (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
-              name="{{element +_+ rowIndex + '_' + colIndex}}">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker
-              [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+              
+              
             </ng-container> <!-- /DATE -->
             
             
