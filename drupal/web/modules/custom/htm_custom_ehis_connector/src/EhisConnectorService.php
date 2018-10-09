@@ -208,14 +208,14 @@ class EhisConnectorService {
 	public function gettestidKod(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode(), $params['session_id'], time()];
 		$params['key'] = $this->getCurrentUserIdCode();
-		$params['hash'] = 'testidKod';
+		$params['hash'] = 'testidKod_'.$params['session_id'];
 		return $this->invokeWithRedis('testidKod', $params, FALSE);
 	}
 
 	public function getCertificate(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode(), $params['certificate_id'], time()];
 		$params['key'] = $this->getCurrentUserIdCode();
-		$params['hash'] = 'eTunnistusKod';
+		$params['hash'] = 'eTunnistusKod_'.$params['certificate_id'];
 		return $this->invokeWithRedis('eTunnistusKod', $params, FALSE);
 	}
 
