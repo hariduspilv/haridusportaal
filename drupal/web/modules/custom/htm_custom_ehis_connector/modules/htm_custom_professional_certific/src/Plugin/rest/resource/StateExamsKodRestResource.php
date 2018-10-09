@@ -102,6 +102,7 @@ class StateExamsKodRestResource extends ResourceBase {
 		$response = new ResourceResponse($json, 200);
 		$cache_metadata = new CacheableMetadata();
 		$cache_metadata->addCacheContexts(['url.query_args']);
+		#$cache_metadata->setCacheMaxAge(0);
 		$response->addCacheableDependency($cache_metadata);
 		$response->addCacheableDependency($this->currentUser);
 
