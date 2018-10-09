@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_professional_certific\Plugin\rest\resource;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\rest\ModifiedResourceResponse;
@@ -120,8 +121,13 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		}catch (RequestException $e){
 			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
 		}
+
 		$response = new ResourceResponse($json, 200);
-		$response->addCacheableDependency($this->currentUser->getAccount());
+		$cache_metadata = new CacheableMetadata();
+		$cache_metadata->addCacheableDependency($this->currentUser->getAccount());
+		$cache_metadata->addCacheContexts(['url.query_args']);
+		$response->addCacheableDependency($cache_metadata);
+
 		return $response;
 	}
 
