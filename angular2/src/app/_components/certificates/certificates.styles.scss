@@ -1,12 +1,38 @@
 
 @import "../../../assets/styles/typography.scss"; 
 
-.mat-expansion-panel {
+.mat-expansion-panel {margin-bottom: .25rem;border: .0625rem solid #bee3e8;border-left: .1875rem solid #bee3e8;
+  mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+    @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+  }
+  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid #15adc2;
+    mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
+      @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
+    }
+  }
   &-body { padding: 0 $medium !important;}
-  &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;
-    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;}
+  &-spacing {margin: 0 0 $half-gutter 0;}
+  &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;background: #bee3e8!important;
+    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;background: transparent!important;}
+  }
+  &:hover {
+    border-left: .1875rem solid #15adc2;
+    ::ng-deep .mat-expansion-indicator{ background: $blue;
+      &:after {
+        color: $white;
+      }
+    }
   }
 }
+::ng-deep .mat-expansion-indicator::after {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';
+  content: 'keyboard_arrow_down' !important;border: none !important;transform: none !important;padding: 0 !important;
+  position: relative;text-align: center;width: $medium;color: $blue;
+  height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
+}
+::ng-deep .mat-expansion-panel-content {padding: 0 $half-gutter; background: $white!important; }
+::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;}
+::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; }
+::ng-deep .mat-expanded .mat-expansion-indicator {background: $blue; border: 0rem solid $blue;}
 .accordion {padding: 0; padding-top: $large;   
   @include break-on(sm, max) { margin: 0 -1.5rem; }
 }
