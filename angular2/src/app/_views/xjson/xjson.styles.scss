@@ -69,12 +69,15 @@ a {
   &.disabled{ color: gray; text-decoration: none; cursor: not-allowed;}
 }
 .xjson__navigation__stepname {
-  position: relative; margin-bottom: 2rem; display: block; margin-top: 2rem; -ms-word-break: break-all; 
+  position: relative; margin-bottom: 2rem; display: block; margin-top: 2rem; -ms-word-break: break-all; padding: 0 0.125rem;
   word-break: break-all; word-break: break-word;-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; }
-  
   .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
   .button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 1.875rem; align-items: center; padding: 2rem 0.5rem 2rem 0.5rem;
-    a, button { margin-left: 1rem; }
+    a, button { margin-left: 1rem; 
+      @include break-on(sm, max) {  
+        margin-left: 0px;
+      }
+    }
   }
   
   table { width: 100%;border-collapse: collapse; margin: 0;
@@ -147,6 +150,8 @@ a {
     font-size: 0.875rem; color: $dark-gray;
   }
   
+.tooltip { margin-top: 0.75rem; }
+
   .round-input__outer-wrapper {
     display: flex;
     &.date-wrapper {
@@ -159,9 +164,14 @@ a {
     &.multiselect-wrapper { 
       .tooltip { margin-top: 0.8rem; }
     }
+    &.table-wrapper { 
+      .tooltip { margin-top: 0.8rem; }
+    }
   }
   .round-input__wrapper { width: 100%; }
   
+.table-heading { margin-top: 0.5rem; }
+
   ::ng-deep .mat-tooltip { position: relative; right: 29%; top: -0.5rem; text-align: left;
     font-size: 0.875rem; line-height: 1.14; background-color: $light-gray; box-shadow: 0 0.0625rem 0.125rem 0 rgba(51, 51, 51, 0.5);
     white-space: normal!important; width: 7.1875rem!important; min-width: inherit!important; color: $black!important;
@@ -218,3 +228,5 @@ a {
     -webkit-appearance: none; 
     margin: 0; 
   }
+
+  .scrollableTable th { padding: $gutter $small; }
