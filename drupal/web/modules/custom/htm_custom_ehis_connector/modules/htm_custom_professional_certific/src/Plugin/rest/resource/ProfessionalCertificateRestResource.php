@@ -9,7 +9,6 @@ use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use GuzzleHttp\Exception\RequestException;
-use http\Exception\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -125,8 +124,8 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		$response = new ResourceResponse($json, 200);
 		$cache_metadata = new CacheableMetadata();
 		$cache_metadata->addCacheContexts(['url.query_args']);
+		$cache_metadata->addCacheableDependency($this->currentUser->getAccount());
 		$response->addCacheableDependency($cache_metadata);
-		$response->addCacheableDependency($this->currentUser);
 
 		return $response;
 	}
