@@ -4,6 +4,8 @@ namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 
 use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\htm_custom_ehis_connector\EhisConnectorService;
+use Drupal\htm_custom_xjson_services\xJsonService;
 use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
@@ -35,33 +37,32 @@ class xJsonRestResource extends ResourceBase {
    */
   protected $currentUser;
 
-  /**
-   * Constructs a new xJsonRestResource object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param array $serializer_formats
-   *   The available serialization formats.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   A logger instance.
-   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
-   *   A current user instance.
-   */
-  public function __construct(
+
+	/**
+	 * xJsonRestResource constructor.
+	 *
+	 * @param array                 $configuration
+	 * @param                       $plugin_id
+	 * @param                       $plugin_definition
+	 * @param array                 $serializer_formats
+	 * @param LoggerInterface       $logger
+	 * @param xJsonService          $xJsonService
+	 * @param AccountProxyInterface $current_user
+	 * @param EhisConnectorService  $ehisConnectorService
+	 */
+	public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    xJsonServiceInterface $xJsonService,
-    AccountProxyInterface $current_user) {
+    xJsonService $xJsonService,
+    AccountProxyInterface $current_user,
+		EhisConnectorService $ehisConnectorService) {
 			parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 			$this->xJsonService = $xJsonService;
 			$this->currentUser = $current_user;
+			$this->ehisService = $ehisConnectorService;
   }
 
   /**
@@ -75,7 +76,8 @@ class xJsonRestResource extends ResourceBase {
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('htm_custom_xjson_services'),
       $container->get('htm_custom_xjson_services.default'),
-      $container->get('current_user')
+      $container->get('current_user'),
+			$container->get('htm_custom_ehis_connector.default')
     );
   }
 
@@ -92,41 +94,74 @@ class xJsonRestResource extends ResourceBase {
    *   Throws exception expected.
    */
   public function post($data) {
-  	#dump($data);
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->isAuthenticated()) {
       throw new AccessDeniedHttpException();
     }
-		if(($data['test'] && $data['test'] === TRUE)) {
-			$response = $this->xJsonService->buildTestResponse();
-			return new ModifiedResourceResponse($response);
-		} else {
-			if($data['form_info']){
-				$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
+    if(isset($data['id'])){
+    	if(isset($data['status']) && ($data['status'] === 'draft' || $data['status'] === 'submitted')){
+				return $this->returnExistingDzeison($data);
 			}else{
-				$request_body = $this->xJsonService->getBasexJsonForm(true);
+    		return new ModifiedResourceResponse('Status missing or status value wrong', 400);
+			}
+		}
+
+		if(isset($data['test']) && $data['test'] === TRUE) {
+			return $this->returnTestDzeison();
+		} else {
+			return $this->returnRighstDzeison($data);
+		}
+
+	}
+
+	private function returnExistingDzeison($data){
+		$params['url'] = [$data['form_name'], $data['id']];
+		$response = $this->ehisService->getDocument($params);
+		$response['header'] += [
+				'endpoint' => 'empty'
+		];
+		$form_name = $response['header']['form_name'];
+		//validate header acivity
+		$acceptable_activity = $response['header']['acceptable_activity'];
+		if($data['status'] === 'draft') $allowed_activites = ['SAVE' => 'SAVE', 'SUBMIT' => 'SUBMIT', 'CONTINUE' => 'CONTINUE'];
+		if($data['status'] === 'submitted') $allowed_activites = ['VIEW' => 'VIEW'];
+
+		foreach($acceptable_activity as $value){
+			if(!isset($allowed_activites[$value])){
+				$errorJson = $this->xJsonService->returnErrorxDzeison();
+				return new ModifiedResourceResponse($errorJson);
 			}
 		}
 
 
-		if(empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
-		#dump($request_body);
-		#return new ModifiedResourceResponse($request_body, 200);
-		$client = \Drupal::httpClient();
-		try {
-			/*TODO make post URL configurable*/
-			$request = $client->post('http://test-htm.wiseman.ee:30080/api/postDocument', [
-					'json' => $request_body,
-			]);
-			$response = json_decode($request->getBody(), TRUE);
-			$builded_response = $this->xJsonService->buildFormv2($response);
+		$builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
+		if(empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
 
-			if(empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
+		return $this->returnBuildedResponse($builded_header);
+	}
 
-			return new ModifiedResourceResponse($builded_response, 200);
-		}catch (RequestException $e){
-			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
+	private function returnTestDzeison(){
+		$response = $this->xJsonService->buildTestResponse();
+		return new ModifiedResourceResponse($response);
+	}
+
+	private function returnRighstDzeison($data){
+
+		if($data['form_info']){
+			$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
+		}else {
+			$request_body = $this->xJsonService->getBasexJsonForm(true);
 		}
+
+		if(empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
+		$response = $this->ehisService->postDocument(['json' => $request_body]);
+		return $this->returnBuildedResponse($response);
+	}
+
+	private function returnBuildedResponse($response){
+		$builded_response = $this->xJsonService->buildFormv2($response);
+		if(empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
+		return new ModifiedResourceResponse($builded_response, 200);
 	}
 }
