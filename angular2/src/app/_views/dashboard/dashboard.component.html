@@ -5,7 +5,7 @@
       <div class="block padding-block border-blue">
         <div class="block-title">{{ 'frontpage.dashboard_label' | translate | uppercase }}</div>
 
-        <div class="dashboard__username"><a href="javascript:void(0)" attr.aria-label="{{'Open personal information modal'}}" (click)="dataModal()">{{ userData.username | titleCase }}</a></div>
+        <div class="dashboard__username"><a href="javascript:void(0)" attr.aria-label="{{'modal.modaler' | translate}}" (click)="dataModal()">{{ userData.username | titleCase }}</a></div>
 
         <div class="button-list">
           <ng-container *ngFor="let item of mainMenu[lang]">

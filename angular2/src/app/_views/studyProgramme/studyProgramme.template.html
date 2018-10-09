@@ -190,7 +190,7 @@
             <span class="item" *ngIf="item.fieldSchoolAddress">{{ item.fieldSchoolAddress }}</span>
             <span class="bar" *ngIf="item.fieldSchoolWebsite">|</span>
             <span class="item" *ngIf="item.fieldSchoolWebsite">
-              <a attr.aria-label="{{item.fieldSchoolWebsite }} {{' clickable '}}" href="{{ item.fieldSchoolWebsite }}">{{ item.fieldSchoolWebsite | removeProtocol }}</a>
+              <a attr.aria-label="{{' event.website: '}} {{item.fieldSchoolWebsite }}" href="{{ item.fieldSchoolWebsite }}">{{ item.fieldSchoolWebsite | removeProtocol }}</a>
             </span>
             <span class="bar" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactPhone">|</span>
             <span class="item" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactPhone">{{ item.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}</span>
@@ -213,7 +213,7 @@
 
 <div class="text-center actions snackBar" *ngIf="!listEnd && list">
     <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-    <button role=button mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading" attr.aria-label="{{'click to load more events'}}">
+    <button role=button mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading"
       {{ "button.load_more" | translate }}
     </button>
   </div><!--/text-center-->
