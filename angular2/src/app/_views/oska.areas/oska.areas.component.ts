@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   templateUrl: "oska.areas.template.html",
@@ -12,13 +13,20 @@ export class OskaAreasComponent implements OnInit{
   video: any = false;
 
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
 
   }
 
   getData(){
-    let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=oskaFieldDetailView:1&variables=%7B%22path%22:%22/et/node/48872%22%7D";
+    let url = "/graphql?queryId=oskaFieldDetailView:1&variables=";
+    let variables = {
+      "path": this.router.url
+    };
+
+    url+= JSON.stringify(variables);
 
     let subscription = this.http.get(url).subscribe( (data) => {
       this.data = data['data']['route']['entity'];
