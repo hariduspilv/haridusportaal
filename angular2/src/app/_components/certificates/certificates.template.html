@@ -1,4 +1,3 @@
-
 <div class="accordion">
   <mat-accordion multi>
     <mat-expansion-panel [expanded]="first ? true : false" (opened)="dataController(accordionItem._id)" *ngFor="let accordionItem of accordionSection; let first = first;">
@@ -30,7 +29,26 @@
         </ng-container>
 
         <ng-container *ngIf="accordionItem._id === 'state-exams'">
-          <!-- under construction -->
+          <ng-container *ngIf="examResultsErr || errRequest">
+            <div *ngIf="examResultsErr">{{ examResultsErr }}</div>
+            <div *ngIf="errRequest">{{ 'errors.examinations_data_request' | translate }}</div>
+          </ng-container>
+          <table class="dashboard-table" *ngIf="!examResultsErr && !errRequest">
+            <thead>
+              <tr>
+                <th>{{'frontpage.eksamiNimetus' | translate}}</th>
+                <th>{{'frontpage.aasta' | translate}}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let session of examResults">
+                  <td>{{ session.nimi }}</td>
+                  <td>{{ session.oppeaasta }}</td>
+                  <td class="text-center"><a [routerLink]="[session.testsessioon_id]" [queryParams]="{exams: session.oppeaasta}">{{ 'button.view_more' | translate }}</a></td>
+                </tr>
+            </tbody>
+          </table>
         </ng-container>
 
       </ng-container><!--end of *ngIf="!loading[accordionItem._id]"-->
