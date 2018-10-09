@@ -45,7 +45,7 @@
                 <tr *ngFor="let session of examResults">
                   <td>{{ session.nimi }}</td>
                   <td>{{ session.oppeaasta }}</td>
-                  <td class="text-center"><a [routerLink]="[session.testsessioon_id]" [queryParams]="{exams: 'true'}">{{ 'button.view_more' | translate }}</a></td>
+                  <td class="text-center"><a [routerLink]="[session.testsessioon_id]" [queryParams]="{exams: session.oppeaasta}">{{ 'button.view_more' | translate }}</a></td>
                 </tr>
             </tbody>
           </table>

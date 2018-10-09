@@ -107,7 +107,7 @@
 
         <ng-container *ngIf="examResults && !loading">
 
-          <h1 *ngIf="examResults">{{ 'frontpage.eksamiTulemused' | translate }}</h1>
+          <h1 *ngIf="examResults">{{ 'frontpage.eksamiTulemused' | translate }} {{route.snapshot.queryParams['exams']}}</h1>
           <a href="javascript:void(0)" id="backToDashboard" class="sm-hide pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
           <a href="javascript:void(0)" id="backToDashboard" class="sm-show top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
           <mat-accordion multi>
@@ -170,7 +170,7 @@
     <div class="col-4 sm-12" *ngIf="examResults && downloadId && !loading">
       <aside class="sidebar">
         <div class="sidebar__item">
-          <h1 class="sidebar__title">Tunnistuse allalaadimine</h1>
+          <h1 class="sidebar__title">{{ 'frontpage.certificate_download' | translate }}</h1>
           <div class="sidebar__paragraph">
             <a [href]="downloadCertificate()" target="_blank" mat-raised-button color="primary" >{{ 'button.download' | translate }}</a>
           </div>
