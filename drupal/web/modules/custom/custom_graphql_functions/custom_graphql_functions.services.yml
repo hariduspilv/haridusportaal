@@ -1,7 +1,7 @@
 services:
   custom_graphql_functions.language_negotiator:
     class: Drupal\custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator
-    arguments: ['@language_manager', '@plugin.manager.language_negotiation_method', '@config.factory', '@settings', '@request_stack', '@current_user']
+    arguments: ['@language_manager', '@plugin.manager.language_negotiation_method', '@config.factory', '@settings', '@request_stack', '@current_user', '@graphql.language_context']
     #calls:
     #  - [initLanguageManager]
   custom_graphql_functions.custom_tree_manipulators:

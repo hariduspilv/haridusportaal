@@ -7,13 +7,13 @@
 		<mat-sidenav #sidenav mode="{{mode}}" [(opened)]="opened" [disableClose]="isSidenavCloseDisabled" fixedInViewport="true">
 			<app-side-menu></app-side-menu>
 		</mat-sidenav>
-
-
+		
+		
 		<mat-sidenav-content role="contentinfo">
 			<a href="javascript:void(0)" attr.aria-label="{{'Main content start point'}}" id="mainContent"></a>
 			<router-outlet ></router-outlet>
-
+			
 		</mat-sidenav-content>
-
+		
 	</mat-sidenav-container>
 </div><!--/inline-->

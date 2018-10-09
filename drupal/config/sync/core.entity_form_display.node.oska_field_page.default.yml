@@ -18,6 +18,7 @@ dependencies:
     - htm_custom_video_field
     - image
     - link
+    - maxlength
     - paragraphs
     - path
     - scheduler
@@ -80,7 +81,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: ''
+      default_paragraph_type: _none
     third_party_settings: {  }
     region: content
   field_oska_field_picture:
@@ -154,7 +155,10 @@ content:
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
   translation:
     weight: 3
     region: content
