@@ -81,7 +81,7 @@ const appRoutes: Routes = [
       { path: '**', redirectTo: ':lang/404', pathMatch: 'full' }
     ]},
 
-  { path: ':lang/oska/areas/:id', component:OskaAreasComponent},
+  { path: ':lang/valdkonnad/:id', component:OskaAreasComponent},
   
   { path: ':lang/otsing', component: SearchComponent },
   { path: ':lang/search', component: SearchComponent },
