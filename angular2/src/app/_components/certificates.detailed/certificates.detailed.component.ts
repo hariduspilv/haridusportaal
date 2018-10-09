@@ -14,7 +14,7 @@ import { SettingsService } from '@app/_core/settings';
 })
 export class CertificatesDetailedComponent implements OnInit{
   private professionalCertificates;
-  private examResults;
+  public examResults;
   public downloadId;
   public lang: string;
   public path: string;
