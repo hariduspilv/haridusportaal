@@ -6,6 +6,7 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
+use Drupal\rest\ResourceResponse;
 use GuzzleHttp\Exception\RequestException;
 use http\Exception\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -119,8 +120,9 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		}catch (RequestException $e){
 			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
 		}
-
-		return new ModifiedResourceResponse($json);
+		$response = new ResourceResponse($json, 200);
+		$response->addCacheableDependency($this->currentUser->getAccount());
+		return $response;
 	}
 
 }
