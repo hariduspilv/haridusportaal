@@ -97,8 +97,9 @@ class StateExamsKodRestResource extends ResourceBase {
     }
     $params['session_id'] = $session_id;
 		$json = $this->certificate->gettestidKod($params);
-
-    return new ResourceResponse($json, 200);
+		$response = new ResourceResponse($json, 200);
+		$response->addCacheableDependency($this->currentUser->getAccount());
+    return $response;
   }
 
 }
