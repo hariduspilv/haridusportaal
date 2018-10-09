@@ -24,7 +24,7 @@ export class CertificatesDetailedComponent implements OnInit{
   public tableOverflown: any = {};
   public elemAtStart: any = {};
   public opened: any = {};
-  public certificatesView: boolean = false;
+  public examsView: boolean = false;
   public breadcrumbs;
   
   public userData;
@@ -126,7 +126,7 @@ export class CertificatesDetailedComponent implements OnInit{
       'en': ['Certificate', 'Examinations'],
       'et': ['Tunnistus', 'Eksamitulemused']
     }
-    var crumbText = this.certificatesView ? translations[this.lang][0] : translations[this.lang][1];
+    var crumbText = this.examsView ? translations[this.lang][1] : translations[this.lang][0];
     return [...crumbs, {text: crumbText, url: ''}];
   }
 
@@ -136,7 +136,7 @@ export class CertificatesDetailedComponent implements OnInit{
   }
 
   ngOnInit(){
-    this.certificatesView = !this.route.snapshot.queryParams['exams'];
+    this.examsView = this.route.snapshot.queryParams['exams'];
     this.userData = this.user.getData();
     if(this.userData.isExpired === true){
       this.router.navigateByUrl('');
@@ -147,7 +147,7 @@ export class CertificatesDetailedComponent implements OnInit{
     let url = this.path.split('/');
     this.dashboardLink = url.splice(0,url.length-1).join('/');
 
-    if (!this.certificatesView) {
+    if (this.examsView) {
       this.loadExaminations(this.certificateId);
     } else {
       this.loadCertificate();
