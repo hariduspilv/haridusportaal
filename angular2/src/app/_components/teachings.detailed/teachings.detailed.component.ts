@@ -7,7 +7,7 @@ import { UserService } from '@app/_services/userService';
 @Component({
   selector: 'teachings-detailed',
   templateUrl: './teachings.detailed.template.html',
-  styleUrls: ['../certificates.detailed/certificates.detailed.styles.scss']
+  styleUrls: ['../certificates/certificates.styles.scss']
 })
 export class TeachingsDetailedComponent implements OnInit{
   public lang: string;

@@ -42,6 +42,10 @@ class OskaGraphField extends FieldItemBase {
             ->setLabel(t('Graph title'));
         $properties['filter_values'] = DataDefinition::create('string')
             ->setLabel(t('Graph filter values'));
+        $properties['graph_type'] = DataDefinition::create('string')
+            ->setLabel(t('Graph type'));
+        $properties['secondary_graph_type'] = DataDefinition::create('string')
+            ->setLabel(t('Secondary graph type'));
 
         return $properties;
 
@@ -63,18 +67,30 @@ class OskaGraphField extends FieldItemBase {
             'mysql_type' => 'json',
             'not null' => FALSE,
         ];
+        $schema['columns']['graph_type'] = [
+            'description' => 'Graph filter values.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
+        $schema['columns']['secondary_graph_type'] = [
+            'description' => 'Graph filter values.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
 
         return $schema;
     }
 
     public function preSave()
     {
-        $graph_type = $this->values['graph_type'];
 
         $this->values = [
+            'graph_type' => $this->values['graph_type'],
+            'secondary_graph_type' => $this->values['secondary_graph_type'],
             'value' => $this->getGoogleGraphData($this->values),
             'filter_values' => json_encode($this->values, TRUE),
         ];
+
     }
 
     public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data)
@@ -98,10 +114,19 @@ class OskaGraphField extends FieldItemBase {
         return $element;
     }
 
-    public function getGoogleGraphData($filter_values){
+    public function getGoogleGraphData($graph_info){
         $condition_count = 0;
         $target_type = $this->definition->getSettings()['target_type'];
-        unset($filter_values['graph_type']);
+        $filter_values = $graph_info;
+
+        foreach($graph_info as $key => $value){
+            if($key != 'graph_type' && $key != 'secondary_graph_type'){
+                $filter_values[$key] = $value;
+                unset($graph_info[$key]);
+            }else{
+                unset($filter_values[$key]);
+            }
+        }
 
         $query = \Drupal::entityQuery($target_type);
 
@@ -125,7 +150,7 @@ class OskaGraphField extends FieldItemBase {
 
         if(isset($entity_ids)){
             $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple($entity_ids);
-            $graph_value = $this->getGoogleGraphValue($entities);
+            $graph_value = $this->getGoogleGraphValue($entities, $graph_info, $filter_values);
 
             return $graph_value;
         }else{
@@ -142,28 +167,21 @@ class OskaGraphField extends FieldItemBase {
         return $cleaned_filters;
     }
 
-    public function getGoogleGraphValue($entities){
+    public function getGoogleGraphValue($entities, $graph_info, $filter_values){
 
-        $raw_value = [
-            'cols' => [],
-            'rows' => [],
-        ];
+        $array = '[
+            ["Year", "Sales", "Expenses"],
+            ["2004",  1000,      400],
+            ["2005",  1170,      460],
+            ["2006",  660,       1120],
+            ["2007",  1030,      540]]';
 
-        #add default group label name
-        $raw_value['cols'][] = [
-            'id' => '',
-            'label' => 'Label',
-            'pattern' => '',
-            'type' => 'string',
-        ];
+        $new_array = [
 
-        #add group value field
-        $raw_value['cols'][] = [
-            'id' => '',
-            'label' => 'Value',
-            'pattern' => '',
-            'type' => 'number',
         ];
+        #kint(json_decode($array));
+        #kint($filter_values);
+        #die();
 
         #get entity fields for finding label and value fields
         $entity_fields = reset($entities)->getFields();
@@ -183,30 +201,26 @@ class OskaGraphField extends FieldItemBase {
             foreach($entities as $entity){
                 $labelval = $entity->$label_field->value;
                 $val = $entity->$value_field->value;
+                $year = $entity->year->value;
                 if(!isset($labelsums[$labelval])){
-                    $labelsums[$labelval] = $val;
+                    $labelsums[$labelval][$year] = $val;
                 }else{
-                    $labelsums[$labelval] .= $val;
+                    $labelsums[$labelval][$year] .= $val;
                 }
             }
 
             #add data for each row
+            $data_array = [];
+            $data_array[] = [$entity->year->getName(), $entity->$label_field->getName()];
             foreach($labelsums as $label => $value){
-                $raw_value['rows'][]['c'] = [
-                  [
-                      'v' => $label,
-                      'f' => NULL
-                  ],
-                    [
-                        'v' => $value,
-                        'f' => NULL
-                    ]
-                ];
+                foreach($value as $year => $val){
+                    $data_array[] = [(string)$year, intval($val)];
+                }
             }
         }else{
             return FALSE;
         }
 
-        return json_encode($raw_value, TRUE);
+        return json_encode($data_array, TRUE);
     }
 }

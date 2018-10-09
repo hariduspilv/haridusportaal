@@ -1,4 +1,16 @@
-<div class="dashboard main-container">
+<div class="row sm-hide crumbs" attr.aria-label="{{'breadcrumbs' | translate}}">
+  <div class="col-12">
+    <ul class="main-container breadcrumb mt-0 mb-0" *ngIf="breadcrumbs && !loading">
+      <li *ngFor="let breadcrumbEl of breadcrumbs; let last = last">
+        <a [routerLink]="[breadcrumbEl.url]" *ngIf="!last">
+          <span role="link" attr.aria-label="{{'Breadcrumb'}}">{{ breadcrumbEl.text }}</span>
+        </a>
+        <span role="dialog" attr.aria-current="{{breadcrumbEl.text}}" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="dashboard dashboard--detail main-container">
   <div class="row">
     <div class="col-8 sm-12">
       <div class="block padding-block border-blue">
@@ -92,11 +104,78 @@
             </table>
           </div>
         </ng-container>
+
+        <ng-container *ngIf="examResults && !loading">
+
+          <h1 *ngIf="examResults">{{ 'frontpage.eksamiTulemused' | translate }} {{route.snapshot.queryParams['exams']}}</h1>
+          <a href="javascript:void(0)" id="backToDashboard" class="sm-hide pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
+          <a href="javascript:void(0)" id="backToDashboard" class="sm-show top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
+          <mat-accordion multi>
+            <mat-expansion-panel [expanded]="first ? true : false" (opened)="openedAcc(ind)" (closed)="openedAcc(ind)" *ngFor="let item of examResults; let first = first; let ind = index;">
+              <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+                <mat-panel-title>
+                  <div *ngIf="!opened[ind]">{{item.test_nimi}}&nbsp;<span *ngIf="item.tulemus">|</span>&nbsp;{{item.tulemus}}</div>
+                  <div *ngIf="opened[ind]" class="text--substrong--head">{{'frontpage.test_nimi' | translate}}:&nbsp;<span>{{item.test_nimi}}</span></div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="text--substrong" *ngIf="item.tulemus">{{'frontpage.tulemus' | translate}}:&nbsp;<span>{{item.tulemus}}</span></div>
+              <ng-container *ngIf="item.osad && item.osad.length">
+                <div class="scrollable">
+                  <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart[ind]" 
+                    (touchstart)="tableService.scrollStart('certificateElem_'+ind)" 
+                    (mousedown)="tableService.scrollStart('certificateElem_'+ind)" 
+                    (touchend)="tableService.scrollEnd()" 
+                    (mouseup)="tableService.scrollEnd()">
+                    <span class="htm-icon">keyboard_arrow_left</span>
+                  </div>
+                  <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown[ind]" 
+                    (touchstart)="tableService.scrollStart('certificateElem_'+ind, true)"
+                    (mousedown)="tableService.scrollStart('certificateElem_'+ind, true)"
+                    (touchend)="tableService.scrollEnd(true)"
+                    (mouseup)="tableService.scrollEnd(true)">
+                    <span class="htm-icon">keyboard_arrow_right</span>
+                  </div>
+                  <div class="scrollable__table" [attr.id]="'certificateElem_' + ind" (scroll)="tableOverflown[ind] = tableService.isOverflownWhileScrolling($event); elemAtStart[ind] = tableService.isElemAtStart('certificateElem_'+ind)">
+                    <table class="dashboard-table scrollableTable">
+                      <thead>
+                        <tr>
+                          <th>{{'frontpage.osa_nimi' | translate}}</th>
+                          <th>{{'frontpage.tulemus' | translate}}</th>
+                          <th>{{'frontpage.staatus' | translate}}</th>
+                          <th>{{'frontpage.osa_kuupaev' | translate}}</th>
+                          <th>{{'frontpage.osa_koht' | translate}}</th>
+                          <th>{{'frontpage.osa_aadress' | translate}}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let elem of item.osad;">
+                          <td>{{ elem.osa_nimi ? elem.osa_nimi : '-' }}</td>
+                          <td>{{ elem.tulemus ? elem.tulemus : '-' }}</td>
+                          <td>{{ elem.staatus ? elem.staatus : '-' }}</td>
+                          <td>{{ elem.osa_kuupaev ? elem.osa_kuupaev : '-' }}</td>
+                          <td>{{ elem.osa_koht ? elem.osa_koht : '-' }}</td>
+                          <td class="nonBreakable light">{{ elem.osa_aadress ? elem.osa_aadress : '-' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </ng-container>
       </div>
     </div>
     <!--/col-8-->
-    <div class="col-4">
-     
+    <div class="col-4 sm-12" *ngIf="examResults && downloadId && !loading">
+      <aside class="sidebar">
+        <div class="sidebar__item">
+          <h1 class="sidebar__title">{{ 'frontpage.certificate_download' | translate }}</h1>
+          <div class="sidebar__paragraph">
+            <a [href]="downloadCertificate()" target="_blank" mat-raised-button color="primary" >{{ 'button.download' | translate }}</a>
+          </div>
+        </div>
+      </aside>
     </div>
     <!--/col-4-->
   </div>
