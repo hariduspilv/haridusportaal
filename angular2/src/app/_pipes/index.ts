@@ -10,6 +10,7 @@ import { GroupByPipe } from './groupBy.pipe';
 import { RemoveProtocolPipe } from './removeProtocol.pipe';
 import { titleCasePipe } from './titleCase.pipe';
 import { LegendCurrencyPipe } from './legendCurrency.pipe';
+import { EuroCurrencyPipe } from './euroCurrency';
 
 @NgModule({
   declarations:[
@@ -21,7 +22,8 @@ import { LegendCurrencyPipe } from './legendCurrency.pipe';
     GroupByPipe,
     RemoveProtocolPipe,
     titleCasePipe,
-    LegendCurrencyPipe
+    LegendCurrencyPipe,
+    EuroCurrencyPipe
   ],
   imports:[CommonModule],
   exports:[
@@ -33,7 +35,8 @@ import { LegendCurrencyPipe } from './legendCurrency.pipe';
     GroupByPipe,
     RemoveProtocolPipe,
     titleCasePipe,
-    LegendCurrencyPipe
+    LegendCurrencyPipe,
+    EuroCurrencyPipe
   ]
 })
 
