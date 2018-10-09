@@ -107,7 +107,15 @@
     "dokumentNr": "Dokumendi nr.",
     "koolitusNimetus": "Koolituse nimetus",
     "liik": "Liik",
-    "maht": "Maht"
+    "maht": "Maht",
+    "eksamiNimetus": "Eksami nimetus",
+    "eksamiTulemused": "Eksamitulemused",
+    "tulemus": "Tulemus",
+    "test_nimi": "Testi nimi",
+    "osa_aadress": "Toimumise koha aadress",
+    "osa_koht": "Toimumise koht",
+    "osa_kuupaev": "Toimumise aeg",
+    "osa_nimi": "Testiosa nimi"
   },
   "xjson":{
     "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?",
@@ -328,6 +336,7 @@
     "search_brief_short": "Kitsas",
     "search_people": "Otsi inimesi",
     "load_more": "Lae rohkem",
+    "download": "Lae alla",
     "read_more": "Loe rohkem",
     "show_all": "Näita kõiki",
     "view_all": "Vaata kõiki",
@@ -373,7 +382,9 @@
     "personal_data_missing": "Eesti Hariduse Infosüsteemis isikuandmed puuduvad.",
     "studies_data_missing": "Eesti Hariduse Infosüsteemis õpingute andmed puuduvad.",
     "teachings_data_missing": "Eesti Hariduse Infosüsteemis õpetamisega seotud andmed puuduvad.",
-    "teachings_data_request": "Vabandame. Eesti Hariduse Infosüsteemist õpetamisega seotud andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti."
+    "teachings_data_request": "Vabandame. Eesti Hariduse Infosüsteemist õpetamisega seotud andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.",
+    "examinations_data_missing": "Riigieksamitel osalemise andmed puuduvad.",
+    "examinations_data_request": "Vabandame. Riigieksamite andmete Eksamite infosüsteemist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti."
   },
   "search": {
     "label": "Otsing",
