@@ -297,7 +297,7 @@ class JsonbWidget extends StringTextareaWidget {
 					}
 					break;
 				case 'address':
-					$additional_keys = ['multiple'];
+					$additional_keys = ['multiple', 'appartment', 'ihist', 'results'];
 					break;
 				case 'checkbox':
 					$additional_keys = ['width'];
