@@ -1,6 +1,6 @@
 <div class="main-container">
   <div class="row wrapper__row">
-    <div class="col-8">
+    <div class="col-8 sm-12">
       <div class="block border-blue padding-block">
         <div class="block__head no-border">
           <div class="block__head__title">VALDKOND</div>
@@ -19,9 +19,20 @@
           <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture[0].alt">{{ data.fieldOskaFieldPicture[0].alt }}</div>
         </div>
 
-        <video-component *ngIf="video" [videos]="video"></video-component>
-
         <div [innerHTML]="data['body']['value']" attr.aria-label="{{'description' | translate}}" ></div>
+
+        <ng-container *ngIf="data.fieldOskaWebPage.length > 0 || data.fieldOskaAttachmentFile.length > 0" class="external-links">
+          <ul class="external-links">
+            <li *ngFor="let item of data.fieldOskaWebPage">
+              <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
+            </li>
+            <li *ngFor="let item of data.fieldOskaAttachmentFile">
+              <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
+            </li>
+          </ul>
+        </ng-container>
+
+        <video-component *ngIf="video" [videos]="video"></video-component>
 
         <div class="accordion" *ngIf="data['fieldOskaFieldAccordion'].length > 0">
           <mat-accordion multi>
@@ -37,17 +48,25 @@
               <div class="accordion__body">
                 <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
                 <ul class="link-list mt-2 mb-0">
-                  <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}"class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
+                  <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
                 </ul>
               </div><!--/accordion__body-->
               
             </mat-expansion-panel>
           </mat-accordion>
-        </div>
-      </div>
+        </div><!--/accordion-->
+
+        <div class="tags" *ngIf="data.fieldMainProfessionTags && data.fieldMainProfessionTags.length > 0">
+          <mat-chip-list>
+            <span *ngFor="let tag of data.fieldMainProfessionTags" class="mat-chip-list-wrapper">
+              <mat-chip *ngIf="tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
+            </span>
+          </mat-chip-list>
+        </div><!--/tags-->
+      </div><!--/block-->
     </div><!--/col-8-->
 
-    <div class="col-4">
+    <div class="col-4 sm-12">
       <div class="block border-orange padding-block">
         Block content
       </div>

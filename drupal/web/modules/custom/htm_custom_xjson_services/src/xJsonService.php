@@ -94,7 +94,7 @@ class xJsonService implements xJsonServiceInterface {
 					['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
 				]
 			] + $baseJson['header'];
-			dump($response_info);
+			#dump($response_info);
 		}
 		#dump($baseJson);
 		return $baseJson;
@@ -148,7 +148,7 @@ class xJsonService implements xJsonServiceInterface {
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
-		
+
 		$this->validatexJsonHeader($response_header);
 		$form_name = $response['header']['form_name'];
 		$definition = $this->getEntityJsonObject($form_name);
@@ -387,5 +387,36 @@ class xJsonService implements xJsonServiceInterface {
 		}
 		return $results;
 	}
+
+	public function returnErrorxDzeison()
+	{
+		$json = [
+			'header' => [
+				'form_name' => 'error',
+				'endpoint' => null,
+				'number_of_steps' => 1,
+				'acceptable_activity' => ['VIEW'],
+				'current_step' => 'errorstep',
+				'identifier' => null,
+			],
+			'body' => [
+				'title' => [
+					'et' => 'Viga',
+					'en' => 'Error'
+				],
+				'steps' => [
+					'errorstep' => [
+						'title' => [
+							'et' => 'Viga',
+							'en' => 'Error'
+						]
+					]
+				]
+			]
+		];
+
+		return $json;
+	}
+
 
 }
