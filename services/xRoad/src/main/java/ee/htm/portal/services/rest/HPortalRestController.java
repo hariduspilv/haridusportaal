@@ -1,6 +1,7 @@
 package ee.htm.portal.services.rest;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import ee.htm.portal.services.workers.AriregWorker;
 import ee.htm.portal.services.workers.EeIsikukaartWorker;
 import ee.htm.portal.services.workers.EisWorker;
 import ee.htm.portal.services.workers.KutseregisterWorker;
@@ -37,6 +38,9 @@ public class HPortalRestController {
 
   @Autowired
   EisWorker eisWorker;
+
+  @Autowired
+  AriregWorker ariregWorker;
 
   @RequestMapping(value = "/getDocuments/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDocuments(@PathVariable("personalCode") String personalCode) {
@@ -138,5 +142,13 @@ public class HPortalRestController {
       @PathVariable("requestTimestamp") Long timestamp) {
     return new ResponseEntity<>(
         eisWorker.getETunnistusKehtivus(personalCode, tunnistusNr, timestamp), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/esindusOigus/{personalCode}/{countryCode}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getEsindusOigus(
+      @PathVariable("personalCode") String personalCode,
+      @PathVariable("countryCode") String countryCode,
+      @PathVariable("requestTimestamp") Long timestamp) {
+    return new ResponseEntity<>(ariregWorker.getEsindusOigus(personalCode, countryCode, timestamp), HttpStatus.OK);
   }
 }
