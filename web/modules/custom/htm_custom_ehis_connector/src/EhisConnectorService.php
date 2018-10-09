@@ -3,10 +3,12 @@
 namespace Drupal\htm_custom_ehis_connector;
 
 use Drupal\Component\Datetime\DateTimePlus;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\redis\ClientFactory;
 use Drupal\user\Entity\User;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class EhisConnectorService.
@@ -36,9 +38,11 @@ class EhisConnectorService {
 	 */
 	public function __construct(
 			AccountProxyInterface $current_user,
-			ClientFactory $client_factory) {
+			ClientFactory $client_factory,
+			LoggerChannelFactoryInterface $logger) {
 		$this->currentUser = $current_user;
 		$this->client = $client_factory->getClient();
+		$this->logger = $logger->get('ehis_connector_service');
 	}
 
 	/**
@@ -103,7 +107,7 @@ class EhisConnectorService {
 	}
 	public function testApplications(){
 		$json = '{"documents":[{"form_name":"VPT_ESITATUD_TAOTLUS_OTSUS","identifier":38328,"document_date":"2015-01-21","status":"Heaks kiidetud"},{"form_name":"VPT_ESITATUD_TAOTLUS_OTSUS","identifier":3424,"document_date":"2013-09-03","status":"Tagasi lükatud"}]}';
-		$this->client->hset('get', 'vpTaotlus', $json);
+		$this->client->hset('49902257019', 'vpTaotlus', $json);
 	}
 	public function testOptions(){
 		$json = '{
@@ -204,14 +208,14 @@ class EhisConnectorService {
 	public function gettestidKod(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode(), $params['session_id'], time()];
 		$params['key'] = $this->getCurrentUserIdCode();
-		$params['hash'] = 'testidKod';
+		$params['hash'] = 'testidKod_'.$params['session_id'];
 		return $this->invokeWithRedis('testidKod', $params, FALSE);
 	}
 
 	public function getCertificate(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode(), $params['certificate_id'], time()];
 		$params['key'] = $this->getCurrentUserIdCode();
-		$params['hash'] = 'eTunnistusKod';
+		$params['hash'] = 'eTunnistusKod_'.$params['certificate_id'];
 		return $this->invokeWithRedis('eTunnistusKod', $params, FALSE);
 	}
 
@@ -234,20 +238,23 @@ class EhisConnectorService {
 	public function getApplications(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode()];
 		$params['key'] = $this->getCurrentUserIdCode();
-		$params['hash'] = 'getDocuments';
 		#dump($params['init']);
 		// we need to start getDocument service
 		if($params['init']){
+			$params['hash'] = 'getDocuments';
 			$init = $this->invokeWithRedis('getDocuments', $params, FALSE);
 			if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
 				throw new RequestException('Service down');
 			}
 		}
-		
-		return $this->invokeWithRedis('vpTaotlus', $params);
+		$params['hash'] = 'vpTaotlus';
+		$response = $this->invokeWithRedis('vpTaotlus', $params);
+		$this->getFormDefinitionTitle($response);
+		return $response;
 	}
 
 	public function getDocument(array $params = []){
+		$params['url'][] = $this->getCurrentUserIdCode();
 		return $this->invoke('getDocument', $params);
 	}
 
@@ -292,6 +299,24 @@ class EhisConnectorService {
 		}
 
 		return $input;
+	}
+
+	private function getFormDefinitionTitle(&$response){
+		/* @var \Drupal\htm_custom_xjson_services\xJsonService $xjsonContainer */
+		$xjsonContainer = \Drupal::service('htm_custom_xjson_services.default');
+
+		if(is_array($response['documents'])){
+			foreach($response['documents'] as &$document){
+				$d = $xjsonContainer->getEntityJsonObject($document['form_name']);
+				if($d){
+					$document['title'] = $d['body']['title'];
+				}else{
+					$this->logger->notice('getDocuments response @form_name title not found!', ['@form_name' => $document['form_name']]);
+				}
+			}
+		}
+
+		return $response;
 	}
 
 
