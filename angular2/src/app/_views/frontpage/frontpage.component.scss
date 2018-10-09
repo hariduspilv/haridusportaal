@@ -103,7 +103,7 @@
       }
       &:after {display: block;z-index: 1;position: absolute;content: url(/assets/img/frontpage-lower-cloud.svg);}
     }
-    &--search {position: relative;background-image: linear-gradient(#275489, #2E3374);margin-bottom: 10.5rem;
+    &--search {position: relative;background-image: linear-gradient(#275489, #2E3374);margin-bottom: 10.5rem;margin-right: -.125rem;
       &:after {display: block;z-index: 1;position: absolute;left: -3rem;content: url(/assets/img/frontpage-lower-cloud.svg);}
     }
     &__content {width: 66%;box-sizing: border-box;
