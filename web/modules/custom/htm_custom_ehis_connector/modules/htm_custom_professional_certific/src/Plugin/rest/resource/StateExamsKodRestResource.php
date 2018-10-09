@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_professional_certific\Plugin\rest\resource;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\rest\ModifiedResourceResponse;
@@ -97,8 +98,13 @@ class StateExamsKodRestResource extends ResourceBase {
     }
     $params['session_id'] = $session_id;
 		$json = $this->certificate->gettestidKod($params);
+
 		$response = new ResourceResponse($json, 200);
-		$response->addCacheableDependency($this->currentUser->getAccount());
+		$cache_metadata = new CacheableMetadata();
+		$cache_metadata->addCacheableDependency($this->currentUser->getAccount());
+		$cache_metadata->addCacheContexts(['url.query_args']);
+		$response->addCacheableDependency($cache_metadata);
+
     return $response;
   }
 
