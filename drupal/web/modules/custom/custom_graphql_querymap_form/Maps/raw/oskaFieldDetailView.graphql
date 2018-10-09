@@ -22,7 +22,7 @@ entity {
 nid
 entityLabel
 fieldIntroduction
-fieldOskaFieldPicture{
+fieldOskaFieldPicture {
 derivative(style: CROP_LARGE) {
 url
 __typename
@@ -86,6 +86,13 @@ __typename
 }
 __typename
 }
+__typename
+}
+__typename
+}
+fieldMainProfessionTags{
+entity {
+entityLabel
 __typename
 }
 __typename
