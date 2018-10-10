@@ -293,17 +293,34 @@ class xJsonService implements xJsonServiceInterface {
 
 				$option_keys = $recfunc($element['options']);
 				/*TODO check also if value is array*/
-				#if($element['value'] && !in_array($element['value'], $option_keys)) $valid = false;
+				if($element['value']){
+					if(is_array($element['value'])){
+						foreach($element['value'] as $value){
+							if(!in_array($value, $option_keys)) $valid = false;
+						}
+					}else{
+						if(!in_array($element['value'], $option_keys)) $valid = false;
+					}
+				}
 
 				break;
 			case 'file':
 				if($table) $additional_keys = ['width', 'acceptable_extensions'];
 				else $additional_keys = ['multiple', 'acceptable_extensions'];
-				#if($element['value']){
-				#	if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
-				#		$valid = false;
-				#	}
-				#}
+				/*TODO File check if array aswel*/
+				if($element['value']){
+					if(is_array($element['value'])){
+						foreach($element['value'] as $value){
+							if(!$value['file_name'] || !$value['file_identifier']){
+								$valid = false;
+							}
+						}
+					}else{
+						if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
+							$valid = false;
+						}
+					}
+				}
 				break;
 			case 'table':
 				$additional_keys = ['add_del_rows', 'table_columns'];
