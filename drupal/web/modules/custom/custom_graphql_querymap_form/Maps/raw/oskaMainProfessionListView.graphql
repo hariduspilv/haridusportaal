@@ -1,0 +1,26 @@
+query(
+$lang: String,
+$status: String,
+$offset: Int,
+$limit: Int,
+$title: String,
+$fixed_label: String,
+$nid: [String],
+$nidEnabled: Boolean,
+){
+CustomElasticQuery(offset:$offset, limit:$limit, elasticsearch_index:["elasticsearch_index_drupaldb_oska_main_profession"],
+filter:{conjunction:AND, conditions: [
+{operator: EQUAL, field: "langcode", value: [$lang]},
+{operator: EQUAL, field: "status", value: [$status]},
+{operator: LIKE, field: "title", value: [$title]},
+{operator: EQUAL, field:"field_fixed_label", value: [$fixed_label]},
+{operator: IN, field:"nid", value: $nid, enabled: $nidEnabled}
+]})
+{
+Nid
+Title
+EntityPath
+FieldFixedLabel
+Status
+}
+}
