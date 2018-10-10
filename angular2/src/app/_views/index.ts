@@ -16,3 +16,5 @@ export * from './schools_funding/schools_funding.component';
 export * from './xjson/xjson.component';
 export * from './search/search.component';
 export * from './oska.areas/oska.areas.component';
+export * from './oska.professions/oska.professions.component';
+export * from './oska.professions.compare/oska.professions.compare.component';

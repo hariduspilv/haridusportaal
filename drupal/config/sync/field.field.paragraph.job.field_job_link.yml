@@ -1,0 +1,23 @@
+uuid: 48522166-2314-4739-bbe9-685da39208fa
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_job_link
+    - paragraphs.paragraphs_type.job
+  module:
+    - link
+id: paragraph.job.field_job_link
+field_name: field_job_link
+entity_type: paragraph
+bundle: job
+label: 'Ameti link'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

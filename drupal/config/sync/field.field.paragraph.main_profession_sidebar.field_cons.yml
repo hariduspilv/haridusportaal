@@ -1,0 +1,19 @@
+uuid: 8c547235-b956-4eec-8c05-8b20aa1e4504
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_cons
+    - paragraphs.paragraphs_type.main_profession_sidebar
+id: paragraph.main_profession_sidebar.field_cons
+field_name: field_cons
+entity_type: paragraph
+bundle: main_profession_sidebar
+label: Cons
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

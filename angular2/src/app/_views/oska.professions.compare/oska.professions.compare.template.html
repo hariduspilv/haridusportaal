@@ -1,0 +1,60 @@
+
+<breadcrumbs></breadcrumbs>
+<div class="main-container">
+  <mat-spinner *ngIf="!list && error"></mat-spinner>
+  <div class="row" *ngIf="list">
+    <div class="col-12 sm-12">
+      <div class="block">
+        <div class="block-title">{{ 'oskaProfessions.label' | translate }}</div>
+        <div class="row">
+          <div class="col-10 flex">
+            <h1 class="block-heading">{{ 'oskaProfessions.compare_label' | translate | titleCase }}</h1>
+          </div>
+          <div class="col-2 flex action--back">
+            <a href="javascript:void(0)" [routerLink]="back()">{{ 'button.back' | translate }}</a>
+          </div>
+        </div>
+        <div class="scrollable">
+          <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
+            (touchstart)="tableService.scrollStart('tableRef')" 
+            (mousedown)="tableService.scrollStart('tableRef')" 
+            (touchend)="tableService.scrollEnd()" 
+            (mouseup)="tableService.scrollEnd()">
+            <span class="htm-icon">keyboard_arrow_left</span>
+          </div>
+          <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
+            (touchstart)="tableService.scrollStart('tableRef', true)"
+            (mousedown)="tableService.scrollStart('tableRef', true)"
+            (touchend)="tableService.scrollEnd(true)"
+            (mouseup)="tableService.scrollEnd(true)">
+            <span class="htm-icon">keyboard_arrow_right</span>
+          </div>
+          <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
+            <table class="scrollableTable">
+              <thead>
+                <tr *ngIf="list">
+                  <th></th>
+                  <th *ngFor="let item of list">
+                    <a [routerLink]="item.EntityPath" attr.aria-label="{{item.Title}}">{{ item.Title | titleCase }}</a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ 'ID' }}</td>
+                  <td class="highlighted" *ngFor="let item of list">{{ item.Nid }}</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td *ngFor="let item of list">
+                    <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.Nid, 'oskaProfessions.compare')">{{ 'button.remove_from_comparison' | translate}}</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!--/block-->
+    </div><!--/col-8-->
+  </div><!--/row-->
+</div>
