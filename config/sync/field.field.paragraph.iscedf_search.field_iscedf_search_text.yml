@@ -1,0 +1,19 @@
+uuid: e3f41d68-ad71-49f9-8480-9e17bcb00822
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_iscedf_search_text
+    - paragraphs.paragraphs_type.iscedf_search
+id: paragraph.iscedf_search.field_iscedf_search_text
+field_name: field_iscedf_search_text
+entity_type: paragraph
+bundle: iscedf_search
+label: 'ISCEDF Search Text'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
