@@ -78,7 +78,7 @@ export class CertificatesComponent implements OnInit{
       if(response['value']['teade'] || response['value']['testsessioonid_kod_jada'] === []){
         this.examResultsErr = response['value']['teade'];
       } else {
-        this.examResults = response['value']['testsessioonid_kod_jada'];
+        this.examResults = response['value']['testsessioonid_kod_jada'].sort((a, b) => b.oppeaasta - a.oppeaasta);
       };
       this.loading[_id] = false;
       sub.unsubscribe();
