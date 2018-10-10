@@ -1,0 +1,36 @@
+uuid: 2b366b73-a912-41a6-b58d-bc0eb50fb60c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.job.field_job_link
+    - field.field.paragraph.job.field_job_name
+    - paragraphs.paragraphs_type.job
+  module:
+    - link
+id: paragraph.job.default
+targetEntityType: paragraph
+bundle: job
+mode: default
+content:
+  field_job_link:
+    weight: 1
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_job_name:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

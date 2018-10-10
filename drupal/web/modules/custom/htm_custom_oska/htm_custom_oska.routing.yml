@@ -5,3 +5,10 @@ oska_entity.batch_import:
     _title: 'Import oska data'
   requirements:
     _permission: 'access content'
+oska_indicator_entity.batch_import:
+  path: '/oska-indicator-data-import'
+  defaults:
+    _form: '\Drupal\htm_custom_oska\Form\OskaIndicatorImportDataForm'
+    _title: 'Import oska indicator data'
+  requirements:
+    _permission: 'access content'

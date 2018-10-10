@@ -1,9 +1,9 @@
-<div class="row sm-hide" attr.aria-label="{{'breadcrumbs' | translate}}">
+<div class="row sm-hide" attr.aria-label="{{'breadcrumbs.breadcrumb' | translate}}">
   <div class="col-12">
-    <ul class="main-container breadcrumb mt-0 mb-0">
+    <ul role="list" class="main-container breadcrumb mt-0 mb-0">
       <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
         <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
-          <span role="link" attr.aria-label="{{'Breadcrumb'}} {{ breadcrumbEl.text }} {{'clickable'}}">{{ breadcrumbEl.text | translate}}</span>
+          <span role="link">{{ breadcrumbEl.text | translate}}</span>
         </a>
         <span role="dialog" attr.aria-current="{{'page'}}" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 | translate}}</span>
       </li>

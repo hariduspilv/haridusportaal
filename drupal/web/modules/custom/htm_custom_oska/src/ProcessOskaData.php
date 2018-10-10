@@ -135,7 +135,7 @@ class ProcessOskaData {
             }else{
                 $message = [\Drupal::translation()->formatPlural(
                     count($results['processed']),
-                    'One subsidy processed.', '@count subsidies processed.'
+                    'One oska item processed.', '@count oska items processed.'
                 ), 'status'];
             }
         }

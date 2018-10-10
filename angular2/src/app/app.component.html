@@ -1,4 +1,4 @@
-<button role="button" (click)="focusMainContent()" (keyup.enter)="focusMainContent()" (keyup.space)="focusMainContent()" class="maincontent" attr.aria-label="Skip to main content">Skip to main content</button>
+<button role="button" (click)="focusMainContent()" (keyup.enter)="focusMainContent()" (keyup.space)="focusMainContent()" class="maincontent" attr.aria-label="{{'frontpage.skip' | translate}}">Skip to main content</button>
 
 <app-header></app-header>
 
@@ -10,7 +10,7 @@
 		
 		
 		<mat-sidenav-content role="contentinfo">
-			<a href="javascript:void(0)" attr.aria-label="{{'Main content start point'}}" id="mainContent"></a>
+			<a href="javascript:void(0)" attr.aria-label="{{'frontpage.mainarea' | translate}}" id="mainContent"></a>
 			<router-outlet ></router-outlet>
 			
 		</mat-sidenav-content>

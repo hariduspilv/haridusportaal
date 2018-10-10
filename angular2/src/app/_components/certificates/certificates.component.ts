@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '@app/_services/httpService';
 import { Router } from '@angular/router';
+import { RootScopeService } from '@app/_services';
 @Component({
   selector: 'certificates',
   templateUrl: './certificates.template.html',
@@ -17,6 +18,7 @@ export class CertificatesComponent implements OnInit{
   public examResultsErr: string;
   public errData: boolean;
   public errRequest: boolean;
+  public accordionStates: Array<Boolean>;
 
   public accordionSection: {}[] = [
     {_id: 'professional-certificates', label: 'frontpage.dashboard_tabs_certificates_professional'},
@@ -26,15 +28,16 @@ export class CertificatesComponent implements OnInit{
   constructor(
     public router: Router,
     public http: HttpService,
+    public rootScope: RootScopeService
   ) {}
 
   dataController(_id: string){
     switch(_id){
       case 'professional-certificates': 
-        if(this.professionalCertificates === undefined) this.getProfessionalCertificates(_id);
+        this.getProfessionalCertificates(_id);
         break;
       case 'state-exams': 
-        if(this.examResults === undefined) this.getExamResults(_id);
+        this.getExamResults(_id);
         break;
     }
   }
@@ -78,7 +81,7 @@ export class CertificatesComponent implements OnInit{
       if(response['value']['teade'] || response['value']['testsessioonid_kod_jada'] === []){
         this.examResultsErr = response['value']['teade'];
       } else {
-        this.examResults = response['value']['testsessioonid_kod_jada'];
+        this.examResults = response['value']['testsessioonid_kod_jada'].sort((a, b) => b.oppeaasta - a.oppeaasta);
       };
       this.loading[_id] = false;
       sub.unsubscribe();
@@ -89,7 +92,11 @@ export class CertificatesComponent implements OnInit{
     });
   }
 
-  ngOnInit(){
-  
+  ngOnInit () {
+    this.accordionStates = this.rootScope.get('certificatesAccordion') || [true, false];
+    if(!this.accordionStates[0]) {this.professionalCertificates = [];}
+  }
+  ngOnDestroy() {
+    this.rootScope.set('certificatesAccordion', this.accordionStates);
   }
 }

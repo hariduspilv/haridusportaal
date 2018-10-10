@@ -48,8 +48,12 @@ class OskaGraphWidgetType extends WidgetBase {
         if($entity){
             foreach($entity->getFields() as $key => $field){
                 $field_settings = $field->getSettings();
-                if(isset($field_settings['graph_filter']) || isset($field_settings['graph_indicator'])){
+                if(isset($field_settings['graph_filter'])){
                     $fields[$key] = $field;
+                }
+                if(isset($field_settings['graph_indicator'])){
+                    $fields[$key] = $field;
+                    $secondary_indicator[$key] = $field;
                 }
             }
 
@@ -112,7 +116,7 @@ class OskaGraphWidgetType extends WidgetBase {
                         '#options' => $selection,
                         '#multiple' => TRUE,
                         '#required' => FALSE,
-                        '#default_value' => NULL,
+                        '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
                     ];
                 }
             }
