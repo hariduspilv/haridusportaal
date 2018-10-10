@@ -1,8 +1,8 @@
-<div class="dialog" role="dialog" attr.aria-label="{{'Modal open'}}" cdkTrapFocus>
+<div class="dialog" role="dialog" attr.aria-label="{{'modal.open | translate'}}" cdkTrapFocus>
   <div class="row">
     <div class="col-12" style="position: relative;">
       <span class="dialog__text--medium">{{ 'event.registration_form' | translate | uppercase }}</span>
-      <div class="pull-right" attr.aria-label="{{'Click to close modal'}}" role="close">
+      <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
         <span class="htm-icon">close
           <button class="btn-hidden" (click)="close()" tabindex="0"></button>
         </span>
@@ -36,7 +36,7 @@
             <div class="round-input__wrapper" [class.complete]="form.controls.firstName.value">
               <span class="round-input__title">{{ 'event.participant_first_name' | translate }} *</span>
               <div class="round-input__field-wrapper">
-                <input attr.aria-label="{{ 'event.participant_first_name' | translate }} {{'Required input'}}" maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_first_name' | translate }} *" formControlName="firstName"/>
+                <input attr.aria-label="{{ 'event.participant_first_name' | translate }} {{'required.modal' | translate}}" maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_first_name' | translate }} *" formControlName="firstName"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('firstName') && form.controls.firstName.errors.required">
@@ -50,7 +50,7 @@
             <div class="round-input__wrapper" [class.complete]="form.controls.lastName.value">
               <span class="round-input__title">{{ 'event.participant_last_name' | translate }} *</span>
               <div class="round-input__field-wrapper">
-                <input maxlength="30" attr.aria-label="{{ 'event.participant_last_name' | translate }} {{'Required input'}}" class="round-input__field" placeholder="{{ 'event.participant_last_name' | translate }} *" formControlName="lastName"/>
+                <input maxlength="30" attr.aria-label="{{ 'event.participant_last_name' | translate }} {{'required.modal' | translate}}" class="round-input__field" placeholder="{{ 'event.participant_last_name' | translate }} *" formControlName="lastName"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('lastName') && form.controls.lastName.errors.required">
@@ -80,7 +80,7 @@
             [class.complete]="!isInvalidField('email') && form.controls.email.value && !emailFocus">
             <span class="round-input__title">{{ 'event.participant_email' | translate }} *</span>
             <div class="round-input__field-wrapper">
-              <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{'Required input'}}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
+              <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{'required.modal' | translate }}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
             </div>
             <div class="round-input__error">
               <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">

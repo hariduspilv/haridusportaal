@@ -150,9 +150,9 @@
         <h2>Kontakt</h2>
         <p>
           <ng-container *ngIf="data.fieldEducationalInstitution.entity">{{ data.fieldEducationalInstitution.entity.entityLabel | titleCase }}<br /></ng-container>
-          <ng-container tabindex="0" *ngIf="data.fieldEducationalInstitution.entity.fieldSchoolContactPhone"><span role="text" tabindex="0" attr.aria-label="{{' Phone: '}} {{ data.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}"> {{data.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}</span><br /></ng-container>
+          <ng-container tabindex="0" *ngIf="data.fieldEducationalInstitution.entity.fieldSchoolContactPhone"><span role="text" tabindex="0" attr.aria-label="{{' event.phone: ' | translate}} {{ data.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}"> {{data.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}</span><br /></ng-container>
           <ng-container *ngIf="data.fieldEducationalInstitution.entity.fieldSchoolContactEmail"><a tabindex="0" attr.aria-label="{{' E-mail: '}} {{ data.fieldEducationalInstitution.entity.fieldSchoolContactEmail }} " href="mailto:data.fieldEducationalInstitution.entity.fieldSchoolContactEmail">{{ data.fieldEducationalInstitution.entity.fieldSchoolContactEmail }}</a><br /></ng-container>
-          <ng-container *ngIf="data.fieldSchoolWebsite"><a  tabindex="0" attr.aria-label="{{' Website: '}} {{ data.fieldSchoolWebsite | removeProtocol }}" href="{{ data.fieldSchoolWebsite | url }}" target="_blank">{{ data.fieldSchoolWebsite | removeProtocol }}</a></ng-container>
+          <ng-container *ngIf="data.fieldSchoolWebsite"><a  tabindex="0" attr.aria-label="{{' event.website: '}} {{ data.fieldSchoolWebsite | removeProtocol }}" href="{{ data.fieldSchoolWebsite | url }}" target="_blank">{{ data.fieldSchoolWebsite | removeProtocol }}</a></ng-container>
         </p>
       </div><!--/block-->
       
