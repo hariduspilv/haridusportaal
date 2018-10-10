@@ -83,7 +83,8 @@ const appRoutes: Routes = [
 
   { path: ':lang/valdkonnad/:id', component:OskaAreasComponent},
   { path: ':lang/professions/:id', component:OskaAreasComponent},
-  
+  { path: ':lang/pohikutsealad/:id', component: OskaAreasComponent },
+  { path: ':lang/sectors/:id', component:OskaAreasComponent},
   
   { path: ':lang/otsing', component: SearchComponent },
   { path: ':lang/search', component: SearchComponent },
