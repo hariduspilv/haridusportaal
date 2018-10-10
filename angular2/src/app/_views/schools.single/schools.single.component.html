@@ -2,9 +2,9 @@
   <div class="block padding-block sm-top" id="school-contact-block">
     <h2>{{ 'school.contact' | translate }}</h2>
     <ul>
-      <li *ngIf="data.fieldSchoolContactPhone" ><a href="tel:{{ data.fieldSchoolContactPhone }}" tabindex="0" attr.aria-label="{{' Phone: '}} {{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
-      <li *ngIf="data.fieldSchoolContactEmail"><a href="mailto:{{ data.fieldSchoolContactEmail }}" tabindex="0" attr.aria-label="{{' E-mail: '}} {{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
-      <li *ngIf="data.fieldSchoolWebpageAddress"><a href="{{ data.fieldSchoolWebpageAddress | url }}" tabindex="0" attr.aria-label="{{' Aadress: '}} {{ data.fieldSchoolWebpageAddress | removeProtocol }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
+      <li *ngIf="data.fieldSchoolContactPhone" ><a href="tel:{{ data.fieldSchoolContactPhone }}" tabindex="0" attr.aria-label="{{'event.phone' | translate}} {{ data.fieldSchoolContactPhone }}" class="tel">{{ data.fieldSchoolContactPhone }}</a></li>
+      <li *ngIf="data.fieldSchoolContactEmail"><a href="mailto:{{ data.fieldSchoolContactEmail }}" tabindex="0" attr.aria-label="{{' E-mail '}} {{ data.fieldSchoolContactEmail }}">{{ data.fieldSchoolContactEmail }}</a></li>
+      <li *ngIf="data.fieldSchoolWebpageAddress"><a href="{{ data.fieldSchoolWebpageAddress | url }}" tabindex="0" attr.aria-label="{{'event.address' | translate }} {{ data.fieldSchoolWebpageAddress | removeProtocol }}" target="_blank">{{ data.fieldSchoolWebpageAddress | removeProtocol }}</a></li>
     </ul>
   </div>
   <ng-container *ngFor="let location of data.fieldSchoolLocation" tabindex="-1">

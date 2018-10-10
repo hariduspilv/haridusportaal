@@ -38,8 +38,12 @@ const XJSON_DATEPICKER_FORMAT = {
 })
 export class XjsonComponent implements OnInit, OnDestroy {
 
-  tableOverflown: boolean = false;
-  elemAtStart: boolean = true;
+  public tableOverflown: any = { 
+    0:true,1:true
+  };
+  public elemAtStart: any = {
+    0:true,1:true
+  };
   
 
   public objectKeys = Object.keys;
