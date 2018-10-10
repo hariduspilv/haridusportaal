@@ -28,22 +28,31 @@ revert all oska entity revisions:
 delete all oska entity revisions:
   title: 'Delete all revisions'
   description: 'Role requires permission to <em>view Oska entity revisions</em> and <em>delete rights</em> for oska entity entities in question or <em>administer oska entity entities</em>.'
-add oska entity entities:
-  title: 'Create new Oska entity entities'
 
-administer oska entity entities:
-  title: 'Administer Oska entity entities'
-  description: 'Allow to access the administration form to configure Oska entity entities.'
+administer oska indicator entity entities:
+  title: 'Administer Oska indicator entity entities'
+  description: 'Allow to access the administration form to configure Oska indicator entity entities.'
   restrict access: true
 
-delete oska entity entities:
-  title: 'Delete Oska entity entities'
+delete oska indicator entity entities:
+  title: 'Delete Oska indicator entity entities'
 
-edit oska entity entities:
-  title: 'Edit Oska entity entities'
+edit oska indicator entity entities:
+  title: 'Edit Oska indicator entity entities'
 
-view published oska entity entities:
-  title: 'View published Oska entity entities'
+view published oska indicator entity entities:
+  title: 'View published Oska indicator entity entities'
 
-view unpublished oska entity entities:
-  title: 'View unpublished Oska entity entities'
+view unpublished oska indicator entity entities:
+  title: 'View unpublished Oska indicator entity entities'
+
+view all oska indicator entity revisions:
+  title: 'View all Oska indicator entity revisions'
+
+revert all oska indicator entity revisions:
+  title: 'Revert all Oska indicator entity revisions'
+  description: 'Role requires permission <em>view Oska indicator entity revisions</em> and <em>edit rights</em> for oska indicator entity entities in question or <em>administer oska indicator entity entities</em>.'
+
+delete all oska indicator entity revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Oska indicator entity revisions</em> and <em>delete rights</em> for oska indicator entity entities in question or <em>administer oska indicator entity entities</em>.'
