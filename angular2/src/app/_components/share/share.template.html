@@ -1,5 +1,5 @@
 <div class="share__wrapper">
-  <a tabindex="0" class="share" attr.aria-label="{{'Social Networks list'}}">
+  <a tabindex="0" role="list" class="share" attr.aria-label="{{'social.networks' | translate }}">
     <div class="share__component">
       <span class="htm-icon primary" matTooltip="{{ 'tooltip.share' | translate }}"  matTooltipPosition="above" >share</span>
 
@@ -10,7 +10,7 @@
       <div class="share__component__buttons--elem">
         <a class="fb-icn" tabindex="0"
         role="link"
-        attr.aria-label="{{'Facebook clickable'}}"
+        attr.aria-label="{{'Facebook'}}"
         (keyup.enter)="share('facebook')"
         (keyup.space)="share('facebook')"
         (click)="share('facebook')"
@@ -19,7 +19,7 @@
       <div class="share__component__buttons--elem">
         <a tabindex="0" class="tw-icn"
         role="link"
-        attr.aria-label="{{'Twitter clickable'}}"
+        attr.aria-label="{{'Twitter'}}"
         (keyup.enter)="share('twitter')"
         (keyup.space)="share('twitter')"
         (click)="share('twitter')"

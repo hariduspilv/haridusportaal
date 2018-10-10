@@ -11,7 +11,7 @@
     <div class="row article-wrapper">
       <div class="col-8 sm-12">
         <div class="article">
-          <div class="article-title" attr.aria-label="{{'event.group' | translate}}">KÕRGHARIDUS</div>
+          <div class="article-title">KÕRGHARIDUS</div>
           <article [class.extraBottom]="!(content.fieldVideo.length > 0) && !(accordionSection.length > 0) && fieldRightSidebar === null">
             <div class="row title">
               
@@ -25,14 +25,14 @@
               </div><!--/col-1-->
 
             </div><!--/row-->
-            <div class="short" attr.aria-label="{{'description.short' | translate}}" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>
+            <div class="short" *ngIf="content.fieldBody != null" [innerHtml]="content.fieldBodySummary"></div>
 
             <div *ngIf="content.fieldImage" class="article-image pull-right">
               <img src="{{ content.fieldImage.derivative.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
               <div aria-hidden="true" class="image-alt-text" *ngIf="content.fieldImage.alt">{{ content.fieldImage.alt }}</div>
             </div>
             
-            <div class="description" attr.aria-label="{{'description' | translate}}" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
+            <div class="description" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
           </article>
 
           <video-component *ngIf="content.fieldVideo && content.fieldVideo.length > 0" [videos]="content.fieldVideo"></video-component>
@@ -71,12 +71,12 @@
           <div class="sidebar__item" *ngIf="fieldContactSection !== null">
             <h1 class="mt-0 sidebar__title">Kontakt</h1>
             <div class="sidebar__paragraph">
-              <div><span role="text" attr.aria-label="{{'Ogranization:'}} {{fieldContactOrganization | translate}}">{{fieldContactOrganization}}</span></div>
-              <div><span role="text" attr.aria-label="{{'Organizer:'}} {{fieldContactPerson | translate}}">{{fieldContactPerson}}</span></div>
-              <div><a attr.aria-label="{{'Organizer phone:'}} {{'participantPhone' | translate}}" tabindex="0" href="tel:{{fieldContactPhone}}" alt="" class="sm-show">{{fieldContactPhone}}</a></div>
-              <div class="sm-hide"><span role="text" attr.aria-label="{{'Participant phone:'}} {{fieldContactPhone | translate}}">{{fieldContactPhone}}</span></div>
+              <div><span role="text" attr.aria-label="{{'event.organizer | translate'}} {{fieldContactOrganization | translate}}">{{fieldContactOrganization}}</span></div>
+              <div><span role="text" attr.aria-label="{{'event.person | translate'}} {{fieldContactPerson | translate}}">{{fieldContactPerson}}</span></div>
+              <div><a attr.aria-label="{{'event.phone | translate'}} {{'participantPhone' | translate}}" tabindex="0" href="tel:{{fieldContactPhone}}" alt="" class="sm-show">{{fieldContactPhone}}</a></div>
+              <div class="sm-hide"><span role="text" attr.aria-label="{{'event.phone | translate'}} {{fieldContactPhone | translate}}">{{fieldContactPhone}}</span></div>
 
-              <div><a attr.aria-label="{{'E-mail:'}} {{fieldContactEmail | translate}}" href="mailto:{{fieldContactEmail}}" alt="">{{fieldContactEmail}}</a></div>
+              <div><a attr.aria-label="{{'e-mail'}} {{fieldContactEmail | translate}}" href="mailto:{{fieldContactEmail}}" alt="">{{fieldContactEmail}}</a></div>
             </div>
           </div>
           
@@ -84,7 +84,7 @@
             <h1 class="mt-0 sidebar__title">Leia kiiresti</h1>
             <div class="sidebar__paragraph">
               <ul class="link-list mt-0 mb-0">
-                <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{articleLink.title | translate}}"class="link"><span class="htm-icon">launch</span>{{articleLink.title}}</a></li>
+                <li *ngFor="let articleLink of articleLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" class="link"><span class="htm-icon">launch</span>{{articleLink.title}}</a></li>
               </ul>
             </div>
           </div>
@@ -94,7 +94,7 @@
             <div class="sidebar__paragraph">
               <ul class="link-list mt-0 mb-0">
                 <li *ngFor="let relatedArticle of relatedArticles">
-                  <a href="{{relatedArticle.url.path}}" tabindex="0" [attr.target]="relatedArticle.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{relatedArticle.title | translate}}" class="link related">
+                  <a href="{{relatedArticle.url.path}}" tabindex="0" [attr.target]="relatedArticle.url.__typename === 'ExternalUrl' ? '_blank' : ''" class="link related">
                     <div><span class="htm-icon">link</span></div>
                     <div>{{relatedArticle.title}}</div>
                   </a>
