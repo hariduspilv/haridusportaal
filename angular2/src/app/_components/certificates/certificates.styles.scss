@@ -23,6 +23,11 @@
       }
     }
   }
+  @include break-on(lg, min) {
+    border-left: .3125rem solid #bee3e8;
+    &.mat-expanded {border-left: .3125rem solid #15adc2;}
+    &:hover {border-left: .3125rem solid #15adc2;}
+  }
 }
 ::ng-deep .mat-expansion-indicator::after {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';
   content: 'keyboard_arrow_down' !important;border: none !important;transform: none !important;padding: 0 !important;

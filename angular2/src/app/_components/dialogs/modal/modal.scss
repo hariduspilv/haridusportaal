@@ -7,13 +7,13 @@
   &__required {line-height: 1.88rem;}
   &__form {padding-top: 0; .dialog-content {padding-top: $gutter;}}
   &__actions {padding-top: $small;
-    a {margin-top: $medium;line-height:$medium;text-align: center;
+    a {margin-top: $small;line-height:$medium;text-align: center;
       @include break-on(sm, min) {margin-right: $medium; margin-top: 0;}
     }
     &--success {
       .mat-raised-button.mat-primary {width: 100%; padding: 0 $small; line-height:2.5rem;}
       a {margin-top: $medium; line-height:$medium; text-align: center; }
-      .mat-raised-button.mat-primary + a { margin-top: $medium; display: inline-block; }
+      .mat-raised-button.mat-primary + a { margin-top: $small; display: inline-block; }
       &__close {padding-top: $small;}
     }
   }

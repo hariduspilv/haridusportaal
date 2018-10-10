@@ -1,9 +1,9 @@
-<div class="row sm-hide crumbs" attr.aria-label="{{'breadcrumbs' | translate}}">
+<div class="row sm-hide crumbs" attr.aria-label="{{'breadcrumbs.breadcrumb' | translate}}">
   <div class="col-12">
-    <ul class="main-container breadcrumb mt-0 mb-0" *ngIf="breadcrumbs && !loading">
+    <ul role="list" class="main-container breadcrumb mt-0 mb-0" *ngIf="breadcrumbs && !loading">
       <li *ngFor="let breadcrumbEl of breadcrumbs; let last = last">
         <a [routerLink]="[breadcrumbEl.url]" *ngIf="!last">
-          <span role="link" attr.aria-label="{{'Breadcrumb'}}">{{ breadcrumbEl.text }}</span>
+          <span role="link">{{ breadcrumbEl.text }}</span>
         </a>
         <span role="dialog" attr.aria-current="{{breadcrumbEl.text}}" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
       </li>
@@ -136,25 +136,25 @@
                     <span class="htm-icon">keyboard_arrow_right</span>
                   </div>
                   <div class="scrollable__table" [attr.id]="'certificateElem_' + ind" (scroll)="tableOverflown[ind] = tableService.isOverflownWhileScrolling($event); elemAtStart[ind] = tableService.isElemAtStart('certificateElem_'+ind)">
-                    <table class="dashboard-table scrollableTable" *ngFor="let elem of item.osad;">
+                    <table class="dashboard-table scrollableTable">
                       <thead>
                         <tr>
-                          <th *ngIf="elem.osa_nimi">{{'frontpage.osa_nimi' | translate}}</th>
-                          <th *ngIf="elem.tulemus">{{'frontpage.tulemus' | translate}}</th>
-                          <th *ngIf="elem.staatus">{{'frontpage.staatus' | translate}}</th>
-                          <th *ngIf="elem.osa_kuupaev">{{'frontpage.osa_kuupaev' | translate}}</th>
-                          <th *ngIf="elem.osa_koht">{{'frontpage.osa_koht' | translate}}</th>
-                          <th *ngIf="elem.osa_aadress">{{'frontpage.osa_aadress' | translate}}</th>
+                          <th>{{'frontpage.osa_nimi' | translate}}</th>
+                          <th>{{'frontpage.tulemus' | translate}}</th>
+                          <th>{{'frontpage.staatus' | translate}}</th>
+                          <th>{{'frontpage.osa_kuupaev' | translate}}</th>
+                          <th>{{'frontpage.osa_koht' | translate}}</th>
+                          <th>{{'frontpage.osa_aadress' | translate}}</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td *ngIf="elem.osa_nimi">{{ elem.osa_nimi }}</td>
-                          <td *ngIf="elem.tulemus">{{ elem.tulemus }}</td>
-                          <td *ngIf="elem.staatus">{{ elem.staatus }}</td>
-                          <td *ngIf="elem.osa_kuupaev">{{ elem.osa_kuupaev }}</td>
-                          <td *ngIf="elem.osa_koht">{{ elem.osa_koht }}</td>
-                          <td *ngIf="elem.osa_aadress" class="nonBreakable light">{{ elem.osa_aadress }}</td>
+                        <tr *ngFor="let elem of item.osad;">
+                          <td>{{ elem.osa_nimi ? elem.osa_nimi : '-' }}</td>
+                          <td>{{ elem.tulemus ? elem.tulemus : '-' }}</td>
+                          <td>{{ elem.staatus ? elem.staatus : '-' }}</td>
+                          <td>{{ elem.osa_kuupaev ? elem.osa_kuupaev : '-' }}</td>
+                          <td>{{ elem.osa_koht ? elem.osa_koht : '-' }}</td>
+                          <td class="nonBreakable light">{{ elem.osa_aadress ? elem.osa_aadress : '-' }}</td>
                         </tr>
                       </tbody>
                     </table>
