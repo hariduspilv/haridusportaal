@@ -395,5 +395,12 @@
     "no_results_start": "Otsingule",
     "no_results_end": "vastavaid tulemusi ei leitud.<br> Proovi otsida mõne teise märksõnaga.",
     "filter_results": "Filtreeri tulemusi"
+  },
+  "oskaProfessions": {
+    "label": "Põhikutsealad",
+    "compare_label": "Põhikutsealade võrdlus",
+    "compare_modal_title": "Põhikutsealade võrdlemine",
+    "compare_modal_content": "<p> Maksimaalne võrreldavate põhikutsealade arv on ületatud.</p><br><p>Võrdlusesse saab lisada kuni 3 kutseala.</p>",
+    "compare_modal_close": "Sulge aken"
   }
 }
