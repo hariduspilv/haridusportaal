@@ -1,5 +1,5 @@
 <div class="news-list__recent" [class.horizontal]="frontpage">
-  <div class="news-title" attr.aria-label="{{ 'news.label' | translate }}">{{ 'news.label' | translate | uppercase }} <a attr.aria-label="{{ 'button.view_all' | translate }}: {{ 'news.label' | translate }}" *ngIf="frontpage" href="javascript:void(0);" [routerLink]="allPath">{{ 'button.view_all' | translate }}</a></div>
+  <div class="news-title">{{ 'news.label' | translate | uppercase }} <a attr.aria-label="{{ 'button.view_all' | translate }}: {{ 'news.label' | translate }}" *ngIf="frontpage" href="javascript:void(0);" [routerLink]="allPath">{{ 'button.view_all' | translate }}</a></div>
   <div class="news-list__recent__block">
 
     <mat-spinner *ngIf="!content"></mat-spinner>
@@ -10,9 +10,9 @@
           <div class="pointer field-image" *ngIf="item.entityTranslation.fieldIntroductionImage">
             <img src="{{ item.entityTranslation.fieldIntroductionImage.derivative.url }}" alt="{{ item.entityTranslation.fieldIntroductionImage.alt }}" width="100%" />
           </div>
-          <div class="title__recent" attr.aria-label="{{ 'title' | translate }}" ><h1> {{ item.entityTranslation.entityLabel }}</h1></div>
+          <div class="title__recent"><h1> {{ item.entityTranslation.entityLabel }}</h1></div>
         </a>
-        <div class="author" attr.aria-label="{{ 'author' | translate }}">{{ item.entityTranslation.fieldAuthor }} {{ item.entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</div>
+        <div class="author" attr.aria-label="{{'author.author' | translate}}">{{ item.entityTranslation.fieldAuthor }} {{ item.entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</div>
       </article>
     </ng-container>
 
