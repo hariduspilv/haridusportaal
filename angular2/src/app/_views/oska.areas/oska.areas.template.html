@@ -1,5 +1,7 @@
+<breadcrumbs></breadcrumbs>
 <div class="main-container">
-  <div class="row wrapper__row">
+  <mat-spinner *ngIf="!data && !error"></mat-spinner>
+  <div class="row wrapper__row" *ngIf="data">
     <div class="col-8 sm-12">
       <div class="block border-blue padding-block">
         <div class="block__head no-border">
