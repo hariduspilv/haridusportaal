@@ -1,5 +1,7 @@
+<breadcrumbs></breadcrumbs>
 <div class="main-container">
-  <div class="row wrapper__row">
+  <mat-spinner *ngIf="!data && !error"></mat-spinner>
+  <div class="row wrapper__row" *ngIf="data">
     <div class="col-8 sm-12">
       <div class="block border-blue padding-block">
         <div class="block__head no-border">
@@ -14,55 +16,121 @@
           {{ data['fieldIntroduction'] }}
         </div>
 
-        <div *ngIf="data.fieldOskaFieldPicture && data.fieldOskaFieldPicture.length > 0" class="article-image pull-right">
-          <img src="{{ data.fieldOskaFieldPicture[0].derivative.url }}" alt="{{ data.fieldOskaFieldPicture[0].alt }}" title="{{ data.fieldOskaFieldPicture[0].title }}" style="max-width:100%;" />
-          <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture[0].alt">{{ data.fieldOskaFieldPicture[0].alt }}</div>
-        </div>
+        
+        <!-- profession image-->
+        <ng-container *ngIf="data.fieldMainProfessionPicture">
+          <div *ngIf="data.fieldMainProfessionPicture && data.fieldMainProfessionPicture.length > 0" class="article-image pull-right">
+            <img src="{{ data.fieldMainProfessionPicture[0].derivative.url }}" alt="{{ data.fieldMainProfessionPicture[0].alt }}" title="{{ data.fieldMainProfessionPicture[0].title }}" style="max-width:100%;" />
+            <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldMainProfessionPicture[0].alt">{{ data.fieldMainProfessionPicture[0].alt }}</div>
+          </div>
+        </ng-container>
+
+        <!-- field image-->
+        <ng-container *ngIf="data.fieldOskaFieldPicture">
+            <div *ngIf="data.fieldOskaFieldPicture && data.fieldOskaFieldPicture.length > 0" class="article-image pull-right">
+                <img src="{{ data.fieldOskaFieldPicture[0].derivative.url }}" alt="{{ data.fieldOskaFieldPicture[0].alt }}" title="{{ data.fieldOskaFieldPicture[0].title }}" style="max-width:100%;" />
+                <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture[0].alt">{{ data.fieldOskaFieldPicture[0].alt }}</div>
+              </div>
+        </ng-container>
+        
 
         <div [innerHTML]="data['body']['value']" attr.aria-label="{{'description' | translate}}" ></div>
 
-        <ng-container *ngIf="data.fieldOskaWebPage.length > 0 || data.fieldOskaAttachmentFile.length > 0" class="external-links">
-          <ul class="external-links">
-            <li *ngFor="let item of data.fieldOskaWebPage">
-              <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
-            </li>
-            <li *ngFor="let item of data.fieldOskaAttachmentFile">
-              <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
-            </li>
-          </ul>
+        <ng-container *ngIf="data.fieldOskaWebPage || data.fieldOskaAttachmentFile">
+          <ng-container *ngIf="data.fieldOskaWebPage.length > 0 || data.fieldOskaAttachmentFile.length > 0" class="external-links">
+              <ul class="external-links">
+                <li *ngFor="let item of data.fieldOskaWebPage">
+                  <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
+                </li>
+                <li *ngFor="let item of data.fieldOskaAttachmentFile">
+                  <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
+                </li>
+              </ul>
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="data.fieldOskaMainProfessionLinks || data.fieldOskaMainProfessionFile">
+          <ng-container *ngIf="data.fieldOskaMainProfessionLinks.length > 0 || data.fieldOskaMainProfessionFile.length > 0" class="external-links">
+            <ul class="external-links">
+              <li *ngFor="let item of data.fieldOskaMainProfessionLinks">
+                <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
+              </li>
+              <li *ngFor="let item of data.fieldOskaMainProfessionFile">
+                <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
+              </li>
+            </ul>
+          </ng-container>
         </ng-container>
 
         <video-component *ngIf="video" [videos]="video"></video-component>
 
-        <div class="accordion" *ngIf="data['fieldOskaFieldAccordion'].length > 0">
-          <mat-accordion multi>
-            <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of data['fieldOskaFieldAccordion']; let first = first;">
-              <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
-                <mat-panel-title>
+        <ng-container *ngIf="data.fieldOskaFieldAccordion">
+          <div class="accordion" *ngIf="data['fieldOskaFieldAccordion'].length > 0">
+            <mat-accordion multi>
+              <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of data['fieldOskaFieldAccordion']; let first = first;">
+                <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+                  <mat-panel-title>
 
-                  {{accordionItem.entity.fieldTitle}}
+                    {{accordionItem.entity.fieldTitle}}
 
-                </mat-panel-title>
-                <!-- <mat-panel-description></mat-panel-description> -->
-              </mat-expansion-panel-header>
-              <div class="accordion__body">
-                <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
-                <ul class="link-list mt-2 mb-0">
-                  <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
-                </ul>
-              </div><!--/accordion__body-->
-              
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div><!--/accordion-->
+                  </mat-panel-title>
+                  <!-- <mat-panel-description></mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <div class="accordion__body">
+                  <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
+                  <ul class="link-list mt-2 mb-0">
+                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
+                  </ul>
+                </div><!--/accordion__body-->
+                
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div><!--/accordion-->
+        </ng-container>
 
-        <div class="tags" *ngIf="data.fieldMainProfessionTags && data.fieldMainProfessionTags.length > 0">
-          <mat-chip-list>
-            <span *ngFor="let tag of data.fieldMainProfessionTags" class="mat-chip-list-wrapper">
-              <mat-chip *ngIf="tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
-            </span>
-          </mat-chip-list>
-        </div><!--/tags-->
+        <ng-container *ngIf="data.fieldMainProfessionAccordion">
+          <div class="accordion" *ngIf="data['fieldMainProfessionAccordion'].length > 0">
+            <mat-accordion multi>
+              <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of data['fieldMainProfessionAccordion']; let first = first;">
+                <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+                  <mat-panel-title>
+
+                    {{accordionItem.entity.fieldTitle}}
+
+                  </mat-panel-title>
+                  <!-- <mat-panel-description></mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <div class="accordion__body">
+                  <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
+                  <ul class="link-list mt-2 mb-0">
+                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
+                  </ul>
+                </div><!--/accordion__body-->
+                
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div><!--/accordion-->
+        </ng-container>
+
+        <ng-container *ngIf="data.fieldMainProfessionTag">
+          <div class="tags" *ngIf="data.fieldMainProfessionTags && data.fieldMainProfessionTags.length > 0">
+            <mat-chip-list>
+              <span *ngFor="let tag of data.fieldMainProfessionTags" class="mat-chip-list-wrapper">
+                <mat-chip *ngIf="tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
+              </span>
+            </mat-chip-list>
+          </div><!--/tags-->
+        </ng-container>
+        <ng-container *ngIf="data.fieldMainProfessionTags">
+          <div class="tags" *ngIf="data.fieldMainProfessionTags && data.fieldMainProfessionTags.length > 0">
+            <mat-chip-list>
+              <span *ngFor="let tag of data.fieldMainProfessionTags" class="mat-chip-list-wrapper">
+                <mat-chip *ngIf="tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
+              </span>
+            </mat-chip-list>
+          </div><!--/tags-->
+        </ng-container>
+        
       </div><!--/block-->
     </div><!--/col-8-->
 

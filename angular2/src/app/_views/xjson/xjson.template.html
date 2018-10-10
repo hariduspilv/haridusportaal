@@ -243,7 +243,6 @@
                     <input 
                     class="round-input__field"
                     type="text" 
-                    aria-label="address"
                     [(ngModel)]="temporaryModel[element]"
                     (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
                     (blur)="addressAutocompleteSelectionValidation(element)"

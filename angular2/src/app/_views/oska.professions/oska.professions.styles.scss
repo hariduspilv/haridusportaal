@@ -1,0 +1,58 @@
+@import "../../../assets/styles/typography.scss"; 
+.studyProgramme {padding-bottom: $xxl;background: $white;border-top: $gutter solid $light-blue;
+  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0; padding-bottom: $medium;}
+  .months {margin-top: $medium;
+    @include break-on(sm, min) {
+      margin-top:-$medium;
+    }
+  }
+  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: $small $medium $small $medium; flex-basis: 50%;}
+  &__head {display: flex;}
+  .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;cursor:pointer;color:$blue;
+    .htm-icon{margin-top: $gutter;}
+    .title {font-size: .875rem;}
+    &.active {color: $black;
+      &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
+  }
+
+  &__item {padding: $small $medium; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
+    &:first-child{padding-top:0;}
+    @include break-on(sm, min) {
+      &:last-child{border-bottom:0;}
+    }
+    &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;
+      @include break-on(sm, min) {margin-bottom:0.23rem; }
+      &:hover{text-decoration: none;}
+    }
+    &__head {font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-bottom: $half-gutter;}
+    &__col{width:33%; box-sizing: border-box;
+      &:first-child{padding-right:1.5rem;}
+      &:last-child{padding-left:1.5rem;}
+      p{color:$dark-gray; font-size:0.875rem; line-height:20px; margin:0.25rem 0;}
+    }
+    &__subtitle {font-size: $small;line-height: 1; font-size:0.88rem; color:$dark-gray; line-height:143%; display:block; font-weight: 500; margin-bottom:$medium; margin-top: $half-gutter;}
+    &__titlebox {width:100%; display:flex;
+      .col-grow{flex-grow: 1}
+      .col{display: flex; align-items: baseline; flex-shrink: 0;align-items: baseline;}
+    }
+    p:first-child{margin-top:0;}
+    p:last-child{margin-bottom:0;}
+  }
+  .spinner-wrapper{padding-bottom:1.25rem;}
+}
+.button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
+.actions{margin-bottom:$xxl; padding:0 $medium;margin-top: -$medium;
+  @include break-on(sm, min) {margin-top: 0;}
+  &.snackBar {margin-bottom: 7.75rem;
+    @include break-on(sm, min) {margin-bottom: 5.25rem;}
+  }
+}
+@include break-on(sm, max) {
+  .filter-wrapper .row {padding-top: $gutter;
+    &:first-child {padding-top: 0;}
+  }
+  .button-row {padding-top: 0;}
+}
+@include break-on(sm, min) {
+  .custom-checkbox {margin-top: $gutter;}
+}

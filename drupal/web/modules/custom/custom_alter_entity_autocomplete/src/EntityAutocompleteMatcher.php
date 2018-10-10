@@ -5,6 +5,7 @@ namespace Drupal\custom_alter_entity_autocomplete;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Tags;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Entity\Entity;
 
 class EntityAutocompleteMatcher extends \Drupal\Core\Entity\EntityAutocompleteMatcher {
 
@@ -22,17 +23,22 @@ class EntityAutocompleteMatcher extends \Drupal\Core\Entity\EntityAutocompleteMa
         if (isset($string)) {
             // Get an array of matching entities.
             $match_operator = !empty($selection_settings['match_operator']) ? $selection_settings['match_operator'] : 'CONTAINS';
+            #dump($options['target_type']);
             $query = \Drupal::entityQuery($options['target_type']);
-            $query->condition('vid', $options['target_bundles']);
-            $query->condition('name', $string, 'CONTAINS');
+            if($options['target_type'] == 'node'){
+                $query->condition('type', $options['target_bundles']);
+                $query->condition('title', $string, 'CONTAINS');
+            }if($options['target_type'] == 'taxonomy_term'){
+                $query->condition('vid', $options['target_bundles']);
+                $query->condition('name', $string, 'CONTAINS');
+            }
             $query->condition('langcode', \Drupal::languageManager()->getCurrentLanguage()->getId());
             $query->range(0,10);
             $values = $query->execute();
-            $values = Term::loadMultiple($values);
-
+            $values = \Drupal::entityTypeManager()->getStorage($options['target_type'])->loadMultiple($values);
             // Loop through the entities and convert them into autocomplete output.
             foreach ($values as $value) {
-                $label = $value->getName();
+                $label = $value->label();
                 $entity_id = $value->id();
                 $key = "$label ($entity_id)";
                 $matches[] = ['value' => $key, 'label' => $label];

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RootScopeService } from 'app/_services/rootScopeService';
 
 @Component({
   templateUrl: "oska.areas.template.html",
@@ -11,17 +12,36 @@ export class OskaAreasComponent implements OnInit{
 
   data: any = false;
   video: any = false;
+  error: boolean = false;
 
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private rootScope: RootScopeService
   ) {
 
   }
 
+  setLangLinks(data){
+    //language service
+    const langOptions = data['data']['route']['languageSwitchLinks'];
+    let langValues = {};
+    for( var i in langOptions ){
+      langValues[langOptions[i].language.id] = langOptions[i].url.path;
+    }
+    this.rootScope.set('langOptions', langValues);
+  }
+
   getData(){
     let url = "/graphql?queryId=oskaFieldDetailView:1&variables=";
+
+    console.log(this.router.url);
+    if( this.router.url.match(/pohikutsealad|sectors/ ) ){
+      url = "/graphql?queryId=oskaMainProfessionDetailView:1&variables=";
+      console.log("match");
+    }
+
     let variables = {
       "path": this.router.url
     };
@@ -29,10 +49,21 @@ export class OskaAreasComponent implements OnInit{
     url+= JSON.stringify(variables);
 
     let subscription = this.http.get(url).subscribe( (data) => {
-      this.data = data['data']['route']['entity'];
-      
+      if ( data['data']['route'] == null ) {
+        console.log("Error loading data");
+        this.error = true;
+        return false;
+      }else{
+        this.data = data['data']['route']['entity'];
+      }
+
+      this.setLangLinks(data);
+
       if( this.data.fieldOskaVideo ){
         this.video = [this.data.fieldOskaVideo];
+      }
+      else if( this.data.fieldOskaMainProfessionVideo	 ){
+        this.video = [this.data.fieldOskaMainProfessionVideo];
       }
     });
   }

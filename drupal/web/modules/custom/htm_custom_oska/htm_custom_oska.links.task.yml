@@ -20,3 +20,25 @@ entity.oska_entity.delete_form:
   title: Delete
   weight: 10
 
+# Oska indicator entity routing definition
+oska_indicator_entity.settings_tab:
+  route_name: oska_indicator_entity.settings
+  title: 'Settings'
+  base_route: oska_indicator_entity.settings
+
+entity.oska_indicator_entity.canonical:
+  route_name: entity.oska_indicator_entity.canonical
+  base_route: entity.oska_indicator_entity.canonical
+  title: 'View'
+
+entity.oska_indicator_entity.edit_form:
+  route_name: entity.oska_indicator_entity.edit_form
+  base_route: entity.oska_indicator_entity.canonical
+  title: 'Edit'
+
+entity.oska_indicator_entity.delete_form:
+  route_name:  entity.oska_indicator_entity.delete_form
+  base_route:  entity.oska_indicator_entity.canonical
+  title: Delete
+  weight: 10
+

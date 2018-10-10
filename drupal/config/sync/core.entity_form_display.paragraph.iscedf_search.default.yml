@@ -1,0 +1,41 @@
+uuid: 0a794cf2-f35c-43c9-ad00-63773e73a21a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.iscedf_search.field_iscedf_search_term
+    - field.field.paragraph.iscedf_search.field_iscedf_search_text
+    - paragraphs.paragraphs_type.iscedf_search
+  module:
+    - maxlength
+id: paragraph.iscedf_search.default
+targetEntityType: paragraph
+bundle: iscedf_search
+mode: default
+content:
+  field_iscedf_search_term:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_iscedf_search_text:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true
