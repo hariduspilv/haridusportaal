@@ -35,6 +35,13 @@ export class OskaAreasComponent implements OnInit{
 
   getData(){
     let url = "/graphql?queryId=oskaFieldDetailView:1&variables=";
+
+    console.log(this.router.url);
+    if( this.router.url.match(/pohikutsealad|sectors/ ) ){
+      url = "/graphql?queryId=oskaMainProfessionDetailView:1&variables=";
+      console.log("match");
+    }
+
     let variables = {
       "path": this.router.url
     };
@@ -54,6 +61,9 @@ export class OskaAreasComponent implements OnInit{
 
       if( this.data.fieldOskaVideo ){
         this.video = [this.data.fieldOskaVideo];
+      }
+      else if( this.data.fieldOskaMainProfessionVideo	 ){
+        this.video = [this.data.fieldOskaMainProfessionVideo];
       }
     });
   }
