@@ -1,0 +1,9 @@
+uuid: bde35967-0cd6-48a2-a624-e9a9de32453b
+langcode: et
+status: true
+dependencies: {  }
+id: main_profession_sidebar
+label: 'Main Profession Sidebar'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

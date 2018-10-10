@@ -1,0 +1,9 @@
+uuid: d5f00f2f-8a20-4e81-a72b-cc486f603330
+langcode: et
+status: true
+dependencies: {  }
+id: iscedf_search
+label: Õppimisvõimalused
+icon_uuid: null
+description: ''
+behavior_plugins: {  }
