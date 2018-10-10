@@ -30,9 +30,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 export function HttpLoaderFactory(http: HttpClient) {
   let localAddress = ['192', '10'];
   let translateUrls = {
-    "localhost": ["/assets/", ".json"],
-
-    //"localhost": ["http://test-htm.wiseman.ee:30000/", "/base_settings?_format=json"],
+    "localhost": ["http://test-htm.wiseman.ee:30000/", "/translations?_format=json"],
     // "htm.twn.ee": ["/assets/", ".json"],
     "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/translations?_format=json"],
     "otherwise": ["https://api.test.edu.ee/", "/translations?_format=json"]

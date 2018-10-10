@@ -384,5 +384,12 @@
     "no_results_start": "Matching results for keyword",
     "no_results_end": "not found.<br> Try a different query.",
     "filter_results": "Filter results"
+  },
+  "oskaProfessions": {
+    "label": "Professions",
+    "compare_label": "Professions compare",
+    "compare_modal_title": "Professions compare",
+    "compare_modal_content": "<p> Maximum number of professions in comparisons reached.</p><br><p>You can add up to 3 professions.</p>",
+    "compare_modal_close": "Close"
   }
 }
