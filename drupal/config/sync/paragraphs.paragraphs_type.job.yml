@@ -1,0 +1,9 @@
+uuid: 55fe6e32-e697-4e5e-986b-6942a38e8598
+langcode: et
+status: true
+dependencies: {  }
+id: job
+label: Job
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

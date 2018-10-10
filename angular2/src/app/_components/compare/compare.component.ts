@@ -22,6 +22,10 @@ export class CompareComponent implements OnInit, OnDestroy{
     "studyProgramme.compare":{
       "et": "/et/erialad/vordlus",
       "en": "/en/studyprogrammes/compare"
+    },
+    "oskaProfessions.compare":{
+      "et": "/et/pohikutsealad/vordlus",
+      "en": "/en/professions/compare"
     }
   }
   compareTranslationOptions = {
@@ -29,12 +33,18 @@ export class CompareComponent implements OnInit, OnDestroy{
       title: "studyProgramme.compare_modal_title",
       content: "studyProgramme.compare_modal_content",
       close: "studyProgramme.compare_modal_close",
+    },
+    "oskaProfessions.compare": {
+      title: "oskaProfessions.compare_modal_title",
+      content: "oskaProfessions.compare_modal_content",
+      close: "oskaProfessions.compare_modal_close",
     }
   }
   viewLink: boolean;
 
   maxItemsConf = {
     "studyProgramme.compare": 3,
+    "oskaProfessions.compare": 3,
     "default": 10
   }
 
