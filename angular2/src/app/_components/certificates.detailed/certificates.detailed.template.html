@@ -121,14 +121,14 @@
               <div class="text--substrong" *ngIf="item.tulemus">{{'frontpage.tulemus' | translate}}:&nbsp;<span>{{item.tulemus}}</span></div>
               <ng-container *ngIf="item.osad && item.osad.length">
                 <div class="scrollable">
-                  <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart[ind]" 
+                  <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart[ind]" 
                     (touchstart)="tableService.scrollStart('certificateElem_'+ind)" 
                     (mousedown)="tableService.scrollStart('certificateElem_'+ind)" 
                     (touchend)="tableService.scrollEnd()" 
                     (mouseup)="tableService.scrollEnd()">
                     <span class="htm-icon">keyboard_arrow_left</span>
                   </div>
-                  <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown[ind]" 
+                  <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown[ind]" 
                     (touchstart)="tableService.scrollStart('certificateElem_'+ind, true)"
                     (mousedown)="tableService.scrollStart('certificateElem_'+ind, true)"
                     (touchend)="tableService.scrollEnd(true)"
@@ -167,12 +167,13 @@
       </div>
     </div>
     <!--/col-8-->
-    <div class="col-4 sm-12" *ngIf="examResults && downloadId && !loading">
+    <div class="col-4 sm-12" *ngIf="examResults && !loading">
       <aside class="sidebar">
         <div class="sidebar__item">
           <h1 class="sidebar__title">{{ 'frontpage.certificate_download' | translate }}</h1>
           <div class="sidebar__paragraph">
-            <a [href]="downloadCertificate()" target="_blank" mat-raised-button color="primary" >{{ 'button.download' | translate }}</a>
+            <div class="explain" *ngIf="!downloadId" class="explain">{{ 'errors.certificate_file_missing' | translate }}</div>
+            <a *ngIf="downloadId" attr.aria-label="{{ 'frontpage.dashboard_tabs_certificate' | translate }}: {{ 'button.download' | translate }}" [href]="downloadCertificate()" target="_blank" mat-raised-button color="primary" >{{ 'button.download' | translate }}</a>
           </div>
         </div>
       </aside>
