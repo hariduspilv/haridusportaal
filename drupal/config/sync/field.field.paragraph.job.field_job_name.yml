@@ -1,0 +1,19 @@
+uuid: 3a8b365b-0f4e-4e6c-a503-7390257ae445
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_job_name
+    - paragraphs.paragraphs_type.job
+id: paragraph.job.field_job_name
+field_name: field_job_name
+entity_type: paragraph
+bundle: job
+label: 'Ameti nimetus'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

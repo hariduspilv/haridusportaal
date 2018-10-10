@@ -1,0 +1,33 @@
+uuid: 47cbe214-3ef2-4185-854a-d63d9e415e3a
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: professions_pattern_eng
+label: 'Professions pattern ENG'
+type: 'canonical_entities:node'
+pattern: 'professions/[node:title]'
+selection_criteria:
+  b0d13e7b-18a6-4458-9a46-14b27400902b:
+    id: node_type
+    bundles:
+      oska_field_page: oska_field_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: b0d13e7b-18a6-4458-9a46-14b27400902b
+  0cc604f5-a379-453a-8069-558048dcf3d4:
+    id: language
+    langcodes:
+      en: en
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 0cc604f5-a379-453a-8069-558048dcf3d4
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel
