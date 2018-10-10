@@ -96,6 +96,7 @@ export class LoginComponent implements OnInit{
     this.userService.logout();
     this.user = this.userService.getData();
     this.rootScope.set('teachingsAccordion', 0);
+    this.rootScope.set('certificatesAccordion', 0);
   }
 
   /*

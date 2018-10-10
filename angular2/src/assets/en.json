@@ -374,7 +374,8 @@
     "studies_data_request": "Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.",
     "studies_data_missing": "Relevant data missing from the Estonian Education Infosystem.",
     "teachings_data_request": "Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.",
-    "teachings_data_missing": "Relevant data missing from the Estonian Education Infosystem."
+    "teachings_data_missing": "Relevant data missing from the Estonian Education Infosystem.",
+    "certificate_file_missing": "Certificate not available as an e-certificate file."
   },
   "search": {
     "label": "Search",

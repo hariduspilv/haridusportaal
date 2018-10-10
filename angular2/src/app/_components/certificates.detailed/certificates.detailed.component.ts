@@ -71,8 +71,8 @@ export class CertificatesDetailedComponent implements OnInit{
     let sub = this.http.get('/dashboard/certificates/getProfessionalCertificate?_format=json').subscribe(response => {
       this.loading = false;
 
-      if(response['error']){
-        this.error = true;
+      if(response['value']['teade']){
+        this.router.navigateByUrl( this.dashboardLink );
       } else {
         this.professionalCertificates = response['value']['kutsetunnistused']
         
@@ -80,7 +80,7 @@ export class CertificatesDetailedComponent implements OnInit{
         this.certificate['valjaantud'] = this.certificate['valjaantud'].split("-").reverse().join('.');
         this.certificate['kehtibalates'] = this.certificate['kehtibalates'].split("-").reverse().join('.');
         this.certificate['kehtibkuni'] = this.certificate['kehtibkuni'].split("-").reverse().join('.');
-      
+    
         if(!this.certificate) this.router.navigateByUrl( this.dashboardLink );
       }
       sub.unsubscribe();

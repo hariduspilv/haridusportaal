@@ -13,6 +13,7 @@
     "dashboard_label": "Töölaud",
     "dashboard_tabs_applications": "Taotlused",
     "dashboard_tabs_certificates":"Tunnistused",
+    "dashboard_tabs_certificate":"Tunnistus",
     "dashboard_tabs_studies":"Õpin",
     "dashboard_tabs_teachings":"Õpetan",
     "dashboard_tabs_certificates_no_results": "Kutsetunnistused puuduvad",
@@ -384,7 +385,8 @@
     "teachings_data_missing": "Eesti Hariduse Infosüsteemis õpetamisega seotud andmed puuduvad.",
     "teachings_data_request": "Vabandame. Eesti Hariduse Infosüsteemist õpetamisega seotud andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.",
     "examinations_data_missing": "Riigieksamitel osalemise andmed puuduvad.",
-    "examinations_data_request": "Vabandame. Riigieksamite andmete Eksamite infosüsteemist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti."
+    "examinations_data_request": "Vabandame. Riigieksamite andmete Eksamite infosüsteemist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.",
+    "certificate_file_missing": "Tunnistus ei ole saadaval faili kujul e-tunnistusena."
   },
   "search": {
     "label": "Otsing",
