@@ -1,0 +1,19 @@
+uuid: 2220b0b4-628a-452e-99e9-0c567db45c96
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_pros
+field_name: field_pros
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 5
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

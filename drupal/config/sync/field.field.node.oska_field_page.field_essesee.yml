@@ -1,0 +1,41 @@
+uuid: 4e295e11-e07a-4ab9-aab6-258b6dd18b35
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_essesee
+    - node.type.oska_field_page
+  module:
+    - htm_custom_oska
+id: node.oska_field_page.field_essesee
+field_name: field_essesee
+entity_type: node
+bundle: oska_field_page
+label: essesee
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    graph_type: ''
+    oska_field: null
+    oska_sub_field: null
+    oska_main_profession: null
+    oska_indicator: null
+    year: {  }
+    secondary_graph_type: ''
+    value: null
+    filter_values: null
+  -
+    graph_type: ''
+    oska_field: null
+    oska_sub_field: null
+    oska_main_profession: null
+    oska_indicator: null
+    year: {  }
+    secondary_graph_type: ''
+    value: null
+    filter_values: null
+default_value_callback: ''
+settings: {  }
+field_type: oska_graph_field
