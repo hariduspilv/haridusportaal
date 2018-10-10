@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\graphql_core\Plugin\GraphQL\Fields\Link;
+namespace Drupal\custom_graphql_functions\Plugin\GraphQL\Fields\Link;
 
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
