@@ -1,0 +1,19 @@
+uuid: 24a73abb-f089-4e63-aacf-f505fed8c54c
+langcode: et
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+id: paragraph.field_job_opportunities
+field_name: field_job_opportunities
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
