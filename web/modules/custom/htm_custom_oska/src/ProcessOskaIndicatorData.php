@@ -4,15 +4,15 @@ namespace Drupal\htm_custom_oska;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\htm_custom_oska\Entity\OskaEntity;
+use Drupal\htm_custom_oska\Entity\OskaIndicatorEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\taxonomy\Entity\Term;
 
 /**
- * Class ProcessOskaData
+ * Class ProcessOskaIndicatorData
  * @package Drupal\htm_custom_oska
  */
-class ProcessOskaData {
+class ProcessOskaIndicatorData {
 
 
     /**
@@ -33,28 +33,18 @@ class ProcessOskaData {
         $results = [];
         $object = [
             'naitaja' => false,
-            'valdkond' => false,
-            'alavaldkond' => false,
             'pohikutseala' => false,
-            'aasta' => false,
-            'silt' => false,
             'vaartus' => false,
         ];
 
         foreach ($items as $index => $item){
-            $object['naitaja'] = self::addTaxonomyTerm('taxonomy_term', 'oska_indicator', $item['naitaja']);
-            $object['valdkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['valdkond']);
-            $object['alavaldkond'] = self::addTaxonomyTerm('taxonomy_term', 'oska_field', $item['alavaldkond'], $item['valdkond']);
-            $object['pohikutseala'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_main_profession', $item['pohikutseala']);
-            $object['aasta'] = strlen($item['aasta'])==4 && is_numeric($item['aasta']) ? $item['aasta'] : FALSE;
-            $object['silt'] = is_string($item['silt']) ? $item['silt'] : FALSE;
+            $object['naitaja'] = is_string($item['naitaja']) ? $item['naitaja'] : FALSE;;
+            $object['pohikutseala'] = self::checkEntityReference('node', 'oska_main_profession_page', $item['pohikutseala']);
             $object['vaartus'] = is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
             if(
                 !$object['naitaja']
                 ||
-                !$object['aasta']
-                ||
-                !$object['silt']
+                !$object['pohikutseala']
                 ||
                 !$object['vaartus']){
 
@@ -70,11 +60,7 @@ class ProcessOskaData {
             }else{
                 $results[] = [
                     'oska_indicator' => $object['naitaja'],
-                    'oska_field' => $object['valdkond'],
-                    'oska_sub_field' => $object['alavaldkond'],
                     'oska_main_profession' => $object['pohikutseala'],
-                    'year' => $object['aasta'],
-                    'oska_label' => $object['silt'],
                     'value' => $object['vaartus']
                 ];
             }
@@ -84,7 +70,7 @@ class ProcessOskaData {
         $context['results']['values'] = $results;
     }
 
-    public static function ProcessOskaData($items, &$context){
+    public static function ProcessOskaIndicatorData($items, &$context){
         //process only if no errors otherwise nothing
         if(empty($context['results']['error'])){
             if(empty($context['sandbox'])){
@@ -103,7 +89,7 @@ class ProcessOskaData {
                     // do something
                     $values = $context['results']['values'][$i];
                     if($values){
-                        $entity = OskaEntity::create($values);
+                        $entity = OskaIndicatorEntity::create($values);
                     }
 
                     $entity->save();
@@ -126,7 +112,7 @@ class ProcessOskaData {
         }
     }
 
-    public static function ProcessOskaDataFinishedCallback($success, $results, $operations){
+    public static function ProcessOskaIndicatorDataFinishedCallback($success, $results, $operations){
         // The 'success' parameter means no fatal PHP errors were detected. All
         // other error management should be handled using 'results'.
         if ($success) {
@@ -135,7 +121,7 @@ class ProcessOskaData {
             }else{
                 $message = [\Drupal::translation()->formatPlural(
                     count($results['processed']),
-                    'One oska item processed.', '@count oska items processed.'
+                    'One oska indicator processed.', '@count oska indicators processed.'
                 ), 'status'];
             }
         }
@@ -145,33 +131,13 @@ class ProcessOskaData {
         drupal_set_message($message[0], $message[1]);
     }
 
-    public function addTaxonomyTerm($entity_type, $vocabulary, $name){
+    public function checkEntityReference($entity_type, $vocabulary, $name){
 
         $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
 
         $properties = [
-            'vid' => $vocabulary,
-            'name' => $name
-        ];
-
-        $entity = reset($storage->loadByProperties($properties));
-        if(!$entity){
-            $entity = Term::create([
-                'name' => $name,
-                'vid' => $vocabulary,
-            ]);
-            $entity->save();
-        }
-        return ($entity) ? $entity->id() : '';
-    }
-
-    public function checkTaxonomyTerm($entity_type, $vocabulary, $name){
-
-        $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
-
-        $properties = [
-            'vid' => $vocabulary,
-            'name' => $name
+            'type' => $vocabulary,
+            'title' => $name
         ];
 
         $entity = reset($storage->loadByProperties($properties));
@@ -180,8 +146,8 @@ class ProcessOskaData {
     }
 
     private function deleteAllEntities(){
-        $ids = \Drupal::entityQuery('oska_entity')->execute();
-        $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_entity');
+        $ids = \Drupal::entityQuery('oska_indicator_entity')->execute();
+        $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_indicator_entity');
         $entities = $storage_handler->loadMultiple($ids);
         $storage_handler->delete($entities);
     }
