@@ -13,12 +13,13 @@ use Drupal\graphql_core\Plugin\GraphQL\Fields\Breadcrumbs\Breadcrumbs;
  *   name = "breadcrumb",
  *   type = "[Link]",
  *   parents = {"InternalUrl"},
+ *   response_cache_contexts = {
+ *     "languages:language_url",
+ *     "languages:language_interface",
+ *   },
+ *   contextual_arguments = {"language"}
  * )
  */
 class CustomBreadcrumbs extends Breadcrumbs {
 
-	protected function isLanguageAwareField()
-	{
-		return TRUE;
-	}
 }
