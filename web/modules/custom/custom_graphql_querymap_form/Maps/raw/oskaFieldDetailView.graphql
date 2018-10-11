@@ -90,12 +90,49 @@ __typename
 }
 __typename
 }
-fieldMainProfessionTags{
-entity {
+fieldOskaFieldSidebar{
+entity{
+... on ParagraphOskaFieldSidebar{
+fieldNumberEmployed
+fieldNumberEmployedText
+fieldOskaFieldPros
+fieldOskaFieldCons
+fieldOskaMainProfession{
+entity{
+... on NodeOskaMainProfessionPage{
 entityLabel
-__typename
+entityUrl{
+path
 }
-__typename
+}
+}
+}
+fieldOskaFieldQuickFind{
+url{
+routed
+path
+}
+title
+}
+fieldRelatedPages{
+url{
+routed
+path
+}
+title
+}
+fieldOskaFieldContact{
+entity{
+... on ParagraphContactSection{
+fieldEmail
+fieldPerson
+fieldPhone
+fieldOrganization
+}
+}
+}
+}
+}
 }
 }
 __typename
