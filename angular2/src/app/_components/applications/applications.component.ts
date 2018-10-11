@@ -51,10 +51,10 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     const ACCEPTED = ['title', 'date'];
     if(!list.length || !ACCEPTED.includes(method)) return list;
 
-    let _this = this;
+    let self = this;
     function compareTitle(a,b) {
-      let title1 = _this.selectLanguage(a['title']).toUpperCase();
-      let title2 = _this.selectLanguage(b['title']).toUpperCase();
+      let title1 = self.selectLanguage(a['title']).toUpperCase();
+      let title2 = self.selectLanguage(b['title']).toUpperCase();
       if (title1 < title2)
         return -1;
       if (title1 > title2)
@@ -81,8 +81,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   
   fetchData(){
     let request_boolean = this.loading['initial'] === true ? 1 : 0;
-    
-    let _this = this;
    
     let subscription = this.http.get('/dashboard/applications/'+ request_boolean +'?_format=json').subscribe(response => {
 
@@ -215,9 +213,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
       if((Date.now() - this.startTime)/1000 < REQUEST_ITERATOR_LIFETIME ){
         this.request_iterator_timeout += (0.25 * this.request_iterator_timeout);
         this.loading['interval'] = true;
+        let self = this;
         this.request_iterator = setTimeout(() => {
-          
-          _this.fetchData();
+          self.fetchData();
         }, this.request_iterator_timeout);
       } else {
         this.loading['interval'] = false;
