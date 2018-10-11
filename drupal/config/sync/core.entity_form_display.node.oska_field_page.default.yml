@@ -5,10 +5,10 @@ dependencies:
   config:
     - field.field.node.oska_field_page.body
     - field.field.node.oska_field_page.field_introduction
-    - field.field.node.oska_field_page.field_main_profession_tags
     - field.field.node.oska_field_page.field_oska_attachment_file
     - field.field.node.oska_field_page.field_oska_field_accordion
     - field.field.node.oska_field_page.field_oska_field_picture
+    - field.field.node.oska_field_page.field_oska_field_sidebar
     - field.field.node.oska_field_page.field_oska_video
     - field.field.node.oska_field_page.field_oska_web_page
     - image.style.thumbnail
@@ -56,15 +56,6 @@ content:
         maxlength_js_truncate_html: false
     type: string_textarea
     region: content
-  field_main_profession_tags:
-    weight: 20
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete_tags
-    region: content
   field_oska_attachment_file:
     weight: 15
     settings:
@@ -91,6 +82,18 @@ content:
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
+    region: content
+  field_oska_field_sidebar:
+    type: entity_reference_paragraphs
+    weight: 26
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
     region: content
   field_oska_video:
     weight: 12
