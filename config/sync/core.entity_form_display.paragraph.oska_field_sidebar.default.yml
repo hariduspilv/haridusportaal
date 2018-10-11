@@ -1,0 +1,110 @@
+uuid: 1e885473-3996-451d-b154-db959058226f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.oska_field_sidebar.field_number_employed
+    - field.field.paragraph.oska_field_sidebar.field_number_employed_text
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_cons
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_contact
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_pros
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_quick_find
+    - field.field.paragraph.oska_field_sidebar.field_oska_main_profession
+    - field.field.paragraph.oska_field_sidebar.field_related_pages
+    - paragraphs.paragraphs_type.oska_field_sidebar
+  module:
+    - link
+    - maxlength
+    - paragraphs
+id: paragraph.oska_field_sidebar.default
+targetEntityType: paragraph
+bundle: oska_field_sidebar
+mode: default
+content:
+  field_number_employed:
+    weight: 0
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_number_employed_text:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_oska_field_cons:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_oska_field_contact:
+    type: entity_reference_paragraphs
+    weight: 7
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_oska_field_pros:
+    weight: 2
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_oska_field_quick_find:
+    weight: 5
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_oska_main_profession:
+    weight: 4
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_related_pages:
+    weight: 6
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

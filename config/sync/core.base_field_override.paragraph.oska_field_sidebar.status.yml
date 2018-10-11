@@ -1,0 +1,22 @@
+uuid: 0d94f844-4db6-431a-b843-18b03f421936
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.oska_field_sidebar
+id: paragraph.oska_field_sidebar.status
+field_name: status
+entity_type: paragraph
+bundle: oska_field_sidebar
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

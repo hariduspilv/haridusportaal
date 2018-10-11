@@ -1,0 +1,23 @@
+uuid: 477ea790-935c-4c80-a144-b77f0182d721
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_related_pages
+    - paragraphs.paragraphs_type.oska_field_sidebar
+  module:
+    - link
+id: paragraph.oska_field_sidebar.field_related_pages
+field_name: field_related_pages
+entity_type: paragraph
+bundle: oska_field_sidebar
+label: 'Related pages'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link
