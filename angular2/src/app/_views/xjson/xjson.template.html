@@ -103,13 +103,13 @@
                         <span class="round-input__title">{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>      
                         <div class="round-input__field-wrapper">
                           
-                          <mat-select class="round-input__field" placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                          <mat-select class="round-input__field" placeholder="{{selectLanguage(data_elements[element].empty_option)}}"
                           [(ngModel)]='data_elements[element].value'
                           [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           [name]="element"
                           [multiple]="data_elements[element].multiple">
                           <ng-container *ngIf="!data_elements[element].multiple">
-                            <mat-option *ngIf="!data_elements[element].multiple">-- None --</mat-option>
+                            <mat-option *ngIf="!data_elements[element].multiple">{{selectLanguage(data_elements[element].empty_option)}}</mat-option>
                             
                             <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
                               <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
@@ -286,13 +286,9 @@
                     [value]="getDatepickerValue(element, element)"
                     (dateInput)="setDatepickerValue($event, element)"
                     (dateChange)="setDatepickerValue($event, element)"
+                    (focus)="datepickerFocus = true"
                     (blur)="datepickerFocus = false; setDatepickerValue($event, element)"
-                    name="{{element}}"
-                    dateFormatter
-                    autocomplete="off"
-                    [(ngModel)]="data_elements[element].picker"
-                    (focus)="dateFromFocus = true"
-                    (blur)="dateFromFocus = false">
+                    name="{{element}}">
                     <mat-datepicker-toggle class="round-input__clear"  matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </div>
@@ -465,7 +461,7 @@
                             [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                             [(ngModel)]="row[col]"
                             name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title')) }}">
+                            placeholder="{{selectLanguage(data_elements[element].empty_option)}}">
                               <mat-option *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
                               [value]="option">
                               {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
