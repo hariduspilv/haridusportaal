@@ -1,6 +1,5 @@
 @import "../../../assets/styles/typography.scss";
-.icon-wrapper {display: flex;width: 2.5rem;min-width: 2.5rem;height: 2.5rem;align-items: center;justify-content: center;
-  border-radius: .25rem;
+.icon-wrapper {display: flex;width: 2.5rem;min-width: 2.5rem;height: 2.5rem;align-items: center;justify-content: center;border-radius: .25rem;
   &.pos{border: 1px solid #008d53;background-color: #e6f5ef;
     .htm-icon {color: #008d53;}
   }
@@ -15,8 +14,4 @@
 .link-list a {text-decoration: none;font-size: 1rem;}
 h1 {color: $black;}
 .showMore {text-align: center;line-height: 1.5rem;}
-.block {
-  @include break-on(sm, max) {
-    margin-bottom: 0;
-  }
-}
+.block {@include break-on(sm, max) {margin-bottom: 0;}}
