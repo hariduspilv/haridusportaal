@@ -1,5 +1,6 @@
 .block {
   overflow-x:hidden;
+  overflow-y:visible;
   &.border-orange{border-top-color:$orange;}
   &.border-blue{border-top-color:$light-blue;}
   background: white;
@@ -40,6 +41,12 @@
         }
         .htm-icon{width:100% !important; line-height:1.5rem; font-size:1.5rem; margin-bottom:2px;}
       }
+    }
+  }
+
+  &__tools{display:flex; align-items:center; padding-bottom:1rem;
+    .title-tag{height:1.5625rem; line-height:1.5625rem; padding:0 12px; border-radius:999px; background:$light-orange; margin-left:2rem; display:inline-block; font-size:0.875rem;
+      &:first-child{margin-left:0;}
     }
   }
 
