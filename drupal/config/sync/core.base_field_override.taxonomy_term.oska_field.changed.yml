@@ -1,0 +1,18 @@
+uuid: fc9f40ca-c96e-4a4e-b034-8c6279f95cff
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_field
+id: taxonomy_term.oska_field.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: oska_field
+label: Muudetud
+description: 'Termi viimase muutmise aeg.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

@@ -1,0 +1,22 @@
+uuid: d0edd10e-9507-44c9-8da9-ee96f84ac8c2
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.iscedf_search
+id: paragraph.iscedf_search.status
+field_name: status
+entity_type: paragraph
+bundle: iscedf_search
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean
