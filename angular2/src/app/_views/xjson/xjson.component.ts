@@ -544,13 +544,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
     
     //Concat. all message arrays and display them at all times
-    this.data_messages = this.data.body.messages;
-    Object.keys(this.data.body.steps).forEach(item => {
-      let step = this.data.body.steps[item];
-      if(step.messages) {
-        this.data_messages = [...this.data_messages, ...step.messages];
-      }
-    })
+    this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
+    
 
     if(!this.data_elements){
       let payload = {form_name: this.form_name, form_info: xjson}
