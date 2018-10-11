@@ -1,0 +1,90 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="theme-color" content="#275489"><meta name="msapplication-navbutton-color" content="#275489"><meta name="apple-mobile-web-app-status-bar-style" content="#275489"><title>Haridusportaal</title><base href="/"><style>body{background:#FAFAFA;}
+
+  .loader {
+    position: relative;
+    margin: 0 auto;
+    width: 100px;
+    height:100px;
+  }
+  .loader:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+
+  .circular {
+    animation: rotate 2s linear infinite;
+    height: 100%;
+    transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
+  }
+
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+    }
+    100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+    }
+  }
+
+  @keyframes color {
+    100%,
+    0% {
+      stroke: #d62d20;
+    }
+    40% {
+      stroke: #0057e7;
+    }
+    66% {
+      stroke: #008744;
+    }
+    80%,
+    90% {
+      stroke: #ffa700;
+    }
+  }</style><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><!--<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">--><link href="https://fonts.googleapis.com/css?family=Rubik:100,300,400,500,700" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/x-icon" href="favicon.ico"><script>var mapFailed = false
+  if(window.console && console.error){
+    var old = console.error;
+    console.error = function(){
+      if(arguments[0].indexOf('Google Maps API error')!=-1){
+
+        document.querySelector('.gm-err-content').style.cssText = "background: #c7c7c9;"
+        document.querySelector('.gm-err-content .gm-err-title').style.cssText = "line-height: 0.5rem;"
+        document.querySelector('.gm-err-content .gm-err-icon').style.cssText = "margin-top: -1rem;"
+        
+        document.querySelector('.gm-err-content .gm-err-message').remove();
+        document.querySelector('.gm-err-content .gm-err-title').innerHTML = `<span style="color: #eeeeee;font-size: 1rem;">Kaarti ei leitud</span>`;
+        document.querySelector('.gm-err-content .gm-err-icon').innerHTML =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24">`+
+        `<path fill="none" d="M0 0h24v24H0V0z"/>` +
+        `<path fill="#eeeeee" d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>` +
+        `</svg>`
+      }
+    }
+  }</script><link href="styles.282e2951011835491c9b.bundle.css" rel="stylesheet"/></head><body><app-root><div class="loader"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div></app-root><script type="text/javascript" src="inline.9c385339b65c9cb8e119.bundle.js"></script><script type="text/javascript" src="polyfills.a3678d89139f6383d262.bundle.js"></script><script type="text/javascript" src="scripts.1e3de3eccc2dbd4e72dc.bundle.js"></script><script type="text/javascript" src="main.29ae1df605437b54d2ae.bundle.js"></script></body></html>
