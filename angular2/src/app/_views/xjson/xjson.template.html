@@ -286,13 +286,9 @@
                     [value]="getDatepickerValue(element, element)"
                     (dateInput)="setDatepickerValue($event, element)"
                     (dateChange)="setDatepickerValue($event, element)"
+                    (focus)="datepickerFocus = true"
                     (blur)="datepickerFocus = false; setDatepickerValue($event, element)"
-                    name="{{element}}"
-                    dateFormatter
-                    autocomplete="off"
-                    [(ngModel)]="data_elements[element].picker"
-                    (focus)="dateFromFocus = true"
-                    (blur)="dateFromFocus = false">
+                    name="{{element}}">
                     <mat-datepicker-toggle class="round-input__clear"  matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </div>
