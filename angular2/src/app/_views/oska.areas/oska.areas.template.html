@@ -40,10 +40,10 @@
           <ng-container *ngIf="data.fieldOskaWebPage.length > 0 || data.fieldOskaAttachmentFile.length > 0" class="external-links">
               <ul class="external-links">
                 <li *ngFor="let item of data.fieldOskaWebPage">
-                  <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
+                  <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{ item.title }}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
                 </li>
                 <li *ngFor="let item of data.fieldOskaAttachmentFile">
-                  <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
+                  <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{ item.description || item.entity.entityLabel }}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
                 </li>
               </ul>
             </ng-container>
@@ -53,16 +53,23 @@
           <ng-container *ngIf="data.fieldOskaMainProfessionLinks.length > 0 || data.fieldOskaMainProfessionFile.length > 0" class="external-links">
             <ul class="external-links">
               <li *ngFor="let item of data.fieldOskaMainProfessionLinks">
-                <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
+                <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{ item.title }}{" ><span class="htm-icon">launch</span>{{ item.title }}</a>
               </li>
               <li *ngFor="let item of data.fieldOskaMainProfessionFile">
-                <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
+                <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{ item.description || item.entity.entityLabel }}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
               </li>
             </ul>
           </ng-container>
         </ng-container>
 
-        <video-component *ngIf="video" [videos]="video"></video-component>
+        <ng-container *ngIf="data.fieldOskaVideo">
+          <video-component [videos]="[data.fieldOskaVideo]"></video-component>
+        </ng-container>
+
+        <ng-container *ngIf="data.fieldOskaMainProfessionVideo">
+          <video-component [videos]="[data.fieldOskaMainProfessionVideo]"></video-component>
+        </ng-container>
+        
 
         <ng-container *ngIf="data.fieldOskaFieldAccordion">
           <div class="accordion" *ngIf="data['fieldOskaFieldAccordion'].length > 0">
@@ -79,7 +86,7 @@
                 <div class="accordion__body">
                   <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
                   <ul class="link-list mt-2 mb-0">
-                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
+                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{articleLink.title}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
                   </ul>
                 </div><!--/accordion__body-->
                 
@@ -103,7 +110,7 @@
                 <div class="accordion__body">
                   <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
                   <ul class="link-list mt-2 mb-0">
-                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
+                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{articleLink.title}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
                   </ul>
                 </div><!--/accordion__body-->
                 

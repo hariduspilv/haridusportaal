@@ -59,12 +59,8 @@ export class OskaAreasComponent implements OnInit{
 
       this.setLangLinks(data);
 
-      if( this.data.fieldOskaVideo ){
-        this.video = [this.data.fieldOskaVideo];
-      }
-      else if( this.data.fieldOskaMainProfessionVideo	 ){
-        this.video = [this.data.fieldOskaMainProfessionVideo];
-      }
+      subscription.unsubscribe();
+      
     });
   }
 
