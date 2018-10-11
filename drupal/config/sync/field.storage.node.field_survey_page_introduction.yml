@@ -1,0 +1,19 @@
+uuid: 6f9968a3-a015-4000-a39f-45f01b7cd4a6
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_survey_page_introduction
+field_name: field_survey_page_introduction
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
