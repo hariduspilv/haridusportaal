@@ -10,7 +10,13 @@
 
         <h1>{{ data['entityLabel'] }}</h1>
 
-        <share></share>
+        <div class="block__tools">
+          <share></share>
+          <compare *ngIf="compareButton" [id]="data.nid" localStorageKey="oskaProfessions.compare"></compare>
+          <div class="title-tag" *ngIf="data.fieldFixedLabel">
+            {{ 'fieldFixedLabel.label' | translate }}
+          </div><!--/title-tag-->
+        </div><!--/block__tools-->
 
         <div class="short" [attr.aria-label]="'description.short' | translate">
           {{ data['fieldIntroduction'] }}
@@ -19,9 +25,9 @@
         
         <!-- profession image-->
         <ng-container *ngIf="data.fieldMainProfessionPicture">
-          <div *ngIf="data.fieldMainProfessionPicture && data.fieldMainProfessionPicture.length > 0" class="article-image pull-right">
-            <img src="{{ data.fieldMainProfessionPicture[0].derivative.url }}" alt="{{ data.fieldMainProfessionPicture[0].alt }}" title="{{ data.fieldMainProfessionPicture[0].title }}" style="max-width:100%;" />
-            <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldMainProfessionPicture[0].alt">{{ data.fieldMainProfessionPicture[0].alt }}</div>
+          <div *ngIf="data.fieldMainProfessionPicture" class="article-image pull-right">
+            <img src="{{ data.fieldMainProfessionPicture.derivative.url }}" alt="{{ data.fieldMainProfessionPicture.alt }}" title="{{ data.fieldMainProfessionPicture.title }}" style="max-width:100%;" />
+            <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldMainProfessionPicture.title">{{ data.fieldMainProfessionPicture.title }}</div>
           </div>
         </ng-container>
 
@@ -29,7 +35,7 @@
         <ng-container *ngIf="data.fieldOskaFieldPicture">
             <div *ngIf="data.fieldOskaFieldPicture && data.fieldOskaFieldPicture.length > 0" class="article-image pull-right">
                 <img src="{{ data.fieldOskaFieldPicture[0].derivative.url }}" alt="{{ data.fieldOskaFieldPicture[0].alt }}" title="{{ data.fieldOskaFieldPicture[0].title }}" style="max-width:100%;" />
-                <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture[0].alt">{{ data.fieldOskaFieldPicture[0].alt }}</div>
+                <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture[0].title">{{ data.fieldOskaFieldPicture[0].title }}</div>
               </div>
         </ng-container>
         
