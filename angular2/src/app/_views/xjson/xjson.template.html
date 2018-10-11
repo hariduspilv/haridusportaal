@@ -430,7 +430,7 @@
                             </ng-container> <!-- END OF *NGFOR COLUMNS-->
 
                             <td *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
-                              <a href="javascript:void(0);" (click)="tableDeleteRow(element, rowIndex)">
+                              <a class="table-link" href="javascript:void(0);" (click)="tableDeleteRow(element, rowIndex)">
                                 {{ 'button.delete_table_row' | translate }}
                               </a>
                             </td>
@@ -439,7 +439,7 @@
 
                           <tr *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
                             <td [attr.colspan]="objectKeys(data_elements[element].table_columns).length + 1">
-                              <a href="javascript:void(0);" (click)="tableAddRow(element)">
+                              <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
                                 + {{ 'button.add_table_row' | translate | uppercase }}
                               </a>
                             </td>
