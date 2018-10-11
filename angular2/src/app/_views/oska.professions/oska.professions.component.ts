@@ -17,13 +17,18 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   public errMessage: any = false;
   private params: object;
   public lang: string;
-  public title: string = "";
   public limit: number = 5;
+  public offset: number = 0;
+  public listEnd: boolean;
   public showFilter: boolean = true;
   public filterFull: boolean = true;
+  public oskaFieldValue: any;
+  private FilterOptions: object = {};
+  private filterOptionKeys = ['oskaFieldValue','fixedLabelValue'];
   private paramsSub: Subscription;
   private langSub: Subscription;
   private dataSub: Subscription;
+  private filterSub: Subscription;
 
   constructor(
     private http: HttpService,
@@ -34,32 +39,72 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     super(null, null);
   }
 
+
+  populateFilterOptions(){
+    let variables = {
+      lang: this.lang.toUpperCase()
+    };
+    this.filterSub = this.http.get('/graphql?queryId=oskaMainProfessionListViewFilter:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+      this.oskaFieldValue = response['data']['nodeQuery']['entities'];
+      for(let i in this.filterOptionKeys){
+        if( this.params[this.filterOptionKeys[i]] !== undefined ){
+          this.filterFormItems[this.filterOptionKeys[i]] = parseInt(this.params[this.filterOptionKeys[i]]);
+        }
+        if( this[this.filterOptionKeys[i]] ) {
+          this.FilterOptions[this.filterOptionKeys[i]] = this[this.filterOptionKeys[i]];
+        }
+      }
+      this.filterSub.unsubscribe();
+    }, (err) => {})
+  };
+
+  loadMore(){
+    this.offset = this.limit;
+    this.limit += 5;
+    this.getData(this.params);
+  }
+
+  reset() {
+    this.offset = 0;
+    this.limit = 5;
+    this.data = false;
+    this.getData(this.params);
+  }
+
   getData (params) {
     this.loading = true;
     this.errMessage = false;
-    this.data = false;
     if (this.dataSub) {
       this.dataSub.unsubscribe();
     }
     let variables = {
-      lang: this.lang,
-      title: params.title || "",
+      lang: this.lang.toUpperCase(),
+      titleValue: this.params['titleValue'] ? "%"+this.params['titleValue']+"%" : "",
+      titleEnabled: this.params['titleValue'] ? true : false,
+      oskaFieldValue: this.params['oskaFieldValue'] ? this.params['oskaFieldValue'] : "",
+      oskaFieldEnabled: this.params['oskaFieldValue'] ? true : false,
+      fixedLabelValue: this.params['fixedLabelValue'] ? '1' : '0',
+      fixedLabelEnabled: this.params['fixedLabelValue'] ? true : false,
+      nidEnabled: false,
+      offset: this.offset,
       limit: this.limit,
-      fixed_label: "1",
-      status: "1",
       fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }
+      errorPolicy: 'all'
+    };
     this.dataSub = this.http.get('/graphql?queryId=oskaMainProfessionListView:1&variables=' + JSON.stringify(variables)).subscribe(response => {
       if (response['errors']) {
         this.loading = false;
         this.errMessage = response['errors'][0]['message'];
       }
-      this.data = response['data']['CustomElasticQuery'];
+      
+      let responseData = response['data']['nodeQuery']['entities'];
+      this.data = this.data ? [...this.data, ...responseData] : responseData;
+      if( this.data && (this.data.length < this.limit) ){ 
+        this.listEnd = true;
+      } else this.listEnd = false;
       this.loading = false;
       this.dataSub.unsubscribe();
     }, (err) => {
-      console.log(err)
       this.loading = false;
     })
   }
@@ -67,7 +112,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   watchParams () {
     this.paramsSub = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
-      this.getData(params);
+      this.reset();
     });
     this.filterRetrieveParams( this.params );
   }
@@ -85,6 +130,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     });
 
     this.watchParams();
+    this.populateFilterOptions();
     this.filterSubmit();
   }
   
