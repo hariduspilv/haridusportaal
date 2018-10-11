@@ -1,0 +1,22 @@
+uuid: 107a74e9-380c-40f9-bb10-26987684275b
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.oska_survey_page
+id: node.oska_survey_page.promote
+field_name: promote
+entity_type: node
+bundle: oska_survey_page
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

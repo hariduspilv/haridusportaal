@@ -104,6 +104,9 @@ content:
     third_party_settings: {  }
     type: link_default
     region: content
+  translation:
+    weight: 10
+    region: content
 hidden:
   created: true
   status: true

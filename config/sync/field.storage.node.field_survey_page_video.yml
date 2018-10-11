@@ -1,0 +1,19 @@
+uuid: 8b8f5e91-630a-4af0-a8d1-86923fee324c
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_video_field
+    - node
+id: node.field_survey_page_video
+field_name: field_survey_page_video
+entity_type: node
+type: custom_video_field_type
+settings: {  }
+module: htm_custom_video_field
+locked: false
+cardinality: 2
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
