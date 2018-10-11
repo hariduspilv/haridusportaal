@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.oska_main_profession_page.field_oska_main_profession_file
     - field.field.node.oska_main_profession_page.field_oska_main_profession_links
     - field.field.node.oska_main_profession_page.field_oska_main_profession_video
+    - field.field.node.oska_main_profession_page.field_sidebar
     - image.style.thumbnail
     - node.type.oska_main_profession_page
   module:
@@ -73,7 +74,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: ''
+      default_paragraph_type: _none
     third_party_settings: {  }
     region: content
   field_main_profession_picture:
@@ -115,6 +116,18 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: custom_video_widget_type
+    region: content
+  field_sidebar:
+    type: entity_reference_paragraphs
+    weight: 27
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
     region: content
   langcode:
     type: language_select

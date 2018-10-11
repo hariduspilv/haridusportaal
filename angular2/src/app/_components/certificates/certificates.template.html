@@ -1,39 +1,59 @@
-
 <div class="accordion">
   <mat-accordion multi>
-    <mat-expansion-panel [expanded]="first ? true : false" (opened)="dataController(accordionItem._id)" *ngFor="let accordionItem of accordionSection; let first = first;">
-      <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
-        <mat-panel-title>
-          {{ accordionItem.label | translate }}
-        </mat-panel-title>
-        <!-- <mat-panel-description></mat-panel-description> -->
-      </mat-expansion-panel-header>
+    <ng-container *ngFor="let accordionItem of accordionSection; let first = first; let ind = index;">
+      <mat-expansion-panel [expanded]="accordionStates[ind]" (opened)="dataController(accordionItem._id)">
+        <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'" (click)="accordionStates[ind] = !accordionStates[ind]">
+          <mat-panel-title>
+            {{ accordionItem.label | translate }}
+          </mat-panel-title>
+          <!-- <mat-panel-description></mat-panel-description> -->
+        </mat-expansion-panel-header>
 
-      <div class="col-12" *ngIf="loading[accordionItem._id]">
-          <mat-spinner></mat-spinner>
-      </div><!--/col-12-->
+        <div class="col-12" *ngIf="loading[accordionItem._id]">
+            <mat-spinner></mat-spinner>
+        </div><!--/col-12-->
 
-      <ng-container *ngIf="!loading[accordionItem._id]">
+        <ng-container *ngIf="!loading[accordionItem._id]">
 
-        <ng-container *ngIf="accordionItem._id === 'professional-certificates'">
-          <div *ngIf="error">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</div>
-          <div *ngIf="professionalCertificates.length < 1">{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</div>
-          <table class="dashboard-table" *ngIf="!error">
-            <tbody>
-                <tr *ngFor="let certificate of professionalCertificates">
-                  <td>{{ certificate.nimi }}</td>
-                  <td>{{ certificate.valjaantud }}</td>
-                  <td class="text-center"><a [routerLink]="[certificate.path]">{{ 'button.view_more' | translate }}</a></td>
+          <ng-container *ngIf="accordionItem._id === 'professional-certificates'">
+            <div *ngIf="error">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</div>
+            <div *ngIf="professionalCertificates.length < 1">{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</div>
+            <table class="dashboard-table" *ngIf="!error">
+              <tbody>
+                  <tr *ngFor="let certificate of professionalCertificates">
+                    <td>{{ certificate.nimi }}</td>
+                    <td>{{ certificate.valjaantud }}</td>
+                    <td class="text-center"><a [routerLink]="[certificate.path]">{{ 'button.view_more' | translate }}</a></td>
+                  </tr>
+              </tbody>
+            </table>
+          </ng-container>
+
+          <ng-container *ngIf="accordionItem._id === 'state-exams'">
+            <ng-container *ngIf="examResultsErr || errRequest">
+              <div *ngIf="examResultsErr">{{ examResultsErr }}</div>
+              <div *ngIf="errRequest">{{ 'errors.examinations_data_request' | translate }}</div>
+            </ng-container>
+            <table class="dashboard-table" *ngIf="!examResultsErr && !errRequest">
+              <thead>
+                <tr>
+                  <th>{{'frontpage.eksamiNimetus' | translate}}</th>
+                  <th>{{'frontpage.aasta' | translate}}</th>
+                  <th></th>
                 </tr>
-            </tbody>
-          </table>
-        </ng-container>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let session of examResults">
+                    <td>{{ session.nimi }}</td>
+                    <td>{{ session.oppeaasta }}</td>
+                    <td class="text-center"><a [routerLink]="[session.testsessioon_id]" [queryParams]="{exams: session.oppeaasta}">{{ 'button.view_more' | translate }}</a></td>
+                  </tr>
+              </tbody>
+            </table>
+          </ng-container>
 
-        <ng-container *ngIf="accordionItem._id === 'state-exams'">
-          <!-- under construction -->
-        </ng-container>
-
-      </ng-container><!--end of *ngIf="!loading[accordionItem._id]"-->
-    </mat-expansion-panel>
+        </ng-container><!--end of *ngIf="!loading[accordionItem._id]"-->
+      </mat-expansion-panel>
+    </ng-container>
   </mat-accordion>
 </div>

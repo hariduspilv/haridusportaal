@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit{
 
   submit() {
 
-    console.log("submitting");
     /* clear all values */
     this.error = false;
     this.loader = true;
@@ -57,7 +56,6 @@ export class LoginComponent implements OnInit{
       this.formModels['password'] = '';
       this.loader = false;
       this.data = data;
-      console.log("asd");
       if( !data['token'] ){ this.error = true; return false; }
 
       for( let i in this.formModels ){
@@ -98,6 +96,7 @@ export class LoginComponent implements OnInit{
     this.userService.logout();
     this.user = this.userService.getData();
     this.rootScope.set('teachingsAccordion', 0);
+    this.rootScope.set('certificatesAccordion', 0);
   }
 
   /*

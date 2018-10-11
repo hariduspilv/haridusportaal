@@ -94,7 +94,7 @@ class xJsonService implements xJsonServiceInterface {
 					['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
 				]
 			] + $baseJson['header'];
-			dump($response_info);
+			#dump($response_info);
 		}
 		#dump($baseJson);
 		return $baseJson;
@@ -148,7 +148,7 @@ class xJsonService implements xJsonServiceInterface {
 		$response_body = isset($response['body']) ? $response['body'] : NULL;
 		$response_header = isset($response['header']) ? $response['header'] : NULL;
 		$response_messages = isset($response['messages']) ? $response['messages'] : NULL;
-		
+
 		$this->validatexJsonHeader($response_header);
 		$form_name = $response['header']['form_name'];
 		$definition = $this->getEntityJsonObject($form_name);
@@ -293,17 +293,34 @@ class xJsonService implements xJsonServiceInterface {
 
 				$option_keys = $recfunc($element['options']);
 				/*TODO check also if value is array*/
-				#if($element['value'] && !in_array($element['value'], $option_keys)) $valid = false;
+				if($element['value']){
+					if(is_array($element['value'])){
+						foreach($element['value'] as $value){
+							if(!in_array($value, $option_keys)) $valid = false;
+						}
+					}else{
+						if(!in_array($element['value'], $option_keys)) $valid = false;
+					}
+				}
 
 				break;
 			case 'file':
 				if($table) $additional_keys = ['width', 'acceptable_extensions'];
 				else $additional_keys = ['multiple', 'acceptable_extensions'];
-				#if($element['value']){
-				#	if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
-				#		$valid = false;
-				#	}
-				#}
+				/*TODO File check if array aswel*/
+				if($element['value']){
+					if(is_array($element['value'])){
+						foreach($element['value'] as $value){
+							if(!$value['file_name'] || !$value['file_identifier']){
+								$valid = false;
+							}
+						}
+					}else{
+						if(!$element['value']['file_name'] || !$element['value']['file_identifier']){
+							$valid = false;
+						}
+					}
+				}
 				break;
 			case 'table':
 				$additional_keys = ['add_del_rows', 'table_columns'];
@@ -387,5 +404,36 @@ class xJsonService implements xJsonServiceInterface {
 		}
 		return $results;
 	}
+
+	public function returnErrorxDzeison()
+	{
+		$json = [
+			'header' => [
+				'form_name' => 'error',
+				'endpoint' => null,
+				'number_of_steps' => 1,
+				'acceptable_activity' => ['VIEW'],
+				'current_step' => 'errorstep',
+				'identifier' => null,
+			],
+			'body' => [
+				'title' => [
+					'et' => 'Viga',
+					'en' => 'Error'
+				],
+				'steps' => [
+					'errorstep' => [
+						'title' => [
+							'et' => 'Viga',
+							'en' => 'Error'
+						]
+					]
+				]
+			]
+		];
+
+		return $json;
+	}
+
 
 }

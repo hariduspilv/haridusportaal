@@ -23,7 +23,7 @@ nid
 entityLabel
 fieldFixedLabel
 fieldIntroduction
-fieldMainProfessionPicture{
+fieldMainProfessionPicture {
 derivative(style: CROP_LARGE) {
 url
 __typename
@@ -97,6 +97,92 @@ entityLabel
 __typename
 }
 __typename
+}
+reverseOskaMainProfessionOskaIndicatorEntity{
+entities{
+... on OskaIndicatorEntity{
+oskaIndicator
+value
+}
+}
+}
+fieldSidebar{
+entity{
+... on ParagraphMainProfessionSidebar{
+fieldPros
+fieldCons
+fieldOskaField{
+entity{
+... on NodeOskaFieldPage{
+entityLabel
+entityUrl{
+routed
+path
+}
+}
+}
+}
+fieldIscedfSearchLink{
+entity{
+... on ParagraphIscedfSearch{
+fieldIscedfSearchText
+iscedf_detailed:fieldIscedfSearchTerm{
+entity{
+... on TaxonomyTermIscedF{
+entityId
+}
+}
+}
+}
+}
+}
+fieldJobOpportunities{
+url{
+path
+routed
+}
+title
+}
+fieldQualificationStandard{
+url{
+routed
+path
+}
+title
+}
+fieldJobs{
+entity{
+... on ParagraphJob{
+fieldJobName
+fieldJobLink{
+url{
+routed
+path
+}
+title
+}
+}
+}
+}
+fieldQuickFind{
+url{
+routed
+path
+}
+title
+}
+fieldContact{
+entity{
+... on ParagraphContactSection{
+fieldEmail
+fieldOrganization
+fieldPerson
+fieldPhone
+}
+}
+}
+}
+}
 }
 }
 __typename

@@ -1,0 +1,57 @@
+@import "../../../assets/styles/typography.scss"; 
+.main-container{padding-top:1rem; clear:both; margin:0 $medium;
+  @include break-on(sm, max) {margin:0;padding-top:0;}
+}
+.block {margin-bottom: 2.5rem;
+  &-title {padding: $small $medium 0 $medium;}
+  &-heading {padding: 0 $medium;}
+  @include break-on(sm, min) {margin-bottom: 0;padding-bottom: $xxl;}
+}
+
+table {width: 100%;border-collapse: collapse; margin: 0;
+  thead {background: $light-gray;
+    .sortable {&:hover { color: $dark-gray;}}
+    .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
+  }
+  th {white-space: normal; font-weight: normal;}
+  th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray; text-align: center;
+    &.highlighted {font-weight: 500;}
+  }
+  tr th:first-of-type, tr td:first-of-type  { text-align: left; } 
+  td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
+  th.hidden {text-align: center;border-bottom: none;}
+  td {font-weight: 400;
+    &.hidden {border-top: none;border-bottom: none;
+      &.last {border-bottom: .0625rem solid $gray;}
+      &.vertical {position: relative;}
+      .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;font-size: .875rem;left: $gutter;top: $half-gutter;}
+    }
+  }
+  .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
+}
+.block{border-top-color:$light-blue;
+  p{line-height:1.375rem; font-size:1rem;}
+  p:last-child{margin-bottom:0;}
+  h1{color: $black; line-height: 1.25;}
+  h2{font-size:1.25rem; line-height:100%; margin:0 0 -7px 0;}
+  .block-title {line-height: 2;}
+  &.border-orange{border-top-color:$orange;}
+  .flex{display:flex;}
+
+  .map-wrapper {position: relative; margin:-1.5rem -1.5rem 1.5rem -1.5rem; display: block;
+    a {position:absolute;bottom:0;width:stretch;background-color: rgba(0, 0, 0, 0.6);color:$white;align-items: center;justify-content: center;
+      font-weight: normal;line-height: 1.25;font-size: $small;display: flex; padding: $small;text-decoration:none;
+      .htm-icon {font-size: 1.25rem;height: 1.25rem !important;}
+    }  
+  }
+
+}
+
+.title {font-size: $small;line-height: 2;
+  h1 {color:$black;}
+  &__recent {padding: $small $medium 0 $medium;}
+}
+.action {
+  &--back {align-items: center;justify-content: flex-end;padding-right: $large; text-transfrom: capitalize; }
+}
+.fill{flex-grow: 1;}

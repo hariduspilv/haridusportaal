@@ -26,7 +26,7 @@
           </ul>
           
           <!-- STEP BODY -->
-          <div class="xjson__step-title" *ngIf="data.body.steps[opened_step].title"> {{ selectLanguage(data.body.steps[opened_step].title) }} </div>
+          
           <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction"> {{ selectLanguage(data.body.steps[opened_step].introduction) }} </div>
           
           <form (submit)="submitForm()" *ngIf="objectKeys(data_elements).length > 0">
@@ -75,7 +75,7 @@
                   </ng-container> <!-- /TEXT -->
                   
                   <ng-container *ngIf="data_elements[element].type == 'textarea'">
-                    <span>{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
+                    <span class="xjson__textarea__info">{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
                     
                     <div class="round-input__outer-wrapper">
                       <div class="round-input__area">
@@ -94,68 +94,68 @@
                   </ng-container> <!-- /TEXTAREA -->
                   
                   <ng-container *ngIf="data_elements[element].type == 'selectlist'">
-                    <span>{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>
+                    
                     
                     <div class="round-input__outer-wrapper multiselect-wrapper">
-
-
-                        <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
-                            <span class="round-input__title">{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>      
-                            <div class="round-input__field-wrapper">
-
-                      <mat-select placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                      [(ngModel)]='data_elements[element].value'
-                      [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                      [name]="element"
-                      [multiple]="data_elements[element].multiple">
-                      <ng-container *ngIf="!data_elements[element].multiple">
-                        <mat-option *ngIf="!data_elements[element].multiple">-- None --</mat-option>
-                        
-                        <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
-                          <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
-                            {{ selectLanguage(data_elements[element].options[option]) }}
-                          </mat-option>
+                      
+                      
+                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
+                        <span class="round-input__title">{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}</span>      
+                        <div class="round-input__field-wrapper">
                           
-                          <ng-container *ngIf="data_elements[element].options[option].options">
-                            <mat-option disabled="true" [value]="null">
-                              {{ selectLanguage(data_elements[element].options[option]) }}
-                            </mat-option>
+                          <mat-select class="round-input__field" placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                          [(ngModel)]='data_elements[element].value'
+                          [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                          [name]="element"
+                          [multiple]="data_elements[element].multiple">
+                          <ng-container *ngIf="!data_elements[element].multiple">
+                            <mat-option *ngIf="!data_elements[element].multiple">-- None --</mat-option>
                             
-                            <ng-container *ngFor="let option2 of objectKeys(data_elements[element].options[option].options)">
-                              <!--level 2-->
-                              <mat-option *ngIf="!data_elements[element].options[option].options[option2].options" [value]="option2">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option].options[option2]) }}
+                            <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
+                              <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
+                                {{ selectLanguage(data_elements[element].options[option]) }}
                               </mat-option>
                               
-                              <ng-container *ngIf="data_elements[element].options[option].options[option2].options">
-                                
+                              <ng-container *ngIf="data_elements[element].options[option].options">
                                 <mat-option disabled="true" [value]="null">
-                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option]['options'][option2]) }}
+                                  {{ selectLanguage(data_elements[element].options[option]) }}
                                 </mat-option>
                                 
-                                <ng-container *ngFor="let option3 of objectKeys(data_elements[element].options[option].options[option2].options)">
-                                  <!--level 3-->
-                                  <mat-option *ngIf="!data_elements[element].options[option].options[option2].options[option3].options" [value]="option3">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option].options[option2].options[option3]) }}
+                                <ng-container *ngFor="let option2 of objectKeys(data_elements[element].options[option].options)">
+                                  <!--level 2-->
+                                  <mat-option *ngIf="!data_elements[element].options[option].options[option2].options" [value]="option2">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option].options[option2]) }}
                                   </mat-option>
+                                  
+                                  <ng-container *ngIf="data_elements[element].options[option].options[option2].options">
+                                    
+                                    <mat-option disabled="true" [value]="null">
+                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option]['options'][option2]) }}
+                                    </mat-option>
+                                    
+                                    <ng-container *ngFor="let option3 of objectKeys(data_elements[element].options[option].options[option2].options)">
+                                      <!--level 3-->
+                                      <mat-option *ngIf="!data_elements[element].options[option].options[option2].options[option3].options" [value]="option3">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ selectLanguage(data_elements[element].options[option].options[option2].options[option3]) }}
+                                      </mat-option>
+                                      
+                                    </ng-container>
+                                  </ng-container>
                                   
                                 </ng-container>
                               </ng-container>
-                              
                             </ng-container>
                           </ng-container>
-                        </ng-container>
-                      </ng-container>
-                      
-                      <ng-container *ngIf="data_elements[element].multiple">
-                        <mat-option *ngFor="let option of objectKeys(data_elements[element].options)" [value]="option">
-                          {{ selectLanguage(data_elements[element].options[option]) }}
-                        </mat-option>
-                      </ng-container>
-                    </mat-select>
-      </div>              
-</div>
-
+                          
+                          <ng-container *ngIf="data_elements[element].multiple">
+                            <mat-option *ngFor="let option of objectKeys(data_elements[element].options)" [value]="option">
+                              {{ selectLanguage(data_elements[element].options[option]) }}
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </div>              
+                    </div>
+                    
                     <ng-container *ngIf="data_elements[element].helpertext">
                       <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                       </span>
@@ -243,7 +243,6 @@
                     <input 
                     class="round-input__field"
                     type="text" 
-                    aria-label="address"
                     [(ngModel)]="temporaryModel[element]"
                     (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
                     (blur)="addressAutocompleteSelectionValidation(element)"
@@ -269,61 +268,58 @@
             </ng-container> <!-- /ADDRESS -->
             
             <ng-container *ngIf="data_elements[element].type == 'date'">
-              <div class="xjson__heading" *ngIf="data_elements[element].title">
-                {{ selectLanguage(data_elements[element].title) }}
-              </div>
               
               <div class="round-input__outer-wrapper date-wrapper">
-                
                 
                 <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
                   <span class="round-input__title">{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}</span>
                   
-                  <div class="round-input__outer-wrapper">
-                    <div class="round-input__field-wrapper">
-                      
-                      
-                      <input class="round-input__field"
-                      matInput
-                      [matDatepicker]="picker"
-                      [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                      placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
-                      [value]="getDatepickerValue(element, element)"
-                      (dateInput)="setDatepickerValue($event, element)"
-                      (dateChange)="setDatepickerValue($event, element)"
-                      (blur)="datepickerFocus = false; setDatepickerValue($event, element)"
-                      name="{{element}}"
-                      dateFormatter
-                      autocomplete="off"
-                      [(ngModel)]="data_elements[element].picker"
-                      (focus)="dateFromFocus = true"
-                      (blur)="dateFromFocus = false">
-                      <mat-datepicker-toggle class="round-input__clear"  matSuffix [for]="picker"></mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
-                    </div>
-                    <ng-container *ngIf="data_elements[element].helpertext">
-                      <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
-                      </span>
-                    </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                  </div>
                   
+                  <div class="round-input__field-wrapper">
+                    
+                    
+                    <input class="round-input__field"
+                    matInput
+                    [matDatepicker]="picker"
+                    [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                    placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
+                    [value]="getDatepickerValue(element, element)"
+                    (dateInput)="setDatepickerValue($event, element)"
+                    (dateChange)="setDatepickerValue($event, element)"
+                    (blur)="datepickerFocus = false; setDatepickerValue($event, element)"
+                    name="{{element}}"
+                    dateFormatter
+                    autocomplete="off"
+                    [(ngModel)]="data_elements[element].picker"
+                    (focus)="dateFromFocus = true"
+                    (blur)="dateFromFocus = false">
+                    <mat-datepicker-toggle class="round-input__clear"  matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </div>
                 </div>
+                <ng-container *ngIf="data_elements[element].helpertext">
+                  <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
+                  </span>
+                </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                
+                
               </div>
+              
               
             </ng-container> <!-- /DATE -->
             
             <ng-container *ngIf="data_elements[element].type == 'file'">
-
-                <div class="round-input__outer-wrapper dropzone-wrapper">
-              <span class="xjson__heading">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
               
-              <ng-container *ngIf="data_elements[element].helpertext">
-                <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
-                </span>
-              </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-</div>
-
-
+              <div class="round-input__outer-wrapper dropzone-wrapper">
+                <span class="xjson__heading">{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}</span>
+                
+                <ng-container *ngIf="data_elements[element].helpertext">
+                  <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
+                  </span>
+                </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+              </div>
+              
+              
               <div class="loaded-files-list">
                 <ng-container *ngIf="data_elements[element].value">
                   <ng-container *ngFor="let file of data_elements[element].value">
@@ -339,7 +335,7 @@
                 </ng-container>
               </div>
               
-
+              
               
               <div class="dropzone" (drop)="fileEventHandler($event, element)" (dragover)="$event.preventDefault()">
                 <div class="dropzone-text">
@@ -360,13 +356,18 @@
             
             
             <ng-container *ngIf="data_elements[element].type == 'table'">
-              <div class="xjson__heading" *ngIf="data_elements[element].title">
-                {{ selectLanguage(data_elements[element].title) }}
+              
+              
+              <div class="round-input__outer-wrapper table-wrapper">
+                <div class="xjson__heading table-heading" *ngIf="data_elements[element].title">
+                  {{ selectLanguage(data_elements[element].title) }}
+                </div>
+                <ng-container *ngIf="data_elements[element].helpertext">
+                  <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
+                  </span>
+                </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
               </div>
-              <ng-container *ngIf="data_elements[element].helpertext">
-                <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
-                </span>
-              </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+              
               <div class="scrollable">
                 <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
                 (touchstart)="tableService.scrollStart('tableRef')" 
@@ -406,13 +407,13 @@
                       
                       <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
                         
-                        <input type="text" 
+                        <input class="contnent-input" type="text" 
                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
                         [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
                         [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
                       </ng-container> <!-- /TEXT --> 
                       
-                      <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">  
+                      <ng-container class="contnent-input" *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">  
                         <input type="email"
                         [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                         placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
@@ -420,7 +421,7 @@
                         [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
                       </ng-container> <!-- /EMAIL -->
                       
-                      <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">  
+                      <ng-container class="contnent-input" *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">  
                         <input type="number" 
                         [min]="tableColumnAttribute(element, colIndex, 'min')" 
                         [max]="tableColumnAttribute(element, colIndex, 'max')"  
@@ -431,18 +432,25 @@
                       
                       <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
                         
-                        <input matInput
-                        [matDatepicker]="picker"
-                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                        placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                        [value]="getDatepickerValue(element, rowIndex, col)"
-                        (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
-                        (focus)="datepickerFocus = true;"
-                        (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
-                        name="{{element +_+ rowIndex + '_' + colIndex}}">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker
-                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+                        
+                        <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
+                          
+                          <div class="round-input__field-wrapper">
+                            
+                            <input matInput class="round-input__field"
+                            [matDatepicker]="picker"
+                            [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                            [value]="getDatepickerValue(element, rowIndex, col)"
+                            (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
+                            (focus)="datepickerFocus = true;"
+                            (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
+                            name="{{element +_+ rowIndex + '_' + colIndex}}">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker
+                            [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+                          </div>
+                        </div>
                       </ng-container> <!-- /DATE -->
                       
                       
@@ -496,10 +504,19 @@
       </div>
       
     </div>
-    <ng-container *ngIf="data_elements[element].helpertext">   
-      <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
-      </span>
-    </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+    
+    
+    <div class="round-input__outer-wrapper table-wrapper">
+      <div class="xjson__heading table-heading" *ngIf="data_elements[element].title">
+        {{ selectLanguage(data_elements[element].title) }}
+      </div>
+      <ng-container *ngIf="data_elements[element].helpertext">
+        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
+        </span>
+      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+    </div>
+    
+    
     <div class="scrollable">
       <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
       (touchstart)="tableService.scrollStart('tableRef')" 
@@ -536,14 +553,14 @@
             
             <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
               
-              <input type="text" 
+              <input class="contnent-input" type="text" 
               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
               [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
               [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
             </ng-container> <!-- /TEXT --> 
             
             <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">  
-              <input type="email"
+              <input class="contnent-input" type="email"
               [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
               [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
@@ -551,7 +568,7 @@
             </ng-container> <!-- /EMAIL -->
             
             <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">  
-              <input type="number" 
+              <input class="contnent-input" type="number" 
               [min]="tableColumnAttribute(element, colIndex, 'min')" 
               [max]="tableColumnAttribute(element, colIndex, 'max')"  
               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
@@ -560,19 +577,27 @@
             </ng-container> <!-- /NUMBER -->
             
             <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
+              <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
+                
+                <div class="round-input__field-wrapper">
+                  
+                  <input matInput class="round-input__field"
+                  [matDatepicker]="picker"
+                  [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                  placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                  [value]="getDatepickerValue(element, rowIndex, col)"
+                  (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
+                  (focus)="datepickerFocus = true;"
+                  (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
+                  name="{{element +_+ rowIndex + '_' + colIndex}}">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker
+                  [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+                </div>
+              </div>
               
-              <input matInput
-              [matDatepicker]="picker"
-              [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-              placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-              [value]="getDatepickerValue(element, rowIndex, col)"
-              (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
-              (focus)="datepickerFocus = true;"
-              (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
-              name="{{element +_+ rowIndex + '_' + colIndex}}">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker
-              [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+              
+              
             </ng-container> <!-- /DATE -->
             
             

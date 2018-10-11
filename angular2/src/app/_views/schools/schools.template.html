@@ -150,16 +150,16 @@
           <div class="schools__item__head sm-hide" *ngIf="item.FieldEducationalInstitutionTy">{{ item.FieldEducationalInstitutionTy }}</div>
           <a href="javascript:void();" [routerLink]="item.EntityPath" class="schools__item__title"><h1>{{ item.FieldSchoolName }}</h1></a>
           <div class="inline__items sm-hide">
-            <span class="item" attr.aria-label="{{'Aadress:'}} {{ item.FieldAddress }}" *ngIf="item.FieldAddress">{{ item.FieldAddress }}</span>
+            <span class="item" attr.aria-label="{{'event.address'}} {{ item.FieldAddress }}" *ngIf="item.FieldAddress">{{ item.FieldAddress }}</span>
             <span class="bar" *ngIf="item.FieldSchoolWebpageAddress">|</span>
             <span class="item" *ngIf="item.FieldSchoolWebpageAddress">
-              <a attr.aria-label="{{'Webpage:'}} {{ item.FieldSchoolWebpageAddress | removeProtocol }}" href="{{ item.FieldSchoolWebpageAddress | url }}" target="_blank">{{ item.FieldSchoolWebpageAddress | removeProtocol }}</a>
+              <a attr.aria-label="{{'event.webpage'}} {{ item.FieldSchoolWebpageAddress | removeProtocol }}" href="{{ item.FieldSchoolWebpageAddress | url }}" target="_blank">{{ item.FieldSchoolWebpageAddress | removeProtocol }}</a>
             </span>
             <span class="bar" *ngIf="item.FieldSchoolContactPhone">|</span>
-            <span attr.aria-label="{{'Phone:'}} {{ item.FieldSchoolContactPhone }}" class="item" *ngIf="item.FieldSchoolContactPhone">{{ item.FieldSchoolContactPhone }}</span>
+            <span attr.aria-label="{{'event.phone'}} {{ item.FieldSchoolContactPhone }}" class="item" *ngIf="item.FieldSchoolContactPhone">{{ item.FieldSchoolContactPhone }}</span>
             <span class="bar" *ngIf="item.FieldSchoolContactEmail">|</span>
             <span class="item" *ngIf="item.FieldSchoolContactEmail">
-              <a  attr.aria-label="{{'E-mail:'}} {{ item.FieldSchoolContactEmail}}" href="mailto:{{ item.FieldSchoolContactEmail}}">{{ item.FieldSchoolContactEmail}}</a>
+              <a  attr.aria-label="{{'E-mail'}} {{ item.FieldSchoolContactEmail}}" href="mailto:{{ item.FieldSchoolContactEmail}}">{{ item.FieldSchoolContactEmail}}</a>
             </span>
           </div>
       </div><!--/schools__item-->
@@ -193,7 +193,7 @@
 
 <div class="text-center actions" *ngIf="!listEnd && view == 'list' && list">
   <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-  <button role="button" mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading" attr.aria-label="{{'click to load more events'}}">
+  <button role="button" mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading">
     {{ "button.load_more" | translate }}
   </button>
 </div><!--/text-center-->

@@ -242,7 +242,7 @@ frontpage:
   staatus:
     translation_type: textarea
     et: Staatus
-    en: Staatus-ENG
+    en: Status
   tunnistusDiplom:
     translation_type: textarea
     et: 'Tunnistuse/Diplomi number'
@@ -402,7 +402,7 @@ frontpage:
   aasta:
     translation_type: textarea
     et: Aasta
-    en: 'Aasta ENG'
+    en: Year
   riik:
     translation_type: textarea
     et: Riik
@@ -443,6 +443,74 @@ frontpage:
     translation_type: textarea
     et: 'Oi oi'
     en: Ups
+  eksamiNimetus:
+    translation_type: textarea
+    et: 'Eksami nimetus'
+    en: Examination
+  test_nimi:
+    translation_type: textarea
+    et: 'Testi nimi'
+    en: 'Test name'
+  tulemus:
+    translation_type: textarea
+    et: Tulemus
+    en: Result
+  osa_kuupaev:
+    translation_type: textarea
+    et: 'Toimumise aeg'
+    en: Date
+  osa_koht:
+    translation_type: textarea
+    et: 'Toimumise koht'
+    en: Location
+  osa_aadress:
+    translation_type: textarea
+    et: 'Toimumise koha aadress'
+    en: Address
+  osa_nimi:
+    translation_type: textarea
+    et: 'Testiosa nimi'
+    en: 'Part name'
+  eksamiTulemused:
+    translation_type: textarea
+    et: Eksamitulemused
+    en: Examinations
+  certificate_download:
+    translation_type: textarea
+    et: 'Tunnistuse allalaadimine'
+    en: 'Certificate download'
+  lead:
+    translation_type: textarea
+    et: 'Ikoon on klikatav, mis viib pealehele'
+    en: 'This icon is clickable, which leads to Home page'
+  lang:
+    translation_type: textarea
+    et: 'Keelemenü avatud'
+    en: 'Language menu open'
+  language:
+    translation_type: textarea
+    et: keel
+    en: language
+  category:
+    translation_type: textarea
+    et: Kategooria
+    en: Category
+  description:
+    translation_type: textarea
+    et: Kirjeldus
+    en: Description
+  mainarea:
+    translation_type: textarea
+    et: 'Põhisisu alguspunkt'
+    en: 'Main content start area'
+  skip:
+    translation_type: textarea
+    et: 'Otse põhisisu juurde'
+    en: 'Skip to main content'
+  dashboard_tabs_certificate:
+    translation_type: textarea
+    et: Tunnistus
+    en: Certificate
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -740,6 +808,26 @@ event:
     translation_type: textarea
     et: 'Sündmuse kohad on täis'
     en: 'Event is full'
+  organizer:
+    translation_type: textarea
+    et: 'Ürituse korraldaja'
+    en: 'Event organizer'
+  person:
+    translation_type: textarea
+    et: Kontaktisik
+    en: 'Contact person'
+  phone:
+    translation_type: textarea
+    et: telefon
+    en: phone
+  aadress:
+    translation_type: textarea
+    et: aadress
+    en: address
+  webpage:
+    translation_type: textarea
+    et: Koduleht
+    en: Homepage
 school:
   label:
     translation_type: textarea
@@ -1377,6 +1465,10 @@ button:
     translation_type: textarea
     et: Katkesta
     en: Cancel
+  download:
+    translation_type: textarea
+    et: 'Laadi alla'
+    en: Download
 tooltip:
   share:
     translation_type: textarea
@@ -1428,6 +1520,14 @@ errors:
     translation_type: textarea
     et: 'Vabandame. Eesti Hariduse Infosüsteemist õpetamisega seotud andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.'
     en: 'Apologies. There was a technical error reading data from the Estonian Education Infosystem. Try again later.'
+  examinations_data_request:
+    translation_type: textarea
+    et: 'Vabandame. Riigieksamite andmete Eksamite infosüsteemist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.'
+    en: 'There was a technical error reading data from the examinations IS. Try again later.'
+  certificate_file_missing:
+    translation_type: textarea
+    et: 'Tunnistus ei ole saadaval faili kujul e-tunnistusena.'
+    en: 'Certificate not available as an e-certificate file.'
 search:
   label:
     translation_type: textarea
@@ -1457,9 +1557,99 @@ search:
     translation_type: textarea
     et: 'Filtreeri tulemusi'
     en: 'Filter results'
-langcode: et
 data:
   dashboard_link:
     translation_type: textarea
     et: 'Tagasi töölauale'
     en: 'Back to dashboard'
+Frontpage: {  }
+breadcrumbs:
+  breadcrumb:
+    translation_type: textarea
+    et: leivapuru
+    en: breadcrumb
+modal:
+  confirm:
+    translation_type: textarea
+    et: Kinnita
+    en: Confirm
+  cancel:
+    translation_type: textarea
+    et: Katkesta
+    en: Cancel
+  open:
+    translation_type: textarea
+    et: 'Modal avatud'
+    en: 'Modal open'
+  info:
+    translation_type: textarea
+    et: 'Vajuta modali sulgemiseks'
+    en: 'Click to close modal'
+  modaler:
+    translation_type: textarea
+    et: 'Avab modali'
+    en: 'Opens modal'
+required:
+  modal:
+    translation_type: textarea
+    et: 'kohustuslik väli'
+    en: 'required value'
+fave:
+  dropdown:
+    translation_type: textarea
+    et: 'Lemmikute dropdown, klikatav'
+    en: 'Favourites dropdown, clickable'
+author:
+  author:
+    translation_type: textarea
+    et: Autor
+    en: Author
+social:
+  networks:
+    translation_type: textarea
+    et: Sotsiaalvõrgustikud
+    en: 'Social networks'
+filter:
+  info:
+    translation_type: textarea
+    et: 'Filter, kus saad valida algus ja lõppkuuapäeva'
+    en: 'Filter navigation, pick start and end date'
+  select:
+    translation_type: textarea
+    et: 'Valiku menüü'
+    en: Selectbox
+menu:
+  prev:
+    translation_type: textarea
+    et: 'Eelnev kuu'
+    en: 'Previous month'
+month:
+  next:
+    translation_type: textarea
+    et: 'Järgmine kuu'
+    en: 'Next month'
+oskaProfessions:
+  label:
+    translation_type: textarea
+    et: Põhikutsealad
+    en: Professions
+  compare_label:
+    translation_type: textarea
+    et: 'Põhikutsealade võrdlus'
+    en: 'Compare professions'
+  compare_modal_title:
+    translation_type: textarea
+    et: 'Põhikutsealade võrdlemine'
+    en: 'Compare professions'
+  compare_modal_content:
+    translation_type: text_format
+    et:
+      value: "<p>Maksimaalne võrreldavate põhikutsealade arv on ületatud.</p>\r\n\r\n<p>Võrdlusesse saab lisada kuni 3 kutseala.</p>\r\n\r\n<p>&nbsp;</p>\r\n"
+      format: full_html
+    en:
+      value: "<p>Maximum number of professions in comparison reached.</p>\r\n\r\n<p>You can add up to 3.</p>\r\n"
+      format: custom_editor
+  compare_modal_close:
+    translation_type: textarea
+    et: 'Sulge aken'
+    en: Close

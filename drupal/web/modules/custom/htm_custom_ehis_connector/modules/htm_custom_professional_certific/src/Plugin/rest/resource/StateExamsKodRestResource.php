@@ -2,12 +2,11 @@
 
 namespace Drupal\htm_custom_professional_certific\Plugin\rest\resource;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
-use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
-use Elasticsearch\Common\Exceptions\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -98,7 +97,12 @@ class StateExamsKodRestResource extends ResourceBase {
     $params['session_id'] = $session_id;
 		$json = $this->certificate->gettestidKod($params);
 
-    return new ResourceResponse($json, 200);
+		$response = new ResourceResponse($json, 200);
+		$cache_metadata = new CacheableMetadata();
+		$cache_metadata->addCacheContexts(['url.query_args', 'user']);
+		$response->addCacheableDependency($cache_metadata);
+
+    return $response;
   }
 
 }
