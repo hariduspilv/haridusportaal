@@ -39,6 +39,15 @@
     "dashboard_tabs_certificates_isco":"Profession classification (ISCO)",
     "dashboard_tabs_certificates_duplicate":"Duplicate",
     "dashboard_tabs_certificates_notvalid":"Invalid",
+    "dashboard_tabs_applications_acceptable_forms_label": "Select the document you want to submit:",
+    "dashboard_tabs_applications_acceptable_forms_notfound": "No applications can be submitted at this time",
+    "dashboard_tabs_applications_drafts_label": "Pending applications",
+    "dashboard_tabs_applications_drafts_notfound": "There are no pending applications",
+    "dashboard_tabs_applications_documents_label": "Applications and decisions",
+    "dashboard_tabs_applications_documents_notfound": "There are no documents",
+    "dashboard_tabs_applications_document_name": "Document name",
+    "dashboard_tabs_applications_document_date": "Date",
+    "dashboard_tabs_applications_document_status": "Status",
     "dashboard_tabs_personal_label":"Personal data",
     "isikukood": "ID code",
     "synniKp": "Date of birth",
@@ -357,8 +366,11 @@
     "previous": "Previous",
     "next": "Next",
     "yes": "Yes",
-    "cancel": "Cancel"
-    
+    "cancel": "Cancel",
+    "show_more":"Show more",
+    "show_less":"Show less",
+    "open": "Open",
+    "continue_filling": "Continue filling"
   },
   "tooltip": {
     "share": "Share page",
