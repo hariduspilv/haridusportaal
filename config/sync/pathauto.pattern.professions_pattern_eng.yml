@@ -10,22 +10,22 @@ label: 'Professions pattern ENG'
 type: 'canonical_entities:node'
 pattern: 'professions/[node:title]'
 selection_criteria:
-  b0d13e7b-18a6-4458-9a46-14b27400902b:
+  396ba41a-eac9-47fd-8f8a-3e35beae5f7c:
     id: node_type
     bundles:
       oska_field_page: oska_field_page
     negate: false
     context_mapping:
       node: node
-    uuid: b0d13e7b-18a6-4458-9a46-14b27400902b
-  0cc604f5-a379-453a-8069-558048dcf3d4:
+    uuid: 396ba41a-eac9-47fd-8f8a-3e35beae5f7c
+  93106b62-cc43-4443-b7b6-90ccdbd0d4ce:
     id: language
     langcodes:
       en: en
     negate: false
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 0cc604f5-a379-453a-8069-558048dcf3d4
+    uuid: 93106b62-cc43-4443-b7b6-90ccdbd0d4ce
 selection_logic: and
 weight: -10
 relationships:
