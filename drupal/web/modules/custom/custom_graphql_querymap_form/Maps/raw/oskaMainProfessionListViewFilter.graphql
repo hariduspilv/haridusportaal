@@ -1,0 +1,15 @@
+query oskaMainProfessionListViewFilter($lang: LanguageId!) {
+nodeQuery(sort: {field: "title", direction: ASC}, filter: {
+conjunction: AND, conditions: [
+{operator: EQUAL, field: "type", value: ["oska_field_page"], language: $lang}]}) {
+entities(language: $lang) {
+... on NodeOskaFieldPage {
+nid
+title
+__typename
+}
+__typename
+}
+__typename
+}
+}
