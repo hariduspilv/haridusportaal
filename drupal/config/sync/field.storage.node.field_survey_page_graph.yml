@@ -1,0 +1,20 @@
+uuid: b33b16de-ce8d-4950-900c-ff264894989e
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+    - node
+id: node.field_survey_page_graph
+field_name: field_survey_page_graph
+entity_type: node
+type: oska_graph_field
+settings:
+  target_type: oska_entity
+module: htm_custom_oska
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
