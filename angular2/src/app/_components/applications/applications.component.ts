@@ -82,7 +82,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   fetchData(){
     let request_boolean = this.loading['initial'] === true ? 1 : 0;
     
-    var _this = this;
+    let _this = this;
    
     let subscription = this.http.get('/dashboard/applications/'+ request_boolean +'?_format=json').subscribe(response => {
 
@@ -216,9 +216,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         this.request_iterator_timeout += (0.25 * this.request_iterator_timeout);
         this.loading['interval'] = true;
         this.request_iterator = setTimeout(() => {
-          //console.log((Date.now() - _this.startTime)/1000);
+          
           _this.fetchData();
-        }, _this.request_iterator_timeout);
+        }, this.request_iterator_timeout);
       } else {
         this.loading['interval'] = false;
       }
