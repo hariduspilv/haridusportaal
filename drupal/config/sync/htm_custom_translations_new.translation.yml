@@ -507,6 +507,10 @@ frontpage:
     translation_type: textarea
     et: 'Otse põhisisu juurde'
     en: 'Skip to main content'
+  dashboard_tabs_certificate:
+    translation_type: textarea
+    et: Tunnistus
+    en: Certificate
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1520,6 +1524,10 @@ errors:
     translation_type: textarea
     et: 'Vabandame. Riigieksamite andmete Eksamite infosüsteemist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.'
     en: 'There was a technical error reading data from the examinations IS. Try again later.'
+  certificate_file_missing:
+    translation_type: textarea
+    et: 'Tunnistus ei ole saadaval faili kujul e-tunnistusena.'
+    en: 'Certificate not available as an e-certificate file.'
 search:
   label:
     translation_type: textarea
@@ -1620,3 +1628,28 @@ month:
     translation_type: textarea
     et: 'Järgmine kuu'
     en: 'Next month'
+oskaProfessions:
+  label:
+    translation_type: textarea
+    et: Põhikutsealad
+    en: Professions
+  compare_label:
+    translation_type: textarea
+    et: 'Põhikutsealade võrdlus'
+    en: 'Compare professions'
+  compare_modal_title:
+    translation_type: textarea
+    et: 'Põhikutsealade võrdlemine'
+    en: 'Compare professions'
+  compare_modal_content:
+    translation_type: text_format
+    et:
+      value: "<p>Maksimaalne võrreldavate põhikutsealade arv on ületatud.</p>\r\n\r\n<p>Võrdlusesse saab lisada kuni 3 kutseala.</p>\r\n\r\n<p>&nbsp;</p>\r\n"
+      format: full_html
+    en:
+      value: "<p>Maximum number of professions in comparison reached.</p>\r\n\r\n<p>You can add up to 3.</p>\r\n"
+      format: custom_editor
+  compare_modal_close:
+    translation_type: textarea
+    et: 'Sulge aken'
+    en: Close
