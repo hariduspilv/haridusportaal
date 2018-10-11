@@ -126,18 +126,9 @@
         </ng-container>
 
         <ng-container *ngIf="data.fieldMainProfessionTag">
-          <div class="tags" *ngIf="data.fieldMainProfessionTags && data.fieldMainProfessionTags.length > 0">
+          <div class="tags" *ngIf="data.fieldMainProfessionTag && data.fieldMainProfessionTag.length > 0">
             <mat-chip-list>
-              <span *ngFor="let tag of data.fieldMainProfessionTags" class="mat-chip-list-wrapper">
-                <mat-chip *ngIf="tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
-              </span>
-            </mat-chip-list>
-          </div><!--/tags-->
-        </ng-container>
-        <ng-container *ngIf="data.fieldMainProfessionTags">
-          <div class="tags" *ngIf="data.fieldMainProfessionTags && data.fieldMainProfessionTags.length > 0">
-            <mat-chip-list>
-              <span *ngFor="let tag of data.fieldMainProfessionTags" class="mat-chip-list-wrapper">
+              <span *ngFor="let tag of data.fieldMainProfessionTag" class="mat-chip-list-wrapper">
                 <mat-chip *ngIf="tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
               </span>
             </mat-chip-list>
