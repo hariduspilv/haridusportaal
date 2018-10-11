@@ -290,7 +290,9 @@ $grid-columns: 12;
   .normal-text{color:rgba(0,0,0,.87); text-decoration:none;}
   .clist-item{padding:.4375rem $quarter; background:#e0e0e0; border-radius:$medium; font-size: 0.8125rem; line-height:1.125rem;}
   .inline{margin:0 auto; padding:0;}
-  .flex{display:flex;}
+  .flex{display:flex;
+    &.centered { align-items: center; }
+  }
 
   .scrollableTable{
     .scrollableTable-arrow-{

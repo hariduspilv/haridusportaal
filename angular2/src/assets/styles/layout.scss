@@ -12,6 +12,7 @@
   h1 {
     color: #333333;
     font-size: $medium;
+    &.medium {font-size: 1.25rem; line-height: 1.875rem;}
   }
   h2 {
     margin-top: 0;
@@ -75,5 +76,9 @@
     @include break-on(sm, max) {
       margin-bottom: $xxl
     }
+  }
+  &--content {
+    padding-top: .5rem;line-height: 1.375rem;
+    hr {margin: 1rem -1.5rem;border: solid 1px $light-gray;}
   }
 }
