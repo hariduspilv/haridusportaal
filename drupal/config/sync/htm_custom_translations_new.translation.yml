@@ -552,6 +552,42 @@ xjson:
     translation_type: textarea
     et: 'Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?'
     en: 'Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?'
+  table_delete_row_confirm_modal_content:
+    translation_type: textarea
+    et: 'Kas olete kindel, et tahate tabeli rida kustutada?'
+    en: 'Are you sure you want to delete this row?'
+  drag_files_here_or:
+    translation_type: textarea
+    et: 'Lohista failid siia või'
+    en: 'Drag files here or'
+  address_not_found:
+    translation_type: textarea
+    et: 'Aadressi ei leitud'
+    en: 'Address not found'
+  missing_required_value:
+    translation_type: textarea
+    et: 'Puudub kohustuslik väärtus'
+    en: 'Missing required value'
+  value_min_length_is:
+    translation_type: textarea
+    et: 'Väärtuse minimaalne lubatud pikkus on'
+    en: 'The minimum allowed length is'
+  value_max_length_is:
+    translation_type: textarea
+    et: 'Väärtuse maksimaalne lubatud pikkus on '
+    en: 'The maximum allowed length is'
+  min_value_is:
+    translation_type: textarea
+    et: 'Minimaalne väärtus on'
+    en: 'Minimal value is'
+  max_value_is:
+    translation_type: textarea
+    et: 'Maksimaalne väärtus on'
+    en: 'Maximum value is'
+  enter_valid_email:
+    translation_type: textarea
+    et: 'Palun sisesta sobilik e-posti aadress'
+    en: 'Please enter valid email address'
 article:
   label:
     translation_type: textarea
@@ -1525,6 +1561,18 @@ button:
     translation_type: textarea
     et: Sorteeri
     en: Sort
+  add_table_row:
+    translation_type: textarea
+    et: 'Lisa rida'
+    en: 'Add row'
+  delete_table_row:
+    translation_type: textarea
+    et: 'Kustuta rida'
+    en: 'Delete row'
+  upload:
+    translation_type: textarea
+    et: 'Lae üles'
+    en: Upload
 tooltip:
   share:
     translation_type: textarea
@@ -1584,6 +1632,10 @@ errors:
     translation_type: textarea
     et: 'Tunnistus ei ole saadaval faili kujul e-tunnistusena.'
     en: 'Certificate not available as an e-certificate file.'
+  data_missing:
+    translation_type: textarea
+    et: 'Info puudub'
+    en: 'No data'
 search:
   label:
     translation_type: textarea
@@ -1713,6 +1765,10 @@ oskaProfessions:
     translation_type: textarea
     et: Valdkond
     en: Sector
+  indicator:
+    translation_type: textarea
+    et: Näitaja
+    en: Indicator
 fieldFixedLabel:
   label:
     translation_type: textarea
@@ -1730,5 +1786,14 @@ fieldFixedLabel:
   translation_type: textarea
   et: Ei
   en: 'No'
-oska: {  }
+oska:
+  fieldNumberEmployed:
+    translation_type: textarea
+    et: 'Hõivatute arv'
+    en: 'Employment rate'
+  prosAndCons:
+    translation_type: textarea
+    et: 'Plussid ja miinused'
+    en: 'Pros and cons'
+oskaProfession: {  }
 langcode: et
