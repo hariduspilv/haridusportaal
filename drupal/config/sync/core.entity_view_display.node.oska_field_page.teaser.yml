@@ -26,11 +26,4 @@ content:
     weight: 100
     region: content
 hidden:
-  field_introduction: true
-  field_oska_attachment_file: true
-  field_oska_field_accordion: true
-  field_oska_field_picture: true
-  field_oska_field_sidebar: true
-  field_oska_video: true
-  field_oska_web_page: true
   langcode: true
