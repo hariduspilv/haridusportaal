@@ -1,0 +1,18 @@
+uuid: f7d1d615-844c-4132-98ef-9e6975dec8fb
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.oska_field_sidebar
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: paragraph.oska_field_sidebar
+target_entity_type_id: paragraph
+target_bundle: oska_field_sidebar
+default_langcode: current_interface
+language_alterable: true

@@ -1,0 +1,20 @@
+uuid: 265386f6-dae2-41f8-bd53-13a932c9ad47
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.isco_occupation
+  module:
+    - text
+id: taxonomy_term.isco_occupation.description
+field_name: description
+entity_type: taxonomy_term
+bundle: isco_occupation
+label: Kirjeldus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

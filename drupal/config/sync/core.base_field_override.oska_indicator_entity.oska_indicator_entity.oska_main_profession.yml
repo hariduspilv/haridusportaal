@@ -1,0 +1,20 @@
+uuid: 80a605ef-0f44-4c40-b042-062c72cd9cdd
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_indicator_entity.oska_indicator_entity.oska_main_profession
+field_name: oska_main_profession
+entity_type: oska_indicator_entity
+bundle: oska_indicator_entity
+label: 'Oska main profession'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

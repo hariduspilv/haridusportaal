@@ -48,6 +48,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   public objectKeys = Object.keys;
   public test: boolean;
+  public queryStrings = {};
+
   public lang: string;
   public form_name: string;
   public subscriptions: Subscription[] = [];
@@ -99,7 +101,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     );
     let strings = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
-        this.test = (strings['test'] === 'true');
+        this.test = (strings['test'] == 'true');
+        if(strings['draft'] == 'true') this.queryStrings['status'] = 'draft'
+        if(strings['existing'] == 'true') this.queryStrings['status'] = 'submitted';
+        if(strings['identifier'] != undefined ) this.queryStrings['identifier'] = Number(strings['identifier']);
 
         this.setPaths();
       }
@@ -487,11 +492,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
     
     if(this.test) {
       data.test = true; //TEST
-      //alert(JSON.stringify(data));
-
     }
     
-    let subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
+    if(this.queryStrings){
+      data = {...data , ... this.queryStrings};
+    }
+
+    let subscription = this.http.post('/xjson_service?_format=json', data ).subscribe(response => {
       console.log(response);
       if(!response['header']) return this.errorHandler('Missing header from response');
       if(!response['body']) return this.errorHandler('Missing body from response');
