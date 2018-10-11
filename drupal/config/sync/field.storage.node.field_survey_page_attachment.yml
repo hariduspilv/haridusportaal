@@ -1,0 +1,23 @@
+uuid: e4c8b2dc-a189-41b3-b342-1b161bf2491c
+langcode: et
+status: true
+dependencies:
+  module:
+    - file
+    - node
+id: node.field_survey_page_attachment
+field_name: field_survey_page_attachment
+entity_type: node
+type: file
+settings:
+  display_field: false
+  display_default: false
+  uri_scheme: public
+  target_type: file
+module: file
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

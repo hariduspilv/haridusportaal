@@ -1,0 +1,23 @@
+uuid: fb4823ae-b912-4479-9b88-89bfaf009cc2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_survey_page_link
+    - node.type.oska_survey_page
+  module:
+    - link
+id: node.oska_survey_page.field_survey_page_link
+field_name: field_survey_page_link
+entity_type: node
+bundle: oska_survey_page
+label: Lingid
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

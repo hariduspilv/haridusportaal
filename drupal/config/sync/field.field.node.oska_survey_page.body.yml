@@ -1,0 +1,22 @@
+uuid: 62d99fd8-5527-4fc3-9afb-b80d55f0c4d7
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.oska_survey_page
+  module:
+    - text
+id: node.oska_survey_page.body
+field_name: body
+entity_type: node
+bundle: oska_survey_page
+label: Body
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+field_type: text_with_summary

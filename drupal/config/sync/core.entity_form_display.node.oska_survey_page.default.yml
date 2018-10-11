@@ -1,0 +1,162 @@
+uuid: 0abb9ab0-ea85-40fb-8334-ac4b34625ef9
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.oska_survey_page.body
+    - field.field.node.oska_survey_page.field_info_graph
+    - field.field.node.oska_survey_page.field_survey_page_attachment
+    - field.field.node.oska_survey_page.field_survey_page_introduction
+    - field.field.node.oska_survey_page.field_survey_page_link
+    - field.field.node.oska_survey_page.field_survey_page_picture
+    - field.field.node.oska_survey_page.field_survey_page_video
+    - image.style.thumbnail
+    - node.type.oska_survey_page
+  module:
+    - file
+    - htm_custom_oska
+    - htm_custom_video_field
+    - image
+    - link
+    - path
+    - scheduler
+    - text
+id: node.oska_survey_page.default
+targetEntityType: node
+bundle: oska_survey_page
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 121
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_info_graph:
+    weight: 127
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_graph_widget_type
+    region: content
+  field_survey_page_attachment:
+    weight: 125
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_survey_page_introduction:
+    weight: 122
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 300
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_survey_page_link:
+    weight: 124
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_survey_page_picture:
+    weight: 126
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  field_survey_page_video:
+    weight: 123
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: custom_video_widget_type
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 15
+    region: content
+    third_party_settings: {  }
+  publish_on:
+    type: datetime_timestamp_no_default
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 120
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 16
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  unpublish_on:
+    type: datetime_timestamp_no_default
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

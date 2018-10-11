@@ -1,0 +1,88 @@
+uuid: ad38b45d-618b-4978-b21e-40f7be26c821
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.oska_survey_page.body
+    - field.field.node.oska_survey_page.field_info_graph
+    - field.field.node.oska_survey_page.field_survey_page_attachment
+    - field.field.node.oska_survey_page.field_survey_page_introduction
+    - field.field.node.oska_survey_page.field_survey_page_link
+    - field.field.node.oska_survey_page.field_survey_page_picture
+    - field.field.node.oska_survey_page.field_survey_page_video
+    - node.type.oska_survey_page
+  module:
+    - file
+    - htm_custom_oska
+    - htm_custom_video_field
+    - image
+    - link
+    - text
+    - user
+id: node.oska_survey_page.default
+targetEntityType: node
+bundle: oska_survey_page
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_info_graph:
+    weight: 107
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_graph_formatter_type
+    region: content
+  field_survey_page_attachment:
+    weight: 105
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_survey_page_introduction:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_survey_page_link:
+    weight: 104
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_survey_page_picture:
+    weight: 106
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_survey_page_video:
+    weight: 103
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: custom_video_formatter_type
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true

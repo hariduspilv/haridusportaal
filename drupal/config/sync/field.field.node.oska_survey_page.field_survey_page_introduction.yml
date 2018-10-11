@@ -1,0 +1,19 @@
+uuid: 6b39e647-55fe-4a15-a2b3-a4cdca93e9dc
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_survey_page_introduction
+    - node.type.oska_survey_page
+id: node.oska_survey_page.field_survey_page_introduction
+field_name: field_survey_page_introduction
+entity_type: node
+bundle: oska_survey_page
+label: Sissejuhatus
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

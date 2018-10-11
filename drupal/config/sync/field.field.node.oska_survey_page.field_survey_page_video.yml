@@ -1,0 +1,21 @@
+uuid: 5e2b64fc-da23-465d-8c64-9fb230814ad4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_survey_page_video
+    - node.type.oska_survey_page
+  module:
+    - htm_custom_video_field
+id: node.oska_survey_page.field_survey_page_video
+field_name: field_survey_page_video
+entity_type: node
+bundle: oska_survey_page
+label: Video
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: custom_video_field_type
