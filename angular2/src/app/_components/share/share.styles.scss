@@ -9,22 +9,23 @@
   }
   &__component {position: absolute;height: $medium;top: $quarter;right: $quarter;z-index: 10;color: $blue;
   }
-  &__component__buttons {transition: 0.25s opacity ease-out;will-change: opacity;opacity: 0;position: relative;z-index: 10;
+  &__component__buttons { display:none; transition: 0.25s opacity ease-out;will-change: opacity;opacity: 0;position: relative;z-index: 10;
     width: $large;height: $large;top: $xxl;left: $gutter;
     &--elem {width: $large;height: $large;padding-top: $gutter;
       &:last-child {padding-top: $half-gutter;}
     }
     a.fb-icn, a.tw-icn {width: $large;height: $large;background-color: $white;border-radius: 50%;
-      &:hover {background-color: $white;}
+      &:hover {background-color: $white; }
     }
   }
-  &:focus {background-color: $blue;transition: background-color 0.25s;  
+  &:focus {background-color: $blue;transition: background-color 0.25s; display: block; 
     .share__component {
       &__buttons {opacity: 1;}
       .htm-icon.primary {color: $white;}
     }
   }
 }
+
 
 .fb-icn {
   background: url('/assets/img/fb-icn.svg') center center no-repeat; height: 2rem; width: 2rem; background-size: 2rem; display: block;
