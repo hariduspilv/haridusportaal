@@ -13,6 +13,8 @@ import { RootScopeService } from '@app/_services';
 export class OskaProfessionsComponent extends FiltersService implements OnInit, OnDestroy {
 
   public data: any = false;
+  public loading: boolean = false;
+  public errMessage: any = false;
   private params: object;
   public lang: string;
   public title: string = "";
@@ -33,6 +35,8 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   }
 
   getData (params) {
+    this.loading = true;
+    this.errMessage = false;
     this.data = false;
     if (this.dataSub) {
       this.dataSub.unsubscribe();
@@ -47,15 +51,16 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       errorPolicy: 'all',
     }
     this.dataSub = this.http.get('/graphql?queryId=oskaMainProfessionListView:1&variables=' + JSON.stringify(variables)).subscribe(response => {
-      if (response['data']['errors']) {
-        history.replaceState({}, '', `/${this.lang}`);
-        this.router.navigateByUrl(`/${this.lang}/404`);
+      if (response['errors']) {
+        this.loading = false;
+        this.errMessage = response['errors'][0]['message'];
       }
       this.data = response['data']['CustomElasticQuery'];
-      console.log(this.data);
+      this.loading = false;
       this.dataSub.unsubscribe();
     }, (err) => {
       console.log(err)
+      this.loading = false;
     })
   }
 

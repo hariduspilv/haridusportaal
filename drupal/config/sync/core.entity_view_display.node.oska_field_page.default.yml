@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_field_page.body
-    - field.field.node.oska_field_page.field_essesee
     - field.field.node.oska_field_page.field_introduction
     - field.field.node.oska_field_page.field_main_profession_tags
     - field.field.node.oska_field_page.field_oska_attachment_file
@@ -16,7 +15,6 @@ dependencies:
   module:
     - entity_reference_revisions
     - file
-    - htm_custom_oska
     - htm_custom_video_field
     - image
     - link
@@ -33,13 +31,6 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
-    region: content
-  field_essesee:
-    weight: 116
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: oska_graph_formatter_type
     region: content
   field_introduction:
     weight: 102
