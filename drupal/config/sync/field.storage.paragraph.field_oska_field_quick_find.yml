@@ -1,0 +1,19 @@
+uuid: 797aafad-5f6c-4992-864e-0593676f03d8
+langcode: et
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+id: paragraph.field_oska_field_quick_find
+field_name: field_oska_field_quick_find
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

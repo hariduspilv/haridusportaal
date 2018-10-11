@@ -1,0 +1,18 @@
+uuid: d05feb5b-da85-4f84-8e25-05676ba3f617
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.isco_occupation
+id: taxonomy_term.isco_occupation.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: isco_occupation
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

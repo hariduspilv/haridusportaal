@@ -511,6 +511,42 @@ frontpage:
     translation_type: textarea
     et: Tunnistus
     en: Certificate
+  dashboard_tabs_applications_acceptable_forms_label:
+    translation_type: textarea
+    et: 'Vali dokument, mida soovid esitada:'
+    en: 'Select the document you want to submit:'
+  dashboard_tabs_applications_acceptable_forms_notfound:
+    translation_type: textarea
+    et: 'Praegu ei saa esitada ühtegi taotlust'
+    en: 'No applications can be submitted at this time'
+  dashboard_tabs_applications_drafts_label:
+    translation_type: textarea
+    et: 'Pooleliolevad taotlused'
+    en: 'Pending applications'
+  dashboard_tabs_applications_drafts_notfound:
+    translation_type: textarea
+    et: 'Pooleli olevaid taotlusi ei ole'
+    en: 'There are no pending applications'
+  dashboard_tabs_applications_documents_label:
+    translation_type: textarea
+    et: 'Taotlused ja otsused'
+    en: 'Applications and resolutions'
+  dashboard_tabs_applications_documents_notfound:
+    translation_type: textarea
+    et: 'Dokumente ei ole'
+    en: 'There are no documents'
+  dashboard_tabs_applications_document_name:
+    translation_type: textarea
+    et: 'Dokumendi nimi'
+    en: 'Document name'
+  dashboard_tabs_applications_document_date:
+    translation_type: textarea
+    et: Kuupäev
+    en: Date
+  dashboard_tabs_applications_document_status:
+    translation_type: textarea
+    et: Staatus
+    en: Status
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1469,6 +1505,26 @@ button:
     translation_type: textarea
     et: 'Laadi alla'
     en: Download
+  show_more:
+    translation_type: textarea
+    et: 'Näita rohkem'
+    en: 'Show more'
+  show_less:
+    translation_type: textarea
+    et: 'Näita vähem'
+    en: 'Show less'
+  open:
+    translation_type: textarea
+    et: Ava
+    en: Open
+  continue_filling:
+    translation_type: textarea
+    et: 'Jätka täitmist'
+    en: 'Continue filling'
+  sort:
+    translation_type: textarea
+    et: Sorteeri
+    en: Sort
 tooltip:
   share:
     translation_type: textarea
@@ -1653,3 +1709,25 @@ oskaProfessions:
     translation_type: textarea
     et: 'Sulge aken'
     en: Close
+  fields:
+    translation_type: textarea
+    et: Valdkond
+    en: Sector
+fieldFixedLabel:
+  label:
+    translation_type: textarea
+    et: 'Tuleviku ala!'
+    en: 'Future field!'
+  slogan:
+    translation_type: textarea
+    et: 'Näita “Tuleviku ala!” põhikutsealasid'
+    en: 'Show “Future field!” professions'
+'true':
+  translation_type: textarea
+  et: Jah
+  en: 'Yes'
+'false':
+  translation_type: textarea
+  et: Ei
+  en: 'No'
+oska: {  }
