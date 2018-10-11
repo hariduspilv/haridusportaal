@@ -288,6 +288,7 @@
                     (dateChange)="setDatepickerValue($event, element)"
                     (blur)="datepickerFocus = false; setDatepickerValue($event, element)"
                     name="{{element}}"
+                    dateFormatter
                     autocomplete="off"
                     [(ngModel)]="data_elements[element].picker"
                     (focus)="dateFromFocus = true"
