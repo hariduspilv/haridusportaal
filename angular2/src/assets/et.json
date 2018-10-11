@@ -39,6 +39,15 @@
     "dashboard_tabs_certificates_isco":"Ametite (ISCO) klassifikaator",
     "dashboard_tabs_certificates_duplicate":"Duplikaat",
     "dashboard_tabs_certificates_notvalid":"Kehtetu",
+    "dashboard_tabs_applications_acceptable_forms_label": "Vali dokument, mida soovid esitada:",
+    "dashboard_tabs_applications_acceptable_forms_notfound": "Praegu ei saa esitada ühtegi taotlust",
+    "dashboard_tabs_applications_drafts_label": "Pooleliolevad taotlused",
+    "dashboard_tabs_applications_drafts_notfound": "Pooleli olevaid taotlusi ei ole",
+    "dashboard_tabs_applications_documents_label": "Taotlused ja otsused",
+    "dashboard_tabs_applications_documents_notfound": "Dokumente ei ole",
+    "dashboard_tabs_applications_document_name": "Dokumendi nimi",
+    "dashboard_tabs_applications_document_date": "Kuupäev",
+    "dashboard_tabs_applications_document_status": "Staatus",
     "dashboard_tabs_personal_label":"Isikuandmed",
     "isikukood": "Isikukood",
     "synniKp": "Sünniaeg",
@@ -357,7 +366,11 @@
     "previous": "Tagasi",
     "next": "Järgmine",
     "yes": "Jah",
-    "cancel": "Katkesta"
+    "cancel": "Katkesta",
+    "show_more":"Näita rohkem",
+    "show_less":"Näita vähem",
+    "open": "Ava",
+    "continue_filling": "Jätka täitmist"
   },
     "tooltip": {
     "share": "Jaga lehte",
