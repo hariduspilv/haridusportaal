@@ -356,316 +356,163 @@
             
             
             <ng-container *ngIf="data_elements[element].type == 'table'">
-              
-              
               <div class="round-input__outer-wrapper table-wrapper">
                 <div class="xjson__heading table-heading" *ngIf="data_elements[element].title">
-                  {{ selectLanguage(data_elements[element].title) }}
+                {{ selectLanguage(data_elements[element].title) }}
                 </div>
                 <ng-container *ngIf="data_elements[element].helpertext">
                   <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
                   </span>
                 </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
               </div>
-              
+
+
               <div class="scrollable">
                 <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
                 (touchstart)="tableService.scrollStart('tableRef')" 
                 (mousedown)="tableService.scrollStart('tableRef')" 
                 (touchend)="tableService.scrollEnd()" 
                 (mouseup)="tableService.scrollEnd()">
-                <span class="htm-icon">keyboard_arrow_left</span>
-              </div>
-              <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
-              (touchstart)="tableService.scrollStart('tableRef', true)"
-              (mousedown)="tableService.scrollStart('tableRef', true)"
-              (touchend)="tableService.scrollEnd(true)"
-              (mouseup)="tableService.scrollEnd(true)">
-              <span class="htm-icon">keyboard_arrow_right</span>
-            </div>
-            <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
-              
-              <table class="scrollableTable">
-                <tr>
-                  <ng-container *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
-                    <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
-                      <th>
-                        {{selectLanguage(data_elements[element].table_columns[col].title)}}
-                        {{data_elements[element].table_columns[col].required ? '*' : ''}}
-                      </th>
-                    </ng-container>
-                    
-                  </ng-container>
-                  <th *ngIf="data_elements[element].add_del_rows">
-                    extra tulp kustutamiseks...
-                  </th>
-                </tr>
-                <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
-                  <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
-                    
-                    <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
-                      
-                      <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
-                        
-                        <input class="contnent-input" type="text" 
-                        placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
-                        [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
-                        [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
-                      </ng-container> <!-- /TEXT --> 
-                      
-                      <ng-container class="contnent-input" *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">  
-                        <input type="email"
-                        [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                        placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
-                        [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                        [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
-                      </ng-container> <!-- /EMAIL -->
-                      
-                      <ng-container class="contnent-input" *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">  
-                        <input type="number" 
-                        [min]="tableColumnAttribute(element, colIndex, 'min')" 
-                        [max]="tableColumnAttribute(element, colIndex, 'max')"  
-                        placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
-                        [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                        [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
-                      </ng-container> <!-- /NUMBER -->
-                      
-                      <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
-                        
-                        
-                        <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
-                          
-                          <div class="round-input__field-wrapper">
-                            
-                            <input matInput class="round-input__field"
-                            [matDatepicker]="picker"
-                            [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                            [value]="getDatepickerValue(element, rowIndex, col)"
-                            (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
-                            (focus)="datepickerFocus = true;"
-                            (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
-                            name="{{element +_+ rowIndex + '_' + colIndex}}">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker
-                            [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
-                          </div>
-                        </div>
-                      </ng-container> <!-- /DATE -->
-                      
-                      
-                      <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
-                        <div class="custom-checkbox">
-                          <mat-checkbox 
-                          [(ngModel)]="row[col]" 
-                          name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                          [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
-                          {{ selectLanguage(tableColumnAttribute(element, colIndex, 'title')) }}
-                          {{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}
-                        </mat-checkbox>
-                      </div>
-                    </ng-container> <!-- /CHECKBOX -->
-                    
-                    <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
-                      <mat-select
-                      [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                      [(ngModel)]="row[col]"
-                      name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                      placeholder="{{tableColumnAttribute(element, colIndex, 'empty_option') ? selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}">
-                      <mat-option *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
-                      [value]="option">
-                      {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
-                    </mat-option>
-                  </mat-select>
-                </ng-container> <!-- /SELECTLIST -->
-                
-                <ng-container *ngIf="error[element]"><!-- START OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
-                  <ng-container *ngIf="error[element].row == rowIndex && error[element].column == col">
-                    <div class="error">
-                      {{ error[element].message }}
-                    </div>
-                  </ng-container>
-                </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
-              </td>
-            </ng-container> <!-- END OF *NGFOR COLUMNS-->
-            <td *ngIf="data_elements[element].add_del_rows">
-              <a href="javascript:void(0);" (click)="tableDeleteRow(element, rowIndex)">Kustuta rida</a>
-            </td>
-            
-          </tr>  <!-- END OF *NGFOR COLUMNS-->
-          
-          <tr *ngIf="data_elements[element].add_del_rows">
-            <td [attr.colspan]="objectKeys(data_elements[element].table_columns).length">
-              <a href="javascript:void(0);" (click)="tableAddRow(element)">+ LISA RIDA</a>
-            </td>
-          </tr> <!-- ADD_DEL_ROWS -->
-          
-        </table>
-      </div>
-      
-    </div>
-    
-    
-    <div class="round-input__outer-wrapper table-wrapper">
-      <div class="xjson__heading table-heading" *ngIf="data_elements[element].title">
-        {{ selectLanguage(data_elements[element].title) }}
-      </div>
-      <ng-container *ngIf="data_elements[element].helpertext">
-        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"  matTooltipPosition="above">
-        </span>
-      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-    </div>
-    
-    
-    <div class="scrollable">
-      <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
-      (touchstart)="tableService.scrollStart('tableRef')" 
-      (mousedown)="tableService.scrollStart('tableRef')" 
-      (touchend)="tableService.scrollEnd()" 
-      (mouseup)="tableService.scrollEnd()">
-      <span class="htm-icon">keyboard_arrow_left</span>
-    </div>
-    <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
-    (touchstart)="tableService.scrollStart('tableRef', true)"
-    (mousedown)="tableService.scrollStart('tableRef', true)"
-    (touchend)="tableService.scrollEnd(true)"
-    (mouseup)="tableService.scrollEnd(true)">
-    <span class="htm-icon">keyboard_arrow_right</span>
-  </div>
-  <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
-    
-    <table class="scrollableTable">
-      <tr>
-        <ng-container *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
-          <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
-            <th>
-              {{selectLanguage(data_elements[element].table_columns[col].title)}}
-              {{data_elements[element].table_columns[col].required ? '*' : ''}}
-            </th>
-          </ng-container>
-          
-        </ng-container>
-      </tr>
-      <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
-        <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
-          
-          <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
-            
-            <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
-              
-              <input class="contnent-input" type="text" 
-              placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
-              [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
-              [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
-            </ng-container> <!-- /TEXT --> 
-            
-            <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">  
-              <input class="contnent-input" type="email"
-              [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-              placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
-              [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-              [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
-            </ng-container> <!-- /EMAIL -->
-            
-            <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">  
-              <input class="contnent-input" type="number" 
-              [min]="tableColumnAttribute(element, colIndex, 'min')" 
-              [max]="tableColumnAttribute(element, colIndex, 'max')"  
-              placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
-              [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-              [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
-            </ng-container> <!-- /NUMBER -->
-            
-            <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
-              <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
-                
-                <div class="round-input__field-wrapper">
+                  <span class="htm-icon">keyboard_arrow_left</span>
+                </div>
+                <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
+                (touchstart)="tableService.scrollStart('tableRef', true)"
+                (mousedown)="tableService.scrollStart('tableRef', true)"
+                (touchend)="tableService.scrollEnd(true)"
+                (mouseup)="tableService.scrollEnd(true)">
+                  <span class="htm-icon">keyboard_arrow_right</span>
+                </div>
+                <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
+
+                  <table class="scrollableTable">
                   
-                  <input matInput class="round-input__field"
-                  [matDatepicker]="picker"
-                  [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                  placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                  [value]="getDatepickerValue(element, rowIndex, col)"
-                  (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
-                  (focus)="datepickerFocus = true;"
-                  (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
-                  name="{{element +_+ rowIndex + '_' + colIndex}}">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker
-                  [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+                    <tr>
+                      <ng-container *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
+                        <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
+                          <th>
+                          {{selectLanguage(data_elements[element].table_columns[col].title)}}
+                          {{data_elements[element].table_columns[col].required ? '*' : ''}}
+                          </th>
+                        </ng-container>
+
+                      </ng-container>
+                    </tr>
+                    <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
+                      <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
+
+                        <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
+
+                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
+                          <input class="contnent-input" type="text" 
+                          placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
+                          [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
+                          [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
+                          </ng-container> <!-- /TEXT --> 
+
+                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">  
+                          <input class="contnent-input" type="email"
+                          [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                          placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
+                          [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                          [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
+                          </ng-container> <!-- /EMAIL -->
+
+                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">  
+                          <input class="contnent-input" type="number" 
+                          [min]="tableColumnAttribute(element, colIndex, 'min')" 
+                          [max]="tableColumnAttribute(element, colIndex, 'max')"  
+                          placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}" 
+                          [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                          [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}"/>
+                          </ng-container> <!-- /NUMBER -->
+
+                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
+                            <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
+                              
+                              <div class="round-input__field-wrapper">
+                                
+                                <input matInput class="round-input__field"
+                                [matDatepicker]="picker"
+                                [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                                [value]="getDatepickerValue(element, rowIndex, col)"
+                                (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
+                                (focus)="datepickerFocus = true;"
+                                (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
+                                name="{{element +_+ rowIndex + '_' + colIndex}}">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker
+                                [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+                              </div>
+                            </div>
+                          </ng-container> <!-- /DATE -->
+
+
+                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
+                            <div class="custom-checkbox">
+                              <mat-checkbox 
+                              [(ngModel)]="row[col]" 
+                              name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                              [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
+                              {{ selectLanguage(tableColumnAttribute(element, colIndex, 'title')) }}
+                              {{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}
+                            </mat-checkbox>
+                            </div>
+                          </ng-container> <!-- /CHECKBOX -->
+
+                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
+                            <mat-select
+                            [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                            [(ngModel)]="row[col]"
+                            name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title')) }}">
+                              <mat-option *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
+                              [value]="option">
+                              {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
+                              </mat-option>
+                            </mat-select>
+                          </ng-container> <!-- /SELECTLIST -->
+
+                          <ng-container *ngIf="error[element]"><!-- START OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
+                            <ng-container *ngIf="error[element].row == rowIndex && error[element].column == col">
+                              <div class="error">
+                                {{ error[element].message }}
+                              </div>
+                            </ng-container>
+                          </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
+                        </td>
+                      </ng-container> <!-- END OF *NGFOR COLUMNS-->
+                    </tr>  <!-- END OF *NGFOR COLUMNS-->
+                  </table>
                 </div>
               </div>
-              
-              
-              
-            </ng-container> <!-- /DATE -->
-            
-            
-            <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
-              <div class="custom-checkbox">
-                <mat-checkbox 
-                [(ngModel)]="row[col]" 
-                name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
-                {{ selectLanguage(tableColumnAttribute(element, colIndex, 'title')) }}
-                {{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}
-              </mat-checkbox>
-            </div>
-          </ng-container> <!-- /CHECKBOX -->
-          
-          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
-            <mat-select
-            [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-            [(ngModel)]="row[col]"
-            name="{{element + '_' + rowIndex + '_' + colIndex}}"
-            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title')) }}">
-            <mat-option *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
-            [value]="option">
-            {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
-          </mat-option>
-        </mat-select>
-      </ng-container> <!-- /SELECTLIST -->
-      
-      <ng-container *ngIf="error[element]"><!-- START OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
-        <ng-container *ngIf="error[element].row == rowIndex && error[element].column == col">
-          <div class="error">
-            {{ error[element].message }}
-          </div>
-        </ng-container>
-      </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
-    </td>
-  </ng-container> <!-- END OF *NGFOR COLUMNS-->
-</tr>  <!-- END OF *NGFOR COLUMNS-->
-</table>
-</div>
-</div>
-</ng-container> <!-- /TABLE -->
+            </ng-container> <!-- /TABLE -->
 
-<ng-container *ngIf="error[element] && error[element].row == undefined">
-  <div class="error">
-    {{ error[element].message }}
-    <ng-container *ngIf="error[element].row != undefined"> | row: {{ error[element].row }}</ng-container>
-    <ng-container *ngIf="error[element].column != undefined"> | column: {{ error[element].column }}</ng-container>
+            <ng-container *ngIf="error[element] && error[element].row == undefined">
+              <div class="error">
+                {{ error[element].message }}
+                <ng-container *ngIf="error[element].row != undefined"> | row: {{ error[element].row }}</ng-container>
+                <ng-container *ngIf="error[element].column != undefined"> | column: {{ error[element].column }}</ng-container>
+                
+              </div>
+            </ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
+          </div><!--/col-12-->
+        </div> <!-- row -->
+
+      </ng-container>
+    </form>
+
+  <div class="row button-list">
+  
+    <ng-container *ngFor="let link of navigationLinks">
+      <a href="javascript:void(0);" (click)="selectStep(link.step)" >{{ link.label | translate }}</a>
+    </ng-container>
     
+    <ng-container *ngFor="let activity of activityButtons">
+      <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">{{ activity.label | translate }}</button>
+    </ng-container>
+  
   </div>
-</ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
-</div><!--/col-12-->
-</div> <!-- row -->
-
-</ng-container>
-</form>
-
-<div class="row button-list">
-  
-  <ng-container *ngFor="let link of navigationLinks">
-    <a href="javascript:void(0);" (click)="selectStep(link.step)" >{{ link.label | translate }}</a>
-  </ng-container>
-  
-  <ng-container *ngFor="let activity of activityButtons">
-    <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">{{ activity.label | translate }}</button>
-  </ng-container>
-  
-</div>
 
 <!-- /STEP BODY -->
 </ng-container> <!-- /IF data-->
