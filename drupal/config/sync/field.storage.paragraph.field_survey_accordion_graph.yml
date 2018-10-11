@@ -1,0 +1,20 @@
+uuid: 20d45605-8032-4558-8fe4-6921dbb5c1f9
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+    - paragraphs
+id: paragraph.field_survey_accordion_graph
+field_name: field_survey_accordion_graph
+entity_type: paragraph
+type: oska_graph_field
+settings:
+  target_type: oska_entity
+module: htm_custom_oska
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
