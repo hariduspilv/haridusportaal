@@ -114,7 +114,7 @@
                             <p>
                               {{ 'school.investment_measure' | translate }}: <b>{{ item.investmentMeasure.entity.entityLabel }}</b><br />
                               {{ 'school.investment_project' | translate }}: <b>{{ item.investmentProject }}</b><br />
-                              {{ 'school.investment_max_amount' | translate }}: <b>{{ item.investmentAmount }}</b><br />
+                              {{ 'school.investment_max_amount' | translate }}: <b>{{ item.investmentAmount | currency:"EUR" }}</b><br />
                               {{ 'school.investment_deadline' | translate }}: <b>{{ item.investmentDeadline.unix*1000 | date:"dd.MM.yyyy" }}</b>
                             </p>
                           </ng-container>
@@ -127,7 +127,7 @@
               </agm-marker>
             </agm-marker-cluster>
 
-            <agm-data-layer *ngIf="polygons" [geoJson]="polygons" [style]="polygonStyles">
+            <agm-data-layer *ngIf="polygons" [geoJson]="polygons" [style]="polygonStyles" (layerClick)="kmlClick($event)">
             </agm-data-layer>
           </agm-map>
           <div class="polygons-toggle" *ngIf="polygons">

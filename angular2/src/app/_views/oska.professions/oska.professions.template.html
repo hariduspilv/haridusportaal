@@ -1,0 +1,138 @@
+<breadcrumbs></breadcrumbs>
+<div class="sm-show text-right filter-control">
+  <a href="javascript:void(0);" (click)="showFilter = !showFilter">
+    <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+    <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+  </a> 
+</div>
+<form (submit)="filterSubmit($event)" class="filter-wrapper" *ngIf="showFilter">
+  <div class="main-container">
+    <div class="row form-first-row">
+      <div class="col-4 sm-12 form-col">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
+          <span class="round-input__title">{{ 'search.keyword' | translate }}</span>
+          <div class="round-input__field-wrapper">
+            <input class="round-input__field" placeholder="{{ 'search.keyword' | translate }}" [(ngModel)]='filterFormItems.title' name="title" />
+          </div>
+        </div><!--/round-inpuit__wrapper-->
+      </div><!--/col-4-->
+
+      <div class="col-5 sm-12 form-col">
+        <div class="round-input__wrapper" *ngIf="false">
+          <mat-form-field *ngIf="FilterOptions">
+            <mat-select placeholder="{{ 'studyProgramme.filter_type' | translate }}" [(ngModel)]='filterFormItems.type' name="type">
+              <mat-option>{{ 'button.all' | translate }}</mat-option>
+              <mat-option *ngFor="let type of FilterOptions.type" [value]="type.tid">
+                {{type.entityLabel}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div><!--/col-4-->
+
+      <div class="col-3 align-end text-right sm-12 inline-flex form-col">
+        <div class="align-center filter-state sm-hide" *ngIf="false">       
+          <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="false">
+            <span >Täpsem otsing</span>
+          </a>
+        </div>
+        <div class="button-row">
+          <button role="button" mat-raised-button color="primary">Otsi</button>
+        </div>
+      </div><!--/col-3-->
+    </div><!--/row-->
+    <ng-container *ngIf="filterFull && !false">
+      <div class="row form-additional-row">
+        <div class="col-9 sm-12 form-col">
+          <div class="round-input__wrapper">
+            <mat-form-field *ngIf="FilterOptions" >
+              <mat-select placeholder="{{ 'studyProgramme.level' | translate }}" [(ngModel)]='filterFormItems.level' name="level">
+                <mat-option>{{ 'button.all' | translate }}</mat-option>
+                <mat-option  *ngFor="let level of FilterOptions.level" [value]="level.tid">
+                  {{level.entityLabel}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div><!--/col-9-->
+      </div>
+      <div class="row form-additional-row">
+        <div class="col-9 sm-12 form-col">
+          <div class="custom-checkbox">
+            <mat-checkbox [(ngModel)]="filterFormItems.open_admission" name="open_admission"> {{ 'studyProgramme.filter_open_admission' | translate }}</mat-checkbox>
+          </div>
+        </div><!--/col-9-->
+        <div class="col-3 align-end text-right sm-12 inline-flex form-col">
+          <div class="align-center filter-state sm-hide">       
+            <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
+              <span>{{ 'button.search_brief' | translate }}</span>
+            </a>
+          </div>
+          <div class="button-row">
+            <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+          </div>
+        </div><!--/col-3-->
+      </div><!--/row-->
+    </ng-container>
+  </div>
+</form>
+<div class="studyProgramme main-container">
+  <div class="studyProgramme__list-head">
+    <div class="studyProgramme__head">
+      <div class="studyProgramme__title text-left">{{ 'oskaProfessions.label' | uppercase }}</div>
+    </div>
+  </div><!--/studyProgramme__list-head-->
+
+  <div class="spinner-wrapper" *ngIf="loading"><mat-spinner></mat-spinner></div>
+
+  <div role="alert" *ngIf="!loading && ((data && data.length == 0) || !data)" class="no-results">
+    {{ errMessage ? errMessage : 'frontpage.no_results' | translate }}
+  </div>
+
+  <div *ngIf="!loading && data && data.length > 0">
+  
+    <ng-container *ngFor="let item of data; let i = index">
+      <div class="studyProgramme__item" >
+        <div class="studyProgramme__item__titlebox">
+          <div class="col-grow">
+            <div class="studyProgramme__item__head sm-hide">{{ 'oskaProfessions.label' | uppercase }}</div>
+            <span>
+              <a href="javascript:void();" [routerLink]="item.EntityPath" class="studyProgramme__item__title"><h1>{{ item.Title }}</h1></a>
+              <!-- <span class="important-pill">Porgand</span><a href="javascript:void();" class="nonActive-blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'"><h1>{{'studyProgramme.non_active' | translate}} <span class="important-pill">Porgand</span></h1></a> -->
+            </span>
+          </div><!--col-9-->
+          <div class="col sm-hide">
+            <compare [id]="item.Nid" localStorageKey="oskaProfessions.compare"></compare>
+          </div>
+        </div>
+        <!-- <div class="inline__items sm-hide">
+          <span class="item" *ngIf="item.fieldSchoolAddress">{{ item.fieldSchoolAddress }}</span>
+          <span class="bar" *ngIf="item.fieldSchoolWebsite">|</span>
+          <span class="item" *ngIf="item.fieldSchoolWebsite">
+            <a attr.aria-label="{{item.fieldSchoolWebsite }} {{' clickable '}}" href="{{ item.fieldSchoolWebsite }}">{{ item.fieldSchoolWebsite | removeProtocol }}</a>
+          </span>
+          <span class="bar" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactPhone">|</span>
+          <span class="item" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactPhone">{{ item.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}</span>
+          <span class="bar" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactEmail">|</span>
+          <span class="item" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactEmail">{{ item.fieldEducationalInstitution.entity.fieldSchoolContactEmail }}</span>
+          <span class="bar" *ngIf="item.fieldDurationYears">|</span>
+          <span class="item" *ngIf="item.fieldDurationYears">{{ item.fieldDurationYears }} aastat <ng-container *ngIf="item.fieldDurationMonths && item.fieldDurationMonths !== 0">{{ item.fieldDurationMonths }} kuud</ng-container></span>
+          <span class="bar" *ngIf="item.fieldTeachingLanguage">|</span>
+          <span class="item" *ngIf="item.fieldTeachingLanguage">
+            <ng-container *ngFor="let item of item.fieldTeachingLanguage; let i = index;">
+              <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.entityLabel | titleCase }}
+            </ng-container>  
+          </span>
+        </div> -->
+      </div><!--/studyProgramme__item-->
+    </ng-container><!--/list repeat-->
+  </div><!--/list-->
+
+</div><!--/studyProgramme-->
+  
+<!-- <div class="text-center actions snackBar" *ngIf="!listEnd && list">
+  <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
+  <button role=button mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading" attr.aria-label="{{'click to load more events'}}">
+    {{ "button.load_more" | translate }}
+  </button>
+</div> -->

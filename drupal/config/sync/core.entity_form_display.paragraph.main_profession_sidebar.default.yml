@@ -1,0 +1,120 @@
+uuid: 401df5f0-6189-442b-b573-e5132cbbb441
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.main_profession_sidebar.field_cons
+    - field.field.paragraph.main_profession_sidebar.field_contact
+    - field.field.paragraph.main_profession_sidebar.field_iscedf_search_link
+    - field.field.paragraph.main_profession_sidebar.field_job_opportunities
+    - field.field.paragraph.main_profession_sidebar.field_jobs
+    - field.field.paragraph.main_profession_sidebar.field_oska_field
+    - field.field.paragraph.main_profession_sidebar.field_pros
+    - field.field.paragraph.main_profession_sidebar.field_qualification_standard
+    - field.field.paragraph.main_profession_sidebar.field_quick_find
+    - paragraphs.paragraphs_type.main_profession_sidebar
+  module:
+    - link
+    - maxlength
+    - paragraphs
+id: paragraph.main_profession_sidebar.default
+targetEntityType: paragraph
+bundle: main_profession_sidebar
+mode: default
+content:
+  field_cons:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_contact:
+    type: entity_reference_paragraphs
+    weight: 8
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_iscedf_search_link:
+    type: entity_reference_paragraphs
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_job_opportunities:
+    weight: 4
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_jobs:
+    type: entity_reference_paragraphs
+    weight: 6
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_oska_field:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_pros:
+    weight: 0
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_qualification_standard:
+    weight: 5
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_quick_find:
+    weight: 7
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

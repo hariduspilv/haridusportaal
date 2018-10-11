@@ -19,7 +19,9 @@ import {
   SchoolsFundingComponent,
   XjsonComponent,
   SearchComponent,
-  OskaAreasComponent
+  OskaAreasComponent,
+  OskaProfessionsComponent,
+  OskaProfessionsCompareComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
@@ -81,7 +83,14 @@ const appRoutes: Routes = [
       { path: '**', redirectTo: ':lang/404', pathMatch: 'full' }
     ]},
 
-  { path: ':lang/oska/areas/:id', component:OskaAreasComponent},
+  { path: ':lang/valdkonnad/:id', component:OskaAreasComponent},
+  { path: ':lang/professions/:id', component:OskaAreasComponent},
+  { path: ':lang/professions', component:OskaProfessionsComponent},
+  { path: ':lang/pohikutsealad', component:OskaProfessionsComponent},
+  { path: ':lang/pohikutsealad/:id', component: OskaAreasComponent },
+  { path: ':lang/professions/compare', component:OskaProfessionsCompareComponent},
+  { path: ':lang/pohikutsealad/vordlus', component:OskaProfessionsCompareComponent},
+  { path: ':lang/sectors/:id', component:OskaAreasComponent},
   
   { path: ':lang/otsing', component: SearchComponent },
   { path: ':lang/search', component: SearchComponent },
@@ -116,6 +125,8 @@ export const routedComponents = [
   SchoolsFundingComponent,
   CertificatesComponent,
   XjsonComponent,
-  OskaAreasComponent
+  OskaAreasComponent,
+  OskaProfessionsComponent,
+  OskaProfessionsCompareComponent
 ];
 

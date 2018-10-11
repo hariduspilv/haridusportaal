@@ -6,9 +6,12 @@ use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\redis\ClientFactory;
+use Drupal\rest\ModifiedResourceResponse;
 use Drupal\user\Entity\User;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class EhisConnectorService.
@@ -84,15 +87,19 @@ class EhisConnectorService {
 	 * @param $params
 	 * @return mixed|\Psr\Http\Message\ResponseInterface
 	 */
-	private function invoke($service_name, $params){
+	private function invoke($service_name, $params, $type = 'get'){
 		$client = \Drupal::httpClient();
 		try {
 			/*TODO make post URL configurable*/
-			$response = $client->get(self::LOIME_DEFAULT_URL.$service_name . '/' . implode($params['url'], '/'));
+			if($type === 'get'){
+				$response = $client->get(self::LOIME_DEFAULT_URL.$service_name . '/' . implode($params['url'], '/'));
+			}else{
+				$response = $client->post(self::LOIME_DEFAULT_URL.$service_name, $params);
+			}
 			$response = json_decode($response->getBody()->getContents(), TRUE);
 			return $response;
 		}catch (RequestException $e){
-			throw $e;
+			throw new HttpException($e->getCode(), $e->getMessage());
 		}
 	}
 
@@ -208,14 +215,14 @@ class EhisConnectorService {
 	public function gettestidKod(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode(), $params['session_id'], time()];
 		$params['key'] = $this->getCurrentUserIdCode();
-		$params['hash'] = 'testidKod';
+		$params['hash'] = 'testidKod_'.$params['session_id'];
 		return $this->invokeWithRedis('testidKod', $params, FALSE);
 	}
 
 	public function getCertificate(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdCode(), $params['certificate_id'], time()];
 		$params['key'] = $this->getCurrentUserIdCode();
-		$params['hash'] = 'eTunnistusKod';
+		$params['hash'] = 'eTunnistusKod_'.$params['certificate_id'];
 		return $this->invokeWithRedis('eTunnistusKod', $params, FALSE);
 	}
 
@@ -256,6 +263,10 @@ class EhisConnectorService {
 	public function getDocument(array $params = []){
 		$params['url'][] = $this->getCurrentUserIdCode();
 		return $this->invoke('getDocument', $params);
+	}
+
+	public function postDocument(array $params = []){
+		return $this->invoke('postDocument', $params, 'post');
 	}
 
 	public function getDocumentFile(array $params = []){

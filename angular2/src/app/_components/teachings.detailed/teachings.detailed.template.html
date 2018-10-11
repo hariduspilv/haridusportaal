@@ -1,9 +1,9 @@
-<div class="row sm-hide crumbs" attr.aria-label="{{'breadcrumbs' | translate}}">
+<div class="row sm-hide crumbs" attr.aria-label="{{'breadcrumbs.breadcrumb' | translate}}">
   <div class="col-12">
-    <ul class="main-container breadcrumb mt-0 mb-0" *ngIf="breadcrumbs && !loading">
+    <ul role="list" class="main-container breadcrumb mt-0 mb-0" *ngIf="breadcrumbs && !loading">
       <li *ngFor="let breadcrumbEl of breadcrumbs; let last = last">
         <a [routerLink]="[breadcrumbEl.url]" *ngIf="!last">
-          <span role="link" attr.aria-label="{{'Breadcrumb'}}">{{ breadcrumbEl.text }}</span>
+          <span role="link">{{ breadcrumbEl.text }}</span>
         </a>
         <span role="dialog" attr.aria-current="{{breadcrumbEl.text}}" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 }}</span>
       </li>
@@ -11,7 +11,7 @@
   </div>
 </div>
 
-<div class="dashboard main-container">
+<div class="dashboard dashboard--detail main-container">
   <div class="row">
     <div class="col-8 sm-12">
       <div class="block padding-block border-blue">
@@ -19,8 +19,8 @@
         <mat-spinner *ngIf="loading"></mat-spinner>
         <ng-container *ngIf="content && !loading && dashboardLink">
           <h1 *ngIf="content.oppeasutus">{{ content.oppeasutus }}</h1>
-          <a href="javascript:void(0)" id="backToDashboard" attr.aria-label="{{'button.back_to_dashboard' | translate}}" class="sm-hide pull-right top-link" [routerLink]="dashboardLink">{{ 'button.back_to_dashboard' | translate }}</a>
-          <a href="javascript:void(0)" id="backToDashboard" attr.aria-label="{{'button.back_to_dashboard' | translate}}" class="sm-show top-link" [routerLink]="dashboardLink">{{ 'button.back_to_dashboard' | translate }}</a>
+          <a href="javascript:void(0)" id="backToDashboard" role="link" class="sm-hide pull-right top-link" [routerLink]="dashboardLink">{{ 'button.back_to_dashboard' | translate }}</a>
+          <a href="javascript:void(0)" id="backToDashboard" role="link" class="sm-show top-link" [routerLink]="dashboardLink">{{ 'button.back_to_dashboard' | translate }}</a>
           <div class="table-holder">
             <table class="dashboard-table" *ngIf="!error && content">
               <tbody>

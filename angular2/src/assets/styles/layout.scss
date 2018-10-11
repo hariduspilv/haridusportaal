@@ -1,5 +1,5 @@
 .block {
-
+  overflow-x:hidden;
   &.border-orange{border-top-color:$orange;}
   &.border-blue{border-top-color:$light-blue;}
   background: white;

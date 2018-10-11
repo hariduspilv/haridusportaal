@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_oska\Plugin\Field\FieldType;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\TypedData\DataDefinition;
+use Drupal\taxonomy\Entity\Term;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
 use Drupal\Core\TypedData\DataReferenceTargetDefinition;
@@ -12,7 +13,6 @@ use Drupal\Core\Entity\TypedData\EntityDataDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Component\Serialization\Json;
-use Drupal\taxonomy\Entity\Term;
 
 /**
  * Plugin implementation of the 'oska_graph_field' field type.
@@ -39,9 +39,19 @@ class OskaGraphField extends FieldItemBase {
     public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition)
     {
         $properties['value'] = DataDefinition::create('string')
-            ->setLabel(t('Graph title'));
+            ->setLabel(t('Chart value'))
+            ->setComputed(TRUE)
+            ->setClass('\Drupal\htm_custom_oska\GoogleChartValue');
+        $properties['v_axis'] = DataDefinition::create('string')
+            ->setLabel(t('Chart vAxis'));
+        $properties['h_axis'] = DataDefinition::create('string')
+            ->setLabel(t('Chart hAxis'));
         $properties['filter_values'] = DataDefinition::create('string')
             ->setLabel(t('Graph filter values'));
+        $properties['graph_type'] = DataDefinition::create('string')
+            ->setLabel(t('Graph type'));
+        $properties['secondary_graph_type'] = DataDefinition::create('string')
+            ->setLabel(t('Secondary graph type'));
 
         return $properties;
 
@@ -63,18 +73,41 @@ class OskaGraphField extends FieldItemBase {
             'mysql_type' => 'json',
             'not null' => FALSE,
         ];
+        $schema['columns']['graph_type'] = [
+            'description' => 'Main graph type.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
+        $schema['columns']['secondary_graph_type'] = [
+            'description' => 'Combo graph type.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
+        $schema['columns']['h_axis'] = [
+            'description' => 'Combo graph type.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
+        $schema['columns']['v_axis'] = [
+            'description' => 'Combo graph type.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
 
         return $schema;
     }
 
     public function preSave()
     {
-        $graph_type = $this->values['graph_type'];
-
+        $indicators = $this->getAxisNames($this->values);
         $this->values = [
-            'value' => $this->getGoogleGraphData($this->values),
+            'graph_type' => $this->values['graph_type'],
+            'secondary_graph_type' => $this->values['secondary_graph_type'],
+            'v_axis' => $indicators[0],
+            'h_axis' => $this->t('Year'),
             'filter_values' => json_encode($this->values, TRUE),
         ];
+
     }
 
     public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data)
@@ -98,116 +131,22 @@ class OskaGraphField extends FieldItemBase {
         return $element;
     }
 
-    public function getGoogleGraphData($filter_values){
-        $condition_count = 0;
-        $target_type = $this->definition->getSettings()['target_type'];
-        unset($filter_values['graph_type']);
-        unset($filter_values['secondary_graph_type']);
+    public function getAxisNames($filter_values){
+        $target_type = $this->getFieldDefinition()->getSettings()['target_type'];
 
-        $query = \Drupal::entityQuery($target_type);
-
-        foreach($filter_values as $key => $filter){
-            if(isset($filter[0]['target_id'])){
-                $search_args = $this->cleanFilters($filter);
-                if($search_args != NULL){
-                    $query->condition($key.'.target_id', $search_args, 'IN');
-                    $condition_count++;
-                }
-            }else{
-                if(count($filter) > 0){
-                    $query->condition($key, $filter, 'IN');
-                    $condition_count++;
-                }
-            }
-        }
-        if($condition_count > 0){
-            $entity_ids = $query->execute();
-        }
-
-        if(isset($entity_ids)){
-            $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple($entity_ids);
-            $graph_value = $this->getGoogleGraphValue($entities);
-
-            return $graph_value;
-        }else{
-            return NULL;
-        }
-
-
-    }
-
-    public function cleanFilters($filters){
-        foreach($filters as $filter){
-            $cleaned_filters[] = $filter['target_id'];
-        }
-        return $cleaned_filters;
-    }
-
-    public function getGoogleGraphValue($entities){
-
-        $raw_value = [
-            'cols' => [],
-            'rows' => [],
-        ];
-
-        #add default group label name
-        $raw_value['cols'][] = [
-            'id' => '',
-            'label' => 'Label',
-            'pattern' => '',
-            'type' => 'string',
-        ];
-
-        #add group value field
-        $raw_value['cols'][] = [
-            'id' => '',
-            'label' => 'Value',
-            'pattern' => '',
-            'type' => 'number',
-        ];
-
-        #get entity fields for finding label and value fields
+        $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple();
+        #get entity fields for finding indicator fields
         $entity_fields = reset($entities)->getFields();
 
         #find label and value fields
         foreach($entity_fields as $key => $field){
-            if(isset($field->getSettings()['graph_label'])){
-                $label_field = $key;
-            }
-            if(isset($field->getSettings()['graph_value'])){
-                $value_field = $key;
+            if(isset($field->getSettings()['graph_indicator'])){
+                $indicator_field = $key;
             }
         }
-        if($label_field && $value_field){
-            $labelsums = [];
-            #get value for each label, sum reoccurring labels
-            foreach($entities as $entity){
-                $labelval = $entity->$label_field->value;
-                $val = $entity->$value_field->value;
-                if(!isset($labelsums[$labelval])){
-                    $labelsums[$labelval] = $val;
-                }else{
-                    $labelsums[$labelval] .= $val;
-                }
-            }
-
-            #add data for each row
-            foreach($labelsums as $label => $value){
-                $raw_value['rows'][]['c'] = [
-                  [
-                      'v' => $label,
-                      'f' => NULL
-                  ],
-                    [
-                        'v' => $value,
-                        'f' => NULL
-                    ]
-                ];
-            }
-        }else{
-            return FALSE;
+        foreach($filter_values[$indicator_field] as $field_val){
+            $indicators[] = Term::load($field_val['target_id'])->getName();
         }
-
-        return json_encode($raw_value, TRUE);
+        return($indicators);
     }
 }
