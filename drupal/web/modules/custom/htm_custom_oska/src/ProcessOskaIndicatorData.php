@@ -38,9 +38,9 @@ class ProcessOskaIndicatorData {
         ];
 
         foreach ($items as $index => $item){
-            $object['naitaja'] = is_string($item['naitaja']) ? $item['naitaja'] : FALSE;;
+            $object['naitaja'] = $item['naitaja'] != '' && is_string($item['naitaja']) ? $item['naitaja'] : FALSE;;
             $object['pohikutseala'] = self::checkEntityReference('node', 'oska_main_profession_page', $item['pohikutseala']);
-            $object['vaartus'] = is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
+            $object['vaartus'] = $item['vaartus'] != '' && is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
             if(
                 !$object['naitaja']
                 ||
@@ -51,11 +51,10 @@ class ProcessOskaIndicatorData {
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
                         if($value === FALSE){
-                            return $key;
+                            return "Puudub ".$key;
                         }
                     }
                 };
-
                 $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
             }else{
                 $results[] = [
@@ -142,7 +141,7 @@ class ProcessOskaIndicatorData {
 
         $entity = reset($storage->loadByProperties($properties));
 
-        return ($entity) ? $entity->id() : '';
+        return ($entity) ? $entity->id() : FALSE;
     }
 
     private function deleteAllEntities(){
