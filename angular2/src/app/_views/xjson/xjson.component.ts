@@ -339,11 +339,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
     //check for min
     if(field.min !== undefined){
-      if(field.value < field.min) return {valid: false, message: 'Minimaalne lubatud väärtus on ' + field.min }
+      if(field.required === true){
+        if(field.value < field.min) return {valid: false, message: 'Minimaalne lubatud väärtus on ' + field.min }
+      }
     }
     //check for max
     if(field.max !== undefined){
-      if(field.value > field.max) return {valid: false, message: 'Maximaalne lubatud väärtus on ' + field.max }
+      if(field.required === true){
+        if(field.value > field.max) return {valid: false, message: 'Maximaalne lubatud väärtus on ' + field.max }
+      }
     }
     //check for email format
     if(field.type === 'email'){
@@ -638,14 +642,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     let _opened_step = this.opened_step;
     setTimeout(function(){
       if(_opened_step){
-        try { 
-          document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-        } catch (e) {
-          document.querySelector('#' + _opened_step).scrollIntoView();
-        }
-  
         if(window.pageYOffset > 0){
-         
           try { 
             window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
           } catch (e) {
@@ -657,6 +654,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
             document.querySelector('#' + _opened_step).scrollIntoView();
           }
           
+        } else {
+          try { 
+            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+          } catch (e) {
+            document.querySelector('#' + _opened_step).scrollIntoView();
+          }
         }
       }
     }, 0)

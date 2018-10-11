@@ -1,0 +1,29 @@
+uuid: 85c36adf-e7f1-4593-be91-1eda16988a19
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.oska_survey_page.body
+    - node.type.oska_survey_page
+  module:
+    - text
+    - user
+id: node.oska_survey_page.teaser
+targetEntityType: node
+bundle: oska_survey_page
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  langcode: true

@@ -1,0 +1,22 @@
+uuid: f1347fe4-61d9-41f6-97cf-de4b171e3515
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.oska_survey_page
+  module:
+    - text
+id: node.oska_survey_page.body
+field_name: body
+entity_type: node
+bundle: oska_survey_page
+label: Sisu
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+field_type: text_with_summary
