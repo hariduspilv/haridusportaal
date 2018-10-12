@@ -1,36 +1,27 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { HttpHeaders } from '@angular/common/http';
 import { SideMenuService } from '@app/_services';
-import { Router, RoutesRecognized } from '@angular/router';
-import gql from 'graphql-tag';
+import { Router, RoutesRecognized, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-
+import { HttpService } from '@app/_services/httpService';
+import { RootScopeService } from '@app/_services/rootScopeService';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './sidemenu.component.html'
 })
 
-export class SideMenuComponent {
+export class SideMenuComponent implements OnInit {
 
   data: any;
 
   subscription: any;
 
-  constructor(private apollo: Apollo, private sidemenuService: SideMenuService, private router: Router) {
-    
-    sidemenuService.getData( data => {
-      this.data = data['menu']['links'];
-    });
-
-
-    this.subscription = sidemenuService.updateLang().subscribe(status => {
-      sidemenuService.getData( data => {
-        this.data = data['menu']['links'];
-      });
-    });
-
-  }
+  constructor(
+    private sidemenuService: SideMenuService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private http: HttpService,
+    private rootScope: RootScopeService
+  ) {}
 
   closeParentNode(e) {
     e.target.parentNode.classList.remove("menu-open");
@@ -45,6 +36,31 @@ export class SideMenuComponent {
       return childCurrent === path;
     }
     return (path.match(/\//g) || []).length > 1 && current === path;
+  }
+
+  getData(){
+
+    let lang = window.location.pathname.split("/")[1];
+    if( lang == "" ){ lang = "et"; }
+    lang = lang.toUpperCase();
+    
+    let variables = {
+      language: lang
+    };
+
+    let url = "/graphql?queryId=getMenu:1&variables=";
+    
+    let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+      let data = response['data'];
+      this.data = data['menu']['links'];
+      subscription.unsubscribe();
+    });
+  }
+  ngOnInit() {
+
+    this.subscription = this.sidemenuService.updateLang().subscribe(status => {
+      this.getData();
+    });
   }
 
 }

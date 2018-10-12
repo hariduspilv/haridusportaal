@@ -1,0 +1,117 @@
+<!-- sidebar.fieldNumberEmployed -->
+<div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldNumberEmployed || sidebar.fieldNumberEmployed == '0' || sidebar.fieldNumberEmployedText">
+  <h1 class="medium">{{ 'oska.fieldNumberEmployed' | translate }}</h1>
+  <div class="padding-block--content">
+    <strong>{{ sidebar.fieldNumberEmployed }}</strong>
+    <div>{{ sidebar.fieldNumberEmployedText }}</div>
+  </div>
+</div>
+<!-- / sidebar.fieldNumberEmployed / -->
+<!-- sidebar.fieldOskaFieldPros/Cons -->
+<div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldOskaFieldPros || sidebar.fieldOskaFieldCons">
+  <h1 class="medium">{{ 'sidebar.pros_and_cons' | translate }}</h1>
+  <div class="padding-block--content">
+    <ng-container *ngIf="sidebar.fieldOskaFieldPros && sidebar.fieldOskaFieldPros.length">
+      <div class="flex centered" [class.last]="last" *ngFor="let elem of sidebar.fieldOskaFieldPros; let last = last">
+        <div class="icon-wrapper pos"><span class="htm-icon">thumb_up</span></div>
+        <div class="flex-text">{{ elem }}</div>
+      </div>
+    </ng-container>
+    <hr *ngIf="sidebar.fieldOskaFieldCons && sidebar.fieldOskaFieldCons.length && sidebar.fieldOskaFieldPros && sidebar.fieldOskaFieldPros.length">
+    <ng-container *ngIf="sidebar.fieldOskaFieldCons && sidebar.fieldOskaFieldCons.length">
+      <div class="flex centered" [class.last]="last" *ngFor="let elem of sidebar.fieldOskaFieldCons; let last = last">
+        <div class="icon-wrapper neg"><span class="htm-icon">thumb_down</span></div>
+        <div class="flex-text">{{ elem }}</div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<!-- / sidebar.fieldOskaFieldPros/Cons / -->
+<!-- sidebar.fieldOskaMainProfession -->
+<div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldOskaMainProfession">
+  <h1 class="medium">{{ 'oskaProfessions.label' | translate }}</h1>
+  <div class="padding-block--content">
+    <ul class="link-list mt-0 mb-0">
+      <ng-container *ngFor="let item of sidebar.fieldOskaMainProfession; let ind = index;">
+        <li *ngIf="ind < limits['professions']">
+          <a href="javascript:void(0)" [routerLink]="item.entity.entityUrl.path" attr.aria-label="{{item.entity.entityLabel}}" class="link">
+            <span><span class="htm-icon">link</span>{{item.entity.entityLabel}}</span>
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+    <ng-container *ngIf="typeStatus['professions']">
+      <hr>
+      <div class="showMore">
+        <a href="javascript:void(0)" (click)="showMore('professions', 'fieldOskaMainProfession')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaMainProfession.length - limits['professions']}})</span></a>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<!-- / sidebar.fieldOskaMainProfession / -->
+<!-- sidebar.fieldOskaFieldQuickFind -->
+<div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldOskaFieldQuickFind && sidebar.fieldOskaFieldQuickFind.length">
+  <h1 class="medium">{{ 'sidebar.find_quick' | translate }}</h1>
+  <div class="padding-block--content">
+    <ul class="link-list mt-0 mb-0">
+      <ng-container *ngFor="let item of sidebar.fieldOskaFieldQuickFind; let ind = index;">
+        <li *ngIf="ind < limits['quickFind']">
+          <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link">
+            <span>
+              <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span>{{item.title}}</ng-container>
+              <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span>{{item.title}}</ng-container>
+            </span>
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+    <ng-container *ngIf="typeStatus['quickFind']">
+      <hr>
+      <div class="showMore">
+        <a href="javascript:void(0)" (click)="showMore('quickFind', 'fieldOskaFieldQuickFind')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaFieldQuickFind.length - limits['quickFind']}})</span></a>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<!-- / sidebar.fieldOskaFieldQuickFind / -->
+<!-- sidebar.fieldRelatedPages -->
+<div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldRelatedPages && sidebar.fieldRelatedPages.length">
+  <h1 class="medium">{{ 'sidebar.similar_topics' | translate }}</h1>
+  <div class="padding-block--content">
+    <ul class="link-list mt-0 mb-0">
+      <ng-container *ngFor="let item of sidebar.fieldRelatedPages; let ind = index;">
+        <li *ngIf="ind < limits['relatedPages']">
+          <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
+            <span>
+              <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span>{{item.title}}</ng-container>
+              <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span>{{item.title}}</ng-container>
+            </span>
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+    <ng-container *ngIf="typeStatus['relatedPages']">
+      <hr>
+      <div class="showMore">
+        <a href="javascript:void(0)" (click)="showMore('relatedPages', 'fieldRelatedPages')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldRelatedPages.length - limits['relatedPages']}})</span></a>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<!-- / sidebar.fieldRelatedPages / -->
+<!-- sidebar.fieldOskaFieldContact -->
+<div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldOskaFieldContact && isContactValid()">
+  <h1 class="medium">{{ 'school.contact' | translate }}</h1>
+  <div class="padding-block--content">
+    <div role="text" attr.aria-label="{{'event.organizer' | translate}}">{{sidebar.fieldOskaFieldContact.entity.fieldOrganization}}</div>
+    <div role="text" attr.aria-label="{{'event.person' | translate}}">{{sidebar.fieldOskaFieldContact.entity.fieldPerson}}</div>
+    <div>
+      <a attr.aria-label="{{'event.phone | translate'}}" href="tel:{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}" class="sm-show">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</a>
+    </div>
+    <div class="sm-hide">
+      <span role="text" attr.aria-label="{{'event.phone' | translate}}">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</span>
+    </div>
+    <div><a attr.aria-label="{{'event.participant_email' | translate}}" href="mailto:{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}" alt="">{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}</a></div>
+  </div>
+</div>
+<!-- / sidebar.fieldOskaFieldContact / -->
