@@ -1,0 +1,23 @@
+uuid: fd2bfe36-66e0-4104-aa3e-cfab21a56b41
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_survey_accordion_link
+    - paragraphs.paragraphs_type.survey_page_accordion
+  module:
+    - link
+id: paragraph.survey_page_accordion.field_survey_accordion_link
+field_name: field_survey_accordion_link
+entity_type: paragraph
+bundle: survey_page_accordion
+label: 'Survey accordion link'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

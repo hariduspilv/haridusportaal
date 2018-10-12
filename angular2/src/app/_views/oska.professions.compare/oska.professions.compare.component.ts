@@ -22,9 +22,15 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   private path: string;
   public list: any = false;
   private subscriptions: Subscription[] = [];
-  tableOverflown: boolean = false;
-  elemAtStart: boolean = true;
-  initialized: boolean = false;
+  public tableOverflown: boolean = false;
+  public elemAtStart: boolean = true;
+  public initialized: boolean = false;
+  public oskaFields: any = {};
+  public termFields: any = {};
+  public oskaFieldsMaxLength: number = 0;
+  public termFieldsMaxLength: number = 0;
+  public oskaFieldsArr: Array<any> = [];
+  public termFieldsArr: Array<any> = [];
 
   constructor (
     public route: ActivatedRoute, 
@@ -62,24 +68,44 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   removeItemFromList(id, localStorageKey){
     let existing = this.readFromLocalStorage(localStorageKey);
     this.removeItemFromLocalStorage(id, localStorageKey, existing)
-    this.list = this.list.filter(item => item.Nid != id);
+    this.list = this.list.filter(item => item.nid != id);
     
     if(!this.list.length) this.rerouteToParent();
   }
   getData(){
     let variables = {
-      lang: this.lang,
-      title: "",
+      lang: this.lang.toUpperCase(),
       limit: 3,
-      fixed_label: "1",
-      status: "1",
-      nid: this.compare
+      titleEnabled: false,
+      oskaFieldEnabled: false,
+      fixedLabelEnabled: false,
+      offset: 0,
+      nid: this.compare,
+      nidEnabled: true,
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all'
     }
-
     this.url = this.settings.url + "/graphql?queryId=oskaMainProfessionListView:1&variables=" + JSON.stringify(variables);
     
     this.http.get(this.url).subscribe(response => {
-      this.list = response['data']['CustomElasticQuery'];
+      let data = response['data']['nodeQuery']['entities'];
+      data.forEach((elem, index) => {
+        if(elem.fieldSidebar) {
+          elem.fieldSidebar.entity.fieldOskaField.forEach((oska, indexVal) => {
+            this.oskaFields[index] = this.oskaFields[index] ? [...this.oskaFields[index], oska] : [oska];
+            if(this.oskaFieldsMaxLength < indexVal) {this.oskaFieldsMaxLength = indexVal};
+          });
+        };
+        if(elem.reverseOskaMainProfessionOskaIndicatorEntity && elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.length) {
+          elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.forEach((term, indexVal2) => {
+            this.termFields[index] = this.termFields[index] ? [...this.termFields[index], term] : [term];
+            if(this.termFieldsMaxLength < indexVal2) {this.termFieldsMaxLength = indexVal2};
+          });
+        };
+      })
+      this.oskaFieldsArr = Array(this.oskaFieldsMaxLength+1).fill(0).map((x,i)=>i);
+      this.termFieldsArr = Array(this.termFieldsMaxLength+1).fill(0).map((x,i)=>i);
+      this.list = data;
       if(!this.list.length) {
         this.rerouteToParent();
       }

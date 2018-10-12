@@ -339,11 +339,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
     //check for min
     if(field.min !== undefined){
-      if(field.value < field.min) return {valid: false, message: 'Minimaalne lubatud väärtus on ' + field.min }
+      if(field.required === true){
+        if(field.value < field.min) return {valid: false, message: 'Minimaalne lubatud väärtus on ' + field.min }
+      }
     }
     //check for max
     if(field.max !== undefined){
-      if(field.value > field.max) return {valid: false, message: 'Maximaalne lubatud väärtus on ' + field.max }
+      if(field.required === true){
+        if(field.value > field.max) return {valid: false, message: 'Maximaalne lubatud väärtus on ' + field.max }
+      }
     }
     //check for email format
     if(field.type === 'email'){
@@ -544,13 +548,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
     
     //Concat. all message arrays and display them at all times
-    this.data_messages = this.data.body.messages;
-    Object.keys(this.data.body.steps).forEach(item => {
-      let step = this.data.body.steps[item];
-      if(step.messages) {
-        this.data_messages = [...this.data_messages, ...step.messages];
-      }
-    })
+    this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
+    
 
     if(!this.data_elements){
       let payload = {form_name: this.form_name, form_info: xjson}
@@ -643,14 +642,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     let _opened_step = this.opened_step;
     setTimeout(function(){
       if(_opened_step){
-        try { 
-          document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-        } catch (e) {
-          document.querySelector('#' + _opened_step).scrollIntoView();
-        }
-  
         if(window.pageYOffset > 0){
-         
           try { 
             window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
           } catch (e) {
@@ -662,6 +654,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
             document.querySelector('#' + _opened_step).scrollIntoView();
           }
           
+        } else {
+          try { 
+            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+          } catch (e) {
+            document.querySelector('#' + _opened_step).scrollIntoView();
+          }
         }
       }
     }, 0)

@@ -138,10 +138,8 @@
       </div><!--/block-->
     </div><!--/col-8-->
 
-    <div class="col-4 sm-12">
-      <div class="block border-orange padding-block">
-        Block content
-      </div>
+    <div class="col-4 sm-12" *ngIf="data.fieldOskaFieldSidebar">
+      <oska-areas-sidebar [sidebar]="data.fieldOskaFieldSidebar.entity"></oska-areas-sidebar>
     </div><!--/col-4-->
   </div><!--/row-->
 </div><!--/main-container-->

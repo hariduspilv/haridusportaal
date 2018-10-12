@@ -1,0 +1,18 @@
+uuid: 50caa245-21e5-44f1-a78f-89425452be62
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.survey_page_accordion
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: paragraph.survey_page_accordion
+target_entity_type_id: paragraph
+target_bundle: survey_page_accordion
+default_langcode: current_interface
+language_alterable: true
