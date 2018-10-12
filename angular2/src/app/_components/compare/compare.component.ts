@@ -50,6 +50,7 @@ export class CompareComponent implements OnInit, OnDestroy{
     "default": 10
   }
 
+  public snackBarOpen: boolean;
   comparePathSubscription: any;
   localStorageSubscription: any;
 
@@ -115,7 +116,8 @@ export class CompareComponent implements OnInit, OnDestroy{
 
   }
   openCompareSnackbar() {
-    if (this.viewLink && this.compare.length) {
+    if (this.viewLink && this.compare.length && !this.snackBarOpen) {
+      this.snackBarOpen = true;
       let message = `${this.translate.get(this.compareTranslationOptions[this.localStorageKey].added)['value']}`;
       let action = `${this.translate.get('button.see_comparison')['value']}`;
       let snackBarRef = this.snackbar.open(message, action, {
@@ -126,7 +128,10 @@ export class CompareComponent implements OnInit, OnDestroy{
           this.router.navigateByUrl(this.compareViewLink);
         }
       })
-    } else this.snackbar.dismiss()
+    } else if (!this.viewLink){
+      this.snackbar.dismiss();
+      this.snackBarOpen = false;
+    }
   }
   ngOnInit() {
     this.compare = this.readFromLocalStorage(this.localStorageKey);
@@ -155,6 +160,7 @@ export class CompareComponent implements OnInit, OnDestroy{
     this.comparePathSubscription.unsubscribe();
     this.localStorageSubscription.unsubscribe();
     this.snackbar.dismiss()
+    this.snackBarOpen = false;
   }
    
 }
