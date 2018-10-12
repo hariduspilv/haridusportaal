@@ -1,48 +1,42 @@
 query oskaMainProfessionListView($nid: [String], $nidEnabled: Boolean, $titleValue: String, $titleEnabled: Boolean, $fixedLabelValue: String, $fixedLabelEnabled: Boolean, $oskaFieldValue: String, $oskaFieldEnabled: Boolean, $lang: LanguageId!, $offset: Int, $limit: Int) {
-nodeQuery(offset: $offset, limit: $limit, sort: {field: "changed", direction: DESC}, filter:
-{conjunction: AND, conditions: [
-{operator: EQUAL, field: "type", value: ["oska_main_profession_page"], language: $lang},
-{operator: IN, field: "nid", value: $nid, language: $lang, enabled: $nidEnabled},
-{operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled},
-{operator: IN, field: "field_fixed_label", value: [$fixedLabelValue], language: $lang, enabled: $fixedLabelEnabled},
-{operator: IN, field: "field_sidebar.entity.field_oska_field", value: [$oskaFieldValue], language: $lang, enabled: $oskaFieldEnabled}]}) {
-entities(language: $lang) {
-... on NodeOskaMainProfessionPage {
-nid
-title
-fieldFixedLabel
-entityUrl {
-path
-}
-fieldSidebar {
-entity {
-... on ParagraphMainProfessionSidebar {
-fieldOskaField {
-entity {
-... on NodeOskaFieldPage {
-nid
-title
-entityUrl {
-path
-}
-}
-}
-}
-}
-}
-}
-reverseOskaMainProfessionOskaIndicatorEntity {
-entities {
-... on OskaIndicatorEntity {
-oskaIndicator
-value
-}
-}
-}
-__typename
-}
-__typename
-}
-__typename
-}
+  nodeQuery(offset: $offset, limit: $limit, sort: {field: "created", direction: DESC}, filter: {conjunction: AND, conditions: [{operator: EQUAL, field: "type", value: ["oska_main_profession_page"], language: $lang}, {operator: IN, field: "nid", value: $nid, language: $lang, enabled: $nidEnabled}, {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled}, {operator: IN, field: "field_fixed_label", value: [$fixedLabelValue], language: $lang, enabled: $fixedLabelEnabled}, {operator: IN, field: "field_sidebar.entity.field_oska_field", value: [$oskaFieldValue], language: $lang, enabled: $oskaFieldEnabled}]}) {
+    entities(language: $lang) {
+      ... on NodeOskaMainProfessionPage {
+        nid
+        title
+        fieldFixedLabel
+        entityUrl {
+          path
+        }
+        fieldSidebar {
+          entity {
+            ... on ParagraphMainProfessionSidebar {
+              fieldOskaField {
+                entity {
+                  ... on NodeOskaFieldPage {
+                    nid
+                    title
+                    entityUrl {
+                      path
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        reverseOskaMainProfessionOskaIndicatorEntity {
+          entities {
+            ... on OskaIndicatorEntity {
+              oskaIndicator
+              value
+            }
+          }
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
 }
