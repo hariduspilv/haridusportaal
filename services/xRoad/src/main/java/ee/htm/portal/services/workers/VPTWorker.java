@@ -49,13 +49,16 @@ public class VPTWorker extends Worker {
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EHIS - VpTaotlusOpingud.v1");
 
+    documentsResponse.putArray("documents");
+    documentsResponse.putArray("acceptable_forms");
+    documentsResponse.putArray("drafts");
+
     try {
       VpTaotlusOpingudResponse response = ehisXRoadService
           .vptOpingud(personalCode, null, personalCode);
 
-      ArrayNode documentsArrayNode = documentsResponse.putArray("documents");
       response.getTaotluseAjaluguList().forEach(
-          ajalugu -> documentsArrayNode.addObject()
+          ajalugu -> ((ArrayNode) documentsResponse.get("documents")).addObject()
               .put("form_name",
                   ajalugu.getOlek().equalsIgnoreCase("Menetluses") ?
                       "VPT_ESITATUD_TAOTLUS"
@@ -71,11 +74,11 @@ public class VPTWorker extends Worker {
       if (response.getHoiatusDto().getErrorMessagesList().isEmpty()) {
         if (response.isSetTaotluseId() && response.getTaotluseId() != null
             && !response.getTaotluseId().equals("")) {
-          documentsResponse.putArray("drafts").addObject()
+          ((ArrayNode) documentsResponse.get("drafts")).addObject()
               .put("form_name", "VPT_TAOTLUS")
               .put("identifier", (Long) response.getTaotluseId());
         } else {
-          documentsResponse.putArray("acceptable_forms").addObject()
+          ((ArrayNode) documentsResponse.get("acceptable_forms")).addObject()
               .put("form_name", "VPT_TAOTLUS");
         }
       }
