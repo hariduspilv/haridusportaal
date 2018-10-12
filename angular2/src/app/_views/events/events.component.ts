@@ -7,7 +7,6 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 import { EventsConfig } from './events-config.model';
 import { RootScopeService } from '@app/_services';
-import { sortEventsByOptions, getEventsTags, getEventsTypes } from '@app/_graph/events.graph';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -16,7 +15,7 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/of';
 
 import { Apollo, QueryRef } from 'apollo-angular';
-
+import { HttpService } from '@app/_services/httpService';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 
 import * as _moment from 'moment';
@@ -72,7 +71,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     public router: Router,
     public route: ActivatedRoute,
     private apollo: Apollo,
-    private rootScope: RootScopeService
+    private rootScope: RootScopeService,
+    private http: HttpService
   ) {
     super(null, null);
   }
@@ -234,12 +234,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     var subscriber = this.route.queryParams.subscribe(
       (params: ActivatedRoute) => {
-        this.apollo.watchQuery({
-          query: sortEventsByOptions,
-          variables: this.eventsConfig.getApollo(this.lang.toUpperCase()),
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        }).valueChanges.subscribe(({data, loading}) => {
+
+        let url = "/graphql?queryId=getEventList:1&variables=";
+        let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
+
+        let subscriber = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+
+          let data = response['data'];
+
           subscriber.unsubscribe();
 
           this.eventListRaw = this.eventListRaw.concat(data['nodeQuery']['entities']);
@@ -508,25 +510,23 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         }
 
         // GET LIST OBSERVABLE
-        this.dataSubscription= this.apollo.watchQuery<any>({
-          query: sortEventsByOptions,
-          variables: this.eventsConfig.getApollo(this.lang.toUpperCase()),
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        }).valueChanges.subscribe(({data}) => {
+        let url = "/graphql?queryId=getEventList:1&variables=";
+        let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
+        let dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
 
+          let data = response['data'];
+          
           if( this.status ){ return false; }
 
-          this.status = true;
-
-          this.dataSubscription.unsubscribe();
-          this.dataSubscription = false;
-
+          this.status = false;
 
           if( this.view == "list" ){
+
             this.eventListRaw = data['nodeQuery']['entities'];
+            
             this.eventList = this.organizeList( this.eventListRaw );
+            
             if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
               this.listEnd = true;
             }
@@ -534,20 +534,22 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
             this.dataToCalendar( JSON.stringify( data['nodeQuery']['entities'] ) );
           }
           
+          this.dataSubscription.unsubscribe();
+          this.dataSubscription = false;
           
         });
   }
 
   getTypes() {
-    let typesSubscription = this.apollo.watchQuery({
-      query: getEventsTypes,
-      variables: {
-        lang: this.lang.toUpperCase(),        
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges
-    .subscribe(({data}) => {
+
+    let url = "/graphql?queryId=getEventTypes:1&variables=";
+    let variables = {
+      lang: this.lang.toUpperCase()
+    };
+
+    let typesSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+      
+      let data = response['data'];
       this.eventsTypes = data['taxonomyTermQuery']['entities'];
       let newsTidArr = [];
       this.eventsTypes.filter((tagItem, index, array) => {
@@ -586,16 +588,16 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   }
 
   getTags() {
-    let tagSubscription = this.apollo.watchQuery({
-      query: getEventsTags,
-      variables: {
-        lang: this.lang.toUpperCase(),
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges
-    .subscribe(({data}) => {
+
+    let url = "/graphql?queryId=getEventTags:1&variables=";
+    let variables = {
+      lang: this.lang.toUpperCase()
+    };
+
+    let tagSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
       
+      let data = response['data'];
+
       this.eventsTags = data['nodeQuery']['entities'];
       
       let newsTagArr = [];

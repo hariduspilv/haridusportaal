@@ -1,10 +1,7 @@
 import { Component, OnDestroy, ViewChild, Input, OnInit } from '@angular/core';
 import { RootScopeService } from '@app/_services/rootScopeService';
-import { relatedQuery } from '@app/_graph/events.graph';
-
-import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
-
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
 	selector: 'related-events',
@@ -24,7 +21,7 @@ export class RelatedEventsComponent implements OnInit {
 
 	constructor(
 		private rootScope: RootScopeService,
-		private apollo: Apollo
+		private http: HttpService
 	) {}
 
 	ngOnInit() {
@@ -33,18 +30,16 @@ export class RelatedEventsComponent implements OnInit {
 
 		this.lang = this.rootScope.get('currentLang');
 
-		let subscription = this.apollo.watchQuery({
-			query: relatedQuery,
-			variables: {
-				groupID: this.groupID.toString(),
-				nid: this.nid.toString(),
-				lang: this.lang.toUpperCase(),
-			},
-			fetchPolicy: 'no-cache',
-			errorPolicy: 'all',
-		})
-		.valueChanges
-		.subscribe(({data}) => {
+		let url = "/graphql?queryId=getRelatedEvents:1&variables=";
+		let variables = {
+			groupID: this.groupID.toString(),
+			nid: this.nid.toString(),
+			lang: this.lang.toUpperCase()
+		};
+
+		let subscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+			
+			let data = response['data'];
 
 			if ( data['nodeQuery'] == null ) {
 				that.error = true;
