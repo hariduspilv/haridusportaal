@@ -121,8 +121,6 @@ export class FiltersService {
       }
     }
 
-    console.log("asd");
-    console.log(urlParams);
     this.router.navigate([], {
       queryParams: urlParams,
       replaceUrl: true

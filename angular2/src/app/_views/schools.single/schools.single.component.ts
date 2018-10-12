@@ -3,9 +3,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 
-import { SingleQuery, InstitutionTypeQuery } from '@app/_graph/school.graph';
 import { RootScopeService } from '@app/_services';
 import { TableService } from '@app/_services/tableService';
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
   templateUrl: './schools.single.component.html',
@@ -29,20 +29,24 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
     private route: ActivatedRoute,
     private router: Router,
     private rootScope: RootScopeService,
-    private tableService: TableService
+    private tableService: TableService,
+    private http: HttpService
   ) {}
 
   ngOnInit() {
-    this.querySubscription = this.apollo.watchQuery<any>({
-      query: SingleQuery,
-      variables: {
-        path: this.router.url
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges.subscribe(({ data, loading }) => {
+
+    let url = "/graphql?queryId=getSchoolSingle:1&variables=";
+
+    let variables = {
+      path: this.router.url
+    };
+
+
+    this.querySubscription = this.http.get(url+JSON.stringify(variables)).subscribe(( response ) => {
+
+      let data = response['data'];
       this.lang = this.rootScope.get('currentLang');
-      this.loading = loading;
+      this.loading = false;
       if( !data['route'] ){
         history.replaceState({}, '', `/${this.lang}`);
         this.router.navigateByUrl(`/${this.lang}/404`);
@@ -61,15 +65,14 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   getOptions(types) {
-    let subscription = this.apollo.watchQuery({
-      query: InstitutionTypeQuery,
-      variables: {
-        "lang": this.rootScope.get('currentLang').toUpperCase(),
-        "tids": types
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'none',
-    }).valueChanges.subscribe( ({data}) => {
+    let url = "/graphql?queryId=getSchoolInstitutions:1&variables=";
+
+    let variables = {
+      lang: this.lang.toUpperCase()
+    };
+
+    let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( ( response ) => {
+      let data = response['data'];
       this.lang = this.rootScope.get('currentLang');
       if( !data['route'] ){
         history.replaceState({}, '', `/${this.lang}`);

@@ -10,7 +10,13 @@
 
         <h1>{{ data['entityLabel'] }}</h1>
 
-        <share></share>
+        <div class="block__tools">
+          <share></share>
+          <compare *ngIf="compareButton" [id]="data.nid" localStorageKey="oskaProfessions.compare"></compare>
+          <div class="title-tag" *ngIf="data.fieldFixedLabel">
+            {{ 'fieldFixedLabel.label' | translate }}
+          </div><!--/title-tag-->
+        </div><!--/block__tools-->
 
         <div class="short" [attr.aria-label]="'description.short' | translate">
           {{ data['fieldIntroduction'] }}
@@ -19,9 +25,9 @@
         
         <!-- profession image-->
         <ng-container *ngIf="data.fieldMainProfessionPicture">
-          <div *ngIf="data.fieldMainProfessionPicture && data.fieldMainProfessionPicture.length > 0" class="article-image pull-right">
-            <img src="{{ data.fieldMainProfessionPicture[0].derivative.url }}" alt="{{ data.fieldMainProfessionPicture[0].alt }}" title="{{ data.fieldMainProfessionPicture[0].title }}" style="max-width:100%;" />
-            <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldMainProfessionPicture[0].alt">{{ data.fieldMainProfessionPicture[0].alt }}</div>
+          <div *ngIf="data.fieldMainProfessionPicture" class="article-image pull-right">
+            <img src="{{ data.fieldMainProfessionPicture.derivative.url }}" alt="{{ data.fieldMainProfessionPicture.alt }}" title="{{ data.fieldMainProfessionPicture.title }}" style="max-width:100%;" />
+            <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldMainProfessionPicture.title">{{ data.fieldMainProfessionPicture.title }}</div>
           </div>
         </ng-container>
 
@@ -29,21 +35,21 @@
         <ng-container *ngIf="data.fieldOskaFieldPicture">
             <div *ngIf="data.fieldOskaFieldPicture && data.fieldOskaFieldPicture.length > 0" class="article-image pull-right">
                 <img src="{{ data.fieldOskaFieldPicture[0].derivative.url }}" alt="{{ data.fieldOskaFieldPicture[0].alt }}" title="{{ data.fieldOskaFieldPicture[0].title }}" style="max-width:100%;" />
-                <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture[0].alt">{{ data.fieldOskaFieldPicture[0].alt }}</div>
+                <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture[0].title">{{ data.fieldOskaFieldPicture[0].title }}</div>
               </div>
         </ng-container>
         
 
-        <div [innerHTML]="data['body']['value']" attr.aria-label="{{'description' | translate}}" ></div>
+        <div [innerHTML]="data['body']['value']" attr.aria-label="{{'description' | translate}}" class="description" ></div>
 
         <ng-container *ngIf="data.fieldOskaWebPage || data.fieldOskaAttachmentFile">
           <ng-container *ngIf="data.fieldOskaWebPage.length > 0 || data.fieldOskaAttachmentFile.length > 0" class="external-links">
               <ul class="external-links">
                 <li *ngFor="let item of data.fieldOskaWebPage">
-                  <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
+                  <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{ item.title }}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
                 </li>
                 <li *ngFor="let item of data.fieldOskaAttachmentFile">
-                  <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
+                  <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{ item.description || item.entity.entityLabel }}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
                 </li>
               </ul>
             </ng-container>
@@ -53,16 +59,23 @@
           <ng-container *ngIf="data.fieldOskaMainProfessionLinks.length > 0 || data.fieldOskaMainProfessionFile.length > 0" class="external-links">
             <ul class="external-links">
               <li *ngFor="let item of data.fieldOskaMainProfessionLinks">
-                <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">launch</span>{{ item.title }}</a>
+                <a href="{{ item.url.path }}" target="_blank" attr.aria-label="{{ item.title }}{" ><span class="htm-icon">launch</span>{{ item.title }}</a>
               </li>
               <li *ngFor="let item of data.fieldOskaMainProfessionFile">
-                <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{'link.outer' | translate}}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
+                <a href="{{ item.entity.url }}" target="_blank" attr.aria-label="{{ item.description || item.entity.entityLabel }}" ><span class="htm-icon">file_copy</span>{{ item.description || item.entity.entityLabel }}</a>
               </li>
             </ul>
           </ng-container>
         </ng-container>
 
-        <video-component *ngIf="video" [videos]="video"></video-component>
+        <ng-container *ngIf="data.fieldOskaVideo">
+          <video-component [videos]="[data.fieldOskaVideo]"></video-component>
+        </ng-container>
+
+        <ng-container *ngIf="data.fieldOskaMainProfessionVideo">
+          <video-component [videos]="[data.fieldOskaMainProfessionVideo]"></video-component>
+        </ng-container>
+        
 
         <ng-container *ngIf="data.fieldOskaFieldAccordion">
           <div class="accordion" *ngIf="data['fieldOskaFieldAccordion'].length > 0">
@@ -79,7 +92,7 @@
                 <div class="accordion__body">
                   <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
                   <ul class="link-list mt-2 mb-0">
-                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
+                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{articleLink.title}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
                   </ul>
                 </div><!--/accordion__body-->
                 
@@ -103,7 +116,7 @@
                 <div class="accordion__body">
                   <div [innerHTML]="accordionItem.entity.fieldBody.value"></div>
                   <ul class="link-list mt-2 mb-0">
-                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
+                    <li *ngFor="let articleLink of accordionItem.entity.fieldLinks"><a href="{{articleLink.url.path}}" [attr.target]="articleLink.url.__typename === 'ExternalUrl' ? '_blank' : ''" attr.aria-label="{{articleLink.title}}" class="link"><span><span class="htm-icon">launch</span></span>{{articleLink.title}}</a></li>
                   </ul>
                 </div><!--/accordion__body-->
                 
@@ -113,18 +126,9 @@
         </ng-container>
 
         <ng-container *ngIf="data.fieldMainProfessionTag">
-          <div class="tags" *ngIf="data.fieldMainProfessionTags && data.fieldMainProfessionTags.length > 0">
+          <div class="tags" *ngIf="data.fieldMainProfessionTag && data.fieldMainProfessionTag.length > 0">
             <mat-chip-list>
-              <span *ngFor="let tag of data.fieldMainProfessionTags" class="mat-chip-list-wrapper">
-                <mat-chip *ngIf="tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
-              </span>
-            </mat-chip-list>
-          </div><!--/tags-->
-        </ng-container>
-        <ng-container *ngIf="data.fieldMainProfessionTags">
-          <div class="tags" *ngIf="data.fieldMainProfessionTags && data.fieldMainProfessionTags.length > 0">
-            <mat-chip-list>
-              <span *ngFor="let tag of data.fieldMainProfessionTags" class="mat-chip-list-wrapper">
+              <span *ngFor="let tag of data.fieldMainProfessionTag" class="mat-chip-list-wrapper">
                 <mat-chip *ngIf="tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
               </span>
             </mat-chip-list>
@@ -134,10 +138,8 @@
       </div><!--/block-->
     </div><!--/col-8-->
 
-    <div class="col-4 sm-12">
-      <div class="block border-orange padding-block">
-        Block content
-      </div>
+    <div class="col-4 sm-12" *ngIf="data.fieldOskaFieldSidebar">
+      <oska-areas-sidebar [sidebar]="data.fieldOskaFieldSidebar.entity"></oska-areas-sidebar>
     </div><!--/col-4-->
   </div><!--/row-->
 </div><!--/main-container-->

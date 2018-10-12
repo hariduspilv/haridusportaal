@@ -4,19 +4,17 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_field_page.body
-    - field.field.node.oska_field_page.field_essesee
     - field.field.node.oska_field_page.field_introduction
-    - field.field.node.oska_field_page.field_main_profession_tags
     - field.field.node.oska_field_page.field_oska_attachment_file
     - field.field.node.oska_field_page.field_oska_field_accordion
     - field.field.node.oska_field_page.field_oska_field_picture
+    - field.field.node.oska_field_page.field_oska_field_sidebar
     - field.field.node.oska_field_page.field_oska_video
     - field.field.node.oska_field_page.field_oska_web_page
     - node.type.oska_field_page
   module:
     - entity_reference_revisions
     - file
-    - htm_custom_oska
     - htm_custom_video_field
     - image
     - link
@@ -34,27 +32,12 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-  field_essesee:
-    weight: 116
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: oska_graph_formatter_type
-    region: content
   field_introduction:
     weight: 102
     label: above
     settings: {  }
     third_party_settings: {  }
     type: basic_string
-    region: content
-  field_main_profession_tags:
-    weight: 115
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
     region: content
   field_oska_attachment_file:
     weight: 114
@@ -81,6 +64,15 @@ content:
       image_link: ''
     third_party_settings: {  }
     type: image
+    region: content
+  field_oska_field_sidebar:
+    type: entity_reference_revisions_entity_view
+    weight: 115
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
     region: content
   field_oska_video:
     weight: 112

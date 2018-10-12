@@ -1,5 +1,89 @@
-<div class="accordion">
-  <div class="error">
-    <span>...</span>
+<mat-spinner *ngIf="loading.initial === true"></mat-spinner>
+
+<div *ngIf="loading.initial === false">
+  <div>
+    <h4>{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>
+    <span *ngIf="!acceptable_forms_list.length">{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_notfound' | translate }}</span>
+
+    <ng-container *ngIf="acceptable_forms_list.length">
+      
+        <div *ngFor="let form of acceptable_forms_list">
+            <a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{test:'true'}" >{{ selectLanguage(form.title) }}</a>
+        </div>
+        <div *ngIf="acceptableFormsLoader()">
+          loading...
+        </div>
+
+      <a *ngIf="data.acceptable_forms.length > 4 && acceptable_forms_list.length == 4 && acceptable_forms_list_restricted == true" 
+        href="javascript:void(0);" (click)="acceptable_forms_list_restricted = false; formatAcceptableForms()">
+        + {{ 'button.show_more' | translate }} ({{ data.acceptable_forms.length - 4 }})
+      </a>
+
+      <a *ngIf="acceptable_forms_list_restricted == false" 
+          href="javascript:void(0);" (click)="acceptable_forms_list_restricted = true; formatAcceptableForms()">
+          {{ 'button.show_less' | translate }}
+      </a>
+    </ng-container>
+  </div>
+
+  <div>
+    <h4>{{ 'frontpage.dashboard_tabs_applications_drafts_label' | translate }}</h4>
+    <span *ngIf="!data.drafts.length">{{ 'frontpage.dashboard_tabs_applications_drafts_notfound' | translate }}</span>
+    
+    <table class="dashboard-table" *ngIf="data.drafts.length">
+      <tbody>
+        <tr>
+          <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let form of data.drafts">
+          <td>{{ selectLanguage(form.title) }}</td>
+          <td class="text-center">
+            <a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{draft:'true',identifier: form.identifier}">
+              {{ 'button.continue_filling' | translate }}
+            </a>
+          </td>
+        </tr>
+        <tr *ngIf="loading.interval === true">
+          <td colspan="2">loading...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <h4>{{ 'frontpage.dashboard_tabs_applications_documents_label' | translate }}</h4>
+    <span *ngIf="!data.documents.length">{{ 'frontpage.dashboard_tabs_applications_documents_notfound' | translate }}</span>
+
+    <table  class="dashboard-table" *ngIf="data.documents.length">
+      <thead>
+        <tr>
+          <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
+          <th>{{ 'frontpage.dashboard_tabs_applications_document_date' | translate }}</th>
+          <th>{{ 'frontpage.dashboard_tabs_applications_document_status' | translate }}</th>
+          <th></th>
+        </tr>
+      </thead> 
+      <tbody>
+        <ng-container *ngFor="let form of data.documents">
+          <tr>
+            <td>{{ selectLanguage(form.title) }}</td>
+            <td>{{ form.document_date }}</td>
+            <td>{{ form.status }}</td>
+            <td class="text-center">
+              <a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{existing:'true',identifier: form.identifier}">
+                {{ 'button.open' | translate }}
+              </a>
+            </td>
+          </tr>
+          <tr *ngIf="form.description">
+            <td colspan="4"><p>{{ form. description }}</p></td>
+          </tr>
+        </ng-container>
+        <tr *ngIf="loading.interval === true">
+          <td colspan="4">loading...</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

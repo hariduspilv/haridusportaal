@@ -66,7 +66,6 @@ class OskaGraphWidgetType extends WidgetBase {
                     'line' => $this->t('line'),
                     'bar' => $this->t('bar'),
                     'column' => $this->t('column'),
-                    'gauge' => $this->t('gauge'),
                     'pie' => $this->t('pie'),
                     'doughnut' => $this->t('doughnut'),
                     'scatter' => $this->t('scatter')

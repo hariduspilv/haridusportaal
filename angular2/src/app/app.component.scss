@@ -290,7 +290,9 @@ $grid-columns: 12;
   .normal-text{color:rgba(0,0,0,.87); text-decoration:none;}
   .clist-item{padding:.4375rem $quarter; background:#e0e0e0; border-radius:$medium; font-size: 0.8125rem; line-height:1.125rem;}
   .inline{margin:0 auto; padding:0;}
-  .flex{display:flex;}
+  .flex{display:flex;
+    &.centered { align-items: center; }
+  }
 
   .scrollableTable{
     .scrollableTable-arrow-{
@@ -345,7 +347,9 @@ $grid-columns: 12;
   }
 
   .inline__items {padding-top: .375rem;
-    .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;white-space: nowrap;}
+    .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;white-space: nowrap;
+      a {white-space: pre-wrap;}
+    }
   }
   .bar {padding: 0 $half-gutter;}
   .nonActive {padding: $half-gutter $quarter;border-radius: $quarter;font-size: .875rem;line-height: 1.125rem;white-space: nowrap;

@@ -24,6 +24,8 @@ import { VideoComponent } from './_components/video/video.component';
 import { StudyProgrammeCompareComponent } from './_views/studyProgramme.compare/studyProgramme.compare.component';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 
+import { SideMenuComponent } from '@app/_components/sidemenu/sidemenu.component';
+
 export const AppDeclarations = [
   routedComponents,
   EventsRegistratonDialog,
@@ -49,7 +51,8 @@ export const AppDeclarations = [
   TeachingsComponent,
   XjsonComponent,
   SearchComponent,
-  ConfirmPopupDialog
+  ConfirmPopupDialog,
+  SideMenuComponent
 ];
 
 export const AppEntryComponents = [
