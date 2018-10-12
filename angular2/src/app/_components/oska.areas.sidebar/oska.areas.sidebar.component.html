@@ -34,8 +34,9 @@
     <ul class="link-list mt-0 mb-0">
       <ng-container *ngFor="let item of sidebar.fieldOskaMainProfession; let ind = index;">
         <li *ngIf="ind < limits['professions']">
-          <a href="javascript:void(0)" [routerLink]="item.entity.entityUrl.path" attr.aria-label="{{item.entity.entityLabel}}" class="link">
-            <span><span class="htm-icon">link</span>{{item.entity.entityLabel}}</span>
+          <a href="javascript:void(0)" [routerLink]="item.entity.entityUrl.path" attr.aria-label="{{item.entity.entityLabel}}" class="link related">
+            <div><span class="htm-icon">link</span></div>
+            <div>{{item.entity.entityLabel}}</div>
           </a>
         </li>
       </ng-container>
@@ -44,6 +45,12 @@
       <hr>
       <div class="showMore">
         <a href="javascript:void(0)" (click)="showMore('professions', 'fieldOskaMainProfession')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaMainProfession.length - limits['professions']}})</span></a>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!typeStatus['professions'] && sidebar.fieldOskaMainProfession.length > generalLimiter" >
+      <hr>
+      <div class="showMore">
+        <a href="javascript:void(0)" (click)="hideExtra('professions', 'fieldOskaMainProfession')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldOskaMainProfession.length - generalLimiter}})</span></a>
       </div>
     </ng-container>
   </div>
@@ -71,6 +78,12 @@
         <a href="javascript:void(0)" (click)="showMore('quickFind', 'fieldOskaFieldQuickFind')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaFieldQuickFind.length - limits['quickFind']}})</span></a>
       </div>
     </ng-container>
+    <ng-container *ngIf="!typeStatus['quickFind'] && sidebar.fieldOskaFieldQuickFind.length > generalLimiter" >
+      <hr>
+      <div class="showMore">
+        <a href="javascript:void(0)" (click)="hideExtra('quickFind', 'fieldOskaFieldQuickFind')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldOskaFieldQuickFind.length - generalLimiter}})</span></a>
+      </div>
+    </ng-container>
   </div>
 </div>
 <!-- / sidebar.fieldOskaFieldQuickFind / -->
@@ -96,6 +109,12 @@
         <a href="javascript:void(0)" (click)="showMore('relatedPages', 'fieldRelatedPages')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldRelatedPages.length - limits['relatedPages']}})</span></a>
       </div>
     </ng-container>
+    <ng-container *ngIf="!typeStatus['relatedPages'] && sidebar.fieldRelatedPages.length > generalLimiter">
+      <hr>
+      <div class="showMore">
+        <a href="javascript:void(0)" (click)="hideExtra('relatedPages', 'fieldRelatedPages')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldRelatedPages.length - generalLimiter}})</span></a>
+      </div>
+    </ng-container>
   </div>
 </div>
 <!-- / sidebar.fieldRelatedPages / -->
@@ -106,12 +125,12 @@
     <div role="text" attr.aria-label="{{'event.organizer' | translate}}">{{sidebar.fieldOskaFieldContact.entity.fieldOrganization}}</div>
     <div role="text" attr.aria-label="{{'event.person' | translate}}">{{sidebar.fieldOskaFieldContact.entity.fieldPerson}}</div>
     <div>
-      <a attr.aria-label="{{'event.phone | translate'}}" href="tel:{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}" class="sm-show">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</a>
+      <a attr.aria-label="{{'event.phone | translate'}}" href="tel:{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}" class="sm-show hoverLined">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</a>
     </div>
     <div class="sm-hide">
       <span role="text" attr.aria-label="{{'event.phone' | translate}}">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</span>
     </div>
-    <div><a attr.aria-label="{{'event.participant_email' | translate}}" href="mailto:{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}" alt="">{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}</a></div>
+    <div><a class="hoverLined" attr.aria-label="{{'event.participant_email' | translate}}" href="mailto:{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}" alt="">{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}</a></div>
   </div>
 </div>
 <!-- / sidebar.fieldOskaFieldContact / -->

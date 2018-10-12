@@ -9,10 +9,11 @@ import { Component, Input, OnInit} from '@angular/core';
 export class OskaAreasSidebarComponent implements OnInit {
   
   @Input() sidebar: any;
+  private generalLimiter: number = 5;
   private limits: any = {
-    professions: 5,
-    relatedPages: 5,
-    quickFind: 5
+    professions: this.generalLimiter,
+    relatedPages: this.generalLimiter,
+    quickFind: this.generalLimiter
   };
   private typeStatus: any = {
     professions: null,
@@ -31,6 +32,11 @@ export class OskaAreasSidebarComponent implements OnInit {
   showMore(type, compare) {
     this.limits[type] = this.sidebar[compare].length;
     this.typeStatus[type] = false;
+  }
+
+  hideExtra(type, compare) {
+    this.limits[type] = this.generalLimiter;
+    this.typeStatus[type] = true;
   }
   
   isContactValid() {
