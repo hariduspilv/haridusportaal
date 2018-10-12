@@ -1,0 +1,19 @@
+uuid: eea2f9fa-3508-4962-8c99-f4f6876d0669
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_survey_accordion_title
+    - paragraphs.paragraphs_type.survey_page_accordion
+id: paragraph.survey_page_accordion.field_survey_accordion_title
+field_name: field_survey_accordion_title
+entity_type: paragraph
+bundle: survey_page_accordion
+label: 'Survey accordion title'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

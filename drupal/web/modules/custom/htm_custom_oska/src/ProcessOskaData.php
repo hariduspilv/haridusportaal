@@ -147,22 +147,27 @@ class ProcessOskaData {
 
     public function addTaxonomyTerm($entity_type, $vocabulary, $name){
 
-        $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
+        if($name != ''){
+            $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
 
-        $properties = [
-            'vid' => $vocabulary,
-            'name' => $name
-        ];
-
-        $entity = reset($storage->loadByProperties($properties));
-        if(!$entity){
-            $entity = Term::create([
-                'name' => $name,
+            $properties = [
                 'vid' => $vocabulary,
-            ]);
-            $entity->save();
+                'name' => $name
+            ];
+
+            $entity = reset($storage->loadByProperties($properties));
+            if(!$entity){
+                $entity = Term::create([
+                    'name' => $name,
+                    'vid' => $vocabulary,
+                ]);
+                $entity->save();
+            }
+
+            return ($entity) ? $entity->id() : FALSE;
+        }else{
+            return FALSE;
         }
-        return ($entity) ? $entity->id() : '';
     }
 
     public function checkTaxonomyTerm($entity_type, $vocabulary, $name){

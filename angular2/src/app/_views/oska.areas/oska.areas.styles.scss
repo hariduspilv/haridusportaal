@@ -1,8 +1,9 @@
 @import "../../../assets/styles/typography.scss"; 
 
-.short{font-weight: bold; padding:0 0 1rem 0;}
+.short{font-weight: 500; padding:0 0 1rem 0;}
+.short, .description{line-height:1.375rem;}
 
-.mat-expansion-panel { box-shadow: none !important;border: .0625rem solid $aqua; border-radius: .125rem; border-left: .1875rem solid $aqua; margin-bottom: $half-gutter; background:$aqua;
+.mat-expansion-panel { box-shadow: none !important;border: .0625rem solid $aqua; border-radius: .125rem; border-left: .1875rem solid $aqua; margin-bottom: $half-gutter;
   &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid $light-blue; background:$white;
     mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
@@ -10,9 +11,9 @@
   }
   &-body { padding: 0 1rem 1rem }
   &-spacing {margin: 0 0 $half-gutter 0;}
-  &-header { height: 2.5rem !important;padding: 0 1.25rem;
+  &-header { height: auto !important; padding: 0.5rem 1.25rem; background:$aqua !important;
     &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
-    &.mat-expanded { height: 2.5rem!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0 1.25rem; background:$white;}}
+    &.mat-expanded { margin-top: 0;font-weight: 500;white-space: normal; background:$white !important;}}
     &:hover {
       border-left: .1875rem solid $light-blue;
       ::ng-deep .mat-expansion-indicator{ background: $blue;
@@ -48,12 +49,18 @@ font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1
 .tags{padding-left:0;}
 
 ::ng-deep .padding-block{
+  share{margin-left:0; margin-bottom:-0.1rem !important;}
   .share__wrapper{
     @include break-on(sm, max) {right:0 !important;}
   }
   .row.video{padding:0 0 1rem 0 !important;
     .video-alt-text{padding-bottom:0.2rem;}
 
+  }
+  @include break-on(sm, max) {
+    .row.video{margin-left:-2rem !important; margin-right:-2rem !important;
+      .video-alt-text{padding-left:1.5rem; padding-right:1.5rem;}
+    }
   }
 }
 
@@ -73,4 +80,23 @@ h1{color:$black; font-size:1.5rem; line-height:125%; margin:0;}
   }
   .htm-icon{font-size:1.375rem; display:inline-block; text-decoration: none; vertical-align: middle; margin-right:0.3125rem;}
   li:last-child a{margin-bottom:0;}
+}
+
+::ng-deep table{width:100%; border-collapse: collapse; border:$gray 1px solid;
+  caption{font-size: 0.875rem; color:$black; font-style: italic; font-weight: 300; padding:0 0 $small 0; text-align:left;}
+  td, th{text-align:left; padding:0.625rem 1rem;  border:$gray 1px solid;
+    p:first-child{margin-top:0;}
+    p:last-child{margin-bottom:0;}
+  }
+  thead{
+    th{background:$light-gray; background:$light-gray;}
+  }
+}
+
+@include break-on(sm, max) {
+  .padding-block{
+    .article-image{margin-left:-1.5rem; margin-right:-1.5rem;}
+    .accordion{margin-left:-1.5rem; margin-right:-1.5rem;}
+  }
+
 }

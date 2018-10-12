@@ -13,7 +13,7 @@ export class OskaAreasComponent implements OnInit{
   data: any = false;
   video: any = false;
   error: boolean = false;
-
+  compareButton: boolean = false;
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
@@ -36,10 +36,10 @@ export class OskaAreasComponent implements OnInit{
   getData(){
     let url = "/graphql?queryId=oskaFieldDetailView:1&variables=";
 
-    console.log(this.router.url);
+
     if( this.router.url.match(/pohikutsealad|sectors/ ) ){
       url = "/graphql?queryId=oskaMainProfessionDetailView:1&variables=";
-      console.log("match");
+      this.compareButton = true;
     }
 
     let variables = {
@@ -59,12 +59,8 @@ export class OskaAreasComponent implements OnInit{
 
       this.setLangLinks(data);
 
-      if( this.data.fieldOskaVideo ){
-        this.video = [this.data.fieldOskaVideo];
-      }
-      else if( this.data.fieldOskaMainProfessionVideo	 ){
-        this.video = [this.data.fieldOskaMainProfessionVideo];
-      }
+      subscription.unsubscribe();
+
     });
   }
 

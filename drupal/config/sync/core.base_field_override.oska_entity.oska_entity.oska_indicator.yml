@@ -1,0 +1,20 @@
+uuid: 26573f0f-d713-42e6-bdc6-e079e3f388b8
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+id: oska_entity.oska_entity.oska_indicator
+field_name: oska_indicator
+entity_type: oska_entity
+bundle: oska_entity
+label: 'Oska indicator'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference
