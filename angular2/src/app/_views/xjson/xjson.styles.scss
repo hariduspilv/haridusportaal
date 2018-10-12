@@ -166,7 +166,7 @@ a {
       .tooltip { margin-top: 0.5rem; }
     }
     &.table-wrapper { 
-      .tooltip { margin-top: rem; }
+      .tooltip { margin-top: 0rem; }
     }
   }
   .round-input__wrapper { width: 100%; }
@@ -236,7 +236,7 @@ a {
     .custom-checkbox { text-align: center; }
     .mat-datepicker-toggle { margin-top: -0.1875rem; }
     .round-input__wrapper { display: table-row-group; }
-  
+    
     .round-input__field-wrapper { margin-top: 0; height: 2rem; border-radius: 0.25rem; min-width: 10rem; background-color: $white; border: solid 0.0625rem $gray; color: $black; font-family: 'Rubik', sans-serif;
       input {  padding: 0.5rem 0.375rem; font-weight: 400; }
     }
@@ -247,8 +247,21 @@ a {
   .scrollable { padding: $small 0 $gutter 0; }
   .mat-input-element:disabled { color: $dark-gray; }
   .table-link { white-space: nowrap; }
-
-::ng-deep table .mat-select-value-text { margin-top: 0.4rem; display: block; }
-// ::ng-deep input:disabled { background: $light-gray!important; }
-// ::ng-deep table input:disabled { background: $white!important; }
-.helper-wrapper { width: 1.5rem }
+  
+  ::ng-deep table .mat-select-placeholder { margin-top: 0.4rem; display: block; }
+  ::ng-deep table .mat-select-value-text { margin-top: 0.4rem; display: block; }
+  .helper-wrapper { width: 1.5rem }
+  
+  // Select Checkboxes
+  
+  ::ng-deep .mat-select-content {
+    .mat-pseudo-checkbox {
+    background: $white;
+      background: $white; border: 0.0625rem solid $gray; border-radius: 0.125rem; }
+    .mat-pseudo-checkbox.mat-pseudo-checkbox-checked { 
+      background: $white; border: 0.0625rem solid $gray; border-radius: 0.125rem; 
+    }
+    .mat-pseudo-checkbox:after { 
+      color: $blue; 
+    }
+  }
