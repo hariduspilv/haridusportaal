@@ -46,7 +46,9 @@
 font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
 
-.tags{padding-left:0;}
+.tags{padding-left:0;
+  .mat-chip-list .mat-chip{cursor: default !important;}
+}
 
 ::ng-deep .padding-block{
   share{margin-left:0; margin-bottom:-0.1rem !important;}
@@ -80,16 +82,17 @@ h1{color:$black; font-size:1.5rem; line-height:125%; margin:0;}
   }
   .htm-icon{font-size:1.375rem; display:inline-block; text-decoration: none; vertical-align: middle; margin-right:0.3125rem;}
   li:last-child a{margin-bottom:0;}
+  &+video-component{margin-top:1rem;}
 }
 
 ::ng-deep table{width:100%; border-collapse: collapse; border:$gray 1px solid;
-  caption{font-size: 0.875rem; color:$black; font-style: italic; font-weight: 300; padding:0 0 $small 0; text-align:left;}
-  td, th{text-align:left; padding:0.625rem 1rem;  border:$gray 1px solid;
+  caption{font-size: 1rem; color:$black; font-weight: 500; padding:0 0 0.5rem 0; text-align:left;}
+  td, th{text-align:left; padding:0.625rem 1rem;  border:$gray 1px solid; font-size:0.875rem; line-height:135%;
     p:first-child{margin-top:0;}
     p:last-child{margin-bottom:0;}
   }
   thead{
-    th{background:$light-gray; background:$light-gray;}
+    th{background:$light-gray; background:$light-gray; font-size:0.875rem; font-weight: 500;}
   }
 }
 
