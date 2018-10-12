@@ -67,8 +67,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public error = {};
 
   public autoCompleteContainer = {};
-  public autocompleteDebouncer;
-  public autocompleteSubscription: Subscription;
+  public autocompleteDebouncer = {};
+  public autocompleteSubscription = {};
   public autocompleteLoader: boolean = true;
 
   constructor(
@@ -113,7 +113,142 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
- 
+
+  fillAddressFieldsTemporaryModel(data_elements){
+    Object.keys(data_elements).forEach(element => {
+      if(data_elements[element].type === 'address' && data_elements[element].value){
+
+        if(typeof data_elements[element].value === 'object'){
+          if(data_elements[element].value.addressHumanReadable) {
+            this.autoCompleteContainer[element] = [data_elements[element].value];
+            this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value.addressHumanReadable))
+      
+          } else {
+            data_elements[element].value = null;
+          }
+        } else if (typeof data_elements[element].value === 'string'){
+          this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value))
+          this.addressAutocomplete(data_elements[element].value, 0, element, true);
+        }
+      }
+    });
+  }
+
+  addressAutocompleteSelectionValidation(element){
+    if(this.autoCompleteContainer[element] ===  undefined) return this.temporaryModel[element] = null;
+    
+    let match = this.autoCompleteContainer[element].find(address => {
+      return address.addressHumanReadable == this.temporaryModel[element]
+    })
+    
+    if(!match) {
+      console.log('no match for', element)
+      this.temporaryModel[element] = null;
+      this.data_elements[element].value = null;
+      this.autoCompleteContainer[element] = undefined;
+    }
+    else {
+      console.log('nice match for', element)
+      this.data_elements[element].value = this.inAdsFormatValue(match)
+    }
+  }
+
+  addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false) {
+    if(searchText.length < 3) return;
+
+    
+
+    if(this.autocompleteDebouncer[element]) clearTimeout(this.autocompleteDebouncer[element])
+    
+    if(this.autocompleteSubscription[element] !== undefined) {
+      this.autocompleteSubscription[element].unsubscribe();
+    }
+  
+    let _this = this;
+    let limit = this.data_elements[element].results || 10;
+    let ihist = this.data_elements[element].ihist || 0;
+    let apartment = this.data_elements[element].appartment || 0;
+    
+    this.autocompleteDebouncer[element] = setTimeout(function(){
+      _this.autocompleteLoader = true;
+      let url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist='+ ihist +'&appartment='+ apartment +'&address=' + searchText + '&results='+ limit + '&callback=JSONP_CALLBACK';
+      let jsonp = _this._jsonp.get(url).map(function(res){
+        return res.json() || {};
+      }).catch(function(error: any){return Observable.throw(error)});
+    
+      _this.autocompleteSubscription[element] = jsonp.subscribe(data => {
+        if(data['error']) console.log('Something went wrong with In-ADS request')
+
+        _this.autocompleteLoader = false;
+        _this.autoCompleteContainer[element] = data['addresses'] || [];
+
+        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 != '0000' || address.kood7 != '0000'))
+        
+        _this.autoCompleteContainer[element].forEach(address => {
+          if(address.kort_nr){
+            address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
+          } else {
+            address.addressHumanReadable = address.pikkaadress;
+          }
+        })
+
+        if(autoselectOnMatch === true){
+          _this.addressAutocompleteSelectionValidation(element);
+        }
+
+        _this.autocompleteSubscription[element].unsubscribe();
+      })  
+
+    }, debounceTime)
+
+  }
+
+  inAdsFormatValue(address){
+    if(address.apartment != undefined) return address;
+
+    return {
+      "adr_id" : address.adr_id,
+      "ads_oid" : address.ads_oid,
+      "addressCoded" : address.koodaadress,
+      "county" : address.maakond,
+      "countyEHAK" : address.ehakmk,
+      "localGovernment" : address.omavalitsus,
+      "localGovernmentEHAK" : address.ehakov,
+      "settlementUnit" : address.asustusyksus,
+      "settlementUnitEHAK" : address.ehak,
+      "address" : address.aadresstekst,
+      "apartment" : address.kort_nr,
+      "addressHumanReadable" : address.addressHumanReadable
+      }
+  }
+
+  scrollPositionController(){
+    let _opened_step = this.opened_step;
+    setTimeout(function(){
+      if(_opened_step){
+        if(window.pageYOffset > 0){
+          try { 
+            window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
+          } catch (e) {
+            window.scrollTo(0, 0);
+          }
+          try { 
+            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+          } catch (e) {
+            document.querySelector('#' + _opened_step).scrollIntoView();
+          }
+          
+        } else {
+          try { 
+            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+          } catch (e) {
+            document.querySelector('#' + _opened_step).scrollIntoView();
+          }
+        }
+      }
+    }, 0)
+  }
+
   setDatepickerValue(event, element, rowindex, col){
     
     if(this.datepickerFocus === false){
@@ -260,7 +395,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
      }
      this.dialogRef = null;
    });
- }
+  }
+
   promptEditConfirmation() {
 		 this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
 		  data: {
@@ -280,6 +416,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.dialogRef = null;
     });
   }
+
   isItemExisting(list, target): boolean{
     return list.some(item => item == target);
   }
@@ -326,34 +463,34 @@ export class XjsonComponent implements OnInit, OnDestroy {
   isValidField(field){
     //check for required field
     if(field.required === true){
-      if(field.value === undefined) return {valid: false, message: 'Puudub kohustuslik väärtus'}
+      if(field.value === undefined) return {valid: false, message: this.translate.get('xjson.missing_required_value')['value']}
       //else if (!field.value) return {valid: false, message: 'Puudub kohustuslik väärtus'}
     }
     //check for minlength
     if(field.minlength !== undefined){
-      if(field.value.length < field.minlength) return {valid: false, message: 'Väärtuse minimaalne lubatud pikkus on ' + field.minlength }
+      if(field.value.length < field.minlength) return {valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }
     }
     //check for maxlength
     if(field.maxlength !== undefined){
-      if(field.value.length > field.maxlength) return {valid: false, message: 'Väärtuse maksimaalne lubatud pikkus on ' + field.maxlength }
+      if(field.value.length > field.maxlength) return {valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength }
     }
     //check for min
     if(field.min !== undefined){
       if(field.required === true){
-        if(field.value < field.min) return {valid: false, message: 'Minimaalne lubatud väärtus on ' + field.min }
+        if(field.value < field.min) return {valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min }
       }
     }
     //check for max
     if(field.max !== undefined){
       if(field.required === true){
-        if(field.value > field.max) return {valid: false, message: 'Maximaalne lubatud väärtus on ' + field.max }
+        if(field.value > field.max) return {valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max }
       }
     }
     //check for email format
     if(field.type === 'email'){
       if(field.required === true){
         let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if(reg.test(field.value) === false) return {valid: false, message: 'Palun sisesta sobilik email' }
+        if(reg.test(field.value) === false) return {valid: false, message: this.translate.get('xjson.enter_valid_email')['value']  }
       }
     }
     return {valid: true, message:'valid'};
@@ -421,7 +558,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   errorHandler(message){
     console.log('DEBUG_ERROR: ', message);
-    alert('DEBUG_ERROR: ' + message);
   }
 
   selectStep(step){
@@ -477,21 +613,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
     });
 
   }
+
   setMaxStep(xjson){
-   
     if(!Object.keys(xjson['body']['steps']).length){
-      //Any steps available?
       return this.errorHandler('No steps available');
-      
     } else if(Object.keys(xjson['body']['steps']).some(step => step == xjson['header']['current_step']) == false){
-       //current step does not exist?
       this.max_step = Object.keys(xjson['body']['steps'])[0];
     } else {
-
       this.max_step = xjson['header']['current_step'];
     }
-    
   }
+
   getData(data){
     
     if(this.test) {
@@ -526,7 +658,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
           return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE')
         }
       }
-     
       this.stepController(response)
 
       subscription.unsubscribe();
@@ -535,136 +666,34 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   stepController(xjson){
-   
     this.opened_step = this.max_step;
-
     this.viewController(xjson);
   }
 
 
   viewController(xjson){
-    
     this.data = xjson;
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
-    
+
     //Concat. all message arrays and display them at all times
     this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
     
-
     if(!this.data_elements){
       let payload = {form_name: this.form_name, form_info: xjson}
      
       if(this.test === true) this.promptDebugDialog(payload)
       else this.getData(payload)
-     
+
     } else {
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
+
       this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity)
+      
+      this.fillAddressFieldsTemporaryModel(this.data_elements);
+
       this.scrollPositionController();
     }
-   
   }
-  
-  addressAutocompleteSelectionValidation(element){
-    
-    if(this.autoCompleteContainer[element] ===  undefined) return this.data_elements[element].value = null;
-    let _this = this;
-    let match = this.autoCompleteContainer[element].find(address => {
-      return address.addressHumanReadable === _this.temporaryModel[element]
-    })
-    if(!match) {
-      this.data_elements[element].value = null;
-    }
-    else this.data_elements[element].value = this.inAdsFormatValue(match)
-  }
-  addressAutocomplete(searchText: string, debounceTime: number = 300, element) {
-   
-    if(searchText.length < 3) return;
-
-    this.autocompleteLoader = true;
-
-    if(this.autocompleteDebouncer) clearTimeout(this.autocompleteDebouncer)
-    
-    if(this.autocompleteSubscription) this.autocompleteSubscription.unsubscribe();
-  
-    let _this = this;
-    let limit = this.data_elements[element].results || 10;
-    let ihist = this.data_elements[element].ihist || 0;
-    let apartment = this.data_elements[element].appartment || 0;
-
-    this.autocompleteDebouncer = setTimeout(function(){
-        
-      let url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist='+ ihist +'&appartment='+ apartment +'&address=' + searchText + '&results='+ limit + '&callback=JSONP_CALLBACK';
-      let jsonp = _this._jsonp.get(url)
-      .map(function(res){
-        return res.json() || {};
-      }).catch(function(error: any){return Observable.throw(error)});
-    
-      _this.autocompleteSubscription = jsonp.subscribe(data => {
-        if(data['error']) console.log('Something went wrong with In-ADS request')
-
-        _this.autocompleteLoader = false;
-        _this.autoCompleteContainer[element] = data['addresses'] || [];
-
-        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 != '0000' || address.kood7 != '0000'))
-        
-        _this.autoCompleteContainer[element].forEach(address => {
-          if(address.kort_nr){
-            address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
-          } else {
-            address.addressHumanReadable = address.pikkaadress;
-          }
-        })
-        _this.autocompleteSubscription.unsubscribe();
-      })  
-
-    }, debounceTime)
-
-  }
-  inAdsFormatValue(address){
-    return {
-      "adr_id" : address.adr_id,
-      "ads_oid" : address.ads_oid,
-      "addressCoded" : address.koodaadress,
-      "county" : address.maakond,
-      "countyEHAK" : address.ehakmk,
-      "localGovernment" : address.omavalitsus,
-      "localGovernmentEHAK" : address.ehakov,
-      "settlementUnit" : address.asustusyksus,
-      "settlementUnitEHAK" : address.ehak,
-      "address" : address.aadresstekst,
-      "apartment" : address.kort_nr,
-      "addressHumanReadable" : address.addressHumanReadable
-      }
-  }
-  
-  scrollPositionController(){
-    let _opened_step = this.opened_step;
-    setTimeout(function(){
-      if(_opened_step){
-        if(window.pageYOffset > 0){
-          try { 
-            window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
-          } catch (e) {
-            window.scrollTo(0, 0);
-          }
-          try { 
-            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-          } catch (e) {
-            document.querySelector('#' + _opened_step).scrollIntoView();
-          }
-          
-        } else {
-          try { 
-            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-          } catch (e) {
-            document.querySelector('#' + _opened_step).scrollIntoView();
-          }
-        }
-      }
-    }, 0)
-  }
-  
 
   ngOnInit(){
     this.pathWatcher();
@@ -673,6 +702,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(this.test === true) {
       this.promptDebugDialog(payload)
     } else {
+      //TODO: create catcher to prevent endless loop requests...
       this.getData(payload);
     }
   };

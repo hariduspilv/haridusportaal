@@ -1,0 +1,7 @@
+htm_custom_xjson_services.x_json_controller_hello:
+  path: '/toolaud/taotlused/{form_name}'
+  defaults:
+    _controller: '\Drupal\htm_custom_xjson_services\Controller\xJsonController::hello'
+    _title: 'Dymanic title'
+  requirements:
+    _user_is_logged_in: 'TRUE'
