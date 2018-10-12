@@ -14,13 +14,15 @@ export class OskaAreasComponent implements OnInit{
   video: any = false;
   error: boolean = false;
   compareButton: boolean = false;
+  viewType : string;
+
   constructor(
     private http: HttpService,
     private route: ActivatedRoute,
     private router: Router,
     private rootScope: RootScopeService
   ) {
-
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   setLangLinks(data){
@@ -36,10 +38,16 @@ export class OskaAreasComponent implements OnInit{
   getData(){
     let url = "/graphql?queryId=oskaFieldDetailView:1&variables=";
 
+    this.viewType = "field";
 
     if( this.router.url.match(/pohikutsealad|sectors/ ) ){
+      this.viewType = "mainProfession";
       url = "/graphql?queryId=oskaMainProfessionDetailView:1&variables=";
       this.compareButton = true;
+    }
+    else if( this.router.url.match(/ulduuringud|survey-pages/ ) ){
+      this.viewType = "surveyPage";
+      url = "/graphql?queryId=oskaSurveyPageDetailView:1&variables=";
     }
 
     let variables = {
@@ -50,7 +58,6 @@ export class OskaAreasComponent implements OnInit{
 
     let subscription = this.http.get(url).subscribe( (data) => {
       if ( data['data']['route'] == null ) {
-        console.log("Error loading data");
         this.error = true;
         return false;
       }else{

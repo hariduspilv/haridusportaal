@@ -103,8 +103,8 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
           });
         };
       })
-      this.oskaFieldsArr = Array(this.oskaFieldsMaxLength+1).fill(0).map((x,i)=>i);
-      this.termFieldsArr = Array(this.termFieldsMaxLength+1).fill(0).map((x,i)=>i);
+      this.oskaFieldsArr = this.oskaFieldsMaxLength ? Array(this.oskaFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
+      this.termFieldsArr = this.termFieldsMaxLength ? Array(this.termFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
       this.list = data;
       if(!this.list.length) {
         this.rerouteToParent();

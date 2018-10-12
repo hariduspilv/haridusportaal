@@ -59,12 +59,12 @@ const appRoutes: Routes = [
   { path: ':lang/study-programmes', component: StudyProgrammeComponent},
   { path: ':lang/study-programmes/:id', component: StudyProgrammeSingleComponent},
 
-  {path: ':lang/xjson/:form_name', component: XjsonComponent},
-
   { path: ':lang/toolaud/tunnistused/:id', component: CertificatesDetailedComponent},
   { path: ':lang/dashboard/certificates/:id', component: CertificatesDetailedComponent},
   { path: ':lang/toolaud/opetan/:type', component: TeachingsDetailedComponent},
   { path: ':lang/dashboard/teachings/:type', component: TeachingsDetailedComponent},
+  {path: ':lang/dashboard/applications/:form_name', component: XjsonComponent},
+  {path: ':lang/toolaud/taotlused/:form_name', component: XjsonComponent},
 
   { path: ':lang/dashboard', component: DashboardComponent,
     children: [
@@ -91,6 +91,9 @@ const appRoutes: Routes = [
   { path: ':lang/pohikutsealad', component:OskaProfessionsComponent},
   { path: ':lang/pohikutsealad/:id', component: OskaAreasComponent },
   { path: ':lang/sectors/:id', component:OskaAreasComponent},
+
+  { path: ':lang/ulduuringud/:id', component:OskaAreasComponent},
+  { path: ':lang/survey-pages/:id', component:OskaAreasComponent},
   
   { path: ':lang/otsing', component: SearchComponent },
   { path: ':lang/search', component: SearchComponent },

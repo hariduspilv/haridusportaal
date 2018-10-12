@@ -1,4 +1,4 @@
-
+<breadcrumbs></breadcrumbs>
 <div class="main-container">
   <div class="row">
     <div class="col-8 sm-12">
@@ -234,24 +234,29 @@
                   </ng-container> <!-- /NUMBER -->
 
                   <ng-container *ngIf="data_elements[element].type == 'address'">
-                    <div class="round-input__wrapper" [class.complete]="data_elements[element].value != undefined">
+                    <div class="round-input__wrapper" [class.complete]="temporaryModel[element]">
                       <span class="round-input__title">
                         {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
                       </span>
                       <div class="round-input__field-wrapper">
                         <input class="round-input__field" type="text" [(ngModel)]="temporaryModel[element]"
-                          (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)" (blur)="addressAutocompleteSelectionValidation(element)"
+                          placeholder="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
+                          (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
+                          (blur)="addressAutocompleteSelectionValidation(element)"
                           [name]="element" [matAutocomplete]="autoAddress">
                       </div>
                     </div>
                     <mat-autocomplete #autoAddress="matAutocomplete" [(ngModel)]="data_elements[element].value">
+                        <mat-option *ngIf="autocompleteLoader" [value]="" disabled="true">
+                          <span>{{'xjson.searching_please_wait' | translate }}</span>
+                        </mat-option>
                       <ng-container *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
                         <mat-option *ngIf="!autoCompleteContainer[element].length" [value]="" disabled="true">
                           <span>{{'xjson.address_not_found' | translate }}</span>
                         </mat-option>
-                        <ng-container *ngIf="autoCompleteContainer[element].length">
+                        <ng-container *ngIf="autoCompleteContainer[element].length > 0">
                           <mat-option *ngFor="let address of autoCompleteContainer[element]" [value]="address.addressHumanReadable">
-                            <span>{{address.addressHumanReadable }}</span>
+                            <span>{{ address.addressHumanReadable }}</span>
                           </mat-option>
                         </ng-container>
                       </ng-container>
@@ -306,9 +311,6 @@
                             <a class="file-name" [href]="fileDownloadlink(file.file_identifier)" target="_blank">
                               {{ file.file_name }}
                             </a>
-                            <ng-container *ngIf="data_elements[element].multiple == false">
-
-                            </ng-container>
                             <a class="close-icn" href="javascript:void(0)" [class.disabled]="isFieldDisabled(data_elements[element].readonly)"
                               (click)="fileDelete(file.file_identifier, data_elements[element])"><span class="htm-icon">close</span></a>
                           </div>
@@ -437,14 +439,14 @@
                                   </mat-select>
                                 </ng-container> <!-- /SELECTLIST -->
 
-                                <ng-container *ngIf="error[element]">
-                                  <!-- START OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
+                                <ng-container *ngIf="error[element]"> <!-- START OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
                                   <ng-container *ngIf="error[element].row == rowIndex && error[element].column == col">
                                     <div class="error">
                                       {{ error[element].message }}
                                     </div>
                                   </ng-container>
                                 </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
+
                               </td>
                             </ng-container> <!-- END OF *NGFOR COLUMNS-->
 
