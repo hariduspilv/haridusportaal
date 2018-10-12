@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
-import { ListQuery, OptionsQuery } from '@app/_graph/school.graph';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
-import { HttpService } from '@app/_services/httpService';
 
 import { of } from 'rxjs/observable/of';
 
@@ -14,6 +12,8 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
 import { RootScopeService } from '@app/_services/rootScopeService';
+
+import { HttpService } from '@app/_services/httpService';
 
 /* Datepicker Imports */
 import * as _moment from 'moment';
@@ -97,7 +97,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     private apollo: Apollo,
     private cdr: ChangeDetectorRef,
     private http: HttpService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     super(null, null);
   }
@@ -255,7 +255,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
     this.loading = true;
 
-
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
@@ -268,10 +267,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       }
     }
     
-    let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=schoolMapQuery:1&variables=";
-    if (window.location.host === ('test.edu.ee')) {
-      url = "https://api.test.edu.ee/graphql?queryId=schoolMapQuery:1&variables=";
-    }
+    let url = "/graphql?queryId=schoolMapQuery:1&variables=";
+
     let variables = {
       lang: this.lang.toUpperCase(),
       offset: this.offset,
@@ -318,14 +315,15 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   }
 
   getOptions() {
-    let subscription = this.apollo.watchQuery({
-      query: OptionsQuery,
-      variables: {
-        "lang": this.lang.toUpperCase()
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'none',
-    }).valueChanges.subscribe( ({data}) => {
+
+    let url = "/graphql?queryId=getSchoolFilterOptions:1&variables=";
+
+    let variables = {
+      lang: this.lang.toUpperCase()
+    };
+
+    let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+      let data = response['data'];
       let entities = data['taxonomyTermQuery']['entities'];
       this.parseOptions(entities);
 

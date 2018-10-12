@@ -1,0 +1,33 @@
+uuid: 53038cac-93cf-4213-8423-c184d39d4a14
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: ulduuringud_pattern_est
+label: 'Ülduuringud pattern EST'
+type: 'canonical_entities:node'
+pattern: 'ulduuringud/[node:title]'
+selection_criteria:
+  eacbee63-775a-4fa9-a4b8-03204ad1358d:
+    id: node_type
+    bundles:
+      oska_survey_page: oska_survey_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: eacbee63-775a-4fa9-a4b8-03204ad1358d
+  70872782-9e9d-4c89-94ee-6cee2b8f1ee8:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 70872782-9e9d-4c89-94ee-6cee2b8f1ee8
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel

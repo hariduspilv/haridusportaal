@@ -1,4 +1,4 @@
-uuid: 20d45605-8032-4558-8fe4-6921dbb5c1f9
+uuid: 696f5f97-bd26-43bf-b30c-b228df85cd14
 langcode: et
 status: true
 dependencies:
@@ -13,7 +13,7 @@ settings:
   target_type: oska_entity
 module: htm_custom_oska
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

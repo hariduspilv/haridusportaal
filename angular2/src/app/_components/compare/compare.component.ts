@@ -30,11 +30,13 @@ export class CompareComponent implements OnInit, OnDestroy{
   }
   compareTranslationOptions = {
     "studyProgramme.compare": {
+      added: "studyProgramme.added_to_comparison",
       title: "studyProgramme.compare_modal_title",
       content: "studyProgramme.compare_modal_content",
       close: "studyProgramme.compare_modal_close",
     },
     "oskaProfessions.compare": {
+      added: "oskaProfessions.added_to_comparison",
       title: "oskaProfessions.compare_modal_title",
       content: "oskaProfessions.compare_modal_content",
       close: "oskaProfessions.compare_modal_close",
@@ -114,7 +116,7 @@ export class CompareComponent implements OnInit, OnDestroy{
   }
   openCompareSnackbar() {
     if (this.viewLink && this.compare.length) {
-      let message = `${this.translate.get('studyProgramme.added_to_comparison')['value']}`;
+      let message = `${this.translate.get(this.compareTranslationOptions[this.localStorageKey].added)['value']}`;
       let action = `${this.translate.get('button.see_comparison')['value']}`;
       let snackBarRef = this.snackbar.open(message, action, {
         duration: 600000,

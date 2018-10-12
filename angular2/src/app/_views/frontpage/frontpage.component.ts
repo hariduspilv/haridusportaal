@@ -3,7 +3,7 @@ import { RootScopeService, MetaTagsService, NewsService} from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Apollo } from 'apollo-angular';
-import { recentQuery } from '@app/_graph/events.graph';
+
 import { HttpService } from '@app/_services/httpService';
 @Component({
   templateUrl: './frontpage.component.html',

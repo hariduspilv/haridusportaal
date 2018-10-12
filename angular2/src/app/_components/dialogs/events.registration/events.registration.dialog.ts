@@ -3,9 +3,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { eventsRegister } from '@app/_graph/events.graph';
 import { SettingsService } from '@app/_core/settings';
-
+import { HttpService } from '@app/_services/httpService';
 @Component({
   selector: 'events-registration-dialog',
   templateUrl: 'events.registration.dialog.html',
@@ -33,7 +32,8 @@ export class EventsRegistratonDialog {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
     public route: ActivatedRoute,
-    public settings: SettingsService
+    public settings: SettingsService,
+    private http: HttpService
   ) { }
   
   
@@ -54,8 +54,9 @@ export class EventsRegistratonDialog {
   
   save() {
     this.loader = true;
-    const register = this.apollo.mutate({
-      mutation: eventsRegister,
+
+    let data = { 
+      queryId: "postEventRegister:1",
       variables: {
         event_id: this.data.nid,
         lang: this.data.lang.toUpperCase(),
@@ -65,11 +66,11 @@ export class EventsRegistratonDialog {
         telephone: this.form.controls.telephone.value,
         email: this.form.controls.email.value,
         marked: this.form.controls.marked.value
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all'
-    })
-    .subscribe(({data}) => {
+      }
+    }
+
+    const register = this.http.post('/graphql', data).subscribe((response) => {
+      let data = response['data'];
 
       /*
         ERROR MESSAGES
