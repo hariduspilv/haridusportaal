@@ -49,7 +49,7 @@ use Drupal\user\UserInterface;
  *     "status" = "status",
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/x_json_entity/{x_json_entity}",
+ *     "canonical" = "/x_json_entity/{x_json_entity}",
  *     "add-form" = "/admin/structure/x_json_entity/add",
  *     "edit-form" = "/admin/structure/x_json_entity/{x_json_entity}/edit",
  *     "delete-form" = "/admin/structure/x_json_entity/{x_json_entity}/delete",
