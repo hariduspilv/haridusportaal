@@ -98,7 +98,7 @@
             <!-- <div class="studyProgramme__item__head sm-hide">{{ 'oskaProfessions.label' | uppercase }}</div> -->
             <span>
               <a href="javascript:void();" attr.aria-label="{{ item.title }}" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.title }}</h1></a>
-              <span class="important-pill" *ngIf="item.fieldFixedLabel">{{'fieldFixedLabel.label' | translate}}</span>
+              <span role="term" attr.aria-label="{{'fieldFixedLabel.label' | translate}}" class="important-pill" *ngIf="item.fieldFixedLabel">{{'fieldFixedLabel.label' | translate}}</span>
             </span>
           </div><!--col-9-->
           <div class="col sm-hide">
@@ -109,8 +109,10 @@
           <ng-container *ngIf="item.fieldSidebar">
             <ng-container *ngFor="let elem of item.fieldSidebar.entity.fieldOskaField; let ind = index; let last = last;">
               <ng-container *ngIf="ind < 3">
-                <span class="item"><a href="javascript:void(0)" attr.aria-label="{{ elem.entity.title }}" [routerLink]="elem.entity.entityUrl.path">{{ elem.entity.title }}</a></span>
-                <span class="bar" *ngIf="elem.entity.title && ind !== 2 && !last">|</span>
+                <div class="item item--inline">
+                  <a href="javascript:void(0)" tabindex="0" attr.aria-label="{{ elem.entity.title }}" [routerLink]="elem.entity.entityUrl.path">{{ elem.entity.title }}</a>
+                </div>
+                <span aria-hidden="true" class="bar" *ngIf="elem.entity.title && ind !== 2 && !last">|</span>
               </ng-container>
             </ng-container>
           </ng-container>
