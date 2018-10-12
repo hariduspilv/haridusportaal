@@ -19,3 +19,6 @@ h1 {color: $black;}
 a.hoverLined {text-decoration: none;
   &:hover {text-decoration: underline;}
 }
+a:hover {
+  .label {text-decoration: underline;}
+}
