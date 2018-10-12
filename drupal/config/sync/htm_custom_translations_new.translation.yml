@@ -1769,6 +1769,10 @@ oskaProfessions:
     translation_type: textarea
     et: Näitaja
     en: Indicator
+  added_to_comparison:
+    translation_type: textarea
+    et: 'Põhikutseala(d) lisatud võrdlusesse.'
+    en: 'Professions added to comparison.'
 fieldFixedLabel:
   label:
     translation_type: textarea
@@ -1791,9 +1795,18 @@ oska:
     translation_type: textarea
     et: 'Hõivatute arv'
     en: 'Employment rate'
-  prosAndCons:
+oskaProfession: {  }
+langcode: et
+sidebar:
+  similar_topics:
+    translation_type: textarea
+    et: 'Sarnased teemad'
+    en: 'Similar topics'
+  pros_and_cons:
     translation_type: textarea
     et: 'Plussid ja miinused'
     en: 'Pros and cons'
-oskaProfession: {  }
-langcode: et
+  find_quick:
+    translation_type: textarea
+    et: 'Leia kiiresti'
+    en: 'Find quick'
