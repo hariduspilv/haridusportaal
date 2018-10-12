@@ -40,7 +40,7 @@
         </ng-container>
         
 
-        <div [innerHTML]="data['body']['value']" attr.aria-label="{{'description' | translate}}" ></div>
+        <div [innerHTML]="data['body']['value']" attr.aria-label="{{'description' | translate}}" class="description" ></div>
 
         <ng-container *ngIf="data.fieldOskaWebPage || data.fieldOskaAttachmentFile">
           <ng-container *ngIf="data.fieldOskaWebPage.length > 0 || data.fieldOskaAttachmentFile.length > 0" class="external-links">
