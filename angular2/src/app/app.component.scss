@@ -199,6 +199,9 @@ $grid-columns: 12;
     a:hover {
       text-decoration: none;
     }
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      margin: 0;
+    }
   }
   .filter-control {padding: $medium;}
   .filter-wrapper {background: $white; padding: 0 $small; margin-bottom: $xxl;
@@ -349,6 +352,7 @@ $grid-columns: 12;
   .inline__items {padding-top: .375rem;
     .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;white-space: nowrap;
       a {white-space: pre-wrap;}
+      &--inline {display: inline;}
     }
   }
   .bar {padding: 0 $half-gutter;}
