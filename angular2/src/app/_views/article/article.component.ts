@@ -3,14 +3,13 @@ import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Params, Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService } from '../../_services';
-import { singleQuery } from '@app/_graph/article.graph';
-
 
 import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
 
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 import {VideoComponent} from '@app/_components/video/video.component';
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
   templateUrl: './article.component.html',
@@ -47,28 +46,27 @@ export class ArticleComponent implements OnInit, OnDestroy{
   articleLinks: any[];
   relatedArticles: any[];
   
-  constructor(private router: Router, private route: ActivatedRoute, private rootScope: RootScopeService, private apollo: Apollo) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private rootScope: RootScopeService,
+    private apollo: Apollo,
+    private http: HttpService
+    ) {}
   
   ngOnInit() {
     
     this.route.params.subscribe(
       (params: ActivatedRoute) => {
-        this.path = this.router.url;
         this.lang = params['lang'];
-        
-        this.querySubscription = this.apollo.watchQuery({
-          query: singleQuery,
-          variables: {
-            path: this.path,
-            lang: this.lang.toUpperCase(),
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all',
-        })
-        .valueChanges
-        .subscribe(({data, loading}) => {
-          
-          
+        let url = "/graphql?queryId=getArticle:1&variables=";
+        let variables = {
+          "path": this.router.url
+        };
+
+        this.querySubscription = this.http.get(url+JSON.stringify(variables))
+        .subscribe( (response) => {
+          let data = response['data'];
           //language service
           const langOptions = data['route']['languageSwitchLinks'];
           let langValues = {};
