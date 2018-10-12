@@ -46,8 +46,8 @@
 font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
 }
 
-.tags{padding-left:0;
-  .mat-chip-list .mat-chip{cursor: default !important;}
+.tags{padding-left:0; margin-bottom:-0.5rem;
+  .mat-chip-list .mat-chip{cursor: default !important; margin-bottom:0.5rem;}
 }
 
 ::ng-deep .padding-block{
