@@ -27,7 +27,7 @@ content:
     type: text_textarea
     region: content
   field_survey_accordion_graph:
-    weight: 3
+    weight: 11
     settings: {  }
     third_party_settings: {  }
     type: oska_graph_widget_type
@@ -50,6 +50,9 @@ content:
         maxlength_js: 50
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
     type: string_textfield
+    region: content
+  translation:
+    weight: 10
     region: content
 hidden:
   created: true
