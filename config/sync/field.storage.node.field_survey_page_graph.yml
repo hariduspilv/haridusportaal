@@ -1,12 +1,12 @@
-uuid: 9df105ce-2e26-4850-b5d8-448df6d1d403
+uuid: b33b16de-ce8d-4950-900c-ff264894989e
 langcode: et
 status: true
 dependencies:
   module:
     - htm_custom_oska
     - node
-id: node.field_essesee
-field_name: field_essesee
+id: node.field_survey_page_graph
+field_name: field_survey_page_graph
 entity_type: node
 type: oska_graph_field
 settings:

@@ -1,0 +1,20 @@
+uuid: 37efbe66-bf67-4da6-ab65-04abee5f84fb
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_field
+  module:
+    - path
+id: taxonomy_term.oska_field.path
+field_name: path
+entity_type: taxonomy_term
+bundle: oska_field
+label: 'URL-i alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

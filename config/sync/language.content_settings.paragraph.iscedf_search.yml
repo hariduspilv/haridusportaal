@@ -1,0 +1,18 @@
+uuid: 300773c3-fd34-4df0-8613-83ec8d79b414
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.iscedf_search
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: paragraph.iscedf_search
+target_entity_type_id: paragraph
+target_bundle: iscedf_search
+default_langcode: current_interface
+language_alterable: true

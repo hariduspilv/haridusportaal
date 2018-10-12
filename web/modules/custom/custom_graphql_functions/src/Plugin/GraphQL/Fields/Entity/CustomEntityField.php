@@ -1,6 +1,4 @@
-<?php
-
-namespace Drupal\custom_graphql_functions\Plugin\GraphQL\Fields\Entity;
+mespace Drupal\custom_graphql_functions\Plugin\GraphQL\Fields\Entity;
 
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\graphql\GraphQL\Cache\CacheableValue;
@@ -48,3 +46,4 @@ class CustomEntityField extends EntityFieldBase {
 		}
 	}
 }
+

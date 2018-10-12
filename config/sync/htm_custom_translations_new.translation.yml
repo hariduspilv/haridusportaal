@@ -507,11 +507,87 @@ frontpage:
     translation_type: textarea
     et: 'Otse põhisisu juurde'
     en: 'Skip to main content'
+  dashboard_tabs_certificate:
+    translation_type: textarea
+    et: Tunnistus
+    en: Certificate
+  dashboard_tabs_applications_acceptable_forms_label:
+    translation_type: textarea
+    et: 'Vali dokument, mida soovid esitada:'
+    en: 'Select the document you want to submit:'
+  dashboard_tabs_applications_acceptable_forms_notfound:
+    translation_type: textarea
+    et: 'Praegu ei saa esitada ühtegi taotlust'
+    en: 'No applications can be submitted at this time'
+  dashboard_tabs_applications_drafts_label:
+    translation_type: textarea
+    et: 'Pooleliolevad taotlused'
+    en: 'Pending applications'
+  dashboard_tabs_applications_drafts_notfound:
+    translation_type: textarea
+    et: 'Pooleli olevaid taotlusi ei ole'
+    en: 'There are no pending applications'
+  dashboard_tabs_applications_documents_label:
+    translation_type: textarea
+    et: 'Taotlused ja otsused'
+    en: 'Applications and resolutions'
+  dashboard_tabs_applications_documents_notfound:
+    translation_type: textarea
+    et: 'Dokumente ei ole'
+    en: 'There are no documents'
+  dashboard_tabs_applications_document_name:
+    translation_type: textarea
+    et: 'Dokumendi nimi'
+    en: 'Document name'
+  dashboard_tabs_applications_document_date:
+    translation_type: textarea
+    et: Kuupäev
+    en: Date
+  dashboard_tabs_applications_document_status:
+    translation_type: textarea
+    et: Staatus
+    en: Status
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
     et: 'Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?'
     en: 'Changing data on this step could delete data from steps that follow. Are you sure you want to edit this step?'
+  table_delete_row_confirm_modal_content:
+    translation_type: textarea
+    et: 'Kas olete kindel, et tahate tabeli rida kustutada?'
+    en: 'Are you sure you want to delete this row?'
+  drag_files_here_or:
+    translation_type: textarea
+    et: 'Lohista failid siia või'
+    en: 'Drag files here or'
+  address_not_found:
+    translation_type: textarea
+    et: 'Aadressi ei leitud'
+    en: 'Address not found'
+  missing_required_value:
+    translation_type: textarea
+    et: 'Puudub kohustuslik väärtus'
+    en: 'Missing required value'
+  value_min_length_is:
+    translation_type: textarea
+    et: 'Väärtuse minimaalne lubatud pikkus on'
+    en: 'The minimum allowed length is'
+  value_max_length_is:
+    translation_type: textarea
+    et: 'Väärtuse maksimaalne lubatud pikkus on '
+    en: 'The maximum allowed length is'
+  min_value_is:
+    translation_type: textarea
+    et: 'Minimaalne väärtus on'
+    en: 'Minimal value is'
+  max_value_is:
+    translation_type: textarea
+    et: 'Maksimaalne väärtus on'
+    en: 'Maximum value is'
+  enter_valid_email:
+    translation_type: textarea
+    et: 'Palun sisesta sobilik e-posti aadress'
+    en: 'Please enter valid email address'
 article:
   label:
     translation_type: textarea
@@ -1465,6 +1541,38 @@ button:
     translation_type: textarea
     et: 'Laadi alla'
     en: Download
+  show_more:
+    translation_type: textarea
+    et: 'Näita rohkem'
+    en: 'Show more'
+  show_less:
+    translation_type: textarea
+    et: 'Näita vähem'
+    en: 'Show less'
+  open:
+    translation_type: textarea
+    et: Ava
+    en: Open
+  continue_filling:
+    translation_type: textarea
+    et: 'Jätka täitmist'
+    en: 'Continue filling'
+  sort:
+    translation_type: textarea
+    et: Sorteeri
+    en: Sort
+  add_table_row:
+    translation_type: textarea
+    et: 'Lisa rida'
+    en: 'Add row'
+  delete_table_row:
+    translation_type: textarea
+    et: 'Kustuta rida'
+    en: 'Delete row'
+  upload:
+    translation_type: textarea
+    et: 'Lae üles'
+    en: Upload
 tooltip:
   share:
     translation_type: textarea
@@ -1520,6 +1628,14 @@ errors:
     translation_type: textarea
     et: 'Vabandame. Riigieksamite andmete Eksamite infosüsteemist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.'
     en: 'There was a technical error reading data from the examinations IS. Try again later.'
+  certificate_file_missing:
+    translation_type: textarea
+    et: 'Tunnistus ei ole saadaval faili kujul e-tunnistusena.'
+    en: 'Certificate not available as an e-certificate file.'
+  data_missing:
+    translation_type: textarea
+    et: 'Info puudub'
+    en: 'No data'
 search:
   label:
     translation_type: textarea
@@ -1620,3 +1736,64 @@ month:
     translation_type: textarea
     et: 'Järgmine kuu'
     en: 'Next month'
+oskaProfessions:
+  label:
+    translation_type: textarea
+    et: Põhikutsealad
+    en: Professions
+  compare_label:
+    translation_type: textarea
+    et: 'Põhikutsealade võrdlus'
+    en: 'Compare professions'
+  compare_modal_title:
+    translation_type: textarea
+    et: 'Põhikutsealade võrdlemine'
+    en: 'Compare professions'
+  compare_modal_content:
+    translation_type: text_format
+    et:
+      value: "<p>Maksimaalne võrreldavate põhikutsealade arv on ületatud.</p>\r\n\r\n<p>Võrdlusesse saab lisada kuni 3 kutseala.</p>\r\n\r\n<p>&nbsp;</p>\r\n"
+      format: full_html
+    en:
+      value: "<p>Maximum number of professions in comparison reached.</p>\r\n\r\n<p>You can add up to 3.</p>\r\n"
+      format: custom_editor
+  compare_modal_close:
+    translation_type: textarea
+    et: 'Sulge aken'
+    en: Close
+  fields:
+    translation_type: textarea
+    et: Valdkond
+    en: Sector
+  indicator:
+    translation_type: textarea
+    et: Näitaja
+    en: Indicator
+fieldFixedLabel:
+  label:
+    translation_type: textarea
+    et: 'Tuleviku ala!'
+    en: 'Future field!'
+  slogan:
+    translation_type: textarea
+    et: 'Näita “Tuleviku ala!” põhikutsealasid'
+    en: 'Show “Future field!” professions'
+'true':
+  translation_type: textarea
+  et: Jah
+  en: 'Yes'
+'false':
+  translation_type: textarea
+  et: Ei
+  en: 'No'
+oska:
+  fieldNumberEmployed:
+    translation_type: textarea
+    et: 'Hõivatute arv'
+    en: 'Employment rate'
+  prosAndCons:
+    translation_type: textarea
+    et: 'Plussid ja miinused'
+    en: 'Pros and cons'
+oskaProfession: {  }
+langcode: et
