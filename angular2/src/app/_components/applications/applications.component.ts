@@ -1,11 +1,14 @@
 import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { HttpService } from '@app/_services/httpService';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as _moment from 'moment';
 const moment = _moment;
+import { RootScopeService } from '@app/_services/rootScopeService';
+import { Subscription } from 'rxjs/Subscription';
 
 const ACCEPTABLE_FORMS_RESTRICTED_LENGTH = 4;
 const REQUEST_ITERATOR_LIFETIME = 30;
+
 @Component({
   selector: 'applications',
   templateUrl: './applications.template.html',
@@ -18,7 +21,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     interval: false
   };
   public startTime;
-  public lang: string = 'et';
+  public lang: string;
   public pollingLoader: boolean = true;
   public data = {
     acceptable_forms: [],
@@ -30,15 +33,40 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
 
   public acceptable_forms_list = [];
   public acceptable_forms_list_restricted: boolean = true;
-  constructor(public http: HttpService) {}
+
+  private subscriptions: Subscription[] = [];
+
+
+  constructor(public http: HttpService,
+    public rootScope: RootScopeService,
+    public route: ActivatedRoute) {}
+
+  setPaths() {
+    this.rootScope.set('langOptions', {
+      'en': '/en/dashboard/applications',
+      'et': '/et/toolaud/taotlused'
+    });
+  }
+
+  pathWatcher() { 
+    let subscribe = this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.lang = params['lang'];
+      }
+    );
+
+    this.subscriptions = [...this.subscriptions, subscribe];
+  }
 
   selectLanguage(obj: object){
     if(obj[this.lang]) return obj[this.lang];
     else return obj['et'];
   }
+
   compileXjsonLink(form_name){
-    return '/'+ this.lang +'/xjson/' + form_name;
+    return form_name
   }
+
   acceptableFormsLoader(){
     if(this.acceptable_forms_list.length < 4 && this.loading.interval)
       return true;
@@ -225,13 +253,22 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(){
+    this.setPaths();
+    this.pathWatcher();
     this.startTime = Date.now();
     this.loading['initial'] = true;
-    this.fetchData()
+    this.fetchData();
   }
   ngOnDestroy(){
     if(this.request_iterator){
       clearTimeout(this.request_iterator);
+    }
+    
+    /* Clear all subscriptions */
+    for (let sub of this.subscriptions) {
+      if (sub && sub.unsubscribe) {
+        sub.unsubscribe();
+      }
     }
   }
   
