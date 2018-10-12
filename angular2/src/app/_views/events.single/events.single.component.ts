@@ -3,14 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService, MetaTagsService } from '@app/_services';
 
-import { singleQuery } from '@app/_graph/events.graph';
-
-
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '@app/app.component';
 import { Subscription } from 'rxjs/Subscription';
-import { Apollo } from 'apollo-angular';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { ImagePopupDialog } from '@app/_components/dialogs/image.popup/image.popup.dialog'
@@ -19,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TableService } from '@app/_services/tableService';
 
 import { SettingsService } from '@app/_core/settings';
-
+import { HttpService } from '@app/_services/httpService';
 import * as _moment from 'moment';
 
 const moment = _moment;
@@ -61,12 +56,12 @@ export class EventsSingleComponent implements AfterViewChecked {
     private router: Router,
     private route: ActivatedRoute,
     private rootScope:RootScopeService,
-    private apollo: Apollo,
     public dialog: MatDialog,
     private metaTags: MetaTagsService,
     private translate: TranslateService,
     private settings: SettingsService,
-    private tableService: TableService
+    private tableService: TableService,
+    private http: HttpService
   ) {
     this.participantsUrl = this.settings.url+"/htm_custom_event_registration/registrations/";
   }
@@ -87,14 +82,13 @@ export class EventsSingleComponent implements AfterViewChecked {
       const path = this.router.url;
       const that = this;
       
-      let subscribe = this.apollo.watchQuery({
-        query: singleQuery,
-        variables: {
-          path: path
-        },
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all',
-      }).valueChanges.subscribe( ({data}) => {
+      let url = "/graphql?queryId=getEventSingle:1&variables=";
+      let variables = {
+        path: path
+      };
+
+      let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+        let data = response['data'];
         if ( data['route'] == null ) {
           that.error = true;
         } else {

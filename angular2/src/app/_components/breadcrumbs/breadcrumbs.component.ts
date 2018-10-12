@@ -3,8 +3,8 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Apollo } from 'apollo-angular';
 
-import { getBreadcrumb } from '@app/_graph/breadcrumb.graph';
 import { MetaTagsService } from '@app/_services/metaTagsService';
+import { HttpService } from '@app/_services/httpService';
 @Component({
   selector: 'breadcrumbs',
   templateUrl: 'breadcrumbs.component.html',
@@ -24,23 +24,20 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private apollo: Apollo,
-    private metaTags: MetaTagsService
+    private metaTags: MetaTagsService,
+    private http: HttpService
   ) {}
   
   getData() {
     // GET BREADCRUMB
-    const breadcrumbSubscription = this.apollo.watchQuery({
-      query: getBreadcrumb,
-      variables: {
-        path: this.path,
-        lang: this.lang.toUpperCase(),
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all'
-    })
-    .valueChanges
-    .subscribe(({data}) => {
 
+    let url = "/graphql?queryId=getBreadcrumbs:1&variables=";
+    let variables = {
+      path: this.path
+    };
+
+    const breadcrumbSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+      let data = response['data'];
       if( !data['route'] ){
         history.replaceState({}, '', `/${this.lang}`);
         this.router.navigateByUrl(`/${this.lang}/404`);
