@@ -1,0 +1,110 @@
+query oskaSurveyPageDetailView($path: String!) {
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        title
+        language {
+          id
+          __typename
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+          __typename
+        }
+        __typename
+      }
+      entity {
+        ... on NodeOskaSurveyPage {
+          nid
+          entityLabel
+          fieldSurveyPageIntroduction
+          fieldSurveyPagePicture {
+            derivative(style: CROP_LARGE) {
+              url
+              __typename
+            }
+            width
+            height
+            alt
+            title
+            __typename
+          }
+          fieldSurveyPageVideo {
+            input
+            videoDomain
+            videoDescription
+            videoId
+          }
+          body {
+            value
+            processed
+          }
+          fieldSurveyPageLink {
+            url {
+              routed
+              path
+              __typename
+            }
+            title
+            __typename
+          }
+          fieldSurveyPageAttachment {
+            description
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+              __typename
+            }
+            __typename
+          }
+          fieldSurveyPageAccordion {
+            entity {
+              ... on ParagraphSurveyPageAccordion{
+                fieldSurveyAccordionTitle
+                fieldSurveyAccordionContent {
+                  value
+                  __typename
+                }
+                fieldSurveyAccordionLink {
+                  url {
+                    routed
+                    path
+                    __typename
+                  }
+                  title
+                  __typename
+                }
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          fieldSurveyPageSidebar {
+            entity {
+              ... on ParagraphContactSection {
+                fieldEmail
+                fieldPerson
+                fieldPhone
+                fieldOrganization
+              }
+            }
+          }
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}
