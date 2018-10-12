@@ -73,7 +73,7 @@ a {
   word-break: break-all; word-break: break-word;-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; }
   .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
   .button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 1.875rem; align-items: center; padding: 2rem 0.5rem 2rem 0.5rem;
-    @include break-on(sm, max) { text-align: center; justify-content: center; }
+    @include break-on(sm, max) { text-align: center; justify-content: center; padding: 2rem 0.5rem 0.5rem 0.5rem }
     a, button { margin-left: 1rem; 
       @include break-on(sm, max) {  
         margin-left: 0px; margin-bottom: 1rem; display: block;
@@ -151,7 +151,7 @@ a {
     font-size: 0.875rem; color: $dark-gray;
   }
   
-  .tooltip { margin-top: 0.75rem; }
+  .tooltip { margin-top: 0.5rem; font-size: 1.5rem; margin-left: 0.2rem; }
   
   .round-input__outer-wrapper {
     display: flex;
@@ -160,19 +160,19 @@ a {
       .round-input__field { line-height: 1; }
     }
     &.checkbox-wrapper, &.dropzone-wrapper {
-      .tooltip { margin-top: 0.1875rem; }
+      .tooltip { margin-top: -0.1rem; }
     }
     &.multiselect-wrapper { 
-      .tooltip { margin-top: 0.8rem; }
+      .tooltip { margin-top: 0.5rem; }
     }
     &.table-wrapper { 
-      .tooltip { margin-top: 0.8rem; }
+      .tooltip { margin-top: rem; }
     }
   }
   .round-input__wrapper { width: 100%; }
   
   
-  ::ng-deep .mat-tooltip { position: relative; right: 29%; top: -0.5rem; text-align: left;
+  ::ng-deep .mat-tooltip { position: relative; right: 28%; top: 0rem; text-align: left;
     font-size: 0.875rem; line-height: 1.14; background-color: $light-gray; box-shadow: 0 0.0625rem 0.125rem 0 rgba(51, 51, 51, 0.5);
     white-space: normal!important; width: 7.1875rem!important; min-width: inherit!important; color: $black!important;
     &:before{ display: block; content: ""; position: absolute; bottom: -0.6875rem; right: 0.5625rem; z-index: 1;
@@ -249,3 +249,6 @@ a {
   .table-link { white-space: nowrap; }
 
 ::ng-deep table .mat-select-value-text { margin-top: 0.4rem; display: block; }
+// ::ng-deep input:disabled { background: $light-gray!important; }
+// ::ng-deep table input:disabled { background: $white!important; }
+.helper-wrapper { width: 1.5rem }
