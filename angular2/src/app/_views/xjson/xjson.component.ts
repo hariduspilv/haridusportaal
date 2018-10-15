@@ -274,12 +274,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if(rowindex == undefined || col == undefined){
         if(event instanceof FocusEvent){
           let string = JSON.parse(JSON.stringify(event.target['value']))
-          let date = moment(string).format('DD.MM.YYYY');
+          let date = moment(string.split('.').reverse().join('-')).format('YYYY-MM-DD');
           if(date == 'Invalid date') {
             this.data_elements[element].value = null;
             event.target['value'] = null;
           } else {
-            this.data_elements[element].value = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
+            this.data_elements[element].value = JSON.parse(JSON.stringify(date));
           } 
         } else {
           this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
@@ -292,7 +292,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         } else {
           this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
         } 
-        
       }
     }
   }
