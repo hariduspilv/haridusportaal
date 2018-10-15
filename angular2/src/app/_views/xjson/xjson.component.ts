@@ -70,6 +70,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public autocompleteDebouncer = {};
   public autocompleteSubscription = {};
   public autocompleteLoader: boolean = true;
+  public addressFieldFocus: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -116,41 +117,51 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   fillAddressFieldsTemporaryModel(data_elements){
     Object.keys(data_elements).forEach(element => {
+     
       if(data_elements[element].type === 'address' && data_elements[element].value){
 
         if(typeof data_elements[element].value === 'object'){
           if(data_elements[element].value.addressHumanReadable) {
             this.autoCompleteContainer[element] = [data_elements[element].value];
-            this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value.addressHumanReadable))
+            this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value.addressHumanReadable));
       
           } else {
             data_elements[element].value = null;
           }
         } else if (typeof data_elements[element].value === 'string'){
-          this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value))
+          this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value));
           this.addressAutocomplete(data_elements[element].value, 0, element, true);
         }
       }
     });
   }
 
+  validateInAdsField(element){
+    if(this.addressFieldFocus === false){
+      this.addressAutocompleteSelectionValidation(element)
+    }
+  }
+
   addressAutocompleteSelectionValidation(element){
-    if(this.autoCompleteContainer[element] ===  undefined) return this.temporaryModel[element] = null;
-    
+
+    if(this.autoCompleteContainer[element] ===  undefined) {
+      console.log('this.autoCompleteContainer[element] === undefined')
+      return this.temporaryModel[element] = null;
+    }   
+
     let match = this.autoCompleteContainer[element].find(address => {
       return address.addressHumanReadable == this.temporaryModel[element]
     })
-    
+   
     if(!match) {
-      console.log('no match for', element)
+      this.autoCompleteContainer[element] = null;
       this.temporaryModel[element] = null;
       this.data_elements[element].value = null;
-      this.autoCompleteContainer[element] = undefined;
     }
     else {
-      console.log('nice match for', element)
       this.data_elements[element].value = this.inAdsFormatValue(match)
     }
+
   }
 
   addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false) {
@@ -450,7 +461,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     let steps = Object.keys(this.data.body.steps);
     let isAfterCurrentStep = steps.indexOf(step) > steps.indexOf(max_step) ? true: false;
    
-    if (this.current_acceptable_activity.includes('VIEW')){
+    if (this.current_acceptable_activity.includes('VIEW') && !isAfterCurrentStep){
       return false;
 
     } else if(isAfterCurrentStep === true) {
