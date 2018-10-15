@@ -16,21 +16,25 @@
             </div>
           </ng-container>
 
-          <ul class="xjson__navigation">
+          <ul class="xjson__navigation" id="stepNavigation">
             <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step" [class.disabled]="isStepDisabled(step)"
               *ngFor="let step of objectKeys(data.body.steps)">
               <a (click)="selectStep(step)">
                 <span class="xjson__navigation__stepname">
                   <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}</ng-container>
                 </span>
-                <span>
-                  <ng-container *ngIf="!data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step]) }}</ng-container>
-                </span>
               </a>
             </li>
           </ul>
 
           <!-- STEP BODY -->
+          <div class="row button-list">
+            <ng-container *ngFor="let activity of activityButtons">
+              <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+                {{ activity.label | translate }}
+              </button>
+            </ng-container>
+          </div>
 
           <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction">
             {{selectLanguage(data.body.steps[opened_step].introduction) }} 
@@ -239,41 +243,57 @@
                         {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
                       </span>
                       <div class="round-input__field-wrapper">
-                        <input class="round-input__field" type="text" [(ngModel)]="temporaryModel[element]"
+                        <input class="round-input__field" 
+                          type="text"
+                          matInput
+                          [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                          [(ngModel)]="temporaryModel[element]"
                           placeholder="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
                           (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
-                          (blur)="addressAutocompleteSelectionValidation(element)"
-                          [name]="element" [matAutocomplete]="autoAddress">
+                          (focus)="addressFieldFocus = true"
+                          (blur)="validateInAdsField(element)"
+                          [name]="element" 
+                          [matAutocomplete]="autoAddress">
+                          <mat-autocomplete #autoAddress="matAutocomplete"
+                            (optionSelected)="addressFieldFocus = false"
+                            [(ngModel)]="temporaryModel[element]">
+                            <ng-container *ngIf="autocompleteLoader">
+                              <mat-option [value]="" disabled="true">
+                                <span>{{'xjson.searching_please_wait' | translate }}</span>
+                              </mat-option>
+                            </ng-container>
+                            <ng-container *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
+                              <mat-option *ngIf="!autoCompleteContainer[element].length" [value]="" disabled="true">
+                                <span>{{'xjson.address_not_found' | translate }}</span>
+                              </mat-option>
+                              <ng-container *ngIf="autoCompleteContainer[element].length > 0">
+                                <mat-option *ngFor="let address of autoCompleteContainer[element]" [value]="address.addressHumanReadable">
+                                  <span>{{ address.addressHumanReadable }}</span>
+                                </mat-option>
+                              </ng-container>
+                            </ng-container>
+                          </mat-autocomplete>
                       </div>
                     </div>
-                    <mat-autocomplete #autoAddress="matAutocomplete" [(ngModel)]="data_elements[element].value">
-                        <mat-option *ngIf="autocompleteLoader" [value]="" disabled="true">
-                          <span>{{'xjson.searching_please_wait' | translate }}</span>
-                        </mat-option>
-                      <ng-container *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
-                        <mat-option *ngIf="!autoCompleteContainer[element].length" [value]="" disabled="true">
-                          <span>{{'xjson.address_not_found' | translate }}</span>
-                        </mat-option>
-                        <ng-container *ngIf="autoCompleteContainer[element].length > 0">
-                          <mat-option *ngFor="let address of autoCompleteContainer[element]" [value]="address.addressHumanReadable">
-                            <span>{{ address.addressHumanReadable }}</span>
-                          </mat-option>
-                        </ng-container>
-                      </ng-container>
-                    </mat-autocomplete>
+                    
                   </ng-container> <!-- /ADDRESS -->
 
                   <ng-container *ngIf="data_elements[element].type == 'date'">
                     <div class="round-input__outer-wrapper date-wrapper">
-                      <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
+                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
                         <span class="round-input__title">
                           {{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}
                         </span>
                         <div class="round-input__field-wrapper">
-                          <input class="round-input__field" matInput [matDatepicker]="picker" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                          <input class="round-input__field"
+                            matInput [matDatepicker]="picker"
+                            [disabled]="isFieldDisabled(data_elements[element].readonly)"
                             placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
-                            [value]="getDatepickerValue(element, element)" (dateInput)="setDatepickerValue($event, element)"
-                            (dateChange)="setDatepickerValue($event, element)" (focus)="datepickerFocus = true" (blur)="datepickerFocus = false; setDatepickerValue($event, element)"
+                            [value]="getDatepickerValue(element, element)" 
+                            (dateInput)="setDatepickerValue($event, element)"
+                            (dateChange)="setDatepickerValue($event, element)" 
+                            (focus)="datepickerFocus = true" 
+                            (blur)="datepickerFocus = false; setDatepickerValue($event, element)"
                             name="{{element}}">
                           <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker></mat-datepicker>
@@ -489,8 +509,9 @@
             </ng-container>
 
             <ng-container *ngFor="let activity of activityButtons">
-              <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">{{
-                activity.label | translate }}</button>
+              <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+                {{ activity.label | translate }}
+              </button>
             </ng-container>
 
           </div> <!-- /row button-list -->
