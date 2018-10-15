@@ -70,6 +70,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public autocompleteDebouncer = {};
   public autocompleteSubscription = {};
   public autocompleteLoader: boolean = true;
+  public addressFieldFocus: boolean = false;
 
   constructor(
     private translate: TranslateService,
@@ -116,41 +117,51 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   fillAddressFieldsTemporaryModel(data_elements){
     Object.keys(data_elements).forEach(element => {
+     
       if(data_elements[element].type === 'address' && data_elements[element].value){
 
         if(typeof data_elements[element].value === 'object'){
           if(data_elements[element].value.addressHumanReadable) {
             this.autoCompleteContainer[element] = [data_elements[element].value];
-            this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value.addressHumanReadable))
+            this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value.addressHumanReadable));
       
           } else {
             data_elements[element].value = null;
           }
         } else if (typeof data_elements[element].value === 'string'){
-          this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value))
+          this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value));
           this.addressAutocomplete(data_elements[element].value, 0, element, true);
         }
       }
     });
   }
 
+  validateInAdsField(element){
+    if(this.addressFieldFocus === false){
+      this.addressAutocompleteSelectionValidation(element)
+    }
+  }
+
   addressAutocompleteSelectionValidation(element){
-    if(this.autoCompleteContainer[element] ===  undefined) return this.temporaryModel[element] = null;
-    
+
+    if(this.autoCompleteContainer[element] ===  undefined) {
+      console.log('this.autoCompleteContainer[element] === undefined')
+      return this.temporaryModel[element] = null;
+    }   
+
     let match = this.autoCompleteContainer[element].find(address => {
       return address.addressHumanReadable == this.temporaryModel[element]
     })
-    
+   
     if(!match) {
-      console.log('no match for', element)
+      this.autoCompleteContainer[element] = null;
       this.temporaryModel[element] = null;
       this.data_elements[element].value = null;
-      this.autoCompleteContainer[element] = undefined;
     }
     else {
-      console.log('nice match for', element)
       this.data_elements[element].value = this.inAdsFormatValue(match)
     }
+
   }
 
   addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false) {
@@ -224,29 +235,36 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   scrollPositionController(){
     let _opened_step = this.opened_step;
-    setTimeout(function(){
-      if(_opened_step){
+    if(_opened_step){
+      setTimeout(function(){
+        var step_navigation_container = document.getElementById('stepNavigation');
+        var opened_step_element = document.getElementById(_opened_step);
+        
+        let parent_center = step_navigation_container.offsetWidth / 2;
+        let button_center = opened_step_element.offsetWidth / 2;
+        var position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
+
         if(window.pageYOffset > 0){
           try { 
             window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
           } catch (e) {
             window.scrollTo(0, 0);
           }
-          try { 
-            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-          } catch (e) {
-            document.querySelector('#' + _opened_step).scrollIntoView();
-          }
+          navScroller();
           
         } else {
+          navScroller();
+        }
+        function navScroller(){
           try { 
-            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+            step_navigation_container.scrollTo({left: position_left,  behavior: 'smooth' });
           } catch (e) {
-            document.querySelector('#' + _opened_step).scrollIntoView();
+            step_navigation_container.scrollTo(position_left, 0);
           }
         }
-      }
-    }, 0)
+     
+      }, 0)
+    }
   }
 
   setDatepickerValue(event, element, rowindex, col){
@@ -256,8 +274,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if(rowindex == undefined || col == undefined){
         if(event instanceof FocusEvent){
           let string = JSON.parse(JSON.stringify(event.target['value']))
-          let date = moment(string).format('DD.MM.YYYY')
-          this.data_elements[element].value = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
+          let date = moment(string.split('.').reverse().join('-')).format('YYYY-MM-DD');
+          if(date == 'Invalid date') {
+            this.data_elements[element].value = null;
+            event.target['value'] = null;
+          } else {
+            this.data_elements[element].value = JSON.parse(JSON.stringify(date));
+          } 
         } else {
           this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
         }       
@@ -269,7 +292,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         } else {
           this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
         } 
-        
       }
     }
   }
@@ -450,7 +472,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     let steps = Object.keys(this.data.body.steps);
     let isAfterCurrentStep = steps.indexOf(step) > steps.indexOf(max_step) ? true: false;
    
-    if (this.current_acceptable_activity.includes('VIEW')){
+    if (this.current_acceptable_activity.includes('VIEW') && !isAfterCurrentStep){
       return false;
 
     } else if(isAfterCurrentStep === true) {
@@ -628,6 +650,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     
     if(this.test) {
       data.test = true; //TEST
+
     }
     
     if(this.queryStrings){
