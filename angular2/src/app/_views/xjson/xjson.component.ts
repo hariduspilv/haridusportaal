@@ -235,29 +235,36 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   scrollPositionController(){
     let _opened_step = this.opened_step;
-    setTimeout(function(){
-      if(_opened_step){
+    if(_opened_step){
+      setTimeout(function(){
+        var step_navigation_container = document.getElementById('stepNavigation');
+        var opened_step_element = document.getElementById(_opened_step);
+        
+        let parent_center = step_navigation_container.offsetWidth / 2;
+        let button_center = opened_step_element.offsetWidth / 2;
+        var position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
+
         if(window.pageYOffset > 0){
           try { 
             window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
           } catch (e) {
             window.scrollTo(0, 0);
           }
-          try { 
-            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
-          } catch (e) {
-            document.querySelector('#' + _opened_step).scrollIntoView();
-          }
+          navScroller();
           
         } else {
+          navScroller();
+        }
+        function navScroller(){
           try { 
-            document.querySelector('#' + _opened_step).scrollIntoView({ block: 'end',  behavior: 'smooth' });
+            step_navigation_container.scrollTo({left: position_left,  behavior: 'smooth' });
           } catch (e) {
-            document.querySelector('#' + _opened_step).scrollIntoView();
+            step_navigation_container.scrollTo(position_left, 0);
           }
         }
-      }
-    }, 0)
+     
+      }, 0)
+    }
   }
 
   setDatepickerValue(event, element, rowindex, col){
@@ -639,6 +646,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     
     if(this.test) {
       data.test = true; //TEST
+
     }
     
     if(this.queryStrings){
