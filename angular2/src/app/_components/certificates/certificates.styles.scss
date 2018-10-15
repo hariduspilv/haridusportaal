@@ -2,6 +2,11 @@
 @import "../../../assets/styles/typography.scss"; 
 
 .mat-expansion-panel {margin-bottom: .25rem;border: .0625rem solid #bee3e8;border-left: .1875rem solid #bee3e8;
+  &.detailView {
+    @include break-on(sm, max) {margin: 0 -1.5rem .25rem -1.5rem;
+      &-spacing {margin: 0 -1.5rem .25rem -1.5rem;}
+    }
+  }
   mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
   }
