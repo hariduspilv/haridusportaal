@@ -280,12 +280,12 @@
 
                   <ng-container *ngIf="data_elements[element].type == 'date'">
                     <div class="round-input__outer-wrapper date-wrapper">
-                      <div class="round-input__wrapper" [class.complete]="data_elements[element].picker">
+                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
                         <span class="round-input__title">
                           {{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}
                         </span>
                         <div class="round-input__field-wrapper">
-                          <input class="round-input__field" 
+                          <input class="round-input__field"
                             matInput [matDatepicker]="picker"
                             [disabled]="isFieldDisabled(data_elements[element].readonly)"
                             placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
