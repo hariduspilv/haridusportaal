@@ -28,7 +28,7 @@
           </ul>
 
           <!-- STEP BODY -->
-          <div class="row button-list">
+          <div class="row button-list button-list-top">
             <ng-container *ngFor="let activity of activityButtons">
               <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
                 {{ activity.label | translate }}
@@ -238,6 +238,7 @@
                   </ng-container> <!-- /NUMBER -->
 
                   <ng-container *ngIf="data_elements[element].type == 'address'">
+                    <div class="round-input__outer-wrapper">
                     <div class="round-input__wrapper" [class.complete]="temporaryModel[element]">
                       <span class="round-input__title">
                         {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
@@ -275,7 +276,14 @@
                           </mat-autocomplete>
                       </div>
                     </div>
-                    
+                    <div class="helper-wrapper" >
+                      <ng-container *ngIf="data_elements[element].helpertext">
+                        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
+                          matTooltipPosition="above">
+                        </span>
+                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                    </div>
+                    </div>
                   </ng-container> <!-- /ADDRESS -->
 
                   <ng-container *ngIf="data_elements[element].type == 'date'">

@@ -7,7 +7,9 @@ input { font-size: 0.875rem; }
   @include break-on(sm, min) { margin:0 1.5rem;}
 }
 
-.xjson-wrapper { overflow: hidden;}
+.xjson-wrapper { padding: 0.5rem 0;
+  @include break-on(sm, max) { padding: 0rem; }
+}
 
 .xjson{
   &__title{width:100%; color:$black; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
@@ -16,7 +18,7 @@ input { font-size: 0.875rem; }
   &__step-introduction{ margin-top: 1rem; margin-bottom: 1rem; width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none; font-size: 500; }
   &__heading{ width: 100%; display: block; font-size: 1rem; font-weight: 500; line-height: 1; text-align: left; color: #333333;}
   &__textarea__info { margin-bottom: 1rem; display: block; }
-  &__navigation{ list-style-type: none; padding-left: 1.5rem; padding-right: 1.5rem; margin-left: -1.5rem; margin-right: -1.5rem; display: flex; padding-top: 1rem; margin-top: 2rem; overflow-x: auto; padding-bottom: 0rem; margin-bottom: 0px;
+  &__navigation{ list-style-type: none; padding-left: 1.5rem; padding-right: 1.5rem; margin-left: -1.5rem; margin-right: -1.5rem; display: flex; padding-top: 1rem; margin-top: 2rem; overflow-x: auto; padding-bottom: 2rem; margin-bottom: 0px;
     @include break-on(sm, max) { justify-content: flex-start; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem; padding-right: 1.5rem; }
   }
 }
@@ -71,7 +73,7 @@ a {
   &.disabled{ color: gray; text-decoration: none; cursor: not-allowed;}
 }
 .xjson__navigation__stepname {
-  position: relative; margin-bottom: 2rem; display: block; margin-top: 2rem; -ms-word-break: break-all; padding: 0 0.125rem;
+  position: relative; margin-bottom: 0rem; display: block; margin-top: 2rem; -ms-word-break: break-all; padding: 0 0.5rem;
   word-break: break-all; word-break: break-word;-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; }
   .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
   .button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 1.875rem; align-items: center; padding: 2rem 0.5rem 2rem 0.5rem;
@@ -82,6 +84,7 @@ a {
       }
     }
   }
+  .button-list.button-list-top { padding: 0rem 0.5rem 1rem 0.5rem }
   
   table { width: 100%;border-collapse: collapse; margin: 0;
     thead {background: $light-gray;
