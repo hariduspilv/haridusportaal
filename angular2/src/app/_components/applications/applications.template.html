@@ -7,19 +7,20 @@
 
     <ng-container *ngIf="acceptable_forms_list.length">
       
-        <div *ngFor="let form of acceptable_forms_list">
-            <a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{test:'true'}" >{{ selectLanguage(form.title) }}</a>
+      <div class="grid-box">
+        <div [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{test:'true'}" class="grid-item" *ngFor="let form of acceptable_forms_list">
+            <a class="grid-link">{{ selectLanguage(form.title) }}</a>
+            <span class="grid-date"></span>
         </div>
-        <div *ngIf="acceptableFormsLoader()">
-          loading...
-        </div>
+</div>
 
-      <a *ngIf="data.acceptable_forms.length > 4 && acceptable_forms_list.length == 4 && acceptable_forms_list_restricted == true" 
+
+      <a class="grid-load" *ngIf="data.acceptable_forms.length > 4 && acceptable_forms_list.length == 4 && acceptable_forms_list_restricted == true" 
         href="javascript:void(0);" (click)="acceptable_forms_list_restricted = false; formatAcceptableForms()">
         + {{ 'button.show_more' | translate }} ({{ data.acceptable_forms.length - 4 }})
       </a>
 
-      <a *ngIf="acceptable_forms_list_restricted == false" 
+      <a class="grid-load" *ngIf="acceptable_forms_list_restricted == false" 
           href="javascript:void(0);" (click)="acceptable_forms_list_restricted = true; formatAcceptableForms()">
           {{ 'button.show_less' | translate }}
       </a>
