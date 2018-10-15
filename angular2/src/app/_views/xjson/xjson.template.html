@@ -28,6 +28,13 @@
           </ul>
 
           <!-- STEP BODY -->
+          <div class="row button-list">
+            <ng-container *ngFor="let activity of activityButtons">
+              <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+                {{ activity.label | translate }}
+              </button>
+            </ng-container>
+          </div>
 
           <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction">
             {{selectLanguage(data.body.steps[opened_step].introduction) }} 
@@ -502,8 +509,9 @@
             </ng-container>
 
             <ng-container *ngFor="let activity of activityButtons">
-              <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">{{
-                activity.label | translate }}</button>
+              <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+                {{ activity.label | translate }}
+              </button>
             </ng-container>
 
           </div> <!-- /row button-list -->
