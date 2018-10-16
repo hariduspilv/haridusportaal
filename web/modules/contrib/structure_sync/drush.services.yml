@@ -1,5 +1,0 @@
-services:
-  structure_sync.commands:
-    class: \Drupal\structure_sync\Commands\StructureSyncCommands
-    tags:
-      - { name: drush.command }

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\memcache\Lock\MemcacheLockFactory.
- */
-
 namespace Drupal\memcache\Lock;
 
 use Drupal\memcache\Driver\MemcacheDriverFactory;
@@ -29,9 +24,10 @@ class MemcacheLockFactory {
   protected $factory;
 
   /**
-   * Constructs a new MemcacheLockBackend.
+   * Constructs a new MemcacheLockFactory.
    *
    * @param \Drupal\memcache\Driver\MemcacheDriverFactory $memcache_factory
+   *   The memcache factory.
    */
   public function __construct(MemcacheDriverFactory $memcache_factory) {
     $this->factory = $memcache_factory;
@@ -41,6 +37,7 @@ class MemcacheLockFactory {
    * Gets a lock backend instance.
    *
    * @return \Drupal\Core\Lock\LockBackendInterface
+   *   A locked Memcache backend instance.
    */
   public function get() {
     return new MemcacheLockBackend($this->bin, $this->factory->get($this->bin));
