@@ -1,0 +1,14 @@
+uuid: b01bf858-124f-41bf-8f3c-78214c8ecb4b
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_xjson_services
+id: xdzeison_pattern_und
+label: 'xDzeison pattern UND'
+type: 'canonical_entities:x_json_entity'
+pattern: '/toolaud/taotlused/[x_json_entity:name]'
+selection_criteria: {  }
+selection_logic: and
+weight: 0
+relationships: {  }

@@ -78,4 +78,5 @@ permissions:
   - 'view published favorite entity entities'
   - 'view published oska indicator entity entities'
   - 'view published subsidy project entities'
+  - 'view published xjson entity entities'
   - 'view unpublished oska indicator entity entities'
