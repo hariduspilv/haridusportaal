@@ -36,6 +36,7 @@ class ReflectionCaster
         $prefix = Caster::PREFIX_VIRTUAL;
         $c = new \ReflectionFunction($c);
 
+        $stub->class = 'Closure'; // HHVM generates unique class names for closures
         $a = static::castFunctionAbstract($c, $a, $stub, $isNested, $filter);
 
         if (isset($a[$prefix.'parameters'])) {
@@ -85,7 +86,7 @@ class ReflectionCaster
         $prefix = Caster::PREFIX_VIRTUAL;
 
         $a += array(
-            $prefix.'name' => $c->getName(),
+            $prefix.'name' => $c instanceof \ReflectionNamedType ? $c->getName() : $c->__toString(),
             $prefix.'allowsNull' => $c->allowsNull(),
             $prefix.'isBuiltin' => $c->isBuiltin(),
         );
@@ -172,7 +173,7 @@ class ReflectionCaster
 
         if (isset($a[$prefix.'returnType'])) {
             $v = $a[$prefix.'returnType'];
-            $v = $v->getName();
+            $v = $v instanceof \ReflectionNamedType ? $v->getName() : $v->__toString();
             $a[$prefix.'returnType'] = new ClassStub($a[$prefix.'returnType']->allowsNull() ? '?'.$v : $v, array(class_exists($v, false) || interface_exists($v, false) || trait_exists($v, false) ? $v : '', ''));
         }
         if (isset($a[$prefix.'class'])) {
@@ -184,7 +185,7 @@ class ReflectionCaster
 
         foreach ($c->getParameters() as $v) {
             $k = '$'.$v->name;
-            if ($v->isVariadic()) {
+            if (method_exists($v, 'isVariadic') && $v->isVariadic()) {
                 $k = '...'.$k;
             }
             if ($v->isPassedByReference()) {
@@ -212,6 +213,9 @@ class ReflectionCaster
             self::addExtra($a, $c);
         }
 
+        // Added by HHVM
+        unset($a[Caster::PREFIX_DYNAMIC.'static']);
+
         return $a;
     }
 
@@ -226,6 +230,9 @@ class ReflectionCaster
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 
+        // Added by HHVM
+        unset($a['info']);
+
         self::addMap($a, $c, array(
             'position' => 'getPosition',
             'isVariadic' => 'isVariadic',
@@ -233,8 +240,12 @@ class ReflectionCaster
             'allowsNull' => 'allowsNull',
         ));
 
-        if ($v = $c->getType()) {
-            $a[$prefix.'typeHint'] = $v->getName();
+        if (method_exists($c, 'getType')) {
+            if ($v = $c->getType()) {
+                $a[$prefix.'typeHint'] = $v instanceof \ReflectionNamedType ? $v->getName() : $v->__toString();
+            }
+        } elseif (preg_match('/^(?:[^ ]++ ){4}([a-zA-Z_\x7F-\xFF][^ ]++)/', $c, $v)) {
+            $a[$prefix.'typeHint'] = $v[1];
         }
 
         if (isset($a[$prefix.'typeHint'])) {
@@ -246,13 +257,17 @@ class ReflectionCaster
 
         try {
             $a[$prefix.'default'] = $v = $c->getDefaultValue();
-            if ($c->isDefaultValueConstant()) {
+            if (method_exists($c, 'isDefaultValueConstant') && $c->isDefaultValueConstant()) {
                 $a[$prefix.'default'] = new ConstStub($c->getDefaultValueConstantName(), $v);
             }
             if (null === $v) {
                 unset($a[$prefix.'allowsNull']);
             }
         } catch (\ReflectionException $e) {
+            if (isset($a[$prefix.'typeHint']) && $c->allowsNull() && !class_exists('ReflectionNamedType', false)) {
+                $a[$prefix.'default'] = null;
+                unset($a[$prefix.'allowsNull']);
+            }
         }
 
         return $a;

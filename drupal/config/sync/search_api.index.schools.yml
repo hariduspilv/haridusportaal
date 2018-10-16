@@ -179,7 +179,7 @@ field_settings:
     label: 'Hariduslikud erivajadused'
     datasource_id: 'entity:node'
     property_path: field_special_class
-    type: boolean
+    type: integer
     dependencies:
       config:
         - field.storage.node.field_special_class
@@ -187,7 +187,7 @@ field_settings:
     label: Õpilaskodu
     datasource_id: 'entity:node'
     property_path: field_student_home
-    type: boolean
+    type: integer
     dependencies:
       config:
         - field.storage.node.field_student_home
@@ -252,7 +252,7 @@ field_settings:
     label: Avaldatud
     datasource_id: 'entity:node'
     property_path: status
-    type: boolean
+    type: integer
     dependencies:
       module:
         - node

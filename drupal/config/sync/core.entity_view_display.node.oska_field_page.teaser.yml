@@ -5,6 +5,13 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.oska_field_page.body
+    - field.field.node.oska_field_page.field_introduction
+    - field.field.node.oska_field_page.field_oska_attachment_file
+    - field.field.node.oska_field_page.field_oska_field_accordion
+    - field.field.node.oska_field_page.field_oska_field_picture
+    - field.field.node.oska_field_page.field_oska_field_sidebar
+    - field.field.node.oska_field_page.field_oska_video
+    - field.field.node.oska_field_page.field_oska_web_page
     - node.type.oska_field_page
   module:
     - text
@@ -25,5 +32,14 @@ content:
   links:
     weight: 100
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
+  field_introduction: true
+  field_oska_attachment_file: true
+  field_oska_field_accordion: true
+  field_oska_field_picture: true
+  field_oska_field_sidebar: true
+  field_oska_video: true
+  field_oska_web_page: true
   langcode: true

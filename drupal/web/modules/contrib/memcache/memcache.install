@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Install, update and uninstall hooks for the Memcache module.
+ */
+
+/**
  * Implements hook_requirements().
  */
 function memcache_requirements($phase) {
