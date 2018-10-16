@@ -588,6 +588,10 @@ xjson:
     translation_type: textarea
     et: 'Palun sisesta sobilik e-posti aadress'
     en: 'Please enter valid email address'
+  searching_please_wait:
+    translation_type: textarea
+    et: 'Otsin aadressi, palun oodake'
+    en: 'Searching address, please wait'
 article:
   label:
     translation_type: textarea
@@ -1571,8 +1575,12 @@ button:
     en: 'Delete row'
   upload:
     translation_type: textarea
-    et: 'Lae üles'
-    en: Upload
+    et: 'Lae failid enda arvutist'
+    en: 'Upload files from your computer'
+  hide_extra:
+    translation_type: textarea
+    et: 'Näita vähem'
+    en: 'Show less'
 tooltip:
   share:
     translation_type: textarea
@@ -1795,6 +1803,14 @@ oska:
     translation_type: textarea
     et: 'Hõivatute arv'
     en: 'Employment rate'
+  title_field:
+    translation_type: textarea
+    et: Valdkond
+    en: Field
+  title_main_profession:
+    translation_type: textarea
+    et: Põhikutseala
+    en: 'Main Profession'
 oskaProfession: {  }
 langcode: et
 sidebar:
