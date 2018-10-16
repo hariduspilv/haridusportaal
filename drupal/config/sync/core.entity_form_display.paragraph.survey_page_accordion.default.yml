@@ -4,12 +4,10 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.survey_page_accordion.field_survey_accordion_content
-    - field.field.paragraph.survey_page_accordion.field_survey_accordion_graph
     - field.field.paragraph.survey_page_accordion.field_survey_accordion_link
     - field.field.paragraph.survey_page_accordion.field_survey_accordion_title
     - paragraphs.paragraphs_type.survey_page_accordion
   module:
-    - htm_custom_oska
     - link
     - maxlength
     - text
@@ -25,12 +23,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
-    region: content
-  field_survey_accordion_graph:
-    weight: 11
-    settings: {  }
-    third_party_settings: {  }
-    type: oska_graph_widget_type
     region: content
   field_survey_accordion_link:
     weight: 2
