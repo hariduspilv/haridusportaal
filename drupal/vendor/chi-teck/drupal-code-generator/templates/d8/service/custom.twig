@@ -1,41 +1,34 @@
+{% import 'lib/di.twig' as di %}
 <?php
 
 namespace Drupal\{{ machine_name }};
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-
+{% if services %}
+{{ di.use(services) }}
+{% endif %}
 /**
  * {{ class }} service.
  */
 class {{ class }} {
 
-  /**
-   * Node storage.
-   *
-   * @var \Drupal\Node\NodeStorageInterface
-   */
-  protected $nodeStorage;
+{% if services %}
+{{ di.properties(services) }}
 
   /**
-   * Constructs {{ class|article }} object.
+   * Constructs {{ class|article|lower }} object.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
+{{ di.annotation(services) }}
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
-    $this->nodeStorage = $entity_type_manager->getStorage('node');
+  public function __construct({{ di.signature(services) }}) {
+{{ di.assignment(services) }}
   }
 
+{% endif %}
   /**
-   * Retrieves the last created node.
+   * Method description.
    */
-  public function getLastNode() {
-    $nids = $this->nodeStorage->getQuery()
-      ->sort('created', 'DESC')
-      ->range(0, 1)
-      ->execute();
-    $nid = reset($nids);
-    return $nid ? $this->nodeStorage->load($nid) : FALSE;
+  public function doSomething() {
+    // @DCG place your code here.
   }
 
 }

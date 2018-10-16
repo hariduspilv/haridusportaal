@@ -5,6 +5,14 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.oska_survey_page.body
+    - field.field.node.oska_survey_page.field_survey_graph
+    - field.field.node.oska_survey_page.field_survey_page_accordion
+    - field.field.node.oska_survey_page.field_survey_page_attachment
+    - field.field.node.oska_survey_page.field_survey_page_introduction
+    - field.field.node.oska_survey_page.field_survey_page_link
+    - field.field.node.oska_survey_page.field_survey_page_picture
+    - field.field.node.oska_survey_page.field_survey_page_sidebar
+    - field.field.node.oska_survey_page.field_survey_page_video
     - node.type.oska_survey_page
   module:
     - text
@@ -25,5 +33,15 @@ content:
   links:
     weight: 100
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
+  field_survey_graph: true
+  field_survey_page_accordion: true
+  field_survey_page_attachment: true
+  field_survey_page_introduction: true
+  field_survey_page_link: true
+  field_survey_page_picture: true
+  field_survey_page_sidebar: true
+  field_survey_page_video: true
   langcode: true

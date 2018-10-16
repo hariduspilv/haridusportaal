@@ -8,7 +8,9 @@ dependencies:
     - field.field.node.article.field_body
     - field.field.node.article.field_body_summary
     - field.field.node.article.field_image
+    - field.field.node.article.field_metatags
     - field.field.node.article.field_right_sidebar
+    - field.field.node.article.field_video
     - image.style.medium
     - node.type.article
   module:
@@ -33,6 +35,8 @@ content:
   links:
     weight: 100
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_accordion_section: true
   field_additional_info: true

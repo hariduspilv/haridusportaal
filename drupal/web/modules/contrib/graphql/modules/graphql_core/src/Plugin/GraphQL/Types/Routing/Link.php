@@ -9,7 +9,8 @@ use Drupal\graphql\Plugin\GraphQL\Types\TypePluginBase;
  *
  * @GraphQLType(
  *   id = "link",
- *   name = "Link"
+ *   name = "Link",
+ *   schema_cache_contexts = {"languages:language_url", "languages:language_interface"}
  * )
  */
 class Link extends TypePluginBase {
