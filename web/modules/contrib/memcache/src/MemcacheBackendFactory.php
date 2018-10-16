@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\memcache\MemcacheBackendFactory.
- */
-
 namespace Drupal\memcache;
 
 use Drupal\Core\Cache\CacheFactoryInterface;
@@ -39,13 +34,16 @@ class MemcacheBackendFactory implements CacheFactoryInterface {
   protected $timestampInvalidator;
 
   /**
-   * Constructs the DatabaseBackendFactory object.
+   * Constructs the MemcacheBackendFactory object.
    *
    * @param \Drupal\memcache\Driver\MemcacheDriverFactory $memcache_factory
+   *   The memcache factory object.
    * @param \Drupal\Core\Cache\CacheTagsChecksumInterface $checksum_provider
+   *   The cache tags checksum provider.
    * @param \Drupal\memcache\Invalidator\TimestampInvalidatorInterface $timestamp_invalidator
+   *   The timestamp invalidation provider.
    */
-  function __construct(MemcacheDriverFactory $memcache_factory, CacheTagsChecksumInterface $checksum_provider, TimestampInvalidatorInterface $timestamp_invalidator) {
+  public function __construct(MemcacheDriverFactory $memcache_factory, CacheTagsChecksumInterface $checksum_provider, TimestampInvalidatorInterface $timestamp_invalidator) {
     $this->memcacheFactory = $memcache_factory;
     $this->checksumProvider = $checksum_provider;
     $this->timestampInvalidator = $timestamp_invalidator;
@@ -54,7 +52,7 @@ class MemcacheBackendFactory implements CacheFactoryInterface {
   /**
    * Gets MemcacheBackend for the specified cache bin.
    *
-   * @param $bin
+   * @param string $bin
    *   The cache bin for which the object is created.
    *
    * @return \Drupal\memcache\MemcacheBackend

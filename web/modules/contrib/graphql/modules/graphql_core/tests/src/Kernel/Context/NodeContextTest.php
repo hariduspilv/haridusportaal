@@ -7,7 +7,10 @@ use Drupal\Tests\graphql_core\Kernel\GraphQLContentTestBase;
 
 /**
  * Test full stack retrieval of a node context.
+ *
+ * @group graphql_core
  */
+
 class NodeContextTest extends GraphQLContentTestBase {
 
   /**

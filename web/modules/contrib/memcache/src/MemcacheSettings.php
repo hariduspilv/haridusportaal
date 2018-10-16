@@ -5,7 +5,7 @@ namespace Drupal\memcache;
 use Drupal\Core\Site\Settings;
 
 /**
- * Class for holding Memcache related config
+ * Class for holding Memcache related config.
  */
 class MemcacheSettings {
 
@@ -55,4 +55,5 @@ class MemcacheSettings {
   public function getAll() {
     return $this->settings;
   }
+
 }
