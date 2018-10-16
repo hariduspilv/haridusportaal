@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\memcache\TimestampCacheTagsChecksum.
- */
-
 namespace Drupal\memcache\Cache;
 
 use Drupal\Core\Cache\CacheTagsChecksumInterface;
@@ -12,14 +7,14 @@ use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\memcache\Invalidator\TimestampInvalidatorInterface;
 
 /**
- * Cache tags invalidations checksum implementation that uses timestamp invalidation.
+ * Cache tags invalidations checksum implementation by timestamp invalidation.
  */
 class TimestampCacheTagsChecksum implements CacheTagsChecksumInterface, CacheTagsInvalidatorInterface {
 
   /**
    * The timestamp invalidator object.
    *
-   * @var TimestampInvalidatorInterface
+   * @var \Drupal\memcache\Invalidator\TimestampInvalidatorInterface
    */
   protected $invalidator;
 
@@ -42,7 +37,8 @@ class TimestampCacheTagsChecksum implements CacheTagsChecksumInterface, CacheTag
   /**
    * Constructs a TimestampCacheTagsChecksum object.
    *
-   * @param TimestampInvalidatorInterface $invalidator
+   * @param \Drupal\memcache\Invalidator\TimestampInvalidatorInterface $invalidator
+   *   The timestamp invalidator object.
    */
   public function __construct(TimestampInvalidatorInterface $invalidator) {
     $this->invalidator = $invalidator;
@@ -67,7 +63,7 @@ class TimestampCacheTagsChecksum implements CacheTagsChecksumInterface, CacheTag
    * {@inheritdoc}
    */
   public function getCurrentChecksum(array $tags) {
-    // @todo Revist the invalidatedTags hack.
+    // @todo Revisit the invalidatedTags hack.
     // Remove tags that were already invalidated during this request from the
     // static caches so that another invalidation can occur later in the same
     // request. Without that, written cache items would not be invalidated
@@ -135,8 +131,8 @@ class TimestampCacheTagsChecksum implements CacheTagsChecksumInterface, CacheTag
       }
     }
 
-    // The checksum is equal to the *most recent* invalidation of an applicable tag.
-    // If the item is untagged, the checksum is always 0.
+    // The checksum is equal to the *most recent* invalidation of an applicable
+    // tag. If the item is untagged, the checksum is always 0.
     return max([0] + array_intersect_key($this->tagCache, array_flip($tags)));
   }
 

@@ -29,11 +29,11 @@ class MemcacheSettingsTest extends UnitTestCase {
   /**
    * @covers ::__construct
    */
-  protected function setUp(){
+  protected function setUp() {
     $this->config = [
       'memcache' => [
         'servers' => ['127.0.0.2:12345' => 'default'],
-        'bin' => ['default' => 'default']
+        'bin' => ['default' => 'default'],
       ],
       'hash_salt' => $this->randomMachineName(),
     ];
@@ -60,4 +60,5 @@ class MemcacheSettingsTest extends UnitTestCase {
   public function testGetAll() {
     $this->assertEquals($this->config['memcache'], $this->settings->getAll());
   }
+
 }

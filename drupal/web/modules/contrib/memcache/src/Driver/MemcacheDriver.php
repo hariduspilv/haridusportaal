@@ -11,13 +11,13 @@ class MemcacheDriver extends DriverBase {
    * {@inheritdoc}
    */
   public function set($key, $value, $exp = 0, $flag = FALSE) {
-    $collect_stats = $this->stats_init();
+    $collect_stats = $this->statsInit();
 
     $full_key = $this->key($key);
     $result = $this->memcache->set($full_key, $value, $flag, $exp);
 
     if ($collect_stats) {
-      $this->stats_write('set', 'cache', [$full_key => (int)$result]);
+      $this->statsWrite('set', 'cache', [$full_key => (int) $result]);
     }
 
     return $result;
@@ -27,13 +27,13 @@ class MemcacheDriver extends DriverBase {
    * {@inheritdoc}
    */
   public function add($key, $value, $expire = 0) {
-    $collect_stats = $this->stats_init();
+    $collect_stats = $this->statsInit();
 
     $full_key = $this->key($key);
-    $result = $this->memcache->add($full_key, $value,false, $expire);
+    $result = $this->memcache->add($full_key, $value, FALSE, $expire);
 
     if ($collect_stats) {
-      $this->stats_write('add', 'cache', [$full_key => (int)$result]);
+      $this->statsWrite('add', 'cache', [$full_key => (int) $result]);
     }
 
     return $result;
@@ -43,7 +43,7 @@ class MemcacheDriver extends DriverBase {
    * {@inheritdoc}
    */
   public function getMulti(array $keys) {
-    $collect_stats = $this->stats_init();
+    $collect_stats = $this->statsInit();
     $multi_stats   = [];
 
     $full_keys = [];
@@ -81,7 +81,7 @@ class MemcacheDriver extends DriverBase {
     }
 
     if ($collect_stats) {
-      $this->stats_write('getMulti', 'cache', $multi_stats);
+      $this->statsWrite('getMulti', 'cache', $multi_stats);
     }
 
     return $cid_results;
