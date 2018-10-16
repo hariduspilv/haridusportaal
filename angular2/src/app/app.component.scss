@@ -328,15 +328,15 @@ $grid-columns: 12;
     .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
   }
   .scrollable {position: relative; padding: $small 0 0 0;
-    @include break-on(sm, min) {position: relative;padding-right: $medium;padding-left: $medium;}
+    @include break-on(sm, min) {position: relative;padding-right: $small;padding-left: $small;}
     &__table {overflow:auto;}
-    &__rectangle {width: 3.125rem;height: 3.125rem;border-radius: 50%;background-color: $dark-gray;position: absolute;right: $medium;top: 50%;z-index: 5;user-select: none;
+    &__rectangle {width: 3.125rem;height: 3.125rem;border-radius: 50%;background-color: $dark-gray;position: absolute;right: $small;top: 50%;z-index: 5;user-select: none;
       box-shadow: 0 .125rem .125rem 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
       .htm-icon {position: relative;top: 0.4rem;left: 0.4rem;font-size: 2.5rem;color: $white;}
-      &--left {left: $medium;
-        @include break-on(sm, min) {left: $xxl;}
+      &--left {left: $small;
+        @include break-on(sm, min) {left: $small;}
       }
-      @include break-on(sm, min) {right: $xxl;}
+      @include break-on(sm, min) {right: $small;}
     }
     &.padded {padding: 0;}
   }

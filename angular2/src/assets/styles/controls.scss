@@ -13,28 +13,36 @@
       ::placeholder {color: transparent; font-size: 1rem;
             @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $blue; display: inline-block;}
-      .round-input__field-wrapper {border-color: $blue; margin-top: 0;}
+      .round-input__field-wrapper {border-color: $blue; margin-top: 0;
+        @include break-on(xl, min) {margin-top: .0625rem;}
+      }
     }
     &.error {
       ::placeholder {color: transparent;  font-size: 1rem;
             @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $red; display: inline-block;}
-      .round-input__field-wrapper {border-color: $red; margin-top: 0;}
+      .round-input__field-wrapper {border-color: $red; margin-top: 0;
+        @include break-on(xl, min) {margin-top: .0625rem;}
+      }
 
     }
     &.complete {
       ::placeholder {color: transparent;  font-size: 1rem;
             @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {display: inline-block;}
-      .round-input__field-wrapper {margin-top: 0;}
+      .round-input__field-wrapper {margin-top: 0;
+        @include break-on(xl, min) {margin-top: .0625rem;}
+      }
     }
     &.success {
       ::placeholder {color: transparent;  font-size: 1rem;
             @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $success; display: inline-block;}
-      .round-input__field-wrapper {border-color: $success; margin-top: 0;}
+      .round-input__field-wrapper {border-color: $success; margin-top: 0;
+        @include break-on(xl, min) {margin-top: .0625rem;}
+      }
     }
-    @include break-on(xl, min) {margin-top: -1.25rem;}
+    @include break-on(xl, min) {margin-top: -1.3125rem;}
 
     .mat-form-field{width:100%; display: block;
       border: solid .0625rem $gray;
@@ -68,6 +76,7 @@
     height: 2.375rem;
     margin-top: 1.1875rem;
     &.spacing {margin-top: 0;}
+    @include break-on(xl, min) {margin-top: 1.3125rem;}
   }
   &__field {
     overflow: hidden;
@@ -185,14 +194,16 @@
     color: red;
     .ng-select__title {
       color: $blue;
-      margin-top: .25rem;
+      margin-top: .125rem;
       top: .5625rem;
       font-size: $quarter;
       left: $medium;
     }
   }
 }
-.ng-select__wrapper__mt {margin-top: -1.25rem;}
+.ng-select__wrapper__mt {margin-top: -1.25rem;
+  @include break-on(xl, min) {margin-top: -1.3125rem;}
+}
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper {border: none;}
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper .ng-clear {top: 0;color:$red;}
 .ng-select .ng-clear-wrapper .ng-clear {color: rgba(0, 0, 0, .87);font-size: 1.75rem !important;position: relative;right: $gutter; top: 0.3125rem;}
