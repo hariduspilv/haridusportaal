@@ -2,9 +2,11 @@
 
 namespace Drupal\memcache\Connection;
 
-use Drupal\memcache\Connection\MemcacheConnectionInterface;
 use Drupal\memcache\MemcacheSettings;
 
+/**
+ * Class MemcachedConnection.
+ */
 class MemcachedConnection implements MemcacheConnectionInterface {
 
   /**
@@ -50,7 +52,7 @@ class MemcachedConnection implements MemcacheConnectionInterface {
     list($host, $port) = explode(':', $server_path);
 
     if ($host == 'unix') {
-      // Memcached expects just the path to the socket without the protocol
+      // Memcached expects just the path to the socket without the protocol.
       $host = substr($server_path, 7);
       // Port is always 0 for unix sockets.
       $port = 0;

@@ -5,8 +5,8 @@ description: Provides a user interface for the Token API and some missing core t
 dependencies:
   - drupal:system (>= 8.5)
 
-# Information added by Drupal.org packaging script on 2018-09-08
-version: '8.x-1.4'
+# Information added by Drupal.org packaging script on 2018-09-21
+version: '8.x-1.5'
 core: '8.x'
 project: 'token'
-datestamp: 1536408485
+datestamp: 1537557488

@@ -20,37 +20,51 @@ class MemcacheDriverFactory {
   protected $settings;
 
   /**
+   * The connection class reference.
+   *
    * @var string
    */
   protected $connectionClass;
 
   /**
+   * The driver class reference.
+   *
    * @var string
    */
   protected $driverClass;
 
   /**
+   * Whether to connect to memcache using a persistent connection.
+   *
    * @var bool
    */
   protected $persistent;
 
   /**
+   * An array of Memcache connections keyed by bin.
+   *
    * @var \Drupal\memcache\Connection\MemcacheConnectionInterface[]
    */
   protected $connections = [];
 
   /**
+   * An array of configured servers.
+   *
    * @var array
    */
   protected $servers = [];
 
   /**
-   * @var array
+   * An array of configured bins.
+   *
+   * @var string[]
    */
   protected $bins = [];
 
   /**
-   * @var array
+   * An array of failed connections to configured servers keyed by server name.
+   *
+   * @var bool[]
    */
   protected $failedConnectionCache = [];
 
@@ -58,6 +72,7 @@ class MemcacheDriverFactory {
    * Constructs a MemcacheDriverFactory object.
    *
    * @param \Drupal\memcache\MemcacheSettings $settings
+   *   The settings object.
    */
   public function __construct(MemcacheSettings $settings) {
     $this->settings = $settings;
@@ -70,11 +85,10 @@ class MemcacheDriverFactory {
    *
    * @param string $bin
    *   The bin which is to be used.
-   *
    * @param bool $flush
    *   Rebuild the bin/server/cache mapping.
    *
-   * @return \Drupal\memcache\DrupalMemcacheInterface | bool
+   * @return \Drupal\memcache\DrupalMemcacheInterface|bool
    *   A Memcache object.
    */
   public function get($bin = NULL, $flush = FALSE) {
@@ -167,7 +181,7 @@ class MemcacheDriverFactory {
       $this->driverClass = MemcacheDriver::class;
     }
 
-    // Values from settings.php
+    // Values from settings.php.
     $this->servers = $this->settings->get('servers', ['127.0.0.1:11211' => 'default']);
     $this->bins = $this->settings->get('bins', ['default' => 'default']);
 

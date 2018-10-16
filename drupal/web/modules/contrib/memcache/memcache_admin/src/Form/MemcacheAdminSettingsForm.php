@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\memcache_admin\Form\MemcacheAdminSettingsForm.
- */
-
 namespace Drupal\memcache_admin\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -53,4 +48,5 @@ class MemcacheAdminSettingsForm extends ConfigFormBase {
 
     parent::submitForm($form, $form_state);
   }
+
 }
