@@ -3,7 +3,7 @@
 namespace Drupal\memcache\Invalidator;
 
 /**
- * Interface TimestampInvalidatorInterface
+ * Interface TimestampInvalidatorInterface.
  *
  * Defines an interface for timestamp-based tag invalidation.
  *
@@ -14,40 +14,48 @@ interface TimestampInvalidatorInterface {
   /**
    * Invalidate the timestamp of a tag.
    *
-   * @param $tag string Tag to invalidate.
+   * @param string $tag
+   *   Tag to invalidate.
    *
-   * @return float New timestamp of tag.
+   * @return float
+   *   New timestamp of tag.
    */
   public function invalidateTimestamp($tag);
 
   /**
    * Get the last invalidation timestamp of a tag.
    *
-   * @param $tag string Tag to check.
+   * @param string $tag
+   *   Tag to check.
    *
-   * @return float The last invalidation timestamp of the tag.
+   * @return float
+   *   The last invalidation timestamp of the tag.
    */
   public function getLastInvalidationTimestamp($tag);
 
   /**
    * Get the last invalidation timestamps of a set of tags.
    *
-   * @param $tags array Array of tags to check (keys are ignored.)
+   * @param array $tags
+   *   Array of tags to check (keys are ignored.)
    *
-   * @return array | bool The last invalidation timestamps on file, or FALSE
-   * on failure.
+   * @return array|bool
+   *   The last invalidation timestamps on file, or FALSE on failure.
    */
-  public function getLastInvalidationTimestamps($tags);
+  public function getLastInvalidationTimestamps(array $tags);
 
   /**
    * Get the current timestamp, optionally offset by a number.
    *
-   * The standard granularity of the resulting timestamp is three decimal places,
-   * (1 millisecond).
+   * The standard granularity of the resulting timestamp is three decimal
+   * places, (1 millisecond).
    *
-   * @param float $offset Offset to apply to timestamp before rounding.
+   * @param float $offset
+   *   Offset to apply to timestamp before rounding.
    *
-   * @return float Current timestamp in decimal seconds.
+   * @return float
+   *   Current timestamp in decimal seconds.
    */
   public function getCurrentTimestamp($offset = 0.0);
+
 }

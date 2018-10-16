@@ -1385,6 +1385,9 @@ class ContainerBuilderTest extends TestCase
 
         $manager = $container->get('manager2');
         $this->assertEquals(new \stdClass(), $manager);
+
+        $foo6 = $container->get('foo6');
+        $this->assertEquals((object) array('bar6' => (object) array()), $foo6);
     }
 
     public function provideAlmostCircular()
@@ -1478,6 +1481,22 @@ class ContainerBuilderTest extends TestCase
 
         $container->set('foo', (object) array(123));
         $this->assertEquals((object) array('foo' => (object) array(123)), $container->get('bar'));
+    }
+
+    public function testDecoratedSelfReferenceInvolvingPrivateServices()
+    {
+        $container = new ContainerBuilder();
+        $container->register('foo', 'stdClass')
+            ->setPublic(false)
+            ->setProperty('bar', new Reference('foo'));
+        $container->register('baz', 'stdClass')
+            ->setPublic(false)
+            ->setProperty('inner', new Reference('baz.inner'))
+            ->setDecoratedService('foo');
+
+        $container->compile();
+
+        $this->assertSame(array('service_container'), array_keys($container->getDefinitions()));
     }
 }
 

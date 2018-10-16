@@ -1,4 +1,0 @@
-services:
-  shs.widget_defaults:
-    class: Drupal\shs\WidgetDefaults
-    arguments: ['@entity_type.manager']

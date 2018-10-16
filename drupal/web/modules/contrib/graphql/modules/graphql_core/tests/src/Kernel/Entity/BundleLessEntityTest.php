@@ -6,11 +6,12 @@ use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Tests\graphql_core\Kernel\GraphQLContentTestBase;
 
-/**
- * Tests for bundle-less entities.
+/** Tests for bundle-less entities.
  *
- * Test edge cases of entities without bundles (e.g. the user entity).
- */
+ * Test edge cases of entities without bundles (e.g. the user entity).	 * Test edge cases of entities without bundles (e.g. the user entity).
+ *
+ * @group graphql_core
+*/
 class BundleLessEntityTest extends GraphQLContentTestBase {
 
   /**
