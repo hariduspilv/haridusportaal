@@ -21,7 +21,7 @@ field_settings:
     label: 'Fixed Label'
     datasource_id: 'entity:node'
     property_path: field_fixed_label
-    type: boolean
+    type: integer
     dependencies:
       config:
         - field.storage.node.field_fixed_label
@@ -45,7 +45,7 @@ field_settings:
     label: Avaldatud
     datasource_id: 'entity:node'
     property_path: status
-    type: boolean
+    type: integer
     dependencies:
       module:
         - node
