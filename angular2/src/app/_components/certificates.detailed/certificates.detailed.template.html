@@ -111,7 +111,7 @@
           <a href="javascript:void(0)" id="backToDashboard" class="sm-hide pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
           <a href="javascript:void(0)" id="backToDashboard" class="sm-show top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
           <mat-accordion multi>
-            <mat-expansion-panel [expanded]="first ? true : false" (opened)="openedAcc(ind)" (closed)="openedAcc(ind)" *ngFor="let item of examResults; let first = first; let ind = index;">
+            <mat-expansion-panel class="detailView" [expanded]="first ? true : false" (opened)="openedAcc(ind)" (closed)="openedAcc(ind)" *ngFor="let item of examResults; let first = first; let ind = index;">
               <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
                 <mat-panel-title>
                   <div *ngIf="!opened[ind]">{{item.test_nimi}}&nbsp;<span *ngIf="item.tulemus">|</span>&nbsp;{{item.tulemus}}</div>
