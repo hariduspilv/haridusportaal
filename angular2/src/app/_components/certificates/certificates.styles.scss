@@ -2,40 +2,41 @@
 
 h4 {
   font-size: 1rem; font-weight: 500; line-height: 1.38; text-align: left; color: $black; margin: 2rem 0 1rem; }
+
   
-  .mat-expansion-panel {margin-bottom: .25rem;border: .0625rem solid #bee3e8;border-left: .1875rem solid #bee3e8;
-    &.detailView {
-      @include break-on(sm, max) {margin: 0 -1.5rem .25rem -1.5rem;
-        &-spacing {margin: 0 -1.5rem .25rem -1.5rem;}
-      }
-    }
-    mat-panel-title {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
-      @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-    }
-    &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid #15adc2;
-      mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
-        @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
-      }
-    }
-    &-body { padding: 0 $medium !important;}
-    &-spacing {margin: 0 0 $half-gutter 0;}
-    &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;background: #bee3e8!important;
-      &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;background: transparent!important;}
-    }
-    &:hover {
-      border-left: .1875rem solid #15adc2;
-      ::ng-deep .mat-expansion-indicator{ background: $blue;
-        &:after {
-          color: $white;
-        }
-      }
-    }
-    @include break-on(lg, min) {
-      border-left: .3125rem solid #bee3e8;
-      &.mat-expanded {border-left: .3125rem solid #15adc2;}
-      &:hover {border-left: .3125rem solid #15adc2;}
+.mat-expansion-panel {margin-bottom: .25rem;border: .0625rem solid #bee3e8;border-left: .1875rem solid #bee3e8;
+  &.detailView {
+    @include break-on(sm, max) {margin: 0 -1.5rem .25rem -1.5rem;
+      &-spacing {margin: 0 -1.5rem .25rem -1.5rem;}
     }
   }
+  mat-panel-title { white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
+    @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+  }
+  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid #15adc2;
+    mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
+      @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
+    }
+  }
+  &-body { padding: 0 $medium !important;}
+  &-spacing {margin: 0 0 $half-gutter 0;}
+  &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;background: #bee3e8!important;
+    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;background: transparent!important;}
+  }
+  &:hover {
+    border-left: .1875rem solid #15adc2;
+    ::ng-deep .mat-expansion-indicator{ background: $blue;
+      &:after {
+        color: $white;
+      }
+    }
+  }
+  @include break-on(lg, min) {
+    border-left: .3125rem solid #bee3e8;
+    &.mat-expanded {border-left: .3125rem solid #15adc2;}
+    &:hover {border-left: .3125rem solid #15adc2;}
+  }
+}
   ::ng-deep .mat-expansion-indicator::after {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';
     content: 'keyboard_arrow_down' !important;border: none !important;transform: none !important;padding: 0 !important;
     position: relative;text-align: center;width: $medium;color: $blue;
@@ -109,11 +110,11 @@ h4 {
     display: flex; flex-basis: calc(50% - 40px); justify-content: center; flex-direction: column;
     @include break-on(xxs, max) { flex-basis: 100%; }
     &:hover { box-shadow: 0 0.125rem 0.25rem 0 rgba(117, 117, 117, 0.5); border: solid 1px $gray; cursor: pointer; text-decoration: underline; }
+    &:visited { 
+      .grid-link { color: $visited; }
+     }
   }
     &-link{ text-decoration: none; }
 }
 
 .grid-load { display: flex; justify-content: center; }
-  
-  
-  
