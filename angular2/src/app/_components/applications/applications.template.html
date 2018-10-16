@@ -8,10 +8,9 @@
     <ng-container *ngIf="acceptable_forms_list.length">
       
       <div class="grid-box">
-        <div [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{test:'true'}" class="grid-item" *ngFor="let form of acceptable_forms_list">
-            <a href="javascript:void(0);" class="grid-link">{{ selectLanguage(form.title) }}</a>
-            <span class="grid-date"></span>
-        </div>
+        <a href="javascript:void(0);" [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{test:'true'}" class="grid-item" *ngFor="let form of acceptable_forms_list">
+            <span class="grid-link">{{ selectLanguage(form.title) }}</span>
+        </a>
       </div>
 
 

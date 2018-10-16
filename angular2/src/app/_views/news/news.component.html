@@ -4,7 +4,7 @@
     <a href="javascript:void(0);" (click)="showFilter = !showFilter">
       <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
       <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
-    </a> 
+    </a>  
   </div>
   <form (submit)="filterSubmit($event)" class="filter-wrapper" *ngIf="showFilter">
     <div class="main-container">
