@@ -1581,6 +1581,10 @@ button:
     translation_type: textarea
     et: 'Näita vähem'
     en: 'Show less'
+  close:
+    translation_type: textarea
+    et: Sulge
+    en: Close
 tooltip:
   share:
     translation_type: textarea
@@ -1594,6 +1598,10 @@ tooltip:
     translation_type: textarea
     et: 'Eemalda lemmikutest'
     en: 'Remove from favourites'
+  copy:
+    translation_type: textarea
+    et: 'Kopeeri lõikepuhvrisse'
+    en: 'Copy to clipboard'
 notFound:
   explanation:
     translation_type: text_format
@@ -1826,3 +1834,8 @@ sidebar:
     translation_type: textarea
     et: 'Leia kiiresti'
     en: 'Find quick'
+url:
+  copied_to_clipboard:
+    translation_type: textarea
+    et: 'URL on kopeeritud lõikepuhvrisse.'
+    en: 'URL copied to clipboard.'

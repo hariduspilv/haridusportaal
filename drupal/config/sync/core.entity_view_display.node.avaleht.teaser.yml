@@ -5,6 +5,11 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.avaleht.body
+    - field.field.node.avaleht.field_head_block_title
+    - field.field.node.avaleht.field_supernews
+    - field.field.node.avaleht.field_supernews_publish_date
+    - field.field.node.avaleht.field_supernews_unpublish_date
+    - field.field.node.avaleht.field_topics
     - node.type.avaleht
   module:
     - text
@@ -25,6 +30,8 @@ content:
   links:
     weight: 100
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_head_block_title: true
   field_supernews: true
