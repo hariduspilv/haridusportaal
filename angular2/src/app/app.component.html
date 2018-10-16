@@ -1,17 +1,17 @@
 <button role="button" (click)="focusMainContent()" (keyup.enter)="focusMainContent()" (keyup.space)="focusMainContent()" class="maincontent" attr.aria-label="{{'frontpage.skip' | translate}}">Skip to main content</button>
 
-<app-header></app-header>
+<app-header [wasClicked]="wasClicked"></app-header>
 
 <div class="inline" style="height: 100%;">
 	<mat-sidenav-container class="example-container"  style="min-height:100%;">
-		<mat-sidenav #sidenav mode="{{mode}}" [(opened)]="opened" [disableClose]="isSidenavCloseDisabled" fixedInViewport="true">
+		<mat-sidenav #sidenav mode="{{mode}}" (openedStart)="wasClicked=true" (closedStart)="wasClicked=false" [(opened)]="opened" [disableClose]="isSidenavCloseDisabled" fixedInViewport="true">
 			<app-side-menu></app-side-menu>
 		</mat-sidenav>
 		
 		
 		<mat-sidenav-content role="contentinfo">
 			<a href="javascript:void(0)" attr.aria-label="{{'frontpage.mainarea' | translate}}" id="mainContent"></a>
-			<router-outlet ></router-outlet>
+			<router-outlet></router-outlet>
 			
 		</mat-sidenav-content>
 		

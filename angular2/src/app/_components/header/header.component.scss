@@ -94,3 +94,48 @@ app-login {
 .inline {
   min-height: 2.5rem;
 }
+
+/* Hamburger */
+.selected.hamburger  {
+  position: relative; 
+  background: transparent;
+  transition: all .3s ease-in-out;}
+  .selected.hamburger:before {
+    transform: translateY(0) rotate(45deg);
+    height: 0.1rem;
+    width: 1.2rem;
+    top: 0rem;
+    background: #ffffff;
+    transition: all .3s ease-in-out;
+    content: "";
+    display: block;
+    position: relative; }
+    .selected.hamburger:after {
+    transform: translateY(0) rotate(-45deg);
+    height: 0.1rem;
+    width: 1.2rem;
+    top: -0.1rem;
+    background: #ffffff;
+    transition: all .3s ease-in-out;
+    content: "";
+    display: block;
+    position: relative; }
+
+.hamburger {
+  position: relative;
+  display: inline-block; }
+ .hamburger, .hamburger:before, .hamburger:after {
+    height: 0.1rem;
+    width: 1.2rem;
+    background: #ffffff;
+    transition: all .3s ease-in-out; }
+    .hamburger:before, .hamburger:after {
+    content: "";
+    display: block;
+    position: absolute; }
+    .hamburger:before {
+    transform: translateY(-0.5rem) rotate(0);
+    top: 0.2rem; }
+    .hamburger:after {
+    transform: translateY(0.5rem) rotate(0);
+    top: -0.2rem; }
