@@ -384,3 +384,22 @@ $foo = foo(
     // comment
     )
 );
+
+$foo = array(
+        <<<HERE
+HERE
+,
+        <<<HERE
+HERE
+      ,
+       );
+
+$foo = array(
+        'тип'  => 'авто',
+        'цвет' => 'синий',
+       );
+
+$paths = array(
+          Init::ROOT_DIR.'/тип'  => 'авто',
+          Init::ROOT_DIR.'/цвет' => 'синий',
+         );

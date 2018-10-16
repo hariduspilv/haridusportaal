@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\memcache\DrupalMemcacheInterface.
- */
-
 namespace Drupal\memcache;
 
 /**
@@ -97,7 +92,7 @@ interface DrupalMemcacheInterface {
   /**
    * Immediately invalidates all existing items.
    *
-   * flush doesn't actually free any resources, it only marks all the
+   * Flush doesn't actually free any resources, it only marks all the
    * items as expired, so occupied memory will be overwritten by new items.
    *
    * @return bool
