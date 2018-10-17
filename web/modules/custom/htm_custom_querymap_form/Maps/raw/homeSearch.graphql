@@ -21,6 +21,11 @@ query (
       {field:"field_author", weight:1},
       {field:"field_short_description", weight: 2},
       {field:"field_registration_code", weight:5}
+      {field:"field_pros", weight:1}
+      {field:"field_cons", weight:1}
+      {field:"field_oska_main_profession", weight:3}
+      {field:"field_oska_field", weight:2}
+      {field:"field_job_name", weight:3}
     ]}) {
     ContentType
     Nid
