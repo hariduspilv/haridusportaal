@@ -1,0 +1,5 @@
+name: 'Alter admin form date validation'
+type: module
+description: 'Module for altering admin date field'
+core: 8.x
+package: 'HTM'

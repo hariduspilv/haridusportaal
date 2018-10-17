@@ -1,5 +1,5 @@
 name: 'HTM Custom favorites'
 type: module
-description: 'My Awesome Module'
+description: 'Custom favorites entity and GraphQL requests'
 core: 8.x
-package: 'Custom'
+package: 'HTM'
