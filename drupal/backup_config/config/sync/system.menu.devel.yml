@@ -1,0 +1,13 @@
+uuid: 49ae2d7b-cc61-4b19-83bd-0fbafeaae5d2
+langcode: et
+status: true
+dependencies:
+  enforced:
+    module:
+      - devel
+_core:
+  default_config_hash: mYceWZ4FHflXMWwxiO7ePCeXvKMl9F-ARIQ9p4IpvWE
+id: devel
+label: Arendus
+description: 'Links related to Devel module.'
+locked: true

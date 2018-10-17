@@ -1,0 +1,18 @@
+uuid: 5e09b116-34ac-40d4-bf25-9b822095854a
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_indicator
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: taxonomy_term.oska_indicator
+target_entity_type_id: taxonomy_term
+target_bundle: oska_indicator
+default_langcode: site_default
+language_alterable: false

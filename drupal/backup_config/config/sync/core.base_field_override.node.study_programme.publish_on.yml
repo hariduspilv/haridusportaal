@@ -1,0 +1,18 @@
+uuid: 98a39d60-772b-4bb3-aaf8-5902bf45fe8a
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+id: node.study_programme.publish_on
+field_name: publish_on
+entity_type: node
+bundle: study_programme
+label: 'Avaldamise aeg'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

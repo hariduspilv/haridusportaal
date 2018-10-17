@@ -1,0 +1,22 @@
+uuid: 1e5c9a37-5207-4450-9984-a797ec34b07b
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+id: node.study_programme.sticky
+field_name: sticky
+entity_type: node
+bundle: study_programme
+label: 'Püsib nimekirja alguses'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

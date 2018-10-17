@@ -1,0 +1,18 @@
+uuid: 71ceb5b0-cb69-4720-804f-5f74598fca0f
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_main_profession
+id: taxonomy_term.oska_main_profession.name
+field_name: name
+entity_type: taxonomy_term
+bundle: oska_main_profession
+label: Nimi
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

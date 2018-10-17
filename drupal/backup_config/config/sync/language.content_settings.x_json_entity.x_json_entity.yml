@@ -1,0 +1,11 @@
+uuid: f8e3b94b-625c-4731-8d9e-3918a3548ab9
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_xjson_services
+id: x_json_entity.x_json_entity
+target_entity_type_id: x_json_entity
+target_bundle: x_json_entity
+default_langcode: site_default
+language_alterable: false

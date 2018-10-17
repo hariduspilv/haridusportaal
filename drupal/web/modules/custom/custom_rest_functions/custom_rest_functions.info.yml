@@ -1,7 +1,0 @@
-name: 'Custom REST functions'
-type: module
-description: 'HTM custom REST functions & endpoints'
-core: 8.x
-package: 'HTM Custom'
-dependencies:
-  - rest

@@ -1,0 +1,33 @@
+uuid: 618ecf1c-e738-47a5-aa99-052b513e583c
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: valdkonnad
+label: 'Valdkonnad pattern EST'
+type: 'canonical_entities:node'
+pattern: 'valdkonnad/[node:title]'
+selection_criteria:
+  3ebeac7a-54cf-489e-a3ed-92011a0288e9:
+    id: node_type
+    bundles:
+      oska_field_page: oska_field_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 3ebeac7a-54cf-489e-a3ed-92011a0288e9
+  e314c334-4b52-4785-b169-7109cde42a04:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: e314c334-4b52-4785-b169-7109cde42a04
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel

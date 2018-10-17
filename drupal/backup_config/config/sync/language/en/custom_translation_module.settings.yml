@@ -1,0 +1,244 @@
+field1: 'Tekstfield numero uno'
+field2: 'Tekstfield numero duo'
+field3: 'Tekstfield numero trio'
+article_translations:
+  contact: Contact
+newsletter:
+  intro: 'Mingi äge sissejuhatuse tekstenglais'
+  confirm_subscription: 'Confirm subscription'
+  email: 'Add your email address'
+  valid_email: 'Enter a valid email address'
+  modal_title: 'Order a newsletter'
+  modal_close: 'Close window'
+  unsubscribe_title: 'End newsletter subscription'
+  subscription_thanks_content: 'Thank you for your interest in education'
+  subscription_choose_one: 'Choose at least one newsletter'
+  subscription_failed: 'Forwarding the subscription failed'
+  order_to_email: 'Order to email'
+news:
+  label: News
+  all: 'All news'
+  recent: 'Recent news'
+  filter_name: 'News title'
+  filter_tag: 'News labels'
+  title: Title
+  no_results: 'No results'
+article:
+  contact: Contact
+  hyperlinks: Links
+  similar_articles: 'Related articles'
+  label: Article
+event:
+  label: Events
+  tags: 'Events'' labels'
+  status: 'Event status'
+  free: 'Free of charge'
+  register: 'By registration'
+  invite: 'By invitation'
+  practical_info: 'Practical info'
+  passed: 'Event has passed'
+  group: 'Event group'
+  list: List
+  calendar: Calendar
+  entrance: Entrance
+  related: 'Related events'
+  start_time: 'Start time'
+  location: Location
+  place_and_time: 'Time and place'
+  participant_email: Email
+  participant_phone: Tel
+  participant_last_name: 'Last name'
+  participant_first_name: 'First name'
+  participant_organization: Enterprise/company
+  participant_created: 'Registration time'
+  participant_comment: Notes
+  participant_index: 'seq. nr'
+  participant_list: 'Participants list'
+  participant_count: 'Of participants'
+  participants_list_view: 'See participants list'
+  filter_name: 'Event name'
+  filter_tags: 'Event labels'
+  filter_types: 'Event types'
+  registration_form: 'Registration form'
+  registration_form_required: 'Marked fields are mandatory'
+  registration_form_valid_email: 'Enter a correct email'
+  registration_form_send: Send
+  registration_form_close: 'Close window'
+  registration_form_add_to_calendar: 'Add the event to your calendar (iCal)'
+  registration_ended: 'Event registration ended'
+  registration_not_started: 'Event registration not started'
+  registration_form_cancel: Cancel
+login:
+  username: Username
+  password: Password
+  error: 'Login failed. Please double check your username and password'
+  success: 'Login successful'
+time:
+  date: Date
+  date_format: dd/mm/yy
+  monday: Monday
+  monday_short: M
+  tuesday: Tuesday
+  tuesday_short: Tu
+  wednesday: Wednesday
+  wednesday_short: W
+  thursday: Thursday
+  thursday_short: T
+  friday: Friday
+  friday_short: F
+  saturday: Saturday
+  saturday_short: S
+  sunday: Sunday
+  sunday_short: S
+  january: January
+  february: February
+  march: March
+  april: April
+  may: May
+  june: June
+  july: July
+  october: October
+  december: December
+  date_period_from: 'Start date'
+  date_period_to: 'End date'
+  from: From
+  to: Until
+  duration_year_singular: Year
+  duration_year_plural: Years
+  duration_month_singular: Month
+  duration_month_plural: Months
+  time_of_day: Time
+button:
+  search: Search
+  load_more: 'Load more'
+  all: All
+  map_closer: 'Look closer'
+  add_to_comparison: 'Add to comparison'
+  search_people: 'Search for people'
+  view_all: 'See all'
+  view_more: 'See more'
+  read_more: 'Load more'
+  show_all: 'See all'
+  register: Register
+  search_detailed: 'Advanced search'
+  search_detailed_short: Advanced
+  search_brief: 'Narrow search'
+  search_brief_short: Narrow
+  search_close: 'Close search'
+  login: 'Log in'
+  logout: 'Log out'
+  filter_close: 'Close filter'
+  filter: Filter
+  newsletter_submit: 'Confirm subscription'
+  choose_type: 'Select type'
+  rss_order: 'Order topics by RSS'
+  back_to_dashboard: 'Back to dashboard'
+  search_from_page: 'Search from page'
+school:
+  label: Schools
+  institutions: Schools
+  location: Location
+  name: 'School name'
+  institution_type: 'School type'
+  institution_select_type: 'Choose a school type first'
+  institution_sublevel: 'School subtype'
+  language: Language
+  ownership: Ownership
+  available_dormitory: 'Student housing'
+  dormitory: 'Student housing'
+  special_needs_long: ESN
+  special_needs_short: 'Educational special needs'
+  list: List
+  map: Map
+  no_result: 'No schools found'
+  legal_address: 'Legal address'
+  defacto_address: 'Actual address'
+  website: Webpage
+  contact_info: 'Contact info'
+  contact: Contacts
+  register_code_short: 'Reg. code'
+  available: Exists
+  unavailable: None
+  institution_ownership: 'Ownership type'
+  investment_measure: 'Investment measure'
+  investment_deadline_year: 'Investment deadline'
+  municipalities: Municipalities
+  support_projects: 'Subsidy projects'
+  municipalities_detailed: Municipalities
+  counties: Counties
+  investment_amount_million_short: million
+  register_code: 'Register code'
+  select_investment_measure_year: 'Selected investment measure year'
+  selected_year_investment_measure: 'Selected year investment measure'
+  investment_project: 'Investment project'
+  investment_max_amount: 'Investment max amount'
+  investment_deadline: 'Investment deadline'
+studyProgramme:
+  label: Studyprogrammes
+  level: 'Curriculum level'
+  accreditation: Accreditation
+  valid_accreditation: 'Valid accreditation'
+  languages: Languages
+  study_duration: 'Study duration'
+  study_group: 'Curriculum group'
+  admission_status: 'State of admission'
+  filter_title: Studyprogramme
+  filter_type: 'Type of studyprogramme'
+  filter_language: Language
+  filter_school: School
+  filter_location: Location
+  filter_iscedf_broad: 'Study field'
+  filter_iscedf_narrow: 'Course direction'
+  filter_iscedf_detailed: 'Curriculum group'
+  filter_open_admission: 'Only open admission'
+  no_result: 'No results'
+  no_results: 'No results'
+frontpage:
+  label: Frontpage
+  navigate: 'Go to frontpage'
+  favourites_limit_modal_title: 'Add to favourites'
+  favourites_limit_modal_content: 'You can save up to 10 favourites'
+  favourites_limit_modal_close: 'Close window'
+  favourites_list_label: 'My favourites'
+  favourites_list_none_message: 'You have not added any favourites yet. You can add them by clicking the star icon while visiting a page.'
+  favourites_snackbar_message: 'Page added as a favourite. You can view your favourites on dashboard.'
+  favourites_snackbar_action: 'View dashboard'
+  dashboard_label: Dashboard
+  dashboard_tabs_applications: Applications
+  dashboard_tabs_certificates: Certificates
+  dashboard_tabs_studies: Studies
+  dashboard_tabs_teachings: Teaching
+  dashboard_tabs_certificates_error_technical: 'Apologies, there was a technical error. Try again later.'
+  dashboard_tabs_certificates_professional: 'Professional certificate'
+  dashboard_tabs_certificates_examinations: Examinations
+  dashboard_tabs_certificates_number: 'Certificate number'
+  dashboard_tabs_certificates_name: 'Certificate name'
+  dashboard_tabs_certificates_type: Type
+  dashboard_tabs_certificates_standard: Standard
+  dashboard_tabs_certificates_ekr: 'EKR level'
+  dashboard_tabs_certificates_eqf: 'EQF level'
+  dashboard_tabs_certificates_specialization: Specialization
+  dashboard_tabs_certificates_part: 'Part of vocation'
+  dashboard_tabs_certificates_competence: Competence
+  dashboard_tabs_certificates_field: Field
+  dashboard_tabs_certificates_field_topic: Topic
+  dashboard_tabs_certificates_qualification: 'Academic qualification'
+  dashboard_tabs_certificates_language: 'Examination language'
+  dashboard_tabs_certificates_issuer: Issuer
+  dashboard_tabs_certificates_issued_at: 'Issued at'
+  dashboard_tabs_certificates_valid_from: 'Valid from'
+  dashboard_tabs_certificates_valid_to: 'Valid to'
+  dashboard_tabs_certificates_isco: 'Profession classification (ISCO)'
+  dashboard_tabs_certificates_duplicate: Duplicate
+  dashboard_tabs_certificates_notvalid: Invalid
+  favourites_snackbar_message_remove: 'This page has been removed from favourites.'
+tooltip:
+  favourites: Favourites
+  share: Share
+search:
+  keyword: Keyword
+  label: Search
+  results: Results
+  no_results_start: Search
+  no_results_end: 'returned no results. Try another keyword.'
+  filter_results: 'Filter results'

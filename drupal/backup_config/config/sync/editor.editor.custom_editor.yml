@@ -1,0 +1,63 @@
+uuid: 6db986e4-2eb4-439d-9262-873f31b09599
+langcode: et
+status: true
+dependencies:
+  config:
+    - filter.format.custom_editor
+  module:
+    - ckeditor
+    - editor_file
+third_party_settings:
+  editor_file:
+    status: true
+    scheme: public
+    directory: inline-files
+    extensions: pdf
+format: custom_editor
+editor: ckeditor
+settings:
+  toolbar:
+    rows:
+      -
+        -
+          name: Formatting
+          items:
+            - Bold
+            - Italic
+            - Table
+            - SpecialChar
+        -
+          name: Lists
+          items:
+            - BulletedList
+            - NumberedList
+        -
+          name: Links
+          items:
+            - DrupalLink
+            - DrupalUnlink
+            - DrupalFile
+        -
+          name: Tools
+          items:
+            - Undo
+            - Redo
+            - Cut
+            - Copy
+            - Paste
+            - PasteFromWord
+            - Maximize
+            - Format
+  plugins:
+    stylescombo:
+      styles: 'h3|t(''Heading'')'
+    language:
+      language_list: un
+image_upload:
+  status: false
+  scheme: public
+  directory: inline-images
+  max_size: ''
+  max_dimensions:
+    width: null
+    height: null

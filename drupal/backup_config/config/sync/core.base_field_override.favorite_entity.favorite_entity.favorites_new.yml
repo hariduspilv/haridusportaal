@@ -1,0 +1,20 @@
+uuid: abb2c039-da57-44e5-a4f1-d7750f40521c
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_favorites
+id: favorite_entity.favorite_entity.favorites_new
+field_name: favorites_new
+entity_type: favorite_entity
+bundle: favorite_entity
+label: Favorite
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: favorite_field_type

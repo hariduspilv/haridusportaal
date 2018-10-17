@@ -1,0 +1,29 @@
+uuid: 9426b261-702c-4087-9175-bdae8b78da2b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_qualification_standard_id
+    - node.type.study_programme
+    - taxonomy.vocabulary.qualificationstandardid
+id: node.study_programme.field_qualification_standard_id
+field_name: field_qualification_standard_id
+entity_type: node
+bundle: study_programme
+label: 'Kutsestandardi identifikaator'
+description: 'Eraldada erinevad väärtused komadega.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      qualificationstandardid: qualificationstandardid
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

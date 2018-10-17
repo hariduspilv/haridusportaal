@@ -1,0 +1,19 @@
+uuid: 26ff053b-d876-462d-b3fa-5152143ba6ec
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_address
+    - paragraphs.paragraphs_type.school_location
+id: paragraph.school_location.field_address
+field_name: field_address
+entity_type: paragraph
+bundle: school_location
+label: Aadress
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

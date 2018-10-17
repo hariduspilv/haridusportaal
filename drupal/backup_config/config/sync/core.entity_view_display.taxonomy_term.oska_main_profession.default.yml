@@ -1,0 +1,68 @@
+uuid: e2e0da8d-862d-4895-ad93-4a881c880dd0
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.oska_main_profession.field_emtak_code
+    - field.field.taxonomy_term.oska_main_profession.field_isced_f_detailed
+    - field.field.taxonomy_term.oska_main_profession.field_isco_reference
+    - field.field.taxonomy_term.oska_main_profession.field_oska_field
+    - field.field.taxonomy_term.oska_main_profession.field_study_programme
+    - taxonomy.vocabulary.oska_main_profession
+  module:
+    - text
+id: taxonomy_term.oska_main_profession.default
+targetEntityType: taxonomy_term
+bundle: oska_main_profession
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_emtak_code:
+    weight: 2
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_isced_f_detailed:
+    weight: 3
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_isco_reference:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_oska_field:
+    weight: 5
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_study_programme:
+    weight: 4
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden:
+  langcode: true

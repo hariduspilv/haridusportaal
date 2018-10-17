@@ -1,0 +1,18 @@
+uuid: d7a981c8-9e7c-4790-9cbf-74edba010b25
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.isco_occupation
+id: taxonomy_term.isco_occupation.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: isco_occupation
+label: Muudetud
+description: 'Termi viimase muutmise aeg.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

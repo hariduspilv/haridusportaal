@@ -1,0 +1,18 @@
+uuid: 8d2f5615-58e7-4411-bb1e-ecb5c16defac
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+id: node.study_programme.changed
+field_name: changed
+entity_type: node
+bundle: study_programme
+label: Muudetud
+description: 'Sisuelemendi viimase muutmise aeg.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

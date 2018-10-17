@@ -1,0 +1,33 @@
+uuid: 442c1bb1-3d79-4099-9e98-1131283afa2c
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: article_pattern_est
+label: 'Article pattern EST'
+type: 'canonical_entities:node'
+pattern: 'artiklid/[node:title]'
+selection_criteria:
+  2413cb47-95df-4f47-9214-071bc62fa897:
+    id: node_type
+    bundles:
+      article: article
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 2413cb47-95df-4f47-9214-071bc62fa897
+  ef97a481-c89a-4a49-a6a8-03c39775628f:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: ef97a481-c89a-4a49-a6a8-03c39775628f
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

@@ -1,0 +1,19 @@
+uuid: ebd8493f-8681-4be1-bc8c-6d41b4c2858d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact_person
+    - node.type.event
+id: node.event.field_contact_person
+field_name: field_contact_person
+entity_type: node
+bundle: event
+label: 'Contact Person'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,9 @@
+uuid: 4dc60f8e-b558-4981-853d-ff0f81eb6ea6
+langcode: et
+status: true
+dependencies: {  }
+name: 'Main Profession Tags'
+vid: main_profession_tags
+description: ''
+hierarchy: 0
+weight: 0

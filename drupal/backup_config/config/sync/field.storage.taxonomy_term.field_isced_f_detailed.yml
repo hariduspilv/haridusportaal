@@ -1,0 +1,19 @@
+uuid: 8e728875-e5f3-4dc6-9bdc-0f0ad1b93cc2
+langcode: et
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_isced_f_detailed
+field_name: field_isced_f_detailed
+entity_type: taxonomy_term
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

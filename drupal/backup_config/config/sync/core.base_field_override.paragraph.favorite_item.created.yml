@@ -1,0 +1,18 @@
+uuid: eaa4a328-f82b-4a0f-a02d-173cc332f810
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.favorite_item
+id: paragraph.favorite_item.created
+field_name: created
+entity_type: paragraph
+bundle: favorite_item
+label: 'Loomise kuupäev'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

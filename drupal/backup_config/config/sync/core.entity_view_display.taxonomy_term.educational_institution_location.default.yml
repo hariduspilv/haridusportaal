@@ -1,0 +1,31 @@
+uuid: 59f52199-0425-4b61-ae31-f942a4b8bd02
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.educational_institution_location.field_ehak
+    - taxonomy.vocabulary.educational_institution_location
+  module:
+    - text
+id: taxonomy_term.educational_institution_location.default
+targetEntityType: taxonomy_term
+bundle: educational_institution_location
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ehak:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  langcode: true

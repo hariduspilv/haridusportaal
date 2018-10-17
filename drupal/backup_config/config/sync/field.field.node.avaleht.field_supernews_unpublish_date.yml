@@ -1,0 +1,21 @@
+uuid: 287d771b-56fe-4f54-84fd-baa12656fd5d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_supernews_unpublish_date
+    - node.type.avaleht
+  module:
+    - datetime
+id: node.avaleht.field_supernews_unpublish_date
+field_name: field_supernews_unpublish_date
+entity_type: node
+bundle: avaleht
+label: 'Superuudise varjamise kuupäev'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

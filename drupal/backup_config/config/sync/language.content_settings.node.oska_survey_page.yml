@@ -1,0 +1,18 @@
+uuid: 207a8aeb-9779-4106-adbb-cd4ea6b57224
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.oska_survey_page
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: node.oska_survey_page
+target_entity_type_id: node
+target_bundle: oska_survey_page
+default_langcode: site_default
+language_alterable: false

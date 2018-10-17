@@ -1,0 +1,58 @@
+uuid: 92cd9a1c-9199-4497-be55-34df58e9cd6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_date
+    - node.type.event
+    - paragraphs.paragraphs_type.event_date
+  module:
+    - entity_reference_revisions
+id: node.event.field_event_date
+field_name: field_event_date
+entity_type: node
+bundle: event
+label: 'Sündmuse lisakuupäevad'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      event_date: event_date
+    target_bundles_drag_drop:
+      event_date:
+        enabled: true
+        weight: 3
+      registration_period:
+        weight: 4
+        enabled: false
+      link:
+        weight: 6
+        enabled: false
+      school_location:
+        weight: 8
+        enabled: false
+      accordion:
+        weight: 9
+        enabled: false
+      additional_section:
+        weight: 10
+        enabled: false
+      contact_section:
+        weight: 11
+        enabled: false
+      homepage_topics:
+        weight: 14
+        enabled: false
+      favorite_item:
+        weight: 15
+        enabled: false
+      right_sidebar_section_info:
+        weight: 15
+        enabled: false
+field_type: entity_reference_revisions

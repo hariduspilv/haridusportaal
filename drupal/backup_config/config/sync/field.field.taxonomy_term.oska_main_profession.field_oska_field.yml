@@ -1,0 +1,29 @@
+uuid: 03f76835-b5cd-466d-879e-443ca8d769ca
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_oska_field
+    - taxonomy.vocabulary.oska_field
+    - taxonomy.vocabulary.oska_main_profession
+id: taxonomy_term.oska_main_profession.field_oska_field
+field_name: field_oska_field
+entity_type: taxonomy_term
+bundle: oska_main_profession
+label: 'Oska field'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      oska_field: oska_field
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

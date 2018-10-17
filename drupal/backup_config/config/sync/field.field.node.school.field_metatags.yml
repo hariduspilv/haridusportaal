@@ -1,0 +1,23 @@
+uuid: 410c2b6b-3bbc-4208-9a61-fd56d527fa67
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_metatags
+    - node.type.school
+  module:
+    - metatag
+id: node.school.field_metatags
+field_name: field_metatags
+entity_type: node
+bundle: school
+label: Metatags
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 'a:0:{}'
+default_value_callback: ''
+settings: {  }
+field_type: metatag

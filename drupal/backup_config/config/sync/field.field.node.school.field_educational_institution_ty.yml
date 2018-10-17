@@ -1,0 +1,29 @@
+uuid: a39b0c41-abf3-4cb8-9b4b-b414184fabab
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_educational_institution_ty
+    - node.type.school
+    - taxonomy.vocabulary.educational_institution_type
+id: node.school.field_educational_institution_ty
+field_name: field_educational_institution_ty
+entity_type: node
+bundle: school
+label: 'Educational Institution Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      educational_institution_type: educational_institution_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

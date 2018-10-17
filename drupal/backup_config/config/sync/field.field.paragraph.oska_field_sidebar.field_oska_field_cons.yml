@@ -1,0 +1,19 @@
+uuid: 56630e28-4798-4c3c-bf9a-3cee8cc890da
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_oska_field_cons
+    - paragraphs.paragraphs_type.oska_field_sidebar
+id: paragraph.oska_field_sidebar.field_oska_field_cons
+field_name: field_oska_field_cons
+entity_type: paragraph
+bundle: oska_field_sidebar
+label: Cons
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

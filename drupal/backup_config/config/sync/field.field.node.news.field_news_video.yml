@@ -1,0 +1,21 @@
+uuid: 725f5b78-942c-4923-a0f7-0a7d8957f1d6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_news_video
+    - node.type.news
+  module:
+    - htm_custom_video_field
+id: node.news.field_news_video
+field_name: field_news_video
+entity_type: node
+bundle: news
+label: 'Uudise video'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: custom_video_field_type

@@ -1,0 +1,19 @@
+uuid: 287eb294-a13f-4a87-8d83-c49d79a61d5a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_number_employed_text
+    - paragraphs.paragraphs_type.oska_field_sidebar
+id: paragraph.oska_field_sidebar.field_number_employed_text
+field_name: field_number_employed_text
+entity_type: paragraph
+bundle: oska_field_sidebar
+label: 'Number employed text'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

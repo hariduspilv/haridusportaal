@@ -1,0 +1,31 @@
+uuid: b42f7d5f-641a-4d94-a049-6676959d39bf
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_teaching_language
+    - node.type.study_programme
+    - taxonomy.vocabulary.teaching_language
+id: node.study_programme.field_teaching_language
+field_name: field_teaching_language
+entity_type: node
+bundle: study_programme
+label: Õppekeel
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    target_uuid: e1a3ab40-f17f-441e-9c34-9b36af343a8e
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      teaching_language: teaching_language
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

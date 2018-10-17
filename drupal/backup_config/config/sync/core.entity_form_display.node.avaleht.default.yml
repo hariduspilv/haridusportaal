@@ -1,0 +1,161 @@
+uuid: 9caa5604-c5f1-4b30-a209-f7890e35ecbb
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.avaleht.body
+    - field.field.node.avaleht.field_head_block_title
+    - field.field.node.avaleht.field_supernews
+    - field.field.node.avaleht.field_supernews_publish_date
+    - field.field.node.avaleht.field_supernews_unpublish_date
+    - field.field.node.avaleht.field_topics
+    - node.type.avaleht
+  module:
+    - conditional_fields
+    - datetime
+    - paragraphs
+    - path
+id: node.avaleht.default
+targetEntityType: node
+bundle: avaleht
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_head_block_title:
+    weight: 9
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_supernews:
+    weight: 11
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_supernews_publish_date:
+    weight: 12
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        315bcf35-d1ae-462b-9cd1-7b5a26ad5b00:
+          dependee: field_supernews
+          settings:
+            state: disabled
+            condition: empty
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form: {  }
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: node
+          bundle: avaleht
+    type: datetime_default
+    region: content
+  field_supernews_unpublish_date:
+    weight: 13
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        00471f5d-b9a2-4118-a018-b9db2a8cd5b7:
+          dependee: field_supernews
+          settings:
+            state: disabled
+            condition: empty
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form: {  }
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: node
+          bundle: avaleht
+    type: datetime_default
+    region: content
+  field_topics:
+    type: entity_reference_paragraphs
+    weight: 10
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 5
+    region: content
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 8
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 6
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden:
+  body: true
+  publish_on: true
+  unpublish_on: true

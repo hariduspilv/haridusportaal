@@ -1,0 +1,29 @@
+uuid: 2729a099-fe05-446e-8335-499f4404b9ee
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.page.field_metatags
+    - node.type.page
+  module:
+    - metatag
+    - user
+id: node.page.default
+targetEntityType: node
+bundle: page
+mode: default
+content:
+  field_metatags:
+    weight: 101
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true

@@ -1,0 +1,23 @@
+uuid: f2a3a4c2-763c-4e60-bfbd-08f0d02a99d8
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_qualification_standard
+    - paragraphs.paragraphs_type.main_profession_sidebar
+  module:
+    - link
+id: paragraph.main_profession_sidebar.field_qualification_standard
+field_name: field_qualification_standard
+entity_type: paragraph
+bundle: main_profession_sidebar
+label: Kutsestandardid
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link

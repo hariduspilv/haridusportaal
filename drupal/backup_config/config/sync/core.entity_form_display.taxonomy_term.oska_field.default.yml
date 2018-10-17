@@ -1,0 +1,41 @@
+uuid: e6735135-4338-4483-ae09-e8da64bdcb53
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.oska_field.field_description_image
+    - image.style.thumbnail
+    - taxonomy.vocabulary.oska_field
+  module:
+    - image
+id: taxonomy_term.oska_field.default
+targetEntityType: taxonomy_term
+bundle: oska_field
+mode: default
+content:
+  field_description_image:
+    weight: 2
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  description: true
+  path: true
