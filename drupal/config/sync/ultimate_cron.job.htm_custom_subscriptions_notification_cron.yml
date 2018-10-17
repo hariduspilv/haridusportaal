@@ -1,0 +1,17 @@
+uuid: d22a8058-c647-4fb3-92e5-4d50e27adb18
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_subscriptions_notification
+title: 'Default cron handler'
+id: htm_custom_subscriptions_notification_cron
+weight: 0
+module: htm_custom_subscriptions_notification
+callback: htm_custom_subscriptions_notification_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
