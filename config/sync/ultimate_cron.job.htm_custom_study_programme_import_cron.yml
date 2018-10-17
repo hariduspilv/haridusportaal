@@ -1,0 +1,17 @@
+uuid: c3fa594e-f51b-4ff3-9657-2c6957a124b1
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_study_programme_import
+title: 'Default cron handler'
+id: htm_custom_study_programme_import_cron
+weight: 0
+module: htm_custom_study_programme_import
+callback: htm_custom_study_programme_import_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database
