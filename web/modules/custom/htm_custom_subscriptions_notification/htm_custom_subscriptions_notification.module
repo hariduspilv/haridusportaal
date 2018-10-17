@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_subscriptions_notification.
+ */
+
+use Drupal\htm_custom_subscriptions_notification\Controller\NotificationController;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
+use Drupal\Core\Database\Database;
+use Drupal\Component\Utility\Unicode;
+
+/**
+ * Implements hook_help().
+ */
+function htm_custom_subscriptions_notification_cron() {
+        $notification_controller = new NotificationController();
+
+        /** @var QueueFactory $queue_factory */
+        $queue_factory = \Drupal::service('queue');
+        /** @var QueueInterface $queue */
+        $queue = $queue_factory->get('cron_htm_custom_subscriptions_notification');
+
+        $notificationnodes = $notification_controller->notify();
+        foreach($notificationnodes as $notificationnode){
+          $queue->createItem($notificationnode);
+        }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function htm_custom_subscriptions_notification_mail($key, &$message, $params) {
+
+  switch ($key) {
+    case 'notification_email':
+
+      $title = $params['subject'];
+      $body = $params['body'];
+
+      $render = [
+        '#theme' => 'registration_email_template',
+        '#body' => nl2br(html_entity_decode($body))
+      ];
+
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = Unicode::mimeHeaderEncode($title);
+      $message['body'][] = \Drupal::service('renderer')->render($render);
+
+      break;
+  }
+
+}

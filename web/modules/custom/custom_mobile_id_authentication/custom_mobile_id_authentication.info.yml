@@ -1,5 +1,0 @@
-name: 'Custom Mobile ID Authentication'
-type: module
-description: 'Module for authenticating over mobile id'
-core: 8.x
-package: 'TWN-Custom'
