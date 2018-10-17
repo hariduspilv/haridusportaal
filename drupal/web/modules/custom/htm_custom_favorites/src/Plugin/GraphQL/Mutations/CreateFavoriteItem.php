@@ -16,7 +16,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use http\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Drupal\custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator;
+use Drupal\htm_custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator;
 use Drupal\Core\Language\LanguageManager;
 
 /**
@@ -69,7 +69,7 @@ class CreateFavoriteItem extends CreateEntityBase{
 				$pluginId,
 				$pluginDefinition,
 				$container->get('entity_type.manager'),
-				$container->get('custom_graphql_functions.language_negotiator'),
+				$container->get('htm_custom_graphql_functions.language_negotiator'),
 				$container->get('current_user'),
 				$container->get('language_manager'));
 	}

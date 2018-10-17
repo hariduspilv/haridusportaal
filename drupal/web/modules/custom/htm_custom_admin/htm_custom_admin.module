@@ -1,0 +1,106 @@
+<?php
+
+/**
+* @file
+* Contains form_alter_hook.module.
+*/
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+* Implements hook_help().
+*/
+function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the form_alter_hook module.
+    case 'help.page.form_alter_hook':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for altering forms') . '</p>';
+      return $output;
+
+      default:
+    }
+  }
+
+  use Drupal\Core\Form\FormStateInterface;
+
+  /**
+  * Implements hook_form_alter() on behalf of form_alter_hook.module.
+  */
+  function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+		#dump('test');
+    if(isset($form['field_teaching_language']['widget']['#options']['_none'])){
+      unset($form['field_teaching_language']['widget']['#options']['_none']);
+    }
+
+    if ($form_id === 'node_event_form' || $form_id === 'node_event_edit_form') {
+      //hide remove button from date entry
+      $form['field_registration_date']['widget']['0']['top']['links']['remove_button']['#access'] = FALSE;
+
+      //use function test_validate for custom validation
+      $form['#validate'][] = 'htm_custom_admin_validate';
+      array_unshift($form['actions']['submit']['#submit'], 'submit_event_form');
+
+    }
+    if ($form_id === 'node_school_form' || $form_id === 'node_school_edit_form'){
+      unset($form['status']['widget']['#options']['_none']);
+    }
+  }
+
+  function submit_event_form(&$form, FormStateInterface $form_state){
+    if($form_state->getValue('field_entry_type')[0]['value'] != 'register'){
+      $form_state->unsetValue('field_registration_date');
+    }
+  }
+
+  function htm_custom_admin_validate(&$form, FormStateInterface $form_state){
+
+    if($form_state->getTriggeringElement()['#id'] == 'edit-submit'){
+
+      if(sizeof($form_state->getValue('field_entry_type')) != 0 && $form_state->getValue('field_entry_type')[0]['value'] === 'register'){
+        $first_rform_element = 'field_registration_date][0][subform][field_registration_first_date][0';
+        $second_rform_element = 'field_registration_date][0][subform][field_registration_last_date][0';
+
+        //get values for registration first and last date
+        if(isset($form_state->getValue('field_registration_date')[0]['subform'])){
+          $fregdate = $form_state->getValue('field_registration_date')[0]['subform'];
+          $start = $fregdate['field_registration_first_date'][0]['value'];
+          $end = $fregdate['field_registration_last_date'][0]['value'];
+
+          //get fields for error display
+          if(!is_array($end) && !is_array($start)){
+            if($start->format('U') > $end->format('U')){
+              $form_state->setErrorByName($first_rform_element, t('Registration start date must be smaller than end date'));
+              $form_state->setErrorByName($second_rform_element, t('Registration end date must be greater than start date'));
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+  function htm_custom_admin_hms_format_alter(&$format){
+    $format['hh:mm'] = 'hh:mm';
+    return $format;
+  }
+
+  function htm_custom_admin_preprocess_views_view_row_rss(&$variables){
+		$fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+		foreach($variables['item_elements'] as &$item_element){
+			if($item_element['key'] === 'guid'){
+				/* @var $item_value \Drupal\Core\Render\Markup */
+				$item_value = $item_element['value'];
+				$item_element['value'] = $fe_url . $item_value;
+			}
+		}
+		try{
+			$request = \Symfony\Component\HttpFoundation\Request::create($variables['link']);
+             		$url_from_request = Url::createFromRequest($request);
+
+                	$variables['link'] = $fe_url . $url_from_request->toString();
+		}catch(\Exception $e){
+		}
+	}

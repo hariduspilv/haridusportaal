@@ -1,0 +1,5 @@
+name: 'Custom GraphQL QueryMap Form'
+type: module
+description: 'Module, which overrides GraphQL query map form'
+core: 8.x
+package: 'HTM'

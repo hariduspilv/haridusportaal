@@ -1,0 +1,8 @@
+
+htm_custom_subscriptions_notification.notification_controller_notify:
+  path: '/htm_custom_subscriptions_notification/notify'
+  defaults:
+    _controller: '\Drupal\htm_custom_subscriptions_notification\Controller\NotificationController::notify'
+    _title: 'notify'
+  requirements:
+    _permission: 'access content'
