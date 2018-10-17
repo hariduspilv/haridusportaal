@@ -1,8 +1,0 @@
-name: 'Custom GraphQL functions'
-type: module
-description: 'HTM custom GraphQL overrides'
-core: 8.x
-package: 'HTM Custom'
-dependencies:
-- graphql
-- language

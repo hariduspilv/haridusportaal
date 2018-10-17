@@ -1,8 +1,0 @@
-
-custom_subscription_notification.notification_controller_notify:
-  path: '/custom_subscription_notification/notify'
-  defaults:
-    _controller: '\Drupal\custom_subscription_notification\Controller\NotificationController::notify'
-    _title: 'notify'
-  requirements:
-    _permission: 'access content'

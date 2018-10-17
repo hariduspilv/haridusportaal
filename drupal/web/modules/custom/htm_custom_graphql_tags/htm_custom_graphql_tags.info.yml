@@ -1,0 +1,5 @@
+name: 'HTM Custom Tags Query'
+type: module
+description: 'Custom GraphQL query for Tags'
+core: 8.x
+package: 'HTM'
