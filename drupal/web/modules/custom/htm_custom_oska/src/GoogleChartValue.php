@@ -121,44 +121,46 @@ class GoogleChartValue extends TypedData {
                     if($entity->$label_field->value != NULL){
                         $xlabel = $entity->$label_field->value;
                     }else{
-                        if(isset($entity_value[$label_field][0]['target_id'])){
+                        if(isset($entity_value[$label_field][0]['target_id']) && $entity_value[$label_field][0]['target_id'] != 0){
                             $xlabel = Term::load($entity_value[$label_field][0]['target_id'])->getName();
                         }else{
-                            $xlabel = '';
+                            continue;
                         }
                     }
 
                     $ylabel = $entity->$label_field->getFieldDefinition()->getLabel()->getUntranslatedString();
                     $val = $entity->$value_field->value;
 
-                    if(isset($entity_value[$indicator_field][0]['target_id'])){
+                    if(isset($entity_value[$indicator_field][0]['target_id']) && $entity_value[$indicator_field][0]['target_id'] != 0){
                         $value_label = Term::load($entity_value[$indicator_field][0]['target_id'])->getName();
                     }else{
-                        $value_label = '';
+                        continue;
                     }
 
                     $labelsums[$ylabel][$xlabel] = $xlabel;
                     if(!isset($labelsums[$value_label][$xlabel])){
-                        $labelsums[$value_label][$xlabel] = intval($val);
+                        $labelsums[$value_label][$xlabel] = floatval(str_replace(",",".", $val));
                     }else{
-                        $labelsums[$value_label][$xlabel] += intval($val);
+                        $labelsums[$value_label][$xlabel] += floatval(str_replace(",",".", $val));
                     }
                     if(!in_array($xlabel, $xlabels)){
                         $xlabels[] = $xlabel;
                     }
                 }
                 #add values to empty fields
-                foreach($xlabels as $label){
-                    $labelsums = $this->fillEmptyFields($labelsums, $label);
-                }
-                #add labels for chart
-                foreach($labelsums as $label => $value){
-                    $data_array[0][] = $label;
-                    foreach($value as $key => $val){
-                        $data_array[$key][] = $val;
+                if(count($xlabels) > 0){
+                    foreach($xlabels as $label){
+                        $labelsums = $this->fillEmptyFields($labelsums, $label);
                     }
+                    #add labels for chart
+                    foreach($labelsums as $label => $value){
+                        $data_array[0][] = $label;
+                        foreach($value as $key => $val){
+                            $data_array[$key][] = $val;
+                        }
+                    }
+                    $data_array = array_values($data_array);
                 }
-                $data_array = array_values($data_array);
             }
         }
         return $data_array != NULL ? json_encode($data_array, TRUE) : NULL;
