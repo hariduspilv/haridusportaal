@@ -1,0 +1,10 @@
+services:
+  authentication.custom_graphql_authentication:
+    class: Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider
+    arguments: ['@config.factory', '@authentication.user.auth', '@flood', '@entity.manager']
+    tags:
+      - { name: authentication_provider, provider_id: json_authentication_provider, priority: 100 }
+
+  authentication.user.auth:
+    class: Drupal\htm_custom_authentication\UserAuth
+    arguments: ['@entity.manager', '@password']

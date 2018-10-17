@@ -1,5 +1,0 @@
-name: 'Custom Study Programme Import'
-type: module
-description: 'Module for importing study programmes'
-core: 8.x
-package: 'HTM Custom'

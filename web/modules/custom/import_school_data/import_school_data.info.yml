@@ -2,4 +2,4 @@ name: 'Import School Data'
 type: module
 description: 'Module for importing school data'
 core: 8.x
-package: 'TWN-Custom'
+package: 'HTM'
