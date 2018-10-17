@@ -2,4 +2,4 @@ name: 'HTM Custom HarID Authentication'
 type: module
 description: 'Module for authentication via HarID'
 core: 8.x
-package: 'TWN-Custom'
+package: 'HTM'

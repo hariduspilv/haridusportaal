@@ -2,4 +2,4 @@ name: 'Custom Logging to File'
 type: module
 description: 'Service for logging to files'
 core: 8.x
-package: 'TWN-Custom'
+package: 'HTM'

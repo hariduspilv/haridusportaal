@@ -1,9 +1,0 @@
-<?php
-
-function custom_datetime_unix_value_field_info_alter(&$info) {
-
-	//Override default datetime class
-	if(isset($info['datetime'])){
-		$info['datetime']['class'] = 'Drupal\custom_datetime_unix_value\Plugin\Field\FieldType\CustomDateTimeItem';
-	}
-}

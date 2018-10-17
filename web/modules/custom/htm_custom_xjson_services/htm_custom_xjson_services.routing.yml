@@ -1,7 +1,9 @@
-htm_custom_xjson_services.x_json_controller_hello:
-  path: '/toolaud/taotlused/{form_name}'
-  defaults:
-    _controller: '\Drupal\htm_custom_xjson_services\Controller\xJsonController::hello'
-    _title: 'Dymanic title'
-  requirements:
-    _user_is_logged_in: 'TRUE'
+#entity.x_json_entity.canonical:
+#  path: '/admin/structure/x_json_entity/{x_json_entity}'
+#  defaults:
+#    # Calls the view controller, defined in the annotation of the contact entity
+#    _entity_view: 'x_json_entity'
+#    _title: 'Contact Content'
+#  requirements:
+#    # Calls the access controller of the entity, $operation 'view'
+#    _entity_access: 'x_json_entity.view'
