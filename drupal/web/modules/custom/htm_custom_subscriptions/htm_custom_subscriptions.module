@@ -1,0 +1,153 @@
+<?php
+
+/**
+* @file
+* Contains htm_custom_subscriptions.module.
+*/
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Utility\Unicode;
+
+/**
+* Implements hook_mail().
+*/
+function htm_custom_subscriptions_mail($key, &$message, $params) {
+
+	switch ($key) {
+    case 'subscription_email':
+
+			$entity = $params['entity'];
+			$token_service = \Drupal::token();
+			$langcode = $entity->language->value;
+			$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+			$link_root = $config->get('general.fe_url');
+
+			if(isset($params['tags'])){
+				$title = $token_service->replace($params['subject'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+				$body = $token_service->replace($params['body'], ['subscription_entity' => $entity, 'newtags' => $params['newtags'], 'tags' => $params['tags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+			}else{
+				$title = $token_service->replace($params['subject'], ['subscription_entity' => $entity, 'newtags' => $params['newtags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+				$body = $token_service->replace($params['body'], ['subscription_entity' => $entity, 'newtags' => $params['newtags']], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+			}
+
+			$render = [
+				'#theme' => 'registration_email_template',
+				'#body' => nl2br(html_entity_decode($body))
+			];
+
+      $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = Unicode::mimeHeaderEncode($title);
+      $message['body'][] = \Drupal::service('renderer')->render($render);
+
+      break;
+  }
+}
+
+/**
+* Implements hook_entity_insert().
+*/
+function htm_custom_subscriptions_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+	if ($entity->getEntityTypeId() === 'subscription_entity') {
+
+		$langcode = $entity->language->value;
+		$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+		$mailManager = \Drupal::service('plugin.manager.mail');
+		$module = 'htm_custom_subscriptions';
+		$key = 'subscription_email';
+		$recipient = $entity->subscriber_email->value;
+		$fields = $entity->toArray();
+
+		if(isset($fields['newtags'][0]['value'])){
+			$newtags = explode(", ", $fields['newtags'][0]['value']);
+			$params['newtags'] = \Drupal\taxonomy\Entity\Term::loadMultiple($newtags);
+		}else{
+			$params['newtags'] = '';
+		}
+		$params['entity'] = $entity;
+
+		$params['subject'] = $config->get('emails.email_subscription.create_email_subject');
+		$params['body'] = $config->get('emails.email_subscription.create_email_body');
+
+		$send = true;
+
+		$result = $mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, $send);
+		if ($result['result'] !== true) {
+			$message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
+			\Drupal::logger('htm_custom_subscriptions')->error($message);
+		}else{
+			$message = t('An email notification has been sent to @email', array('@email' => $recipient));
+			\Drupal::logger('htm_custom_subscriptions')->notice($message);
+		}
+
+	}
+}
+
+/**
+* Implements hook_entity_update().
+*/
+function htm_custom_subscriptions_entity_update(Drupal\Core\Entity\EntityInterface $entity) {
+	if ($entity->getEntityTypeId() === 'subscription_entity') {
+
+		$langcode = $entity->language->value;
+		$config = _get_config($langcode, 'htm_custom_admin_form.customadmin');
+		$mailManager = \Drupal::service('plugin.manager.mail');
+		$module = 'htm_custom_subscriptions';
+		$key = 'subscription_email';
+		$recipient = $entity->subscriber_email->value;
+		$fields = $entity->toArray();
+
+		if(isset($fields['newtags'][0]['value'])){
+			$newtags = explode(", ", $fields['newtags'][0]['value']);
+			$params['newtags'] = \Drupal\taxonomy\Entity\Term::loadMultiple($newtags);
+		}else{
+			$params['newtags'] = [];
+		}
+		foreach($entity->tag as $tag){
+			$params['tags'][] = $tag->getValue()['target_id'];
+		}
+		if(isset($params['tags'])){
+			$params['tags'] = \Drupal\taxonomy\Entity\Term::loadMultiple($params['tags']);
+		}
+
+		if(count($params['newtags']) > 0){
+			$params['entity'] = $entity;
+			if(count($fields['tag']) > 0 && $fields['status'][0]['value'] != '0'){
+				$params['subject'] = $config->get('emails.email_subscription.update_email_subject');
+				$params['body'] = $config->get('emails.email_subscription.update_email_body');
+			}else{
+				$params['subject'] = $config->get('emails.email_subscription.create_email_subject');
+				$params['body'] = $config->get('emails.email_subscription.create_email_body');
+			}
+			if(isset($params['subject'])){
+
+				$send = true;
+
+				$result = $mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, $send);
+				if ($result['result'] !== true) {
+					$message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
+					\Drupal::logger('htm_custom_subscriptions')->error($message);
+				}else{
+					$message = t('An email notification has been sent to @email', array('@email' => $recipient));
+					\Drupal::logger('htm_custom_subscriptions')->notice($message);
+				}
+			}
+		}
+	}
+}
+
+/*
+ * hook_cron();
+ **/
+function htm_custom_subscriptions_cron() {
+	$expirydate = strtotime('-30 days');
+	$eids = \Drupal::entityQuery('subscription_entity')
+			->condition('status', 0)
+			->condition('changed', $expirydate, '<=')
+			->execute();
+	$node_storage = \Drupal::entityTypeManager()->getStorage('subscription_entity');
+	$nodes = $node_storage->loadMultiple($eids);
+	foreach($nodes as $node){
+		$node->delete();
+	}
+}
