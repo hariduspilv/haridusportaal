@@ -136,6 +136,8 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#options' =>  $v_axis_options,
                 '#empty_option'  => t('Select graph v-axis'),
                 '#required' => FALSE,
+                '#element_validate' => array(array($this, 'validateChartVaxisInput')),
+                '#delta' => $delta,
             ];
 
             $field_name = $this->fieldDefinition->getName();
@@ -267,5 +269,18 @@ class OskaGraphWidgetType extends WidgetBase {
         }
 
         return $select_options;
+    }
+
+    /**
+     * Validate chart selection.
+     */
+    public function validateChartVaxisInput(&$element, FormStateInterface &$form_state, $form) {
+        $parent_field = $this->fieldDefinition->getName();
+        $chart_values = $form_state->getValue($parent_field)[$element['#delta']];
+        if($chart_values['graph_type'] != '' || $chart_values['oska_indicator'] != NULL) {
+            if($element['#value'] == ''){
+                $form_state->setError($element, t('Chart v-axis is missing'));
+            }
+        }
     }
 }
