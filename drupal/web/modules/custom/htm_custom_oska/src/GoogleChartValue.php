@@ -57,6 +57,7 @@ class GoogleChartValue extends TypedData {
         if($condition_count > 0){
             $entity_ids = $query->execute();
         }
+
         if(isset($entity_ids)){
             $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple($entity_ids);
             $graph_value = $this->getGoogleGraphValue($entities, $graph_info, $filter_values);
@@ -86,7 +87,9 @@ class GoogleChartValue extends TypedData {
     }
 
     public function getGoogleGraphValue($entities, $graph_info, $filter_values){
+
         $data_array = NULL;
+
         foreach($graph_info as $key => $type){
             if($type == ''){
                 unset($graph_info[$key]);
@@ -109,6 +112,7 @@ class GoogleChartValue extends TypedData {
                 }
             }
             if($label_field && $value_field){
+
                 $labelsums = [];
                 $xlabels = [];
                 #get value for each label, sum reoccurring labels

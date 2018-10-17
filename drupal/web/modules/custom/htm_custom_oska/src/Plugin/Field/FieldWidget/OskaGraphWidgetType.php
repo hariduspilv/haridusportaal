@@ -112,7 +112,9 @@ class OskaGraphWidgetType extends WidgetBase {
                     $field_name_item = $field->getName();
                     foreach($values as $value){
                         $selection_item = $value->$field_name_item->value;
-                        $selection[$selection_item] = $selection_item;
+                        if($selection_item != ''){
+                            $selection[$selection_item] = $selection_item;
+                        }
                     }
                     $title = $field->getFieldDefinition()->getLabel()->getUntranslatedString();
                     $element[$key] = [
