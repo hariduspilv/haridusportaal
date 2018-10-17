@@ -21,7 +21,7 @@ third_party_settings:
     unpublish_enable: false
     unpublish_required: false
     unpublish_revision: false
-name: 'OSKA Survey Page'
+name: 'Sisuleht OSKA Tööjõuprognoos'
 type: oska_survey_page
 description: ''
 help: ''
