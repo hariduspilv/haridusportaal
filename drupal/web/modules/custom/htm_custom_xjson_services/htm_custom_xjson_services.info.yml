@@ -1,5 +1,5 @@
 name: 'HTM Custom xJson services'
 type: module
-description: 'My Awesome Module'
+description: 'xJson service entity with service'
 core: 8.x
-package: 'Custom'
+package: 'HTM'
