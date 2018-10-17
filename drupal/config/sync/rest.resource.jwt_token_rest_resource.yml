@@ -1,0 +1,17 @@
+uuid: d37a25b5-e131-44d6-acc1-e8fa2628cc77
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_authentication
+    - serialization
+id: jwt_token_rest_resource
+plugin_id: jwt_token_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - json_authentication_provider
