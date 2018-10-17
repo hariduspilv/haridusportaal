@@ -1,0 +1,33 @@
+uuid: 5ac98beb-7a8f-4293-82f8-00f164a918d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.educational_institution_location.field_ehak
+    - taxonomy.vocabulary.educational_institution_location
+id: taxonomy_term.educational_institution_location.default
+targetEntityType: taxonomy_term
+bundle: educational_institution_location
+mode: default
+content:
+  field_ehak:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  description: true
+  langcode: true
+  path: true
+  translation: true

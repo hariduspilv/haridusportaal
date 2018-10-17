@@ -1,0 +1,15 @@
+uuid: 19af3363-3293-42ca-8b2a-d09985a4429e
+name: 'Haridusportaal dev 2'
+mail: teavitus@twn.ee
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: et
+default_langcode: et
+_core:
+  default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
+mail_notification: ''

@@ -1,0 +1,18 @@
+uuid: 90ba6bcb-c389-4b5b-99d8-9591ee17962c
+langcode: et
+status: true
+dependencies:
+  config:
+    - media.type.crop_images
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: media.crop_images
+target_entity_type_id: media
+target_bundle: crop_images
+default_langcode: site_default
+language_alterable: false

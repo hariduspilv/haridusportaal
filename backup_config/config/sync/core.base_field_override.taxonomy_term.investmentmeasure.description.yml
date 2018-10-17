@@ -1,0 +1,20 @@
+uuid: e4e5ded2-bf9a-4a32-a203-342b66f73159
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.investmentmeasure
+  module:
+    - text
+id: taxonomy_term.investmentmeasure.description
+field_name: description
+entity_type: taxonomy_term
+bundle: investmentmeasure
+label: Kirjeldus
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

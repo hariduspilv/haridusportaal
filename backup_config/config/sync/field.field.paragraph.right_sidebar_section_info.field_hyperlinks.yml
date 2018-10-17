@@ -1,0 +1,23 @@
+uuid: cc25ac1e-6cea-488f-902b-35fabf281c39
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_hyperlinks
+    - paragraphs.paragraphs_type.right_sidebar_section_info
+  module:
+    - link
+id: paragraph.right_sidebar_section_info.field_hyperlinks
+field_name: field_hyperlinks
+entity_type: paragraph
+bundle: right_sidebar_section_info
+label: Lingid
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 16
+  title: 2
+field_type: link

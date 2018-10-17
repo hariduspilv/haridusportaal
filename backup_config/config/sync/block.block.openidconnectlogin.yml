@@ -1,0 +1,20 @@
+uuid: 118e9770-3d92-4f7a-9c99-0b0bdcc2774b
+langcode: et
+status: true
+dependencies:
+  module:
+    - openid_connect
+  theme:
+    - material_admin
+id: openidconnectlogin
+theme: material_admin
+region: header
+weight: -1
+provider: null
+plugin: openid_connect_login
+settings:
+  id: openid_connect_login
+  label: 'OpenID Connect login'
+  provider: openid_connect
+  label_display: visible
+visibility: {  }

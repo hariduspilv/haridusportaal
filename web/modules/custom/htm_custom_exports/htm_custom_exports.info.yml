@@ -1,5 +1,5 @@
 name: 'htm_custom_exports'
 type: module
-description: 'My Awesome Module'
+description: 'Custom module for exporting PHP made files'
 core: 8.x
-package: 'Custom'
+package: 'HTM'

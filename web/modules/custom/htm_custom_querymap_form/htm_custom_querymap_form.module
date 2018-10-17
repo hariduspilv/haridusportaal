@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_querymap_form.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityForm;
+use Drupal\graphql\Entity\QueryMap;
+
+
+/**
+ * Implements hook_help().
+ */
+function htm_custom_querymap_form_form_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the htm_custom_querymap_form module.
+    case 'help.page.htm_custom_querymap_form':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module, which overrides graphql query map form') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+* Implements hook_form_alter() on behalf of htm_custom_querymap_form.module.
+*/
+function htm_custom_querymap_form_form_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if($form_id === 'graphql_query_map_import_form'){
+    $form['actions']['submit']['#submit'] = array('htm_custom_querymap_form_save');
+  }
+}
+
+function htm_custom_querymap_form_save(array $form, FormStateInterface $formState){
+  $file = $formState->get('file');
+  $json = file_get_contents($file->getFileUri());
+  $json = array_flip((array) json_decode($json));
+  $form_values = $formState->getValues();
+
+  $entity = new QueryMap($form_values, 'graphql_query_map');
+  $entity->set('version', pathinfo($file->getFilename(), PATHINFO_FILENAME));
+  $entity->set('map', $json);
+  $entity->set('uuid', \Drupal::service('uuid')->generate());
+  $entity->save();
+
+  drupal_set_message(t('Saved the query map version %id.', [
+    '%id' => $entity->id(),
+  ]));
+
+  $formState->setRedirect('entity.graphql_query_map.collection');
+}

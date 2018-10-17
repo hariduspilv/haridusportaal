@@ -1,0 +1,40 @@
+definitions:
+  standard__front_page:
+    enabled: true
+    menu_name: main
+    parent: 'menu_link_content:6d8f74f2-d525-4b98-8d5a-16c41fd373e6'
+    expanded: false
+    weight: 1
+  config__conditional_field:
+    weight: -96
+    menu_name: admin
+    parent: system.admin_structure
+    enabled: true
+    expanded: false
+  entity__event_reg_entity__collection:
+    weight: -96
+    menu_name: admin
+    parent: system.admin_structure
+    expanded: false
+    enabled: true
+  entity__subscription_entity__collection:
+    enabled: true
+    menu_name: admin
+    parent: system.admin_structure
+    expanded: false
+    weight: -96
+  jwt__jwt_config_form:
+    weight: -96
+    menu_name: admin
+    parent: system.admin_config_system
+    expanded: false
+    enabled: true
+  custom_translation_module__custom_translation_form:
+    weight: -96
+    menu_name: admin
+    parent: system.admin_config_regional
+    expanded: false
+    enabled: true
+_core:
+  default_config_hash: jdY7AU0tU-QsjmiOw3W8vwpYMb-By--_MSFgbqKUTYM
+langcode: et

@@ -1,0 +1,250 @@
+uuid: 706b1cb3-3f81-49e5-ad13-edcb31b5e412
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.event.field_attachment_file
+    - field.field.node.event.field_contact_email
+    - field.field.node.event.field_contact_person
+    - field.field.node.event.field_contact_phone
+    - field.field.node.event.field_description
+    - field.field.node.event.field_description_summary
+    - field.field.node.event.field_entry_type
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_group
+    - field.field.node.event.field_event_link
+    - field.field.node.event.field_event_location
+    - field.field.node.event.field_event_location_link
+    - field.field.node.event.field_event_main_date
+    - field.field.node.event.field_event_main_end_time
+    - field.field.node.event.field_event_main_start_time
+    - field.field.node.event.field_event_type
+    - field.field.node.event.field_max_number_of_participants
+    - field.field.node.event.field_metatags
+    - field.field.node.event.field_organizer
+    - field.field.node.event.field_organizer_idcode
+    - field.field.node.event.field_picture
+    - field.field.node.event.field_practical_information
+    - field.field.node.event.field_registration_
+    - field.field.node.event.field_registration_date
+    - field.field.node.event.field_tag
+    - node.type.event
+  module:
+    - datetime
+    - entity_reference_revisions
+    - file
+    - google_map_field
+    - hms_field
+    - link
+    - metatag
+    - options
+    - telephone
+    - text
+    - user
+id: node.event.default
+targetEntityType: node
+bundle: event
+mode: default
+content:
+  field_attachment_file:
+    weight: 5
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_contact_email:
+    weight: 11
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_contact_person:
+    weight: 9
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_contact_phone:
+    weight: 23
+    label: above
+    settings:
+      title: ''
+    third_party_settings: {  }
+    type: telephone_link
+    region: content
+  field_description:
+    weight: 21
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_description_summary:
+    weight: 20
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_entry_type:
+    weight: 12
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_event_date:
+    type: entity_reference_revisions_entity_view
+    weight: 16
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_event_group:
+    weight: 17
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_event_link:
+    weight: 19
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_event_location:
+    weight: 7
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: google_map_field_default
+    region: content
+  field_event_location_link:
+    weight: 22
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_event_main_date:
+    weight: 26
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_event_main_end_time:
+    weight: 28
+    label: above
+    settings:
+      format: 'h:mm'
+      leading_zero: true
+    third_party_settings: {  }
+    type: hms_default_formatter
+    region: content
+  field_event_main_start_time:
+    weight: 27
+    label: above
+    settings:
+      format: 'h:mm'
+      leading_zero: true
+    third_party_settings: {  }
+    type: hms_default_formatter
+    region: content
+  field_event_type:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_max_number_of_participants:
+    weight: 14
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_metatags:
+    weight: 24
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
+  field_organizer:
+    weight: 8
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_organizer_idcode:
+    weight: 25
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_practical_information:
+    weight: 15
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_registration_:
+    weight: 18
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_registration_date:
+    type: entity_reference_revisions_entity_view
+    weight: 13
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_tag:
+    weight: 2
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+hidden:
+  field_picture: true
+  langcode: true
+  links: true

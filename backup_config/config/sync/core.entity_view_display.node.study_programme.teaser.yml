@@ -1,0 +1,73 @@
+uuid: 1cdaf50e-7ecb-4b1e-9636-dc6b24c773cc
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.study_programme.field_accreditation_status
+    - field.field.node.study_programme.field_accreditation_valid_until
+    - field.field.node.study_programme.field_admission_status
+    - field.field.node.study_programme.field_amount
+    - field.field.node.study_programme.field_amount_unit
+    - field.field.node.study_programme.field_created_from_ehis_datetime
+    - field.field.node.study_programme.field_degree_or_diploma_awarded
+    - field.field.node.study_programme.field_duration_months
+    - field.field.node.study_programme.field_duration_years
+    - field.field.node.study_programme.field_educational_institution
+    - field.field.node.study_programme.field_ehis_id
+    - field.field.node.study_programme.field_iscedf_board
+    - field.field.node.study_programme.field_iscedf_detailed
+    - field.field.node.study_programme.field_iscedf_narrow
+    - field.field.node.study_programme.field_metatags
+    - field.field.node.study_programme.field_practical_training_amount
+    - field.field.node.study_programme.field_qualification_standard_id
+    - field.field.node.study_programme.field_school_address
+    - field.field.node.study_programme.field_school_website
+    - field.field.node.study_programme.field_short_description
+    - field.field.node.study_programme.field_specialization
+    - field.field.node.study_programme.field_study_programme_level
+    - field.field.node.study_programme.field_study_programme_type
+    - field.field.node.study_programme.field_teaching_language
+    - field.field.node.study_programme.field_update_from_ehis
+    - field.field.node.study_programme.field_web_page_address
+    - node.type.study_programme
+  module:
+    - user
+id: node.study_programme.teaser
+targetEntityType: node
+bundle: study_programme
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_accreditation_status: true
+  field_accreditation_valid_until: true
+  field_admission_status: true
+  field_amount: true
+  field_amount_unit: true
+  field_created_from_ehis_datetime: true
+  field_degree_or_diploma_awarded: true
+  field_duration_months: true
+  field_duration_years: true
+  field_educational_institution: true
+  field_ehis_id: true
+  field_iscedf_board: true
+  field_iscedf_detailed: true
+  field_iscedf_narrow: true
+  field_metatags: true
+  field_practical_training_amount: true
+  field_qualification_standard_id: true
+  field_school_address: true
+  field_school_website: true
+  field_short_description: true
+  field_specialization: true
+  field_study_programme_level: true
+  field_study_programme_type: true
+  field_teaching_language: true
+  field_update_from_ehis: true
+  field_web_page_address: true
+  langcode: true

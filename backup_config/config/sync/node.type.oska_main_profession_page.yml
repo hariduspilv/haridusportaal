@@ -1,0 +1,30 @@
+uuid: 2c335670-d149-4777-89e0-8deb2b698974
+langcode: et
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - scheduler
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: false
+    publish_past_date: error
+    publish_required: false
+    publish_revision: false
+    publish_touch: false
+    unpublish_enable: false
+    unpublish_required: false
+    unpublish_revision: false
+name: 'OSKA Main Profession Page'
+type: oska_main_profession_page
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

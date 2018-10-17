@@ -1,0 +1,22 @@
+uuid: 74571e66-c3a5-4962-8bc0-6978292fda82
+langcode: et
+status: true
+dependencies:
+  config:
+    - media.type.crop_images
+id: media.crop_images.status
+field_name: status
+entity_type: media
+bundle: crop_images
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

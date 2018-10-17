@@ -1,0 +1,18 @@
+uuid: c921e1c2-2fdb-47b0-94cc-a371732e739c
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.contact_section
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.contact_section
+target_entity_type_id: paragraph
+target_bundle: contact_section
+default_langcode: site_default
+language_alterable: true

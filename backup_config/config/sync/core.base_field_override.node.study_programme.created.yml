@@ -1,0 +1,18 @@
+uuid: ba627fc3-cdca-4e37-8255-1331f5b3520b
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+id: node.study_programme.created
+field_name: created
+entity_type: node
+bundle: study_programme
+label: 'Loomise kuupäev'
+description: 'Sisuelemendi loomise aeg.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

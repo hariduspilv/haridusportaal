@@ -1,0 +1,108 @@
+uuid: 8909cd82-a6bd-483b-9bde-f6ed54c12c5d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description
+    - field.storage.node.field_organizer
+    - field.storage.node.field_tag
+    - field.storage.node.field_description_summary
+    - field.storage.node.field_event_type
+    - search_api.server.elasticsearch_server
+  module:
+    - taxonomy
+    - search_api
+    - node
+id: events
+name: Events
+description: ''
+read_only: false
+field_settings:
+  content_type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
+  field_body_summary:
+    label: Sissejuhatus
+    datasource_id: 'entity:node'
+    property_path: field_description_summary
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_description_summary
+  field_description:
+    label: Kirjeldus
+    datasource_id: 'entity:node'
+    property_path: field_description
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_description
+  field_event_type:
+    label: 'Ürituse tüüp » Taxonomy term » Nimi'
+    datasource_id: 'entity:node'
+    property_path: 'field_event_type:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_type
+      module:
+        - taxonomy
+  field_organizer:
+    label: Organiseerija
+    datasource_id: 'entity:node'
+    property_path: field_organizer
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_organizer
+  field_tag:
+    label: 'Sildid » Taxonomy term » Nimi'
+    datasource_id: 'entity:node'
+    property_path: 'field_tag:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_tag
+      module:
+        - taxonomy
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - event
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

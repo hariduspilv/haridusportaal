@@ -2,4 +2,4 @@ name: 'HTM custom admin form'
 type: module
 description: 'All HTM configurations (email, FE endpoint etc.)'
 core: 8.x
-package: 'Custom'
+package: 'HTM'

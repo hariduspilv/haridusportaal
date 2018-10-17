@@ -1,0 +1,12 @@
+uuid: 648b48a2-ea56-4959-b363-f5a4674b8032
+langcode: et
+status: true
+dependencies: {  }
+label: '16:9 Large'
+id: 16_9_large
+description: ''
+aspect_ratio: '16:9'
+soft_limit_width: null
+soft_limit_height: null
+hard_limit_width: 1208
+hard_limit_height: 680

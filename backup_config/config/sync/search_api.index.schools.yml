@@ -1,0 +1,296 @@
+uuid: 084416bc-6e0d-41e7-873a-afc65bff6d23
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_adrid
+    - field.storage.node.field_school_location
+    - field.storage.paragraph.field_address
+    - field.storage.paragraph.field_location_type
+    - field.storage.paragraph.field_school_location
+    - field.storage.paragraph.field_coordinates
+    - field.storage.node.field_school_contact_email
+    - field.storage.node.field_ehis_id
+    - field.storage.node.field_special_class
+    - field.storage.node.field_school_contact_phone
+    - field.storage.node.field_ownership_type
+    - field.storage.node.field_registration_code
+    - field.storage.node.field_school_webpage_address
+    - field.storage.node.field_student_home
+    - field.storage.node.field_educational_institution_ty
+    - field.storage.node.field_teaching_language
+    - search_api.server.elasticsearch_server
+  module:
+    - paragraphs
+    - taxonomy
+    - node
+    - scheduler
+    - search_api
+id: schools
+name: Schools
+description: ''
+read_only: false
+field_settings:
+  content_type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
+  field_address:
+    label: 'Asukoht » Paragraph » Aadress'
+    datasource_id: 'entity:node'
+    property_path: 'field_school_location:entity:field_address'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_address
+      module:
+        - paragraphs
+  field_adrid:
+    label: 'Aadress ID'
+    datasource_id: 'entity:node'
+    property_path: field_adrid
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_adrid
+  field_educational_institution_ty:
+    label: 'Õppeasutuse liik » Taxonomy term » Nimi'
+    datasource_id: 'entity:node'
+    property_path: 'field_educational_institution_ty:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_educational_institution_ty
+      module:
+        - taxonomy
+        - taxonomy
+  field_educational_institution_ty_id:
+    label: 'Õppeasutuse liik » Taxonomy term » Termini ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_educational_institution_ty:entity:tid'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_educational_institution_ty
+      module:
+        - taxonomy
+        - taxonomy
+  field_ehis_id:
+    label: 'EHIS id'
+    datasource_id: 'entity:node'
+    property_path: field_ehis_id
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_ehis_id
+  field_location_type:
+    label: 'Asukoht » Paragraph » Asukoha tüüp'
+    datasource_id: 'entity:node'
+    property_path: 'field_school_location:entity:field_location_type'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_location_type
+      module:
+        - paragraphs
+  field_ownership_type:
+    label: 'Omandivorm » Taxonomy term » Nimi'
+    datasource_id: 'entity:node'
+    property_path: 'field_ownership_type:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_ownership_type
+      module:
+        - taxonomy
+        - taxonomy
+  field_ownership_type_id:
+    label: Omandivorm
+    datasource_id: 'entity:node'
+    property_path: field_ownership_type
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_ownership_type
+  field_registration_code:
+    label: Registrikood
+    datasource_id: 'entity:node'
+    property_path: field_registration_code
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_registration_code
+  field_school_contact_email:
+    label: E-post
+    datasource_id: 'entity:node'
+    property_path: field_school_contact_email
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_school_contact_email
+  field_school_contact_phone:
+    label: Kontakttelefon
+    datasource_id: 'entity:node'
+    property_path: field_school_contact_phone
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_school_contact_phone
+  field_school_location:
+    label: 'Asukoht » Paragraph » Kooli asukoht » Taxonomy term » Nimi'
+    datasource_id: 'entity:node'
+    property_path: 'field_school_location:entity:field_school_location:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_school_location
+      module:
+        - paragraphs
+        - taxonomy
+        - taxonomy
+  field_school_name:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - node
+  field_school_webpage_address:
+    label: Veebileht
+    datasource_id: 'entity:node'
+    property_path: field_school_webpage_address
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_school_webpage_address
+  field_special_class:
+    label: 'Hariduslikud erivajadused'
+    datasource_id: 'entity:node'
+    property_path: field_special_class
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_special_class
+  field_student_home:
+    label: Õpilaskodu
+    datasource_id: 'entity:node'
+    property_path: field_student_home
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_student_home
+  field_teaching_language:
+    label: 'Õppekeel » Taxonomy term » Nimi'
+    datasource_id: 'entity:node'
+    property_path: 'field_teaching_language:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_teaching_language
+      module:
+        - taxonomy
+        - taxonomy
+  field_teaching_language_id:
+    label: Õppekeel
+    datasource_id: 'entity:node'
+    property_path: field_teaching_language
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_teaching_language
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
+    dependencies:
+      module:
+        - node
+  lat:
+    label: 'Asukoht » Paragraph » Koordinaadid » Latitude'
+    datasource_id: 'entity:node'
+    property_path: 'field_school_location:entity:field_coordinates:lat'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_coordinates
+      module:
+        - paragraphs
+  lon:
+    label: 'Asukoht » Paragraph » Koordinaadid » Longitude'
+    datasource_id: 'entity:node'
+    property_path: 'field_school_location:entity:field_coordinates:lon'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_coordinates
+      module:
+        - paragraphs
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  status:
+    label: Avaldatud
+    datasource_id: 'entity:node'
+    property_path: status
+    type: integer
+    dependencies:
+      module:
+        - node
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - node
+  unpublish_on:
+    label: 'Mitteavaldatuks märkimise aeg'
+    datasource_id: 'entity:node'
+    property_path: unpublish_on
+    type: date
+    dependencies:
+      module:
+        - scheduler
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - school
+    languages:
+      default: false
+      selected:
+        - en
+        - et
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

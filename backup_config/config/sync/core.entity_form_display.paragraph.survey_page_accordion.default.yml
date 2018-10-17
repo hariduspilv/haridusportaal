@@ -1,0 +1,54 @@
+uuid: b8568a28-9d4e-435e-9791-66d5140b6e72
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.survey_page_accordion.field_survey_accordion_content
+    - field.field.paragraph.survey_page_accordion.field_survey_accordion_link
+    - field.field.paragraph.survey_page_accordion.field_survey_accordion_title
+    - paragraphs.paragraphs_type.survey_page_accordion
+  module:
+    - link
+    - maxlength
+    - text
+id: paragraph.survey_page_accordion.default
+targetEntityType: paragraph
+bundle: survey_page_accordion
+mode: default
+content:
+  field_survey_accordion_content:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_survey_accordion_link:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_survey_accordion_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_oska;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\TypedData\DataDefinitionInterface;
+use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\TypedData\TypedData;
 use Drupal\Core\TypedData\TypedDataInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
@@ -28,14 +29,13 @@ class GoogleChartValue extends TypedData {
         $filter_values = $graph_info;
 
         foreach($graph_info as $key => $value){
-            if($key != 'graph_type' && $key != 'secondary_graph_type'){
+            if($key != 'graph_type' && $key != 'secondary_graph_type' && $key != 'graph_v_axis'){
                 $filter_values[$key] = $value;
                 unset($graph_info[$key]);
             }else{
                 unset($filter_values[$key]);
             }
         }
-
 
         $query = \Drupal::entityQuery($target_type);
 
@@ -57,6 +57,7 @@ class GoogleChartValue extends TypedData {
         if($condition_count > 0){
             $entity_ids = $query->execute();
         }
+
         if(isset($entity_ids)){
             $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple($entity_ids);
             $graph_value = $this->getGoogleGraphValue($entities, $graph_info, $filter_values);
@@ -78,10 +79,6 @@ class GoogleChartValue extends TypedData {
         }
     }
 
-    public function getGoogleGraphData($graph_info){
-
-    }
-
     public function cleanFilters($filters){
         foreach($filters as $filter){
             $cleaned_filters[] = $filter['target_id'];
@@ -90,7 +87,9 @@ class GoogleChartValue extends TypedData {
     }
 
     public function getGoogleGraphValue($entities, $graph_info, $filter_values){
+
         $data_array = NULL;
+
         foreach($graph_info as $key => $type){
             if($type == ''){
                 unset($graph_info[$key]);
@@ -102,47 +101,78 @@ class GoogleChartValue extends TypedData {
             $entity_fields = reset($entities)->getFields();
 
             #find label and value fields
+            $label_field = $graph_info['graph_v_axis'];
             foreach($entity_fields as $key => $field){
-                if(isset($field->getSettings()['graph_label'])){
-                    $label_field = $key;
-                }
-                if(isset($field->getSettings()['graph_value'])){
+                $field_settings = $field->getSettings();
+                if(isset($field_settings['graph_value'])){
                     $value_field = $key;
+                }
+                if(isset($field_settings['graph_indicator'])){
+                    $indicator_field = $key;
                 }
             }
             if($label_field && $value_field){
+
                 $labelsums = [];
+                $xlabels = [];
                 #get value for each label, sum reoccurring labels
                 foreach($entities as $entity){
-                    $labelval = $entity->$label_field->value;
+                    $entity_value = $entity->toArray();
+                    if($entity->$label_field->value != NULL){
+                        $xlabel = $entity->$label_field->value;
+                    }else{
+                        if(isset($entity_value[$label_field][0]['target_id']) && $entity_value[$label_field][0]['target_id'] != 0){
+                            $xlabel = Term::load($entity_value[$label_field][0]['target_id'])->getName();
+                        }else{
+                            continue;
+                        }
+                    }
+
+                    $ylabel = $entity->$label_field->getFieldDefinition()->getLabel()->getUntranslatedString();
                     $val = $entity->$value_field->value;
-                    $year = $entity->year->value;
-                    if($graph_info['graph_type'] == 'scatter'){
-                        $yearint = intval($year);
-                        $labelsums['year'][$year] = $yearint;
+
+                    if(isset($entity_value[$indicator_field][0]['target_id']) && $entity_value[$indicator_field][0]['target_id'] != 0){
+                        $value_label = Term::load($entity_value[$indicator_field][0]['target_id'])->getName();
                     }else{
-                        $labelsums['year'][$year] = $year;
-                    }
-                    if(!isset($labelsums[$labelval][$year])){
-                        $labelsums[$labelval][$year] = intval($val);
-                    }else{
-                        $labelsums[$labelval][$year] += intval($val);
+                        continue;
                     }
 
-
-                }
-
-                #add labels for chart
-                foreach($labelsums as $label => $value){
-                    $data_array[0][] = $label;
-                    foreach($value as $key => $val){
-                        $data_array[$key][] = $val;
+                    $labelsums[$ylabel][$xlabel] = $xlabel;
+                    if(!isset($labelsums[$value_label][$xlabel])){
+                        $labelsums[$value_label][$xlabel] = floatval(str_replace(",",".", $val));
+                    }else{
+                        $labelsums[$value_label][$xlabel] += floatval(str_replace(",",".", $val));
+                    }
+                    if(!in_array($xlabel, $xlabels)){
+                        $xlabels[] = $xlabel;
                     }
                 }
-                $data_array = array_values($data_array);
+                #add values to empty fields
+                if(count($xlabels) > 0){
+                    foreach($xlabels as $label){
+                        $labelsums = $this->fillEmptyFields($labelsums, $label);
+                    }
+                    #add labels for chart
+                    foreach($labelsums as $label => $value){
+                        $data_array[0][] = $label;
+                        foreach($value as $key => $val){
+                            $data_array[$key][] = $val;
+                        }
+                    }
+                    $data_array = array_values($data_array);
+                }
+            }
+        }
+        return $data_array != NULL ? json_encode($data_array, TRUE) : NULL;
+    }
+
+    public function fillEmptyFields($labelsums, $xlabelval){
+        foreach($labelsums as $key => $label){
+            if(!isset($label[$xlabelval])){
+                $labelsums[$key][$xlabelval] = 0;
             }
         }
 
-        return $data_array != NULL ? json_encode($data_array, TRUE) : NULL;
+        return $labelsums;
     }
 }

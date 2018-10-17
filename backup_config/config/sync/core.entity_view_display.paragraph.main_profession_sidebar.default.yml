@@ -1,0 +1,109 @@
+uuid: 370e0178-dd3c-49b1-b781-50f1a5dca726
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.main_profession_sidebar.field_cons
+    - field.field.paragraph.main_profession_sidebar.field_contact
+    - field.field.paragraph.main_profession_sidebar.field_iscedf_search_link
+    - field.field.paragraph.main_profession_sidebar.field_job_opportunities
+    - field.field.paragraph.main_profession_sidebar.field_jobs
+    - field.field.paragraph.main_profession_sidebar.field_oska_field
+    - field.field.paragraph.main_profession_sidebar.field_pros
+    - field.field.paragraph.main_profession_sidebar.field_qualification_standard
+    - field.field.paragraph.main_profession_sidebar.field_quick_find
+    - paragraphs.paragraphs_type.main_profession_sidebar
+  module:
+    - entity_reference_revisions
+    - link
+id: paragraph.main_profession_sidebar.default
+targetEntityType: paragraph
+bundle: main_profession_sidebar
+mode: default
+content:
+  field_cons:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_contact:
+    type: entity_reference_revisions_entity_view
+    weight: 8
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_iscedf_search_link:
+    type: entity_reference_revisions_entity_view
+    weight: 3
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_job_opportunities:
+    weight: 4
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_jobs:
+    type: entity_reference_revisions_entity_view
+    weight: 6
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_oska_field:
+    weight: 2
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_pros:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_qualification_standard:
+    weight: 5
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_quick_find:
+    weight: 7
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+hidden: {  }

@@ -1,0 +1,21 @@
+uuid: 09bb3f1f-b670-4af0-b034-410a2307483c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_survey_page_graph
+    - node.type.oska_survey_page
+  module:
+    - htm_custom_oska
+id: node.oska_survey_page.field_survey_page_graph
+field_name: field_survey_page_graph
+entity_type: node
+bundle: oska_survey_page
+label: 'Survey page graph'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: oska_graph_field

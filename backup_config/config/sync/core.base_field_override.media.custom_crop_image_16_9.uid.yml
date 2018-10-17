@@ -1,0 +1,20 @@
+uuid: ae887796-eaf9-4dfd-a78a-fb4ebdd0d9d3
+langcode: et
+status: true
+dependencies:
+  config:
+    - media.type.custom_crop_image_16_9
+id: media.custom_crop_image_16_9.uid
+field_name: uid
+entity_type: media
+bundle: custom_crop_image_16_9
+label: Autor
+description: 'The user ID of the author.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\media\Entity\Media::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

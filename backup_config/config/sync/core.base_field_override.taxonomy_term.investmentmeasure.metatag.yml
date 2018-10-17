@@ -1,0 +1,18 @@
+uuid: d4aa488c-8d91-4717-82ff-aa3d81af14f3
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.investmentmeasure
+id: taxonomy_term.investmentmeasure.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: investmentmeasure
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map
