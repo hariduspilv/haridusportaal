@@ -1,0 +1,21 @@
+uuid: 5247ef67-efd5-4e78-8c8e-a8d7d2f75672
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_phone
+    - paragraphs.paragraphs_type.contact_section
+  module:
+    - telephone
+id: paragraph.contact_section.field_phone
+field_name: field_phone
+entity_type: paragraph
+bundle: contact_section
+label: 'Kontakti telefon'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: telephone

@@ -1,0 +1,19 @@
+uuid: 224ae9aa-244f-44d6-8ce5-3e0f73e79b42
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_pros
+    - paragraphs.paragraphs_type.main_profession_sidebar
+id: paragraph.main_profession_sidebar.field_pros
+field_name: field_pros
+entity_type: paragraph
+bundle: main_profession_sidebar
+label: Pros
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

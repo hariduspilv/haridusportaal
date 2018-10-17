@@ -1,0 +1,20 @@
+uuid: 302b889b-8f14-4506-aa35-7e81d113109e
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_field
+  module:
+    - text
+id: taxonomy_term.oska_field.description
+field_name: description
+entity_type: taxonomy_term
+bundle: oska_field
+label: Kirjeldus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

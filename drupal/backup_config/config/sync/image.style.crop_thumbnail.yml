@@ -1,0 +1,17 @@
+uuid: 5653f199-71c4-40f5-8c88-24e64a05487d
+langcode: et
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: N1S0PHZeyxfFqgzB-sDeGPaxi0dDOL8NUiP_d6WXSV0
+name: crop_thumbnail
+label: 'Crop thumbnail'
+effects:
+  8fc26706-68dc-4eb7-8121-33e3936ed55f:
+    uuid: 8fc26706-68dc-4eb7-8121-33e3936ed55f
+    id: image_scale
+    weight: 1
+    data:
+      width: 1208
+      height: null
+      upscale: false

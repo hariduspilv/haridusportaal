@@ -1,0 +1,9 @@
+uuid: 041f5fbd-2e49-47a5-b8d3-6e9b9b786068
+langcode: en
+status: true
+dependencies: {  }
+name: 'Educational Institution Location'
+vid: educational_institution_location
+description: ''
+hierarchy: 0
+weight: -10

@@ -1,0 +1,41 @@
+uuid: 3cdcce47-d1cd-4979-92d2-6670956d7595
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.avaleht.body
+    - field.field.node.avaleht.field_head_block_title
+    - field.field.node.avaleht.field_supernews
+    - field.field.node.avaleht.field_supernews_publish_date
+    - field.field.node.avaleht.field_supernews_unpublish_date
+    - field.field.node.avaleht.field_topics
+    - node.type.avaleht
+  module:
+    - text
+    - user
+id: node.avaleht.teaser
+targetEntityType: node
+bundle: avaleht
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_head_block_title: true
+  field_supernews: true
+  field_supernews_publish_date: true
+  field_supernews_unpublish_date: true
+  field_topics: true
+  langcode: true

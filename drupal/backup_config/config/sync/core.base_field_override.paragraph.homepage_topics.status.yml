@@ -1,0 +1,22 @@
+uuid: 16a03fda-fa96-4633-8d8e-7663449380dc
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.homepage_topics
+id: paragraph.homepage_topics.status
+field_name: status
+entity_type: paragraph
+bundle: homepage_topics
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

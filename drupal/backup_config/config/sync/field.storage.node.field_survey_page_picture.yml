@@ -1,0 +1,30 @@
+uuid: 2a8ac69a-bcac-4ba2-bdc5-0fe035347eb4
+langcode: et
+status: true
+dependencies:
+  module:
+    - file
+    - image
+    - node
+id: node.field_survey_page_picture
+field_name: field_survey_page_picture
+entity_type: node
+type: image
+settings:
+  uri_scheme: public
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  target_type: file
+  display_field: false
+  display_default: false
+module: image
+locked: false
+cardinality: 2
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

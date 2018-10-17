@@ -1,0 +1,22 @@
+uuid: a832cfb0-4806-4eeb-84e3-3bdb4f6ed682
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+id: node.study_programme.promote
+field_name: promote
+entity_type: node
+bundle: study_programme
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

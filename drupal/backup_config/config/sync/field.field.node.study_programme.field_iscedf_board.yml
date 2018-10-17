@@ -1,0 +1,29 @@
+uuid: 61d410c5-52de-4093-ba32-65557deb68d2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_iscedf_board
+    - node.type.study_programme
+    - taxonomy.vocabulary.isced_f
+id: node.study_programme.field_iscedf_board
+field_name: field_iscedf_board
+entity_type: node
+bundle: study_programme
+label: Õppevaldkond
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      isced_f: isced_f
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

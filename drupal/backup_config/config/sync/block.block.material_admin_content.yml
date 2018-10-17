@@ -1,0 +1,35 @@
+uuid: e1515724-1a69-4393-bffe-b777ea07eef9
+langcode: et
+status: true
+dependencies:
+  module:
+    - ctools
+    - system
+  theme:
+    - material_admin
+_core:
+  default_config_hash: NgLsbLszEUM6yHAE9EUvz8meZCPjf9g959hMEwrai6o
+id: material_admin_content
+theme: material_admin
+region: content
+weight: -4
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    bundles:
+      article: article
+      event: event
+      news: news
+      page: page
+      school: school
+      study_programme: study_programme
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'

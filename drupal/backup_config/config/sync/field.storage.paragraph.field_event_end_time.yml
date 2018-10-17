@@ -1,0 +1,19 @@
+uuid: 688946b4-bead-43fb-9df1-9c4e4cef50ac
+langcode: en
+status: true
+dependencies:
+  module:
+    - hms_field
+    - paragraphs
+id: paragraph.field_event_end_time
+field_name: field_event_end_time
+entity_type: paragraph
+type: hms
+settings: {  }
+module: hms_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

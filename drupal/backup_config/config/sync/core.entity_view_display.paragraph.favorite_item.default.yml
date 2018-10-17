@@ -1,0 +1,51 @@
+uuid: f154fecf-ee97-4870-b6ac-634d2e63dd87
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.favorite_item.field_favorite_title
+    - field.field.paragraph.favorite_item.field_page
+    - field.field.paragraph.favorite_item.field_search
+    - field.field.paragraph.favorite_item.field_type
+    - paragraphs.paragraphs_type.favorite_item
+  module:
+    - options
+_core:
+  default_config_hash: RTgjgFNifWTDnggLqSicZ9KRvzmn8ECuAVZiUTtmndQ
+id: paragraph.favorite_item.default
+targetEntityType: paragraph
+bundle: favorite_item
+mode: default
+content:
+  field_favorite_title:
+    weight: 3
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_page:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_search:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_type:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+hidden: {  }

@@ -1,0 +1,67 @@
+uuid: 1d5908cd-5882-4f81-8e93-980be540c4cd
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.right_sidebar_section_info.field_additional
+    - field.field.paragraph.right_sidebar_section_info.field_contact_section
+    - field.field.paragraph.right_sidebar_section_info.field_hyperlinks
+    - field.field.paragraph.right_sidebar_section_info.field_related_article
+    - paragraphs.paragraphs_type.right_sidebar_section_info
+  module:
+    - link
+    - paragraphs
+id: paragraph.right_sidebar_section_info.default
+targetEntityType: paragraph
+bundle: right_sidebar_section_info
+mode: default
+content:
+  field_additional:
+    type: entity_reference_paragraphs
+    weight: 0
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+    region: content
+  field_contact_section:
+    type: entity_reference_paragraphs
+    weight: 1
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+    region: content
+  field_hyperlinks:
+    weight: 12
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_related_article:
+    weight: 11
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

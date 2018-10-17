@@ -1,0 +1,18 @@
+uuid: 3fe3063d-6d1d-4122-a818-b4f467208e13
+langcode: et
+status: true
+dependencies:
+  config:
+    - media.type.custom_crop_image_16_9
+id: media.custom_crop_image_16_9.changed
+field_name: changed
+entity_type: media
+bundle: custom_crop_image_16_9
+label: Muudetud
+description: 'The time the media item was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

@@ -1,0 +1,19 @@
+emails:
+  email_event_registration:
+    registration_email_subject: 'testing registreerija [event_reg_entity:event_reference:entity:title]'
+    registration_email_body: "emaili body\r\ntanel testib registreerija teksti\r\nsündmuse kestvus : [htm_custom_event_tokens:event_start_end]\r\nregistreerija eesnimi: [event_reg_entity:participant_first_name]"
+    organizer_email_subject: 'testing2 orgunnija'
+    organizer_email_body: 'tanel testib organiseerija tekstija'
+  email_subscription:
+    create_email_subject: 'Uudiskirja tellimuse kinnitamine'
+    create_email_body: "Tere keeks!\r\n\r\nTänud haridusteemade vastu huvi tundmast. Aadressile [subscription_entity:subscriber_email] on tellitud teavitused teemadel: [htm_custom_subscription_tokens:newtags].\r\n\r\nTellimuse kinnitamiseks palun vajutage seda linki: [htm_custom_subscription_tokens:subscribe_link].\r\n\r\nKui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: [htm_custom_subscription_tokens:unsubscribe_link]."
+    update_email_subject: 'Uudiskirja uuendamise kinnitamine TEST'
+    update_email_body: "Tere!\r\n\r\nAadressile [subscription_entity:subscriber_email] on tellitud teavitused teemadel: [htm_custom_subscription_tokens:tags].\r\n\r\nMuudetud tellimus sisaldab teemasid: [htm_custom_subscription_tokens:newtags].\r\n\r\nVarasema tellimuse muutmiseks palun vajutage seda linki: [htm_custom_subscription_tokens:subscribe_link].\r\n\r\nKui Te pole teavitust tellinud või soovite sellest loobuda, siis vajutage seda linki: [htm_custom_subscription_tokens:unsubscribe_link]."
+    notify_email_subject: 'Haridusteemalised uudised'
+    notify_email_body: "Uudised:\r\n[htm_custom_subscription_tokens:news]\r\n\r\nSündmused:\r\n[htm_custom_subscription_tokens:events]"
+langcode: et
+default_langcode: et
+_core:
+  default_config_hash: 6Ne3ytUeoDgNDVsodtUNh0jy2tBt-ZJUkgTI2YGU2V4
+general:
+  fe_url: 'http://htm.twn.ee'

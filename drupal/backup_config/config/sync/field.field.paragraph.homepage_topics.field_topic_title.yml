@@ -1,0 +1,19 @@
+uuid: be66f5b0-b9d1-464a-8fcb-a76b1b48e0dc
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_topic_title
+    - paragraphs.paragraphs_type.homepage_topics
+id: paragraph.homepage_topics.field_topic_title
+field_name: field_topic_title
+entity_type: paragraph
+bundle: homepage_topics
+label: 'Teema pealkiri'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

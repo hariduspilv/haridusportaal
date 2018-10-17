@@ -1,0 +1,12 @@
+uuid: ba20a377-dd9b-4111-bfd7-f2af7838cf47
+langcode: et
+status: false
+dependencies:
+  module:
+    - media
+_core:
+  default_config_hash: 6NBUEuGmlkClK8Fb76tSMMpO2eZ4LWCBdbUk4z7CuP0
+id: media.full
+label: 'Kogu sisu'
+targetEntityType: media
+cache: true

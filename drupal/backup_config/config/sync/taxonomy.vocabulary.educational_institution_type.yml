@@ -1,0 +1,9 @@
+uuid: 4c9da67f-c357-477b-bf53-0cbec6be2ae7
+langcode: et
+status: true
+dependencies: {  }
+name: 'Educational Institution Type'
+vid: educational_institution_type
+description: ''
+hierarchy: 1
+weight: -9

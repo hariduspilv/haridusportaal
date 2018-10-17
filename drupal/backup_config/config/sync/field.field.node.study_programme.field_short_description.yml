@@ -1,0 +1,19 @@
+uuid: 311f5009-117c-4965-9bc4-b824039f9a8d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_short_description
+    - node.type.study_programme
+id: node.study_programme.field_short_description
+field_name: field_short_description
+entity_type: node
+bundle: study_programme
+label: Lühikirjeldus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

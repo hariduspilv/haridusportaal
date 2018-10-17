@@ -1,0 +1,18 @@
+uuid: 945a79a3-a377-498c-be72-a9ca6576162b
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_main_profession
+id: taxonomy_term.oska_main_profession.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: oska_main_profession
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

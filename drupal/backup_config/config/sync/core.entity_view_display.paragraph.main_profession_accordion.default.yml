@@ -1,0 +1,45 @@
+uuid: b4609c80-b1c2-47ef-9fd7-b058ebce38a6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.main_profession_accordion.field_body
+    - field.field.paragraph.main_profession_accordion.field_links
+    - field.field.paragraph.main_profession_accordion.field_title
+    - paragraphs.paragraphs_type.main_profession_accordion
+  module:
+    - link
+    - text
+id: paragraph.main_profession_accordion.default
+targetEntityType: paragraph
+bundle: main_profession_accordion
+mode: default
+content:
+  field_body:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_links:
+    weight: 2
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }

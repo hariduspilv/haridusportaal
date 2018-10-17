@@ -1,0 +1,7 @@
+uuid: b4eaef35-bf53-4344-9a83-2ba1cae51607
+langcode: en
+status: true
+dependencies: {  }
+version: subsidyProjectQueryLocation
+map:
+  1: "query ($ownershipType: [Int], $investmentMeasure: [Int], $investmentDeadline: [Int], $levelOfDetail: Int!) {\n  CustomSubsidyProjectQuery(ownership_type: $ownershipType, investment_measure: $investmentMeasure, investment_deadline: $investmentDeadline, detail: $levelOfDetail) {\n    investmentLocation\n    investmentAmountSum\n  }\n}\n"
