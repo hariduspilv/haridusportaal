@@ -139,9 +139,10 @@ $grid-columns: 12;
       border-top: solid .125rem $dark-gray;
     }
     td, th {
-      padding: 1rem;
+      padding: 0.5rem 1rem;
       border: .0625rem solid $gray;
       width: 33%;
+      font-size: 0.875rem;
       a {font-weight: 400;}
       color: $black;
       &:first-letter { 
