@@ -18,14 +18,16 @@ class AuthenticationController extends ControllerBase {
       $tara_secret = settings::get('tara_secret');
 
       $oidc = new OpenIDConnectClient('https://tara-test.ria.ee', 'eduportaal', $tara_secret);
-      $oidc->providerConfigParam(array('authorization_endpoint' => 'https://tara-test.ria.ee/oidc/authorize'));
+      $oidc->providerConfigParam(
+      	[
+      		'authorization_endpoint' => 'https://tara-test.ria.ee/oidc/authorize',
+	      ]);
       $oidc->addScope('openid');
       $oidc->setResponseTypes(array('code'));
       try{
           $oidc->authenticate();
       }catch(OpenIDConnectClientException $e){
-          $message = t('Unable to authenticate user.');
-          throw new HttpException(500, $message);
+          return new \Exception($e->getCode(), $e->getMessage());
       }
       $userInfo = $oidc->requestUserInfo();
       kint($oidc);
