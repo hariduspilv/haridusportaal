@@ -1,0 +1,9 @@
+<?php
+
+function htm_custom_datetime_unix_field_info_alter(&$info) {
+
+	//Override default datetime class
+	if(isset($info['datetime'])){
+		$info['datetime']['class'] = 'Drupal\htm_custom_datetime_unix\Plugin\Field\FieldType\CustomDateTimeItem';
+	}
+}

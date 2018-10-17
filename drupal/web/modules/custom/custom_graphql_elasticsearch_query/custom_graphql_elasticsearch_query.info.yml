@@ -1,5 +1,0 @@
-name: 'Custom Graphql Elasticsearch Query'
-type: module
-description: 'Module which queries Elasticsearch index'
-core: 8.x
-package: 'TWN-Custom'
