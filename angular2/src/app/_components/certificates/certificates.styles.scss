@@ -1,8 +1,8 @@
 @import "../../../assets/styles/typography.scss"; 
 
 h4 {
-  font-size: 1rem; font-weight: 500; line-height: 1.38; text-align: left; color: $black; margin: 2rem 0 1rem; }
-
+  font-size: 1rem; font-weight: 500; line-height: 1.38; text-align: left; color: $black; margin: 2rem 0 0.5rem; }
+h4.title-lg-padding { margin-bottom: 1rem; }
   
 .mat-expansion-panel {margin-bottom: .25rem;border: .0625rem solid #bee3e8;border-left: .1875rem solid #bee3e8;
   &.detailView {
@@ -106,8 +106,8 @@ h4 {
 .grid {
   &-box { display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-between; margin-right: -1rem; }
   &-item { text-decoration: none; text-align: center; padding: 1rem 0.5rem; border-radius: 0.25rem; border: solid 1px $gray; background-color: $white;
-    color: $blue; font-weight: 500; font-size: 0.875rem; flex: 1; margin-right: 1rem; margin-bottom: 1rem;
-    display: flex; flex-basis: calc(50% - 40px); justify-content: center; flex-direction: column;
+    color: $blue; font-weight: 500; font-size: 0.875rem; flex: 0; margin-right: 1rem; margin-bottom: 1rem;
+    display: flex; flex-basis: calc(50% - 34px); justify-content: center; flex-direction: column;
     @include break-on(xxs, max) { flex-basis: 100%; }
     &:hover { text-decoration: underline; box-shadow: 0 0.125rem 0.25rem 0 rgba(117, 117, 117, 0.5); border: solid 1px $gray; cursor: pointer; text-decoration: underline; }
     &:visited { 
@@ -117,4 +117,14 @@ h4 {
     &-link{ text-decoration: none; }
 }
 
-.grid-load { display: flex; justify-content: center; }
+.grid-load { display: flex; justify-content: center; 
+  @include break-on(sm, max) {
+    margin-top: 1rem;}
+   }
+
+   table td, table th { padding: 0.5rem 1rem; width: auto; font-size: 0.875rem; }
+   table p { margin: 0; font-weight: 400; }
+
+   .description { border-top: 0.125rem $dark-gray solid;
+    &-bottom { border-bottom: 0.125rem $dark-gray solid; }
+   }

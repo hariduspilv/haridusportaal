@@ -18,9 +18,10 @@
 		@include break-on(sm, max) { padding-bottom: 0px; }
 }
 .round-input__wrapper .mat-form-field {
-	@include break-on(sm, max){ margin-top: 1.5rem; }
+	@include break-on(sm, max){ margin-top: 1.25rem; }
 }
 .filter-wrapper {
+    padding: 1rem 1.5rem 1rem 1.5rem;
 	@include break-on(sm, max) { display:none; 
 		&.filtersActive{display:block;}
 	}
