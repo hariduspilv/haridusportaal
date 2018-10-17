@@ -1,0 +1,5 @@
+entity.subscription_entity.add_form:
+  route_name: entity.subscription_entity.add_form
+  title: 'Add Subscription entity'
+  appears_on:
+    - entity.subscription_entity.collection
