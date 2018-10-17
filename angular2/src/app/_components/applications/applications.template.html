@@ -2,7 +2,7 @@
 
 <div *ngIf="loading.initial === false">
   <div>
-    <h4>{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>
+    <h4 class="title-lg-padding">{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>
     <span *ngIf="!acceptable_forms_list.length">{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_notfound' | translate }}</span>
 
     <ng-container *ngIf="acceptable_forms_list.length">
@@ -44,9 +44,6 @@
             </a>
           </td>
         </tr>
-        <tr *ngIf="loading.interval === true">
-          <td colspan="2">loading...</td>
-        </tr>
       </tbody>
     </table>
   </div>
@@ -66,7 +63,7 @@
       </thead> 
       <tbody>
         <ng-container *ngFor="let form of data.documents">
-          <tr>
+          <tr [class.description]="form.description" >
             <td>{{ selectLanguage(form.title) }}</td>
             <td>{{ form.document_date }}</td>
             <td>{{ form.status }}</td>
@@ -76,13 +73,11 @@
               </a>
             </td>
           </tr>
-          <tr *ngIf="form.description">
+          <tr class="description-bottom" *ngIf="form.description">
             <td colspan="4"><p>{{ form. description }}</p></td>
           </tr>
         </ng-container>
-        <tr *ngIf="loading.interval === true">
-          <td colspan="4">loading...</td>
-        </tr>
+
       </tbody>
     </table>
   </div>
