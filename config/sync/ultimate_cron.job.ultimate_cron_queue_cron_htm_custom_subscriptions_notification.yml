@@ -1,0 +1,20 @@
+uuid: ed65b722-c7b7-4645-b063-542b3c51808c
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_subscriptions_notification
+title: 'Queue: Import task worker: subscription notification queue'
+id: ultimate_cron_queue_cron_htm_custom_subscriptions_notification
+weight: 10
+module: htm_custom_subscriptions_notification
+callback: 'ultimate_cron.queue_worker:queueCallback'
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '* * * * *'
+launcher:
+  id: serial
+logger:
+  id: database
