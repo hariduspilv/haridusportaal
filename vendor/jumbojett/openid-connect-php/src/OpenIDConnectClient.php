@@ -577,7 +577,7 @@ class OpenIDConnectClient
         $auth_params = array_merge($this->authParams, array(
             'response_type' => $response_type,
             'redirect_uri' => $this->getRedirectURL(),
-            'client_id' => $this->clientID,
+            'client _id' => $this->clientID,
             'nonce' => $nonce,
             'state' => $state,
             'scope' => 'openid'
@@ -594,7 +594,8 @@ class OpenIDConnectClient
         }
 
         $auth_endpoint .= (strpos($auth_endpoint, '?') === false ? '?' : '&') . http_build_query($auth_params, null, '&');
-
+	dump($auth_endpoint);
+	#die();
         session_commit();
         $this->redirect($auth_endpoint);
     }
@@ -680,7 +681,7 @@ class OpenIDConnectClient
             'client_id' => $this->clientID,
             'client_secret' => $this->clientSecret
         );
-
+	dump($token_params);
         # Consider Basic authentication if provider config is set this way
         if (in_array('client_secret_basic', $token_endpoint_auth_methods_supported)) {
             $headers = ['Authorization: Basic ' . base64_encode($this->clientID . ':' . $this->clientSecret)];

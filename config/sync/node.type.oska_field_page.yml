@@ -21,7 +21,7 @@ third_party_settings:
     unpublish_enable: false
     unpublish_required: false
     unpublish_revision: false
-name: 'OSKA Field Page'
+name: 'Sisuleht OSKA Valdkond'
 type: oska_field_page
 description: ''
 help: ''
