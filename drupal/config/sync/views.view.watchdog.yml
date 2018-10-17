@@ -660,12 +660,10 @@ display:
           field: area
           relationship: none
           group_type: group
-          admin_label: ''
+          admin_label: 'Logis ei ole teateid.'
           empty: true
           tokenize: false
-          content:
-            value: 'Logis ei ole teateid.'
-            format: basic_html
+          content: 'Logis ei ole teateid.'
           plugin_id: text
       relationships:
         uid:
