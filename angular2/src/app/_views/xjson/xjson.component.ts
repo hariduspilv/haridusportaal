@@ -105,7 +105,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.test = (strings['test'] == 'true');
         if(strings['draft'] == 'true') this.queryStrings['status'] = 'draft'
         if(strings['existing'] == 'true') this.queryStrings['status'] = 'submitted';
-        if(strings['identifier'] != undefined ) this.queryStrings['identifier'] = Number(strings['identifier']);
+        if(strings['identifier'] != undefined ) this.queryStrings['id'] = Number(strings['identifier']);
 
         this.setPaths();
       }
