@@ -2,6 +2,10 @@ uuid: 8909cd82-a6bd-483b-9bde-f6ed54c12c5d
 langcode: et
 status: true
 dependencies:
+  module:
+    - node
+    - taxonomy
+    - search_api
   config:
     - field.storage.node.field_description
     - field.storage.node.field_organizer
@@ -9,10 +13,6 @@ dependencies:
     - field.storage.node.field_description_summary
     - field.storage.node.field_event_type
     - search_api.server.elasticsearch_server
-  module:
-    - taxonomy
-    - search_api
-    - node
 id: events
 name: Events
 description: ''
@@ -23,6 +23,9 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: type
     type: string
+    dependencies:
+      module:
+        - node
   entity_path:
     label: URI
     property_path: search_api_url
@@ -53,6 +56,7 @@ field_settings:
         - field.storage.node.field_event_type
       module:
         - taxonomy
+        - taxonomy
   field_organizer:
     label: Organiseerija
     datasource_id: 'entity:node'
@@ -71,21 +75,31 @@ field_settings:
         - field.storage.node.field_tag
       module:
         - taxonomy
+        - taxonomy
   langcode:
     label: Keel
     datasource_id: 'entity:node'
     property_path: langcode
     type: text
+    dependencies:
+      module:
+        - node
   nid:
     label: ID
     datasource_id: 'entity:node'
     property_path: nid
     type: integer
+    dependencies:
+      module:
+        - node
   title:
     label: Pealkiri
     datasource_id: 'entity:node'
     property_path: title
     type: text
+    dependencies:
+      module:
+        - node
 datasource_settings:
   'entity:node':
     bundles:
