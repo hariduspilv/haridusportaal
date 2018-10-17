@@ -87,7 +87,7 @@ h1{color:$black; font-size:1.5rem; line-height:125%; margin:0;}
 
 ::ng-deep table{width:100%; border-collapse: collapse; border:$gray 1px solid;
   caption{font-size: 1rem; color:$black; font-weight: 500; padding:0 0 0.5rem 0; text-align:left;}
-  td, th{text-align:left; padding:0.625rem 1rem;  border:$gray 1px solid; font-size:0.875rem; line-height:135%;
+  td, th{text-align:left; padding:0.5rem 1rem;  border:$gray 1px solid; font-size:0.875rem; line-height:135%;
     p:first-child{margin-top:0;}
     p:last-child{margin-bottom:0;}
   }
