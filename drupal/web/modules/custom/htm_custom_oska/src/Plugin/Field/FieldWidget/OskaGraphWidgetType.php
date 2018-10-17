@@ -50,10 +50,16 @@ class OskaGraphWidgetType extends WidgetBase {
                 $field_settings = $field->getSettings();
                 if(isset($field_settings['graph_filter'])){
                     $fields[$key] = $field;
+                    if(!isset($field_settings['graph_indicator'])){
+                        $v_axis_options[$key] = $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString());
+                    }
                 }
                 if(isset($field_settings['graph_indicator'])){
                     $fields[$key] = $field;
                     $secondary_indicator[$key] = $field;
+                }
+                if(isset($field_settings['graph_label'])){
+                    $v_axis_options[$key] = $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString());
                 }
             }
 
@@ -119,6 +125,16 @@ class OskaGraphWidgetType extends WidgetBase {
                     ];
                 }
             }
+
+            $element['graph_v_axis'] = [
+                '#title' => $this->t('Graph v-axis'),
+                '#size' => 256,
+                '#type' => 'select',
+                '#default_value' => isset($data['graph_v_axis']) ? $data['graph_v_axis'] : NULL,
+                '#options' =>  $v_axis_options,
+                '#empty_option'  => t('Select graph v-axis'),
+                '#required' => FALSE,
+            ];
 
             $field_name = $this->fieldDefinition->getName();
 

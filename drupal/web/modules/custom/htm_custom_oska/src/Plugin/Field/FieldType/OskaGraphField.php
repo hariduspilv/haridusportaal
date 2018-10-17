@@ -42,16 +42,18 @@ class OskaGraphField extends FieldItemBase {
             ->setLabel(t('Chart value'))
             ->setComputed(TRUE)
             ->setClass('\Drupal\htm_custom_oska\GoogleChartValue');
-        $properties['v_axis'] = DataDefinition::create('string')
-            ->setLabel(t('Chart vAxis'));
-        $properties['h_axis'] = DataDefinition::create('string')
-            ->setLabel(t('Chart hAxis'));
+        $properties['graph_v_axis'] = DataDefinition::create('string')
+            ->setLabel(t('Chart x axis'));
         $properties['filter_values'] = DataDefinition::create('string')
             ->setLabel(t('Graph filter values'));
         $properties['graph_type'] = DataDefinition::create('string')
             ->setLabel(t('Graph type'));
         $properties['secondary_graph_type'] = DataDefinition::create('string')
             ->setLabel(t('Secondary graph type'));
+        $properties['graph_indicator'] = DataDefinition::create('string')
+            ->setLabel(t('First graph indicator'));
+        $properties['secondary_graph_indicator'] = DataDefinition::create('string')
+            ->setLabel(t('Secondary graph indicator'));
 
         return $properties;
 
@@ -83,31 +85,38 @@ class OskaGraphField extends FieldItemBase {
             'type' => 'varchar',
             'not null' => FALSE,
         ];
-        $schema['columns']['h_axis'] = [
-            'description' => 'Combo graph type.',
+        $schema['columns']['graph_v_axis'] = [
+            'description' => 'Graph v axis.',
             'type' => 'varchar',
             'not null' => FALSE,
         ];
-        $schema['columns']['v_axis'] = [
-            'description' => 'Combo graph type.',
+        $schema['columns']['graph_indicator'] = [
+            'description' => 'First graph indicator.',
             'type' => 'varchar',
             'not null' => FALSE,
         ];
+        $schema['columns']['secondary_graph_indicator'] = [
+            'description' => 'Secondary graph indicator.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
+
 
         return $schema;
     }
 
     public function preSave()
     {
-        $indicators = $this->getAxisNames($this->values);
+        $graph_v_axis_value = $this->getCleanLabel($this->values['graph_v_axis']);
+        $indicators = $this->getIndicators($this->values);
         $this->values = [
             'graph_type' => $this->values['graph_type'],
-            'secondary_graph_type' => $this->values['secondary_graph_type'],
-            'v_axis' => $indicators[0],
-            'h_axis' => $this->t('Year'),
+            'secondary_graph_type' => $this->values['secondary_graph_type'] != "" ? $this->values['secondary_graph_type'] : NULL,
+            'graph_v_axis' => $graph_v_axis_value,
+            'graph_indicator' => isset($indicators[0]) ? $indicators[0] : NULL,
+            'secondary_graph_indicator' => isset($indicators[1]) ? $indicators[1] : NULL,
             'filter_values' => json_encode($this->values, TRUE),
         ];
-
     }
 
     public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data)
@@ -131,7 +140,7 @@ class OskaGraphField extends FieldItemBase {
         return $element;
     }
 
-    public function getAxisNames($filter_values){
+    public function getIndicators($filter_values){
         $target_type = $this->getFieldDefinition()->getSettings()['target_type'];
 
         $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple();
@@ -144,9 +153,25 @@ class OskaGraphField extends FieldItemBase {
                 $indicator_field = $key;
             }
         }
-        foreach($filter_values[$indicator_field] as $field_val){
-            $indicators[] = Term::load($field_val['target_id'])->getName();
+        if(isset($indicator_field) && isset($filter_values[$indicator_field]) && $filter_values[$indicator_field] != NULL){
+            foreach($filter_values[$indicator_field] as $field_val){
+                $indicators[] = Term::load($field_val['target_id'])->getName();
+            }
+        }else{
+            $indicators = NULL;
         }
-        return($indicators);
+        return $indicators;
+    }
+
+    public function getCleanLabel($field_name){
+        $target_type = $this->getFieldDefinition()->getSettings()['target_type'];
+
+        $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple();
+
+        $entity_fields = reset($entities)->getFields();
+
+        $value_name = $this->t($entity_fields[$field_name]->getFieldDefinition()->getLabel()->getUntranslatedString());
+
+        return $value_name;
     }
 }
