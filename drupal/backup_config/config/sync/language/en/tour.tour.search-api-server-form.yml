@@ -1,0 +1,14 @@
+label: 'Add or edit a Search API server'
+tips:
+  search-api-server-form-introduction:
+    label: 'Adding or editing a Server'
+    body: 'This form can be used to edit an existing server or add a new server to your site. Servers will hold your indexed data.'
+  search-api-server-form-name:
+    label: 'Server name'
+    body: 'Enter a name to identify this server. For example, "Solr server". This will only be displayed in the admin user interface.'
+  search-api-server-form-description:
+    label: 'Server description'
+    body: 'Optionally, enter a description to explain the function of the server in more detail. This will only be displayed in the admin user interface.'
+  search-api-server-form-backend:
+    label: 'Server backend'
+    body: 'Servers can be based on different technologies. These are called "backends". A server uses exactly one backend and cannot change it later. You can make the "Database" backend available by enabling the "Database Search" module. Another very common backend is <a href="https://www.drupal.org/project/search_api_solr">"Solr"</a>, which requires to be set up separately.'

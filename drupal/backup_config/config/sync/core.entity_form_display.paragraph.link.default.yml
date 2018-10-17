@@ -1,0 +1,20 @@
+uuid: e1ececa5-05f9-4df3-bc45-4e510f925c26
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.link
+id: paragraph.link.default
+targetEntityType: paragraph
+bundle: link
+mode: default
+content:
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

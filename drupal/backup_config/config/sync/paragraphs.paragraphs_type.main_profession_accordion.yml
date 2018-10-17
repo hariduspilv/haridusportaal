@@ -1,0 +1,9 @@
+uuid: 2d927a1d-d8c5-4eb2-9275-5f148b860e73
+langcode: et
+status: true
+dependencies: {  }
+id: main_profession_accordion
+label: 'Main Profession Accordion'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

@@ -1,0 +1,177 @@
+uuid: b83cd483-7751-48c6-96d0-4a5e902c8dfa
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.school.body
+    - field.field.node.school.field_adrid
+    - field.field.node.school.field_created_from_ehis_datetime
+    - field.field.node.school.field_educational_institution_ty
+    - field.field.node.school.field_ehis_id
+    - field.field.node.school.field_metatags
+    - field.field.node.school.field_ownership_type
+    - field.field.node.school.field_registration_code
+    - field.field.node.school.field_school_contact_email
+    - field.field.node.school.field_school_contact_phone
+    - field.field.node.school.field_school_location
+    - field.field.node.school.field_school_webpage_address
+    - field.field.node.school.field_special_class
+    - field.field.node.school.field_student_home
+    - field.field.node.school.field_teaching_language
+    - field.field.node.school.field_update_from_ehis
+    - field.field.node.school.field_update_location_from_ehis
+    - node.type.school
+  module:
+    - metatag
+    - paragraphs
+    - readonly_field_widget
+id: node.school.default
+targetEntityType: node
+bundle: school
+mode: default
+content:
+  field_adrid:
+    weight: 8
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_created_from_ehis_datetime:
+    weight: 15
+    settings:
+      label: above
+      formatter_type: null
+      formatter_settings: null
+      show_description: false
+    third_party_settings: {  }
+    type: readonly_field_widget
+    region: content
+  field_educational_institution_ty:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_ehis_id:
+    weight: 14
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_metatags:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
+  field_ownership_type:
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_registration_code:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_school_contact_email:
+    weight: 11
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: email_default
+    region: content
+  field_school_contact_phone:
+    weight: 10
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_school_location:
+    type: entity_reference_paragraphs
+    weight: 9
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_school_webpage_address:
+    weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_special_class:
+    weight: 5
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_student_home:
+    weight: 6
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_teaching_language:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_update_from_ehis:
+    weight: 13
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
+  field_update_location_from_ehis:
+    weight: 7
+    settings: {  }
+    third_party_settings: {  }
+    type: options_buttons
+    region: content
+  status:
+    type: options_buttons
+    weight: 16
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  body: true
+  created: true
+  langcode: true
+  path: true
+  promote: true
+  publish_on: true
+  sticky: true
+  translation: true
+  uid: true
+  unpublish_on: true

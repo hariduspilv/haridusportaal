@@ -1,0 +1,19 @@
+uuid: 51694760-b546-4a0a-be12-1f240954a2f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_ehak
+    - taxonomy.vocabulary.educational_institution_location
+id: taxonomy_term.educational_institution_location.field_ehak
+field_name: field_ehak
+entity_type: taxonomy_term
+bundle: educational_institution_location
+label: EHAK
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,29 @@
+uuid: d9a5d9a3-a8f7-48d6-933b-1cf4590d3ff6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tag
+    - node.type.event
+    - taxonomy.vocabulary.tags
+id: node.event.field_tag
+field_name: field_tag
+entity_type: node
+bundle: event
+label: Sildid
+description: 'Maks. <b>4</b> Sildid eralda komaga'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

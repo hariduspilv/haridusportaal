@@ -1,0 +1,28 @@
+uuid: 536c96b1-db88-400c-81a0-014b2f25b16b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_supernews
+    - node.type.avaleht
+    - node.type.news
+id: node.avaleht.field_supernews
+field_name: field_supernews
+entity_type: node
+bundle: avaleht
+label: Superuudis
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

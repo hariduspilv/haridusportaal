@@ -1,0 +1,9 @@
+uuid: c76517f0-be23-4aa2-b904-3827e5626644
+langcode: et
+status: true
+dependencies: {  }
+id: right_sidebar_section_info
+label: 'Parema veeru info'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

@@ -17,20 +17,8 @@ module:
   contextual: 0
   crop: 0
   ctools: 0
-  custom_alter_entity_autocomplete: 0
-  custom_datetime_unix_value: 0
-  custom_graphql_elasticsearch_query: 0
-  custom_graphql_functions: 0
-  custom_graphql_querymap_form: 0
-  custom_graphql_tags_query: 0
   custom_logging_to_file: 0
   custom_menu_uri_translation: 0
-  custom_mobile_id_authentication: 0
-  custom_rest_functions: 0
-  custom_study_programme_import: 0
-  custom_subscription_administration: 0
-  custom_subscription_notification: 0
-  custom_translation_module: 0
   datetime: 0
   dblog: 0
   devel: 0
@@ -47,7 +35,6 @@ module:
   field_ui: 0
   file: 0
   filter: 0
-  form_alter_hook: 0
   google_map_field: 0
   graphql: 0
   graphql_core: 0
@@ -55,14 +42,24 @@ module:
   help: 0
   history: 0
   hms_field: 0
+  htm_custom_admin: 0
   htm_custom_admin_form: 0
+  htm_custom_authentication: 0
+  htm_custom_datetime_unix: 0
   htm_custom_ehis_connector: 0
   htm_custom_event_registration: 0
   htm_custom_exports: 0
   htm_custom_favorites: 0
+  htm_custom_graphql_elasticsearch: 0
+  htm_custom_graphql_functions: 0
+  htm_custom_graphql_tags: 0
   htm_custom_harid_authentication: 0
   htm_custom_oska: 0
   htm_custom_professional_certific: 0
+  htm_custom_querymap_form: 0
+  htm_custom_study_programme_import: 0
+  htm_custom_subscriptions: 0
+  htm_custom_subscriptions_notification: 0
   htm_custom_subsidy_projects: 0
   htm_custom_tara_authentication: 0
   htm_custom_tokens: 0

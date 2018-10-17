@@ -1,0 +1,23 @@
+uuid: 17622831-7525-4f20-9876-e5c14dfee425
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_related_article
+    - paragraphs.paragraphs_type.accordion
+  module:
+    - link
+id: paragraph.accordion.field_related_article
+field_name: field_related_article
+entity_type: paragraph
+bundle: accordion
+label: 'Seotud artikkel'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link

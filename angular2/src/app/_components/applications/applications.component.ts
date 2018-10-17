@@ -157,6 +157,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
           "title": {
             "et": "3Vajaduspõhise õppetoetuse taotlus"
           }
+        },
+        {
+          "form_name":"VPT_TAOTLUS",
+          "title": {
+            "et": "3Vajaduspõhise õppetoetuse taotlus"
+          }
         }
       ];
       

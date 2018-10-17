@@ -1,0 +1,23 @@
+uuid: 0d8354ce-085c-49b0-be7a-36c2e801a8b3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_amount
+    - node.type.study_programme
+id: node.study_programme.field_amount
+field_name: field_amount
+entity_type: node
+bundle: study_programme
+label: 'Õppekava maht'
+description: 'Kõrghariduse õppekava korral on ühikuks EAP, kutsehariduse õppekava korral on ühikuks EKAP.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

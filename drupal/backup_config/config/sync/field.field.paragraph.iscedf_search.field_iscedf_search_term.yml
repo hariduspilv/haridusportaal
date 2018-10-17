@@ -1,0 +1,29 @@
+uuid: 8c8cf95c-26ee-46a1-bf99-5715979170ca
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_iscedf_search_term
+    - paragraphs.paragraphs_type.iscedf_search
+    - taxonomy.vocabulary.isced_f
+id: paragraph.iscedf_search.field_iscedf_search_term
+field_name: field_iscedf_search_term
+entity_type: paragraph
+bundle: iscedf_search
+label: 'ISCEDF Detailed'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      isced_f: isced_f
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

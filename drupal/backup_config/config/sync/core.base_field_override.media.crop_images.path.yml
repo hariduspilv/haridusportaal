@@ -1,0 +1,20 @@
+uuid: d86466fb-35d8-470f-9122-b74b4c23c653
+langcode: et
+status: true
+dependencies:
+  config:
+    - media.type.crop_images
+  module:
+    - path
+id: media.crop_images.path
+field_name: path
+entity_type: media
+bundle: crop_images
+label: 'URL-i alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

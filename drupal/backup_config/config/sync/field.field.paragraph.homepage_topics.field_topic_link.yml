@@ -1,0 +1,23 @@
+uuid: 69499caf-ce03-422d-a23a-05c91c902b28
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_topic_link
+    - paragraphs.paragraphs_type.homepage_topics
+  module:
+    - link
+id: paragraph.homepage_topics.field_topic_link
+field_name: field_topic_link
+entity_type: paragraph
+bundle: homepage_topics
+label: 'Teema link'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 0
+field_type: link

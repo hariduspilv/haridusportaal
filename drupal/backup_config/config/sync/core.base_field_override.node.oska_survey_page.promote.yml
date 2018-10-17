@@ -1,0 +1,22 @@
+uuid: 7356ed8e-3e98-4590-83b4-b83902eb9beb
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.oska_survey_page
+id: node.oska_survey_page.promote
+field_name: promote
+entity_type: node
+bundle: oska_survey_page
+label: 'Ülendatud esilehele'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

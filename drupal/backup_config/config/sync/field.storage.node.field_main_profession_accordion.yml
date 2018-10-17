@@ -1,0 +1,21 @@
+uuid: 78ff0a3d-8469-4ec4-9c92-4e9b9a350cee
+langcode: et
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - node
+    - paragraphs
+id: node.field_main_profession_accordion
+field_name: field_main_profession_accordion
+entity_type: node
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

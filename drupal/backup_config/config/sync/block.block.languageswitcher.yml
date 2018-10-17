@@ -1,0 +1,31 @@
+uuid: ecd57fbd-5463-4646-846c-808178e1102f
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+    - user
+  theme:
+    - material_admin
+id: languageswitcher
+theme: material_admin
+region: header
+weight: -4
+provider: null
+plugin: 'language_block:language_interface'
+settings:
+  id: 'language_block:language_interface'
+  label: 'Language switcher'
+  provider: language
+  label_display: '0'
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      authenticated: authenticated
+      administrator: administrator
+      content_editor: content_editor
+      head_user: head_user
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

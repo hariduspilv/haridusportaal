@@ -1,0 +1,20 @@
+uuid: 4161f28a-a169-4232-985c-ef5b2f851350
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_main_profession
+  module:
+    - path
+id: taxonomy_term.oska_main_profession.path
+field_name: path
+entity_type: taxonomy_term
+bundle: oska_main_profession
+label: 'URL-i alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

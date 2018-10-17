@@ -1,0 +1,18 @@
+uuid: 162184e8-f751-4eda-961f-1d5f71c785b8
+langcode: et
+status: true
+dependencies:
+  config:
+    - shortcut.set.default
+id: shortcut.default.metatag
+field_name: metatag
+entity_type: shortcut
+bundle: default
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

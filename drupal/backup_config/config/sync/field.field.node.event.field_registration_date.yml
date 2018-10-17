@@ -1,0 +1,40 @@
+uuid: 50ef1aae-21bd-4009-9c6f-4469df36dfa7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_registration_date
+    - node.type.event
+    - paragraphs.paragraphs_type.registration_period
+  module:
+    - entity_reference_revisions
+id: node.event.field_registration_date
+field_name: field_registration_date
+entity_type: node
+bundle: event
+label: 'Registreerimise kuupäev'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      registration_period: registration_period
+    target_bundles_drag_drop:
+      registration_period:
+        enabled: true
+        weight: 2
+      event_date:
+        weight: 3
+        enabled: false
+      link:
+        weight: 5
+        enabled: false
+      school_location:
+        weight: 8
+        enabled: false
+field_type: entity_reference_revisions

@@ -1,0 +1,45 @@
+uuid: 943f3f0e-58a4-49a4-b7eb-c75cbf5fb00e
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.oska_field_page.body
+    - field.field.node.oska_field_page.field_introduction
+    - field.field.node.oska_field_page.field_oska_attachment_file
+    - field.field.node.oska_field_page.field_oska_field_accordion
+    - field.field.node.oska_field_page.field_oska_field_picture
+    - field.field.node.oska_field_page.field_oska_field_sidebar
+    - field.field.node.oska_field_page.field_oska_video
+    - field.field.node.oska_field_page.field_oska_web_page
+    - node.type.oska_field_page
+  module:
+    - text
+    - user
+id: node.oska_field_page.teaser
+targetEntityType: node
+bundle: oska_field_page
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_introduction: true
+  field_oska_attachment_file: true
+  field_oska_field_accordion: true
+  field_oska_field_picture: true
+  field_oska_field_sidebar: true
+  field_oska_video: true
+  field_oska_web_page: true
+  langcode: true

@@ -1,0 +1,17 @@
+uuid: e1a66806-4952-4628-b9d0-7cc8ed29d7e0
+langcode: et
+status: true
+dependencies:
+  module:
+    - content_translation
+    - htm_custom_event_registration
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: event_reg_entity.event_reg_entity
+target_entity_type_id: event_reg_entity
+target_bundle: event_reg_entity
+default_langcode: site_default
+language_alterable: false

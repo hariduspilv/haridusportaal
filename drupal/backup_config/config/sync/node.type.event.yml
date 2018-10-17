@@ -1,0 +1,29 @@
+uuid: dca9b349-c3b4-4cb7-9a13-a581bc4e8c94
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - scheduler
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: false
+    publish_past_date: error
+    publish_required: false
+    publish_revision: false
+    publish_touch: false
+    unpublish_enable: false
+    unpublish_required: false
+    unpublish_revision: false
+name: Event
+type: event
+description: 'Add events'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

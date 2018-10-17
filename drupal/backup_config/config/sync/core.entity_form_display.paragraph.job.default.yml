@@ -1,0 +1,44 @@
+uuid: 586ad1df-05ad-4860-8e72-9e91a75c8c40
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.job.field_job_link
+    - field.field.paragraph.job.field_job_name
+    - paragraphs.paragraphs_type.job
+  module:
+    - link
+    - maxlength
+id: paragraph.job.default
+targetEntityType: paragraph
+bundle: job
+mode: default
+content:
+  field_job_link:
+    weight: 1
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_job_name:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  translation:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

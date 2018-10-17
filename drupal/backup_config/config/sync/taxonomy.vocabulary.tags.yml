@@ -1,0 +1,11 @@
+uuid: 9a59582d-45cc-4044-a340-28974b200730
+langcode: et
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: lO5ziR5dVI1PpEeHZsSOfQ-Y7NWihSDKW8-MMf6uoms
+name: Sildid
+vid: tags
+description: 'Sarnaseid teemasid käsitlevate artiklite kategoriseerimiseks kasuta silte.'
+hierarchy: 0
+weight: -4

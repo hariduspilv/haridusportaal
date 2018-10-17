@@ -1,0 +1,18 @@
+uuid: ed8d09e0-dc20-410e-9b02-83a58ab45c62
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.qualificationstandardid
+id: taxonomy_term.qualificationstandardid.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: qualificationstandardid
+label: Muudetud
+description: 'Termi viimase muutmise aeg.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

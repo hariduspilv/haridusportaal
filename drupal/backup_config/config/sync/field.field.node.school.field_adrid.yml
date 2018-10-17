@@ -1,0 +1,19 @@
+uuid: c4572eae-8b37-4150-b9b5-39d6620473d0
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_adrid
+    - node.type.school
+id: node.school.field_adrid
+field_name: field_adrid
+entity_type: node
+bundle: school
+label: 'Aadress ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
