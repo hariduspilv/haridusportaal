@@ -1,0 +1,18 @@
+uuid: 1cac314e-9082-406a-9709-e191356c380d
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_field
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: taxonomy_term.oska_field
+target_entity_type_id: taxonomy_term
+target_bundle: oska_field
+default_langcode: site_default
+language_alterable: false

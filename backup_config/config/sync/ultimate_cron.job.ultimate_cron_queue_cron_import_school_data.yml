@@ -1,0 +1,20 @@
+uuid: b62ac380-f25a-4f7f-9aee-6f240b0f5ef6
+langcode: et
+status: true
+dependencies:
+  module:
+    - import_school_data
+title: 'Queue: Import task worker: school import queue'
+id: ultimate_cron_queue_cron_import_school_data
+weight: 10
+module: import_school_data
+callback: 'ultimate_cron.queue_worker:queueCallback'
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '* * * * *'
+launcher:
+  id: serial
+logger:
+  id: database

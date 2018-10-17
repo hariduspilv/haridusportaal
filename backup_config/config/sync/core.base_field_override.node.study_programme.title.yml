@@ -1,0 +1,18 @@
+uuid: 847faf8b-9244-4efd-868e-274786187ebf
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+id: node.study_programme.title
+field_name: title
+entity_type: node
+bundle: study_programme
+label: Nimetus
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

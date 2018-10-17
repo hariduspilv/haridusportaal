@@ -1,0 +1,9 @@
+uuid: 144ddb56-085d-4125-b774-dc9d7569ff73
+langcode: et
+status: true
+dependencies: {  }
+name: StudyProgrammeType
+vid: studyprogrammetype
+description: ''
+hierarchy: 0
+weight: 0

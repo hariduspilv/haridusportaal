@@ -1,0 +1,7 @@
+uuid: ca730dfa-7b5c-4021-9c86-8ace3466f341
+langcode: en
+status: true
+dependencies: {  }
+version: getEventTags
+map:
+  1: "query getEventsTags($lang: LanguageId!) {\n  nodeQuery(filter: {conditions: [{operator: EQUAL, field: \"type\", value: [\"event\"], language: $lang}, {operator: EQUAL, field: \"status\", value: \"1\", language: $lang}]}) {\n    entities(language: $lang) {\n      ... on NodeEvent {\n        Tag: fieldTag {\n          entity {\n            entityLabel\n            entityId\n            uuid\n            name\n          }\n        }\n      }\n    }\n  }\n}\n"

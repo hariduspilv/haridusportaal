@@ -1,0 +1,29 @@
+uuid: 6a09517d-0dfe-4be8-8065-96ebb9dcde6d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_teaching_language
+    - node.type.school
+    - taxonomy.vocabulary.teaching_language
+id: node.school.field_teaching_language
+field_name: field_teaching_language
+entity_type: node
+bundle: school
+label: 'Teaching language'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      teaching_language: teaching_language
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

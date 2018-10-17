@@ -1,0 +1,64 @@
+uuid: b74c0607-71ff-4961-8cf9-ad9b54455b44
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.contact_section.field_email
+    - field.field.paragraph.contact_section.field_organization
+    - field.field.paragraph.contact_section.field_person
+    - field.field.paragraph.contact_section.field_phone
+    - paragraphs.paragraphs_type.contact_section
+  module:
+    - maxlength
+    - telephone
+id: paragraph.contact_section.default
+targetEntityType: paragraph
+bundle: contact_section
+mode: default
+content:
+  field_email:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: email_default
+    region: content
+  field_organization:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_person:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_phone:
+    weight: 3
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: telephone_default
+    region: content
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

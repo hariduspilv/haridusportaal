@@ -1,0 +1,23 @@
+uuid: 37d1d322-42f1-4d31-93af-820bb3f09898
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_max_number_of_participants
+    - node.type.event
+id: node.event.field_max_number_of_participants
+field_name: field_max_number_of_participants
+entity_type: node
+bundle: event
+label: 'Osalejate arv'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

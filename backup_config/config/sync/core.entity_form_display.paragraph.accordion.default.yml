@@ -1,0 +1,54 @@
+uuid: 67dacc10-364d-47fb-aca5-2a61392de091
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.accordion.field_accordion_title
+    - field.field.paragraph.accordion.field_body
+    - field.field.paragraph.accordion.field_related_article
+    - paragraphs.paragraphs_type.accordion
+  module:
+    - link
+    - maxlength
+    - text
+id: paragraph.accordion.default
+targetEntityType: paragraph
+bundle: accordion
+mode: default
+content:
+  field_accordion_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_body:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_related_article:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

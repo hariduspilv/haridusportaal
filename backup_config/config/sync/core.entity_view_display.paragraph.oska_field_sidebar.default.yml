@@ -1,0 +1,94 @@
+uuid: 6f0795ea-d08d-4c96-8f30-bf02f4fc6de2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.oska_field_sidebar.field_number_employed
+    - field.field.paragraph.oska_field_sidebar.field_number_employed_text
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_cons
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_contact
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_pros
+    - field.field.paragraph.oska_field_sidebar.field_oska_field_quick_find
+    - field.field.paragraph.oska_field_sidebar.field_oska_main_profession
+    - field.field.paragraph.oska_field_sidebar.field_related_pages
+    - paragraphs.paragraphs_type.oska_field_sidebar
+  module:
+    - entity_reference_revisions
+    - link
+id: paragraph.oska_field_sidebar.default
+targetEntityType: paragraph
+bundle: oska_field_sidebar
+mode: default
+content:
+  field_number_employed:
+    weight: 0
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_number_employed_text:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_oska_field_cons:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_oska_field_contact:
+    type: entity_reference_revisions_entity_view
+    weight: 7
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_oska_field_pros:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_oska_field_quick_find:
+    weight: 5
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_oska_main_profession:
+    weight: 4
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_related_pages:
+    weight: 6
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+hidden: {  }

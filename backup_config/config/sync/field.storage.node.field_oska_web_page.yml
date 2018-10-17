@@ -1,0 +1,19 @@
+uuid: f0605564-0d4c-41ff-a157-0262e21629d2
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - node
+id: node.field_oska_web_page
+field_name: field_oska_web_page
+entity_type: node
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

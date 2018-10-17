@@ -1,0 +1,33 @@
+uuid: 93b72231-96bb-4dd2-a918-cd87ff26995f
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: dashboard_pattern_eng
+label: 'Dashboard pattern ENG'
+type: 'canonical_entities:node'
+pattern: '/dashboard/[node:title]'
+selection_criteria:
+  13bea27c-f80b-4c40-ad99-a1df722d0565:
+    id: node_type
+    bundles:
+      dashboard: dashboard
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 13bea27c-f80b-4c40-ad99-a1df722d0565
+  d89c09cd-d8b5-4a75-bc4a-50d7523284c5:
+    id: language
+    langcodes:
+      en: en
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: d89c09cd-d8b5-4a75-bc4a-50d7523284c5
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

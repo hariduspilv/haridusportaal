@@ -1,0 +1,19 @@
+uuid: 88055121-a2a9-4c4d-96a7-247adc0331ab
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_educational_institution
+field_name: field_educational_institution
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

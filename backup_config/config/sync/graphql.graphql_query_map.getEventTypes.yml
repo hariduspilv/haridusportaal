@@ -1,0 +1,7 @@
+uuid: 2b4bf14d-b3ed-4677-a1b2-6687eeb58e97
+langcode: en
+status: true
+dependencies: {  }
+version: getEventTypes
+map:
+  1: "query getEventsTypes($lang: LanguageId!) {\n  taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: \"vid\", value: [\"event_type\"], language: $lang}]}) {\n    entities {\n      ... on TaxonomyTerm {\n        name\n        tid\n      }\n    }\n  }\n}\n"

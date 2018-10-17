@@ -1,0 +1,73 @@
+uuid: 2f8d638a-b6c2-4c3d-b2e4-c18eb2c79a79
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_oska_field_sidebar
+    - node.type.oska_field_page
+    - paragraphs.paragraphs_type.oska_field_sidebar
+  module:
+    - entity_reference_revisions
+id: node.oska_field_page.field_oska_field_sidebar
+field_name: field_oska_field_sidebar
+entity_type: node
+bundle: oska_field_page
+label: 'Parem veerg'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      oska_field_sidebar: oska_field_sidebar
+    target_bundles_drag_drop:
+      oska_field_sidebar:
+        enabled: true
+        weight: 16
+      accordion:
+        weight: 17
+        enabled: false
+      additional_section:
+        weight: 18
+        enabled: false
+      contact_section:
+        weight: 19
+        enabled: false
+      event_date:
+        weight: 20
+        enabled: false
+      favorite_item:
+        weight: 21
+        enabled: false
+      homepage_topics:
+        weight: 22
+        enabled: false
+      iscedf_search:
+        weight: 23
+        enabled: false
+      job:
+        weight: 24
+        enabled: false
+      link:
+        weight: 25
+        enabled: false
+      main_profession_accordion:
+        weight: 26
+        enabled: false
+      main_profession_sidebar:
+        weight: 27
+        enabled: false
+      registration_period:
+        weight: 28
+        enabled: false
+      right_sidebar_section_info:
+        weight: 29
+        enabled: false
+      school_location:
+        weight: 30
+        enabled: false
+field_type: entity_reference_revisions

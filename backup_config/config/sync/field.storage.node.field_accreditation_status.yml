@@ -1,0 +1,21 @@
+uuid: 660339f6-4693-4a3c-a2be-fdc63a42338e
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_accreditation_status
+field_name: field_accreditation_status
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

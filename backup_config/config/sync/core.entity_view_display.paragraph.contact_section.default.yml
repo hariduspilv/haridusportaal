@@ -1,0 +1,46 @@
+uuid: 379be725-b0df-4d2c-b546-670205144aef
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.contact_section.field_email
+    - field.field.paragraph.contact_section.field_organization
+    - field.field.paragraph.contact_section.field_person
+    - field.field.paragraph.contact_section.field_phone
+    - paragraphs.paragraphs_type.contact_section
+id: paragraph.contact_section.default
+targetEntityType: paragraph
+bundle: contact_section
+mode: default
+content:
+  field_email:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_organization:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_person:
+    weight: 2
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_phone:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+hidden: {  }

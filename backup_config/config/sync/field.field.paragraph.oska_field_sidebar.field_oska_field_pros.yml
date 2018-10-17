@@ -1,0 +1,19 @@
+uuid: 94f003ba-931a-4953-b1b4-2376678b7e82
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_oska_field_pros
+    - paragraphs.paragraphs_type.oska_field_sidebar
+id: paragraph.oska_field_sidebar.field_oska_field_pros
+field_name: field_oska_field_pros
+entity_type: paragraph
+bundle: oska_field_sidebar
+label: Pros
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

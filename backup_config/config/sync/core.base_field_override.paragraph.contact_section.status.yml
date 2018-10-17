@@ -1,0 +1,22 @@
+uuid: ca4d8aa3-b856-471d-b35d-99a1195a60a0
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.contact_section
+id: paragraph.contact_section.status
+field_name: status
+entity_type: paragraph
+bundle: contact_section
+label: Avalda
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Jah
+  off_label: Ei
+field_type: boolean

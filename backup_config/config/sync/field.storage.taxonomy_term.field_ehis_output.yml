@@ -1,0 +1,21 @@
+uuid: c380133e-f787-4f64-958b-31edf14d3321
+langcode: et
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_ehis_output
+field_name: field_ehis_output
+entity_type: taxonomy_term
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

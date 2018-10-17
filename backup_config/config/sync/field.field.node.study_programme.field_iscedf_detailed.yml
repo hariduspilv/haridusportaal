@@ -1,0 +1,29 @@
+uuid: d45ee081-c206-4a27-a871-e41155b62dc1
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_iscedf_detailed
+    - node.type.study_programme
+    - taxonomy.vocabulary.isced_f
+id: node.study_programme.field_iscedf_detailed
+field_name: field_iscedf_detailed
+entity_type: node
+bundle: study_programme
+label: Õppekavarühm
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      isced_f: isced_f
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

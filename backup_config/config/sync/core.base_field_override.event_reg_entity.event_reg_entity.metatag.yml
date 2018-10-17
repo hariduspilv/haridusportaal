@@ -1,0 +1,18 @@
+uuid: 829ab644-0c76-43b0-ae24-a3ff65a73b6d
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+id: event_reg_entity.event_reg_entity.metatag
+field_name: metatag
+entity_type: event_reg_entity
+bundle: event_reg_entity
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

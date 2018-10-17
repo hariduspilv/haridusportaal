@@ -1,0 +1,45 @@
+uuid: 7097eea2-b4dc-4586-b313-eee24da072fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.registration_period.field_registration_first_date
+    - field.field.paragraph.registration_period.field_registration_last_date
+    - field.field.paragraph.registration_period.field_registration_notification_
+    - paragraphs.paragraphs_type.registration_period
+  module:
+    - datetime
+id: paragraph.registration_period.default
+targetEntityType: paragraph
+bundle: registration_period
+mode: default
+content:
+  field_registration_first_date:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_registration_last_date:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_registration_notification_:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: email_default
+    region: content
+  translation:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

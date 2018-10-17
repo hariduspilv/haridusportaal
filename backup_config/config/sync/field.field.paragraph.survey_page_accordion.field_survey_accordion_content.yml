@@ -1,0 +1,21 @@
+uuid: b1ace248-eb16-4c30-8a65-ff1ec7b22625
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_survey_accordion_content
+    - paragraphs.paragraphs_type.survey_page_accordion
+  module:
+    - text
+id: paragraph.survey_page_accordion.field_survey_accordion_content
+field_name: field_survey_accordion_content
+entity_type: paragraph
+bundle: survey_page_accordion
+label: Sisu
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

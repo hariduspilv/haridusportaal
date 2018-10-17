@@ -1,0 +1,7 @@
+uuid: 58a2db19-2e34-4dc8-91df-a9df43a3cd11
+langcode: en
+status: true
+dependencies: {  }
+version: subsidyProjectQuerySchool
+map:
+  1: "query ($ownershipType: [Int], $investmentMeasure: [Int], $investmentDeadline: [Int], $levelOfDetail: Int!) {\n  CustomSubsidyProjectQuery(ownership_type: $ownershipType, investment_measure: $investmentMeasure, investment_deadline: $investmentDeadline, detail: $levelOfDetail) {\n    nid\n    lat\n    lon\n    investmentAmountSum\n    schoolInfo {\n      ... on NodeSchool {\n        entityLabel\n        fieldRegistrationCode\n        fieldOwnershipType {\n          entity {\n            entityLabel\n          }\n        }\n        CustomSubsidyProjects {\n          ... on SubsidyProjectEntity {\n            entityLabel\n            investmentMeasure {\n              entity {\n                entityLabel\n              }\n            }\n            investmentProject\n            investmentDeadline {\n              unix\n            }\n            investmentAmount\n          }\n        }\n      }\n    }\n  }\n}\n"

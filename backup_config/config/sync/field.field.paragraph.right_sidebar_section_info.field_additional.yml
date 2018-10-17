@@ -1,0 +1,52 @@
+uuid: 1590f85a-8fcf-44b1-b8f9-6e13b616d37d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_additional
+    - paragraphs.paragraphs_type.additional_section
+    - paragraphs.paragraphs_type.right_sidebar_section_info
+  module:
+    - entity_reference_revisions
+id: paragraph.right_sidebar_section_info.field_additional
+field_name: field_additional
+entity_type: paragraph
+bundle: right_sidebar_section_info
+label: 'Alamosa sektsioon'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      additional_section: additional_section
+    target_bundles_drag_drop:
+      right_sidebar_section_info:
+        weight: 9
+        enabled: false
+      accordion:
+        weight: 10
+        enabled: false
+      additional_section:
+        enabled: true
+        weight: 11
+      contact_section:
+        weight: 12
+        enabled: false
+      event_date:
+        weight: 13
+        enabled: false
+      link:
+        weight: 14
+        enabled: false
+      registration_period:
+        weight: 15
+        enabled: false
+      school_location:
+        weight: 16
+        enabled: false
+field_type: entity_reference_revisions

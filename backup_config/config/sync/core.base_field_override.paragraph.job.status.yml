@@ -1,0 +1,22 @@
+uuid: 12f07652-f894-4a3e-b53a-e02b22f8070f
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.job
+id: paragraph.job.status
+field_name: status
+entity_type: paragraph
+bundle: job
+label: Avaldatud
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean
