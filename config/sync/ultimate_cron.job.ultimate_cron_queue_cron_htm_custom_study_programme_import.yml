@@ -1,0 +1,20 @@
+uuid: 61654ef2-809b-475c-8ae1-dfd2e0b74d4c
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_study_programme_import
+title: 'Queue: Import task worker: programme import queue'
+id: ultimate_cron_queue_cron_htm_custom_study_programme_import
+weight: 10
+module: htm_custom_study_programme_import
+callback: 'ultimate_cron.queue_worker:queueCallback'
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '* * * * *'
+launcher:
+  id: serial
+logger:
+  id: database
