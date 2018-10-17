@@ -139,9 +139,10 @@ $grid-columns: 12;
       border-top: solid .125rem $dark-gray;
     }
     td, th {
-      padding: 1rem;
+      padding: 0.5rem 1rem;
       border: .0625rem solid $gray;
       width: 33%;
+      font-size: 0.875rem;
       a {font-weight: 400;}
       color: $black;
       &:first-letter { 
@@ -167,15 +168,7 @@ $grid-columns: 12;
   }
 }
 
-.flex.mininav { text-align: inherit!important; padding-right: 1rem; margin: 0 0 0 -.5rem; min-height: 2.9375rem;
-  favourites { padding-right: 1rem; margin-top: 0rem; padding-left: 0.5rem;
-    @include break-on(sm, max) { padding-left: 0.5rem; } 
-  }
-
-  share { margin-left: -1.5rem!important; margin-right: 0px!important;
-    @include break-on(sm, max) { margin-left: -0.5rem!important; } 
-  }
-}
+.flex.mininav {padding-right: 1rem; min-height: 3rem;}
 
 .grow {flex-grow: 1;}
 .wrap {@include break-on(sm, max) {flex-wrap: wrap;}
