@@ -1,0 +1,9 @@
+uuid: c2522cd7-592e-41c8-a93d-95183bf2c9c5
+langcode: et
+status: true
+dependencies: {  }
+id: contact_section
+label: 'Kontakti sektsioon'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

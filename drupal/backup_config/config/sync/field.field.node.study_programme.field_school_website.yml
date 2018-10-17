@@ -1,0 +1,19 @@
+uuid: f21e4351-3a86-4452-b2ae-679e3dd49783
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_school_website
+    - node.type.study_programme
+id: node.study_programme.field_school_website
+field_name: field_school_website
+entity_type: node
+bundle: study_programme
+label: 'School website'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

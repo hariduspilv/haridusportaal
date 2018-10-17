@@ -1,0 +1,30 @@
+uuid: 3ecfc393-3348-461e-8399-cdfa269df027
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_entry_type
+field_name: field_entry_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: invite
+      label: invitations
+    -
+      value: free
+      label: 'free entry'
+    -
+      value: register
+      label: registration
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

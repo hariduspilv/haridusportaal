@@ -1,0 +1,27 @@
+uuid: 175cf4e8-19e9-4e28-b957-11d209d0450e
+langcode: et
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_location_type
+field_name: field_location_type
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: L
+      label: 'Juriidiline aadress'
+    -
+      value: V
+      label: Tegutsemiskoht
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

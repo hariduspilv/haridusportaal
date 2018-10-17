@@ -1,0 +1,97 @@
+uuid: 75ca065d-a6f9-49df-b00c-7f0e581f3137
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_author
+    - field.storage.node.field_tag
+    - field.storage.node.field_short_description
+    - field.storage.node.field_news_description
+    - search_api.server.elasticsearch_server
+  module:
+    - taxonomy
+    - search_api
+    - node
+id: news
+name: News
+description: ''
+read_only: false
+field_settings:
+  content_type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
+  field_author:
+    label: Autor
+    datasource_id: 'entity:node'
+    property_path: field_author
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_author
+  field_body:
+    label: 'Sisu tekst'
+    datasource_id: 'entity:node'
+    property_path: field_news_description
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_news_description
+  field_short_description:
+    label: Sissejuhatus
+    datasource_id: 'entity:node'
+    property_path: field_short_description
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_short_description
+  field_tag:
+    label: 'Sildid » Taxonomy term » Nimi'
+    datasource_id: 'entity:node'
+    property_path: 'field_tag:entity:name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_tag
+      module:
+        - taxonomy
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - news
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

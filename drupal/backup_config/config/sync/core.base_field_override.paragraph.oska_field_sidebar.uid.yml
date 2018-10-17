@@ -1,0 +1,20 @@
+uuid: 3d078d2f-6b5b-400d-b7c2-93c33f4b5226
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.oska_field_sidebar
+id: paragraph.oska_field_sidebar.uid
+field_name: uid
+entity_type: paragraph
+bundle: oska_field_sidebar
+label: Autor
+description: 'The user ID of the paragraphs author.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: 'Drupal\paragraphs\Entity\Paragraph::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

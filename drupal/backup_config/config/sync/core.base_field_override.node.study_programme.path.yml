@@ -1,0 +1,20 @@
+uuid: 689d40a7-a4d4-4a82-882a-bbafc5b44aa1
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+  module:
+    - path
+id: node.study_programme.path
+field_name: path
+entity_type: node
+bundle: study_programme
+label: 'URL-i alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

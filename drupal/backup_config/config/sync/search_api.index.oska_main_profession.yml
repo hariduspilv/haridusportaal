@@ -1,0 +1,79 @@
+uuid: 97265ba9-5d63-4de1-9dad-1751f59f79fb
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - search_api
+  config:
+    - field.storage.node.field_fixed_label
+    - search_api.server.elasticsearch_server
+id: oska_main_profession
+name: 'OSKA Main Profession'
+description: ''
+read_only: false
+field_settings:
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
+  field_fixed_label:
+    label: 'Fixed Label'
+    datasource_id: 'entity:node'
+    property_path: field_fixed_label
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_fixed_label
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
+    dependencies:
+      module:
+        - node
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  status:
+    label: Avaldatud
+    datasource_id: 'entity:node'
+    property_path: status
+    type: integer
+    dependencies:
+      module:
+        - node
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - oska_main_profession_page
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

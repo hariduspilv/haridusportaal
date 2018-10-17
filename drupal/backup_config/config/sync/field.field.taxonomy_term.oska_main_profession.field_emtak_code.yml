@@ -1,0 +1,23 @@
+uuid: 6fc46133-92f6-4855-94a5-6e6a615bec41
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_emtak_code
+    - taxonomy.vocabulary.oska_main_profession
+id: taxonomy_term.oska_main_profession.field_emtak_code
+field_name: field_emtak_code
+entity_type: taxonomy_term
+bundle: oska_main_profession
+label: 'EMTAK Code'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,21 @@
+uuid: 82a0790d-c804-4c6f-bedd-6415a11c06ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_registration_
+    - node.type.event
+  module:
+    - text
+id: node.event.field_registration_
+field_name: field_registration_
+entity_type: node
+bundle: event
+label: 'Registreerumise kinnitamise emaili tekst'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

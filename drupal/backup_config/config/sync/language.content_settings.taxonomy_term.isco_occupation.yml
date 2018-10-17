@@ -1,0 +1,18 @@
+uuid: 699ff48e-8694-442f-bd78-1f04f69ad107
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.isco_occupation
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: taxonomy_term.isco_occupation
+target_entity_type_id: taxonomy_term
+target_bundle: isco_occupation
+default_langcode: site_default
+language_alterable: false

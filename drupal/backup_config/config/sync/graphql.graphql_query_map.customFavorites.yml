@@ -1,0 +1,7 @@
+uuid: d5934cb1-2846-44d0-84ab-e1db2d92a6cc
+langcode: en
+status: true
+dependencies: {  }
+version: customFavorites
+map:
+  1: "query ($language: LanguageId!) {\n  CustomFavorites(language: $language) {\n    ... on FavoriteEntity {\n      favoritesNew {\n        targetId\n        entity {\n          entityAccess(operation: \"VIEW\")\n          entityLabel\n          entityUrl {\n            path\n          }\n        }\n      }\n    }\n  }\n}\n"

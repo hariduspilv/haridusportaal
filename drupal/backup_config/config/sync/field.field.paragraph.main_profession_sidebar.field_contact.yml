@@ -1,0 +1,70 @@
+uuid: 71c9bc86-1907-4761-9f0d-97325291f95c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_contact
+    - paragraphs.paragraphs_type.contact_section
+    - paragraphs.paragraphs_type.main_profession_sidebar
+  module:
+    - entity_reference_revisions
+id: paragraph.main_profession_sidebar.field_contact
+field_name: field_contact
+entity_type: paragraph
+bundle: main_profession_sidebar
+label: Contact
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      contact_section: contact_section
+    target_bundles_drag_drop:
+      job:
+        weight: 15
+        enabled: false
+      accordion:
+        weight: 16
+        enabled: false
+      additional_section:
+        weight: 17
+        enabled: false
+      contact_section:
+        enabled: true
+        weight: 18
+      event_date:
+        weight: 19
+        enabled: false
+      favorite_item:
+        weight: 20
+        enabled: false
+      homepage_topics:
+        weight: 21
+        enabled: false
+      iscedf_search:
+        weight: 22
+        enabled: false
+      link:
+        weight: 23
+        enabled: false
+      main_profession_accordion:
+        weight: 24
+        enabled: false
+      main_profession_sidebar:
+        weight: 25
+        enabled: false
+      registration_period:
+        weight: 26
+        enabled: false
+      right_sidebar_section_info:
+        weight: 27
+        enabled: false
+      school_location:
+        weight: 28
+        enabled: false
+field_type: entity_reference_revisions

@@ -1,0 +1,18 @@
+uuid: 63b8a0c0-7536-433b-a5b2-673a494821de
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_professional_certific
+    - jwt
+    - serialization
+id: download_certificate_rest_resource
+plugin_id: download_certificate_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - jwt_auth

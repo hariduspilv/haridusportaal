@@ -1,0 +1,18 @@
+uuid: ebc28f47-7861-4f77-a0d7-796196b4a5aa
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studyprogrammetype
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: taxonomy_term.studyprogrammetype
+target_entity_type_id: taxonomy_term
+target_bundle: studyprogrammetype
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,9 @@
+uuid: 78a63392-419f-486a-b27f-dca6befea947
+langcode: et
+status: true
+dependencies: {  }
+id: additional_section
+label: 'alamosa sekstioon'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

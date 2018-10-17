@@ -1,0 +1,369 @@
+uuid: 18d32fea-2260-4925-bfa6-7dd07d4f874e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.event.field_attachment_file
+    - field.field.node.event.field_contact_email
+    - field.field.node.event.field_contact_person
+    - field.field.node.event.field_contact_phone
+    - field.field.node.event.field_description
+    - field.field.node.event.field_description_summary
+    - field.field.node.event.field_entry_type
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_group
+    - field.field.node.event.field_event_link
+    - field.field.node.event.field_event_location
+    - field.field.node.event.field_event_location_link
+    - field.field.node.event.field_event_main_date
+    - field.field.node.event.field_event_main_end_time
+    - field.field.node.event.field_event_main_start_time
+    - field.field.node.event.field_event_type
+    - field.field.node.event.field_max_number_of_participants
+    - field.field.node.event.field_metatags
+    - field.field.node.event.field_organizer
+    - field.field.node.event.field_organizer_idcode
+    - field.field.node.event.field_picture
+    - field.field.node.event.field_practical_information
+    - field.field.node.event.field_registration_
+    - field.field.node.event.field_registration_date
+    - field.field.node.event.field_tag
+    - image.style.crop_result_thumb
+    - node.type.event
+  module:
+    - conditional_fields
+    - datetime
+    - file
+    - google_map_field
+    - hms_field
+    - image_widget_crop
+    - link
+    - maxlength
+    - metatag
+    - paragraphs
+    - path
+    - scheduler
+    - telephone
+    - text
+id: node.event.default
+targetEntityType: node
+bundle: event
+mode: default
+content:
+  field_attachment_file:
+    weight: 7
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_contact_email:
+    weight: 15
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: email_default
+    region: content
+  field_contact_person:
+    weight: 12
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_contact_phone:
+    weight: 14
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: telephone_default
+    region: content
+  field_description:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_description_summary:
+    weight: 2
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 300
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_entry_type:
+    weight: 16
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_event_date:
+    type: entity_reference_paragraphs
+    weight: 24
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+  field_event_group:
+    weight: 25
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_event_link:
+    weight: 5
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_event_location:
+    weight: 8
+    settings: {  }
+    third_party_settings: {  }
+    type: google_map_field_default
+    region: content
+  field_event_location_link:
+    weight: 9
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_event_main_date:
+    weight: 21
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_event_main_end_time:
+    weight: 23
+    settings:
+      format: 'h:mm'
+      default_placeholder: 1
+      placeholder: ''
+    third_party_settings: {  }
+    type: hms_default
+    region: content
+  field_event_main_start_time:
+    weight: 22
+    settings:
+      format: 'h:mm'
+      default_placeholder: 1
+      placeholder: ''
+    third_party_settings: {  }
+    type: hms_default
+    region: content
+  field_event_type:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_max_number_of_participants:
+    weight: 19
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_metatags:
+    weight: 29
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
+  field_organizer:
+    weight: 10
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_organizer_idcode:
+    weight: 11
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_picture:
+    weight: 6
+    settings:
+      show_default_crop: true
+      warn_multiple_usages: true
+      preview_image_style: crop_result_thumb
+      crop_preview_image_style: crop_thumbnail
+      crop_list:
+        - 16_9_large
+      progress_indicator: throbber
+      show_crop_area: false
+      crop_types_required: {  }
+    third_party_settings: {  }
+    type: image_widget_crop
+    region: content
+  field_practical_information:
+    weight: 20
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_registration_:
+    weight: 18
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        4e0877ce-2ec0-43bf-8f74-73c5ad076b5b:
+          dependee: field_entry_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: register
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: node
+          bundle: event
+    type: text_textarea
+    region: content
+  field_registration_date:
+    type: entity_reference_paragraphs
+    weight: 17
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: registration_period
+    third_party_settings:
+      conditional_fields:
+        1f44ea5d-ed51-441d-abac-b1b23b76b4a3:
+          dependee: field_entry_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: register
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: node
+          bundle: event
+        67321660-eed1-43dd-9aa0-118629800ffb:
+          dependee: field_entry_type
+          settings:
+            state: '!disabled'
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: register
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: node
+          bundle: event
+    region: content
+  field_tag:
+    weight: 4
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete_tags
+    region: content
+  path:
+    type: path
+    weight: 28
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  publish_on:
+    type: datetime_timestamp_no_default
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 30
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+  translation:
+    weight: 13
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  unpublish_on:
+    type: datetime_timestamp_no_default
+    weight: 27
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  langcode: true
+  promote: true
+  sticky: true
+  uid: true

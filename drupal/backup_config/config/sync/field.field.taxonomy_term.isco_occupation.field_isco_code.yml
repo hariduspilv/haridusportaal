@@ -1,0 +1,23 @@
+uuid: 509d4352-28c3-4f83-acb2-0eaee2e28d89
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_isco_code
+    - taxonomy.vocabulary.isco_occupation
+id: taxonomy_term.isco_occupation.field_isco_code
+field_name: field_isco_code
+entity_type: taxonomy_term
+bundle: isco_occupation
+label: 'ISCO Code'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
