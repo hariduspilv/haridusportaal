@@ -12,8 +12,8 @@ export class ShareComponent{
   constructor(private snackbar: MatSnackBar, private translate: TranslateService) {}
 
   @Input() title: String;
-  private item: any = false;
-  private transitionState: boolean = false;
+  public item: any = false;
+  public transitionState: boolean = false;
 
   share (type) {
     const url = location.href;
