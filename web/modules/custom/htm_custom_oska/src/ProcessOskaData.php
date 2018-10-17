@@ -42,25 +42,19 @@ class ProcessOskaData {
         ];
 
         foreach ($items as $index => $item){
-            $object['naitaja'] = self::addTaxonomyTerm('taxonomy_term', 'oska_indicator', $item['naitaja']);
+            $object['naitaja'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_indicator', $item['naitaja']);
             $object['valdkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['valdkond']);
-            $object['alavaldkond'] = self::addTaxonomyTerm('taxonomy_term', 'oska_field', $item['alavaldkond'], $item['valdkond']);
+            $object['alavaldkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['alavaldkond']);
             $object['pohikutseala'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_main_profession', $item['pohikutseala']);
-            $object['periood'] = strlen($item['periood'])==4 && is_numeric($item['periood']) ? $item['periood'] : FALSE;
-            $object['silt'] = is_string($item['silt']) ? $item['silt'] : FALSE;
-            $object['vaartus'] = is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
+            $object['periood'] = $item['periood'];
+            $object['silt'] = $item['silt'];
+            $object['vaartus'] = $item['vaartus'];
             if(
-                !$object['naitaja']
-                ||
-                !$object['periood']
-                ||
-                !$object['silt']
-                ||
-                !$object['vaartus']){
+                !$object['naitaja']){
 
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
-                        if($value === FALSE){
+                        if($key === 'naitaja' && $value === FALSE){
                             return $key;
                         }
                     }
@@ -145,31 +139,6 @@ class ProcessOskaData {
         drupal_set_message($message[0], $message[1]);
     }
 
-    public function addTaxonomyTerm($entity_type, $vocabulary, $name){
-
-        if($name != ''){
-            $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
-
-            $properties = [
-                'vid' => $vocabulary,
-                'name' => $name
-            ];
-
-            $entity = reset($storage->loadByProperties($properties));
-            if(!$entity){
-                $entity = Term::create([
-                    'name' => $name,
-                    'vid' => $vocabulary,
-                ]);
-                $entity->save();
-            }
-
-            return ($entity) ? $entity->id() : FALSE;
-        }else{
-            return FALSE;
-        }
-    }
-
     public function checkTaxonomyTerm($entity_type, $vocabulary, $name){
 
         $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
@@ -181,7 +150,7 @@ class ProcessOskaData {
 
         $entity = reset($storage->loadByProperties($properties));
 
-        return ($entity) ? $entity->id() : '';
+        return ($entity) ? $entity->id() : FALSE;
     }
 
     private function deleteAllEntities(){
@@ -189,14 +158,5 @@ class ProcessOskaData {
         $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_entity');
         $entities = $storage_handler->loadMultiple($ids);
         $storage_handler->delete($entities);
-    }
-
-    private function checkDateFormat($date_string, $format){
-        try{
-            $d = DrupalDateTime::createFromFormat($format, $date_string);
-            return $d->format('Y-m-d');
-        }catch (\Exception $e){
-            return false;
-        }
     }
 }
