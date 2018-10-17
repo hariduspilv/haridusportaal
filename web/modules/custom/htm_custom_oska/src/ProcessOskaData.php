@@ -36,7 +36,7 @@ class ProcessOskaData {
             'valdkond' => false,
             'alavaldkond' => false,
             'pohikutseala' => false,
-            'aasta' => false,
+            'periood' => false,
             'silt' => false,
             'vaartus' => false,
         ];
@@ -46,13 +46,13 @@ class ProcessOskaData {
             $object['valdkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['valdkond']);
             $object['alavaldkond'] = self::addTaxonomyTerm('taxonomy_term', 'oska_field', $item['alavaldkond'], $item['valdkond']);
             $object['pohikutseala'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_main_profession', $item['pohikutseala']);
-            $object['aasta'] = strlen($item['aasta'])==4 && is_numeric($item['aasta']) ? $item['aasta'] : FALSE;
+            $object['periood'] = strlen($item['periood'])==4 && is_numeric($item['periood']) ? $item['periood'] : FALSE;
             $object['silt'] = is_string($item['silt']) ? $item['silt'] : FALSE;
             $object['vaartus'] = is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
             if(
                 !$object['naitaja']
                 ||
-                !$object['aasta']
+                !$object['periood']
                 ||
                 !$object['silt']
                 ||
@@ -73,7 +73,7 @@ class ProcessOskaData {
                     'oska_field' => $object['valdkond'],
                     'oska_sub_field' => $object['alavaldkond'],
                     'oska_main_profession' => $object['pohikutseala'],
-                    'year' => $object['aasta'],
+                    'year' => $object['periood'],
                     'oska_label' => $object['silt'],
                     'value' => $object['vaartus']
                 ];
