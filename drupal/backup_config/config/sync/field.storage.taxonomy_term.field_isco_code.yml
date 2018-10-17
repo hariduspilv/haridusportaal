@@ -1,0 +1,20 @@
+uuid: 660b13bb-e95c-4a6f-a781-4d481262aa57
+langcode: et
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term.field_isco_code
+field_name: field_isco_code
+entity_type: taxonomy_term
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

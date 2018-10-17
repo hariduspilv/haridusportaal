@@ -1,0 +1,63 @@
+uuid: 842c299f-cf79-4c93-81a5-7396e1f37e69
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.school.body
+    - field.field.node.school.field_adrid
+    - field.field.node.school.field_created_from_ehis_datetime
+    - field.field.node.school.field_educational_institution_ty
+    - field.field.node.school.field_ehis_id
+    - field.field.node.school.field_metatags
+    - field.field.node.school.field_ownership_type
+    - field.field.node.school.field_registration_code
+    - field.field.node.school.field_school_contact_email
+    - field.field.node.school.field_school_contact_phone
+    - field.field.node.school.field_school_location
+    - field.field.node.school.field_school_webpage_address
+    - field.field.node.school.field_special_class
+    - field.field.node.school.field_student_home
+    - field.field.node.school.field_teaching_language
+    - field.field.node.school.field_update_from_ehis
+    - field.field.node.school.field_update_location_from_ehis
+    - node.type.school
+  module:
+    - text
+    - user
+id: node.school.teaser
+targetEntityType: node
+bundle: school
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_adrid: true
+  field_created_from_ehis_datetime: true
+  field_educational_institution_ty: true
+  field_ehis_id: true
+  field_metatags: true
+  field_ownership_type: true
+  field_registration_code: true
+  field_school_contact_email: true
+  field_school_contact_phone: true
+  field_school_location: true
+  field_school_webpage_address: true
+  field_special_class: true
+  field_student_home: true
+  field_teaching_language: true
+  field_update_from_ehis: true
+  field_update_location_from_ehis: true
+  langcode: true

@@ -1,0 +1,30 @@
+uuid: 4b652e3f-b878-4472-bc49-2c03cf3cf954
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.isced_f.field_code
+    - taxonomy.vocabulary.isced_f
+  module:
+    - text
+id: taxonomy_term.isced_f.default
+targetEntityType: taxonomy_term
+bundle: isced_f
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_code:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+hidden:
+  langcode: true

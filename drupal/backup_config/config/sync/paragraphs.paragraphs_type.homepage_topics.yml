@@ -1,0 +1,9 @@
+uuid: 833594c6-6b20-4517-b909-77a5ba7dd74a
+langcode: et
+status: true
+dependencies: {  }
+id: homepage_topics
+label: 'Avalehe teemad'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

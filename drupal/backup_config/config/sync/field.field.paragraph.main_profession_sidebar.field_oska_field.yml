@@ -1,0 +1,28 @@
+uuid: 3372357e-e4bb-4774-8fe2-b92d5586bcaa
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_oska_field
+    - node.type.oska_field_page
+    - paragraphs.paragraphs_type.main_profession_sidebar
+id: paragraph.main_profession_sidebar.field_oska_field
+field_name: field_oska_field
+entity_type: paragraph
+bundle: main_profession_sidebar
+label: 'OSKA Field'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      oska_field_page: oska_field_page
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

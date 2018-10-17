@@ -1,0 +1,7 @@
+uuid: 1f890381-9d38-4b53-834e-7a6c3f5f23a1
+langcode: en
+status: true
+dependencies: {  }
+version: oskaMainProfessionListViewFilter
+map:
+  1: "query oskaMainProfessionListViewFilter($lang: LanguageId!) {\n  nodeQuery(sort: {field: \"title\", direction: ASC}, filter: {conjunction: AND, conditions: [{operator: EQUAL, field: \"type\", value: [\"oska_field_page\"], language: $lang}]}) {\n    entities(language: $lang) {\n      ... on NodeOskaFieldPage {\n        nid\n        title\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n"

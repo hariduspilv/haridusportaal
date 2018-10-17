@@ -1,0 +1,32 @@
+uuid: c1ab4967-9468-48ef-884b-4d31943c90a2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.isco_occupation.field_isco_code
+    - taxonomy.vocabulary.isco_occupation
+  module:
+    - text
+id: taxonomy_term.isco_occupation.default
+targetEntityType: taxonomy_term
+bundle: isco_occupation
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_isco_code:
+    weight: 1
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+hidden:
+  langcode: true

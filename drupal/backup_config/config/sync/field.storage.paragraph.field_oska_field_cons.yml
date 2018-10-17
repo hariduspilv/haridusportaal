@@ -1,0 +1,19 @@
+uuid: 2ce053f2-f45f-49bc-b373-50d71e941b62
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_oska_field_cons
+field_name: field_oska_field_cons
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 5
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

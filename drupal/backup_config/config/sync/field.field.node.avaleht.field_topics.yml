@@ -1,0 +1,58 @@
+uuid: 76766e59-33ef-4150-bcaf-3cdabe2df5b6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_topics
+    - node.type.avaleht
+    - paragraphs.paragraphs_type.homepage_topics
+  module:
+    - entity_reference_revisions
+id: node.avaleht.field_topics
+field_name: field_topics
+entity_type: node
+bundle: avaleht
+label: Teemad
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      homepage_topics: homepage_topics
+    target_bundles_drag_drop:
+      homepage_topics:
+        enabled: true
+        weight: 10
+      accordion:
+        weight: 11
+        enabled: false
+      additional_section:
+        weight: 12
+        enabled: false
+      contact_section:
+        weight: 13
+        enabled: false
+      event_date:
+        weight: 14
+        enabled: false
+      favorite_item:
+        weight: 15
+        enabled: false
+      link:
+        weight: 15
+        enabled: false
+      registration_period:
+        weight: 16
+        enabled: false
+      right_sidebar_section_info:
+        weight: 17
+        enabled: false
+      school_location:
+        weight: 18
+        enabled: false
+field_type: entity_reference_revisions

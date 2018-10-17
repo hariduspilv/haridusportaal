@@ -1,0 +1,23 @@
+uuid: b4c76705-f412-473e-af6e-fac73327a6da
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_update_from_ehis
+    - node.type.study_programme
+id: node.study_programme.field_update_from_ehis
+field_name: field_update_from_ehis
+entity_type: node
+bundle: study_programme
+label: 'EHIS-st andmete automaatne uuendamine'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Jah
+  off_label: Ei
+field_type: boolean

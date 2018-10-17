@@ -1,0 +1,13 @@
+uuid: c36a9c76-f5b0-4b4f-a19f-89413efb7c96
+langcode: et
+status: true
+dependencies:
+  module:
+    - user
+_core:
+  default_config_hash: DyypzTfThX10FFQw-399qPfEbLLyrhXgQrKPVsmAoJ4
+id: user_block_user_action
+label: 'Blokeeri valitud kasutaja(d)'
+type: user
+plugin: user_block_user_action
+configuration: {  }

@@ -1,0 +1,23 @@
+uuid: 8d169b5e-ab69-45b9-ac40-6ebbe7d8d0b4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_practical_training_amount
+    - node.type.study_programme
+id: node.study_programme.field_practical_training_amount
+field_name: field_practical_training_amount
+entity_type: node
+bundle: study_programme
+label: 'Praktika maht'
+description: 'Kõrghariduse õppekava korral on ühikuks EAP, kutsehariduse õppekava korral on ühikuks EKAP.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

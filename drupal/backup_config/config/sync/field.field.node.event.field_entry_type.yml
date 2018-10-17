@@ -1,0 +1,21 @@
+uuid: e525aa9a-5f10-4584-ae1f-371fdcf611be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_entry_type
+    - node.type.event
+  module:
+    - options
+id: node.event.field_entry_type
+field_name: field_entry_type
+entity_type: node
+bundle: event
+label: Sissepääs
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

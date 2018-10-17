@@ -1,0 +1,19 @@
+uuid: 2b07ddd2-be47-4329-b9b6-98fe37c38f61
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ehis_id
+    - node.type.study_programme
+id: node.study_programme.field_ehis_id
+field_name: field_ehis_id
+entity_type: node
+bundle: study_programme
+label: 'EHIS id'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

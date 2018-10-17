@@ -1,0 +1,22 @@
+uuid: b012e72a-f8f6-434c-b85f-86f6403b5e38
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.favorite_item
+id: paragraph.favorite_item.status
+field_name: status
+entity_type: paragraph
+bundle: favorite_item
+label: Avaldatud
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

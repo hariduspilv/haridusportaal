@@ -1,0 +1,29 @@
+uuid: 52d2d272-3361-402b-b7d1-6b729bc840d5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_group
+    - node.type.event
+    - taxonomy.vocabulary.event_group
+id: node.event.field_event_group
+field_name: field_event_group
+entity_type: node
+bundle: event
+label: 'Sündmuse grupp'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      event_group: event_group
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

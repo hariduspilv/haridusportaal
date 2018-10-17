@@ -1,0 +1,18 @@
+uuid: c3201917-b62f-4a15-850d-f0ee91d6bea9
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_professional_certific
+    - jwt
+    - serialization
+id: state_exams_rest_resource
+plugin_id: state_exams_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - jwt_auth

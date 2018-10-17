@@ -1,0 +1,20 @@
+uuid: 9189ae19-0896-405d-a015-1848334ebedc
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+id: event_reg_entity.event_reg_entity.user_id
+field_name: user_id
+entity_type: event_reg_entity
+bundle: event_reg_entity
+label: Autor
+description: 'The user ID of author of the Event registration entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

@@ -1,0 +1,86 @@
+uuid: 398bf1fd-b183-4be2-854c-f78840d8e6a4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.oska_main_profession.field_emtak_code
+    - field.field.taxonomy_term.oska_main_profession.field_isced_f_detailed
+    - field.field.taxonomy_term.oska_main_profession.field_isco_reference
+    - field.field.taxonomy_term.oska_main_profession.field_oska_field
+    - field.field.taxonomy_term.oska_main_profession.field_study_programme
+    - taxonomy.vocabulary.oska_main_profession
+  module:
+    - text
+id: taxonomy_term.oska_main_profession.default
+targetEntityType: taxonomy_term
+bundle: oska_main_profession
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+      rows: 5
+    third_party_settings: {  }
+  field_emtak_code:
+    weight: 4
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_isced_f_detailed:
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_isco_reference:
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_oska_field:
+    weight: 7
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_study_programme:
+    weight: 6
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  path: true

@@ -1,0 +1,21 @@
+uuid: 3a8b5e56-09b8-45b5-9b75-e99fe4c66651
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_video
+    - node.type.article
+  module:
+    - htm_custom_video_field
+id: node.article.field_video
+field_name: field_video
+entity_type: node
+bundle: article
+label: Video
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: custom_video_field_type

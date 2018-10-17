@@ -1,0 +1,30 @@
+uuid: 4d02f3e8-00c7-4ce1-b2ef-dbee215a54ef
+langcode: et
+status: true
+dependencies:
+  module:
+    - import_school_data
+title: 'Default cron handler'
+id: import_school_data_cron
+weight: 0
+module: import_school_data
+callback: import_school_data_cron
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '0 0 * * *'
+    catch_up: 0
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

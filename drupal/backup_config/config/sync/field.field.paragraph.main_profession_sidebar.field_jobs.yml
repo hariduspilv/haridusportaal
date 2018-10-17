@@ -1,0 +1,70 @@
+uuid: 2052d8d0-d79b-4fe2-9ece-2f9012556f80
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_jobs
+    - paragraphs.paragraphs_type.job
+    - paragraphs.paragraphs_type.main_profession_sidebar
+  module:
+    - entity_reference_revisions
+id: paragraph.main_profession_sidebar.field_jobs
+field_name: field_jobs
+entity_type: paragraph
+bundle: main_profession_sidebar
+label: Näidisametid
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      job: job
+    target_bundles_drag_drop:
+      job:
+        enabled: true
+        weight: 15
+      accordion:
+        weight: 16
+        enabled: false
+      additional_section:
+        weight: 17
+        enabled: false
+      contact_section:
+        weight: 18
+        enabled: false
+      event_date:
+        weight: 19
+        enabled: false
+      favorite_item:
+        weight: 20
+        enabled: false
+      homepage_topics:
+        weight: 21
+        enabled: false
+      iscedf_search:
+        weight: 22
+        enabled: false
+      link:
+        weight: 23
+        enabled: false
+      main_profession_accordion:
+        weight: 24
+        enabled: false
+      main_profession_sidebar:
+        weight: 25
+        enabled: false
+      registration_period:
+        weight: 26
+        enabled: false
+      right_sidebar_section_info:
+        weight: 27
+        enabled: false
+      school_location:
+        weight: 28
+        enabled: false
+field_type: entity_reference_revisions

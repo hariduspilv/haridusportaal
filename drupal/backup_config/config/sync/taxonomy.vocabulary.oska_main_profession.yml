@@ -1,0 +1,9 @@
+uuid: 09e80a79-edf4-4859-9cb8-0a2fee0af5d0
+langcode: et
+status: true
+dependencies: {  }
+name: 'OSKA Main Profession'
+vid: oska_main_profession
+description: ''
+hierarchy: 0
+weight: 0

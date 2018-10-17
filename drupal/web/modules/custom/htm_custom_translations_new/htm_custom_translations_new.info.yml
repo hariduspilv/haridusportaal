@@ -1,5 +1,5 @@
 name: 'HTM Translations new'
 type: module
-description: 'My Awesome Module'
+description: 'Custom translation module with REST endpoint'
 core: 8.x
-package: 'Custom'
+package: 'HTM'
