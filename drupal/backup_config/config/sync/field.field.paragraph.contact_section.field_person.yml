@@ -1,0 +1,19 @@
+uuid: e93c4dec-8c16-4a6a-b755-ea812a46e938
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_person
+    - paragraphs.paragraphs_type.contact_section
+id: paragraph.contact_section.field_person
+field_name: field_person
+entity_type: paragraph
+bundle: contact_section
+label: Kontaktisik
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

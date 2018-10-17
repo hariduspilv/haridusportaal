@@ -1,0 +1,7 @@
+uuid: 8260e4c7-0e74-4e0a-a7ab-3ee6a4d2f9e3
+langcode: en
+status: true
+dependencies: {  }
+version: studyProgrammeComparison
+map:
+  1: "query studyProgrammeComparison($nidValues: [String], $lang: LanguageId!) {\n  nodeQuery(filter: {conjunction: AND, conditions: [{operator: EQUAL, field: \"type\", value: [\"study_programme\"], language: $lang}, {operator: IN, field: \"nid\", value: $nidValues, language: $lang}]}) {\n    entities(language: $lang) {\n      ... on NodeStudyProgramme {\n        nid\n        entityUrl {\n          path\n        }\n        name: title\n        EducationalInstitution: fieldEducationalInstitution {\n          entity {\n            name: title\n          }\n        }\n        level: fieldStudyProgrammeLevel {\n          entity {\n            name\n          }\n        }\n        degreeOrDiplomaAwarded: fieldDegreeOrDiplomaAwarded {\n          entity {\n            name\n          }\n        }\n        specialization: fieldSpecialization\n        teachingLanguage: fieldTeachingLanguage {\n          entity {\n            name\n          }\n        }\n        practicalTrainingAmount: fieldPracticalTrainingAmount\n        durationYears: fieldDurationYears\n        durationMonths: fieldDurationMonths\n        admissionStatus: fieldAdmissionStatus\n        accreditationStatus: fieldAccreditationStatus\n        accreditationValidUntil: fieldAccreditationValidUntil {\n          value\n          date\n          unix\n        }\n        fieldAmount\n        fieldAmountUnit\n      }\n    }\n  }\n}\n"

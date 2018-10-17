@@ -1,0 +1,90 @@
+uuid: 7343a525-e384-4bfd-94de-b1182de26ba0
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.article.field_accordion_section
+    - field.field.node.article.field_body
+    - field.field.node.article.field_body_summary
+    - field.field.node.article.field_image
+    - field.field.node.article.field_metatags
+    - field.field.node.article.field_right_sidebar
+    - field.field.node.article.field_video
+    - image.style.crop_large
+    - node.type.article
+  module:
+    - entity_reference_revisions
+    - htm_custom_video_field
+    - image
+    - metatag
+    - text
+    - user
+_core:
+  default_config_hash: ChmU3AVqDKU32A_fyChG0W9dTRKmVBR58B6OClCLvZI
+id: node.article.default
+targetEntityType: node
+bundle: article
+mode: default
+content:
+  field_accordion_section:
+    type: entity_reference_revisions_entity_view
+    weight: 2
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_body:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_body_summary:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_image:
+    type: image
+    weight: 6
+    region: content
+    label: above
+    settings:
+      image_style: crop_large
+      image_link: ''
+    third_party_settings: {  }
+  field_metatags:
+    weight: 5
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
+  field_right_sidebar:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_video:
+    weight: 7
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: custom_video_formatter_type
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true

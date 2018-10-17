@@ -1,0 +1,21 @@
+uuid: 808a1421-0d98-46c1-9be2-e0f2e3405a55
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_accreditation_valid_until
+    - node.type.study_programme
+  module:
+    - datetime
+id: node.study_programme.field_accreditation_valid_until
+field_name: field_accreditation_valid_until
+entity_type: node
+bundle: study_programme
+label: 'Akrediteerimise otsuse kehtivuse lõpp'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -1,0 +1,9 @@
+uuid: e1086152-7af6-4b2c-8ea3-590f678be8eb
+langcode: et
+status: true
+dependencies: {  }
+name: StudyProgrammeLevel
+vid: studyprogrammelevel
+description: ''
+hierarchy: 0
+weight: 0

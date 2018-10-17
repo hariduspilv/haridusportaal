@@ -1,0 +1,13 @@
+uuid: 52387895-7295-4200-bff3-252b8ca3fca1
+langcode: et
+status: true
+dependencies: {  }
+id: custom_crop_image_16_9
+label: 'Custom crop image 16:9'
+description: ''
+source: image
+queue_thumbnail_downloads: false
+new_revision: false
+source_configuration:
+  source_field: field_media_image_1
+field_map: {  }

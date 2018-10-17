@@ -1,0 +1,27 @@
+uuid: cf69b52f-84f7-4f09-8fbd-383776da11f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_oska_attachment_file
+    - node.type.oska_field_page
+  module:
+    - file
+id: node.oska_field_page.field_oska_attachment_file
+field_name: field_oska_attachment_file
+entity_type: node
+bundle: oska_field_page
+label: 'Oska attachment file'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: pdf
+  max_filesize: ''
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

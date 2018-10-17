@@ -1,0 +1,18 @@
+uuid: e0c7512d-4318-49bc-92fe-ade952316fc7
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.registration_period
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: paragraph.registration_period
+target_entity_type_id: paragraph
+target_bundle: registration_period
+default_langcode: site_default
+language_alterable: true

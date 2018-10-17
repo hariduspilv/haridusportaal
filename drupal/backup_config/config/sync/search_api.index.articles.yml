@@ -1,0 +1,126 @@
+uuid: 3f450951-9ac1-4edc-84d4-ab21e6fba917
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_accordion_section
+    - field.storage.paragraph.field_accordion_title
+    - field.storage.paragraph.field_body
+    - field.storage.node.field_body_summary
+    - field.storage.node.field_body
+    - search_api.server.elasticsearch_server
+  module:
+    - paragraphs
+    - search_api
+    - node
+id: articles
+name: Articles
+description: ''
+read_only: false
+field_settings:
+  content_type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
+  field_accordion_body:
+    label: 'Akordion » Paragraph » Sisu'
+    datasource_id: 'entity:node'
+    property_path: 'field_accordion_section:entity:field_body'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_accordion_section
+        - field.storage.paragraph.field_body
+      module:
+        - paragraphs
+  field_accordion_title:
+    label: 'Akordion » Paragraph » Pealkiri'
+    datasource_id: 'entity:node'
+    property_path: 'field_accordion_section:entity:field_accordion_title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_accordion_section
+        - field.storage.paragraph.field_accordion_title
+      module:
+        - paragraphs
+  field_body:
+    label: Sisu
+    datasource_id: 'entity:node'
+    property_path: field_body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_body
+  field_body_summary:
+    label: Sissejuhatus
+    datasource_id: 'entity:node'
+    property_path: field_body_summary
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_body_summary
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+  node_grants:
+    label: 'Node access information'
+    property_path: search_api_node_grants
+    type: string
+    indexed_locked: true
+    type_locked: true
+    hidden: true
+  status:
+    label: status
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+    indexed_locked: true
+    type_locked: true
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+  uid:
+    label: uid
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    indexed_locked: true
+    type_locked: true
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - article
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  content_access:
+    weights:
+      preprocess_query: -30
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

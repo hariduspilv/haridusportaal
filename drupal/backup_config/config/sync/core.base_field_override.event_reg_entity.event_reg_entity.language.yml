@@ -1,0 +1,18 @@
+uuid: d6ec6cb5-e09a-4048-a05f-95a0e064052b
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+id: event_reg_entity.event_reg_entity.language
+field_name: language
+entity_type: event_reg_entity
+bundle: event_reg_entity
+label: Keel
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: language

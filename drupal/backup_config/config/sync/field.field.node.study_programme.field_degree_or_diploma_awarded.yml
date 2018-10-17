@@ -1,0 +1,29 @@
+uuid: aea968b8-4138-479f-88c1-1c9d0826dc5d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_degree_or_diploma_awarded
+    - node.type.study_programme
+    - taxonomy.vocabulary.degreeordiploma
+id: node.study_programme.field_degree_or_diploma_awarded
+field_name: field_degree_or_diploma_awarded
+entity_type: node
+bundle: study_programme
+label: 'Omistatav kraad või diplom '
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      degreeordiploma: degreeordiploma
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

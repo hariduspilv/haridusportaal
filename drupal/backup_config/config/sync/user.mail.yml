@@ -1,0 +1,30 @@
+cancel_confirm:
+  body: "[user:display-name],\r\n\r\nSaidli [site:name] avaldas keegi külastaja soovi sinu konto kustutamiseks.\r\n\r\nOma konto kustutamiseks [site:url-brief] saidil klõpsa alumisel lingil:\r\n\r\n[user:cancel-url]\r\n\r\nNB! Konto kustutamist ei ole võimalik tagasi võtta.\r\n\r\nLink aegub 24 tunniga, mitte midagi ei juhtu, kui seda ei kasutata.\r\n\r\n--  [site:name] meeskond"
+  subject: 'Konto [user:display-name] kustutamise soov saidil [site:name]'
+password_reset:
+  body: "[user:display-name],\r\n\r\nSaidil [site:name] avaldas keegi külastaja soovi muuta ära sinu konto parool.\r\n\r\nParooli muutmiseks kasuta alumist linki:\r\n\r\n[user:one-time-login-url]\r\n\r\nSeda linki saab kasutada ainult üks kord, see suunab sind parooli muutmise lehele. Link aegub 24 tunniga, aga mitte midagi ei juhtu, kui seda ei kasutata.\r\n\r\n--  [site:name] meeskond"
+  subject: 'Konto [user:display-name] parooli muutmise soov saidil [site:name]'
+register_admin_created:
+  body: "[user:display-name],\r\n\r\nA site administrator at [site:name] has created an account for you. You may now log in by clicking this link or copying and pasting it into your browser:\r\n\r\n[user:one-time-login-url]\r\n\r\nThis link can only be used once to log in and will lead you to a page where you can set your password.\r\n\r\nAfter setting your password, you will be able to log in at [site:login-url] in the future using:\r\n\r\nusername: [user:name]\r\npassword: Your password\r\n\r\n--  [site:name] team"
+  subject: 'Administraator on loonud sulle konto saidile [site:name]'
+register_no_approval_required:
+  body: "[user:display-name],\r\n\r\nThank you for registering at [site:name]. You may now log in by clicking this link or copying and pasting it into your browser:\r\n\r\n[user:one-time-login-url]\r\n\r\nThis link can only be used once to log in and will lead you to a page where you can set your password.\r\n\r\nAfter setting your password, you will be able to log in at [site:login-url] in the future using:\r\n\r\nusername: [user:name]\r\npassword: Your password\r\n\r\n--  [site:name] team"
+  subject: 'Kasutaja [user:display-name] konto andmed lehel [site:name]'
+register_pending_approval:
+  body: "[user:display-name],\r\n\r\nThank you for registering at [site:name]. Your application for an account is currently pending approval. Once it has been approved, you will receive another email containing information about how to log in, set your password, and other details.\r\n\r\n\r\n--  [site:name] team"
+  subject: 'Account details for [user:display-name] at [site:name] (pending admin approval)'
+register_pending_approval_admin:
+  body: "[user:display-name] has applied for an account.\r\n\r\n[user:edit-url]"
+  subject: 'Account details for [user:display-name] at [site:name] (pending admin approval)'
+status_activated:
+  body: "[user:display-name],\r\n\r\nYour account at [site:name] has been activated.\r\n\r\nYou may now log in by clicking this link or copying and pasting it into your browser:\r\n\r\n[user:one-time-login-url]\r\n\r\nThis link can only be used once to log in and will lead you to a page where you can set your password.\r\n\r\nAfter setting your password, you will be able to log in at [site:login-url] in the future using:\r\n\r\nusername: [user:account-name]\r\npassword: Your password\r\n\r\n--  [site:name] team"
+  subject: 'Kasutaja [user:display-name] konto andmed saidil [site:name] (kinnitatud)'
+status_blocked:
+  body: "[user:display-name],\r\n\r\nSinu konto lehel [site:name] on blokeeritud.\r\n\r\n--  [site:name] meeskond"
+  subject: 'Kasutaja [user:display-name] konto andmed lehel [site:name] (blokeeritud)'
+status_canceled:
+  body: "[user:display-name],\r\n\r\nSinu konto saidil [site:name] on tühistatud.\r\n\r\n--  [site:name] meeskond"
+  subject: 'Konto [user:display-name] andmed saidil [site:name] (tühistatud)'
+langcode: et
+_core:
+  default_config_hash: m4J3ROov32OEquRYGLbx3SpdDGuqx9l_zJtNvihqdCg

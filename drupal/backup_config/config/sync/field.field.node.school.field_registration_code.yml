@@ -1,0 +1,19 @@
+uuid: 273ffc25-db73-4d08-bcaa-079581505141
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_registration_code
+    - node.type.school
+id: node.school.field_registration_code
+field_name: field_registration_code
+entity_type: node
+bundle: school
+label: Registrikood
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

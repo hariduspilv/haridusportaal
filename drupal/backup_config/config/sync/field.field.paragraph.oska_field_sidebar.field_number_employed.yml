@@ -1,0 +1,23 @@
+uuid: ac3f4e54-27ba-46e0-a234-765d145c1833
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_number_employed
+    - paragraphs.paragraphs_type.oska_field_sidebar
+id: paragraph.oska_field_sidebar.field_number_employed
+field_name: field_number_employed
+entity_type: paragraph
+bundle: oska_field_sidebar
+label: 'Hõivatute arv'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: 9999999
+  prefix: ''
+  suffix: ''
+field_type: integer

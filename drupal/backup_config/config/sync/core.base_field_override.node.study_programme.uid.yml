@@ -1,0 +1,20 @@
+uuid: 3b0e51da-3b6e-4c89-ba3b-d011a81ad968
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.study_programme
+id: node.study_programme.uid
+field_name: uid
+entity_type: node
+bundle: study_programme
+label: Autor
+description: 'Sisu autori kasutajanimi.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\node\Entity\Node::getCurrentUserId'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

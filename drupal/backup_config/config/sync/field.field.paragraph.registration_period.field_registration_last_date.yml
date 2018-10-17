@@ -1,0 +1,21 @@
+uuid: acbe5d16-53a9-4113-9976-760702bc121c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_registration_last_date
+    - paragraphs.paragraphs_type.registration_period
+  module:
+    - datetime
+id: paragraph.registration_period.field_registration_last_date
+field_name: field_registration_last_date
+entity_type: paragraph
+bundle: registration_period
+label: 'Registration Last Date'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

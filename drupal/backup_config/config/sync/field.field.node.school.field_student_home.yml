@@ -1,0 +1,23 @@
+uuid: b1e6c68e-f032-4bf9-bc42-cea4476a8071
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_student_home
+    - node.type.school
+id: node.school.field_student_home
+field_name: field_student_home
+entity_type: node
+bundle: school
+label: 'Student home'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean

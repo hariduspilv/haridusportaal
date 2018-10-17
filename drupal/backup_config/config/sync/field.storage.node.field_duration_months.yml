@@ -1,0 +1,20 @@
+uuid: d6002512-64cc-4b7a-a06d-a7c66f320be8
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_duration_months
+field_name: field_duration_months
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,13 @@
+uuid: dc904a1b-f3fd-4923-9ab9-fcd714f3e983
+langcode: et
+status: true
+dependencies:
+  module:
+    - pathauto
+_core:
+  default_config_hash: '-SdRoSbsl_FULjbX8mgESZdeoEOjgi7rDhHNdLOJ8n8'
+id: pathauto_update_alias_node
+label: 'Uuenda URLi alias'
+type: node
+plugin: pathauto_update_alias
+configuration: {  }

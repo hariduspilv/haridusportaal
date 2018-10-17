@@ -1,0 +1,21 @@
+uuid: f034c27f-8443-498f-a271-8d719276449e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_created_from_ehis_datetime
+    - node.type.study_programme
+id: node.study_programme.field_created_from_ehis_datetime
+field_name: field_created_from_ehis_datetime
+entity_type: node
+bundle: study_programme
+label: 'EHIS-st automaatselt lisamise aeg'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1527586932
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

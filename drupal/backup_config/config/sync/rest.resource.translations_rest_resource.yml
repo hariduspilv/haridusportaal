@@ -1,0 +1,18 @@
+uuid: e41153de-9313-4864-8136-b0e043fa2ac1
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_translations_new
+    - serialization
+    - user
+id: translations_rest_resource
+plugin_id: translations_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - cookie

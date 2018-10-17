@@ -1,0 +1,13 @@
+uuid: 014dbb3e-8f84-4627-bd6a-fb3cb9bfa8b5
+langcode: et
+status: true
+dependencies:
+  module:
+    - pathauto
+_core:
+  default_config_hash: fWszFHPeJ_dhZ8kJEEWo4w-FQH_etR4AxTQkQCW9OLk
+id: pathauto_update_alias_user
+label: 'Uuenda URLi alias'
+type: user
+plugin: pathauto_update_alias
+configuration: {  }

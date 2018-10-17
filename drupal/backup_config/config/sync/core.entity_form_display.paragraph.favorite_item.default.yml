@@ -1,0 +1,52 @@
+uuid: 2cee24ef-ab10-4ed9-aedd-382704b8b5ef
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.favorite_item.field_favorite_title
+    - field.field.paragraph.favorite_item.field_page
+    - field.field.paragraph.favorite_item.field_search
+    - field.field.paragraph.favorite_item.field_type
+    - paragraphs.paragraphs_type.favorite_item
+_core:
+  default_config_hash: Tahdj4Cl0H-pXG87vUzf_e_wK9BabeuPgGwFvU3LDyw
+id: paragraph.favorite_item.default
+targetEntityType: paragraph
+bundle: favorite_item
+mode: default
+content:
+  field_favorite_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_page:
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_search:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_type:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true

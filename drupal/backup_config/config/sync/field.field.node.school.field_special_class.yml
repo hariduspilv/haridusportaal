@@ -1,0 +1,23 @@
+uuid: 0431106f-0f1c-4744-a5b0-a7e264f7c5b5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_special_class
+    - node.type.school
+id: node.school.field_special_class
+field_name: field_special_class
+entity_type: node
+bundle: school
+label: 'Special class'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean

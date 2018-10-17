@@ -1,0 +1,25 @@
+uuid: 4cc5d416-4737-4f8a-ad7e-15a96da3a291
+langcode: et
+status: true
+dependencies:
+  config:
+    - crop.type.16_9_large
+  module:
+    - crop
+name: crop_result_thumb
+label: 'Crop result thumb'
+effects:
+  51a351e9-00e4-4d2c-98c4-1d0dddb35a13:
+    uuid: 51a351e9-00e4-4d2c-98c4-1d0dddb35a13
+    id: crop_crop
+    weight: 1
+    data:
+      crop_type: 16_9_large
+  28a5d0a3-6d18-4896-a854-898226a821d3:
+    uuid: 28a5d0a3-6d18-4896-a854-898226a821d3
+    id: image_scale
+    weight: 2
+    data:
+      width: 400
+      height: null
+      upscale: false

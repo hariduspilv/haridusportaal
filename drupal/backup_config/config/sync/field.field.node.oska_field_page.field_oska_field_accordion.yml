@@ -1,0 +1,70 @@
+uuid: d64998c2-2229-489a-85b2-9da903ddf5a4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_oska_field_accordion
+    - node.type.oska_field_page
+    - paragraphs.paragraphs_type.main_profession_accordion
+  module:
+    - entity_reference_revisions
+id: node.oska_field_page.field_oska_field_accordion
+field_name: field_oska_field_accordion
+entity_type: node
+bundle: oska_field_page
+label: Accordion
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      main_profession_accordion: main_profession_accordion
+    target_bundles_drag_drop:
+      accordion:
+        weight: 12
+        enabled: false
+      additional_section:
+        weight: 13
+        enabled: false
+      contact_section:
+        weight: 14
+        enabled: false
+      event_date:
+        weight: 15
+        enabled: false
+      favorite_item:
+        weight: 16
+        enabled: false
+      homepage_topics:
+        weight: 17
+        enabled: false
+      link:
+        weight: 18
+        enabled: false
+      main_profession_accordion:
+        enabled: true
+        weight: 19
+      registration_period:
+        weight: 20
+        enabled: false
+      iscedf_search:
+        weight: 21
+        enabled: false
+      right_sidebar_section_info:
+        weight: 21
+        enabled: false
+      job:
+        weight: 22
+        enabled: false
+      school_location:
+        weight: 22
+        enabled: false
+      main_profession_sidebar:
+        weight: 25
+        enabled: false
+field_type: entity_reference_revisions

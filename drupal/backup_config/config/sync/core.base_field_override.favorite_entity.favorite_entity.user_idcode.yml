@@ -1,0 +1,18 @@
+uuid: 4da37e2a-18c1-4f4c-aac9-35633bbf827e
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_favorites
+id: favorite_entity.favorite_entity.user_idcode
+field_name: user_idcode
+entity_type: favorite_entity
+bundle: favorite_entity
+label: IDcode
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

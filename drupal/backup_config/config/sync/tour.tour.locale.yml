@@ -1,0 +1,75 @@
+uuid: 0ab3653d-88db-4973-b718-0190e1ebcfd1
+langcode: et
+status: true
+dependencies:
+  module:
+    - locale
+_core:
+  default_config_hash: IGyq02Zgyl_6WJczNqeYnXXQR_B_iM-yyOFXOUmVpLk
+id: locale
+label: Tõlge
+module: locale
+routes:
+  -
+    route_name: locale.translate_page
+tips:
+  locale-overview:
+    id: locale-overview
+    plugin: text
+    label: 'Kasutajaliidese tõlge'
+    body: 'This page allows you to translate the user interface or modify existing translations. If you have installed your site initially in English, you must first add another language on the <a href="[site:url]admin/config/regional/language">Languages page</a>, in order to use this page.'
+    weight: 1
+  locale-language:
+    id: locale-language
+    plugin: text
+    label: 'Tõlke keel'
+    body: 'Vali keel, mida soovid tõlkida.'
+    weight: 2
+    attributes:
+      data-id: edit-langcode
+  locale-search:
+    id: locale-search
+    plugin: text
+    label: Search
+    body: 'Sisesta sõna või lause, mida soovid tõlkida. Lubatud on ka sõnaosa kasutamine.'
+    weight: 3
+    attributes:
+      data-id: edit-string
+  locale-filter:
+    id: locale-filter
+    plugin: text
+    label: 'Filtreeri otsingutulemusi'
+    body: 'You can search for untranslated strings if you want to translate something that isn''t translated yet. If you want to modify an existing translation, you might want to search only for translated strings.'
+    weight: 4
+    attributes:
+      data-id: edit-translation
+  locale-submit:
+    id: locale-submit
+    plugin: text
+    label: 'Rakenda otsingutingimus'
+    body: 'Otsingukriteeriumi rakendamiseks kliki <em>Filtreeri</em> nupul.'
+    weight: 5
+    attributes:
+      data-id: edit-submit
+  locale-translate:
+    id: locale-translate
+    plugin: text
+    label: Tõlge
+    body: 'Saad kirjutada oma isikliku tõlke paremas tulbas olevatele tekstiväljadele. Selleks, et teksti õigesti tõlkida ürita aru saada millises kontekstis seda kasutatakse.'
+    weight: 6
+    attributes:
+      data-class: js-form-type-textarea
+  locale-validate:
+    id: locale-validate
+    plugin: text
+    label: 'Valideeri tõlge'
+    body: 'Kui oled tõlkimise lõpetanud, vajuta <em>Salvesta tõlked</em> nuppu. Tõlked tuleb salvestada iga kord enne leheküljelt navigeerimist või uue otsingu teostamist.'
+    weight: 7
+    attributes:
+      data-id: edit-submit--2
+  locale-continue:
+    id: locale-continue
+    plugin: text
+    label: Jätkub
+    body: 'Antud tõlkeid kasutatakse saidi kasutajaliideses. Kui sa soovid neid kasutada mõnel teisel saidil või tõlkeprogrammis, saad need<a href="[site:url]admin/config/regional/translate/export">eksportida</a> .po failiks ja hiljem ka <a href="[site:url]admin/config/regional/translate/import">importida</a>.'
+    weight: 8

@@ -1,0 +1,27 @@
+uuid: 16f170d7-8d3a-4c73-be05-8c66bb65cb22
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_survey_page_attachment
+    - node.type.oska_survey_page
+  module:
+    - file
+id: node.oska_survey_page.field_survey_page_attachment
+field_name: field_survey_page_attachment
+entity_type: node
+bundle: oska_survey_page
+label: Failid
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: pdf
+  max_filesize: '4 MB'
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

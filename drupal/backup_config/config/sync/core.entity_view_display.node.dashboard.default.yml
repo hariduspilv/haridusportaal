@@ -1,0 +1,29 @@
+uuid: f2f3cf19-7542-47eb-b5f6-f3c5575d4bfa
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.dashboard.body
+    - node.type.dashboard
+  module:
+    - text
+    - user
+id: node.dashboard.default
+targetEntityType: node
+bundle: dashboard
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true

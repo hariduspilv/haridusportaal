@@ -1,0 +1,18 @@
+uuid: 060b7f30-0341-46c4-8a27-ee344a33f8b8
+langcode: et
+status: true
+dependencies:
+  config:
+    - media.type.custom_crop_image_16_9
+id: media.custom_crop_image_16_9.created
+field_name: created
+entity_type: media
+bundle: custom_crop_image_16_9
+label: 'Loomise kuupäev'
+description: 'The time the media item was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\media\Entity\Media::getRequestTime'
+settings: {  }
+field_type: created

@@ -65,7 +65,12 @@ body{height: calc(100% - 4rem);}
 
 $grid-columns: 12;
 
-.form-col {padding: $quarter $gutter !important;}
+
+.form-col { padding: 0.75rem 0.5rem 0.25rem 0.5rem !important;
+  @include break-on(sm, max) {
+ padding: 0.75rem 0.5rem 0.25rem 0.5rem !important
+}
+}
 .form-first-row {margin-top: -$quarter !important;
   &.short-filter {margin-bottom: -$quarter !important;}
 }
@@ -134,9 +139,10 @@ $grid-columns: 12;
       border-top: solid .125rem $dark-gray;
     }
     td, th {
-      padding: 1rem;
+      padding: 0.5rem 1rem;
       border: .0625rem solid $gray;
       width: 33%;
+      font-size: 0.875rem;
       a {font-weight: 400;}
       color: $black;
       &:first-letter { 
@@ -197,8 +203,8 @@ $grid-columns: 12;
   }
   .filter-control {padding: $medium;}
   .filter-wrapper {background: $white; padding: 0 $small; margin-bottom: $xxl;
-    @include break-on(sm, min) {padding: $small $medium; margin-bottom: $medium; margin-top: $small;
-      @include break-on(md, max) {padding: $small $medium;}
+    @include break-on(sm, min) {padding: $small $medium $medium $medium; margin-bottom: $medium; margin-top: $small;
+      @include break-on(md, max) {padding: $small $medium $medium $medium;}
     }
     .align-end {margin-bottom: auto;
     }

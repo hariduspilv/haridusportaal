@@ -1,0 +1,7 @@
+uuid: b4473566-4e57-4bee-b0b4-6e61ae03a68b
+langcode: en
+status: true
+dependencies: {  }
+version: subsidyProjectFilters
+map:
+  1: "query subsidyProjectFilterOptions($lang: LanguageId!) {\n  ownerShipType: taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: \"vid\", value: [\"ownership_type\"], language: $lang}]}) {\n    entities(language: $lang) {\n      ... on TaxonomyTerm {\n        entityLabel\n        tid\n        reverseFieldOwnershipTypeNode {\n          count\n        }\n      }\n    }\n  }\n  investmentMeasure: taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: \"vid\", value: [\"investmentmeasure\"], language: $lang}]}) {\n    entities(language: $lang) {\n      ... on TaxonomyTerm {\n        entityLabel\n        tid\n        reverseInvestmentMeasureSubsidyProjectEntity {\n          count\n        }\n      }\n    }\n  }\n  investmentDeadline: subsidyProjectEntityQuery {\n    entities {\n      ... on SubsidyProjectEntity {\n        investmentDeadline {\n          value\n        }\n      }\n    }\n  }\n}\n"

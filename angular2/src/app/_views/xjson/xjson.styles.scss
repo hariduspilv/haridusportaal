@@ -77,7 +77,7 @@ a {
   word-break: break-all; word-break: break-word;-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; }
   .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
   .button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 1.875rem; align-items: center; padding: 2rem 0.5rem 2rem 0.5rem;
-    @include break-on(sm, max) { text-align: center; justify-content: center; padding: 2rem 0.5rem 0.5rem 0.5rem }
+    @include break-on(sm, max) { flex-direction: row; text-align: center; justify-content: center; padding: 2rem 0.5rem 0.5rem 0.5rem }
     a, button { margin-left: 1rem; 
       @include break-on(sm, max) {  
         margin-left: 0px; margin-bottom: 1rem; display: block;
