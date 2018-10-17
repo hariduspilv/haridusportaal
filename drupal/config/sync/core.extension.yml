@@ -58,6 +58,7 @@ module:
   htm_custom_professional_certific: 0
   htm_custom_querymap_form: 0
   htm_custom_study_programme_import: 0
+  htm_custom_subscriptions: 0
   htm_custom_subscriptions_notification: 0
   htm_custom_subsidy_projects: 0
   htm_custom_tara_authentication: 0
