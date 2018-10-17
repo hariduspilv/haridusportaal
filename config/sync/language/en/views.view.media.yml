@@ -68,7 +68,7 @@ display:
       title: Media
       empty:
         area_text_custom:
-          content: 'No content available.'
+          content: 'No media available.'
   media_page_list:
     display_title: Media
     display_options:
