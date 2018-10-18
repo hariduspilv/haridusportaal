@@ -7,7 +7,7 @@ use Drupal\graphql_metatag\Plugin\GraphQL\Fields\Metatag\Value;
 
 /**
  * @GraphQLField(
- *   id = "custom_metatag_value",
+ *   id = "metatag_value",
  *   name = "value",
  *   type = "String",
  *   parents = {"Metatag"},
