@@ -8,7 +8,7 @@
     <ng-container *ngIf="acceptable_forms_list.length">
       
       <div class="grid-box">
-        <a href="javascript:void(0);" [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{test:'true'}" class="grid-item" *ngFor="let form of acceptable_forms_list">
+        <a href="javascript:void(0);" [routerLink]="[compileXjsonLink(form.form_name)]" class="grid-item" *ngFor="let form of acceptable_forms_list">
             <span class="grid-link">{{ selectLanguage(form.title) }}</span>
         </a>
       </div>
@@ -37,9 +37,9 @@
           <th></th>
         </tr>
         <tr *ngFor="let form of data.drafts">
-          <td>{{ selectLanguage(form.title) }}</td>
+          <td><a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{draft:'true', identifier: form.identifier}">{{ selectLanguage(form.title) }}</a></td>
           <td class="text-center">
-            <a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{draft:'true',identifier: form.identifier}">
+            <a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{draft:'true', identifier: form.identifier}">
               {{ 'button.continue_filling' | translate }}
             </a>
           </td>
@@ -64,7 +64,7 @@
       <tbody>
         <ng-container *ngFor="let form of data.documents">
           <tr [class.description]="form.description" >
-            <td>{{ selectLanguage(form.title) }}</td>
+            <td><a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{existing:'true', identifier: form.identifier}">{{ selectLanguage(form.title) }}</a></td>
             <td>{{ form.document_date }}</td>
             <td>{{ form.status }}</td>
             <td class="text-center">
