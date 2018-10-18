@@ -10,13 +10,11 @@
         </div><!--/block__head-->
 
         <h1>{{ data['entityLabel'] }}</h1>
-        
-        <div class="mininav col-12 flex text-right">
+        <div class="mininav flex text-right">
           <share></share>
           <compare *ngIf="compareButton" [id]="data.nid" localStorageKey="oskaProfessions.compare"></compare>
           <span class="important-pill" *ngIf="data.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span> 
-        </div>
-
+        </div>  
         <div class="short" [attr.aria-label]="'description.short' | translate">
           {{ data['fieldIntroduction'] || data['fieldSurveyPageIntroduction'] }}
         </div>
