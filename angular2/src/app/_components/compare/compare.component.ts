@@ -24,7 +24,7 @@ export class CompareComponent implements OnInit, OnDestroy{
       "en": "/en/studyprogrammes/compare"
     },
     "oskaProfessions.compare":{
-      "et": "/et/pohikutsealad/vordlus",
+      "et": "/et/ametialad/vordlus",
       "en": "/en/professions/compare"
     }
   }
