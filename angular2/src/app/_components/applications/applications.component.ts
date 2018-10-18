@@ -64,15 +64,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   }
 
   compileXjsonLink(form_name){
+    if(!form_name) return "";
     return form_name
-  }
-
-  acceptableFormsLoader(){
-    if(this.acceptable_forms_list.length < 4 && this.loading.interval)
-      return true;
-    if(this.acceptable_forms_list.length > 4 && this.acceptable_forms_list_restricted == false && this.loading.interval)
-      return true;
-    return false
   }
 
   sortList(list, method){
@@ -81,6 +74,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
 
     let self = this;
     function compareTitle(a,b) {
+      if(!a['title'] || !b['title']) return -1;
       let title1 = self.selectLanguage(a['title']).toUpperCase();
       let title2 = self.selectLanguage(b['title']).toUpperCase();
       if (title1 < title2)
@@ -92,6 +86,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
 
     let regex = /(\d{2}).(\d{2}).(\d{4})/;
     function compareDate(a,b){
+      if(!a['document_date'] || !b['document_date']) return -1;
       return Number(new Date(b.document_date.replace( regex , "$3/$2/$1" ))) - Number(new Date(a.document_date.replace( regex, "$3/$2/$1")));
     }
 
@@ -99,14 +94,19 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     else return list.sort(compareDate);
   }
 
-  formatAcceptableForms(){
+  formatAcceptableForms(list){
     if(this.acceptable_forms_list_restricted === true){
-      this.acceptable_forms_list = JSON.parse(JSON.stringify(this.data.acceptable_forms)).splice(0, ACCEPTABLE_FORMS_RESTRICTED_LENGTH);
+      return  JSON.parse(JSON.stringify(list)).splice(0, ACCEPTABLE_FORMS_RESTRICTED_LENGTH);
     } else {
-      this.acceptable_forms_list = JSON.parse(JSON.stringify(this.data.acceptable_forms));
+     return JSON.parse(JSON.stringify(list));
     }
   }
   
+  toggleAcceptableFormsList(){
+    this.acceptable_forms_list_restricted = this.acceptable_forms_list_restricted === true ? false : true;
+    this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms);
+  }
+
   fetchData(){
     let request_boolean = this.loading['initial'] === true ? 1 : 0;
    
@@ -119,130 +119,120 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
       this.data.drafts = response['drafts'] || [];
     
       this.data.documents = response['documents'] || [];
-
-      /* DUMMY DATA */
-      this.data.acceptable_forms = [
-        {
-          "form_name":"VPT_TAOTLUS",
-          "title": {
-            "et": "6Vajaduspõhise õppetoetuse taotlus"
-          }
-        },
-        {
-          "form_name":"VPT_TAOTLUS",
-          "title": {
-            "et": "4Vajaduspõhise õppetoetuse taotlus"
-          }
-        },
-        {
-          "form_name":"VPT_TAOTLUS",
-          "title": {
-            "et": "2Vajaduspõhise õppetoetuse taotlus"
-          }
-        },
-        {
-          "form_name":"VPT_TAOTLUS",
-          "title": {
-            "et": "1Vajaduspõhise õppetoetuse taotlus"
-          }
-        },
-        {
-          "form_name":"VPT_TAOTLUS",
-          "title": {
-            "et": "5Vajaduspõhise õppetoetuse taotlus"
-          }
-        },
-        {
-          "form_name":"VPT_TAOTLUS",
-          "title": {
-            "et": "3Vajaduspõhise õppetoetuse taotlus"
-          }
-        },
-        {
-          "form_name":"VPT_TAOTLUS",
-          "title": {
-            "et": "3Vajaduspõhise õppetoetuse taotlus"
-          }
-        }
-      ];
       
-      this.data.drafts = [{
-        "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-          "identifier": 157707,
-          "document_date": "17.09.2018",
-          "status": "Heaks kiidetud",
-          "title": {
-            "et": "4Vajaduspühise õppetoetuse taotlus ja otsus"
+      /* DUMMY DATA */
+        this.data.acceptable_forms = [
+          {
+            "form_name":"VPT_TAOTLUS",
+            "title": {
+              "et": "6Vajaduspõhise õppetoetuse taotlus"
+            }
+          },
+          {
+            "form_name":"VPT_TAOTLUS",
+            "title": {
+              "et": "4Vajaduspõhise õppetoetuse taotlus"
+            }
+          },
+          {
+            "form_name":"VPT_TAOTLUS",
+            "title": {
+              "et": "2Vajaduspõhise õppetoetuse taotlus"
+            }
+          },
+          {
+            "form_name":"VPT_TAOTLUS",
+            "title": {
+              "et": "4Vajaduspõhise õppetoetuse taotlus"
+            }
+          },
+          {
+            "form_name":"VPT_TAOTLUS",
+            "title": {
+              "et": "5Vajaduspõhise õppetoetuse taotlus"
+            }
+          },
+          {
+            "form_name":"VPT_TAOTLUS",
+            "title": {
+              "et": "3Vajaduspõhise õppetoetuse taotlus"
+            }
+          },
+          {
+            "form_name":"VPT_TAOTLUS",
+            "title": {
+              "et": "3Vajaduspõhise õppetoetuse taotlus"
+            }
           }
-        },
-        {
-          "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-          "identifier": 157707,
-          "document_date": "17.09.2018",
-          "status": "Heaks kiidetud",
-          "title": {
-            "et": "2Vajaduspühise õppetoetuse taotlus ja otsus"
+        ];
+        
+        this.data.drafts = [{
+            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
+            "identifier": 157707,
+            "document_date": "17.09.2018",
+            "status": "Heaks kiidetud",
+            "title": {
+              "et": "2Vajaduspühise õppetoetuse taotlus ja otsus"
+            }
+          },
+          {
+            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
+            "identifier": 157707,
+            "document_date": "17.09.2018",
+            "status": "Heaks kiidetud",
+            "title": {
+              "et": "2Vajaduspühise õppetoetuse taotlus ja otsus"
+            }
+          },
+          {
+            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
+            "identifier": 157707,
+            "document_date": "17.09.2018",
+            "status": "Heaks kiidetud",
+            "title": {
+              "et": "1Vajaduspühise õppetoetuse taotlus ja otsus"
+            }
+          }];
+  
+        this.data.documents = [
+          {
+            "form_name": "VPT_ESITATUD_TAOTLUS",
+            "identifier": 157721,
+            "document_date": "11.10.2018",
+            "status": "Menetluses",
+            "title": {
+              "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
+            }
+          },
+          {
+            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
+            "identifier": 157722,
+            "document_date": "11.10.2018",
+            "status": "Tagasi lükatud",
+            "title": {
+              "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
+            }
+          },
+          {
+            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
+            "identifier": 157707,
+            "document_date": "17.09.2018",
+            "status": "Heaks kiidetud",
+            "title": {
+              "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
+            }
           }
-        },
-        {
-          "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-          "identifier": 157707,
-          "document_date": "17.09.2018",
-          "status": "Heaks kiidetud",
-          "title": {
-            "et": "1Vajaduspühise õppetoetuse taotlus ja otsus"
-          }
-        }];
-
-      this.data.documents = [
-        {
-          "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-          "identifier": 157707,
-          "document_date": "05.10.2017",
-          "status": "Esitatud",
-          "title": {
-            "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
-          }
-        },
-        {
-          "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-          "identifier": 157707,
-          "document_date": "17.09.2018",
-          "status": "Heaks kiidetud",
-          "title": {
-            "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
-          }
-        },
-        {
-          "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS2",
-          "identifier": 157707,
-          "document_date": "20.09.2018",
-          "description": "lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ",
-          "status": "Heaks kiidetud",
-          "title": {
-            "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
-          }
-        },
-        {
-          "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-          "identifier": 157707,
-          "document_date": "01.04.2017",
-          "status": "Esitatud",
-          "title": {
-            "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
-          }
-        }
-      ];
+        ];
+      
       /* END OF DUMMY DATA */
       
       this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
       this.data.drafts = this.sortList(this.data.drafts, 'title');
       this.data.documents = this.sortList(this.data.documents, 'date');
-
-      this.formatAcceptableForms();
+      
+      this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms);
 
       subscription.unsubscribe();
-      //console.log(response);
 
       if((Date.now() - this.startTime)/1000 < REQUEST_ITERATOR_LIFETIME ){
         this.request_iterator_timeout += (0.25 * this.request_iterator_timeout);
