@@ -21,7 +21,7 @@ a:visited {
   .news-list {border-top: $gutter solid $light-blue;background: $white;
     @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium;}
     @include break-on(lg, min) {margin-left: 0;}
-    &__recent {@extend .news-list;border-top: $gutter solid $orange;
+    &__recent {@extend .news-list;border-top: $gutter solid $orange; margin-bottom: $medium;
       a:hover { text-decoration: none; }
       .news-title { a:hover{text-decoration: none;}}
       @include break-on(sm, min) {border-radius: $half-gutter; margin-left: 0;}

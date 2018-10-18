@@ -55,12 +55,19 @@
 
 .polygons-toggle{position:absolute; top:1rem; left:1rem; background:$white; border-radius:10rem;
   button{appearance:none; display:inline-block; border:none; background:$white; color:$black; padding:0 0.75rem; height:25px; line-height:25px; border-radius:10rem; font-size:0.875rem; font-family:Rubik;
-    &.active{background:$light-blue;}
+   &{ color: $blue; }
+    &.active{background:$light-blue; color:$black; }
 	}
 	@include break-on(sm, max) {right:1rem; font-size:0;
 		button{width:50%;}
 
 	}
+
+}
+
+::ng-deep .polygons-toggle{ 
+button:hover { text-decoration: underline; }
+ button.active:hover { text-decoration: none; }
 }
 
 .mapLegend{display:flex; width:100%; font-size:0.875rem; margin-top:1rem;

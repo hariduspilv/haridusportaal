@@ -570,29 +570,30 @@ mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
 
 // Units are in pixels. Because of google maps
 .si-float-wrapper{
-  .si-wrapper-top{width:443px; position: relative;
+font-family: 'Rubik', sans-serif!important;
+  .si-wrapper-top{width:443px; position: relative; font-family: 'Rubik', sans-serif!important;
     @include break-on(sm, max) {width:327px;}
     &:before{ content:" "; display: block; height:7px; background:$orange; top:0; left:0; width:100%; position: absolute; z-index: 3; border-radius:4px 4px 0 0;}
   }
-  .si-close-button{width: 14px; height: 14px;  padding: 0; right: 24px; top: 24px; line-height: 14px;}
-  .si-content-wrapper{font-size:14px; line-height:20px; padding:24px;
-    p, h1{
+  .si-close-button{width: 14px; height: 14px;  padding: 0; right: 24px; top: 24px; line-height: 14px; font-family: 'Rubik', sans-serif!important;}
+  .si-content-wrapper{font-size:14px; line-height:20px; padding:24px; font-family: 'Rubik', sans-serif!important;
+    p, h1{ font-family: 'Rubik', sans-serif!important;
       &:first-child{margin-top:0;}
       &:last-child{margin-bottom:0;}
     }
-    .title{margin-top:0; font-weight: bold; font-size:20px; color:#333;}
-    .si-content{max-width:100% !important; max-height:99999px !important; overflow: visible !important;}
-    .button{height:62px; line-height:62px; margin:0 -24px -24px -24px; text-align: center; display: block; border-top:#c7c7c9 1px solid; font-size:16px;}
+    .title{margin-top:0; font-weight: bold; font-size:20px; color:#333; font-family: 'Rubik', sans-serif!important; font-weight: 500; }
+    .si-content{max-width:100% !important; max-height:99999px !important; overflow: visible !important; font-family: 'Rubik', sans-serif!important;}
+    .button{ font-family: 'Rubik', sans-serif!important; height:62px; line-height:62px; margin:0 -24px -24px -24px; text-align: center; display: block; border-top:#c7c7c9 1px solid; font-size:16px;}
   }
-  .snazzy-scrollarea{max-height:200px; overflow: auto;
-    p{margin:1.25rem 0;}
+  .snazzy-scrollarea{max-height:200px; overflow: auto; font-family: 'Rubik', sans-serif!important;
+    p{margin:1.25rem 0; font-family: 'Rubik', sans-serif!important; }
   }
-  .link{font-size:1rem; margin:1rem 0; display:inline-block;}
-  .snazzy-entry{border-top:$light-gray 1px solid; border-bottom:$gray 1px solid; padding:1rem 0; margin-bottom:-1px; }
-  hr{border:none; margin:0; background:$gray; height:1px; overflow: hidden; display:block; margin:0 -24px;}
+  .link{font-size:1rem; margin:1rem 0; display:inline-block; font-family: 'Rubik', sans-serif!important;}
+  .snazzy-entry{border-top:$light-gray 1px solid; border-bottom:$gray 1px solid; padding:1rem 0; margin-bottom:-1px; font-family: 'Rubik', sans-serif!important;}
+  hr{border:none; margin:0; background:$gray; height:1px; overflow: hidden; display:block; margin:0 -24px; font-family: 'Rubik', sans-serif!important;}
 
-  .tab-buttons{margin-bottom:-1rem;
-    button{appearance:none; border:$gray 1px solid; border-radius:2rem; height:2.5rem; line-height:2.5rem; padding:0 1.5rem; color:$black; text-decoration: none; background:$white;  font-size:0.875rem; margin-right:0.75rem; margin-bottom:1rem;
+  .tab-buttons{margin-bottom:-1rem; font-family: 'Rubik', sans-serif!important;
+    button{ font-family: 'Rubik', sans-serif!important; appearance:none; border:$gray 1px solid; border-radius:2rem; height:2.5rem; line-height:2.5rem; padding:0 1.5rem; color:$black; text-decoration: none; background:$white;  font-size:0.875rem; margin-right:0.75rem; margin-bottom:1rem;
       &:hover{color:$blue; border-color:$blue;}
     }
   }
@@ -678,6 +679,7 @@ a:hover .important-pill {
 .tooltip { display: flex; align-items: baseline; margin-top: 12px; margin-left: 0.5rem; }
 .tooltip:before { font-family: 'htm-icon'; content: "help_24px"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga'; color: $black;
  display: flex; align-items: center; }
+
 
 
 

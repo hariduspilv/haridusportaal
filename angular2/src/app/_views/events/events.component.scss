@@ -88,8 +88,10 @@ a h1:hover { text-decoration: underline; }
       &:first-child {border-left: none;}
       &:last-child {border-right: none;}
     }
-    td.today {background-color: $light-gray;border-right: .0625rem solid $gray;border-left: .0625rem solid $gray;
-      .cal__day {background-color: $red; border-radius: 50%;color: $white;font-weight: 300;}
+    td.today { position: relative; background-color: $light-gray;border-right: .0625rem solid $gray; border-left: .0625rem solid $gray;
+      &:after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: block; border: solid .0625rem #9b9b9b; }
+      .cal__day {background-color: $red; border-radius: 3.125rem;color: $white;font-weight: 300; width: 1.5rem; height: 1.25rem; display: flex; justify-content: center; align-items: center; 
+                  position: relative; top: -0.125rem; }
     }
   }
   .calendar__elem {padding: 0;
@@ -100,7 +102,7 @@ a h1:hover { text-decoration: underline; }
         white-space: nowrap;padding-bottom: 0;padding-top: .0625rem;
         &__strong {font-weight: 500 !important;}
         .marker {width: .4375rem;height: .4375rem;background-color:$aqua; border-radius: 50%; display: inline-block;}
-        &.active {box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);}
+        &.active {box-shadow: 0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.5);}
         &:hover {text-decoration: none;}
         &__more {display:flex; margin-left: 0; padding: 0;white-space: normal;
           &:hover {color: $blue; text-decoration: none;
