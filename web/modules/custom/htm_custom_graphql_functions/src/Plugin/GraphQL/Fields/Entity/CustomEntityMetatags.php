@@ -9,7 +9,7 @@ use Drupal\graphql_metatag\Plugin\GraphQL\Fields\Entity\EntityMetatags;
  *   id = "custom_entity_metatags",
  *   name = "entityMetatags",
  *   type = "[Metatag]",
- *   parents = {"Entity"}
+ *   parents = {"Entity"},
  *   secure = true
  * )
  */
