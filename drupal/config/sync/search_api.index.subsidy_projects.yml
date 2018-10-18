@@ -1,0 +1,133 @@
+uuid: 66cef68f-506a-4416-9393-e76303431920
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_subsidy_projects
+    - node
+    - paragraphs
+    - taxonomy
+    - search_api
+  config:
+    - field.storage.node.field_school_location
+    - field.storage.paragraph.field_school_location
+    - field.storage.paragraph.field_coordinates
+    - field.storage.node.field_ownership_type
+    - search_api.server.elasticsearch_server
+id: subsidy_projects
+name: 'Subsidy projects'
+description: ''
+read_only: false
+field_settings:
+  ehis_id:
+    label: 'EHIS id'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: ehis_id
+    type: integer
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
+  investment_amount:
+    label: 'Investment amount'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: investment_amount
+    type: integer
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
+  investment_deadline:
+    label: 'Investment deadline'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: investment_deadline
+    type: text
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
+  investment_measure:
+    label: 'Investment measure'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: investment_measure
+    type: integer
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
+  lat:
+    label: 'School entity reference » Sisu » Asukoht » Paragraph » Koordinaadid » Laiuskraad'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:field_school_location:entity:field_coordinates:lat'
+    type: string
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
+        - node
+        - paragraphs
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_coordinates
+  lon:
+    label: 'School entity reference » Sisu » Asukoht » Paragraph » Koordinaadid » Pikkuskraad'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:field_school_location:entity:field_coordinates:lon'
+    type: string
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
+        - node
+        - paragraphs
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_coordinates
+  nid:
+    label: 'School entity reference » Sisu » ID'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:nid'
+    type: integer
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
+        - node
+        - node
+  ownership_type:
+    label: 'School entity reference » Sisu » Omandivorm » Taxonomy term » Termini ID'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:field_ownership_type:entity:tid'
+    type: integer
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
+        - node
+        - taxonomy
+        - taxonomy
+      config:
+        - field.storage.node.field_ownership_type
+  school_location:
+    label: 'School entity reference » Sisu » Asukoht » Paragraph » Kooli asukoht » Taxonomy term » Termini ID'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:field_school_location:entity:field_school_location:entity:tid'
+    type: integer
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
+        - node
+        - paragraphs
+        - taxonomy
+        - taxonomy
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_school_location
+datasource_settings:
+  'entity:subsidy_project_entity':
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server
