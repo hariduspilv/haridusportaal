@@ -126,7 +126,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     });
     this.rootScope.set('langOptions', {
       'en': '/en/professions',
-      'et': '/et/pohikutsealad'
+      'et': '/et/ametialad'
     });
 
     this.watchParams();

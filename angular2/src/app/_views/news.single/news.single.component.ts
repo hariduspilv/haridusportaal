@@ -10,6 +10,7 @@ import { Apollo } from 'apollo-angular';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ImagePopupDialog} from '@app/_components/dialogs/image.popup/image.popup.dialog';
 import {VideoComponent} from '@app/_components/video/video.component';
+import { UserService } from '@app/_services/userService';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class NewsSingleComponent implements OnInit {
   private querySubscription: Subscription;  
   private path: string;
   private lang: string;
+  private userLoggedOut: boolean = false;
   
   content: any;
   unix: any;
@@ -35,7 +37,8 @@ export class NewsSingleComponent implements OnInit {
 		private newsService: NewsService,
 		private rootScope:RootScopeService, 
     private apollo: Apollo,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private user: UserService
    ) {
 
     this.route.params.subscribe( params => {
@@ -72,8 +75,11 @@ export class NewsSingleComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.route.params.subscribe( params => {
+      this.userLoggedOut = this.user.getData()['isExpired'];
+    });
   }
+
   openDialog(): void {
     let dialogRef = this.dialog.open(ImagePopupDialog, {
       data: {
