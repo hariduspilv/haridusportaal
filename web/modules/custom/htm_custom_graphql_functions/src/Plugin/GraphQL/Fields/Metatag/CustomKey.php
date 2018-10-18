@@ -8,7 +8,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 /**
  * @GraphQLField(
- *   id = "custom_metatag_key",
+ *   id = "metatag_key",
  *   name = "key",
  *   type = "String",
  *   parents = {"Metatag"},
@@ -21,7 +21,6 @@ class CustomKey extends Key {
 	 * {@inheritdoc}
 	 */
 	protected function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
-		dump('asd');
 		if (isset($value['#tag']) && $value['#tag'] === 'meta') {
 			if(isset($value['#attributes']['property'])) yield $value['#attributes']['property'];
 			if(isset($value['#attributes']['name'])) yield $value['#attributes']['name'];
