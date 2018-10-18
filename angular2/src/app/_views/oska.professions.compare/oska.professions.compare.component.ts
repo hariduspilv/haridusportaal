@@ -55,7 +55,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   setPaths() {
     this.rootScope.set('langOptions', {
       'en': '/en/professions/compare',
-      'et': '/et/pohikutsealad/vordlus'
+      'et': '/et/ametialad/vordlus'
     });
   }
   rerouteToParent(): void {

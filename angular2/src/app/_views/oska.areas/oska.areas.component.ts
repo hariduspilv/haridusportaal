@@ -40,7 +40,7 @@ export class OskaAreasComponent implements OnInit{
 
     this.viewType = "field";
 
-    if( this.router.url.match(/pohikutsealad|sectors/ ) ){
+    if( this.router.url.match(/ametialad|sectors/ ) ){
       this.viewType = "mainProfession";
       url = "/graphql?queryId=oskaMainProfessionDetailView:1&variables=";
       this.compareButton = true;

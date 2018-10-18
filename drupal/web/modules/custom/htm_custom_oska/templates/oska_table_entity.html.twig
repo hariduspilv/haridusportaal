@@ -1,0 +1,22 @@
+{#
+/**
+ * @file oska_table_entity.html.twig
+ * Default theme implementation to present Oska table entity data.
+ *
+ * This template is used when viewing Oska table entity pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_oska_table_entity()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('oska_table_entity') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

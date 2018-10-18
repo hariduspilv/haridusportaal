@@ -32,9 +32,8 @@
           <div class="col-12">
             <h1>{{ data.title }}</h1>
           </div><!--/col-8-->
-            <div class="mininav col-12 flex text-right mb-20">
-            <div class="fill"></div>
-            <favourites [id]="data.nid" [title]="data.title"></favourites>
+          <div class="mininav col-12 flex text-right">        
+            <favourites *ngIf="!userLoggedOut" [id]="data.nid" [title]="data.title"></favourites>
             <share [title]="data.entityLabel"></share>
           </div>
         </div>

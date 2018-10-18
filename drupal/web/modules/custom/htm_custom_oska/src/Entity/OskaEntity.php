@@ -331,7 +331,7 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
           ->setDisplayConfigurable('view', TRUE);
 
       $fields['year'] = BaseFieldDefinition::create('string')
-          ->setLabel(t('Year'))
+          ->setLabel(t('Period'))
           ->setSettings([
               'max_length' => 50,
               'text_processing' => 0,
