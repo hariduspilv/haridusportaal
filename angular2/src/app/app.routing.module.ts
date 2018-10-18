@@ -84,12 +84,12 @@ const appRoutes: Routes = [
     ]},
 
   { path: ':lang/professions/compare', component:OskaProfessionsCompareComponent},
-  { path: ':lang/pohikutsealad/vordlus', component:OskaProfessionsCompareComponent},
+  { path: ':lang/ametialad/vordlus', component:OskaProfessionsCompareComponent},
   { path: ':lang/valdkonnad/:id', component:OskaAreasComponent},
   { path: ':lang/professions/:id', component:OskaAreasComponent},
   { path: ':lang/professions', component:OskaProfessionsComponent},
-  { path: ':lang/pohikutsealad', component:OskaProfessionsComponent},
-  { path: ':lang/pohikutsealad/:id', component: OskaAreasComponent },
+  { path: ':lang/ametialad', component:OskaProfessionsComponent},
+  { path: ':lang/ametialad/:id', component: OskaAreasComponent },
   { path: ':lang/sectors/:id', component:OskaAreasComponent},
 
   { path: ':lang/ulduuringud/:id', component:OskaAreasComponent},

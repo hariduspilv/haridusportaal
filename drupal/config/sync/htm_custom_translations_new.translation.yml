@@ -1755,21 +1755,21 @@ month:
 oskaProfessions:
   label:
     translation_type: textarea
-    et: Põhikutsealad
+    et: Ametialad
     en: Professions
   compare_label:
     translation_type: textarea
-    et: 'Põhikutsealade võrdlus'
+    et: 'Ametialade võrdlus'
     en: 'Compare professions'
   compare_modal_title:
     translation_type: textarea
-    et: 'Põhikutsealade võrdlemine'
+    et: 'Ametialade võrdlemine'
     en: 'Compare professions'
   compare_modal_content:
     translation_type: text_format
     et:
-      value: "<p>Maksimaalne võrreldavate põhikutsealade arv on ületatud.</p>\r\n\r\n<p>Võrdlusesse saab lisada kuni 3 kutseala.</p>\r\n\r\n<p>&nbsp;</p>\r\n"
-      format: full_html
+      value: "<p>Maksimaalne võrreldavate ametialade arv on ületatud.</p>\r\n\r\n<p>Võrdlusesse saab lisada kuni 3 ametiala.</p>\r\n\r\n<p>&nbsp;</p>\r\n"
+      format: custom_editor
     en:
       value: "<p>Maximum number of professions in comparison reached.</p>\r\n\r\n<p>You can add up to 3.</p>\r\n"
       format: custom_editor
@@ -1787,7 +1787,7 @@ oskaProfessions:
     en: Indicator
   added_to_comparison:
     translation_type: textarea
-    et: 'Põhikutseala(d) lisatud võrdlusesse.'
+    et: 'Ametiala(d) lisatud võrdlusesse.'
     en: 'Professions added to comparison.'
 fieldFixedLabel:
   label:
@@ -1796,7 +1796,7 @@ fieldFixedLabel:
     en: 'Future field!'
   slogan:
     translation_type: textarea
-    et: 'Näita “Tuleviku ala!” põhikutsealasid'
+    et: 'Näita “Tuleviku ala!” ametialasid'
     en: 'Show “Future field!” professions'
 'true':
   translation_type: textarea
@@ -1817,7 +1817,7 @@ oska:
     en: Field
   title_main_profession:
     translation_type: textarea
-    et: Põhikutseala
+    et: Ametiala
     en: 'Main Profession'
 oskaProfession: {  }
 langcode: et
