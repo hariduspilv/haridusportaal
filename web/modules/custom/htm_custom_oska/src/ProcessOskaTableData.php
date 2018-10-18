@@ -4,15 +4,15 @@ namespace Drupal\htm_custom_oska;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\htm_custom_oska\Entity\OskaIndicatorEntity;
+use Drupal\htm_custom_oska\Entity\OskaTableEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\taxonomy\Entity\Term;
 
 /**
- * Class ProcessOskaIndicatorData
+ * Class ProcessOskaTableData
  * @package Drupal\htm_custom_oska
  */
-class ProcessOskaIndicatorData {
+class ProcessOskaTableData {
 
 
     /**
@@ -32,35 +32,42 @@ class ProcessOskaIndicatorData {
         #dump(self::$k['EHIS_ID']);
         $results = [];
         $object = [
-            'naitaja' => false,
-            'pohikutseala' => false,
-            'vaartus' => false,
+            'valdkond' => false,
         ];
-
         foreach ($items as $index => $item){
-            $object['naitaja'] = $item['naitaja'] != '' && is_string($item['naitaja']) ? $item['naitaja'] : FALSE;;
-            $object['pohikutseala'] = self::checkEntityReference('node', 'oska_main_profession_page', $item['pohikutseala']);
-            $object['vaartus'] = $item['vaartus'] != '' && is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
+            $object['valdkond'] = self::checkEntityReference('node', 'oska_field_page', $item['valdkond']);
+            $object['juurprobleem'] = strlen($item['juurprobleem']) <= 500 ? $item['juurprobleem'] : FALSE;
+            $object['ettepanek'] = strlen($item['ettepanek']) <= 500 ? $item['ettepanek'] : FALSE;
+            $object['peavastutaja'] = $item['peavastutaja'];
+            $object['staatus'] = $item['staatus'];
+            $object['kommentaar'] = strlen($item['kommentaar']) <= 500 ? $item['kommentaar'] : FALSE;
+
             if(
-                !$object['naitaja']
+                !$object['valdkond']
                 ||
-                !$object['pohikutseala']
+                !$object['juurprobleem']
                 ||
-                !$object['vaartus']){
+                !$object['ettepanek']
+                ||
+                !$object['kommentaar']){
 
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
                         if($value === FALSE){
-                            return t('Missing ').$key;
+                            return $key;
                         }
                     }
                 };
                 $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
             }else{
                 $results[] = [
-                    'oska_indicator' => $object['naitaja'],
-                    'oska_main_profession' => $object['pohikutseala'],
-                    'value' => $object['vaartus']
+                    'oska_field' => $object['valdkond'],
+                    'problem_description' => $object['juurprobleem'],
+                    'proposal' => $object['ettepanek'],
+                    'responsible' => $object['peavastutaja'],
+                    'proposal_status' => $object['staatus'],
+                    'expert_commentary' => $object['kommentaar'],
+
                 ];
             }
         }
@@ -69,7 +76,7 @@ class ProcessOskaIndicatorData {
         $context['results']['values'] = $results;
     }
 
-    public static function ProcessOskaIndicatorData($items, &$context){
+    public static function ProcessOskaTableData($items, &$context){
         //process only if no errors otherwise nothing
         if(empty($context['results']['error'])){
             if(empty($context['sandbox'])){
@@ -88,7 +95,7 @@ class ProcessOskaIndicatorData {
                     // do something
                     $values = $context['results']['values'][$i];
                     if($values){
-                        $entity = OskaIndicatorEntity::create($values);
+                        $entity = OskaTableEntity::create($values);
                     }
 
                     $entity->save();
@@ -111,7 +118,7 @@ class ProcessOskaIndicatorData {
         }
     }
 
-    public static function ProcessOskaIndicatorDataFinishedCallback($success, $results, $operations){
+    public static function ProcessOskaTableDataFinishedCallback($success, $results, $operations){
         // The 'success' parameter means no fatal PHP errors were detected. All
         // other error management should be handled using 'results'.
         if ($success) {
@@ -120,7 +127,7 @@ class ProcessOskaIndicatorData {
             }else{
                 $message = [\Drupal::translation()->formatPlural(
                     count($results['processed']),
-                    'One oska indicator processed.', '@count oska indicators processed.'
+                    'One oska table item processed.', '@count oska table items processed.'
                 ), 'status'];
             }
         }
@@ -145,8 +152,8 @@ class ProcessOskaIndicatorData {
     }
 
     private function deleteAllEntities(){
-        $ids = \Drupal::entityQuery('oska_indicator_entity')->execute();
-        $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_indicator_entity');
+        $ids = \Drupal::entityQuery('oska_table_entity')->execute();
+        $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_table_entity');
         $entities = $storage_handler->loadMultiple($ids);
         $storage_handler->delete($entities);
     }

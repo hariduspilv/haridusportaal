@@ -20,7 +20,8 @@ class Key extends FieldPluginBase {
    * {@inheritdoc}
    */
   protected function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
-    if (isset($value['#tag']) && $value['#tag'] === 'meta') {
+    dump('dsa');
+	if (isset($value['#tag']) && $value['#tag'] === 'meta') {
       yield isset($value['#attributes']['property']) ? $value['#attributes']['property'] : $value['#attributes']['name'];
     }
     else if (isset($value['#tag']) && $value['#tag'] === 'link') {
