@@ -44,7 +44,9 @@ a h1:hover { text-decoration: underline; }
     }
     &__datetime {padding: $small $medium 0 $medium;min-width: 4.5rem;
       .day {font-size: .875rem;line-height: 2.29;}
-      .date {font-size: $medium;line-height: 1.33;font-weight: 500;}
+      .date {font-size: $medium;line-height: 1.33;font-weight: 500; 
+        @include break-on(sm, max) { font-size: .875rem; }
+      }
       &.highlighted {color: $red;}
     }
     &__separator {position: relative;top: .625rem;
@@ -59,6 +61,7 @@ a h1:hover { text-decoration: underline; }
       background-color: $aqua;font-size: .875rem;line-height: 1.125rem;color: $blue;
       h1 {font-weight: 500;
         @include break-on(sm, min) {font-size: 1.5rem; color: $blue; padding-bottom: $gutter;line-height:1.33;}
+        @include break-on(sm, max) {font-size: 0.875rem;}
       }
       @include break-on(sm, min) {color: $dark-gray;background-color: $white;border-radius: 0;
         border-bottom: .0625rem solid $gray;padding: $gutter $small $medium 0;margin: 0 0 $small 9.25rem;
@@ -176,7 +179,6 @@ a h1:hover { text-decoration: underline; }
       ::ng-deep .mat-calendar-table-header {color: $dark-gray;}
 
       .btn-hidden {
-        visibiliy: hidden;
         position: absolute;
         top: 0px;
         right: 0px;
@@ -204,3 +206,5 @@ a h1:hover { text-decoration: underline; }
      .title__strong {
       font-size: 1.25rem; font-weight: 500; line-height: 1.5; letter-spacing: normal; text-align: left; color: $black;
     }
+
+    

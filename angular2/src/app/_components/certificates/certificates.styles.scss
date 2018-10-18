@@ -107,7 +107,7 @@ h4.title-lg-padding { margin-bottom: 1rem; }
   &-box { display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-between; margin-right: -1rem; }
   &-item { text-decoration: none; text-align: center; padding: 1rem 0.5rem; border-radius: 0.25rem; border: solid 1px $gray; background-color: $white;
     color: $blue; font-weight: 500; font-size: 0.875rem; flex: 0; margin-right: 1rem; margin-bottom: 1rem;
-    display: flex; flex-basis: calc(50% - 34px); justify-content: center; flex-direction: column;
+    display: flex; flex-basis: calc(50% - 2.125rem); justify-content: center; flex-direction: column;
     @include break-on(xxs, max) { flex-basis: 100%; }
     &:hover { text-decoration: underline; box-shadow: 0 0.125rem 0.25rem 0 rgba(117, 117, 117, 0.5); border: solid 1px $gray; cursor: pointer; text-decoration: underline; }
     &:visited { 

@@ -11,8 +11,7 @@ use GraphQL\Type\Definition\ResolveInfo;
  *   id = "custom_metatag_key",
  *   name = "key",
  *   type = "String",
- *   parents = {"Metatag"},
- *   secure = true
+ *   parents = {"Metatag"}
  * )
  */
 class Key extends FieldPluginBase {
