@@ -98,6 +98,7 @@ class OskaGraphWidgetType extends WidgetBase {
                         '#title' => $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString()),
                         '#type' => 'entity_autocomplete',
                         '#target_type' => 'taxonomy_term',
+                        '#description' => $this->t('Enter multiple options by separating them with a comma.'),
                         '#tags' => TRUE,
                         '#selection_settings' => [
                             'target_bundles' => $selection
