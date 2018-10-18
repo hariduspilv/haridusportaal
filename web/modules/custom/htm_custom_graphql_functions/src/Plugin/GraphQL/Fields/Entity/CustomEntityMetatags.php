@@ -3,6 +3,7 @@
 namespace Drupal\htm_custom_graphql_functions\Plugin\GraphQL\Fields\Entity;
 
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
+use Drupal\graphql_metatag\Plugin\GraphQL\Fields\Entity\EntityMetatags;
 
 /**
  * @GraphQLField(
@@ -13,6 +14,6 @@ use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
  *   secure = true
  * )
  */
-class CustomEntityMetatags extends FieldPluginBase {
+class CustomEntityMetatags extends EntityMetatags {
 
 }
