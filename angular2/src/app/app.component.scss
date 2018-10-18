@@ -168,7 +168,12 @@ $grid-columns: 12;
   }
 }
 
-.flex.mininav {padding-right: 1rem; min-height: 3rem;}
+.flex.mininav {line-height: 2;flex-wrap: wrap;min-height: 3.0625rem;align-items: center;
+  & > * {height: 1.5rem;padding-right: 1rem;}
+  .important-pill{height: 1.125rem;top: 0;margin-left: 0;}
+  share {padding-right: .5rem;margin-left: -.75rem;}
+  @include break-on(sm, max) {white-space: nowrap;}
+}
 
 .grow {flex-grow: 1;}
 .wrap {@include break-on(sm, max) {flex-wrap: wrap;}
@@ -336,7 +341,7 @@ $grid-columns: 12;
       }
       @include break-on(sm, min) {right: $small;}
     }
-    &.padded {padding: 0;}
+    &.padded {padding: 0;padding-top: 1rem;}
   }
 
   .tags { padding: $small $medium;
@@ -663,12 +668,6 @@ a:hover .important-pill {
 .important-pill { 
   font-size: 0.875rem; line-height: 1.29; color: $black; border-radius: 0.78125rem; background-color: $light-orange; padding: 0.25rem 0.75rem 0.25rem;
   font-weight: normal; margin-left: 1rem; pointer-events: none; text-decoration: none; display: inline-block; top: -0.25rem; position: relative;
-}
-
-.mininav .important-pill{
-  height: 1.125rem;
-  top: 0;
-  margin-left: 2rem;
 }
 
 .tooltip { display: flex; align-items: baseline; margin-top: 12px; margin-left: 0.5rem; }
