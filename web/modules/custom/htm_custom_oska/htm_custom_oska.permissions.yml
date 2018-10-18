@@ -56,3 +56,23 @@ revert all oska indicator entity revisions:
 delete all oska indicator entity revisions:
   title: 'Delete all revisions'
   description: 'Role requires permission to <em>view Oska indicator entity revisions</em> and <em>delete rights</em> for oska indicator entity entities in question or <em>administer oska indicator entity entities</em>.'
+
+add oska table entity entities:
+  title: 'Create new Oska table entity entities'
+
+administer oska table entity entities:
+  title: 'Administer Oska table entity entities'
+  description: 'Allow to access the administration form to configure Oska table entity entities.'
+  restrict access: true
+
+delete oska table entity entities:
+  title: 'Delete Oska table entity entities'
+
+edit oska table entity entities:
+  title: 'Edit Oska table entity entities'
+
+view published oska table entity entities:
+  title: 'View published Oska table entity entities'
+
+view unpublished oska table entity entities:
+  title: 'View unpublished Oska table entity entities'
