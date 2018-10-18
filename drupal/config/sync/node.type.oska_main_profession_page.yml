@@ -21,7 +21,7 @@ third_party_settings:
     unpublish_enable: false
     unpublish_required: false
     unpublish_revision: false
-name: 'OSKA Main Profession Page'
+name: 'Sisuleht OSKA Ametiala'
 type: oska_main_profession_page
 description: ''
 help: ''
