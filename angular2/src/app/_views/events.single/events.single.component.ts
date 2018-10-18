@@ -16,6 +16,7 @@ import { TableService } from '@app/_services/tableService';
 import { SettingsService } from '@app/_core/settings';
 import { HttpService } from '@app/_services/httpService';
 import * as _moment from 'moment';
+import { UserService } from '@app/_services/userService';
 
 const moment = _moment;
 
@@ -43,6 +44,7 @@ export class EventsSingleComponent implements AfterViewChecked {
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
   initialized: boolean = false;
+  userLoggedOut: boolean = false;
 
   content: any;
   unix: any;
@@ -61,7 +63,8 @@ export class EventsSingleComponent implements AfterViewChecked {
     private translate: TranslateService,
     private settings: SettingsService,
     private tableService: TableService,
-    private http: HttpService
+    private http: HttpService,
+    private user: UserService
   ) {
     this.participantsUrl = this.settings.url+"/htm_custom_event_registration/registrations/";
   }
@@ -86,6 +89,8 @@ export class EventsSingleComponent implements AfterViewChecked {
       let variables = {
         path: path
       };
+
+      this.userLoggedOut = this.user.getData()['isExpired'];
 
       let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
         let data = response['data'];
@@ -218,7 +223,7 @@ export class EventsSingleComponent implements AfterViewChecked {
   revertParticipantsListState() {
     location.hash = ''
   }
-  
+
   openImage(): void {
     let dialogRef = this.dialog.open(ImagePopupDialog, {
       data: {

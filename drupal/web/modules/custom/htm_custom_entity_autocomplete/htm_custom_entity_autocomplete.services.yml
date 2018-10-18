@@ -1,0 +1,10 @@
+services:
+
+  htm_custom_entity_autocomplete.route_subscriber:
+    class: Drupal\htm_custom_entity_autocomplete\Routing\AutocompleteRouteSubscriber
+    tags:
+    - { name: event_subscriber }
+
+  htm_custom_entity_autocomplete.autocomplete_matcher:
+    class: Drupal\htm_custom_entity_autocomplete\EntityAutocompleteMatcher
+    arguments: ['@plugin.manager.entity_reference_selection']

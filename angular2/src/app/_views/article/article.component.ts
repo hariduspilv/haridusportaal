@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 import {VideoComponent} from '@app/_components/video/video.component';
 import { HttpService } from '@app/_services/httpService';
+import { UserService } from '@app/_services/userService';
 
 @Component({
   templateUrl: './article.component.html',
@@ -23,6 +24,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
   private querySubscription: Subscription;  
   private path: string;
   private lang: string;
+  private userLoggedOut: boolean = false;
   
   content: any;
   error: boolean;
@@ -51,7 +53,8 @@ export class ArticleComponent implements OnInit, OnDestroy{
     private route: ActivatedRoute,
     private rootScope: RootScopeService,
     private apollo: Apollo,
-    private http: HttpService
+    private http: HttpService,
+    private user: UserService
     ) {}
   
   ngOnInit() {
@@ -66,6 +69,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
 
         this.querySubscription = this.http.get(url+JSON.stringify(variables))
         .subscribe( (response) => {
+          this.userLoggedOut = this.user.getData()['isExpired'];
           let data = response['data'];
           //language service
           const langOptions = data['route']['languageSwitchLinks'];

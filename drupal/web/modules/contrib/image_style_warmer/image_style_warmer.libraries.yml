@@ -1,5 +1,0 @@
-image_style_warmer.admin:
-  version: VERSION
-  css:
-    component:
-      css/image_style_warmer.admin.css: {}

@@ -1,0 +1,18 @@
+uuid: b1e36e72-1ba0-43a2-9953-7bbb066d7061
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.qualificationstandardid
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: false
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: taxonomy_term.qualificationstandardid
+target_entity_type_id: taxonomy_term
+target_bundle: qualificationstandardid
+default_langcode: site_default
+language_alterable: false

@@ -10,6 +10,8 @@ use Drupal\memcache\Driver\MemcacheDriverFactory;
 class MemcacheTimestampInvalidator extends TimestampInvalidatorBase {
 
   /**
+   * A Memcache object.
+   *
    * @var \Drupal\memcache\DrupalMemcacheInterface
    */
   protected $memcache;
@@ -17,9 +19,12 @@ class MemcacheTimestampInvalidator extends TimestampInvalidatorBase {
   /**
    * MemcacheTimestampInvalidator constructor.
    *
-   * @param MemcacheDriverFactory $memcache_factory
-   * @param string $bin Memcache bin to store the timestamps in.
-   * @param float $tolerance Allowed clock skew between servers, in decimal seconds.
+   * @param \Drupal\memcache\Driver\MemcacheDriverFactory $memcache_factory
+   *   Factory class for creation of Memcache objects.
+   * @param string $bin
+   *   Memcache bin to store the timestamps in.
+   * @param float $tolerance
+   *   Allowed clock skew between servers, in decimal seconds.
    */
   public function __construct(MemcacheDriverFactory $memcache_factory, $bin, $tolerance = 0.001) {
     parent::__construct($tolerance);
@@ -43,7 +48,7 @@ class MemcacheTimestampInvalidator extends TimestampInvalidatorBase {
   /**
    * {@inheritdoc}
    */
-  public function getLastInvalidationTimestamps($tags) {
+  public function getLastInvalidationTimestamps(array $tags) {
     return $this->memcache->getMulti($tags);
   }
 
@@ -53,4 +58,5 @@ class MemcacheTimestampInvalidator extends TimestampInvalidatorBase {
   protected function writeTimestamp($tag, $timestamp) {
     return $this->memcache->set($tag, $timestamp);
   }
+
 }

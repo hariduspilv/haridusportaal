@@ -1,0 +1,18 @@
+uuid: 9e537d79-5fd5-4f9c-8ec7-67da470853a7
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.admissionstatus
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: taxonomy_term.admissionstatus
+target_entity_type_id: taxonomy_term
+target_bundle: admissionstatus
+default_langcode: site_default
+language_alterable: false

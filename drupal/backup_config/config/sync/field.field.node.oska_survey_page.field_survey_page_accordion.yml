@@ -1,0 +1,76 @@
+uuid: 44d8370c-3156-483e-9896-42cb6f2532ed
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_survey_page_accordion
+    - node.type.oska_survey_page
+    - paragraphs.paragraphs_type.survey_page_accordion
+  module:
+    - entity_reference_revisions
+id: node.oska_survey_page.field_survey_page_accordion
+field_name: field_survey_page_accordion
+entity_type: node
+bundle: oska_survey_page
+label: Alamosa
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      survey_page_accordion: survey_page_accordion
+    target_bundles_drag_drop:
+      survey_page_accordion:
+        enabled: true
+        weight: 17
+      accordion:
+        weight: 18
+        enabled: false
+      additional_section:
+        weight: 19
+        enabled: false
+      contact_section:
+        weight: 20
+        enabled: false
+      event_date:
+        weight: 21
+        enabled: false
+      favorite_item:
+        weight: 22
+        enabled: false
+      homepage_topics:
+        weight: 23
+        enabled: false
+      iscedf_search:
+        weight: 24
+        enabled: false
+      job:
+        weight: 25
+        enabled: false
+      link:
+        weight: 26
+        enabled: false
+      main_profession_accordion:
+        weight: 27
+        enabled: false
+      main_profession_sidebar:
+        weight: 28
+        enabled: false
+      oska_field_sidebar:
+        weight: 29
+        enabled: false
+      registration_period:
+        weight: 30
+        enabled: false
+      right_sidebar_section_info:
+        weight: 31
+        enabled: false
+      school_location:
+        weight: 32
+        enabled: false
+field_type: entity_reference_revisions

@@ -1,0 +1,20 @@
+uuid: 664e3319-f0d0-4cc2-acff-099f07645ad8
+langcode: et
+status: true
+dependencies:
+  theme:
+    - seven
+_core:
+  default_config_hash: HHryZVJbeKi9WnuBGC8FOhBZmBnk2G1H6KxFuy-rC9A
+id: seven_local_actions
+theme: seven
+region: content
+weight: -10
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Peamised administraatori toimingud'
+  provider: core
+  label_display: '0'
+visibility: {  }

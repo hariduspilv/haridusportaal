@@ -1,0 +1,18 @@
+uuid: cd840fcb-070c-4fcd-94ea-815667198e2f
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.main_profession_accordion
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: paragraph.main_profession_accordion
+target_entity_type_id: paragraph
+target_bundle: main_profession_accordion
+default_langcode: current_interface
+language_alterable: true

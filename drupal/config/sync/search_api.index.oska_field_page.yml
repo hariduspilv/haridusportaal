@@ -1,0 +1,167 @@
+uuid: 8287e370-d803-4cb1-b0b3-a1b286de0936
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_oska_field_accordion
+    - field.storage.paragraph.field_title
+    - field.storage.paragraph.field_body
+    - field.storage.node.body
+    - field.storage.node.field_introduction
+    - field.storage.node.field_oska_field_sidebar
+    - field.storage.paragraph.field_oska_main_profession
+    - field.storage.paragraph.field_oska_field_cons
+    - field.storage.paragraph.field_oska_field_pros
+    - search_api.server.elasticsearch_server
+  module:
+    - paragraphs
+    - node
+    - search_api
+id: oska_field_page
+name: 'OSKA Field Page'
+description: ''
+read_only: false
+field_settings:
+  content_type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
+  field_accordion_body:
+    label: 'Accordion » Paragraph » Sisu'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_accordion:entity:field_body'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_accordion
+        - field.storage.paragraph.field_body
+      module:
+        - paragraphs
+  field_accordion_title:
+    label: 'Accordion » Paragraph » Pealkiri'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_accordion:entity:field_title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_accordion
+        - field.storage.paragraph.field_title
+      module:
+        - paragraphs
+  field_body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_body_summary:
+    label: Introduction
+    datasource_id: 'entity:node'
+    property_path: field_introduction
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_introduction
+  field_cons:
+    label: 'Parem veerg » Paragraph » Cons'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_sidebar:entity:field_oska_field_cons'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_oska_field_cons
+      module:
+        - paragraphs
+  field_oska_main_profession:
+    label: 'Parem veerg » Paragraph » Ametialad'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_sidebar:entity:field_oska_main_profession'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_oska_main_profession
+      module:
+        - paragraphs
+  field_pros:
+    label: 'Parem veerg » Paragraph » Pros'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_sidebar:entity:field_oska_field_pros'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_oska_field_pros
+      module:
+        - paragraphs
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
+    dependencies:
+      module:
+        - node
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  status:
+    label: Avaldatud
+    datasource_id: 'entity:node'
+    property_path: status
+    type: integer
+    dependencies:
+      module:
+        - node
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - node
+  uid:
+    label: Autor
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - oska_field_page
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

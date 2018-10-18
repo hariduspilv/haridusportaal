@@ -1,0 +1,22 @@
+uuid: 64ee11a0-358d-4613-b2b1-b870b9006272
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.avaleht
+  module:
+    - text
+id: node.avaleht.body
+field_name: body
+entity_type: node
+bundle: avaleht
+label: Sisu
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary

@@ -1,0 +1,20 @@
+uuid: 8558ff5b-c3da-453a-b032-295fd4ada6cc
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_practical_training_amount
+field_name: field_practical_training_amount
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

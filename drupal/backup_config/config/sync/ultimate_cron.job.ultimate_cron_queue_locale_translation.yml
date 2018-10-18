@@ -1,0 +1,20 @@
+uuid: 56865e75-6090-403c-8521-3dd8c1459b88
+langcode: et
+status: true
+dependencies:
+  module:
+    - locale
+title: 'Queue: Uuenda tõlkeid'
+id: ultimate_cron_queue_locale_translation
+weight: 10
+module: locale
+callback: 'ultimate_cron.queue_worker:queueCallback'
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '* * * * *'
+launcher:
+  id: serial
+logger:
+  id: database

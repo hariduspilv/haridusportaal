@@ -1,0 +1,23 @@
+uuid: 7f3b2fe1-9352-4052-9f94-61a9bd5f6a0b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_metatags
+    - node.type.study_programme
+  module:
+    - metatag
+id: node.study_programme.field_metatags
+field_name: field_metatags
+entity_type: node
+bundle: study_programme
+label: Metatags
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 'a:0:{}'
+default_value_callback: ''
+settings: {  }
+field_type: metatag

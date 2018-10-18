@@ -1,0 +1,21 @@
+uuid: 9881915f-2577-4643-8ac7-24b08cd4121f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_search
+    - paragraphs.paragraphs_type.favorite_item
+_core:
+  default_config_hash: nhzXWogvvJe7j54QtbpOrRy0wsi3JzPfmca-xSYsWjA
+id: paragraph.favorite_item.field_search
+field_name: field_search
+entity_type: paragraph
+bundle: favorite_item
+label: 'Search parameters'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

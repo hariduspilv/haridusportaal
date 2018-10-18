@@ -1,10 +1,4 @@
 @import "../../../assets/styles/typography.scss";
-:host{
-  .favourites{
-    &__wrapper{display:inline-block; width:2rem;}
-    &__dropdown{display: block; width: 10rem;}
-  }
-}
 
 .favourites__wrapper { position: relative; z-index: 2; cursor: pointer;
  .favourites__dropdown { position: absolute; background: white; padding: 1rem 1.5rem 1.5rem 1.5rem; border-top: .5rem solid #d5401a; width: 14rem;

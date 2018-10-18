@@ -1,0 +1,18 @@
+uuid: bdbbcae9-953a-4b05-b63c-d557f4096efa
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_field
+id: taxonomy_term.oska_field.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: oska_field
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

@@ -1,13 +1,13 @@
-uuid: 5420f359-644f-4850-af07-e7b9474513dd
+uuid: 66cef68f-506a-4416-9393-e76303431920
 langcode: et
 status: true
 dependencies:
   module:
+    - htm_custom_subsidy_projects
     - node
     - paragraphs
     - taxonomy
     - search_api
-    - htm_custom_subsidy_projects
   config:
     - field.storage.node.field_school_location
     - field.storage.paragraph.field_school_location
@@ -24,21 +24,33 @@ field_settings:
     datasource_id: 'entity:subsidy_project_entity'
     property_path: ehis_id
     type: integer
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
   investment_amount:
     label: 'Investment amount'
     datasource_id: 'entity:subsidy_project_entity'
     property_path: investment_amount
     type: integer
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
   investment_deadline:
     label: 'Investment deadline'
     datasource_id: 'entity:subsidy_project_entity'
     property_path: investment_deadline
     type: text
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
   investment_measure:
     label: 'Investment measure'
     datasource_id: 'entity:subsidy_project_entity'
     property_path: investment_measure
     type: integer
+    dependencies:
+      module:
+        - htm_custom_subsidy_projects
   lat:
     label: 'School entity reference » Sisu » Asukoht » Paragraph » Koordinaadid » Laiuskraad'
     datasource_id: 'entity:subsidy_project_entity'
@@ -46,6 +58,7 @@ field_settings:
     type: string
     dependencies:
       module:
+        - htm_custom_subsidy_projects
         - node
         - paragraphs
       config:
@@ -58,6 +71,7 @@ field_settings:
     type: string
     dependencies:
       module:
+        - htm_custom_subsidy_projects
         - node
         - paragraphs
       config:
@@ -70,6 +84,8 @@ field_settings:
     type: integer
     dependencies:
       module:
+        - htm_custom_subsidy_projects
+        - node
         - node
   ownership_type:
     label: 'School entity reference » Sisu » Omandivorm » Taxonomy term » Termini ID'
@@ -78,7 +94,9 @@ field_settings:
     type: integer
     dependencies:
       module:
+        - htm_custom_subsidy_projects
         - node
+        - taxonomy
         - taxonomy
       config:
         - field.storage.node.field_ownership_type
@@ -89,8 +107,10 @@ field_settings:
     type: integer
     dependencies:
       module:
+        - htm_custom_subsidy_projects
         - node
         - paragraphs
+        - taxonomy
         - taxonomy
       config:
         - field.storage.node.field_school_location

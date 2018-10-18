@@ -1,0 +1,21 @@
+uuid: 35dd85d3-7db4-4242-b4a7-334c3884ce9a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - node.type.article
+  module:
+    - text
+id: node.article.field_body
+field_name: field_body
+entity_type: node
+bundle: article
+label: Sisu
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

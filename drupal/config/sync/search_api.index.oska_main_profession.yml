@@ -4,27 +4,109 @@ status: true
 dependencies:
   module:
     - node
+    - paragraphs
     - search_api
   config:
     - field.storage.node.field_fixed_label
+    - field.storage.node.field_introduction
+    - field.storage.node.field_main_profession_accordion
+    - field.storage.paragraph.field_title
+    - field.storage.paragraph.field_body
+    - field.storage.node.field_sidebar
+    - field.storage.paragraph.field_jobs
+    - field.storage.paragraph.field_job_name
+    - field.storage.paragraph.field_oska_field
+    - field.storage.node.body
     - search_api.server.elasticsearch_server
 id: oska_main_profession
 name: 'OSKA Main Profession'
 description: ''
 read_only: false
 field_settings:
+  content_type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
   entity_path:
     label: URI
     property_path: search_api_url
     type: string
+  field_accordion_body:
+    label: 'Main Profession Accordion » Paragraph » Sisu'
+    datasource_id: 'entity:node'
+    property_path: 'field_main_profession_accordion:entity:field_body'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_main_profession_accordion
+        - field.storage.paragraph.field_body
+      module:
+        - paragraphs
+  field_accordion_title:
+    label: 'Main Profession Accordion » Paragraph » Pealkiri'
+    datasource_id: 'entity:node'
+    property_path: 'field_main_profession_accordion:entity:field_title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_main_profession_accordion
+        - field.storage.paragraph.field_title
+      module:
+        - paragraphs
+  field_body:
+    label: Sisu
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_body_summary:
+    label: Introduction
+    datasource_id: 'entity:node'
+    property_path: field_introduction
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_introduction
   field_fixed_label:
     label: 'Fixed Label'
     datasource_id: 'entity:node'
     property_path: field_fixed_label
-    type: boolean
+    type: integer
     dependencies:
       config:
         - field.storage.node.field_fixed_label
+  field_job_name:
+    label: 'Sidebar » Paragraph » Näidisametid » Paragraph » Ameti nimetus'
+    datasource_id: 'entity:node'
+    property_path: 'field_sidebar:entity:field_jobs:entity:field_job_name'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_sidebar
+        - field.storage.paragraph.field_jobs
+        - field.storage.paragraph.field_job_name
+      module:
+        - paragraphs
+        - paragraphs
+  field_oska_field:
+    label: 'Sidebar » Paragraph » OSKA Field » Sisu » Pealkiri'
+    datasource_id: 'entity:node'
+    property_path: 'field_sidebar:entity:field_oska_field:entity:title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_sidebar
+        - field.storage.paragraph.field_oska_field
+      module:
+        - paragraphs
+        - node
+        - node
   langcode:
     label: Keel
     datasource_id: 'entity:node'
@@ -45,7 +127,7 @@ field_settings:
     label: Avaldatud
     datasource_id: 'entity:node'
     property_path: status
-    type: boolean
+    type: integer
     dependencies:
       module:
         - node

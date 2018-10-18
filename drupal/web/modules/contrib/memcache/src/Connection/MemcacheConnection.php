@@ -2,8 +2,9 @@
 
 namespace Drupal\memcache\Connection;
 
-use Drupal\memcache\Connection\MemcacheConnectionInterface;
-
+/**
+ * Class MemcacheConnection.
+ */
 class MemcacheConnection implements MemcacheConnectionInterface {
 
   /**
@@ -21,7 +22,7 @@ class MemcacheConnection implements MemcacheConnectionInterface {
   }
 
   /**
-   * @{@inheritdoc}
+   * {@inheritdoc}
    */
   public function addServer($server_path, $persistent = FALSE) {
     list($host, $port) = explode(':', $server_path);
@@ -57,10 +58,16 @@ class MemcacheConnection implements MemcacheConnectionInterface {
    * Connects to a memcache server.
    *
    * @param string $host
+   *   The server path without port.
    * @param int $port
+   *   The server port.
    * @param bool $persistent
+   *   Whether this server connection is persistent or not.
    *
-   * @return bool|mixed
+   * @return \Memcache|bool
+   *   A Memcache object for a successful persistent connection. TRUE for a
+   *   successful non-persistent connection. FALSE when the server fails to
+   *   connect.
    */
   protected function connect($host, $port, $persistent) {
     if ($persistent) {

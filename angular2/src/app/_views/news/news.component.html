@@ -4,7 +4,7 @@
     <a href="javascript:void(0);" (click)="showFilter = !showFilter">
       <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
       <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
-    </a> 
+    </a>  
   </div>
   <form (submit)="filterSubmit($event)" class="filter-wrapper" *ngIf="showFilter">
     <div class="main-container">
@@ -118,7 +118,7 @@
       <div *ngFor="let item of list" class="news-item pointer" [routerLink]="[item.entityUrl.path]">
         <mat-card>
           <mat-card-content>
-            <div class="row">
+            <div class="row news-row">
               <div class="col-8 sm-hide">
                 <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }} </h1></a></div>
                 

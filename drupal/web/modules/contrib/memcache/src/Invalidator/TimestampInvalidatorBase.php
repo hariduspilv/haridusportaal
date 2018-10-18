@@ -3,7 +3,7 @@
 namespace Drupal\memcache\Invalidator;
 
 /**
- * Class TimestampInvalidatorBase
+ * Class TimestampInvalidatorBase.
  *
  * Base class for timestamp-based tag invalidation.
  *
@@ -12,30 +12,34 @@ namespace Drupal\memcache\Invalidator;
 abstract class TimestampInvalidatorBase implements TimestampInvalidatorInterface {
 
   /**
-   * @var float Allowed timestamp slop.
+   * Allowed timestamp slop.
+   *
+   * @var float
    */
   protected $tolerance;
 
   /**
    * TimestampInvalidatorBase constructor.
    *
-   * @param float $tolerance Allowed clock skew between servers, in decimal seconds.
+   * @param float $tolerance
+   *   Allowed clock skew between servers, in decimal seconds.
    */
-  function __construct($tolerance = 0.001) {
+  public function __construct($tolerance = 0.001) {
     $this->tolerance = $tolerance;
   }
 
   /**
    * Mark a tag as outdated.
    *
-   * @param $tag string Tag to mark as outdated.
+   * @param string $tag
+   *   Tag to mark as outdated.
    *
-   * @return float New timestamp for tag.
+   * @return float
+   *   New timestamp for tag.
    */
   protected function markAsOutdated($tag) {
     $now = $this->getCurrentTimestamp($this->tolerance);
-    $current = $this
-      ->getLastInvalidationTimestamp($tag);
+    $current = $this->getLastInvalidationTimestamp($tag);
     if ($now > $current) {
       $this->writeTimestamp($tag, $now);
       return $now;
@@ -50,8 +54,8 @@ abstract class TimestampInvalidatorBase implements TimestampInvalidatorInterface
    */
   public function getCurrentTimestamp($offset = 0.0) {
     // @todo Eventually we might want to use a time service instead of microtime().
-    // Unfortunately, TimeInterface needs a request object and we don't have that
-    // in the bootstrap container.
+    // Unfortunately, TimeInterface needs a request object and we don't have
+    // that in the bootstrap container.
     return round(microtime(TRUE) + $offset, 3);
   }
 
@@ -63,15 +67,19 @@ abstract class TimestampInvalidatorBase implements TimestampInvalidatorInterface
   /**
    * {@inheritdoc}
    */
-  abstract public function getLastInvalidationTimestamps($tags);
+  abstract public function getLastInvalidationTimestamps(array $tags);
 
   /**
    * Write an updated timestamp for a tag to the backend.
    *
-   * @param $tag string Tag to write.
-   * @param $timestamp float New timestamp to write.
+   * @param string $tag
+   *   Tag to write.
+   * @param float $timestamp
+   *   New timestamp to write.
    *
-   * @return bool Success or failure from backend.
+   * @return bool
+   *   Success or failure from backend.
    */
   abstract protected function writeTimestamp($tag, $timestamp);
+
 }

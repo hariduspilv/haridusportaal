@@ -1,0 +1,31 @@
+uuid: 76a00b7b-4e13-4c2e-9615-a101629addd8
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.educational_institution_type.field_ehis_output
+    - taxonomy.vocabulary.educational_institution_type
+  module:
+    - text
+id: taxonomy_term.educational_institution_type.default
+targetEntityType: taxonomy_term
+bundle: educational_institution_type
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ehis_output:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  langcode: true

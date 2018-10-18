@@ -1,0 +1,19 @@
+uuid: c17b911a-7db2-46b5-b715-fe27a335d99c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_additional_body
+    - paragraphs.paragraphs_type.additional_section
+id: paragraph.additional_section.field_additional_body
+field_name: field_additional_body
+entity_type: paragraph
+bundle: additional_section
+label: 'Parema veeru lisainfo plokk'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

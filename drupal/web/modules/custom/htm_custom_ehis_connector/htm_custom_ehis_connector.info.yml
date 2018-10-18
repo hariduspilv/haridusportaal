@@ -1,5 +1,5 @@
-name: 'HTM custom SOMETHING module'
+name: 'HTM custom EHIS connector'
 type: module
-description: 'My Awesome Module'
+description: 'Service for EHIS'
 core: 8.x
-package: 'Custom'
+package: 'HTM'

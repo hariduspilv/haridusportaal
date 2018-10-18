@@ -1,0 +1,19 @@
+uuid: 0a217f80-7c9c-4844-8c13-bb8bc5b1b061
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_iscedf_search_text
+field_name: field_iscedf_search_text
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

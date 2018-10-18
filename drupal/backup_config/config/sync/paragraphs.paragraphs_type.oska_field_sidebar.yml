@@ -1,0 +1,9 @@
+uuid: ab5bb0e8-f42d-442a-8f97-9b16714a33e2
+langcode: et
+status: true
+dependencies: {  }
+id: oska_field_sidebar
+label: 'OSKA Field Sidebar'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

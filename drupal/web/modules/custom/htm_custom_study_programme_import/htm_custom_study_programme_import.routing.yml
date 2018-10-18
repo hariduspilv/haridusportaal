@@ -1,0 +1,8 @@
+
+htm_custom_study_programme_import.study_programme_controller_import:
+  path: '/htm_custom_study_programme_import/import'
+  defaults:
+    _controller: '\Drupal\htm_custom_study_programme_import\Controller\StudyProgrammeController::import'
+    _title: 'import'
+  requirements:
+    _permission: 'access content'

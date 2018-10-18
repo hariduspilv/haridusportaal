@@ -1,0 +1,122 @@
+uuid: 75b6fd6f-4c18-4aee-a0fc-fc08d9d582d8
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_survey_page_accordion
+    - field.storage.paragraph.field_survey_accordion_content
+    - field.storage.paragraph.field_survey_accordion_title
+    - field.storage.node.field_survey_page_introduction
+    - field.storage.node.body
+    - search_api.server.elasticsearch_server
+  module:
+    - paragraphs
+    - node
+    - search_api
+id: oska_survey_page
+name: 'OSKA Survey Page'
+description: ''
+read_only: false
+field_settings:
+  body:
+    label: Sisu
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  content_type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
+  field_accordion_body:
+    label: 'Alamosa » Paragraph » Sisu'
+    datasource_id: 'entity:node'
+    property_path: 'field_survey_page_accordion:entity:field_survey_accordion_content'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_survey_page_accordion
+        - field.storage.paragraph.field_survey_accordion_content
+      module:
+        - paragraphs
+  field_accordion_title:
+    label: 'Alamosa » Paragraph » Survey accordion title'
+    datasource_id: 'entity:node'
+    property_path: 'field_survey_page_accordion:entity:field_survey_accordion_title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_survey_page_accordion
+        - field.storage.paragraph.field_survey_accordion_title
+      module:
+        - paragraphs
+  field_body_summary:
+    label: Sissejuhatus
+    datasource_id: 'entity:node'
+    property_path: field_survey_page_introduction
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_survey_page_introduction
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
+    dependencies:
+      module:
+        - node
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  status:
+    label: Avaldatud
+    datasource_id: 'entity:node'
+    property_path: status
+    type: integer
+    dependencies:
+      module:
+        - node
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - oska_survey_page
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

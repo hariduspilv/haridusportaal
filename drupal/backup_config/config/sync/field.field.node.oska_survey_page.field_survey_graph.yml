@@ -1,0 +1,21 @@
+uuid: c699ab62-4bec-4cd2-af2a-638937c96c60
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_survey_graph
+    - node.type.oska_survey_page
+  module:
+    - htm_custom_oska
+id: node.oska_survey_page.field_survey_graph
+field_name: field_survey_graph
+entity_type: node
+bundle: oska_survey_page
+label: Infograafika
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: oska_graph_field

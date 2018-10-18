@@ -1,0 +1,14 @@
+uuid: 3f730744-19cc-4c89-acce-b0c07db2e6da
+langcode: et
+status: true
+dependencies:
+  config:
+    - user.role.head_user
+  module:
+    - user
+id: user_remove_role_action.head_user
+label: 'Remove the Head user role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: head_user

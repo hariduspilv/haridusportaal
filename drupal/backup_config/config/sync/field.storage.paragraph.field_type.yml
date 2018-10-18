@@ -1,0 +1,29 @@
+uuid: 6822d3a9-dffd-4a66-81ff-dbf2249f9d50
+langcode: et
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+_core:
+  default_config_hash: pdlO69uZWY1nUcwo-jJe5l4rVNHSvT8Zx4o34iniaEs
+id: paragraph.field_type
+field_name: field_type
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: page
+      label: Page
+    -
+      value: search
+      label: Search
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

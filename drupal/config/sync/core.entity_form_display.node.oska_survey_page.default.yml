@@ -4,9 +4,9 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_survey_page.body
-    - field.field.node.oska_survey_page.field_survey_graph
     - field.field.node.oska_survey_page.field_survey_page_accordion
     - field.field.node.oska_survey_page.field_survey_page_attachment
+    - field.field.node.oska_survey_page.field_survey_page_graph
     - field.field.node.oska_survey_page.field_survey_page_introduction
     - field.field.node.oska_survey_page.field_survey_page_link
     - field.field.node.oska_survey_page.field_survey_page_picture
@@ -45,12 +45,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_survey_graph:
-    weight: 130
-    settings: {  }
-    third_party_settings: {  }
-    type: oska_graph_widget_type
-    region: content
   field_survey_page_accordion:
     type: entity_reference_paragraphs
     weight: 128
@@ -69,6 +63,12 @@ content:
       progress_indicator: throbber
     third_party_settings: {  }
     type: file_generic
+    region: content
+  field_survey_page_graph:
+    weight: 130
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_graph_widget_type
     region: content
   field_survey_page_introduction:
     weight: 122

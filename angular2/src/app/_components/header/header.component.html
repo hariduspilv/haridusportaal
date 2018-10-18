@@ -2,8 +2,8 @@
   <div class="inline">
 
     <div class="menu-burger pointer">
-      <span tabindex="0"  role="navigation">
-        <span (click)="toggleSideNav()" class="htm-icon sm-show">menu</span>
+      <span tabindex="0" role="navigation">
+        <span [class.selected]="wasClicked" (click)="toggleSideNav()" class="hamburger sm-show"></span>
       </span>
     </div><!--/menu-burger-->
     

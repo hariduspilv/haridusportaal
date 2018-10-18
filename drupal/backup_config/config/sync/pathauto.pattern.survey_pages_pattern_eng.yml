@@ -1,0 +1,33 @@
+uuid: a5424d75-cfa7-4bf2-ba32-a7234eeaaa33
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: survey_pages_pattern_eng
+label: 'Survey pages pattern ENG'
+type: 'canonical_entities:node'
+pattern: 'survey-pages/[node:title]'
+selection_criteria:
+  fa2913ec-929b-4800-9d9a-6a0371026aa4:
+    id: node_type
+    bundles:
+      oska_survey_page: oska_survey_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: fa2913ec-929b-4800-9d9a-6a0371026aa4
+  f8778645-99c8-4d86-9b17-d73e5cd18395:
+    id: language
+    langcodes:
+      en: en
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: f8778645-99c8-4d86-9b17-d73e5cd18395
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel

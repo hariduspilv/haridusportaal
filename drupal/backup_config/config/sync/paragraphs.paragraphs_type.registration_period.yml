@@ -1,0 +1,9 @@
+uuid: 89f23c6d-805c-4471-9427-fd7fe1fdc433
+langcode: en
+status: true
+dependencies: {  }
+id: registration_period
+label: 'Registreerimise väljad'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

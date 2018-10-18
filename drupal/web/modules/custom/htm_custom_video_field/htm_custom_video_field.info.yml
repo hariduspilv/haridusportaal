@@ -1,5 +1,5 @@
 name: 'HTM Custom video field'
 type: module
-description: 'My Awesome Module'
+description: 'Custom video field for entity'
 core: 8.x
-package: 'Custom'
+package: 'HTM'

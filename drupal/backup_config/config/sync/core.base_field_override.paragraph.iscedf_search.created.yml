@@ -1,0 +1,18 @@
+uuid: 46cc51ac-787c-4189-8391-b3dee30838dc
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.iscedf_search
+id: paragraph.iscedf_search.created
+field_name: created
+entity_type: paragraph
+bundle: iscedf_search
+label: 'Loomise kuupäev'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

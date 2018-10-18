@@ -1,0 +1,122 @@
+uuid: 7868d2e1-98a3-499b-a1e5-3d9960ee3754
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.oska_main_profession_page.body
+    - field.field.node.oska_main_profession_page.field_fixed_label
+    - field.field.node.oska_main_profession_page.field_introduction
+    - field.field.node.oska_main_profession_page.field_main_profession_accordion
+    - field.field.node.oska_main_profession_page.field_main_profession_picture
+    - field.field.node.oska_main_profession_page.field_main_profession_tag
+    - field.field.node.oska_main_profession_page.field_oska_main_profession_file
+    - field.field.node.oska_main_profession_page.field_oska_main_profession_links
+    - field.field.node.oska_main_profession_page.field_oska_main_profession_video
+    - field.field.node.oska_main_profession_page.field_sidebar
+    - node.type.oska_main_profession_page
+  module:
+    - entity_reference_revisions
+    - file
+    - htm_custom_video_field
+    - image
+    - link
+    - text
+    - user
+id: node.oska_main_profession_page.default
+targetEntityType: node
+bundle: oska_main_profession_page
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_fixed_label:
+    weight: 1
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_introduction:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_main_profession_accordion:
+    type: entity_reference_revisions_entity_view
+    weight: 9
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_main_profession_picture:
+    weight: 7
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_main_profession_tag:
+    weight: 8
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_oska_main_profession_file:
+    weight: 6
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_oska_main_profession_links:
+    weight: 5
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_oska_main_profession_video:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: custom_video_formatter_type
+    region: content
+  field_sidebar:
+    type: entity_reference_revisions_entity_view
+    weight: 10
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
