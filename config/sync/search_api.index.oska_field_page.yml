@@ -1,25 +1,24 @@
-uuid: 97265ba9-5d63-4de1-9dad-1751f59f79fb
+uuid: 8287e370-d803-4cb1-b0b3-a1b286de0936
 langcode: et
 status: true
 dependencies:
-  module:
-    - node
-    - paragraphs
-    - search_api
   config:
-    - field.storage.node.field_fixed_label
-    - field.storage.node.field_introduction
-    - field.storage.node.field_main_profession_accordion
+    - field.storage.node.field_oska_field_accordion
     - field.storage.paragraph.field_title
     - field.storage.paragraph.field_body
-    - field.storage.node.field_sidebar
-    - field.storage.paragraph.field_jobs
-    - field.storage.paragraph.field_job_name
-    - field.storage.paragraph.field_oska_field
     - field.storage.node.body
+    - field.storage.node.field_introduction
+    - field.storage.node.field_oska_field_sidebar
+    - field.storage.paragraph.field_oska_main_profession
+    - field.storage.paragraph.field_oska_field_cons
+    - field.storage.paragraph.field_oska_field_pros
     - search_api.server.elasticsearch_server
-id: oska_main_profession
-name: 'OSKA Main Profession'
+  module:
+    - paragraphs
+    - node
+    - search_api
+id: oska_field_page
+name: 'OSKA Field Page'
 description: ''
 read_only: false
 field_settings:
@@ -36,29 +35,29 @@ field_settings:
     property_path: search_api_url
     type: string
   field_accordion_body:
-    label: 'Main Profession Accordion » Paragraph » Sisu'
+    label: 'Accordion » Paragraph » Sisu'
     datasource_id: 'entity:node'
-    property_path: 'field_main_profession_accordion:entity:field_body'
+    property_path: 'field_oska_field_accordion:entity:field_body'
     type: text
     dependencies:
       config:
-        - field.storage.node.field_main_profession_accordion
+        - field.storage.node.field_oska_field_accordion
         - field.storage.paragraph.field_body
       module:
         - paragraphs
   field_accordion_title:
-    label: 'Main Profession Accordion » Paragraph » Pealkiri'
+    label: 'Accordion » Paragraph » Pealkiri'
     datasource_id: 'entity:node'
-    property_path: 'field_main_profession_accordion:entity:field_title'
+    property_path: 'field_oska_field_accordion:entity:field_title'
     type: text
     dependencies:
       config:
-        - field.storage.node.field_main_profession_accordion
+        - field.storage.node.field_oska_field_accordion
         - field.storage.paragraph.field_title
       module:
         - paragraphs
   field_body:
-    label: Sisu
+    label: Body
     datasource_id: 'entity:node'
     property_path: body
     type: text
@@ -73,40 +72,39 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_introduction
-  field_fixed_label:
-    label: 'Fixed Label'
+  field_cons:
+    label: 'Parem veerg » Paragraph » Cons'
     datasource_id: 'entity:node'
-    property_path: field_fixed_label
+    property_path: 'field_oska_field_sidebar:entity:field_oska_field_cons'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_oska_field_cons
+      module:
+        - paragraphs
+  field_oska_main_profession:
+    label: 'Parem veerg » Paragraph » Ametialad'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_sidebar:entity:field_oska_main_profession'
     type: integer
     dependencies:
       config:
-        - field.storage.node.field_fixed_label
-  field_job_name:
-    label: 'Sidebar » Paragraph » Näidisametid » Paragraph » Ameti nimetus'
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_oska_main_profession
+      module:
+        - paragraphs
+  field_pros:
+    label: 'Parem veerg » Paragraph » Pros'
     datasource_id: 'entity:node'
-    property_path: 'field_sidebar:entity:field_jobs:entity:field_job_name'
+    property_path: 'field_oska_field_sidebar:entity:field_oska_field_pros'
     type: text
     dependencies:
       config:
-        - field.storage.node.field_sidebar
-        - field.storage.paragraph.field_jobs
-        - field.storage.paragraph.field_job_name
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_oska_field_pros
       module:
         - paragraphs
-        - paragraphs
-  field_oska_field:
-    label: 'Sidebar » Paragraph » OSKA Field » Sisu » Pealkiri'
-    datasource_id: 'entity:node'
-    property_path: 'field_sidebar:entity:field_oska_field:entity:title'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_sidebar
-        - field.storage.paragraph.field_oska_field
-      module:
-        - paragraphs
-        - node
-        - node
   langcode:
     label: Keel
     datasource_id: 'entity:node'
@@ -139,12 +137,20 @@ field_settings:
     dependencies:
       module:
         - node
+  uid:
+    label: Autor
+    datasource_id: 'entity:node'
+    property_path: uid
+    type: integer
+    dependencies:
+      module:
+        - node
 datasource_settings:
   'entity:node':
     bundles:
       default: false
       selected:
-        - oska_main_profession_page
+        - oska_field_page
     languages:
       default: true
       selected: {  }
