@@ -78,10 +78,6 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
     let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( ( response ) => {
       let data = response['data'];
       this.lang = this.rootScope.get('currentLang');
-      if( !data['route'] ){
-        history.replaceState({}, '', `/${this.lang}`);
-        this.router.navigateByUrl(`/${this.lang}/404`);
-      }
       let initialData = data['taxonomyTermQuery']['entities'];
       let children = initialData.filter(elem => elem.parentId);
       let parents = initialData.filter(elem => !children.includes(elem))
