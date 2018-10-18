@@ -10,14 +10,12 @@
         </div><!--/block__head-->
 
         <h1>{{ data['entityLabel'] }}</h1>
-
-        <div class="block__tools">
+        
+        <div class="mininav col-12 flex text-right">
           <share></share>
           <compare *ngIf="compareButton" [id]="data.nid" localStorageKey="oskaProfessions.compare"></compare>
-          <div class="title-tag" *ngIf="data.fieldFixedLabel">
-            {{ 'fieldFixedLabel.label' | translate }}
-          </div><!--/title-tag-->
-        </div><!--/block__tools-->
+          <span class="important-pill" *ngIf="data.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span> 
+        </div>
 
         <div class="short" [attr.aria-label]="'description.short' | translate">
           {{ data['fieldIntroduction'] || data['fieldSurveyPageIntroduction'] }}
