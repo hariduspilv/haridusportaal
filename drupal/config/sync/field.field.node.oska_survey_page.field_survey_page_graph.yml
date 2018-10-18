@@ -11,7 +11,7 @@ id: node.oska_survey_page.field_survey_page_graph
 field_name: field_survey_page_graph
 entity_type: node
 bundle: oska_survey_page
-label: 'Survey page graph'
+label: Graafikud
 description: ''
 required: false
 translatable: false
