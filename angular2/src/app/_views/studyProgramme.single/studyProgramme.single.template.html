@@ -8,29 +8,14 @@
       <div class="block padding-block lg-bottom--extra">
 
         <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>
-        <div class="row title sm-flex">
-          <div class="col-12 col-sm flex">
-            <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
-          </div><!--/col-8-->
-          
-          <div class="mininav col-12 flex text-right">
-            <favourites [id]="data.nid" [title]="data.title"></favourites>
-            <share [title]="data.entityLabel"></share>
-            <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
-<span class="important-pill">Porgand</span> 
-          </div>
-
-
-        </div><!--/row-->
-        <div class="row title sm-hide">
+        <div class="row title">
           <div class="col-12">
             <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
           </div><!--/col-8-->
           <div class="mininav col-12 flex text-right">
-            <favourites [id]="data.nid" [title]="data.entityLabel"></favourites>
+            <favourites *ngIf="!userLoggedOut" [id]="data.nid" [title]="data.entityLabel"></favourites>
             <share [title]="data.entityLabel"></share>
             <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
-            <span class="important-pill">Porgand</span> 
           </div>
         </div>
 

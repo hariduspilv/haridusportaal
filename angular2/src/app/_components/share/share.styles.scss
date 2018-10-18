@@ -11,6 +11,7 @@
       @include break-on(sm, max) {pointer-events: none;}
     }
     &:focus, &:hover {
+      z-index: 2;
       .share__component__button--main {
         background-color: $blue;transition: background-color 0.25s;
         .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
@@ -26,7 +27,7 @@
       ~ a {opacity: 1;}
     }
     a.share__component__button--main:focus, a.share__component__button--main:hover  {
-      background-color: rgb(69, 75, 146);transition: background-color 0.25s;
+      z-index: 2;background-color: rgb(69, 75, 146);transition: background-color 0.25s;
       .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
     }
   }
