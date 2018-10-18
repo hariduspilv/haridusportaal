@@ -8,7 +8,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 /**
  * @GraphQLField(
- *   id = "custom_metatag_key",
+ *   id = "metatag_key",
  *   name = "key",
  *   type = "String",
  *   parents = {"Metatag"},
