@@ -1,7 +1,7 @@
 @import "../../../assets/styles/typography.scss";
 
 .studyProgramme {padding-bottom: $xxl;background: $white;border-top: $gutter solid $light-blue;
-  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0; padding-bottom: $medium;}
+  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium; padding-bottom: $medium;}
   .months {margin-top: $medium;
     @include break-on(sm, min) {
       margin-top:-$medium;
