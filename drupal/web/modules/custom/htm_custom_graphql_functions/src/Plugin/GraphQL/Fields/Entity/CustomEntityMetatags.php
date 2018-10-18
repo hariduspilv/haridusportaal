@@ -2,17 +2,17 @@
 
 namespace Drupal\htm_custom_graphql_functions\Plugin\GraphQL\Fields\Entity;
 
-use Drupal\graphql_metatag\Plugin\GraphQL\Fields\Entity\EntityMetatags;
+use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 
 /**
  * @GraphQLField(
- *   id = "custom_entity_metatags",
+ *   id = "entity_metatags",
  *   name = "entityMetatags",
  *   type = "[Metatag]",
  *   parents = {"Entity"},
  *   secure = true
  * )
  */
-class CustomEntityMetatags extends EntityMetatags {
+class CustomEntityMetatags extends FieldPluginBase {
 
 }
