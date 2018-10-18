@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services';
 import { TableService } from '@app/_services/tableService';
 import { HttpService } from '@app/_services/httpService';
+import { UserService } from '@app/_services/userService';
 
 @Component({
   templateUrl: './schools.single.component.html',
@@ -21,6 +22,7 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
   initialized: boolean = false;
+  private userLoggedOut: boolean = false;
 
   private querySubscription: Subscription;
 
@@ -30,7 +32,8 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
     private router: Router,
     private rootScope: RootScopeService,
     private tableService: TableService,
-    private http: HttpService
+    private http: HttpService,
+    private user: UserService
   ) {}
 
   ngOnInit() {
@@ -41,6 +44,7 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
       path: this.router.url
     };
 
+    this.userLoggedOut = this.user.getData()['isExpired'];
 
     this.querySubscription = this.http.get(url+JSON.stringify(variables)).subscribe(( response ) => {
 
@@ -74,10 +78,6 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
     let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( ( response ) => {
       let data = response['data'];
       this.lang = this.rootScope.get('currentLang');
-      if( !data['route'] ){
-        history.replaceState({}, '', `/${this.lang}`);
-        this.router.navigateByUrl(`/${this.lang}/404`);
-      }
       let initialData = data['taxonomyTermQuery']['entities'];
       let children = initialData.filter(elem => elem.parentId);
       let parents = initialData.filter(elem => !children.includes(elem))

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { RootScopeService } from 'app/_services/rootScopeService';
 
 @Component({
   selector: 'map-wrapper',
@@ -12,12 +13,16 @@ export class MapWrapperComponent implements OnInit {
   @Input() zoom: any;
 
   iconUrl = "/assets/marker.png"
+  mapStyles;
 
-  constructor() {
+  constructor(
+    private rootScope: RootScopeService
+  ) {
 
   }
 
   ngOnInit() {
+    this.mapStyles = this.rootScope.get("mapStyles");
     if (typeof this.latitude === 'string') {
       this.latitude = parseFloat(this.latitude);
     }
