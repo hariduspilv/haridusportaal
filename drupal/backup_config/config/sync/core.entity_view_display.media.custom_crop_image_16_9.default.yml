@@ -1,0 +1,19 @@
+uuid: d73a04a9-2f9d-49e6-9749-d2663eeb1363
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.media.custom_crop_image_16_9.field_media_image_1
+    - media.type.custom_crop_image_16_9
+id: media.custom_crop_image_16_9.default
+targetEntityType: media
+bundle: custom_crop_image_16_9
+mode: default
+content: {  }
+hidden:
+  created: true
+  field_media_image_1: true
+  langcode: true
+  name: true
+  thumbnail: true
+  uid: true

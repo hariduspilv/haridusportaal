@@ -1,0 +1,9 @@
+uuid: 0f555ad8-cffa-4925-b4d1-c77baab5f699
+langcode: et
+status: true
+dependencies: {  }
+name: DegreeOrDiploma
+vid: degreeordiploma
+description: ''
+hierarchy: 0
+weight: 0

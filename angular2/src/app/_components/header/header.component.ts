@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService, RootScopeService } from '@app/_services';
 import { Apollo } from 'apollo-angular';
@@ -12,8 +12,10 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./header.component.scss']
 })
 
+
 export class HeaderComponent {
 
+  @Input() wasClicked: boolean;
   hideElement = true;
   param: any;
   languages: any;
@@ -72,6 +74,7 @@ export class HeaderComponent {
       if (event instanceof NavigationEnd) {
         var partials = ['/et', '/en', '/ru', '/'];
         this.hideElement = partials.includes(event.url) || event.url.includes('/et/otsing') || event.url.includes('/en/search');
+        this.wasClicked = false;
       }
     });
   }
@@ -108,5 +111,6 @@ export class HeaderComponent {
     let url = this.rootScope.get('currentLang') === 'et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
     this.router.navigateByUrl(url)
   }
+
 
 }

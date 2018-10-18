@@ -1,0 +1,32 @@
+uuid: 851f94b4-c5dd-4c7d-84d9-e40f5db773c7
+langcode: et
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - scheduler
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: false
+    publish_past_date: error
+    publish_required: false
+    publish_revision: false
+    publish_touch: false
+    unpublish_enable: false
+    unpublish_required: false
+    unpublish_revision: false
+_core:
+  default_config_hash: AeW1SEDgb1OTQACAWGhzvMknMYAJlcZu0jljfeU3oso
+name: 'Sisuleht Artikkel'
+type: article
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

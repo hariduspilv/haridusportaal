@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SingleQuery } from '@app/_graph/studyProgramme.graph';
 import { FiltersService } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
+import { UserService } from '@app/_services/userService';
 
 @Component({
   templateUrl: "studyProgramme.single.template.html",
@@ -20,11 +21,13 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   displayRelatedStudyProgrammes: boolean;
   private subscriptions: Subscription[] = [];
   private params: object;
+  private userLoggedOut: boolean = false;
 
   constructor(
     private apollo: Apollo,
     public router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private user: UserService
   ){
     super(null,null)
   }
@@ -70,7 +73,7 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
         if(this.params['displayRelated']) this.toggleDisplayRelatedStudyProgrammes(true);
         window.scrollTo(0, 0);
       }
-
+      this.userLoggedOut = this.user.getData()['isExpired'];
     });
   }
   ngOnDestroy(){

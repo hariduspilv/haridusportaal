@@ -1,0 +1,113 @@
+uuid: 5420f359-644f-4850-af07-e7b9474513dd
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - paragraphs
+    - taxonomy
+    - search_api
+    - htm_custom_subsidy_projects
+  config:
+    - field.storage.node.field_school_location
+    - field.storage.paragraph.field_school_location
+    - field.storage.paragraph.field_coordinates
+    - field.storage.node.field_ownership_type
+    - search_api.server.elasticsearch_server
+id: subsidy_projects
+name: 'Subsidy projects'
+description: ''
+read_only: false
+field_settings:
+  ehis_id:
+    label: 'EHIS id'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: ehis_id
+    type: integer
+  investment_amount:
+    label: 'Investment amount'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: investment_amount
+    type: integer
+  investment_deadline:
+    label: 'Investment deadline'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: investment_deadline
+    type: text
+  investment_measure:
+    label: 'Investment measure'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: investment_measure
+    type: integer
+  lat:
+    label: 'School entity reference » Sisu » Asukoht » Paragraph » Koordinaadid » Laiuskraad'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:field_school_location:entity:field_coordinates:lat'
+    type: string
+    dependencies:
+      module:
+        - node
+        - paragraphs
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_coordinates
+  lon:
+    label: 'School entity reference » Sisu » Asukoht » Paragraph » Koordinaadid » Pikkuskraad'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:field_school_location:entity:field_coordinates:lon'
+    type: string
+    dependencies:
+      module:
+        - node
+        - paragraphs
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_coordinates
+  nid:
+    label: 'School entity reference » Sisu » ID'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:nid'
+    type: integer
+    dependencies:
+      module:
+        - node
+  ownership_type:
+    label: 'School entity reference » Sisu » Omandivorm » Taxonomy term » Termini ID'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:field_ownership_type:entity:tid'
+    type: integer
+    dependencies:
+      module:
+        - node
+        - taxonomy
+      config:
+        - field.storage.node.field_ownership_type
+  school_location:
+    label: 'School entity reference » Sisu » Asukoht » Paragraph » Kooli asukoht » Taxonomy term » Termini ID'
+    datasource_id: 'entity:subsidy_project_entity'
+    property_path: 'school_ref:entity:field_school_location:entity:field_school_location:entity:tid'
+    type: integer
+    dependencies:
+      module:
+        - node
+        - paragraphs
+        - taxonomy
+      config:
+        - field.storage.node.field_school_location
+        - field.storage.paragraph.field_school_location
+datasource_settings:
+  'entity:subsidy_project_entity':
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

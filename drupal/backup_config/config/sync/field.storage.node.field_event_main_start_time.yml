@@ -1,0 +1,19 @@
+uuid: 99f2c7b0-950a-4bee-9fda-cc2fff7b6c8e
+langcode: et
+status: true
+dependencies:
+  module:
+    - hms_field
+    - node
+id: node.field_event_main_start_time
+field_name: field_event_main_start_time
+entity_type: node
+type: hms
+settings: {  }
+module: hms_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

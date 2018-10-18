@@ -1,0 +1,19 @@
+uuid: 2b2bb096-469b-4515-bb35-efcd705381f7
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_head_block_title
+    - node.type.avaleht
+id: node.avaleht.field_head_block_title
+field_name: field_head_block_title
+entity_type: node
+bundle: avaleht
+label: 'Peabloki pealkiri'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

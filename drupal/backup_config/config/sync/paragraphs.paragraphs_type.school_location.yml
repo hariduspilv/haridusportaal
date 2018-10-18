@@ -1,0 +1,9 @@
+uuid: b1a61200-6638-4f40-adc0-ebef1d560d61
+langcode: en
+status: true
+dependencies: {  }
+id: school_location
+label: 'Kooli asukoht'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

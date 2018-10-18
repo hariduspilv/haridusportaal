@@ -1,0 +1,19 @@
+uuid: 7db480f9-2726-4582-9e08-781ba4926022
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body_summary
+    - node.type.article
+id: node.article.field_body_summary
+field_name: field_body_summary
+entity_type: node
+bundle: article
+label: Sissejuhatus
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

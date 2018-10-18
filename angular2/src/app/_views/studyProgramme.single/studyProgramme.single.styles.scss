@@ -57,9 +57,6 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   h1 {color:$black;}
   &__recent {padding: $small $medium 0 $medium;}
 }
-@include break-on(sm, min) {
-  compare {position: relative; right: $gutter;}
-}
 .fill{flex-grow: 1;}
 
 .mat-raised-button.mat-primary{width:auto;
@@ -70,27 +67,5 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
     &:hover {text-decoration: underline;}}
   }
   @include break-on(sm, max) {.block {margin-bottom: 0;}}
-
-  .flex.mininav {
-        flex-wrap: wrap;
-    favourites { padding-right: 0px; 
-      @include break-on(sm, max) {
-        padding-right: 
-        1rem; 
-      }
-    }
-    share { margin-left: 0rem!important; }
-    compare { margin-left: 3rem;
-      @include break-on(sm, max) {
-        margin-left: 1.5rem;
-      }
-    }
-  }
-
-.mininav .important-pill{
-  height: 1.125rem;
-  top: 0;
-  margin-left: 1rem;
-}
 
 

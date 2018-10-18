@@ -1,5 +1,0 @@
-name: 'Custom Subscription Administration'
-type: module
-description: 'Module for managing subscriptions'
-core: 8.x
-package: 'HTM Custom'

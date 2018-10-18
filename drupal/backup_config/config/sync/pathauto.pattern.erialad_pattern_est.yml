@@ -1,0 +1,33 @@
+uuid: 1d1a4202-5341-4146-9178-fd3011985335
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: erialad_pattern_est
+label: 'Erialad pattern EST'
+type: 'canonical_entities:node'
+pattern: 'erialad/[node:title]'
+selection_criteria:
+  3eab9752-61a6-45c0-82a5-8e0ea93143c5:
+    id: node_type
+    bundles:
+      study_programme: study_programme
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 3eab9752-61a6-45c0-82a5-8e0ea93143c5
+  fe815b91-8898-4ad0-870c-75a3cb2366fc:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: fe815b91-8898-4ad0-870c-75a3cb2366fc
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel

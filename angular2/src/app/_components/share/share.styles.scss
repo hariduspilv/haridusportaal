@@ -1,41 +1,47 @@
 @import "../../../assets/styles/typography.scss"; 
-:host{margin-top:-0.1875rem;margin-left: auto;margin-right: $xxl;
-  @include break-on(sm, max) {margin-right: $large;}
+.share {
+  &__wrapper {position: relative;width: 3rem;}
+  &__component {position: absolute;top:-.75rem;display: flex;flex-direction: column;justify-content: center;align-items: center;
+    &__button--main {cursor: pointer;display: flex;align-items: center;justify-content: center;border-radius: 50%;
+      width: 3rem;height: 3rem;text-decoration: none;background-color: $white;
+      .htm-icon.primary {transition: .25s transform ease-out;}
+      @include break-on(sm, max) {pointer-events: none;}
+    }
+    &__button--elem {width: 2rem;height: 2rem;opacity: 0;cursor: pointer;margin-top: .75rem;border-radius: 50%;
+      @include break-on(sm, max) {pointer-events: none;}
+    }
+    &:focus, &:hover {
+      z-index: 2;
+      .share__component__button--main {
+        background-color: $blue;transition: background-color 0.25s;
+        .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
+      }
+      .share__component__button--elem {opacity: 1;}
+    }
+    @include break-on(sm, max) {
+      &.opened {
+        .share__component__button--main, .share__component__button--elem {pointer-events: all;}
+      }
+    }
+    a:focus {opacity: 1;
+      ~ a {opacity: 1;}
+    }
+    a.share__component__button--main:focus, a.share__component__button--main:hover  {
+      z-index: 2;background-color: rgb(69, 75, 146);transition: background-color 0.25s;
+      .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
+    }
+  }
 }
-.share {position: absolute;border-radius: 50%;top: -$gutter;line-height: 1;
-  font-size: $medium;height: $xxl;width: $xxl;
-  &__wrapper {position: relative;cursor:pointer; margin-right: 1.5rem;
-    @include break-on(sm, max) {right: $small;}
-  }
-  &__component {position: absolute;height: $medium;top: $quarter;right: $quarter;z-index: 10;color: $blue;
-  }
-  &__component__buttons { display:none; transition: 0.25s opacity ease-out;will-change: opacity;opacity: 0;position: relative;z-index: 10;
-    width: $large;height: $large;top: $xxl;left: $gutter;
-    &--elem {width: $large;height: $large;padding-top: $gutter;
-      &:last-child {padding-top: $half-gutter;}
-    }
-    a.fb-icn, a.tw-icn {width: $large;height: $large;background-color: $white;border-radius: 50%;
-      &:hover {background-color: $white; }
-    }
-  }
-  &:focus {background-color: $blue;transition: background-color 0.25s; display: block; 
-    .share__component {
-      &__buttons {opacity: 1;}
-      .htm-icon.primary {color: $white;}
-    }
-  }
-}
-
 
 .fb-icn {
-  background: url('/assets/img/fb-icn.svg') center center no-repeat; height: 2rem; width: 2rem; background-size: 2rem; display: block;
-}
-.fb-icn:hover {
-  background: url('/assets/img/fb-icn-a.svg') center center no-repeat; height: 2rem; width: 2rem; background-size: 2rem; display: block;
+  background: url('/assets/img/fb-icn.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white; z-index: 2;
+  &:hover, &:focus {
+    background: url('/assets/img/fb-icn-a.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white;
+  }
 }
 .tw-icn {
-  background: url('/assets/img/tw-icn.svg') center center no-repeat; height: 2rem; width: 2rem; background-size: 2rem; display: block;
-}
-.tw-icn:hover {
-  background: url('/assets/img/tw-icn-a.svg') center center no-repeat; height: 2rem; width: 2rem; background-size: 2rem; display: block;
+  background: url('/assets/img/tw-icn.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white; z-index: 2;
+  &:hover, &:focus {
+    background: url('/assets/img/tw-icn-a.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white;
+  }
 }

@@ -1,0 +1,21 @@
+uuid: 532391ee-a6f8-4844-aedc-0039df840b60
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_accordion_title
+field_name: field_accordion_title
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

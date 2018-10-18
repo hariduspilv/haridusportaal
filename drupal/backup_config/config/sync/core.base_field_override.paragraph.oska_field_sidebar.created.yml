@@ -1,0 +1,18 @@
+uuid: 088d6168-af57-4236-8d91-d75c25e3c467
+langcode: et
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.oska_field_sidebar
+id: paragraph.oska_field_sidebar.created
+field_name: created
+entity_type: paragraph
+bundle: oska_field_sidebar
+label: 'Loomise kuupäev'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

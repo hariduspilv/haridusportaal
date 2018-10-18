@@ -12,10 +12,10 @@
     .btn {@include break-on(xxs, max) {width: 100%;}z-index: 5;}
     .content {
       &--listItem {padding: $medium;border-radius: $half-gutter;background-color: #bee3e8;
-        .title {line-height: 2;color: $dark-gray;padding-bottom: $half-gutter;}
+        .title {line-height: 2;color: $black;padding-bottom: $half-gutter;}
         h1 {color: $blue;text-align: left;padding-bottom: $gutter;
         }
-        .author {font-size: .875rem;line-height: 1.43;color: $dark-gray;}
+        .author {font-size: .875rem;line-height: 1.43;color: $black;}
         &--altered {background-color: $white;}
         .view-all a:hover {text-decoration: none;}
       }
@@ -252,3 +252,4 @@ a h1 { text-decoration: none; }
 a:hover h1 { text-decoration: underline; }
 a.normal-text:visited h1, a.pointer:visited h1, a:visited h1 { color: $visited!important; }
 a.pointer { text-decoration: none; }
+::ng-deep .news-title { color: $black!important; }

@@ -1,0 +1,23 @@
+uuid: 58e6a218-9d8b-49c8-b72f-dd574bd2fb34
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_event_start_time
+    - paragraphs.paragraphs_type.event_date
+  module:
+    - hms_field
+id: paragraph.event_date.field_event_start_time
+field_name: field_event_start_time
+entity_type: paragraph
+bundle: event_date
+label: 'Sündmuse algamise kuupäev'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings: {  }
+field_type: hms

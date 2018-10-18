@@ -1,0 +1,31 @@
+uuid: 62b79a33-8408-48b3-be08-2bc7cd601447
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.studyprogrammelevel.field_ehis_output
+    - taxonomy.vocabulary.studyprogrammelevel
+  module:
+    - text
+id: taxonomy_term.studyprogrammelevel.default
+targetEntityType: taxonomy_term
+bundle: studyprogrammelevel
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ehis_output:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  langcode: true

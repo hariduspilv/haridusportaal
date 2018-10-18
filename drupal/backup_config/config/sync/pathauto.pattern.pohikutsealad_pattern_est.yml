@@ -1,0 +1,33 @@
+uuid: d81d61bb-cc1f-47ed-bb75-4ba7978fad68
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: pohikutsealad_pattern_est
+label: 'Põhikutsealad pattern EST'
+type: 'canonical_entities:node'
+pattern: 'pohikutsealad/[node:title]'
+selection_criteria:
+  515d78cc-c0d4-4d87-852a-77875eaf1adf:
+    id: node_type
+    bundles:
+      oska_main_profession_page: oska_main_profession_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 515d78cc-c0d4-4d87-852a-77875eaf1adf
+  9d254a67-396b-4d6e-85b8-028132d7815e:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 9d254a67-396b-4d6e-85b8-028132d7815e
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel

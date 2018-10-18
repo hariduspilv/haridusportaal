@@ -1,0 +1,9 @@
+uuid: ecab307b-de80-4714-a5ef-a013933251ad
+langcode: et
+status: true
+dependencies: {  }
+name: AdmissionStatus
+vid: admissionstatus
+description: ''
+hierarchy: 0
+weight: 0

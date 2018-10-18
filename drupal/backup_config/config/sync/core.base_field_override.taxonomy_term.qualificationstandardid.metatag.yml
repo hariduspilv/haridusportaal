@@ -1,0 +1,18 @@
+uuid: eecd8538-64e2-4b2a-9a52-702c53f39b1b
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.qualificationstandardid
+id: taxonomy_term.qualificationstandardid.metatag
+field_name: metatag
+entity_type: taxonomy_term
+bundle: qualificationstandardid
+label: Metatags
+description: 'The meta tags for the entity.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

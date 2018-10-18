@@ -19,8 +19,8 @@ dependencies:
     - field.storage.node.field_teaching_language
     - search_api.server.elasticsearch_server
   module:
-    - taxonomy
     - node
+    - taxonomy
     - search_api
 id: study_programmes
 name: 'Study programmes'
@@ -32,6 +32,9 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: type
     type: string
+    dependencies:
+      module:
+        - node
   entity_path:
     label: URI
     property_path: search_api_url
@@ -70,6 +73,7 @@ field_settings:
         - field.storage.node.field_degree_or_diploma_awarded
       module:
         - taxonomy
+        - taxonomy
   field_duration_months:
     label: 'Nominaalkestus (kuud)'
     datasource_id: 'entity:node'
@@ -95,6 +99,7 @@ field_settings:
       config:
         - field.storage.node.field_iscedf_detailed
       module:
+        - taxonomy
         - taxonomy
   field_qualification_standard_id:
     label: 'Kutsestandardi identifikaator'
@@ -122,6 +127,7 @@ field_settings:
         - field.storage.node.field_educational_institution
       module:
         - node
+        - node
   field_school_website:
     label: 'School website'
     datasource_id: 'entity:node'
@@ -140,6 +146,7 @@ field_settings:
         - field.storage.node.field_study_programme_level
       module:
         - taxonomy
+        - taxonomy
   field_study_programme_type:
     label: 'Õppekava tüüp » Taxonomy term » Nimi'
     datasource_id: 'entity:node'
@@ -149,6 +156,7 @@ field_settings:
       config:
         - field.storage.node.field_study_programme_type
       module:
+        - taxonomy
         - taxonomy
   field_teaching_language:
     label: Õppekeel
@@ -163,21 +171,33 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: langcode
     type: text
+    dependencies:
+      module:
+        - node
   name:
     label: Pealkiri
     datasource_id: 'entity:node'
     property_path: title
     type: string
+    dependencies:
+      module:
+        - node
   nid:
     label: ID
     datasource_id: 'entity:node'
     property_path: nid
     type: integer
+    dependencies:
+      module:
+        - node
   title:
     label: Pealkiri
     datasource_id: 'entity:node'
     property_path: title
     type: text
+    dependencies:
+      module:
+        - node
 datasource_settings:
   'entity:node':
     bundles:

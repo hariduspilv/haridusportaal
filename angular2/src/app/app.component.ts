@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
   debounceDelay: any;
   isSidenavCloseDisabled: boolean;
   routeSub: any;
+  wasClicked: boolean = false;
 
   constructor(
     private sidemenu: SideMenuService,

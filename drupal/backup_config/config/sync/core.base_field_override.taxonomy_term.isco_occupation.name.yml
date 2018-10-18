@@ -1,0 +1,18 @@
+uuid: 340e36b4-7379-4c7e-b508-8f6b89f1e555
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.isco_occupation
+id: taxonomy_term.isco_occupation.name
+field_name: name
+entity_type: taxonomy_term
+bundle: isco_occupation
+label: Nimi
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

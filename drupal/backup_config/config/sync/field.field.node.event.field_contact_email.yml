@@ -1,0 +1,19 @@
+uuid: 1a2e8767-4e5c-48f4-b286-c0f708bd5c09
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact_email
+    - node.type.event
+id: node.event.field_contact_email
+field_name: field_contact_email
+entity_type: node
+bundle: event
+label: 'Contact Email'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

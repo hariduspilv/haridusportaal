@@ -35,6 +35,13 @@ class Utils {
   }
 
   /**
+   * Transforms a camelized sting to machine name.
+   */
+  public static function camel2machine($input) {
+    return self::human2machine(preg_replace('/[A-Z]/', ' \0', $input));
+  }
+
+  /**
    * Camelize a string.
    */
   public static function camelize($string, $upper_camel = TRUE) {
@@ -65,6 +72,16 @@ class Utils {
   public static function validateClassName($value) {
     if (!preg_match('/^[A-Z][a-zA-Z0-9]+$/', $value)) {
       throw new \UnexpectedValueException('The value is not correct class name.');
+    }
+    return $value;
+  }
+
+  /**
+   * Service name validator.
+   */
+  public static function validateServiceName($value) {
+    if ($value !== '' && !preg_match('/^[a-z][a-z0-9_\.]*[a-z0-9]$/', $value)) {
+      throw new \UnexpectedValueException('The value is not correct service name.');
     }
     return $value;
   }
@@ -196,6 +213,46 @@ class Utils {
       }
     }
     return str_replace(array_keys($tokens), array_values($tokens), $text);
+  }
+
+  /**
+   * Pluralizes a noun.
+   *
+   * @param string $string
+   *   A noun to pluralize.
+   *
+   * @return string
+   *   The pluralized noun.
+   */
+  public static function pluralize($string) {
+    switch (substr($string, -1)) {
+      case 'y':
+        return substr($string, 0, -1) . 'ies';
+
+      case 's':
+        return $string . 'es';
+
+      default:
+        return $string . 's';
+    }
+  }
+
+  /**
+   * Prepares choices.
+   *
+   * @param array $raw_choices
+   *   The choices to be prepared.
+   *
+   * @return array
+   *   The prepared choices.
+   */
+  public static function prepareChoices(array $raw_choices) {
+    // The $raw_choices can be an associative array.
+    $choices = array_values($raw_choices);
+    // Start choices list form '1'.
+    array_unshift($choices, NULL);
+    unset($choices[0]);
+    return $choices;
   }
 
 }

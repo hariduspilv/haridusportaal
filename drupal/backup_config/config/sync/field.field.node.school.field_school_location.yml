@@ -1,0 +1,52 @@
+uuid: 1f3d1838-ab92-4795-9c58-1be32dd97df8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_school_location
+    - node.type.school
+    - paragraphs.paragraphs_type.school_location
+  module:
+    - entity_reference_revisions
+id: node.school.field_school_location
+field_name: field_school_location
+entity_type: node
+bundle: school
+label: Asukoht
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      school_location: school_location
+    target_bundles_drag_drop:
+      event_date:
+        weight: 5
+        enabled: false
+      link:
+        weight: 6
+        enabled: false
+      registration_period:
+        weight: 7
+        enabled: false
+      school_location:
+        enabled: true
+        weight: 8
+      accordion:
+        weight: 9
+        enabled: false
+      additional_section:
+        weight: 10
+        enabled: false
+      contact_section:
+        weight: 11
+        enabled: false
+      right_sidebar_section_info:
+        weight: 15
+        enabled: false
+field_type: entity_reference_revisions

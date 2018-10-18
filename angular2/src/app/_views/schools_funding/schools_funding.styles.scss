@@ -2,7 +2,7 @@
 
 .button-row{
 	margin-left: 1rem;   
-	@include break-on(sm, max) { margin-left: 0; margin-top: 1rem; }
+	@include break-on(sm, max) { margin-left: 0; margin-top: 1.5rem; }
   button{ text-align:center; }
 }
 
@@ -18,10 +18,11 @@
 		@include break-on(sm, max) { padding-bottom: 0px; }
 }
 .round-input__wrapper .mat-form-field {
-	@include break-on(sm, max){ margin-top: 1.5rem; }
+	@include break-on(sm, max){ margin-top: 1.25rem; }
 }
-.filter-wrapper { margin-top: 1rem;
-	@include break-on(sm, max) { margin-bottom:1rem; display:none; margin-top:0;
+.filter-wrapper {
+    padding: 1rem 1.5rem 1rem 1.5rem;
+	@include break-on(sm, max) { display:none; 
 		&.filtersActive{display:block;}
 	}
 }
@@ -37,6 +38,11 @@
 		}
 	}
 	
+}
+
+
+.block__head__buttons .view-item:first-of-type {
+	@include break-on(sm, max){ border-left: 0px solid transparent; }
 }
 
 
@@ -63,4 +69,14 @@
 	}
   &__block{flex-grow:1; text-align: center;}
   &__color{height:1.875rem; margin-bottom:0.5625rem; display:block;}
+}
+
+.schools {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    margin-bottom: 1.5rem;
+		padding: 0;
+		@include break-on(sm, max) { 
+		margin: 0px;
+		}
 }

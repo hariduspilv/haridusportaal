@@ -5,8 +5,6 @@ namespace Drupal\memcache;
 use Drupal\Component\Assertion\Inspector;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Cache\CacheTagsChecksumInterface;
-use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
-use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\memcache\Invalidator\TimestampInvalidatorInterface;
 
 /**
@@ -38,7 +36,7 @@ class MemcacheBackend implements CacheBackendInterface {
   /**
    * The cache tags checksum provider.
    *
-   * @var CacheTagsChecksumInterface|CacheTagsInvalidatorInterface
+   * @var \Drupal\Core\Cache\CacheTagsChecksumInterface|\Drupal\Core\Cache\CacheTagsInvalidatorInterface
    */
   protected $checksumProvider;
 
@@ -51,15 +49,15 @@ class MemcacheBackend implements CacheBackendInterface {
 
   /**
    * Constructs a MemcacheBackend object.
-   *\Drupal\Core\Site\Settings
    *
    * @param string $bin
    *   The bin name.
    * @param \Drupal\memcache\DrupalMemcacheInterface $memcache
    *   The memcache object.
-   * @param CacheTagsChecksumInterface $checksum_provider
+   * @param \Drupal\Core\Cache\CacheTagsChecksumInterface $checksum_provider
    *   The cache tags checksum service.
    * @param \Drupal\memcache\Invalidator\TimestampInvalidatorInterface $timestamp_invalidator
+   *   The timestamp invalidation provider.
    */
   public function __construct($bin, DrupalMemcacheInterface $memcache, CacheTagsChecksumInterface $checksum_provider, TimestampInvalidatorInterface $timestamp_invalidator) {
     $this->bin = $bin;
@@ -115,6 +113,7 @@ class MemcacheBackend implements CacheBackendInterface {
    *   The cache item.
    *
    * @return bool
+   *   TRUE if valid, FALSE otherwise.
    */
   protected function valid($cid, \stdClass $cache) {
     $cache->valid = TRUE;
@@ -146,7 +145,7 @@ class MemcacheBackend implements CacheBackendInterface {
     // Create new cache object.
     $cache = new \stdClass();
     $cache->cid = $cid;
-    $cache->data = is_object($data) ? clone $data : $data;
+    $cache->data = $data;
     $cache->created = round(microtime(TRUE), 3);
     $cache->expire = $expire;
     $cache->tags = $tags;
@@ -253,7 +252,7 @@ class MemcacheBackend implements CacheBackendInterface {
   }
 
   /**
-   * (@inheritdoc)
+   * {@inheritdoc}
    */
   public function isEmpty() {
     // We do not know so err on the safe side? Not sure if we can know this?
@@ -263,11 +262,14 @@ class MemcacheBackend implements CacheBackendInterface {
   /**
    * Determines if a (micro)time is greater than the last bin deletion time.
    *
+   * @param float $item_microtime
+   *   A given (micro)time.
+   *
    * @internal
    *
-   * @param float $item_microtime
-   *
    * @return bool
+   *   TRUE if the (micro)time is greater than the last bin deletion time, FALSE
+   *   otherwise.
    */
   protected function timeIsGreaterThanBinDeletionTime($item_microtime) {
     $last_bin_deletion = $this->getBinLastDeletionTime();
@@ -286,7 +288,8 @@ class MemcacheBackend implements CacheBackendInterface {
    *
    * @internal
    *
-   * @return mixed
+   * @return float
+   *   The last invalidation timestamp of the tag.
    */
   protected function getBinLastDeletionTime() {
     if (!isset($this->lastBinDeletionTime)) {

@@ -1,0 +1,19 @@
+uuid: 1ae7c8ed-5dd5-4679-9309-6976532b7db3
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_event_registration
+    - telephone
+id: event_reg_entity.event_reg_entity.participant_phone
+field_name: participant_phone
+entity_type: event_reg_entity
+bundle: event_reg_entity
+label: 'Osaleja kontakttelefon'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: telephone

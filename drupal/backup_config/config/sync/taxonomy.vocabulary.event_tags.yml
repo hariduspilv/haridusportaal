@@ -1,0 +1,9 @@
+uuid: 535281b6-5532-42e9-b2dd-54318d24236d
+langcode: und
+status: true
+dependencies: {  }
+name: 'Event tags'
+vid: event_tags
+description: ''
+hierarchy: 0
+weight: -3

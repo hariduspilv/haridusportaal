@@ -1,0 +1,17 @@
+uuid: eb33d4b2-59f9-4164-a733-1f2702bdba54
+langcode: et
+status: true
+dependencies:
+  module:
+    - content_translation
+    - htm_custom_favorites
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: favorite_entity.favorite_entity
+target_entity_type_id: favorite_entity
+target_bundle: favorite_entity
+default_langcode: current_interface
+language_alterable: true
