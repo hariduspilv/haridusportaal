@@ -282,6 +282,10 @@ $grid-columns: 12;
     }
   }
 
+  .view-item {
+    .title { padding: 0 0.5rem; }
+  }
+
   .view-item:hover { color: #0F7B8A; 
     .htm-icon { color: #0F7B8A; }
     .title { color: #0F7B8A; }
@@ -409,7 +413,7 @@ $grid-columns: 12;
   .mat-spinner{margin:3.125rem auto;}
   .mat-chip[ng-reflect-router-link]{cursor: pointer !important;}
   .mat-chip-list{margin:0 -$half-gutter; display:block !important;;
-    .mat-chip{cursor: pointer !important; margin:0 $half-gutter;}
+    .mat-chip{ margin:0 $half-gutter;}
     .mat-chip-list-wrapper{margin-bottom:-.625rem; display: inline;
       .mat-chip-wrapper{margin-bottom:.625rem !important; overflow: hidden;}
     }

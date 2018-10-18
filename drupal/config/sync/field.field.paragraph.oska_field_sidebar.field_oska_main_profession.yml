@@ -10,7 +10,7 @@ id: paragraph.oska_field_sidebar.field_oska_main_profession
 field_name: field_oska_main_profession
 entity_type: paragraph
 bundle: oska_field_sidebar
-label: Põhikutsealad
+label: Ametialad
 description: ''
 required: true
 translatable: true

@@ -57,8 +57,8 @@ article {padding-bottom: $xxl;
     }
   } 
 }
-.title {font-size: $small;line-height: 2;padding: 0 $medium;
-  h1 {color:$black;}
+::ng-deep .title {font-size: $small;line-height: 2;padding: 0 $medium;
+  h1 {color:$black; }
   &__recent {padding: $small $medium 0 $medium;}
 }
 .author {padding: $half-gutter $medium 0 $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;}
@@ -89,7 +89,6 @@ _:-ms-lang(x), .image-alt-text {padding-left: $medium;}
 ::ng-deep .events__list__item__body p:last-child {margin-bottom: 0;}
 
 .btn-hidden {
-  visibiliy: hidden;
   position: absolute;
   top: 0px;
   right: 0px;
