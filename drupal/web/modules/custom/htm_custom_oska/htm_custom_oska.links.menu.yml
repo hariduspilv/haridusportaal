@@ -26,3 +26,17 @@ oska_indicator_entity.admin.structure.settings:
   description: 'Configure Oska indicator entity entities'
   route_name: oska_indicator_entity.settings
   parent: system.admin_structure
+
+# Oska table entity menu items definition
+entity.oska_table_entity.collection:
+  title: 'Oska table entity list'
+  route_name: entity.oska_table_entity.collection
+  description: 'List Oska table entity entities'
+  parent: system.admin_structure
+  weight: 100
+
+oska_table_entity.admin.structure.settings:
+  title: 'Oska table entity settings'
+  description: 'Configure Oska table entity entities'
+  route_name: oska_table_entity.settings
+  parent: system.admin_structure
