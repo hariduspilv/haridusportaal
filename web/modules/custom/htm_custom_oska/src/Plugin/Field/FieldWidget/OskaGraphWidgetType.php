@@ -77,7 +77,7 @@ class OskaGraphWidgetType extends WidgetBase {
                     'scatter' => $this->t('scatter')
                 ],
                 '#required' => FALSE,
-                '#empty_option'  => t('Select graph type'),
+                '#empty_option'  => '-',
                 '#ajax' => [
                     'callback' => [$this,'ajax_dependent_graph_type_options_callback'],
                     'wrapper' => 'secondary_graph_type_options'.$delta,
@@ -134,7 +134,7 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#type' => 'select',
                 '#default_value' => isset($data['graph_v_axis']) ? $data['graph_v_axis'] : NULL,
                 '#options' =>  $v_axis_options,
-                '#empty_option'  => t('Select graph v-axis'),
+                '#empty_option'  => '-',
                 '#required' => FALSE,
                 '#element_validate' => array(array($this, 'validateChartVaxisInput')),
                 '#delta' => $delta,
@@ -158,7 +158,7 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#disabled' => count($sec_graph_options) > 0 ? FALSE : TRUE,
                 '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
                 '#options' =>  $sec_graph_options,
-                '#empty_option'  => t('Select secondary graph type'),
+                '#empty_option'  => '-',
                 '#required' => FALSE,
             ];
 
