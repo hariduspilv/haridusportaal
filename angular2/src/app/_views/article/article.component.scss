@@ -24,7 +24,7 @@ article {padding-bottom: $small;
   }
 }
 .sidebar {background: $light-gray;
-  &__item {border-top: $gutter solid $orange;background: $white;padding: $small $medium $medium $medium;margin-bottom: 0;
+  &__item {border-top: $gutter solid $orange;background: $white;padding: $small $medium $medium $medium; margin-bottom: 0;
     @include break-on(sm, min) {border-radius: $half-gutter; margin-bottom: $small;}}
     &__title {font-size: 1.25rem; color: $black; padding-bottom: $small;}
     &__paragraph {font-size: $small; color: $black; line-height: 1.375rem;}
