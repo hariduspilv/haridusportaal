@@ -1,144 +1,152 @@
 query oskaFieldDetailView($path: String!) {
-route(path: $path) {
-... on EntityCanonicalUrl {
-languageSwitchLinks {
-active
-title
-language {
-id
-__typename
-}
-url {
-path
-routed
-pathAlias
-pathInternal
-__typename
-}
-__typename
-}
-entity {
-... on NodeOskaFieldPage {
-nid
-entityLabel
-fieldIntroduction
-fieldOskaFieldPicture {
-derivative(style: CROP_LARGE) {
-url
-__typename
-}
-width
-height
-alt
-title
-__typename
-}
-fieldOskaVideo {
-input
-videoDomain
-videoDescription
-videoId
-}
-body {
-value
-processed
-}
-fieldOskaWebPage {
-url {
-routed
-path
-__typename
-}
-title
-__typename
-}
-fieldOskaAttachmentFile {
-description
-entity {
-entityLabel
-entityType
-entityChanged
-entityBundle
-entityCreated
-url
-filename
-filemime
-__typename
-}
-__typename
-}
-fieldOskaFieldAccordion {
-entity {
-... on ParagraphMainProfessionAccordion {
-fieldTitle
-fieldBody {
-value
-__typename
-}
-fieldLinks {
-url {
-routed
-path
-__typename
-}
-title
-__typename
-}
-__typename
-}
-__typename
-}
-__typename
-}
-fieldOskaFieldSidebar{
-entity{
-... on ParagraphOskaFieldSidebar{
-fieldNumberEmployed
-fieldNumberEmployedText
-fieldOskaFieldPros
-fieldOskaFieldCons
-fieldOskaMainProfession{
-entity{
-... on NodeOskaMainProfessionPage{
-entityLabel
-entityUrl{
-path
-}
-}
-}
-}
-fieldOskaFieldQuickFind{
-url{
-routed
-path
-}
-title
-}
-fieldRelatedPages{
-url{
-routed
-path
-}
-title
-}
-fieldOskaFieldContact{
-entity{
-... on ParagraphContactSection{
-fieldEmail
-fieldPerson
-fieldPhone
-fieldOrganization
-}
-}
-}
-}
-}
-}
-}
-__typename
-}
-__typename
-}
-__typename
-}
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        title
+        language {
+          id
+          __typename
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+          __typename
+        }
+        __typename
+      }
+      entity {
+        ... on NodeOskaFieldPage {
+          nid
+          entityLabel
+          fieldIntroduction
+          fieldOskaFieldPicture {
+            derivative(style: CROP_LARGE) {
+              url
+              __typename
+            }
+            width
+            height
+            alt
+            title
+            __typename
+          }
+          fieldOskaVideo {
+            input
+            videoDomain
+            videoDescription
+            videoId
+          }
+          body {
+            value
+            processed
+          }
+          fieldOskaWebPage {
+            url {
+              routed
+              path
+              __typename
+            }
+            title
+            __typename
+          }
+          fieldOskaAttachmentFile {
+            description
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+              __typename
+            }
+            __typename
+          }
+          fieldOskaFieldAccordion {
+            entity {
+              ... on ParagraphMainProfessionAccordion {
+                fieldTitle
+                fieldBody {
+                  value
+                  __typename
+                }
+                fieldLinks {
+                  url {
+                    routed
+                    path
+                    __typename
+                  }
+                  title
+                  __typename
+                }
+                __typename
+              }
+              __typename
+            }
+            __typename
+          }
+          fieldOskaFieldSidebar {
+            entity {
+              ... on ParagraphOskaFieldSidebar {
+                fieldNumberEmployed
+                fieldNumberEmployedText
+                fieldOskaFieldPros
+                fieldOskaFieldCons
+                fieldOskaMainProfession {
+                  entity {
+                    ... on NodeOskaMainProfessionPage {
+                      entityLabel
+                      entityUrl {
+                        path
+                      }
+                    }
+                  }
+                }
+                fieldOskaFieldQuickFind {
+                  url {
+                    routed
+                    path
+                  }
+                  title
+                }
+                fieldRelatedPages {
+                  url {
+                    routed
+                    path
+                  }
+                  title
+                }
+                fieldOskaFieldContact {
+                  entity {
+                    ... on ParagraphContactSection {
+                      fieldEmail
+                      fieldPerson
+                      fieldPhone
+                      fieldOrganization
+                    }
+                  }
+                }
+              }
+            }
+          }
+          fieldFieldPageGraph{
+            value
+            graphVAxis
+            graphType
+            secondaryGraphType
+            graphIndicator
+            secondaryGraphIndicator
+          }
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
 }
