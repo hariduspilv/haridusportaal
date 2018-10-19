@@ -291,12 +291,11 @@ class OpenIDConnectClient
             if (!property_exists($token_json, 'id_token')) {
                 throw new OpenIDConnectClientException("User did not authorize openid scope.");
             }
-
+		dump('token json');
+		dump($token_json);
             $claims = $this->decodeJWT($token_json->id_token, 1);
 		dump('claims');
 		dump($claims);
-		dump('token');
-		dump($token_json);
             // Verify the signature
             if ($this->canVerifySignatures()) {
 		if (!$this->getProviderConfigValue('jwks_uri')) {
@@ -339,7 +338,8 @@ class OpenIDConnectClient
         } elseif ($this->allowImplicitFlow && isset($_REQUEST["id_token"])) {
             // if we have no code but an id_token use that
             $id_token = $_REQUEST["id_token"];
-
+		dump('id_token!');
+		dump($id_token);
             $accessToken = null;
             if (isset($_REQUEST["access_token"])) {
                 $accessToken = $_REQUEST["access_token"];
@@ -845,6 +845,7 @@ class OpenIDConnectClient
      * @return bool
      */
     public function verifyJWTsignature($jwt) {
+	#dump($jwt);
         $parts = explode(".", $jwt);
         $signature = base64url_decode(array_pop($parts));
         $header = json_decode(base64url_decode($parts[0]));
@@ -858,12 +859,15 @@ class OpenIDConnectClient
         case 'RS256':
         case 'RS384':
         case 'RS512':
-            $hashtype = 'SHA' . substr($header->alg, 2);
-	    	dump($header);
-		$header->alg = 'RSA';
-	    	dump($jwks->keys);
+            $hashtype = 'sha' . substr($header->alg, 2);
+		dump('hashtype');
+		dump($hashtype);
+		dump('jwks');
+		dump($jwks);
+		dump('header');
+		dump($header);
             $verified = $this->verifyRSAJWTsignature($hashtype,
-                                                     $this->get_key_for_header($jwks->keys, $header),
+                  				     $this->get_key_for_header($jwks->keys, $header),
                                                      $payload, $signature);
             break;
 	case 'HS256':
