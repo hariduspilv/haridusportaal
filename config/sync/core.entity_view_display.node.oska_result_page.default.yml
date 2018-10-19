@@ -1,0 +1,110 @@
+uuid: 7a16538c-f5c1-453d-bafa-24b414fa7138
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.oska_result_page.body
+    - field.field.node.oska_result_page.field_result_page_files
+    - field.field.node.oska_result_page.field_result_page_graph
+    - field.field.node.oska_result_page.field_result_page_introduction
+    - field.field.node.oska_result_page.field_result_page_links
+    - field.field.node.oska_result_page.field_result_page_picture
+    - field.field.node.oska_result_page.field_result_page_sidebar
+    - field.field.node.oska_result_page.field_result_page_table_file
+    - field.field.node.oska_result_page.field_result_page_video
+    - node.type.oska_result_page
+  module:
+    - entity_reference_revisions
+    - file
+    - htm_custom_oska
+    - htm_custom_video_field
+    - image
+    - link
+    - text
+    - user
+id: node.oska_result_page.default
+targetEntityType: node
+bundle: oska_result_page
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_result_page_files:
+    weight: 106
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_result_page_graph:
+    weight: 108
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_graph_formatter_type
+    region: content
+  field_result_page_introduction:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_result_page_links:
+    weight: 105
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_result_page_picture:
+    weight: 103
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_result_page_sidebar:
+    type: entity_reference_revisions_entity_view
+    weight: 109
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_result_page_table_file:
+    weight: 107
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_result_page_video:
+    weight: 104
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: custom_video_formatter_type
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true
