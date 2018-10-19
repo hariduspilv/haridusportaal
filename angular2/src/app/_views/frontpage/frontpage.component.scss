@@ -89,7 +89,7 @@
         @include break-on(sm, max) {margin: -2rem 0 -10rem;}
       }
     }
-    &--news {padding: 0;
+    &--news {padding: 0; margin-top: -5rem;
       @include break-on(sm, max) {padding: 4rem $medium $medium;}
       @include break-on(xxs, max) {padding: 0;padding-top: 4rem;}
     }
@@ -253,3 +253,4 @@ a:hover h1 { text-decoration: underline; }
 a.normal-text:visited h1, a.pointer:visited h1, a:visited h1 { color: $visited!important; }
 a.pointer { text-decoration: none; }
 ::ng-deep .news-title { color: $black!important; }
+

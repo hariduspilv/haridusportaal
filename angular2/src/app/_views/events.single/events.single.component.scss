@@ -30,8 +30,8 @@ article {padding-bottom: $xxl;
 .events__list {border-top: $gutter solid $light-blue;background: $white;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium;}
   @include break-on(lg, min) {margin-left: 0;}
-  &__recent {@extend .events__list;border-top: $gutter solid $orange;margin-bottom: $small;
-    a {text-decoration: none;
+  &__recent {@extend .events__list;border-top: $gutter solid $orange;margin-bottom: $small; 
+    a {text-decoration: none; word-break: break-all;
       &:hover { text-decoration: underline; }
     }
     .map-wrapper {position: relative;

@@ -139,73 +139,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
             {
               "form_name":"VPT_TAOTLUS",
               "title": {
-                "et": "v1_6Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v1_4Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v1_2Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v1_4Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v1_5Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v1_3Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v1_3Vajaduspõhise õppetoetuse taotlus"
+                "et": "Õpetaja jätkutoetuse taotlus"
               }
             }
           ],
-          drafts: [{
-            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-            "identifier": 157707,
-            "document_date": "17.09.2018",
-            "status": "Heaks kiidetud",
-            "title": {
-              "et": "2Vajaduspühise õppetoetuse taotlus ja otsus"
-            }
-          },
-          {
-            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-            "identifier": 157707,
-            "document_date": "17.09.2018",
-            "status": "Heaks kiidetud",
-            "title": {
-              "et": "2Vajaduspühise õppetoetuse taotlus ja otsus"
-            }
-          },
-          {
-            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-            "identifier": 157707,
-            "document_date": "17.09.2018",
-            "status": "Heaks kiidetud",
-            "title": {
-              "et": "1Vajaduspühise õppetoetuse taotlus ja otsus"
-            }
-          }],
+          drafts: [],
           documents: [
             {
               "form_name": "VPT_ESITATUD_TAOTLUS",
@@ -221,6 +159,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
               "identifier": 157722,
               "document_date": "11.10.2018",
               "status": "Tagasi lükatud",
+              "description": "Wololololooooo Wololololooooo Wololololooooo",
               "title": {
                 "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
               }
@@ -241,78 +180,39 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
             {
               "form_name":"VPT_TAOTLUS",
               "title": {
-                "et": "v2_6Vajaduspõhise õppetoetuse taotlus"
+                "et": "Õpetaja jätkutoetuse taotlus"
               }
             },
             {
               "form_name":"VPT_TAOTLUS",
               "title": {
-                "et": "v2_4Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v2_2Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v2_4Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v2_5Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v2_3Vajaduspõhise õppetoetuse taotlus"
-              }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "v2_3Vajaduspõhise õppetoetuse taotlus"
+                "et": "Vajaduspõhise õppetoetuse taotlus"
               }
             }
           ],
           drafts: [{
-            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
+            "form_name": "Õpetaja jätkutoetuse taotlus",
             "identifier": 157707,
-            "document_date": "17.09.2018",
+            "document_date": "17.09.2016",
             "status": "Heaks kiidetud",
             "title": {
               "et": "2Vajaduspühise õppetoetuse taotlus ja otsus"
             }
           },
           {
-            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
+            "form_name": "Vajaduspõhise õppetoetuse taotlus",
             "identifier": 157707,
-            "document_date": "17.09.2018",
+            "document_date": "17.09.2021",
             "status": "Heaks kiidetud",
             "title": {
               "et": "2Vajaduspühise õppetoetuse taotlus ja otsus"
-            }
-          },
-          {
-            "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
-            "identifier": 157707,
-            "document_date": "17.09.2018",
-            "status": "Heaks kiidetud",
-            "title": {
-              "et": "1Vajaduspühise õppetoetuse taotlus ja otsus"
             }
           }],
           documents: [
             {
               "form_name": "VPT_ESITATUD_TAOTLUS",
               "identifier": 157721,
-              "document_date": "11.10.2018",
+              "document_date": "28.01.2016",
               "status": "Menetluses",
               "title": {
                 "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
@@ -321,7 +221,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
             {
               "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
               "identifier": 157722,
-              "document_date": "11.10.2018",
+              "document_date": "01.01.2018",
+              "description": "Kuulilennuteetunneliluuk ja jalaseen, Kuulilennuteetunneliluuk ja jalaseen Kuulilennuteetunneliluuk ja jalaseen, Kuulilennuteetunneliluuk ja jalaseen Kuulilennuteetunneliluuk ja jalaseen, Kuulilennuteetunneliluuk ja jalaseen",
               "status": "Tagasi lükatud",
               "title": {
                 "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
@@ -330,7 +231,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
             {
               "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
               "identifier": 157707,
-              "document_date": "17.09.2018",
+              "document_date": "12.12.2021",
               "status": "Heaks kiidetud",
               "title": {
                 "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
