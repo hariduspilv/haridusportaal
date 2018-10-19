@@ -20,11 +20,6 @@ class AuthenticationController extends ControllerBase {
 	header("Pragma: no-cache");
 		
 	$tara_secret = settings::get('tara_secret');
-      	
-
-
-	#return [];
-
 
 
 	$oidc = new OpenIDConnectClient('https://tara-test.ria.ee/oidc', 'eduportaal', $tara_secret);
@@ -35,13 +30,16 @@ class AuthenticationController extends ControllerBase {
 		#'jwks_uri' => 'https://tara-test.ria.ee/oidc/jwks',
 	]);
 	#dump($_REQUEST);
+	$oidc->setAllowImplicitFlow(TRUE);
      	#$oidc->addScope('openid');
 	#$oidc->addAuthParam(['username' => 'eduportaal']);
 	#$oidc->addAuthParam(['password' => $tara_secret]);
 	#$clientCredentialsToken = $oidc->requestClientCredentialsToken()->access_token;
 	#dump($clientCredentialsToken);
 	#$oidc->setCertPath('./sites/default/files/public.key');
+	
 	$oidc->authenticate();
+	
 
 	dump($oidc->getVerifiedClaims('sub'));
 
