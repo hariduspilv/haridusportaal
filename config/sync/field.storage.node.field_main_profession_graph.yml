@@ -1,0 +1,20 @@
+uuid: a6438580-1002-4f78-bbbc-8651fafe316c
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_oska
+    - node
+id: node.field_main_profession_graph
+field_name: field_main_profession_graph
+entity_type: node
+type: oska_graph_field
+settings:
+  target_type: oska_entity
+module: htm_custom_oska
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

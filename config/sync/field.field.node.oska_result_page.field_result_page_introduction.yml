@@ -1,0 +1,19 @@
+uuid: 390709f2-a389-4005-af8f-dcf07a046e81
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_result_page_introduction
+    - node.type.oska_result_page
+id: node.oska_result_page.field_result_page_introduction
+field_name: field_result_page_introduction
+entity_type: node
+bundle: oska_result_page
+label: Sissejuhatus
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

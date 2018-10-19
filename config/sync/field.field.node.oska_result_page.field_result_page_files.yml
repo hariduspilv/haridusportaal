@@ -1,0 +1,27 @@
+uuid: f66196a8-f765-4f42-84ac-dc76e3005396
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_result_page_files
+    - node.type.oska_result_page
+  module:
+    - file
+id: node.oska_result_page.field_result_page_files
+field_name: field_result_page_files
+entity_type: node
+bundle: oska_result_page
+label: Failid
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'pdf txt'
+  max_filesize: '4 MB'
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file
