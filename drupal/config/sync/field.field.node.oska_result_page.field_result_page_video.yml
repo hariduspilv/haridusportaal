@@ -1,0 +1,21 @@
+uuid: 2828051a-3354-40a7-9c4a-0c96ae347d24
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_result_page_video
+    - node.type.oska_result_page
+  module:
+    - htm_custom_video_field
+id: node.oska_result_page.field_result_page_video
+field_name: field_result_page_video
+entity_type: node
+bundle: oska_result_page
+label: Video
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: custom_video_field_type
