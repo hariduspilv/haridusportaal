@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.oska_main_profession_page.field_fixed_label
     - field.field.node.oska_main_profession_page.field_introduction
     - field.field.node.oska_main_profession_page.field_main_profession_accordion
+    - field.field.node.oska_main_profession_page.field_main_profession_graph
     - field.field.node.oska_main_profession_page.field_main_profession_picture
     - field.field.node.oska_main_profession_page.field_main_profession_tag
     - field.field.node.oska_main_profession_page.field_oska_main_profession_file
@@ -17,6 +18,7 @@ dependencies:
     - node.type.oska_main_profession_page
   module:
     - file
+    - htm_custom_oska
     - htm_custom_video_field
     - image
     - link
@@ -76,6 +78,12 @@ content:
       form_display_mode: default
       default_paragraph_type: _none
     third_party_settings: {  }
+    region: content
+  field_main_profession_graph:
+    weight: 28
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_graph_widget_type
     region: content
   field_main_profession_picture:
     weight: 16
