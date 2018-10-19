@@ -7,10 +7,10 @@
     text-overflow: ellipsis;
     font-size: 1rem;
             @include break-on(sm, max) { font-size: 1rem; } 
-    ::placeholder {color: $dark-gray; opacity: 1; font-size: 0.875rem; overflow: hidden; font-size: 1rem;
+    ::placeholder {color: $dark-gray; opacity: 1; font-size: 0.875rem; overflow: hidden; font-size: 0.875rem;
             @include break-on(sm, max) { font-size: 0.875rem; } }
     &:focus-within {
-      ::placeholder {color: transparent; font-size: 1rem;
+      ::placeholder {color: transparent; font-size: 0.875rem;
             @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $blue; display: inline-block;}
       .round-input__field-wrapper {border-color: $blue; margin-top: 0;
@@ -18,7 +18,7 @@
       }
     }
     &.error {
-      ::placeholder {color: transparent;  font-size: 1rem;
+      ::placeholder {color: transparent;  font-size: 0.875rem;
             @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $red; display: inline-block;}
       .round-input__field-wrapper {border-color: $red; margin-top: 0;
@@ -27,7 +27,7 @@
 
     }
     &.complete {
-      ::placeholder {color: transparent;  font-size: 1rem;
+      ::placeholder {color: transparent;  font-size: 0.875rem;
             @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {display: inline-block;}
       .round-input__field-wrapper {margin-top: 0;
@@ -35,7 +35,7 @@
       }
     }
     &.success {
-      ::placeholder {color: transparent;  font-size: 1rem;
+      ::placeholder {color: transparent;  font-size: 0.875rem;
             @include break-on(sm, max) { font-size: 0.875rem; }}
       .round-input__title {color: $success; display: inline-block;}
       .round-input__field-wrapper {border-color: $success; margin-top: 0;
@@ -52,7 +52,7 @@
       margin-top: 1.1875rem;
       .mat-input-underline{display: none;}
       .mat-form-field-infix{width:100%; margin:0.1875rem 0.9475rem; border:none;}
-      .mat-input-placeholder{font-size:1rem;
+      .mat-input-placeholder{font-size:0.875rem;
         @include break-on(sm, min) {font-size: .875rem;}
       }
       .mat-form-field-label{transition:none !important; transform:none !important;
