@@ -74,7 +74,6 @@
         "jumbojett/openid-connect-php": "^0.7.0",
         "league/csv": "^8.0",
         "ralouphie/mimey": "^2.0",
-        "steverhoades/oauth2-openid-connect-client": "^0.2.0",
         "symfony/dom-crawler": "v3.4.9",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
