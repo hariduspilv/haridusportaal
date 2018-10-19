@@ -1,0 +1,22 @@
+uuid: 27a9d450-96b4-458f-9a50-2a5503da8f81
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.oska_result_page
+  module:
+    - text
+id: node.oska_result_page.body
+field_name: body
+entity_type: node
+bundle: oska_result_page
+label: Sisu
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+field_type: text_with_summary
