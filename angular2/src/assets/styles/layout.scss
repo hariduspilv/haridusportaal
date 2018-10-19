@@ -1,7 +1,7 @@
 .block {
   overflow-x:hidden;
   overflow-y:visible;
-    background: white;
+  background: white;
   border-top: $gutter solid $gray;
     margin-bottom: $small;
   &.border-orange{border-top-color:$orange;}
