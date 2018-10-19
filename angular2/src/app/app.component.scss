@@ -682,7 +682,11 @@ a:hover .important-pill {
 .tooltip:before { font-family: 'htm-icon'; content: "help_24px"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga'; color: $black;
  display: flex; align-items: center; }
 
-
+.sidebar__item {
+  .link-list { 
+    a[href]:hover { text-decoration: underline!important }
+   }
+}
 
 
 
