@@ -53,10 +53,10 @@ public interface EhisXRoadService {
 
   MtsysKlfTeenusResponse mtsysKlfTeenus(String userId) throws XRoadServiceConsumptionException;
 
-  MtsysTegevusloadResponse mtsysTegevusload(String registrikood, String userId)
+  MtsysTegevusloadResponse mtsysTegevusload(String identifier, String userId)
       throws XRoadServiceConsumptionException;
 
-  MtsysTegevuslubaResponse mtsysTegevusluba(BigInteger taotlusId, String userId)
+  MtsysTegevuslubaResponse mtsysTegevusluba(BigInteger identifier, String userId)
       throws XRoadServiceConsumptionException;
 
   MtsysLaeTegevuslubaResponse mtsysLaeTegevusluba(MtsysLaeTegevusluba request, String userId)

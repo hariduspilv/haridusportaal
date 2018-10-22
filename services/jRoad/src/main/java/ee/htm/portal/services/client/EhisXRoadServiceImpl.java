@@ -116,10 +116,10 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
     return mtsysKlfTeenusV1(XmlObject.Factory.newInstance(), userId);
   }
 
-  public MtsysTegevusloadResponse mtsysTegevusload(String registrikood, String userId)
+  public MtsysTegevusloadResponse mtsysTegevusload(String identifier, String userId)
       throws XRoadServiceConsumptionException {
     MtsysTegevusload request = MtsysTegevusload.Factory.newInstance();
-    request.setRegistrikood(registrikood);
+    request.setRegistrikood(identifier);
 
     if (userId == null || userId.equalsIgnoreCase("-")) {
       return mtsysTegevusloadV1(request);
@@ -128,10 +128,10 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
     return mtsysTegevusloadV1(request, userId);
   }
 
-  public MtsysTegevuslubaResponse mtsysTegevusluba(BigInteger taotlusId, String userId)
+  public MtsysTegevuslubaResponse mtsysTegevusluba(BigInteger identifier, String userId)
       throws XRoadServiceConsumptionException {
     MtsysTegevusluba request = MtsysTegevusluba.Factory.newInstance();
-    request.setTaotlusId(taotlusId);
+    request.setTaotlusId(identifier);
 
     if (userId == null || userId.equalsIgnoreCase("-")) {
       return mtsysTegevuslubaV1(request);

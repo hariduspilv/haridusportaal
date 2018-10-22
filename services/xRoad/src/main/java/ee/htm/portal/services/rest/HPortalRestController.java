@@ -93,7 +93,8 @@ public class HPortalRestController {
       @PathVariable("personalCode") String personalCode,
       @PathVariable("invalidBoolean") boolean invalidBoolean,
       @PathVariable("requestTimestamp") Long timestamp) {
-    return new ResponseEntity<>(kutseregisterWorker.getKodanikKutsetunnistus(personalCode, invalidBoolean, timestamp),
+    return new ResponseEntity<>(
+        kutseregisterWorker.getKodanikKutsetunnistus(personalCode, invalidBoolean, timestamp),
         HttpStatus.OK);
   }
 
@@ -101,7 +102,8 @@ public class HPortalRestController {
   public ResponseEntity<?> getEeIsikukaart(
       @PathVariable("personalCode") String personalcode,
       @PathVariable("requestTimestamp") Long timestamp) {
-    return new ResponseEntity<>(eeIsikukaartWorker.getEeIsikukaart(personalcode, timestamp), HttpStatus.OK);
+    return new ResponseEntity<>(
+        eeIsikukaartWorker.getEeIsikukaart(personalcode, timestamp), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/mtsysKlfTeenus", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
@@ -149,6 +151,7 @@ public class HPortalRestController {
       @PathVariable("personalCode") String personalCode,
       @PathVariable("countryCode") String countryCode,
       @PathVariable("requestTimestamp") Long timestamp) {
-    return new ResponseEntity<>(ariregWorker.getEsindusOigus(personalCode, countryCode, timestamp), HttpStatus.OK);
+    return new ResponseEntity<>(
+        ariregWorker.getEsindusOigus(personalCode, countryCode, timestamp), HttpStatus.OK);
   }
 }
