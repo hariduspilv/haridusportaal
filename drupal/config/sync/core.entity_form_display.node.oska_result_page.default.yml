@@ -1,19 +1,19 @@
-uuid: 854298ea-698d-4fa9-ba40-ceb67cb2ef19
+uuid: d9b9944c-4dee-4126-9f01-6bd9524d7ccc
 langcode: et
 status: true
 dependencies:
   config:
-    - field.field.node.oska_survey_page.body
-    - field.field.node.oska_survey_page.field_survey_page_accordion
-    - field.field.node.oska_survey_page.field_survey_page_attachment
-    - field.field.node.oska_survey_page.field_survey_page_graph
-    - field.field.node.oska_survey_page.field_survey_page_introduction
-    - field.field.node.oska_survey_page.field_survey_page_link
-    - field.field.node.oska_survey_page.field_survey_page_picture
-    - field.field.node.oska_survey_page.field_survey_page_sidebar
-    - field.field.node.oska_survey_page.field_survey_page_video
+    - field.field.node.oska_result_page.body
+    - field.field.node.oska_result_page.field_result_page_files
+    - field.field.node.oska_result_page.field_result_page_graph
+    - field.field.node.oska_result_page.field_result_page_introduction
+    - field.field.node.oska_result_page.field_result_page_links
+    - field.field.node.oska_result_page.field_result_page_picture
+    - field.field.node.oska_result_page.field_result_page_sidebar
+    - field.field.node.oska_result_page.field_result_page_table_file
+    - field.field.node.oska_result_page.field_result_page_video
     - image.style.thumbnail
-    - node.type.oska_survey_page
+    - node.type.oska_result_page
   module:
     - file
     - htm_custom_oska
@@ -25,9 +25,9 @@ dependencies:
     - path
     - scheduler
     - text
-id: node.oska_survey_page.default
+id: node.oska_result_page.default
 targetEntityType: node
-bundle: oska_survey_page
+bundle: oska_result_page
 mode: default
 content:
   body:
@@ -35,9 +35,16 @@ content:
     weight: 12
     settings:
       rows: 9
-      summary_rows: 3
       placeholder: ''
-    third_party_settings: {  }
+      summary_rows: 3
+    third_party_settings:
+      maxlength:
+        maxlength_js: null
+        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_summary: null
+        maxlength_js_label_summary: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
     region: content
   created:
     type: datetime_timestamp
@@ -45,32 +52,20 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_survey_page_accordion:
-    type: entity_reference_paragraphs
-    weight: 17
-    settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: _none
-    third_party_settings: {  }
-    region: content
-  field_survey_page_attachment:
-    weight: 15
+  field_result_page_files:
+    weight: 16
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
     type: file_generic
     region: content
-  field_survey_page_graph:
-    weight: 19
+  field_result_page_graph:
+    weight: 18
     settings: {  }
     third_party_settings: {  }
     type: oska_graph_widget_type
     region: content
-  field_survey_page_introduction:
+  field_result_page_introduction:
     weight: 11
     settings:
       rows: 5
@@ -83,25 +78,25 @@ content:
         maxlength_js_truncate_html: false
     type: string_textarea
     region: content
-  field_survey_page_link:
-    weight: 14
+  field_result_page_links:
+    weight: 15
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
     region: content
-  field_survey_page_picture:
-    weight: 16
+  field_result_page_picture:
+    weight: 13
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
     region: content
-  field_survey_page_sidebar:
+  field_result_page_sidebar:
     type: entity_reference_paragraphs
-    weight: 18
+    weight: 19
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -111,8 +106,15 @@ content:
       default_paragraph_type: _none
     third_party_settings: {  }
     region: content
-  field_survey_page_video:
-    weight: 13
+  field_result_page_table_file:
+    weight: 17
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_result_page_video:
+    weight: 14
     settings:
       size: 60
       placeholder: ''

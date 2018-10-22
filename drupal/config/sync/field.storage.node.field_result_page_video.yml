@@ -1,0 +1,19 @@
+uuid: 82bb04e6-3d30-4ff5-823e-c943f90a3212
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_video_field
+    - node
+id: node.field_result_page_video
+field_name: field_result_page_video
+entity_type: node
+type: custom_video_field_type
+settings: {  }
+module: htm_custom_video_field
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

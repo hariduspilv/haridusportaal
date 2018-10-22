@@ -141,12 +141,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
               "title": {
                 "et": "Õpetaja jätkutoetuse taotlus"
               }
-            },
-            {
-              "form_name":"VPT_TAOTLUS",
-              "title": {
-                "et": "Vajaduspõhise õppetoetuse taotlus"
-              }
             }
           ],
           drafts: [],
@@ -199,7 +193,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
           drafts: [{
             "form_name": "Õpetaja jätkutoetuse taotlus",
             "identifier": 157707,
-            "document_date": "17.09.2018",
+            "document_date": "17.09.2016",
             "status": "Heaks kiidetud",
             "title": {
               "et": "2Vajaduspühise õppetoetuse taotlus ja otsus"
@@ -208,7 +202,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
           {
             "form_name": "Vajaduspõhise õppetoetuse taotlus",
             "identifier": 157707,
-            "document_date": "17.09.2018",
+            "document_date": "17.09.2021",
             "status": "Heaks kiidetud",
             "title": {
               "et": "2Vajaduspühise õppetoetuse taotlus ja otsus"
@@ -218,7 +212,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
             {
               "form_name": "VPT_ESITATUD_TAOTLUS",
               "identifier": 157721,
-              "document_date": "28.01.2018",
+              "document_date": "28.01.2016",
               "status": "Menetluses",
               "title": {
                 "et": "Vajaduspühise õppetoetuse taotlus ja otsus"
@@ -237,7 +231,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
             {
               "form_name": "VPT_ESITATUD_TAOTLUS_OTSUS",
               "identifier": 157707,
-              "document_date": "12.12.2018",
+              "document_date": "12.12.2021",
               "status": "Heaks kiidetud",
               "title": {
                 "et": "Vajaduspühise õppetoetuse taotlus ja otsus"

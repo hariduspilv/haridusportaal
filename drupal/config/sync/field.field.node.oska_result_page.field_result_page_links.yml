@@ -1,0 +1,23 @@
+uuid: c8f52eef-a384-4e1c-a98c-103541482248
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_result_page_links
+    - node.type.oska_result_page
+  module:
+    - link
+id: node.oska_result_page.field_result_page_links
+field_name: field_result_page_links
+entity_type: node
+bundle: oska_result_page
+label: Lingid
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link
