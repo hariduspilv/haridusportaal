@@ -1,4 +1,4 @@
-query(
+query schoolMapQuery (
   $lang: String,
   $offset: Int,
   $limit: Int,
