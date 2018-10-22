@@ -7,6 +7,7 @@
     padding: $gutter $medium $small 0;overflow: hidden;
     @include break-on(sm, min) {padding: $gutter 0 $small 0;white-space: nowrap;text-overflow: ellipsis;}
   }
+      @include break-on(sm, max) { padding: 0 0 0 0; }
 }
 ::ng-deep .video-container iframe {position: absolute;top: 0;left: 0;width: 100%;height: 100%;}
 .outdated {display: none;}

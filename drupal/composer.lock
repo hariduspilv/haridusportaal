@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4927cb3854dfcd691ea7386dd12da331",
+    "content-hash": "7cd9081cae9196c11d0bd09977dce823",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -6477,16 +6477,16 @@
         },
         {
             "name": "jumbojett/openid-connect-php",
-            "version": "0.6.0",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jumbojett/OpenID-Connect-PHP.git",
-                "reference": "5a94ce870cdba1e14a35f62cb294c21e5628ac33"
+                "reference": "a5d8686f4dca2da75bbfd72dfafc736e5b2609d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jumbojett/OpenID-Connect-PHP/zipball/5a94ce870cdba1e14a35f62cb294c21e5628ac33",
-                "reference": "5a94ce870cdba1e14a35f62cb294c21e5628ac33",
+                "url": "https://api.github.com/repos/jumbojett/OpenID-Connect-PHP/zipball/a5d8686f4dca2da75bbfd72dfafc736e5b2609d4",
+                "reference": "a5d8686f4dca2da75bbfd72dfafc736e5b2609d4",
                 "shasum": ""
             },
             "require": {
@@ -6502,8 +6502,11 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
             "description": "Bare-bones OpenID Connect client",
-            "time": "2018-07-17T11:31:35+00:00"
+            "time": "2018-10-15T20:32:30+00:00"
         },
         {
             "name": "league/container",

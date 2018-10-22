@@ -180,6 +180,11 @@ class OpenIDConnectClient
     private $authParams = array();
 
     /**
+     * @var array holds additional registration parameters for example post_logout_redirect_uris
+     */
+    private $registrationParams = array();
+
+    /**
      * @var mixed holds well-known openid server properties
      */
     private $wellKnown = false;
@@ -193,7 +198,7 @@ class OpenIDConnectClient
      * @var int leeway (seconds)
      */
     private $leeway = 300;
-	
+
     /**
      * @var array holds response types
      */
@@ -223,7 +228,7 @@ class OpenIDConnectClient
 		} else {
 			$this->setIssuer($issuer);
 		}
-		
+
         $this->clientID = $client_id;
         $this->clientSecret = $client_secret;
     }
@@ -241,7 +246,7 @@ class OpenIDConnectClient
     public function setIssuer($issuer) {
         $this->providerConfig['issuer'] = $issuer;
     }
-	
+
     /**
      * @param $response_types
      */
@@ -286,9 +291,11 @@ class OpenIDConnectClient
             if (!property_exists($token_json, 'id_token')) {
                 throw new OpenIDConnectClientException("User did not authorize openid scope.");
             }
-
+		dump('token json');
+		dump($token_json);
             $claims = $this->decodeJWT($token_json->id_token, 1);
-
+		dump('claims');
+		dump($claims);
             // Verify the signature
             if ($this->canVerifySignatures()) {
 		if (!$this->getProviderConfigValue('jwks_uri')) {
@@ -331,7 +338,8 @@ class OpenIDConnectClient
         } elseif ($this->allowImplicitFlow && isset($_REQUEST["id_token"])) {
             // if we have no code but an id_token use that
             $id_token = $_REQUEST["id_token"];
-
+		dump('id_token!');
+		dump($id_token);
             $accessToken = null;
             if (isset($_REQUEST["access_token"])) {
                 $accessToken = $_REQUEST["access_token"];
@@ -431,6 +439,13 @@ class OpenIDConnectClient
      */
     public function addAuthParam($param) {
         $this->authParams = array_merge($this->authParams, (array)$param);
+    }
+
+    /**
+     * @param $param - example: post_logout_redirect_uris=[http://example.com/successful-logout]
+     */
+    public function addRegistrationParam($param) {
+        $this->registrationParams = array_merge($this->registrationParams, (array)$param);
     }
 
     /**
@@ -577,7 +592,7 @@ class OpenIDConnectClient
         $auth_params = array_merge($this->authParams, array(
             'response_type' => $response_type,
             'redirect_uri' => $this->getRedirectURL(),
-            'client _id' => $this->clientID,
+            'client_id' => $this->clientID,
             'nonce' => $nonce,
             'state' => $state,
             'scope' => 'openid'
@@ -594,8 +609,7 @@ class OpenIDConnectClient
         }
 
         $auth_endpoint .= (strpos($auth_endpoint, '?') === false ? '?' : '&') . http_build_query($auth_params, null, '&');
-	dump($auth_endpoint);
-	#die();
+
         session_commit();
         $this->redirect($auth_endpoint);
     }
@@ -628,7 +642,7 @@ class OpenIDConnectClient
  /**
      * Requests a resource owner token
      * (Defined in https://tools.ietf.org/html/rfc6749#section-4.3)
-     * 
+     *
      * @param $bClientAuth boolean Indicates that the Client ID and Secret be used for client authentication
      */
     public function requestResourceOwnerToken($bClientAuth =  FALSE) {
@@ -681,7 +695,7 @@ class OpenIDConnectClient
             'client_id' => $this->clientID,
             'client_secret' => $this->clientSecret
         );
-	dump($token_params);
+
         # Consider Basic authentication if provider config is set this way
         if (in_array('client_secret_basic', $token_endpoint_auth_methods_supported)) {
             $headers = ['Authorization: Basic ' . base64_encode($this->clientID . ':' . $this->clientSecret)];
@@ -717,7 +731,10 @@ class OpenIDConnectClient
         $token_params = http_build_query($token_params, null, '&');
 
         $json = json_decode($this->fetchURL($token_endpoint, $token_params));
-        $this->accessToken = $json->access_token;
+
+        if (isset($json->access_token)) {
+            $this->accessToken = $json->access_token;
+        }
 
         if (isset($json->refresh_token)) {
             $this->refreshToken = $json->refresh_token;
@@ -739,7 +756,7 @@ class OpenIDConnectClient
                      return $key;
                  }
              } else {
-                 if ($key->alg == $header->alg && $key->kid == $header->kid) {
+                 if (isset($key->alg) && $key->alg == $header->alg && $key->kid == $header->kid) {
                      return $key;
                  }
              }
@@ -751,7 +768,7 @@ class OpenIDConnectClient
                         return $key;
                     }
                 } else {
-                    if ($key->alg == $header->alg && $key->kid == $header->kid) {
+                    if (isset($key->alg) && $key->alg == $header->alg && $key->kid == $header->kid) {
                         return $key;
                     }
                 }
@@ -787,7 +804,7 @@ class OpenIDConnectClient
             "  <Modulus>" . b64url2b64($key->n) . "</Modulus>\r\n" .
             "  <Exponent>" . b64url2b64($key->e) . "</Exponent>\r\n" .
             "</RSAKeyValue>";
-	if(class_exists('Crypt_RSA')) {
+	if(class_exists('Crypt_RSA', false)) {
         	$rsa = new Crypt_RSA();
 		$rsa->setHash($hashtype);
         	$rsa->loadKey($public_key_xml, Crypt_RSA::PUBLIC_FORMAT_XML);
@@ -800,7 +817,7 @@ class OpenIDConnectClient
 	}
         return $rsa->verify($payload, $signature);
     }
-	
+
     /**
      * @param string $hashtype
      * @param object $key
@@ -828,6 +845,7 @@ class OpenIDConnectClient
      * @return bool
      */
     public function verifyJWTsignature($jwt) {
+	#dump($jwt);
         $parts = explode(".", $jwt);
         $signature = base64url_decode(array_pop($parts));
         $header = json_decode(base64url_decode($parts[0]));
@@ -842,9 +860,14 @@ class OpenIDConnectClient
         case 'RS384':
         case 'RS512':
             $hashtype = 'sha' . substr($header->alg, 2);
-
+		dump('hashtype');
+		dump($hashtype);
+		dump('jwks');
+		dump($jwks);
+		dump('header');
+		dump($header);
             $verified = $this->verifyRSAJWTsignature($hashtype,
-                                                     $this->get_key_for_header($jwks->keys, $header),
+                  				     $this->get_key_for_header($jwks->keys, $header),
                                                      $payload, $signature);
             break;
 	case 'HS256':
@@ -852,7 +875,7 @@ class OpenIDConnectClient
         case 'HS384':
             $hashtype = 'SHA' . substr($header->alg, 2);
             $verified = $this->verifyHMACJWTsignature($hashtype, $this->getClientSecret(), $payload, $signature);
-            break;		
+            break;
         default:
             throw new OpenIDConnectClientException('No support for signature type: ' . $header->alg);
         }
@@ -1109,7 +1132,7 @@ class OpenIDConnectClient
             return $this->providerConfig['providerUrl'];
         }
     }
-	
+
     /**
      * @param $url
      */
@@ -1220,10 +1243,10 @@ class OpenIDConnectClient
 
         $registration_endpoint = $this->getProviderConfigValue('registration_endpoint');
 
-        $send_object = (object)array(
+        $send_object = (object ) array_merge($this->registrationParams, array(
             'redirect_uris' => array($this->getRedirectURL()),
             'client_name' => $this->getClientName()
-        );
+        ));
 
         $response = $this->fetchURL($registration_endpoint, json_encode($send_object));
 
@@ -1434,7 +1457,7 @@ class OpenIDConnectClient
     {
         return $this->timeOut;
     }
-	
+
     /**
      * Safely calculate length of binary string
      * @param string
