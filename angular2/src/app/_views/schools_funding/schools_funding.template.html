@@ -10,7 +10,7 @@
 <form (submit)="filterSubmit($event)" class="filter-wrapper" [class.filtersActive]="showFilter">
   <div class="main-container">
     <div class="row">
-      <div class="col-4 sm-12">
+      <div class="col-3 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.ownershipType">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.institution_ownership' | translate }}" [(ngModel)]="filterFormItems.ownershipType" name="ownershipType">
@@ -26,7 +26,7 @@
           </mat-form-field>
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
-      <div class="col-3 sm-12">
+      <div class="col-5 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.investmentMeasure">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.investment_measure' | translate }}" [(ngModel)]="filterFormItems.investmentMeasure" name="investmentMeasure">
@@ -42,7 +42,7 @@
           </mat-form-field>
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
-      <div class="col-5 sm-12 align-end flex-end">
+      <div class="col-4 sm-12 align-end flex-end">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.investmentDeadline">
           <mat-form-field>
             <mat-select placeholder="{{ 'school.investment_deadline_year' | translate }}" [(ngModel)]="filterFormItems.investmentDeadline" name="investmentDeadline">
@@ -53,7 +53,7 @@
             </mat-select>
           </mat-form-field>
         </div><!--/round-inpuit__wrapper-->
-                <div class="button-row">
+        <div class="button-row">
           <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate }}</button>
         </div>
       </div><!--/col-4-->
@@ -80,11 +80,11 @@
           </div><!--/block__head__buttons-->
         </div><!--/block__hed-->
 
-        <div class="map-wrapper">
+        <div class="map-wrapper" [class.polygonMap]="polygons">
           <div class="map-loader" *ngIf="loading" >
             <mat-spinner diameter="60"></mat-spinner>
           </div><!--/map-loader-->
-          <agm-map (mapReady)="mapReady($event)" style="height:525px" maxZoom="16" [styles]="mapOptions.styles">
+          <agm-map (mapReady)="mapReady($event)" maxZoom="16" [styles]="mapOptions.styles">
             <agm-marker-cluster [styles]="mapOptions.clusterStyles" maxZoom="15" *ngIf="data">
               <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of data" [latitude]="parseFloat(marker.lat)"  [longitude]="parseFloat(marker.lon)" >
                 <agm-snazzy-info-window [closeWhenOthersOpen]="true" (afterClose)="showFunding(false)" #infoWindow maxHeight="99999">
@@ -129,21 +129,41 @@
 
             <agm-data-layer *ngIf="polygons" [geoJson]="polygons" [style]="polygonStyles" (layerClick)="kmlClick($event)">
             </agm-data-layer>
+
+            <ng-container *ngIf="sumWindowStatus">
+              <agm-snazzy-info-window [closeWhenOthersOpen]="true" #sumLayer isOpen="sumWindowStatus" [latitude]="sumWindowLat" [longitude]="sumWindowLon" (isOpenChange)="kmlClickStatus($event)" >
+                <ng-template>
+                  <b>{{ infoLayer.name }}</b><br />
+                  {{ infoLayer.sum  | currency:"EUR" }}
+                </ng-template>
+              </agm-snazzy-info-window>
+            </ng-container>
           </agm-map>
           <div class="polygons-toggle" *ngIf="polygons">
             <button (click)="changeLayer('county')" [class.active]="polygonLayer == 'county'">{{ 'school.counties' | translate }}</button>
             <button (click)="changeLayer('kov')" [class.active]="polygonLayer == 'kov'">{{ 'school.municipalities_detailed' | translate }}</button>
           </div>
+          <img src="/assets/img/placeholder-50.gif" />
         </div><!--/map-wrapper-->
+
+        <ng-container *ngIf="infoLayers" class="THIS_IS_REDUNDANT">
+          <div class="layerClick" [ngStyle]="{ top: infoLayer.top, left: infoLayer.left }">
+            <b>{{ infoLayer.name }}</b><br />
+            {{ infoLayer.sum  | currency:"EUR" }}
+          </div><!--/layerClick-->
+        </ng-container>
 
         <ng-container *ngIf="heatMapRanges.length > 0">
           <div class="mapLegend">
             <div class="mapLegend__block" *ngFor="let item of heatMapRanges">
               <div class="mapLegend__color" [style.background-color]="item.color"></div>
-              {{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount| legendCurrency:"max" }} €
+              {{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount | legendCurrency:"max" }} €
             </div>
           </div><!--/map-legend-->
         </ng-container>
+
+        <div class="map-created" *ngIf="polygons">{{ 'school.map_created' | translate }} 06.09.2018</div>
+
       </div><!--/block-->
     </div><!--/col-12-->
   </div><!--/row-->
