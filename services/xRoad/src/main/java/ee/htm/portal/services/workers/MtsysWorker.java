@@ -149,7 +149,7 @@ public class MtsysWorker extends Worker {
     return mtsysKlfResponse;
   }
 
-  public Object getMtsysTegevusluba(String formName, String identifier, String personalCode) {
+  public ObjectNode getMtsysTegevusluba(String formName, String identifier, String personalCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
     jsonNode.putObject("header")
