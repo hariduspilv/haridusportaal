@@ -2,30 +2,30 @@
 
 namespace Drupal\htm_custom_professional_certific\Plugin\rest\resource;
 
-use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
+use Drupal\htm_custom_authentication\CustomRoleSwitcher;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
-use GuzzleHttp\Exception\RequestException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
  *
  * @RestResource(
- *   id = "dashboard_service_rest_resource",
- *   label = @Translation("Dashboard service rest resource"),
+ *   id = "get_companies_rest_resource",
+ *   label = @Translation("Get companies rest resource"),
  *   uri_paths = {
- *     "canonical" = "/dashboard/{service_name}/{tab_index}"
+ *     "canonical" = "/getRoles",
+ *     "create" = "/setRole"
  *   }
  * )
  */
-class ProfessionalCertificateRestResource extends ResourceBase {
+class GetCompaniesRestResource extends ResourceBase {
 
   /**
    * A current user instance.
@@ -35,7 +35,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
   protected $currentUser;
 
   /**
-   * Constructs a new ProfessionalCertificateRestResource object.
+   * Constructs a new GetCompaniesRestResource object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -51,15 +51,17 @@ class ProfessionalCertificateRestResource extends ResourceBase {
    *   A current user instance.
    */
   public function __construct(
-			array $configuration,
-			$plugin_id,
-			$plugin_definition,
-			array $serializer_formats,
-			LoggerInterface $logger,
-			AccountProxyInterface $current_user,
-			EhisConnectorService $ehisConnectorService) {
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    array $serializer_formats,
+    LoggerInterface $logger,
+    AccountProxyInterface $current_user,
+		JsonAuthenticationProvider $jsonAuthenticationProvider,
+		CustomRoleSwitcher $roleSwitcher) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-		$this->certificate = $ehisConnectorService;
+		$this->authenticator = $jsonAuthenticationProvider;
+		$this->roleSwitcher = $roleSwitcher;
     $this->currentUser = $current_user;
   }
 
@@ -74,15 +76,39 @@ class ProfessionalCertificateRestResource extends ResourceBase {
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('htm_custom_professional_certific'),
       $container->get('current_user'),
-			$container->get('htm_custom_ehis_connector.default')
+      $container->get('authentication.custom_graphql_authentication'),
+	    $container->get('current_user.role_switcher')
+
     );
   }
 
   /**
    * Responds to GET requests.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
+   * @return \Drupal\rest\ResourceResponse
+   *   The HTTP response object.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+   *   Throws exception expected.
+   */
+  public function get() {
+
+    // You must to implement the logic of your REST Resource here.
+    // Use current user after pass authentication to validate access.
+    if (!$this->currentUser->hasPermission('access content')) {
+      throw new AccessDeniedHttpException();
+    }
+
+	  /*@TODO mby add default userRole aswell to response*/
+	  $roles = $this->roleSwitcher->getAvailableRoles();
+    return new ResourceResponse($roles, 200);
+  }
+
+  /**
+   * Responds to POST requests.
+   *
+   * @param $data
+   *   The POST Data.
    *
    * @return \Drupal\rest\ModifiedResourceResponse
    *   The HTTP response object.
@@ -90,44 +116,19 @@ class ProfessionalCertificateRestResource extends ResourceBase {
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
-  public function get($service_name, $tab) {
-		// You must to implement the logic of your REST Resource here.
-		// Use current user after pass authentication to validate access.
-		if (!$this->currentUser->hasPermission('access content')) {
-			throw new AccessDeniedHttpException();
-		}
-  	switch ($service_name){
-			case 'certificates':
-				// @TODO  Mby security risk
-				$method = $tab;
-				$params = [];
-				break;
-			case 'eeIsikukaart':
-				$method = 'getPersonalCard';
-				$params = ['tab' => $tab];
-				break;
-			case 'applications':
-				$method = 'getApplications';
-				#$this->certificate->testApplications();
-				$params = ['init' => (boolean) $tab];
-				break;
-			default:
-				throw new BadRequestHttpException('Service name not found');
-				break;
-		}
+  public function post($data) {
 
-		try{
-			$json = $this->certificate->{$method}($params);
-		}catch (RequestException $e){
-			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
-		}
+    // You must to implement the logic of your REST Resource here.
+    // Use current user after pass authentication to validate access.
+    if (!$this->currentUser->hasPermission('access content')) {
+      throw new AccessDeniedHttpException();
+    }
 
-		$response = new ResourceResponse($json, 200);
-		$cache_metadata = new CacheableMetadata();
-		$cache_metadata->addCacheContexts(['url.query_args', 'user']);
-		$response->addCacheableDependency($cache_metadata);
+	  //Generate new jwt
+	  $token = $this->authenticator->generateToken($data['type'], $data['id']);
 
-		return $response;
-	}
+
+    return new ModifiedResourceResponse(["token" => $token], 200);
+  }
 
 }
