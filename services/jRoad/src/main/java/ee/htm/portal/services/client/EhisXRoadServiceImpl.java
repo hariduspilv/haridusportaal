@@ -7,8 +7,12 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Ee
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaDocument.MtsysEsitaTegevusluba;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaResponseDocument.MtsysEsitaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusDocument.MtsysLaeOppeasutus;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusResponseDocument.MtsysLaeOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaDocument.MtsysLaeTegevusluba;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaResponseDocument.MtsysLaeTegevuslubaResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusDocument.MtsysOppeasutus;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusResponseDocument.MtsysOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusloadDocument.MtsysTegevusload;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusloadResponseDocument.MtsysTegevusloadResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevuslubaDocument.MtsysTegevusluba;
@@ -156,5 +160,26 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
     }
 
     return mtsysEsitaTegevuslubaV1(request, userId);
+  }
+
+  public MtsysOppeasutusResponse mtsysOppeasutus(BigInteger identifier, String userId)
+      throws XRoadServiceConsumptionException {
+    MtsysOppeasutus request = MtsysOppeasutus.Factory.newInstance();
+    request.setOppeasutusId(identifier);
+
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysOppeasutusV1(request);
+    }
+
+    return mtsysOppeasutusV1(request, userId);
+  }
+
+  public MtsysLaeOppeasutusResponse mtsysLaeOppeasutus(MtsysLaeOppeasutus request, String userId)
+      throws XRoadServiceConsumptionException {
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysLaeOppeasutusV1(request);
+    }
+
+    return mtsysLaeOppeasutusV1(request, userId);
   }
 }
