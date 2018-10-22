@@ -118,10 +118,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
         ),
-        'O' => 
-        array (
-            'OpenIDConnectClient\\' => 20,
-        ),
         'M' => 
         array (
             'Monolog\\' => 8,
@@ -131,10 +127,8 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         ),
         'L' => 
         array (
-            'League\\OAuth2\\Client\\' => 21,
             'League\\Csv\\' => 11,
             'League\\Container\\' => 17,
-            'Lcobucci\\JWT\\' => 13,
         ),
         'J' => 
         array (
@@ -420,10 +414,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
-        'OpenIDConnectClient\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/steverhoades/oauth2-openid-connect-client/src',
-        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -440,10 +430,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/makinacorpus/php-lucene/src',
         ),
-        'League\\OAuth2\\Client\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/league/oauth2-client/src',
-        ),
         'League\\Csv\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/csv/src',
@@ -451,10 +437,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'League\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/container/src',
-        ),
-        'Lcobucci\\JWT\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
         ),
         'JakubOnderka\\PhpConsoleHighlighter\\' => 
         array (
