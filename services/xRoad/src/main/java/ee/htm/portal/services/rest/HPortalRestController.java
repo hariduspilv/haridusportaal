@@ -50,7 +50,7 @@ public class HPortalRestController {
   }
 
   @RequestMapping(value = "/getDocument/{formName}/{identifier}/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-  public ResponseEntity<?> getDocuments(
+  public ResponseEntity<?> getDocument(
       @PathVariable("formName") String formName,
       @PathVariable("identifier") String identifier,
       @PathVariable("personalCode") String personalCode) {
