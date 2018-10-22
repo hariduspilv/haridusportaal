@@ -37,6 +37,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
   infoWindowFunding:any = false;
   
+  infoLayer:any = false;
+
   mapOptions = {
     center: {
       lat: 58.5822061,
@@ -116,9 +118,10 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
   changeView( view:String = "schools" ) {
     this.view = view;
+    this.sumWindowStatus = false;
     localStorage.setItem("schools_funding.view", view.toString() );
-    this.map.setZoom(this.mapOptions.zoom);
-    this.map.setCenter(this.mapOptions.center);
+    //this.map.setZoom(this.mapOptions.zoom);
+    //this.map.setCenter(this.mapOptions.center);
     this.getData();
   }
   
@@ -187,8 +190,9 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   getData() {
 
     if(this.map){
-      this.map.setZoom(this.mapOptions.zoom);
-      this.map.setCenter(this.mapOptions.center);
+      this.sumWindowStatus = false;
+      //this.map.setZoom(this.mapOptions.zoom);
+      //this.map.setCenter(this.mapOptions.center);
     }
 
     this.loading = true;
@@ -221,6 +225,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       }else{
         this.data = [];
         this.polygonData = data['data']['CustomSubsidyProjectQuery'];
+        
         this.generateHeatmapColors();
         this.getPolygons();
       }
@@ -269,6 +274,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     let url = "/assets/polygons/"+this.polygonLayer+".json";
     let subscription = this.http.get(url).subscribe( data => {
       this.polygons = this.assignPolygonsColors(data);
+      console.log(this.polygons);
       this.loading = false;
       subscription.unsubscribe();
     });
@@ -294,15 +300,17 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       for( let o in this.heatMapRanges ){
 
         if( !match.investmentAmountSum ) {
-          color = "#fff";
+          color = "#cfcfcf";
         }
         else if( match.investmentAmountSum >= this.heatMapRanges[o]['minAmount'] && match.investmentAmountSum <= this.heatMapRanges[o]['maxAmount'] ){
           color = this.heatMapRanges[o]['color'];
+          properties['investmentAmountSum'] = match.investmentAmountSum;
           break;
         }
       }
 
       properties['color'] = color;
+
       
       
     }
@@ -324,8 +332,38 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     };
   }
 
-  kmlClick($event) {
+  sumWindowStatus: boolean = false;
+  sumWindowLat: any;
+  sumWindowLon: any;
+  kmlDebounce: any;
 
+  kmlClick($event) {
+    
+    this.infoLayer = {
+      left: $event['va']['clientX']+"px",
+      top: $event['va']['clientY']+"px",
+      sum: $event['feature']['f']['investmentAmountSum'],
+      name: $event['feature']['f']['NIMI']
+    };
+
+    if( !this.infoLayer.sum ){
+      this.infoLayer.sum = 0;
+    }
+
+    this.sumWindowLat = $event.latLng.lat();
+    this.sumWindowLon = $event.latLng.lng();
+
+    this.sumWindowStatus = true;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  kmlClickStatus($isOpen: boolean){
+    this.sumWindowStatus = $isOpen;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  kmlHover(){
+    console.log("aa");
   }
 
   changeLayer(name){

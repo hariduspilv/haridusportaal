@@ -46,11 +46,13 @@
 }
 
 
-.map-wrapper{position: relative;
+.map-wrapper{position: relative; 
+	.sebm-google-map-container{height:100%; position:absolute; top:0; left:0; right:0;}
 	@include break-on(sm, max){text-align:center;
 		margin:0 -1.5rem;
 	}
-  .map-loader{position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(255,255,255,0.7); z-index: 2; display:flex; flex-direction: column; justify-content: center;}
+	.map-loader{position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(255,255,255,0.7); z-index: 2; display:flex; flex-direction: column; justify-content: center;}
+	&>img{display:block; width:100%;}
 }
 
 .polygons-toggle{position:absolute; top:1rem; left:1rem; background:$white; border-radius:10rem;
@@ -87,3 +89,6 @@ button:hover { text-decoration: underline; }
 		margin: 0px;
 		}
 }
+.map-created{font-size:0.875rem; color:$black; font-style:italic; font-weight:300; padding:1rem 0 0 0; text-align:right;}
+.layerClick{position:fixed; z-index:999; background:$white; border-top:$orange 7px solid; border-radius:4px; padding:12px; font-size:14px; color:$black;}
+::ng-deep .polygonMap .si-float-wrapper .si-wrapper-top{width:290px}
