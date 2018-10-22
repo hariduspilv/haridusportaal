@@ -146,13 +146,6 @@
           <img src="/assets/img/placeholder-50.gif" />
         </div><!--/map-wrapper-->
 
-        <ng-container *ngIf="infoLayers" class="THIS_IS_REDUNDANT">
-          <div class="layerClick" [ngStyle]="{ top: infoLayer.top, left: infoLayer.left }">
-            <b>{{ infoLayer.name }}</b><br />
-            {{ infoLayer.sum  | currency:"EUR" }}
-          </div><!--/layerClick-->
-        </ng-container>
-
         <ng-container *ngIf="heatMapRanges.length > 0">
           <div class="mapLegend">
             <div class="mapLegend__block" *ngFor="let item of heatMapRanges">
