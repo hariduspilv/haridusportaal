@@ -70,7 +70,7 @@ class OskaTableImportDataForm extends FormBase {
                 //check headers
                 foreach($required_headers as $required_header){
                     if(!in_array($required_header, $header_info['keys'])){
-                        $form_state->setErrorByName('file', $this->t("$required_header header is not wrong spelled or missing"));
+                        $form_state->setErrorByName('file', $this->t("$required_header header is wrongly spelled or missing"));
                     }
                 }
 
