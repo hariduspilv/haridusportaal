@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusResponseDocument.MtsysOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevuslubaResponseDocument.MtsysTegevuslubaResponse;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -347,6 +348,83 @@ public class MtsysWorker extends Worker {
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
     sender.send(logsTopic, null, logForDrupal, "ehis.mtsysTegevusluba.v1");
+
+    return jsonNode;
+  }
+
+  public ObjectNode getMtsysOppeasutus(String identifier, String personalCode) {
+    ObjectNode jsonNode = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - mtsysOppeasutus.v1");
+
+    try {
+      MtsysOppeasutusResponse response = ehisXRoadService
+          .mtsysOppeasutus(BigInteger.valueOf(Long.parseLong(identifier)), personalCode);
+
+      if (response.isSetInfotekst()) {
+        jsonNode.put("message", response.getInfotekst());
+      }
+
+      if (response.isSetOppeasutus()) {
+        ObjectNode educationalInstitutionNode = jsonNode.putObject("educationalInstitution");
+        if (response.getOppeasutus().isSetYldandmed()) {
+          educationalInstitutionNode.putObject("generalData")
+              .put("owner", response.getOppeasutus().getYldandmed().getOmanik())
+              .put("name", response.getOppeasutus().getYldandmed().getOppeasutuseNimetus())
+              .put("nameENG",
+                  response.getOppeasutus().getYldandmed().getOppeasutuseNimetusIngliseKeeles())
+              .put("ownerType", response.getOppeasutus().getYldandmed().getKlPidajaLiik())
+              .put("ownershipType", response.getOppeasutus().getYldandmed().getKlOmandivorm())
+              .put("studyInstitutionType",
+                  response.getOppeasutus().getYldandmed().getKlOppeasutuseLiik());
+        }
+
+        if (response.getOppeasutus().isSetAadress()) {
+          educationalInstitutionNode.putObject("address")
+              .put("seqNo", response.getOppeasutus().getAadress().getJrkNr())
+              .put("adsId", response.getOppeasutus().getAadress().getAdsId())
+              .put("adsOid", response.getOppeasutus().getAadress().getAdsOid())
+              .put("klElukoht", response.getOppeasutus().getAadress().getKlElukoht().intValue())
+              .put("county", response.getOppeasutus().getAadress().getMaakond())
+              .put("localGovernment", response.getOppeasutus().getAadress().getOmavalitsus())
+              .put("settlementUnit", response.getOppeasutus().getAadress().getAsula())
+              .put("address", response.getOppeasutus().getAadress().getAdsAadress())
+              .put("addressFull", response.getOppeasutus().getAadress().getTaisAadress())
+              .put("addressHumanReadable",
+                  response.getOppeasutus().getAadress().getAdsAadressHumanReadable());
+        }
+
+        if (response.getOppeasutus().isSetKontaktandmed()) {
+          educationalInstitutionNode.putObject("contacts")
+              .put("contactPhone",
+                  response.getOppeasutus().getKontaktandmed().getOppeasutuseYldtelefon())
+              .put("contactEmail",
+                  response.getOppeasutus().getKontaktandmed().getOppeasutuseEpost())
+              .put("webpageAddress",
+                  response.getOppeasutus().getKontaktandmed().getKoduleheAadress());
+        }
+      }
+    } catch (Exception e) {
+      LOGGER.error(e, e);
+
+      logForDrupal.setSeverity("ERROR");
+      logForDrupal.setMessage(e.getMessage());
+
+      redisTemplate.opsForHash().put(identifier, "educationalInstitution", "Tehniline viga!");
+
+      jsonNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
+          .put("et", "Tehniline viga!");
+
+      jsonNode.remove("educationalInstitution");
+      jsonNode.remove("message");
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    sender.send(logsTopic, null, logForDrupal, "ehis.mtsysOppeasutus.v1");
+
+    redisTemplate.opsForHash().put(identifier, "educationalInstitution", jsonNode);
 
     return jsonNode;
   }

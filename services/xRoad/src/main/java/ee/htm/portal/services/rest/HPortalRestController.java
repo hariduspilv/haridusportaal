@@ -57,7 +57,11 @@ public class HPortalRestController {
     if (formName.startsWith("VPT_ESITATUD")) {
       return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
-      return new ResponseEntity<>(mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode), HttpStatus.OK);
+      return new ResponseEntity<>(
+          mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode), HttpStatus.OK);
+    } else if (formName.equalsIgnoreCase("MTSYS_OPPEASUTUS")) {
+      return new ResponseEntity<>(
+          mtsysWorker.getMtsysOppeasutus(identifier, personalCode), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request formName - " + formName);
