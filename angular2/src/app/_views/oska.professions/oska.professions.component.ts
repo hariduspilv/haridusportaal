@@ -47,8 +47,10 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     this.filterSub = this.http.get('/graphql?queryId=oskaMainProfessionListViewFilter:1&variables=' + JSON.stringify(variables)).subscribe(response => {
       this.oskaFieldValue = response['data']['nodeQuery']['entities'];
       for(let i in this.filterOptionKeys){
-        if( this.params[this.filterOptionKeys[i]] !== undefined ){
-          this.filterFormItems[this.filterOptionKeys[i]] = parseInt(this.params[this.filterOptionKeys[i]]);
+        if( this.params[this.filterOptionKeys[i]] !== undefined && this.filterOptionKeys[i] === 'fixedLabelValue') {
+          this.filterFormItems[this.filterOptionKeys[i]] = this.params[this.filterOptionKeys[i]];
+        } else if (this.params[this.filterOptionKeys[i]] !== undefined) {
+          this.filterFormItems[this.filterOptionKeys[i]] = parseInt(this.params[this.filterOptionKeys[i]], 10);
         }
         if( this[this.filterOptionKeys[i]] ) {
           this.FilterOptions[this.filterOptionKeys[i]] = this[this.filterOptionKeys[i]];
@@ -132,6 +134,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     this.watchParams();
     this.populateFilterOptions();
     this.filterSubmit();
+    this.filterFull = this.params['fixedLabelValue'];
   }
   
   ngOnDestroy () {

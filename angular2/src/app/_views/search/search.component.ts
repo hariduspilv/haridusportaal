@@ -30,11 +30,14 @@ export class SearchComponent {
   };
   typesByLang: any = {
     et: [
-      {"name": "article.label", "sumLabel": "Artikkel", "value": false, "sum": 0},
+      {"name": "article.label", "sumLabel": "Sisuleht Artikkel", "value": false, "sum": 0},
       {"name": "news.label", "sumLabel": "Uudis", "value": false, "sum": 0},
       {"name": "event.label", "sumLabel": "Sündmus", "value": false, "sum": 0},
       {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
       {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
+      {"name": "oskaProfessions.label", "sumLabel": "Sisuleht OSKA Ametiala", "value": false, "sum": 0},
+      {"name": "oska.workforcePrognosis", "sumLabel": "Sisuleht OSKA Tööjõuprognoos", "value": false, "sum": 0},
+      {"name": "oska.title_field", "sumLabel": "Sisuleht OSKA Valdkond", "value": false, "sum": 0}
     ],
     en: [
       {"name": "article.label", "sumLabel": "Article", "value": false, "sum": 0},
@@ -42,6 +45,9 @@ export class SearchComponent {
       {"name": "event.label", "sumLabel": "Event", "value": false, "sum": 0},
       {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
       {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
+      {"name": "oskaProfessions.label", "sumLabel": "Sisuleht OSKA Ametiala", "value": false, "sum": 0},
+      {"name": "oska.workforcePrognosis", "sumLabel": "Sisuleht OSKA Tööjõuprognoos", "value": false, "sum": 0},
+      {"name": "oska.title_field", "sumLabel": "Sisuleht OSKA Valdkond", "value": false, "sum": 0}
     ]
   };
   types: Array<any>;
@@ -179,7 +185,7 @@ export class SearchComponent {
   }
 
   checkForAllFilters() {
-    return this.types.filter((type) => type.value || !type.sum).length === 5 || this.types.filter((type) => !type.value).length === 5;
+    return this.types.filter((type) => type.value || !type.sum).length === 8 || this.types.filter((type) => !type.value).length === 8;
   }
 
   filterAll() {
