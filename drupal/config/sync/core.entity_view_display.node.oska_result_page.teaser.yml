@@ -1,0 +1,31 @@
+uuid: a0db777d-8090-4256-b040-bf3e9cf8c963
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.oska_result_page.body
+    - node.type.oska_result_page
+  module:
+    - text
+    - user
+id: node.oska_result_page.teaser
+targetEntityType: node
+bundle: oska_result_page
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true

@@ -165,7 +165,6 @@ class OskaGraphField extends FieldItemBase {
 
     public function getCleanLabel($field_name){
         $target_type = $this->getFieldDefinition()->getSettings()['target_type'];
-
         $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple();
 
         $entity_fields = reset($entities)->getFields();
