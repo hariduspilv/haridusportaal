@@ -17,6 +17,7 @@ jobs:
           sudo su - wiseman
           ssh -q -o StrictHostKeyChecking=no core@vm89 <<EOF2
           docker ps -a
+          docker ps -a
           EOF2
           EOF1
     - run:
