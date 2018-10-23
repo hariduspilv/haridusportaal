@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\htm_custom_professional_certific\Plugin\rest\resource;
+namespace Drupal\htm_custom_authentication\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
@@ -17,23 +17,38 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * Provides a resource to get view modes by entity and bundle.
  *
  * @RestResource(
- *   id = "get_companies_rest_resource",
+ *   id = "roles_rest_resource",
  *   label = @Translation("Get companies rest resource"),
  *   uri_paths = {
- *     "canonical" = "/getRoles",
- *     "create" = "/setRole"
+ *     "canonical" = "/custom/login/getRoles",
+ *     "create" = "/custom/login/setRole"
  *   }
  * )
  */
-class GetCompaniesRestResource extends ResourceBase {
+class RolesRestResource extends ResourceBase {
 
   /**
    * A current user instance.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
+
   protected $currentUser;
 
+	/**
+	 * @var LoggerInterface
+	 */
+	protected $logger;
+
+	/**
+	 * @var JsonAuthenticationProvider
+	 */
+	protected $authenticator;
+
+	/**
+	 * @var CustomRoleSwitcher
+	 */
+	protected $roleSwitcher;
   /**
    * Constructs a new GetCompaniesRestResource object.
    *
