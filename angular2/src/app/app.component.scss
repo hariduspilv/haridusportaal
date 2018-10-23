@@ -77,6 +77,12 @@ $grid-columns: 12;
 }
 .form-additional-row {padding-top: $gutter;
   &:last-child {margin-bottom: -$quarter !important;}
+  &.no-gutter {
+    .custom-checkbox {margin-left: 1rem;}
+    @include break-on(sm, min) {margin-top: -1.5rem;
+      .custom-checkbox {margin: 1rem 0 0 1rem;}
+    }
+  }
 }
 
 .row{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;
@@ -169,6 +175,15 @@ $grid-columns: 12;
   }
 }
 
+.icon-wrapper {display: flex;width: 2.5rem;min-width: 2.5rem;height: 2.5rem;align-items: center;justify-content: center;border-radius: .25rem;
+  &.pos{border: 1px solid #008d53;background-color: #e6f5ef;
+    .htm-icon {color: #008d53;}
+  }
+  &.neg{border: 1px solid #d0021b;background-color: #fdf3f4;
+    .htm-icon {color: #d0021b;}
+  }
+}
+
 .flex.mininav {line-height: 2;flex-wrap: wrap;min-height: 3.0625rem;align-items: center;
   & > * {height: 1.5rem;padding-right: 1rem;}
   .important-pill{height: 1.125rem;top: 0;margin-left: 0;}
@@ -196,7 +211,7 @@ $grid-columns: 12;
 .btn-link { color: $blue; background-color: $white; border: transparent 0px solid; text-decoration: underline; 
   font-size: 1rem; }
   .button-row {@include break-on(sm, max) {padding-top: $gutter; width: 100%;}}
-  .filter-state { margin: 0 auto; position: relative; right: 8px; text-align: center;
+  .filter-state { margin: 0 auto; position: relative; right: 0.5rem; text-align: center;
     a {
       text-decoration: underline;
     }
@@ -339,7 +354,7 @@ $grid-columns: 12;
     @include break-on(sm, min) {position: relative;padding-right: $small;padding-left: $small;}
     &__table {overflow:auto;}
     &__rectangle {width: 3.125rem;height: 3.125rem;border-radius: 50%;background-color: $dark-gray;position: absolute;right: $small;top: 50%;z-index: 5;user-select: none;
-      box-shadow: 0 .125rem .125rem 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+      box-shadow: 0 .125rem .125rem 0 rgba(0, 0, 0, 0.24), 0 0 0.125rem 0 rgba(0, 0, 0, 0.12);
       .htm-icon {position: relative;top: 0.4rem;left: 0.4rem;font-size: 2.5rem;color: $white;}
       &--left {left: $small;
         @include break-on(sm, min) {left: $small;}
@@ -396,7 +411,7 @@ $grid-columns: 12;
       .mat-card img{width:100%;}
       p{margin:.625rem 0 -$gutter 0 !important;}
     }
-    &.pull-right{float:right; max-width:500px; width:100%; margin:$small 0 $small $small;}
+    &.pull-right{float:right; max-width:31.25rem; width:100%; margin:$small 0 $small $small;}
   }
   .mat-drawer-container {
     background-color: $white;
@@ -455,8 +470,8 @@ $grid-columns: 12;
    box-shadow: 0 .125rem $half-gutter 0 rgba(0, 0, 0, 0.5);
    height: 3.75rem;
    @include break-on(sm, min) {min-width: 50rem !important;}
-   @include break-on(sm, max) {min-width: 100vw !important;height: auto; padding: 20px 24px 14px 75px!important;}
-   padding: 20px 24px 14px 75px!important;
+   @include break-on(sm, max) {min-width: 100vw !important;height: auto; padding: 1.25rem 1.5rem 0.875rem 4.6875rem!important;}
+   padding: 1.25rem 1.5rem 0.875rem 4.6875rem!important;
    border-radius: 0.25rem; background-color: #E6F5EF; border: solid 0.09375rem $success;
    @include break-on(sm, max) {
     height: auto;
@@ -473,8 +488,6 @@ $grid-columns: 12;
 .mat-simple-snackbar:before {
  font-family: 'htm-icon'; content: "\e9ce"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $success; position: absolute;
  left: 0px; top: 0px; bottom: 0px; font-size: 1.875rem; display: flex; align-items: center; padding: 0 0.9375rem; };
-
-
 
 }
 
@@ -610,7 +623,7 @@ font-family: 'Rubik', sans-serif!important;
   position: absolute;
   opacity: 0;
   height: 0px;
-  width: 100px;
+  width: 6.25rem;
 }
 .hidden {
   opacity: 0;
@@ -642,12 +655,12 @@ font-family: 'Rubik', sans-serif!important;
   color: $dark-gray;
 }
 .round-input__wrapper .mat-form-field:focus {
-  border: 1px solid $blue;
+  border: 0.0625rem solid $blue;
 }
 
 .mat-checkbox {
   .mat-checkbox-inner-container {
-    margin: 0px 8px auto 0;
+    margin: 0px 0.5rem auto 0;
   }
   .mat-checkbox-layout {
     white-space: inherit; display: inline-flex;
@@ -676,7 +689,7 @@ a:hover .important-pill {
   font-weight: normal; margin-left: 1rem; pointer-events: none; text-decoration: none; display: inline-block; top: -0.25rem; position: relative;
 }
 
-.tooltip { display: flex; align-items: baseline; margin-top: 12px; margin-left: 0.5rem; }
+.tooltip { display: flex; align-items: baseline; margin-top: 0.75rem; margin-left: 0.5rem; }
 .tooltip:before { font-family: 'htm-icon'; content: "help_24px"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga'; color: $black;
  display: flex; align-items: center; }
 
