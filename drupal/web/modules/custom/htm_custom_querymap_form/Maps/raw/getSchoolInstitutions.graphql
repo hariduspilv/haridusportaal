@@ -1,0 +1,23 @@
+query getSchoolInstitutions(
+  $lang: LanguageId!,
+	$tids: [String]
+){
+  taxonomyTermQuery(filter:{
+    conditions: [
+      {field:"tid", value:$tids, language:$lang, operator:IN},
+    	{field:"vid", value:["educational_institution_type"], language:$lang, operator:IN}
+    ]
+    }
+  ){
+    entities(language:$lang){
+      entityLabel
+      entityId
+      parentId
+      ... on TaxonomyTermEducationalInstitutionType{
+        reverseFieldEducationalInstitutionTyNode{
+          count
+        }
+      }
+    }
+  }
+}

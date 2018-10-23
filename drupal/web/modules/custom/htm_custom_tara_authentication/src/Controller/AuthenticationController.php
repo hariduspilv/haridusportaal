@@ -23,14 +23,15 @@ class AuthenticationController extends ControllerBase {
 
 
 	$oidc = new OpenIDConnectClient('https://tara-test.ria.ee/oidc', 'eduportaal', $tara_secret);
-     	$oidc->providerConfigParam(
+     	/*$oidc->providerConfigParam(
       	[
       		#'authorization_endpoint' => 'https://tara-test.ria.ee/oidc/authorize',
 		#'token_endpoint' => 'https://tara-test.ria.ee/oidc/token',
 		#'jwks_uri' => 'https://tara-test.ria.ee/oidc/jwks',
-	]);
+	]);*/
+	#$oidc->setResponseTypes(array('id_token'));
 	#dump($_REQUEST);
-	$oidc->setAllowImplicitFlow(TRUE);
+	#$oidc->setAllowImplicitFlow(TRUE);
      	#$oidc->addScope('openid');
 	#$oidc->addAuthParam(['username' => 'eduportaal']);
 	#$oidc->addAuthParam(['password' => $tara_secret]);

@@ -11,9 +11,14 @@ jobs:
         fingerprints:
           - "3f:b8:bf:43:a8:a2:1e:d1:22:cb:0a:6e:86:4c:cd:04"
     - run:
-        name: Test in local machine
+        name: Enter server
         command: |
-          ssh -vvv lars@gate.wiseman.ee -y
+          ssh -q -o StrictHostKeyChecking=no lars@gate.wiseman.ee <<EOF1
+          sudo su - wiseman
+          ssh -q -o StrictHostKeyChecking=no core@vm89 <<EOF2
+          $DEPLOYSCRIPT
+          EOF2
+          EOF1
 workflows:
   version: 2
   build:
