@@ -23,11 +23,9 @@ class CustomRoleSwitcher {
 
 	public function __construct (
 			AccountProxyInterface $current_user,
-			UserDataInterface $user_data,
-			EhisConnectorService $ehisConnectorService) {
+			UserDataInterface $user_data) {
 		$this->currentUser = $current_user;
 		$this->userData = $user_data;
-		$this->ehisConnector = $ehisConnectorService;
 	}
 
 	public function setNaturalPerson(){
@@ -35,7 +33,9 @@ class CustomRoleSwitcher {
 	}
 
 	public function setJuridicalPerson($id = NULL){
-		$roles = $this->ehisConnector->getUserRoles();
+
+		$roles = \Drupal::service('htm_custom_ehis_connector.default')->getUserRoles();
+
 		$d = array_column($roles, 'ettevotted', 'ariregistri_kood');
 		$d = reset($d);
 		foreach($d as $da){
