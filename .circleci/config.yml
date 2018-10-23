@@ -13,7 +13,7 @@ jobs:
     - run:
         name: Enter server
         command: |
-          ssh -o StrictHostKeyChecking=no lars@gate.wiseman.ee
+          ssh -o StrictHostKeyChecking=no lars@gate.wiseman.ee | echo "yes"
     - run:
         name: Enter virtual machine
         command: |
