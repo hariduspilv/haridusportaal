@@ -1,0 +1,30 @@
+uuid: 25266cb3-4225-4a67-9adb-27622b3a0583
+langcode: et
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - scheduler
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: false
+    publish_past_date: error
+    publish_required: false
+    publish_revision: false
+    publish_touch: false
+    unpublish_enable: false
+    unpublish_required: false
+    unpublish_revision: false
+name: 'Sisuleht OSKA Tulemused'
+type: oska_result_page
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

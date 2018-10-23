@@ -1,0 +1,27 @@
+uuid: 79974d90-bfe2-480d-96f9-ea6d5c41cfb9
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_result_page_table_file
+    - node.type.oska_result_page
+  module:
+    - file
+id: node.oska_result_page.field_result_page_table_file
+field_name: field_result_page_table_file
+entity_type: node
+bundle: oska_result_page
+label: 'Tabeli Fail'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: xlsx
+  max_filesize: '4 MB'
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file
