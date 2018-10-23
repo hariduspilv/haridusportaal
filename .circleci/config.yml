@@ -1,5 +1,7 @@
 jobs:
   build:
+    docker:
+    - image: bash:4.4.19
     steps:
     - run:
         name: Test in local machine
