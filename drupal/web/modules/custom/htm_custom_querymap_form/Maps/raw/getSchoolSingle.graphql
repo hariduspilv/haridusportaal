@@ -1,0 +1,55 @@
+query getSchoolSingle(
+    $path: String!
+  ) {
+    route(path: $path) {
+      ... on EntityCanonicalUrl {
+        entity {
+          ... on NodeSchool {
+            isFavorite
+            nid
+            title
+            fieldRegistrationCode
+            fieldOwnershipType {
+              entity {
+                name
+              }
+            }
+            fieldEducationalInstitutionTy {
+              entity {
+                name
+                entityId
+              }
+            }
+            fieldTeachingLanguage {
+              entity {
+                name
+              }
+            }
+            fieldSpecialClass
+            fieldStudentHome
+            fieldSchoolContactPhone
+            fieldSchoolContactEmail
+            fieldSchoolWebpageAddress
+            fieldSchoolLocation {
+              entity {
+                ... on ParagraphSchoolLocation {
+                  fieldAddress
+                  fieldLocationType
+                  fieldSchoolLocation {
+                    entity {
+                      name
+                    }
+                  }
+                  fieldCoordinates {
+                    lat
+                    lon
+                    zoom
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
