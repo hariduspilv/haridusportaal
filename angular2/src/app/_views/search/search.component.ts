@@ -185,7 +185,7 @@ export class SearchComponent {
   }
 
   checkForAllFilters() {
-    return this.types.filter((type) => type.value || !type.sum).length === 5 || this.types.filter((type) => !type.value).length === 5;
+    return this.types.filter((type) => type.value || !type.sum).length === 8 || this.types.filter((type) => !type.value).length === 8;
   }
 
   filterAll() {
