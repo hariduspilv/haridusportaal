@@ -1,0 +1,12 @@
+query getEventsTypes( $lang: LanguageId!){
+  taxonomyTermQuery(filter: {conditions: [
+    {operator: EQUAL, field: "vid", value: ["event_type"], language: $lang}
+  ]}) {
+    entities{
+      ... on TaxonomyTerm {
+        name
+        tid
+      }
+    }
+  }
+}
