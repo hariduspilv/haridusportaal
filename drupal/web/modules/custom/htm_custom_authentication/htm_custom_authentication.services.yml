@@ -12,4 +12,4 @@ services:
     arguments: ['@entity.manager', '@password']
   current_user.role_switcher:
     class: Drupal\htm_custom_authentication\CustomRoleSwitcher
-    arguments: ['@current_user', '@user.data', '@htm_custom_ehis_connector.default']
+    arguments: ['@current_user', '@user.data']

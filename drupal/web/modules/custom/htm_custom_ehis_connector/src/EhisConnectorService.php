@@ -5,16 +5,11 @@ namespace Drupal\htm_custom_ehis_connector;
 use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\htm_custom_authentication\CustomRoleSwitcher;
 use Drupal\redis\ClientFactory;
-use Drupal\rest\ModifiedResourceResponse;
 use Drupal\user\Entity\User;
-use Drupal\user\UserDataInterface;
 use GuzzleHttp\Exception\RequestException;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class EhisConnectorService.
@@ -38,9 +33,10 @@ class EhisConnectorService {
 	protected $currentUser;
 
 	/**
-	 * @var CustomRoleSwitcher
+	 * @var Current user role
 	 */
 	protected $currentRole;
+
 
 	/**
 	 * xJsonService constructor.
@@ -54,6 +50,7 @@ class EhisConnectorService {
 		$this->currentUser = $current_user;
 		$this->client = $client_factory->getClient();
 		$this->logger = $logger->get('ehis_connector_service');
+		$this->currentRole = \Drupal::service('current_user.role_switcher')->getCurrentRole();
 	}
 
 	/**
@@ -101,8 +98,10 @@ class EhisConnectorService {
 			/*TODO make post URL configurable*/
 			if($type === 'get'){
 				$response = $client->get(self::LOIME_DEFAULT_URL.$service_name . '/' . implode($params['url'], '/'));
-			}else{
+			}elseif($type === 'post'){
 				$response = $client->post(self::LOIME_DEFAULT_URL.$service_name, $params);
+			}else{
+				//TODO throw error
 			}
 			$response = json_decode($response->getBody()->getContents(), TRUE);
 			return $response;
@@ -137,12 +136,17 @@ class EhisConnectorService {
 	 * @return int
 	 */
 	private function getCurrentUserIdCode(){
+		if($this->useReg()){
+			return $this->currentRole['current_role']['data']['reg_kood'];
+		}else{
+			#return '37112110025';
+			return $this->currentUser->getIdCode();
+		}
+	}
 
-		#dump($this->currentUser->getIdCode());
-		#dump($this->currentUser->getAccount());
-		$user_id = $this->currentUser->id();
-		return '37112110025';
-		return ($id_code = User::load($user_id)->get('field_user_idcode')->value) ? $id_code : 0;
+	private function useReg(){
+		if($this->currentRole['current_role']['type'] === 'juridical_person') return true;
+		return false;
 	}
 
 	/**
@@ -206,7 +210,10 @@ class EhisConnectorService {
 				throw new RequestException('Service down');
 			}
 		}
-		$params['hash'] = 'vpTaotlus';
+
+		if($this->useReg()) $params['hash'] = 'mtsys';
+		if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
+		#dump($params);
 		$response = $this->invokeWithRedis('vpTaotlus', $params);
 		$this->getFormDefinitionTitle($response);
 		return $response;
@@ -233,12 +240,6 @@ class EhisConnectorService {
 		$params['key'] = $this->getCurrentUserIdCode();
 		$params['hash'] = 'esindusOigus';
 		return $this->invoke('esindusOigus', $params);
-	}
-
-	public function setUserRole(array $params = []){
-		$this->tempStore->set('user_role', 'company');
-		$roles = $this->getUserRoles();
-
 	}
 
 	public function getOptionsTaxonomy(array $params = []){
