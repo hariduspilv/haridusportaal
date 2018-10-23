@@ -16,6 +16,9 @@ table {width: 100%;border-collapse: collapse; margin: 0;
   th {white-space: normal; font-weight: normal;}
   th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray; text-align: center;
     &.highlighted {font-weight: 500;}
+    &.groupCell {border-bottom: .0625rem solid $white;}
+    &.groupHead {border-bottom: .0625rem solid $light-gray;}
+    .important-pill {margin: 0;}
   }
   tr th:first-of-type, tr td:first-of-type  { text-align: left; } 
   td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
@@ -55,3 +58,4 @@ table {width: 100%;border-collapse: collapse; margin: 0;
   &--back {align-items: center;justify-content: flex-end;padding-right: $large; text-transfrom: capitalize; }
 }
 .fill{flex-grow: 1;}
+.icon-wrapper {margin: .375rem auto; position: absolute;}
