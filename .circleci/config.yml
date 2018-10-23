@@ -13,7 +13,7 @@ jobs:
     - run:
         name: Test in local machine
         command: |
-          ssh -vvv -p 22 lars-lenovo@62.65.44.202
+          ssh -vvv lars@gate.wiseman.ee
 workflows:
   version: 2
   build:
