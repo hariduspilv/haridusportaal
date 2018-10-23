@@ -1,12 +1,8 @@
 jobs:
   build:
     docker:
-    - image: bash:4.4.19
+    - image: alpine:3.7
     steps:
-    - run:
-        name: Installing SSH
-        command: |
-          apt-get install openssh-client
     - add_ssh_keys:
         fingerprints:
           - "3f:b8:bf:43:a8:a2:1e:d1:22:cb:0a:6e:86:4c:cd:04"
