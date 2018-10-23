@@ -6,7 +6,7 @@ jobs:
     - run:
         name: Installing SSH
         command: |
-          sudo apt-get install openssh-client
+          apt-get install openssh-client
     - add_ssh_keys:
         fingerprints:
           - "3f:b8:bf:43:a8:a2:1e:d1:22:cb:0a:6e:86:4c:cd:04"
