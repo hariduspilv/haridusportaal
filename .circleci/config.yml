@@ -13,14 +13,8 @@ jobs:
     - run:
         name: Enter server
         command: |
-          ssh -o StrictHostKeyChecking=no lars@gate.wiseman.ee | echo "yes"
-    - run:
-        name: Enter virtual machine
-        command: |
-          ssh -o StrictHostKeyChecking=no core@vm89
-    - run:
-        name: View all containers
-        command: |
+          ssh -o StrictHostKeyChecking=no lars@gate.wiseman.ee |
+          ssh -o StrictHostKeyChecking=no core@vm89 |
           docker ps -a
 workflows:
   version: 2
