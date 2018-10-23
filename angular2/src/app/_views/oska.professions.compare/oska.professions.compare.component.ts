@@ -21,6 +21,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   private lang: string;
   private path: string;
   public list: any = false;
+  public loading: boolean = false;
   private subscriptions: Subscription[] = [];
   public tableOverflown: boolean = false;
   public elemAtStart: boolean = true;
@@ -73,6 +74,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     if(!this.list.length) this.rerouteToParent();
   }
   getData(){
+    this.loading = true;
     let variables = {
       lang: this.lang.toUpperCase(),
       limit: 3,
@@ -106,11 +108,13 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       this.oskaFieldsArr = this.oskaFieldsMaxLength ? Array(this.oskaFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
       this.termFieldsArr = this.termFieldsMaxLength ? Array(this.termFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
       this.list = data;
+      this.loading = false;
       if(!this.list.length) {
         this.rerouteToParent();
       }
     }, (err) => {
       console.log(err);
+      this.loading = false;
     });
   }
  
