@@ -16,8 +16,9 @@ jobs:
           ssh -q -o StrictHostKeyChecking=no lars@gate.wiseman.ee <<EOF1
           sudo su - wiseman
           ssh -q -o StrictHostKeyChecking=no core@vm89 <<EOF2
-          docker ps -a
-          echo "jou"
+          docker exec -ti drupal bash <<EOF3
+          ls -la
+          EOF3
           EOF2
           EOF1
 workflows:
