@@ -3,7 +3,11 @@
   &.last {padding-bottom: 0;}
 }
 .flex-text {margin-left: 1rem;font-size: .875rem;line-height: 1.125rem;}
-.link-list a {text-decoration: none;font-size: 1rem;}
+.link-list {
+  &.extra {padding-top: .25rem;}
+  a {text-decoration: none;font-size: 1rem;}
+  .icon-filler {vertical-align: top; margin-right: 0.5rem;color: #2e3374;}
+}
 .link.related {display: inline-flex;}
 h1 {color: $black;}
 .showMore {text-align: center;line-height: 1.5rem;}
