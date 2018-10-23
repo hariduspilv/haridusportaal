@@ -35,6 +35,9 @@ export class SearchComponent {
       {"name": "event.label", "sumLabel": "Sündmus", "value": false, "sum": 0},
       {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
       {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
+      {"name": "oskaProfessions.label", "sumLabel": "Sisuleht OSKA Ametiala", "value": false, "sum": 0},
+      {"name": "oska.workforcePrognosis", "sumLabel": "Sisuleht OSKA Tööjõuprognoos", "value": false, "sum": 0},
+      {"name": "oska.title_field", "sumLabel": "Sisuleht OSKA Valdkond", "value": false, "sum": 0}
     ],
     en: [
       {"name": "article.label", "sumLabel": "Article", "value": false, "sum": 0},
@@ -42,6 +45,9 @@ export class SearchComponent {
       {"name": "event.label", "sumLabel": "Event", "value": false, "sum": 0},
       {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
       {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
+      {"name": "oskaProfessions.label", "sumLabel": "Sisuleht OSKA Ametiala", "value": false, "sum": 0},
+      {"name": "oska.workforcePrognosis", "sumLabel": "Sisuleht OSKA Tööjõuprognoos", "value": false, "sum": 0},
+      {"name": "oska.title_field", "sumLabel": "Sisuleht OSKA Valdkond", "value": false, "sum": 0}
     ]
   };
   types: Array<any>;
