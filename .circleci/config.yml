@@ -13,7 +13,7 @@ jobs:
     - run:
         name: Enter server
         command: |
-          ssh -o StrictHostKeyChecking=no lars@gate.wiseman.ee |
+          ssh -o StrictHostKeyChecking=no lars@gate.wiseman.ee
           #sudo su - wiseman |
           #ssh -o StrictHostKeyChecking=no core@vm89 |
           #docker ps -a
