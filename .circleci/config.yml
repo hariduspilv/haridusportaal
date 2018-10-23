@@ -3,10 +3,13 @@ jobs:
     docker:
     - image: bash:4.4.19
     steps:
+    - add_ssh_keys:
+        fingerprints:
+          - "3f:b8:bf:43:a8:a2:1e:d1:22:cb:0a:6e:86:4c:cd:04"
     - run:
         name: Test in local machine
         command: |
-          /usr/bin/ssh root@62.65.44.202
+          ssh lars@62.65.44.202
 workflows:
   version: 2
   build:
