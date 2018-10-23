@@ -1,4 +1,4 @@
-<div class="snackBar">
+<div [class.snackBar]="viewType !== 'field'">
   <!-- sidebar indicators -->
   <div class="block border-orange padding-block sm-top" *ngIf="indicators && indicators.entities && indicators.entities.length">
     <h1 class="medium">{{ 'oskaProfessions.general_indicators' | translate }}</h1>
