@@ -4,7 +4,7 @@ jobs:
     - run:
         name: Test in local machine
         command: |
-		echo $TESTIVARIABLE
+          echo $TESTIVARIABLE
 workflows:
   version: 2
   build:
