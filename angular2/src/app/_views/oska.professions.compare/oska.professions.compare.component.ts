@@ -21,16 +21,23 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   private lang: string;
   private path: string;
   public list: any = false;
+  public loading: boolean = false;
   private subscriptions: Subscription[] = [];
   public tableOverflown: boolean = false;
   public elemAtStart: boolean = true;
   public initialized: boolean = false;
   public oskaFields: any = {};
   public termFields: any = {};
+  public prosFields: any = {};
+  public consFields: any = {};
   public oskaFieldsMaxLength: number = 0;
   public termFieldsMaxLength: number = 0;
+  public prosFieldsMaxLength: number = 0;
+  public consFieldsMaxLength: number = 0;
   public oskaFieldsArr: Array<any> = [];
   public termFieldsArr: Array<any> = [];
+  public prosFieldsArr: Array<any> = [];
+  public consFieldsArr: Array<any> = [];
 
   constructor (
     public route: ActivatedRoute, 
@@ -73,6 +80,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     if(!this.list.length) this.rerouteToParent();
   }
   getData(){
+    this.loading = true;
     let variables = {
       lang: this.lang.toUpperCase(),
       limit: 3,
@@ -102,15 +110,31 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
             if(this.termFieldsMaxLength < indexVal2) {this.termFieldsMaxLength = indexVal2};
           });
         };
+        if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldPros && elem.fieldSidebar.entity.fieldPros.length) {
+          elem.fieldSidebar.entity.fieldPros.forEach((pro, indexVal3) => {
+            this.prosFields[index] = this.prosFields[index] ? [...this.prosFields[index], pro] : [pro];
+            this.prosFieldsMaxLength = indexVal3 + 1;
+          });
+        };
+        if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldCons && elem.fieldSidebar.entity.fieldCons.length) {
+          elem.fieldSidebar.entity.fieldCons.forEach((con, indexVal4) => {
+            this.consFields[index] = this.consFields[index] ? [...this.consFields[index], con] : [con];
+            this.consFieldsMaxLength = indexVal4 + 1;
+          });
+        };
       })
       this.oskaFieldsArr = this.oskaFieldsMaxLength ? Array(this.oskaFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
       this.termFieldsArr = this.termFieldsMaxLength ? Array(this.termFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
+      this.prosFieldsArr = this.prosFieldsMaxLength ? Array(this.prosFieldsMaxLength).fill(0).map((x,i)=>i) : [];
+      this.consFieldsArr = this.consFieldsMaxLength ? Array(this.consFieldsMaxLength).fill(0).map((x,i)=>i) : [];
       this.list = data;
+      this.loading = false;
       if(!this.list.length) {
         this.rerouteToParent();
       }
     }, (err) => {
       console.log(err);
+      this.loading = false;
     });
   }
  
