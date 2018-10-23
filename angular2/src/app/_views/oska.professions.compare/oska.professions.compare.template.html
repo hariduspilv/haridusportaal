@@ -33,24 +33,30 @@
             <table class="scrollableTable">
               <thead>
                 <tr *ngIf="list">
+                  <th class="groupHead"></th>
+                  <th class="groupHead" *ngFor="let item of list">
+                    <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.title}}">{{ item.title | titleCase }}</a>
+                  </th>
+                </tr>
+                <tr *ngIf="list">
                   <th></th>
                   <th *ngFor="let item of list">
-                    <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.title}}">{{ item.title | titleCase }}</a>
+                    <span class="important-pill" *ngIf="item.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <!-- <tr>
                   <td>{{ 'fieldFixedLabel.label' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
                     <span *ngIf="item.fieldFixedLabel">{{ 'true' | translate }}</span>
                     <span *ngIf="!item.fieldFixedLabel">{{ 'false' | translate }}</span>
                   </td>
-                </tr>
-                <tr *ngFor="let elem of oskaFieldsArr; let childInd = index;">
-                  <td>{{ 'oskaProfessions.fields' | translate }}</td>
+                </tr> -->
+                <tr *ngFor="let elem of oskaFieldsArr; let childInd = index; let last = last;">
+                  <td [class.groupCell]="!last"><span *ngIf="childInd === 0">{{ 'oskaProfessions.fields' | translate }}</span></td>
                   <ng-container *ngFor="let item of list; let ind = index;">
-                    <td class="highlighted">
+                    <td class="highlighted" [class.groupCell]="!last">
                       <ng-container *ngIf="oskaFields[ind]">
                         <span *ngIf="!oskaFields[ind][childInd]">-</span>
                         <a *ngIf="oskaFields[ind][childInd]" href="javascript:void(0)" [routerLink]="oskaFields[ind][childInd].entity.entityUrl.path">{{oskaFields[ind][childInd].entity.title}}</a>
@@ -61,10 +67,10 @@
                     </td>
                   </ng-container>
                 </tr>
-                <tr *ngFor="let elem of termFieldsArr; let childInd = index;">
-                  <td>{{ 'oskaProfessions.indicator' | translate }}</td>
+                <tr *ngFor="let elem of termFieldsArr; let childInd = index; let last = last;">
+                  <td [class.groupCell]="!last">{{ 'oskaProfessions.indicator' | translate }}</td>
                   <ng-container *ngFor="let item of list; let ind = index;">
-                    <td class="highlighted">
+                    <td class="highlighted" [class.groupCell]="!last">
                       <ng-container *ngIf="termFields[ind]">
                         <span *ngIf="!termFields[ind][childInd]">-</span>
                         <span *ngIf="termFields[ind][childInd]">{{termFields[ind][childInd].oskaIndicator}}: {{termFields[ind][childInd].value}}</span>
