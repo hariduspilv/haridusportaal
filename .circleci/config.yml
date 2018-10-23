@@ -13,11 +13,11 @@ jobs:
     - run:
         name: Enter server
         command: |
-          ssh lars@gate.wiseman.ee -y
+          ssh -o StrictHostKeyChecking=no lars@gate.wiseman.ee
     - run:
         name: Enter virtual machine
         command: |
-          ssh core@vm89 -y
+          ssh -o StrictHostKeyChecking=no core@vm89
     - run:
         name: View all containers
         command: |
