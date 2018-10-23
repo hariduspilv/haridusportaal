@@ -11,6 +11,8 @@ query oskaMainProfessionListView($nid: [String], $nidEnabled: Boolean, $titleVal
         fieldSidebar {
           entity {
             ... on ParagraphMainProfessionSidebar {
+              fieldPros
+              fieldCons
               fieldOskaField {
                 entity {
                   ... on NodeOskaFieldPage {
@@ -33,6 +35,7 @@ query oskaMainProfessionListView($nid: [String], $nidEnabled: Boolean, $titleVal
             }
           }
         }
+
         __typename
       }
       __typename
