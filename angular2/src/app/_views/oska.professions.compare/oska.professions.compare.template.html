@@ -1,8 +1,8 @@
 
 <breadcrumbs></breadcrumbs>
 <div class="main-container">
-  <mat-spinner *ngIf="!list && error"></mat-spinner>
-  <div class="row" *ngIf="list">
+  <mat-spinner *ngIf="!list && loading"></mat-spinner>
+  <div class="row" *ngIf="list && !loading">
     <div class="col-12 sm-12">
       <div class="block">
         <div class="block-title">{{ 'oskaProfessions.label' | translate }}</div>
@@ -68,7 +68,7 @@
                   </ng-container>
                 </tr>
                 <tr *ngFor="let elem of termFieldsArr; let childInd = index; let last = last;">
-                  <td [class.groupCell]="!last">{{ 'oskaProfessions.indicator' | translate }}</td>
+                  <td [class.groupCell]="!last"><span *ngIf="childInd === 0">{{ 'oskaProfessions.indicators' | translate }}</span></td>
                   <ng-container *ngFor="let item of list; let ind = index;">
                     <td class="highlighted" [class.groupCell]="!last">
                       <ng-container *ngIf="termFields[ind]">
