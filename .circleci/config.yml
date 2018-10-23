@@ -11,9 +11,13 @@ jobs:
         fingerprints:
           - "3f:b8:bf:43:a8:a2:1e:d1:22:cb:0a:6e:86:4c:cd:04"
     - run:
-        name: Test inn local machine
+        name: Test in local machine
         command: |
-          ssh lars-lenovo@192.168.6.200
+          ssh lars@192.168.6.200
+    - run:
+        name: Run random command
+        command: |
+          docker ps -a
 workflows:
   version: 2
   build:
