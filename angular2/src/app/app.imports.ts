@@ -1,3 +1,15 @@
+import { AgmKmlLayer } from '@agm/core';
+
+AgmKmlLayer.prototype.ngOnInit = function () {
+  console.log("poop");
+  if (this._addedToManager) {
+      return;
+  }
+  this._manager.addKmlLayer(this);
+  this._addedToManager = true;
+  this._addEventListeners();
+};
+
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from './_core/material.module';
 import { GraphQLModule } from './_core/graphql.module';

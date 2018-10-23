@@ -15,6 +15,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 *
 
+## [0.7.0]
+
+### Added
+* Add "license" field to composer.json #138
+* Ensure key_alg is set when getting key #139
+* Add option to send additional registration parameters like post_logout_redirect_uris. #140
+
+### Changed
+* disabled autoload for Crypt_RSA + makre refreshToken() method tolerant for errors #137
+
+### Removed
+*
+
 ## [0.6.0]
 
 ### Added

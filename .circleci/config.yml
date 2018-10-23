@@ -1,0 +1,13 @@
+jobs:
+  build:
+    steps:
+    - run:
+        name: Test in local machine
+        command: |
+		echo $TESTIVARIABLE
+workflows:
+  version: 2
+  build:
+    jobs:
+    - build
+version: 2

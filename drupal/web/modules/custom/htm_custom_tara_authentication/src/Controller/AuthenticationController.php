@@ -15,27 +15,37 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class AuthenticationController extends ControllerBase {
 
   public function startAuthentication() {
-     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-	dump('jehu');
-	die();
-	 $tara_secret = settings::get('tara_secret');
-      $oidc = new OpenIDConnectClient('https://tara-test.ria.ee', 'eduportaal', $tara_secret);
+	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+	header("Cache-Control: post-check=0, pre-check=0", false);
+	header("Pragma: no-cache");
+		
+	$tara_secret = settings::get('tara_secret');
+
+
+	$oidc = new OpenIDConnectClient('https://tara-test.ria.ee/oidc', 'eduportaal', $tara_secret);
      	$oidc->providerConfigParam(
       	[
-      		'authorization_endpoint' => 'https://tara-test.ria.ee/oidc/authorize',
-		#'token_endpoint' => 'https://tara-test.ria.ee/oidc/token'
-	      ]);
-      $oidc->addScope('openid');
-	#$oidc->addScope('redirect_uri');
-	#$oidc->addScope('state');
-
-	#$clientToken = $oidc->requestClientCredentialsToken()->access_token;
-	#dump($clientToken);
-	$oidc->setResponseTypes(['code']);
+      		#'authorization_endpoint' => 'https://tara-test.ria.ee/oidc/authorize',
+		#'token_endpoint' => 'https://tara-test.ria.ee/oidc/token',
+		#'jwks_uri' => 'https://tara-test.ria.ee/oidc/jwks',
+	]);
+	#dump($_REQUEST);
+	$oidc->setAllowImplicitFlow(TRUE);
+     	#$oidc->addScope('openid');
+	#$oidc->addAuthParam(['username' => 'eduportaal']);
+	#$oidc->addAuthParam(['password' => $tara_secret]);
+	#$clientCredentialsToken = $oidc->requestClientCredentialsToken()->access_token;
+	#dump($clientCredentialsToken);
+	#$oidc->setCertPath('./sites/default/files/public.key');
+	
 	$oidc->authenticate();
-die();
+	
+
+	dump($oidc->getVerifiedClaims('sub'));
+
+
+	return [];
+
       $oidc->setResponseTypes(array('code'));
 	dump($_REQUEST);
 	dump($_SESSION);

@@ -7248,17 +7248,17 @@
     },
     {
         "name": "jumbojett/openid-connect-php",
-        "version": "0.6.0",
-        "version_normalized": "0.6.0.0",
+        "version": "0.7.0",
+        "version_normalized": "0.7.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/jumbojett/OpenID-Connect-PHP.git",
-            "reference": "5a94ce870cdba1e14a35f62cb294c21e5628ac33"
+            "reference": "a5d8686f4dca2da75bbfd72dfafc736e5b2609d4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/jumbojett/OpenID-Connect-PHP/zipball/5a94ce870cdba1e14a35f62cb294c21e5628ac33",
-            "reference": "5a94ce870cdba1e14a35f62cb294c21e5628ac33",
+            "url": "https://api.github.com/repos/jumbojett/OpenID-Connect-PHP/zipball/a5d8686f4dca2da75bbfd72dfafc736e5b2609d4",
+            "reference": "a5d8686f4dca2da75bbfd72dfafc736e5b2609d4",
             "shasum": ""
         },
         "require": {
@@ -7267,7 +7267,7 @@
             "php": ">=5.4",
             "phpseclib/phpseclib": "2.0.1"
         },
-        "time": "2018-07-17T11:31:35+00:00",
+        "time": "2018-10-15T20:32:30+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -7276,6 +7276,9 @@
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
         "description": "Bare-bones OpenID Connect client"
     },
     {
