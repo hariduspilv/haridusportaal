@@ -13,6 +13,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 function htm_custom_oska_help($route_name, RouteMatchInterface $route_match) {
   #test
   #teinetest
+  #ver 0.4.0
   switch ($route_name) {
     // Main module help for the htm_custom_oska module.
     case 'help.page.htm_custom_oska':
