@@ -1,0 +1,19 @@
+query getEventsTags( $lang: LanguageId!){
+  nodeQuery(filter: {conditions: [
+    {operator: EQUAL, field: "type", value: ["event"], language: $lang},
+    {operator: EQUAL, field: "status", value: "1", language: $lang}
+  ]}) {
+    entities(language: $lang) {
+      ... on NodeEvent{
+        Tag: fieldTag {
+          entity {
+            entityLabel
+            entityId
+            uuid
+            name
+          }
+        }
+      }
+    }
+  }
+}
