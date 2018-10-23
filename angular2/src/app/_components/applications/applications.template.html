@@ -30,8 +30,20 @@
 
   <div>
     <h4>{{ 'frontpage.dashboard_tabs_applications_drafts_label' | translate }}</h4>
-    <span *ngIf="!data.drafts.length">{{ 'frontpage.dashboard_tabs_applications_drafts_notfound' | translate }}</span>
-    
+
+    <table class="dashboard-table" *ngIf="!data.drafts.length">
+      <tbody>
+        <tr>
+          <th colspan="2">{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
+        </tr>
+        <tr>
+          <td colspan="2">{{ 'frontpage.dashboard_tabs_applications_drafts_notfound' | translate }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
     <table class="dashboard-table" *ngIf="data.drafts.length">
       <tbody>
         <tr>

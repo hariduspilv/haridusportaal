@@ -141,6 +141,30 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
               "title": {
                 "et": "Õpetaja jätkutoetuse taotlus"
               }
+            },
+            {
+              "form_name":"VPT_TAOTLUS",
+              "title": {
+                "et": "Õpetaja jätkutoetuse taotlus"
+              }
+            },
+            {
+              "form_name":"VPT_TAOTLUS",
+              "title": {
+                "et": "Õpetaja jätkutoetuse taotlus"
+              }
+            },
+            {
+              "form_name":"VPT_TAOTLUS",
+              "title": {
+                "et": "Õpetaja jätkutoetuse taotlus"
+              }
+            },
+            {
+              "form_name":"VPT_TAOTLUS",
+              "title": {
+                "et": "Õpetaja jätkutoetuse taotlus"
+              }
             }
           ],
           drafts: [],

@@ -31,7 +31,7 @@
       &--table {padding: $small 0 0;}
     }
   }
-  @include break-on(sm, min) {width:68vw;max-width: 870px;}
+  @include break-on(sm, min) {width:68vw;max-width: 54.375rem;}
 }
 
 .btn-hidden {
@@ -42,7 +42,7 @@
   bottom: 0px;
   border: 0px solid transparent;
   background: transparent;
-  width: 24px;
+  width: 1.5rem;
 }
 
 .htm-icon { position: relative}

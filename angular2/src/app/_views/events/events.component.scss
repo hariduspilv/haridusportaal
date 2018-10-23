@@ -116,7 +116,7 @@ a h1:hover { text-decoration: underline; }
     .disableMore {.more__hidden {display: none;}}
   }
   .popup {position: relative;display: block;
-    &__scroll{max-height:150px; overflow: auto;}
+    &__scroll{max-height:9.375rem; overflow: auto;}
     .popupcontent {cursor: auto;font-size: $small;line-height: 1.25rem;font-weight: 500;border-top: $gutter solid $orange;
       box-shadow: 0 .125rem .25rem 0 rgba(0, 0, 0, 0.5);width: 19rem;background-color: #ffffff;color: #333333;
       border-radius: $half-gutter;position: absolute;z-index: 1;left: -19.3rem;top: -3rem;
@@ -158,7 +158,7 @@ a h1:hover { text-decoration: underline; }
   .popup.holdLeft .popupcontent{left:auto; right:100%;}
   .navigation {padding-top: $small; padding-bottom: $medium;display: flex;align-items: center;justify-content: center;
     .month {h1{color: $black;}}
-    .icon-wrapper { padding: 0 $small; height: 24px; width: 24px;
+    .icon-wrapper { padding: 0 $small; height: 1.5rem; width: 1.5rem;
       .htm-icon {
         &:hover { background: $light-gray; border-radius: 3.125rem; }
       }
