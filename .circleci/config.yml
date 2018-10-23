@@ -6,7 +6,7 @@ jobs:
     - run:
         name: Test in local machine
         command: |
-          ssh root@62.65.44.202
+          /usr/bin/ssh root@62.65.44.202
 workflows:
   version: 2
   build:
