@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_field_page.body
+    - field.field.node.oska_field_page.field_field_page_graph
     - field.field.node.oska_field_page.field_introduction
     - field.field.node.oska_field_page.field_oska_attachment_file
     - field.field.node.oska_field_page.field_oska_field_accordion
@@ -15,6 +16,7 @@ dependencies:
     - node.type.oska_field_page
   module:
     - file
+    - htm_custom_oska
     - htm_custom_video_field
     - image
     - link
@@ -43,6 +45,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_field_page_graph:
+    weight: 27
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_graph_widget_type
+    region: content
   field_introduction:
     weight: 11
     settings:
