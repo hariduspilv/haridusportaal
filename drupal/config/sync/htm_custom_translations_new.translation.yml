@@ -1835,6 +1835,26 @@ oska:
     translation_type: textarea
     et: Tööjõuprognoos
     en: Workforce
+  learningOpportunities:
+    translation_type: textarea
+    et: Õppimisvõimalused
+    en: 'Learning opportunities'
+  jobOpportunities:
+    translation_type: textarea
+    et: Töövõimalused
+    en: 'Job opportunities'
+  programme_search:
+    translation_type: textarea
+    et: 'Eriala otsing'
+    en: 'Studyprogramme search'
+  sample_jobs:
+    translation_type: textarea
+    et: Näidisametid
+    en: 'Possible jobs'
+  qualification_standard:
+    translation_type: textarea
+    et: Kutsestandardid
+    en: 'Qualification standards'
 oskaProfession: {  }
 langcode: et
 sidebar:
