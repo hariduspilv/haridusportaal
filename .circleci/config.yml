@@ -11,7 +11,7 @@ jobs:
         fingerprints:
           - "3f:b8:bf:43:a8:a2:1e:d1:22:cb:0a:6e:86:4c:cd:04"
     - run:
-        name: Test in local machin
+        name: Test in local machine
         command: |
           ssh lars@62.65.44.202
 workflows:
