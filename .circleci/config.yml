@@ -13,7 +13,7 @@ jobs:
     - run:
         name: Test in local machine
         command: |
-          ssh -vvv lars@gate.wiseman.ee
+          ssh -vvv lars@gate.wiseman.ee -y
 workflows:
   version: 2
   build:
