@@ -13,7 +13,7 @@ jobs:
     - run:
         name: Enter server
         command: |
-          ssh -q -o StrictHostKeyChecking=no lars@gate.wiseman.ee "sudo su - wiseman"
+          ssh -q -o StrictHostKeyChecking=no lars@gate.wiseman.ee "sudo su - wiseman && ssh -q -o StrictHostKeyChecking=no core@vm89"
 workflows:
   version: 2
   build:
