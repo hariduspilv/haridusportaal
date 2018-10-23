@@ -13,7 +13,7 @@ jobs:
     - run:
         name: Test in local machine
         command: |
-          ssh lars@192.168.6.200 docker ps -a
+          ssh -vvv -p 22 lars@192.168.6.200
 workflows:
   version: 2
   build:
