@@ -111,17 +111,25 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 	 *   request, FALSE otherwise.
 	 */
 	public function applies (Request $request) {
-
 		$content = json_decode($request->getContent());
-		if (isset($content->username) && isset($content->username)) {
-			return $content;
+		if(isset($content->auth_method)){
+			switch ($content->auth_method){
+				case 'basic':
+					$uname = $content->username;
+					$upass = $content->password;
+					return isset($uname) && isset($upass);
+					break;
+				case 'mobile_id':
+					$sess_code = $content->session_code;
+					$id_code = $content->id_code;
+					return isset($sess_code) && isset($id_code);
+					break;
+				default:
+					return FALSE;
+					break;
+			}
 		}
-		if (isset($content->auth_method) && isset($content->session_code) && isset($content->id_code)) {
-			return ($content);
-		}
-		//return isset($content->auth_method, $content->session_code, $content->id_code) && !empty($content->auth_method) && !empty($content->session_code) && $content->auth_method == 'mobile_id';
-		// you will get out from Drupal navigation if you are logged in.
-		//return FALSE;
+		return FALSE;
 	}
 
 	/**
