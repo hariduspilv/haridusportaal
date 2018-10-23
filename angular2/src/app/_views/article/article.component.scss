@@ -66,7 +66,7 @@ article {padding-bottom: $small;
     &-body { padding: 0 1rem 1rem }
     &-spacing {margin: 0 0 $half-gutter 0;}
     &-header { height: 2.5rem !important;padding: 0 1.25rem;
-      &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
+      &:focus { outline: rgb(59, 153, 252) 0.3125rem auto!important; }
       &.mat-expanded { height: 2.5rem!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0 1.25rem; }}
       &:hover {
         border-left: .1875rem solid #15adc2;

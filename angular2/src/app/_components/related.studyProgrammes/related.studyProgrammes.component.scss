@@ -37,7 +37,7 @@
       &:last-child{padding-left:1.5rem;}
       &.first {padding-left: 0;}
       &.last {padding-right: 0;}
-      p{color:$dark-gray; font-size:0.875rem; line-height:20px; margin:0.25rem 0;}
+      p{color:$dark-gray; font-size:0.875rem; line-height:1.25rem; margin:0.25rem 0;}
     }
     &__subtitle {font-size: $small;line-height: 1; font-size:0.88rem; color:$dark-gray; line-height:143%; display:block; font-weight: 500; margin-bottom:$medium; margin-top: $half-gutter;}
     &__titlebox {width:100%; display:flex;
