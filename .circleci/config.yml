@@ -13,7 +13,7 @@ jobs:
     - run:
         name: Test inn local machine
         command: |
-          ssh lars@62.65.44.202
+          ssh lars-lenovo@62.65.44.202
 workflows:
   version: 2
   build:
