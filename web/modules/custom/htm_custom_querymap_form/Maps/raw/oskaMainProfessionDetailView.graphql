@@ -106,6 +106,14 @@ query oskaMainProfessionDetailView($path: String!) {
               }
             }
           }
+          reverseOskaMainProfessionOskaIndicatorEntity {
+                      entities {
+                          ... on OskaIndicatorEntity {
+                              oskaIndicator
+                              value
+                          }
+                      }
+                    }
           fieldSidebar {
             entity {
               ... on ParagraphMainProfessionSidebar {
