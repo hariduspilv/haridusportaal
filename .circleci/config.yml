@@ -11,9 +11,17 @@ jobs:
         fingerprints:
           - "3f:b8:bf:43:a8:a2:1e:d1:22:cb:0a:6e:86:4c:cd:04"
     - run:
-        name: Test in local machine
+        name: Enter server
         command: |
-          ssh -vvv lars@gate.wiseman.ee -y
+          ssh lars@gate.wiseman.ee -y
+    - run:
+        name: Enter virtual machine
+        command: |
+          ssh core@vm89 -y
+    - run:
+        name: View all containers
+        command: |
+          docker ps -a
 workflows:
   version: 2
   build:
