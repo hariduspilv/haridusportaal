@@ -1,16 +1,22 @@
 .block {
-
-  &.border-orange{border-top-color:$orange;}
-  &.border-blue{border-top-color:$light-blue;}
+  overflow-x:hidden;
+  overflow-y:visible;
   background: white;
   border-top: $gutter solid $gray;
+    margin-bottom: $small;
+  &.border-orange{border-top-color:$orange;}
+  &.border-blue{border-top-color:$light-blue;}
+
   @include break-on(sm, min) {
     border-radius: $half-gutter;
   }
-  margin-bottom: $small;
+  p {
+    line-height: 1.375rem;
+  }
   h1 {
     color: #333333;
     font-size: $medium;
+    &.medium {font-size: 1.25rem; line-height: 1.875rem;}
   }
   h2 {
     margin-top: 0;
@@ -43,6 +49,12 @@
     }
   }
 
+  &__tools{display:flex; align-items:center; padding-bottom:1rem;
+    .title-tag{height:1.5625rem; line-height:1.5625rem; padding:0 12px; border-radius:999px; background:$light-orange; margin-left:2rem; display:inline-block; font-size:0.875rem;
+      &:first-child{margin-left:0;}
+    }
+  }
+
 }
 
 .no-results { padding: 2rem 0; text-align: center; }
@@ -68,5 +80,9 @@
     @include break-on(sm, max) {
       margin-bottom: $xxl
     }
+  }
+  &--content {
+    padding-top: .5rem;line-height: 1.375rem;
+    hr {margin: 1rem -1.5rem;border: solid 1px $light-gray;}
   }
 }
