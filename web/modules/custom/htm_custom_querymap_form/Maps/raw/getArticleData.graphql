@@ -1,0 +1,91 @@
+query getArticleData($path: String!) {
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        language {
+          id
+        }
+        url {
+          path
+        }
+      }
+      entity {
+        ... on NodeArticle {
+          nid
+          title
+          fieldBody{
+            value
+          }
+          fieldBodySummary
+          fieldImage {
+            derivative(style:CROP_LARGE){
+              url
+            }
+            targetId
+            alt
+            title
+          }
+          fieldVideo {
+            input
+            videoDomain
+            videoDescription
+            videoId
+          }
+          fieldAccordionSection {
+            entity {
+              ... on ParagraphAccordion {
+                fieldAccordionTitle
+                fieldRelatedArticle {
+                  url {
+                    path
+                  }
+                  title
+                }
+                fieldBody {
+                  value
+                }
+              }
+            }
+          }
+          fieldRightSidebar {
+            entity {
+              ... on ParagraphRightSidebarSectionInfo {
+                fieldAdditional {
+                  entity {
+                    ... on ParagraphAdditionalSection{
+                      fieldTitle
+                      fieldAdditionalBody
+                    }
+                  }
+                }
+                fieldContactSection {
+                  entity {
+                    ... on ParagraphContactSection {
+                      fieldPhone
+                      fieldPerson
+                      fieldEmail
+                      fieldOrganization
+                    }
+                  }
+                }
+                fieldRelatedArticle{
+                  url {
+                    path
+                  }
+                  title
+                }
+                fieldHyperlinks {
+                  url {
+                    path
+                  }
+                  title
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+mutation postEventRegister(
+  $event_id: Int!,
+  $firstName: String!,
+  $lastName: String!,
+  $companyName: String,
+  $telephone: String,
+  $email: String!,
+  $marked: String,
+  $lang: LanguageId!,
+){
+  createEventRegistration(input
+  :{event_id:$event_id, first_name:$firstName, last_name: $lastName, email:$email, phone:$telephone, comment: $marked, organization: $companyName}, language:$lang){
+    entity {
+      entityLabel
+      entityType
+      entityUuid
+      entityBundle
+      entityChanged
+      entityId
+      entityCreated
+
+    }
+    errors
+    violations {
+      message
+      path
+      code
+    }
+
+  }
+}
