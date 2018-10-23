@@ -1,6 +1,6 @@
 @import "../../../assets/styles/typography.scss"; 
-.mat-toolbar.mat-primary {background: $blue;height: 4rem;box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);}
-.header-logo {text-align: center;margin-left: 1.25rem;text-decoration: none;letter-spacing: 0.5px;font-size: 1.25rem;line-height: 1.4;color: $white;
+.mat-toolbar.mat-primary {background: $blue;height: 4rem;box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0,0,0,.2), 0 0.125rem 0.125rem 0 rgba(0,0,0,.14), 0 0.0625rem 0.3125rem 0 rgba(0,0,0,.12);}
+.header-logo {text-align: center;margin-left: 1.25rem;text-decoration: none;letter-spacing: 0.03125rem;font-size: 1.25rem;line-height: 1.4;color: $white;
   span {font-weight: 300;}
   span.bold {font-weight: 500;}
   @include break-on(sm, min) {width: 16.25rem;margin-left: 0;
@@ -87,7 +87,7 @@ app-login {
 
 .languages .htm-icon {
   position: relative;
-  top: 6px;
+  top: 0.375rem;
   margin-left: 0px;
 }
 
