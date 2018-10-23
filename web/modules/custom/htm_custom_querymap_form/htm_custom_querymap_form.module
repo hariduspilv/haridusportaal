@@ -30,7 +30,7 @@ function htm_custom_querymap_form_form_help($route_name, RouteMatchInterface $ro
 /**
 * Implements hook_form_alter() on behalf of htm_custom_querymap_form.module.
 */
-function htm_custom_querymap_form_form_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+function htm_custom_querymap_form_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if($form_id === 'graphql_query_map_import_form'){
     $form['actions']['submit']['#submit'] = array('htm_custom_querymap_form_save');
   }
