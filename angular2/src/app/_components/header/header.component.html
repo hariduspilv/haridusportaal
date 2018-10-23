@@ -17,7 +17,7 @@
       <div class="fill-space__flex">
         <div class="searchbar">
           <span class="search" [hidden]="hideElement">
-            <input role="search" class="search-input round-input" (keyup.space)="searchRoute(param)" (keyup.enter)="searchRoute(param)" [(ngModel)]="param" placeholder="{{'button.search_from_page' | translate}}" />
+            <input role="search" class="search-input round-input" (keyup.enter)="searchRoute(param)" [(ngModel)]="param" placeholder="{{'button.search_from_page' | translate}}" />
             <a role="button" (click)="searchRoute(param)" href="javascript:void(0)" class="search-icn"></a>
           </span>
         </div>

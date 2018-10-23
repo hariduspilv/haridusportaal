@@ -61,6 +61,7 @@
       &.mat-form-field-should-float{
         .mat-form-field-label{left:0.4375rem; padding:0 0.625rem; width:auto; background:$white; color: $dark-gray; font-size:0.75rem; top:3px;}
       }
+      @include break-on(xl, min) {margin-top: 1.3125rem;} 
     }
     &.disabled .mat-form-field{background:#eee !important;}
   }
@@ -141,7 +142,11 @@
       ::placeholder {color: transparent;}
     }
   }
-
+}
+.mat-input-placeholder-wrapper {
+  @include break-on(sm, max) {
+    top: -.625rem;
+  }
 }
 .ng-select {
   border: solid .0625rem #c7c7c9;
