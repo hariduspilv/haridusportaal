@@ -16,7 +16,7 @@
       &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
   }
 
-  &__item {padding: $small $medium; border-bottom: solid 0.125rem $gray; display:flex; flex-wrap: wrap;
+  &__item {padding: $small $medium; border-bottom: solid 0.0625rem $gray; display:flex; flex-wrap: wrap;
     &:first-child{padding-top:0;}
     @include break-on(sm, min) {
       &:last-child{border-bottom:0;}

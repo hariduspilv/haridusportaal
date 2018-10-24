@@ -11,15 +11,20 @@
             <div class="col-12 flex">
               <h1 class="mt-0 mb-0">{{ content.entityLabel }}</h1>
             </div><!--/col-10-->
-            <div class="mininav col-12 flex text-right">
-              <favourites *ngIf="!userLoggedOut" [id]="content.nid" [title]="content.entityLabel"></favourites>
-              <share [title]="content.entityLabel"></share>
-            </div><!--/col-10-->
           </div><!--/row-->
       
           <div class="author" attr.aria-label="{{'author.author' | translate}}{{ content.fieldAuthor }}">
             {{ content.fieldAuthor }} {{ content.created*1000 | date:"dd.MM.yyyy" }}
           </div>
+
+
+          <div class="row title">
+            <div class="mininav col-12 flex text-right">
+              <favourites *ngIf="!userLoggedOut" [id]="content.nid" [title]="content.entityLabel"></favourites>
+              <share [title]="content.entityLabel"></share>
+            </div><!--/col-10-->
+          </div><!--/row-->
+          
           <div class="row">
               <div class="col-12">
                 <div class="short" [innerHtml]="content.fieldShortDescription"></div>
