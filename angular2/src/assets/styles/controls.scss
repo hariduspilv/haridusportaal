@@ -7,7 +7,7 @@
     text-overflow: ellipsis;
     font-size: 1rem;
             @include break-on(sm, max) { font-size: 1rem; } 
-    ::placeholder {color: $dark-gray; opacity: 1; font-size: 0.875rem; overflow: hidden; font-size: 0.875rem;
+    ::placeholder {color: $dark-gray; opacity: 1; font-size: 0.875rem; overflow: hidden; 
             @include break-on(sm, max) { font-size: 0.875rem; } }
     &:focus-within {
       ::placeholder {color: transparent; font-size: 0.875rem;
@@ -236,3 +236,5 @@
   font-size: 0.875rem;
   font-weight: normal;
 }
+
+.mat-select-panel { margin-top: 2.5625rem; }
