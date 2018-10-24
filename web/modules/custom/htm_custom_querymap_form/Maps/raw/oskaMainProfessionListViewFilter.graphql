@@ -1,5 +1,5 @@
 query oskaMainProfessionListViewFilter($lang: LanguageId!) {
-nodeQuery(sort: {field: "title", direction: ASC}, filter: {
+nodeQuery(sort: {field: "title", direction: ASC, language: $lang}, filter: {
 conjunction: AND, conditions: [
 {operator: EQUAL, field: "type", value: ["oska_field_page"], language: $lang}]}) {
 entities(language: $lang) {
