@@ -132,11 +132,14 @@ class EhisConnectorService {
 		return $this->client->hset($key, $img->getFileIdentifier(), $img->getRawData());
 	}
 
+
 	/**
-	 * @return int
+	 * @param bool $idcode
+	 *  If true return IDcode
+	 * @return mixed
 	 */
-	private function getCurrentUserIdCode(){
-		if($this->useReg()){
+	private function getCurrentUserIdRegCode($idcode = TRUE){
+		if($this->useReg() || !$idcode){
 			return $this->currentRole['current_role']['data']['reg_kood'];
 		}else{
 			#return '37112110025';
@@ -155,29 +158,29 @@ class EhisConnectorService {
 	 */
 	public function getProfessionalCertificate(array $params = []){
 		// build url params for GET request
-		$params['url'] = [$this->getCurrentUserIdCode(), 'true', time()];
-		$params['key'] = $this->getCurrentUserIdCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(), 'true', time()];
+		$params['key'] = $this->getCurrentUserIdRegCode();
 		$params['hash'] = 'kodanikKutsetunnistus';
 		return $this->invokeWithRedis('kodanikKutsetunnistus', $params, FALSE);
 	}
 
 	public function getTestSessions(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdCode(), time()];
-		$params['key'] = $this->getCurrentUserIdCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(), time()];
+		$params['key'] = $this->getCurrentUserIdRegCode();
 		$params['hash'] = 'testsessioonidKod';
 		return $this->invokeWithRedis('testsessioonidKod', $params, FALSE);
 	}
 
 	public function gettestidKod(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdCode(), $params['session_id'], time()];
-		$params['key'] = $this->getCurrentUserIdCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(), $params['session_id'], time()];
+		$params['key'] = $this->getCurrentUserIdRegCode();
 		$params['hash'] = 'testidKod_'.$params['session_id'];
 		return $this->invokeWithRedis('testidKod', $params, FALSE);
 	}
 
 	public function getCertificate(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdCode(), $params['certificate_id'], time()];
-		$params['key'] = $this->getCurrentUserIdCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(), $params['certificate_id'], time()];
+		$params['key'] = $this->getCurrentUserIdRegCode();
 		$params['hash'] = 'eTunnistusKod_'.$params['certificate_id'];
 		return $this->invokeWithRedis('eTunnistusKod', $params, FALSE);
 	}
@@ -187,8 +190,8 @@ class EhisConnectorService {
 	 * @return mixed
 	 */
 	public function getPersonalCard(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdCode(), time()];
-		$params['key'] = $this->getCurrentUserIdCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(), time()];
+		$params['key'] = $this->getCurrentUserIdRegCode();
 		$params['hash'] = 'eeIsikukaart';
  		$response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
 		return $this->filterPersonalCard($response, $params['tab']);
@@ -199,8 +202,8 @@ class EhisConnectorService {
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
 	 */
 	public function getApplications(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdCode()];
-		$params['key'] = $this->getCurrentUserIdCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode()];
+		$params['key'] = $this->getCurrentUserIdRegCode();
 		#dump($params['init']);
 		// we need to start getDocument service
 		if($params['init']){
@@ -220,8 +223,8 @@ class EhisConnectorService {
 	}
 
 	public function getDocument(array $params = []){
-		$params['url'][] = $this->getCurrentUserIdCode();
-		return $this->invoke('getDocument', $params);
+		$params['url'][] = $this->getCurrentUserIdRegCode();
+		return $this->invokeWithRedis('getDocument', $params, FALSE);
 	}
 
 	public function postDocument(array $params = []){
@@ -229,17 +232,17 @@ class EhisConnectorService {
 	}
 
 	public function getDocumentFile(array $params = []){
-		$params['url'] = [$params['file_id'], $this->getCurrentUserIdCode()];
-		return $this->invoke('getDocumentFile', $params);
+		$params['url'] = [$params['file_id'], $this->getCurrentUserIdRegCode()];
+		return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
 	}
 
 	public function getUserRoles(array $params = []){
 		/* @TODO $lang_code later as variable */
 		$lang_code = 'EST';
-		$params['url'] = [$this->getCurrentUserIdCode(), $lang_code, time()];
-		$params['key'] = $this->getCurrentUserIdCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(), $lang_code, time()];
+		$params['key'] = $this->getCurrentUserIdRegCode();
 		$params['hash'] = 'esindusOigus';
-		return $this->invoke('esindusOigus', $params);
+		return $this->invokeWithRedis('esindusOigus', $params, FALSE);
 	}
 
 	public function getOptionsTaxonomy(array $params = []){
@@ -250,6 +253,13 @@ class EhisConnectorService {
 			return (isset($return[$params['hash']])) ? $return[$params['hash']] : [];
 		}
 		return $return;
+	}
+
+	public function getEducationalInstitution(array $params = []){
+		$params['url'] = [$params['id'], $this->getCurrentUserIdRegCode(), $this->getCurrentUserIdRegCode(TRUE)];
+		$params['key'] = $this->getCurrentUserIdRegCode();
+		$params['hash'] = 'educationalInstitution_'.$params['id'];
+		return $this->invokeWithRedis('getEducationalInstitution', $params, FALSE);
 	}
 
 	/**
