@@ -34,7 +34,7 @@ class CustomRoleSwitcher {
 
 	public function setJuridicalPerson($id = NULL){
 
-		$roles = \Drupal::service('htm_custom_ehis_connector.default')->getUserRoles();
+		$roles = $this->getAvailableRoles();
 
 		$d = array_column($roles, 'ettevotted', 'ariregistri_kood');
 		$d = reset($d);
@@ -59,7 +59,7 @@ class CustomRoleSwitcher {
 	}
 
 	public function getAvailableRoles(){
-		return $this->ehisConnector->getUserRoles();
+		return \Drupal::service('htm_custom_ehis_connector.default')->getUserRoles();
 	}
 
 	private function setUserData($role){
