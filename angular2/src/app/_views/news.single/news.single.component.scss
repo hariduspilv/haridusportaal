@@ -28,10 +28,10 @@ a:visited {
       &__elem {padding-bottom: $xxl;}
       &.horizontal {border-top: none;background: transparent;
         @include break-on(sm, min) { margin: 0 3rem; }
-        @include break-on(md, min) { margin: 0 1.5rem; }
+        @include break-on(lg, min) { margin: 0 1.5rem; }
         a:visited {color: $blue;}
-        .news-title {padding-top: $medium;
-          @include break-on(sm, max) {padding: 0 0 $gutter 0;}
+        .news-title {padding-top: $medium; color: $black; padding-left: 0; padding-right: 0;
+          @include break-on(sm, max) {padding: 0 0 $gutter 0; }
           @include break-on(xxs, max) {padding: 0 $medium $gutter $medium;}
         }
         .news-list__recent__elem {flex: 1;padding: 0 0 $xxl 0; 
@@ -45,7 +45,7 @@ a:visited {
           @include break-on(xxs, min) {padding: 0; padding-top: $gutter;}
           @include break-on(xxs, max) {padding-top: $gutter;}
         }
-        .author {overflow: hidden;text-overflow: ellipsis;
+        .author {overflow: hidden;text-overflow: ellipsis; color: $black;
           @include break-on(xxs, min) {padding: 0; padding-top: $half-gutter;word-break: break-word;overflow: normal;}
         }
       }
