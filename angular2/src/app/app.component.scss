@@ -475,6 +475,7 @@ $grid-columns: 12;
    border-radius: 0.25rem; background-color: #E6F5EF; border: solid 0.09375rem $success;
    @include break-on(sm, max) {
     height: auto;
+    &.mat-snack-bar-center {max-width:100%;}
   }
 
   button {
@@ -698,7 +699,9 @@ a:hover .important-pill {
     a[href]:hover { text-decoration: underline!important }
    }
 }
-
+.notification--alert {position: absolute;overflow: hidden;
+  span {position: relative; right: 100%;}
+}
 .bar {color: $gray; font-weight: 700; }
 
 
