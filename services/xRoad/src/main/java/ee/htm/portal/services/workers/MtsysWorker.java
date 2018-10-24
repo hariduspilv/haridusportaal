@@ -5,9 +5,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusResponseDocument.MtsysOppeasutusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusloadResponseDocument.MtsysTegevusloadResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevuslubaResponseDocument.MtsysTegevuslubaResponse;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -148,6 +150,150 @@ public class MtsysWorker extends Worker {
 //    redisTemplate.opsForHash().put(MTSYSKLF_KEY, "mtsysKlf", mtsysKlfResponse);
 
     return mtsysKlfResponse;
+  }
+
+  public void getMtsystegevusLoad(String identifier) {
+    ObjectNode jsonNode = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(identifier);
+    logForDrupal.setType("EHIS - mtsysTegevuslaod.v1");
+
+    try {
+      ObjectNode tegevusloaLiigidNode = getKlfNode("tegevusloaLiigid");
+//      ObjectNode oppekavaStaatusedNode = getKlfNode("oppekavaStaatused");
+
+      MtsysTegevusloadResponse response = ehisXRoadService.mtsysTegevusload(identifier, null);
+
+      jsonNode.put("message", response.isSetInfotekst() ? response.getInfotekst() : null)
+          .put("ownerid", response.isSetAsutus() ? response.getAsutus().getRegNr() : null);
+
+      if (response.isSetAsutus()) {
+        ArrayNode educationalInstitutionNode = jsonNode.putArray("educationalInstitutions");
+
+        Calendar currentDate = Calendar.getInstance();
+        Calendar beforeDate = Calendar.getInstance();
+        beforeDate.set(Calendar.MONTH, Calendar.APRIL);
+        beforeDate.set(Calendar.DATE, 1);
+
+        response.getAsutus().getOppeasutused().getOppeasutusList().forEach(
+            item -> {
+              ObjectNode itemNode = educationalInstitutionNode.addObject();
+              itemNode.put("id", item.getId().intValue())
+                  .put("message",
+                      item.isSetTegevusnaitajad() && item.getTegevusnaitajad().isSetTnInfotekst()
+                          ? item.getTegevusnaitajad().getTnInfotekst() : null);
+
+              itemNode.putArray("document");
+              itemNode.putArray("draft");
+
+              itemNode.putArray("acceptable_form").addObject()
+                  .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS");
+              ((ArrayNode) itemNode.get("acceptable_form")).addObject()
+                  .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE");
+
+              if (item.isSetTegevusnaitajad()) {
+                item.getTegevusnaitajad().getTegevusnaitajaList().forEach(tegevusnaitaja -> {
+                  if (!tegevusnaitaja.isSetEsitamiseKp() && !tegevusnaitaja.isSetId()
+                      && !tegevusnaitaja.isSetMenetlusStaatus()) {
+                    ((ArrayNode) itemNode.get("acceptable_form")).addObject()
+                        .put("form_name", "MTSYS_TEGEVUSNAITAJAD")
+                        .put("description", tegevusnaitaja.getAasta().intValue());
+                  } else if (!tegevusnaitaja.getMenetlusStaatus().equalsIgnoreCase("Esitatud")) {
+                    ((ArrayNode) itemNode.get("draft")).addObject()
+                        .put("form_name", "MTSYS_TEGEVUSNAITAJAD")
+                        .put("id", tegevusnaitaja.getId().intValue())
+                        .put("description", tegevusnaitaja.getAasta().intValue());
+                  } else {
+                    ((ArrayNode) itemNode.get("document")).addObject()
+                        .put("form_name", "MTSYS_TEGEVUSNAITAJAD")
+                        .put("id", tegevusnaitaja.getId().intValue())
+                        .put("document_date", tegevusnaitaja.getEsitamiseKp())
+                        .put("status", tegevusnaitaja.getMenetlusStaatus())
+                        .put("description", tegevusnaitaja.getAasta().intValue())
+                        .put("changeable", currentDate.before(beforeDate)
+                            && tegevusnaitaja.getAasta().intValue()
+                            >= currentDate.get(Calendar.YEAR) - 1 ? true : false);
+                  }
+                });
+              }
+
+              if (item.isSetTegevusload()) {
+                item.getTegevusload().getTegevuslubaList().forEach(tegevusluba -> {
+                  if (tegevusluba.getLiik().equalsIgnoreCase("18098")) {
+                    if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15667") &&
+                        tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15669")) {
+                      ((ArrayNode) itemNode.get("draft")).addObject()
+                          .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE")
+                          .put("id", tegevusluba.isSetId() ? tegevusluba.getId().intValue() : null)
+                          .put("document_date",
+                              tegevusluba.isSetLoomiseKp() ? tegevusluba.getLoomiseKp() : null)
+                          .put("description", tegevusloaLiigidNode.get(tegevusluba.getLiik())
+                              .get("et").asText());
+                    } else {
+                      String description = tegevusloaLiigidNode.get(tegevusluba.getLiik())
+                          .get("et").asText() +
+                          " number " + tegevusluba.getLoaNumber() +
+                          " kehtivusega alates " + tegevusluba.getKehtivAlates() +
+                          " kuni " + tegevusluba.getKehtivKuni();
+                      if (tegevusluba.isSetTyhistamiseKp()) {
+                        description += " tühistatud " + tegevusluba.getTyhistamiseKp();
+                      }
+
+                      ((ArrayNode) itemNode.get("document")).addObject()
+                          .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE")
+                          .put("id", tegevusluba.getId().intValue())
+                          .put("document_date", tegevusluba.getKehtivAlates())
+                          .put("status", tegevusluba.getMenetlusStaatus())
+                          .put("description", description);
+                    }
+                  } else {
+                    if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15667") &&
+                        tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15669")) {
+                      ((ArrayNode) itemNode.get("draft")).addObject()
+                          .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS")
+                          .put("id", tegevusluba.isSetId() ? tegevusluba.getId().intValue() : null)
+                          .put("document_date",
+                              tegevusluba.isSetLoomiseKp() ? tegevusluba.getLoomiseKp() : null)
+                          .put("description", tegevusloaLiigidNode.get(tegevusluba.getLiik())
+                              .get("et").asText());
+                    } else {
+                      String description = tegevusloaLiigidNode.get(tegevusluba.getLiik())
+                          .get("et").asText() +
+                          " number " + tegevusluba.getLoaNumber() +
+                          " kehtivusega alates " + tegevusluba.getKehtivAlates() +
+                          " kuni " + tegevusluba.getKehtivKuni();
+                      if (tegevusluba.isSetTyhistamiseKp()) {
+                        description += " tühistatud " + tegevusluba.getTyhistamiseKp();
+                      }
+
+                      ((ArrayNode) itemNode.get("document")).addObject()
+                          .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS")
+                          .put("id", tegevusluba.getId().intValue())
+                          .put("document_date", tegevusluba.getKehtivAlates())
+                          .put("status", tegevusluba.getMenetlusStaatus())
+                          .put("description", description);
+                    }
+                  }
+                });
+              }
+            });
+      }
+
+    } catch (Exception e) {
+      LOGGER.error(e, e);
+      logForDrupal.setSeverity("ERROR");
+      logForDrupal.setMessage(e.getMessage());
+
+      jsonNode.removeAll();
+      jsonNode.putObject("error")
+          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    sender.send(logsTopic, null, logForDrupal, "ehis.mtsysTegevuslaod.v1");
+
+    redisTemplate.opsForHash().put(identifier, "mtsys", jsonNode);
   }
 
   public ObjectNode getMtsysTegevusluba(String formName, String identifier, String personalCode) {
@@ -427,5 +573,17 @@ public class MtsysWorker extends Worker {
     redisTemplate.opsForHash().put(institutionId, "educationalInstitution_" + identifier, jsonNode);
 
     return jsonNode;
+  }
+
+  private ObjectNode getKlfNode(String hashKey) {
+    ObjectNode result = (ObjectNode) redisTemplate.opsForHash().get(MTSYSKLF_KEY, hashKey);
+
+    if (result == null) {
+      getMtsysKlf();
+
+      result = (ObjectNode) redisTemplate.opsForHash().get(MTSYSKLF_KEY, hashKey);
+    }
+
+    return result;
   }
 }
