@@ -15,7 +15,7 @@ export class Modal {
 
   dashboardLink: string = "";
 
-
+  
     constructor(
       private rootScope: RootScopeService,
       private router: Router,
