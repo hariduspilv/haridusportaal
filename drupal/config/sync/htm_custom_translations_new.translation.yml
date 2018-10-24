@@ -1063,8 +1063,8 @@ school:
     en: 'year''s investment measure'
   map_created:
     translation_type: textarea
-    et: 'Haldusüksuste piirjoonte allikas Maamet, andmed seisuga'
-    en: 'The administrative unit source is Maaamet,  data as of'
+    et: 'Haldusüksuste piirjoonte allikas Maa-amet, andmed seisuga'
+    en: 'Subsidy project source Maa-amet, data created in'
 studyProgramme:
   label:
     translation_type: textarea
