@@ -42,9 +42,13 @@ public class HPortalRestController {
   @Autowired
   AriregWorker ariregWorker;
 
-  @RequestMapping(value = "/getDocuments/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-  public ResponseEntity<?> getDocuments(@PathVariable("personalCode") String personalCode) {
-    new Thread(() -> vptWorker.getDocuments(personalCode)).start();
+  @RequestMapping(value = "/getDocuments/{identifier}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getDocuments(@PathVariable("identifier") String identifier) {
+    if (identifier.length() == 8) {
+      new Thread(() -> mtsysWorker.getMtsystegevusLoad(identifier)).start();
+    } else {
+      new Thread(() -> vptWorker.getDocuments(identifier)).start();
+    }
 
     return new ResponseEntity<>("{\"MESSAGE\":\"WORKING\"}", HttpStatus.OK);
   }
