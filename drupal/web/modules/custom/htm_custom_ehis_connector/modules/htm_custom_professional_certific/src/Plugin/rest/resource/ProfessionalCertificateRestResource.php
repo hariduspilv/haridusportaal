@@ -98,6 +98,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		}
   	switch ($service_name){
 			case 'certificates':
+				// @TODO  Mby security risk
 				$method = $tab;
 				$params = [];
 				break;
@@ -110,6 +111,10 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 				#$this->certificate->testApplications();
 				$params = ['init' => (boolean) $tab];
 				break;
+		  case 'educational_institution':
+		  	$method = 'getEducationalInstitution';
+		  	$params = ['id' => $tab];
+		  	breaK;
 			default:
 				throw new BadRequestHttpException('Service name not found');
 				break;
