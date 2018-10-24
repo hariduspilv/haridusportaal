@@ -498,7 +498,8 @@ public class MtsysWorker extends Worker {
     return jsonNode;
   }
 
-  public ObjectNode getMtsysOppeasutus(String identifier, String institutionId, String personalCode) {
+  public ObjectNode getMtsysOppeasutus(String identifier, String institutionId,
+      String personalCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
@@ -558,7 +559,8 @@ public class MtsysWorker extends Worker {
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
 
-      redisTemplate.opsForHash().put(institutionId, "educationalInstitution_" + identifier, "Tehniline viga!");
+      redisTemplate.opsForHash()
+          .put(institutionId, "educationalInstitution_" + identifier, "Tehniline viga!");
 
       jsonNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
           .put("et", "Tehniline viga!");
