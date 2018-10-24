@@ -1,10 +1,15 @@
 services:
   authentication.custom_graphql_authentication:
     class: Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider
-    arguments: ['@config.factory', '@authentication.user.auth', '@flood', '@entity.manager']
+    arguments: ['@config.factory', '@authentication.user.auth', '@flood', '@entity.manager', '@event_dispatcher', '@jwt.transcoder', '@current_user.role_switcher']
     tags:
       - { name: authentication_provider, provider_id: json_authentication_provider, priority: 100 }
-
+  #Override current_user service and add custom functions
+  current_user:
+    class: Drupal\htm_custom_authentication\CustomAccountProxy
   authentication.user.auth:
     class: Drupal\htm_custom_authentication\UserAuth
     arguments: ['@entity.manager', '@password']
+  current_user.role_switcher:
+    class: Drupal\htm_custom_authentication\CustomRoleSwitcher
+    arguments: ['@current_user', '@user.data']

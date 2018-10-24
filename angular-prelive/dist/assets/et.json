@@ -13,6 +13,7 @@
     "dashboard_label": "Töölaud",
     "dashboard_tabs_applications": "Taotlused",
     "dashboard_tabs_certificates":"Tunnistused",
+    "dashboard_tabs_certificate":"Tunnistus",
     "dashboard_tabs_studies":"Õpin",
     "dashboard_tabs_teachings":"Õpetan",
     "dashboard_tabs_certificates_no_results": "Kutsetunnistused puuduvad",
@@ -39,6 +40,15 @@
     "dashboard_tabs_certificates_isco":"Ametite (ISCO) klassifikaator",
     "dashboard_tabs_certificates_duplicate":"Duplikaat",
     "dashboard_tabs_certificates_notvalid":"Kehtetu",
+    "dashboard_tabs_applications_acceptable_forms_label": "Vali dokument, mida soovid esitada:",
+    "dashboard_tabs_applications_acceptable_forms_notfound": "Praegu ei saa esitada ühtegi taotlust",
+    "dashboard_tabs_applications_drafts_label": "Pooleliolevad taotlused",
+    "dashboard_tabs_applications_drafts_notfound": "Pooleli olevaid taotlusi ei ole",
+    "dashboard_tabs_applications_documents_label": "Taotlused ja otsused",
+    "dashboard_tabs_applications_documents_notfound": "Dokumente ei ole",
+    "dashboard_tabs_applications_document_name": "Dokumendi nimi",
+    "dashboard_tabs_applications_document_date": "Kuupäev",
+    "dashboard_tabs_applications_document_status": "Staatus",
     "dashboard_tabs_personal_label":"Isikuandmed",
     "isikukood": "Isikukood",
     "synniKp": "Sünniaeg",
@@ -107,7 +117,15 @@
     "dokumentNr": "Dokumendi nr.",
     "koolitusNimetus": "Koolituse nimetus",
     "liik": "Liik",
-    "maht": "Maht"
+    "maht": "Maht",
+    "eksamiNimetus": "Eksami nimetus",
+    "eksamiTulemused": "Eksamitulemused",
+    "tulemus": "Tulemus",
+    "test_nimi": "Testi nimi",
+    "osa_aadress": "Toimumise koha aadress",
+    "osa_koht": "Toimumise koht",
+    "osa_kuupaev": "Toimumise aeg",
+    "osa_nimi": "Testiosa nimi"
   },
   "xjson":{
     "edit_step_confirm_modal_content": "Sellel sisestussammul olevate andmete muutmise korral võidakse kustutada järgmistel sammudel sisestatud andmed. Kas olete kindel, et soovite selle sammu andmeid muuta?",
@@ -328,6 +346,7 @@
     "search_brief_short": "Kitsas",
     "search_people": "Otsi inimesi",
     "load_more": "Lae rohkem",
+    "download": "Lae alla",
     "read_more": "Loe rohkem",
     "show_all": "Näita kõiki",
     "view_all": "Vaata kõiki",
@@ -357,7 +376,11 @@
     "previous": "Tagasi",
     "next": "Järgmine",
     "yes": "Jah",
-    "cancel": "Katkesta"
+    "cancel": "Katkesta",
+    "show_more":"Näita rohkem",
+    "show_less":"Näita vähem",
+    "open": "Ava",
+    "continue_filling": "Jätka täitmist"
   },
     "tooltip": {
     "share": "Jaga lehte",
@@ -373,7 +396,10 @@
     "personal_data_missing": "Eesti Hariduse Infosüsteemis isikuandmed puuduvad.",
     "studies_data_missing": "Eesti Hariduse Infosüsteemis õpingute andmed puuduvad.",
     "teachings_data_missing": "Eesti Hariduse Infosüsteemis õpetamisega seotud andmed puuduvad.",
-    "teachings_data_request": "Vabandame. Eesti Hariduse Infosüsteemist õpetamisega seotud andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti."
+    "teachings_data_request": "Vabandame. Eesti Hariduse Infosüsteemist õpetamisega seotud andmete lugemise käigus tekkis tehniline viga. Palun proovige hiljem uuesti.",
+    "examinations_data_missing": "Riigieksamitel osalemise andmed puuduvad.",
+    "examinations_data_request": "Vabandame. Riigieksamite andmete Eksamite infosüsteemist lugemise käigu tekkis tehniline viga. Palun proovige hiljem uuesti.",
+    "certificate_file_missing": "Tunnistus ei ole saadaval faili kujul e-tunnistusena."
   },
   "search": {
     "label": "Otsing",
@@ -382,5 +408,12 @@
     "no_results_start": "Otsingule",
     "no_results_end": "vastavaid tulemusi ei leitud.<br> Proovi otsida mõne teise märksõnaga.",
     "filter_results": "Filtreeri tulemusi"
+  },
+  "oskaProfessions": {
+    "label": "Põhikutsealad",
+    "compare_label": "Põhikutsealade võrdlus",
+    "compare_modal_title": "Põhikutsealade võrdlemine",
+    "compare_modal_content": "<p> Maksimaalne võrreldavate põhikutsealade arv on ületatud.</p><br><p>Võrdlusesse saab lisada kuni 3 kutseala.</p>",
+    "compare_modal_close": "Sulge aken"
   }
 }

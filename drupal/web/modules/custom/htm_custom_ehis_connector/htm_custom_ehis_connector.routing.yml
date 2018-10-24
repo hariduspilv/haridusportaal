@@ -1,0 +1,7 @@
+htm_custom_ehis_connector_route.default:
+  path: '/admin/config/htm_custom_translations_new/translation'
+  defaults:
+    _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormList'
+    _title: 'TranslationForm'
+  requirements:
+    _user_is_logged_in: 'TRUE'

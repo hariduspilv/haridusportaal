@@ -1,0 +1,81 @@
+query relatedEvents($groupID: String, $lang: LanguageId!, $nid: String) {
+  nodeQuery(limit: 3, sort: {field: "field_event_date.entity.field_event_date", direction: ASC}, filter: {conditions: [{operator: EQUAL, field: "field_event_group.target_id", value: [$groupID], language: $lang}, {operator: NOT_EQUAL, field: "nid", value: [$nid], language: $lang}, {operator: EQUAL, field: "status", value: "1", language: $lang}]}) {
+    entities(language: $lang) {
+      ... on NodeEvent {
+        title: entityLabel
+        created
+        nid
+        location: fieldEventLocation {
+          lat
+          lon
+          name
+        }
+        fieldEventLocationLink {
+          uri
+          title
+        }
+        fieldEventType {
+          entity {
+            entityLabel
+          }
+        }
+        fieldContactPerson
+        eventDates: fieldEventDate {
+          ...eventdates
+        }
+        fieldEntryType
+        registrationDate: fieldRegistrationDate {
+          ...registrationdates
+        }
+        hashTags: fieldTag {
+          entity {
+            entityLabel
+          }
+        }
+        entityUrl {
+          ...url
+        }
+      }
+    }
+  }
+}
+
+fragment eventdates on FieldNodeFieldEventDate {
+  entity {
+    ... on ParagraphEventDate {
+      fieldEventDate {
+        value
+        date
+        unix
+      }
+      fieldEventStartTime
+      fieldEventEndTime
+    }
+  }
+}
+
+fragment registrationdates on FieldNodeFieldRegistrationDate {
+  entity {
+    ... on ParagraphRegistrationPeriod{
+      fieldRegistrationFirstDate {
+      value
+      date
+      unix
+    }
+    fieldRegistrationLastDate {
+      value
+      date
+      unix
+    }
+    }
+
+  }
+}
+
+fragment url on EntityCanonicalUrl {
+  path
+  languageSwitchLinks {
+    active
+    title
+  }
+}

@@ -15,6 +15,7 @@ export class OskaAreasComponent implements OnInit{
   error: boolean = false;
   compareButton: boolean = false;
   viewType : string;
+  public sidebarData: any = false;
 
   constructor(
     private http: HttpService,
@@ -62,6 +63,12 @@ export class OskaAreasComponent implements OnInit{
         return false;
       }else{
         this.data = data['data']['route']['entity'];
+      }
+
+      if (this.data.fieldSidebar) {
+        this.sidebarData = this.data.fieldSidebar.entity;
+      } else if (this.data.fieldOskaFieldSidebar) {
+        this.sidebarData = this.data.fieldOskaFieldSidebar.entity;
       }
 
       this.setLangLinks(data);
