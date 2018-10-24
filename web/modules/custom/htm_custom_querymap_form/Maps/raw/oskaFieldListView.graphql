@@ -1,0 +1,30 @@
+query oskaFieldListView($nid: [String], $nidEnabled: Boolean, $lang: LanguageId!, $offset: Int, $limit: Int) {
+  nodeQuery(offset: $offset, limit: $limit, sort: {field: "changed", direction: DESC, language: $lang}, filter: {conjunction: AND, conditions: [
+    {operator: EQUAL, field: "type", value: ["oska_field_page"], language: $lang},
+    {operator: IN, field: "nid", value: $nid, language: $lang, enabled: $nidEnabled}]}) {
+    entities(language: $lang) {
+      ... on NodeOskaFieldPage {
+        nid
+        title
+        entityUrl{
+          routed
+          path
+        }
+        fieldOskaFieldPicture{
+          derivative(style: CROP_LARGE) {
+              url
+              __typename
+            }
+            width
+            height
+            alt
+            title
+            __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}
