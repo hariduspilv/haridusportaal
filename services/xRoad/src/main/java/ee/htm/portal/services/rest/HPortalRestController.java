@@ -59,9 +59,6 @@ public class HPortalRestController {
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
       return new ResponseEntity<>(
           mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode), HttpStatus.OK);
-    } else if (formName.equalsIgnoreCase("MTSYS_OPPEASUTUS")) {
-      return new ResponseEntity<>(
-          mtsysWorker.getMtsysOppeasutus(identifier, personalCode), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request formName - " + formName);
@@ -157,5 +154,14 @@ public class HPortalRestController {
       @PathVariable("requestTimestamp") Long timestamp) {
     return new ResponseEntity<>(
         ariregWorker.getEsindusOigus(personalCode, countryCode, timestamp), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/getEducationalInstitution/{identifier}/{institutionId}/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getEducationalInstitution(
+      @PathVariable("identifier") String identifier,
+      @PathVariable("institutionId") String institutionId,
+      @PathVariable("personalCode") String personalCode){
+    return new ResponseEntity<>(
+        mtsysWorker.getMtsysOppeasutus(identifier, institutionId, personalCode), HttpStatus.OK);
   }
 }
