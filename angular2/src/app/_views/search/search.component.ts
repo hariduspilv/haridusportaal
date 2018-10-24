@@ -30,7 +30,7 @@ export class SearchComponent {
   };
   typesByLang: any = {
     et: [
-      {"name": "article.label", "sumLabel": "Artikkel", "value": false, "sum": 0},
+      {"name": "article.label", "sumLabel": "Sisuleht Artikkel", "value": false, "sum": 0},
       {"name": "news.label", "sumLabel": "Uudis", "value": false, "sum": 0},
       {"name": "event.label", "sumLabel": "Sündmus", "value": false, "sum": 0},
       {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},

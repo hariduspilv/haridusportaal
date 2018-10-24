@@ -77,6 +77,12 @@ $grid-columns: 12;
 }
 .form-additional-row {padding-top: $gutter;
   &:last-child {margin-bottom: -$quarter !important;}
+  &.no-gutter {
+    .custom-checkbox {margin-left: 1rem;}
+    @include break-on(sm, min) {margin-top: -1.5rem;
+      .custom-checkbox {margin: 1rem 0 0 1rem;}
+    }
+  }
 }
 
 .row{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;
@@ -166,6 +172,15 @@ $grid-columns: 12;
       &.light {font-weight: 400;}
     }
     th {font-weight: 500; background: $light-gray; text-align: left;}
+  }
+}
+
+.icon-wrapper {display: flex;width: 2.5rem;min-width: 2.5rem;height: 2.5rem;align-items: center;justify-content: center;border-radius: .25rem;
+  &.pos{border: 1px solid #008d53;background-color: #e6f5ef;
+    .htm-icon {color: #008d53;}
+  }
+  &.neg{border: 1px solid #d0021b;background-color: #fdf3f4;
+    .htm-icon {color: #d0021b;}
   }
 }
 

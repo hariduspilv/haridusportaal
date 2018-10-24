@@ -1,0 +1,107 @@
+query getEventList (
+  $tagsValue: [String],
+  $tagsEnabled: Boolean,
+  $typesValue: [String],
+  $typesEnabled: Boolean,
+  $titleValue: String,
+  $titleEnabled: Boolean,
+  $dateFrom: String,
+  $dateTo: String,
+  $timeFrom: String,
+  $timeTo: String,
+  $lang: LanguageId!,
+  $offset: Int,
+  $limit: Int ) {
+  nodeQuery(offset: $offset, limit: $limit, sort: {field: "field_event_main_date", direction: ASC},
+  filter: {conjunction: AND, conditions: [
+    {operator: EQUAL, field: "type", value: ["event"], language: $lang},
+    {operator: EQUAL, field: "status", value: "1", language: $lang}
+  	{operator: IN, field: "field_tag.entity.tid", value: $tagsValue, language: $lang, enabled: $tagsEnabled },
+		{operator: IN, field: "field_event_type.entity.tid", value: $typesValue, language: $lang, enabled: $typesEnabled },
+    {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled },
+    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateFrom] },
+    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_date", value: [$dateTo] },
+    {operator: GREATER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeFrom] },
+    {operator: SMALLER_THAN_OR_EQUAL, field: "field_event_main_start_time", value: [$timeTo] },
+
+  ]}){
+    entities(language: $lang) {
+      ... on NodeEvent {
+        nid
+        title:entityLabel
+        location: fieldEventLocation{
+          lat
+          lon
+          name
+        }
+        fieldEventType{
+          entity{
+            entityId
+            entityLabel
+          }
+        }
+        fieldEventMainDate{
+          value
+          date
+          unix
+        }
+        fieldEventMainStartTime
+        fieldEventMainEndTime
+        eventDates: fieldEventDate{
+          ...eventdates
+        }
+        fieldEntryType
+        registrationDate:fieldRegistrationDate{
+          ...registrationdates
+        }
+        hashTags:fieldTag{
+          entity{
+            entityLabel
+            entityId
+          }
+        }
+        entityUrl{
+          ...url
+        }
+      }
+    }
+  }
+}
+fragment eventdates on FieldNodeFieldEventDate {
+  entity {
+    ... on ParagraphEventDate {
+      fieldEventDate {
+        value
+        date
+        unix
+      }
+      fieldEventStartTime
+      fieldEventEndTime
+    }
+  }
+}
+
+fragment registrationdates on FieldNodeFieldRegistrationDate {
+  entity {
+    ... on ParagraphRegistrationPeriod{
+      fieldRegistrationFirstDate {
+        value
+        date
+        unix
+      }
+      fieldRegistrationLastDate{
+        value
+        date
+        unix
+      }
+    }
+  }
+}
+
+fragment url on EntityCanonicalUrl{
+  path
+  languageSwitchLinks {
+    active
+    title
+  }
+}

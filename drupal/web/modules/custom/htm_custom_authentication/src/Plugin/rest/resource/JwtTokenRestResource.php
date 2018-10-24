@@ -3,6 +3,7 @@
 namespace Drupal\htm_custom_authentication\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
 use Drupal\jwt\Authentication\Event\JwtAuthEvents;
 use Drupal\jwt\JsonWebToken\JsonWebToken;
 use Drupal\jwt\Transcoder\JwtTranscoderInterface;
@@ -75,12 +76,14 @@ class JwtTokenRestResource extends ResourceBase {
     LoggerInterface $logger,
     AccountProxyInterface $current_user,
 		JwtTranscoderInterface $transcoder,
-		EventDispatcherInterface $event_dispatcher) {
+		EventDispatcherInterface $event_dispatcher,
+    JsonAuthenticationProvider $jsonAuthenticationProvider) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 
     $this->currentUser = $current_user;
 		$this->transcoder = $transcoder;
     $this->eventDispatcher = $event_dispatcher;
+	  $this->authenticator = $jsonAuthenticationProvider;
   }
 
   /**
@@ -95,7 +98,8 @@ class JwtTokenRestResource extends ResourceBase {
       $container->get('logger.factory')->get('htm_custom_authentication'),
       $container->get('current_user'),
 			$container->get('jwt.transcoder'),
-			$container->get('event_dispatcher')
+			$container->get('event_dispatcher'),
+	    $container->get('authentication.custom_graphql_authentication')
     );
   }
 
@@ -115,36 +119,14 @@ class JwtTokenRestResource extends ResourceBase {
     if($this->currentUser->isAnonymous()){
 			return new ModifiedResourceResponse('Authentication failed', 403);
 		}
-    else if(!$data['username'] || !$data['password']){
+/*
+    if((!$data['username'] && !$data['password']) || (!$data['id_code'])){
 			return new ModifiedResourceResponse('Username or password missing', 403);
-		}
-    else if($data['username'] && $data['password']){
-			$response['message'] = $this->t('Login succeeded');
-			$response['token'] = $this->generateToken();
-			return new ModifiedResourceResponse($response, 200);
-		}
-    else if($data['id_code']){
-			$response['message'] = $this->t('Login succeeded');
-			$response['token'] = $this->generateIdCodeToken($data);
-			return new ModifiedResourceResponse($response, 200);
-		}
-  }
+		}*/
 
-  protected function generateIdCodeToken($data){
-		$event = new JwtAuthGenerateEvent(new JsonWebToken());
-    $event->addClaim('name', $data['name']);
-    $event->addClaim('id_code', $data['id_code']);
-		$this->eventDispatcher->dispatch(JwtAuthEvents::GENERATE, $event);
-		$jwt = $event->getToken();
-		return $this->transcoder->encode($jwt);
-	}
-
-  protected function generateToken(){
-    $event = new JwtAuthGenerateEvent(new JsonWebToken());
-    $event->addClaim('username', $this->currentUser->getDisplayName());
-    $this->eventDispatcher->dispatch(JwtAuthEvents::GENERATE, $event);
-    $jwt = $event->getToken();
-    return $this->transcoder->encode($jwt);
+	  $response['message'] = $this->t('Login succeeded');
+	  $response['token'] = $this->authenticator->generateToken();
+	  return new ModifiedResourceResponse($response, 200);
   }
 
 }

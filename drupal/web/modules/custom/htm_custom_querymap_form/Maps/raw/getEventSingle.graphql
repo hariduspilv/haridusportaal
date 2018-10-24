@@ -1,0 +1,145 @@
+query getEventSingle(
+  $path: String!
+){
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        title
+        language {
+          id
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+        }
+      }
+      entity {
+        ... on NodeEvent {
+          isFavorite
+          entityLabel
+          nid
+          RegistrationCount
+          fieldMaxNumberOfParticipants
+          fieldPicture {
+            derivative(style:CROP_LARGE){
+              url
+            }
+            width
+            height
+            alt
+            title
+          }
+          fieldEventMainDate{
+            value
+            date
+            unix
+          }
+          fieldEventMainStartTime
+          fieldEventMainEndTime
+          EventRegistrations{
+            entities{
+              ... on EventRegEntity{
+                participantCreated:created
+                participantEmail
+                participantPhone
+                participantLastName
+                participantFirstName
+                participantOrganization
+                participantComment
+              }
+            }
+          }
+          fieldAttachmentFile {
+            description
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+            }
+          }
+          fieldEventLocation{
+            name
+            lat
+            lon
+            zoom
+          }
+          fieldEventLocationLink{
+            title
+            uri
+          }
+          fieldOrganizer
+          fieldEventDate {
+            entity {
+              ... on ParagraphEventDate {
+                fieldEventDate {
+                  value
+                  date
+                  unix
+                }
+                fieldEventStartTime
+                fieldEventEndTime
+              }
+            }
+          }
+          fieldEntryType
+          fieldRegistrationDate{
+            entity {
+              ... on ParagraphRegistrationPeriod {
+                fieldRegistrationFirstDate {
+                  value
+                  date
+                  unix
+                }
+                fieldRegistrationLastDate{
+                  value
+                  date
+                  unix
+                }
+              }
+            }
+          }
+          fieldEventLink {
+            url {
+              routed
+              path
+            }
+            title
+          }
+          fieldDescription {
+            value
+          }
+          fieldDescriptionSummary
+          fieldContactPerson
+          fieldContactPhone
+          fieldContactEmail
+          fieldPracticalInformation {
+            value
+            format
+            processed
+          }
+          fieldEventGroup {
+            targetId
+          }
+          fieldTag {
+            entity {
+              entityLabel
+            }
+          }
+          fieldEventType {
+            entity {
+              entityLabel
+            }
+          }
+        }
+      }
+    }
+  }
+}

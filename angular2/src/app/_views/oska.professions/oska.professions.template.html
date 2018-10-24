@@ -7,7 +7,7 @@
 </div>
 <form (submit)="filterSubmit($event)" class="filter-wrapper" *ngIf="showFilter">
   <div class="main-container">
-    <div class="row">
+    <div class="row form-first-row" [class.short-filter]="!filterFull">
       <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.titleValue">
           <span class="round-input__title">{{ 'search.keyword' | translate }}</span>
@@ -56,7 +56,7 @@
           </div>
         </div><!--/col-9-->
       </div>
-      <div class="row form-additional-row">
+      <div class="row form-additional-row no-gutter">
         <div class="col-9 sm-12 form-col">
           <div class="custom-checkbox">
             <mat-checkbox [(ngModel)]="filterFormItems.fixedLabelValue" name="fixedLabelValue"> {{ 'fieldFixedLabel.slogan' | translate }}</mat-checkbox>
@@ -131,7 +131,7 @@
 
 </div><!--/studyProgramme-->
   
-<div class="text-center actions snackBar" *ngIf="!listEnd && data">
+<div class="text-center actions snackBar" *ngIf="!listEnd && data && data.length">
   <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
   <button role=button mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading" attr.aria-label="{{'button.load_more' | translate}}">
     {{ "button.load_more" | translate }}
