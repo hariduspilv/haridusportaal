@@ -1,0 +1,35 @@
+@import "../../../assets/styles/typography.scss";
+.sectors {background: $white;border-top: $gutter solid $light-blue;
+  @include break-on(sm, min) {border-radius: $half-gutter;margin: 1rem 1.5rem 1.5rem 1.5rem;}
+  &__head {display: flex;border-bottom: .0625rem solid $gray;}
+  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 0.9375rem 1.5rem; flex-basis: 50%;}
+  &__list-head {margin-top: 0;}
+  &__list-body {padding: 1.5rem 0 3rem;
+    @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
+    .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%;text-decoration: underline;
+      &--title {margin: auto 0;padding: .5rem;
+        h1 {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;}
+      }
+      &:hover {text-decoration: none;}
+      img {width: 100%;height: auto;box-sizing: border-box;}
+    }
+  }
+  &--row {margin: -.75rem -.25rem;
+    @include break-on(sm, min) {margin: -.75rem -.5rem;}
+  }
+  &--col {padding: .75rem .25rem;
+    @include break-on(sm, min) {padding: .75rem .5rem;}
+  }
+  .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;color:$blue;
+    .title { font-size: 0.875rem; }
+    .htm-icon{margin-top: 0.5rem;
+      display: inline-block;
+      fill: currentColor;
+    }
+    h1 {font-size: .875rem;}
+    &.active {color: $black;
+      &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}
+    }
+  }
+  .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
+}
