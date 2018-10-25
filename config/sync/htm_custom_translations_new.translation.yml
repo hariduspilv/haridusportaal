@@ -1,8 +1,4 @@
 frontpage:
-  label:
-    translation_type: textarea
-    et: Avaleht
-    en: Home
   navigate:
     translation_type: textarea
     et: 'Mine avalehele'
@@ -547,6 +543,10 @@ frontpage:
     translation_type: textarea
     et: Staatus
     en: Status
+  label:
+    translation_type: textarea
+    et: Avaleht
+    en: Frontpage
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1878,6 +1878,14 @@ sidebar:
     translation_type: textarea
     et: Miinused
     en: Cons
+  pro:
+    translation_type: textarea
+    et: Pluss
+    en: Pro
+  con:
+    translation_type: textarea
+    et: Miinus
+    en: Con
 url:
   copied_to_clipboard:
     translation_type: textarea
