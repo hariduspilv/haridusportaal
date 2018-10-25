@@ -475,6 +475,7 @@ $grid-columns: 12;
    border-radius: 0.25rem; background-color: #E6F5EF; border: solid 0.09375rem $success;
    @include break-on(sm, max) {
     height: auto;
+    &.mat-snack-bar-center {max-width:100%;}
   }
 
   button {
