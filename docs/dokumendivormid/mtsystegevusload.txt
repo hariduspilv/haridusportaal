@@ -1,4 +1,4 @@
-{
+﻿{
   "message" : infotekst,
   "ownerid" : asutus/regNr,
   "educationalInstitution" : {
@@ -63,7 +63,7 @@
       "form_name" : "MTSYS_TEGEVUSNAITAJAD",
       "id" : asutus/oppeasutus/tegevusnaitaja/id,
       "description" : asutus/oppeasutus/tegevusnaitaja/aasta,
-      "parameters" : asutus/oppeasutus/tegevusnaitaja/aasta + ';' + asutus/oppeasutus/id
+      "parameters" : { "year" : asutus/oppeasutus/tegevusnaitaja/aasta, "educationalInstitutionId" : asutus/oppeasutus/id }
     },
     "document" : {
       Objekt iga asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus menetlusStaatus on esitatud
@@ -74,7 +74,7 @@
       "status" : asutus/oppeasutus/tegevusnaitaja/menetlusStaatus,
       "description" : asutus/oppeasutus/tegevusnaitaja/aasta,
       "changeable" : true kui jooksev kuupäev < 01. aprill ja asutus/oppeasutus/tegevusnaitaja/aasta >= jooksev aasta-1,
-      "parameters" : asutus/oppeasutus/tegevusnaitaja/aasta + ';' + asutus/oppeasutus/id
+      "parameters" : { "year" : asutus/oppeasutus/tegevusnaitaja/aasta, "educationalInstitutionId" : asutus/oppeasutus/id }
     },
 
   }
