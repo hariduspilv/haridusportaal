@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit{
     this.user = false;
     this.userService.clearStorage();
     this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password'];
+    this.formModels['auth_method'] = 'basic';
     this.http.post(this.postUrl, this.formModels).subscribe(data => {
       this.formModels['password'] = '';
       this.loader = false;
