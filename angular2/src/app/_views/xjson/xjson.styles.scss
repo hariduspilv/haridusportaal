@@ -59,7 +59,7 @@ input { font-size: 0.875rem; }
   &:first-child:after { 
     content: none;
   }     
-  a {
+  a { text-decoration: none;
     &:before {
       content: "done"; font-family: 'htm-icon'; font-feature-settings: "liga"; color: $light-blue;
       width: 1.5625rem; height: 1.5625rem; background-color: $aqua; border-radius: 1.5625rem; display: block;
@@ -70,11 +70,16 @@ input { font-size: 0.875rem; }
 }
 a {
   cursor: pointer; margin: 0 0 0 0; font-size: 0.875rem;
-  &.disabled{ color: gray; text-decoration: none; cursor: not-allowed;}
+  &.disabled{ text-decoration: none; cursor: not-allowed;
+  }
+}
+.disabled {
+   .xjson__navigation__stepname { color: $dark-gray!important; }
 }
 .xjson__navigation__stepname {
   position: relative; margin-bottom: 0rem; display: block; margin-top: 2rem; -ms-word-break: break-all; padding: 0 0.5rem;
-  word-break: break-all; word-break: break-word;-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; }
+  word-break: break-all; word-break: break-word;-webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; text-decoration: none;
+}
   .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
   .button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 1.875rem; align-items: center; padding: 2rem 0.5rem 2rem 0.5rem;
     @include break-on(sm, max) { flex-direction: row; text-align: center; justify-content: center; padding: 2rem 0.5rem 0.5rem 0.5rem }
