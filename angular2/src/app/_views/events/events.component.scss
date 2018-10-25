@@ -66,10 +66,10 @@ a h1:hover { text-decoration: underline; }
       @include break-on(sm, min) {color: $dark-gray;background-color: $white;border-radius: 0;
         border-bottom: .0625rem solid $gray;padding: $gutter $small $medium 0;margin: 0 0 $small 9.25rem;
         .info {
-          &.bar span.time{padding-right: $xxl;
+          &.info-bar span.time{padding-right: $xxl;
             .htm-icon{vertical-align: middle;}
           }
-          &.bar span.location{padding-right: $xxl;}
+          &.info-bar span.location{padding-right: $xxl;}
           .repeat {position: relative;top: .375rem;}
         }
       }
