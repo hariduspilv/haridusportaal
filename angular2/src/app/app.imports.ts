@@ -37,6 +37,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -73,6 +74,7 @@ export const AppImports = [
         deps: [HttpClient]
     }
   }),
+  Ng2GoogleChartsModule,
   MaterialModule,
   AppModules,
   GraphQLModule,
