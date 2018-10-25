@@ -1,0 +1,62 @@
+
+  {
+    "header": {
+      "endpoint": "EHIS",
+      "form_name": "MTSYS_TEGEVUSNAITAJAD",
+      "acceptable_activity" : "VIEW",
+      "current_step" : "step_0",
+      "identifier" : araundeId
+    },
+    "body": {
+      "steps": {
+        "step_0": {
+          "data_elements": {
+            "aasta" : {
+              "value" : aasta,
+            },
+            "staatus" : {
+              "value" : klStaatus,
+            },
+            "esitamiseKp" : {
+              "value" : esitamiseKp,
+            },
+            "kommentaar" : {
+              "value" : kommentaar,
+            },
+            "majandustegevuseTeateTabel": {
+              "value" : [
+                Tabelisse rida iga naitajad/item elemendi kohta, kus klOkLiik = 18098
+                {
+                  "nimetus": naitajad/item/nimetus,
+                  "oppijateArv": naitajad/item/oppijaArv,
+                  "tunnistusteArv": naitajad/item/tunnistusArv,
+                  "kuni8": naitajad/item/kuni8,
+                  "kuni26": naitajad/item/kuni26,
+                  "kuni80": naitajad/item/kuni80,
+                  "kuni240": naitajad/item/kuni240,
+                  "yle240": naitajad/item/yle240,
+                  "kokku": naitajad/item/kokku
+                }
+              ]
+            },
+            "tegevuslubaTabel" : {
+              "value" : [
+                Tabelisse rida iga naitajad/item elemendi kohta, kus klOkLiik != 18098 ja klOkLiik != -1
+                {
+                  sama kui majandustegevuseTeateTabel
+                }
+              ]
+            },
+            "kokkuTabel" : {
+              "value" : [
+                Tabelisse rida iga naitajad/item elemendi kohta, kus klOkLiik = -1
+                {
+                  sama kui majandustegevuseTeateTabel
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
