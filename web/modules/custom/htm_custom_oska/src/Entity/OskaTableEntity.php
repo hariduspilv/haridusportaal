@@ -263,7 +263,7 @@ class OskaTableEntity extends ContentEntityBase implements OskaTableEntityInterf
         $fields['responsible'] = BaseFieldDefinition::create('string')
             ->setLabel(t('Responsible'))
             ->setSettings([
-                'max_length' => 50,
+                'max_length' => 100,
                 'text_processing' => 0,
             ])
             ->setDefaultValue('')
