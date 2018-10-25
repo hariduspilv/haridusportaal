@@ -67,7 +67,7 @@
         <li>
           <a href="javascript:void(0)" [routerLink]="locationPerLang" [queryParams]="learningQuery" attr.aria-label="{{ 'oska.programme_search' | translate }}" class="link related">
             <div><span class="htm-icon">link</span></div>
-            <div class="label">{{ 'oska.programme_search' | translate }}</div>
+            <div class="label">{{ sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.entity.entityLabel }}</div>
           </a>
         </li>
       </ul>
@@ -83,7 +83,7 @@
           <li *ngIf="ind < limits['opportunities']">
             <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
               <span>
-                <ng-container *ngIf="item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
+                <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
                 <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
               </span>
             </a>
@@ -146,7 +146,7 @@
             <a *ngIf="item.entity.fieldJobLink" href="{{item.entity.fieldJobLink.url.path}}" [attr.target]="!item.entity.fieldJobLink.url.routed ? '_blank' : ''" attr.aria-label="{{item.entity.fieldJobName}}" class="link">
               <span>
                 <ng-container *ngIf="item.entity.fieldJobLink.url.routed"><span class="htm-icon">link</span><span class="label">{{item.entity.fieldJobName}}</span></ng-container>
-                <ng-container *ngIf="!item.entity.fieldJobLink.url.routed"><span class="htm-icon">link</span><span class="label">{{item.entity.fieldJobName}}</span></ng-container>
+                <ng-container *ngIf="!item.entity.fieldJobLink.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.entity.fieldJobName}}</span></ng-container>
               </span>
             </a>
             <span *ngIf="!item.entity.fieldJobLink && item.entity.fieldJobName" class="link">

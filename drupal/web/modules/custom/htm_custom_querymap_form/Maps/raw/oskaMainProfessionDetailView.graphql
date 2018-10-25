@@ -138,6 +138,7 @@ query oskaMainProfessionDetailView($path: String!) {
                         entity {
                           ... on TaxonomyTermIscedF {
                             entityId
+                            entityLabel
                           }
                         }
                       }

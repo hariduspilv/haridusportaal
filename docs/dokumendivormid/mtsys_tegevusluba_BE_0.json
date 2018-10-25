@@ -83,10 +83,12 @@
             },
             "aadressid": {
               "value" : [
-                { "maakond" : tegevusloaAndmed.aadressid.aadress.maakond  },
-                { "omavalitsus" : tegevusloaAndmed.aadressid.aadress.omavalitsus  },
-                { "asula" :  tegevusloaAndmed.aadressid.aadress.asula },
-                { "aadress" :  tegevusloaAndmed.aadressid.aadress.adsAadressHumanReadable }
+                {
+                  "maakond" : tegevusloaAndmed.aadressid.aadress.maakond ,
+                  "omavalitsus" : tegevusloaAndmed.aadressid.aadress.omavalitsus  ,
+                  "asula" :  tegevusloaAndmed.aadressid.aadress.asula ,
+                  "aadress" :  tegevusloaAndmed.aadressid.aadress.adsAadressHumanReadable
+                }
               ]
             },
             "oppeasutuseNimetus": {
@@ -109,17 +111,21 @@
             },
             "peatamised" : {
               "value" : [
-                { "algusKp" : peatamised.peatamine.algusKp },
-                { "loppKp" : peatamised.peatamine.loppKp }
+                {
+                  "algusKp" : peatamised.peatamine.algusKp ,
+                  "loppKp" : peatamised.peatamine.loppKp
+                }
               ]
             },
             "dokumendid" : {
               "value" : [
-                { "liik" : dokumendid.dokument.klLiik },
-                { "fail" : { "file_name" : dokumendid.dokument.failinimi , "file_identifier" : REDIS id (content salvestada REDIS-sse) } },
-                { "kommentaar": dokumendid.dokument.kommentaar }
+                {
+                  "liik" : dokumendid.dokument.klLiik ,
+                  "fail" : { "file_name" : dokumendid.dokument.failinimi , "file_identifier" : REDIS id (content salvestada REDIS-sse)  },
+                  "kommentaar": dokumendid.dokument.kommentaar
+                }
               ]
-            },
+            }
           }
         }
       },

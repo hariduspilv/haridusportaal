@@ -3,7 +3,9 @@
 
     <div class="menu-burger pointer">
       <span tabindex="0" role="navigation">
-        <span [class.selected]="wasClicked" (click)="toggleSideNav()" class="hamburger sm-show"></span>
+        <span [class.selected]="wasClicked" (click)="toggleSideNav()" class="hamburger sm-show">
+          <span class="burger-toggle"></span>
+          </span>
       </span>
     </div><!--/menu-burger-->
     
