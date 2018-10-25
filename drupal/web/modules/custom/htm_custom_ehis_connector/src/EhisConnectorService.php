@@ -5,9 +5,7 @@ namespace Drupal\htm_custom_ehis_connector;
 use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\htm_custom_authentication\CustomRoleSwitcher;
 use Drupal\redis\ClientFactory;
-use Drupal\user\Entity\User;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -218,7 +216,7 @@ class EhisConnectorService {
 		if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
 		#dump($params);
 		$response = $this->invokeWithRedis('vpTaotlus', $params);
-		$this->getFormDefinitionTitle($response);
+		$this->getFormDefinitionTitle($response, $params['hash']);
 		return $response;
 	}
 
@@ -289,23 +287,43 @@ class EhisConnectorService {
 
 		return $input;
 	}
+	private function getxJsonService(){
+		return \Drupal::service('htm_custom_xjson_services.default');
+	}
 
-	private function getFormDefinitionTitle(&$response){
-		/* @var \Drupal\htm_custom_xjson_services\xJsonService $xjsonContainer */
-		$xjsonContainer = \Drupal::service('htm_custom_xjson_services.default');
+	private function getFormDefinitionTitle(&$response, $type){
+		$form_topics = ['documents', 'drafts', 'acceptable_forms'];
 
-		if(is_array($response['documents'])){
-			foreach($response['documents'] as &$document){
-				$d = $xjsonContainer->getEntityJsonObject($document['form_name']);
-				if($d){
-					$document['title'] = $d['body']['title'];
-				}else{
-					$this->logger->notice('getDocuments response @form_name title not found!', ['@form_name' => $document['form_name']]);
+		switch ($type){
+			case 'mtsys':
+				foreach($response['educationalInstitutions'] as &$educationalInstitution){
+					$this->appendFormTitle($educationalInstitution, $form_topics);
 				}
-			}
+				break;
+			case 'vpTaotlus':
+				$this->appendFormTitle($response, $form_topics);
+				break;
 		}
 
 		return $response;
+	}
+
+	private function appendFormTitle(&$obj, $form_topics){
+		array_walk($obj, function (&$value, $key, $form_topics){
+			if(in_array($key, $form_topics)){
+				foreach($value as &$item){
+					$d = self::getxJsonService()->getEntityJsonObject($item['form_name']);
+					if($d){
+						$item['title'] = $d['body']['title'];
+					}else{
+						$item['title'] = ['et' => 'Puudub', 'en' => 'Not Found'];
+					}
+				}
+			}
+		}, $form_topics);
+
+		return $obj;
+
 	}
 
 
