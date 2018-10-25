@@ -62,7 +62,8 @@
       Objekt iga asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus menetlusStaatus ei ole esitatud
       "form_name" : "MTSYS_TEGEVUSNAITAJAD",
       "id" : asutus/oppeasutus/tegevusnaitaja/id,
-      "description" : asutus/oppeasutus/tegevusnaitaja/aasta
+      "description" : asutus/oppeasutus/tegevusnaitaja/aasta,
+      "parameters" : asutus/oppeasutus/tegevusnaitaja/aasta + ';' + asutus/oppeasutus/id
     },
     "document" : {
       Objekt iga asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus menetlusStaatus on esitatud
@@ -71,8 +72,9 @@
       "id" : asutus/oppeasutus/tegevusnaitaja/id,
       "document_date" : asutus/oppeasutus/tegevusnaitaja/esitamiseKp,
       "status" : asutus/oppeasutus/tegevusnaitaja/menetlusStaatus,
-      "description" : asutus/oppeasutus/tegevusnaitaja/aasta
-      "changeable" : true kui jooksev kuupäev < 01. aprill ja asutus/oppeasutus/tegevusnaitaja/aasta >= jooksev aasta-1
+      "description" : asutus/oppeasutus/tegevusnaitaja/aasta,
+      "changeable" : true kui jooksev kuupäev < 01. aprill ja asutus/oppeasutus/tegevusnaitaja/aasta >= jooksev aasta-1,
+      "parameters" : asutus/oppeasutus/tegevusnaitaja/aasta + ';' + asutus/oppeasutus/id
     },
 
   }
