@@ -110,12 +110,15 @@
                 </tr>
                 <tr>
                   <td></td>
-                  <td *ngFor="let item of list">
-                    <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'oskaProfessions.compare')">{{ 'button.remove_from_comparison' | translate}}</a>
+                  <td *ngFor="let item of list; let i = index;">
+                    <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'oskaProfessions.compare'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <div class="notification--alert" *ngIf="deleteText" role="alert">
+              <span>{{ deleteText }} {{ 'oskaProfessions.removed_from_comparison' | translate }}</span>
+            </div>
           </div>
         </div>
       </div><!--/block-->
