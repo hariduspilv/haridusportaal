@@ -1,0 +1,19 @@
+uuid: f72e3ace-1ec3-433b-b817-da654e22c6f5
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_authentication
+    - jwt
+    - serialization
+id: roles_rest_resource
+plugin_id: roles_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+  formats:
+    - json
+  authentication:
+    - jwt_auth
