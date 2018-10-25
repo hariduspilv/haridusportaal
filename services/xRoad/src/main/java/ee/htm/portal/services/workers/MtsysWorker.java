@@ -184,28 +184,28 @@ public class MtsysWorker extends Worker {
                       item.isSetTegevusnaitajad() && item.getTegevusnaitajad().isSetTnInfotekst()
                           ? item.getTegevusnaitajad().getTnInfotekst() : null);
 
-              itemNode.putArray("document");
-              itemNode.putArray("draft");
+              itemNode.putArray("documents");
+              itemNode.putArray("drafts");
 
-              itemNode.putArray("acceptable_form").addObject()
+              itemNode.putArray("acceptable_forms").addObject()
                   .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS");
-              ((ArrayNode) itemNode.get("acceptable_form")).addObject()
+              ((ArrayNode) itemNode.get("acceptable_forms")).addObject()
                   .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE");
 
               if (item.isSetTegevusnaitajad()) {
                 item.getTegevusnaitajad().getTegevusnaitajaList().forEach(tegevusnaitaja -> {
                   if (!tegevusnaitaja.isSetEsitamiseKp() && !tegevusnaitaja.isSetId()
                       && !tegevusnaitaja.isSetMenetlusStaatus()) {
-                    ((ArrayNode) itemNode.get("acceptable_form")).addObject()
+                    ((ArrayNode) itemNode.get("acceptable_forms")).addObject()
                         .put("form_name", "MTSYS_TEGEVUSNAITAJAD")
                         .put("description", tegevusnaitaja.getAasta().intValue());
                   } else if (!tegevusnaitaja.getMenetlusStaatus().equalsIgnoreCase("Esitatud")) {
-                    ((ArrayNode) itemNode.get("draft")).addObject()
+                    ((ArrayNode) itemNode.get("drafts")).addObject()
                         .put("form_name", "MTSYS_TEGEVUSNAITAJAD")
                         .put("id", tegevusnaitaja.getId().intValue())
                         .put("description", tegevusnaitaja.getAasta().intValue());
                   } else {
-                    ((ArrayNode) itemNode.get("document")).addObject()
+                    ((ArrayNode) itemNode.get("documents")).addObject()
                         .put("form_name", "MTSYS_TEGEVUSNAITAJAD")
                         .put("id", tegevusnaitaja.getId().intValue())
                         .put("document_date", tegevusnaitaja.getEsitamiseKp())
@@ -223,7 +223,7 @@ public class MtsysWorker extends Worker {
                   if (tegevusluba.getLiik().equalsIgnoreCase("18098")) {
                     if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15667") &&
                         tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15669")) {
-                      ((ArrayNode) itemNode.get("draft")).addObject()
+                      ((ArrayNode) itemNode.get("drafts")).addObject()
                           .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE")
                           .put("id", tegevusluba.isSetId() ? tegevusluba.getId().intValue() : null)
                           .put("document_date",
@@ -240,7 +240,7 @@ public class MtsysWorker extends Worker {
                         description += " tühistatud " + tegevusluba.getTyhistamiseKp();
                       }
 
-                      ((ArrayNode) itemNode.get("document")).addObject()
+                      ((ArrayNode) itemNode.get("documents")).addObject()
                           .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE")
                           .put("id", tegevusluba.getId().intValue())
                           .put("document_date", tegevusluba.getKehtivAlates())
@@ -250,7 +250,7 @@ public class MtsysWorker extends Worker {
                   } else {
                     if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15667") &&
                         tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15669")) {
-                      ((ArrayNode) itemNode.get("draft")).addObject()
+                      ((ArrayNode) itemNode.get("drafts")).addObject()
                           .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS")
                           .put("id", tegevusluba.isSetId() ? tegevusluba.getId().intValue() : null)
                           .put("document_date",
@@ -267,7 +267,7 @@ public class MtsysWorker extends Worker {
                         description += " tühistatud " + tegevusluba.getTyhistamiseKp();
                       }
 
-                      ((ArrayNode) itemNode.get("document")).addObject()
+                      ((ArrayNode) itemNode.get("documents")).addObject()
                           .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS")
                           .put("id", tegevusluba.getId().intValue())
                           .put("document_date", tegevusluba.getKehtivAlates())
