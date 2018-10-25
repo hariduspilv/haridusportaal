@@ -29,6 +29,7 @@ article {padding-bottom: $small;
     &__title {font-size: 1.25rem; color: $black; padding-bottom: $small;}
     &__paragraph {font-size: $small; color: $black; line-height: 1.375rem;}
     .mat-card-content:last-child{margin-bottom: 0}
+    a:hover { text-decoration: underline; }
   }
   .link-list li { margin-bottom: $half-gutter;
     &:last-child {margin-bottom: 0;}
