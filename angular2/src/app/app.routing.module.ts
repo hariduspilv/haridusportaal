@@ -21,7 +21,8 @@ import {
   SearchComponent,
   OskaAreasComponent,
   OskaProfessionsComponent,
-  OskaProfessionsCompareComponent
+  OskaProfessionsCompareComponent,
+  OskaSectorsComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
@@ -87,11 +88,13 @@ const appRoutes: Routes = [
 
   { path: ':lang/professions/compare', component:OskaProfessionsCompareComponent},
   { path: ':lang/ametialad/vordlus', component:OskaProfessionsCompareComponent},
-  { path: ':lang/valdkonnad/:id', component:OskaAreasComponent},
-  { path: ':lang/professions/:id', component:OskaAreasComponent},
   { path: ':lang/professions', component:OskaProfessionsComponent},
   { path: ':lang/ametialad', component:OskaProfessionsComponent},
+  { path: ':lang/sectors', component:OskaSectorsComponent},
+  { path: ':lang/valdkonnad', component:OskaSectorsComponent},
+  { path: ':lang/professions/:id', component:OskaAreasComponent},
   { path: ':lang/ametialad/:id', component: OskaAreasComponent },
+  { path: ':lang/valdkonnad/:id', component:OskaAreasComponent},
   { path: ':lang/sectors/:id', component:OskaAreasComponent},
 
   { path: ':lang/ulduuringud/:id', component:OskaAreasComponent},
@@ -132,6 +135,7 @@ export const routedComponents = [
   XjsonComponent,
   OskaAreasComponent,
   OskaProfessionsComponent,
-  OskaProfessionsCompareComponent
+  OskaProfessionsCompareComponent,
+  OskaSectorsComponent
 ];
 
