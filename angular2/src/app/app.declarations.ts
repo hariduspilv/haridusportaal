@@ -25,6 +25,7 @@ import { StudyProgrammeCompareComponent } from './_views/studyProgramme.compare/
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 
 import { SideMenuComponent } from '@app/_components/sidemenu/sidemenu.component';
+import { ChartComponent } from './_components/chart/chart.component';
 
 export const AppDeclarations = [
   routedComponents,
@@ -52,7 +53,8 @@ export const AppDeclarations = [
   XjsonComponent,
   SearchComponent,
   ConfirmPopupDialog,
-  SideMenuComponent
+  SideMenuComponent,
+  ChartComponent
 ];
 
 export const AppEntryComponents = [

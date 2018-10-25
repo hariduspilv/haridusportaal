@@ -99,6 +99,10 @@
           <video-component [videos]="data.fieldSurveyPageVideo"></video-component>
         </ng-container>
 
+        <ng-container *ngIf="data.fieldMainProfessionGraph">
+          <chart [data]="data.fieldMainProfessionGraph"></chart>
+        </ng-container>
+
         <ng-container *ngIf="data.fieldOskaFieldAccordion">
           <div class="accordion" *ngIf="data['fieldOskaFieldAccordion'].length > 0">
             <mat-accordion multi>
