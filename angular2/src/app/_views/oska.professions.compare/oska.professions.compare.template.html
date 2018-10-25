@@ -77,13 +77,17 @@
                 <tr *ngFor="let elem of prosFieldsArr; let childInd = index; let last = last;">
                   <td [class.groupCell]="!last">
                     <span *ngIf="childInd === 0">{{ 'sidebar.pros' | translate }}</span>
-                    <div *ngIf="childInd === 0 && prosFieldsArr && prosFieldsArr.length > 1" class="icon-wrapper pos"><span class="htm-icon">thumb_up</span></div>
                   </td>
                   <ng-container *ngFor="let item of list; let ind = index;">
                     <td class="highlighted" [class.groupCell]="!last">
                       <ng-container *ngIf="prosFields[ind]">
                         <span *ngIf="!prosFields[ind][childInd]">-</span>
-                        <span *ngIf="prosFields[ind][childInd]">{{prosFields[ind][childInd]}}</span>
+                        <ng-container *ngIf="prosFields[ind][childInd]">
+                          <div class="flex centered">
+                            <div aria-hidden="true" class="icon-wrapper pos"><span class="htm-icon">thumb_up</span></div>
+                            <div>{{prosFields[ind][childInd]}}</div>
+                          </div>
+                        </ng-container>
                       </ng-container>
                       <ng-container *ngIf="!prosFields[ind]">
                         <span>-</span>
@@ -94,13 +98,17 @@
                 <tr *ngFor="let elem of consFieldsArr; let childInd = index; let last = last;">
                   <td [class.groupCell]="!last">
                     <span *ngIf="childInd === 0">{{ 'sidebar.cons' | translate }}</span>
-                    <div *ngIf="childInd === 0 && consFieldsArr && consFieldsArr.length > 1" class="icon-wrapper neg"><span class="htm-icon">thumb_down</span></div>
                   </td>
                   <ng-container *ngFor="let item of list; let ind = index;">
                     <td class="highlighted" [class.groupCell]="!last">
                       <ng-container *ngIf="consFields[ind]">
                         <span *ngIf="!consFields[ind][childInd]">-</span>
-                        <span *ngIf="consFields[ind][childInd]">{{consFields[ind][childInd]}}</span>
+                        <ng-container *ngIf="consFields[ind][childInd]">
+                          <div class="flex centered">
+                            <div aria-hidden="true" class="icon-wrapper neg"><span class="htm-icon">thumb_down</span></div>
+                            <div>{{consFields[ind][childInd]}}</div>
+                          </div>
+                        </ng-container>
                       </ng-container>
                       <ng-container *ngIf="!consFields[ind]">
                         <span>-</span>
@@ -110,12 +118,15 @@
                 </tr>
                 <tr>
                   <td></td>
-                  <td *ngFor="let item of list">
-                    <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'oskaProfessions.compare')">{{ 'button.remove_from_comparison' | translate}}</a>
+                  <td *ngFor="let item of list; let i = index;">
+                    <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'oskaProfessions.compare'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <div class="notification--alert" role="alert">
+              <span>{{ deleteText }} <span *ngIf="deleteText">{{ 'oskaProfessions.removed_from_comparison' | translate }}</span></span>
+            </div>
           </div>
         </div>
       </div><!--/block-->

@@ -58,8 +58,10 @@ class TranslationFormList extends ConfigFormBase {
 
 		$languages = \Drupal::languageManager()->getLanguages();
 		$mapped_config = $this->formatter->flatten($config_values);
-		#dump($mapped_config);
     foreach($mapped_config as $key => $data){
+
+	    if($key === 'langcode') continue;
+
 			$form['table'][$key]['key'] = [
 				'#plain_text' => $key,
 			];

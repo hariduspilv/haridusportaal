@@ -25,7 +25,7 @@ h4.title-lg-padding { margin-bottom: 1rem; }
   }
   &:hover {
     border-left: .1875rem solid #15adc2;
-    ::ng-deep .mat-expansion-indicator{ background: $blue;
+    .mat-expansion-indicator{ background: $blue;
       &:after {
         color: $white;
       }
@@ -128,3 +128,5 @@ h4.title-lg-padding { margin-bottom: 1rem; }
    .description { border-top: 0.125rem $dark-gray solid;
     &-bottom { border-bottom: 0.125rem $dark-gray solid; }
    }
+
+   .font-normal { font-weight: 400!important; }

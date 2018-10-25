@@ -20,6 +20,8 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   private url;
   private lang: string;
   private path: string;
+  private deleteText: string = '';
+  private deleteIndicator: number = 1;
   public list: any = false;
   public loading: boolean = false;
   private subscriptions: Subscription[] = [];
@@ -161,6 +163,10 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
       this.initialized = true;
     }
+  }
+  setDeleteText() {
+    this.deleteText = `${this.deleteIndicator}`;
+    this.deleteIndicator++;
   }
   back () {
     let langOpts = this.rootScope.get('langOptions')[this.lang].split('/')
