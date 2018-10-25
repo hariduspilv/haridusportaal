@@ -58,7 +58,7 @@ article {padding-bottom: $xxl;
     }
   } 
 }
-::ng-deep .title {font-size: $small;line-height: 2;padding: 0 $medium;
+.title {font-size: $small;line-height: 2;padding: 0 $medium;
   h1 {color:$black; }
   &__recent {padding: $small $medium 0 $medium;}
 }

@@ -70,7 +70,7 @@
       &:after {transform: rotate(180deg);display: block;z-index: -1;right: $medium;bottom: 9.25rem;position: relative;
         content: url(/assets/img/frontpage-transparent-cloud.svg);
       }
-      &--item {@extend .section--list;margin: 0 $medium -2rem;
+      &--item {@extend .section--list;margin: 0 $medium -5rem;
         @include break-on(sm, max) {margin: -3rem 0 -4.5rem;}
         &:before {content: url(/assets/img/frontpage-blue-cloud.svg);top: $small;left: $medium;
           @include break-on(sm, max) {left: -3rem;}
@@ -89,7 +89,7 @@
         @include break-on(sm, max) {margin: -2rem 0 -10rem;}
       }
     }
-    &--news {padding: 0; margin-top: -5rem;
+    &--news {padding: 0; margin-top: 0rem;
       @include break-on(sm, max) {padding: 4rem $medium $medium;}
       @include break-on(xxs, max) {padding: 0;padding-top: 4rem;}
     }
@@ -252,5 +252,4 @@ a h1 { text-decoration: none; }
 a:hover h1 { text-decoration: underline; }
 a.normal-text:visited h1, a.pointer:visited h1, a:visited h1 { color: $visited!important; }
 a.pointer { text-decoration: none; }
-::ng-deep .news-title { color: $black!important; }
 
