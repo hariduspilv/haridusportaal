@@ -92,12 +92,12 @@
   <div *ngIf="data && data.length > 0">
   
     <ng-container *ngFor="let item of data; let i = index">
-      <div class="studyProgramme__item" >
+      <div class="studyProgramme__item">
         <div class="studyProgramme__item__titlebox">
           <div class="col-grow">
             <!-- <div class="studyProgramme__item__head sm-hide">{{ 'oskaProfessions.label' | uppercase }}</div> -->
             <span>
-              <a href="javascript:void();" attr.aria-label="{{ item.title }}" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.title }}</h1></a>
+              <a id="{{i}}" href="javascript:void();" attr.aria-label="{{ item.title }}" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.title }}</h1></a>
               <span role="term" attr.aria-label="{{'fieldFixedLabel.label' | translate}}" class="important-pill" *ngIf="item.fieldFixedLabel">{{'fieldFixedLabel.label' | translate}}</span>
             </span>
           </div><!--col-9-->
@@ -134,7 +134,7 @@
 <div class="text-center actions snackBar">
   <ng-container *ngIf="!listEnd && data && data.length">
     <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
-    <button role=button mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading" attr.aria-label="{{'button.load_more' | translate}}">
+    <button role="button" mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading" attr.aria-label="{{'button.load_more' | translate}}">
       {{ "button.load_more" | translate }}
     </button>
   </ng-container>
