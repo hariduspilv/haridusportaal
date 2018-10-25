@@ -1801,6 +1801,10 @@ oskaProfessions:
     translation_type: textarea
     et: 'Üldised näitajad'
     en: 'General indicators'
+  removed_from_comparison:
+    translation_type: textarea
+    et: 'Ametiala võrdlusest eemaldatud'
+    en: 'Profession removed from comparison'
 fieldFixedLabel:
   label:
     translation_type: textarea
@@ -1855,6 +1859,14 @@ oska:
     translation_type: textarea
     et: Kutsestandardid
     en: 'Qualification standards'
+  grid:
+    translation_type: textarea
+    et: Ruudustik
+    en: Grid
+  compare:
+    translation_type: textarea
+    et: Võrdlus
+    en: Compare
 oskaProfession: {  }
 langcode: et
 sidebar:
