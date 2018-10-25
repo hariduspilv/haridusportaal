@@ -124,8 +124,8 @@
                 </tr>
               </tbody>
             </table>
-            <div class="notification--alert" *ngIf="deleteText" role="alert">
-              <span>{{ deleteText }} {{ 'oskaProfessions.removed_from_comparison' | translate }}</span>
+            <div class="notification--alert" role="alert">
+              <span>{{ deleteText }} <span *ngIf="deleteText">{{ 'oskaProfessions.removed_from_comparison' | translate }}</span></span>
             </div>
           </div>
         </div>
