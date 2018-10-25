@@ -77,7 +77,7 @@
                 <tr *ngFor="let elem of prosFieldsArr; let childInd = index; let last = last;">
                   <td [class.groupCell]="!last">
                     <span *ngIf="childInd === 0">{{ 'sidebar.pros' | translate }}</span>
-                    <div aria-hidden="true" *ngIf="childInd === 0 && prosFieldsArr && prosFieldsArr.length > 1" class="icon-wrapper pos sm-hide"><span class="htm-icon">thumb_up</span></div>
+                    <div *ngIf="childInd === 0 && prosFieldsArr && prosFieldsArr.length > 1" class="icon-wrapper pos"><span class="htm-icon">thumb_up</span></div>
                   </td>
                   <ng-container *ngFor="let item of list; let ind = index;">
                     <td class="highlighted" [class.groupCell]="!last">
@@ -94,7 +94,7 @@
                 <tr *ngFor="let elem of consFieldsArr; let childInd = index; let last = last;">
                   <td [class.groupCell]="!last">
                     <span *ngIf="childInd === 0">{{ 'sidebar.cons' | translate }}</span>
-                    <div aria-hidden="true" *ngIf="childInd === 0 && consFieldsArr && consFieldsArr.length > 1" class="icon-wrapper neg sm-hide"><span class="htm-icon">thumb_down</span></div>
+                    <div *ngIf="childInd === 0 && consFieldsArr && consFieldsArr.length > 1" class="icon-wrapper neg"><span class="htm-icon">thumb_down</span></div>
                   </td>
                   <ng-container *ngFor="let item of list; let ind = index;">
                     <td class="highlighted" [class.groupCell]="!last">
