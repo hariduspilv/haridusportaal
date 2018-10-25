@@ -13,7 +13,7 @@ table {width: 100%;border-collapse: collapse; margin: 0;
     .sortable {&:hover { color: $dark-gray;}}
     .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
   }
-  th {white-space: normal; font-weight: normal;}
+  th {white-space: normal; font-weight: normal;vertical-align: top;}
   th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray; text-align: left;
     &.highlighted {font-weight: 500;}
   }
