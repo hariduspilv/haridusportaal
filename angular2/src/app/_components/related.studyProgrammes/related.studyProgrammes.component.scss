@@ -24,7 +24,7 @@
       &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
   }
 
-  &__item {padding: $medium; border-bottom: solid 0.125rem $gray; display:flex; flex-wrap: wrap;
+  &__item {padding: $medium; border-bottom: solid 0.0625rem $gray; display:flex; flex-wrap: wrap;
     &:first-child{padding-top:0;}
     &:last-child{border-bottom:0;padding-bottom: $xxl;}
     &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;margin-right: $small;

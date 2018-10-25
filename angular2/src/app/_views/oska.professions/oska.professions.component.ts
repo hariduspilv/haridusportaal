@@ -23,8 +23,9 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   public showFilter: boolean = true;
   public filterFull: boolean = true;
   public oskaFieldValue: any;
+  public oskaIndicatorValue: any;
   private FilterOptions: object = {};
-  private filterOptionKeys = ['oskaFieldValue','fixedLabelValue'];
+  private filterOptionKeys = ['oskaFieldValue', 'oskaIndicatorValue', 'fixedLabelValue'];
   private paramsSub: Subscription;
   private langSub: Subscription;
   private dataSub: Subscription;
@@ -42,10 +43,12 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
 
   populateFilterOptions(){
     let variables = {
-      lang: this.lang.toUpperCase()
+      lang: this.lang.toUpperCase(),
+      limit: 100
     };
     this.filterSub = this.http.get('/graphql?queryId=oskaMainProfessionListViewFilter:1&variables=' + JSON.stringify(variables)).subscribe(response => {
-      this.oskaFieldValue = response['data']['nodeQuery']['entities'];
+      this.oskaFieldValue = response['data']['oskaFields']['entities'];
+      this.oskaIndicatorValue = response['data']['oskaIndicators']['entities'];
       for(let i in this.filterOptionKeys){
         if( this.params[this.filterOptionKeys[i]] !== undefined && this.filterOptionKeys[i] === 'fixedLabelValue') {
           this.filterFormItems[this.filterOptionKeys[i]] = this.params[this.filterOptionKeys[i]];
@@ -61,8 +64,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   };
 
   loadMore(){
-    this.offset = this.limit;
-    this.limit += 5;
+    this.offset += 5;
     this.getData(this.params);
   }
 
@@ -81,7 +83,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     }
     let variables = {
       lang: this.lang.toUpperCase(),
-      titleValue: this.params['titleValue'] ? "%"+this.params['titleValue']+"%" : "",
+      titleValue: this.params['titleValue'] ? encodeURIComponent("%" + this.params['titleValue'] + "%") : "",
       titleEnabled: this.params['titleValue'] ? true : false,
       oskaFieldValue: this.params['oskaFieldValue'] ? this.params['oskaFieldValue'] : "",
       oskaFieldEnabled: this.params['oskaFieldValue'] ? true : false,
@@ -89,24 +91,24 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       fixedLabelEnabled: this.params['fixedLabelValue'] ? true : false,
       nidEnabled: false,
       offset: this.offset,
-      limit: this.limit,
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all'
+      limit: this.limit
     };
     this.dataSub = this.http.get('/graphql?queryId=oskaMainProfessionListView:1&variables=' + JSON.stringify(variables)).subscribe(response => {
       if (response['errors']) {
         this.loading = false;
         this.errMessage = response['errors'][0]['message'];
       }
-      
+      this.loading = false;
       let responseData = response['data']['nodeQuery']['entities'];
       this.data = this.data ? [...this.data, ...responseData] : responseData;
-      if( this.data && (this.data.length < this.limit) ){ 
+      if( responseData.length < this.limit ){ 
         this.listEnd = true;
       } else this.listEnd = false;
-      this.loading = false;
       this.dataSub.unsubscribe();
+      let focusTarget = (this.offset - 1).toString();
+      document.getElementById(focusTarget).focus();
     }, (err) => {
+      this.data = [];
       this.loading = false;
     })
   }
