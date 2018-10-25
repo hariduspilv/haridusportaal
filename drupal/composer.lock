@@ -4286,8 +4286,7 @@
             "homepage": "https://www.drupal.org/project/nginx_cache_clear",
             "support": {
                 "source": "http://cgit.drupalcode.org/nginx_cache_clear"
-            },
-            "time": "2018-06-29T06:50:36+00:00"
+            }
         },
         {
             "name": "drupal/node_view_permissions",
@@ -11667,6 +11666,11 @@
         {
             "name": "webflo/drupal-core-require-dev",
             "version": "8.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webflo/drupal-core-require-dev.git",
+                "reference": "75f73363165a450e9a2f9f1ce3930f148184c964"
+            },
             "require": {
                 "behat/mink": "1.7.x-dev",
                 "behat/mink-goutte-driver": "^1.2",
