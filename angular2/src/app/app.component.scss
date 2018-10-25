@@ -700,12 +700,14 @@ a:hover .important-pill {
    }
 }
 
-.bar {color: $gray; font-weight: 700; }
+.bar {color: $gray; font-weight: 400; }
 .notification--alert {position: absolute;overflow: hidden;
   span {position: relative; right: 100%;}
 }
 
-
+.mat-select:focus .mat-select-arrow {
+  transform: rotate(180deg); 
+}
 
 
 
