@@ -6,11 +6,11 @@
   &__list-head {margin-top: 0;}
   &__list-body {padding: 1.5rem 0 3rem;
     @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
-    .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%;text-decoration: underline;
+    .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%;overflow: hidden;
       &--title {margin: auto 0;padding: .5rem;
-        h1 {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;}
+        h1 {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;text-decoration: underline;}
       }
-      &:hover {text-decoration: none;}
+      &:hover h1 {text-decoration: none;}
       img {width: 100%;height: auto;box-sizing: border-box;}
     }
   }
