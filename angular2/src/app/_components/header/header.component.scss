@@ -96,11 +96,12 @@ app-login {
 }
 
 /* Hamburger */
-.selected.hamburger  {
+.hamburger { padding: 1rem; margin: -0.7rem -1rem 0; }
+.selected.hamburger .burger-toggle  {
   position: relative; 
   background: transparent;
   transition: all .3s ease-in-out;}
-  .selected.hamburger:before {
+  .selected.hamburger .burger-toggle:before {
     transform: translateY(0) rotate(45deg);
     height: 0.1rem;
     width: 1.2rem;
@@ -110,7 +111,7 @@ app-login {
     content: "";
     display: block;
     position: relative; }
-    .selected.hamburger:after {
+    .selected.hamburger .burger-toggle:after {
     transform: translateY(0) rotate(-45deg);
     height: 0.1rem;
     width: 1.2rem;
@@ -121,21 +122,23 @@ app-login {
     display: block;
     position: relative; }
 
-.hamburger {
+.hamburger .burger-toggle {
   position: relative;
   display: inline-block; }
- .hamburger, .hamburger:before, .hamburger:after {
-    height: 0.1rem;
+ .hamburger .burger-toggle, .hamburger .burger-toggle:before, .hamburger .burger-toggle:after {
+    height: 0.15rem;
     width: 1.2rem;
     background: #ffffff;
     transition: all .3s ease-in-out; }
-    .hamburger:before, .hamburger:after {
+    .hamburger .burger-toggle:before, .hamburger .burger-toggle:after {
     content: "";
     display: block;
     position: absolute; }
-    .hamburger:before {
+    .hamburger .burger-toggle:before {
     transform: translateY(-0.5rem) rotate(0);
-    top: 0.2rem; }
-    .hamburger:after {
+    top: 0.2rem;
+    height: 0.1rem; }
+    .hamburger .burger-toggle:after {
     transform: translateY(0.5rem) rotate(0);
-    top: -0.2rem; }
+    top: -0.2rem;
+    height: 0.15rem; }
