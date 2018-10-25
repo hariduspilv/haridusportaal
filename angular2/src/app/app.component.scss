@@ -700,6 +700,9 @@ a:hover .important-pill {
 }
 
 .bar {color: $gray; font-weight: 700; }
+.notification--alert {position: absolute;overflow: hidden;
+  span {position: relative; right: 100%;}
+}
 
 
 
