@@ -98,15 +98,13 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
         this.loading = false;
         this.errMessage = response['errors'][0]['message'];
       }
-      this.loading = false;
       let responseData = response['data']['nodeQuery']['entities'];
       this.data = this.data ? [...this.data, ...responseData] : responseData;
       if( responseData.length < this.limit ){ 
         this.listEnd = true;
       } else this.listEnd = false;
+      this.loading = false;
       this.dataSub.unsubscribe();
-      let focusTarget = (this.offset - 1).toString();
-      document.getElementById(focusTarget).focus();
     }, (err) => {
       this.data = [];
       this.loading = false;
