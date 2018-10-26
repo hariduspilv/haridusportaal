@@ -16,7 +16,7 @@
       img {width: 100%;height: auto;box-sizing: border-box;display: block;
         @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {height: 200px;}
       }
-      .overlay {position: absolute;top: 0;left: 0;right: 0;bottom: 0;clear: float;background-color: rgba(46,51,116,.2);}
+      .overlay {position: absolute;top: 0;left: 0;right: 0;bottom: 0; clear: float; background-color: $black; opacity: 0.2; }
       &:hover {background-color: $light-gray;
         .overlay {display: none;}
         h1 {text-decoration: none;color: $black;}
