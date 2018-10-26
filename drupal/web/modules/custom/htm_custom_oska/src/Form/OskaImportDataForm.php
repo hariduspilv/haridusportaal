@@ -54,7 +54,7 @@ class OskaImportDataForm extends FormBase {
 
     public function validateForm(array &$form, FormStateInterface $form_state){
         $required_headers = [
-            'naitaja', 'valdkond', 'alavaldkond', 'pohikutseala', 'periood', 'silt', 'vaartus'
+            'naitaja', 'valdkond', 'alavaldkond', 'ametiala', 'periood', 'silt', 'vaartus'
         ];
         $all_files = $this->getRequest()->files->get('files', []);
         if (!empty($all_files['file'])) {
