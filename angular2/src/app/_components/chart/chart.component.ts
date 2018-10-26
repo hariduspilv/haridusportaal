@@ -36,19 +36,43 @@ export class ChartComponent implements OnInit{
       let graphVAxis = current.graphVAxis;
       let chartType = this.capitalize(current.graphType);
       let graphIndicator = current.graphIndicator;
+      let secondaryGraphType = current.secondaryGraphType;
+
+      let graphName = chartType+"Chart";
       
+      if( chartType && secondaryGraphType ){
+        graphName = "ComboChart"
+      }
 
       let tmp = {
-        "chartType": chartType+"Chart",
+        "chartType": graphName,
         dataTable: value,
         options: {
-          "title": graphIndicator
+          "title": graphIndicator,
+          "height": 400,
+          "colors": ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6']
+        }
+      }
+
+      if( chartType && secondaryGraphType ){
+        let newType = chartType;
+
+        if( newType == "Bar" ){
+          newType = "bars";
+        }
+
+        tmp.options['seriesType'] = newType;
+        tmp.options['series'] = {
+          2: {
+            type: secondaryGraphType
+          }
         }
       }
 
       output.push(tmp);
     }
 
+    console.log(output);
     this.chartData = output;
 
 
