@@ -9,7 +9,7 @@ import { Component, Input, OnInit } from "@angular/core";
 export class ChartComponent implements OnInit{
   @Input() data;
 
-  chartData:any;
+  chartData:any = [];
   
   /*{
     chartType: 'ColumnChart',
@@ -38,11 +38,16 @@ export class ChartComponent implements OnInit{
       let graphIndicator = current.graphIndicator;
       let secondaryGraphType = current.secondaryGraphType;
 
+      if( chartType == "Doughnut" ){
+        chartType = "Pie";
+      }
+
       let graphName = chartType+"Chart";
       
       if( chartType && secondaryGraphType ){
         graphName = "ComboChart"
       }
+
 
       let tmp = {
         "chartType": graphName,
@@ -50,8 +55,12 @@ export class ChartComponent implements OnInit{
         options: {
           "title": graphIndicator,
           "height": 400,
-          "colors": ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6']
+          "colors": ['#b02d0c', '#d5401a', '#e2770d', '#f8b243', '#0b148c', '#4290bf', '#1b8c9f', '#15adc2', '#700280', '#aa85be', '#af4c96', '#f290aa']
         }
+      }
+
+      if( current.graphType == "doughnut" ){
+        tmp.options['pieHole'] = 0.4;
       }
 
       if( chartType && secondaryGraphType ){

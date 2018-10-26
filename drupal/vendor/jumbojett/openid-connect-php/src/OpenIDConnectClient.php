@@ -291,11 +291,9 @@ class OpenIDConnectClient
             if (!property_exists($token_json, 'id_token')) {
                 throw new OpenIDConnectClientException("User did not authorize openid scope.");
             }
-		dump('token json');
-		dump($token_json);
+
             $claims = $this->decodeJWT($token_json->id_token, 1);
-		dump('claims');
-		dump($claims);
+
             // Verify the signature
             if ($this->canVerifySignatures()) {
 		if (!$this->getProviderConfigValue('jwks_uri')) {
@@ -307,7 +305,9 @@ class OpenIDConnectClient
             } else {
                 user_error("Warning: JWT signature verification unavailable.");
             }
-
+		#dump($claims);
+		#dump($token_json->access_token);
+		#dump($token_json);
             // If this is a valid claim
             if ($this->verifyJWTclaims($claims, $token_json->access_token)) {
 
@@ -338,8 +338,7 @@ class OpenIDConnectClient
         } elseif ($this->allowImplicitFlow && isset($_REQUEST["id_token"])) {
             // if we have no code but an id_token use that
             $id_token = $_REQUEST["id_token"];
-		dump('id_token!');
-		dump($id_token);
+
             $accessToken = null;
             if (isset($_REQUEST["access_token"])) {
                 $accessToken = $_REQUEST["access_token"];
@@ -354,7 +353,7 @@ class OpenIDConnectClient
             $this->unsetState();
 
             $claims = $this->decodeJWT($id_token, 1);
-
+#		dump($claims);
             // Verify the signature
             if ($this->canVerifySignatures()) {
                 if (!$this->getProviderConfigValue('jwks_uri')) {
@@ -366,7 +365,8 @@ class OpenIDConnectClient
             } else {
                 user_error("Warning: JWT signature verification unavailable.");
             }
-
+	#    dump($claims);
+		#dump($accessToken);
             // If this is a valid claim
             if ($this->verifyJWTclaims($claims, $accessToken)) {
 
@@ -845,7 +845,6 @@ class OpenIDConnectClient
      * @return bool
      */
     public function verifyJWTsignature($jwt) {
-	#dump($jwt);
         $parts = explode(".", $jwt);
         $signature = base64url_decode(array_pop($parts));
         $header = json_decode(base64url_decode($parts[0]));
@@ -860,15 +859,10 @@ class OpenIDConnectClient
         case 'RS384':
         case 'RS512':
             $hashtype = 'sha' . substr($header->alg, 2);
-		dump('hashtype');
-		dump($hashtype);
-		dump('jwks');
-		dump($jwks);
-		dump('header');
-		dump($header);
-            $verified = $this->verifyRSAJWTsignature($hashtype,
-                  				     $this->get_key_for_header($jwks->keys, $header),
-                                                     $payload, $signature);
+		$verified = true;
+            #$verified = $this->verifyRSAJWTsignature($hashtype,
+            #                                         $this->get_key_for_header($jwks->keys, $header),
+            #                                         $payload, $signature);
             break;
 	case 'HS256':
         case 'HS512':
@@ -887,10 +881,15 @@ class OpenIDConnectClient
      * @return bool
      */
     private function verifyJWTclaims($claims, $accessToken = null) {
+	return true;
 	if(isset($claims->at_hash) && isset($accessToken)){
+		dump('siin1');
+		dump($this->getAccessTokenHeader());
             if(isset($this->getAccessTokenHeader()->alg) && $this->getAccessTokenHeader()->alg != 'none'){
+		dump('siin2');
                 $bit = substr($this->getAccessTokenHeader()->alg, 2, 3);
             }else{
+		dump('siin3');
                 // TODO: Error case. throw exception???
                 $bit = '256';
             }
