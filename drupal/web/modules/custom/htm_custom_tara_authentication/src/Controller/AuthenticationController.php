@@ -41,8 +41,10 @@ class AuthenticationController extends ControllerBase {
 	
 	$oidc->authenticate();
 	
-
+	dump($oidc->getTokenResponse());
+	dump($oidc->getAccessToken());
 	dump($oidc->getVerifiedClaims('sub'));
+	dump($oidc->getVerifiedClaims('profile_attributes'));
 
 
 	return [];
