@@ -23,9 +23,9 @@ import { TableModal } from './_components/dialogs/table.modal/table.modal';
 import { VideoComponent } from './_components/video/video.component';
 import { StudyProgrammeCompareComponent } from './_views/studyProgramme.compare/studyProgramme.compare.component';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
-import { EventsListComponent } from '@app/_components/eventsList/eventsList.component'
 
 import { SideMenuComponent } from '@app/_components/sidemenu/sidemenu.component';
+import { ChartComponent } from './_components/chart/chart.component';
 
 export const AppDeclarations = [
   routedComponents,
@@ -54,7 +54,7 @@ export const AppDeclarations = [
   SearchComponent,
   ConfirmPopupDialog,
   SideMenuComponent,
-  EventsListComponent
+  ChartComponent
 ];
 
 export const AppEntryComponents = [

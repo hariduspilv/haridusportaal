@@ -38,7 +38,7 @@ class ProcessOskaTableData {
             $object['valdkond'] = self::checkEntityReference('node', 'oska_field_page', $item['valdkond']);
             $object['juurprobleem'] = strlen($item['juurprobleem']) <= 500 ? $item['juurprobleem'] : FALSE;
             $object['ettepanek'] = strlen($item['ettepanek']) <= 500 ? $item['ettepanek'] : FALSE;
-            $object['peavastutaja'] = strlen($item['peavastutaja']) <= 50 ? $item['peavastutaja'] : FALSE;
+            $object['peavastutaja'] = strlen($item['peavastutaja']) <= 100 ? $item['peavastutaja'] : FALSE;
             $object['staatus'] = strlen($item['staatus']) <= 50 ? $item['staatus'] : FALSE;
             $object['kommentaar'] = strlen($item['kommentaar']) <= 500 ? $item['kommentaar'] : FALSE;
 
