@@ -257,7 +257,16 @@ class EhisConnectorService {
 		$params['url'] = [$params['id'], $this->getCurrentUserIdRegCode(), $this->getCurrentUserIdRegCode(TRUE)];
 		$params['key'] = $this->getCurrentUserIdRegCode();
 		$params['hash'] = 'educationalInstitution_'.$params['id'];
-		return $this->invokeWithRedis('getEducationalInstitution', $params, FALSE);
+		$response = $this->invokeWithRedis('getEducationalInstitution', $params, FALSE);
+		if($params['addTitle']){
+			$this->addTitles($response);
+		}
+		return $response;
+	}
+
+	private function getAllClassificators(array $params = []){
+		$params['key'] = 'klassifikaator';
+		return json_decode($this->client->hGet($params['key'], $params['hash']), TRUE);
 	}
 
 	/**
@@ -323,7 +332,25 @@ class EhisConnectorService {
 		}, $form_topics);
 
 		return $obj;
+	}
 
+	private function addTitles(&$response){
+		$topics_map = [
+			'ownerType' => 'pidajaLiigid',
+			'ownershipType' => 'oppeasutuseOmandivormid',
+			'studyInstitutionType' => 'oppeasutuseLiigid'
+		];
+		array_walk($response['educationalInstitution'], function(&$item, $key, $data){
+			$elm_topics = array_keys($data['topics']);
+			foreach($item as $value_key => &$value ){
+				if(in_array($value_key, $elm_topics)){
+					$redis_value = self::getAllClassificators(['hash' => $data['topics'][$value_key]]);
+					$item[$value_key.'Type'] = ($d = $redis_value[$value]) ? $d : ['et' => 'Puudub', 'valid' => false];
+				}
+			}
+		}, ['topics' => $topics_map]);
+
+		return $response;
 	}
 
 
