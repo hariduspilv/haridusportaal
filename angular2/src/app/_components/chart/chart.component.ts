@@ -9,7 +9,7 @@ import { Component, Input, OnInit } from "@angular/core";
 export class ChartComponent implements OnInit{
   @Input() data;
 
-  chartData:any;
+  chartData:any = [];
   
   /*{
     chartType: 'ColumnChart',
@@ -36,19 +36,52 @@ export class ChartComponent implements OnInit{
       let graphVAxis = current.graphVAxis;
       let chartType = this.capitalize(current.graphType);
       let graphIndicator = current.graphIndicator;
+      let secondaryGraphType = current.secondaryGraphType;
+
+      if( chartType == "Doughnut" ){
+        chartType = "Pie";
+      }
+
+      let graphName = chartType+"Chart";
       
+      if( chartType && secondaryGraphType ){
+        graphName = "ComboChart"
+      }
+
 
       let tmp = {
-        "chartType": chartType+"Chart",
+        "chartType": graphName,
         dataTable: value,
         options: {
-          "title": graphIndicator
+          "title": graphIndicator,
+          "height": 400,
+          "colors": ['#b02d0c', '#d5401a', '#e2770d', '#f8b243', '#0b148c', '#4290bf', '#1b8c9f', '#15adc2', '#700280', '#aa85be', '#af4c96', '#f290aa']
+        }
+      }
+
+      if( current.graphType == "doughnut" ){
+        tmp.options['pieHole'] = 0.4;
+      }
+
+      if( chartType && secondaryGraphType ){
+        let newType = chartType;
+
+        if( newType == "Bar" ){
+          newType = "bars";
+        }
+
+        tmp.options['seriesType'] = newType;
+        tmp.options['series'] = {
+          2: {
+            type: secondaryGraphType
+          }
         }
       }
 
       output.push(tmp);
     }
 
+    console.log(output);
     this.chartData = output;
 
 
