@@ -140,15 +140,16 @@ class ProcessOskaData {
     }
 
     public function checkTaxonomyTerm($entity_type, $vocabulary, $name){
+        if($name != ''){
+            $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
 
-        $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
+            $properties = [
+                'vid' => $vocabulary,
+                'name' => $name
+            ];
 
-        $properties = [
-            'vid' => $vocabulary,
-            'name' => $name
-        ];
-
-        $entity = reset($storage->loadByProperties($properties));
+            $entity = reset($storage->loadByProperties($properties));
+        }
 
         return ($entity) ? $entity->id() : FALSE;
     }
