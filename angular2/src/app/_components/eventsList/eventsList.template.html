@@ -1,0 +1,25 @@
+
+<div class="block padding-block border-orange">
+  <div class="block-title-big" role="list">{{ 'event.label' | translate }}</div>
+
+  <mat-spinner *ngIf="loading" ></mat-spinner>
+  <ng-container *ngIf="!loading">
+    <p *ngIf="!events.length" class="explain">{{ 'frontpage.favourites_events_none_message' | translate }}</p>
+
+    <ul class="list" *ngIf="events.length">
+
+      <li *ngFor="let event of events">
+        <span>
+        {{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM' }}
+        {{ 'time.time_of_day' | translate }}
+        {{ event.fieldEventMainStartTime | unixToTime }}
+        </span>
+        <a *ngIf="event.title && event.entityUrl.path" role="link" [routerLink]="[event.entityUrl.path]">
+          {{ event.title }}
+        </a>
+       
+      </li>
+      <li><a role="link" [routerLink]="viewAllEventsLink()">{{ 'button.view_all' | translate }}</a></li>
+    </ul>
+  </ng-container>
+</div>
