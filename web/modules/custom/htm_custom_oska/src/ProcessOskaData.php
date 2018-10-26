@@ -35,7 +35,7 @@ class ProcessOskaData {
             'naitaja' => false,
             'valdkond' => false,
             'alavaldkond' => false,
-            'pohikutseala' => false,
+            'ametiala' => false,
             'periood' => false,
             'silt' => false,
             'vaartus' => false,
@@ -45,7 +45,7 @@ class ProcessOskaData {
             $object['naitaja'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_indicator', $item['naitaja']);
             $object['valdkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['valdkond']);
             $object['alavaldkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['alavaldkond']);
-            $object['pohikutseala'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_main_profession', $item['pohikutseala']);
+            $object['ametiala'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_main_profession', $item['ametiala']);
             $object['periood'] = $item['periood'];
             $object['silt'] = $item['silt'];
             $object['vaartus'] = $item['vaartus'];
@@ -66,7 +66,7 @@ class ProcessOskaData {
                     'oska_indicator' => $object['naitaja'],
                     'oska_field' => $object['valdkond'],
                     'oska_sub_field' => $object['alavaldkond'],
-                    'oska_main_profession' => $object['pohikutseala'],
+                    'oska_main_profession' => $object['ametiala'],
                     'year' => $object['periood'],
                     'oska_label' => $object['silt'],
                     'value' => $object['vaartus']
@@ -140,15 +140,16 @@ class ProcessOskaData {
     }
 
     public function checkTaxonomyTerm($entity_type, $vocabulary, $name){
+        if($name != ''){
+            $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
 
-        $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
+            $properties = [
+                'vid' => $vocabulary,
+                'name' => $name
+            ];
 
-        $properties = [
-            'vid' => $vocabulary,
-            'name' => $name
-        ];
-
-        $entity = reset($storage->loadByProperties($properties));
+            $entity = reset($storage->loadByProperties($properties));
+        }
 
         return ($entity) ? $entity->id() : FALSE;
     }
