@@ -61,6 +61,9 @@ class OskaImportDataForm extends FormBase {
             $file_upload = $all_files['file'];
             if ($file_upload->isValid()) {
                 $header_info = $this->detectCSVFileDelimiter($file_upload->getRealPath());
+                foreach($header_info['keys'] as $key => $value) {
+                    $header_info['keys'][$key] = str_replace('*', '', iconv(mb_detect_encoding($value), 'ASCII', $value));
+                }
                 #dump($header_info['keys']);
                 $delimiter = $header_info['delimiter'];
                 //check delimiter
