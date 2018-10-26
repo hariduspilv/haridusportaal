@@ -21,10 +21,13 @@
   <div class="sectors__list-body" *ngIf="data && view == 'grid'">
     <div class="row sectors--row" *ngIf="data.length">
       <ng-container *ngFor="let elem of data">
-        <div class="col-3 sm-6 sectors--col">
+        <div class="col-3 md-4 xs-6 sectors--col">
           <a href="javascript:void(0)" attr.aria-label="{{ elem.title }}" [routerLink]="elem.entityUrl.path" class="sector__wrapper">
-            <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.length" [alt]="elem.fieldOskaFieldPicture[0].alt" [title]="elem.fieldOskaFieldPicture[0].title" class="sector__wrapper--pic" [src]="elem.fieldOskaFieldPicture[0].derivative.url">
-            <img alt="{{ 'errors.data_missing' | translate }}" title="{{ 'errors.data_missing' | translate }}" class="sector__wrapper--pic" *ngIf="elem.fieldOskaFieldPicture && !elem.fieldOskaFieldPicture.length" src="../../assets/img/1208x680.png">
+            <div class="sector__wrapper--pic">
+              <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.length" [alt]="elem.fieldOskaFieldPicture[0].alt" [title]="elem.fieldOskaFieldPicture[0].title" [src]="elem.fieldOskaFieldPicture[0].derivative.url">
+              <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" *ngIf="elem.fieldOskaFieldPicture && !elem.fieldOskaFieldPicture.length" src="../../assets/img/1208x680.png">
+              <div class="overlay"></div>
+            </div>
             <div class="sector__wrapper--title">
               <h1>{{ elem.title }}</h1>
             </div>
