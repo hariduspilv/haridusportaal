@@ -305,9 +305,7 @@ class OpenIDConnectClient
             } else {
                 user_error("Warning: JWT signature verification unavailable.");
             }
-		#dump($claims);
-		#dump($token_json->access_token);
-		#dump($token_json);
+
             // If this is a valid claim
             if ($this->verifyJWTclaims($claims, $token_json->access_token)) {
 
@@ -353,7 +351,7 @@ class OpenIDConnectClient
             $this->unsetState();
 
             $claims = $this->decodeJWT($id_token, 1);
-#		dump($claims);
+
             // Verify the signature
             if ($this->canVerifySignatures()) {
                 if (!$this->getProviderConfigValue('jwks_uri')) {
@@ -365,8 +363,7 @@ class OpenIDConnectClient
             } else {
                 user_error("Warning: JWT signature verification unavailable.");
             }
-	#    dump($claims);
-		#dump($accessToken);
+
             // If this is a valid claim
             if ($this->verifyJWTclaims($claims, $accessToken)) {
 
@@ -859,10 +856,10 @@ class OpenIDConnectClient
         case 'RS384':
         case 'RS512':
             $hashtype = 'sha' . substr($header->alg, 2);
-		$verified = true;
-            #$verified = $this->verifyRSAJWTsignature($hashtype,
-            #                                         $this->get_key_for_header($jwks->keys, $header),
-            #                                         $payload, $signature);
+
+            $verified = $this->verifyRSAJWTsignature($hashtype,
+                                                     $this->get_key_for_header($jwks->keys, $header),
+                                                     $payload, $signature);
             break;
 	case 'HS256':
         case 'HS512':
@@ -881,15 +878,10 @@ class OpenIDConnectClient
      * @return bool
      */
     private function verifyJWTclaims($claims, $accessToken = null) {
-	return true;
 	if(isset($claims->at_hash) && isset($accessToken)){
-		dump('siin1');
-		dump($this->getAccessTokenHeader());
             if(isset($this->getAccessTokenHeader()->alg) && $this->getAccessTokenHeader()->alg != 'none'){
-		dump('siin2');
                 $bit = substr($this->getAccessTokenHeader()->alg, 2, 3);
             }else{
-		dump('siin3');
                 // TODO: Error case. throw exception???
                 $bit = '256';
             }
