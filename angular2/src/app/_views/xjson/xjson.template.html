@@ -392,7 +392,7 @@
                       <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
 
                         <table class="scrollableTable">
-
+                        <thead>
                           <tr>
                             <ng-container *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
                               <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
@@ -407,7 +407,8 @@
                               <!-- extra column for action buttons -->
                             </th>
                           </tr>
-
+                        </thead>
+                          <tbody>
                           <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
                             <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
 
@@ -470,17 +471,8 @@
                                     </mat-option>
                                   </mat-select>
 
-</div>
-</div>
-
-
-                                 
-
-            
-                          
-                      
-
-
+                                </div>
+                                </div>
 
                                 </ng-container> <!-- /SELECTLIST -->
 
@@ -503,17 +495,21 @@
 
                           </tr> <!-- END OF *NGFOR COLUMNS-->
 
-                          <tr *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
-                            <td [attr.colspan]="objectKeys(data_elements[element].table_columns).length + 1">
-                              <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
-                                + {{ 'button.add_table_row' | translate | uppercase }}
-                              </a>
-                            </td>
-                          </tr> <!-- ADD_DEL_ROWS -->
-
+                        </tbody>
                         </table>
+
+
                       </div>
                     </div>
+
+                    <div *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                        <div [attr.colspan]="objectKeys(data_elements[element].table_columns).length + 1">
+                          <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
+                            + {{ 'button.add_table_row' | translate }}
+                          </a>
+                        </div>
+                      </div> <!-- ADD_DEL_ROWS -->
+
                   </ng-container> <!-- /TABLE -->
 
                   <ng-container *ngIf="error[element] && error[element].row == undefined">
