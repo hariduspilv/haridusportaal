@@ -88,6 +88,9 @@ $grid-columns: 12;
 .row{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;
   @for $i from 1 through $grid-columns {
     .col-#{$i} { width: percentage($i / $grid-columns); }
+    @include break-on(md, max) {
+      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
     @include break-on(sm, max) {
       .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
     }
@@ -708,7 +711,6 @@ a:hover .important-pill {
 .mat-select:focus .mat-select-arrow {
   transform: rotate(180deg); 
 }
-
 
 
 
