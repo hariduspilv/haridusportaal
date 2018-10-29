@@ -29,7 +29,7 @@
 
           <!-- STEP BODY -->
           <div class="row button-list button-list-top">
-            <ng-container *ngFor="let activity of activityButtons">
+            <ng-container *ngFor="let activity of activityButtons['primary']">
               <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
                 {{ activity.label | translate }}
               </button>
@@ -396,7 +396,7 @@
                       <div class="scrollable__table" [attr.id]="'xjsonTable_' + index" (scroll)="tableOverflown[index] = tableService.isOverflownWhileScrolling($event); elemAtStart[index] = tableService.isElemAtStart('xjsonTable_'+index)">
 
                         <table class="scrollableTable">
-
+                        <thead>
                           <tr>
                             <ng-container *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
                               <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
@@ -411,7 +411,8 @@
                               <!-- extra column for action buttons -->
                             </th>
                           </tr>
-
+                        </thead>
+                          <tbody>
                           <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
                             <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
 
@@ -474,17 +475,8 @@
                                     </mat-option>
                                   </mat-select>
 
-</div>
-</div>
-
-
-                                 
-
-            
-                          
-                      
-
-
+                                </div>
+                                </div>
 
                                 </ng-container> <!-- /SELECTLIST -->
 
@@ -507,17 +499,21 @@
 
                           </tr> <!-- END OF *NGFOR COLUMNS-->
 
-                          <tr *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
-                            <td [attr.colspan]="objectKeys(data_elements[element].table_columns).length + 1">
-                              <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
-                                + {{ 'button.add_table_row' | translate | uppercase }}
-                              </a>
-                            </td>
-                          </tr> <!-- ADD_DEL_ROWS -->
-
+                        </tbody>
                         </table>
+
+
                       </div>
                     </div>
+
+                    <div *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                        <div [attr.colspan]="objectKeys(data_elements[element].table_columns).length + 1">
+                          <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
+                            + {{ 'button.add_table_row' | translate }}
+                          </a>
+                        </div>
+                      </div> <!-- ADD_DEL_ROWS -->
+
                   </ng-container> <!-- /TABLE -->
 
                   <ng-container *ngIf="error[element] && error[element].row == undefined">
@@ -533,22 +529,22 @@
 
           <div class="row button-list">
 
-            <ng-container *ngFor="let activity of activityButtons">
+            <ng-container *ngFor="let link of navigationLinks">
+              <a *ngIf="link.type === 'link'" href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
+              <button *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
+            </ng-container>
+
+            <ng-container *ngFor="let activity of activityButtons['primary']">
               <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
                 {{ activity.label | translate }}
               </button>
-
-
-
             </ng-container>
 
-            <div class="row button-list sub-button-list">
-
-                <ng-container *ngFor="let link of navigationLinks">
-                  <a href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
-                </ng-container>
-      
-              </div> <!-- /row button-list -->
+            <div class="row button-list sub-button-list" *ngIf="activityButtons['secondary'].length">
+              <ng-container *ngFor="let activity of activityButtons['secondary']">
+                <a href="javascript:void(0);" (click)="submitForm(activity.action)">{{ activity.label | translate }}</a>
+              </ng-container>
+            </div> <!-- /row button-list -->
 
           </div> <!-- /row button-list -->
 
