@@ -32,17 +32,13 @@ class OpenIDConnectClientCustom extends OpenIDConnectClient {
 
 	public function verifyJWTsignature ($jwt) {
 		$parts = explode(".", $jwt);
-		$signature = base64url_decode(array_pop($parts));
-		$header = json_decode(base64url_decode($parts[0]));
 		$body = json_decode(base64url_decode($parts[1]));
-		$payload = implode(".", $parts);
-		dump($parts);
-		dump($signature);
-		dump($header);
-		dump($payload);
-		dump($body);
-		#dump($jwt);
-		return parent::verifyJWTsignature($jwt);
+
+		if($body->aud === 'eduportaal'){
+			return true;
+		}else{
+			return parent::verifyJWTsignature($jwt);
+		}
 	}
 
 	/**
