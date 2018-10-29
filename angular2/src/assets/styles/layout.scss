@@ -65,7 +65,7 @@
 
 .block-title { font-size: $small; text-transform: uppercase; color: #757575; margin-bottom: $small; }
 
-.block-title-big { font-size:1.25rem; color:$black; font-weight: 500; margin:-0.56rem 0 0 0;}
+.block-title-big { font-size:1.25rem; color:$black; font-weight: 500; margin:0;}
 
 .padding-block { padding: $medium;
   &.lg-bottom { padding-bottom: $xxl;
@@ -76,6 +76,7 @@
     }
   }
   &.sm-top { padding-top: $small; }
+  &.gutter-bottom { padding-bottom: $gutter; }
   &.mob-bottom {
     @include break-on(sm, max) {
       margin-bottom: $xxl
