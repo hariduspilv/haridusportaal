@@ -15,21 +15,21 @@
           </div>
         </div>
         <div class="scrollable">
-          <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
+          <div class="scrollable__rectangle scrollable__rectangle--left pointer" id="scrollableLeft" *ngIf="!elemAtStart" 
             (touchstart)="tableService.scrollStart('tableRef')" 
             (mousedown)="tableService.scrollStart('tableRef')" 
             (touchend)="tableService.scrollEnd()" 
             (mouseup)="tableService.scrollEnd()">
             <span class="htm-icon">keyboard_arrow_left</span>
           </div>
-          <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
+          <div class="scrollable__rectangle scrollable__rectangle--right pointer" id="scrollableRight" *ngIf="tableOverflown" 
             (touchstart)="tableService.scrollStart('tableRef', true)"
             (mousedown)="tableService.scrollStart('tableRef', true)"
             (touchend)="tableService.scrollEnd(true)"
             (mouseup)="tableService.scrollEnd(true)">
             <span class="htm-icon">keyboard_arrow_right</span>
           </div>
-          <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
+          <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef');setScrollPos()">
             <table class="scrollableTable">
               <thead>
                 <tr *ngIf="list">

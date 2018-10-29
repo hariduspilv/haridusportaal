@@ -31,12 +31,14 @@ export class CompareComponent implements OnInit, OnDestroy{
   compareTranslationOptions = {
     "studyProgramme.compare": {
       added: "studyProgramme.added_to_comparison",
+      in: "studyProgramme.in_comparison",
       title: "studyProgramme.compare_modal_title",
       content: "studyProgramme.compare_modal_content",
       close: "studyProgramme.compare_modal_close",
     },
     "oskaProfessions.compare": {
       added: "oskaProfessions.added_to_comparison",
+      in: "oskaProfessions.in_comparison",
       title: "oskaProfessions.compare_modal_title",
       content: "oskaProfessions.compare_modal_content",
       close: "oskaProfessions.compare_modal_close",
@@ -115,13 +117,23 @@ export class CompareComponent implements OnInit, OnDestroy{
 		});
 
   }
-  openCompareSnackbar() {
+
+  openCompareSnackbar(panelClass:string = "success") {
+    /**
+      @param {string} panelClass success | info | warning | error.
+    */
+  
     if (this.viewLink && this.compare.length && !this.snackBarOpen) {
+
       this.snackBarOpen = true;
       let message = `${this.translate.get(this.compareTranslationOptions[this.localStorageKey].added)['value']}`;
+      if( panelClass == "info" ){
+        message = `${this.translate.get(this.compareTranslationOptions[this.localStorageKey].in)['value']}`;
+      }
       let action = `${this.translate.get('button.see_comparison')['value']}`;
       let snackBarRef = this.snackbar.open(message, action, {
         duration: 600000,
+        panelClass: panelClass
       });
       snackBarRef.afterDismissed().subscribe((obj) => {
         if (obj.dismissedByAction) {
@@ -147,7 +159,7 @@ export class CompareComponent implements OnInit, OnDestroy{
     );
 
     this.displayViewLink(this.compare);
-    this.openCompareSnackbar()
+    this.openCompareSnackbar("info");
 
     this.localStorageSubscription = this.rootScope.get("compareObservable").subscribe(data => {
       this.compare = this.readFromLocalStorage(this.localStorageKey);
