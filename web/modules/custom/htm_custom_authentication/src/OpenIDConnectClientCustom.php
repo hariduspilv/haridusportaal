@@ -29,20 +29,46 @@ function b64url2b64($base64url) {
 }
 
 class OpenIDConnectClientCustom extends OpenIDConnectClient {
+
 	public function verifyJWTsignature ($jwt) {
 		$parts = explode(".", $jwt);
 		$signature = base64url_decode(array_pop($parts));
 		$header = json_decode(base64url_decode($parts[0]));
+		$body = json_decode(base64url_decode($parts[1]));
 		$payload = implode(".", $parts);
 		dump($parts);
 		dump($signature);
 		dump($header);
 		dump($payload);
-		dump($jwt);
+		dump($body);
+		#dump($jwt);
 		return parent::verifyJWTsignature($jwt);
 	}
 
-	public function getVerifiedClaims ($attribute = null) {
-		return parent::getVerifiedClaims($attribute);
+	/**
+	 * @param object $claims
+	 * @return bool
+	 */
+	private function verifyJWTclaims($claims, $accessToken = null) {
+		dump('läks see!');
+		/*if(isset($claims->at_hash) && isset($accessToken)){
+			if(isset($this->getAccessTokenHeader()->alg) && $this->getAccessTokenHeader()->alg != 'none'){
+				$bit = substr($this->getAccessTokenHeader()->alg, 2, 3);
+			}else{
+				// TODO: Error case. throw exception???
+				$bit = '256';
+			}
+			$len = ((int)$bit)/16;
+			$expecte_at_hash = $this->urlEncode(substr(hash('sha'.$bit, $accessToken, true), 0, $len));
+		}
+		return (($claims->iss == $this->getIssuer() || $claims->iss == $this->getWellKnownIssuer() || $claims->iss == $this->getWellKnownIssuer(true))
+			&& (($claims->aud == $this->clientID) || (in_array($this->clientID, $claims->aud)))
+			&& ($claims->nonce == $this->getNonce())
+			&& ( !isset($claims->exp) || $claims->exp >= time() - $this->leeway)
+			&& ( !isset($claims->nbf) || $claims->nbf <= time() + $this->leeway)
+			&& ( !isset($claims->at_hash) || $claims->at_hash == $expecte_at_hash )
+		);*/
 	}
+
+
 }
