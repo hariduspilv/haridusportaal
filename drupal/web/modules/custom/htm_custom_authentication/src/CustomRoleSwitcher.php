@@ -66,4 +66,8 @@ class CustomRoleSwitcher {
 		$this->userData->set('CustomRoleSwitcher', $this->currentUser->getIdCode(), 'current_role', $role);
 	}
 
+	public function returnUser(){
+		return $this->currentUser;
+	}
+
 }
