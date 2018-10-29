@@ -3522,6 +3522,63 @@
         }
     },
     {
+        "name": "drupal/externalauth",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/externalauth",
+            "reference": "8.x-1.1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/externalauth-8.x-1.1.zip",
+            "reference": "8.x-1.1",
+            "shasum": "171d8482df27aa66cb1b389bad4c711edd58136d"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.1",
+                "datestamp": "1521730685",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "rgristroph",
+                "homepage": "https://www.drupal.org/user/516442"
+            },
+            {
+                "name": "snufkin",
+                "homepage": "https://www.drupal.org/user/58645"
+            },
+            {
+                "name": "svendecabooter",
+                "homepage": "https://www.drupal.org/user/35369"
+            }
+        ],
+        "description": "Helper module to authenticate users using an external site / service and storing identification details",
+        "homepage": "https://www.drupal.org/project/externalauth",
+        "support": {
+            "source": "http://cgit.drupalcode.org/externalauth"
+        }
+    },
+    {
         "name": "drupal/google_map_field",
         "version": "1.5.0",
         "version_normalized": "1.5.0.0",

@@ -31,6 +31,7 @@
         "drupal/editor_file": "^1.2",
         "drupal/elasticsearch_connector": "^5.0",
         "drupal/entity_embed": "^1.0@beta",
+        "drupal/externalauth": "^1.1",
         "drupal/google_map_field": "^1.5",
         "drupal/graphql": "^3.0@beta",
         "drupal/graphql_metatag": "1.x-dev",
