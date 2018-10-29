@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, HostListener } from '@angular/core';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -22,6 +22,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   private path: string;
   private deleteText: string = '';
   private deleteIndicator: number = 1;
+  private scrollPos: string = '0';
   public list: any = false;
   public loading: boolean = false;
   private subscriptions: Subscription[] = [];
@@ -133,15 +134,21 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       this.loading = false;
       if(!this.list.length) {
         this.rerouteToParent();
+      } else {
+        this.setScrollPos();
       }
     }, (err) => {
       console.log(err);
       this.loading = false;
     });
   }
- 
+
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    this.setScrollPos();
+  }
+
   ngOnInit() {
-    
     this.pathWatcher();
     this.setPaths();
     this.getData();
@@ -157,10 +164,22 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       }
     }
   }
+  setScrollPos () {
+    let clientHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    let offSet = window.pageYOffset || document.documentElement.scrollTop;
+    this.scrollPos = (offSet + (clientHeight / 2)).toString();
+    if (document.getElementById('scrollableRight')) {
+      document.getElementById('scrollableRight').setAttribute('style', `top: ${this.scrollPos}px`);
+    }
+    if (document.getElementById('scrollableLeft')) {
+      document.getElementById('scrollableLeft').setAttribute('style', `top: ${this.scrollPos}px`);
+    }
+  }
   initialTableCheck(id) {
     const element = document.getElementById(id);
     if (element) {
       this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.setScrollPos()
       this.initialized = true;
     }
   }

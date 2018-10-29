@@ -455,7 +455,11 @@
                                 </ng-container> <!-- /CHECKBOX -->
 
                                 <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
-                                  <mat-select [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                               
+                                  <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
+                                    <div class="round-input__field-wrapper">
+                               
+                                  <mat-select class="round-input__field" [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                     [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                     placeholder="{{ tableColumnAttribute(element, colIndex, 'empty_option') ? selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}">
                                     <mat-option>{{ tableColumnAttribute(element, colIndex, 'empty_option') ?
@@ -465,6 +469,19 @@
                                       {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
                                     </mat-option>
                                   </mat-select>
+
+</div>
+</div>
+
+
+                                 
+
+            
+                          
+                      
+
+
+
                                 </ng-container> <!-- /SELECTLIST -->
 
                                 <ng-container *ngIf="error[element]"> <!-- START OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
@@ -512,17 +529,26 @@
 
           <div class="row button-list">
 
-            <ng-container *ngFor="let link of navigationLinks">
-              <a href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
-            </ng-container>
-
             <ng-container *ngFor="let activity of activityButtons">
               <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
                 {{ activity.label | translate }}
               </button>
+
+
+
             </ng-container>
 
+            <div class="row button-list sub-button-list">
+
+                <ng-container *ngFor="let link of navigationLinks">
+                  <a href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
+                </ng-container>
+      
+              </div> <!-- /row button-list -->
+
           </div> <!-- /row button-list -->
+
+
 
         </ng-container> <!-- /if data-->
       </div><!--/block border-blue-->
