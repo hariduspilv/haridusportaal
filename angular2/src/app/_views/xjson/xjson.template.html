@@ -29,7 +29,7 @@
 
           <!-- STEP BODY -->
           <div class="row button-list button-list-top">
-            <ng-container *ngFor="let activity of activityButtons">
+            <ng-container *ngFor="let activity of activityButtons['primary']">
               <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
                 {{ activity.label | translate }}
               </button>
@@ -529,22 +529,21 @@
 
           <div class="row button-list">
 
-            <ng-container *ngFor="let activity of activityButtons">
+            <ng-container *ngFor="let link of navigationLinks">
+              <a href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
+            </ng-container>
+
+            <ng-container *ngFor="let activity of activityButtons['primary']">
               <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
                 {{ activity.label | translate }}
               </button>
-
-
-
             </ng-container>
 
-            <div class="row button-list sub-button-list">
-
-                <ng-container *ngFor="let link of navigationLinks">
-                  <a href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
-                </ng-container>
-      
-              </div> <!-- /row button-list -->
+            <div class="row button-list sub-button-list" *ngIf="activityButtons['secondary'].length">
+              <ng-container *ngFor="let activity of activityButtons['secondary']">
+                <a href="javascript:void(0);" (click)="submitForm(activity.action)">{{ activity.label | translate }}</a>
+              </ng-container>
+            </div> <!-- /row button-list -->
 
           </div> <!-- /row button-list -->
 
