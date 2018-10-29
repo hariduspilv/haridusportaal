@@ -888,14 +888,6 @@ class OpenIDConnectClient
             $len = ((int)$bit)/16;
             $expecte_at_hash = $this->urlEncode(substr(hash('sha'.$bit, $accessToken, true), 0, $len));
         }
-        #dump(($claims->iss == $this->getIssuer() || $claims->iss == $this->getWellKnownIssuer() || $claims->iss == $this->getWellKnownIssuer(true)));
-	      #dump(($claims->aud == $this->clientID) || (in_array($this->clientID, $claims->aud)));
-	      #ump($claims->nonce == $this->getNonce());
-	      #dump(( !isset($claims->exp) || $claims->exp >= time() - $this->leeway));
-				#dump(( !isset($claims->nbf) || $claims->nbf <= time() + $this->leeway));
-				#dump(( !isset($claims->at_hash) || $claims->at_hash == $expecte_at_hash ));
-				dump($claims);
-				dump($expecte_at_hash);
 
         return (($claims->iss == $this->getIssuer() || $claims->iss == $this->getWellKnownIssuer() || $claims->iss == $this->getWellKnownIssuer(true))
             && (($claims->aud == $this->clientID) || (in_array($this->clientID, $claims->aud)))
