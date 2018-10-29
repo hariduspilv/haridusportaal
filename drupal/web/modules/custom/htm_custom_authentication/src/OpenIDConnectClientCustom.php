@@ -45,7 +45,7 @@ class OpenIDConnectClientCustom extends OpenIDConnectClient {
 			$parts = explode(".", $jwt);
 			$body = json_decode(base64url_decode($parts[1]));
 
-			return ($body->aud === $this->tara_secret)
+			return ($body->aud === 'eduportaal')
 							&& ($body->nbf < time('-5 seconds'))
 							&& ($body->exp > time('+5 seconds'));
 		}else{
