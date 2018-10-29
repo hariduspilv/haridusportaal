@@ -475,7 +475,7 @@ $grid-columns: 12;
    @include break-on(sm, min) {min-width: 50rem !important;}
    @include break-on(sm, max) {min-width: 100vw !important;height: auto; padding: 1.25rem 1.5rem 0.875rem 4.6875rem!important;}
    padding: 1.25rem 1.5rem 0.875rem 4.6875rem!important;
-   border-radius: 0.25rem; background-color: #E6F5EF; border: solid 0.09375rem $success;
+   border-radius: 0.25rem; background-color: $success-light; border: solid 0.09375rem $success;
    @include break-on(sm, max) {
     height: auto;
     &.mat-snack-bar-center {max-width:100%;}
@@ -710,6 +710,22 @@ a:hover .important-pill {
 
 .mat-select:focus .mat-select-arrow {
   transform: rotate(180deg); 
+}
+
+.mat-snack-bar-container{
+  &.info{border-color:$info; background-color:$info-light;
+    .mat-simple-snackbar::before{background:$info; content:"\ead4";}
+  }
+  &.error{border-color:$error; background-color:$error-light;
+    .mat-simple-snackbar::before{background:$error; content:"\e9bb";}
+  }
+  &.warning{border-color:$warning; background-color:$warning-light;
+    .mat-simple-snackbar::before{background:$warning; content:"\ead4"; transform:rotate(180deg);}
+  }
+}
+
+.mat-snack-bar-container{
+  
 }
 
 
