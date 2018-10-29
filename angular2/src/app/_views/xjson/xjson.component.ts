@@ -64,6 +64,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public data_elements;
   public data_messages;
   public navigationLinks;
+  public subButtons;
   public activityButtons;
   public error = {};
 
@@ -407,6 +408,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   tableDeleteRow(element, rowIndex) {
     this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
      data: {
+       title: this.translate.get('xjson.table_delete_row_confirm_modal_title')['value'],
        content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
        confirm: this.translate.get('button.yes')['value'],
        cancel: this.translate.get('button.cancel')['value'],
@@ -423,6 +425,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   promptEditConfirmation() {
 		 this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
 		  data: {
+        title: this.translate.get('xjson.edit_step_confirm_modal_title')['value'],
         content: this.translate.get('xjson.edit_step_confirm_modal_content')['value'],
         confirm: this.translate.get('button.yes')['value'],
         cancel: this.translate.get('button.cancel')['value'],
@@ -595,22 +598,27 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  setActivityButtons(activities: string[]): {}[]{
-    let output = [];
-    let editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
-    let nonButtonActivities = ['VIEW'];
+  setActivityButtons(activities: string[]){
+    let output = {primary: [], secondary: []};
+    let editableActivities = ['SUBMIT', 'CONTINUE'];
+    let maxStepActions = [{action: 'SAVE', label: 'button.save_draft'}]
     if(this.opened_step < this.max_step){
       let displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-      if(displayEditButton) output.push({label: 'button.edit' , action: 'EDIT', style: 'primary'})
+      if(displayEditButton) output['primary'].push({label: 'button.edit' , action: 'EDIT', style: 'primary'})
 
     } else {
       activities.forEach(activity => {
-        if(!nonButtonActivities.includes(activity)) {
-          output.push({label: 'button.' + activity.toLowerCase() , action: activity, style: 'primary'})
+        if(editableActivities.includes(activity)) {
+          output['primary'].push({label: 'button.' + activity.toLowerCase() , action: activity, style: 'primary'})
         }
-      })
+      });
+      maxStepActions.forEach(button => {
+        if(activities.some(activity => button.action == activity)) {
+          output['secondary'].push({label: button.label , action: button.action})
+        }    
+      });
     }
-    return output
+    return output;
   }
 
   promptDebugDialog(data) {
