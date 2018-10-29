@@ -178,7 +178,7 @@
             <div class="col-grow">
               <div class="studyProgramme__item__head sm-hide" *ngIf="item.fieldStudyProgrammeLevel">{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</div>
               <span>
-                <a href="javascript:void();" target="_blank" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.entityLabel }}</h1></a>
+                <a href="javascript:void();" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.entityLabel }}</h1></a>
                 <a href="javascript:void();" class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'"><h1>{{'studyProgramme.non_active' | translate}}</h1></a>
               </span>
             </div><!--col-9-->
