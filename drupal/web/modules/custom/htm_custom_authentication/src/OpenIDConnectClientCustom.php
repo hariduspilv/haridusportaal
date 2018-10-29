@@ -3,6 +3,7 @@
 namespace  Drupal\htm_custom_authentication;
 
 use Jumbojett\OpenIDConnectClient;
+use Drupal\Core\Site\Settings;
 
 /**
  * A wrapper around base64_decode which decodes Base64URL-encoded data,
@@ -30,10 +31,23 @@ function b64url2b64($base64url) {
 
 class OpenIDConnectClientCustom extends OpenIDConnectClient {
 
+	protected $tara_secret;
+
+	public function __construct (?string $provider_url = null, ?string $client_id = null, ?string $client_secret = null, $issuer = null) {
+		$this->tara_secret = settings::get('tara_secret');
+		parent::__construct($provider_url, $client_id, $client_secret, $issuer);
+	}
+
+
 	public function verifyJWTsignature ($jwt) {
 		$iss = $this->getIssuer();
 		if($iss === 'https://tara-test.ria.ee/oidc'){
-			return true;
+			$parts = explode(".", $jwt);
+			$body = json_decode(base64url_decode($parts[1]));
+
+			return ($body->aud === $this->tara_secret)
+							&& ($body->nbf < time('-5 seconds'))
+							&& ($body->exp > time('+5 seconds'));
 		}else{
 			return parent::verifyJWTsignature($jwt);
 		}
