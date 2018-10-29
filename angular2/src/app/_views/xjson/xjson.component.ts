@@ -459,13 +459,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(list[0] != opened) {
       let previous = list[list.indexOf(opened) - 1]
       if(this.isStepDisabled(previous) === false){
-        output.push({label: 'button.previous', step: previous});
+        output.push({label: 'button.previous', step: previous, 'type':'link'});
       }
     }
     if(list[list.length-1] != opened) {
       let next = list[list.indexOf(opened) + 1];
       if(this.isStepDisabled(next) === false){
-        output.push({label: 'button.next', step: next});
+        output.push({label: 'button.submit', step: next, 'type':'button'});
       }
     }
     return output;
