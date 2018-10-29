@@ -3350,8 +3350,7 @@
             "homepage": "https://github.com/drupal-graphql/graphql-metatag",
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql_metatag"
-            },
-            "time": "2018-04-26T13:45:36+00:00"
+            }
         },
         {
             "name": "drupal/hms_field",
@@ -4342,7 +4341,8 @@
             "homepage": "https://www.drupal.org/project/nginx_cache_clear",
             "support": {
                 "source": "http://cgit.drupalcode.org/nginx_cache_clear"
-            }
+            },
+            "time": "2018-06-29T06:50:36+00:00"
         },
         {
             "name": "drupal/node_view_permissions",

@@ -592,6 +592,14 @@ xjson:
     translation_type: textarea
     et: 'Otsin aadressi, palun oodake'
     en: 'Searching address, please wait'
+  table_delete_row_confirm_modal_title:
+    translation_type: textarea
+    et: 'Tabeli muutmine'
+    en: 'Change table'
+  edit_step_confirm_modal_title:
+    translation_type: textarea
+    et: 'Taotluse muutmine'
+    en: 'Edit form'
 article:
   label:
     translation_type: textarea
@@ -1206,6 +1214,10 @@ studyProgramme:
     translation_type: textarea
     et: 'Eriala(d) lisatud võrdlusesse'
     en: 'Programme added to comparison'
+  in_comparison:
+    translation_type: textarea
+    et: 'Eriala(d) on võrdluses'
+    en: 'Programme are in comparison'
 login:
   username:
     translation_type: textarea
@@ -1589,6 +1601,14 @@ button:
     translation_type: textarea
     et: Sulge
     en: Close
+  save_draft:
+    translation_type: textarea
+    et: 'Salvesta mustand'
+    en: 'Save draft'
+  rss_order:
+    translation_type: textarea
+    et: 'Telli teemad RSS-iga'
+    en: 'Order by RSS'
 tooltip:
   share:
     translation_type: textarea
@@ -1813,6 +1833,10 @@ oskaProfessions:
     translation_type: textarea
     et: 'Ametiala võrdlusest eemaldatud'
     en: 'Profession removed from comparison'
+  in_comparison:
+    translation_type: textarea
+    et: 'Ametiala(d) on võrdluses.'
+    en: 'Professions are in comparison.'
 fieldFixedLabel:
   label:
     translation_type: textarea
