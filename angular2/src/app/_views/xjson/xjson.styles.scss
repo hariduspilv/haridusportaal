@@ -89,7 +89,7 @@ a {
       }
     }
   }
-  .button-list.button-list-top { padding: 0rem 0.5rem 1rem 0.5rem }
+  .button-list.button-list-top { padding: 1rem 0.5rem 1rem 0.5rem }
   
   table { width: 100%;border-collapse: collapse; margin: 0;
     thead {background: $light-gray;
@@ -256,7 +256,7 @@ a {
   
   // Select Checkboxes
   
-  .xjson__component ::ng-deep .xjson__component .mat-select-content {
+::ng-deep .mat-select-content {
     .mat-pseudo-checkbox {
     background: $white;
       background: $white; border: 0.0625rem solid $gray; border-radius: 0.125rem; }
@@ -269,9 +269,6 @@ a {
   }
   .xjson__component ::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
     margin-top: -0.5rem!important;
-  }
-   .mat-select-panel {
-    margin-top: 3.25rem;
   }
 
   .sub-button-list {
