@@ -23,11 +23,10 @@ class AuthenticationController extends ControllerBase {
 	$oidc = new OpenIDConnectClientCustom('https://tara-test.ria.ee/oidc', 'eduportaal', $tara_secret);
 	try{
 		$oidc->authenticate();
-		dump($oidc->requestUserInfo());
-		dump($oidc->getTokenResponse());
-		dump($oidc->getAccessToken());
-		dump($oidc->getVerifiedClaims('sub'));
-		dump($oidc->getVerifiedClaims('profile_attributes'));
+		$userInfo = $oidc->requestUserInfo();
+
+		$id_code = substr($userInfo->principalCode, 2);
+		dump($id_code);
 	}catch (OpenIDConnectClientException $e){
 		return new OpenIDConnectClientException($e);
 	}
