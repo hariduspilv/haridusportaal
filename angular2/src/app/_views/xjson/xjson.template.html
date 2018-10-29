@@ -379,17 +379,21 @@
 
 
                     <div class="scrollable">
-                      <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart"
-                        (touchstart)="tableService.scrollStart('tableRef')" (mousedown)="tableService.scrollStart('tableRef')"
-                        (touchend)="tableService.scrollEnd()" (mouseup)="tableService.scrollEnd()">
+                      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart[index]" 
+                        (touchstart)="tableService.scrollStart('xjsonTable_'+index)" 
+                        (mousedown)="tableService.scrollStart('xjsonTable_'+index)" 
+                        (touchend)="tableService.scrollEnd()" 
+                        (mouseup)="tableService.scrollEnd()">
                         <span class="htm-icon">keyboard_arrow_left</span>
                       </div>
-                      <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown"
-                        (touchstart)="tableService.scrollStart('tableRef', true)" (mousedown)="tableService.scrollStart('tableRef', true)"
-                        (touchend)="tableService.scrollEnd(true)" (mouseup)="tableService.scrollEnd(true)">
+                      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown[index]" 
+                        (touchstart)="tableService.scrollStart('xjsonTable_'+index, true)"
+                        (mousedown)="tableService.scrollStart('xjsonTable_'+index, true)"
+                        (touchend)="tableService.scrollEnd(true)"
+                        (mouseup)="tableService.scrollEnd(true)">
                         <span class="htm-icon">keyboard_arrow_right</span>
                       </div>
-                      <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
+                      <div class="scrollable__table" [attr.id]="'xjsonTable_' + index" (scroll)="tableOverflown[index] = tableService.isOverflownWhileScrolling($event); elemAtStart[index] = tableService.isElemAtStart('xjsonTable_'+index)">
 
                         <table class="scrollableTable">
 
