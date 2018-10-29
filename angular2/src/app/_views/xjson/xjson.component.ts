@@ -407,6 +407,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   tableDeleteRow(element, rowIndex) {
     this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
      data: {
+       title: this.translate.get('xjson.table_delete_row_confirm_modal_title')['value'],
        content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
        confirm: this.translate.get('button.yes')['value'],
        cancel: this.translate.get('button.cancel')['value'],
@@ -423,6 +424,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   promptEditConfirmation() {
 		 this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
 		  data: {
+        title: this.translate.get('xjson.edit_step_confirm_modal_title')['value'],
         content: this.translate.get('xjson.edit_step_confirm_modal_content')['value'],
         confirm: this.translate.get('button.yes')['value'],
         cancel: this.translate.get('button.cancel')['value'],
