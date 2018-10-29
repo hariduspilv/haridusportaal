@@ -526,7 +526,8 @@
           <div class="row button-list">
 
             <ng-container *ngFor="let link of navigationLinks">
-              <a href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
+              <a *ngIf="link.type === 'link'" href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
+              <button *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
             </ng-container>
 
             <ng-container *ngFor="let activity of activityButtons['primary']">
