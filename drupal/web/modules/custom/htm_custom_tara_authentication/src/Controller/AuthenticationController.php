@@ -3,11 +3,9 @@
 namespace Drupal\htm_custom_tara_authentication\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\openid_connect\Plugin\OpenIDConnectClientInterface;
-use Jumbojett\OpenIDConnectClient;
 use Jumbojett\OpenIDConnectClientException;
+use Drupal\htm_custom_authentication\OpenIDConnectClientCustom;
 use Drupal\Core\Site\Settings;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class AuthenticationController.
@@ -22,46 +20,18 @@ class AuthenticationController extends ControllerBase {
 	$tara_secret = settings::get('tara_secret');
 
 
-	$oidc = new OpenIDConnectClient('https://tara-test.ria.ee/oidc', 'eduportaal', $tara_secret);
-     	/*$oidc->providerConfigParam(
-      	[
-      		#'authorization_endpoint' => 'https://tara-test.ria.ee/oidc/authorize',
-		#'token_endpoint' => 'https://tara-test.ria.ee/oidc/token',
-		#'jwks_uri' => 'https://tara-test.ria.ee/oidc/jwks',
-	]);*/
-	#$oidc->setResponseTypes(array('id_token'));
-	#dump($_REQUEST);
-	#$oidc->setAllowImplicitFlow(TRUE);
-     	#$oidc->addScope('openid');
-	#$oidc->addAuthParam(['username' => 'eduportaal']);
-	#$oidc->addAuthParam(['password' => $tara_secret]);
-	#$clientCredentialsToken = $oidc->requestClientCredentialsToken()->access_token;
-	#dump($clientCredentialsToken);
-	#$oidc->setCertPath('./sites/default/files/public.key');
-	
-	$oidc->authenticate();
-	
-	dump($oidc->getTokenResponse());
-	dump($oidc->getAccessToken());
-	dump($oidc->getVerifiedClaims('sub'));
-	dump($oidc->getVerifiedClaims('profile_attributes'));
-
-
-	return [];
-
-      $oidc->setResponseTypes(array('code'));
-	dump($_REQUEST);
-	dump($_SESSION);
-      try{
-          $oidc->authenticate();
-      }catch(OpenIDConnectClientException $e){
-		#dump('jee');
-          throw new HttpException(500, $e->getMessage());
-      }
-      $userInfo = $oidc->requestUserInfo();
-      kint($oidc);
-      kint($userInfo);
-      die();
+	$oidc = new OpenIDConnectClientCustom('https://tara-test.ria.ee/oidc', 'eduportaal', $tara_secret);
+	try{
+		$oidc->authenticate();
+		dump($oidc->requestUserInfo());
+		dump($oidc->getTokenResponse());
+		dump($oidc->getAccessToken());
+		dump($oidc->getVerifiedClaims('sub'));
+		dump($oidc->getVerifiedClaims('profile_attributes'));
+	}catch (OpenIDConnectClientException $e){
+		return new OpenIDConnectClientException($e);
+	}
+	  return [];
   }
 
 }

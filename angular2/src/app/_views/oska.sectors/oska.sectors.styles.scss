@@ -8,7 +8,9 @@
     @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
     .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%;overflow: hidden;
       &--title {margin: auto 0;padding: .5rem;display: flex;align-items: center;min-height: 2.25rem;width: 100%;justify-content: center;
-        h1 {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;text-decoration: underline;}
+        h1 {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;
+          text-decoration: underline;padding: 0 .5rem;overflow: hidden;text-overflow: ellipsis;
+        }
       }
       &--pic {position: relative;
         @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {flex: 0 0 200px;}
@@ -16,10 +18,10 @@
       img {width: 100%;height: auto;box-sizing: border-box;display: block;
         @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {height: 200px;}
       }
-      .overlay {position: absolute;top: 0;left: 0;right: 0;bottom: 0; clear: float; background-color: $black; opacity: 0.2; }
-      &:hover {background-color: $light-gray;
+      .overlay {position: absolute;top: 0;left: 0;right: 0;bottom: 0;clear: float;background-color: rgba(51,51,51,.2);}
+      &:hover {background-color: $gray;
         .overlay {display: none;}
-        h1 {text-decoration: none;color: $black;}
+        h1 {text-decoration: none;color: $black;font-weight: 500;}
       }
     }
   }
