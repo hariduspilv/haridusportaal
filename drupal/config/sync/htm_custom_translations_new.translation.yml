@@ -1656,6 +1656,14 @@ errors:
     translation_type: textarea
     et: 'Info puudub'
     en: 'No data'
+  request:
+    translation_type: textarea
+    et: 'Vabandame, esines viga.'
+    en: 'Apologies. There was an error.'
+  img_missing:
+    translation_type: textarea
+    et: 'Pilt puudub'
+    en: 'Image missing'
 search:
   label:
     translation_type: textarea
@@ -1867,6 +1875,10 @@ oska:
     translation_type: textarea
     et: Võrdlus
     en: Compare
+  view:
+    translation_type: textarea
+    et: Vaade
+    en: View
 oskaProfession: {  }
 langcode: et
 sidebar:

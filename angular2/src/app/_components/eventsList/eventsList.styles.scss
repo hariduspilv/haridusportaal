@@ -1,0 +1,25 @@
+@import "../../../assets/styles/typography.scss"; 
+@import "../../../assets/styles/layout.scss"; 
+
+.explain{line-height:138%; color: $dark-gray; margin-bottom:0;}
+p{margin:0.375rem 0;}
+
+ul{list-style: none; padding:0; margin:0; }
+
+.htm-icon {
+	top: -0.0625rem;
+	 position: absolute;
+	 left: -1.75rem;
+}
+
+.list li {
+	border-bottom: solid 0.0625rem $gray;
+	margin: 0 -1.5rem;
+	padding: 1rem 1.5rem 1rem 3.25rem; 
+}
+
+.list li:last-of-type { border-bottom: solid 0px $gray; }
+
+.list a { text-decoration: none; position: relative; 
+	&:hover {text-decoration: underline;}
+}
