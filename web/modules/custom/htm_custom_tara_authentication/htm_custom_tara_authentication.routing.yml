@@ -1,8 +1,15 @@
 
-htm_custom_tara_authentication.authentication_controller_startAuthentication:
-  path: '/custom/login/tara/return'
+#htm_custom_tara_authentication.authentication_controller_startAuthentication:
+#  path: '/custom/login/tara/return'
+#  defaults:
+#    _controller: '\Drupal\htm_custom_tara_authentication\Controller\AuthenticationController::startAuthentication'
+#    _title: 'startAuthentication'
+#  requirements:
+#    _permission: 'access content'
+htm_custom_tara_authentication.redirect_controller_redirect:
+  path: '/custom/login/{client_name}/return'
   defaults:
-    _controller: '\Drupal\htm_custom_tara_authentication\Controller\AuthenticationController::startAuthentication'
-    _title: 'startAuthentication'
+    _controller: '\Drupal\openid_connect\Controller\RedirectController::authenticate'
+    _title: 'OpenID Connect redirect page'
   requirements:
-    _permission: 'access content'
+    _custom_access: '\Drupal\openid_connect\Controller\RedirectController::access'
