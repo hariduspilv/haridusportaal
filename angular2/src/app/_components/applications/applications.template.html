@@ -15,19 +15,15 @@
         </ng-container>
       </div>
       
+      <div class="grid-load" *ngIf="data.acceptable_forms.length > 4 && acceptable_forms_list.length == 4 && acceptable_forms_list_restricted == true">
+        <a href="javascript:void(0);" (click)="toggleAcceptableFormsList()">+ {{ 'button.show_more' | translate }} ({{ data.acceptable_forms.length - 4 }})</a>
+      </div>
       
-      <a class="grid-load" *ngIf="data.acceptable_forms.length > 4 && acceptable_forms_list.length == 4 && acceptable_forms_list_restricted == true" 
-        href="javascript:void(0);" (click)="toggleAcceptableFormsList()">
-        + {{ 'button.show_more' | translate }} ({{ data.acceptable_forms.length - 4 }})
-      </a>
-      
-      <a class="grid-load" *ngIf="acceptable_forms_list_restricted == false" 
-      href="javascript:void(0);" (click)="toggleAcceptableFormsList()">
-      - {{ 'button.show_less' | translate }}
-    </a>
-  </ng-container>
-</div>
-
+      <div class="grid-load" *ngIf="acceptable_forms_list_restricted == false">
+        <a href="javascript:void(0);" (click)="toggleAcceptableFormsList()">- {{ 'button.show_less' | translate }}</a>
+      </div>
+    </ng-container>
+  </div>
 <div>
   <h4>{{ 'frontpage.dashboard_tabs_applications_drafts_label' | translate }}</h4>
   
