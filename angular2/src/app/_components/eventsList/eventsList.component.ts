@@ -71,6 +71,8 @@ export class EventsListComponent implements OnInit, OnDestroy{
       this.events = data['nodeQuery']['entities'];
      
       subscription.unsubscribe();
+    }, err => {
+      this.loading = false;
     });
   }
 
