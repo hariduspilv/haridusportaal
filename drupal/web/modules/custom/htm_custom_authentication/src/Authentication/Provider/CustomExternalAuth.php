@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_authentication\Authentication\Provider;
 
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Drupal\externalauth\AuthmapInterface;
 use Drupal\externalauth\Event\ExternalAuthEvents;
 use Drupal\externalauth\Event\ExternalAuthLoginEvent;
@@ -17,13 +18,19 @@ class CustomExternalAuth extends ExternalAuth{
 
 	protected $jsonAuth;
 
-	public function __construct (EntityTypeManagerInterface $entity_manager, AuthmapInterface $authmap, LoggerInterface $logger, EventDispatcherInterface $event_dispatcher, JsonAuthenticationProvider $jsonAuthenticationProvider) {
+	/**
+	 * @var Session
+	 */
+	protected $session;
+
+	public function __construct (EntityTypeManagerInterface $entity_manager, AuthmapInterface $authmap, LoggerInterface $logger, EventDispatcherInterface $event_dispatcher, JsonAuthenticationProvider $jsonAuthenticationProvider, Session $session) {
 		#parent::__construct($entity_manager, $authmap, $logger, $event_dispatcher);
 		$this->entityManager = $entity_manager;
 		$this->authmap = $authmap;
 		$this->logger = $logger;
 		$this->eventDispatcher = $event_dispatcher;
 		$this->jsonAuth = $jsonAuthenticationProvider;
+		$this->session = $session;
 	}
 
 	public function load ($authname, $provider) {
@@ -44,6 +51,7 @@ class CustomExternalAuth extends ExternalAuth{
 		$this->logger->notice('External login of user %name', ['%name' => $account->getAccountName()]);
 		$this->eventDispatcher->dispatch(ExternalAuthEvents::LOGIN, new ExternalAuthLoginEvent($account, $provider, $authname));
 		$token = $this->jsonAuth->generateToken();
+		$this->session->clear();
 		user_logout();
 
 		return $token;

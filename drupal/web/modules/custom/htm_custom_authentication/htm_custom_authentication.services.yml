@@ -7,7 +7,7 @@ services:
   #Override externalauth service
   externalauth.externalauth:
     class: Drupal\htm_custom_authentication\Authentication\Provider\CustomExternalAuth
-    arguments: ['@entity_type.manager', '@externalauth.authmap', '@logger.channel.externalauth', '@event_dispatcher', '@authentication.custom_graphql_authentication']
+    arguments: ['@entity_type.manager', '@externalauth.authmap', '@logger.channel.externalauth', '@event_dispatcher', '@authentication.custom_graphql_authentication','@session']
   #Override current_user service and add custom functions
   current_user:
     class: Drupal\htm_custom_authentication\CustomAccountProxy
