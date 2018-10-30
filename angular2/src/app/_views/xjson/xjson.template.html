@@ -16,7 +16,7 @@
             </div>
           </ng-container>
 
-          <ul class="xjson__navigation" id="stepNavigation">
+          <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
             <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step" [class.disabled]="isStepDisabled(step)"
               *ngFor="let step of objectKeys(data.body.steps)">
               <a (click)="selectStep(step)">
@@ -118,11 +118,11 @@
                         </span>
 
                         <div class="round-input__field-wrapper">
-                          <mat-select class="round-input__field" placeholder="{{selectLanguage(data_elements[element].empty_option)}}"
+                          <mat-select class="round-input__field" placeholder=" {{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [(ngModel)]='data_elements[element].value' [disabled]="isFieldDisabled(data_elements[element].readonly)"
                             [name]="element" [multiple]="data_elements[element].multiple">
                             <ng-container *ngIf="!data_elements[element].multiple">
-                              <mat-option *ngIf="!data_elements[element].multiple">{{selectLanguage(data_elements[element].empty_option)}}</mat-option>
+                              <mat-option *ngIf="!data_elements[element].multiple" [value]="undefined">{{selectLanguage(data_elements[element].empty_option)}}</mat-option>
 
                               <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
                                 <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
@@ -525,7 +525,16 @@
             </ng-container>
           </form>
 
+         
           <div class="row button-list">
+            <div class="col-12">
+              <ng-container *ngFor="let activity of activityButtons['primary']">
+                <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+                  {{ activity.label | translate }}
+                </button>
+              </ng-container>
+            </div> <!-- /row button-list -->
+      
 
             <ng-container *ngFor="let link of navigationLinks">
               <a *ngIf="link.type === 'link'" href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
@@ -533,7 +542,7 @@
             </ng-container>
 
             <ng-container *ngFor="let activity of activityButtons['primary']">
-              <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+              <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
                 {{ activity.label | translate }}
               </button>
             </ng-container>
