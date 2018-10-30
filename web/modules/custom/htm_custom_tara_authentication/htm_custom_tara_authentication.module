@@ -22,3 +22,7 @@ function htm_custom_tara_authentication_help($route_name, RouteMatchInterface $r
     default:
   }
 }
+
+function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$userinfo, array $context) {
+	$userinfo['email'] = 'tere@gmail.com';
+}
