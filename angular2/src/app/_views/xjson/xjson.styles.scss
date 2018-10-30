@@ -13,11 +13,11 @@ input { font-size: 0.875rem; }
 
 .xjson{
   &__title{width:100%; color:$black; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
-  &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500; margin-bottom: 0.5rem; }
+  &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.375rem; text-decoration: none; font-weight: 500; margin-bottom: 0.5rem; }
   &__introduction { font-weight: 500; }
   &__step-introduction{ margin-top: 1rem; margin-bottom: 1rem; width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none; font-size: 500; }
-  &__heading{ margin-bottom: 0.5rem; width: 100%; display: block; font-size: 1rem; font-weight: 500; line-height: 1; text-align: left; color: #333333;}
-  &__textarea__info { margin-bottom: 1rem; display: block; }
+  &__heading{ margin-bottom: 0.5rem; width: 100%; display: block; font-size: 1rem; font-weight: 500; line-height: 1.375rem; text-align: left; color: #333333;}
+  &__textarea__info { margin-bottom: 1rem; display: block; line-height: 1.375rem; }
   &__navigation{ list-style-type: none; padding-left: 1.5rem; padding-right: 1.5rem; margin-left: -1.5rem; margin-right: -1.5rem; display: flex; padding-top: 1rem; margin-top: 2rem; overflow-x: auto; padding-bottom: 2rem; margin-bottom: 0px;
     @include break-on(sm, max) { justify-content: flex-start; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem; padding-right: 1.5rem; }
   }
@@ -230,7 +230,7 @@ a {
     -webkit-appearance: none; 
     margin: 0; 
   }
-  .table-heading { margin-top: 0.5rem;}
+  .table-heading { margin-top: 0.5rem; line-height:1.375rem; }
   table {
     th {
       white-space: nowrap;
@@ -248,7 +248,7 @@ a {
   .xjson__component ::ng-deep input.contnent-input:disabled { border: 0px solid transparent!important; min-width: 100%; }
   .scrollable { padding: $small 0 $gutter 0; }
   .mat-input-element:disabled { color: $dark-gray; }
-  .table-link { white-space: nowrap; }
+  .table-link { white-space: nowrap; padding: 0.5rem 1rem; }
   
   .xjson__component ::ng-deep table .mat-select-placeholder { margin-top: 0.4rem; display: block; }
   .xjson__component ::ng-deep table .mat-select-value-text { margin-top: 0.4rem; display: block; }
