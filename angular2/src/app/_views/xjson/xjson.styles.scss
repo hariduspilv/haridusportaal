@@ -189,27 +189,27 @@ a {
   
   /*ALERTS*/
   
-  .NOTICE { margin-bottom: 1rem; position: relative; border-radius: 0.25rem; background-color: #f1f7fe; border: solid 0.0625rem #1565c0; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
+  .NOTICE { margin-bottom: 1rem; position: relative; border-radius: 0.25rem; background-color: #f1f7fe; border: solid 0.0625rem $info; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
     &:before {
-      font-family: 'htm-icon'; content: "info"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: #1565c0; position: absolute;
+      font-family: 'htm-icon'; content: "info"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $info; position: absolute;
       left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400; 
     } 
   }
-  .WARNING { margin-bottom: 1rem; position: relative; border-radius: 0.25rem; background-color: #fff7eb; border: solid 0.0625rem #f5a623; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
-    &:before {
-      font-family: 'htm-icon'; content: "info"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: #f5a623; position: absolute;
+  .WARNING { margin-bottom: 1rem; position: relative; border-radius: 0.25rem; background-color: #fff7eb; border: solid 0.0625rem $warning; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
+    &:before {transform:rotate(180deg);
+      font-family: 'htm-icon'; content: "info"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $warning; position: absolute;
       left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;
     }
   }
-  .ERROR { margin-bottom: 1rem; position: relative; border-radius: 4px; background-color: #fdf3f4; border: solid 1px #d0021b; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
+  .ERROR { margin-bottom: 1rem; position: relative; border-radius: 4px; background-color: #fdf3f4; border: solid 1px $error; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
     &:before {
-      font-family: 'htm-icon'; content: "highlight_off"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: #d0021b; position: absolute;
+      font-family: 'htm-icon'; content: "highlight_off"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $error; position: absolute;
       left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;
     }
   }
-  .SUCCESS { margin-bottom: 1rem; position: relative;border-radius: 4px; background-color: #e6f5ef; border: solid 1px #008d53; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
+  .SUCCESS { margin-bottom: 1rem; position: relative;border-radius: 4px; background-color: #e6f5ef; border: solid 1px $success; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
     &:before {
-      font-family: 'htm-icon'; content: "check_circle"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: #008d53; position: absolute;
+      font-family: 'htm-icon'; content: "check_circle"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $success; position: absolute;
       left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;
     } 
   }   

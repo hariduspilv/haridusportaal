@@ -3,9 +3,8 @@
 namespace Drupal\htm_custom_tara_authentication\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\openid_connect\Plugin\OpenIDConnectClientInterface;
-use Jumbojett\OpenIDConnectClient;
 use Jumbojett\OpenIDConnectClientException;
+use Drupal\htm_custom_authentication\OpenIDConnectClientCustom;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -20,48 +19,23 @@ class AuthenticationController extends ControllerBase {
 	header("Pragma: no-cache");
 		
 	$tara_secret = settings::get('tara_secret');
+	$oidc = new OpenIDConnectClientCustom('https://tara-test.ria.ee/oidc', 'eduportaal', $tara_secret);
 
+	try{
+		$oidc->authenticate();
 
-	$oidc = new OpenIDConnectClient('https://tara-test.ria.ee/oidc', 'eduportaal', $tara_secret);
-     	/*$oidc->providerConfigParam(
-      	[
-      		#'authorization_endpoint' => 'https://tara-test.ria.ee/oidc/authorize',
-		#'token_endpoint' => 'https://tara-test.ria.ee/oidc/token',
-		#'jwks_uri' => 'https://tara-test.ria.ee/oidc/jwks',
-	]);*/
-	#$oidc->setResponseTypes(array('id_token'));
-	#dump($_REQUEST);
-	#$oidc->setAllowImplicitFlow(TRUE);
-     	#$oidc->addScope('openid');
-	#$oidc->addAuthParam(['username' => 'eduportaal']);
-	#$oidc->addAuthParam(['password' => $tara_secret]);
-	#$clientCredentialsToken = $oidc->requestClientCredentialsToken()->access_token;
-	#dump($clientCredentialsToken);
-	#$oidc->setCertPath('./sites/default/files/public.key');
-	
-	$oidc->authenticate();
-	
-	dump($oidc->getTokenResponse());
-	dump($oidc->getAccessToken());
-	dump($oidc->getVerifiedClaims('sub'));
-	dump($oidc->getVerifiedClaims('profile_attributes'));
+		$userInfo = $oidc->requestUserInfo();
+		$id_code = substr($userInfo->principalCode, 2);
 
+		$external_auth = \Drupal::service('externalauth.externalauth');
+		$token = $external_auth->loginRegister('TARA', $id_code, ['field_user_idcode' => $id_code]);
+		dump($token);
+	}catch (OpenIDConnectClientException $e){
+		#return new TrustedRedirectResponse('https://delfi.ee');
+		return new HttpException('400', 'jama on');
 
-	return [];
-
-      $oidc->setResponseTypes(array('code'));
-	dump($_REQUEST);
-	dump($_SESSION);
-      try{
-          $oidc->authenticate();
-      }catch(OpenIDConnectClientException $e){
-		#dump('jee');
-          throw new HttpException(500, $e->getMessage());
-      }
-      $userInfo = $oidc->requestUserInfo();
-      kint($oidc);
-      kint($userInfo);
-      die();
+	}
+	  return [];
   }
 
 }
