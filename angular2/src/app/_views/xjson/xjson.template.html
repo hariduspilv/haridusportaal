@@ -379,20 +379,24 @@
 
 
                     <div class="scrollable">
-                      <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart"
-                        (touchstart)="tableService.scrollStart('tableRef')" (mousedown)="tableService.scrollStart('tableRef')"
-                        (touchend)="tableService.scrollEnd()" (mouseup)="tableService.scrollEnd()">
+                      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart[index]" 
+                        (touchstart)="tableService.scrollStart('xjsonTable_'+index)" 
+                        (mousedown)="tableService.scrollStart('xjsonTable_'+index)" 
+                        (touchend)="tableService.scrollEnd()" 
+                        (mouseup)="tableService.scrollEnd()">
                         <span class="htm-icon">keyboard_arrow_left</span>
                       </div>
-                      <div class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown"
-                        (touchstart)="tableService.scrollStart('tableRef', true)" (mousedown)="tableService.scrollStart('tableRef', true)"
-                        (touchend)="tableService.scrollEnd(true)" (mouseup)="tableService.scrollEnd(true)">
+                      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown[index]" 
+                        (touchstart)="tableService.scrollStart('xjsonTable_'+index, true)"
+                        (mousedown)="tableService.scrollStart('xjsonTable_'+index, true)"
+                        (touchend)="tableService.scrollEnd(true)"
+                        (mouseup)="tableService.scrollEnd(true)">
                         <span class="htm-icon">keyboard_arrow_right</span>
                       </div>
-                      <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef')">
+                      <div class="scrollable__table" [attr.id]="'xjsonTable_' + index" (scroll)="tableOverflown[index] = tableService.isOverflownWhileScrolling($event); elemAtStart[index] = tableService.isElemAtStart('xjsonTable_'+index)">
 
                         <table class="scrollableTable">
-
+                        <thead>
                           <tr>
                             <ng-container *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
                               <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
@@ -407,7 +411,8 @@
                               <!-- extra column for action buttons -->
                             </th>
                           </tr>
-
+                        </thead>
+                          <tbody>
                           <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
                             <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
 
@@ -470,17 +475,8 @@
                                     </mat-option>
                                   </mat-select>
 
-</div>
-</div>
-
-
-                                 
-
-            
-                          
-                      
-
-
+                                </div>
+                                </div>
 
                                 </ng-container> <!-- /SELECTLIST -->
 
@@ -495,25 +491,23 @@
                               </td>
                             </ng-container> <!-- END OF *NGFOR COLUMNS-->
 
-                            <td *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
-                              <a class="table-link" href="javascript:void(0);" (click)="tableDeleteRow(element, rowIndex)">
-                                {{ 'button.delete_table_row' | translate }}
-                              </a>
-                            </td>
-
                           </tr> <!-- END OF *NGFOR COLUMNS-->
 
-                          <tr *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
-                            <td [attr.colspan]="objectKeys(data_elements[element].table_columns).length + 1">
-                              <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
-                                + {{ 'button.add_table_row' | translate | uppercase }}
-                              </a>
-                            </td>
-                          </tr> <!-- ADD_DEL_ROWS -->
-
+                        </tbody>
                         </table>
+
+
                       </div>
                     </div>
+
+                    <div *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                        <div [attr.colspan]="objectKeys(data_elements[element].table_columns).length + 1">
+                          <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
+                            + {{ 'button.add_table_row' | translate }}
+                          </a>
+                        </div>
+                      </div> <!-- ADD_DEL_ROWS -->
+
                   </ng-container> <!-- /TABLE -->
 
                   <ng-container *ngIf="error[element] && error[element].row == undefined">

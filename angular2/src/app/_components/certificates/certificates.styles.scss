@@ -102,7 +102,7 @@ h4.title-lg-padding { margin-bottom: 1rem; }
     &__paragraph {a {width: 100%; line-height: 2.5rem; box-sizing: border-box;}}
   }
 }
-
+.scrollable.scrollable__applications {padding: 0;}
 .grid {
   &-box { display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-between; margin-right: -1rem; }
   &-item { text-decoration: none; text-align: center; padding: 1rem 0.5rem; border-radius: 0.25rem; border: solid 1px $gray; background-color: $white;
