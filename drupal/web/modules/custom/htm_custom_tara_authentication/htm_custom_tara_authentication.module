@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_help().
@@ -25,7 +26,7 @@ function htm_custom_tara_authentication_help($route_name, RouteMatchInterface $r
 
 function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$userinfo, array $context) {
 	$userinfo['email'] = 'tere@gmail.com';
-	$sub = $context['userdata']['sub'];
+	$sub = $context['user_data']['sub'];
 	$userinfo['id_code'] = substr($sub, 2);
 }
 
@@ -36,5 +37,13 @@ function htm_custom_tara_authentication_openid_connect_claims(&$claims){
 		'type' => 'string',
 		'description' => 'ID code',
 	];
+}
+
+function htm_custom_tara_authentication_openid_connect_post_authorize(array $tokens, UserInterface $account, array $userinfo, $plugin_id) {
+	$auth_service = \Drupal::service('authentication.custom_graphql_authentication');
+	$token = $auth_service->generateToken();
+	user_logout();
+
+	return new \Drupal\Core\Routing\TrustedRedirectResponse('htm.twn.ee/jwt='.$token);
 }
 
