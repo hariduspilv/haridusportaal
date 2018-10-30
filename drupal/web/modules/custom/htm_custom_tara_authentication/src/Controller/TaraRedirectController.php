@@ -39,7 +39,7 @@ class TaraRedirectController extends RedirectController{
 		$token = $this->jsonAuth->generateToken();
 		$_SESSION['openid_connect_destination'] = [
 			'/user',
-			['query' => '?jwt='.$token]
+			['query' => 'jwt='.$token]
 		];
 		return parent::authenticate($client_name);
 		dump($token);
