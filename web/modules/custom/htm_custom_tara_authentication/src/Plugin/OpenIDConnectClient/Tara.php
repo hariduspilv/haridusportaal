@@ -21,6 +21,31 @@ use Exception;
  *   label = @Translation("TARA")
  * )
  */
+
+/**
+ * A wrapper around base64_decode which decodes Base64URL-encoded data,
+ * which is not the same alphabet as base64.
+ */
+function base64url_decode($base64url) {
+	return base64_decode(b64url2b64($base64url));
+}
+
+/**
+ * Per RFC4648, "base64 encoding with URL-safe and filename-safe
+ * alphabet".  This just replaces characters 62 and 63.  None of the
+ * reference implementations seem to restore the padding if necessary,
+ * but we'll do it anyway.
+ *
+ */
+function b64url2b64($base64url) {
+	// "Shouldn't" be necessary, but why not
+	$padding = strlen($base64url) % 4;
+	if ($padding > 0) {
+		$base64url .= str_repeat("=", 4 - $padding);
+	}
+	return strtr($base64url, '-_', '+/');
+}
+
 class Tara extends OpenIDConnectClientBase {
 
 	private $userToken;
@@ -173,9 +198,21 @@ class Tara extends OpenIDConnectClientBase {
 	 *   A result array or false.
 	 */
 	public function retrieveUserInfo($access_token) {
-		dump($this->userToken);
-		dump($access_token);
+		#dump($this->userToken);
+		$jwt = $this->userToken['id_token'];
+		dump($this->decodeJWT($jwt, 1));
+		#dump($access_token);
 	}
 
+	/**
+	 * @param $jwt string encoded JWT
+	 * @param int $section the section we would like to decode
+	 * @return object
+	 */
+	private function decodeJWT($jwt, $section = 0) {
+
+		$parts = explode(".", $jwt);
+		return json_decode(base64url_decode($parts[$section]));
+	}
 
 }
