@@ -40,7 +40,7 @@
             {{selectLanguage(data.body.steps[opened_step].introduction) }} 
           </div>
 
-          <form (submit)="submitForm()" *ngIf="objectKeys(data_elements).length > 0">
+          <form [class.disabled-step]="opened_step != this.max_step" (submit)="submitForm()" *ngIf="objectKeys(data_elements).length > 0">
 
             <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
 
@@ -86,15 +86,18 @@
                   </ng-container> <!-- /TEXT -->
 
                   <ng-container *ngIf="data_elements[element].type == 'textarea'">
-                    <span class="xjson__textarea__info">
-                      {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
-                    </span>
+                      <div class="round-input__area">
 
                     <div class="round-input__outer-wrapper">
+                        <div class="round-input__wrapper" [class.complete]="data_elements[element].value">
+                                          <span class="xjson__textarea__info round-input__title">
+                      {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
+                    </span>
                       <div class="round-input__area">
                         <textarea class="round-input__area__elem" [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                           [(ngModel)]='data_elements[element].value' placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [name]="element"></textarea>
+                      </div>
                       </div>
                       <div class="helper-wrapper" >
                         <ng-container *ngIf="data_elements[element].helpertext">
@@ -103,6 +106,7 @@
                           </span>
                         </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
                       </div>
+                    </div>
                     </div>
                   </ng-container> <!-- /TEXTAREA -->
 
@@ -114,11 +118,11 @@
                         </span>
 
                         <div class="round-input__field-wrapper">
-                          <mat-select class="round-input__field" placeholder="{{selectLanguage(data_elements[element].empty_option)}}"
+                          <mat-select class="round-input__field" placeholder=" {{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [(ngModel)]='data_elements[element].value' [disabled]="isFieldDisabled(data_elements[element].readonly)"
                             [name]="element" [multiple]="data_elements[element].multiple">
                             <ng-container *ngIf="!data_elements[element].multiple">
-                              <mat-option *ngIf="!data_elements[element].multiple">{{selectLanguage(data_elements[element].empty_option)}}</mat-option>
+                              <mat-option *ngIf="!data_elements[element].multiple" [value]="undefined">{{selectLanguage(data_elements[element].empty_option)}}</mat-option>
 
                               <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
                                 <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
