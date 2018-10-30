@@ -39,3 +39,9 @@ function htm_custom_tara_authentication_openid_connect_claims(&$claims){
 	];
 }
 
+function htm_custom_tara_authentication_openid_connect_post_authorize(array $tokens, UserInterface $account, array $userinfo, $plugin_id) {
+	$auth_service = \Drupal::service('authentication.custom_graphql_authentication');
+	$token = $auth_service->generateToken();
+
+}
+
