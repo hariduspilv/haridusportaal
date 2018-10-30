@@ -41,7 +41,7 @@ class TaraRedirectController extends RedirectController{
 			'/user',
 			['query' => '?jwt='.$token]
 		];
-		parent::authenticate($client_name);
+		return parent::authenticate($client_name);
 		dump($token);
 		die();
 
