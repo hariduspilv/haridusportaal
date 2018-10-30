@@ -95,14 +95,9 @@ class JsonbWidget extends StringTextareaWidget {
 			if (isset($value['body']) && !empty($value['body'])) {
 				(isset($value['body']['title'])) ? $this->checkTextLanguages($value['body']['title'], 'body.title') : $this->setErrorMessage(t("body.title missing or not array"));
 				if (isset($value['body']['introduction'])) $this->checkTextLanguages($value['body']['introduction'], 'body.introduction');
-
+				if(isset($value['body']['hide_steps']) && !is_bool($value['body']['hide_steps'])) $this->setErrorMessage(t("body.hide_steps must be bool"));
 				if (isset($value['body']['steps']) && !empty($value['body']['steps'])) {
 					$steps = array_keys($value['body']['steps']);
-					$step_keys = array_flip($steps);
-					if(isset($step_keys['hide_steps'])){
-						if(!is_bool($value['body']['steps']['hide_steps'])) $this->setErrorMessage(t('body.steps.hide_steps must be bool'));
-						unset($steps[$step_keys['hide_steps']]);
-					}
 					$steps_count = count($steps);
 					if (isset($value['header'])) {
 						if ($steps_count != $value['header']['number_of_steps']) $this->setErrorMessage(t('header.number_of_steps and body.steps count is different'));
