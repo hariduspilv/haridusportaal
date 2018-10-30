@@ -1,26 +1,24 @@
 
-<div class="block padding-block gutter-bottom sm-top border-orange">
+<div class="block padding-block gutter-bottom sm-top border-orange" *ngIf="loading">
   <div class="block-title-big" role="list">{{ 'event.label' | translate }}</div>
-
-  <mat-spinner *ngIf="loading" ></mat-spinner>
-  <ng-container *ngIf="!loading">
-    <p *ngIf="!events.length" class="explain">{{ 'frontpage.favourites_events_none_message' | translate }}</p>
-
-    <ul class="list" *ngIf="events.length" role="list">
-      <ng-container *ngFor="let event of events">
-        <li *ngIf="event.title && event.entityUrl.path">
-          <a attr.aria-label="{{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM' }} {{ 'time.time_of_day' | translate }} {{ event.fieldEventMainStartTime | unixToTime }}: {{ event.title }}" 
-            role="link" [routerLink]="[event.entityUrl.path]">
-            <div>
-              {{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM' }}
-              {{ 'time.time_of_day' | translate }}
-              {{ event.fieldEventMainStartTime | unixToTime }}
-            </div>
-            <h2>{{ event.title }}</h2>
-          </a>
-        </li>
-      </ng-container>
-      <li><a class="viewAll" attr.aria-label="{{ 'event.label' | translate }}: {{ 'button.view_all' | translate }}" role="link" [routerLink]="viewAllEventsLink()">{{ 'button.view_all' | translate }}</a></li>
-    </ul>
-  </ng-container>
+  <mat-spinner></mat-spinner>
+</div>
+<div class="block padding-block gutter-bottom sm-top border-orange" *ngIf="!loading && events && events.length">
+  <div class="block-title-big" role="list">{{ 'event.label' | translate }}</div>
+  <ul class="list" role="list">
+    <ng-container *ngFor="let event of events">
+      <li *ngIf="event.title && event.entityUrl.path">
+        <a attr.aria-label="{{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM' }} {{ 'time.time_of_day' | translate }} {{ event.fieldEventMainStartTime | unixToTime }}: {{ event.title }}" 
+          role="link" [routerLink]="[event.entityUrl.path]">
+          <div>
+            {{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM' }}
+            {{ 'time.time_of_day' | translate }}
+            {{ event.fieldEventMainStartTime | unixToTime }}
+          </div>
+          <h2>{{ event.title }}</h2>
+        </a>
+      </li>
+    </ng-container>
+    <li><a class="viewAll" attr.aria-label="{{ 'event.label' | translate }}: {{ 'button.view_all' | translate }}" role="link" [routerLink]="viewAllEventsLink()">{{ 'button.view_all' | translate }}</a></li>
+  </ul>
 </div>
