@@ -17,6 +17,7 @@ export class CompareComponent implements OnInit, OnDestroy{
   
   checked:boolean;
 
+  keydown: boolean = false;
   compareViewLink: string;
   compareViewLinkOptions = {
     "studyProgramme.compare":{
@@ -135,9 +136,18 @@ export class CompareComponent implements OnInit, OnDestroy{
         duration: 600000,
         panelClass: panelClass
       });
+
       snackBarRef.afterDismissed().subscribe((obj) => {
         if (obj.dismissedByAction) {
-          this.router.navigateByUrl(this.compareViewLink);
+          if (this.keydown) {
+            console.log('NETI');
+            window.open(`${window.location.href.split('?')[0]}/vordlus`, '_blank');
+            this.snackBarOpen = false;
+          } else {
+            console.log('regular');
+            this.router.navigateByUrl(this.compareViewLink);
+            this.snackBarOpen = false;
+          }
         }
       })
     } else if (!this.viewLink){
@@ -146,6 +156,12 @@ export class CompareComponent implements OnInit, OnDestroy{
     }
   }
   ngOnInit() {
+    document.addEventListener('keydown', (event) => {
+      if (event.ctrlKey || event.metaKey) {
+        this.keydown = true;
+        console.log('running')
+      }
+    });
     this.compare = this.readFromLocalStorage(this.localStorageKey);
   
     this.checked = this.isChecked(this.id);
