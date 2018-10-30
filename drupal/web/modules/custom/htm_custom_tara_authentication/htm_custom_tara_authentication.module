@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_help().
@@ -36,5 +37,12 @@ function htm_custom_tara_authentication_openid_connect_claims(&$claims){
 		'type' => 'string',
 		'description' => 'ID code',
 	];
+}
+
+function htm_custom_tara_authentication_openid_connect_post_authorize_alter(array $tokens, UserInterface $account, array $userinfo, $plugin_id) {
+	$auth_service = \Drupal::service('authentication.custom_graphql_authentication');
+	$token = $auth_service->generateToken();
+	dump($token);
+	user_logout();
 }
 
