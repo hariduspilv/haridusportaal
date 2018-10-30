@@ -25,6 +25,8 @@ function htm_custom_tara_authentication_help($route_name, RouteMatchInterface $r
 
 function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$userinfo, array $context) {
 	$userinfo['email'] = 'tere@gmail.com';
+	$sub = $context['userinfo']['sub'];
+	$userinfo['id_code'] = substr($sub, 2);
 }
 
 function htm_custom_tara_authentication_openid_connect_claims(&$claims){
