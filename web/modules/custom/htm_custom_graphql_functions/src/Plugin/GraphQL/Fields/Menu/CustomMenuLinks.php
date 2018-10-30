@@ -5,14 +5,10 @@ namespace Drupal\htm_custom_graphql_functions\Plugin\GraphQL\Fields\Menu;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Menu\MenuLinkInterface;
 use Drupal\Core\Menu\MenuLinkTreeElement;
-use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
-use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 use Drupal\graphql_core\Plugin\GraphQL\Fields\Menu\MenuLinks;
 use Drupal\system\MenuInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
 
 /**
