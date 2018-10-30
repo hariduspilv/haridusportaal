@@ -194,25 +194,26 @@ class Tara extends OpenIDConnectClientBase {
 	 * @param string $access_token
 	 *   An access token string.
 	 *
-	 * @return array|bool
+	 * @return array
 	 *   A result array or false.
 	 */
 	public function retrieveUserInfo($access_token) {
 		#dump($this->userToken);
 		$jwt = $this->userToken['id_token'];
-		dump($this->decodeJWT($jwt, 1));
+		#dump($this->decodeJWT($jwt, 1));
+		return $this->decodeJWT($jwt, 1);
 		#dump($access_token);
 	}
 
 	/**
 	 * @param $jwt string encoded JWT
 	 * @param int $section the section we would like to decode
-	 * @return object
+	 * @return array
 	 */
 	private function decodeJWT($jwt, $section = 0) {
 
 		$parts = explode(".", $jwt);
-		return json_decode(base64url_decode($parts[$section]));
+		return json_decode(base64url_decode($parts[$section]), true);
 	}
 
 }
