@@ -46,10 +46,10 @@
         <div class="col-9 sm-12 form-col">
           <div class="round-input__wrapper">
             <mat-form-field *ngIf="FilterOptions" >
-              <mat-select placeholder="{{ 'button.sort' | translate }}" [(ngModel)]='filterFormItems.sort' name="sort">
+              <mat-select placeholder="{{ 'button.sort' | translate }}" [(ngModel)]='filterFormItems.sortedBy' name="sortedBy">
                 <mat-option>{{ 'button.all' | translate }}</mat-option>
-                <mat-option  *ngFor="let level of FilterOptions.sort" [value]="sort.tid">
-                  {{level.entityLabel}}
+                <mat-option  *ngFor="let sort of FilterOptions.sortedBy" [value]="sort.id">
+                  {{sort.name}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -92,7 +92,7 @@
   <div *ngIf="data && data.length > 0">
   
     <ng-container *ngFor="let item of data; let i = index">
-      <div class="studyProgramme__item">
+      <div class="studyProgramme__item" *ngIf="i < listLimit">
         <div class="studyProgramme__item__titlebox">
           <div class="col-grow">
             <!-- <div class="studyProgramme__item__head sm-hide">{{ 'oskaProfessions.label' | uppercase }}</div> -->
@@ -119,7 +119,7 @@
           <ng-container *ngIf="item.reverseOskaMainProfessionOskaIndicatorEntity.entities && item.reverseOskaMainProfessionOskaIndicatorEntity.entities.length">
             <ng-container *ngFor="let elem of item.reverseOskaMainProfessionOskaIndicatorEntity.entities; let ind = index;">
               <ng-container *ngIf="ind < 2">
-                <span class="bar" *ngIf="(ind === 0 && item.fieldSidebar) || ind > 0">|</span>
+                <span class="bar" *ngIf="(ind === 0 && item.fieldSidebar && item.fieldSidebar.entity.fieldOskaField && item.fieldSidebar.entity.fieldOskaField.length) || ind > 0">|</span>
                 <span class="item">{{ elem.oskaIndicator | titleCase }}: {{ elem.value | titleCase }}</span>
               </ng-container>
             </ng-container>
