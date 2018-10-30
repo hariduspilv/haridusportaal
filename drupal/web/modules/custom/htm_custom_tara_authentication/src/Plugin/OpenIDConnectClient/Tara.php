@@ -72,7 +72,7 @@ class Tara extends OpenIDConnectClientBase {
 				'client_id' => $this->configuration['client_id'],
 				'response_type' => 'code',
 				'scope' => 'openid',
-				'redirect_uri' => $redirect_uri->getGeneratedUrl(),
+				'redirect_uri' => 'https://htm.wiseman.ee/custom/login/tara/return',
 				'state' => StateToken::create(),
 			],
 		];
@@ -121,7 +121,7 @@ class Tara extends OpenIDConnectClientBase {
 				'code' => $authorization_code,
 				'client_id' => $this->configuration['client_id'],
 				'client_secret' => $this->configuration['client_secret'],
-				'redirect_uri' => $redirect_uri,
+				'redirect_uri' => 'https://htm.wiseman.ee/custom/login/tara/return',
 				'grant_type' => 'authorization_code',
 			],
 			'headers' => [
@@ -158,6 +158,19 @@ class Tara extends OpenIDConnectClientBase {
 				->error('@message. Details: @error_message', $variables);
 			return FALSE;
 		}
+	}
+
+	/**
+	 * Implements OpenIDConnectClientInterface::retrieveUserInfo().
+	 *
+	 * @param string $access_token
+	 *   An access token string.
+	 *
+	 * @return array|bool
+	 *   A result array or false.
+	 */
+	public function retrieveUserInfo($access_token) {
+		dump($access_token);
 	}
 
 
