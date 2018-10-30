@@ -39,13 +39,10 @@ const XJSON_DATEPICKER_FORMAT = {
 })
 export class XjsonComponent implements OnInit, OnDestroy {
 
-  public tableOverflown: any = { 
-    0:true,1:true
-  };
-  public elemAtStart: any = {
-    0:true,1:true
-  };
-  
+  public tableOverflown: any = {};
+  public elemAtStart: any = {};
+  public tableCountPerStep: number = 0;
+  public tableIndexes = [];
 
   public objectKeys = Object.keys;
   public test: boolean;
@@ -705,6 +702,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
 
   viewController(xjson){
+    this.tableCountPerStep = 0;
+    this.tableIndexes = [];
+    this.tableOverflown = {};
+    this.elemAtStart = {};
     this.data = xjson;
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
 
@@ -718,6 +719,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
       else this.getData(payload)
 
     } else {
+
+      //Count table elements and set initial settings
+      Object.values(this.data_elements).forEach((elem, index) => {
+        if (elem['type'] === 'table') this.tableIndexes.push(index);
+      })
+      this.tableIndexes.forEach((elem) => {
+        this.elemAtStart[elem] = true;
+        this.tableOverflown[elem] = true;
+      })
+
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
 
       this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity)
