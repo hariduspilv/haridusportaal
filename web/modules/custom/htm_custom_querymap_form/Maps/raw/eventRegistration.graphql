@@ -10,7 +10,6 @@ mutation(
   $comment: String
 ){
   createEventRegistration(input:{
-
     event_id:$event_id,
     id_code:$id_code,
     first_name:$first_name,
