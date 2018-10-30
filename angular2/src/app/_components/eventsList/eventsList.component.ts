@@ -19,6 +19,8 @@ export class EventsListComponent implements OnInit, OnDestroy{
 
   public lang: string;
 
+  public date: any = new Date();
+  public currentYear: number = this.date.getFullYear();
   public loading: boolean = false;
   public subscriptions: Subscription[] = [];
 
@@ -43,6 +45,10 @@ export class EventsListComponent implements OnInit, OnDestroy{
       case 'en':  return '/en/events';
       default: return '/et/sundmused';
     }
+  }
+
+  compareDate(unixDate) {
+    return new Date(unixDate * 1000).getFullYear() > this.currentYear;
   }
 
   getData(){
