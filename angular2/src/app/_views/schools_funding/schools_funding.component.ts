@@ -187,6 +187,35 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
   }
 
+  mapLabelSwitcher() {
+    //TODO: Not detecting changs
+    return false;
+    var deleteId;
+    for( var i in this.mapOptions.styles ){
+      if( this.mapOptions.styles[i].elementType =="labels" ){
+        deleteId = i;
+      }
+    }
+
+    if( deleteId ){
+      delete this.mapOptions.styles[deleteId];
+    }
+
+    if( this.view == "areas" ){
+      this.mapOptions.styles.push({
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            },
+            {
+                "color": "#f49f53"
+            }
+        ]
+      });
+    }
+  }
+
   getData() {
 
     if(this.map){
@@ -198,6 +227,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.loading = true;
 
     let url = "/graphql?queryId=subsidyProjectQueryLocation:1&variables=";
+
+    this.mapLabelSwitcher();
 
     if( this.view == "schools" ){
       url = "/graphql?queryId=subsidyProjectQuerySchool:1&variables=";
@@ -274,7 +305,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     let url = "/assets/polygons/"+this.polygonLayer+".json";
     let subscription = this.http.get(url).subscribe( data => {
       this.polygons = this.assignPolygonsColors(data);
-      console.log(this.polygons);
+
       this.loading = false;
       subscription.unsubscribe();
     });
@@ -363,7 +394,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
 
   kmlHover(){
-    console.log("aa");
+
   }
 
   changeLayer(name){
@@ -390,6 +421,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   ngOnInit() {
 
     this.mapOptions.styles = this.rootScope.get("mapStyles");
+
     this.setPaths();
     this.pathWatcher();
     this.getFilters();
