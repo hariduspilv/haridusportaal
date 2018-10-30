@@ -11,9 +11,10 @@
         <a attr.aria-label="{{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM' }} {{ 'time.time_of_day' | translate }} {{ event.fieldEventMainStartTime | unixToTime }}: {{ event.title }}" 
           role="link" [routerLink]="[event.entityUrl.path]">
           <div>
-            {{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM' }}
-            {{ 'time.time_of_day' | translate }}
-            {{ event.fieldEventMainStartTime | unixToTime }}
+            <span>{{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM' }}</span>
+            <span *ngIf="compareDate(event.fieldEventMainDate.unix)">{{ event.fieldEventMainDate.unix*1000 | date: 'yyyy' }}</span>
+            <span>{{ 'time.time_of_day' | translate }}</span>
+            <span>{{ event.fieldEventMainStartTime | unixToTime }}</span>
           </div>
           <h2>{{ event.title }}</h2>
         </a>
