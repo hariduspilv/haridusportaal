@@ -114,11 +114,11 @@
                         </span>
 
                         <div class="round-input__field-wrapper">
-                          <mat-select class="round-input__field" placeholder="{{selectLanguage(data_elements[element].empty_option)}}"
+                          <mat-select class="round-input__field" placeholder=" {{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [(ngModel)]='data_elements[element].value' [disabled]="isFieldDisabled(data_elements[element].readonly)"
                             [name]="element" [multiple]="data_elements[element].multiple">
                             <ng-container *ngIf="!data_elements[element].multiple">
-                              <mat-option *ngIf="!data_elements[element].multiple">{{selectLanguage(data_elements[element].empty_option)}}</mat-option>
+                              <mat-option *ngIf="!data_elements[element].multiple" [value]="undefined">{{selectLanguage(data_elements[element].empty_option)}}</mat-option>
 
                               <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
                                 <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
