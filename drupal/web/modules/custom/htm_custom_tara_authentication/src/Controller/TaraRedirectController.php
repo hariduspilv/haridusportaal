@@ -42,8 +42,9 @@ class TaraRedirectController extends RedirectController{
 
 
 	public function startAuth(){
-		openid_connect_save_destination();
-
+		htm_custom_tara_authentication_openid_connect_save_destination();
+		#dump($_SESSION);
+		#die();
 		$configuration = $this->config('openid_connect.settings.tara')
 			->get('settings');
 
@@ -56,6 +57,7 @@ class TaraRedirectController extends RedirectController{
 		$_SESSION['openid_connect_op'] = 'login';
 
 		$response = $client->authorize($scopes);
+
 		return $response;
 	}
 }
