@@ -465,7 +465,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(list[list.length-1] != opened) {
       let next = list[list.indexOf(opened) + 1];
       if(this.isStepDisabled(next) === false){
-        output.push({label: 'button.submit', step: next, 'type':'button'});
+        output.push({label: 'button.next', step: next, 'type':'link'});
       }
     }
     return output;
@@ -603,6 +603,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     let editableActivities = ['SUBMIT', 'CONTINUE'];
     let maxStepActions = [{action: 'SAVE', label: 'button.save_draft'}]
     if(this.opened_step < this.max_step){
+
       let displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
       if(displayEditButton) output['primary'].push({label: 'button.edit' , action: 'EDIT', style: 'primary'})
 
