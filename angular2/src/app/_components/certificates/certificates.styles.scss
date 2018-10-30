@@ -117,16 +117,14 @@ h4.title-lg-padding { margin-bottom: 1rem; }
     &-link{ text-decoration: none; }
 }
 
-.grid-load { display: flex; justify-content: center; 
-  @include break-on(sm, max) {
-    margin-top: 1rem;}
-   }
+.grid-load {display: flex; justify-content: center; 
+  @include break-on(sm, max) { margin-top: 1rem; }
+}
+table td, table th { padding: 0.5rem 1rem; width: auto; font-size: 0.875rem; }
+table p { margin: 0; font-weight: 400; }
 
-   table td, table th { padding: 0.5rem 1rem; width: auto; font-size: 0.875rem; }
-   table p { margin: 0; font-weight: 400; }
+.description { border-top: 0.125rem $dark-gray solid;
+  &-bottom { border-bottom: 0.125rem $dark-gray solid; }
+}
 
-   .description { border-top: 0.125rem $dark-gray solid;
-    &-bottom { border-bottom: 0.125rem $dark-gray solid; }
-   }
-
-   .font-normal { font-weight: 400!important; }
+.font-normal { font-weight: 400!important; }
