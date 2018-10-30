@@ -17,6 +17,6 @@ class CustomAccountProxy extends AccountProxy{
 			}
 			return $user->get('field_user_idcode')->value;
 		}
-		return NULL;
+		return 0;
 	}
 }
