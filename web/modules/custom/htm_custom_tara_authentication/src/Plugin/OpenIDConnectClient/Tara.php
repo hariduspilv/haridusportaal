@@ -23,12 +23,14 @@ use Exception;
  */
 class Tara extends OpenIDConnectClientBase {
 
+	private $userToken;
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
 		$form = parent::buildConfigurationForm($form, $form_state);
-		dump($form);
+		#dump($form);
 		$form['authorization_endpoint'] = [
 			'#title' => $this->t('Authorization endpoint'),
 			'#type' => 'textfield',
@@ -147,6 +149,7 @@ class Tara extends OpenIDConnectClientBase {
 			if (array_key_exists('refresh_token', $response_data)) {
 				$tokens['refresh_token'] = $response_data['refresh_token'];
 			}
+			$this->userToken = $tokens;
 			return $tokens;
 		}
 		catch (Exception $e) {
@@ -170,6 +173,7 @@ class Tara extends OpenIDConnectClientBase {
 	 *   A result array or false.
 	 */
 	public function retrieveUserInfo($access_token) {
+		dump($this->userToken);
 		dump($access_token);
 	}
 
