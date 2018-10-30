@@ -521,7 +521,16 @@
             </ng-container>
           </form>
 
+         
           <div class="row button-list">
+            <div class="col-12">
+              <ng-container *ngFor="let activity of activityButtons['primary']">
+                <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+                  {{ activity.label | translate }}
+                </button>
+              </ng-container>
+            </div> <!-- /row button-list -->
+      
 
             <ng-container *ngFor="let link of navigationLinks">
               <a *ngIf="link.type === 'link'" href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
@@ -529,7 +538,7 @@
             </ng-container>
 
             <ng-container *ngFor="let activity of activityButtons['primary']">
-              <button type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+              <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
                 {{ activity.label | translate }}
               </button>
             </ng-container>
