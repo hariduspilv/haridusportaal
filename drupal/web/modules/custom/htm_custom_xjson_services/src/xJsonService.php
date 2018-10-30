@@ -187,9 +187,6 @@ class xJsonService implements xJsonServiceInterface {
 						$return['body']['steps'][$step_key]['messages'] = [];
 					}
 				} else {
-					if($step_key === 'hide_steps'){
-						$return['body']['steps'][$step_key] = $step;
-					}
 					// add all other steps aswel
 					$return['body']['steps'][$step_key]['title'] = $step['title'];
 				}
