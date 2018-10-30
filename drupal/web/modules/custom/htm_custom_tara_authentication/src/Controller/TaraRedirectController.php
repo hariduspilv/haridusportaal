@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_tara_authentication\Controller;
 
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
 use Drupal\openid_connect\Claims;
 use Drupal\openid_connect\Controller\RedirectController;
 use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
@@ -14,9 +15,12 @@ class TaraRedirectController extends RedirectController{
 
 	protected $claims;
 
-	public function __construct (OpenIDConnectClientManager $plugin_manager, RequestStack $request_stack, LoggerChannelFactoryInterface $logger_factory, AccountInterface $current_user, Claims $claims) {
+	protected $jsonAuth;
+
+	public function __construct (OpenIDConnectClientManager $plugin_manager, RequestStack $request_stack, LoggerChannelFactoryInterface $logger_factory, AccountInterface $current_user, Claims $claims, JsonAuthenticationProvider $jsonAuth) {
 		parent::__construct($plugin_manager, $request_stack, $logger_factory, $current_user);
 		$this->claims = $claims;
+		$this->jsonAuth = $jsonAuth;
 	}
 
 	public static function create (ContainerInterface $container) {
@@ -25,26 +29,23 @@ class TaraRedirectController extends RedirectController{
 			$container->get('request_stack'),
 			$container->get('logger.factory'),
 			$container->get('current_user'),
-			$container->get('openid_connect.claims')
+			$container->get('openid_connect.claims'),
+			$container->get('authentication.custom_graphql_authentication')
 		);
 
 	}
 
 
-	/*public function authenticate ($client_name) {
-		$parent_auth = parent::authenticate($client_name);
-		$messenger = \Drupal::messenger();
-		if(empty($messenger->all())){
-
-		}
+	public function authenticate ($client_name) {
+		$token = $this->jsonAuth->generateToken();
+		dump($token);
 		die();
-	}*/
+
+	}
 
 
 	public function startAuth(){
 		htm_custom_tara_authentication_openid_connect_save_destination();
-		#dump($_SESSION);
-		#die();
 		$configuration = $this->config('openid_connect.settings.tara')
 			->get('settings');
 
