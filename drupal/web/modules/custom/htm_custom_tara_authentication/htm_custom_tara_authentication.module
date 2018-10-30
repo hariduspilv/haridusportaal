@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_help().
@@ -22,3 +23,37 @@ function htm_custom_tara_authentication_help($route_name, RouteMatchInterface $r
     default:
   }
 }
+
+function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$userinfo, array $context) {
+	$userinfo['email'] = 'tere@gmail.com';
+	$sub = $context['user_data']['sub'];
+	$userinfo['id_code'] = substr($sub, 2);
+}
+
+function htm_custom_tara_authentication_openid_connect_claims(&$claims){
+	$claims['id_code'] = [
+		'scope' => 'profile',
+		'title' => 'ID code',
+		'type' => 'string',
+		'description' => 'ID code',
+	];
+}
+
+function htm_custom_tara_authentication_openid_connect_post_authorize(array $tokens, UserInterface $account, array $userinfo, $plugin_id) {
+	$auth_service = \Drupal::service('authentication.custom_graphql_authentication');
+	$token = $auth_service->generateToken();
+}
+
+function htm_custom_tara_authentication_openid_connect_save_destination() {
+	$path = '/user';
+	// The destination could contain query parameters. Ensure that they are
+	// preserved.
+	$query = \Drupal::request()->getQueryString();
+
+	$_SESSION['openid_connect_destination'] = [
+		$path,
+		['query' => $query],
+	];
+}
+
+
