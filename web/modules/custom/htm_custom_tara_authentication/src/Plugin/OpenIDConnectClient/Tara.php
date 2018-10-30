@@ -179,6 +179,9 @@ class Tara extends OpenIDConnectClientBase {
 		#dump($this->userToken);
 		$jwt = $this->userToken['id_token'];
 		#dump($this->decodeJWT($jwt, 1));
+		$claims = $this->decodeJWT($jwt, 1);
+		$iss = $claims['iss'];
+		$claims['id_code'] = substr($iss, 2);
 		return $this->decodeJWT($jwt, 1);
 		#dump($access_token);
 	}
