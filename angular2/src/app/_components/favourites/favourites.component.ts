@@ -157,7 +157,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       sub.unsubscribe();
     });
   }
-
   openFavouriteSnackbar(operation: string) {
     let config = new MatSnackBarConfig();
     let message, action;
@@ -181,9 +180,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.router.navigateByUrl(this.lang + this.redirectUrls[this.lang]);
       }
     });
-
-  
-
 
  }
 
