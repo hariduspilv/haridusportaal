@@ -98,6 +98,11 @@ class JsonbWidget extends StringTextareaWidget {
 
 				if (isset($value['body']['steps']) && !empty($value['body']['steps'])) {
 					$steps = array_keys($value['body']['steps']);
+					$step_keys = array_flip($steps);
+					if(isset($step_keys['hide_steps'])){
+						if(!is_bool($value['body']['steps']['hide_steps'])) $this->setErrorMessage(t('body.steps.hide_steps must be bool'));
+						unset($steps[$step_keys['hide_steps']]);
+					}
 					$steps_count = count($steps);
 					if (isset($value['header'])) {
 						if ($steps_count != $value['header']['number_of_steps']) $this->setErrorMessage(t('header.number_of_steps and body.steps count is different'));
