@@ -4,6 +4,10 @@ services:
     arguments: ['@config.factory', '@authentication.user.auth', '@flood', '@entity.manager', '@event_dispatcher', '@jwt.transcoder', '@current_user.role_switcher']
     tags:
       - { name: authentication_provider, provider_id: json_authentication_provider, priority: 100 }
+  #Override externalauth service
+  externalauth.externalauth:
+    class: Drupal\htm_custom_authentication\Authentication\Provider\CustomExternalAuth
+    arguments: ['@entity_type.manager', '@externalauth.authmap', '@logger.channel.externalauth', '@event_dispatcher', '@authentication.custom_graphql_authentication']
   #Override current_user service and add custom functions
   current_user:
     class: Drupal\htm_custom_authentication\CustomAccountProxy

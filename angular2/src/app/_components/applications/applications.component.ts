@@ -5,6 +5,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { Subscription } from 'rxjs/Subscription';
+import { TableService } from '@app/_services';
 
 const ACCEPTABLE_FORMS_RESTRICTED_LENGTH = 4;
 const REQUEST_ITERATOR_LIFETIME = 30;
@@ -34,13 +35,16 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
 
   public acceptable_forms_list = [];
   public acceptable_forms_list_restricted: boolean = true;
-
+  public tableOverflown: any = {0: false, 1: false};
+  public elemAtStart: any = {0: true, 1: true};
+  public initialized: any = {0: false, 1: false};
   private subscriptions: Subscription[] = [];
 
 
   constructor(public http: HttpService,
     public rootScope: RootScopeService,
-    public route: ActivatedRoute) {}
+    public route: ActivatedRoute,
+    public tableService: TableService) {}
 
   setPaths() {
     this.rootScope.set('langOptions', {
@@ -292,6 +296,14 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     });
   }
 
+  initialTableCheck(id, index) {
+    const element = document.getElementById(id);
+    if (element) {
+      this.tableOverflown[index] = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.initialized[index] = true;
+    }
+  }
+
   ngOnInit(){
     this.setPaths();
     this.pathWatcher();
@@ -299,6 +311,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     this.loading['initial'] = true;
     this.fetchData();
   }
+  
+  ngAfterViewChecked() {
+    this.initialTableCheck('table_0', 0);
+    this.initialTableCheck('table_1', 1);
+  }
+
   ngOnDestroy(){
     if(this.request_iterator){
       clearTimeout(this.request_iterator);

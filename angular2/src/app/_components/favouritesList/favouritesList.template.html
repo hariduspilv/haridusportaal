@@ -1,5 +1,5 @@
 
-<div class="block padding-block border-orange">
+<div class="block padding-block sm-top gutter-bottom border-orange">
   <div class="block-title-big" role="list">{{ 'frontpage.favourites_list_label' | translate }}</div>
 
   <mat-spinner *ngIf="loading" ></mat-spinner>
@@ -10,7 +10,7 @@
 
       <li *ngFor="let item of existingFavouriteItems">
        
-        <a role="link" [routerLink]="[item.entity.entityUrl.path]"> <span class="htm-icon htm-icon-insert_link"></span> {{item.entity.entityLabel}} </a>
+        <a attr.aria-label="{{ 'frontpage.favourites_list_label' | translate }}: {{item.entity.entityLabel}}" role="link" [routerLink]="[item.entity.entityUrl.path]"> <span class="htm-icon htm-icon-insert_link"></span> {{item.entity.entityLabel}} </a>
        
       </li>
 
