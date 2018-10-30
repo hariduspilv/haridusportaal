@@ -35,17 +35,20 @@ class TaraRedirectController extends RedirectController{
 
 	}
 
-
 	public function authenticate ($client_name) {
 		$token = $this->jsonAuth->generateToken();
+		$_SESSION['openid_connect_destination'] = [
+			'/user',
+			['query' => '?jwt='.$token]
+		];
+		parent::authenticate($client_name);
 		dump($token);
 		die();
 
 	}
 
-
 	public function startAuth(){
-		htm_custom_tara_authentication_openid_connect_save_destination();
+		#htm_custom_tara_authentication_openid_connect_save_destination();
 		$configuration = $this->config('openid_connect.settings.tara')
 			->get('settings');
 
