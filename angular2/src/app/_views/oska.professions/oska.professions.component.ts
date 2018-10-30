@@ -123,6 +123,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       this.loading = false;
       if (response['errors']) {
         this.loading = false;
+        this.data = [];
         this.errMessage = response['errors'][0]['message'];
       }
       
