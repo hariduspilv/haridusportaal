@@ -75,7 +75,7 @@ a h1:hover { text-decoration: underline; }
       }
     }
   }
-  .actions {padding-top: $medium;
+  .actions {padding-top: $medium; margin-bottom: -1.5rem;
     button {margin: 0 $medium; width: stretch;}
     @include break-on(sm, min) {background: $light-gray;padding-bottom: 0;
       button { margin: 0 $medium; width: auto;}

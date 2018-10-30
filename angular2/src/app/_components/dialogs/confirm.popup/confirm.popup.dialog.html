@@ -1,16 +1,20 @@
-<div class="dialog" cdkTrapFocus>
+<div class="dialog" attr.aria-label="{{'modal.open | translate'}}" cdkTrapFocus>
     <div class="row">
       <div class="col-12" style="position: relative;">
-        <span class="dialog__text--medium">{{ data.title }}</span>
-       
+        <span class="dialog__text--medium">{{ data.title | uppercase }}</span>
+                <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
+                  <span class="htm-icon">close
+                    <button class="btn-hidden" tabindex="0" (click)="dialogRef.close(false)"></button>
+                  </span>
+                </div>
       </div>
     </div>
     <div class="dialog__success--modal">
-      <div class="dialog__success--content display--json" tabindex="1" *ngIf="data.json" ><pre>{{ data.json | json}}</pre></div>
-      <div class="dialog__success--content" [innerHtml]="data.content" tabindex="2"></div>
+      <div class="dialog__success--content display--json" *ngIf="data.json" ><pre>{{ data.json | json}}</pre></div>
+      <div class="dialog__success--content" [innerHtml]="data.content"></div>
       <div class="dialog__actions--success">
         <div class="text-center">
-            <div class="dialog__actions--success__close"><a href="javascript:void(0)" attr.aria-label="{{'modal.confirm' | translate}}" (keyup.space)="dialogRef.close(true)" (keyup.enter)="dialogRef.close(true)" (click)="dialogRef.close(true)">{{ data.confirm }}</a></div>
+            <div class="dialog__actions--success__close"><a href="javascript:void(0)" mat-raised-button [color]="['primary']" attr.aria-label="{{'modal.confirm' | translate}}" (keyup.space)="dialogRef.close(true)" (keyup.enter)="dialogRef.close(true)" (click)="dialogRef.close(true)">{{ data.confirm }}</a></div>
         </div>
         <div class="text-center">
           <div class="dialog__actions--success__close"><a href="javascript:void(0)" attr.aria-label="{{'modal.close' | translate}}" (keyup.space)="dialogRef.close(false)" (keyup.enter)="dialogRef.close(false)" (click)="dialogRef.close(false)">{{ data.cancel }}</a></div>
