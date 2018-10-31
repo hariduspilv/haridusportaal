@@ -19,6 +19,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   prevPath: string = "";
   lang: string;
   breadcrumb: any;
+  public unclickables: Array<string> = ['/et/toolaud', '/en/dashboard'];
   
   constructor(
     private route: ActivatedRoute,
@@ -44,6 +45,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
       }
       this.metaTags.set(data['route']['entity']['entityMetatags']);
       this.breadcrumb = data['route']['breadcrumb'];
+      this.breadcrumb.forEach(elem => elem.disableLink = this.unclickables.includes(elem.url.path));
     });
 
     this.subscriptions = [...this.subscriptions, breadcrumbSubscription];
