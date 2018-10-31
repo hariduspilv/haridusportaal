@@ -539,6 +539,11 @@ loadingCalendar: boolean = false;
           this.dataSubscription.unsubscribe();
           this.dataSubscription = false;
           
+        }, (err) => {
+          this.eventList = [];
+          this.listEnd = true;
+          this.dataSubscription.unsubscribe();
+          this.dataSubscription = false;
         });
   }
 

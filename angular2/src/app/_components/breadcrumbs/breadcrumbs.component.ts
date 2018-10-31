@@ -49,7 +49,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     this.subscriptions = [...this.subscriptions, breadcrumbSubscription];
   }
   private updateBreadcrumbs(){
-    this.path = this.router.url;
+    this.path = this.router.url.split('?')[0];
     if( this.path !== this.prevPath ){
       this.prevPath = this.path;
       this.breadcrumb = [];
