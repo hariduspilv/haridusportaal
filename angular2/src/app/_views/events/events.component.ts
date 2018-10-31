@@ -460,6 +460,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           this.eventsConfig.offset = 0;
         }
         
+        console.log(this.eventsConfig.dateFrom);
+        
         /*
         if( this.view == "list" ){
 
