@@ -1,3 +1,9 @@
 .display--json{
   width:100%;
 }
+.dialog__success--content { 
+  font-size: 1.5rem; text-align: center;
+}
+.dialog__actions--success__close a { 
+  margin-top: 0.5rem; display: block;
+}
