@@ -12,12 +12,12 @@ input { font-size: 0.875rem; }
 }
 
 .xjson{
-  &__title{width:100%; color:$black; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;}
-  &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.5rem; text-decoration: none; font-weight: 500; margin-bottom: 0.5rem; }
+  &__title{width:100%; color:$black; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; margin-bottom: 1rem;}
+  &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.375rem; text-decoration: none; font-weight: 500; margin-bottom: 0.5rem; }
   &__introduction { font-weight: 500; }
-  &__step-introduction{ margin-top: 1rem; margin-bottom: 1rem; width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none; font-size: 500; }
-  &__heading{ margin-bottom: 0.5rem; width: 100%; display: block; font-size: 1rem; font-weight: 500; line-height: 1; text-align: left; color: #333333;}
-  &__textarea__info { margin-bottom: 1rem; display: block; }
+  &__step-introduction{ margin-top: 0rem; margin-bottom: 1rem; width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none; font-size: 500; }
+  &__heading{ margin-bottom: 0.5rem; width: 100%; display: inline-block; font-size: 1rem; font-weight: 500; line-height: 1.375rem; text-align: left; color: #333333;}
+  &__textarea__info { margin-bottom: 0rem; display: none; }
   &__navigation{ list-style-type: none; padding-left: 1.5rem; padding-right: 1.5rem; margin-left: -1.5rem; margin-right: -1.5rem; display: flex; padding-top: 1rem; margin-top: 2rem; overflow-x: auto; padding-bottom: 2rem; margin-bottom: 0px;
     @include break-on(sm, max) { justify-content: flex-start; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem; padding-right: 1.5rem; }
   }
@@ -82,13 +82,19 @@ a {
 }
   .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
   .button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 1.875rem; align-items: center; padding: 2rem 0.5rem 2rem 0.5rem;
-    @include break-on(sm, max) { flex-direction: row; text-align: center; justify-content: center; padding: 2rem 0.5rem 0.5rem 0.5rem }
-    a, button { margin-left: 1rem; 
+    @include break-on(sm, max) { flex-direction: row; text-align: center; justify-content: center; padding: 2rem 0.5rem 0rem 0.5rem }
+    a, button { margin-left: 1rem; margin-bottom: 1rem;
       @include break-on(sm, max) {  
-        margin-left: 0px; margin-bottom: 1rem; display: block;
+        margin-left: 0px; display: block; margin-bottom: 1.5rem;
       }
     }
+    a { font-size: 1rem; 
+      @include break-on(sm, max) {  margin-right: 0rem; display: flex; justify-content: center; width: 100%; }
+    }
   }
+  .button-switch { display: flex; align-items: center; justify-content: flex-end;
+    @include break-on(sm, max) { display: flex; flex-direction: column-reverse; width: 100%; }
+    }
   .button-list.button-list-top { padding: 1rem 0.5rem 1rem 0.5rem }
   
   table { width: 100%;border-collapse: collapse; margin: 0;
@@ -112,8 +118,7 @@ a {
         .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;font-size: .875rem;left: $gutter;top: $half-gutter;}
       }
     }
-    .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none; 
-    }
+    .separator { padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none; }
   }
   
   .dropzone-replace {
@@ -161,6 +166,11 @@ a {
     font-size: 0.875rem; color: $dark-gray;
   }
   
+  
+ .disabled-step input::placeholder {
+    font-size: 0.875rem; color: transparent;
+  }
+
   .tooltip { margin-top: 0.5rem; font-size: 1.5rem; margin-left: 0.2rem; 
     &:before { color: $dark-gray; }
   }
@@ -217,20 +227,26 @@ a {
   
   .xjson__component ::ng-deep .round-input__field .mat-select-trigger { margin: -0.5rem 1rem 0rem 0rem; display: block!important;
   }
-  .xjson__component ::ng-deep .mat-select-value {
-    height: 2.375rem; padding-top: 0.7rem;
-  }
+  .xjson__component ::ng-deep {
+    &.mat-select-value {
+    height: 2.375rem; padding-top: 0.7rem; }
+    &table .mat-select-value {
+      height: 2.375rem; padding-top: 0rem; }
+}
 .xjson__component ::ng-deep .mat-select-value-text span { color: $black; }
   .xjson__component { margin-bottom: 0.5rem; }
   
-  .xjson__component ::ng-deep .mat-select-placeholder { color: $dark-gray; font-size: 0.875rem; padding-top: 0.7rem; }
-  
+  .xjson__component ::ng-deep {
+   &.mat-select-placeholder { color: $dark-gray; font-size: 0.875rem; padding-top: 0.7rem; }
+   &table .mat-select-placeholder { padding-top: 0rem; }
+  }
+
   input[type=number]::-webkit-inner-spin-button, 
   input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none; 
     margin: 0; 
   }
-  .table-heading { margin-top: 0.5rem;}
+  .table-heading { margin-top: 0.5rem; line-height:1.375rem; }
   table {
     th {
       white-space: nowrap;
@@ -248,7 +264,7 @@ a {
   .xjson__component ::ng-deep input.contnent-input:disabled { border: 0px solid transparent!important; min-width: 100%; }
   .scrollable { padding: $small 0 $gutter 0; }
   .mat-input-element:disabled { color: $dark-gray; }
-  .table-link { white-space: nowrap; }
+  .table-link { white-space: nowrap; padding: 0.5rem 1rem; }
   
   .xjson__component ::ng-deep table .mat-select-placeholder { margin-top: 0.4rem; display: block; }
   .xjson__component ::ng-deep table .mat-select-value-text { margin-top: 0.4rem; display: block; }
@@ -267,10 +283,11 @@ a {
       color: $blue; 
     }
   }
-  .xjson__component ::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
-    margin-top: -0.5rem!important;
+  .xjson__component ::ng-deep {
+&.mat-select-arrow { margin-top: -0.5rem!important; }
+&table .mat-select-arrow-wrapper .mat-select-arrow { margin-top: -0.25rem!important; }
   }
-
+table .mat-input-element:disabled { color: $black; } 
   .sub-button-list {
     a { font-size: 1rem; 
     }
@@ -278,3 +295,17 @@ a {
       margin-right: 0rem;   
     }
   }
+  .xjson__component .complete textarea {
+    margin-top: 0rem;
+  }
+  .xjson__component textarea:focus, .xjson__component textarea:focus-within {
+    margin-top: 0rem;
+  }
+  .xjson__component textarea {
+    margin-top: 1.25rem;
+  }
+  .disabled-step mat-datepicker-toggle { display: none; }
+  .disabled-step table .round-input__field-wrapper { border: 0px solid transparent; }
+.subrow { display: flex; justify-content: flex-end; width: 100%; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+  

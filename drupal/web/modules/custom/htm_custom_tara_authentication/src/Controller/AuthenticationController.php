@@ -26,11 +26,12 @@ class AuthenticationController extends ControllerBase {
 
 		$userInfo = $oidc->requestUserInfo();
 		$id_code = substr($userInfo->principalCode, 2);
-
-		$external_auth = \Drupal::service('externalauth.externalauth');
-		$token = $external_auth->loginRegister('TARA', $id_code, ['field_user_idcode' => $id_code]);
-		dump($token);
+		dump($id_code);
+		#$external_auth = \Drupal::service('externalauth.externalauth');
+		#$token = $external_auth->loginRegister('TARA', $id_code, ['field_user_idcode' => $id_code]);
+		#dump($token);
 	}catch (OpenIDConnectClientException $e){
+		dump($e);
 		#return new TrustedRedirectResponse('https://delfi.ee');
 		return new HttpException('400', 'jama on');
 
