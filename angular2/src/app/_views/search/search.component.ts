@@ -35,9 +35,7 @@ export class SearchComponent {
       {"name": "event.label", "sumLabel": "Sündmus", "value": false, "sum": 0},
       {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
       {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
-      {"name": "oskaProfessions.label", "sumLabel": "Sisuleht OSKA Ametiala", "value": false, "sum": 0},
-      {"name": "oska.workforcePrognosis", "sumLabel": "Sisuleht OSKA Tööjõuprognoos", "value": false, "sum": 0},
-      {"name": "oska.title_field", "sumLabel": "Sisuleht OSKA Valdkond", "value": false, "sum": 0}
+      {"name": "oska.future_job_opportunities", "sumLabel": "Oska", "value": false, "sum": 0}
     ],
     en: [
       {"name": "article.label", "sumLabel": "Article", "value": false, "sum": 0},
@@ -45,11 +43,10 @@ export class SearchComponent {
       {"name": "event.label", "sumLabel": "Event", "value": false, "sum": 0},
       {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
       {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
-      {"name": "oskaProfessions.label", "sumLabel": "Sisuleht OSKA Ametiala", "value": false, "sum": 0},
-      {"name": "oska.workforcePrognosis", "sumLabel": "Sisuleht OSKA Tööjõuprognoos", "value": false, "sum": 0},
-      {"name": "oska.title_field", "sumLabel": "Sisuleht OSKA Valdkond", "value": false, "sum": 0}
+      {"name": "oska.future_job_opportunities", "sumLabel": "Oska", "value": false, "sum": 0}
     ]
   };
+  oskaTypes: Array<string> = ['Sisuleht OSKA Ametiala','Sisuleht OSKA Tööjõuprognoos','Sisuleht OSKA Valdkond'];
   types: Array<any>;
   typeArr: any = [];
   
@@ -125,10 +122,11 @@ export class SearchComponent {
       
       this.filteredResults.forEach(res => {
         this.types.forEach(type => {
+          if(type.sumLabel === 'Oska' && this.oskaTypes.includes(res.ContentType)) {type.sum += 1;}
           if(type.sumLabel === res.ContentType) {type.sum += 1;}
         });
       });
-      this.filteredResults = this.results.filter(res => this.typeArr.includes(res.ContentType));
+      this.filteredResults = this.results.filter(res => this.typeArr.includes(res.ContentType) || (this.typeArr.includes('Oska') && this.oskaTypes.includes(res.ContentType)));
       this.filteredResults = !this.typeArr.length ? this.results : this.filteredResults;
 
       this.types.sort((a, b) => b.sum - a.sum)
@@ -185,7 +183,7 @@ export class SearchComponent {
   }
 
   checkForAllFilters() {
-    return this.types.filter((type) => type.value || !type.sum).length === 8 || this.types.filter((type) => !type.value).length === 8;
+    return this.types.filter((type) => type.value || !type.sum).length === 6 || this.types.filter((type) => !type.value).length === 6;
   }
 
   filterAll() {
@@ -204,7 +202,7 @@ export class SearchComponent {
       if (type.value) {this.typeArr.push(type.sumLabel)}
     });
     this.typeArr = !this.typeArr.length ? [] : this.typeArr;
-    this.filteredResults = this.results.filter(res => this.typeArr.includes(res.ContentType));
+    this.filteredResults = this.results.filter(res => this.typeArr.includes(res.ContentType) || (this.typeArr.includes('Oska') && this.oskaTypes.includes(res.ContentType)));
     this.filteredResults = !this.typeArr.length ? this.results : this.filteredResults;
     this.updateParams('type', this.typeArr.length ? this.typeArr : null);
     this.listLength = this.filteredResults.length;
