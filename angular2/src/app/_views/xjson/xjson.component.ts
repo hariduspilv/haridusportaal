@@ -407,7 +407,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
      data: {
        title: this.translate.get('xjson.table_delete_row_confirm_modal_title')['value'],
        content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
-       confirm: this.translate.get('button.yes')['value'],
+       confirm: this.translate.get('button.yes_delete')['value'],
        cancel: this.translate.get('button.cancel')['value'],
      }
    });
