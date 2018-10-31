@@ -78,7 +78,7 @@ export class EventsListComponent implements OnInit, OnDestroy{
         if (moment(a.fieldEventMainDate.unix * 1000).format("YYYY-MM-DD") === moment(b.fieldEventMainDate.unix * 1000).format("YYYY-MM-DD")) {
           return a.fieldEventMainStartTime - b.fieldEventMainStartTime;
         }
-        return 1;
+        return 0;
       });
      
       subscription.unsubscribe();
