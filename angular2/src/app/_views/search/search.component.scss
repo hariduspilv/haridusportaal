@@ -27,7 +27,7 @@
 }
 .filter-wrapper {margin-top: $medium;
   .btn {width: 100%; padding-top: $medium;}
-  @include break-on(sm, min) {margin-top: $small;
+  @include break-on(sm, min) {margin-top: $small;padding-top: 1.5rem;
     .btn {width: auto;padding-top: 0;margin-left: $small;}
   }
 }

@@ -47,7 +47,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   populateFilterOptions(){
     let variables = {
       lang: this.lang.toUpperCase(),
-      limit: 100
+      limit: this.limit
     };
     this.filterSub = this.http.get('/graphql?queryId=oskaMainProfessionListViewFilter:1&variables=' + JSON.stringify(variables)).subscribe(response => {
       this.oskaFieldValue = response['data']['oskaFields']['entities'];
@@ -113,11 +113,13 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       oskaFieldEnabled: this.params['oskaFieldValue'] ? true : false,
       fixedLabelValue: this.params['fixedLabelValue'] ? '1' : '0',
       fixedLabelEnabled: this.params['fixedLabelValue'] ? true : false,
+      sortedBy: false,
       nidEnabled: false,
       offset: 0,
       limit: this.limit
     };
     this.dataSub = this.http.get('/graphql?queryId=oskaMainProfessionListView:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+      let responseVal: any = response['data']['nodeQuery']['entities'];
       let filterIndicator: any = false;
       let responseData: any = false;
       this.loading = false;
@@ -128,11 +130,11 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       }
       
       // Sort by filter if it exists
-      if (this.params['sortedBy']) {
+      if (this.params['sortedBy'] && this.FilterOptions['sortedBy']) {
         filterIndicator = this.FilterOptions['sortedBy'].filter(elem => elem.id === this.params['sortedBy'])[0];
       }
-      if (filterIndicator) {
-        responseData = response['data']['nodeQuery']['entities'].filter((elem) => {
+      if (filterIndicator && responseVal.length) {
+        responseData = responseVal.filter((elem) => {
           return elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.filter(indicator => indicator.oskaIndicator === filterIndicator.indicator).length > 0;
         }).sort((a, b) => {
           let indicatorA = a.reverseOskaMainProfessionOskaIndicatorEntity.entities.filter(indicator => indicator.oskaIndicator === filterIndicator.indicator)[0];
@@ -140,14 +142,17 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
           return filterIndicator.modifier === 'ascending' ? indicatorA.value - indicatorB.value : indicatorB.value - indicatorA.value;
         });
       } else {
-        responseData = response['data']['nodeQuery']['entities'];
+        responseData = responseVal;
       }
-
       this.data = responseData;
       if( responseData.length <= this.listLimit ){ 
         this.listEnd = true;
       } else this.listEnd = false;
       this.dataSub.unsubscribe();
+      if (window.innerWidth <= 1024) {
+        let elem = document.getElementById('searchHead');
+        elem.scrollIntoView({behavior: "smooth", block: "start"});
+      }
     }, (err) => {
       this.data = [];
       this.loading = false;
@@ -164,7 +169,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
 
   ngOnInit () {
     this.showFilter = window.innerWidth > 1024;
-    this.filterFull = window.innerWidth < 1024;
+    this.filterFull = window.innerWidth <= 1024;
 
     this.langSub = this.route.params.subscribe((params: ActivatedRoute) => {
       this.lang = params['lang'];
@@ -177,7 +182,9 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     this.watchParams();
     this.populateFilterOptions();
     this.filterSubmit();
-    this.filterFull = this.params['fixedLabelValue'] || this.params['sortedBy'];
+    if (window.innerWidth > 1024) {
+      this.filterFull = this.params['fixedLabelValue'] || this.params['sortedBy'];
+    }
   }
   
   ngOnDestroy () {

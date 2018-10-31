@@ -462,6 +462,8 @@ loadingCalendar: boolean = false;
           this.eventsConfig.offset = 0;
         }
         
+        console.log(this.eventsConfig.dateFrom);
+        
         /*
         if( this.view == "list" ){
 
@@ -539,6 +541,11 @@ loadingCalendar: boolean = false;
           this.dataSubscription.unsubscribe();
           this.dataSubscription = false;
           
+        }, (err) => {
+          this.eventList = [];
+          this.listEnd = true;
+          this.dataSubscription.unsubscribe();
+          this.dataSubscription = false;
         });
   }
 
