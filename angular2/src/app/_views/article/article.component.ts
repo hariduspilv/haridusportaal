@@ -59,6 +59,9 @@ export class ArticleComponent implements OnInit, OnDestroy{
   
   ngOnInit() {
     
+    this.route
+      .data
+      .subscribe(v => console.log(v));
     this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.lang = params['lang'];

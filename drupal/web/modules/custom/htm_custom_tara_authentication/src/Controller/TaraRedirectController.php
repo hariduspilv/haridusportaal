@@ -36,14 +36,16 @@ class TaraRedirectController extends RedirectController{
 	}
 
 	public function authenticate ($client_name) {
-		$token = $this->jsonAuth->generateToken();
-		$_SESSION['openid_connect_destination'] = [
-			'/node',
-			['query' => 'jwt='.$token]
-		];
+		$parentAuth = parent::authenticate($client_name);
 
+		$token = $this->jsonAuth->generateToken();
+		$query = (empty($this->messenger->all())) ? ['query' => 'jwt='.$token] : ['query' => 'error='.'errorivark'];
+		$_SESSION['openid_connect_destination'] = [
+			'/node', $query
+		];
 		user_logout();
-		return parent::authenticate($client_name);
+
+		return $parentAuth;
 	}
 
 	public function startAuth(){
