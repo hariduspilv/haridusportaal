@@ -41,7 +41,7 @@ class TaraRedirectController extends RedirectController{
 			'/node',
 			['query' => 'jwt='.$token]
 		];
-
+		dump($this->currentUser());
 		user_logout();
 		return parent::authenticate($client_name);
 	}
