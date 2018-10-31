@@ -89,7 +89,7 @@ a h1:hover { text-decoration: underline; }
       &:last-child {border-right: none;}
     }
     td.today { position: relative; background-color: $light-gray;border-right: .0625rem solid $gray; border-left: .0625rem solid $gray;
-      &:after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: block; border: solid .0625rem #9b9b9b; }
+      &:after { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: block; border: solid .0625rem #9b9b9b; pointer-events: none; }
       .cal__day {background-color: $red; border-radius: 3.125rem;color: $white;font-weight: 300; width: 1.5rem; height: 1.25rem; display: flex; justify-content: center; align-items: center; 
                   position: relative; top: -0.125rem; }
     }
