@@ -2,10 +2,10 @@
   <div class="col-12">
     <ul role="list" class="main-container breadcrumb mt-0 mb-0">
       <li *ngFor="let breadcrumbEl of breadcrumb; let last = last">
-        <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last">
+        <a [routerLink]="[breadcrumbEl.url.path]" *ngIf="!last && !breadcrumbEl.disableLink">
           <span role="link">{{ breadcrumbEl.text | translate}}</span>
         </a>
-        <span role="dialog" attr.aria-current="{{'page'}}" *ngIf="last">{{ breadcrumbEl.text | ellipsis:30 | translate}}</span>
+        <span role="dialog" attr.aria-current="{{'page'}}" *ngIf="last || breadcrumbEl.disableLink">{{ breadcrumbEl.text | ellipsis:30 | translate}}</span>
       </li>
     </ul>
   </div>
