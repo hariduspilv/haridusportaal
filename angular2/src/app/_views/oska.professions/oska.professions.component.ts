@@ -149,6 +149,10 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
         this.listEnd = true;
       } else this.listEnd = false;
       this.dataSub.unsubscribe();
+      if (window.innerWidth <= 1024) {
+        let elem = document.getElementById('searchHead');
+        elem.scrollIntoView({behavior: "smooth", block: "start"});
+      }
     }, (err) => {
       this.data = [];
       this.loading = false;
@@ -165,7 +169,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
 
   ngOnInit () {
     this.showFilter = window.innerWidth > 1024;
-    this.filterFull = window.innerWidth < 1024;
+    this.filterFull = window.innerWidth <= 1024;
 
     this.langSub = this.route.params.subscribe((params: ActivatedRoute) => {
       this.lang = params['lang'];
