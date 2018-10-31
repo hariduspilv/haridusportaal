@@ -46,7 +46,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   eventListRaw: any;
   view: string;
   calendarDays: any;
-
+loadingCalendar: boolean = false;
   eventsTags: any;
   eventsTagsObs: any;
 
@@ -106,6 +106,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   }
 
   changeMonth(direction:number) {
+    this.loadingCalendar = true;
     let month = parseInt( this.month );
     
     if( direction == 1 ){
@@ -212,6 +213,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     this.view = view;
     
     if( view == "calendar" ){
+      this.loadingCalendar = true;
       this.eventsConfig.limit = 9999;
       this.generateCalendar(true);
     }else{
@@ -256,7 +258,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   }
   
   ngOnInit() {
-    
+    this.loadingCalendar = true;
     if( localStorage.getItem("events.view") ){
       this.changeView(localStorage.getItem("events.view"), false);
     }else{
@@ -406,7 +408,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         }
       }
     }
-    
+    this.loadingCalendar = false;
   }
 
   maxEntries( day:any ){

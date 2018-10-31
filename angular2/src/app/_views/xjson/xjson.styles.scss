@@ -82,13 +82,19 @@ a {
 }
   .error {color: $dark-red; line-height: 1.38; font-size: $small; font-weight: 500;}
   .button-list {display: flex;flex-basis: 100%;justify-content: flex-end; padding-top: 1.875rem; align-items: center; padding: 2rem 0.5rem 2rem 0.5rem;
-    @include break-on(sm, max) { flex-direction: row; text-align: center; justify-content: center; padding: 2rem 0.5rem 0.5rem 0.5rem }
-    a, button { margin-left: 1rem; 
+    @include break-on(sm, max) { flex-direction: row; text-align: center; justify-content: center; padding: 2rem 0.5rem 0rem 0.5rem }
+    a, button { margin-left: 1rem; margin-bottom: 1rem;
       @include break-on(sm, max) {  
-        margin-left: 0px; margin-bottom: 1rem; display: block;
+        margin-left: 0px; display: block; margin-bottom: 1.5rem;
       }
     }
+    a { font-size: 1rem; 
+      @include break-on(sm, max) {  margin-right: 0rem; display: flex; justify-content: center; width: 100%; }
+    }
   }
+  .button-switch { display: flex; align-items: center; justify-content: flex-end;
+    @include break-on(sm, max) { display: flex; flex-direction: column-reverse; width: 100%; }
+    }
   .button-list.button-list-top { padding: 1rem 0.5rem 1rem 0.5rem }
   
   table { width: 100%;border-collapse: collapse; margin: 0;
@@ -160,6 +166,11 @@ a {
     font-size: 0.875rem; color: $dark-gray;
   }
   
+  
+ .disabled-step input::placeholder {
+    font-size: 0.875rem; color: transparent;
+  }
+
   .tooltip { margin-top: 0.5rem; font-size: 1.5rem; margin-left: 0.2rem; 
     &:before { color: $dark-gray; }
   }
@@ -284,7 +295,6 @@ table .mat-input-element:disabled { color: $black; }
       margin-right: 0rem;   
     }
   }
-
   .xjson__component .complete textarea {
     margin-top: 0rem;
   }
@@ -294,10 +304,8 @@ table .mat-input-element:disabled { color: $black; }
   .xjson__component textarea {
     margin-top: 1.25rem;
   }
-
   .disabled-step mat-datepicker-toggle { display: none; }
   .disabled-step table .round-input__field-wrapper { border: 0px solid transparent; }
-
-
+.subrow { display: flex; justify-content: flex-end; width: 100%; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
   
