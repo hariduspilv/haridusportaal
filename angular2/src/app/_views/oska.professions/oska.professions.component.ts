@@ -178,7 +178,9 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     this.watchParams();
     this.populateFilterOptions();
     this.filterSubmit();
-    this.filterFull = this.params['fixedLabelValue'] || this.params['sortedBy'];
+    if (window.innerWidth > 1024) {
+      this.filterFull = this.params['fixedLabelValue'] || this.params['sortedBy'];
+    }
   }
   
   ngOnDestroy () {

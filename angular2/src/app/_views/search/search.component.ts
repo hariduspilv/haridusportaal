@@ -166,7 +166,7 @@ export class SearchComponent {
   updateParams(toUpdate, param) {
     const queryParams = Object.assign({}, this.route.snapshot.queryParams);
     queryParams[toUpdate] = param;
-    this.router.navigate([], { queryParams: queryParams });
+    this.router.navigate([], { queryParams: queryParams, replaceUrl: true });
   }
 
   constructCrumbs() {
