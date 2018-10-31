@@ -115,7 +115,7 @@
     <div class="news-title">{{ 'news.label' | translate | uppercase }}</div>
    
     <div>
-      <div *ngFor="let item of list" class="news-item pointer" [routerLink]="[item.entityUrl.path]">
+      <div *ngFor="let item of list" class="news-item">
         <mat-card>
           <mat-card-content>
             <div class="row news-row">
@@ -133,7 +133,7 @@
                 
                 <div class="description">{{ item.fieldShortDescription }}</div>
               </div>
-              <div class="col-4 sm-12 pointer" *ngIf="item.fieldIntroductionImage">
+              <div class="col-4 sm-12 pointer" *ngIf="item.fieldIntroductionImage" [routerLink]="[item.entityUrl.path]">
                 <img src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
               </div>
             </div>
