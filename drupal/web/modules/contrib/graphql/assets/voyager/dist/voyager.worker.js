@@ -355,7 +355,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 onmessage = function(event) {
   try {
     console.time('Viz');
-    var svgString = __WEBPACK_IMPORTED_MODULE_0_viz_js__(event.data.dot, {totalMemory: 2 * 16777216});
+    var svgString = __WEBPACK_IMPORTED_MODULE_0_viz_js__(event.data.dot, {totalMemory: 3 * 16777216});
     console.timeEnd('Viz');
     postMessage({result: 'success', svgString: svgString});
   }
@@ -1571,7 +1571,7 @@ function v(a){void 0!==a?(e.print(a),e.X(a),a=JSON.stringify(a)):a="";w=!0;var b
   }
   
   function render(src, format, engine, totalMemory) {
-    var graphviz = Module({ TOTAL_MEMORY: totalMemory });
+      var graphviz = Module({ TOTAL_MEMORY: totalMemory });
     
     var resultPointer = graphviz["ccall"]("vizRenderFromString", "number", ["string", "string", "string"], [src, format, engine]);
     var resultString = graphviz["Pointer_stringify"](resultPointer);
