@@ -655,7 +655,9 @@ font-family: 'Rubik', sans-serif!important;
 .cdk-overlay-container{z-index: 9999999999;}
 .mat-select-value {
   font-size: 0.875rem;
-  color: $dark-gray;
+  font-weight: 300;
+  color: $black;
+  .mat-select-value-text {font-size: .875rem;color: $black;font-weight: 300;}
 }
 .round-input__wrapper .mat-form-field:focus {
   border: 0.0625rem solid $blue;

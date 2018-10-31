@@ -155,7 +155,7 @@
     </div>
   </div><!--/row-->
 
-  <mat-spinner *ngIf="!eventList && !error && view !== 'calendar'" style="margin-top:1.5rem;"></mat-spinner>
+  <mat-spinner *ngIf="!eventList && !error && view !== 'calendar'" style="margin-top:3rem; position: relative; bottom: 1.5rem;"></mat-spinner>
 
   <div class="events__list-body" *ngIf="eventList && view == 'list' ">
   
@@ -219,8 +219,16 @@
         </ng-container><!--/day repeat-->
       </ng-container><!--/month repeat-->
     </ng-container><!--/year repeat-->
+
+    <div class="text-center actions" *ngIf="!listEnd && view !== 'calendar'">
+      <button mat-raised-button color="primary" (click)="loadMore()" role="button" tabindex="0">{{ 'button.load_more' | translate }}</button>
+    </div><!--/text-center-->
+    <div class="text-center actions__error" *ngIf="eventList != null && objectKeys(eventList).length == 0 && eventList">
+      <p role="alert">No result</p>
+    </div><!--/text-center-->
   </div><!--/ngIf-->
   
+<<<<<<< HEAD
   <div class="text-center actions" *ngIf="!listEnd && view !== 'calendar'">
     <button mat-raised-button color="primary" (click)="loadMore()" role="button" tabindex="0">{{ 'button.load_more' | translate }}</button>
   </div><!--/text-center-->
@@ -231,6 +239,8 @@
     <p role="alert">{{ 'events.no_results' | translate }}</p>
   </div><!--/text-center-->
 
+=======
+>>>>>>> cf168392bbd41090ee701dae1bdcbc13ad6c0761
   <div class="calendar__elem" *ngIf="view == 'calendar'">
 
     <div class="navigation text-center">
@@ -247,7 +257,13 @@
       </span>
     </div><!--/text-center-->
     
-    <table class="calendar">
+
+
+  <mat-spinner *ngIf="loadingCalendar" style="margin-top:3rem; position: relative; bottom: 1.5rem;"></mat-spinner>
+
+
+
+    <table class="calendar" *ngIf="!loadingCalendar">
       <tr>
         <th width="14.2%" tabindex="-1">{{ 'time.monday' | translate }}</th>
         <th width="14.2%" tabindex="-1">{{ 'time.tuesday' | translate }}</th>

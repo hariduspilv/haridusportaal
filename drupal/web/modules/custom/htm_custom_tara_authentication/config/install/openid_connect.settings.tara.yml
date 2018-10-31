@@ -1,0 +1,6 @@
+enabled: false
+settings:
+  client_id:
+  client_secret:
+  authorization_endpoint: 'https://example.com/oauth2/authorize'
+  token_endpoint: 'https://example.com/oauth2/token'

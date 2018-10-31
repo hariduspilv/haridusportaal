@@ -407,7 +407,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
      data: {
        title: this.translate.get('xjson.table_delete_row_confirm_modal_title')['value'],
        content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
-       confirm: this.translate.get('button.yes')['value'],
+       confirm: this.translate.get('button.yes_delete')['value'],
        cancel: this.translate.get('button.cancel')['value'],
      }
    });
@@ -462,7 +462,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(list[list.length-1] != opened) {
       let next = list[list.indexOf(opened) + 1];
       if(this.isStepDisabled(next) === false){
-        output.push({label: 'button.submit', step: next, 'type':'button'});
+        output.push({label: 'button.next', step: next, 'type':'link'});
       }
     }
     return output;
@@ -600,6 +600,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     let editableActivities = ['SUBMIT', 'CONTINUE'];
     let maxStepActions = [{action: 'SAVE', label: 'button.save_draft'}]
     if(this.opened_step < this.max_step){
+
       let displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
       if(displayEditButton) output['primary'].push({label: 'button.edit' , action: 'EDIT', style: 'primary'})
 

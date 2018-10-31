@@ -35,7 +35,7 @@ export class EventsConfig {
       tagsEnabled: this.tagsEnabled,
       typesValue: this.typesValue,
       typesEnabled: this.typesEnabled,
-      titleValue: encodeURIComponent("%" + this.titleValue + "%"),
+      titleValue: "%" + this.titleValue + "%",
       titleEnabled: this.titleEnabled,
       dateFrom: this.dateFrom,
       dateTo: this.dateTo,
