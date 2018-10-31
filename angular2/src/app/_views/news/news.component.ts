@@ -166,7 +166,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       variables: {
         tagValue: this.params.types ? this.params.types.split(",") : "",
         tagEnabled: this.params.types ? true : false,
-        titleValue: encodeURIComponent("%"+(this.params.title || '')+"%"),
+        titleValue: "%"+(this.params.title || '')+"%",
         titleEnabled: this.params.title ? true : false,
         minDate: this.params.dateFrom ? dateFromUnix : "-2147483647",
         maxDate: this.params.dateTo ? dateToUnix :"2147483647",
