@@ -39,7 +39,7 @@ input { font-size: 0.875rem; }
 .xjson__navigation__step.active {
   font-weight: 500; margin-bottom: 0rem;
   a{
-    text-decoration: none!important;
+    text-decoration: none!important; pointer-events: none;
     &:before {
       width: 0.9375rem; height: 0.9375rem; background-color: $aqua; border-radius: 3.125rem; display: block;
       line-height: 2.1875rem; text-align: center; margin: 0 auto 0px auto; z-index: 1; margin-top: -0.3125rem;
