@@ -184,9 +184,9 @@
 
           <div>
             <ng-container *ngFor="let event of eventList[yearKey][monthKey][dayKey]; let first = first; let last = last">
-              <a href="javascript:void();" class="events__block pointer"  [routerLink]="event.entityUrl.path">
+              <div class="events__block">
                 <div class="events__content">
-             <div class="title"><h1>{{ event.title }}</h1></div>
+             <div class="title"><a href="javascript:void();" [routerLink]="event.entityUrl.path"><h1>{{ event.title }}</h1></a></div>
                   <div class="sm-show info">
                     <span>{{ event.firstEventTime | unixToTime }}</span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
@@ -213,7 +213,7 @@
                     </mat-chip-list>
                   </div><!--/row-->
                 </div>
-              </a>
+              </div>
             </ng-container><!--/event repeat-->
           </div>
         </ng-container><!--/day repeat-->
@@ -228,6 +228,16 @@
     </div><!--/text-center-->
   </div><!--/ngIf-->
   
+  <div class="text-center actions" *ngIf="!listEnd && view !== 'calendar'">
+    <button mat-raised-button color="primary" (click)="loadMore()" role="button" tabindex="0">{{ 'button.load_more' | translate }}</button>
+  </div><!--/text-center-->
+
+
+  <div class="text-center actions__error" *ngIf="eventList != null && objectKeys(eventList).length == 0 && eventList">
+
+    <p role="alert">{{ 'events.no_results' | translate }}</p>
+  </div><!--/text-center-->
+
   <div class="calendar__elem" *ngIf="view == 'calendar'">
 
     <div class="navigation text-center">
