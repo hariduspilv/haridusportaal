@@ -462,6 +462,8 @@ loadingCalendar: boolean = false;
           this.eventsConfig.offset = 0;
         }
         
+        console.log(this.eventsConfig.dateFrom);
+        
         /*
         if( this.view == "list" ){
 

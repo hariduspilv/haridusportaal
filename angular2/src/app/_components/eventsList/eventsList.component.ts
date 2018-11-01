@@ -74,7 +74,12 @@ export class EventsListComponent implements OnInit, OnDestroy{
       
       let data = response['data'];
       
-      this.events = data['nodeQuery']['entities'];
+      this.events = data['nodeQuery']['entities'].sort((a, b) => {
+        if (moment(a.fieldEventMainDate.unix * 1000).format("YYYY-MM-DD") === moment(b.fieldEventMainDate.unix * 1000).format("YYYY-MM-DD")) {
+          return a.fieldEventMainStartTime - b.fieldEventMainStartTime;
+        }
+        return 0;
+      });
      
       subscription.unsubscribe();
     }, err => {
