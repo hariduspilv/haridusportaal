@@ -15,6 +15,7 @@ export class OskaAreasSidebarComponent implements OnInit {
   @Input() viewType: any;
 
   private lang: any = 'et';
+  private jobPagesExist: boolean = false;
   private locationPerLang: any = false;
   private learningQuery: any = false;
   private generalLimiter: number = 5;
@@ -51,6 +52,9 @@ export class OskaAreasSidebarComponent implements OnInit {
         }
       }
     );
+    this.sidebar.fieldJobs.forEach(elem => {
+      if (elem.entity.fieldJobLink) { this.jobPagesExist = true; }
+    });
     subscription.unsubscribe()
     if (this.viewType === 'field') {
       this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
