@@ -18,14 +18,15 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * Provides a resource to get view modes by entity and bundle.
  *
  * @RestResource(
- *   id = "download_certificate_rest_resource",
- *   label = @Translation("Download certificate rest resource"),
+ *   id = "get_certificate_public_rest_resource",
+ *   label = @Translation("Get certificate public rest resource"),
  *   uri_paths = {
- *     "canonical" = "/certificate-download/{certificate_id}"
+ *     "canonical" = "/certificate-public-download/{id_code}/{certificate_id}",
+ *     "create" = "/certificate-public"
  *   }
  * )
  */
-class DownloadCertificateRestResource extends ResourceBase {
+class GetCertificatePublicRestResource extends ResourceBase {
 
   /**
    * A current user instance.
@@ -35,7 +36,14 @@ class DownloadCertificateRestResource extends ResourceBase {
   protected $currentUser;
 
   /**
-   * Constructs a new DownloadCertificateRestResource object.
+   *  Ehis connector service
+   *
+   * @var EhisConnectorService
+   */
+  protected $ehisConnector;
+
+  /**
+   * Constructs a new GetCertificatePublicRestResource object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -59,7 +67,7 @@ class DownloadCertificateRestResource extends ResourceBase {
     AccountProxyInterface $current_user,
 		EhisConnectorService $ehisConnectorService) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-		$this->certificate = $ehisConnectorService;
+		$this->ehisConnector = $ehisConnectorService;
     $this->currentUser = $current_user;
   }
 
@@ -72,39 +80,64 @@ class DownloadCertificateRestResource extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('htm_custom_ehis_connector'),
+      $container->get('logger.factory')->get('htm_custom_professional_certific'),
       $container->get('current_user'),
-			$container->get('htm_custom_ehis_connector.default')
+      $container->get('htm_custom_ehis_connector.default')
     );
   }
 
 
 	/**
+	 * @param $id_code
 	 * @param $certificate_id
-	 * @return ResourceResponse|BinaryFileResponse
+	 * @return array|ResourceResponse|mixed|\Psr\Http\Message\ResponseInterface|BinaryFileResponse
 	 */
-	public function get($certificate_id) {
+	public function get($id_code, $certificate_id) {
+		$params = [
+			'id_code' => $id_code,
+			'certificate_id' => $certificate_id
+		];
+
+		$response = $this->ehisConnector->getCertificatePublic($params);
+		if($document = $response['value']['tunnistus']){
+			$sym_file = new Base64EncodedFile($document['value']);
+			$response = new BinaryFileResponse($sym_file->getRealPath());
+			$response->setContentDisposition(
+				ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+				$document['filename']
+			);
+			$response->setMaxAge(0);
+			return $response;
+		}
+
+		return new ResourceResponse('Certificate not found', 404);
+	}
+
+  /**
+   * Responds to POST requests.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity object.
+   *
+   * @return \Drupal\rest\ModifiedResourceResponse
+   *   The HTTP response object.
+   *
+   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+   *   Throws exception expected.
+   */
+  public function post($params) {
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
-		$params['certificate_id'] = $certificate_id;
-    $json = $this->certificate->getCertificate($params);
+    if(isset($params['id_code']) && isset($params['certificate_id'])){
+    	$response = $this->ehisConnector->getCertificatePublic($params);
+    	return new ModifiedResourceResponse($response);
+    }
 
-    if($document = $json['value']['tunnistus']){
-			$sym_file = new Base64EncodedFile($document['value']);
-			$response = new BinaryFileResponse($sym_file->getRealPath());
-			$response->setContentDisposition(
-					ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-					$document['filename']
-			);
-	    $response->setMaxAge(0);
-			return $response;
-		}
-
-		return new ResourceResponse('Certificate not found', 404);
+    return new ModifiedResourceResponse('Parameters missing', 400);
   }
 
 }

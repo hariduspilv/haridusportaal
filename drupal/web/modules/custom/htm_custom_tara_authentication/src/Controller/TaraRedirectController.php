@@ -3,7 +3,9 @@
 namespace Drupal\htm_custom_tara_authentication\Controller;
 
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
 use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
 use Drupal\openid_connect\Claims;
 use Drupal\openid_connect\Controller\RedirectController;
@@ -36,16 +38,115 @@ class TaraRedirectController extends RedirectController{
 	}
 
 	public function authenticate ($client_name) {
-		$parentAuth = parent::authenticate($client_name);
+		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
 
-		$token = $this->jsonAuth->generateToken();
-		$query = (empty($this->messenger->all())) ? ['query' => 'jwt='.$token] : ['query' => 'error='.'errorivark'];
-		$_SESSION['openid_connect_destination'] = [
-			'/node', $query
+		$query = $this->requestStack->getCurrentRequest()->query;
+		$redirect_home = false;
+		// Delete the state token, since it's already been confirmed.
+		unset($_SESSION['openid_connect_state']);
+
+		// Get parameters from the session, and then clean up.
+		$parameters = [
+			'destination' => $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url'),
+			'op' => 'login',
+			'connect_uid' => NULL,
 		];
-		user_logout();
+		foreach ($parameters as $key => $default) {
+			unset($_SESSION['openid_connect_' . $key]);
+		}
+		$destination = $parameters['destination'];
 
-		return $parentAuth;
+		$configuration = $this->config('openid_connect.settings.' . $client_name)
+			->get('settings');
+		$client = $this->pluginManager->createInstance(
+			$client_name,
+			$configuration
+		);
+		if (!$query->get('error') && (!$client || !$query->get('code'))) {
+			// In case we don't have an error, but the client could not be loaded or
+			// there is no state token specified, the URI is probably being visited
+			// outside of the login flow.
+			$redirect_home = true;
+			#throw new NotFoundHttpException();
+		}
+
+		$provider_param = ['@provider' => $client->getPluginDefinition()['label']];
+
+		if ($query->get('error')) {
+			if (in_array($query->get('error'), [
+				'interaction_required',
+				'login_required',
+				'account_selection_required',
+				'consent_required',
+			])) {
+				// If we have an one of the above errors, that means the user hasn't
+				// granted the authorization for the claims.
+				$this->messenger()->addWarning($this->t('Logging in with @provider has been canceled.', $provider_param));
+			}
+			else {
+				// Any other error should be logged. E.g. invalid scope.
+				$variables = [
+					'@error' => $query->get('error'),
+					'@details' => $query->get('error_description') ? $query->get('error_description') : $this->t('Unknown error.'),
+				];
+				$message = 'Authorization failed: @error. Details: @details';
+				$this->loggerFactory->get('openid_connect_' . $client_name)->error($message, $variables);
+				$this->messenger()->addError($this->t('Could not authenticate with @provider.', $provider_param));
+			}
+		}
+		else {
+			// Process the login or connect operations.
+			$tokens = $client->retrieveTokens($query->get('code'));
+			if ($tokens) {
+				if ($parameters['op'] === 'login') {
+					$success = openid_connect_complete_authorization($client, $tokens, $destination);
+
+					$register = \Drupal::config('user.settings')->get('register');
+					if (!$success && $register !== USER_REGISTER_ADMINISTRATORS_ONLY) {
+						$this->messenger()->addError(t('Logging in with @provider could not be completed due to an error.', $provider_param));
+					}
+				}
+				elseif ($parameters['op'] === 'connect' && $parameters['connect_uid'] === $this->currentUser->id()) {
+					$success = openid_connect_connect_current_user($client, $tokens);
+					if ($success) {
+						$this->messenger()->addMessage($this->t('Account successfully connected with @provider.', $provider_param));
+					}
+					else {
+						$this->messenger()->addError($this->t('Connecting with @provider could not be completed due to an error.', $provider_param));
+					}
+				}
+			}
+		}
+
+		$fe_url = $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+		if(empty($this->messenger()->all()) && !$redirect_home){
+			$query = ['jwt' => $this->jsonAuth->generateToken(), 'error' => 'false'];
+		}elseif($redirect_home){
+			$query = [];
+		}else{
+			$query = ['error' => 'true'];
+		}
+		$redirect = Url::fromUri($fe_url, ['query' => $query, 'http' => true])->toString();
+		dump($redirect);
+		die();
+		// log user out because we have own jwt token for auth and dont need session
+		#user_logout();
+		return new TrustedRedirectResponse($redirect);
+
+		// It's possible to set 'options' in the redirect destination.
+		/*if (is_array($destination)) {
+			$query = !empty($destination[1]['query']) ? '?' . $destination[1]['query'] : '';
+			$redirect = Url::fromUri('internal:/' . ltrim($destination[0], '/') . $query)->toString();
+		}
+		else {
+			$redirect = Url::fromUri('internal:/' . ltrim($destination, '/'))->toString();
+		}
+
+
+
+		return new RedirectResponse($redirect);*/
 	}
 
 	public function startAuth(){
