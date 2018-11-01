@@ -38,6 +38,10 @@ class TaraRedirectController extends RedirectController{
 	}
 
 	public function authenticate ($client_name) {
+		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
+
 		$query = $this->requestStack->getCurrentRequest()->query;
 		$redirect_home = false;
 		// Delete the state token, since it's already been confirmed.
