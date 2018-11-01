@@ -1,6 +1,7 @@
-enabled: false
+enabled: true
 settings:
-  client_id:
-  client_secret:
-  authorization_endpoint: 'https://example.com/oauth2/authorize'
-  token_endpoint: 'https://example.com/oauth2/token'
+  redirect_url: ''
+  client_id: eduportaal
+  client_secret: 3ZCdj_0VhB0VXEqvmYyu9_wf
+  authorization_endpoint: 'https://tara-test.ria.ee/oidc/authorize'
+  token_endpoint: 'https://tara-test.ria.ee/oidc/token'

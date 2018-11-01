@@ -598,8 +598,8 @@ xjson:
     en: 'Change table'
   edit_step_confirm_modal_title:
     translation_type: textarea
-    et: 'Taotluse muutmine'
-    en: 'Edit form'
+    et: 'Taotluse vormi muutmine'
+    en: 'Edit application form'
 article:
   label:
     translation_type: textarea
@@ -1549,10 +1549,6 @@ button:
     translation_type: textarea
     et: Järgmine
     en: Next
-  'yes':
-    translation_type: textarea
-    et: Jah
-    en: 'Yes'
   cancel:
     translation_type: textarea
     et: Katkesta
@@ -1609,6 +1605,18 @@ button:
     translation_type: textarea
     et: 'Telli teemad RSS-iga'
     en: 'Order by RSS'
+  yes_delete:
+    translation_type: textarea
+    et: 'Kustuta tabeli rida'
+    en: 'Delete table row'
+  yes_change:
+    translation_type: textarea
+    et: 'Jah,  soovin andmeid muuta'
+    en: 'Yes, I''d like to change data'
+  'yes':
+    translation_type: textarea
+    et: Jah
+    en: 'Yes'
 tooltip:
   share:
     translation_type: textarea
@@ -1903,6 +1911,18 @@ oska:
     translation_type: textarea
     et: Vaade
     en: View
+  ascending:
+    translation_type: textarea
+    et: 'väiksemast suuremaks'
+    en: ascending
+  descending:
+    translation_type: textarea
+    et: 'suuremast väiksemaks'
+    en: descending
+  future_job_opportunities:
+    translation_type: textarea
+    et: 'Tuleviku töövõimalused'
+    en: 'Future job opportunities'
 oskaProfession: {  }
 langcode: et
 sidebar:
@@ -1939,3 +1959,8 @@ url:
     translation_type: textarea
     et: 'URL on kopeeritud lõikepuhvrisse.'
     en: 'URL copied to clipboard.'
+events:
+  no_results:
+    translation_type: textarea
+    et: 'Otsingutulemused puuduvad'
+    en: 'No search results'
