@@ -1,6 +1,7 @@
 .block {
   overflow-x:hidden;
-  overflow-y:visible;
+  overflow-y: auto;
+  -ms-overflow-style: none;
   background: white;
   border-top: $gutter solid $gray;
     margin-bottom: $small;
