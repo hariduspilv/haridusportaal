@@ -183,6 +183,13 @@ class EhisConnectorService {
 		return $this->invokeWithRedis('eTunnistusKod', $params, FALSE);
 	}
 
+	public function getCertificatePublic(array $params = []){
+		$params['url'] = [$params['id_code'], $params['certificate_id'], time()];
+		$params['key'] = $params['id_code'];
+		$params['hash'] = 'eTunnistuskehtivus_'.$params['certificate_id'];
+		return $this->invokeWithRedis('eTunnistusKehtivus', $params, FALSE);
+	}
+
 	/**
 	 * @param array $params
 	 * @return mixed
@@ -193,31 +200,6 @@ class EhisConnectorService {
 		$params['hash'] = 'eeIsikukaart';
  		$response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
 		return $this->filterPersonalCard($response, $params['tab']);
-	}
-
-	/**
-	 * @param array $params
-	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
-	 */
-	public function getApplications(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdRegCode()];
-		$params['key'] = $this->getCurrentUserIdRegCode();
-		#dump($params['init']);
-		// we need to start getDocument service
-		if($params['init']){
-			$params['hash'] = 'getDocuments';
-			$init = $this->invokeWithRedis('getDocuments', $params, FALSE);
-			if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
-				throw new RequestException('Service down');
-			}
-		}
-
-		if($this->useReg()) $params['hash'] = 'mtsys';
-		if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
-		#dump($params);
-		$response = $this->invokeWithRedis('vpTaotlus', $params);
-		$this->getFormDefinitionTitle($response, $params['hash']);
-		return $response;
 	}
 
 	public function getDocument(array $params = []){
@@ -261,6 +243,31 @@ class EhisConnectorService {
 		if($params['addTitle']){
 			$this->addTitles($response);
 		}
+		return $response;
+	}
+
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
+	public function getApplications(array $params = []){
+		$params['url'] = [$this->getCurrentUserIdRegCode()];
+		$params['key'] = $this->getCurrentUserIdRegCode();
+		#dump($params['init']);
+		// we need to start getDocument service
+		if($params['init']){
+			$params['hash'] = 'getDocuments';
+			$init = $this->invokeWithRedis('getDocuments', $params, FALSE);
+			if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
+				throw new RequestException('Service down');
+			}
+		}
+
+		if($this->useReg()) $params['hash'] = 'mtsys';
+		if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
+		#dump($params);
+		$response = $this->invokeWithRedis('vpTaotlus', $params);
+		$this->getFormDefinitionTitle($response, $params['hash']);
 		return $response;
 	}
 

@@ -9,9 +9,9 @@ use Drupal\user\UserInterface;
 
 function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$userinfo, array $context) {
 	//@TODO we need to change email
-	$userinfo['email'] = 'tere@gmail.com';
-
 	$sub = $context['user_data']['sub'];
+	$userinfo['email'] = "$sub@HTMportaal.ee";
+	#$userinfo['email'] = "$sub@HTMportaal.ee";
 	$userinfo['id_code'] = substr($sub, 2);
 }
 
@@ -24,9 +24,5 @@ function htm_custom_tara_authentication_openid_connect_claims_alter(&$claims){
 	];
 }
 
-function htm_custom_tara_authentication_openid_connect_post_authorize(array $tokens, UserInterface $account, array $userinfo, $plugin_id) {
-	$auth_service = \Drupal::service('authentication.custom_graphql_authentication');
-	$token = $auth_service->generateToken();
-}
 
 
