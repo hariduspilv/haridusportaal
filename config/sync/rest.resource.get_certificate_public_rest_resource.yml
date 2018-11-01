@@ -1,0 +1,19 @@
+uuid: cafe077a-73f3-4fae-8d55-558fd8cc9d36
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_professional_certific
+    - serialization
+    - user
+id: get_certificate_public_rest_resource
+plugin_id: get_certificate_public_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+  formats:
+    - json
+  authentication:
+    - cookie
