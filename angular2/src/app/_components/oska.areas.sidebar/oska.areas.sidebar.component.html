@@ -150,7 +150,7 @@
               </span>
             </a>
             <span *ngIf="!item.entity.fieldJobLink && item.entity.fieldJobName" class="link">
-              <span class="htm-icon icon-filler"></span><span class="label">{{item.entity.fieldJobName}}</span>
+              <span *ngIf="jobPagesExist" class="htm-icon icon-filler"></span><span class="label">{{item.entity.fieldJobName}}</span>
             </span>
           </li>
         </ng-container>
