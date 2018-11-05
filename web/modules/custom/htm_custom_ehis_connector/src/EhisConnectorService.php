@@ -352,9 +352,10 @@ class EhisConnectorService {
 				$keys = [];
 				break;
 		}
-
-		foreach($input['value'] as $key => $value){
-			if(!in_array($key, $keys)) unset($input['value'][$key]);
+		if(isset($input['value'])){
+			foreach($input['value'] as $key => $value){
+				if(!in_array($key, $keys)) unset($input['value'][$key]);
+			}
 		}
 
 		return $input;
