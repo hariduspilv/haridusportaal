@@ -164,7 +164,7 @@ public class HPortalRestController {
   public ResponseEntity<?> getEducationalInstitution(
       @PathVariable("identifier") String identifier,
       @PathVariable("institutionId") String institutionId,
-      @PathVariable("personalCode") String personalCode){
+      @PathVariable("personalCode") String personalCode) {
     return new ResponseEntity<>(
         mtsysWorker.getMtsysOppeasutus(identifier, institutionId, personalCode), HttpStatus.OK);
   }
