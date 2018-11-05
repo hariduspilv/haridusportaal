@@ -106,6 +106,7 @@ class DeleteFavoriteItem extends DeleteEntityBase {
 				$key = array_search($input['id'], array_column($favorites, 'target_id'));
 				if($key || $key === (int) 0){
 					$entity->get('favorites_new')->removeItem($key);
+					$entity->save();
 				} else {
 					throw new \InvalidArgumentException('This page does not exist');
 				}
