@@ -52,23 +52,27 @@ class JwtTokenRestResource extends ResourceBase {
 	 */
 	protected $transcoder;
 
-  /**
-   * Constructs a new JwtTokenRestResource object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param array $serializer_formats
-   *   The available serialization formats.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   A logger instance.
-   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
-   *   A current user instance.
-   */
-  public function __construct(
+
+	/**
+	 * @var JsonAuthenticationProvider
+	 */
+	protected $authenticator;
+
+
+	/**
+	 * JwtTokenRestResource constructor.
+	 *
+	 * @param array                      $configuration
+	 * @param                            $plugin_id
+	 * @param                            $plugin_definition
+	 * @param array                      $serializer_formats
+	 * @param LoggerInterface            $logger
+	 * @param AccountProxyInterface      $current_user
+	 * @param JwtTranscoderInterface     $transcoder
+	 * @param EventDispatcherInterface   $event_dispatcher
+	 * @param JsonAuthenticationProvider $jsonAuthenticationProvider
+	 */
+	public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
