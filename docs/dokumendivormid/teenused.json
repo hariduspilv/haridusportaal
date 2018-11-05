@@ -1,197 +1,35 @@
 *** GET DOCUMENTS ***
-"getDocuments_request" :
+get Documents sisend
 {
-	"request_ID" : "päringu unikaalne seerianumber",
-	"user_identifier" : "kasutaja isikukood",
-	"represented_person_identifier" : "esindatava isiku isikukood",
-	"represented_organization_identifier" : "esindatava ettevõtte registrikood",
-	"document_names" : ["Masinloetav dokumendivormi koodnimetus", "Masinloetav dokumendivormi koodnimetus", "jne"]
+	"user_identifier" :  isikukood või registrikood,
+	"type" : "person" või "juridical"
 }
 
-"getDocuments_response" :
+getDocuments vastus :
 {
 	"documents" : [
 		{
-			"request_ID" : "päringu unikaalne seerianumber",
-			"form_name" : "string, dokumendi vormi kood",
-			"identifier" :  "string, dokumendi unikaalne identifikaator infosüsteemis",
-			"document_date" : "string, dokumendi koostamise kuupäev ilma kellaajata YYYY-MM-DD",
-			"status" : "string, dokumendi olek infosüsteemis",
-			"description" : "string,  lisainfo dokumendi kohta",
-			"references" : [
-				{
-					"form_name" : "string, dokumendis viidatava dokumendi vormi kood",
-					"identifier" : "string, dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis"
-					}
-			]
+			"form_name" : string, dokumendi vormi kood,
+			"id" :  string, dokumendi unikaalne identifikaator infosüsteemis,
+			"document_date" : string, dokumendi koostamise kuupäev ilma kellaajata YYYY-MM-DD,
+			"status" : string, dokumendi olek infosüsteemis,
+			"description" : string, portaali kasutajale kuvatav lisainfo dokumendi kohta,
+			"parameters" : { kasutajale mitte kuvatav info json name-value paaridena, edastatakse dokumendi päringusse }
 		}
 	],
 	"drafts" : [
 		{
-			"request_ID" : "päringu unikaalne seerianumber",
-			"form_name" : "string, sisestamisel oleva dokumendi vormi kood",
-			"identifier" :  "string, sisestamisel oleva dokumendi unikaalne identifikaator infosüsteemis",
-			"modified" : "srting, sisestamisel oleva dokumendi viimase muutmise aeg YYYY-MM-DDTHH:MM:SSZ",
-			"deadline" : "string, dokumendi esitamise võimalik viimane kuupäev ilma kellaajata YYYY-MM-DD",
-			"references" : [
-				{
-					"form_name" : "string, sisestamisel olevas dokumendis viidatava dokumendi vormi kood",
-					"identifier" : "string, sisestamisel olevas dokumendis viidatava dokumendi unikaalne identifikaator infosüsteemis"
-
-				}
-			]
+			"form_name" : string, dokumendi vormi kood,
+			"id" :  string, dokumendi unikaalne identifikaator infosüsteemis,
+			"document_date" : string, dokumendi koomise kuupäev ilma kellaajata YYYY-MM-DD,
+			"description" : string, portaali kasutajale kuvatav lisainfo dokumendi kohta,
+			"parameters" : { kasutajale mitte kuvatav info json name-value paaridena, edastatakse dokumendi päringusse }
 		}
 	],
 	"acceptable_forms" : [
 		{
-			"request_ID" : "päringu unikaalne seerianumber",
-			"form_name" : "string, võimaliku esitatava dokumendi vormi kood",
-			"deadline" : "string, dokumendi esitamise võimalik viimane kuupäev ilma kellaajata YYYY-MM-DD",
-			"references" : [
-				{
-					"form_name" : "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi vormi kood",
-					"identifier" :  "string, võimaliku esitatava dokumendi esitamise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis"
-				}
-			]
-		}
-	],
-	"inquiries" : [
-		{
-			"request_ID" : "päringu unikaalne seerianumber",
-			"form_name" : "string, nõutava dokumendi vormi kood",
-			"date" : "string, nõude esitamise kuupäev ilma kellaajata YYYY-MM-DD",
-			"deadline" : "string, nõutava dokumendi esitamise tähtaja kuupäev ilma kellaajata YYYY-MM-DD",
-			"description" : "string, nõude selgitus",
-			"contact" : "string, kontaktandmed ja/või -isik nõude sisu kohta täpsema info saamiseks",
-			"references" : [
-				{
-					"form_name" : "string, dokumendi nõudmise aluseks oleva dokumendi vormi kood",
-					"identifier" :  "string, dokumendi nõudmise aluseks oleva dokumendi unikaalne identifikaator infosüsteemis"
-				}
-			]
+			"form_name" : string, võimaliku esitatava dokumendi vormi kood,
+			"description" : string, portaali kasutajale kuvatav lisainfo dokumendi kohta
 		}
 	]
-}
-
-*** GET DOCUMENT ***
-"getDocument_request" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"form_name" : "string, dokumendi vormi kood",
-	"user_identifier" : "Kasutaja isikukood",
-	"represented_person_identifier" : "Esindatava isiku isikukood",
-	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
-	"identifier" : "Dokumendi unikaalne identifikaator"
-}
-
-"getDocument_response" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"document" : { dokumendi sisu },
-	"error" : "Tehniline veateade, kui document-i ei saa väljastada"
-}
-
-*** POST DOCUMENT ***
-"postDocument_request" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"user_identifier" : "Kasutaja isikukood",
-	"represented_person_identifier" : "Esindatava isiku isikukood",
-	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
-	"form_name" : "Dokumendivormi masinloetev kood"
-}
-
-"postDocument_response" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"document" : { dokumendi sisu },
-	"error" : "Tehniline veateadee, kui document-i ei saa väljastada"
-}
-
-*** PUT DOCUMENT ***
-"putDocument_request" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"user_identifier" : "Kasutaja isikukood",
-	"represented_person_identifier" : "Esindatava isiku isikukood",
-	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
-	"document" : { dokumendi sisu }
-}
-
-"putDocument_response" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"document" : { dokumendi sisu },
-	"error" : "Tehniline veateadee, kui document-i ei saa väljastada"
-}
-
-*** DELETE DOCUMENT ***
-"deleteDocument_request" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"user_identifier" : "Kasutaja isikukood",
-	"represented_person_identifier" : "Esindatava isiku isikukood",
-	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
-	"identifier" : "Kustutatava dokumendi unikaalne identifikaator"
-}
-
-"deleteDocument_response" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"error" : "Tehniline veateadee, kui document-i ei saa kustutada"
-}
-
-*** GET DOCEMENT FILE  ***
-"getDocumentFile_request" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"user_identifier" : "Kasutaja isikukood",
-	"represented_person_identifier" : "Esindatava isiku isikukood",
-	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
-	"document_identifier" : "Dokumendi unikaalne identifikaator",
-	"file_identifier" : "Dokumendifaili unikaalne identifikaator"
-}
-
-"getDocumentFile_response" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"file_name" : "Faili nimi",
-	"file_content" : Faili sisu base64 ,
-	"error" : "Tehniline veateadee, kui faili ei saa väljastada"
-}
-
-*** POST DOCUMENT FILE  ***
-"postDocumentFile_request" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"user_identifier" : "Kasutaja isikukood",
-	"represented_person_identifier" : "Esindatava isiku isikukood",
-	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
-	"document_identifier" : "Dokumendi unikaalne identifikaator",
-	"file_name" : "Faili nimi",
-	"file_content" : Faili sisu base64 ,
-}
-
-"postDocumentFile_response" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"file_identifier" : "Lisatud dokumendifaili unikaalne identifikaator",
-	"error" : "Tehniline veateadee, kui faili ei saa salvestada"
-}
-
-*** DELETE DOCEMENT FILE  ***
-"deleteDocumentFile_request" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"user_identifier" : "Kasutaja isikukood",
-	"represented_person_identifier" : "Esindatava isiku isikukood",
-	"represented_organization_identifier" : "Esindatava ettevõtte registrikood",
-	"document_identifier" : "Dokumendi unikaalne identifikaator",
-	"file_identifier" : "Kustutava dokumendifaili unikaalne identifikaator"
-}
-
-"deleteDocumentFile_response" :
-{
-	"request_ID" : "päringu unikaalne seerianumber",
-	"error" : "Tehniline veateadee, kui faili ei saa kustutada"
 }
