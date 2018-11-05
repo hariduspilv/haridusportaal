@@ -34,6 +34,7 @@ class OskaGraphWidgetType extends WidgetBase {
      */
     public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
 
+        $field_name = $this->fieldDefinition->getName();
         $data = isset($items[$delta]->filter_values) ? json_decode($items[$delta]->filter_values, true) : NULL;
         $fields = [];
         $settings = $this->getFieldSettings();
@@ -44,6 +45,37 @@ class OskaGraphWidgetType extends WidgetBase {
             '#type' => 'fieldset',
             '#title' => $this->t('Graph'),
         ];
+
+        $element['graph_set'] = [
+            '#title' => $this->t('Graph set'),
+            '#size' => 256,
+            '#type' => 'select',
+            '#default_value' => isset($data['graph_set']) ? $data['graph_set'] : NULL,
+            '#options' => [
+                'simple' => $this->t('simple'),
+                'combo' => $this->t('combo'),
+                'multi' => $this->t('multi')
+            ],
+            '#required' => FALSE,
+            '#empty_option'  => '-',
+            '#ajax' => [
+                'callback' => [$this,'ajax_dependent_graph_set_callback'],
+                'wrapper' => 'secondary_graph_set'.$delta,
+            ],
+            '#delta' => $delta,
+        ];
+
+        #dump($items[$delta]->graph_set);
+
+        $element['graph_title'] = [
+            '#type' => 'textfield',
+            '#placeholder' => $this->t("Enter title for graph."),
+            '#disabled' => isset($items[$delta]->graph_set) && $items[$delta]->graph_set != '' ? FALSE : TRUE,
+            '#default_value' => isset($items[$delta]->title) ? $items[$delta]->title : NULL,
+            '#maxlength' => 255,
+        ];
+
+        #dump($element['graph_title']);
 
         if($entity){
             foreach($entity->getFields() as $key => $field){
@@ -141,8 +173,6 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            $field_name = $this->fieldDefinition->getName();
-
             if(isset($form_state->getUserInput()[$field_name])){
                 $sec_graph_options = $this->getSecondaryGraphOptions($form_state->getUserInput()[$field_name][$delta]['graph_type']);
             }else if(isset($items[$delta]->graph_type)){
@@ -174,6 +204,14 @@ class OskaGraphWidgetType extends WidgetBase {
         $trigger_element = $form_state->getTriggeringElement();
 
         return $form[$field_name]['widget'][$trigger_element['#delta']]['secondary_graph_type'];
+    }
+
+    public function ajax_dependent_graph_set_callback(array &$form, FormStateInterface $form_state){
+        $field_name = $this->fieldDefinition->getName();
+        $trigger_element = $form_state->getTriggeringElement();
+
+        #dump($form[$field_name]['widget'][$trigger_element['#delta']]);
+        return $form[$field_name]['widget'][$trigger_element['#delta']];
     }
 
     public function getEntities($target_ids){
