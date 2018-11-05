@@ -99,7 +99,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 		#if($this->currentUser->isAuthenticated() && $this->getUserIDcode()) {
 			$storage = $this->entityTypeManager->getStorage('favorite_entity');
 			$entity = $storage->loadByProperties(['user_idcode' => $this->getUserIDcode()]);
-			if (!reset($entity)) {
+			if (!$entity = reset($entity)) {
 				return $this->resolveMissingEntity($value, $args, $info);
 			}
 			if ($entity instanceof TranslatableInterface && $entity->isTranslatable()) {
