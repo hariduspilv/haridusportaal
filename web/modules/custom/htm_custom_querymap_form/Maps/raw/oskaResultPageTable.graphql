@@ -1,0 +1,20 @@
+query oskaResultPageTable{
+  oskaTableEntityQuery{
+    entities{
+      ... on OskaTableEntity{
+        oskaField{
+          entity{
+            ... on NodeOskaFieldPage{
+              title
+            }
+          }
+        }
+        problemDescription
+        proposal
+        responsible
+        proposalStatus
+        expertCommentary
+      }
+    }
+  }
+}
