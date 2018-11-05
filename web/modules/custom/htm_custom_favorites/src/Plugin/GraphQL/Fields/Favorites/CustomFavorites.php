@@ -35,6 +35,12 @@ use Drupal\Core\Language\LanguageManager;
 class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginInterface{
 	use DependencySerializationTrait;
 
+
+	/**
+	 * @var AccountInterface
+	 */
+	protected $currentUser;
+
 	/**
 	 * The entity type manager.
 	 *
@@ -42,31 +48,22 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 	 */
 	protected $entityTypeManager;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
-		return new static(
-				$configuration,
-				$pluginId,
-				$pluginDefinition,
-				$container->get('current_user'),
-				$container->get('entity_type.manager'),
-				$container->get('language_manager')
-		);
-	}
 
 	/**
-	 * MenuByName constructor.
+	 * @var LanguageManager
+	 */
+	protected $languageManager;
+
+
+	/**
+	 * CustomFavorites constructor.
 	 *
-	 * @param array $configuration
-	 *   The plugin configuration array.
-	 * @param string $pluginId
-	 *   The plugin id.
-	 * @param mixed $pluginDefinition
-	 *   The plugin definition.
-	 * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-	 *   The entity type manager service.
+	 * @param array                      $configuration
+	 * @param                            $pluginId
+	 * @param                            $pluginDefinition
+	 * @param AccountInterface           $currentUser
+	 * @param EntityTypeManagerInterface $entityTypeManager
+	 * @param LanguageManager            $languageManager
 	 */
 	public function __construct(
 			array $configuration,
@@ -81,13 +78,28 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 		$this->entityTypeManager = $entityTypeManager;
 		$this->languageManager = $languageManager;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
+		return new static(
+			$configuration,
+			$pluginId,
+			$pluginDefinition,
+			$container->get('current_user'),
+			$container->get('entity_type.manager'),
+			$container->get('language_manager')
+		);
+	}
 	/**
 	 * {@inheritdoc}
 	 */
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 		#if($this->currentUser->isAuthenticated() && $this->getUserIDcode()) {
 			$storage = $this->entityTypeManager->getStorage('favorite_entity');
-			if (!$entity = reset($storage->loadByProperties(['user_idcode' => $this->getUserIDcode()]))) {
+			$entity = $storage->loadByProperties(['user_idcode' => $this->getUserIDcode()]);
+			if (!reset($entity)) {
 				return $this->resolveMissingEntity($value, $args, $info);
 			}
 			if ($entity instanceof TranslatableInterface && $entity->isTranslatable()) {
@@ -99,15 +111,9 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 	}
 
 	/**
-	 * @param \Drupal\Core\Entity\EntityInterface $entity
-	 *   The entity to resolve.
-	 * @param \Drupal\Core\Url $url
-	 *   The url of the entity to resolve.
-	 * @param array $args
-	 *   The field arguments array.
-	 * @param \GraphQL\Type\Definition\ResolveInfo $info
-	 *   The resolve info object.
-	 *
+	 * @param EntityInterface $entity
+	 * @param array           $args
+	 * @param ResolveInfo     $info
 	 * @return \Generator
 	 */
 	protected function resolveEntity(EntityInterface $entity, array $args, ResolveInfo $info) {
@@ -122,8 +128,6 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 	}
 
 	/**
-	 * m
-	 *
 	 * @param array $value
 	 *   The url of the entity to resolve.
 	 * @param array $args
@@ -137,19 +141,12 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 		yield (new CacheableValue(NULL))->addCacheTags(['4xx-response']);
 	}
 
+
 	/**
-	 * Resolves the entity translation from the given url context.
-	 *
-	 * @param \Drupal\Core\Entity\EntityInterface $entity
-	 *   The entity to resolve.
-	 * @param \Drupal\Core\Url $url
-	 *   The url of the entity to resolve.
-	 * @param array $args
-	 *   The field arguments array.
-	 * @param \GraphQL\Type\Definition\ResolveInfo $info
-	 *   The resolve info object.
-	 *
-	 * @return \Iterator
+	 * @param EntityInterface $entity
+	 * @param array           $args
+	 * @param ResolveInfo     $info
+	 * @return \Generator
 	 */
 	protected function resolveEntityTranslation(EntityInterface $entity, array $args, ResolveInfo $info) {
 		if ($entity instanceof TranslatableInterface && isset($args['language'])) {
@@ -157,7 +154,6 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 		}
 		return $this->resolveEntity($entity, $args, $info);
 	}
-
 
 	private function getUserIDcode(){
 		return ($code = User::load($this->currentUser->id())->field_user_idcode->value) ? $code : 0 ;
