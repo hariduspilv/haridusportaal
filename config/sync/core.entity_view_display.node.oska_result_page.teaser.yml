@@ -28,4 +28,12 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_result_page_files: true
+  field_result_page_graph: true
+  field_result_page_introduction: true
+  field_result_page_links: true
+  field_result_page_picture: true
+  field_result_page_sidebar: true
+  field_result_page_table_file: true
+  field_result_page_video: true
   langcode: true
