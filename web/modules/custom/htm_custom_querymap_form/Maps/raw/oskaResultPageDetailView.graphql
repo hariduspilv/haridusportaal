@@ -1,91 +1,102 @@
-query oskaResultPageDetailView($lang: LanguageId!) {
-  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "oska_result_page", language: $lang}}) {
-    entities(language: $lang) {
-      ... on NodeOskaResultPage {
-        nid
-        entityLabel
-        fieldResultPageIntroduction
-        body {
-          value
+query oskaResultPageDetailView($path: String!) {
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        language {
+          id
         }
-        fieldResultPageSidebar {
-          entity {
-            ... on ParagraphRightSidebarSectionInfo {
-              fieldAdditional {
-                entity {
-                  ... on ParagraphAdditionalSection {
-                    fieldTitle
-                    fieldAdditionalBody
+        url {
+          path
+        }
+      }
+      entity {
+        ... on NodeOskaResultPage {
+          nid
+          entityLabel
+          fieldResultPageIntroduction
+          body {
+            value
+          }
+          fieldResultPageSidebar {
+            entity {
+              ... on ParagraphRightSidebarSectionInfo {
+                fieldAdditional {
+                  entity {
+                    ... on ParagraphAdditionalSection {
+                      fieldTitle
+                      fieldAdditionalBody
+                    }
                   }
                 }
-              }
-              fieldContactSection {
-                entity {
-                  ... on ParagraphContactSection {
-                    fieldPhone
-                    fieldPerson
-                    fieldEmail
-                    fieldOrganization
+                fieldContactSection {
+                  entity {
+                    ... on ParagraphContactSection {
+                      fieldPhone
+                      fieldPerson
+                      fieldEmail
+                      fieldOrganization
+                    }
                   }
                 }
-              }
-              fieldRelatedArticle {
-                url {
-                  path
+                fieldRelatedArticle {
+                  url {
+                    path
+                  }
+                  title
                 }
-                title
-              }
-              fieldHyperlinks {
-                url {
-                  path
+                fieldHyperlinks {
+                  url {
+                    path
+                  }
+                  title
                 }
-                title
               }
             }
           }
-        }
-        fieldResultPageVideo {
-          input
-          videoDomain
-          videoDescription
-          videoId
-        }
-        fieldResultPageLinks {
-          url {
-            path
+          fieldResultPageVideo {
+            input
+            videoDomain
+            videoDescription
+            videoId
+          }
+          fieldResultPageLinks {
+            url {
+              path
+              __typename
+            }
+            title
+          }
+          fieldResultPageFiles {
+            description
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+              __typename
+            }
             __typename
           }
-          title
-        }
-        fieldResultPageFiles {
-          description
-          entity {
-            entityLabel
-            entityType
-            entityChanged
-            entityBundle
-            entityCreated
-            url
-            filename
-            filemime
+          fieldResultPageTableFile {
+            description
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+              __typename
+            }
             __typename
           }
-          __typename
-        }
-        fieldResultPageTableFile {
-          description
-          entity {
-            entityLabel
-            entityType
-            entityChanged
-            entityBundle
-            entityCreated
-            url
-            filename
-            filemime
-            __typename
-          }
-          __typename
         }
       }
     }
