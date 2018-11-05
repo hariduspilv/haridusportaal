@@ -24,6 +24,13 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class StateExamsKodRestResource extends ResourceBase {
 
+	/**
+	 * Ehis connector service
+	 *
+	 * @var EhisConnectorService
+	 */
+	protected $certificate;
+
   /**
    * A current user instance.
    *
@@ -31,23 +38,19 @@ class StateExamsKodRestResource extends ResourceBase {
    */
   protected $currentUser;
 
-  /**
-   * Constructs a new StateExamsKodRestResource object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param array $serializer_formats
-   *   The available serialization formats.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   A logger instance.
-   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
-   *   A current user instance.
-   */
-  public function __construct(
+
+	/**
+	 * StateExamsKodRestResource constructor.
+	 *
+	 * @param array                 $configuration
+	 * @param                       $plugin_id
+	 * @param                       $plugin_definition
+	 * @param array                 $serializer_formats
+	 * @param LoggerInterface       $logger
+	 * @param AccountProxyInterface $current_user
+	 * @param EhisConnectorService  $ehisConnectorService
+	 */
+	public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
@@ -75,19 +78,12 @@ class StateExamsKodRestResource extends ResourceBase {
     );
   }
 
-  /**
-   * Responds to GET requests.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
-   *
-   * @return \Drupal\rest\ResourceResponse
-   *   The HTTP response object.
-   *
-   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-   *   Throws exception expected.
-   */
-  public function get($session_id) {
+
+	/**
+	 * @param $session_id
+	 * @return ResourceResponse
+	 */
+	public function get($session_id) {
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.

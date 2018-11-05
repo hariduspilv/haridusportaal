@@ -27,6 +27,13 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class ProfessionalCertificateRestResource extends ResourceBase {
 
+
+	/**
+	 * Ehis connector service
+	 *
+	 * @var EhisConnectorService
+	 */
+	protected $certificate;
   /**
    * A current user instance.
    *
@@ -34,23 +41,19 @@ class ProfessionalCertificateRestResource extends ResourceBase {
    */
   protected $currentUser;
 
-  /**
-   * Constructs a new ProfessionalCertificateRestResource object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param array $serializer_formats
-   *   The available serialization formats.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   A logger instance.
-   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
-   *   A current user instance.
-   */
-  public function __construct(
+
+	/**
+	 * ProfessionalCertificateRestResource constructor.
+	 *
+	 * @param array                 $configuration
+	 * @param                       $plugin_id
+	 * @param                       $plugin_definition
+	 * @param array                 $serializer_formats
+	 * @param LoggerInterface       $logger
+	 * @param AccountProxyInterface $current_user
+	 * @param EhisConnectorService  $ehisConnectorService
+	 */
+	public function __construct(
 			array $configuration,
 			$plugin_id,
 			$plugin_definition,
@@ -78,19 +81,22 @@ class ProfessionalCertificateRestResource extends ResourceBase {
     );
   }
 
-  /**
-   * Responds to GET requests.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
-   *
-   * @return \Drupal\rest\ModifiedResourceResponse
-   *   The HTTP response object.
-   *
-   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-   *   Throws exception expected.
-   */
-  public function get($service_name, $tab) {
+
+	/**
+	 *
+	 * Responds to GET requests.
+	 *
+	 * @param $service_name
+	 *   The serice key
+	 *
+	 * @param $tab.
+	 *
+	 * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+	 *   Throws exception expected.
+	 *
+	 * @return ResourceResponse
+	 */
+	public function get($service_name, $tab) {
 		// You must to implement the logic of your REST Resource here.
 		// Use current user after pass authentication to validate access.
 		if (!$this->currentUser->hasPermission('access content')) {
@@ -123,7 +129,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		try{
 			$json = $this->certificate->{$method}($params);
 		}catch (RequestException $e){
-			return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
+			return new ResourceResponse($e->getMessage(), $e->getCode());
 		}
 
 		$response = new ResourceResponse($json, 200);
