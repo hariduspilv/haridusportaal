@@ -29,7 +29,7 @@ class GoogleChartValue extends TypedData {
         $filter_values = $graph_info;
 
         foreach($graph_info as $key => $value){
-            if($key != 'graph_type' && $key != 'secondary_graph_type' && $key != 'graph_v_axis'){
+            if($key != 'graph_type' && $key != 'secondary_graph_type' && $key != 'graph_v_axis' && $key != 'graph_set' && $key != 'graph_title'){
                 $filter_values[$key] = $value;
                 unset($graph_info[$key]);
             }else{
