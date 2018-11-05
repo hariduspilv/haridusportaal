@@ -42,6 +42,10 @@ class OskaGraphField extends FieldItemBase {
             ->setLabel(t('Chart value'))
             ->setComputed(TRUE)
             ->setClass('\Drupal\htm_custom_oska\GoogleChartValue');
+        $properties['graph_set'] = DataDefinition::create('string')
+            ->setLabel(t('Chart set'));
+        $properties['graph_title'] = DataDefinition::create('string')
+            ->setLabel(t('Chart title'));
         $properties['graph_v_axis'] = DataDefinition::create('string')
             ->setLabel(t('Chart x axis'));
         $properties['filter_values'] = DataDefinition::create('string')
@@ -62,10 +66,20 @@ class OskaGraphField extends FieldItemBase {
     public static function schema(FieldStorageDefinitionInterface $field_definition)
     {
         $schema['columns']['value'] = [
-            'description' => 'Graph title.',
+            'description' => 'Graph value.',
             'type' => 'json',
             'pgsql_type' => 'json',
             'mysql_type' => 'json',
+            'not null' => FALSE,
+        ];
+        $schema['columns']['graph_set'] = [
+            'description' => 'Graph set.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
+        $schema['columns']['graph_title'] = [
+            'description' => 'Graph title.',
+            'type' => 'varchar',
             'not null' => FALSE,
         ];
         $schema['columns']['filter_values'] = [
@@ -107,14 +121,18 @@ class OskaGraphField extends FieldItemBase {
 
     public function preSave()
     {
-        $graph_v_axis_value = $this->getCleanLabel($this->values['graph_v_axis']);
-        $indicators = $this->getIndicators($this->values);
+        #kint($this->values);
+        #die();
+        #$graph_v_axis_value = $this->getCleanLabel($this->values['graph_v_axis']);
+        #$indicators = $this->getIndicators($this->values);
         $this->values = [
-            'graph_type' => $this->values['graph_type'],
-            'secondary_graph_type' => $this->values['secondary_graph_type'] != "" ? $this->values['secondary_graph_type'] : NULL,
-            'graph_v_axis' => $graph_v_axis_value,
-            'graph_indicator' => isset($indicators[0]) ? $indicators[0] : NULL,
-            'secondary_graph_indicator' => isset($indicators[1]) ? $indicators[1] : NULL,
+            'graph_set' => $this->values['graph_set'],
+            #'graph_title' => $this->values['graph_title'],
+            #'graph_type' => $this->values['graph_type'],
+            #'secondary_graph_type' => $this->values['secondary_graph_type'] != "" ? $this->values['secondary_graph_type'] : NULL,
+            #'graph_v_axis' => $graph_v_axis_value,
+            #'graph_indicator' => isset($indicators[0]) ? $indicators[0] : NULL,
+            #'secondary_graph_indicator' => isset($indicators[1]) ? $indicators[1] : NULL,
             'filter_values' => json_encode($this->values, TRUE),
         ];
     }
