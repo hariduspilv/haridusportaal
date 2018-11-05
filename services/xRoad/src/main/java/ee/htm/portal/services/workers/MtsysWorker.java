@@ -3,10 +3,16 @@ package ee.htm.portal.services.workers;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.client.EhisXRoadService;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Aadress;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusDocument.MtsysLaeOppeasutus;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusResponseDocument.MtsysLaeOppeasutusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusAndmed;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusKontaktandmed;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusResponseDocument.MtsysOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusloadResponseDocument.MtsysTegevusloadResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevuslubaResponseDocument.MtsysTegevuslubaResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.OppeasutusDetail;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -575,6 +581,135 @@ public class MtsysWorker extends Worker {
     redisTemplate.opsForHash().put(institutionId, "educationalInstitution_" + identifier, jsonNode);
 
     return jsonNode;
+  }
+
+  public ObjectNode postMtsysLaeOppeasutus(ObjectNode jsonNodeRequest, String personalCode) {
+    ObjectNode jsonNodeResponse = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser("SYSTEM - XROAD");
+    logForDrupal.setType("EHIS - mtsysLaeOppeasutus.v1");
+
+    try {
+      MtsysLaeOppeasutus request = MtsysLaeOppeasutus.Factory.newInstance();
+      if (jsonNodeRequest.get("educationalInstitutionId") != null
+          && !jsonNodeRequest.get("educationalInstitutionId").isNull()) {
+        request.setOppeasutuseId(jsonNodeRequest.get("educationalInstitutionId")
+            .bigIntegerValue()); //optional, olemas siis kui on muutmine, muidu tühi
+      }
+      request.setRegNr(jsonNodeRequest.get("ownerId").bigIntegerValue()); //tegelusload/asutus/regnr
+      request.setNimetus(jsonNodeRequest.get("ownerName").asText()); //xsd optional / eesti.ee's mitte, tegevusload/asutus/nimetus
+
+      OppeasutusDetail oppeasutusDetail = OppeasutusDetail.Factory.newInstance();
+
+      if (jsonNodeRequest.get("educationalInstitution").get("generalData") != null) {
+        MtsysOppeasutusAndmed oppeasutusAndmed = MtsysOppeasutusAndmed.Factory.newInstance();
+        if (jsonNodeRequest.get("educationalInstitution").get("generalData").get("owner") != null) {
+          oppeasutusAndmed.setOmanik(jsonNodeRequest.get("educationalInstitution")
+              .get("generalData").get("owner").asText()); //optional olemas kui on muutmine, muidu tühi
+        }
+        oppeasutusAndmed.setOppeasutuseNimetus(jsonNodeRequest.get("educationalInstitution")
+            .get("generalData").get("name").asText()); //lenght < 255
+        if (jsonNodeRequest.get("educationalInstitution").get("generalData")
+            .get("nameENG") != null) {
+          oppeasutusAndmed.setOppeasutuseNimetusIngliseKeeles(
+              jsonNodeRequest.get("educationalInstitution").get("generalData")
+                  .get("nameENG").asText()); //optional , lenght < 255
+        }
+        oppeasutusAndmed.setKlPidajaLiik(jsonNodeRequest.get("educationalInstitution")
+            .get("generalData").get("ownerType").asInt());
+        oppeasutusAndmed.setKlOmandivorm(jsonNodeRequest.get("educationalInstitution")
+            .get("generalData").get("ownershipType").asInt());
+        oppeasutusAndmed.setKlOppeasutuseLiik(jsonNodeRequest.get("educationalInstitution")
+            .get("generalData").get("studyInstitutionType").asInt());
+        oppeasutusDetail.setYldandmed(oppeasutusAndmed);
+      }
+
+      if (jsonNodeRequest.get("educationalInstitution").get("address") != null) {
+        Aadress aadress = Aadress.Factory.newInstance();
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("seqNo") != null) {
+          aadress.setJrkNr(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("seqNo").asLong()); //optional
+        }
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("adsId") != null) {
+          aadress.setAdsId(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("adsId").bigIntegerValue()); //optional
+        }
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("adsOid") != null) {
+          aadress.setAdsOid(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("adsOid").asText()); //optional
+        }
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("klElukoht") != null) {
+          aadress.setKlElukoht(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("klElukoht").bigIntegerValue()); //optional
+        }
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("county") != null) {
+          aadress.setMaakond(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("county").asText()); //optional
+        }
+        if (jsonNodeRequest.get("educationalInstitution").get("address")
+            .get("localGovernment") != null) {
+          aadress.setOmavalitsus(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("localGovernment").asText()); //optional
+        }
+        if (jsonNodeRequest.get("educationalInstitution").get("address")
+            .get("settlementUnit") != null) {
+          aadress.setAsula(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("settlementUnit").asText()); //optional
+        }
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("address") != null) {
+          aadress.setTaisAadress(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("address").asText()); //optional
+        }
+        if (jsonNodeRequest.get("educationalInstitution").get("address")
+            .get("addressFull") != null) {
+          aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("addressFull").asText()); //optional
+        }
+        if (jsonNodeRequest.get("educationalInstitution").get("address")
+            .get("addressHumanReadable") != null) {
+          aadress.setAdsAadressHumanReadable(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("addressHumanReadable").asText()); //optional
+        }
+        oppeasutusDetail.setAadress(aadress);
+      }
+
+      if (jsonNodeRequest.get("educationalInstitution").get("contacts") != null) {
+        MtsysOppeasutusKontaktandmed oppeasutusKontaktandmed = MtsysOppeasutusKontaktandmed.Factory
+            .newInstance();
+        oppeasutusKontaktandmed.setOppeasutuseYldtelefon(
+            jsonNodeRequest.get("educationalInstitution").get("contacts")
+                .get("contactPhone").asText()); //lenght < 25 && matches(., '^\d{0,}$')
+        oppeasutusKontaktandmed.setOppeasutuseEpost(jsonNodeRequest.get("educationalInstitution")
+            .get("contacts").get("contactEmail").asText()); //lenght < 100
+        oppeasutusKontaktandmed.setKoduleheAadress(jsonNodeRequest.get("educationalInstitution")
+            .get("contacts").get("webpageAddress").asText()); //lenght < 255
+        oppeasutusDetail.setKontaktandmed(oppeasutusKontaktandmed);
+      }
+      request.setOppeasutuseAndmed(oppeasutusDetail);
+
+      MtsysLaeOppeasutusResponse response = ehisXRoadService
+          .mtsysLaeOppeasutus(request, personalCode);
+
+      if (response.isSetInfotekst()) {
+        jsonNodeResponse.put("message", response.getInfotekst());
+      }
+
+      logForDrupal.setMessage("EHIS - mtsysLaeOppeasutus.v1 teenusega andmete lisamine õnnestus.");
+    } catch (Exception e) {
+      LOGGER.error(e, e);
+
+      logForDrupal.setSeverity("ERROR");
+      logForDrupal.setMessage(e.getMessage());
+
+      jsonNodeResponse.putObject("error").put("message_type", "ERROR")
+          .putObject("message_text").put("et", "Tehniline viga!");
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    sender.send(logsTopic, null, logForDrupal, "ehis.mtsysKlfTeenus.v1");
+
+    return jsonNodeResponse;
   }
 
   private ObjectNode getKlfNode(String hashKey) {
