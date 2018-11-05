@@ -168,4 +168,13 @@ public class HPortalRestController {
     return new ResponseEntity<>(
         mtsysWorker.getMtsysOppeasutus(identifier, institutionId, personalCode), HttpStatus.OK);
   }
+
+  @RequestMapping(value = "/postEducationalInstitution/{personalCode}", method = RequestMethod.POST,
+      produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+  public ResponseEntity<?> postEducationalInstitution(
+      @PathVariable("personalCode") String personalCode,
+      @RequestBody ObjectNode requestJson) {
+    return new ResponseEntity<>(mtsysWorker.postMtsysLaeOppeasutus(requestJson, personalCode),
+        HttpStatus.OK);
+  }
 }
