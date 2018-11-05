@@ -1,81 +1,101 @@
-﻿{
+{
   "message" : infotekst,
   "ownerid" : asutus/regNr,
   "educationalInstitution" : {
     "id" : asutus/oppeasutus/id,
     "message": asutus/oppeasutus/tegevusnaitajad/tninfotekst,
 
-    "acceptable_form" : {
-      Üks objekt
-      "form_name" : "MTSYS_TEGEVUSLUBA_TAOTLUS",
-    },
-    "draft" : {
-      Objekt iga asutus/oppeasutus/tegevusluba elemendi kohta, kus asutus/oppeasutus/tegevusluba/liik != 18098 ja asutus/oppeasutus/tegevusluba/menetlusStaatus = 15667 või 15669
-      "form_name" : "MTSYS_TEGEVUSLUBA_TAOTLUS",
-      "id" : asutus/oppeasutus/tegevusluba/id,
-      "document_date" : asutus/oppeasutus/tegevusluba/loomiseKp,
-      "description" : asutus/oppeasutus/tegevusluba/liik teisendades nimetuseks tegevusloaLiigid klassifikaatorist
-    },
-    "document" : {
-      Objekt iga asutus/oppeasutus/tegevusluba elemendi kohta, kus asutus/oppeasutus/tegevusluba/liik != 18098 ja asutus/oppeasutus/tegevusluba/menetlusStaatus != 15667 ja 15669
-      "form_name" : "MTSYS_TEGEVUSLUBA",
-      "id" : asutus/oppeasutus/tegevusluba/id,
-      "document_date" : asutus/oppeasutus/tegevusluba/kehtivAlates,
-      "status" : menetlusStaatus teisendades nimetuseks oppekavaStaatused klassifikaatorist,
-      "description" : asutus/oppeasutus/tegevusluba/liik teisendatud nimetuseks klassifikaatorist +
+    TEGEVUSLOAD
+    "acceptable_forms" : [ 
+      {
+        Üks objekt
+        "form_name" : "MTSYS_TEGEVUSLUBA_TAOTLUS",
+      }
+    ],
+    "drafts" : [
+      {
+        Objekt iga asutus/oppeasutus/tegevusluba elemendi kohta, kus asutus/oppeasutus/tegevusluba/liik != 18098 ja asutus/oppeasutus/tegevusluba/menetlusStaatus = 15667 või 15669
+        "form_name" : "MTSYS_TEGEVUSLUBA_TAOTLUS",
+        "id" : asutus/oppeasutus/tegevusluba/id,
+        "document_date" : asutus/oppeasutus/tegevusluba/loomiseKp,
+        "description" : asutus/oppeasutus/tegevusluba/liik teisendades nimetuseks tegevusloaLiigid klassifikaatorist
+      }
+    ],
+    "documents" : [
+      {
+        Objekt iga asutus/oppeasutus/tegevusluba elemendi kohta, kus asutus/oppeasutus/tegevusluba/liik != 18098 ja asutus/oppeasutus/tegevusluba/menetlusStaatus != 15667 ja 15669
+        "form_name" : "MTSYS_TEGEVUSLUBA",
+        "id" : asutus/oppeasutus/tegevusluba/id,
+        "document_date" : asutus/oppeasutus/tegevusluba/kehtivAlates,
+        "status" : menetlusStaatus teisendades nimetuseks oppekavaStaatused klassifikaatorist,
+        "description" : asutus/oppeasutus/tegevusluba/liik teisendatud nimetuseks klassifikaatorist +
         " number " asutus/oppeasutus/tegevusluba/liik +
         " kehtivusega alates " asutus/oppeasutus/tegevusluba/kehtivAlates +
         " kuni " asutus/oppeasutus/tegevusluba/kehtivKuni +
         kui on asutus/oppeasutus/tegevusluba/tyhistamiseKp siis " tühistatud " asutus/oppeasutus/tegevusluba/tyhistamiseKp
-    },
+      }
+    ],
 
-    "acceptable_form" : {
-      Üks objekt
-      "form_name" : "MTSYS_MAJANDUSTEGEVUSE_TEADE",
-    },
-    "draft" : {
-      Objekt iga asutus/oppeasutus/tegevusluba elemendi kohta, kus asutus/oppeasutus/tegevusluba/liik = 18098 ja asutus/oppeasutus/tegevusluba/menetlusStaatus = 15667 või 15669
-      "form_name" : "MTSYS_MAJANDUSTEGEVUSE_TEADE",
-      "id" : asutus/oppeasutus/tegevusluba/id,
-      "document_date" : asutus/oppeasutus/tegevusluba/loomiseKp,
-      "description" : asutus/oppeasutus/tegevusluba/liik teisendades nimetuseks tegevusloaLiigid klassifikaatorist
-    },
-    "document" : {
-      Objekt iga asutus/oppeasutus/tegevusluba elemendi kohta, kus asutus/oppeasutus/tegevusluba/liik = 18098 ja asutus/oppeasutus/tegevusluba/menetlusStaatus != 15667 ja 15669
-      "form_name" : "MTSYS_MAJANDUSTEGEVUSE_TEADE",
-      "id" : asutus/oppeasutus/tegevusluba/id,
-      "document_date" : asutus/oppeasutus/tegevusluba/kehtivAlates,
-      "status" : menetlusStaatus teisendades nimetuseks oppekavaStaatused klassifikaatorist,
-      "description" : asutus/oppeasutus/tegevusluba/liik teisendatud nimetuseks klassifikaatorist +
-        " number " asutus/oppeasutus/tegevusluba/liik +
-        " kehtivusega alates " asutus/oppeasutus/tegevusluba/kehtivAlates +
-        " kuni " asutus/oppeasutus/tegevusluba/kehtivKuni +
-        kui on asutus/oppeasutus/tegevusluba/tyhistamiseKp siis " tühistatud " asutus/oppeasutus/tegevusluba/tyhistamiseKp
-    },
+    MAJANDUSTEGEVUSE TEATED
+    "acceptable_forms" : [
+      {
+        Üks objekt
+        "form_name" : "MTSYS_MAJANDUSTEGEVUSE_TEADE",
+      }
+    ],
+    "drafts" : [
+      {
+        Objekt iga asutus/oppeasutus/tegevusluba elemendi kohta, kus asutus/oppeasutus/tegevusluba/liik = 18098 ja asutus/oppeasutus/tegevusluba/menetlusStaatus = 15667 või 15669
+        "form_name" : "MTSYS_MAJANDUSTEGEVUSE_TEADE",
+        "id" : asutus/oppeasutus/tegevusluba/id,
+        "document_date" : asutus/oppeasutus/tegevusluba/loomiseKp,
+        "description" : asutus/oppeasutus/tegevusluba/liik teisendades nimetuseks tegevusloaLiigid klassifikaatorist
+      }
+    ],
+    "documents" : [
+      {
+        Objekt iga asutus/oppeasutus/tegevusluba elemendi kohta, kus asutus/oppeasutus/tegevusluba/liik = 18098 ja asutus/oppeasutus/tegevusluba/menetlusStaatus != 15667 ja 15669
+        "form_name" : "MTSYS_MAJANDUSTEGEVUSE_TEADE",
+        "id" : asutus/oppeasutus/tegevusluba/id,
+        "document_date" : asutus/oppeasutus/tegevusluba/kehtivAlates,
+        "status" : menetlusStaatus teisendades nimetuseks oppekavaStaatused klassifikaatorist,
+        "description" : asutus/oppeasutus/tegevusluba/liik teisendatud nimetuseks klassifikaatorist +
+          " number " asutus/oppeasutus/tegevusluba/liik +
+          " kehtivusega alates " asutus/oppeasutus/tegevusluba/kehtivAlates +
+          " kuni " asutus/oppeasutus/tegevusluba/kehtivKuni +
+          kui on asutus/oppeasutus/tegevusluba/tyhistamiseKp siis " tühistatud " asutus/oppeasutus/tegevusluba/tyhistamiseKp
+      }
+    ],
 
-    "acceptable_form" : {
-      Üks objekt asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus on ainult asutus/oppeasutus/tegevusnaitaja/aasta (muude elementide väärtused puuduvad)
-      "form_name" : "MTSYS_TEGEVUSNAITAJAD"
-      "description" : aasta,
-    },
-    "draft" : {
-      Objekt iga asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus menetlusStaatus ei ole esitatud
-      "form_name" : "MTSYS_TEGEVUSNAITAJAD",
-      "id" : asutus/oppeasutus/tegevusnaitaja/id,
-      "description" : asutus/oppeasutus/tegevusnaitaja/aasta,
-      "parameters" : { "year" : asutus/oppeasutus/tegevusnaitaja/aasta, "educationalInstitutionId" : asutus/oppeasutus/id }
-    },
-    "document" : {
-      Objekt iga asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus menetlusStaatus on esitatud
+    TEGEVUSNAITAJATE ARUANNE
+    "acceptable_forms" : [
+      {
+        Üks objekt asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus on ainult asutus/oppeasutus/tegevusnaitaja/aasta (muude elementide väärtused puuduvad)
+        "form_name" : "MTSYS_TEGEVUSNAITAJAD",
+        "description" : aasta
+      }
+    ],
+    "drafts" : [
+      {
+        Objekt iga asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus menetlusStaatus ei ole esitatud
+        "form_name" : "MTSYS_TEGEVUSNAITAJAD",
+        "id" : asutus/oppeasutus/tegevusnaitaja/id,
+        "description" : asutus/oppeasutus/tegevusnaitaja/aasta,
+        "parameters" : { "year" : asutus/oppeasutus/tegevusnaitaja/aasta, "educationalInstitutionId" : asutus/oppeasutus/id }
+      }
+    ],
+    "documents" : [
+      {
+        Objekt iga asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus menetlusStaatus on esitatud
              või jooksev kuupäev < 01. aprill ja asutus/oppeasutus/tegevusnaitaja/aasta on jooksev aasta-1
-      "form_name" : "MTSYS_TEGEVUSNAITAJAD",
-      "id" : asutus/oppeasutus/tegevusnaitaja/id,
-      "document_date" : asutus/oppeasutus/tegevusnaitaja/esitamiseKp,
-      "status" : asutus/oppeasutus/tegevusnaitaja/menetlusStaatus,
-      "description" : asutus/oppeasutus/tegevusnaitaja/aasta,
-      "changeable" : true kui jooksev kuupäev < 01. aprill ja asutus/oppeasutus/tegevusnaitaja/aasta >= jooksev aasta-1,
-      "parameters" : { "year" : asutus/oppeasutus/tegevusnaitaja/aasta, "educationalInstitutionId" : asutus/oppeasutus/id }
-    },
-
+        "form_name" : "MTSYS_TEGEVUSNAITAJAD",
+        "id" : asutus/oppeasutus/tegevusnaitaja/id,
+        "document_date" : asutus/oppeasutus/tegevusnaitaja/esitamiseKp,
+        "status" : asutus/oppeasutus/tegevusnaitaja/menetlusStaatus,
+        "description" : asutus/oppeasutus/tegevusnaitaja/aasta,
+        "changeable" : true kui jooksev kuupäev < 01. aprill ja asutus/oppeasutus/tegevusnaitaja/aasta >= jooksev aasta-1,
+        "parameters" :  { "year" : asutus/oppeasutus/tegevusnaitaja/aasta, "educationalInstitutionId" : asutus/oppeasutus/id }
+      }
+    ]
   }
 }
