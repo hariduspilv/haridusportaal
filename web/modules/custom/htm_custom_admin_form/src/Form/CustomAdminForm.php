@@ -26,10 +26,13 @@ class CustomAdminForm extends ConfigFormBase {
     return 'custom_admin_form';
   }
 
-  /**
-  * {@inheritdoc}
-  */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+
+	/**
+	 * @param array              $form
+	 * @param FormStateInterface $form_state
+	 * @return array
+	 */
+	public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
     $config = $this->config('htm_custom_admin_form.customadmin');
 
@@ -174,17 +177,21 @@ class CustomAdminForm extends ConfigFormBase {
     return $form;
   }
 
-  /**
-  * {@inheritdoc}
-  */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+
+	/**
+	 * @param array              $form
+	 * @param FormStateInterface $form_state
+	 */
+	public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
   }
 
-  /**
-  * {@inheritdoc}
-  */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+
+	/**
+	 * @param array              $form
+	 * @param FormStateInterface $form_state
+	 */
+	public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
     $this->config('htm_custom_admin_form.customadmin')
