@@ -121,18 +121,17 @@ class OskaGraphField extends FieldItemBase {
 
     public function preSave()
     {
-        #kint($this->values);
-        #die();
-        #$graph_v_axis_value = $this->getCleanLabel($this->values['graph_v_axis']);
-        #$indicators = $this->getIndicators($this->values);
+
+        $graph_v_axis_value = $this->getCleanLabel($this->values['graph_options']['graph_v_axis']);
+
         $this->values = [
             'graph_set' => $this->values['graph_set'],
-            #'graph_title' => $this->values['graph_title'],
-            #'graph_type' => $this->values['graph_type'],
-            #'secondary_graph_type' => $this->values['secondary_graph_type'] != "" ? $this->values['secondary_graph_type'] : NULL,
-            #'graph_v_axis' => $graph_v_axis_value,
-            #'graph_indicator' => isset($indicators[0]) ? $indicators[0] : NULL,
-            #'secondary_graph_indicator' => isset($indicators[1]) ? $indicators[1] : NULL,
+            'graph_title' => $this->values['graph_options']['graph_title'],
+            'graph_type' => $this->values['graph_options']['graph_type'],
+            'graph_v_axis' => $graph_v_axis_value,
+            'graph_indicator' => $this->getTaxonomyName($this->values['graph_options']['oska_indicator']),
+            'secondary_graph_type' => isset($this->values['graph_options']['secondary_graph_type']) ? $this->values['graph_options']['secondary_graph_type'] : NULL,
+            'secondary_graph_indicator' => isset($this->values['graph_options']['secondary_graph_indicator']) ? $this->getTaxonomyName($this->values['graph_options']['secondary_graph_indicator']) : NULL,
             'filter_values' => json_encode($this->values, TRUE),
         ];
     }
@@ -156,6 +155,13 @@ class OskaGraphField extends FieldItemBase {
             '#size' => 1,
         ];
         return $element;
+    }
+
+    public function getTaxonomyName($field_value){
+        foreach($field_value as $val){
+            $term_name = Term::load($val['target_id'])->getName();
+        }
+        return $term_name;
     }
 
     public function getIndicators($filter_values){

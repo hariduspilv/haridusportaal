@@ -37,7 +37,6 @@ content:
 hidden:
   field_survey_page_accordion: true
   field_survey_page_attachment: true
-  field_survey_page_graph: true
   field_survey_page_introduction: true
   field_survey_page_link: true
   field_survey_page_picture: true
