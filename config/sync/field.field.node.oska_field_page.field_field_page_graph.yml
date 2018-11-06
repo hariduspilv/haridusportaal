@@ -1,4 +1,4 @@
-uuid: 4cc1ba2f-fbcf-450e-a8a7-e4505990e712
+uuid: db5bd41c-e549-4ac1-870a-f03cb370035b
 langcode: et
 status: true
 dependencies:
@@ -11,7 +11,7 @@ id: node.oska_field_page.field_field_page_graph
 field_name: field_field_page_graph
 entity_type: node
 bundle: oska_field_page
-label: Graafik
+label: Infograafika
 description: ''
 required: false
 translatable: false
