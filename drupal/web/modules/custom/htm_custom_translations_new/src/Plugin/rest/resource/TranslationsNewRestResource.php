@@ -112,6 +112,7 @@ class TranslationsNewRestResource extends ResourceBase {
 	private function flatten($array, $prefix = '', $lang_code) {
 		$result = array();
 		foreach($array as $key => $value) {
+			if($key === 'langcode') continue;
 			if(is_array($value) && !isset($value['translation_type'])) {
 				$result[$key] = $this->flatten($value, $key, $lang_code);
 			}

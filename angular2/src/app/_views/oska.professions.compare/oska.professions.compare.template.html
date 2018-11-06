@@ -29,7 +29,7 @@
             (mouseup)="tableService.scrollEnd(true)">
             <span class="htm-icon">keyboard_arrow_right</span>
           </div>
-          <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef');setScrollPos()">
+          <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef');setScrollPos('tableRef')">
             <table class="scrollableTable">
               <thead>
                 <tr *ngIf="list">

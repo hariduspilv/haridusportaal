@@ -1,4 +1,4 @@
-<div [class.snackBar]="viewType !== 'field'">
+<div [class.snackBar]="viewType === 'mainProfession'">
   <!-- sidebar indicators -->
   <div class="block border-orange padding-block sm-top" *ngIf="indicators && indicators.entities && indicators.entities.length">
     <h1 class="medium">{{ 'oskaProfessions.general_indicators' | translate }}</h1>
@@ -211,7 +211,7 @@
   </div>
   <!-- / sidebar.fieldNumberEmployed / -->
   <!-- sidebar.fieldOskaFieldPros/Cons -->
-  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldOskaFieldPros || sidebar.fieldOskaFieldCons">
+  <div class="block border-orange padding-block sm-top" *ngIf="(sidebar.fieldOskaFieldPros && sidebar.fieldOskaFieldPros.length) || (sidebar.fieldOskaFieldCons && sidebar.fieldOskaFieldCons.length)">
     <h1 class="medium">{{ 'sidebar.pros_and_cons' | translate }}</h1>
     <div class="padding-block--content">
       <ng-container *ngIf="sidebar.fieldOskaFieldPros && sidebar.fieldOskaFieldPros.length">
@@ -321,29 +321,102 @@
     </div>
   </div>
   <!-- / sidebar.fieldRelatedPages / -->
-  <!-- sidebar.fieldOskaFieldContact // sidebar.fieldContact -->
-  <div class="block border-orange padding-block sm-top" *ngIf="(sidebar.fieldOskaFieldContact || sidebar.fieldContact) && isContactValid()">
+  <!-- sidebar.fieldAdditional -->
+  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldAdditional && sidebar.fieldAdditional.entity && (sidebar.fieldAdditional.entity.fieldAdditionalBody || sidebar.fieldAdditional.entity.fieldTitle)">
+    <h1 class="medium">{{ 'oska.additional' | translate }}</h1>
+    <div class="padding-block--content">
+      <strong *ngIf="sidebar.fieldAdditional.entity.fieldTitle">{{ sidebar.fieldAdditional.entity.fieldTitle }}</strong>
+      <div *ngIf="sidebar.fieldAdditional.entity.fieldAdditionalBody">{{ sidebar.fieldAdditional.entity.fieldAdditionalBody }}</div>
+    </div>
+  </div>
+  <!-- / sidebar.fieldAdditional / -->
+  <!-- sidebar.fieldOskaFieldContact // sidebar.fieldContact // sidebar.fieldContactSection -->
+  <div class="block border-orange padding-block sm-top" *ngIf="(sidebar.fieldOskaFieldContact || sidebar.fieldContact || sidebar.fieldContactSection) && isContactValid()">
     <h1 class="medium">{{ 'school.contact' | translate }}</h1>
     <div class="padding-block--content">
       <div>
         <span *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldOrganization" role="text" attr.aria-label="{{'event.organizer' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldOrganization}}">{{sidebar.fieldOskaFieldContact.entity.fieldOrganization}}</span>
         <span *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldOrganization" role="text" attr.aria-label="{{'event.organizer' | translate}} {{sidebar.fieldContact.entity.fieldOrganization}}">{{sidebar.fieldContact.entity.fieldOrganization}}</span>
+        <span *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldOrganization" role="text" attr.aria-label="{{'event.organizer' | translate}} {{sidebar.fieldContactSection.entity.fieldOrganization}}">{{sidebar.fieldContactSection.entity.fieldOrganization}}</span>
       </div>
       <div>
         <span *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldPerson" role="text" attr.aria-label="{{'event.person' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldPerson}}">{{sidebar.fieldOskaFieldContact.entity.fieldPerson}}</span>
         <span *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldPerson" role="text" attr.aria-label="{{'event.person' | translate}} {{sidebar.fieldContact.entity.fieldPerson}}">{{sidebar.fieldContact.entity.fieldPerson}}</span>
+        <span *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldPerson" role="text" attr.aria-label="{{'event.person' | translate}} {{sidebar.fieldContactSection.entity.fieldPerson}}">{{sidebar.fieldContactSection.entity.fieldPerson}}</span>
       </div>
       <div class="sm-show">
         <a *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldPhone" attr.aria-label="{{'event.phone | translate'}} {{sidebar.fieldOskaFieldContact.entity.fieldPhone}}" href="tel:{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}" class="hoverLined">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</a>
         <a *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldPhone" attr.aria-label="{{'event.phone | translate'}} {{sidebar.fieldContact.entity.fieldPhone}}" href="tel:{{sidebar.fieldContact.entity.fieldPhone}}" class="hoverLined">{{sidebar.fieldContact.entity.fieldPhone}}</a>
+        <a *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldPhone" attr.aria-label="{{'event.phone | translate'}} {{sidebar.fieldContactSection.entity.fieldPhone}}" href="tel:{{sidebar.fieldContactSection.entity.fieldPhone}}" class="hoverLined">{{sidebar.fieldContactSection.entity.fieldPhone}}</a>
       </div>
       <div class="sm-hide">
         <span *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldPhone" role="text" attr.aria-label="{{'event.phone' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldPhone}}">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</span>
         <span *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldPhone" role="text" attr.aria-label="{{'event.phone' | translate}} {{sidebar.fieldContact.entity.fieldPhone}}">{{sidebar.fieldContact.entity.fieldPhone}}</span>
+        <span *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldPhone" role="text" attr.aria-label="{{'event.phone' | translate}} {{sidebar.fieldContactSection.entity.fieldPhone}}">{{sidebar.fieldContactSection.entity.fieldPhone}}</span>
       </div>
       <div *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldEmail"><a class="hoverLined" attr.aria-label="{{'event.participant_email' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldEmail}}" href="mailto:{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}" alt="">{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}</a></div>
       <div *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldEmail"><a class="hoverLined" attr.aria-label="{{'event.participant_email' | translate}} {{sidebar.fieldContact.entity.fieldEmail}}" href="mailto:{{sidebar.fieldContact.entity.fieldEmail}}" alt="">{{sidebar.fieldContact.entity.fieldEmail}}</a></div>
+      <div *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldEmail"><a class="hoverLined" attr.aria-label="{{'event.participant_email' | translate}} {{sidebar.fieldContactSection.entity.fieldEmail}}" href="mailto:{{sidebar.fieldContactSection.entity.fieldEmail}}" alt="">{{sidebar.fieldContactSection.entity.fieldEmail}}</a></div>
     </div>
   </div>
   <!-- / sidebar.fieldOskaFieldContact // sidebar.fieldContact / -->
+  <!-- sidebar.fieldHyperlinks -->
+  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldHyperlinks && sidebar.fieldHyperlinks.length">
+    <h1 class="medium">{{ 'sidebar.find_quick' | translate }}</h1>
+    <div class="padding-block--content">
+      <ul class="link-list mt-0 mb-0">
+        <ng-container *ngFor="let item of sidebar.fieldHyperlinks; let ind = index;">
+          <li *ngIf="ind < limits['resultHyperlinks']">
+            <a href="{{item.url.path}}" target="_blank" attr.aria-label="{{item.title}}" class="link">
+              <span class="htm-icon">launch</span><span class="label">{{item.title}}</span>
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+      <ng-container *ngIf="typeStatus['resultHyperlinks']">
+        <hr aria-hidden="true">
+        <div class="showMore">
+          <a href="javascript:void(0)" (click)="showMore('resultHyperlinks', 'fieldHyperlinks')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldHyperlinks.length - limits['resultHyperlinks']}})</span></a>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!typeStatus['resultHyperlinks'] && sidebar.fieldHyperlinks.length > generalLimiter" >
+        <hr aria-hidden="true">
+        <div class="showMore">
+          <a href="javascript:void(0)" (click)="hideExtra('resultHyperlinks', 'fieldHyperlinks')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldHyperlinks.length - generalLimiter}})</span></a>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <!-- / sidebar.fieldHyperlinks / -->
+  <!-- sidebar.fieldRelatedArticle -->
+  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldRelatedArticle && sidebar.fieldRelatedArticle.length">
+    <h1 class="medium">{{ 'sidebar.similar_topics' | translate }}</h1>
+    <div class="padding-block--content">
+      <ul class="link-list mt-0 mb-0">
+        <ng-container *ngFor="let item of sidebar.fieldRelatedArticle; let ind = index;">
+          <li *ngIf="ind < limits['resultRelatedArticle']">
+            <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link">
+              <span>
+                <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
+                <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
+              </span>
+            </a>
+          </li>
+        </ng-container>
+      </ul>
+      <ng-container *ngIf="typeStatus['resultRelatedArticle']">
+        <hr aria-hidden="true">
+        <div class="showMore">
+          <a href="javascript:void(0)" (click)="showMore('resultRelatedArticle', 'fieldRelatedArticle')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldRelatedArticle.length - limits['resultRelatedArticle']}})</span></a>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!typeStatus['resultRelatedArticle'] && sidebar.fieldRelatedArticle.length > generalLimiter" >
+        <hr aria-hidden="true">
+        <div class="showMore">
+          <a href="javascript:void(0)" (click)="hideExtra('resultRelatedArticle', 'fieldRelatedArticle')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldRelatedArticle.length - generalLimiter}})</span></a>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <!-- / sidebar.fieldRelatedArticle / -->
 </div>

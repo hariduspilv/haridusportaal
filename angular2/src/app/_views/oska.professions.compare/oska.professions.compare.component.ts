@@ -135,7 +135,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       if(!this.list.length) {
         this.rerouteToParent();
       } else {
-        this.setScrollPos();
+        this.setScrollPos('tableRef');
       }
     }, (err) => {
       console.log(err);
@@ -145,7 +145,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
-    this.setScrollPos();
+    this.setScrollPos('tableRef');
   }
 
   ngOnInit() {
@@ -164,22 +164,26 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       }
     }
   }
-  setScrollPos () {
+  setScrollPos (id) {
+    let table = document.getElementById(id);
     let clientHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    let offSet = window.pageYOffset || document.documentElement.scrollTop;
-    this.scrollPos = (offSet + (clientHeight / 2)).toString();
-    if (document.getElementById('scrollableRight')) {
-      document.getElementById('scrollableRight').setAttribute('style', `top: ${this.scrollPos}px`);
+    if (table.getBoundingClientRect().top < (clientHeight / 2)) {
+      this.scrollPos = ((clientHeight / 2) - table.getBoundingClientRect().top).toString();
     }
-    if (document.getElementById('scrollableLeft')) {
-      document.getElementById('scrollableLeft').setAttribute('style', `top: ${this.scrollPos}px`);
+    if (parseInt(this.scrollPos, 10) <= table.getBoundingClientRect().height) {
+      if (document.getElementById('scrollableRight')) {
+        document.getElementById('scrollableRight').setAttribute('style', `top: ${this.scrollPos}px`);
+      }
+      if (document.getElementById('scrollableLeft')) {
+        document.getElementById('scrollableLeft').setAttribute('style', `top: ${this.scrollPos}px`);
+      }
     }
   }
   initialTableCheck(id) {
     const element = document.getElementById(id);
     if (element) {
       this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-      this.setScrollPos()
+      this.setScrollPos('tableRef')
       this.initialized = true;
     }
   }

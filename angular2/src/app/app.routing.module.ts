@@ -22,7 +22,8 @@ import {
   OskaAreasComponent,
   OskaProfessionsComponent,
   OskaProfessionsCompareComponent,
-  OskaSectorsComponent
+  OskaSectorsComponent,
+  OskaResultsComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
@@ -96,6 +97,8 @@ const appRoutes: Routes = [
   { path: ':lang/ametialad/:id', component: OskaAreasComponent },
   { path: ':lang/valdkonnad/:id', component:OskaAreasComponent},
   { path: ':lang/sectors/:id', component:OskaAreasComponent},
+  { path: ':lang/oska-tulemused/:id', component:OskaResultsComponent},
+  { path: ':lang/oska-results/:id', component:OskaResultsComponent},
 
   { path: ':lang/ulduuringud/:id', component:OskaAreasComponent},
   { path: ':lang/survey-pages/:id', component:OskaAreasComponent},
@@ -136,6 +139,7 @@ export const routedComponents = [
   OskaAreasComponent,
   OskaProfessionsComponent,
   OskaProfessionsCompareComponent,
-  OskaSectorsComponent
+  OskaSectorsComponent,
+  OskaResultsComponent
 ];
 
