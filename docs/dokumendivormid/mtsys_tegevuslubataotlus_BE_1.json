@@ -1,0 +1,85 @@
+  {
+    "header": {
+      "endpoint": "EHIS",
+      "form_name": "MTSYS_TEGEVUSLUBA_TAOTLUS",
+      "acceptable_activity" : [ "SAVE", "SUBMIT" ],
+  		"current_step" : "step_andmed",
+  		"identifier" : "0"
+    },
+    "body": {
+      "steps": {
+        "step_liik": {
+          Siin midagi ei muutu
+        },
+        "step_andmed": {
+          "title": {
+            "et": "Tegevusluba"
+          },
+          "data_elements": {
+            "tegevusloaLiik" : {
+              "value" : steps.step_liik.data_elements.tegevusloaLiik.value
+            },
+            "oppekavaNimetus": {
+              omistada "requried": false, "hidden" : true ,kui tegevusloaliik.value = 18098 (majandustegevuse teade)
+            },
+            "alguseKuupaev": {
+              omistada "hidden": false, "required" : true, kui tegevusloaliik.value = 18189 (noortelaager - projektilaager)
+            },
+            "lopuKuupaev": {
+              omistada "hidden": false, "required" : true, kui tegevusloaliik.value = 18189 (noortelaager - projektilaager)
+            },
+            "laagriNimetus": {
+              omistada "hidden": false, "required" : true, kui tegevusloaliik.value = 18052 (noortelaager) või 18189 (noortelaager - projektilaager)
+            },
+            "kohtadeArvLaagris": {
+              omistada "hidden": false, "required" : true, kui tegevusloaliik.value = 18052 (noortelaager) võo 18189 (noortelaager - projektilaager)
+            },
+            "tkkLiik" : {
+              omistada "hidden": false, "required" : true, kui tegevusloaliik.value = 18101 (turvatöötaja koolitus)
+            },
+            "keeleTase" : {
+              omistada "hidden": false, "required" : true, kui tegevusloaliik.value = 18100 (eesti keele tasemeeksami koolitus)
+            },
+            "soidukiteKategooria" : {
+              omistada "hidden": false, "required" : true, kui tegevusloaliik.value = 18055 (mootorsoidukijuhi koolitus)
+            },
+            "oppeTasemed": {
+              omistada "hidden": false, "add_del_rows" : true, kui tegevusloaliik.value = 18057 (üldhariduskool) või 18102 (lasteaed põhikool)
+            },
+            "oppekavaRuhmad": {
+              omistada "hidden": false, "add_del_rows" : true, kui tegevusloaliik.value = 18098 (majandustegevuse teade)
+            },
+
+            ...
+
+            "oppeasutuseNimetus": {
+              "value" : sisendist õppeasutuse nimetus
+            },
+            "omanik": {
+              "value" : sisendist ettevõtte nimetus
+            },
+            "kontaktisik": {
+              "value" : sisendist isiku nimi
+            },
+
+            "dokumendid": {
+              Lugeda failiTyybid.
+              Iga failiTyybi kohta, kus lkOkLiik = tegevusloa liik (steps.step_liik.data_elements.tegevusloaLiik.value) lisada üks rida, kus
+              "table_columns": {
+                "liik": {
+                  "value" : failiTyybid/failiTyyp/failTyyp + "kohustuslik" kui failiTyybid/failiTyyp/kohustuslik = 1
+                },
+                "klLiik" : {
+                  "value" : failiTyybid/failiTyyp/klFailTyyp
+                },
+              }
+            },
+            ...
+          }
+        },
+        "step_esitamise tagasiside": {
+          ...
+        }
+      }
+    }
+  }
