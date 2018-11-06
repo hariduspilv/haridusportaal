@@ -1,0 +1,17 @@
+
+Sisestamise alustamine ehk esmane POST document poole pöördumine
+
+  {
+    "header": {
+      "endpoint": "EHIS",
+      "form_name": "MTSYS_TEGEVUSLUBA_TAOTLUS",
+      "acceptable_activity" : [ "CONTINUE" ],
+  		"current_step" : "step_liik",
+  		"identifier" : "0"
+    },
+    "body": {
+      "steps": {
+        SISU POLE (RUUT:KAS BE-le ON VAJA TÜHJAD STEPID?)
+      }
+    }
+  }

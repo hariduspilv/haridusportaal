@@ -18,10 +18,6 @@ class EhisConnectorService {
 	 * Service default endpoint
 	 */
 	const LOIME_DEFAULT_URL = 'test-htm.wiseman.ee:30080/api/';
-	/**
-	 * @var \Redis
-	 */
-	protected $client;
 
 	/**
 	 * Drupal\Core\Session\AccountProxyInterface definition.
@@ -31,15 +27,28 @@ class EhisConnectorService {
 	protected $currentUser;
 
 	/**
-	 * @var Current user role
+	 * @var \Redis
+	 */
+	protected $client;
+
+	/**
+	 * @var \Drupal\Core\Logger\LoggerChannelInterface
+	 */
+	protected $logger;
+
+
+	/**
+	 * @var \Drupal\htm_custom_authentication\CustomRoleSwitcher;
 	 */
 	protected $currentRole;
 
 
 	/**
-	 * xJsonService constructor.
-	 * @param AccountProxyInterface $current_user
-	 * @param \Drupal\redis\ClientFactory $client_factory
+	 * EhisConnectorService constructor.
+	 *
+	 * @param AccountProxyInterface         $current_user
+	 * @param ClientFactory                 $client_factory
+	 * @param LoggerChannelFactoryInterface $logger
 	 */
 	public function __construct(
 			AccountProxyInterface $current_user,
@@ -145,6 +154,9 @@ class EhisConnectorService {
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	private function useReg(){
 		if($this->currentRole['current_role']['type'] === 'juridical_person') return true;
 		return false;
@@ -162,6 +174,10 @@ class EhisConnectorService {
 		return $this->invokeWithRedis('kodanikKutsetunnistus', $params, FALSE);
 	}
 
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function getTestSessions(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdRegCode(), time()];
 		$params['key'] = $this->getCurrentUserIdRegCode();
@@ -169,6 +185,10 @@ class EhisConnectorService {
 		return $this->invokeWithRedis('testsessioonidKod', $params, FALSE);
 	}
 
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function gettestidKod(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdRegCode(), $params['session_id'], time()];
 		$params['key'] = $this->getCurrentUserIdRegCode();
@@ -176,6 +196,10 @@ class EhisConnectorService {
 		return $this->invokeWithRedis('testidKod', $params, FALSE);
 	}
 
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function getCertificate(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdRegCode(), $params['certificate_id'], time()];
 		$params['key'] = $this->getCurrentUserIdRegCode();
@@ -183,6 +207,10 @@ class EhisConnectorService {
 		return $this->invokeWithRedis('eTunnistusKod', $params, FALSE);
 	}
 
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function getCertificatePublic(array $params = []){
 		$params['url'] = [$params['id_code'], $params['certificate_id'], time()];
 		$params['key'] = $params['id_code'];
@@ -202,20 +230,36 @@ class EhisConnectorService {
 		return $this->filterPersonalCard($response, $params['tab']);
 	}
 
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function getDocument(array $params = []){
 		$params['url'][] = $this->getCurrentUserIdRegCode();
 		return $this->invokeWithRedis('getDocument', $params, FALSE);
 	}
 
+	/**
+	 * @param array $params
+	 * @return mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function postDocument(array $params = []){
 		return $this->invoke('postDocument', $params, 'post');
 	}
 
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function getDocumentFile(array $params = []){
 		$params['url'] = [$params['file_id'], $this->getCurrentUserIdRegCode()];
 		return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
 	}
 
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function getUserRoles(array $params = []){
 		/* @TODO $lang_code later as variable */
 		$lang_code = 'EST';
@@ -225,6 +269,10 @@ class EhisConnectorService {
 		return $this->invokeWithRedis('esindusOigus', $params, FALSE);
 	}
 
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function getOptionsTaxonomy(array $params = []){
 		$params['key'] = 'klassifikaator';
 		$return = $this->invokeWithRedis('mtsysKlfTeenus', $params, FALSE);
@@ -235,6 +283,10 @@ class EhisConnectorService {
 		return $return;
 	}
 
+	/**
+	 * @param array $params
+	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
+	 */
 	public function getEducationalInstitution(array $params = []){
 		$params['url'] = [$params['id'], $this->getCurrentUserIdRegCode(), $this->getCurrentUserIdRegCode(TRUE)];
 		$params['key'] = $this->getCurrentUserIdRegCode();
@@ -268,9 +320,16 @@ class EhisConnectorService {
 		#dump($params);
 		$response = $this->invokeWithRedis('vpTaotlus', $params);
 		$this->getFormDefinitionTitle($response, $params['hash']);
+		if(isset($params['get_edi_data']) && $params['get_edi_data']){
+			$this->addInstitutionData($response);
+		}
 		return $response;
 	}
 
+	/**
+	 * @param array $params
+	 * @return mixed
+	 */
 	private function getAllClassificators(array $params = []){
 		$params['key'] = 'klassifikaator';
 		return json_decode($this->client->hGet($params['key'], $params['hash']), TRUE);
@@ -296,17 +355,27 @@ class EhisConnectorService {
 				$keys = [];
 				break;
 		}
-
-		foreach($input['value'] as $key => $value){
-			if(!in_array($key, $keys)) unset($input['value'][$key]);
+		if(isset($input['value'])){
+			foreach($input['value'] as $key => $value){
+				if(!in_array($key, $keys)) unset($input['value'][$key]);
+			}
 		}
 
 		return $input;
 	}
+
+	/**
+	 * @return mixed
+	 */
 	private function getxJsonService(){
 		return \Drupal::service('htm_custom_xjson_services.default');
 	}
 
+	/**
+	 * @param $response
+	 * @param $type
+	 * @return mixed
+	 */
 	private function getFormDefinitionTitle(&$response, $type){
 		$form_topics = ['documents', 'drafts', 'acceptable_forms'];
 
@@ -324,6 +393,20 @@ class EhisConnectorService {
 		return $response;
 	}
 
+	private function addInstitutionData(&$response){
+		foreach($response['educationalInstitutions'] as &$institution){
+			$institution_data  = $this->getEducationalInstitution(['id' => $institution['id'], 'addTitle' => true]);
+			if(isset($institution_data['educationalInstitution']) && !empty($institution_data['educationalInstitution'])) $institution['institutionInfo'] = $institution_data['educationalInstitution'];
+		}
+
+		return $response;
+	}
+
+	/**
+	 * @param $obj
+	 * @param $form_topics
+	 * @return mixed
+	 */
 	private function appendFormTitle(&$obj, $form_topics){
 		array_walk($obj, function (&$value, $key, $form_topics){
 			if(in_array($key, $form_topics)){
@@ -341,6 +424,10 @@ class EhisConnectorService {
 		return $obj;
 	}
 
+	/**
+	 * @param $response
+	 * @return mixed
+	 */
 	private function addTitles(&$response){
 		$topics_map = [
 			'ownerType' => 'pidajaLiigid',
