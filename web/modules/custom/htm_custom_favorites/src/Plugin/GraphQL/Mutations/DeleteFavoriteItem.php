@@ -2,14 +2,13 @@
 
 namespace Drupal\htm_custom_favorites\Plugin\GraphQL\Mutations;
 
-use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
-use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\CreateEntityBase;
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\DeleteEntityBase;
+use Drupal\htm_custom_favorites\Entity\FavoriteEntity;
 use Drupal\user\Entity\User;
 use GraphQL\Type\Definition\ResolveInfo;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -98,14 +97,21 @@ class DeleteFavoriteItem extends DeleteEntityBase {
 		if (!$entity) {
 			return parent::resolve($value, $args, $context, $info);
 		}else{
+			/* @var FavoriteEntity  */
 			$entity = reset($entity);
-			#dump($entity);
 			$input = $this->extractEntityInput($value, $args, $context, $info);
 			try{
 				$favorites = $entity->get('favorites_new')->getValue();
 				$key = array_search($input['id'], array_column($favorites, 'target_id'));
 				if($key || $key === (int) 0){
 					$entity->get('favorites_new')->removeItem($key);
+					try{
+						$entity->save();
+					}catch (EntityStorageException $e) {
+						return new EntityCrudOutputWrapper($entity, NULL, [
+							$this->t('The entity update failed with exception: @exception.', ['@exception' => $e->getMessage()]),
+						]);
+					}
 				} else {
 					throw new \InvalidArgumentException('This page does not exist');
 				}
@@ -122,8 +128,14 @@ class DeleteFavoriteItem extends DeleteEntityBase {
 				$favorites_new = $entity->get('favorites_new')->getValue();
 				#dump($favorites_new);
 				if(empty($favorites_new)){
-					$entity->delete();
-					return new EntityCrudOutputWrapper(NULL, NULL);
+					try{
+						$entity->delete();
+						return new EntityCrudOutputWrapper(NULL, NULL);
+					}catch (EntityStorageException $e){
+						return new EntityCrudOutputWrapper($entity, NULL, [
+							$this->t('The entity update failed with exception: @exception.', ['@exception' => $e->getMessage()]),
+						]);
+					}
 				}
 				return new EntityCrudOutputWrapper($entity);
 			}
