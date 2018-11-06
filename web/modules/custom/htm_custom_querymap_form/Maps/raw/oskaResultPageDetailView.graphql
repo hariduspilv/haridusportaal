@@ -110,6 +110,16 @@ query oskaResultPageDetailView($path: String!) {
             }
             __typename
           }
+          fieldResultPageGraph{
+            value
+            graphSet
+            graphTitle
+            graphVAxis
+            graphType
+            secondaryGraphType
+            graphIndicator
+            secondaryGraphIndicator
+          }
         }
       }
     }
