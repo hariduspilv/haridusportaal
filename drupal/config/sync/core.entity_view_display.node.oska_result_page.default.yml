@@ -43,7 +43,7 @@ content:
     type: file_default
     region: content
   field_result_page_graph:
-    weight: 108
+    weight: 110
     label: above
     settings: {  }
     third_party_settings: {  }
