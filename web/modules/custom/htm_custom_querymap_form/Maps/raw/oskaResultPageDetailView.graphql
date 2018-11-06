@@ -18,6 +18,17 @@ query oskaResultPageDetailView($path: String!) {
           body {
             value
           }
+          fieldResultPagePicture {
+            derivative(style: CROP_LARGE) {
+              url
+              __typename
+            }
+            width
+            height
+            alt
+            title
+            __typename
+          }
           fieldResultPageSidebar {
             entity {
               ... on ParagraphRightSidebarSectionInfo {
@@ -40,8 +51,10 @@ query oskaResultPageDetailView($path: String!) {
                   }
                 }
                 fieldRelatedArticle {
+
                   url {
                     path
+                    routed
                   }
                   title
                 }
