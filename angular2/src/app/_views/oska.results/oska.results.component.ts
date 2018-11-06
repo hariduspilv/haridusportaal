@@ -14,6 +14,7 @@ export class OskaResultsComponent implements OnInit{
 
   public data: any = false;
   public tableData: any = false;
+  public filteredTableData: any = false;
   public video: any = false;
   public error: boolean = false;
   public viewType : string = 'results'
@@ -22,7 +23,14 @@ export class OskaResultsComponent implements OnInit{
   public tableOverflown: boolean = false;
   public elemAtStart: boolean = true;
   public initialized: boolean = false;
+  public modifier: boolean = false;
+  public field: string = 'field';
   private scrollPos: string = '0';
+  public filterItems: {} = {
+    field: '',
+    responsible: '',
+    proposalStatus: ''
+  }
 
   constructor(
     private http: HttpService,
@@ -50,10 +58,13 @@ export class OskaResultsComponent implements OnInit{
     };
     url+= JSON.stringify(variables);
     let subscription = this.http.get(url).subscribe( (data) => {
-      if ( data['data']['route'] == null ) {
+      if ( data['errors'] ) {
         this.error = true;
         return false;
-      }else{
+      } else if ( data['data']['route'] == null ) {
+        this.error = true;
+        return false;
+      } else {
         this.data = data['data']['route']['entity'];
       }
       if (this.data.fieldResultPageSidebar) {
@@ -62,9 +73,48 @@ export class OskaResultsComponent implements OnInit{
       this.setLangLinks(data);
 
       subscription.unsubscribe();
+    }, (err) => {
+      console.log(err);
+      this.error = true;
     });
   }
   
+  filterView() {
+    if (!this.filterItems['field'] && !this.filterItems['responsible'] && !this.filterItems['proposalStatus']) {
+      this.filteredTableData = this.tableData;
+    }
+    this.filteredTableData = this.tableData.filter((elem) => {
+      let field = elem.oskaField && elem.oskaField[0] ? elem.oskaField[0].entity.title.toLowerCase() : '';
+      let responsible = elem.responsible ? elem.responsible.toLowerCase() : '';
+      let proposalStatus = elem.proposalStatus ? elem.proposalStatus.toLowerCase() : '';
+      return field.includes(this.filterItems['field'].toLowerCase())
+        && responsible.includes(this.filterItems['responsible'].toLowerCase())
+        && proposalStatus.includes(this.filterItems['proposalStatus'].toLowerCase());
+    })
+  }
+
+  sortView(field) {
+    this.modifier = !this.modifier;
+    this.field = field;
+    if (field === 'field') {
+      this.filteredTableData = this.filteredTableData.sort((a, b) => {
+        let aField = a['oskaField'] && a['oskaField'][0] ? a['oskaField'][0]['entity']['title'].toLowerCase() : '';
+        let bField = b['oskaField'] && b['oskaField'][0] ? b['oskaField'][0]['entity']['title'].toLowerCase() : '';
+        if(aField < bField) { return this.modifier ? -1 : 1; }
+        if(aField > bField) { return this.modifier ? 1 : -1; }
+        return 0;
+      })
+    } else {
+      this.filteredTableData = this.filteredTableData.sort((a, b) => {
+        let aField = a[field] ? a[field].toLowerCase() : '';
+        let bField = b[field] ? b[field].toLowerCase() : '';
+        if(aField < bField) { return this.modifier ? -1 : 1; }
+        if(aField > bField) { return this.modifier ? 1 : -1; }
+        return 0;
+      })
+    }
+  }
+
   getTableData(){
     let url = "/graphql?queryId=oskaResultPageTable:1";
     let subscription = this.http.get(url).subscribe( (data) => {
@@ -72,10 +122,13 @@ export class OskaResultsComponent implements OnInit{
         this.error = true;
         return false;
       } else {
-        this.tableData = data['data']['oskaTableEntityQuery']['entities'];
+        this.tableData = this.filteredTableData = data['data']['oskaTableEntityQuery']['entities'];
       }
       subscription.unsubscribe();
       this.setScrollPos('resultsTable');
+    }, (err) => {
+      console.log(err);
+      this.error = true;
     });
   }
 
