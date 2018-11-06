@@ -196,6 +196,36 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
+      $fields['oska_indicator'] = BaseFieldDefinition::create('entity_reference')
+          ->setLabel(t('Oska indicator'))
+          ->setRevisionable(TRUE)
+          ->setSetting('target_type', 'taxonomy_term')
+          ->setSetting('handler', 'default:taxonomy_term')
+          ->setSetting('handler_settings',
+              array(
+                  'target_bundles' => array(
+                      'oska_indicator' => 'oska_indicator'
+                  )))
+          ->setSetting('graph_filter', TRUE)
+          ->setSetting('graph_indicator', TRUE)
+          ->setTranslatable(TRUE)
+          ->setDisplayOptions('view', array(
+              'label' => 'above',
+              'type' => 'entity_reference',
+          ))
+          ->setDisplayOptions('form', array(
+              'type' => 'entity_reference_autocomplete_tags',
+              'settings' => array(
+                  'match_operator' => 'CONTAINS',
+                  'size' => '100',
+                  'autocomplete_type' => 'tags',
+                  'placeholder' => '',
+              ),
+          ))
+          ->setDisplayConfigurable('form', TRUE)
+          ->setRequired(TRUE)
+          ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
+
       $fields['oska_field'] = BaseFieldDefinition::create('entity_reference')
           ->setLabel(t('Oska field'))
           ->setRevisionable(TRUE)
@@ -278,36 +308,6 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
               ),
           ))
           ->setDisplayConfigurable('form', TRUE)
-          ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
-
-      $fields['oska_indicator'] = BaseFieldDefinition::create('entity_reference')
-          ->setLabel(t('Oska indicator'))
-          ->setRevisionable(TRUE)
-          ->setSetting('target_type', 'taxonomy_term')
-          ->setSetting('handler', 'default:taxonomy_term')
-          ->setSetting('handler_settings',
-              array(
-                  'target_bundles' => array(
-                      'oska_indicator' => 'oska_indicator'
-                  )))
-          ->setSetting('graph_filter', TRUE)
-          ->setSetting('graph_indicator', TRUE)
-          ->setTranslatable(TRUE)
-          ->setDisplayOptions('view', array(
-              'label' => 'above',
-              'type' => 'entity_reference',
-          ))
-          ->setDisplayOptions('form', array(
-              'type' => 'entity_reference_autocomplete_tags',
-              'settings' => array(
-                  'match_operator' => 'CONTAINS',
-                  'size' => '100',
-                  'autocomplete_type' => 'tags',
-                  'placeholder' => '',
-              ),
-          ))
-          ->setDisplayConfigurable('form', TRUE)
-          ->setRequired(TRUE)
           ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
       $fields['oska_label'] = BaseFieldDefinition::create('string')

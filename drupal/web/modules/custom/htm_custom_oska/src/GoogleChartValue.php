@@ -9,6 +9,10 @@ use Drupal\Core\TypedData\TypedData;
 use Drupal\Core\TypedData\TypedDataInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\TypedData\DataDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Class GoogleChartValue
@@ -26,15 +30,32 @@ class GoogleChartValue extends TypedData {
         $graph_info = json_decode($item->getValue()['filter_values'], TRUE);
         $condition_count = 0;
         $target_type = $item->getFieldDefinition()->getSettings()['target_type'];
-        $filter_values = $graph_info;
+        $filter_values = $graph_info['graph_options'];
 
-        foreach($graph_info as $key => $value){
-            if($key != 'graph_type' && $key != 'secondary_graph_type' && $key != 'graph_v_axis' && $key != 'graph_set' && $key != 'graph_title'){
+
+
+        foreach($graph_info['graph_options'] as $key => $value){
+            if($key != 'graph_title' && $key != 'graph_type' && $key != 'graph_v_axis' && $key != 'secondary_graph_type' && $key != 'graph_group_by'){
                 $filter_values[$key] = $value;
-                unset($graph_info[$key]);
+                unset($graph_info['graph_options'][$key]);
             }else{
                 unset($filter_values[$key]);
             }
+        }
+
+        if(isset($filter_values['secondary_graph_indicator'])){
+
+            $entity = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple();
+            $entity = reset($entity);
+
+            foreach($entity->getFields() as $key => $field){
+                $field_settings = $field->getSettings();
+                if(isset($field_settings['graph_indicator'])){
+                    $indicator_field = $key;
+                }
+            }
+            $filter_values[$indicator_field][] = reset($filter_values['secondary_graph_indicator']);
+            unset($filter_values['secondary_graph_indicator']);
         }
 
         $query = \Drupal::entityQuery($target_type);
@@ -89,10 +110,11 @@ class GoogleChartValue extends TypedData {
     public function getGoogleGraphValue($entities, $graph_info, $filter_values){
 
         $data_array = NULL;
+        $graph_data = $graph_info['graph_options'];
 
-        foreach($graph_info as $key => $type){
+        foreach($graph_data as $key => $type){
             if($type == ''){
-                unset($graph_info[$key]);
+                unset($graph_data[$key]);
             }
         }
 
@@ -101,7 +123,8 @@ class GoogleChartValue extends TypedData {
             $entity_fields = reset($entities)->getFields();
 
             #find label and value fields
-            $label_field = $graph_info['graph_v_axis'];
+
+            $label_field = $graph_data['graph_v_axis'];
             foreach($entity_fields as $key => $field){
                 $field_settings = $field->getSettings();
                 if(isset($field_settings['graph_value'])){
@@ -111,10 +134,14 @@ class GoogleChartValue extends TypedData {
                     $indicator_field = $key;
                 }
             }
-            if($label_field && $value_field){
+            if($graph_info['graph_set'] === 'multi'){
+                $indicator_field = $graph_data['graph_group_by'];
+            }
 
+            if($label_field && $value_field){
                 $labelsums = [];
                 $xlabels = [];
+
                 #get value for each label, sum reoccurring labels
                 foreach($entities as $entity){
                     $entity_value = $entity->toArray();
@@ -128,11 +155,14 @@ class GoogleChartValue extends TypedData {
                         }
                     }
 
-                    $ylabel = $entity->$label_field->getFieldDefinition()->getLabel()->getUntranslatedString();
+
+                    $ylabel = (string)$this->t($entity->$label_field->getFieldDefinition()->getLabel()->getUntranslatedString());
                     $val = $entity->$value_field->value;
 
                     if(isset($entity_value[$indicator_field][0]['target_id']) && $entity_value[$indicator_field][0]['target_id'] != 0){
                         $value_label = Term::load($entity_value[$indicator_field][0]['target_id'])->getName();
+                    }elseif(isset($entity_value[$indicator_field][0]['value']) && $entity_value[$indicator_field][0]['value'] != ''){
+                        $value_label = $entity_value[$indicator_field][0]['value'];
                     }else{
                         continue;
                     }
@@ -154,7 +184,7 @@ class GoogleChartValue extends TypedData {
                     }
                     #add labels for chart
                     foreach($labelsums as $label => $value){
-                        $data_array[0][] = $label;
+                        $data_array[0][] = (string)$label;
                         foreach($value as $key => $val){
                             $data_array[$key][] = $val;
                         }
