@@ -195,6 +195,8 @@ query oskaMainProfessionDetailView($path: String!) {
           }
           fieldMainProfessionGraph{
             value
+            graphSet
+            graphTitle
             graphVAxis
             graphType
             secondaryGraphType
