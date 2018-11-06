@@ -27,7 +27,10 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
   li:last-child a{margin-bottom:0;}
   &+video-component{margin-top:1rem;}
 }
-
+.padding-block.first-block {
+  @include break-on (sm, min) {margin-bottom: 0;}
+}
+.button-row button {width: 100%; box-sizing: border-box;}
 ::ng-deep table{width:100%; border-collapse: collapse; border:$gray 1px solid;
   caption{font-size: 1rem; color:$black; font-weight: 500; padding:0 0 0.5rem 0; text-align:left;}
   td, th{text-align:left; padding:0.5rem 1rem;  border:$gray 1px solid; font-size:0.875rem; line-height:135%;
@@ -52,6 +55,14 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
     .article-image{margin-left:-1.5rem; margin-right:-1.5rem;}
   }
 }
-.download {text-align: right;padding: 0 0 1rem 0;
+.download {text-align: right;padding: 1.5rem 0 1rem 0;
   span {transform: rotateX(180deg);}
+}
+.scrollableTable thead span.icon {position: relative;min-width: 1.5rem;display: inline-block;bottom: 1rem;
+  .htm-icon {
+    position: absolute;
+    top: -.125rem;
+    font-size: 1.5rem;
+    left: .25rem;
+  }
 }

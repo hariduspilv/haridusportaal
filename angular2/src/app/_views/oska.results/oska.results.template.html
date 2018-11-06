@@ -1,9 +1,19 @@
 <breadcrumbs></breadcrumbs>
 <div class="main-container">
+  <div class="row wrapper__row" *ngIf="error">
+    <div class="col-8 sm-12">
+      <div class="block border-blue padding-block first-block">
+        <h1>{{ 'oska.results' | translate }}</h1>
+        <div class="text-center actions__error">
+          <div class="alert" role="alert">{{'errors.request' | translate}}</div>
+        </div><!--/text-center-->
+      </div>
+    </div>
+  </div>
   <mat-spinner *ngIf="!data && !error"></mat-spinner>
   <div class="row wrapper__row" *ngIf="data">
     <div class="col-8 sm-12">
-      <div class="block border-blue padding-block">
+      <div class="block border-blue padding-block first-block">
         <div class="block__head no-border">
           <div class="block__head__title">{{ data['entityLabel'] | uppercase }}</div>
         </div><!--/block__head-->
@@ -57,17 +67,51 @@
       <oska-areas-sidebar [sidebar]="sidebarData" [viewType]="viewType"></oska-areas-sidebar>
     </div><!--/col-4-->
   
-    <div class="col-8 sm-12" *ngIf="tableData">
+    <div class="col-8 sm-12" *ngIf="filteredTableData">
       <div class="block border-blue padding-block lg-bottom" id="tableElem">
         <div class="block__head no-border">
           <div class="block__head__title">{{ 'TULEMUSTE TABEL' | uppercase }}</div>
         </div><!--/block__head-->
+        <div class="row">
+          <div class="col-4 sm-12">
+            <div class="round-input__wrapper" [class.complete]="filterItems.field">
+              <span class="round-input__title">{{ 'oska.title_field' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" placeholder="{{ 'oska.title_field' | translate }} " [(ngModel)]='filterItems.field' name="field" />
+              </div>
+            </div><!--/round-inpuit__wrapper-->
+          </div>
+          <div class="col-5 sm-12">
+            <div class="round-input__wrapper" [class.complete]="filterItems.responsible">
+              <span class="round-input__title">{{ 'oska.table_responsible_person' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" placeholder="{{ 'oska.table_responsible_person' | translate }} " [(ngModel)]='filterItems.responsible' name="responsible" />
+              </div>
+            </div><!--/round-inpuit__wrapper-->
+          </div><!--/col-3-->
+          <div class="col-9 sm-12">
+            <div class="round-input__wrapper" [class.complete]="filterItems.proposalStatus">
+              <span class="round-input__title">{{ 'oska.table_proposition_status' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" placeholder="{{ 'oska.table_proposition_status' | translate }} " [(ngModel)]='filterItems.proposalStatus' name="proposalStatus" />
+              </div>
+            </div><!--/round-inpuit__wrapper-->
+          </div>
+          <div class="col-3 sm-12 align-end">
+            <div class="button-row">
+              <button (click)="filterView()" type="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+            </div>
+          </div><!--/col-3-->
+        </div>
         <div class="download" *ngIf="data.fieldResultPageTableFile">
           <a href="{{ data.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ data.fieldResultPageTableFile.description || data.fieldResultPageTableFile.entity.entityLabel }}" >
             <span matTooltip="{{ 'button.download' | translate }}" matTooltipPosition="top" class="htm-icon">publish</span>
           </a>
         </div>
-        <div class="scrollable" *ngIf="tableData">
+        <div class="text-center actions__error" *ngIf="filteredTableData && !filteredTableData.length">
+          <div class="alert" role="alert">{{'search.no_results_start' | translate}} <span innerHtml="{{'search.no_results_end' | translate}}"></span></div>
+        </div><!--/text-center-->
+        <div class="scrollable" *ngIf="filteredTableData && filteredTableData.length">
           <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer" id="scrollableLeft" *ngIf="!elemAtStart" 
             (touchstart)="tableService.scrollStart('resultsTable')" 
             (mousedown)="tableService.scrollStart('resultsTable')" 
@@ -86,22 +130,46 @@
             <table class="dashboard-table scrollableTable">
               <thead>
                 <tr>
-                  <th>{{ 'oska.title_field' | translate }}</th>
+                  <th>
+                    <a href="javascript:void(0)" (click)="sortView('field')">
+                      <span>{{ 'oska.title_field' | translate }}</span>
+                      <span class="icon">
+                        <span *ngIf="field === 'field' && modifier" class="htm-icon">keyboard_arrow_up</span>
+                        <span *ngIf="field && !(field === 'field' && modifier)" class="htm-icon">keyboard_arrow_down</span>
+                      </span>
+                    </a>
+                  </th>
                   <th>{{ 'oska.table_problem' | translate }}</th>
                   <th>{{ 'oska.table_proposition' | translate }}</th>
-                  <th>{{ 'oska.table_responsible_person' | translate }}</th>
-                  <th>{{ 'oska.table_proposition_status' | translate }}</th>
+                  <th>
+                    <a href="javascript:void(0)" (click)="sortView('responsible')">
+                      <span>{{ 'oska.table_responsible_person' | translate }}</span>
+                      <span class="icon">
+                        <span *ngIf="field === 'responsible' && modifier" class="htm-icon">keyboard_arrow_up</span>
+                        <span *ngIf="field && !(field === 'responsible' && modifier)" class="htm-icon">keyboard_arrow_down</span>
+                      </span>
+                    </a>
+                  </th>
+                  <th>
+                    <a href="javascript:void(0)" (click)="sortView('proposalStatus')">
+                      {{ 'oska.table_proposition_status' | translate }}
+                      <span class="icon">
+                        <span *ngIf="field === 'proposalStatus' && modifier" class="htm-icon">keyboard_arrow_up</span>
+                        <span *ngIf="field && !(field === 'proposalStatus' && modifier)" class="htm-icon">keyboard_arrow_down</span>
+                      </span>
+                    </a>
+                  </th>
                   <th>{{ 'oska.table_experts_comment' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of tableData">
-                  <td class="narrow"><ng-container *ngIf="item.oskaField && item.oskaField.length">{{ item.oskaField[0].entity.title }}</ng-container></td>
-                  <td class="wide"><div>{{item.problemDescription}}</div></td>
-                  <td class="wide"><div>{{item.proposal}}</div></td>
-                  <td class="narrow"><div>{{item.responsible}}</div></td>
-                  <td class="narrow"><div>{{item.proposalStatus}}</div></td>
-                  <td class="wide"><div>{{item.expertCommentary}}</div></td>
+                <tr *ngFor="let item of filteredTableData">
+                  <td class="narrow"><div *ngIf="item.oskaField && item.oskaField[0]">{{ item.oskaField[0].entity.title }}</div></td>
+                  <td class="wide"><div *ngIf="item.problemDescription">{{item.problemDescription}}</div></td>
+                  <td class="wide"><div *ngIf="item.proposal">{{item.proposal}}</div></td>
+                  <td class="narrow"><div *ngIf="item.responsible">{{item.responsible}}</div></td>
+                  <td class="narrow"><div *ngIf="item.proposalStatus">{{item.proposalStatus}}</div></td>
+                  <td class="wide"><div *ngIf="item.expertCommentary">{{item.expertCommentary}}</div></td>
                 </tr>
               </tbody>
             </table>
