@@ -115,7 +115,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 			case 'applications':
 				$method = 'getApplications';
 				#$this->certificate->testApplications();
-				$params = ['init' => (boolean) $tab];
+				$params = ['init' => (boolean) $tab, 'get_edi_data' => TRUE];
 				break;
 		  case 'educational_institution':
 		  	$method = 'getEducationalInstitution';
