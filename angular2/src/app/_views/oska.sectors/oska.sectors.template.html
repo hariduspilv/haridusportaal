@@ -3,22 +3,12 @@
   <div class="sectors__list-head">
     <div class="sectors__head">
       <div class="sectors__title text-left">{{ 'oskaProfessions.fields' | translate | uppercase }}</div>
-      <div class="button-list text-right">
-        <div class="view-item pointer" (keyup.enter)="view = 'grid'" (click)="view = 'grid'" attr.aria-label="{{ 'oska.grid' | translate }} {{ 'oska.view' | translate }}" tabindex="0" [class.active]="view === 'grid'">
-          <span aria-hidden="true" class="htm-icon">apps</span>
-          <div aria-hidden="true" class="title" >{{ 'oska.grid' | translate }}</div>
-        </div>
-        <div class="view-item pointer" (keyup.enter)="false && view = 'compare'" (click)="false && view = 'compare'" attr.aria-label="{{ 'oska.compare' | translate }} {{ 'oska.view' | translate }}" tabindex="0" [class.active]="view === 'compare'">
-          <span aria-hidden="true" class="htm-icon">compare_arrows</span>
-          <div aria-hidden="true" class="title">{{ 'oska.compare' | translate }}</div>
-        </div>
-      </div><!--/button-list-->
     </div>
   </div><!--/row-->
   <div class="sectors__list-body" *ngIf="loading && !data">
     <mat-spinner></mat-spinner>
   </div>
-  <div class="sectors__list-body" *ngIf="data && view == 'grid'">
+  <div class="sectors__list-body" *ngIf="data">
     <div class="row sectors--row" *ngIf="data.length">
       <ng-container *ngFor="let elem of data">
         <div class="col-3 md-4 xs-6 sectors--col">
