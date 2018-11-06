@@ -136,6 +136,8 @@ query oskaFieldDetailView($path: String!) {
           }
           fieldFieldPageGraph{
             value
+            graphSet
+            graphTitle
             graphVAxis
             graphType
             secondaryGraphType

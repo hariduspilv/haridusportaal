@@ -102,6 +102,8 @@ query oskaSurveyPageDetailView($path: String!) {
           }
           fieldSurveyPageGraph{
             value
+            graphSet
+            graphTitle
             graphVAxis
             graphType
             secondaryGraphType
