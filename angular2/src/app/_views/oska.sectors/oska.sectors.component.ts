@@ -12,7 +12,6 @@ import { RootScopeService } from '@app/_services';
 export class OskaSectorsComponent implements OnInit, OnDestroy {
 
   public data: any = false;
-  public view: any = 'grid';
   public loading: boolean = false;
   public errMessage: any = false;
   public lang: string;
