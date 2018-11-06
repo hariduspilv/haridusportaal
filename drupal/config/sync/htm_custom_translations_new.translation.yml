@@ -1923,6 +1923,38 @@ oska:
     translation_type: textarea
     et: 'Tuleviku töövõimalused'
     en: 'Future job opportunities'
+  results:
+    translation_type: textarea
+    et: Tulemused
+    en: Results
+  additional:
+    translation_type: textarea
+    et: Lisainfo
+    en: 'Additional Info'
+  table_subject:
+    translation_type: textarea
+    et: Teema
+    en: Subject
+  table_problem:
+    translation_type: textarea
+    et: Probleem
+    en: Problem
+  table_proposition:
+    translation_type: textarea
+    et: Ettepanek
+    en: Proposition
+  table_responsible_person:
+    translation_type: textarea
+    et: Peavastutaja
+    en: Responsible
+  table_experts_comment:
+    translation_type: textarea
+    et: 'Eksperdikogu kommentaar'
+    en: 'Experts comment'
+  table_proposition_status:
+    translation_type: textarea
+    et: 'Ettepaneku staatus'
+    en: 'Proposition status'
 oskaProfession: {  }
 langcode: et
 sidebar:
@@ -1964,3 +1996,4 @@ events:
     translation_type: textarea
     et: 'Otsingutulemused puuduvad'
     en: 'No search results'
+table: {  }
