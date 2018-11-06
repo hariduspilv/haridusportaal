@@ -63,8 +63,16 @@ function htm_custom_tokens_token_info() {
 	];
 }
 
+
 /**
  * Implements hook_tokens()
+ *
+ * @param                    $type
+ * @param                    $tokens
+ * @param array              $data
+ * @param array              $options
+ * @param BubbleableMetadata $bubbleable_metadata
+ * @return array
  */
 function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata){
 	/*dump($type);
@@ -186,7 +194,6 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 		}
 	}
 
-	#dump($replacements);
 	return $replacements;
 
 }

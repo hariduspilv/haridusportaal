@@ -42,23 +42,19 @@ class GetCertificatePublicRestResource extends ResourceBase {
    */
   protected $ehisConnector;
 
-  /**
-   * Constructs a new GetCertificatePublicRestResource object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param array $serializer_formats
-   *   The available serialization formats.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   A logger instance.
-   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
-   *   A current user instance.
-   */
-  public function __construct(
+
+	/**
+	 * GetCertificatePublicRestResource constructor.
+	 *
+	 * @param array                 $configuration
+	 * @param                       $plugin_id
+	 * @param                       $plugin_definition
+	 * @param array                 $serializer_formats
+	 * @param LoggerInterface       $logger
+	 * @param AccountProxyInterface $current_user
+	 * @param EhisConnectorService  $ehisConnectorService
+	 */
+	public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
@@ -113,19 +109,12 @@ class GetCertificatePublicRestResource extends ResourceBase {
 		return new ResourceResponse('Certificate not found', 404);
 	}
 
-  /**
-   * Responds to POST requests.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
-   *
-   * @return \Drupal\rest\ModifiedResourceResponse
-   *   The HTTP response object.
-   *
-   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-   *   Throws exception expected.
-   */
-  public function post($params) {
+
+	/**
+	 * @param $params
+	 * @return ModifiedResourceResponse
+	 */
+	public function post($params) {
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
