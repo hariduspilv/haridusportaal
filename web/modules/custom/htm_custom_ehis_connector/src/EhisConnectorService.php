@@ -320,6 +320,9 @@ class EhisConnectorService {
 		#dump($params);
 		$response = $this->invokeWithRedis('vpTaotlus', $params);
 		$this->getFormDefinitionTitle($response, $params['hash']);
+		if(isset($params['get_edi_data']) && $params['get_edi_data']){
+			$this->addInstitutionData($response);
+		}
 		return $response;
 	}
 
@@ -385,6 +388,15 @@ class EhisConnectorService {
 			case 'vpTaotlus':
 				$this->appendFormTitle($response, $form_topics);
 				break;
+		}
+
+		return $response;
+	}
+
+	private function addInstitutionData(&$response){
+		foreach($response['educationalInstitutions'] as &$institution){
+			$institution_data  = $this->getEducationalInstitution(['id' => $institution['id'], 'addTitle' => true]);
+			if(isset($institution_data['educationalInstitution']) && !empty($institution_data['educationalInstitution'])) $institution['institutionInfo'] = $institution_data['educationalInstitution'];
 		}
 
 		return $response;
