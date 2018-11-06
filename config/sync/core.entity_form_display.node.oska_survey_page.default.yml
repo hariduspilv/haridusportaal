@@ -65,7 +65,7 @@ content:
     type: file_generic
     region: content
   field_survey_page_graph:
-    weight: 19
+    weight: 26
     settings: {  }
     third_party_settings: {  }
     type: oska_graph_widget_type
