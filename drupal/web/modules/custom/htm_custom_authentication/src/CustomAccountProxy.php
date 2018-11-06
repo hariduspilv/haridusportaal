@@ -5,6 +5,11 @@ use Drupal\Core\Session\AccountProxy;
 use Drupal\Core\Session\UserSession;
 use Drupal\user\Entity\User;
 
+/**
+ * Class CustomAccountProxy
+ *
+ * @package Drupal\htm_custom_authentication
+ */
 class CustomAccountProxy extends AccountProxy{
 
 	public function getIdCode(){

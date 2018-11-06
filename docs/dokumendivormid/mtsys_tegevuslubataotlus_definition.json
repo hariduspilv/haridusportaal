@@ -2,12 +2,20 @@
   {
     "header": {
       "endpoint": "EHIS",
-      "form_name": "MTSYS_TEGEVUSLUBA",
-      "number_of_steps": 1
+      "form_name": "MTSYS_TEGEVUSLUBA_TAOTLUS",
+      "number_of_steps": 3
     },
     "body": {
       "steps": {
-        "step_0": {
+        "step_liik": {
+          "tegevusloaLiik" : {
+            "type" : "selectlist",
+            "title": { "et": "Tegevusloa liik" },
+            "options_list" : "TegevusloaLiigid",
+            "required" : true
+          }
+        },
+        "step_andmed": {
           "title": {
             "et": "Tegevusluba"
           },
@@ -22,84 +30,63 @@
               "options_list" : "TegevusloaLiigid",
               "readonly" : true
             },
-            "tegevusloaStaatus" : {
-              "type" : "selectlist",
-              "title": { "et": "Tegevusloa staatus" },
-              "options_list" : "oppekavaStaatused",
-              "readonly" : true
-            },
-            "tegevusloaNumber": {
-              "type": "text",
-              "title": { "et": "Tegevusloa number"  },
-              "readonly": true
-            },
             "oppekavaNimetus": {
               "type": "text",
               "title": { "et": "Õppekava nimetus"  },
-              "readonly": true
-            },
-            "kaskkirjaNr": {
-              "type": "text",
-              "title": { "et": "Käskkirja number"  },
-              "readonly": true
-            },
-            "kaskkirjaKuupaev": {
-              "type": "date",
-              "title": { "et": "Käskkirja kuupäev"  },
-              "readonly": true
+              "requried": true,
+              "maxlength": 255
             },
             "alguseKuupaev": {
               "type": "date",
-              "title": { "et": "Kehtivuse alguse kuupäev"  },
-              "readonly": true
+              "title": { "et": "Alguse kuupäev"  },
+              "hidden": true
             },
             "lopuKuupaev": {
               "type": "date",
-              "title": { "et": "Kehtivuse lõpu kuupäev"  },
-              "readonly": true
-            },
-            "tuhistamiseKuupaev": {
-              "type": "date",
-              "title": { "et": "Tühistamise kuupäev"  },
-              "readonly": true
+              "title": { "et": "Lõpu kuupäev"  },
+              "hidden": true
             },
             "laagriNimetus": {
               "type": "text",
               "title": { "et": "Laagri nimetus"  },
-              "readonly": true
+              "hidden": true
             },
             "kohtadeArvLaagris": {
               "type": "number",
               "title": { "et": "Kohtade arv laagris"  },
-              "readonly": true
+              "hidden": true,
+              "max" : 1000,
+              "min" : 1
             },
             "tkkLiik" : {
               "type" : "selectlist",
               "title": { "et": "TKK liik" },
               "options_list" : "tkkLiigid",
-              "readonly" : true
+              "hidden" : true
             },
             "keeleTase" : {
               "type" : "selectlist",
               "title": { "et": "Keele tase" },
               "options_list" : "eestiKeeleTasemed",
-              "readonly" : true
+              "hidden" : true
             },
             "soidukiteKategooria" : {
               "type" : "selectlist",
               "title": { "et": "Sõidukite kategooria" },
               "options_list" : "soidukiKategooriad",
-              "readonly" : true
+              "hidden" : true
             },
             "oppeTasemed": {
               "type": "table",
               "title": { "et": "Õppetasemed" },
               "add_del_rows": false,
+              "hidden" : true,
               "table_columns": {
                 "nimetus": {
-                  "type": "text",
-                  "title": {  "et": "Nimetus" } ,
-                  "readonly": true
+                  "type": "selectlist",
+                  "title": {  "et": "Nimetus" },
+                  "options_list" : "oppekavaTasemed",
+                  "required" : true
                 }
               }
             },
@@ -107,11 +94,13 @@
               "type": "table",
               "title": { "et": "Õppekavarühmad" },
               "add_del_rows": false,
+              "hidden" : true,
               "table_columns": {
                 "nimetus": {
-                  "type": "text",
+                  "type": "selectlist",
                   "title": {  "et": "Nimetus" } ,
-                  "readonly": true
+                  "options_list" : "opperyhmad",
+                  "required": true
                 }
               }
             },
@@ -121,33 +110,16 @@
             },
             "valisAadress" : {
               "type" : "checkbox",
-              "title": { "et": "Tegevus toimub välisriigi aadressil" },
-              "readonly" : true
+              "title": { "et": "Tegevus toimub välisriigi aadressil" }
             },
             "aadressid": {
               "type": "table",
-              "title": { "et": "Aadressid" },
-              "add_del_rows": false,
+              "title": { "et": "Tegevuskohtade aadressid Eestis" },
+              "add_del_rows": true,
               "table_columns": {
-                "maakond": {
-                  "type": "text",
-                  "title": {  "et": "Maakond" } ,
-                  "readonly": true
-                },
-                "omavalitsus": {
-                  "type": "text",
-                  "title": {  "et": "Vald või linn" } ,
-                  "readonly": true
-                },
-                "asula": {
-                  "type": "text",
-                  "title": {  "et": "Asula" } ,
-                  "readonly": true
-                },
                 "aadress": {
-                  "type": "text",
-                  "title": {  "et": "Aadress" } ,
-                  "readonly": true
+                  "type": "address",
+                  "title": {  "et": "Aadress" }
                 }
               }
             },
@@ -168,43 +140,22 @@
             "kontaktisik": {
               "type": "text",
               "title": { "et": "Kontaktisik" },
-              "readonly": true
+              "required": true
             },
             "telefon": {
               "type": "text",
               "title": { "et": "Õppeasutuse üldtelefon"  },
-              "readonly": true
+              "required": true
             },
             "epost": {
               "type": "email",
               "title": { "et": "Õppeasutuse e-posti aadress"  },
-              "readonly": true
+              "required": true
             },
             "koduleht": {
               "type": "text",
               "title": { "et": "Õppeasutuse kodulehe aadress"  },
               "readonly": true
-            },
-            "peatamisedPealkiri" : {
-              "type" : "heading",
-              "title": { "et": "Peatamised" }
-            },
-            "peatamised": {
-              "type": "table",
-              "title": { "et": "Peatamised" },
-              "add_del_rows": false,
-              "table_columns": {
-                "algusKp": {
-                  "type": "date",
-                  "title": {  "et": "Alguse kuupäev" } ,
-                  "readonly": true
-                },
-                "loppKp": {
-                  "type": "date",
-                  "title": {  "et": "Lõpu kuupäev" } ,
-                  "readonly": true
-                }
-              }
             },
             "dokumendidPealkiri" : {
               "type" : "heading",
@@ -216,23 +167,37 @@
               "add_del_rows": false,
               "table_columns": {
                 "liik": {
-                  "type": "select_list",
+                  "type": "text",
                   "title": {  "et": "Liik" } ,
-                  "options_list" : "FailiTyybid",
-                  "readonly": true
+                  "readonly" : true
+                },
+                "klLiik" : {
+                  "type": "text",
+                  "title": {  "et": "KlLiik" } ,
+                  "hidden" : true
                 },
                 "fail": {
                   "type": "file",
                   "title": {  "et": "Fail" } ,
-                  "readonly": true
                 },
                 "kommentaar": {
                   "type": "text",
                   "title": {  "et": "Kommentaar" } ,
-                  "readonly": true
                 }
               }
+            },
+            "muulisainfoPealkiri" : {
+              "type" : "heading",
+              "title": { "et": "Muu lisainfo" }
+            },
+            "kommentaar": {
+              "type": "textarea",
+              "title": {  "et": "Kommentaar" } ,
             }
+          }
+        },
+        "step_esitamise_tagasiside": {
+          "data_elements" : {
           }
         }
       }
