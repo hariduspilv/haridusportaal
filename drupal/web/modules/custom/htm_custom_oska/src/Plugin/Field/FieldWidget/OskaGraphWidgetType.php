@@ -85,7 +85,7 @@ class OskaGraphWidgetType extends WidgetBase {
                     '#type' => 'textfield',
                     '#placeholder' => $this->t("Enter title for graph."),
                     '#default_value' => isset($items[$delta]->graph_title) ? $items[$delta]->graph_title : NULL,
-                    '#maxlength' => 255,
+                    '#maxlength' => 100,
                 ];
 
                 foreach($entity->getFields() as $key => $field){
