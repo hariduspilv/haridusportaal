@@ -72,37 +72,55 @@
         <div class="block__head no-border">
           <div class="block__head__title">{{ 'TULEMUSTE TABEL' | uppercase }}</div>
         </div><!--/block__head-->
-        <div class="row">
-          <div class="col-4 sm-12">
-            <div class="round-input__wrapper" [class.complete]="filterItems.field">
-              <span class="round-input__title">{{ 'oska.title_field' | translate }}</span>
-              <div class="round-input__field-wrapper">
-                <input class="round-input__field" placeholder="{{ 'oska.title_field' | translate }} " [(ngModel)]='filterItems.field' name="field" />
-              </div>
-            </div><!--/round-inpuit__wrapper-->
-          </div>
-          <div class="col-5 sm-12">
-            <div class="round-input__wrapper" [class.complete]="filterItems.responsible">
-              <span class="round-input__title">{{ 'oska.table_responsible_person' | translate }}</span>
-              <div class="round-input__field-wrapper">
-                <input class="round-input__field" placeholder="{{ 'oska.table_responsible_person' | translate }} " [(ngModel)]='filterItems.responsible' name="responsible" />
-              </div>
-            </div><!--/round-inpuit__wrapper-->
-          </div><!--/col-3-->
-          <div class="col-9 sm-12">
-            <div class="round-input__wrapper" [class.complete]="filterItems.proposalStatus">
-              <span class="round-input__title">{{ 'oska.table_proposition_status' | translate }}</span>
-              <div class="round-input__field-wrapper">
-                <input class="round-input__field" placeholder="{{ 'oska.table_proposition_status' | translate }} " [(ngModel)]='filterItems.proposalStatus' name="proposalStatus" />
-              </div>
-            </div><!--/round-inpuit__wrapper-->
-          </div>
-          <div class="col-3 sm-12 align-end">
+        <div class="flex flex-wrap flex-rows first-elem">
+          <div class="flex flex-wrap flex-notrows flex-grow">
+            <div class="flex input-row no-top">
+              <div class="grow additional">
+                <div class="round-input__wrapper">
+                  <mat-form-field *ngIf="filterItemValues && filterItemValues.field.length">
+                    <mat-select placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]='filterItems.field' name="field">
+                      <mat-option>{{ 'button.all' | translate }}</mat-option>
+                      <mat-option *ngFor="let item of filterItemValues.field" [value]="item">
+                        {{item}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div><!--grow-->
+              <div class="grow">
+                <div class="round-input__wrapper">
+                  <mat-form-field *ngIf="filterItemValues && filterItemValues.responsible.length">
+                    <mat-select placeholder="{{ 'oska.table_responsible_person' | translate }}" [(ngModel)]='filterItems.responsible' name="responsible">
+                      <mat-option>{{ 'button.all' | translate }}</mat-option>
+                      <mat-option *ngFor="let item of filterItemValues.responsible" [value]="item">
+                        {{item}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div><!--grow-->
+            </div><!--flex-->
+            <div class="flex input-row no-bottom">
+              <div class="grow">
+                <div class="round-input__wrapper">
+                  <mat-form-field *ngIf="filterItemValues && filterItemValues.proposalStatus.length">
+                    <mat-select placeholder="{{ 'oska.table_proposition_status' | translate }}" [(ngModel)]='filterItems.proposalStatus' name="proposalStatus">
+                      <mat-option>{{ 'button.all' | translate }}</mat-option>
+                      <mat-option *ngFor="let item of filterItemValues.proposalStatus" [value]="item">
+                        {{item}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div><!--grow-->
+            </div><!--flex-->
+          </div><!--flex flex-notrows-->
+          <div class="sm-12 align-end">
             <div class="button-row">
               <button (click)="filterView()" type="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
             </div>
-          </div><!--/col-3-->
-        </div>
+          </div><!--/sm-12-->
+        </div><!--flex flex-rows first-elem-->
         <div class="download" *ngIf="data.fieldResultPageTableFile">
           <a href="{{ data.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ data.fieldResultPageTableFile.description || data.fieldResultPageTableFile.entity.entityLabel }}" >
             <span matTooltip="{{ 'button.download' | translate }}" matTooltipPosition="top" class="htm-icon">publish</span>
@@ -131,9 +149,9 @@
               <thead>
                 <tr>
                   <th>
-                    <a href="javascript:void(0)" (click)="sortView('field')">
+                    <a href="javascript:void(0)" attr.aria-label="{{'button.sort' | translate}} {{'button.by' | translate}} {{ 'oska.title_field' | translate }}" (click)="sortView('field')">
                       <span>{{ 'oska.title_field' | translate }}</span>
-                      <span class="icon">
+                      <span class="icon" aria-hidden="true">
                         <span *ngIf="field === 'field' && modifier" class="htm-icon">keyboard_arrow_up</span>
                         <span *ngIf="field && !(field === 'field' && modifier)" class="htm-icon">keyboard_arrow_down</span>
                       </span>
@@ -142,18 +160,18 @@
                   <th>{{ 'oska.table_problem' | translate }}</th>
                   <th>{{ 'oska.table_proposition' | translate }}</th>
                   <th>
-                    <a href="javascript:void(0)" (click)="sortView('responsible')">
+                    <a href="javascript:void(0)" attr.aria-label="{{'button.sort' | translate}} {{'button.by' | translate}} {{ 'oska.table_responsible_person' | translate }}" (click)="sortView('responsible')">
                       <span>{{ 'oska.table_responsible_person' | translate }}</span>
-                      <span class="icon">
+                      <span class="icon" aria-hidden="true">
                         <span *ngIf="field === 'responsible' && modifier" class="htm-icon">keyboard_arrow_up</span>
                         <span *ngIf="field && !(field === 'responsible' && modifier)" class="htm-icon">keyboard_arrow_down</span>
                       </span>
                     </a>
                   </th>
                   <th>
-                    <a href="javascript:void(0)" (click)="sortView('proposalStatus')">
+                    <a href="javascript:void(0)" attr.aria-label="{{'button.sort' | translate}} {{'button.by' | translate}} {{ 'oska.table_proposition_status' | translate }}" (click)="sortView('proposalStatus')">
                       {{ 'oska.table_proposition_status' | translate }}
-                      <span class="icon">
+                      <span class="icon" aria-hidden="true">
                         <span *ngIf="field === 'proposalStatus' && modifier" class="htm-icon">keyboard_arrow_up</span>
                         <span *ngIf="field && !(field === 'proposalStatus' && modifier)" class="htm-icon">keyboard_arrow_down</span>
                       </span>
