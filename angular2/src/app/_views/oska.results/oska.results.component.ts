@@ -31,6 +31,11 @@ export class OskaResultsComponent implements OnInit{
     responsible: '',
     proposalStatus: ''
   }
+  public filterItemValues: {} = {
+    field: [],
+    responsible: [],
+    proposalStatus: []
+  }
 
   constructor(
     private http: HttpService,
@@ -83,6 +88,7 @@ export class OskaResultsComponent implements OnInit{
     if (!this.filterItems['field'] && !this.filterItems['responsible'] && !this.filterItems['proposalStatus']) {
       this.filteredTableData = this.tableData;
     }
+    Object.keys(this.filterItems).forEach((key) => this.filterItems[key] = this.filterItems[key] || "");
     this.filteredTableData = this.tableData.filter((elem) => {
       let field = elem.oskaField && elem.oskaField[0] ? elem.oskaField[0].entity.title.toLowerCase() : '';
       let responsible = elem.responsible ? elem.responsible.toLowerCase() : '';
@@ -124,6 +130,13 @@ export class OskaResultsComponent implements OnInit{
       } else {
         this.tableData = this.filteredTableData = data['data']['oskaTableEntityQuery']['entities'];
       }
+      let fieldsToProcess = ['responsible', 'proposalStatus'];
+      this.tableData.forEach(elem => {
+        if (elem.oskaField && elem.oskaField[0]) this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
+        return fieldsToProcess.forEach(item => {
+          if (elem[item]) this.filterItemValues[item].push(elem[item]);
+        });
+      });
       subscription.unsubscribe();
       this.setScrollPos('resultsTable');
     }, (err) => {
