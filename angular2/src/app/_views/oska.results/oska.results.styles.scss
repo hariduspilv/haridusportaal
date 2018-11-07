@@ -27,9 +27,6 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
   li:last-child a{margin-bottom:0;}
   &+video-component{margin-top:1rem;}
 }
-.padding-block.first-block {
-  @include break-on (sm, min) {margin-bottom: 0;}
-}
 .button-row {padding-top: 1.5rem;
   button {width: 100%; box-sizing: border-box;}
 }
@@ -57,9 +54,7 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
     .article-image{margin-left:-1.5rem; margin-right:-1.5rem;}
   }
 }
-.download {text-align: right;padding: 1.5rem 0 1rem 0;
-  span {transform: rotateX(180deg);}
-}
+.download {padding: 1.5rem 0 1rem 0;}
 .scrollableTable thead span.icon {position: relative;min-width: 1.5rem;display: inline-block;bottom: 1rem;
   .htm-icon {
     position: absolute;
