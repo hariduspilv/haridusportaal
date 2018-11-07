@@ -45,6 +45,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   dataSubscription: any;
   loading = false;
   showFilter = true;
+  hoveredOn = {} = {};
 
   constructor(
     private rootScope: RootScopeService,
