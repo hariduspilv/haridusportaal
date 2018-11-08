@@ -28,6 +28,7 @@ module:
   editor_advanced_link: 0
   editor_file: 0
   elasticsearch_connector: 0
+  elasticsearch_connector_autocomp: 0
   embed: 0
   entity_embed: 0
   entity_reference_revisions: 0
@@ -104,6 +105,7 @@ module:
   restui: 0
   scheduler: 0
   search_api: 0
+  search_api_autocomplete: 0
   serialization: 0
   shortcut: 0
   smtp: 0
