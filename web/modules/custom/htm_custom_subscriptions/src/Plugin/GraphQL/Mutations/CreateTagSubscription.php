@@ -28,126 +28,109 @@ use Drupal\Core\Language\LanguageManager;
  * )
  */
 class CreateTagSubscription extends CreateEntityBase{
-	/**
-	 * The entity type manager.
-	 *
-	 * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-	 */
-	protected $entityTypeManager;
-	/**
-	 * The Custom Language Negotiator.
-	 *
-	 * @var \Drupal\htm_custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator
-	 */
-	protected $CustomGraphqlLanguageNegotiator;
-	/**
-	 * @inheritDoc
-	 */
-	public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition)
-	{
-		return new static(
-			$configuration,
-			$pluginId,
-			$pluginDefinition,
-			$container->get('entity_type.manager'),
-			$container->get('htm_custom_graphql_functions.language_negotiator'),
-			$container->get('language_manager'));
-	}
+    /**
+     * The entity type manager.
+     *
+     * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+     */
+    protected $entityTypeManager;
+    /**
+     * The Custom Language Negotiator.
+     *
+     * @var \Drupal\htm_custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator
+     */
+    protected $CustomGraphqlLanguageNegotiator;
+    /**
+     * @inheritDoc
+     */
+    public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition)
+    {
+        return new static(
+            $configuration,
+            $pluginId,
+            $pluginDefinition,
+            $container->get('entity_type.manager'),
+            $container->get('htm_custom_graphql_functions.language_negotiator'),
+            $container->get('language_manager'));
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct(
-		array $configuration,
-		$pluginId,
-		$pluginDefinition,
-		EntityTypeManagerInterface $entityTypeManager,
-		CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
-		LanguageManager $languageManager)
-	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
-		$this->CustomGraphqlLanguageNegotiator = $CustomGraphqlLanguageNegotiator;
-		$this->languageManager = $languageManager;
-	}
-	/**
-	 * @param $value
-	 * @param array $args
-	 * @param ResolveContext $context
-	 * @param ResolveInfo $info
-	 * @return array
-	 */
-	protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info){
-		return [
-			'language' => $context->getContext('language', $info),
-			'langcode' => $context->getContext('language', $info),
-			'subscriber_email' => $args['input']['email'],
-			'newtags' => $args['input']['newtags'],
-		];
-	}
-	/**
-	 * @inheritDoc
-	 */
-	public function resolve($value, array $args, ResolveContext $context, ResolveInfo $info)
-	{
-		$this->languageManager->setNegotiator($this->CustomGraphqlLanguageNegotiator);
-		//dump($args);
-		// Set new language by its langcode.
-		// Needed to re-run language negotiation.
-		$this->languageManager->reset();
-		$this->languageManager->getNegotiator()->setLanguageCode($args['language']);
-		$context->setContext('language', $args['language'], $info);
+    /**
+     * @inheritDoc
+     */
+    public function __construct(
+        array $configuration,
+        $pluginId,
+        $pluginDefinition,
+        EntityTypeManagerInterface $entityTypeManager,
+        CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
+        LanguageManager $languageManager)
+    {
+        parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
+        $this->CustomGraphqlLanguageNegotiator = $CustomGraphqlLanguageNegotiator;
+        $this->languageManager = $languageManager;
+    }
+    /**
+     * @param $value
+     * @param array $args
+     * @param ResolveContext $context
+     * @param ResolveInfo $info
+     * @return array
+     */
+    protected function extractEntityInput($value, array $args, ResolveContext $context, ResolveInfo $info){
+        return [
+            'language' => $context->getContext('language', $info),
+            'langcode' => $context->getContext('language', $info),
+            'subscriber_email' => $args['input']['email'],
+            'newtags' => $args['input']['newtags'],
+        ];
+    }
+    /**
+     * @inheritDoc
+     */
+    public function resolve($value, array $args, ResolveContext $context, ResolveInfo $info)
+    {
+        $this->languageManager->setNegotiator($this->CustomGraphqlLanguageNegotiator);
 
-		$entityTypeId = $this->pluginDefinition['entity_type'];
-		$storage = $this->entityTypeManager->getStorage($entityTypeId);
-		$entity = $storage->loadByProperties(['subscriber_email' => $args['input']['email']]);
+        // Set new language by its langcode.
+        // Needed to re-run language negotiation.
+        $this->languageManager->reset();
+        $this->languageManager->getNegotiator()->setLanguageCode($args['language']);
+        $context->setContext('language', $args['language'], $info);
 
-		if(count($entity) > 0){
-			$args['id'] = reset($entity)->id();
-		}
+        $entityTypeId = $this->pluginDefinition['entity_type'];
+        $storage = $this->entityTypeManager->getStorage($entityTypeId);
+        $entity = $storage->loadByProperties(['subscriber_email' => $args['input']['email']]);
 
-		if(isset($args['id'])){
+        if(count($entity) > 0){
+            $args['id'] = reset($entity)->id();
+        }
 
+        if(isset($args['id'])){
 
-			/** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
-	    if (!$entity = $storage->load($args['id'])) {
-	      return new EntityCrudOutputWrapper(NULL, NULL, [
-	        $this->t('The requested @bundle could not be loaded.', ['@bundle' => $bundleName]),
-	      ]);
-	    }
-	    if (!$entity->bundle() === $bundleName) {
-	      return new EntityCrudOutputWrapper(NULL, NULL, [
-	        $this->t('The requested entity is not of the expected type @bundle.', ['@bundle' => $bundleName]),
-	      ]);
-	    }
-	    if (!$entity->access('update')) {
-	      return new EntityCrudOutputWrapper(NULL, NULL, [
-	        $this->t('You do not have the necessary permissions to update this @bundle.', ['@bundle' => $bundleName]),
-	      ]);
-	    }
-	    // The raw input needs to be converted to use the proper field and property
-	    // keys because we usually convert them to camel case when adding them to
-	    // the schema. Allow the other implementations to control this easily.
-	    $input = $this->extractEntityInput($value, $args, $context, $info);
-	    try {
-	      foreach ($input as $key => $value) {
-					$entity->get($key)->setValue($value);
-	      }
-	    }
-	    catch (\InvalidArgumentException $exception) {
-	      return new EntityCrudOutputWrapper(NULL, NULL, [
-	        $this->t('The entity update failed with exception: @exception.', ['@exception' => $exception->getMessage()]),
-	      ]);
-	    }
-	    if (($violations = $entity->validate()) && $violations->count()) {
-	      return new EntityCrudOutputWrapper(NULL, $violations);
-	    }
-	    if (($status = $entity->save()) && $status === SAVED_UPDATED) {
-	      return new EntityCrudOutputWrapper($entity);
-	    }
-	    return NULL;
+            // The raw input needs to be converted to use the proper field and property
+            // keys because we usually convert them to camel case when adding them to
+            // the schema. Allow the other implementations to control this easily.
+            $input = $this->extractEntityInput($value, $args, $context, $info);
+            try {
+                foreach ($input as $key => $value) {
+                    $entity->get($key)->setValue($value);
+                }
+            }
+            catch (\InvalidArgumentException $exception) {
+                return new EntityCrudOutputWrapper(NULL, NULL, [
+                    $this->t('The entity update failed with exception: @exception.', ['@exception' => $exception->getMessage()]),
+                ]);
+            }
+            if (($violations = $entity->validate()) && $violations->count()) {
+                return new EntityCrudOutputWrapper(NULL, $violations);
+            }
+            if (($status = $entity->save()) && $status === SAVED_UPDATED) {
+                return new EntityCrudOutputWrapper($entity);
+            }
+            return NULL;
 
-		}else{
-			return CreateEntityBase::resolve($value, $args, $context, $info);  // TODO: Change the autogenerated stub
-		}
-	}
+        }else{
+            return CreateEntityBase::resolve($value, $args, $context, $info);  // TODO: Change the autogenerated stub
+        }
+    }
 }
