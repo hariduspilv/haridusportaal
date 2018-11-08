@@ -1753,6 +1753,30 @@ modal:
     translation_type: textarea
     et: 'Avab modali'
     en: 'Opens modal'
+  organizations:
+    translation_type: textarea
+    et: Ettevõtted
+    en: Organizations
+  no_organizations:
+    translation_type: textarea
+    et: 'Ettevõtted puuduvad'
+    en: 'No organizations'
+  change_role:
+    translation_type: textarea
+    et: 'Vaheta rolli'
+    en: 'Change role'
+  choose_role:
+    translation_type: textarea
+    et: 'Vali roll'
+    en: 'Choose role'
+  changing_role:
+    translation_type: textarea
+    et: Rollivahetus
+    en: 'Changing role'
+  me:
+    translation_type: textarea
+    et: Mina
+    en: Me
 required:
   modal:
     translation_type: textarea
@@ -1997,3 +2021,4 @@ events:
     et: 'Otsingutulemused puuduvad'
     en: 'No search results'
 table: {  }
+Modal: {  }
