@@ -173,7 +173,7 @@ a h1:hover { text-decoration: underline; }
       display: inline-block;
       fill: currentColor;}
       h1 {font-size: .875rem;}
-      &.active {color: $black;cursor: default;pointer-events: none;
+      &.active {color: $black;
         &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
       }
       .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
