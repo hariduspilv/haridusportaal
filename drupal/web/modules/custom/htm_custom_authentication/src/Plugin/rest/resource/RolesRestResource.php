@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_authentication\Plugin\rest\resource;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
 use Drupal\htm_custom_authentication\CustomRoleSwitcher;
@@ -109,7 +110,14 @@ class RolesRestResource extends ResourceBase {
 
 	  /*@TODO mby add default userRole aswell to response*/
 	  $roles = $this->roleSwitcher->getAvailableRoles();
-    return new ResourceResponse($roles, 200);
+	  $response = new ResourceResponse($roles, 200);
+
+	  $cache_metadata = new CacheableMetadata();
+	  $cache_metadata->addCacheContexts(['url.query_args', 'user']);
+
+	  $response->addCacheableDependency($cache_metadata);
+
+    return $response;
   }
 
   /**
