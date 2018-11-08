@@ -1,0 +1,13 @@
+name: Search API Autocomplete
+description: "Adds autocomplete functionality to searches."
+dependencies:
+  - search_api:search_api
+# core: 8.x
+type: module
+package: Search
+
+# Information added by Drupal.org packaging script on 2018-09-17
+version: '8.x-1.1'
+core: '8.x'
+project: 'search_api_autocomplete'
+datestamp: 1537174984
