@@ -27,30 +27,32 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class DownloadCertificateRestResource extends ResourceBase {
 
-  /**
+
+	/**
+	 * @var EhisConnectorService
+	 */
+	protected $certificate;
+
+	/**
    * A current user instance.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
 
-  /**
-   * Constructs a new DownloadCertificateRestResource object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param array $serializer_formats
-   *   The available serialization formats.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   A logger instance.
-   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
-   *   A current user instance.
-   */
-  public function __construct(
+
+	/**
+	 * DownloadCertificateRestResource constructor.
+	 *
+	 * @param array                 $configuration
+	 * @param                       $plugin_id
+	 * @param                       $plugin_definition
+	 * @param array                 $serializer_formats
+	 * @param LoggerInterface       $logger
+	 * @param AccountProxyInterface $current_user
+	 * @param EhisConnectorService  $ehisConnectorService
+	 */
+	public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
@@ -78,19 +80,12 @@ class DownloadCertificateRestResource extends ResourceBase {
     );
   }
 
-  /**
-   * Responds to GET requests.
-   *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
-   *
-   * @return \Drupal\rest\ResourceResponse
-   *   The HTTP response object.
-   *
-   * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-   *   Throws exception expected.
-   */
-  public function get($certificate_id) {
+
+	/**
+	 * @param $certificate_id
+	 * @return ResourceResponse|BinaryFileResponse
+	 */
+	public function get($certificate_id) {
 
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
@@ -107,6 +102,7 @@ class DownloadCertificateRestResource extends ResourceBase {
 					ResponseHeaderBag::DISPOSITION_ATTACHMENT,
 					$document['filename']
 			);
+	    $response->setMaxAge(0);
 			return $response;
 		}
 

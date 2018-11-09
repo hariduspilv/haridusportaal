@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d78586387281410a045fe22ec5d7e72",
+    "content-hash": "b9842edc702db7750f6e6ab271cf2b79",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2909,6 +2909,55 @@
             }
         },
         {
+            "name": "drupal/elasticsearch_connector_autocomp",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/elasticsearch_connector_autocomp",
+                "reference": "10e0d8ba5f9a8f19845c936fe2ff9e50c82cb617"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/elasticsearch_connector": "*",
+                "drupal/search_api": "*",
+                "drupal/search_api_autocomplete": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.x-dev",
+                    "datestamp": "1539155881",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "thursday_bw",
+                    "homepage": "https://www.drupal.org/user/1049434"
+                }
+            ],
+            "description": "This module ads the ability to configure the index and fields to index ngrams, which improves autcompletion results.",
+            "homepage": "https://www.drupal.org/project/elasticsearch_connector_autocomp",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/elasticsearch_connector_autocomp",
+                "issues": "https://www.drupal.org/project/issues/elasticsearch_connector_autocomp"
+            },
+            "time": "2018-10-15T00:42:02+00:00"
+        },
+        {
             "name": "drupal/embed",
             "version": "1.0.0",
             "source": {
@@ -4341,8 +4390,7 @@
             "homepage": "https://www.drupal.org/project/nginx_cache_clear",
             "support": {
                 "source": "http://cgit.drupalcode.org/nginx_cache_clear"
-            },
-            "time": "2018-06-29T06:50:36+00:00"
+            }
         },
         {
             "name": "drupal/node_view_permissions",
@@ -5222,6 +5270,63 @@
             "support": {
                 "source": "http://git.drupal.org/project/search_api.git",
                 "issues": "https://www.drupal.org/project/issues/search_api",
+                "irc": "irc://irc.freenode.org/drupal-search-api"
+            }
+        },
+        {
+            "name": "drupal/search_api_autocomplete",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/search_api_autocomplete",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/search_api_autocomplete-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "103975c45644a36fb708094f100be5d17f2c262a"
+            },
+            "require": {
+                "drupal/core": "~8.0",
+                "drupal/search_api": "1.x"
+            },
+            "require-dev": {
+                "drupal/search_api_page": "@dev"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1537174980",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Seidl",
+                    "homepage": "https://www.drupal.org/u/drunken-monkey"
+                },
+                {
+                    "name": "See other contributors",
+                    "homepage": "https://www.drupal.org/node/1142202/committers"
+                }
+            ],
+            "description": "Adds autocomplete functionality to searches.",
+            "homepage": "https://www.drupal.org/project/search_api_autocomplete",
+            "support": {
+                "source": "http://git.drupal.org/project/search_api_autocomplete.git",
+                "issues": "https://www.drupal.org/project/issues/search_api_autocomplete",
                 "irc": "irc://irc.freenode.org/drupal-search-api"
             }
         },
@@ -11722,6 +11827,11 @@
         {
             "name": "webflo/drupal-core-require-dev",
             "version": "8.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webflo/drupal-core-require-dev.git",
+                "reference": "75f73363165a450e9a2f9f1ce3930f148184c964"
+            },
             "require": {
                 "behat/mink": "1.7.x-dev",
                 "behat/mink-goutte-driver": "^1.2",
@@ -11749,6 +11859,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/elasticsearch_connector_autocomp": 20,
         "drupal/entity_embed": 10,
         "drupal/graphql": 10,
         "drupal/graphql_metatag": 20,

@@ -1,7 +1,8 @@
 
 <div class="block padding-block gutter-bottom sm-top border-orange" *ngIf="loading">
-  <div class="block-title-big" role="list">{{ 'event.label' | translate }}</div>
-  <mat-spinner></mat-spinner>
+  <div *ngIf="loading">
+    <mat-spinner diameter="60"></mat-spinner>
+  </div>
 </div>
 <div class="block padding-block gutter-bottom sm-top border-orange" *ngIf="!loading && events && events.length">
   <div class="block-title-big" role="list">{{ 'event.label' | translate }}</div>
@@ -20,6 +21,6 @@
         </a>
       </li>
     </ng-container>
-    <li><a class="viewAll" attr.aria-label="{{ 'event.label' | translate }}: {{ 'button.view_all' | translate }}" role="link" [routerLink]="viewAllEventsLink()">{{ 'button.view_all' | translate }}</a></li>
+    <li><a attr.aria-label="{{ 'event.label' | translate }}: {{ 'button.view_all' | translate }}" role="link" [routerLink]="viewAllEventsLink()">{{ 'button.view_all' | translate }}</a></li>
   </ul>
 </div>

@@ -158,7 +158,7 @@ class xJsonService implements xJsonServiceInterface {
 		$definition = $this->getEntityJsonObject($form_name);
 		$definition_body = $definition['body'];
 
-		$return['messages'] = ($definition['messages']) ? $definition['messages'] : [];
+		$return['messages'] = (isset($definition['messages'])) ? $definition['messages'] : [];
 
 		if ($response_header) $return['header'] = $response_header;
 		if ($response_messages) $return['messages'] += $response_messages;
@@ -168,12 +168,14 @@ class xJsonService implements xJsonServiceInterface {
 				if (isset($response_body['steps'][$step_key])) {
 					foreach ($definition_body['steps'][$step_key]['data_elements'] as $element_key => $element) {
 						$return_element = $element;
-						#if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
-						$response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
-						if (!empty($this->mergeElementValue($element, $response_element))) {
-							$return_element = $this->mergeElementValue($element, $response_element);
+
+						if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
+							$response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
+							if (!empty($this->mergeElementValue($element, $response_element))) {
+								$return_element = $this->mergeElementValue($element, $response_element);
+							}
 						}
-						#}
+
 						$return['body']['steps'][$step_key]['data_elements'][$element_key] = $return_element;
 					}
 					//Add step non data_elements
@@ -181,7 +183,6 @@ class xJsonService implements xJsonServiceInterface {
 					$return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
 					// add each step messages aswel
 					if (isset($response_body['steps'][$step_key]['messages'])) {
-						#dump($response_body['steps'][$step_key]['messages']);
 						$return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
 					} else {
 						$return['body']['steps'][$step_key]['messages'] = [];
@@ -191,10 +192,7 @@ class xJsonService implements xJsonServiceInterface {
 					$return['body']['steps'][$step_key]['title'] = $step['title'];
 				}
 			}
-			#unset($response_body['steps']);
-			#dump($response_body);
-			if ($response_body['messages']) {
-				#dump($response_body['messages']);
+			if (isset($response_body['messages'])) {
 				$return['body']['messages'] = $response_body['messages'];
 			} else {
 				$return['body']['messages'] = [];
@@ -205,6 +203,7 @@ class xJsonService implements xJsonServiceInterface {
 		//Add body information
 		unset($definition_body['steps']);
 		$return['body'] += $definition_body;
+
 		return $return;
 	}
 
@@ -219,7 +218,7 @@ class xJsonService implements xJsonServiceInterface {
 		#if(!$header['first']) array_push($required_keys, ...['identifier', 'acceptable_activity']);
 		foreach ($required_keys as $key) {
 			if (!$header[$key]) throw new HttpException('400', "$key missing");
-			if (!$header['first']) {
+			if (!isset($header['first'])) {
 				foreach ($acceptable_activity_keys as $acceptable_activity_key) {
 					if (!in_array($aa = $acceptable_activity_key, $acceptable_activity_keys)) throw new HttpException("400", "acceptable_activity $aa value not acceptable");
 				}
@@ -288,7 +287,7 @@ class xJsonService implements xJsonServiceInterface {
 				$recfunc = function ($options, $keys = []) use (&$recfunc) {
 					foreach ($options as $key => $option) {
 						$keys[] = $key;
-						if ($option['options']) {
+						if (isset($option['options'])) {
 							return $recfunc($option['options'], $keys);
 						}
 					}
@@ -297,7 +296,7 @@ class xJsonService implements xJsonServiceInterface {
 
 				$option_keys = $recfunc($element['options']);
 				/*TODO check also if value is array*/
-				if ($element['value']) {
+				if (isset($element['value'])) {
 					if (is_array($element['value'])) {
 						foreach ($element['value'] as $value) {
 							if (!in_array($value, $option_keys)) $valid = false;

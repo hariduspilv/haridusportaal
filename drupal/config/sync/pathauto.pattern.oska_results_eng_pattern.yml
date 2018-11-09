@@ -1,0 +1,33 @@
+uuid: 92ff427b-a70b-4826-894a-730ce86141a2
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: oska_results_eng_pattern
+label: 'Oska Results ENG pattern'
+type: 'canonical_entities:node'
+pattern: 'oska-results/[node:title]'
+selection_criteria:
+  d858edfd-5205-43b7-9329-82202b9045d4:
+    id: node_type
+    bundles:
+      oska_result_page: oska_result_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: d858edfd-5205-43b7-9329-82202b9045d4
+  19561c3b-08f1-416b-a480-2740d49e9f79:
+    id: language
+    langcodes:
+      en: en
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 19561c3b-08f1-416b-a480-2740d49e9f79
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel

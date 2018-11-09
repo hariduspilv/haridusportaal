@@ -117,7 +117,7 @@
             },
             "aadressiPealkiri" : {
               "type" : "heading",
-              "title": { "et": "Tegevusloa aadressid" }
+              "title": { "et": "Asukoht" }
             },
             "valisAadress" : {
               "type" : "checkbox",

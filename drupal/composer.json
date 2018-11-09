@@ -30,6 +30,7 @@
         "drupal/editor_advanced_link": "^1.4",
         "drupal/editor_file": "^1.2",
         "drupal/elasticsearch_connector": "^5.0",
+        "drupal/elasticsearch_connector_autocomp": "1.x-dev",
         "drupal/entity_embed": "^1.0@beta",
         "drupal/externalauth": "^1.1",
         "drupal/google_map_field": "^1.5",
