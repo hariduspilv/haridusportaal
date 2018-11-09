@@ -20,6 +20,7 @@ import { EventsRegistratonDialog } from './_components/dialogs/events.registrati
 import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
 import { Modal } from './_components/dialogs/modal/modal';
 import { TableModal } from './_components/dialogs/table.modal/table.modal';
+import { CheckModal } from './_components/dialogs/check.modal/check.modal';
 import { VideoComponent } from './_components/video/video.component';
 import { StudyProgrammeCompareComponent } from './_views/studyProgramme.compare/studyProgramme.compare.component';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
@@ -35,6 +36,7 @@ export const AppDeclarations = [
   ShareComponent,
   Modal,
   TableModal,
+  CheckModal,
   VideoComponent,
   SchoolStudyProgrammesComponent,
   StudyProgrammeCompareComponent,
@@ -62,6 +64,7 @@ export const AppEntryComponents = [
   EventsRegistratonDialog,
   ImagePopupDialog,
   TableModal,
+  CheckModal,
   Modal,
   VideoComponent,
   StudyProgrammeCompareComponent,

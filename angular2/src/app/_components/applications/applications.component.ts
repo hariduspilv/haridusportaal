@@ -6,6 +6,7 @@ const moment = _moment;
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { Subscription } from 'rxjs/Subscription';
 import { TableService } from '@app/_services';
+import { UserService } from '@app/_services/userService';
 
 const ACCEPTABLE_FORMS_RESTRICTED_LENGTH = 4;
 const REQUEST_ITERATOR_LIFETIME = 30;
@@ -32,6 +33,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   };
   public request_iterator;
   public request_iterator_timeout = 2000;
+  public userData: any;
+  public currentRole: string = '';
 
   public acceptable_forms_list = [];
   public acceptable_forms_list_restricted: boolean = true;
@@ -44,7 +47,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   constructor(public http: HttpService,
     public rootScope: RootScopeService,
     public route: ActivatedRoute,
-    public tableService: TableService) {}
+    public tableService: TableService,
+    public user: UserService) {}
 
   setPaths() {
     this.rootScope.set('langOptions', {
@@ -305,6 +309,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(){
+    this.userData = this.user.getData();
+    this.currentRole = this.userData['role']['current_role']['type'];
     this.setPaths();
     this.pathWatcher();
     this.startTime = Date.now();

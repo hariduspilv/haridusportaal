@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="loading.initial === true"></mat-spinner>
 
-<div *ngIf="loading.initial === false">
+<div *ngIf="loading.initial === false && currentRole === 'natural_person'">
   <div>
     <h4 class="title-lg-padding">{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>
     <span *ngIf="!acceptable_forms_list.length">{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_notfound' | translate }}</span>
