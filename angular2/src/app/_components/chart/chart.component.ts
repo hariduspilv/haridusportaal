@@ -48,13 +48,15 @@ export class ChartComponent implements OnInit{
         graphName = "ComboChart"
       }
 
-
       let tmp = {
         "chartType": graphName,
         dataTable: value,
         options: {
           "title": graphIndicator,
           "height": 400,
+          "pieSliceTextStyle": {
+            "color": '#333333'
+          },
           "colors": ['#b02d0c', '#d5401a', '#e2770d', '#f8b243', '#0b148c', '#4290bf', '#1b8c9f', '#15adc2', '#700280', '#aa85be', '#af4c96', '#f290aa']
         }
       }
@@ -66,16 +68,21 @@ export class ChartComponent implements OnInit{
       if( chartType && secondaryGraphType ){
         let newType = chartType;
 
-        if( newType == "Bar" ){
+        if( newType == "bar" ){
           newType = "bars";
         }
 
+        if( secondaryGraphType == "bar" ){
+          secondaryGraphType = "bars";
+        }
+        
         tmp.options['seriesType'] = newType;
         tmp.options['series'] = {
-          2: {
+          1: {
             type: secondaryGraphType
           }
         }
+    
       }
 
       output.push(tmp);
