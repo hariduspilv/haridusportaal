@@ -149,8 +149,8 @@
               <thead>
                 <tr>
                   <th>
+                    <span>{{ 'oska.title_field' | translate }}</span>
                     <a href="javascript:void(0)" attr.aria-label="{{'button.sort' | translate}} {{'button.by' | translate}} {{ 'oska.title_field' | translate }}" (click)="sortView('field')">
-                      <span>{{ 'oska.title_field' | translate }}</span>
                       <span class="icon" aria-hidden="true">
                         <span *ngIf="field === 'field' && modifier" class="htm-icon">keyboard_arrow_up</span>
                         <span *ngIf="field && !(field === 'field' && modifier)" class="htm-icon">keyboard_arrow_down</span>
@@ -160,8 +160,8 @@
                   <th>{{ 'oska.table_problem' | translate }}</th>
                   <th>{{ 'oska.table_proposition' | translate }}</th>
                   <th>
+                    <span>{{ 'oska.table_responsible_person' | translate }}</span>
                     <a href="javascript:void(0)" attr.aria-label="{{'button.sort' | translate}} {{'button.by' | translate}} {{ 'oska.table_responsible_person' | translate }}" (click)="sortView('responsible')">
-                      <span>{{ 'oska.table_responsible_person' | translate }}</span>
                       <span class="icon" aria-hidden="true">
                         <span *ngIf="field === 'responsible' && modifier" class="htm-icon">keyboard_arrow_up</span>
                         <span *ngIf="field && !(field === 'responsible' && modifier)" class="htm-icon">keyboard_arrow_down</span>
@@ -169,8 +169,8 @@
                     </a>
                   </th>
                   <th>
+                    <span>{{ 'oska.table_proposition_status' | translate }}</span>
                     <a href="javascript:void(0)" attr.aria-label="{{'button.sort' | translate}} {{'button.by' | translate}} {{ 'oska.table_proposition_status' | translate }}" (click)="sortView('proposalStatus')">
-                      {{ 'oska.table_proposition_status' | translate }}
                       <span class="icon" aria-hidden="true">
                         <span *ngIf="field === 'proposalStatus' && modifier" class="htm-icon">keyboard_arrow_up</span>
                         <span *ngIf="field && !(field === 'proposalStatus' && modifier)" class="htm-icon">keyboard_arrow_down</span>
