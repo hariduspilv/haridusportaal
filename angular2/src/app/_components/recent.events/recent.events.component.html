@@ -65,7 +65,7 @@
     </div>
     <div class="events__list__item__footer" aria-hidden="true">
       {{ content.entity.fieldEventLocation ? content.entity.fieldEventLocation.name : '' }}
-      <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri" target="_blank">{{ content.entity.fieldEventLocationLink.uri | removeProtocol }}</a></div>
+      <div *ngIf="content.entity.fieldEventLocationLink"><a [href]="content.entity.fieldEventLocationLink.uri" target="_blank" class="link-ellipsis">{{ content.entity.fieldEventLocationLink.uri | removeProtocol }}</a></div>
     </div> 
   </div>
 </div>
