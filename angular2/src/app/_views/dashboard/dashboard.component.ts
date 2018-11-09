@@ -7,7 +7,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TableModal } from '@app/_components/dialogs/table.modal/table.modal';
 import { CheckModal } from '@app/_components/dialogs/check.modal/check.modal';
 import { TranslateService } from '@ngx-translate/core';
-import { SideMenuService } from '@app/_services';
 
 @Component({
   templateUrl: "dashboard.component.html",
@@ -47,8 +46,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     private route: ActivatedRoute,
     private user: UserService,
     public dialog: MatDialog,
-    public translate: TranslateService,
-    public sidemenu: SideMenuService
+    public translate: TranslateService
   ){
 
   }
@@ -102,7 +100,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
           let current = this.router.url;
           this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
             this.router.navigateByUrl(current);
-            this.sidemenu.triggerLang(true);
           });
         }
       });
