@@ -36,7 +36,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldOskaField; let ind = index;">
           <li *ngIf="ind < limits['fields']">
-            <a href="javascript:void(0)" attr.id="fieldOskaField_{{ind}}" [routerLink]="item.entity.entityUrl.path" attr.aria-label="{{item.entity.entityLabel}}" class="link related">
+            <a href="javascript:void(0)" [routerLink]="item.entity.entityUrl.path" attr.aria-label="{{item.entity.entityLabel}}" class="link related">
               <div><span class="htm-icon">link</span></div>
               <div class="label">{{item.entity.entityLabel}}</div>
             </a>
@@ -81,7 +81,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldJobOpportunities;let ind = index;">
           <li *ngIf="ind < limits['opportunities']">
-            <a href="{{item.url.path}}" attr.id="fieldJobOpportunities_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
+            <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
               <span>
                 <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
                 <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
@@ -112,7 +112,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldQualificationStandard;let ind = index;">
           <li *ngIf="ind < limits['qualification']">
-            <a href="{{item.url.path}}" attr.id="fieldQualificationStandard_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
+            <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
               <span>
                 <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
                 <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
@@ -143,7 +143,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldJobs;let ind = index;">
           <li *ngIf="ind < limits['jobs']">
-            <a *ngIf="item.entity.fieldJobLink" attr.id="fieldJobs_{{ind}}" href="{{item.entity.fieldJobLink.url.path}}" [attr.target]="!item.entity.fieldJobLink.url.routed ? '_blank' : ''" attr.aria-label="{{item.entity.fieldJobName}}" class="link">
+            <a *ngIf="item.entity.fieldJobLink" href="{{item.entity.fieldJobLink.url.path}}" [attr.target]="!item.entity.fieldJobLink.url.routed ? '_blank' : ''" attr.aria-label="{{item.entity.fieldJobName}}" class="link">
               <span>
                 <ng-container *ngIf="item.entity.fieldJobLink.url.routed"><span class="htm-icon">link</span><span class="label">{{item.entity.fieldJobName}}</span></ng-container>
                 <ng-container *ngIf="!item.entity.fieldJobLink.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.entity.fieldJobName}}</span></ng-container>
@@ -177,7 +177,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldQuickFind; let ind = index;">
           <li *ngIf="ind < limits['profQuickFind']">
-            <a href="{{item.url.path}}" attr.id="fieldQuickFind_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
+            <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
               <span>
                 <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
                 <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
@@ -237,7 +237,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldOskaMainProfession; let ind = index;">
           <li *ngIf="ind < limits['professions']">
-            <a href="javascript:void(0)" attr.id="fieldOskaMainProfession_{{ind}}" [routerLink]="item.entity.entityUrl.path" attr.aria-label="{{item.entity.entityLabel}}" class="link related">
+            <a href="javascript:void(0)" [routerLink]="item.entity.entityUrl.path" attr.aria-label="{{item.entity.entityLabel}}" class="link related">
               <div><span class="htm-icon">link</span></div>
               <div class="label">{{item.entity.entityLabel}}</div>
             </a>
@@ -266,7 +266,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldOskaFieldQuickFind; let ind = index;">
           <li *ngIf="ind < limits['quickFind']">
-            <a href="{{item.url.path}}" attr.id="fieldOskaFieldQuickFind_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link">
+            <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link">
               <span>
                 <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
                 <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
@@ -297,7 +297,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldRelatedPages; let ind = index;">
           <li *ngIf="ind < limits['relatedPages']">
-            <a href="{{item.url.path}}" attr.id="fieldRelatedPages_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
+            <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
               <span>
                 <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
                 <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
@@ -335,14 +335,14 @@
     <h1 class="medium">{{ 'school.contact' | translate }}</h1>
     <div class="padding-block--content">
       <div>
-        <span *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldOrganization" role="link" attr.aria-label="{{'event.organizer' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldOrganization}}">{{sidebar.fieldOskaFieldContact.entity.fieldOrganization}}</span>
-        <span *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldOrganization" role="link" attr.aria-label="{{'event.organizer' | translate}} {{sidebar.fieldContact.entity.fieldOrganization}}">{{sidebar.fieldContact.entity.fieldOrganization}}</span>
-        <span *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldOrganization" role="link" attr.aria-label="{{'event.organizer' | translate}} {{sidebar.fieldContactSection.entity.fieldOrganization}}">{{sidebar.fieldContactSection.entity.fieldOrganization}}</span>
+        <span *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldOrganization" role="text" attr.aria-label="{{'event.organizer' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldOrganization}}">{{sidebar.fieldOskaFieldContact.entity.fieldOrganization}}</span>
+        <span *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldOrganization" role="text" attr.aria-label="{{'event.organizer' | translate}} {{sidebar.fieldContact.entity.fieldOrganization}}">{{sidebar.fieldContact.entity.fieldOrganization}}</span>
+        <span *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldOrganization" role="text" attr.aria-label="{{'event.organizer' | translate}} {{sidebar.fieldContactSection.entity.fieldOrganization}}">{{sidebar.fieldContactSection.entity.fieldOrganization}}</span>
       </div>
       <div>
-        <span *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldPerson" role="link" attr.aria-label="{{'event.person' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldPerson}}">{{sidebar.fieldOskaFieldContact.entity.fieldPerson}}</span>
-        <span *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldPerson" role="link" attr.aria-label="{{'event.person' | translate}} {{sidebar.fieldContact.entity.fieldPerson}}">{{sidebar.fieldContact.entity.fieldPerson}}</span>
-        <span *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldPerson" role="link" attr.aria-label="{{'event.person' | translate}} {{sidebar.fieldContactSection.entity.fieldPerson}}">{{sidebar.fieldContactSection.entity.fieldPerson}}</span>
+        <span *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldPerson" role="text" attr.aria-label="{{'event.person' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldPerson}}">{{sidebar.fieldOskaFieldContact.entity.fieldPerson}}</span>
+        <span *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldPerson" role="text" attr.aria-label="{{'event.person' | translate}} {{sidebar.fieldContact.entity.fieldPerson}}">{{sidebar.fieldContact.entity.fieldPerson}}</span>
+        <span *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldPerson" role="text" attr.aria-label="{{'event.person' | translate}} {{sidebar.fieldContactSection.entity.fieldPerson}}">{{sidebar.fieldContactSection.entity.fieldPerson}}</span>
       </div>
       <div class="sm-show">
         <a *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldPhone" attr.aria-label="{{'event.phone | translate'}} {{sidebar.fieldOskaFieldContact.entity.fieldPhone}}" href="tel:{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}" class="hoverLined">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</a>
@@ -350,9 +350,9 @@
         <a *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldPhone" attr.aria-label="{{'event.phone | translate'}} {{sidebar.fieldContactSection.entity.fieldPhone}}" href="tel:{{sidebar.fieldContactSection.entity.fieldPhone}}" class="hoverLined">{{sidebar.fieldContactSection.entity.fieldPhone}}</a>
       </div>
       <div class="sm-hide">
-        <span *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldPhone" role="link" attr.aria-label="{{'event.phone' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldPhone}}">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</span>
-        <span *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldPhone" role="link" attr.aria-label="{{'event.phone' | translate}} {{sidebar.fieldContact.entity.fieldPhone}}">{{sidebar.fieldContact.entity.fieldPhone}}</span>
-        <span *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldPhone" role="link" attr.aria-label="{{'event.phone' | translate}} {{sidebar.fieldContactSection.entity.fieldPhone}}">{{sidebar.fieldContactSection.entity.fieldPhone}}</span>
+        <span *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldPhone" role="text" attr.aria-label="{{'event.phone' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldPhone}}">{{sidebar.fieldOskaFieldContact.entity.fieldPhone}}</span>
+        <span *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldPhone" role="text" attr.aria-label="{{'event.phone' | translate}} {{sidebar.fieldContact.entity.fieldPhone}}">{{sidebar.fieldContact.entity.fieldPhone}}</span>
+        <span *ngIf="sidebar.fieldContactSection && sidebar.fieldContactSection.entity.fieldPhone" role="text" attr.aria-label="{{'event.phone' | translate}} {{sidebar.fieldContactSection.entity.fieldPhone}}">{{sidebar.fieldContactSection.entity.fieldPhone}}</span>
       </div>
       <div *ngIf="sidebar.fieldOskaFieldContact && sidebar.fieldOskaFieldContact.entity.fieldEmail"><a class="hoverLined" attr.aria-label="{{'event.participant_email' | translate}} {{sidebar.fieldOskaFieldContact.entity.fieldEmail}}" href="mailto:{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}" alt="">{{sidebar.fieldOskaFieldContact.entity.fieldEmail}}</a></div>
       <div *ngIf="sidebar.fieldContact && sidebar.fieldContact.entity.fieldEmail"><a class="hoverLined" attr.aria-label="{{'event.participant_email' | translate}} {{sidebar.fieldContact.entity.fieldEmail}}" href="mailto:{{sidebar.fieldContact.entity.fieldEmail}}" alt="">{{sidebar.fieldContact.entity.fieldEmail}}</a></div>
@@ -367,7 +367,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldHyperlinks; let ind = index;">
           <li *ngIf="ind < limits['resultHyperlinks']">
-            <a href="{{item.url.path}}" attr.id="fieldHyperlinks_{{ind}}" target="_blank" attr.aria-label="{{item.title}}" class="link">
+            <a href="{{item.url.path}}" target="_blank" attr.aria-label="{{item.title}}" class="link">
               <span class="htm-icon">launch</span><span class="label">{{item.title}}</span>
             </a>
           </li>
@@ -395,7 +395,7 @@
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldRelatedArticle; let ind = index;">
           <li *ngIf="ind < limits['resultRelatedArticle']">
-            <a href="{{item.url.path}}" attr.id="fieldRelatedArticle_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
+            <a href="{{item.url.path}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link">
               <span>
                 <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
                 <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>

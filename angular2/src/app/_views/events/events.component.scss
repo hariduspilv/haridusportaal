@@ -112,13 +112,15 @@ a h1:hover { text-decoration: underline; }
       }
     }
     .more {padding-top: $half-gutter; padding-left: .625rem;
+      &>a{text-decoration: underline;}
     }
-    .disableMore {.more__hidden {display: none;}}
+    #secondClose{position:absolute; top:0; right:0; right:1rem; top:1rem;}
+    .disableMore {.more__hiddens {display: none;}}
   }
   .popup {position: relative;display: block;
     &__scroll{max-height:9.375rem; overflow: auto;}
     .popupcontent {cursor: auto;font-size: $small;line-height: 1.25rem;font-weight: 500;border-top: $gutter solid $orange;
-      box-shadow: 0 .125rem .25rem 0 rgba(0, 0, 0, 0.5);width: 19rem;background-color: #ffffff;color: #333333;
+      box-shadow: 0 .125rem .25rem 0 rgba(0, 0, 0, 0.5);width: 26rem;background-color: #ffffff;color: #333333;
       border-radius: $half-gutter;position: absolute;z-index: 1;left: -19.3rem;top: -3rem;
       .event__block {padding: $small $medium $small $medium;
         span {font-weight: 400;padding-left: .125rem;padding-right: .125rem;}
@@ -151,7 +153,7 @@ a h1:hover { text-decoration: underline; }
     .cal__event .popup .popupcontent{bottom:-170px;}
   }
 
-  .disableMore .popup {position:relative;bottom:10%;left:100%;margin-left: $quarter;}
+  .disableMore .popup {position:relative;bottom:54%;left:100%;margin-left: $quarter;}
   .lastOnes .disableMore .popup {bottom: 200%;}
   .disableMore.firstTwo .popup .popupcontent {left: auto;margin-left: -.25rem;}
   .popup.holdRight .popupcontent{left:100%;}
@@ -173,7 +175,7 @@ a h1:hover { text-decoration: underline; }
       display: inline-block;
       fill: currentColor;}
       h1 {font-size: .875rem;}
-      &.active {color: $black;cursor: default;pointer-events: none;
+      &.active {color: $black;
         &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
       }
       .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}

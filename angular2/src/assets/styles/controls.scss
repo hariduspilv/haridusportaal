@@ -61,7 +61,7 @@
         @include break-on(sm, min) {padding-top: .3rem;}
       }
       &.mat-form-field-should-float{
-        .mat-form-field-label{left:0.4375rem; padding:0 0.625rem; width:auto; background:$white; color: $black; font-size:0.75rem; top:-.0625rem;}
+        .mat-form-field-label{left:0.4375rem; padding:0 0.625rem; width:auto; background:$white; color: $black; font-size:0.75rem; top:3px;}
       }
       @include break-on(xl, min) {margin-top: 1.3125rem;} 
     }
@@ -245,4 +245,4 @@
   font-weight: normal;
 }
 
-// .mat-select-panel { margin-top: 2.5625rem; }
+.mat-select-panel { margin-top: 2.5625rem; }

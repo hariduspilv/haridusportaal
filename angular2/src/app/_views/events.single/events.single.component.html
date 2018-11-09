@@ -21,7 +21,7 @@
               <div class="short" *ngIf="content.entity.fieldDescriptionSummary" [innerHTML]="content.entity.fieldDescriptionSummary"></div>
               <div *ngIf="content.entity.fieldPicture !== null" class="article-image pull-right" (click)="openImage()">
                 <img class="pointer" tabindex="0" src="{{ content.entity.fieldPicture.derivative.url }}" alt="{{ content.entity.fieldPicture.alt }}" title="{{ content.entity.fieldPicture.title }}" style="max-width:100%;" />
-                <div class="image-alt-text" *ngIf="content.entity.fieldPicture.alt" aria-hidden="true">{{ content.entity.fieldPicture.alt }}</div>
+                <div class="image-alt-text" *ngIf="content.entity.fieldPicture.title" aria-hidden="true">{{ content.entity.fieldPicture.title }}</div>
               </div><!--/article-image-->
               <div class="description" [innerHTML]="content.entity.fieldDescription.value" *ngIf="content.entity.fieldDescription"></div>
             </div>

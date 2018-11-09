@@ -173,7 +173,7 @@
         <ng-container *ngFor="let dayKey of objectKeys( eventList[yearKey][monthKey] )">
           <div class="events__header center" [class.highlighted]="yearKey == current.year && monthKey == current.month && dayKey == current.day">
             <div class="events__datetime">
-              <div class="day">{{ 'time.' +getDayName( dayKey ) | translate }}</div>
+              <div class="day">{{ 'time.' +getDayName(yearKey, monthKey, dayKey ) | translate }}</div>
               <div class="date">{{ formatNumber(dayKey) }}.{{ formatNumber(monthKey) }}</div>
             </div>
             <div class="events__separator w-100">
@@ -224,19 +224,9 @@
       <button mat-raised-button color="primary" (click)="loadMore()" role="button" tabindex="0">{{ 'button.load_more' | translate }}</button>
     </div><!--/text-center-->
     <div class="text-center actions__error" *ngIf="eventList != null && objectKeys(eventList).length == 0 && eventList">
-      <p role="alert">No result</p>
+      <p role="alert">{{ 'events.no_results' | translate }}</p>
     </div><!--/text-center-->
   </div><!--/ngIf-->
-  
-  <div class="text-center actions" *ngIf="!listEnd && view !== 'calendar'">
-    <button mat-raised-button color="primary" (click)="loadMore()" role="button" tabindex="0">{{ 'button.load_more' | translate }}</button>
-  </div><!--/text-center-->
-
-
-  <div class="text-center actions__error" *ngIf="eventList != null && objectKeys(eventList).length == 0 && eventList">
-
-    <p role="alert">{{ 'events.no_results' | translate }}</p>
-  </div><!--/text-center-->
 
   <div class="calendar__elem" *ngIf="view == 'calendar'">
 
@@ -256,7 +246,7 @@
     
 
 
-  <mat-spinner *ngIf="loadingCalendar" style="margin-top:3rem; position: relative; bottom: 1.5rem;"></mat-spinner>
+    <mat-spinner *ngIf="loadingCalendar" style="margin-top:3rem; position: relative; bottom: 1.5rem;"></mat-spinner>
 
 
 
@@ -324,7 +314,7 @@
               <div class="event__block event__block__more">
                 <div class="title">
                   <div class="header">
-                    <div class="header__medium">{{ 'time.' + getDayName(day.i) | translate }}</div>
+                    <div class="header__medium">{{ 'time.' + getDayName(year, month, day.i) | translate }}</div>
 
                     <div class="header__strong">{{day.i}}. {{ 'time.'+ monthName | lowercase | translate}}</div>
 

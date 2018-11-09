@@ -2,7 +2,7 @@
 <div class="main-container">
   <div class="row wrapper__row" *ngIf="error">
     <div class="col-8 sm-12">
-      <div class="block border-blue padding-block">
+      <div class="block border-blue padding-block first-block">
         <h1>{{ 'oska.results' | translate }}</h1>
         <div class="text-center actions__error">
           <div class="alert" role="alert">{{'errors.request' | translate}}</div>
@@ -13,7 +13,7 @@
   <mat-spinner *ngIf="!data && !error"></mat-spinner>
   <div class="row wrapper__row" *ngIf="data">
     <div class="col-8 sm-12">
-      <div class="block border-blue padding-block">
+      <div class="block border-blue padding-block first-block">
         <div class="block__head no-border">
           <div class="block__head__title">{{ data['entityLabel'] | uppercase }}</div>
         </div><!--/block__head-->
@@ -53,7 +53,7 @@
         </ng-container>
 
         <ng-container *ngIf="data.fieldResultPageVideo">
-          <video-component [videos]="[data.fieldResultPageVideo]"></video-component>
+          <video-component [videos]="data.fieldResultPageVideo"></video-component>
         </ng-container>
 
         <ng-container *ngIf="data.fieldResultPageGraph">
@@ -61,7 +61,14 @@
         </ng-container>
         
       </div><!--/block-->
-      <div class="block border-blue padding-block lg-bottom" id="tableElem" *ngIf="filteredTableData">
+    </div><!--/col-8-->
+
+    <div class="col-4 sm-12" *ngIf="sidebarData">
+      <oska-areas-sidebar [sidebar]="sidebarData" [viewType]="viewType"></oska-areas-sidebar>
+    </div><!--/col-4-->
+  
+    <div class="col-8 sm-12" *ngIf="filteredTableData">
+      <div class="block border-blue padding-block lg-bottom" id="tableElem">
         <div class="block__head no-border">
           <div class="block__head__title">{{ 'TULEMUSTE TABEL' | uppercase }}</div>
         </div><!--/block__head-->
@@ -74,7 +81,7 @@
                     <mat-select placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]='filterItems.field' name="field">
                       <mat-option>{{ 'button.all' | translate }}</mat-option>
                       <mat-option *ngFor="let item of filterItemValues.field" [value]="item">
-                        {{item | titleCase}}
+                        {{item}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -86,7 +93,7 @@
                     <mat-select placeholder="{{ 'oska.table_responsible_person' | translate }}" [(ngModel)]='filterItems.responsible' name="responsible">
                       <mat-option>{{ 'button.all' | translate }}</mat-option>
                       <mat-option *ngFor="let item of filterItemValues.responsible" [value]="item">
-                        {{item | titleCase}}
+                        {{item}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -100,7 +107,7 @@
                     <mat-select placeholder="{{ 'oska.table_proposition_status' | translate }}" [(ngModel)]='filterItems.proposalStatus' name="proposalStatus">
                       <mat-option>{{ 'button.all' | translate }}</mat-option>
                       <mat-option *ngFor="let item of filterItemValues.proposalStatus" [value]="item">
-                        {{item | titleCase}}
+                        {{item}}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -115,8 +122,8 @@
           </div><!--/sm-12-->
         </div><!--flex flex-rows first-elem-->
         <div class="download" *ngIf="data.fieldResultPageTableFile">
-          <a href="{{ data.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download' | translate }}: {{ data.fieldResultPageTableFile.description || data.fieldResultPageTableFile.entity.entityLabel }}">
-            <span>{{ 'button.download_table' | translate }}</span>
+          <a href="{{ data.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ data.fieldResultPageTableFile.description || data.fieldResultPageTableFile.entity.entityLabel }}" >
+            <span matTooltip="{{ 'button.download' | translate }}" matTooltipPosition="top" class="htm-icon">publish</span>
           </a>
         </div>
         <div class="text-center actions__error" *ngIf="filteredTableData && !filteredTableData.length">
@@ -188,10 +195,6 @@
         </div>
       </div><!--/block-->
     </div><!--/col-8-->
-
-    <div class="col-4 sm-12" *ngIf="sidebarData">
-      <oska-areas-sidebar [sidebar]="sidebarData" [viewType]="viewType"></oska-areas-sidebar>
-    </div><!--/col-4-->
 
   </div><!--/row-->
 </div><!--/main-container-->

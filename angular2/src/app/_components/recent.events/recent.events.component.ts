@@ -45,7 +45,20 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	ngOnInit() {
 
-		console.log(this.content);
+		let tmpDates = {};
+    for( var i in this.content.entity.fieldEventDate ){
+      let unix = parseInt( this.content.entity.fieldEventDate[i].entity.fieldEventDate.unix );
+      tmpDates[unix] = this.content.entity.fieldEventDate[i];
+    }
+
+		console.log(tmpDates);
+    let outputDates = [];
+    for( var i in tmpDates ){
+      outputDates.push( tmpDates[i] );
+		}
+		
+		this.content.entity.fieldEventDate = outputDates;
+
 		this.iCalUrl = this.settings.url+"/calendarexport/";
 		this.paramsSub = this.route.params.subscribe( params => {
 			this.lang = params['lang'];
@@ -95,9 +108,12 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 			lastDate = this.content.entity.fieldEventMainDate.unix * 1000;
 		}
 
+		//firstDate-=43200000;
+
 		let isFull = this.content.entity.RegistrationCount >= this.content.entity.fieldMaxNumberOfParticipants;
 		if( this.content.entity.fieldMaxNumberOfParticipants == null ){ isFull = false;}
 
+		console.log(firstDate);
 		if( isFull ){
 			return 'full';
 		}
@@ -106,6 +122,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 			return true;
 		}
 		else if( firstDate > this.unix ){
+			console.log(firstDate, this.unix);
 			return 'not_started';
 		}
 		else if( lastDate < this.unix ){
@@ -115,3 +132,4 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 }
 
+//1541721600000

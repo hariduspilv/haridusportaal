@@ -3,9 +3,7 @@
   a:hover { text-decoration: none; }
   .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
   .title {padding: $small $medium 0 $medium;
-    @include break-on(sm, min) {padding: 0;
-      &.hoveredOn {h1 {text-decoration: underline;}}
-    }
+    @include break-on(sm, min) {padding: 0;}
   }
   .author {padding: $half-gutter $medium $gutter $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;
     @include break-on(sm, min) {padding: 0; padding-top: $gutter; padding-bottom: $small;}
@@ -44,3 +42,4 @@
 }
 ::ng-deep .description a[target="_blank"] {text-decoration: none;}
 ::ng-deep .mat-calendar-body-selected {background-color: $blue;}
+::ng-deep .news-row:hover h1 { text-decoration: underline; }
