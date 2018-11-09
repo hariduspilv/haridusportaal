@@ -39,6 +39,19 @@ export class EventsRegistratonDialog {
   
   ngOnInit() {
 
+    let tmpDates = {};
+    for( var i in this.data.eventExtraDates ){
+      let unix = parseInt( this.data.eventExtraDates[i].entity.fieldEventDate.unix );
+      tmpDates[unix] = this.data.eventExtraDates[i];
+    }
+
+    let outputDates = [];
+    for( var i in tmpDates ){
+      outputDates.push( tmpDates[i] );
+    }
+
+    this.data.eventExtraDates = outputDates;
+
     this.iCalUrl = this.settings.url+"/calendarexport/"+this.data.nid;
 
     this.form = this.fb.group({

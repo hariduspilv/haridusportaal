@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Params, Router, ActivatedRoute } from '@angular/router';
@@ -8,7 +8,7 @@ import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
 
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
-import {VideoComponent} from '@app/_components/video/video.component';
+import { VideoComponent } from '@app/_components/video/video.component';
 import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
 
@@ -16,8 +16,6 @@ import { UserService } from '@app/_services/userService';
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss']
 })
-
-
 
 export class ArticleComponent implements OnInit, OnDestroy{
   
