@@ -94,18 +94,19 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.pathWatcher();
     if(this.userData.isExpired === true){
       this.router.navigateByUrl('');
+    } else {
+      this.roleStateSet();
+      this.dialog.afterAllClosed.subscribe(result => {
+        if (this.rootScope.get('roleChanged')) {
+          this.rootScope.set('roleChanged', false);
+          let current = this.router.url;
+          this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
+            this.router.navigateByUrl(current);
+            this.sidemenu.triggerLang(true);
+          });
+        }
+      });
     }
-    this.roleStateSet();
-    this.dialog.afterAllClosed.subscribe(result => {
-      if (this.rootScope.get('roleChanged')) {
-        this.rootScope.set('roleChanged', false);
-        let current = this.router.url;
-        this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
-          this.router.navigateByUrl(current);
-          this.sidemenu.triggerLang(true);
-        });
-      }
-    });
   }
   ngOnDestroy(){
     for (let sub of this.subscriptions) {
