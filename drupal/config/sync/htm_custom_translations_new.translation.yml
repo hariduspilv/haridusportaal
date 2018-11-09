@@ -598,8 +598,8 @@ xjson:
     en: 'Change table'
   edit_step_confirm_modal_title:
     translation_type: textarea
-    et: 'Taotluse muutmine'
-    en: 'Edit form'
+    et: 'Taotluse vormi muutmine'
+    en: 'Edit application form'
 article:
   label:
     translation_type: textarea
@@ -1549,10 +1549,6 @@ button:
     translation_type: textarea
     et: Järgmine
     en: Next
-  'yes':
-    translation_type: textarea
-    et: Jah
-    en: 'Yes'
   cancel:
     translation_type: textarea
     et: Katkesta
@@ -1609,6 +1605,18 @@ button:
     translation_type: textarea
     et: 'Telli teemad RSS-iga'
     en: 'Order by RSS'
+  yes_delete:
+    translation_type: textarea
+    et: 'Kustuta tabeli rida'
+    en: 'Delete table row'
+  yes_change:
+    translation_type: textarea
+    et: 'Jah,  soovin andmeid muuta'
+    en: 'Yes, I''d like to change data'
+  'yes':
+    translation_type: textarea
+    et: Jah
+    en: 'Yes'
 tooltip:
   share:
     translation_type: textarea
@@ -1745,6 +1753,30 @@ modal:
     translation_type: textarea
     et: 'Avab modali'
     en: 'Opens modal'
+  organizations:
+    translation_type: textarea
+    et: Ettevõtted
+    en: Organizations
+  no_organizations:
+    translation_type: textarea
+    et: 'Ettevõtted puuduvad'
+    en: 'No organizations'
+  change_role:
+    translation_type: textarea
+    et: 'Vaheta rolli'
+    en: 'Change role'
+  choose_role:
+    translation_type: textarea
+    et: 'Vali roll'
+    en: 'Choose role'
+  changing_role:
+    translation_type: textarea
+    et: Rollivahetus
+    en: 'Changing role'
+  me:
+    translation_type: textarea
+    et: Mina
+    en: Me
 required:
   modal:
     translation_type: textarea
@@ -1903,6 +1935,50 @@ oska:
     translation_type: textarea
     et: Vaade
     en: View
+  ascending:
+    translation_type: textarea
+    et: 'väiksemast suuremaks'
+    en: ascending
+  descending:
+    translation_type: textarea
+    et: 'suuremast väiksemaks'
+    en: descending
+  future_job_opportunities:
+    translation_type: textarea
+    et: 'Tuleviku töövõimalused'
+    en: 'Future job opportunities'
+  results:
+    translation_type: textarea
+    et: Tulemused
+    en: Results
+  additional:
+    translation_type: textarea
+    et: Lisainfo
+    en: 'Additional Info'
+  table_subject:
+    translation_type: textarea
+    et: Teema
+    en: Subject
+  table_problem:
+    translation_type: textarea
+    et: Probleem
+    en: Problem
+  table_proposition:
+    translation_type: textarea
+    et: Ettepanek
+    en: Proposition
+  table_responsible_person:
+    translation_type: textarea
+    et: Peavastutaja
+    en: Responsible
+  table_experts_comment:
+    translation_type: textarea
+    et: 'Eksperdikogu kommentaar'
+    en: 'Experts comment'
+  table_proposition_status:
+    translation_type: textarea
+    et: 'Ettepaneku staatus'
+    en: 'Proposition status'
 oskaProfession: {  }
 langcode: et
 sidebar:
@@ -1939,3 +2015,10 @@ url:
     translation_type: textarea
     et: 'URL on kopeeritud lõikepuhvrisse.'
     en: 'URL copied to clipboard.'
+events:
+  no_results:
+    translation_type: textarea
+    et: 'Otsingutulemused puuduvad'
+    en: 'No search results'
+table: {  }
+Modal: {  }

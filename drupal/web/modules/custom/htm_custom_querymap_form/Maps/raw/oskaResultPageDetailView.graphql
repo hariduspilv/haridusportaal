@@ -1,0 +1,127 @@
+query oskaResultPageDetailView($path: String!) {
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
+        language {
+          id
+        }
+        url {
+          path
+        }
+      }
+      entity {
+        ... on NodeOskaResultPage {
+          nid
+          entityLabel
+          fieldResultPageIntroduction
+          body {
+            value
+          }
+          fieldResultPagePicture {
+            derivative(style: CROP_LARGE) {
+              url
+              __typename
+            }
+            width
+            height
+            alt
+            title
+            __typename
+          }
+          fieldResultPageSidebar {
+            entity {
+              ... on ParagraphRightSidebarSectionInfo {
+                fieldAdditional {
+                  entity {
+                    ... on ParagraphAdditionalSection {
+                      fieldTitle
+                      fieldAdditionalBody
+                    }
+                  }
+                }
+                fieldContactSection {
+                  entity {
+                    ... on ParagraphContactSection {
+                      fieldPhone
+                      fieldPerson
+                      fieldEmail
+                      fieldOrganization
+                    }
+                  }
+                }
+                fieldRelatedArticle {
+
+                  url {
+                    path
+                    routed
+                  }
+                  title
+                }
+                fieldHyperlinks {
+                  url {
+                    path
+                  }
+                  title
+                }
+              }
+            }
+          }
+          fieldResultPageVideo {
+            input
+            videoDomain
+            videoDescription
+            videoId
+          }
+          fieldResultPageLinks {
+            url {
+              path
+              __typename
+            }
+            title
+          }
+          fieldResultPageFiles {
+            description
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+              __typename
+            }
+            __typename
+          }
+          fieldResultPageTableFile {
+            description
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+              __typename
+            }
+            __typename
+          }
+          fieldResultPageGraph{
+            value
+            graphSet
+            graphTitle
+            graphVAxis
+            graphType
+            secondaryGraphType
+            graphIndicator
+            secondaryGraphIndicator
+          }
+        }
+      }
+    }
+  }
+}

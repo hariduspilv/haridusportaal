@@ -15,6 +15,7 @@ export class OskaAreasSidebarComponent implements OnInit {
   @Input() viewType: any;
 
   private lang: any = 'et';
+  private jobPagesExist: boolean = false;
   private locationPerLang: any = false;
   private learningQuery: any = false;
   private generalLimiter: number = 5;
@@ -26,7 +27,9 @@ export class OskaAreasSidebarComponent implements OnInit {
     jobs: this.generalLimiter,
     profQuickFind: this.generalLimiter,
     relatedPages: this.generalLimiter,
-    quickFind: this.generalLimiter
+    quickFind: this.generalLimiter,
+    resultHyperlinks: this.generalLimiter,
+    resultRelatedArticle: this.generalLimiter
   };
   private typeStatus: any = {
     professions: null,
@@ -37,6 +40,8 @@ export class OskaAreasSidebarComponent implements OnInit {
     fields: null,
     relatedPages: null,
     quickFind: null,
+    resultHyperlinks: null,
+    resultRelatedArticle: null
   }; 
 
 	constructor(private rootScope: RootScopeService, private route: ActivatedRoute) {}
@@ -56,13 +61,19 @@ export class OskaAreasSidebarComponent implements OnInit {
       this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
       this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
       this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];
-    } else {
+    } else if (this.viewType === 'mainProfession') {
       this.typeStatus['fields'] = this.sidebar.fieldOskaField.length > this.limits['fields'];
       this.typeStatus['opportunities'] = this.sidebar.fieldJobOpportunities.length > this.limits['opportunities'];
       this.typeStatus['qualification'] = this.sidebar.fieldQualificationStandard.length > this.limits['qualification'];
       this.typeStatus['profQuickFind'] = this.sidebar.fieldQuickFind.length > this.limits['profQuickFind'];
       this.typeStatus['jobs'] = this.sidebar.fieldJobs.length > this.limits['jobs'];
+    } else {
+      this.typeStatus['resultHyperlinks'] = this.sidebar.fieldHyperlinks.length > this.limits['resultHyperlinks'];
+      this.typeStatus['resultRelatedArticle'] = this.sidebar.fieldRelatedArticle.length > this.limits['resultRelatedArticle'];
     }
+    this.sidebar.fieldJobs.forEach(elem => {
+      if (elem.entity.fieldJobLink) { this.jobPagesExist = true; }
+    });
   }
 
   showMore(type, compare) {
@@ -79,8 +90,13 @@ export class OskaAreasSidebarComponent implements OnInit {
     return (this.viewType === 'field' && this.sidebar.fieldOskaFieldContact && this.sidebar.fieldOskaFieldContact.entity 
     && (this.sidebar.fieldOskaFieldContact.entity.fieldOrganization || this.sidebar.fieldOskaFieldContact.entity.fieldPerson 
       || this.sidebar.fieldOskaFieldContact.entity.fieldEmail || this.sidebar.fieldOskaFieldContact.entity.fieldPhone))
-    || (this.sidebar.fieldContact && this.sidebar.fieldContact.entity 
+    ||
+    (this.viewType === 'mainProfession' && this.sidebar.fieldContact && this.sidebar.fieldContact.entity 
     && (this.sidebar.fieldContact.entity.fieldOrganization || this.sidebar.fieldContact.entity.fieldPerson 
-      || this.sidebar.fieldContact.entity.fieldEmail || this.sidebar.fieldContact.entity.fieldPhone));
+      || this.sidebar.fieldContact.entity.fieldEmail || this.sidebar.fieldContact.entity.fieldPhone))
+    ||
+    (this.viewType === 'results' && this.sidebar.fieldContactSection && this.sidebar.fieldContactSection.entity 
+    && (this.sidebar.fieldContactSection.entity.fieldOrganization || this.sidebar.fieldContactSection.entity.fieldPerson 
+      || this.sidebar.fieldContactSection.entity.fieldEmail || this.sidebar.fieldContactSection.entity.fieldPhone));
   }
 }

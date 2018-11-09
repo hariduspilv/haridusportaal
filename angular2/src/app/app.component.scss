@@ -193,8 +193,15 @@ $grid-columns: 12;
   @include break-on(sm, max) {white-space: nowrap;}
 }
 
-.grow {flex-grow: 1;}
-.wrap {@include break-on(sm, max) {flex-wrap: wrap;}
+.grow {flex-grow: 1;
+  &.additional {padding-bottom: 1rem;}
+  @include break-on(sm, min) {
+    &.additional {padding-right: 1rem;padding-bottom: 0;}
+  }
+}
+.wrap {@include break-on(sm, max) {flex-wrap: wrap;
+  &.desktop {flex-wrap: wrap;}
+}
 &.xxs {flex-wrap: nowrap;@include break-on(xxs, max) {flex-wrap: wrap;}}
 }
 .btn {@include break-on(xxs, max) {padding-top: $medium;}}
@@ -320,6 +327,15 @@ $grid-columns: 12;
   .inline{margin:0 auto; padding:0;}
   .flex{display:flex;
     &.centered { align-items: center; }
+    &.flex-wrap {flex-wrap: wrap; }
+    &.flex-notrows {flex-direction: column; }
+    &.flex-rows {flex-direction: row; }
+    &.flex-grow {flex-grow: 1; }
+    &.input-row {padding: .5rem 0 .5rem 0;flex-direction: column;
+      &.no-top {padding-top: 0;}
+      &.no-bottom {padding-bottom: 0;}
+      @include break-on(sm, min) {padding-right: 1rem;flex-direction: row;} 
+    }
   }
 
   .scrollableTable{

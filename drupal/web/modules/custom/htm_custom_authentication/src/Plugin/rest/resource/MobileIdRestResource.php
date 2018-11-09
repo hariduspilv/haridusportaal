@@ -35,20 +35,6 @@ class MobileIdRestResource extends ResourceBase {
   protected $currentUser;
 
   /**
-   * The event dispatcher.
-   *
-   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
-   */
-  protected $eventDispatcher;
-
-  /**
-   * The JWT Transcoder service.
-   *
-   * @var \Drupal\jwt\Transcoder\JwtTranscoderInterface
-   */
-  protected $transcoder;
-
-  /**
    * Constructs a new MobileIdRestResource object.
    *
    * @param array $configuration
@@ -93,8 +79,8 @@ class MobileIdRestResource extends ResourceBase {
   /**
    * Responds to POST requests.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity object.
+   * @param $data
+   *   POST data
    *
    * @return \Drupal\rest\ModifiedResourceResponse
    *   The HTTP response object.
@@ -132,7 +118,7 @@ class MobileIdRestResource extends ResourceBase {
             }
           }
           $result = array_intersect_key($result, array_flip($keys));
-          return new ResourceResponse($result);
+          return new ModifiedResourceResponse($result);
         }else{
           switch ($result['Code']) {
             case 101:

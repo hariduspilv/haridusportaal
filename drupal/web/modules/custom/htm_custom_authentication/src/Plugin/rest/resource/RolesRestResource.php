@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_authentication\Plugin\rest\resource;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
 use Drupal\htm_custom_authentication\CustomRoleSwitcher;
@@ -27,19 +28,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class RolesRestResource extends ResourceBase {
 
-  /**
-   * A current user instance.
-   *
-   * @var \Drupal\Core\Session\AccountProxyInterface
-   */
-
-  protected $currentUser;
-
-	/**
-	 * @var LoggerInterface
-	 */
-	protected $logger;
-
 	/**
 	 * @var JsonAuthenticationProvider
 	 */
@@ -49,23 +37,29 @@ class RolesRestResource extends ResourceBase {
 	 * @var CustomRoleSwitcher
 	 */
 	protected $roleSwitcher;
-  /**
-   * Constructs a new GetCompaniesRestResource object.
+
+	/**
+   * A current user instance.
    *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param array $serializer_formats
-   *   The available serialization formats.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   A logger instance.
-   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
-   *   A current user instance.
+   * @var \Drupal\Core\Session\AccountProxyInterface
    */
-  public function __construct(
+
+  protected $currentUser;
+
+
+	/**
+	 * RolesRestResource constructor.
+	 *
+	 * @param array                      $configuration
+	 * @param                            $plugin_id
+	 * @param                            $plugin_definition
+	 * @param array                      $serializer_formats
+	 * @param LoggerInterface            $logger
+	 * @param AccountProxyInterface      $current_user
+	 * @param JsonAuthenticationProvider $jsonAuthenticationProvider
+	 * @param CustomRoleSwitcher         $roleSwitcher
+	 */
+	public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
@@ -116,7 +110,14 @@ class RolesRestResource extends ResourceBase {
 
 	  /*@TODO mby add default userRole aswell to response*/
 	  $roles = $this->roleSwitcher->getAvailableRoles();
-    return new ResourceResponse($roles, 200);
+	  $response = new ResourceResponse($roles, 200);
+
+	  $cache_metadata = new CacheableMetadata();
+	  $cache_metadata->addCacheContexts(['url.query_args', 'user']);
+
+	  $response->addCacheableDependency($cache_metadata);
+
+    return $response;
   }
 
   /**

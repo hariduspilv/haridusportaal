@@ -1,0 +1,205 @@
+
+  {
+    "header": {
+      "endpoint": "EHIS",
+      "form_name": "MTSYS_TEGEVUSLUBA_TAOTLUS",
+      "number_of_steps": 3
+    },
+    "body": {
+      "steps": {
+        "step_liik": {
+          "tegevusloaLiik" : {
+            "type" : "selectlist",
+            "title": { "et": "Tegevusloa liik" },
+            "options_list" : "TegevusloaLiigid",
+            "required" : true
+          }
+        },
+        "step_andmed": {
+          "title": {
+            "et": "Tegevusluba"
+          },
+          "data_elements": {
+            "tegevusloaandmedPealkiri" : {
+              "type" : "heading",
+              "title": { "et": "Tegevusloa andmed" }
+            },
+            "tegevusloaLiik" : {
+              "type" : "selectlist",
+              "title": { "et": "Tegevusloa liik" },
+              "options_list" : "TegevusloaLiigid",
+              "readonly" : true
+            },
+            "oppekavaNimetus": {
+              "type": "text",
+              "title": { "et": "Õppekava nimetus"  },
+              "requried": true,
+              "maxlength": 255
+            },
+            "alguseKuupaev": {
+              "type": "date",
+              "title": { "et": "Alguse kuupäev"  },
+              "hidden": true
+            },
+            "lopuKuupaev": {
+              "type": "date",
+              "title": { "et": "Lõpu kuupäev"  },
+              "hidden": true
+            },
+            "laagriNimetus": {
+              "type": "text",
+              "title": { "et": "Laagri nimetus"  },
+              "hidden": true
+            },
+            "kohtadeArvLaagris": {
+              "type": "number",
+              "title": { "et": "Kohtade arv laagris"  },
+              "hidden": true,
+              "max" : 1000,
+              "min" : 1
+            },
+            "tkkLiik" : {
+              "type" : "selectlist",
+              "title": { "et": "TKK liik" },
+              "options_list" : "tkkLiigid",
+              "hidden" : true
+            },
+            "keeleTase" : {
+              "type" : "selectlist",
+              "title": { "et": "Keele tase" },
+              "options_list" : "eestiKeeleTasemed",
+              "hidden" : true
+            },
+            "soidukiteKategooria" : {
+              "type" : "selectlist",
+              "title": { "et": "Sõidukite kategooria" },
+              "options_list" : "soidukiKategooriad",
+              "hidden" : true
+            },
+            "oppeTasemed": {
+              "type": "table",
+              "title": { "et": "Õppetasemed" },
+              "add_del_rows": false,
+              "hidden" : true,
+              "table_columns": {
+                "nimetus": {
+                  "type": "selectlist",
+                  "title": {  "et": "Nimetus" },
+                  "options_list" : "oppekavaTasemed",
+                  "required" : true
+                }
+              }
+            },
+            "oppekavaRuhmad": {
+              "type": "table",
+              "title": { "et": "Õppekavarühmad" },
+              "add_del_rows": false,
+              "hidden" : true,
+              "table_columns": {
+                "nimetus": {
+                  "type": "selectlist",
+                  "title": {  "et": "Nimetus" } ,
+                  "options_list" : "opperyhmad",
+                  "required": true
+                }
+              }
+            },
+            "aadressiPealkiri" : {
+              "type" : "heading",
+              "title": { "et": "Asukoht" }
+            },
+            "valisAadress" : {
+              "type" : "checkbox",
+              "title": { "et": "Tegevus toimub välisriigi aadressil" }
+            },
+            "aadressid": {
+              "type": "table",
+              "title": { "et": "Tegevuskohtade aadressid Eestis" },
+              "add_del_rows": true,
+              "table_columns": {
+                "aadress": {
+                  "type": "address",
+                  "title": {  "et": "Aadress" }
+                }
+              }
+            },
+            "kontaktidPealkiri" : {
+              "type" : "heading",
+              "title": { "et": "Kontaktandmed" }
+            },
+            "oppeasutuseNimetus": {
+              "type": "text",
+              "title": { "et": "Õppeasutuse nimetus"  },
+              "readonly": true
+            },
+            "omanik": {
+              "type": "text",
+              "title": { "et": "Omanik"  },
+              "readonly": true
+            },
+            "kontaktisik": {
+              "type": "text",
+              "title": { "et": "Kontaktisik" },
+              "required": true
+            },
+            "telefon": {
+              "type": "text",
+              "title": { "et": "Õppeasutuse üldtelefon"  },
+              "required": true
+            },
+            "epost": {
+              "type": "email",
+              "title": { "et": "Õppeasutuse e-posti aadress"  },
+              "required": true
+            },
+            "koduleht": {
+              "type": "text",
+              "title": { "et": "Õppeasutuse kodulehe aadress"  },
+              "readonly": true
+            },
+            "dokumendidPealkiri" : {
+              "type" : "heading",
+              "title": { "et": "Dokumendid" }
+            },
+            "dokumendid": {
+              "type": "table",
+              "title": { "et": "Dokumendid" },
+              "add_del_rows": false,
+              "table_columns": {
+                "liik": {
+                  "type": "text",
+                  "title": {  "et": "Liik" } ,
+                  "readonly" : true
+                },
+                "klLiik" : {
+                  "type": "text",
+                  "title": {  "et": "KlLiik" } ,
+                  "hidden" : true
+                },
+                "fail": {
+                  "type": "file",
+                  "title": {  "et": "Fail" } ,
+                },
+                "kommentaar": {
+                  "type": "text",
+                  "title": {  "et": "Kommentaar" } ,
+                }
+              }
+            },
+            "muulisainfoPealkiri" : {
+              "type" : "heading",
+              "title": { "et": "Muu lisainfo" }
+            },
+            "kommentaar": {
+              "type": "textarea",
+              "title": {  "et": "Kommentaar" } ,
+            }
+          }
+        },
+        "step_esitamise_tagasiside": {
+          "data_elements" : {
+          }
+        }
+      }
+    }
+  }

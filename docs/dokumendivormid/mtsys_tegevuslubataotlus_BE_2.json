@@ -1,0 +1,112 @@
+
+Tegevusloa taotluse XDzeisoni mäping mtsysLaeTegevusluba-sse
+regNr
+oppekava/koolId omistada sisendist
+taoltus.id -  header.identifier (ku header-s identifier on 0, siis taoltus.id )
+    "body" : {
+      "steps": {
+        "step_liik": {
+          "tegevusloaLiik" : {
+            "value"  oppekava/klOkLiik
+          }
+        },
+        "step_andmed": {
+          "data_elements": {
+            "oppekavaNimetus": {
+              "value" - taotlus/nimetus
+            },
+            "alguseKuupaev": {
+              "value" - taotlus/kehtibAlates
+            },
+            "lopuKuupaev": {
+              "value" - taotlus/kehtibKuni
+            },
+            "laagriNimetus": {
+              "value" - taotlus/laagriNimetus
+            },
+            "kohtadeArvLaagris": {
+              "value" - taotlus/kohtadArvLaagris
+            },
+            "tkkLiik" : {
+              "value" - taotlus/klTkkLiik
+            },
+            "keeleTase" : {
+              "value" - taotlus/klEkTase
+            },
+            "soidukiteKategooria" : {
+              "value" - taotlus/klSoidukiKategooria
+            },
+            "oppeTasemed": {
+              "table_columns": {
+                "nimetus": {
+                  "value" taotlus.oppetasemed.oppekavaOppetase.id
+                  klassifikaatoris lugeda juurde taotlus.oppetasemed.oppekavaOppetasenimetus ja taotlus.oppetasemed.oppekavaOppetase.onKehtiv
+                }
+              }
+            },
+            "oppekavaRuhmad": {
+              "table_columns": {
+                "nimetus": {
+                  "value" taotlus.opperyhmad.opperyhm.id
+                  klassifikaatoris lugeda juurde taotlus.opperyhmad.nimetus ja taotlus.opperyhmad.onKehtiv
+                }
+              }
+            },
+            "valisAadress" : {
+              "value" taotlus.aadressid.onValismaa
+            },
+            "aadressid": {
+              "table_columns": {
+                "aadress": {
+                  county - taotlus.aadressid.aadress.maakond,
+                  localGovernment - taotlus.aadressid.omavalitsus,
+                  settlementUnit - taotlus.aadressid.aadress.asula,
+                  taotlus.aadressid.aadress.adsAadressHumanReadable
+                }
+              }
+            },
+            "oppeasutuseNimetus": {
+              "value" kontaktandmed.kooliNimetus
+            },
+            "omanik": {
+              "value" kontaktandmed.omanik
+            },
+            "omanik": {
+              "value" kontaktandmed.kontaktIsik
+            },
+            "telefon": {
+              "value"   kontaktandmed.oppeasutuseYldtelefon
+            },
+            "epost": {
+              "value" kontaktandmed.oppeasutuseEpost
+            },
+            "koduleht": {
+              "value" kontaktandmed.koduleht
+            },
+
+            "dokumendid": {
+              Tabeli need read, kus on file_identifier
+              "table_columns": {
+                "klLiik" : {
+                  "value" : dokumendid.dokument.klLiik
+                },
+                "fail": {
+                  "value" : {
+                    "file_name" : dokumendid.dokument.failiNimi,
+                    "file_identifier" : viidatu fail salvestada dokumendid.dokument.content
+                  }
+                },
+                "kommentaar": {
+                  "value" : dokumendid.dokument.kommentaar
+                }
+              }
+            },
+
+            "kommentaar": {
+              "value" taotlus.lisainfo
+            }
+          }
+        }
+      }
+    }
+  }

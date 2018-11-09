@@ -59,19 +59,6 @@ class Tara extends OpenIDConnectClientBase {
 	}
 
 	public function authorize($scope = 'openid') {
-		$language_none = \Drupal::languageManager()
-			->getLanguage(LanguageInterface::LANGCODE_NOT_APPLICABLE);
-		$redirect_uri = Url::fromRoute(
-			'htm_custom_tara_authentication.redirect_controller_redirect',
-			[
-				'client_name' => $this->pluginId,
-			],
-			[
-				'absolute' => TRUE,
-				'language' => $language_none,
-			]
-		)->toString(TRUE);
-
 		$url_options = [
 			'query' => [
 				'client_id' => $this->configuration['client_id'],
@@ -106,19 +93,6 @@ class Tara extends OpenIDConnectClientBase {
 	 *   A result array or false.
 	 */
 	public function retrieveTokens($authorization_code) {
-		// Exchange `code` for access token and ID token.
-		$language_none = \Drupal::languageManager()
-			->getLanguage(LanguageInterface::LANGCODE_NOT_APPLICABLE);
-		$redirect_uri = Url::fromRoute(
-			'openid_connect.redirect_controller_redirect',
-			[
-				'client_name' => $this->pluginId,
-			],
-			[
-				'absolute' => TRUE,
-				'language' => $language_none,
-			]
-		)->toString();
 		$endpoints = $this->getEndpoints();
 
 		$request_options = [

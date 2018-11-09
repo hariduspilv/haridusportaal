@@ -6,6 +6,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class Base64Image{
 	protected $base64Image;
+	protected $mimes;
 	protected $fileData;
 	protected $fileName;
 	protected $mimeType;

@@ -42,6 +42,10 @@ class OskaGraphField extends FieldItemBase {
             ->setLabel(t('Chart value'))
             ->setComputed(TRUE)
             ->setClass('\Drupal\htm_custom_oska\GoogleChartValue');
+        $properties['graph_set'] = DataDefinition::create('string')
+            ->setLabel(t('Chart set'));
+        $properties['graph_title'] = DataDefinition::create('string')
+            ->setLabel(t('Chart title'));
         $properties['graph_v_axis'] = DataDefinition::create('string')
             ->setLabel(t('Chart x axis'));
         $properties['filter_values'] = DataDefinition::create('string')
@@ -62,10 +66,20 @@ class OskaGraphField extends FieldItemBase {
     public static function schema(FieldStorageDefinitionInterface $field_definition)
     {
         $schema['columns']['value'] = [
-            'description' => 'Graph title.',
+            'description' => 'Graph value.',
             'type' => 'json',
             'pgsql_type' => 'json',
             'mysql_type' => 'json',
+            'not null' => FALSE,
+        ];
+        $schema['columns']['graph_set'] = [
+            'description' => 'Graph set.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
+        $schema['columns']['graph_title'] = [
+            'description' => 'Graph title.',
+            'type' => 'varchar',
             'not null' => FALSE,
         ];
         $schema['columns']['filter_values'] = [
@@ -107,14 +121,17 @@ class OskaGraphField extends FieldItemBase {
 
     public function preSave()
     {
-        $graph_v_axis_value = $this->getCleanLabel($this->values['graph_v_axis']);
-        $indicators = $this->getIndicators($this->values);
+
+        $graph_v_axis_value = $this->getCleanLabel($this->values['graph_options']['graph_v_axis']);
+
         $this->values = [
-            'graph_type' => $this->values['graph_type'],
-            'secondary_graph_type' => $this->values['secondary_graph_type'] != "" ? $this->values['secondary_graph_type'] : NULL,
+            'graph_set' => $this->values['graph_set'],
+            'graph_title' => $this->values['graph_options']['graph_title'],
+            'graph_type' => $this->values['graph_options']['graph_type'],
             'graph_v_axis' => $graph_v_axis_value,
-            'graph_indicator' => isset($indicators[0]) ? $indicators[0] : NULL,
-            'secondary_graph_indicator' => isset($indicators[1]) ? $indicators[1] : NULL,
+            'graph_indicator' => $this->getTaxonomyName($this->values['graph_options']['oska_indicator']),
+            'secondary_graph_type' => isset($this->values['graph_options']['secondary_graph_type']) ? $this->values['graph_options']['secondary_graph_type'] : NULL,
+            'secondary_graph_indicator' => isset($this->values['graph_options']['secondary_graph_indicator']) ? $this->getTaxonomyName($this->values['graph_options']['secondary_graph_indicator']) : NULL,
             'filter_values' => json_encode($this->values, TRUE),
         ];
     }
@@ -138,6 +155,13 @@ class OskaGraphField extends FieldItemBase {
             '#size' => 1,
         ];
         return $element;
+    }
+
+    public function getTaxonomyName($field_value){
+        foreach($field_value as $val){
+            $term_name = Term::load($val['target_id'])->getName();
+        }
+        return $term_name;
     }
 
     public function getIndicators($filter_values){
