@@ -263,8 +263,8 @@ class EhisConnectorService {
 	public function getUserRoles(array $params = []){
 		/* @TODO $lang_code later as variable */
 		$lang_code = 'EST';
-		$params['url'] = [$this->getCurrentUserIdRegCode(), $lang_code, time()];
-		$params['key'] = $this->getCurrentUserIdRegCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(true), $lang_code, time()];
+		$params['key'] = $this->getCurrentUserIdRegCode(true);
 		$params['hash'] = 'esindusOigus';
 		return $this->invokeWithRedis('esindusOigus', $params, FALSE);
 	}
