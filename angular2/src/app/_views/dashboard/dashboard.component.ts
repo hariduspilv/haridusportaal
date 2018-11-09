@@ -5,7 +5,9 @@ import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TableModal } from '@app/_components/dialogs/table.modal/table.modal';
+import { CheckModal } from '@app/_components/dialogs/check.modal/check.modal';
 import { TranslateService } from '@ngx-translate/core';
+import { SideMenuService } from '@app/_services';
 
 @Component({
   templateUrl: "dashboard.component.html",
@@ -15,20 +17,20 @@ import { TranslateService } from '@ngx-translate/core';
 export class DashboardComponent implements OnInit, OnDestroy{
   public lang: string;
   public path: string;
-  
+  public currentRole: string = '';
  
   subscriptions: Subscription[] = [];
   
   public mainMenu = {
-    "et": [ {_id: 1, link: '/et/toolaud/taotlused'},
-          {_id: 2, link: '/et/toolaud/tunnistused'},
-          {_id: 3, link: '/et/toolaud/opingud'},
-          {_id: 4, link: '/et/toolaud/opetan'}],
+    "et": [ {_id: 1, link: '/et/toolaud/taotlused', active: true },
+          {_id: 2, link: '/et/toolaud/tunnistused', active: true },
+          {_id: 3, link: '/et/toolaud/opingud', active: true },
+          {_id: 4, link: '/et/toolaud/opetan', active: true }],
 
-    "en": [ {_id: 1, link: '/en/dashboard/applications'},
-          {_id: 2, link: '/en/dashboard/certificates'},
-          {_id: 3, link: '/en/dashboard/studies'},
-          {_id: 4, link: '/en/dashboard/teachings'}]
+    "en": [ {_id: 1, link: '/en/dashboard/applications', active: true },
+          {_id: 2, link: '/en/dashboard/certificates', active: true },
+          {_id: 3, link: '/en/dashboard/studies', active: true },
+          {_id: 4, link: '/en/dashboard/teachings', active: true }]
   };
 
   public mainMenuCommonAttrs = {
@@ -45,7 +47,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
     private route: ActivatedRoute,
     private user: UserService,
     public dialog: MatDialog,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public sidemenu: SideMenuService
   ){
 
   }
@@ -85,13 +88,24 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.rootScope.set('langOptions', opts);
   }
   ngOnInit(){
-    
+    this.rootScope.set('roleChanged', false);
     this.userData = this.user.getData();
+    this.currentRole = this.userData['role']['current_role']['type'];
     this.pathWatcher();
     if(this.userData.isExpired === true){
       this.router.navigateByUrl('');
     }
-    
+    this.roleStateSet();
+    this.dialog.afterAllClosed.subscribe(result => {
+      if (this.rootScope.get('roleChanged')) {
+        this.rootScope.set('roleChanged', false);
+        let current = this.router.url;
+        this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
+          this.router.navigateByUrl(current);
+          this.sidemenu.triggerLang(true);
+        });
+      }
+    });
   }
   ngOnDestroy(){
     for (let sub of this.subscriptions) {
@@ -113,6 +127,29 @@ export class DashboardComponent implements OnInit, OnDestroy{
     };
     dialogRef.open(TableModal, {
       data: data
+    });
+  }
+  
+  changeRole() {
+    let dialogRef = this.dialog;
+    let data = {
+      userData: this.userData,
+      title: this.translate.get('modal.choose_role')['value'],
+      pretitle: this.translate.get('modal.changing_role')['value'],
+      cancel: this.translate.get('event.registration_form_cancel')['value'],
+      confirm: this.translate.get('modal.confirm')['value'],
+      contentUrl: '/custom/login/getRoles?_format=json'
+    };
+    dialogRef.open(CheckModal, {
+      data: data
+    });
+  }
+
+  roleStateSet() {
+    this.mainMenu[this.lang].forEach(elem => {
+      if (elem['_id'] > 1) {
+        elem.active = !(this.currentRole === 'juridical_person');
+      }
     });
   }
 }
