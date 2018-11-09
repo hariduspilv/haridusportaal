@@ -102,7 +102,8 @@ export class FiltersService {
     let urlParams = {};
 
     for( var i in this.filterFormItems ){
-      if( this.filterFormItems[i] == '' ){
+
+      if( this.filterFormItems[i] == '' || this.filterFormItems[i] == null){
         delete this.filterFormItems[i];
       }
       else if( i.match("date") && typeof( this.filterFormItems[i] ) == 'object' && this.filterFormItems[i] !== null){

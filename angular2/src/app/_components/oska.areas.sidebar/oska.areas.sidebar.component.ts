@@ -77,13 +77,8 @@ export class OskaAreasSidebarComponent implements OnInit {
   }
 
   showMore(type, compare) {
-    let previousElement = this.limits[type] - 1;
     this.limits[type] = this.sidebar[compare].length;
     this.typeStatus[type] = false;
-    let elemToTarget = document.getElementById(`${compare}_${previousElement}`);
-    if (elemToTarget) {
-      elemToTarget.focus();
-    }
   }
 
   hideExtra(type, compare) {

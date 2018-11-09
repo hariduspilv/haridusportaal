@@ -37,7 +37,7 @@
 
 }
 .checkbox {
-  &__container {display: block;position: relative;padding-left: 1.75rem;
+  &__container {display: inline-block;position: relative;padding-left: 1.75rem;
     &:focus-within .checkmark {border-color: $black !important;}
     .checkmark:after {content: "";position: absolute;display: none;}
     input {position: absolute;opacity: 0;}

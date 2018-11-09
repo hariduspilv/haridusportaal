@@ -115,12 +115,12 @@
     <div class="news-title">{{ 'news.label' | translate | uppercase }}</div>
    
     <div>
-      <div *ngFor="let item of list;let ind = index;" class="news-item">
+      <div *ngFor="let item of list" class="news-item">
         <mat-card>
           <mat-card-content>
             <div class="row news-row">
               <div class="col-8 sm-hide">
-                <div class="mt-0 title" [class.hoveredOn]="hoveredOn[ind]"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }} </h1></a></div>
+                <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }} </h1></a></div>
                 
                 <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                 <div class="tags" *ngIf="item.fieldTag">
@@ -134,7 +134,7 @@
                 <div class="description">{{ item.fieldShortDescription }}</div>
               </div>
               <div class="col-4 sm-12 pointer" *ngIf="item.fieldIntroductionImage" [routerLink]="[item.entityUrl.path]">
-                <img (mouseenter)="hoveredOn[ind] = true;" (mouseleave)="hoveredOn[ind] = false;" src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
+                <img src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
               </div>
             </div>
             <div class="sm-show col-12">
