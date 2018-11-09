@@ -95,7 +95,7 @@
           [multiple]="true"
           [loading]="loading"
           bindLabel="name"
-
+          [notFoundText]="'events.no_results' | translate"
           name="types"
           [(ngModel)]="filterFormItems.types"
           placeholder="{{ 'event.filter_types' | translate }}"
@@ -118,6 +118,7 @@
           [multiple]="true"
           [loading]="loading"
           bindLabel="name"
+          [notFoundText]="'events.no_results' | translate"
           placeholder="{{ 'event.filter_tags' | translate }}"
           (clear)="clearField('tags')"
           [(ngModel)]="filterFormItems.tags"
