@@ -172,9 +172,12 @@ $grid-columns: 12;
       }
       &.nonBreakable {white-space: nowrap;}
       &.light {font-weight: 400;}
+      &.extraHeight {height: 1.5rem;}
     }
+    td.extraHeight {font-weight: 400;}
     th {font-weight: 500; background: $light-gray; text-align: left;}
   }
+  &.first-table {margin-bottom: .5rem;}
 }
 
 .icon-wrapper {display: flex;width: 2.5rem;min-width: 2.5rem;height: 2.5rem;align-items: center;justify-content: center;border-radius: .25rem;
@@ -331,6 +334,8 @@ $grid-columns: 12;
     &.flex-notrows {flex-direction: column; }
     &.flex-rows {flex-direction: row; }
     &.flex-grow {flex-grow: 1; }
+    &.flex-center {align-items: center; }
+    &.flex-justify-end {justify-content: flex-end; }
     &.input-row {padding: .5rem 0 .5rem 0;flex-direction: column;
       &.no-top {padding-top: 0;}
       &.no-bottom {padding-bottom: 0;}

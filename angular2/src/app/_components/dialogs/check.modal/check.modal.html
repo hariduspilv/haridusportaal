@@ -1,0 +1,68 @@
+<div class="dialog narrow" cdkTrapFocus>
+  <div class="row">
+    <div class="col-12" style="position: relative;">
+      <span class="dialog__text--medium">{{ data.pretitle | uppercase }}</span>
+      <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
+        <span class="htm-icon">close
+          <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0"></button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="dialog__success--modal dialog__success--modal--noTop dialog__success--modal--table">
+    <mat-spinner *ngIf="loading && !error"></mat-spinner>
+    <div class="dialog__success--content dialog__success--content--table" *ngIf="!loading && content">
+    <!-- *ngIf="!loading && content && !error" -->
+      <h1 class="mt-0 mb-0" >{{ data.title | titleCase }}</h1>
+      <table class="dashboard-table first-table">
+        <thead>
+          <tr>
+            <th class="extraHeight">{{'modal.me' | translate}}:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="extraHeight">
+              <mat-radio-group [(ngModel)]='roleSelection'>
+                <mat-radio-button value="natural_person">{{data.userData.username}}</mat-radio-button>
+              </mat-radio-group>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="dashboard-table">
+        <thead>
+          <tr>
+            <th class="extraHeight">{{'modal.organizations' | translate}}:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="content && content.length">
+            <tr *ngFor="let item of content">
+              <td class="extraHeight">
+                <mat-radio-group [(ngModel)]='roleSelection'>
+                  <mat-radio-button (click)="this.codeSelection = item.ariregistri_kood" value="juridical-{{item.ariregistri_kood}}">{{item.arinimi}}</mat-radio-button>
+                </mat-radio-group>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="content && !content.length">
+            <tr>
+              <td class="extraHeight text-center">{{'modal.no_organizations' | translate}}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="dialog__success--content dialog__success--content--error" *ngIf="error" role="alert">
+      <span *ngIf="!errorMessage">{{'errors.request' | translate}}</span>
+      <span *ngIf="errorMessage">{{errorMessage}}</span>
+    </div>
+    <div class="dialog__actions--success dialog__actions--wide">
+      <div class="flex flex-center flex-grow align-center flex-justify-end">
+        <div class="action--elem"><a href="javascript:void(0)" attr.aria-label="{{'modal.close' | translate}}" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.cancel }}</a></div>
+        <div *ngIf="!error" class="action--elem wide--button"><button mat-raised-button color="primary" type="button" attr.aria-label="{{data.confirm}}" (click)="roleChange()">{{ data.confirm }}</button></div>
+      </div>
+    </div>
+  </div>
+</div>
