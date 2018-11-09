@@ -46,7 +46,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   eventListRaw: any;
   view: string;
   calendarDays: any;
-loadingCalendar: boolean = false;
+  loadingCalendar: boolean = false;
+  calendarDataEntries: Number;
   eventsTags: any;
   eventsTagsObs: any;
 
@@ -389,6 +390,8 @@ loadingCalendar: boolean = false;
 
     list = JSON.parse( list );
     
+    this.calendarDataEntries = list.length;
+    
     for( let i in list ){
       let current = list[i];
       let eventDate = moment(current['fieldEventMainDate']['unix']*1000).format("YYYY-MM-DDz");
@@ -559,15 +562,21 @@ loadingCalendar: boolean = false;
     let typesSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
       
       let data = response['data'];
+
       this.eventsTypes = data['taxonomyTermQuery']['entities'];
+
       let newsTidArr = [];
-      this.eventsTypes.filter((tagItem, index, array) => {
+      for( var i in this.eventsTypes ){
+        let current = this.eventsTypes[i];
+
+        if( !current ){ continue; }
+
         let tmp = {
-          id: tagItem['tid'].toString(),
-          name: tagItem['name'],
+          id: current['tid'].toString(),
+          name: current['name'],
         };
         newsTidArr.push(tmp);           
-      });
+      };
 
       if( this.params.types !== undefined ){
         let splitParams = this.params.types.split(",");
