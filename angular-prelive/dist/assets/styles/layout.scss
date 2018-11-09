@@ -1,9 +1,10 @@
 .block {
   overflow-x:hidden;
-  overflow-y:visible;
+  overflow-y: auto;
+  -ms-overflow-style: none;
   background: white;
   border-top: $gutter solid $gray;
-    margin-bottom: $small;
+  margin-bottom: $small;
   &.border-orange{border-top-color:$orange;}
   &.border-blue{border-top-color:$light-blue;}
 
@@ -37,7 +38,7 @@
   &__head {display: flex; margin:-1.5rem -1.5rem 1rem -1.5rem;
     @include break-on(sm, min) {border-bottom: 1px solid $gray;}
     &.no-border{border:none;}
-    &__title{padding:0.9375rem $medium; font-size:1rem; line-height:2rem; color:$dark-gray; flex-grow: 1;}
+    &__title{padding:$small $medium; font-size:1rem; line-height:2rem; color:$dark-gray; flex-grow: 1;}
 
     &__buttons{flex-shrink: 0; display:flex;
       .view-item{position:relative; border-left:$gray 1px solid; padding:0 $medium; display: flex; flex-direction: column; text-align: center; justify-content: center; font-size:0.875rem; color:$blue; cursor:pointer; font-weight: 100;
@@ -65,7 +66,7 @@
 
 .block-title { font-size: $small; text-transform: uppercase; color: #757575; margin-bottom: $small; }
 
-.block-title-big { font-size:1.25rem; color:$black; font-weight: 500; margin:-0.56rem 0 0 0;}
+.block-title-big { font-size:1.25rem; color:$black; font-weight: 500; margin:0;}
 
 .padding-block { padding: $medium;
   &.lg-bottom { padding-bottom: $xxl;
@@ -76,6 +77,7 @@
     }
   }
   &.sm-top { padding-top: $small; }
+  &.gutter-bottom { padding-bottom: $gutter; }
   &.mob-bottom {
     @include break-on(sm, max) {
       margin-bottom: $xxl
