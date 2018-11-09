@@ -173,7 +173,7 @@
         <ng-container *ngFor="let dayKey of objectKeys( eventList[yearKey][monthKey] )">
           <div class="events__header center" [class.highlighted]="yearKey == current.year && monthKey == current.month && dayKey == current.day">
             <div class="events__datetime">
-              <div class="day">{{ 'time.' +getDayName( dayKey ) | translate }}</div>
+              <div class="day">{{ 'time.' +getDayName(yearKey, monthKey, dayKey ) | translate }}</div>
               <div class="date">{{ formatNumber(dayKey) }}.{{ formatNumber(monthKey) }}</div>
             </div>
             <div class="events__separator w-100">
@@ -314,7 +314,7 @@
               <div class="event__block event__block__more">
                 <div class="title">
                   <div class="header">
-                    <div class="header__medium">{{ 'time.' + getDayName(day.i) | translate }}</div>
+                    <div class="header__medium">{{ 'time.' + getDayName(year, month, day.i) | translate }}</div>
 
                     <div class="header__strong">{{day.i}}. {{ 'time.'+ monthName | lowercase | translate}}</div>
 
