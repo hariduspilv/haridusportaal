@@ -245,4 +245,6 @@
   font-weight: normal;
 }
 
-.mat-select-panel { margin-top: 2.5625rem; }
+.mat-select-panel { margin-top: 2.5625rem; 
+  .mat-option {border-bottom: 1px solid $white;}
+}
