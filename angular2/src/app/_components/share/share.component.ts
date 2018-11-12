@@ -93,7 +93,6 @@ export class ShareComponent{
     this.resetActiveState();
   }
   @HostListener('document:touchend', ['$event']) touchedOutside($event){
-    console.log('touch');
     this.resetActiveState();
   }
 }
