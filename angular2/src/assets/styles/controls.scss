@@ -61,7 +61,9 @@
         @include break-on(sm, min) {padding-top: .3rem;}
       }
       &.mat-form-field-should-float{
-        .mat-form-field-label{left:0.4375rem; padding:0 0.625rem; width:auto; background:$white; color: $black; font-size:0.75rem; top:-1px;}
+        .mat-form-field-label{left:0.4375rem; padding:0 0.625rem; width:auto; background:$white; color: $black; font-size:0.75rem; top: -1px;
+          @include break-on(sm, min) {top:3px;}
+        }
       }
       @include break-on(xl, min) {margin-top: 1.3125rem;} 
     }
@@ -217,8 +219,9 @@
 .ng-select .ng-clear-wrapper .ng-clear {color: rgba(0, 0, 0, .87);font-size: 1.75rem !important;position: relative;right: $gutter; top: 0.3125rem;}
 .ng-select.ng-select-multiple .ng-select-container .ng-arrow-wrapper {display: none;}
 .ng-dropdown-panel.ng-select-bottom {top: 105%;}
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {background: $light-gray; color: $blue;}
-.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {background: $light-gray;}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {border-bottom: 1px solid $white;}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {background: $light-gray; color: $blue;border-bottom: 1px solid $white;}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {background: $light-gray;border-bottom: 1px solid $white;}
 
 .form-spacer-20{height:1.25rem;
   &+.custom-checkbox{margin-top:-6px;}
