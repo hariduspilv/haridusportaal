@@ -69,8 +69,8 @@ export class AppComponent implements OnInit {
       }
 
       if (event instanceof NavigationError) {
-        history.replaceState({}, '', '/et');
-        this.router.navigateByUrl(`/et/404`);
+        console.log('NavigationError: Previous route doesn`t exist or is broken.');
+        // this.router.navigateByUrl(`/et/404`, {replaceUrl: true});
       }
         
     });

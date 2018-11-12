@@ -29,6 +29,7 @@ export class ChartComponent implements OnInit{
   }
 
   compileData() {
+
     var output = [];
     for( let i in this.data ){
       let current = this.data[i];
@@ -36,6 +37,7 @@ export class ChartComponent implements OnInit{
       let graphVAxis = current.graphVAxis;
       let chartType = this.capitalize(current.graphType);
       let graphIndicator = current.graphIndicator;
+      let graphTitle = current.graphTitle;
       let secondaryGraphType = current.secondaryGraphType;
 
       if( chartType == "Doughnut" ){
@@ -52,7 +54,7 @@ export class ChartComponent implements OnInit{
         "chartType": graphName,
         dataTable: value,
         options: {
-          "title": graphIndicator,
+          "title": graphTitle,
           "height": 400,
           "pieSliceTextStyle": {
             "color": '#333333'
@@ -88,7 +90,6 @@ export class ChartComponent implements OnInit{
       output.push(tmp);
     }
 
-    console.log(output);
     this.chartData = output;
 
 

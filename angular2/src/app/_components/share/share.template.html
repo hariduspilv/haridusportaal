@@ -1,5 +1,35 @@
+<ng-template #shareElements>
+  <a class="fb-icn share__component__button--elem"
+    tabindex="0"
+    role="link"
+    attr.aria-label="{{'Facebook'}}"
+    (keyup.enter)="share('facebook')"
+    (keyup.space)="share('facebook')"
+    (click)="share('facebook')"
+    matTooltip="{{ 'tooltip.share' | translate }}" 
+    matTooltipPosition="right"
+    src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA%2FPjxzdmcgaGVpZ2h0PSIyNHB4IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0cHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48dGl0bGUvPjxkZXNjLz48ZGVmcy8%2BPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBpZD0ibWl1IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSI%2BPGcgaWQ9IkFydGJvYXJkLTEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zMjMuMDAwMDAwLCAtNjU5LjAwMDAwMCkiPjxnIGlkPSJzbGljZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjE1LjAwMDAwMCwgMTE5LjAwMDAwMCkiLz48cGF0aCBkPSJNMzM1LDY4MiBDMzQxLjA3NTEzMyw2ODIgMzQ2LDY3Ny4wNzUxMzMgMzQ2LDY3MSBDMzQ2LDY2NC45MjQ4NjcgMzQxLjA3NTEzMyw2NjAgMzM1LDY2MCBDMzI4LjkyNDg2Nyw2NjAgMzI0LDY2NC45MjQ4NjcgMzI0LDY3MSBDMzI0LDY3Ny4wNzUxMzMgMzI4LjkyNDg2Nyw2ODIgMzM1LDY4MiBaIE0zMzMuMzM2MTQ5LDY3Ny4zNDg1ODEgTDMzMy4zMzYxNDksNjcwLjk5OTYxOSBMMzMyLjA0NTg3Myw2NzAuOTk5NjE5IEwzMzIuMDQ1ODczLDY2OC44OTUwOTcgTDMzMy4zMzYxNDksNjY4Ljg5NTA5NyBMMzMzLjMzNjE0OSw2NjcuNjIyNDA4IEMzMzMuMzM2MTQ5LDY2NS45MDU3NjkgMzMzLjg0OTM5OCw2NjQuNjY3ODk0IDMzNS43Mjg5NzEsNjY0LjY2Nzg5NCBMMzM3Ljk2NDk5OCw2NjQuNjY3ODk0IEwzMzcuOTY0OTk4LDY2Ni43NjgwOTUgTDMzNi4zOTA0OTMsNjY2Ljc2ODA5NSBDMzM1LjYwMjAyOCw2NjYuNzY4MDk1IDMzNS40MjIzNTQsNjY3LjI5MjAzOCAzMzUuNDIyMzU0LDY2Ny44NDA3MTIgTDMzNS40MjIzNTQsNjY4Ljg5NTA5NyBMMzM3Ljg0ODc4OCw2NjguODk1MDk3IEwzMzcuNTE3NTk3LDY3MC45OTk2MTkgTDMzNS40MjIzNTQsNjcwLjk5OTYxOSBMMzM1LjQyMjM1NCw2NzcuMzQ4NTgxIEwzMzMuMzM2MTQ5LDY3Ny4zNDg1ODEgWiIgZmlsbD0iIzAwMDAwMCIgaWQ9ImNpcmNsZS1zb2NpYWwtZmFjZWJvb2stZ2x5cGgiLz48L2c%2BPC9nPjwvc3ZnPg%3D%3D">
+  </a>
+  <a class="tw-icn share__component__button--elem"
+    tabindex="0"
+    role="link"
+    attr.aria-label="{{'Twitter'}}"
+    (keyup.enter)="share('twitter')"
+    (keyup.space)="share('twitter')"
+    (click)="share('twitter')"
+    matTooltip="{{ 'tooltip.share' | translate }}" 
+    matTooltipPosition="right"
+    src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA%2FPjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGhlaWdodD0iNjdweCIgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDY3IDY3OyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNjcgNjciIHdpZHRoPSI2N3B4IiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48cGF0aCBkPSJNMzguMTY3LDIyLjI4M2MtMi42MTksMC45NTMtNC4yNzQsMy40MTEtNC4wODYsNi4xMDEgIGwwLjA2MywxLjAzOGwtMS4wNDgtMC4xMjdjLTMuODEzLTAuNDg3LTcuMTQ1LTIuMTM5LTkuOTc0LTQuOTE1bC0xLjM4My0xLjM3N2wtMC4zNTYsMS4wMTdjLTAuNzU0LDIuMjY3LTAuMjcyLDQuNjYxLDEuMjk5LDYuMjcxICBjMC44MzgsMC44OSwwLjY0OSwxLjAxNy0wLjc5NiwwLjQ4N2MtMC41MDMtMC4xNjktMC45NDMtMC4yOTYtMC45ODUtMC4yMzNjLTAuMTQ2LDAuMTQ5LDAuMzU2LDIuMDc2LDAuNzU0LDIuODM5ICBjMC41NDUsMS4wNiwxLjY1NSwyLjA5NywyLjg3MSwyLjcxMmwxLjAyNywwLjQ4N2wtMS4yMTUsMC4wMjFjLTEuMTczLDAtMS4yMTUsMC4wMjEtMS4wODksMC40NjcgIGMwLjQxOSwxLjM3NywyLjA3NCwyLjgzOSwzLjkxOCwzLjQ3NWwxLjI5OSwwLjQ0NGwtMS4xMzEsMC42NzhjLTEuNjc2LDAuOTc2LTMuNjQ2LDEuNTI2LTUuNjE2LDEuNTY3ICBDMjAuNzc1LDQzLjI1NiwyMCw0My4zNDEsMjAsNDMuNDA1YzAsMC4yMTEsMi41NTcsMS4zOTcsNC4wNDQsMS44NjRjNC40NjMsMS4zNzcsOS43NjUsMC43ODMsMTMuNzQ2LTEuNTY4ICBjMi44MjktMS42NzQsNS42NTctNSw2Ljk3OC04LjIyMWMwLjcxMy0xLjcxNSwxLjQyNS00Ljg1MSwxLjQyNS02LjM1NGMwLTAuOTc1LDAuMDYzLTEuMTAyLDEuMjM2LTIuMjY3ICBjMC42OTItMC42NzgsMS4zNDEtMS40MTksMS40NjctMS42MzFjMC4yMS0wLjQwMywwLjE4OC0wLjQwMy0wLjg4LTAuMDQzYy0xLjc4MSwwLjYzNi0yLjAzMywwLjU1MS0xLjE1Mi0wLjQwMiAgYzAuNjQ5LTAuNjc4LDEuNDI1LTEuOTA3LDEuNDI1LTIuMjY3YzAtMC4wNjMtMC4zMTQsMC4wNDItMC42NzEsMC4yMzNjLTAuMzc3LDAuMjEyLTEuMjE1LDAuNTMtMS44NDQsMC43MmwtMS4xMzEsMC4zNjFsLTEuMDI3LTAuNyAgYy0wLjU2Ni0wLjM4MS0xLjM2MS0wLjgwNS0xLjc4MS0wLjkzMkM0MC43NjYsMjEuOTAyLDM5LjEzMSwyMS45NDQsMzguMTY3LDIyLjI4M3ogTTM0LDY0QzE3LjQzMiw2NCw0LDUwLjU2OCw0LDM0ICBDNCwxNy40MzEsMTcuNDMyLDQsMzQsNHMzMCwxMy40MzEsMzAsMzBDNjQsNTAuNTY4LDUwLjU2OCw2NCwzNCw2NHoiIHN0eWxlPSJmaWxsLXJ1bGU6ZXZlbm9kZDtjbGlwLXJ1bGU6ZXZlbm9kZDtmaWxsOiMwMTAxMDE7Ii8%2BPC9zdmc%2B">
+  </a>
+</ng-template>
 <div class="share__wrapper">
-  <div class="share__component" [class.opened]="transitionState" role="list" (mouseover)="item = 'link'" (mouseout)="item = null">
+  <div *ngIf="isSafari" class="share__component" [class.opened]="transitionState" role="list">
+    <a class="share__component__button--main" tabindex="0" attr.aria-label="{{'tooltip.share' | translate }}" href="javascript:void(0)">
+      <span class="htm-icon primary" (transitionend)="transitionState = !transitionState">share</span>
+    </a>
+    <ng-container *ngTemplateOutlet="shareElements"></ng-container>
+  </div>
+  <div *ngIf="!isSafari" class="share__component" [class.opened]="transitionState" role="list" (mouseover)="item = 'link'" (mouseout)="item = null">
     <a class="share__component__button--main" 
       tabindex="0" 
       attr.aria-label="{{'tooltip.copy' | translate }}" 
@@ -12,27 +42,6 @@
       matTooltipPosition="right">
       <span class="htm-icon primary" (transitionend)="transitionState = !transitionState">{{item || 'share'}}</span>
     </a>
-    <a class="fb-icn share__component__button--elem"
-      tabindex="0"
-      role="link"
-      attr.aria-label="{{'Facebook'}}"
-      (keyup.enter)="share('facebook')"
-      (keyup.space)="share('facebook')"
-      (click)="share('facebook')"
-      matTooltip="{{ 'tooltip.share' | translate }}" 
-      matTooltipPosition="right"
-      src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA%2FPjxzdmcgaGVpZ2h0PSIyNHB4IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0cHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c2tldGNoPSJodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2gvbnMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48dGl0bGUvPjxkZXNjLz48ZGVmcy8%2BPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBpZD0ibWl1IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSI%2BPGcgaWQ9IkFydGJvYXJkLTEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zMjMuMDAwMDAwLCAtNjU5LjAwMDAwMCkiPjxnIGlkPSJzbGljZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjE1LjAwMDAwMCwgMTE5LjAwMDAwMCkiLz48cGF0aCBkPSJNMzM1LDY4MiBDMzQxLjA3NTEzMyw2ODIgMzQ2LDY3Ny4wNzUxMzMgMzQ2LDY3MSBDMzQ2LDY2NC45MjQ4NjcgMzQxLjA3NTEzMyw2NjAgMzM1LDY2MCBDMzI4LjkyNDg2Nyw2NjAgMzI0LDY2NC45MjQ4NjcgMzI0LDY3MSBDMzI0LDY3Ny4wNzUxMzMgMzI4LjkyNDg2Nyw2ODIgMzM1LDY4MiBaIE0zMzMuMzM2MTQ5LDY3Ny4zNDg1ODEgTDMzMy4zMzYxNDksNjcwLjk5OTYxOSBMMzMyLjA0NTg3Myw2NzAuOTk5NjE5IEwzMzIuMDQ1ODczLDY2OC44OTUwOTcgTDMzMy4zMzYxNDksNjY4Ljg5NTA5NyBMMzMzLjMzNjE0OSw2NjcuNjIyNDA4IEMzMzMuMzM2MTQ5LDY2NS45MDU3NjkgMzMzLjg0OTM5OCw2NjQuNjY3ODk0IDMzNS43Mjg5NzEsNjY0LjY2Nzg5NCBMMzM3Ljk2NDk5OCw2NjQuNjY3ODk0IEwzMzcuOTY0OTk4LDY2Ni43NjgwOTUgTDMzNi4zOTA0OTMsNjY2Ljc2ODA5NSBDMzM1LjYwMjAyOCw2NjYuNzY4MDk1IDMzNS40MjIzNTQsNjY3LjI5MjAzOCAzMzUuNDIyMzU0LDY2Ny44NDA3MTIgTDMzNS40MjIzNTQsNjY4Ljg5NTA5NyBMMzM3Ljg0ODc4OCw2NjguODk1MDk3IEwzMzcuNTE3NTk3LDY3MC45OTk2MTkgTDMzNS40MjIzNTQsNjcwLjk5OTYxOSBMMzM1LjQyMjM1NCw2NzcuMzQ4NTgxIEwzMzMuMzM2MTQ5LDY3Ny4zNDg1ODEgWiIgZmlsbD0iIzAwMDAwMCIgaWQ9ImNpcmNsZS1zb2NpYWwtZmFjZWJvb2stZ2x5cGgiLz48L2c%2BPC9nPjwvc3ZnPg%3D%3D">
-    </a>
-    <a class="tw-icn share__component__button--elem"
-      tabindex="0"
-      role="link"
-      attr.aria-label="{{'Twitter'}}"
-      (keyup.enter)="share('twitter')"
-      (keyup.space)="share('twitter')"
-      (click)="share('twitter')"
-      matTooltip="{{ 'tooltip.share' | translate }}" 
-      matTooltipPosition="right"
-      src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA%2FPjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGhlaWdodD0iNjdweCIgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDY3IDY3OyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNjcgNjciIHdpZHRoPSI2N3B4IiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48cGF0aCBkPSJNMzguMTY3LDIyLjI4M2MtMi42MTksMC45NTMtNC4yNzQsMy40MTEtNC4wODYsNi4xMDEgIGwwLjA2MywxLjAzOGwtMS4wNDgtMC4xMjdjLTMuODEzLTAuNDg3LTcuMTQ1LTIuMTM5LTkuOTc0LTQuOTE1bC0xLjM4My0xLjM3N2wtMC4zNTYsMS4wMTdjLTAuNzU0LDIuMjY3LTAuMjcyLDQuNjYxLDEuMjk5LDYuMjcxICBjMC44MzgsMC44OSwwLjY0OSwxLjAxNy0wLjc5NiwwLjQ4N2MtMC41MDMtMC4xNjktMC45NDMtMC4yOTYtMC45ODUtMC4yMzNjLTAuMTQ2LDAuMTQ5LDAuMzU2LDIuMDc2LDAuNzU0LDIuODM5ICBjMC41NDUsMS4wNiwxLjY1NSwyLjA5NywyLjg3MSwyLjcxMmwxLjAyNywwLjQ4N2wtMS4yMTUsMC4wMjFjLTEuMTczLDAtMS4yMTUsMC4wMjEtMS4wODksMC40NjcgIGMwLjQxOSwxLjM3NywyLjA3NCwyLjgzOSwzLjkxOCwzLjQ3NWwxLjI5OSwwLjQ0NGwtMS4xMzEsMC42NzhjLTEuNjc2LDAuOTc2LTMuNjQ2LDEuNTI2LTUuNjE2LDEuNTY3ICBDMjAuNzc1LDQzLjI1NiwyMCw0My4zNDEsMjAsNDMuNDA1YzAsMC4yMTEsMi41NTcsMS4zOTcsNC4wNDQsMS44NjRjNC40NjMsMS4zNzcsOS43NjUsMC43ODMsMTMuNzQ2LTEuNTY4ICBjMi44MjktMS42NzQsNS42NTctNSw2Ljk3OC04LjIyMWMwLjcxMy0xLjcxNSwxLjQyNS00Ljg1MSwxLjQyNS02LjM1NGMwLTAuOTc1LDAuMDYzLTEuMTAyLDEuMjM2LTIuMjY3ICBjMC42OTItMC42NzgsMS4zNDEtMS40MTksMS40NjctMS42MzFjMC4yMS0wLjQwMywwLjE4OC0wLjQwMy0wLjg4LTAuMDQzYy0xLjc4MSwwLjYzNi0yLjAzMywwLjU1MS0xLjE1Mi0wLjQwMiAgYzAuNjQ5LTAuNjc4LDEuNDI1LTEuOTA3LDEuNDI1LTIuMjY3YzAtMC4wNjMtMC4zMTQsMC4wNDItMC42NzEsMC4yMzNjLTAuMzc3LDAuMjEyLTEuMjE1LDAuNTMtMS44NDQsMC43MmwtMS4xMzEsMC4zNjFsLTEuMDI3LTAuNyAgYy0wLjU2Ni0wLjM4MS0xLjM2MS0wLjgwNS0xLjc4MS0wLjkzMkM0MC43NjYsMjEuOTAyLDM5LjEzMSwyMS45NDQsMzguMTY3LDIyLjI4M3ogTTM0LDY0QzE3LjQzMiw2NCw0LDUwLjU2OCw0LDM0ICBDNCwxNy40MzEsMTcuNDMyLDQsMzQsNHMzMCwxMy40MzEsMzAsMzBDNjQsNTAuNTY4LDUwLjU2OCw2NCwzNCw2NHoiIHN0eWxlPSJmaWxsLXJ1bGU6ZXZlbm9kZDtjbGlwLXJ1bGU6ZXZlbm9kZDtmaWxsOiMwMTAxMDE7Ii8%2BPC9zdmc%2B">
-    </a>
+    <ng-container *ngTemplateOutlet="shareElements"></ng-container>
   </div>
 </div>
