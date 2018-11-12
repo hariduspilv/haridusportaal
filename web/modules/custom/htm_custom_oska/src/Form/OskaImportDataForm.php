@@ -62,9 +62,9 @@ class OskaImportDataForm extends FormBase {
             if ($file_upload->isValid()) {
                 $header_info = $this->detectCSVFileDelimiter($file_upload->getRealPath());
                 foreach($header_info['keys'] as $key => $value) {
-                    $header_info['keys'][$key] = str_replace('*', '', iconv(mb_detect_encoding($value), 'ASCII', $value));
+                    $header_info['keys'][self::cleanString($key)] = self::cleanString($value);
                 }
-                #dump($header_info['keys']);
+
                 $delimiter = $header_info['delimiter'];
                 //check delimiter
                 if($delimiter != ';'){
@@ -92,6 +92,13 @@ class OskaImportDataForm extends FormBase {
         $encoders = new CsvEncoder();
 
         $file_array = $encoders->decode(file_get_contents($form_state->getValue('file')), 'csv', ['csv_delimiter' => ';']);
+
+        foreach($file_array as $value){
+            foreach($value as $key => $val){
+                unset($file_array[$key]);
+                $file_array[self::cleanString($key)] = self::cleanString($val);
+            }
+        }
 
         $batch = [
             'title' => t('Processing Oska data ....--'),
@@ -131,4 +138,11 @@ class OskaImportDataForm extends FormBase {
         }
     }
 
+    function cleanString($text) {
+        $text = iconv("UTF-8", "windows-1255", $text);
+
+        $text = str_replace('*','',$text);
+
+        return $text;
+    }
 }
