@@ -40,6 +40,7 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
     th{background:$light-gray; background:$light-gray; font-size:0.875rem; font-weight: 500;}
   }
 }
+.pointer {user-select: none;}
 .scrollable {padding: 0;}
 .scrollableTable {
   td {
