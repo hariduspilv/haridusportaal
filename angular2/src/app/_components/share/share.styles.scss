@@ -6,7 +6,6 @@
       width: 3rem;height: 3rem;text-decoration: none;background-color: $white;
       .htm-icon.primary {transition: .25s transform ease-out;}
     }
-    &__button--elem {display: none;width: 2rem;height: 2rem;cursor: pointer;margin-top: .75rem;border-radius: 50%;}
   }
 }
 .sm-show {
@@ -17,6 +16,7 @@
           .htm-icon.primary {color: $white;}
         }
       }
+      &__button--elem {display: none;width: 2rem;height: 2rem;cursor: pointer;margin-top: .75rem;border-radius: 50%;}
       &.active {z-index: 2;
         .share__component__button--main {
           background-color: $blue;transition: background-color 0.25s;
@@ -43,6 +43,7 @@
 .sm-hide {
   .share {
     &__component {
+      &__button--elem {display: block;width: 2rem;height: 2rem;cursor: pointer;margin-top: .75rem;border-radius: 50%;opacity: 0;}
       &:focus, &:hover {
         z-index: 2;
         .share__component__button--main {

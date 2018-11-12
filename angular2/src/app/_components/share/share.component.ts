@@ -84,6 +84,12 @@ export class ShareComponent{
     }
   }
 
+  resetFocus () {
+    let elem = document.getElementById('mainShareElemDesktop');
+    console.log(elem);
+    elem.focus();
+  }
+
   @HostListener('document:click', ['$event']) clickedOutside($event){
     this.resetActiveState();
   }
