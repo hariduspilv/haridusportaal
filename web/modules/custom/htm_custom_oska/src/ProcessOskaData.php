@@ -46,7 +46,7 @@ class ProcessOskaData {
             foreach($item as $key => $value){
                 if(mb_detect_encoding($key) == 'UTF-8'){
                     unset($item[$key]);
-                    $item[cleanString($key)] = cleanString($value);
+                    $item[cleanString($key)] = $value;
                 }
             }
 
