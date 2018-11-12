@@ -4,15 +4,23 @@
     <div class="col-8 sm-12">
       <div class="block padding-block border-blue sm-top">
         <div class="block-title">{{ 'frontpage.dashboard_label' | translate | uppercase }}</div>
-
-        <div class="dashboard__username"><a href="javascript:void(0)" attr.aria-label="{{'modal.modaler' | translate}}" (click)="dataModal()">{{ userData.username | titleCase }}</a></div>
-
-        <div class="button-list">
+        <div class="flex">
+          <div class="dashboard__username">
+            <a *ngIf="currentRole === 'natural_person'" href="javascript:void(0)" attr.aria-label="{{'modal.modaler' | translate}}" (click)="dataModal()">{{ userData.username | titleCase }}</a>
+            <h1 *ngIf="currentRole === 'juridical_person'">{{ userData.role.current_role.data.nimi | titleCase }}</h1>
+          </div>
+          <div class="dashboard__rolechange text-right align-center">
+            <a href="javascript:void(0)" attr.aria-label="{{'modal.change_role' | translate}}" (click)="changeRole()">{{ 'modal.change_role' | translate }}</a>
+          </div>
+        </div>
+        <div class="button-list" [class.left-align]="currentRole === 'juridical_person'">
           <ng-container *ngFor="let item of mainMenu[lang]">
-              <a href="javascript:void(0)" class="view-item pointer text-center" [routerLink]="item.link" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" attr.aria-label="{{ 'event.list' | translate }}: {{mainMenuCommonAttrs[item._id].label | translate}}">
+            <ng-container *ngIf="item.active">
+              <a href="javascript:void(0)" class="view-item pointer text-center" [class.left-align]="currentRole === 'juridical_person'" [routerLink]="item.link" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" attr.aria-label="{{ 'event.list' | translate }}: {{mainMenuCommonAttrs[item._id].label | translate}}">
                 <span class="htm-icon">{{ mainMenuCommonAttrs[item._id].icon }}</span>
                 <div class="title xxs-hide">{{ mainMenuCommonAttrs[item._id].label | translate }}</div>
               </a>
+            </ng-container>
           </ng-container>
         </div><!--/button-list-->
 

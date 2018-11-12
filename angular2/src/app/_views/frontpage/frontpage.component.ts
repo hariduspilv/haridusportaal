@@ -126,8 +126,7 @@ export class FrontpageComponent {
         this.allPath = "/et/uudised";
         this.eventPath = "/et/sundmused";
       } else if (this.lang !== '') {
-        history.replaceState({}, '', '/et');
-        this.router.navigateByUrl(`/et/404`);
+        this.router.navigateByUrl(`/${this.lang}/404`, {replaceUrl: true});
       }
       this.getGeneral()
       this.getEvents()

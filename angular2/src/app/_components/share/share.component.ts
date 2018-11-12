@@ -14,6 +14,7 @@ export class ShareComponent{
   @Input() title: String;
   public item: any = false;
   public transitionState: boolean = false;
+  public isSafari: boolean = false;
 
   share (type) {
     const url = location.href;
@@ -45,4 +46,17 @@ export class ShareComponent{
     });
     document.execCommand('copy');
   }
+
+  detectSafari () {
+    let isSafari = navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+      navigator.userAgent &&
+      navigator.userAgent.indexOf('CriOS') == -1 &&
+      navigator.userAgent.indexOf('FxiOS') == -1;
+    this.isSafari = isSafari;
+  }
+  
+  ngOnInit () {
+    this.detectSafari();
+  }
+
 }
