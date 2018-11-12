@@ -66,7 +66,9 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		this.unix = new Date().getTime();
 	}
 	ngOnDestroy() {
-		this.paramsSub.unsubscribe();
+		if( this.paramsSub ){
+			this.paramsSub.unsubscribe();
+		}
 	}
 
 	toggleParticipants (status) {
