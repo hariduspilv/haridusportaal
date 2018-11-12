@@ -35,6 +35,14 @@ class ProcessOskaTableData {
             'valdkond' => false,
         ];
         foreach ($items as $index => $item){
+
+            foreach($item as $key => $value){
+                if(mb_detect_encoding($key) == 'UTF-8'){
+                    unset($item[$key]);
+                    $item[cleanString($key)] = $value;
+                }
+            }
+
             $object['valdkond'] = self::checkEntityReference('node', 'oska_field_page', $item['valdkond']);
             $object['juurprobleem'] = strlen($item['juurprobleem']) <= 500 ? $item['juurprobleem'] : FALSE;
             $object['ettepanek'] = strlen($item['ettepanek']) <= 500 ? $item['ettepanek'] : FALSE;
