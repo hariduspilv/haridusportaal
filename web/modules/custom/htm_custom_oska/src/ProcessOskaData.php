@@ -42,6 +42,14 @@ class ProcessOskaData {
         ];
 
         foreach ($items as $index => $item){
+
+            foreach($item as $key => $value){
+                if(mb_detect_encoding($key) == 'UTF-8'){
+                    unset($item[$key]);
+                    $item[cleanString($key)] = $value;
+                }
+            }
+
             $object['naitaja'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_indicator', $item['naitaja']);
             $object['valdkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['valdkond']);
             $object['alavaldkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['alavaldkond']);
@@ -49,6 +57,7 @@ class ProcessOskaData {
             $object['periood'] = $item['periood'];
             $object['silt'] = $item['silt'];
             $object['vaartus'] = $item['vaartus'];
+
             if(
                 !$object['naitaja']){
 
