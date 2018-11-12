@@ -38,6 +38,14 @@ class ProcessOskaIndicatorData {
         ];
 
         foreach ($items as $index => $item){
+
+            foreach($item as $key => $value){
+                if(mb_detect_encoding($key) == 'UTF-8'){
+                    unset($item[$key]);
+                    $item[cleanString($key)] = $value;
+                }
+            }
+
             $object['naitaja'] = $item['naitaja'] != '' && is_string($item['naitaja']) ? $item['naitaja'] : FALSE;;
             $object['pohikutseala'] = self::checkEntityReference('node', 'oska_main_profession_page', $item['pohikutseala']);
             $object['vaartus'] = $item['vaartus'] != '' && is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
