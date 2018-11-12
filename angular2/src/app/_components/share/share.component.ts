@@ -86,7 +86,6 @@ export class ShareComponent{
 
   resetFocus () {
     let elem = document.getElementById('mainShareElemDesktop');
-    console.log(elem);
     elem.focus();
   }
 
