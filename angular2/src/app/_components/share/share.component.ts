@@ -92,4 +92,8 @@ export class ShareComponent{
   @HostListener('document:click', ['$event']) clickedOutside($event){
     this.resetActiveState();
   }
+  @HostListener('document:touchend', ['$event']) touchedOutside($event){
+    console.log('touch');
+    this.resetActiveState();
+  }
 }
