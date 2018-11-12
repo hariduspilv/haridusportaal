@@ -1,48 +1,75 @@
 @import "../../../assets/styles/typography.scss"; 
 .share {
   &__wrapper {position: relative;width: 3rem;}
-  &__component {position: absolute;top:-.75rem;display: flex;flex-direction: column;justify-content: center;align-items: center;
+  &__component{position: absolute;top:-.75rem;display: flex;flex-direction: column;justify-content: center;align-items: center;
     &__button--main {cursor: pointer;display: flex;align-items: center;justify-content: center;border-radius: 50%;
       width: 3rem;height: 3rem;text-decoration: none;background-color: $white;
       .htm-icon.primary {transition: .25s transform ease-out;}
-      @include break-on(sm, max) {pointer-events: none;}
     }
-    &__button--elem {width: 2rem;height: 2rem;opacity: 0;cursor: pointer;margin-top: .75rem;border-radius: 50%;
-      @include break-on(sm, max) {pointer-events: none;}
+    &__button--elem {display: none;width: 2rem;height: 2rem;cursor: pointer;margin-top: .75rem;border-radius: 50%;}
+  }
+}
+.sm-show {
+  .share {
+    &__component{
+      &__button--main {
+        &:hover {background-color: $blue;transition: background-color 0.25s;
+          .htm-icon.primary {color: $white;}
+        }
+      }
+      &.active {z-index: 2;
+        .share__component__button--main {
+          background-color: $blue;transition: background-color 0.25s;
+          .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
+          &:hover, &:focus {background-color: rgb(69, 75, 146);transition: background-color 0.25s;}
+        }
+        .share__component__button--elem {display: block;}
+        .fb-icn {
+          background: url('/assets/img/fb-icn.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white; z-index: 2;
+          &:hover, &:focus {
+            background: url('/assets/img/fb-icn-a.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white;
+          }
+        }
+        .tw-icn {
+          background: url('/assets/img/tw-icn.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white; z-index: 2;
+          &:hover, &:focus {
+            background: url('/assets/img/tw-icn-a.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white;
+          }
+        }
+      }
     }
-    &:focus, &:hover {
-      z-index: 2;
-      .share__component__button--main {
-        background-color: $blue;transition: background-color 0.25s;
+  }
+}
+.sm-hide {
+  .share {
+    &__component {
+      &:focus, &:hover {
+        z-index: 2;
+        .share__component__button--main {
+          background-color: $blue;transition: background-color 0.25s;
+          .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
+        }
+        .share__component__button--elem {opacity: 1;}
+      }
+      a:focus {opacity: 1;
+        ~ a {opacity: 1;}
+      }
+      a.share__component__button--main:focus, a.share__component__button--main:hover  {
+        z-index: 2;background-color: rgb(69, 75, 146);transition: background-color 0.25s;
         .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
       }
-      .share__component__button--elem {opacity: 1;}
-    }
-    @include break-on(sm, max) {
-      &.opened {
-        .share__component__button--main, .share__component__button--elem {pointer-events: all;}
-      }
-    }
-    a:focus {opacity: 1;
-      ~ a {opacity: 1;}
-    }
-    a.share__component__button--main:focus, a.share__component__button--main:hover  {
-      z-index: 2;background-color: rgb(69, 75, 146);transition: background-color 0.25s;
-      .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
     }
   }
-}
-
-
-.fb-icn {
-  background: url('/assets/img/fb-icn.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white; z-index: 2;
-  &:hover, &:focus {
-    background: url('/assets/img/fb-icn-a.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white;
+  .fb-icn {
+    background: url('/assets/img/fb-icn.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white; z-index: 2;
+    &:hover, &:focus {
+      background: url('/assets/img/fb-icn-a.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white;
+    }
   }
-}
-.tw-icn {
-  background: url('/assets/img/tw-icn.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white; z-index: 2;
-  &:hover, &:focus {
-    background: url('/assets/img/tw-icn-a.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white;
+  .tw-icn {
+    background: url('/assets/img/tw-icn.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white; z-index: 2;
+    &:hover, &:focus {
+      background: url('/assets/img/tw-icn-a.svg') center center no-repeat; background-size: 2rem; display: block; background-color: white;
+    }
   }
 }
