@@ -52,8 +52,7 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
       this.lang = this.rootScope.get('currentLang');
       this.loading = false;
       if( !data['route'] ){
-        history.replaceState({}, '', `/${this.lang}`);
-        this.router.navigateByUrl(`/${this.lang}/404`);
+        this.router.navigateByUrl(`/${this.lang}/404`, {replaceUrl: true});
       } else if (data) {
         this.data = data.route.entity;
         if (data.route.entity.fieldEducationalInstitutionTy.length) {

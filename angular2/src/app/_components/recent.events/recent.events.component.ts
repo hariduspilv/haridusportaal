@@ -46,18 +46,17 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 
 		let tmpDates = {};
-    for( var i in this.content.entity.fieldEventDate ){
-      let unix = parseInt( this.content.entity.fieldEventDate[i].entity.fieldEventDate.unix );
-      tmpDates[unix] = this.content.entity.fieldEventDate[i];
-    }
-
-		console.log(tmpDates);
-    let outputDates = [];
-    for( var i in tmpDates ){
-      outputDates.push( tmpDates[i] );
+		if (this.content.entity.fieldEventDate && this.content.entity.fieldEventDate[0].entity.fieldEventDate) {
+			for( var i in this.content.entity.fieldEventDate ){
+				let unix = parseInt( this.content.entity.fieldEventDate[i].entity.fieldEventDate.unix );
+				tmpDates[unix] = this.content.entity.fieldEventDate[i];
+			}
+			let outputDates = [];
+			for( var i in tmpDates ){
+				outputDates.push( tmpDates[i] );
+			}
+			this.content.entity.fieldEventDate = outputDates;
 		}
-		
-		this.content.entity.fieldEventDate = outputDates;
 
 		this.iCalUrl = this.settings.url+"/calendarexport/";
 		this.paramsSub = this.route.params.subscribe( params => {
@@ -113,7 +112,6 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		let isFull = this.content.entity.RegistrationCount >= this.content.entity.fieldMaxNumberOfParticipants;
 		if( this.content.entity.fieldMaxNumberOfParticipants == null ){ isFull = false;}
 
-		console.log(firstDate);
 		if( isFull ){
 			return 'full';
 		}
@@ -122,7 +120,6 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 			return true;
 		}
 		else if( firstDate > this.unix ){
-			console.log(firstDate, this.unix);
 			return 'not_started';
 		}
 		else if( lastDate < this.unix ){

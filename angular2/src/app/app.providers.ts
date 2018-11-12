@@ -10,12 +10,13 @@ import { LOCATION_INITIALIZED } from '@angular/common';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector) {
   return () => new Promise<any>((resolve: any) => {
-    
+
     const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
     locationInitialized.then(() => {
       
       let langToSet = window.location.pathname.split("/")[1];
-      if( langToSet == "" ){ langToSet = "et"; }
+      if( langToSet == "" ) { langToSet = "et"; }
+      if( langToSet !== "" && !['et', 'en'].includes(langToSet) ){ window.location.href = '/et/404'; }
       translate.use(langToSet).subscribe(() => {
         console.info(`Successfully initialized '${langToSet}' language.'`);
       }, err => {
