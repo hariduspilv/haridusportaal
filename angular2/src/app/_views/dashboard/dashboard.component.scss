@@ -24,7 +24,7 @@
 .htm-icon {margin: 1rem 0;
   @include break-on(xxs, min) {margin: 1rem 0 .5rem;}
 }
-.button-list .view-item.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange; 
+.button-list .view-item.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange;pointer-events: none;cursor: initial; 
   .htm-icon, .title {color: $black; }
 }
 .button-list .view-item.mat-menu-item-active:hover { border-bottom: .1875rem solid $dark-orange; 
