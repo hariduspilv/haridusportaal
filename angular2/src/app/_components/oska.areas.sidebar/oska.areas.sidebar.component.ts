@@ -71,7 +71,7 @@ export class OskaAreasSidebarComponent implements OnInit {
       this.typeStatus['resultHyperlinks'] = this.sidebar.fieldHyperlinks.length > this.limits['resultHyperlinks'];
       this.typeStatus['resultRelatedArticle'] = this.sidebar.fieldRelatedArticle.length > this.limits['resultRelatedArticle'];
     }
-    if(this.sidebar && this.sidebar.fieldJobs) {
+    if(this.sidebar.fieldJobs) {
       this.sidebar.fieldJobs.forEach(elem => {
         if (elem.entity.fieldJobLink) { this.jobPagesExist = true; }
       });
