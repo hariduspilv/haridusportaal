@@ -68,8 +68,10 @@ class ElasticFieldDeriver extends DeriverBase {
       foreach($elasticindexes as $elasticindex => $indexval){
         if(substr($elasticindex, 0, 1) !== "."){
           $fieldsitem = reset($elasticmapping[$elasticindex]['mappings']);
-          foreach($fieldsitem['properties'] as $field => $type){
-            $fields[] = $field;
+          if(isset($fieldsitem['properties'])){
+              foreach($fieldsitem['properties'] as $field => $type){
+                  $fields[] = $field;
+              }
           }
         }
       }

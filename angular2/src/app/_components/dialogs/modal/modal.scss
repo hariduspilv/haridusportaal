@@ -10,11 +10,17 @@
     a {margin-top: $small;line-height:$medium;text-align: center;
       @include break-on(sm, min) {margin-right: $medium; margin-top: 0;}
     }
+    &--wide {width: 100%; box-sizing: border-box;padding-top: .5rem;}
     &--success {
       .mat-raised-button.mat-primary {width: 100%; padding: 0 $small; line-height:2.5rem;}
       a {margin-top: $medium; line-height:$medium; text-align: center; }
       .mat-raised-button.mat-primary + a { margin-top: $small; display: inline-block; }
       &__close {padding-top: $small;}
+      .wide--button .mat-raised-button.mat-primary {padding: 0 2.5rem;}
+      .action--elem {
+        &:first-child {padding-right: 1.5rem;}
+        &.wide--button .mat-raised-button.mat-primary {padding: 0 2.5rem;}
+      }
     }
   }
   &__success {display: flex;flex-direction: column;justify-content: center;align-items: center;margin: 0 auto; min-height: 40vh;padding: 0 $gutter; margin-top: 2rem;
@@ -22,16 +28,20 @@
     &--content {padding-bottom: $small;
       ::ng-deep p {font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:500;}
       ::ng-deep span {font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:normal;}
-      &--table {width: 100%;box-sizing: border-box;
+      &--table {width: 100%;box-sizing: border-box;overflow-x: auto;-ms-overflow-style: none;
         h1 {padding-bottom: $small;}
       }
       &--error {max-width: 80%}
     }
     &--modal {@extend .dialog__success; min-height: 20vh;
       &--table {padding: $small 0 0;}
+      &--noTop {margin-top: 0;}
     }
   }
   @include break-on(sm, min) {width:68vw;max-width: 54.375rem;}
+  @include break-on(sm, min) {
+    &.narrow {width:32vw;max-width: 54.375rem;}
+  }
 }
 
 .btn-hidden {
@@ -51,4 +61,14 @@
   .htm-icon {float: right;position: relative;bottom: .75rem; }
   img {max-height: 90vh;}
   .image-alt-text {position: relative;top: .5rem;}
+}
+
+::ng-deep .mat-radio-button.mat-accent {
+  .mat-radio-outer-circle {border: 1px solid $gray;}
+  .mat-radio-inner-circle {width: 28px;height: 28px;left:-4px;top: -4px;background-color: $blue;}
+  &.mat-radio-checked .mat-radio-outer-circle {border-color: $blue;}
+  .mat-radio-ripple.mat-ripple .mat-ripple-element {
+    background: rgba(46, 51, 116, 0.3);
+  }
+  .mat-radio-label-content {white-space: normal;}
 }

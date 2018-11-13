@@ -1,5 +1,5 @@
 query getEventsTags( $lang: LanguageId!){
-  nodeQuery(filter: {conditions: [
+  nodeQuery(limit:2000, filter: {conditions: [
     {operator: EQUAL, field: "type", value: ["event"], language: $lang},
     {operator: EQUAL, field: "status", value: "1", language: $lang}
   ]}) {

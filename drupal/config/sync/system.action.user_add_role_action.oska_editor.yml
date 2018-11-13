@@ -1,0 +1,14 @@
+uuid: 916b2505-3976-46b5-837c-757f54e58f89
+langcode: et
+status: true
+dependencies:
+  config:
+    - user.role.oska_editor
+  module:
+    - user
+id: user_add_role_action.oska_editor
+label: 'Add the OSKA Editor role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: oska_editor

@@ -132,7 +132,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
       variables: {
         lang: this.lang.toUpperCase(),
         email: this.email,
-        tags: output
+        newtags: output
       },
       fetchPolicy: 'no-cache',
       errorPolicy: 'all'
