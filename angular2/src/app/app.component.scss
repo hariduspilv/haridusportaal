@@ -8,7 +8,9 @@
 
 
 /* You can add global styles to this file, and also import other style files */
-body{margin:0; padding:0; padding-top:4rem; background: $light-gray;}
+body{margin:0; padding:0; padding-top:4rem; background: $light-gray;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
 body::-webkit-scrollbar { display: none; }
 html, body { -ms-overflow-style: none; }
 html{overflow-y:scroll;}
