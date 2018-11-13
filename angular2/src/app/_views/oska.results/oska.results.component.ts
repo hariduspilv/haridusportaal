@@ -164,10 +164,10 @@ export class OskaResultsComponent implements OnInit{
     }
     if (table && (parseInt(this.scrollPos, 10) <= table.getBoundingClientRect().height)) {
       if (document.getElementById('scrollableRight')) {
-        document.getElementById('scrollableRight').setAttribute('style', `top: ${this.scrollPos}px`);
+        document.getElementById('scrollableRight').setAttribute('style', 'top: ' + this.scrollPos + 'px');
       }
       if (document.getElementById('scrollableLeft')) {
-        document.getElementById('scrollableLeft').setAttribute('style', `top: ${this.scrollPos}px`);
+        document.getElementById('scrollableLeft').setAttribute('style', 'top: ' + this.scrollPos + 'px');
       }
     }
   }
