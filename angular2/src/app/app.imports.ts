@@ -32,6 +32,7 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ClipboardModule } from 'ngx-clipboard';
 
 /* Translate module */
 import {HttpClientModule, HttpClient} from '@angular/common/http';
@@ -65,6 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 export const AppImports = [
+  ClipboardModule,
   BrowserModule,
   HttpClientModule,
   TranslateModule.forRoot({
