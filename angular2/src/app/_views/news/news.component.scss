@@ -1,7 +1,12 @@
 @import "../../../assets/styles/typography.scss";
 .news-component {padding-bottom: $xxl;
   a:hover { text-decoration: none; }
-  .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: $quarter $medium $gutter $medium;}
+  &__head {
+    @include break-on(sm, max) {
+      border-bottom: .0625rem solid $gray;
+    }
+  }
+  .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem $medium;}
   .title {padding: $small $medium 0 $medium;
     @include break-on(sm, min) {padding: 0;}
   }

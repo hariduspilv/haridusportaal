@@ -138,13 +138,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     return moment("2018-"+month+"-01", "YYYY-M-DD").format("MMMM").toLowerCase();
   }
 
-  getDayName(day:any, isUnix:boolean = false) {
+  getDayName(year, month:any, day:any, isUnix:boolean = false) {
 
+    if( month < 10 ){month = "0"+month;}
     
     if( isUnix ){
       return moment.unix(day/1000).format("dddd").toLowerCase();
     }else{
-      return moment(this.year+"-"+this.month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
+      return moment(year+"-"+month+"-"+day, "YYYY-M-DD").format("dddd").toLowerCase();
     }
   }
   

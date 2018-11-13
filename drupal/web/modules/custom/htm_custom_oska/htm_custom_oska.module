@@ -25,3 +25,12 @@ function htm_custom_oska_help($route_name, RouteMatchInterface $route_match) {
     default:
   }
 }
+
+
+function cleanString($text) {
+    $text = iconv("UTF-8", "windows-1255", $text);
+
+    $text = str_replace('*','',$text);
+
+    return $text;
+}

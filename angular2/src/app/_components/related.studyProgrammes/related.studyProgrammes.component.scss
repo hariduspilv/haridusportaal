@@ -20,8 +20,8 @@
   .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;cursor:pointer;color:$blue;
     .htm-icon{margin-top: $gutter;}
     .title {font-size: .875rem;}
-    &.active {color: $black;
-      &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
+    &.active {color: $black;pointer-events: none;cursor: initial;
+      &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: .625rem;}}
   }
 
   &__item {padding: $medium; border-bottom: solid 0.0625rem $gray; display:flex; flex-wrap: wrap;

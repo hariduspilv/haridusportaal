@@ -109,7 +109,7 @@ const appRoutes: Routes = [
   { path: ':lang/isikukaart', component: PersonalDataComponent },
   { path: '', redirectTo: '/et', pathMatch: 'full' },
   { path: ':lang/404', component: NotFoundComponent },
-  // { path: '**', component: NotFoundComponent }
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

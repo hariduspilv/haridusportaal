@@ -58,7 +58,11 @@ export class UserService{
 
   public logout() {
     localStorage.removeItem( this.tokenKey ); 
-    this.triggerPageReload();
+    if (this.router.url.includes('/toolaud/') || this.router.url.includes('/dashboard/')) {
+      this.router.navigateByUrl('/');
+    } else {
+      this.triggerPageReload();
+    }
   }
 
   public clearStorage() {
