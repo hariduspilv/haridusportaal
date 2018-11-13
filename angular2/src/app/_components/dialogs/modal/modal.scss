@@ -28,7 +28,7 @@
     &--content {padding-bottom: $small;
       ::ng-deep p {font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:500;}
       ::ng-deep span {font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:normal;}
-      &--table {width: 100%;box-sizing: border-box;overflow-x: scroll;
+      &--table {width: 100%;box-sizing: border-box;overflow-x: auto;-ms-overflow-style: none;
         h1 {padding-bottom: $small;}
       }
       &--error {max-width: 80%}
@@ -70,4 +70,5 @@
   .mat-radio-ripple.mat-ripple .mat-ripple-element {
     background: rgba(46, 51, 116, 0.3);
   }
+  .mat-radio-label-content {white-space: normal;}
 }
