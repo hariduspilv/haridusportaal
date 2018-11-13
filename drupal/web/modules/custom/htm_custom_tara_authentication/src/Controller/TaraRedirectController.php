@@ -135,18 +135,6 @@ class TaraRedirectController extends RedirectController{
 		#user_logout();
 		return new TrustedRedirectResponse($redirect);
 
-		// It's possible to set 'options' in the redirect destination.
-		/*if (is_array($destination)) {
-			$query = !empty($destination[1]['query']) ? '?' . $destination[1]['query'] : '';
-			$redirect = Url::fromUri('internal:/' . ltrim($destination[0], '/') . $query)->toString();
-		}
-		else {
-			$redirect = Url::fromUri('internal:/' . ltrim($destination, '/'))->toString();
-		}
-
-
-
-		return new RedirectResponse($redirect);*/
 	}
 
 	public function startAuth(){
