@@ -13,6 +13,7 @@ permissions:
   - 'access toolbar'
   - 'add oska entity entities'
   - 'add oska table entity entities'
+  - 'administer menu'
   - 'administer oska entity entities'
   - 'administer oska indicator entity entities'
   - 'administer oska table entity entities'
