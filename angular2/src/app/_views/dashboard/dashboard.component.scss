@@ -4,7 +4,9 @@
 
 .main-container{@include break-on(sm, min) {margin:0 1.5rem;}}
 .dashboard{
-  &__rolechange{white-space: nowrap;}
+  &__rolechange{white-space: nowrap;align-self: flex-start; line-height: 2;padding-left: .25rem;
+    @include break-on(xxs, min) {align-self: center;line-height: 1.1875rem;}
+  }
   &__username{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; font-weight: 500;
     a {text-decoration: underline;
       &:hover, &:focus {text-decoration: none;}

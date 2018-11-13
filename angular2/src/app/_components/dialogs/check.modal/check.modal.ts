@@ -20,6 +20,7 @@ export class CheckModal {
   error: boolean = false;
   errorMessage: any = false;
   public roleSelection: string = '';
+  public initialRole: string = '';
   public codeSelection: number;
 
   constructor(public dialogRef: MatDialogRef<CheckModal>,
@@ -37,6 +38,7 @@ export class CheckModal {
     if (this.roleSelection === 'juridical_person') {
       this.roleSelection = `juridical-${this.codeSelection}`
     } 
+    this.initialRole = this.roleSelection;
     this.loading = true;
     let sub = this.http.get(this.data.contentUrl).subscribe(response => {
       if(response['error']){
@@ -77,10 +79,14 @@ export class CheckModal {
   }
 
   roleChange() {
-    if (this.roleSelection.includes('-')) {
-      this.roleSelection = this.roleSelection.split('-')[0];
+    if (this.initialRole !== this.roleSelection) {
+      if (this.roleSelection.includes('-')) {
+        this.roleSelection = this.roleSelection.split('-')[0];
+      }
+      this.setRole();
+    } else {
+      this.closeModal();
     }
-    this.setRole();
   }
 
   closeModal() {
