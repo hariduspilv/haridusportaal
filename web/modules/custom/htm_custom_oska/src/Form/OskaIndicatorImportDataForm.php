@@ -61,7 +61,10 @@ class OskaIndicatorImportDataForm extends FormBase {
             $file_upload = $all_files['file'];
             if ($file_upload->isValid()) {
                 $header_info = $this->detectCSVFileDelimiter($file_upload->getRealPath());
-                #dump($header_info['keys']);
+                foreach($header_info['keys'] as $key => $value) {
+                    $header_info['keys'][cleanString($key)] = cleanString($value);
+                }
+
                 $delimiter = $header_info['delimiter'];
                 //check delimiter
                 if($delimiter != ';'){

@@ -1,0 +1,14 @@
+uuid: 67256527-7a1a-4c17-969a-2a2e07d855a7
+langcode: et
+status: true
+dependencies:
+  config:
+    - user.role.oska_editor
+  module:
+    - user
+id: user_remove_role_action.oska_editor
+label: 'Remove the OSKA Editor role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: oska_editor
