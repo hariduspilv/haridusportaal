@@ -42,6 +42,12 @@ class EhisConnectorService {
 	 */
 	protected $currentRole;
 
+	var $ed_map = [
+		'ownerType' => 'pidajaLiigid',
+		'ownershipType' => 'oppeasutuseOmandivormid',
+		'studyInstitutionType' => 'oppeasutuseLiigid'
+	];
+
 
 	/**
 	 * EhisConnectorService constructor.
@@ -149,7 +155,7 @@ class EhisConnectorService {
 		if($this->useReg() && !$idcode){
 			return $this->currentRole['current_role']['data']['reg_kood'];
 		}else{
-			#return '37112110025';
+			return '37112110025';
 			return $this->currentUser->getIdCode();
 		}
 	}
@@ -247,6 +253,31 @@ class EhisConnectorService {
 		return $this->invoke('postDocument', $params, 'post');
 	}
 
+	public function addInstitution(array $params = []){
+		$data = $this->buildInstitutionData($params['data']);
+		$data['ownerId'] = $this->getCurrentUserIdRegCode();
+		$post_data = [
+			'json' => $data
+		];
+
+		return $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
+	}
+
+	public function editInstitution(array $params = []){
+		$params['edId'] = '7274';
+		$institution = $this->getEducationalInstitution(['id' => $params['edId']]);
+		$merged = array_replace_recursive($institution, $params['data']);
+
+		$merged['educationalInstitutionId'] = $params['edId'];
+		$merged['ownerId'] = $this->getCurrentUserIdRegCode();
+
+		$post_data = [
+			'json' => $merged
+		];
+		dump($merged);
+		return $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
+	}
+
 	/**
 	 * @param array $params
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
@@ -296,6 +327,15 @@ class EhisConnectorService {
 			$this->addTitles($response);
 		}
 		return $response;
+	}
+
+	public function getEducationalInstitutionClassificators(array $params = []){
+		$taxonomy = [];
+		foreach($this->ed_map as $key => $value){
+			$taxonomy[$key] = $this->getAllClassificators(['hash' => $value]);
+		}
+
+		return $taxonomy;
 	}
 
 	/**
@@ -398,7 +438,6 @@ class EhisConnectorService {
 			$institution_data  = $this->getEducationalInstitution(['id' => $institution['id'], 'addTitle' => true]);
 			if(isset($institution_data['educationalInstitution']) && !empty($institution_data['educationalInstitution'])) $institution['institutionInfo'] = $institution_data['educationalInstitution'];
 		}
-
 		return $response;
 	}
 
@@ -429,11 +468,6 @@ class EhisConnectorService {
 	 * @return mixed
 	 */
 	private function addTitles(&$response){
-		$topics_map = [
-			'ownerType' => 'pidajaLiigid',
-			'ownershipType' => 'oppeasutuseOmandivormid',
-			'studyInstitutionType' => 'oppeasutuseLiigid'
-		];
 		array_walk($response['educationalInstitution'], function(&$item, $key, $data){
 			$elm_topics = array_keys($data['topics']);
 			foreach($item as $value_key => &$value ){
@@ -442,9 +476,23 @@ class EhisConnectorService {
 					$item[$value_key.'Type'] = ($d = $redis_value[$value]) ? $d : ['et' => 'Puudub', 'valid' => false];
 				}
 			}
-		}, ['topics' => $topics_map]);
+		}, ['topics' => $this->ed_map]);
 
 		return $response;
+	}
+
+	private function buildInstitutionData($data, $add = TRUE){
+		$return = [
+			#'educationalInstitutionId' => (!$add) ? 7575 : 0,
+			'ownerId' => $this->getCurrentUserIdRegCode(),
+			'educationalInstitution' => [
+				'generalData' => [
+					#'owner' => 'OÜ AUTOSÕIT (10835817)'
+				]
+			]
+		];
+
+		return array_merge_recursive($return, $data);
 	}
 
 
