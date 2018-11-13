@@ -1617,6 +1617,10 @@ button:
     translation_type: textarea
     et: Jah
     en: 'Yes'
+  download_table:
+    translation_type: textarea
+    et: 'Lae tabel alla'
+    en: 'Download table'
 tooltip:
   share:
     translation_type: textarea
@@ -1634,6 +1638,14 @@ tooltip:
     translation_type: textarea
     et: 'Kopeeri lõikepuhvrisse'
     en: 'Copy to clipboard'
+  share_fb:
+    translation_type: textarea
+    et: 'Jaga facebookis'
+    en: 'Share on facebook'
+  share_twitter:
+    translation_type: textarea
+    et: 'Jaga Twitteris'
+    en: Tweet
 notFound:
   explanation:
     translation_type: text_format
@@ -2018,7 +2030,7 @@ url:
 events:
   no_results:
     translation_type: textarea
-    et: 'Otsingutulemused puuduvad'
-    en: 'No search results'
+    et: 'Otsingutulemusi ei leitud'
+    en: 'No results found'
 table: {  }
 Modal: {  }
