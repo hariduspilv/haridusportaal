@@ -4,7 +4,7 @@
       <span class="dialog__text--medium">{{ data.pretitle | uppercase }}</span>
       <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
         <span class="htm-icon">close
-          <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0"></button>
+          <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0" attr.aria-label="{{'modal.close' | translate}}"></button>
         </span>
       </div>
     </div>
@@ -41,7 +41,7 @@
             <tr *ngFor="let item of content">
               <td class="extraHeight">
                 <mat-radio-group [(ngModel)]='roleSelection'>
-                  <mat-radio-button (click)="this.codeSelection = item.ariregistri_kood" value="juridical-{{item.ariregistri_kood}}">{{item.arinimi}}</mat-radio-button>
+                  <mat-radio-button (click)="codeSelection = item.ariregistri_kood" (keyup.space)="codeSelection = item.ariregistri_kood" value="juridical-{{item.ariregistri_kood}}">{{item.arinimi}}</mat-radio-button>
                 </mat-radio-group>
               </td>
             </tr>
