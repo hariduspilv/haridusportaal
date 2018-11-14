@@ -112,11 +112,12 @@ class EducationalFormRestResource extends ResourceBase {
 		  case 'add':
 		  	if($this->validateData($data)){
 					$response = $this->ehisConnector->addInstitution(['data' => $data]);
+					dump($response);
 				  return new ModifiedResourceResponse($response);
 			  }
 				break;
 		  case 'edit':
-			  if($this->validateData($data)){
+			  if($this->validateData($data) && isset($data['edId'])){
 			  	$response = $this->ehisConnector->editInstitution(['data' => $data]);
 			  	dump($response);
 				  return new ModifiedResourceResponse('fine');

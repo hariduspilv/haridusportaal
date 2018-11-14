@@ -151,7 +151,7 @@ class EhisConnectorService {
 	 *  If true return IDcode
 	 * @return mixed
 	 */
-	private function getCurrentUserIdRegCode($idcode = TRUE){
+	private function getCurrentUserIdRegCode($idcode = FALSE){
 		if($this->useReg() && !$idcode){
 			return $this->currentRole['current_role']['data']['reg_kood'];
 		}else{
@@ -174,8 +174,8 @@ class EhisConnectorService {
 	 */
 	public function getProfessionalCertificate(array $params = []){
 		// build url params for GET request
-		$params['url'] = [$this->getCurrentUserIdRegCode(), 'true', time()];
-		$params['key'] = $this->getCurrentUserIdRegCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(TRUE), 'true', time()];
+		$params['key'] = $this->getCurrentUserIdRegCode(TRUE);
 		$params['hash'] = 'kodanikKutsetunnistus';
 		return $this->invokeWithRedis('kodanikKutsetunnistus', $params, FALSE);
 	}
@@ -185,8 +185,8 @@ class EhisConnectorService {
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
 	 */
 	public function getTestSessions(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdRegCode(), time()];
-		$params['key'] = $this->getCurrentUserIdRegCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
+		$params['key'] = $this->getCurrentUserIdRegCode(TRUE);
 		$params['hash'] = 'testsessioonidKod';
 		return $this->invokeWithRedis('testsessioonidKod', $params, FALSE);
 	}
@@ -196,8 +196,8 @@ class EhisConnectorService {
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
 	 */
 	public function gettestidKod(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdRegCode(), $params['session_id'], time()];
-		$params['key'] = $this->getCurrentUserIdRegCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['session_id'], time()];
+		$params['key'] = $this->getCurrentUserIdRegCode(TRUE);
 		$params['hash'] = 'testidKod_'.$params['session_id'];
 		return $this->invokeWithRedis('testidKod', $params, FALSE);
 	}
@@ -207,8 +207,8 @@ class EhisConnectorService {
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
 	 */
 	public function getCertificate(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdRegCode(), $params['certificate_id'], time()];
-		$params['key'] = $this->getCurrentUserIdRegCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['certificate_id'], time()];
+		$params['key'] = $this->getCurrentUserIdRegCode(TRUE);
 		$params['hash'] = 'eTunnistusKod_'.$params['certificate_id'];
 		return $this->invokeWithRedis('eTunnistusKod', $params, FALSE);
 	}
@@ -229,8 +229,8 @@ class EhisConnectorService {
 	 * @return mixed
 	 */
 	public function getPersonalCard(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdRegCode(), time()];
-		$params['key'] = $this->getCurrentUserIdRegCode();
+		$params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
+		$params['key'] = $this->getCurrentUserIdRegCode(TRUE);
 		$params['hash'] = 'eeIsikukaart';
  		$response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
 		return $this->filterPersonalCard($response, $params['tab']);
@@ -240,6 +240,7 @@ class EhisConnectorService {
 	 * @param array $params
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
 	 */
+	/*@TODO something wrong here*/
 	public function getDocument(array $params = []){
 		$params['url'][] = $this->getCurrentUserIdRegCode();
 		return $this->invokeWithRedis('getDocument', $params, FALSE);
@@ -255,27 +256,34 @@ class EhisConnectorService {
 
 	public function addInstitution(array $params = []){
 		$data = $this->buildInstitutionData($params['data']);
-		$data['ownerId'] = $this->getCurrentUserIdRegCode();
 		$post_data = [
 			'json' => $data
 		];
-
+		dump(json_encode($data));
+		dump($data);
 		return $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
 	}
 
 	public function editInstitution(array $params = []){
-		$params['edId'] = '7274';
-		$institution = $this->getEducationalInstitution(['id' => $params['edId']]);
-		$merged = array_replace_recursive($institution, $params['data']);
+		#$params['edId'] = '7274';
+		$institution = $this->getEducationalInstitution(['id' => $params['data']['edId']]);
+		$params['data']['existing']['institution'] = $institution;
+		$params['data']['existing']['edId'] = $params['edId'];
+		#dump($params);
+		$data = $this->buildInstitutionData($params['data'], true);
 
-		$merged['educationalInstitutionId'] = $params['edId'];
-		$merged['ownerId'] = $this->getCurrentUserIdRegCode();
+		#dump($data);
 
-		$post_data = [
+		#$merged = array_replace_recursive($institution, $params['data']);
+
+		#$merged['educationalInstitutionId'] = $params['edId'];
+		#$merged['ownerId'] = $this->getCurrentUserIdRegCode();
+
+		/*$post_data = [
 			'json' => $merged
 		];
-		dump($merged);
-		return $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
+		dump($merged);*/
+		#return $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
 	}
 
 	/**
@@ -283,7 +291,7 @@ class EhisConnectorService {
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
 	 */
 	public function getDocumentFile(array $params = []){
-		$params['url'] = [$params['file_id'], $this->getCurrentUserIdRegCode()];
+		$params['url'] = [$params['file_id'], $this->getCurrentUserIdRegCode(TRUE)];
 		return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
 	}
 
@@ -345,7 +353,7 @@ class EhisConnectorService {
 	public function getApplications(array $params = []){
 		$params['url'] = [$this->getCurrentUserIdRegCode()];
 		$params['key'] = $this->getCurrentUserIdRegCode();
-		#dump($params['init']);
+
 		// we need to start getDocument service
 		if($params['init']){
 			$params['hash'] = 'getDocuments';
@@ -481,18 +489,45 @@ class EhisConnectorService {
 		return $response;
 	}
 
-	private function buildInstitutionData($data, $add = TRUE){
-		$return = [
-			#'educationalInstitutionId' => (!$add) ? 7575 : 0,
-			'ownerId' => $this->getCurrentUserIdRegCode(),
-			'educationalInstitution' => [
-				'generalData' => [
-					#'owner' => 'OÜ AUTOSÕIT (10835817)'
-				]
+	private function buildInstitutionData($data, $edit = TRUE){
+		dump($data);
+		if($edit){
+			$existing_institution = $data['existing']['institution']['educationalInstitution'];
+		}
+		$map = [
+			'educationalInstitutionId'  => ($edit) ? $data['edId'] : NULL,
+      'ownerId'  => (int) $this->getCurrentUserIdRegCode(),
+      'ownerName'  => $this->currentRole['current_role']['data']['nimi'],
+      'educationalInstitution'  => [
+				'generalData'  => [
+					'owner' => ($edit) ? $existing_institution['generalData']['owner'] : '', //optional, uue õppeasutuse lisamiseks ei ole vaja, õppeasutuse andmete muutmisel saab väärtuse REST /api/getEducationalInstitution/ endpointist
+		      'name'  => $data['general']['name'],
+		      'nameENG'  => $data['general']['nameENG'], //optional
+		      'ownerType'  =>  (int) $data['general']['ownerType'],
+		      'ownershipType'  => (int) $data['general']['ownershipType'],
+		      'studyInstitutionType' => (int) $data['general']['studyInstitutionType']
+	      ],
+	      'address' => [
+					'seqNo' => $data['address']['seqNo'],
+		      'adsId' => $data['address']['adsId'],
+		      'adsOid' => $data['address']['adsOid'],
+		      'klElukoht' => $data['address']['klElukoht'],
+		      'county' => $data['address']['county'],
+		      'localGovernment' => $data['address']['localGovernment'] ,
+		      'settlementUnit' => $data['address']['settlementUnit'] ,
+		      'address' => $data['address']['address'] ,
+		      'addressFull' => $data['address']['addressFull'] ,
+		      'addressHumanReadable' => $data['address']['addressHumanReadable']
+	      ],
+	      'contacts'  => [
+					'contactPhone'  => $data['contacts']['contactPhone'],
+		      'contactEmail'  => $data['contacts']['contactEmail'],
+		      'webpageAddress'  => $data['contacts']['webpageAddress']
+	      ]
 			]
-		];
+    ];
 
-		return array_merge_recursive($return, $data);
+		return $map;
 	}
 
 
