@@ -31,11 +31,11 @@
   &__head {display: flex; margin:-1.5rem -1.5rem 1rem -1.5rem;
     @include break-on(sm, min) {border-bottom: 1px solid $gray;}
 
-    &__title{padding:0.9375rem $medium; font-size:1rem; line-height:2rem; color:$dark-gray; flex-grow: 1;}
+    &__title{padding:1rem $medium; font-size:1rem; line-height:2rem; color:$dark-gray; flex-grow: 1;}
 
     &__buttons{flex-shrink: 0; display:flex;
       .view-item{position:relative; border-left:$gray 1px solid; padding:0 $medium; display: flex; flex-direction: column; text-align: center; justify-content: center; font-size:0.875rem; color:$blue; cursor:pointer; font-weight: 100;
-        &.active{color:$black;
+        &.active{color:$black;pointer-events: none;cursor: initial;
           &:after{position:absolute; bottom:0; left:0; right:0; height:3px; background:$dark-orange; overflow: hidden; content:" ";}
         }
         .htm-icon{width:100% !important; line-height:1.5rem; font-size:1.5rem; margin-bottom:2px;}

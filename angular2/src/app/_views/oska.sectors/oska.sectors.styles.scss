@@ -2,7 +2,7 @@
 .sectors {background: $white;border-top: $gutter solid $light-blue;
   @include break-on(sm, min) {border-radius: $half-gutter;margin: 1rem 1.5rem 1.5rem 1.5rem;}
   &__head {display: flex;border-bottom: .0625rem solid $gray;}
-  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 0.9375rem 1.5rem; flex-basis: 50%;}
+  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%;}
   &__list-head {margin-top: 0;}
   &__list-body {padding: 1.5rem 0 3rem;
     @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
@@ -38,8 +38,8 @@
       fill: currentColor;
     }
     h1 {font-size: .875rem;}
-    &.active {color: $black;
-      &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}
+    &.active {color: $black;pointer-events: none;cursor: initial;
+      &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: .625rem;}
     }
   }
   .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
