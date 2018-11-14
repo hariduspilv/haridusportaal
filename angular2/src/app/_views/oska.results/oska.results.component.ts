@@ -133,9 +133,9 @@ export class OskaResultsComponent implements OnInit{
       let fieldsToProcess = ['responsible', 'proposalStatus'];
       if (this.tableData) {
         this.tableData.forEach(elem => {
-          if (elem.oskaField && elem.oskaField[0]) this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
+          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
           return fieldsToProcess.forEach(item => {
-            if (elem[item]) this.filterItemValues[item].push(elem[item]);
+            if (elem[item] && !this.filterItemValues[item].includes(elem[item])) this.filterItemValues[item].push(elem[item]);
           });
         });
       }
@@ -175,6 +175,9 @@ export class OskaResultsComponent implements OnInit{
   @HostListener("window:scroll", [])
   onWindowScroll() {
     this.setScrollPos('resultsTable');
+  }
+  @HostListener('document:touchend', ['$event']) touchedOutside($event){
+    (document.activeElement as HTMLElement).blur();
   }
 
   ngOnInit() {
