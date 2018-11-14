@@ -595,7 +595,8 @@ public class MtsysWorker extends Worker {
     try {
       MtsysLaeOppeasutus request = MtsysLaeOppeasutus.Factory.newInstance();
       if (jsonNodeRequest.get("educationalInstitutionId") != null
-          && !jsonNodeRequest.get("educationalInstitutionId").isNull()) {
+          && !jsonNodeRequest.get("educationalInstitutionId").isNull()
+          && !jsonNodeRequest.get("educationalInstitutionId").asText().equalsIgnoreCase("")) {
         request.setOppeasutuseId(jsonNodeRequest.get("educationalInstitutionId")
             .bigIntegerValue()); //optional, olemas siis kui on muutmine, muidu tühi
       }
@@ -606,14 +607,18 @@ public class MtsysWorker extends Worker {
 
       if (jsonNodeRequest.get("educationalInstitution").get("generalData") != null) {
         MtsysOppeasutusAndmed oppeasutusAndmed = MtsysOppeasutusAndmed.Factory.newInstance();
-        if (jsonNodeRequest.get("educationalInstitution").get("generalData").get("owner") != null) {
+        if (jsonNodeRequest.get("educationalInstitution").get("generalData").get("owner") != null
+            && jsonNodeRequest.get("educationalInstitution").get("generalData").get("owner")
+            .asText().equalsIgnoreCase("")) {
           oppeasutusAndmed.setOmanik(jsonNodeRequest.get("educationalInstitution")
-              .get("generalData").get("owner").asText()); //optional olemas kui on muutmine, muidu tühi
+              .get("generalData").get("owner")
+              .asText()); //optional olemas kui on muutmine, muidu tühi
         }
         oppeasutusAndmed.setOppeasutuseNimetus(jsonNodeRequest.get("educationalInstitution")
             .get("generalData").get("name").asText()); //lenght < 255
         if (jsonNodeRequest.get("educationalInstitution").get("generalData")
-            .get("nameENG") != null) {
+            .get("nameENG") != null && jsonNodeRequest.get("educationalInstitution")
+            .get("generalData").get("nameENG").asText().equalsIgnoreCase("")) {
           oppeasutusAndmed.setOppeasutuseNimetusIngliseKeeles(
               jsonNodeRequest.get("educationalInstitution").get("generalData")
                   .get("nameENG").asText()); //optional , lenght < 255
@@ -629,47 +634,63 @@ public class MtsysWorker extends Worker {
 
       if (jsonNodeRequest.get("educationalInstitution").get("address") != null) {
         Aadress aadress = Aadress.Factory.newInstance();
-        if (jsonNodeRequest.get("educationalInstitution").get("address").get("seqNo") != null) {
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("seqNo") != null
+            && jsonNodeRequest.get("educationalInstitution").get("address").get("seqNo").asText()
+            .equalsIgnoreCase("")) {
           aadress.setJrkNr(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("seqNo").asLong()); //optional
         }
-        if (jsonNodeRequest.get("educationalInstitution").get("address").get("adsId") != null) {
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("adsId") != null
+            && jsonNodeRequest.get("educationalInstitution").get("address").get("adsId").asText()
+            .equalsIgnoreCase("")) {
           aadress.setAdsId(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("adsId").bigIntegerValue()); //optional
         }
-        if (jsonNodeRequest.get("educationalInstitution").get("address").get("adsOid") != null) {
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("adsOid") != null
+            && jsonNodeRequest.get("educationalInstitution").get("address").get("adsOid").asText()
+            .equalsIgnoreCase("")) {
           aadress.setAdsOid(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("adsOid").asText()); //optional
         }
-        if (jsonNodeRequest.get("educationalInstitution").get("address").get("klElukoht") != null) {
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("klElukoht") != null
+            && jsonNodeRequest.get("educationalInstitution").get("address").get("klElukoht")
+            .asText().equalsIgnoreCase("")) {
           aadress.setKlElukoht(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("klElukoht").bigIntegerValue()); //optional
         }
-        if (jsonNodeRequest.get("educationalInstitution").get("address").get("county") != null) {
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("county") != null
+            && jsonNodeRequest.get("educationalInstitution").get("address").get("county").asText()
+            .equalsIgnoreCase("")) {
           aadress.setMaakond(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("county").asText()); //optional
         }
         if (jsonNodeRequest.get("educationalInstitution").get("address")
-            .get("localGovernment") != null) {
+            .get("localGovernment") != null && jsonNodeRequest.get("educationalInstitution")
+            .get("address").get("localGovernment").asText().equalsIgnoreCase("")) {
           aadress.setOmavalitsus(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("localGovernment").asText()); //optional
         }
         if (jsonNodeRequest.get("educationalInstitution").get("address")
-            .get("settlementUnit") != null) {
+            .get("settlementUnit") != null && jsonNodeRequest.get("educationalInstitution")
+            .get("address").get("settlementUnit").asText().equalsIgnoreCase("")) {
           aadress.setAsula(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("settlementUnit").asText()); //optional
         }
-        if (jsonNodeRequest.get("educationalInstitution").get("address").get("address") != null) {
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("address") != null
+            && jsonNodeRequest.get("educationalInstitution").get("address").get("address").asText()
+            .equalsIgnoreCase("")) {
           aadress.setTaisAadress(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("address").asText()); //optional
         }
         if (jsonNodeRequest.get("educationalInstitution").get("address")
-            .get("addressFull") != null) {
+            .get("addressFull") != null && jsonNodeRequest.get("educationalInstitution")
+            .get("address").get("addressFull").asText().equalsIgnoreCase("")) {
           aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("addressFull").asText()); //optional
         }
         if (jsonNodeRequest.get("educationalInstitution").get("address")
-            .get("addressHumanReadable") != null) {
+            .get("addressHumanReadable") != null && jsonNodeRequest.get("educationalInstitution")
+            .get("address").get("addressHumanReadable").asText().equalsIgnoreCase("")) {
           aadress.setAdsAadressHumanReadable(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("addressHumanReadable").asText()); //optional
         }
