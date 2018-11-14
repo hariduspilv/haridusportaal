@@ -60,7 +60,7 @@
     </div>
     <div class="dialog__actions--success dialog__actions--wide">
       <div class="flex flex-center flex-grow align-center flex-justify-end">
-        <div class="action--elem"><a href="javascript:void(0)" attr.aria-label="{{'modal.close' | translate}}" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.cancel }}</a></div>
+        <div class="action--elem"><a href="javascript:void(0)" attr.aria-label="{{'event.registration_form_cancel' | translate}}" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.cancel }}</a></div>
         <div *ngIf="!error" class="action--elem wide--button"><button mat-raised-button color="primary" type="button" attr.aria-label="{{data.confirm}}" (click)="roleChange()">{{ data.confirm }}</button></div>
       </div>
     </div>
