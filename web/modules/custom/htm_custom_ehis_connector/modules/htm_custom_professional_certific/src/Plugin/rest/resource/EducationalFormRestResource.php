@@ -112,15 +112,15 @@ class EducationalFormRestResource extends ResourceBase {
 		  case 'add':
 		  	if($this->validateData($data)){
 					$response = $this->ehisConnector->addInstitution(['data' => $data]);
-					dump($response);
+					#dump($response);
 				  return new ModifiedResourceResponse($response);
 			  }
 				break;
 		  case 'edit':
 			  if($this->validateData($data) && isset($data['edId'])){
 			  	$response = $this->ehisConnector->editInstitution(['data' => $data]);
-			  	dump($response);
-				  return new ModifiedResourceResponse('fine');
+			  	#dump($response);
+				  return new ModifiedResourceResponse($response);
 			  }
 		  	break;
 	  }
@@ -140,7 +140,7 @@ class EducationalFormRestResource extends ResourceBase {
   private function validateData($data){
   	$required_keys = [
   		#'generalData',
-      'name',
+      #'name',
 		  #'ownerType',
 		  #'ownershipType',
 		  #'studyInstitutionType'
