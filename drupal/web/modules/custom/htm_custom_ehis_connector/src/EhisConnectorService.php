@@ -125,12 +125,12 @@ class EhisConnectorService {
 
 	/**
 	 * @param $key
-	 * @param $field
+	 * @param $hash
 	 * @return array|mixed
 	 */
-	private function getValue($key, $field){
+	private function getValue($key, $hash){
 		$response = [];
-		if($data = $this->client->hGet($key, $field)){
+		if($data = $this->client->hGet($key, $hash)){
 			$response = json_decode($data, TRUE);
 		}
 		return $response;
@@ -143,6 +143,11 @@ class EhisConnectorService {
 	 */
 	public function saveFileToRedis(Base64Image $img, $key){
 		return $this->client->hset($key, $img->getFileIdentifier(), $img->getRawData());
+	}
+
+	private function deleteFromRedis($key, $hash){
+		$response = $this->client->hDel($key, $hash);
+		return $response;
 	}
 
 
@@ -259,8 +264,7 @@ class EhisConnectorService {
 		$post_data = [
 			'json' => $data
 		];
-		dump(json_encode($data));
-		dump($data);
+
 		return $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
 	}
 
@@ -268,22 +272,22 @@ class EhisConnectorService {
 		#$params['edId'] = '7274';
 		$institution = $this->getEducationalInstitution(['id' => $params['data']['edId']]);
 		$params['data']['existing']['institution'] = $institution;
-		$params['data']['existing']['edId'] = $params['edId'];
-		#dump($params);
+
 		$data = $this->buildInstitutionData($params['data'], true);
 
-		#dump($data);
-
-		#$merged = array_replace_recursive($institution, $params['data']);
-
-		#$merged['educationalInstitutionId'] = $params['edId'];
-		#$merged['ownerId'] = $this->getCurrentUserIdRegCode();
-
-		/*$post_data = [
-			'json' => $merged
+		$post_data = [
+			'json' => $data
 		];
-		dump($merged);*/
-		#return $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
+		$return = $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
+
+		//everything is fine delete cache
+		if(!isset($return['error'])){
+			$key = $this->getCurrentUserIdRegCode();
+			$hash = 'educationalInstitution_'.$params['data']['edId'];
+			$this->deleteFromRedis($key, $hash);
+		}
+
+		return $return;
 	}
 
 	/**
@@ -489,23 +493,24 @@ class EhisConnectorService {
 		return $response;
 	}
 
-	private function buildInstitutionData($data, $edit = TRUE){
-		dump($data);
+	private function buildInstitutionData($data, $edit = FALSE){
+
 		if($edit){
 			$existing_institution = $data['existing']['institution']['educationalInstitution'];
 		}
+
 		$map = [
-			'educationalInstitutionId'  => ($edit) ? $data['edId'] : NULL,
+			'educationalInstitutionId'  => ($edit) ? (int) $data['edId'] : NULL,
       'ownerId'  => (int) $this->getCurrentUserIdRegCode(),
       'ownerName'  => $this->currentRole['current_role']['data']['nimi'],
       'educationalInstitution'  => [
 				'generalData'  => [
 					'owner' => ($edit) ? $existing_institution['generalData']['owner'] : '', //optional, uue õppeasutuse lisamiseks ei ole vaja, õppeasutuse andmete muutmisel saab väärtuse REST /api/getEducationalInstitution/ endpointist
-		      'name'  => $data['general']['name'],
-		      'nameENG'  => $data['general']['nameENG'], //optional
-		      'ownerType'  =>  (int) $data['general']['ownerType'],
-		      'ownershipType'  => (int) $data['general']['ownershipType'],
-		      'studyInstitutionType' => (int) $data['general']['studyInstitutionType']
+		      'name'  => ($edit) ? $existing_institution['generalData']['name'] : $data['general']['name'],
+		      'nameENG'  => ($edit) ? $existing_institution['generalData']['nameENG'] : $data['general']['nameENG'], //optional
+		      'ownerType'  => ($edit) ? (int) $existing_institution['generalData']['ownerType'] : (int) $data['general']['ownerType'],
+		      'ownershipType'  => ($edit) ? (int) $existing_institution['generalData']['ownershipType'] : (int) $data['general']['ownershipType'],
+		      'studyInstitutionType' => ($edit) ? (int) $existing_institution['generalData']['studyInstitutionType'] : (int) $data['general']['studyInstitutionType']
 	      ],
 	      'address' => [
 					'seqNo' => $data['address']['seqNo'],
