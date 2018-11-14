@@ -12,6 +12,8 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Mt
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusResponseDocument.MtsysOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusloadResponseDocument.MtsysTegevusloadResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevuslubaResponseDocument.MtsysTegevuslubaResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusnaitajaDocument.MtsysTegevusnaitaja;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusnaitajaResponseDocument.MtsysTegevusnaitajaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.OppeasutusDetail;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -710,6 +712,98 @@ public class MtsysWorker extends Worker {
     sender.send(logsTopic, null, logForDrupal, "ehis.mtsysKlfTeenus.v1");
 
     return jsonNodeResponse;
+  }
+
+  public Object getMtsysTegevusNaitajad(String formName, String identifier, String personalCode) {
+    ObjectNode jsonNode = nodeFactory.objectNode();
+
+    jsonNode.putObject("header")
+        .put("endpoint", "EHIS")
+        .put("form_name", formName)
+        .putArray("acceptable_activity").add("VIEW");
+    ((ObjectNode) jsonNode.get("header"))
+        .put("current_step", "step_0")
+        .put("identifier", identifier);
+    jsonNode.putObject("body").putObject("steps");
+    ((ObjectNode) jsonNode.get("body")).putArray("messages");
+    jsonNode.putObject("messages");
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - mtsysTegevusnaitaja.v1");
+
+    try {
+      MtsysTegevusnaitaja request = MtsysTegevusnaitaja.Factory.newInstance();
+      request.setAruandeId(BigInteger.valueOf(Long.parseLong(identifier)));
+
+      MtsysTegevusnaitajaResponse response = ehisXRoadService
+          .mtsysTegevusnaitaja(request, personalCode);
+
+      ObjectNode step0DataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
+          .putObject("step_0").putObject("data_elements");
+
+      step0DataElementsNode.putObject("aasta")
+          .put("value", response.isSetAasta() ? response.getAasta().intValue() : null);
+      step0DataElementsNode.putObject("staatus").put("value", response.isSetKlStaatus() ?
+          response.getKlStaatus().getId().intValue() : null);
+      step0DataElementsNode.putObject("esitamiseKp")
+          .put("value", response.isSetEsitamiseKp() ? response.getEsitamiseKp() : null);
+      step0DataElementsNode.putObject("kommentaar")
+          .put("value", response.isSetKommentaar() ? response.getKommentaar() : null);
+
+      step0DataElementsNode.putObject("majandustegevuseTeateTabel").putArray("value");
+      step0DataElementsNode.putObject("tegevuslubaTabel").putArray("value");
+      step0DataElementsNode.putObject("kokkuTabel").putArray("value");
+
+      response.getNaitajad().getItemList().forEach(item -> {
+        if (item.getKlOkLiik().equals(BigInteger.valueOf(-1L))) {
+          ((ArrayNode) step0DataElementsNode.get("kokkuTabel").get("value")).addObject()
+              .put("nimetus", item.isSetNimetus() ? item.getNimetus() : null)
+              .put("oppijateArv", item.isSetOppijaArv() ? item.getOppijaArv().intValue() : null)
+              .put("tunnistusteArv",
+                  item.isSetTunnistusArv() ? item.getTunnistusArv().intValue() : null)
+              .put("kuni8", item.isSetKuni8() ? item.getKuni8().intValue() : null)
+              .put("kuni26", item.isSetKuni26() ? item.getKuni26().intValue() : null)
+              .put("kuni80", item.isSetKuni80() ? item.getKuni80().intValue() : null)
+              .put("kuni240", item.isSetKuni240() ? item.getKuni240().intValue() : null)
+              .put("yle240", item.isSetYle240() ? item.getYle240().intValue() : null)
+              .put("kokku", item.isSetKokku() ? item.getKokku().intValue() : null);
+        } else if (item.getKlOkLiik().equals(BigInteger.valueOf(18098L))) {
+          ((ArrayNode) step0DataElementsNode.get("majandustegevuseTeateTabel").get("value"))
+              .addObject()
+              .put("nimetus", item.isSetNimetus() ? item.getNimetus() : null)
+              .put("oppijateArv", item.isSetOppijaArv() ? item.getOppijaArv().intValue() : null)
+              .put("tunnistusteArv",
+                  item.isSetTunnistusArv() ? item.getTunnistusArv().intValue() : null)
+              .put("kuni8", item.isSetKuni8() ? item.getKuni8().intValue() : null)
+              .put("kuni26", item.isSetKuni26() ? item.getKuni26().intValue() : null)
+              .put("kuni80", item.isSetKuni80() ? item.getKuni80().intValue() : null)
+              .put("kuni240", item.isSetKuni240() ? item.getKuni240().intValue() : null)
+              .put("yle240", item.isSetYle240() ? item.getYle240().intValue() : null)
+              .put("kokku", item.isSetKokku() ? item.getKokku().intValue() : null);
+        } else {
+          ((ArrayNode) step0DataElementsNode.get("tegevuslubaTabel").get("value")).addObject()
+              .put("nimetus", item.isSetNimetus() ? item.getNimetus() : null)
+              .put("oppijateArv", item.isSetOppijaArv() ? item.getOppijaArv().intValue() : null)
+              .put("tunnistusteArv",
+                  item.isSetTunnistusArv() ? item.getTunnistusArv().intValue() : null)
+              .put("kuni8", item.isSetKuni8() ? item.getKuni8().intValue() : null)
+              .put("kuni26", item.isSetKuni26() ? item.getKuni26().intValue() : null)
+              .put("kuni80", item.isSetKuni80() ? item.getKuni80().intValue() : null)
+              .put("kuni240", item.isSetKuni240() ? item.getKuni240().intValue() : null)
+              .put("yle240", item.isSetYle240() ? item.getYle240().intValue() : null)
+              .put("kokku", item.isSetKokku() ? item.getKokku().intValue() : null);
+        }
+      });
+
+    } catch (Exception e) {
+      super.setXdzeisonError(LOGGER, jsonNode, e);
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    sender.send(logsTopic, null, logForDrupal, "ehis.mtsysTegevusnaitaja.v1");
+
+    return jsonNode;
   }
 
   private ObjectNode getKlfNode(String hashKey) {
