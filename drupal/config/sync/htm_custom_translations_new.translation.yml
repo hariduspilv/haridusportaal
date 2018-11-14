@@ -1789,6 +1789,10 @@ modal:
     translation_type: textarea
     et: Mina
     en: Me
+  close:
+    translation_type: textarea
+    et: 'Sulge modaal'
+    en: 'Close modal'
 required:
   modal:
     translation_type: textarea
@@ -2034,3 +2038,12 @@ events:
     en: 'No results found'
 table: {  }
 Modal: {  }
+dashboard:
+  language_school:
+    translation_type: textarea
+    et: Keeltekool
+    en: 'Language school'
+  taxi_school:
+    translation_type: textarea
+    et: Taksokool
+    en: 'Taxi school'
