@@ -254,7 +254,7 @@ class JsonbWidget extends StringTextareaWidget {
 					break;
 				case 'selectlist':
 					if ($table) {
-						$additional_keys = ['width', 'multiple', 'empty_option', 'options'];
+						$additional_keys = ['width', 'multiple', 'empty_option', 'options', 'options_list'];
 					} else {
 						$additional_keys = ['multiple', 'empty_option', 'options', 'options_list'];
 					}
