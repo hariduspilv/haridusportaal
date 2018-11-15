@@ -97,6 +97,7 @@ export class OskaResultsComponent implements OnInit{
         && responsible.includes(this.filterItems['responsible'].toLowerCase())
         && proposalStatus.includes(this.filterItems['proposalStatus'].toLowerCase());
     })
+    this.resetTableScroll();
   }
 
   sortView(field) {
@@ -154,6 +155,11 @@ export class OskaResultsComponent implements OnInit{
       this.setScrollPos('resultsTable');
       this.initialized = true;
     }
+  }
+  
+  resetTableScroll () {
+    let table = document.getElementById('resultsTable');
+    table.scrollLeft = 0;
   }
   
   setScrollPos (id) {
