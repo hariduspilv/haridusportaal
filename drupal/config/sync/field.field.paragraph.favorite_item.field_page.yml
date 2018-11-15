@@ -15,7 +15,7 @@ id: paragraph.favorite_item.field_page
 field_name: field_page
 entity_type: paragraph
 bundle: favorite_item
-label: Page
+label: Lehekülg
 description: ''
 required: false
 translatable: false
