@@ -906,8 +906,8 @@ event:
     en: phone
   aadress:
     translation_type: textarea
-    et: aadress
-    en: address
+    et: Aadress
+    en: Address
   webpage:
     translation_type: textarea
     et: Koduleht
@@ -1789,6 +1789,10 @@ modal:
     translation_type: textarea
     et: Mina
     en: Me
+  close:
+    translation_type: textarea
+    et: 'Sulge modaal'
+    en: 'Close modal'
 required:
   modal:
     translation_type: textarea
@@ -2034,3 +2038,12 @@ events:
     en: 'No results found'
 table: {  }
 Modal: {  }
+dashboard:
+  studyInstitutionType:
+    translation_type: textarea
+    et: 'Õppeasutuse liik'
+    en: 'Study institution type'
+  ownerType:
+    translation_type: textarea
+    et: 'Pidaja liik'
+    en: 'Owner type'

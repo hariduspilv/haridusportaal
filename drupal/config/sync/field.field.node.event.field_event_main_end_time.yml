@@ -11,7 +11,7 @@ id: node.event.field_event_main_end_time
 field_name: field_event_main_end_time
 entity_type: node
 bundle: event
-label: 'Südnmuse põhikuupäeva lõpu kellaaeg'
+label: 'Sündmuse põhikuupäeva lõpu kellaaeg'
 description: ''
 required: true
 translatable: false
