@@ -61,16 +61,16 @@
         </ng-container>
         
       </div><!--/block-->
-      <div class="block border-blue padding-block lg-bottom" id="tableElem" *ngIf="filteredTableData">
+      <div class="block border-blue padding-block lg-bottom" id="tableElem" *ngIf="filteredTableData && tableData && tableData.length">
         <div class="block__head no-border">
           <div class="block__head__title">{{ 'TULEMUSTE TABEL' | uppercase }}</div>
         </div><!--/block__head-->
         <div class="flex flex-wrap flex-rows first-elem">
           <div class="flex flex-wrap flex-notrows flex-grow">
             <div class="flex input-row no-top">
-              <div class="grow additional">
+              <div class="grow additional" *ngIf="filterItemValues && filterItemValues.field.length">
                 <div class="round-input__wrapper">
-                  <mat-form-field *ngIf="filterItemValues && filterItemValues.field.length">
+                  <mat-form-field>
                     <mat-select placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]='filterItems.field' name="field">
                       <mat-option>{{ 'button.all' | translate }}</mat-option>
                       <mat-option *ngFor="let item of filterItemValues.field" [value]="item">
@@ -80,9 +80,9 @@
                   </mat-form-field>
                 </div>
               </div><!--grow-->
-              <div class="grow">
+              <div class="grow" *ngIf="filterItemValues && filterItemValues.responsible.length">
                 <div class="round-input__wrapper">
-                  <mat-form-field *ngIf="filterItemValues && filterItemValues.responsible.length">
+                  <mat-form-field>
                     <mat-select placeholder="{{ 'oska.table_responsible_person' | translate }}" [(ngModel)]='filterItems.responsible' name="responsible">
                       <mat-option>{{ 'button.all' | translate }}</mat-option>
                       <mat-option *ngFor="let item of filterItemValues.responsible" [value]="item">
@@ -93,10 +93,10 @@
                 </div>
               </div><!--grow-->
             </div><!--flex-->
-            <div class="flex input-row no-bottom">
+            <div class="flex input-row no-bottom" *ngIf="filterItemValues && filterItemValues.proposalStatus.length">
               <div class="grow">
                 <div class="round-input__wrapper">
-                  <mat-form-field *ngIf="filterItemValues && filterItemValues.proposalStatus.length">
+                  <mat-form-field>
                     <mat-select placeholder="{{ 'oska.table_proposition_status' | translate }}" [(ngModel)]='filterItems.proposalStatus' name="proposalStatus">
                       <mat-option>{{ 'button.all' | translate }}</mat-option>
                       <mat-option *ngFor="let item of filterItemValues.proposalStatus" [value]="item">
@@ -123,14 +123,14 @@
           <div class="alert" role="alert">{{'search.no_results_start' | translate}} <span innerHtml="{{'search.no_results_end' | translate}}"></span></div>
         </div><!--/text-center-->
         <div class="scrollable" *ngIf="filteredTableData && filteredTableData.length">
-          <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer" id="scrollableLeft" *ngIf="!elemAtStart" 
+          <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left withState pointer" id="scrollableLeft" [class.withState--active]="!elemAtStart" 
             (touchstart)="tableService.scrollStart('resultsTable')" 
             (mousedown)="tableService.scrollStart('resultsTable')" 
             (touchend)="tableService.scrollEnd()" 
             (mouseup)="tableService.scrollEnd()">
             <span class="htm-icon">keyboard_arrow_left</span>
           </div>
-          <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer" id="scrollableRight" *ngIf="tableOverflown" 
+          <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right withState pointer" id="scrollableRight" [class.withState--active]="tableOverflown" 
             (touchstart)="tableService.scrollStart('resultsTable', true)"
             (mousedown)="tableService.scrollStart('resultsTable', true)"
             (touchend)="tableService.scrollEnd(true)"
