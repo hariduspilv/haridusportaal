@@ -354,9 +354,9 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     
 
     return {
-      fillColor: color,
+      fillColor: "red",
       fillOpacity: 1,
-      strokeColor: "#fff",
+      strokeColor: "#ffffff",
       strokeWeight: 1,
       strokeOpacity: 1,
       clickable: true
