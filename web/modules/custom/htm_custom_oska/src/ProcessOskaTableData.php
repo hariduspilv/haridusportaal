@@ -44,11 +44,11 @@ class ProcessOskaTableData {
             }
 
             $object['valdkond'] = self::checkEntityReference('node', 'oska_field_page', $item['valdkond']);
-            $object['juurprobleem'] = strlen($item['juurprobleem']) <= 500 ? $item['juurprobleem'] : FALSE;
-            $object['ettepanek'] = strlen($item['ettepanek']) <= 500 ? $item['ettepanek'] : FALSE;
-            $object['peavastutaja'] = strlen($item['peavastutaja']) <= 100 ? $item['peavastutaja'] : FALSE;
-            $object['staatus'] = strlen($item['staatus']) <= 50 ? $item['staatus'] : FALSE;
-            $object['kommentaar'] = strlen($item['kommentaar']) <= 500 ? $item['kommentaar'] : FALSE;
+            $object['juurprobleem'] = mb_strlen($item['juurprobleem']) <= 500 ? $item['juurprobleem'] : FALSE;
+            $object['ettepanek'] = mb_strlen($item['ettepanek']) <= 500 ? $item['ettepanek'] : FALSE;
+            $object['peavastutaja'] = mb_strlen($item['peavastutaja']) <= 100 ? $item['peavastutaja'] : FALSE;
+            $object['staatus'] = mb_strlen($item['staatus']) <= 50 ? $item['staatus'] : FALSE;
+            $object['kommentaar'] = mb_strlen($item['kommentaar']) <= 500 ? $item['kommentaar'] : FALSE;
 
             if(
                 !$object['valdkond']
