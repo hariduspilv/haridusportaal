@@ -110,7 +110,9 @@ a h1:hover { text-decoration: underline; }
       }
     }
     .more {padding-top: $half-gutter; padding-left: .625rem;
-      &>a{text-decoration: underline;}
+      &>a{text-decoration: underline;
+        &:hover{text-decoration: none;}
+      }
     }
     #secondClose{position:absolute; top:0; right:0; right:1rem; top:1rem;}
     .disableMore {.more__hiddens {display: none;}}
