@@ -9,7 +9,7 @@
             <a *ngIf="currentRole === 'natural_person'" href="javascript:void(0)" attr.aria-label="{{'modal.modaler' | translate}}" (click)="dataModal()">{{ userData.username | titleCase }}</a>
             <h1 *ngIf="currentRole === 'juridical_person'">{{ userData.role.current_role.data.nimi | titleCase }}</h1>
           </div>
-          <div class="dashboard__rolechange text-right align-center">
+          <div class="dashboard__rolechange text-right">
             <a href="javascript:void(0)" attr.aria-label="{{'modal.change_role' | translate}}" (click)="changeRole()">{{ 'modal.change_role' | translate }}</a>
           </div>
         </div>

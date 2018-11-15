@@ -6,12 +6,12 @@
     @include break-on(sm, min) {margin-top:-$medium;}
   }
   &__head {display: flex; border-bottom: .0625rem solid $gray;}
-  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 0.9375rem 1.5rem; flex-basis: 50%;}
+  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%;}
   .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;cursor:pointer;color:$blue;
     .htm-icon{margin-top: 0.5rem;}
     .title {font-size: .875rem;}
-    &.active {color: $black;
-      &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: $gutter;}}
+    &.active {color: $black;pointer-events: none;cursor: initial;
+      &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: .625rem;}}
   }
   &__item {padding:$medium; border-bottom: solid 0.0625rem $gray; display:flex; flex-wrap: wrap;
     &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500;

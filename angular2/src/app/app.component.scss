@@ -8,7 +8,9 @@
 
 
 /* You can add global styles to this file, and also import other style files */
-body{margin:0; padding:0; padding-top:4rem; background: $light-gray;}
+body{margin:0; padding:0; padding-top:4rem; background: $light-gray;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
 body::-webkit-scrollbar { display: none; }
 html, body { -ms-overflow-style: none; }
 html{overflow-y:scroll;}
@@ -249,6 +251,7 @@ $grid-columns: 12;
   .cdk-overlay-pane, #cdk-overlay-0 {
     @include break-on(sm, max) {max-width: 100% !important;}
     @include break-on(sm, min) {max-width: 80vw;}
+    @include break-on(xxs, max) {min-width: 100vw;}
   }
   article{line-height:150%;}
   article a[href]{color:$blue;}
