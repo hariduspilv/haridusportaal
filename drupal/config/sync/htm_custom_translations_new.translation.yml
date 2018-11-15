@@ -906,8 +906,8 @@ event:
     en: phone
   aadress:
     translation_type: textarea
-    et: aadress
-    en: address
+    et: Aadress
+    en: Address
   webpage:
     translation_type: textarea
     et: Koduleht
@@ -2039,11 +2039,11 @@ events:
 table: {  }
 Modal: {  }
 dashboard:
-  language_school:
+  studyInstitutionType:
     translation_type: textarea
-    et: Keeltekool
-    en: 'Language school'
-  taxi_school:
+    et: 'Õppeasutuse liik'
+    en: 'Study institution type'
+  ownerType:
     translation_type: textarea
-    et: Taksokool
-    en: 'Taxi school'
+    et: 'Pidaja liik'
+    en: 'Owner type'
