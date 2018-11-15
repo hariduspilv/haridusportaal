@@ -45,6 +45,8 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	ngOnInit() {
 
+		this.unix = new Date().getTime();
+
 		let tmpDates = {};
 		if (this.content.entity.fieldEventDate && this.content.entity.fieldEventDate[0].entity.fieldEventDate) {
 			for( var i in this.content.entity.fieldEventDate ){
@@ -63,7 +65,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 			this.lang = params['lang'];
 		});
 
-		this.unix = new Date().getTime();
+		
 	}
 	ngOnDestroy() {
 		if( this.paramsSub ){
@@ -127,6 +129,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		else if( lastDate < this.unix ){
 			return 'ended';
 		}
+
 	}
 	
 }
