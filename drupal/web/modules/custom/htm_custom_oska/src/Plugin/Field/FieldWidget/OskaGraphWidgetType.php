@@ -100,6 +100,7 @@ class OskaGraphWidgetType extends WidgetBase {
                         $fields[$key] = $field;
                     }
                     if(isset($field_settings['graph_label'])){
+			$fields[$key] = $field;
                         $v_axis_options[$key] = $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString());
                     }
                 }

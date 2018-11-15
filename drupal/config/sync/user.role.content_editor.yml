@@ -59,7 +59,6 @@ permissions:
   - 'dropzone upload files'
   - 'edit any article content'
   - 'edit any audio media'
-  - 'edit any avaleht content'
   - 'edit any crop_images media'
   - 'edit any custom_crop_image_16_9 media'
   - 'edit any event content'
