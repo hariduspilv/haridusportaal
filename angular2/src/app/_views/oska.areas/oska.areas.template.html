@@ -11,6 +11,7 @@
 
         <h1>{{ data['entityLabel'] }}</h1>
         <div class="mininav flex text-right">
+          <favourites [title]="data['entityLabel']" [id]="data['nid']"></favourites>
           <share></share>
           <compare *ngIf="compareButton" [id]="data.nid" localStorageKey="oskaProfessions.compare"></compare>
           <span class="important-pill" *ngIf="data.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span> 
