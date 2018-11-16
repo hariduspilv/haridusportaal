@@ -1,0 +1,201 @@
+<?php
+
+/**
+ * @file
+ * Contains elasticsearch_connector_autocomp.module.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function elasticsearch_connector_autocomp_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the elasticsearch_connector_autocomp module.
+    case 'help.page.elasticsearch_connector_autocomp':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This module ads the ability to configure the index and fields to index ngrams, which improves autocompletion results.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function elasticsearch_connector_autocomp_form_search_api_index_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  if (!empty($form_state->get('eca_confirm_form_values'))) {
+
+    // Remove all the original form items, but keep metadata.
+    foreach (array_diff(Element::children($form), [
+      'form_id',
+      'form_token',
+      'form_build_id',
+    ]) as $key) {
+      $form[$key]['#access'] = FALSE;
+    }
+
+    $form['#title'] = t('Index deletion warning.');
+
+    $form['#attributes']['class'][] = 'confirmation';
+    $form['description'] = ['#markup' => 'You are changing the analyzer on an existing index.<br />This will result in the index being deleted and rebuilt and you will have to reindex all items. Are you sure you want to continue?'];
+
+    $form['actions'] = ['#type' => 'actions'];
+
+    $form['actions']['submit'] = [
+      '#type' => 'submit',
+      '#value' => 'Confirm',
+      '#button_type' => 'primary',
+      '#submit' => ['elasticsearch_connector_autocomp_form_search_api_index_form_submit'],
+      '#limit_validation_errors' => [[]],
+    ];
+
+    $form['actions']['cancel'] = [
+      '#type' => 'link',
+      '#title' => 'Cancel',
+      '#attributes' => ['class' => ['button']],
+      '#url' => Url::fromRoute('<current>'),
+      '#cache' => [
+        'contexts' => [
+          'url.query_args:destination',
+        ],
+      ],
+    ];
+
+    // By default, render the form using theme_confirm_form().
+    if (!isset($form['#theme'])) {
+      $form['#theme'] = 'confirm_form';
+    }
+    $form['#validate'] = [];
+    $form['#submit'] = [];
+
+    return;
+  }
+
+  $index = $form_state->getFormObject()->getEntity();
+
+  $settings = [
+    'ngram_filter_enabled' => FALSE,
+    'ngram_config' => [
+      'min_gram' => 3,
+      'max_gram' => 20,
+    ],
+  ];
+  if (!$index->isNew()) {
+    $settings = $index->getThirdPartySettings('elasticsearch_connector') + $settings;
+  }
+
+  $form['third_party_settings']['elasticsearch_connector'] = [
+    '#tree' => TRUE,
+    '#type' => 'details',
+    '#title' => t('Elasticsearch specific index options'),
+    '#collapsed' => FALSE,
+  ];
+
+  $form['third_party_settings']['elasticsearch_connector']['ngram_filter_enabled'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Enable ngram analyzer'),
+    '#description' => t("This adds both an ngram filter and a custom analyzer that uses that filter to the index's analysis settings. This really helps with autocompletion"),
+    '#default_value' => $settings['ngram_filter_enabled'],
+  ];
+
+  $form['third_party_settings']['elasticsearch_connector']['ngram_config'] = [
+    '#tree' => TRUE,
+    '#type' => 'details',
+    '#title' => t('Ngram configuration'),
+    '#collapsed' => FALSE,
+  ];
+
+  $form['third_party_settings']['elasticsearch_connector']['ngram_config']['ngram_type'] = [
+    '#type' => 'select',
+    '#title' => t('Ngram type'),
+    '#description' => t("Choose whether this analyzer is standard ngram or edge ngram."),
+    '#default_value' => isset($settings['ngram_config']['ngram_type']) ? $settings['ngram_config']['ngram_type'] : NULL,
+    '#options' => [
+      'edge_ngram' => 'Edge ngram',
+      'ngram' => 'Ngram',
+    ],
+  ];
+
+  $form['third_party_settings']['elasticsearch_connector']['ngram_config']['min_gram'] = [
+    '#title' => t('min gram'),
+    '#type' => 'textfield',
+    '#default_value' => $settings['ngram_config']['min_gram'],
+  ];
+
+  $form['third_party_settings']['elasticsearch_connector']['ngram_config']['max_gram'] = [
+    '#title' => t('max gram'),
+    '#type' => 'textfield',
+    '#default_value' => $settings['ngram_config']['max_gram'],
+  ];
+
+  // Use our submit handlers to confirm.
+  $form['actions']['submit']['#submit'] = ['elasticsearch_connector_autocomp_form_search_api_index_form_submit'];
+  $form['#submit'] = [];
+}
+
+/**
+ * Custom submit handler for search_api_index_form.
+ *
+ * @param array $form
+ *   An associative array containing the structure of the form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current state of the form.
+ */
+function elasticsearch_connector_autocomp_form_search_api_index_form_submit(array &$form, FormStateInterface $form_state) {
+  /** @var \Drupal\search_api\Form\IndexForm $formObject */
+  $formObject = $form_state->getFormObject();
+  /** @var \Drupal\search_api\IndexInterface $index */
+  $index = $formObject->getEntity();
+  $original = \Drupal::entityTypeManager()->getStorage('search_api_index')->loadUnchanged($index->id());
+  $new_state = $index->getThirdPartySetting('elasticsearch_connector', 'ngram_filter_enabled', FALSE);
+  $current_state = $original->getThirdPartySetting('elasticsearch_connector', 'ngram_filter_enabled', FALSE);
+
+  $new_state_config = $index->getThirdPartySetting('elasticsearch_connector', 'ngram_config', FALSE);
+  $current_state_config = $original->getThirdPartySetting('elasticsearch_connector','ngram_config', FALSE);
+
+  if ($form_state->has('eca_confirm_form_values') && $form_state->getValue('op') === 'Confirm') {
+    $form_state->setValues($form_state->get('eca_confirm_form_values'));
+    // Handle the actual submit.
+    $formObject->save($form, $form_state);
+    $formObject->submitForm($form, $form_state);
+    return;
+  }
+
+  if (($new_state !== $current_state) || $new_state_config !== $current_state_config) {
+    $form_state->setRebuild();
+    $form_state->set('eca_confirm_form_values', $form_state->getValues());
+    return;
+  }
+  // No confirmation required, defer to the existing submit handlers.
+  $formObject->save($form, $form_state);
+  $formObject->submitForm($form, $form_state);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function elasticsearch_connector_autocomp_form_search_api_index_fields_alter(&$form, FormStateInterface $form_state, $form_id) {
+  /** @var \Drupal\search_api\IndexInterface $index_entity */
+  $index_entity = $form_state->getFormObject()->getEntity();
+  $ngram_index_analyzer_enabled = $index_entity->getThirdPartySetting('elasticsearch_connector', 'ngram_filter_enabled', FALSE);
+
+  foreach ($form['entity:node']['fields'] as $field_id => &$field) {
+    if ($ngram_index_analyzer_enabled) {
+      // Show the boost select box if this data type is selected.
+      $field['boost']['#states']['visible'][':input[name="fields[' . $field_id . '][type]"]'][] = ['value' => 'text_ngram'];
+    }
+    else {
+      // Hide this data type if ngrams are not enabled on this index.
+      unset($field['type']['#options']['text_ngram']);
+    }
+  }
+
+}
