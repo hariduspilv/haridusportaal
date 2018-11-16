@@ -3,7 +3,7 @@ import { RootScopeService, MetaTagsService, NewsService} from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Apollo } from 'apollo-angular';
-
+import { SettingsService } from '@app/_core/settings';
 import { HttpService } from '@app/_services/httpService';
 @Component({
   templateUrl: './frontpage.component.html',
@@ -30,7 +30,8 @@ export class FrontpageComponent {
     private router: Router,
     private route: ActivatedRoute,
     private apollo: Apollo,
-    private http: HttpService
+    private http: HttpService,
+    private settings: SettingsService
   ) {
 
     this.route.params.subscribe( params => {
@@ -57,10 +58,8 @@ export class FrontpageComponent {
   }
 
   getEvents() {
-    let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=frontPageEvents:1&variables=";
-    if (window.location.host === ('test.edu.ee')) {
-      url = "https://api.test.edu.ee/graphql?queryId=frontPageEvents:1&variables=";
-    }
+    let url = this.settings.url+"/graphql?queryId=frontPageEvents:1&variables=";
+
     let date = new Date();
     var formattedDate = `${date.getFullYear()}-${date.getMonth() <= 8 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)}-${date.getDate() <= 9 ? '0' + date.getDate() : date.getDate()}`;
     let variables = {
@@ -79,10 +78,8 @@ export class FrontpageComponent {
   }
   
   getGeneral() {
-    let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=frontPageQuery:1&variables=";
-    if (window.location.host === ('test.edu.ee')) {
-      url = "https://api.test.edu.ee/graphql?queryId=frontPageQuery:1&variables=";
-    }
+    let url = this.settings.url+"/graphql?queryId=frontPageQuery:1&variables=";
+    
     let variables = {lang: this.rootScope.get('currentLang').toUpperCase()}
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
       if (data['errors'] && data['errors'].length) {

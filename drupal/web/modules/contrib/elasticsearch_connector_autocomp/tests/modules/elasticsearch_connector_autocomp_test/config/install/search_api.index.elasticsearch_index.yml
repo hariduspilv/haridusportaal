@@ -1,0 +1,34 @@
+langcode: en
+status: true
+dependencies:
+  module:
+  - elasticsearch_connector
+  - search_api
+  - node
+  config:
+  - search_api.server.test
+third_party_settings: {}
+id: elasticsearch_index
+name: 'Test index using elasticsearch module'
+description: ''
+read_only: false
+field_settings: {  }
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: true
+      selected: {  }
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: yep
