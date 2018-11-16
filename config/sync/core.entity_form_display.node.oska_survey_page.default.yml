@@ -168,7 +168,7 @@ content:
       placeholder: ''
     third_party_settings:
       maxlength:
-        maxlength_js: 50
+        maxlength_js: 100
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
   translation:
     weight: 3
