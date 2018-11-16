@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
-
+import { SettingsService } from '@app/_core/settings';
 @Component({
 	selector: 'newsletter-order',
   templateUrl: './newsletter.order.component.html',
@@ -31,12 +31,15 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
   subscribedStatus: boolean = false;
   subscribedFailure: string = "";
 
+  urlPrefix;
+
   constructor(
     private apollo: Apollo,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private settings: SettingsService
   ){}
 
   updateRSSLink() {
@@ -52,6 +55,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     
   }
   ngOnInit() {
+    this.urlPrefix = this.settings.url;
     this.initialize()
   }
 
