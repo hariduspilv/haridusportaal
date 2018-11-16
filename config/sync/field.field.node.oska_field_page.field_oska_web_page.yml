@@ -11,7 +11,7 @@ id: node.oska_field_page.field_oska_web_page
 field_name: field_oska_web_page
 entity_type: node
 bundle: oska_field_page
-label: 'Oska web page'
+label: 'OSKA valdkonna link'
 description: ''
 required: false
 translatable: true

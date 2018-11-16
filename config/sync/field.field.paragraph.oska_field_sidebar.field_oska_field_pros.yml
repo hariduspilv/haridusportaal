@@ -9,7 +9,7 @@ id: paragraph.oska_field_sidebar.field_oska_field_pros
 field_name: field_oska_field_pros
 entity_type: paragraph
 bundle: oska_field_sidebar
-label: Pros
+label: Plussid
 description: ''
 required: false
 translatable: true
