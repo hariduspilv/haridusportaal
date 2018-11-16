@@ -446,7 +446,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
                   "generalData":{  
                     "owner":"Harku vald, Tabasalu alevik, Kase tn 4 korteri\u00fchistu (80044738)",
                     "name":"Test mõõdukalt andmeid",
-                    "nameENG":null,
+                    "nameENG":"Test nameENG",
                     "ownerType":12411,
                     "ownershipType":12418,
                     "studyInstitutionType":14487,
@@ -469,12 +469,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
                     "settlementUnit":"Ahtme linnaosa (Kohtla-J\u00e4rve linn)",
                     "address":"Altserva t\u00e4nav, 44-5",
                     "addressFull":null,
-                    "addressHumanReadable":"Altserva t\u00e4nav, 44-5"
+                    "addressHumanReadable":"Kuperjanovi 7, 76902, Harku, Harjumaa"
                   },
                   "contacts":{  
                     "contactPhone":"234",
                     "contactEmail":null,
-                    "webpageAddress":"http:\/\/worst.ost"
+                    "webpageAddress":"http://www.kurekrooksujaan.ee"
                   }
               }
             },

@@ -227,9 +227,9 @@
                         <a href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
-                    <tr *ngIf="school.institutionInfo.address && school.institutionInfo.address.address">
+                    <tr *ngIf="school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable">
                       <td>{{ 'event.aadress' | translate }}</td>
-                      <td class="light">{{ school.institutionInfo.address.address }}</td>
+                      <td class="light">{{ school.institutionInfo.address.addressHumanReadable }}</td>
                       <td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail && !school.institutionInfo.contacts.webpageAddress" attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
                         <a href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
