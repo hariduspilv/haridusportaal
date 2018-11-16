@@ -24,12 +24,15 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   };
   public dummyDataVersion: string; //Delete this row after testing is done
   public startTime;
+  public acceptableFormsLimiter = ACCEPTABLE_FORMS_RESTRICTED_LENGTH;
   public lang: string;
   public pollingLoader: boolean = true;
   public data = {
+    message: null,
     acceptable_forms: [],
     documents: [],
-    drafts: []
+    drafts: [],
+    educationalInstitutions: []
   };
   public request_iterator;
   public request_iterator_timeout = 2000;
@@ -38,9 +41,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
 
   public acceptable_forms_list = [];
   public acceptable_forms_list_restricted: boolean = true;
-  public tableOverflown: any = {0: false, 1: false};
-  public elemAtStart: any = {0: true, 1: true};
-  public initialized: any = {0: false, 1: false};
+  public tableOverflown: any = [{0: false, 1: false}];
+  public elemAtStart: any = [{0: true, 1: true}];
+  public initialized: any = [{0: false, 1: false}];
   private subscriptions: Subscription[] = [];
 
 
@@ -131,16 +134,414 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     let request_boolean = this.loading['initial'] === true ? 1 : 0;
    
     let subscription = this.http.get('/dashboard/applications/'+ request_boolean +'?_format=json').subscribe(response => {
-
-      if(this.loading.initial === true) this.loading.initial = false;
-      
-      this.data.acceptable_forms = response['acceptable_forms'] || [];
-  
-      this.data.drafts = response['drafts'] || [];
-    
-      this.data.documents = response['documents'] || [];
       
       /* DUMMY DATA */
+      let juridicalDummyData = {
+        "1": {
+          "message": "Siin on mingi info teavitus, võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk",
+          "ownerid":"80044738",
+          "educationalInstitutions":[  
+            {  
+              "id":1039,
+              "message":"Aruanne esitamata!",
+              "documents":[  
+                  {  
+                    "form_name":"MTSYS_MAJANDUSTEGEVUSE_TEADE",
+                    "id":223489,
+                    "document_date":"27.03.2017",
+                    "status":"Esitatud",
+                    "description":"T\u00e4iskasvanuhariduse majandustegevusteade number 177137 kehtivusega alates 27.03.2017 kuni null",
+                    "title":{  
+                        "et":"Puudub",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_MAJANDUSTEGEVUSE_TEADE",
+                    "id":223489,
+                    "document_date":"29.09.2018",
+                    "status":"Esitatud",
+                    "description":"T\u00e4iskasvanuhariduse majandustegevusteade number 177137 kehtivusega alates 27.03.2017 kuni null",
+                    "title":{  
+                        "et":"Puudub",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_TEGEVUSLUBA",
+                    "id":191361,
+                    "document_date":null,
+                    "status":"Sisestamisel",
+                    "description":"Eesti keele tasemeeksami koolituse tegevusluba number null kehtivusega alates null kuni null",
+                    "title":{  
+                        "et":"Puudub",
+                        "en":"Not Found"
+                    }
+                  }
+              ],
+              "drafts":[  
+                  {  
+                    "form_name":"MTSYS_TEGEVUSNAITAJAD",
+                    "id":1,
+                    "description":2016,
+                    "document_date": "17.09.2016",
+                    "title":{  
+                        "et":"SIIA NIMI YO",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_TEGEVUSNAITAJAD",
+                    "id":1,
+                    "description":2016,
+                    "document_date": "20.09.2016",
+                    "title":{  
+                        "et":"Nimi",
+                        "en":"Not Found"
+                    }
+                  }
+              ],
+              "acceptable_forms":[  
+                  {  
+                    "form_name":"MTSYS_TEGEVUSLUBA_TAOTLUS",
+                    "title":{  
+                        "et":"231",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_TEGEVUSLUBA_TAOTLUS",
+                    "title":{  
+                        "et":"Tiitel",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_TEGEVUSLUBA_TAOTLUS",
+                    "title":{  
+                        "et":"Yolo",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_MAJANDUSTEGEVUSE_TEADE",
+                    "title":{  
+                        "et":"abc",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_TEGEVUSNAITAJAD",
+                    "description": "`2017 Kirjeldus`",
+                    "title":{  
+                        "et":"Nimi",
+                        "en":"Not Found"
+                    }
+                  }
+              ],
+              "institutionInfo":{  
+                  "generalData":{  
+                    "owner":"Harku vald, Tabasalu alevik, Kase tn 4 korteri\u00fchistu (80044738)",
+                    "name":"Test-huvialakool",
+                    "nameENG":null,
+                    "ownerType":12411,
+                    "ownershipType":12418,
+                    "studyInstitutionType":14487,
+                    "ownerTypeType":{  
+                        "et":"\u00e4ri\u00fching",
+                        "valid":true
+                    },
+                    "ownershipTypeType":{  
+                        "et":"eraomand",
+                        "valid":true
+                    },
+                    "studyInstitutionTypeType":{  
+                        "et":"Puudub",
+                        "valid":false
+                    }
+                  },
+                  "address":{  
+                    "seqNo":0,
+                    "adsId":2782761,
+                    "adsOid":"ER01366222",
+                    "klElukoht":18656,
+                    "county":"Ida-Viru maakond",
+                    "localGovernment":"Kohtla-J\u00e4rve linn (Ida-Viru maakond)",
+                    "settlementUnit":"Ahtme linnaosa (Kohtla-J\u00e4rve linn)",
+                    "address":"Altserva t\u00e4nav, 44-5",
+                    "addressFull":null,
+                    "addressHumanReadable":"Altserva t\u00e4nav, 44-5"
+                  },
+                  "contacts":{  
+                    "contactPhone":"234",
+                    "contactEmail":null,
+                    "webpageAddress":"http:\/\/worst.ost"
+                  }
+              }
+            },
+            {  
+              "id":38842,
+              "message":null,
+              "documents":[],
+              "drafts":[],
+              "acceptable_forms":[  
+                 {  
+                    "form_name":"MTSYS_TEGEVUSLUBA_TAOTLUS",
+                    "title":{  
+                       "et":"Puudub",
+                       "en":"Not Found"
+                    }
+                 },
+                 {  
+                    "form_name":"MTSYS_MAJANDUSTEGEVUSE_TEADE",
+                    "title":{  
+                       "et":"Puudub",
+                       "en":"Not Found"
+                    }
+                 }
+              ],
+              "institutionInfo":{  
+                 "generalData":{  
+                    "owner":"Advokaadib\u00fcroo SORAINEN AS (10876331)",
+                    "name":"O\u00dc Autos\u00f5it CUSTOM",
+                    "nameENG":"eng nimi",
+                    "ownerType":12411,
+                    "ownershipType":12418,
+                    "studyInstitutionType":15666,
+                    "ownerTypeType":{  
+                       "et":"\u00e4ri\u00fching",
+                       "valid":true
+                    },
+                    "ownershipTypeType":{  
+                       "et":"eraomand",
+                       "valid":true
+                    },
+                    "studyInstitutionTypeType":{  
+                       "et":"t\u00e4ienduskoolitusasutus",
+                       "valid":true
+                    }
+                 },
+                 "address":{  
+                    "seqNo":0,
+                    "adsId":3032805,
+                    "adsOid":"CU01873875",
+                    "klElukoht":22129,
+                    "county":"Tartu maakond",
+                    "localGovernment":"Tartu linn (Tartu maakond)",
+                    "settlementUnit":"Tartu linn (Tartu linn)",
+                    "address":"null",
+                    "addressFull":null,
+                    "addressHumanReadable":"null"
+                 },
+                 "contacts":{  
+                    "contactPhone":null,
+                    "contactEmail":"email@gmail.com",
+                    "webpageAddress":null
+                 }
+              }
+            }
+          ]
+        },        
+        "2": {
+          "message": null,
+          "ownerid":"80044738",
+          "educationalInstitutions":[  
+            {  
+              "id":38842,
+              "message": "Tekst siiiiia",
+              "documents":[],
+              "drafts":[],
+              "acceptable_forms":[],
+              "institutionInfo":{  
+                 "generalData":{  
+                    "owner":"Advokaadib\u00fcroo SORAINEN AS (10876331)",
+                    "name":"O\u00dc Autos\u00f5it CUSTOM",
+                    "nameENG":"eng nimi"
+                 },
+                 "address":{  
+                    "seqNo":0,
+                    "adsId":3032805,
+                    "adsOid":"CU01873875",
+                    "klElukoht":22129,
+                    "county":"Tartu maakond",
+                    "localGovernment":"Tartu linn (Tartu maakond)",
+                    "settlementUnit":"Tartu linn (Tartu linn)",
+                    "address":null,
+                    "addressFull":null,
+                    "addressHumanReadable":"null"
+                 },
+                 "contacts":{  
+                    "contactPhone":"51515151"
+                 }
+              }
+            }
+          ]
+        },
+        "3": {
+          "message": "Siin on mingi info teavitus, võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk võib olla pikk",
+          "ownerid":"80044738",
+          "educationalInstitutions":[  
+            {  
+              "id":1039,
+              "message":"Aruanne esitamata!",
+              "documents":[  
+                  {  
+                    "form_name":"MTSYS_MAJANDUSTEGEVUSE_TEADE",
+                    "id":223489,
+                    "document_date":"27.03.2017",
+                    "status":"Esitatud",
+                    "description":"T\u00e4iskasvanuhariduse majandustegevusteade number 177137 kehtivusega alates 27.03.2017 kuni null",
+                    "title":{  
+                        "et":"Puudub",
+                        "en":"Not Found"
+                    }
+                  }
+              ],
+              "drafts":[  
+                  {  
+                    "form_name":"MTSYS_TEGEVUSNAITAJAD",
+                    "id":1,
+                    "description":2016,
+                    "document_date": "17.09.2016",
+                    "title":{  
+                        "et":"SIIA NIMI YO",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_TEGEVUSNAITAJAD",
+                    "id":1,
+                    "description":2016,
+                    "document_date": "20.09.2016",
+                    "title":{  
+                        "et":"Nimi",
+                        "en":"Not Found"
+                    }
+                  }
+              ],
+              "acceptable_forms":[  
+                  {  
+                    "form_name":"MTSYS_TEGEVUSLUBA_TAOTLUS",
+                    "title":{  
+                        "et":"231",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_TEGEVUSLUBA_TAOTLUS",
+                    "title":{  
+                        "et":"Tiitel",
+                        "en":"Not Found"
+                    }
+                  },
+                  {  
+                    "form_name":"MTSYS_TEGEVUSLUBA_TAOTLUS",
+                    "title":{  
+                        "et":"Yolo",
+                        "en":"Not Found"
+                    }
+                  }
+              ],
+              "institutionInfo":{  
+                  "generalData":{  
+                    "owner":"Harku vald, Tabasalu alevik, Kase tn 4 korteri\u00fchistu (80044738)",
+                    "name":"Test mõõdukalt andmeid",
+                    "nameENG":null,
+                    "ownerType":12411,
+                    "ownershipType":12418,
+                    "studyInstitutionType":14487,
+                    "ownerTypeType":{  
+                        "et":"\u00e4ri\u00fching",
+                        "valid":true
+                    },
+                    "studyInstitutionTypeType":{  
+                        "et":"Puudub",
+                        "valid":false
+                    }
+                  },
+                  "address":{  
+                    "seqNo":0,
+                    "adsId":2782761,
+                    "adsOid":"ER01366222",
+                    "klElukoht":18656,
+                    "county":"Ida-Viru maakond",
+                    "localGovernment":"Kohtla-J\u00e4rve linn (Ida-Viru maakond)",
+                    "settlementUnit":"Ahtme linnaosa (Kohtla-J\u00e4rve linn)",
+                    "address":"Altserva t\u00e4nav, 44-5",
+                    "addressFull":null,
+                    "addressHumanReadable":"Altserva t\u00e4nav, 44-5"
+                  },
+                  "contacts":{  
+                    "contactPhone":"234",
+                    "contactEmail":null,
+                    "webpageAddress":"http:\/\/worst.ost"
+                  }
+              }
+            },
+            {  
+              "id":38842,
+              "message":null,
+              "documents":[],
+              "drafts":[],
+              "acceptable_forms":[  
+                 {  
+                    "form_name":"MTSYS_TEGEVUSLUBA_TAOTLUS",
+                    "title":{  
+                       "et":"Puudub",
+                       "en":"Not Found"
+                    }
+                 },
+                 {  
+                    "form_name":"MTSYS_MAJANDUSTEGEVUSE_TEADE",
+                    "title":{  
+                       "et":"Puudub",
+                       "en":"Not Found"
+                    }
+                 }
+              ],
+              "institutionInfo":{  
+                 "generalData":{  
+                    "owner":"Advokaadib\u00fcroo SORAINEN AS (10876331)",
+                    "name": "HoHo",
+                    "nameENG":"HoToTheHo",
+                    "ownerType":12411,
+                    "ownershipType":null,
+                    "studyInstitutionType":15666,
+                    "ownerTypeType":{  
+                       "et":"\u00e4ri\u00fching",
+                       "valid":true
+                    },
+                    "ownershipTypeType":{  
+                       "et":"eraomand",
+                       "valid":true
+                    },
+                    "studyInstitutionTypeType":{  
+                       "et":"t\u00e4ienduskoolitusasutus",
+                       "valid":true
+                    }
+                 },
+                 "address":{  
+                    "seqNo":0,
+                    "adsId":3032805,
+                    "adsOid":"CU01873875",
+                    "klElukoht":22129,
+                    "county":"Tartu maakond",
+                    "localGovernment":"Tartu linn (Tartu maakond)",
+                    "settlementUnit":"Tartu linn (Tartu linn)",
+                    "address":"null",
+                    "addressFull":null,
+                    "addressHumanReadable":"null"
+                 },
+                 "contacts":{  
+                    "contactPhone":"51515151",
+                    "contactEmail":"email@gmail.com",
+                    "webpageAddress":"http://www.weeb.ee"
+                 }
+              }
+            }
+          ]
+        }          
+      }
       let dummyData = {
         "1": {
           acceptable_forms: [
@@ -272,18 +673,32 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
           ]
         }
       }
-      this.data.acceptable_forms = dummyData[this.dummyDataVersion].acceptable_forms
-      this.data.drafts = dummyData[this.dummyDataVersion].drafts
-      this.data.documents = dummyData[this.dummyDataVersion].documents
-
+      if(this.loading.initial === true) {
+        if (this.currentRole === 'natural_person') {
+          this.data.acceptable_forms = dummyData[this.dummyDataVersion].acceptable_forms || response['acceptable_forms'];
+          this.data.drafts = dummyData[this.dummyDataVersion].drafts || response['drafts'];
+          this.data.documents = dummyData[this.dummyDataVersion].documents || response['documents'];
+        } else {
+          // this.data.educationalInstitutions = response['educationalInstitutions'] && response['educationalInstitutions'].length
+          //   ? response['educationalInstitutions'] : juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
+          // this.data.message = response['message'] || juridicalDummyData[this.dummyDataVersion].message;
+          this.data.educationalInstitutions = juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
+          this.data.message = juridicalDummyData[this.dummyDataVersion].message || response['message'];
+          this.data.educationalInstitutions.forEach((elem, index) => {
+            this.tableOverflown[index] = {0: false, 1: false, 2: false};
+            this.elemAtStart[index] = {0: true, 1: true, 2: true};
+            this.initialized[index] = {0: false, 1: false, 2: false};
+          })
+        }
+        this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
+        this.data.drafts = this.sortList(this.data.drafts, 'title');
+        this.data.documents = this.sortList(this.data.documents, 'date');
+        
+        this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms);
+      }
       /* END OF DUMMY DATA */
       
-      this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
-      this.data.drafts = this.sortList(this.data.drafts, 'title');
-      this.data.documents = this.sortList(this.data.documents, 'date');
-      
-      this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms);
-
+      if(this.loading.initial === true) this.loading.initial = false;
       subscription.unsubscribe();
 
       if((Date.now() - this.startTime)/1000 < REQUEST_ITERATOR_LIFETIME ){
@@ -303,9 +718,18 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   initialTableCheck(id, index) {
     const element = document.getElementById(id);
     if (element) {
-      this.tableOverflown[index] = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-      this.initialized[index] = true;
+      this.tableOverflown[0][index] = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.initialized[0][index] = true;
     }
+  }
+
+  institutionInfoFieldSum(school) {
+    let counter = 0;
+    if (school.institutionInfo.contacts.contactEmail) counter++;
+    if (school.institutionInfo.contacts.contactPhone) counter++;
+    if (school.institutionInfo.contacts.webpageAddress) counter++; 
+    if (school.institutionInfo.address.address) counter++;
+    return counter;
   }
 
   ngOnInit(){
@@ -321,6 +745,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   ngAfterViewChecked() {
     this.initialTableCheck('table_0', 0);
     this.initialTableCheck('table_1', 1);
+    this.initialTableCheck('juridicalFirst_0', 0);
+    this.initialTableCheck('juridicalSecond_0', 1);
+    this.initialTableCheck('juridicalThird_0', 2);
   }
 
   ngOnDestroy(){

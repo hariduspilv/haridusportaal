@@ -100,17 +100,23 @@ class OskaGraphWidgetType extends WidgetBase {
                         $fields[$key] = $field;
                     }
                     if(isset($field_settings['graph_label'])){
+                        $fields[$key] = $field;
                         $v_axis_options[$key] = $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString());
                     }
                 }
 
-                if($graph_set === 'simple' || $graph_set === 'combo'){
+                if($graph_set === 'simple'){
                     $graph_type_options = array(
                         'line' => $this->t('line'),
                         'bar' => $this->t('bar'),
                         'column' => $this->t('column'),
                         'pie' => $this->t('pie'),
                         'doughnut' => $this->t('doughnut')
+                    );
+                }elseif($graph_set === 'combo'){
+                    $graph_type_options = array(
+                        'line' => $this->t('line'),
+                        'bar' => $this->t('bar')
                     );
                 }else{
                     $graph_type_options = array(
@@ -361,6 +367,9 @@ class OskaGraphWidgetType extends WidgetBase {
             if($element['#value'] == ''){
                 $form_state->setError($element, t('Chart v-axis is missing'));
             }
+        }
+        if($chart_values['oska_indicator'] == NULL) {
+            $form_state->setError($element, t('Chart indicator is missing'));
         }
     }
 }
