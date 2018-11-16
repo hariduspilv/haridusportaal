@@ -9,7 +9,7 @@ id: node.oska_field_page.field_introduction
 field_name: field_introduction
 entity_type: node
 bundle: oska_field_page
-label: Introduction
+label: Sissejuhatus
 description: ''
 required: false
 translatable: true
