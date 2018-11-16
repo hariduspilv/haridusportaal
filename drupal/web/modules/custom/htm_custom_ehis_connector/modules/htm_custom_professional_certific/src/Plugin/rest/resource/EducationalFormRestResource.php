@@ -108,19 +108,24 @@ class EducationalFormRestResource extends ResourceBase {
 	  if (!$this->currentUser->hasPermission('access content')) {
 		  throw new AccessDeniedHttpException();
 	  }
+
+		$validation = $this->validateData2($action, $data);
+
 	  switch ($action){
 		  case 'add':
-		  	if($this->validateData($data)){
+		  	if($validation[0]){
 					$response = $this->ehisConnector->addInstitution(['data' => $data]);
-					#dump($response);
 				  return new ModifiedResourceResponse($response);
+			  }else{
+		  		return new ModifiedResourceResponse($validation[1] . " missing from body", 400);
 			  }
 				break;
 		  case 'edit':
-			  if($this->validateData($data) && isset($data['edId'])){
+			  if($validation[0]){
 			  	$response = $this->ehisConnector->editInstitution(['data' => $data]);
-			  	#dump($response);
 				  return new ModifiedResourceResponse($response);
+			  }else{
+				  return new ModifiedResourceResponse($validation[1] . " missing from body", 400);
 			  }
 		  	break;
 	  }
@@ -128,31 +133,58 @@ class EducationalFormRestResource extends ResourceBase {
   	return new ModifiedResourceResponse('Wrong action or missing some keys', 400);
   }
 
-  private function dataArrayKeys($array){
-	  $keys = array_keys($array);
-	  foreach ($array as $i)
-		  if (is_array($i))
-			  $keys = array_merge($keys, $this->dataArrayKeys($i));
-
-	  return $keys;
-  }
-
-  private function validateData($data){
-  	$required_keys = [
-  		#'generalData',
-      #'name',
-		  #'ownerType',
-		  #'ownershipType',
-		  #'studyInstitutionType'
+  private function validateData2($action, $data){
+	  $required_add_keys = [
+		  'general' => [
+		  	'name' => '',
+		    'ownerType' => '',
+		    'ownershipType' => '',
+		    'studyInstitutionType' => '',
+		  ]
 	  ];
+	  $required_keys = [
+		  'address' => [
+			  'seqNo' =>  0,
+				'adsId' => 0,
+				'adsOid' =>  '',
+				'klElukoht' => '',
+				'county' =>  '',
+				'localGovernment' =>  '',
+				'settlementUnit' =>  '',
+				'address' =>  '',
+				'addressFull' =>  '',
+				'addressHumanReadable' =>  ''
+		  ],
+		  'contacts' => [
+		  	'contactPhone' => '',
+			  'contactEmail' => '',
+			  'webpageAddress' => '',
+		  ]
+	  ];
+	  if($action === 'add') $required_keys = array_merge($required_keys, $required_add_keys);
 
-	  $data_keys = array_flip($this->dataArrayKeys($data));
+	  $d = $this->validateAgainstSchema($required_keys, $data );
 
-  	foreach($required_keys as $required_key){
-  		if(!isset($data_keys[$required_key])){
-  			return false;
-		  }
-	  }
-	  return true;
+	  return $d;
+
   }
+
+	private function validateAgainstSchema(array $schema, $data) {
+		$valid = true;
+		$path = "";
+
+		foreach($schema as $schema_key => $schema_value){
+			$valid = isset($data[$schema_key]);
+			$path = $schema_key;
+			if(is_array($schema_value) && $valid){
+				list($valid, $index)  = $this->validateAgainstSchema($schema_value, $data[$schema_key]);
+				$path .= ".$index";
+			}
+
+			if(!$valid) break;
+		}
+
+		return [ $valid, $valid ? "" : $path ];
+	}
+
 }

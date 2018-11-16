@@ -1,0 +1,13 @@
+langcode: en
+status: '1'
+dependencies: {  }
+cluster_id: test
+name: yep
+url: 'http://elasticsearch:9200'
+options:
+  multiple_nodes_connection: false
+  use_authentication: 0
+  authentication_type: Basic
+  username: ''
+  password: ''
+  timeout: '3'

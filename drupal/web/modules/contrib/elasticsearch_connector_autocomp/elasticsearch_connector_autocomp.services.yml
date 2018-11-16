@@ -1,0 +1,6 @@
+services:
+  elasticsearch_connector_autocomp.default:
+    class: Drupal\elasticsearch_connector_autocomp\EventSubscriber\DefaultSubscriber
+    arguments: ['@entity_type.manager', '@database']
+    tags:
+      - { name: event_subscriber }

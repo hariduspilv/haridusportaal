@@ -1,0 +1,6 @@
+name: Elastic search connector autocomplete test
+description: 'Provides test configuration for the module'
+core: 8.x
+type: module
+dependencies:
+  - elasticsearch_connector_autocomp

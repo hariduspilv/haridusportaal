@@ -1,0 +1,9 @@
+name: 'Elasticsearch Connector Autocomplete'
+type: module
+description: 'This module ads the ability to configure the index and fields to index ngrams, which improves autcompletion results.'
+core: 8.x
+package: 'Custom'
+dependencies:
+  - elasticsearch_connector
+  - search_api
+  - search_api_autocomplete
