@@ -324,7 +324,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(!list) {
       return '*/*';
     } else {
-      return list.map(extentsion => '.'+ extentsion).join(',')
+      return list.map(extentsion => '.'+ extentsion).join(',') 
+    }
+  }
+
+  displayAcceptableExtentsions(list: string[]) {
+    if(!list) {
+      return this.translate.get('button.all')['value'] || '';
+    } else {
+      return list.map(extentsion => ' '+ extentsion).join();
     }
   }
   
