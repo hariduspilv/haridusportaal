@@ -3,6 +3,7 @@ import { RootScopeService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
 import { Subscription } from 'rxjs/Subscription';
+import { SettingsService } from '@app/_core/settings';
 @Component({
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
@@ -54,7 +55,8 @@ export class SearchComponent {
     private rootScope:RootScopeService,
     private router: Router,
     private route: ActivatedRoute,
-    private http: HttpService
+    private http: HttpService,
+    private settings: SettingsService
   ) {}
 
   ngOnInit() {
@@ -105,10 +107,7 @@ export class SearchComponent {
     this.loading = true;
     this.listLimit = this.listStep;
     this.updateParams('term', term);
-    let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=homeSearch:1&variables=";
-    if (window.location.host === ('test.edu.ee')) {
-      url = "https://apitest.hp.edu.ee/graphql?queryId=homeSearch:1&variables=";
-    }
+    let url = this.settings.url+"/graphql?queryId=homeSearch:1&variables=";
 
     let variables = {
       lang: this.rootScope.get('currentLang').toUpperCase(),
