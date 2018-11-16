@@ -1,0 +1,14 @@
+{
+  "name": "drupal/elasticsearch_connector_autocomp",
+  "type": "drupal-module",
+  "description": "This module ads the ability to configure the index and fields to index ngrams, which improves autcompletion results.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/elasticsearch_connector_autocomp",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/elasticsearch_connector_autocomp",
+    "source": "http://cgit.drupalcode.org/elasticsearch_connector_autocomp"
+  },
+  "require": { }
+}
