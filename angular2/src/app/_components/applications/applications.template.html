@@ -227,9 +227,9 @@
                         <a href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
-                    <tr *ngIf="school.institutionInfo.address && school.institutionInfo.address.address">
+                    <tr *ngIf="school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable">
                       <td>{{ 'event.aadress' | translate }}</td>
-                      <td class="light">{{ school.institutionInfo.address.address }}</td>
+                      <td class="light">{{ school.institutionInfo.address.addressHumanReadable }}</td>
                       <td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail && !school.institutionInfo.contacts.webpageAddress" attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
                         <a href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
@@ -292,7 +292,6 @@
               <thead>
                 <tr>
                   <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
-                <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -379,12 +378,11 @@
                       <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
                       <th>{{ 'frontpage.dashboard_tabs_applications_document_date' | translate }}</th>
                       <th>{{ 'frontpage.dashboard_tabs_applications_document_status' | translate }}</th>
-                      <th></th>
                     </tr>
                   </thead> 
                   <tbody>
                     <tr>
-                      <td class="text-center font-normal" colspan="4">{{ 'frontpage.dashboard_tabs_applications_documents_notfound' | translate }}</td>
+                      <td class="text-center font-normal" colspan="3">{{ 'frontpage.dashboard_tabs_applications_documents_notfound' | translate }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -418,7 +416,7 @@
                     </tr>
                   </thead> 
                   <tbody>
-                    <ng-container *ngFor="let form of sortList(school.documents, 'date')">
+                    <ng-container *ngFor="let form of school.documents">
                       <tr [class.description]="form.description" >
                         <td><ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}</ng-container></td>
                         <td><span *ngIf="form.document_date">{{ form.document_date }}</span></td>
