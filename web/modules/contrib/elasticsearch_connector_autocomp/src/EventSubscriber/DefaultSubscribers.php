@@ -130,7 +130,7 @@ EOF;
       $indexConfig['body'] = array_merge($indexConfig['body'], $body);
     }
 
-      #testing new settings
+      #tetsing new settings
       $indexConfig['body']['settings']['analysis']['filter'] = [
           'edge_ngram' => [
               'type' => 'edgeNGram',
