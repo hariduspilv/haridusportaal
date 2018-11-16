@@ -725,10 +725,10 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
 
   institutionInfoFieldSum(school) {
     let counter = 0;
-    if (school.institutionInfo.contacts.contactEmail) counter++;
-    if (school.institutionInfo.contacts.contactPhone) counter++;
-    if (school.institutionInfo.contacts.webpageAddress) counter++; 
-    if (school.institutionInfo.address.address) counter++;
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail) counter++;
+    if (school.institutionInfo.contacts &&school.institutionInfo.contacts.contactPhone) counter++;
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress) counter++; 
+    if (school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable) counter++;
     return counter;
   }
 
