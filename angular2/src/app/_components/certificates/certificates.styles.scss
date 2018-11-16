@@ -49,8 +49,13 @@ h4.title-lg-padding { margin-bottom: 1rem; }
   .accordion {padding: 0; padding-top: $large;   
     @include break-on(sm, max) { margin: 0 -1.5rem; }
   }
-  .dashboard-table td {
-    color: $black;
+  .dashboard-table {
+    td {color: $black;}
+    &.highCells { 
+      td, th {
+        line-height: 1.375rem;
+      }
+    }
   }
   .section--header {margin-bottom: 1rem;
     @include break-on(sm, max) {margin: 0 1.5rem 1rem;}
@@ -126,5 +131,10 @@ table p { margin: 0; font-weight: 400; }
 .description { border-top: 0.125rem $dark-gray solid;
   &-bottom { border-bottom: 0.125rem $dark-gray solid; }
 }
-
+.scrollableTable td.text-center {text-align: center;}
+.NOTICE {margin: 1rem 0 0;
+  &.no-top {margin-top: 0;}
+  &.md-top {margin-top: 1.5rem;}
+  &.lg-top {margin-top: 2rem;}
+}
 .font-normal { font-weight: 400!important; }

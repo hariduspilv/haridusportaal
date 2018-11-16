@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
       (params: ActivatedRoute) => {
           //console.log('ROUTE PARAM CHANGED');
           this.lang = params['lang'];
-          this.path = this.router.url;
+          this.path = this.router.url.split('?')[0];
           this.setPaths();       
       }
     );
@@ -64,7 +64,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     let endpoint = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         //console.log('ROUTE CHANGED');
-        this.path = this.router.url;
+        this.path = this.router.url.split('?')[0];
         this.setPaths();
       }
     });
@@ -97,9 +97,9 @@ export class DashboardComponent implements OnInit, OnDestroy{
       this.dialog.afterAllClosed.subscribe(result => {
         if (this.rootScope.get('roleChanged')) {
           this.rootScope.set('roleChanged', false);
-          let current = this.router.url;
+          let paths = { 'et': '/et/toolaud/taotlused', 'en': '/en/dashboard/applications' };
           this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
-            this.router.navigateByUrl(current);
+            this.router.navigateByUrl(paths[this.lang]);
           });
         }
       });

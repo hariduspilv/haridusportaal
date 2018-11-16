@@ -201,7 +201,13 @@ $grid-columns: 12;
         &.lastRow {border-bottom: .0625rem solid $gray;}
       }
       &.nonBreakable {white-space: nowrap;}
-      &.light {font-weight: 400;}
+      &.light {font-weight: 400;
+        &.underlineHover {
+          a {text-decoration: none;
+            &:hover {text-decoration: underline;}
+          }
+        }
+      }
       &.extraHeight {height: 1.5rem;}
     }
     td.extraHeight {font-weight: 400;}
