@@ -107,7 +107,7 @@ export class SearchComponent {
     this.updateParams('term', term);
     let url = "http://test-htm.wiseman.ee:30000/graphql?queryId=homeSearch:1&variables=";
     if (window.location.host === ('test.edu.ee')) {
-      url = "https://api.test.edu.ee/graphql?queryId=homeSearch:1&variables=";
+      url = "https://apitest.hp.edu.ee/graphql?queryId=homeSearch:1&variables=";
     }
 
     let variables = {
