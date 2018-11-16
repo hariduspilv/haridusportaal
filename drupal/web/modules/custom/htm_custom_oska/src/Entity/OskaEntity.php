@@ -311,7 +311,7 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
           ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
       $fields['oska_label'] = BaseFieldDefinition::create('string')
-          ->setLabel(t('Label'))
+          ->setLabel(t('OSKA Label'))
           ->setSettings([
               'max_length' => 50,
               'text_processing' => 0,
