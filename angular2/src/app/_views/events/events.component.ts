@@ -47,7 +47,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   view: string;
   calendarDays: any;
   loadingCalendar: boolean = false;
-  calendarDataEntries: Number;
+  calendarDataEntries: any;
   eventsTags: any;
   eventsTagsObs: any;
 
@@ -94,7 +94,11 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   params: any;
   
 
-  togglePopup(i) {this.morePopup = null;this.popup = i;}
+  togglePopup(i) {
+    if( this.popup == i ){ this.popup = null; return false;}
+    this.morePopup = null;
+    this.popup = i;
+  }
   closePopup() {this.popup = null;}
   toggleMore(day) {this.popup = null;this.morePopup = day;}
   closeMore() {this.morePopup = null;}
@@ -297,6 +301,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.eventList = false;
       this.listEnd = false;
       this.status = false;
+      this.filterRetrieveParams(params);
       this.generateCalendar();
       this.getData();
       
@@ -520,6 +525,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         // GET LIST OBSERVABLE
         let url = "/graphql?queryId=getEventList:1&variables=";
         let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
+
+        this.calendarDataEntries = "none";
 
         let dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
 
