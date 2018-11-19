@@ -9,7 +9,7 @@ id: paragraph.oska_field_sidebar.field_oska_field_cons
 field_name: field_oska_field_cons
 entity_type: paragraph
 bundle: oska_field_sidebar
-label: Cons
+label: Miinused
 description: ''
 required: false
 translatable: true

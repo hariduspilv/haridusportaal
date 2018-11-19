@@ -11,7 +11,7 @@ id: node.oska_result_page.field_result_page_files
 field_name: field_result_page_files
 entity_type: node
 bundle: oska_result_page
-label: Failid
+label: 'OSKA tulemused fail'
 description: ''
 required: false
 translatable: true
