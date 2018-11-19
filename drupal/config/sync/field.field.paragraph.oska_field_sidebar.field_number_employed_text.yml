@@ -9,7 +9,7 @@ id: paragraph.oska_field_sidebar.field_number_employed_text
 field_name: field_number_employed_text
 entity_type: paragraph
 bundle: oska_field_sidebar
-label: 'Number employed text'
+label: 'Hõivatute arvu tekst'
 description: ''
 required: false
 translatable: true
