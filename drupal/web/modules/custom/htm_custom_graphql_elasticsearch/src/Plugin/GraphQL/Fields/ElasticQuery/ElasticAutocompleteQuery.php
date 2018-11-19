@@ -172,23 +172,31 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     }
 
     protected function getAutocompleteCandidates($item, $key){
-        $regex = '#<highl>(.*?)</highl>#';
-        $code = preg_match($regex, $item, $matches);
+        $regex = '/<highl>(.*?)<\/highl>/';
+        preg_match_all($regex, $item, $matches);
         $item = explode(" ",$item);
-        $array_location = array_search($matches[0], $item);
-
-        #clean array of unwanted values
-        foreach($item as $key => $value){
-            if($key < $array_location-1 || $key > $array_location+1){
-                unset($item[$key]);
-            }
+        foreach($matches[0] as $match){
+            $array_locations[] = array_search($match, $item);
         }
-        $item[$array_location] = $matches[1];
 
-        $item = implode(" ", $item);
+        #add locations of surrounding words to autocomplete
+        foreach($array_locations as $location){
+            $location > 0 && !in_array($location-1, $array_locations) ? $array_locations[] = $location-1 : null;
+            !in_array($location+1, $array_locations) ? $array_locations[] = $location+1 : null;
+        }
 
-        if(!in_array($item, $this->autocomplete_values)){
-            $this->autocomplete_values[] = $item;
+        #sort the array so the order won't get mixed up
+        asort($array_locations);
+
+        #clean values for output and extract only values, that are needed for output
+        foreach($array_locations as $location){
+            $autocomplete_value_items[] = strip_tags($item[$location]);
+        }
+
+        $autocomplete_value = implode(" ", $autocomplete_value_items);
+
+        if(!in_array($autocomplete_value, $this->autocomplete_values)){
+            $this->autocomplete_values[] = $autocomplete_value;
         }
     }
 
