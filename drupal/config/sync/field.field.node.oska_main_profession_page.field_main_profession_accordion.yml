@@ -12,7 +12,7 @@ id: node.oska_main_profession_page.field_main_profession_accordion
 field_name: field_main_profession_accordion
 entity_type: node
 bundle: oska_main_profession_page
-label: 'Main Profession Accordion'
+label: Akordion
 description: ''
 required: false
 translatable: false
@@ -57,5 +57,20 @@ settings:
         enabled: false
       school_location:
         weight: 22
+        enabled: false
+      iscedf_search:
+        weight: 23
+        enabled: false
+      job:
+        weight: 24
+        enabled: false
+      main_profession_sidebar:
+        weight: 27
+        enabled: false
+      oska_field_sidebar:
+        weight: 28
+        enabled: false
+      survey_page_accordion:
+        weight: 32
         enabled: false
 field_type: entity_reference_revisions
