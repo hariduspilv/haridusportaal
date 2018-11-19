@@ -18,7 +18,7 @@ id: node.oska_result_page.field_result_page_picture
 field_name: field_result_page_picture
 entity_type: node
 bundle: oska_result_page
-label: Pilt
+label: 'OSKA tulemused pilt'
 description: ''
 required: false
 translatable: true

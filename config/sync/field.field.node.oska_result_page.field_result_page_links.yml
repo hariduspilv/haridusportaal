@@ -11,7 +11,7 @@ id: node.oska_result_page.field_result_page_links
 field_name: field_result_page_links
 entity_type: node
 bundle: oska_result_page
-label: Lingid
+label: 'OSKA tulemused link'
 description: ''
 required: false
 translatable: true
