@@ -18,7 +18,7 @@ id: node.oska_survey_page.field_survey_page_picture
 field_name: field_survey_page_picture
 entity_type: node
 bundle: oska_survey_page
-label: Pilt
+label: 'OSKA tööjõuprognoos pilt'
 description: ''
 required: false
 translatable: true
