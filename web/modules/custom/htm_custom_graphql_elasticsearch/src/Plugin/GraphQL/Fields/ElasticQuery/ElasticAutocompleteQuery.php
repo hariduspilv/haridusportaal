@@ -190,7 +190,9 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
         #clean values for output and extract only values, that are needed for output
         foreach($array_locations as $location){
-            $autocomplete_value_items[] = strip_tags($item[$location]);
+            if(isset($item[$location])){
+                $autocomplete_value_items[] = strip_tags($item[$location]);
+            }
         }
 
         $autocomplete_value = implode(" ", $autocomplete_value_items);
