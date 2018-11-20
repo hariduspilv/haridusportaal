@@ -1,0 +1,82 @@
+<?php
+
+function htm_custom_feedback_schema(){
+	$schema['htm_custom_feedback'] = [
+		'description' => 'Node feedback table',
+		'primary key' => ['id'],
+		'fields' => [
+			'id' => [
+				'description' => 'ID',
+				'type' => 'serial',
+				'length' => 10,
+				'unsigned' => true,
+				'not null' => true
+			],
+			'nid' => [
+				'description' => 'Node ID',
+				'type' => 'int',
+				'length' => 10,
+				'unsigned' => true,
+				'not null' => true
+			],
+			'created' => [
+				'description' => 'Feedback creation time',
+				'type' => 'int',
+				'not null' => TRUE,
+				'unsigned' => TRUE,
+				'default' => 0,
+			],
+			'feedback_type' => [
+				'description' => 'Feedback type 0 = negative 1 = positive',
+				'type' => 'int',
+				'not null' => true
+			],
+			'feedback_message' => [
+				'description' => 'The text of the feedback.',
+				'type' => 'text',
+				'not null' => FALSE,
+			],
+		]
+	];
+
+	$schema['htm_custom_feedback_score'] = [
+		'description' => 'Node feedback score table',
+		'primary key' => ['id'],
+		'fields' => [
+			'id' => [
+				'description' => 'ID',
+				'type' => 'serial',
+				'length' => 10,
+				'unsigned' => true,
+				'not null' => true
+			],
+			'nid' => [
+				'description' => 'Node ID',
+				'type' => 'int',
+				'length' => 10,
+				'unsigned' => true,
+				'not null' => true
+			],
+			'count' => [
+				'description' => 'Total count of feedbacks',
+				'type' => 'int',
+				'not null' => true
+			],
+			'yes_count' => [
+				'description' => 'Positive feedback count',
+				'type' => 'int'
+			],
+			'no_count' => [
+				'description' => 'Negative feedback count',
+				'type' => 'int'
+			],
+			'total_score' => [
+				'description' => 'Total score for single node',
+				'type' => 'int',
+				'not null' => false
+			]
+		]
+	];
+
+	return $schema;
+}
