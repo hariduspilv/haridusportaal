@@ -98,6 +98,8 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         $params = $this->getElasticQuery($args);
 
         $response = $client->search($params);
+        #dump($response);
+        #die();
 
         foreach($response['hits']['hits'] as $key => $value){
             if(isset($value['highlight'])){
@@ -150,9 +152,9 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         }
         $query = [
             'query' => [
-                'multi_match' => [
-                    'query' => $args['search_input'],
-                    'type' => 'phrase',
+                'query_string' => [
+                    'query' => '*'.$args['search_input'].'*',
+                    #'type' => 'phrase',
                     'fields' => $args['fields']
                 ]
             ],
