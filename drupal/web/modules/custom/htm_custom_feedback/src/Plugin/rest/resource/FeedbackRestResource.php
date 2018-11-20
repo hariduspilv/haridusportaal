@@ -96,10 +96,13 @@ class FeedbackRestResource extends ResourceBase {
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
-    $v = $this->feedbackService->feedbackVote($data['nid'], $data['type'], $data['message']);
-    dump($v);
+    if(!isset($data['nid']) || !isset($data['type']) || !isset($data['message'])){
+    	return new ModifiedResourceResponse('Post data invalid', 400);
+    }
 
-    return new ModifiedResourceResponse($data, 200);
+    $this->feedbackService->feedbackVote($data['nid'], $data['type'], $data['message']);
+
+    return new ModifiedResourceResponse('feedback registered', 200);
   }
 
 }
