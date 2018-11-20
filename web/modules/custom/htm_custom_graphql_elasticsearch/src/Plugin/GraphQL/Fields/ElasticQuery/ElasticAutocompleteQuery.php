@@ -155,12 +155,18 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                 'query_string' => [
                     'query' => '*'.$args['search_input'].'*',
                     #'type' => 'phrase',
-                    #'fields' => ['_all']
+                    #'fields' => $args['fields']
                 ]
             ],
             'highlight' => [
                 'order' => 'score',
-                'fields' => $highlight_fields,
+                'fields' => [
+                    '*' => [
+                        'pre_tags' => '<highl>',
+                        'post_tags' => '</highl>',
+                        'require_field_match' => false
+                    ]
+                ]
             ]
         ];
 
@@ -178,30 +184,33 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         preg_match_all($regex, $item, $matches);
         $item = explode(" ",$item);
         foreach($matches[0] as $match){
-            $array_locations[] = array_search($match, $item);
-        }
-
-        #add locations of surrounding words to autocomplete
-        foreach($array_locations as $location){
-            $location > 0 && !in_array($location-1, $array_locations) ? $array_locations[] = $location-1 : null;
-            !in_array($location+1, $array_locations) ? $array_locations[] = $location+1 : null;
-        }
-
-        #sort the array so the order won't get mixed up
-        asort($array_locations);
-
-        #clean values for output and extract only values, that are needed for output
-        foreach($array_locations as $location){
-            if(isset($item[$location])){
-                $autocomplete_value_items[] = strip_tags($item[$location]);
+            if(mb_strlen($match) < 50){
+                $array_locations[] = array_search($match, $item);
             }
         }
 
-        $autocomplete_value = implode(" ", $autocomplete_value_items);
+        if(isset($array_locations)){
+            #add locations of surrounding words to autocomplete
+            foreach($array_locations as $location){
+                $location > 0 && !in_array($location-1, $array_locations) ? $array_locations[] = $location-1 : null;
+                !in_array($location+1, $array_locations) ? $array_locations[] = $location+1 : null;
+            }
 
-        if(!in_array($autocomplete_value, $this->autocomplete_values)){
-            $this->autocomplete_values[] = $autocomplete_value;
+            #sort the array so the order won't get mixed up
+            asort($array_locations);
+
+            #clean values for output and extract only values, that are needed for output
+            foreach($array_locations as $location){
+                if(isset($item[$location])){
+                    $autocomplete_value_items[] = strip_tags($item[$location]);
+                }
+            }
+
+            $autocomplete_value = implode(" ", $autocomplete_value_items);
+
+            if(!in_array($autocomplete_value, $this->autocomplete_values)){
+                $this->autocomplete_values[] = $autocomplete_value;
+            }
         }
     }
-
 }
