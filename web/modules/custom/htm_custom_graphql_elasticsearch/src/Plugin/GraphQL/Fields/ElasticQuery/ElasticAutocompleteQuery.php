@@ -155,7 +155,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                 'query_string' => [
                     'query' => '*'.$args['search_input'].'*',
                     #'type' => 'phrase',
-                    'fields' => $args['fields']
+                    'fields' => ['_all']
                 ]
             ],
             'highlight' => [
