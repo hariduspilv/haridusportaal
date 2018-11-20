@@ -9,7 +9,7 @@ id: paragraph.main_profession_sidebar.field_cons
 field_name: field_cons
 entity_type: paragraph
 bundle: main_profession_sidebar
-label: Cons
+label: Miinused
 description: ''
 required: false
 translatable: true
