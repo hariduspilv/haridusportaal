@@ -81,6 +81,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
         $responsevalues = [];
         $this->autocomplete_values = [];
+        $this->search_input = $args['search_input'];
         $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
         $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
         $elasticsearch_pass = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['password'];
@@ -98,8 +99,6 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         $params = $this->getElasticQuery($args);
 
         $response = $client->search($params);
-        #dump($response);
-        #die();
 
         foreach($response['hits']['hits'] as $key => $value){
             if(isset($value['highlight'])){
@@ -143,19 +142,10 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
             'index' => $args['elasticsearch_index']
         ];
 
-        foreach($args['fields'] as $field){
-            $highlight_fields[$field] = [
-                'pre_tags' => '<highl>',
-                'post_tags' => '</highl>',
-                'require_field_match' => false
-            ];
-        }
         $query = [
             'query' => [
                 'query_string' => [
                     'query' => '*'.$args['search_input'].'*',
-                    #'type' => 'phrase',
-                    #'fields' => $args['fields']
                 ]
             ],
             'highlight' => [
@@ -184,48 +174,60 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         preg_match_all($regex, $item, $matches);
         $item = explode(" ",$item);
         $item_length = count($item);
-        foreach($matches[0] as $match){
-            if(mb_strlen($match) < 50){
-                array_search($match, $item) ? $array_locations[] = array_search($match, $item) : null;
-            }
-        }
-        if(isset($array_locations)){
-            #add locations of surrounding words to autocomplete
-            foreach($array_locations as $location){
-                $location_position = $location;
-                $location_count = 0;
-                if($location != $item_length && $location != 0){
-                    $array_locations[] = $location-1;
-                    $array_locations[] = $location+1;
-                }elseif($location == $item_length){
-                    while($location_position >= 0 && $location_count <= 2){
-                        $location_position--;
-                        $location_count++;
-                        $array_locations[] = $location_position;
-                    }
-                }elseif($location == 0){
-                    while($location_position <= $item_length && $location_count <= 2){
-                        $location_position++;
-                        $location_count++;
-                        $array_locations[] = $location_position;
-                    }
+        if(count($matches[0]) == str_word_count($this->search_input)){
+            foreach($matches[0] as $match){
+                if(mb_strlen($match) < 50){
+                    is_int(array_search($match, $item)) ? $array_locations[] = array_search($match, $item) : null;
                 }
             }
 
             #sort the array so the order won't get mixed up
             asort($array_locations);
 
-            #clean values for output and extract only values, that are needed for output
-            foreach($array_locations as $location){
-                if(isset($item[$location])){
-                    $autocomplete_value_items[] = strip_tags($item[$location]);
+            $matches_count = count($array_locations);
+
+            if(isset($array_locations) && $matches_count <= 3){
+
+                if($matches_count == 1){
+                    foreach($array_locations as $location){
+                        $location_position = $location;
+                        $location_count = 0;
+                        if($location != $item_length && $location != 0){
+                            $array_locations[] = $location-1;
+                            $array_locations[] = $location+1;
+                        }elseif($location == $item_length){
+                            while($location_position >= 0 && $location_count <= 2){
+                                $location_position--;
+                                $location_count++;
+                                $array_locations[] = $location_position;
+                            }
+                        }elseif($location == 0){
+                            while($location_position <= $item_length && $location_count <= 2){
+                                $location_position++;
+                                $location_count++;
+                                $array_locations[] = $location_position;
+                            }
+                        }
+                    }
+                }else if(end($array_locations) - reset($array_locations) <= 2){
+                    $array_locations = range(reset($array_locations), end($array_locations));
                 }
-            }
 
-            $autocomplete_value = implode(" ", $autocomplete_value_items);
+                #sort the array again after adding new locations
+                asort($array_locations);
 
-            if(!in_array($autocomplete_value, $this->autocomplete_values)){
-                $this->autocomplete_values[] = $autocomplete_value;
+                #clean values for output and extract only values, that are needed for output
+                foreach($array_locations as $location){
+                    if(isset($item[$location])){
+                        $autocomplete_value_items[] = strip_tags($item[$location]);
+                    }
+                }
+
+                $autocomplete_value = implode(" ", $autocomplete_value_items);
+
+                if(!in_array($autocomplete_value, $this->autocomplete_values)){
+                    $this->autocomplete_values[] = $autocomplete_value;
+                }
             }
         }
     }
