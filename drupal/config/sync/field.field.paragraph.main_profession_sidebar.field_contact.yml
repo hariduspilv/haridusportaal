@@ -12,7 +12,7 @@ id: paragraph.main_profession_sidebar.field_contact
 field_name: field_contact
 entity_type: paragraph
 bundle: main_profession_sidebar
-label: Contact
+label: Kontakt
 description: ''
 required: false
 translatable: true
@@ -64,7 +64,13 @@ settings:
       right_sidebar_section_info:
         weight: 27
         enabled: false
+      oska_field_sidebar:
+        weight: 28
+        enabled: false
       school_location:
         weight: 28
+        enabled: false
+      survey_page_accordion:
+        weight: 32
         enabled: false
 field_type: entity_reference_revisions
