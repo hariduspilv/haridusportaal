@@ -26,9 +26,12 @@ class MappingFactory {
     switch ($type) {
       case 'text':
         $mappingConfig = [
-            'search_analyzer' => 'edge_ngram_analyzer',
-            'type' => 'string',
-            'analyzer' => 'edge_ngram_analyzer'
+            'type' => 'text',
+            'boost' => $field->getBoost(),
+            'fields' => [
+                'type' => 'keyword',
+                'ignore_above' => 256,
+            ]
         ];
         break;
 
