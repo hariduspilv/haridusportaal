@@ -10,7 +10,7 @@ id: paragraph.main_profession_sidebar.field_oska_field
 field_name: field_oska_field
 entity_type: paragraph
 bundle: main_profession_sidebar
-label: 'OSKA Field'
+label: 'OSKA valdkond'
 description: ''
 required: false
 translatable: true
