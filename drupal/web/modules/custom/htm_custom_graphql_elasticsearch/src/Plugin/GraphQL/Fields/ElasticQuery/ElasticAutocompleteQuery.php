@@ -183,17 +183,33 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         $regex = '/<highl>(.*?)<\/highl>/';
         preg_match_all($regex, $item, $matches);
         $item = explode(" ",$item);
+        $item_length = count($item);
         foreach($matches[0] as $match){
             if(mb_strlen($match) < 50){
-                $array_locations[] = array_search($match, $item);
+                array_search($match, $item) ? $array_locations[] = array_search($match, $item) : null;
             }
         }
-
         if(isset($array_locations)){
             #add locations of surrounding words to autocomplete
             foreach($array_locations as $location){
-                $location > 0 && !in_array($location-1, $array_locations) ? $array_locations[] = $location-1 : null;
-                !in_array($location+1, $array_locations) ? $array_locations[] = $location+1 : null;
+                $location_position = $location;
+                $location_count = 0;
+                if($location != $item_length && $location != 0){
+                    $array_locations[] = $location-1;
+                    $array_locations[] = $location+1;
+                }elseif($location == $item_length){
+                    while($location_position >= 0 && $location_count <= 2){
+                        $location_position--;
+                        $location_count++;
+                        $array_locations[] = $location_position;
+                    }
+                }elseif($location == 0){
+                    while($location_position <= $item_length && $location_count <= 2){
+                        $location_position++;
+                        $location_count++;
+                        $array_locations[] = $location_position;
+                    }
+                }
             }
 
             #sort the array so the order won't get mixed up
