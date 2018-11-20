@@ -1,0 +1,5 @@
+name: 'HTM custom feedback'
+type: module
+description: 'Feedback module with GraphQL support'
+core: 8.x
+package: 'HTM'

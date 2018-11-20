@@ -1,0 +1,13 @@
+/*div.picker, div.picker div{
+    flex: unset !important;
+    min-width: auto !important;
+    width: auto !important;
+}*/
+
+.exposed-form-collapsible .collapsible-body .form--inline .form-type-date div {
+    margin: 0 auto !important;
+    -ms-flex: 1;
+    flex: 0 1 auto;
+    width: auto !important;
+    min-width: auto !important;
+}
