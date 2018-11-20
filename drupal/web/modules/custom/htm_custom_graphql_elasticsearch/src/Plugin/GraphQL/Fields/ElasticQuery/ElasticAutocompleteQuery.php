@@ -209,8 +209,18 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                             }
                         }
                     }
-                }else if(end($array_locations) - reset($array_locations) <= 2){
-                    $array_locations = range(reset($array_locations), end($array_locations));
+                }else{
+                    $range_start = reset($array_locations);
+                    $range_end = end($array_locations);
+                    if($range_end - $range_start <= 2){
+                        if($range_start > 0){
+                            $range_start--;
+                        }
+                        if($range_end < count($item)){
+                            $range_end++;
+                        }
+                        $array_locations = range($range_start, $range_end);
+                    }
                 }
 
                 #sort the array again after adding new locations
