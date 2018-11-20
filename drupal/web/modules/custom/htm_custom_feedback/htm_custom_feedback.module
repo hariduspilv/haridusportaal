@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_feedback.module.
+ */
+
+use Drupal\views\ViewExecutable;
+
+function htm_custom_feedback_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+	if ($view->id() == 'feedback_admin_view') {
+		$view->storage->addCacheTags(['feedback_cache_tags']);
+	}
+}
+
+function htm_custom_feedback_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+	$view = $form_state->getStorage('view');
+	$view_id = $view['view']->id();
+	if($form_id === 'views_exposed_form' && $view_id === 'feedback_admin_view'){
+		$form['created']['#type'] = 'date';
+		$form['#attached']['library'][] = 'htm_custom_feedback/exposed-filter-style';
+	}
+}
