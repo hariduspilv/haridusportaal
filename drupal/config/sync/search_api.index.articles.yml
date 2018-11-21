@@ -4,15 +4,15 @@ status: true
 dependencies:
   module:
     - elasticsearch_connector
-    - paragraphs
     - node
+    - paragraphs
     - search_api
   config:
     - field.storage.node.field_accordion_section
-    - field.storage.paragraph.field_accordion_title
     - field.storage.paragraph.field_body
-    - field.storage.node.field_body_summary
+    - field.storage.paragraph.field_accordion_title
     - field.storage.node.field_body
+    - field.storage.node.field_body_summary
     - search_api.server.elasticsearch_server
 third_party_settings:
   elasticsearch_connector:
@@ -128,6 +128,67 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  html_filter:
+    all_fields: true
+    fields:
+      - content_type
+      - entity_path
+      - field_accordion_body
+      - field_accordion_title
+      - field_body
+      - field_body_summary
+      - langcode
+      - title
+    title: true
+    alt: true
+    tags:
+      b: 2
+      em: 1
+      h1: 5
+      h2: 3
+      h3: 2
+      strong: 2
+      u: 1
+    weights:
+      preprocess_index: -15
+      preprocess_query: -15
+  ignore_character:
+    all_fields: true
+    fields:
+      - content_type
+      - entity_path
+      - field_accordion_body
+      - field_accordion_title
+      - field_body
+      - field_body_summary
+      - langcode
+      - title
+    ignorable: '[''¿¡!?,.:;]'
+    strip:
+      character_sets:
+        Cc: 0
+        Cf: 0
+        Co: 0
+        Mc: 0
+        Me: 0
+        Mn: 0
+        Pc: Pc
+        Pd: Pd
+        Pe: Pe
+        Pf: Pf
+        Pi: Pi
+        Po: Po
+        Ps: Ps
+        Sc: 0
+        Sk: 0
+        Sm: 0
+        So: 0
+        Zl: 0
+        Zp: 0
+        Zs: 0
+    weights:
+      preprocess_index: -10
+      preprocess_query: -10
   rendered_item: {  }
 tracker_settings:
   default:

@@ -1,0 +1,5 @@
+exposed-filter-style:
+  version: 1.x
+  css:
+    theme:
+      css/reset-exposed.css: {}
