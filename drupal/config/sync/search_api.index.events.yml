@@ -3,6 +3,7 @@ langcode: et
 status: true
 dependencies:
   module:
+    - elasticsearch_connector
     - node
     - taxonomy
     - search_api
@@ -13,6 +14,13 @@ dependencies:
     - field.storage.node.field_description_summary
     - field.storage.node.field_event_type
     - search_api.server.elasticsearch_server
+third_party_settings:
+  elasticsearch_connector:
+    ngram_filter_enabled: 0
+    ngram_config:
+      ngram_type: edge_ngram
+      min_gram: '3'
+      max_gram: '20'
 id: events
 name: Events
 description: ''
