@@ -234,11 +234,12 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                 }
 
                 $mandatory_args = explode(" ", $this->search_input);
-
                 $autocomplete_value = implode(" ", $autocomplete_value_items);
+                #dump($mandatory_args);
+                #dump($autocomplete_value);
                 $correct_value = true;
                 foreach($mandatory_args as $value){
-                    if(fnmatch(strtolower('*'.$value.'*'), strtolower($autocomplete_value)) == false){
+                    if(fnmatch(mb_strtolower('*'.$value.'*'), mb_strtolower($autocomplete_value)) == false){
                         $correct_value = false;
                     }
                 }
