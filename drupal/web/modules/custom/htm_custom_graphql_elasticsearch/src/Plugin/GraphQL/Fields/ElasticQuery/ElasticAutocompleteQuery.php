@@ -233,9 +233,16 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                     }
                 }
 
+                $mandatory_args = explode(" ", $this->search_input);
                 $autocomplete_value = implode(" ", $autocomplete_value_items);
+                $correct_value = true;
+                foreach($mandatory_args as $value){
+                    if(strpos($value, $autocomplete_value) == false){
+                        $correct_value = false;
+                    }
+                }
 
-                if(!in_array($autocomplete_value, $this->autocomplete_values)){
+                if($correct_value == true && !in_array($autocomplete_value, $this->autocomplete_values)){
                     $this->autocomplete_values[] = $autocomplete_value;
                 }
             }
