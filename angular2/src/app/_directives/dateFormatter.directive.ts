@@ -33,7 +33,7 @@ export class DateFormatterDirective {
 
 		};
 
-		this.el.nativeElement.onkeyup = (evt) => {
+		this.el.nativeElement.onblur = (evt) => {
 			
 			let value = evt.target.value;
 

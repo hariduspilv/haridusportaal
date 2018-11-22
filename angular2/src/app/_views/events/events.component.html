@@ -244,102 +244,100 @@
         </span>
       </span>
     </div><!--/text-center-->
-    
 
+    <div class="calendar-wrapper">
+      <mat-spinner *ngIf="calendarDataEntries == 'none'"></mat-spinner>
 
-    <mat-spinner *ngIf="loadingCalendar" style="margin-top:3rem; position: relative; bottom: 1.5rem;"></mat-spinner>
+      <table class="calendar" [class.loading]="calendarDataEntries == 'none'">
+        <tr>
+          <th width="14.2%" tabindex="-1">{{ 'time.monday' | translate }}</th>
+          <th width="14.2%" tabindex="-1">{{ 'time.tuesday' | translate }}</th>
+          <th width="14.2%" tabindex="-1">{{ 'time.wednesday' | translate }}</th>
+          <th width="14.2%" tabindex="-1">{{ 'time.thursday' | translate }}</th>
+          <th width="14.2%" tabindex="-1">{{ 'time.friday' | translate }}</th>
+          <th width="14.2%" tabindex="-1">{{ 'time.saturday' | translate }}</th>
+          <th width="14.2%" tabindex="-1">{{ 'time.sunday' | translate }}</th>
+        </tr>
+        <tr *ngFor="let week of calendarDays; let firstWeek = first; let weekNumber = index">
+          <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day.i == current.day && month == current.month && year == current.year" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2" [ngClass]="{ 'lastWeek': weekNumber == calendarDays.length-1, 'almostLastWeek' : weekNumber == calendarDays.length-2}">
 
+            <div class="cal__day more__hidden" tabindex="0">{{ day.i }}</div>
 
+            <div class="cal__event pointer more__hidden" *ngFor="let event of parseDay( day ); let i = index">
 
-    <table class="calendar" *ngIf="!loadingCalendar">
-      <tr>
-        <th width="14.2%" tabindex="-1">{{ 'time.monday' | translate }}</th>
-        <th width="14.2%" tabindex="-1">{{ 'time.tuesday' | translate }}</th>
-        <th width="14.2%" tabindex="-1">{{ 'time.wednesday' | translate }}</th>
-        <th width="14.2%" tabindex="-1">{{ 'time.thursday' | translate }}</th>
-        <th width="14.2%" tabindex="-1">{{ 'time.friday' | translate }}</th>
-        <th width="14.2%" tabindex="-1">{{ 'time.saturday' | translate }}</th>
-        <th width="14.2%" tabindex="-1">{{ 'time.sunday' | translate }}</th>
-      </tr>
-      <tr *ngFor="let week of calendarDays; let firstWeek = first; let weekNumber = index">
-        <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day.i == current.day && month == current.month && year == current.year" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2" [ngClass]="{ 'lastWeek': weekNumber == calendarDays.length-1, 'almostLastWeek' : weekNumber == calendarDays.length-2}">
+              <ng-container *ngIf="i < maxEntries(day)">
 
-          <div class="cal__day more__hidden" tabindex="0">{{ day.i }}</div>
+                <a href="javascript:void(0)" attr.title="{{ event.title }}" class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" (keyup.enter)="togglePopup(event.nid)" (keyup.esc)="popup = null" tabindex="0">
+                  <span><div class="marker"></div></span>
+                  <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
+                  <span class="content__strong">{{ event.title }}</span>
+                </a>
+              </ng-container>
+              
+              <ng-container *ngIf="popup === event.nid">
+                <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog" (keyup.esc)="popup = null">
+                  <div class="popupcontent">
+                    <div class="event__header">
 
-          <div class="cal__event pointer more__hidden" *ngFor="let event of parseDay( day ); let i = index">
+                      <div class="title">
+                        <span class="title__strong" >{{ event.title }}</span>
 
-            <ng-container *ngIf="i < maxEntries(day)">
-
-              <a href="javascript:void(0)" attr.title="{{ event.title }}" class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" (keyup.enter)="togglePopup(event.nid)" (keyup.esc)="popup = null" tabindex="0">
-                <span><div class="marker"></div></span>
-                <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
-                <span class="content__strong">{{ event.title }}</span>
-              </a>
-            </ng-container>
-            
-            <ng-container *ngIf="popup === event.nid">
-              <div class="popup" [class.holdRight]="weekDayIndex < 4" [class.holdLeft]="weekDayIndex >= 4" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog" (keyup.esc)="popup = null">
-                <div class="popupcontent">
-                  <div class="event__header">
-
-                    <div class="title">
-                      <span class="title__strong" >{{ event.title }}</span>
-
-                      <div class="title__close" role="close">
-                        <span class="htm-icon">close
-                          <button class="btn-hidden pointer" id="firstClose" (click)="closePopup()" attr.aria-label="{{'modal.close' | translate}}"></button>
-                        </span>
+                        <div class="title__close" role="close">
+                          <span class="htm-icon">close
+                            <button class="btn-hidden pointer" id="firstClose" (click)="closePopup()" attr.aria-label="{{'modal.close' | translate}}"></button>
+                          </span>
+                        </div>
                       </div>
                     </div>
+                      <div class="event__block">
+                      
+                      <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
+                      <div role="none" *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
+                      <div *ngIf="event.location"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
+                      <div *ngIf="event.fieldEntryType"><span>{{ 'event.entrance' | translate }}: </span>{{ 'event.' + event.fieldEntryType | translate}}</div>
+                    </div>
+                    <div class="line"></div>
+                    <div class="event__more"><a href="javascript:void(0)" (blur)="trapFocus('firstClose')" [routerLink]="event.entityUrl.path" tabindex="0">{{'button.view_more' | translate}}</a></div>
                   </div>
-                    <div class="event__block">
-                    
-                    <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
-                    <div role="none" *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
-                    <div *ngIf="event.location"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
-                    <div *ngIf="event.fieldEntryType"><span>{{ 'event.entrance' | translate }}: </span>{{ 'event.' + event.fieldEntryType | translate}}</div>
-                  </div>
-                  <div class="line"></div>
-                  <div class="event__more"><a href="javascript:void(0)" (blur)="trapFocus('firstClose')" [routerLink]="event.entityUrl.path" tabindex="0">{{'button.view_more' | translate}}</a></div>
                 </div>
-              </div>
-            </ng-container>
-          </div>
+              </ng-container>
+            </div>
 
-          <div class="cal__event__more" *ngIf="day.events && day.events.length > maxEntries(day)">
-            <div class="more more__hidden"><a href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - maxEntries(day) }} veel</a></div>
-          </div>
+            <div class="cal__event__more" *ngIf="day.events && day.events.length > maxEntries(day)">
+              <div class="more more__hidden"><a href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - maxEntries(day) }} veel</a></div>
+            </div>
 
-          <div class="popup" *ngIf="morePopup === day">
-            <div class="popupcontent additional" (keyup.esc)="popup = null">
-              <div class="event__block event__block__more">
-                <div class="title">
-                  <div class="header">
-                    <div class="header__medium">{{ 'time.' + getDayName(year, month, day.i) | translate }}</div>
+            <div class="popup" *ngIf="morePopup === day">
+              <div class="popupcontent additional" (keyup.esc)="popup = null">
+                <div class="event__block event__block__more">
+                  <div class="title">
+                    <div class="header">
+                      <div class="header__medium">{{ 'time.' + getDayName(year, month, day.i) | translate }}</div>
 
-                    <div class="header__strong">{{day.i}}. {{ 'time.'+ monthName | lowercase | translate}}</div>
+                      <div class="header__strong">{{day.i}}. {{ 'time.'+ monthName | lowercase | translate}}</div>
 
+                    </div>
+                    <span class="close more"><a href="javascript:void(0)" class="pointer" id="secondClose" (click)="closeMore()"><span class="htm-icon">close</span></a></span>
                   </div>
-                  <span class="close more"><a href="javascript:void(0)" class="pointer" id="secondClose" (click)="closeMore()"><span class="htm-icon">close</span></a></span>
+                  <div class="popup__scroll">
+                    <ng-container *ngFor="let event of parseDay( day ); let i = index;">
+                      <a href="javascript:void(0)" (blur)="trapFocus('secondClose')" class="cal__event pointer" [routerLink]="event.entityUrl.path">
+                        <div class="content content__more">
+                          <span><div class="marker"></div></span>
+                          <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
+                          <span class="content__strong">{{ event.title }}</span>
+                        </div>
+                      </a>
+                    </ng-container>
+                  </div><!--/popup__scroll-->
                 </div>
-                <div class="popup__scroll">
-                  <ng-container *ngFor="let event of parseDay( day ); let i = index;">
-                    <a href="javascript:void(0)" (blur)="trapFocus('secondClose')" class="cal__event pointer" [routerLink]="event.entityUrl.path">
-                      <div class="content content__more">
-                        <span><div class="marker"></div></span>
-                        <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
-                        <span class="content__strong">{{ event.title }}</span>
-                      </div>
-                    </a>
-                  </ng-container>
-                </div><!--/popup__scroll-->
               </div>
             </div>
-          </div>
 
-        </td>
-      </tr>
-    </table>
+          </td>
+        </tr>
+      </table>
+    </div><!--/calendar-wrapper-->
   </div><!--/view content-->
 </div>
 

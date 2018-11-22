@@ -124,8 +124,7 @@
     &.exists {display: inline-block;}
   }
   &__error {color: $red;line-height: $medium;
-    &--text { padding-left: $small;font-size: 0.875rem; display: inline-block;
-      ;white-space: pre-line; min-width: 100%; line-height: 1.2; padding-top: 2px; 
+    &--text { padding-left: $small;font-size: 0.875rem; display: inline-block; box-sizing: border-box; white-space: pre-line; min-width: 100%; line-height: 1.2; padding-top: 2px; 
     }
   }
   &__area {width: 100%;padding-top: .125rem; font-weight: 300;
@@ -237,15 +236,15 @@
 }
 
 .mat-focused {
- border: solid .0625rem $blue!important;
+  border: solid .0625rem $blue!important;
 }
-      .mat-focused label {
- color: $blue!important;
+.mat-focused label {
+  color: $blue!important;
 }
 
 .round-input__area__elem {
   font-size: 0.875rem;
-  font-weight: normal;
+  font-weight: 300;
 }
 
 .mat-select-panel { margin-top: 2.5625rem; 

@@ -11,7 +11,7 @@ id: node.oska_field_page.field_oska_attachment_file
 field_name: field_oska_attachment_file
 entity_type: node
 bundle: oska_field_page
-label: 'Oska attachment file'
+label: 'OSKA valdkonna fail'
 description: ''
 required: false
 translatable: true

@@ -11,7 +11,7 @@ id: node.oska_survey_page.field_survey_page_video
 field_name: field_survey_page_video
 entity_type: node
 bundle: oska_survey_page
-label: Video
+label: 'OSKA tööjõuprognoos video'
 description: ''
 required: false
 translatable: true

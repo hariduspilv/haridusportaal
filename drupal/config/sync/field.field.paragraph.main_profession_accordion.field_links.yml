@@ -11,7 +11,7 @@ id: paragraph.main_profession_accordion.field_links
 field_name: field_links
 entity_type: paragraph
 bundle: main_profession_accordion
-label: Links
+label: Lingid
 description: ''
 required: false
 translatable: true

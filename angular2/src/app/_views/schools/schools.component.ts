@@ -124,13 +124,15 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
     function getCoords(){
       let bounds = that.map.getBounds();
-      that.bounds.minLat = bounds['f']['b'].toString();
-      that.bounds.maxLat = bounds['f']['f'].toString();
-      that.bounds.minLon = bounds['b']['b'].toString();
-      that.bounds.maxLon = bounds['b']['f'].toString();
+      let ne = bounds.getNorthEast();
+      let sw = bounds.getSouthWest();
 
-
+      that.bounds.minLat = sw.lat().toString();
+      that.bounds.maxLat = ne.lat().toString();
+      that.bounds.minLon = sw.lng().toString();
+      that.bounds.maxLon = ne.lng().toString();
     }
+
     this.map.addListener("dragend", function () {
       getCoords();
     });
@@ -144,13 +146,16 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
       this.latlngBounds = new window['google'].maps.LatLngBounds();
 
+      let hasBounds = false;
+
       for( let i in this.list ){
         if( this.list[i].Lat ){
+          hasBounds = true;
           this.latlngBounds.extend(new window['google'].maps.LatLng(parseFloat(this.list[i].Lat), parseFloat(this.list[i].Lon) ) );
         }
       };
 
-      if( this.latlngBounds.f.f !== -1 ){
+      if( hasBounds ){
         this.map.fitBounds(this.latlngBounds);
         //this.map.zoom(11);
       }else{

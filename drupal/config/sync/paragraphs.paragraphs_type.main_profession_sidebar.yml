@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies: {  }
 id: main_profession_sidebar
-label: 'Main Profession Sidebar'
+label: 'OSKA ametiala küljeriba'
 icon_uuid: null
 description: ''
 behavior_plugins: {  }

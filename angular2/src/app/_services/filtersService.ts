@@ -76,6 +76,7 @@ export class FiltersService {
   }
 
   filterRetrieveParams(params:object) {
+
     for( var i in params ){
 
       if( i.match("date") ){
@@ -86,6 +87,12 @@ export class FiltersService {
       }
       else{
         this.filterFormItems[i] = params[i];
+      }
+    }
+
+    for( let i in this.filterFormItems ){
+      if( !params[i] ){
+        this.filterFormItems[i] = '';
       }
     }
   }

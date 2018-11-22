@@ -1,0 +1,27 @@
+jobs:
+  build:
+    docker:
+    - image: alpine:3.7
+    steps:
+    - run:
+        name: Install ssh
+        command: |
+          apk add openssh
+    - add_ssh_keys:
+        fingerprints:
+          - $SSHFPRINT
+    - run:
+        name: Enter server
+        command: |
+          ssh -q -o StrictHostKeyChecking=no htm@90.190.106.49 -p 222 <<EOF1
+          ssh -q -o StrictHostKeyChecking=no htmcircleci@test.edu.ee <<EOF2
+          ls -la
+          exit
+          EOF2
+          EOF1
+workflows:
+  version: 2
+  build:
+    jobs:
+    - build
+version: 2

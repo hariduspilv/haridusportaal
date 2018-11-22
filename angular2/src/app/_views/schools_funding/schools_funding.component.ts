@@ -256,7 +256,6 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       }else{
         this.data = [];
         this.polygonData = data['data']['CustomSubsidyProjectQuery'];
-        
         this.generateHeatmapColors();
         this.getPolygons();
       }
@@ -306,6 +305,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     let subscription = this.http.get(url).subscribe( data => {
       this.polygons = this.assignPolygonsColors(data);
 
+      console.log(this.polygons);
       this.loading = false;
       subscription.unsubscribe();
     });
@@ -318,7 +318,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       let properties = current['properties'];
       let name = properties['NIMI'].toLowerCase();
 
-      let match:any = false;
+      var match:any = false;
       
       for( let o in this.polygonData ){
         if( name == this.polygonData[o].investmentLocation.toLowerCase() ){
@@ -350,13 +350,23 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
 
   polygonStyles(feature) {
-    let color = feature['f']['color'];
-    
+
+    let color = "#cfcfcf";
+    let keys = Object.keys(feature).join(",").split(",");
+
+    for( let i in keys ){
+      let key = keys[i];
+      if( feature[key] && feature[key]['color'] ){
+        color = feature[key]['color'];
+      }
+    }
+
+    console.log(color);
 
     return {
       fillColor: color,
       fillOpacity: 1,
-      strokeColor: "#fff",
+      strokeColor: "#ffffff",
       strokeWeight: 1,
       strokeOpacity: 1,
       clickable: true
@@ -384,6 +394,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.sumWindowLat = $event.latLng.lat();
     this.sumWindowLon = $event.latLng.lng();
 
+    console.log(this.infoLayer);
     this.sumWindowStatus = true;
     this.changeDetectorRef.detectChanges();
   }
