@@ -1,0 +1,32 @@
+query ($offset: Int, $limit: Int, $lang: LanguageId!) {
+    nodeQuery(offset: $offset, limit: $limit, sort: {field: "created", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: $lang}]}) {
+        entities(language: $lang) {
+            ... on NodeNews {
+                entityLabel
+                created
+                entityUrl {
+                    ... on EntityCanonicalUrl {
+                        path
+                        languageSwitchLinks {
+                            active
+                            title
+                        }
+                    }
+                }
+                fieldShortDescription
+                fieldAuthor
+                fieldIntroductionImage {
+                    derivative(style: CROP_SMALL) {
+                        url
+                    }
+                    alt
+                }
+                fieldTag {
+                    entity {
+                        entityLabel
+                    }
+                }
+            }
+        }
+    }
+}
