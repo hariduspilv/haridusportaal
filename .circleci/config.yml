@@ -11,7 +11,7 @@ jobs:
         fingerprints:
           - $SSHFPRINT
     - run:
-        name: Enter server
+        name: Enter servers
         command: |
           ssh -q -o StrictHostKeyChecking=no htm@90.190.106.49 -p 222 <<EOF1
           ls -la
