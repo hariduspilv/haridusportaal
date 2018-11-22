@@ -2,16 +2,24 @@ uuid: 75ca065d-a6f9-49df-b00c-7f0e581f3137
 langcode: et
 status: true
 dependencies:
-  config:
-    - field.storage.node.field_author
-    - field.storage.node.field_tag
-    - field.storage.node.field_short_description
-    - field.storage.node.field_news_description
-    - search_api.server.elasticsearch_server
   module:
+    - elasticsearch_connector
     - node
     - taxonomy
     - search_api
+  config:
+    - field.storage.node.field_author
+    - field.storage.node.field_news_description
+    - field.storage.node.field_short_description
+    - field.storage.node.field_tag
+    - search_api.server.elasticsearch_server
+third_party_settings:
+  elasticsearch_connector:
+    ngram_filter_enabled: 0
+    ngram_config:
+      ngram_type: edge_ngram
+      min_gram: '3'
+      max_gram: '20'
 id: news
 name: News
 description: ''
@@ -100,6 +108,65 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  html_filter:
+    all_fields: true
+    fields:
+      - content_type
+      - entity_path
+      - field_author
+      - field_body
+      - field_short_description
+      - field_tag
+      - langcode
+      - title
+    title: true
+    alt: true
+    tags:
+      b: 2
+      h1: 5
+      h2: 3
+      h3: 2
+      strong: 2
+    weights:
+      preprocess_index: -15
+      preprocess_query: -15
+  ignore_character:
+    all_fields: true
+    fields:
+      - content_type
+      - entity_path
+      - field_author
+      - field_body
+      - field_short_description
+      - field_tag
+      - langcode
+      - title
+    ignorable: '[''¿¡!?,.:;]'
+    strip:
+      character_sets:
+        Cc: 0
+        Cf: 0
+        Co: 0
+        Mc: 0
+        Me: 0
+        Mn: 0
+        Pc: Pc
+        Pd: Pd
+        Pe: Pe
+        Pf: Pf
+        Pi: Pi
+        Po: Po
+        Ps: Ps
+        Sc: 0
+        Sk: 0
+        Sm: 0
+        So: 0
+        Zl: 0
+        Zp: 0
+        Zs: 0
+    weights:
+      preprocess_index: -10
+      preprocess_query: -10
   rendered_item: {  }
 tracker_settings:
   default:
