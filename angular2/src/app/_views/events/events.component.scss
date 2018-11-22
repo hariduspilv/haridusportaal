@@ -139,7 +139,9 @@ a h1:hover { text-decoration: underline; }
         }
         &.event__block__more {padding-bottom: $medium;}
       }
-      .event__more {padding-top:$small;padding-bottom: $medium;text-align: center;font-size: $small;font-weight: 400;}
+      .event__more {padding-top:$small;padding-bottom: $medium;text-align: center;font-size: $small;font-weight: 400;
+        a:hover{text-decoration: underline;}
+      }
       .line {width: 100%; height: .0625rem; background-color: $gray;}
     }
   }

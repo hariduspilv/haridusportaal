@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Apollo } from 'apollo-angular';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { Subscription } from 'rxjs/Subscription';
 
-import { SchoolStudyProgrammes } from '@app/_graph/studyProgramme.graph';
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
   selector: 'school-study-programmes',
@@ -16,32 +15,30 @@ export class SchoolStudyProgrammesComponent implements OnInit {
   @Input() schoolName: String;
   programmes: any;
   loading = true;
-  private querySubscription: Subscription;
 
   constructor(
 		private rootScope: RootScopeService,
-    private apollo: Apollo
+    private http: HttpService
   ) { }
 
   ngOnInit() {
-    this.querySubscription = this.apollo.watchQuery<any>({
-      query: SchoolStudyProgrammes,
-      variables: {
-        schoolId: this.schoolId.toString(),
-        lang: this.rootScope.get('currentLang').toUpperCase()
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    })
-      .valueChanges
-      .subscribe(({ data, loading }) => {
-        this.loading = loading;
-        this.programmes = data.nodeQuery.entities;
-      });
+
+    let url = "/graphql?queryName=relatedStudyProgrammes&queryId=c72f6c17ef0593b31753c9094b69d89b845383bb:1&variables=";
+    let variables = {
+      schoolId: this.schoolId.toString(),
+      lang: this.rootScope.get('currentLang').toUpperCase()
+    };
+    
+    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+      let data = response['data'];
+      this.loading = false;
+      this.programmes = data.nodeQuery.entities;
+      subscribe.unsubscribe();
+    });
+
   }
 
   ngOnDestroy() {
-    this.querySubscription.unsubscribe();
   }
 
 }

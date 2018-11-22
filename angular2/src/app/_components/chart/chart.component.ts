@@ -63,6 +63,19 @@ export class ChartComponent implements OnInit{
         }
       }
 
+      if( current.graphVAxis ){
+        tmp['options']['vAxis'] = {
+          'title': current.graphVAxis
+        }
+        
+      }
+
+      if( current.graphHAxis ){
+        tmp['options']['hAxis'] = {
+          'title': current.graphHAxis
+        }
+      }
+
       if( current.graphType == "doughnut" ){
         tmp.options['pieHole'] = 0.4;
       }
@@ -84,8 +97,6 @@ export class ChartComponent implements OnInit{
             type: secondaryGraphType
           }
         }
-
-        console.log(tmp);
     
       }
 

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { Apollo } from 'apollo-angular';
 
 import { MetaTagsService } from '@app/_services/metaTagsService';
 import { HttpService } from '@app/_services/httpService';
@@ -24,7 +23,6 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private apollo: Apollo,
     private metaTags: MetaTagsService,
     private http: HttpService
   ) {}
@@ -32,7 +30,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   getData() {
     // GET BREADCRUMB
 
-    let url = "/graphql?queryId=getBreadcrumbs:1&variables=";
+    let url = "/graphql?queryName=getBreadcrumbs&queryId=57f49f8c29ee9cd9a7c9c63deefcede45fde9ef9:1&variables=";
     let variables = {
       path: this.path
     };

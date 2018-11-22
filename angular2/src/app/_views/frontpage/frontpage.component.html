@@ -131,7 +131,7 @@
     </div>
     <div class="section section--news main-container" *ngIf="news && news.length">
       <div class="content">
-        <recent-news frontpage="true"></recent-news>
+        <recent-news frontpage="true" [data]="news"></recent-news>
       </div>
     </div>
     <div class="section section--newsletter">

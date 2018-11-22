@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -16,7 +15,6 @@ export class SideMenuService {
   force: boolean = false;
   lang: any;
   constructor(
-    private apollo: Apollo,
     private rootScope: RootScopeService
   ) {}
 
