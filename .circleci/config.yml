@@ -1,7 +1,7 @@
-jobs:	
-  build:	
-    docker:	
-    - image: alpine:3.7	
+jobs:
+  build:
+    docker:
+    - image: alpine:3.7
     steps:
     - run:
         name: Install ssh
@@ -10,16 +10,15 @@ jobs:
     - add_ssh_keys:
         fingerprints:
           - $SSHFPRINT
-    - run:	
-        name: Enter servers	
-        command: |	
+    - run:
+        name: Enter server
+        command: |
           ssh -q -o StrictHostKeyChecking=no htm@90.190.106.49 -p 222 <<EOF1
           ls -la
-          EOF1	
-workflows:	
-  version: 2	
-  build:	
-    jobs:	
-    - build	
+          EOF1
+workflows:
+  version: 2
+  build:
+    jobs:
+    - build
 version: 2
-
