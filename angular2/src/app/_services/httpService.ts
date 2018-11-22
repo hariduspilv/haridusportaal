@@ -39,10 +39,10 @@ export class HttpService {
 
   parseUrl(url){
     if( !url.match(/.*\s*:\/\/\s*/) && !url.match("/assets") ){
-      return this.settings.url+url;
-    }else{
-      return url;
+      url = this.settings.url+url;
     }
+
+    return encodeURI( url );
   }
 
   get(url) {

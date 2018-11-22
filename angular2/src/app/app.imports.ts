@@ -12,7 +12,6 @@ AgmKmlLayer.prototype.ngOnInit = function () {
 
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from './_core/material.module';
-import { GraphQLModule } from './_core/graphql.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
 
@@ -79,7 +78,6 @@ export const AppImports = [
   Ng2GoogleChartsModule,
   MaterialModule,
   AppModules,
-  GraphQLModule,
   AppRoutingModule,
   AppDirectives,
   NgSelectModule,
