@@ -12,7 +12,7 @@ id: node.oska_field_page.field_oska_field_accordion
 field_name: field_oska_field_accordion
 entity_type: node
 bundle: oska_field_page
-label: Accordion
+label: Akordion
 description: ''
 required: false
 translatable: false
@@ -66,5 +66,11 @@ settings:
         enabled: false
       main_profession_sidebar:
         weight: 25
+        enabled: false
+      oska_field_sidebar:
+        weight: 28
+        enabled: false
+      survey_page_accordion:
+        weight: 32
         enabled: false
 field_type: entity_reference_revisions

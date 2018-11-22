@@ -13,7 +13,7 @@ entity_type: paragraph
 bundle: event_date
 label: 'Sündmuse lõpu kellaaeg'
 description: ''
-required: false
+required: true
 translatable: false
 default_value:
   -

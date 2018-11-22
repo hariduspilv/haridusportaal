@@ -52,6 +52,7 @@ module:
   htm_custom_event_registration: 0
   htm_custom_exports: 0
   htm_custom_favorites: 0
+  htm_custom_feedback: 0
   htm_custom_graphql_elasticsearch: 0
   htm_custom_graphql_functions: 0
   htm_custom_graphql_tags: 0

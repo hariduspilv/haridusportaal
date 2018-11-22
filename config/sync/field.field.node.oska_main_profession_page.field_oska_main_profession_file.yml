@@ -11,7 +11,7 @@ id: node.oska_main_profession_page.field_oska_main_profession_file
 field_name: field_oska_main_profession_file
 entity_type: node
 bundle: oska_main_profession_page
-label: 'Oska main profession file'
+label: 'OSKA ametiala fail'
 description: ''
 required: false
 translatable: false
