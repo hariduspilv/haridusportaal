@@ -1,11 +1,10 @@
 *** GET DOCUMENTS ***
-get Documents sisend
-{
-	"user_identifier" :  isikukood või registrikood,
-	"type" : "person" või "juridical"
-}
+Dokumentide päring Haridusportaalis töölaual kuvamiseks
+getDocuments/{identifier}/{person_type}
+{person_type} on kas "person" või "juridical"
+{identifier} on isikukood
 
-getDocuments vastus :
+vastus :
 {
 	"documents" : [
 		{
@@ -32,4 +31,33 @@ getDocuments vastus :
 			"description" : string, portaali kasutajale kuvatav lisainfo dokumendi kohta
 		}
 	]
+}
+
+*** GET DOCUMENT ***
+Dokumendi päring kuvamiseks
+getDocument/{formName}/{documentIdentifier}/{userId}
+{formName} - dokumendivormi nimetus, näiteks 'MTSYS_TEGEVUSLUBA'
+{documentIdentifier} - dokumendi identifikaator
+{userId}
+
+Vastuses on Xdzesion dokument
+
+*** GET DOCUMENTS ***
+Dokumendi salvestamine
+#### /api/postDocument/{data}/{document}
+data:{
+	"user":
+	{
+		"userId" : "",
+		"userName" : ""
+	},
+	{representive_person}: kus {representive_person} on "person", "juridical", "educationalInstitution"
+	{
+		"id": "" ,
+		"name": "",
+	},
+	"parameters" : {detdocuments vastuses saadud parameetrid json formaadis, näiteks "aasta" : "2000"}
+},
+document: {
+	xdzeison document
 }

@@ -12,7 +12,7 @@ id: node.oska_result_page.field_result_page_sidebar
 field_name: field_result_page_sidebar
 entity_type: node
 bundle: oska_result_page
-label: 'Parem veerg'
+label: Küljeriba
 description: ''
 required: false
 translatable: true

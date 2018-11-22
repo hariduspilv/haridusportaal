@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+index_id: test
+name: test
+num_of_shards: 5
+num_of_replica: 1
+server: test

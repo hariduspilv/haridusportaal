@@ -97,6 +97,7 @@ export class OskaResultsComponent implements OnInit{
         && responsible.includes(this.filterItems['responsible'].toLowerCase())
         && proposalStatus.includes(this.filterItems['proposalStatus'].toLowerCase());
     })
+    this.resetTableScroll();
   }
 
   sortView(field) {
@@ -131,12 +132,14 @@ export class OskaResultsComponent implements OnInit{
         this.tableData = this.filteredTableData = data['data']['oskaTableEntityQuery']['entities'];
       }
       let fieldsToProcess = ['responsible', 'proposalStatus'];
-      this.tableData.forEach(elem => {
-        if (elem.oskaField && elem.oskaField[0]) this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
-        return fieldsToProcess.forEach(item => {
-          if (elem[item]) this.filterItemValues[item].push(elem[item]);
+      if (this.tableData) {
+        this.tableData.forEach(elem => {
+          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
+          return fieldsToProcess.forEach(item => {
+            if (elem[item] && !this.filterItemValues[item].includes(elem[item])) this.filterItemValues[item].push(elem[item]);
+          });
         });
-      });
+      }
       subscription.unsubscribe();
       this.setScrollPos('resultsTable');
     }, (err) => {
@@ -154,18 +157,23 @@ export class OskaResultsComponent implements OnInit{
     }
   }
   
+  resetTableScroll () {
+    let table = document.getElementById('resultsTable');
+    table.scrollLeft = 0;
+  }
+  
   setScrollPos (id) {
     let table = document.getElementById(id);
     let clientHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    if (table.getBoundingClientRect().top < (clientHeight / 2)) {
+    if (table && (table.getBoundingClientRect().top < (clientHeight / 2))) {
       this.scrollPos = ((clientHeight / 2) - table.getBoundingClientRect().top).toString();
     }
-    if (parseInt(this.scrollPos, 10) <= table.getBoundingClientRect().height) {
+    if (table && (parseInt(this.scrollPos, 10) <= table.getBoundingClientRect().height)) {
       if (document.getElementById('scrollableRight')) {
-        document.getElementById('scrollableRight').setAttribute('style', `top: ${this.scrollPos}px`);
+        document.getElementById('scrollableRight').setAttribute('style', 'top: ' + this.scrollPos + 'px');
       }
       if (document.getElementById('scrollableLeft')) {
-        document.getElementById('scrollableLeft').setAttribute('style', `top: ${this.scrollPos}px`);
+        document.getElementById('scrollableLeft').setAttribute('style', 'top: ' + this.scrollPos + 'px');
       }
     }
   }
@@ -173,6 +181,9 @@ export class OskaResultsComponent implements OnInit{
   @HostListener("window:scroll", [])
   onWindowScroll() {
     this.setScrollPos('resultsTable');
+  }
+  @HostListener('document:touchend', ['$event']) touchedOutside($event){
+    (document.activeElement as HTMLElement).blur();
   }
 
   ngOnInit() {
