@@ -1,0 +1,1 @@
+{"mutation newsletterDeactivate($token: String!) {\n  deactivateTagSubscription(input: {uuid: $token}) {\n    errors\n    violations {\n      message\n    }\n    entity {\n      entityLabel\n    }\n  }\n}\n":1}
