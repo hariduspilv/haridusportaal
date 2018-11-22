@@ -1,10 +1,10 @@
-<aside role="navigation" *ngIf="data" class="side-menu-wrapper">
+<aside role="navigation" attr.aria-label="{{'frontpage.main_menu' | translate}}" *ngIf="data" class="side-menu-wrapper">
 
   <ul *ngFor="let item of data" class="ul-styleless category" [class.empty-parent]="item.links.length == 0 && item.url.path === '#nolink'">
     <li class="subcategory" *ngIf="item.url.path && item.url.path !== '#category' && item.url.path !== '#nocategory'" [class.has-children]="item.links.length > 0">
       <a href="javascript:void(0);"  mat-menu-item *ngIf="item.links && item.links.length > 0" (keyup.esc)="closeParentNode($event)" appToggleClass="menu-open">
         <span>{{ item.label }}</span>
-        <span class="htm-icon" *ngIf="item.links && item.links.length > 0">chevron_right</span>
+        <span class="htm-icon" aria-hidden="true" *ngIf="item.links && item.links.length > 0">chevron_right</span>
       </a>
       
       <a href="javascript:void(0);" [routerLink]="[item.url.path]" [class.isActive]="routeIncludes(item.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0 && item.url.path !== '#nolink'">
@@ -15,7 +15,7 @@
           <!-- Dropdown link -->
           <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" (keyup.esc)="closeParentNode($event)" appToggleClass="menu-open">
             <span>{{ item2.label }}</span>
-            <span class="htm-icon" *ngIf="item2.links && item2.links.length > 0">chevron_right</span>
+            <span class="htm-icon" aria-hidden="true" *ngIf="item2.links && item2.links.length > 0">chevron_right</span>
           </a>
 
           <!-- Internal link -->
@@ -32,7 +32,7 @@
           <!-- Dropdown link -->
           <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" (keyup.esc)="closeParentNode($event)" appToggleClass="menu-open"  role="link">
             <span>{{ item2.label }}</span>
-            <span class="htm-icon" *ngIf="item2.links && item2.links.length > 0">chevron_right</span>
+            <span class="htm-icon" aria-hidden="true" *ngIf="item2.links && item2.links.length > 0">chevron_right</span>
           </a>
 
           <!-- Internal link -->
@@ -50,7 +50,7 @@
               <!-- External link-->
               <a href="{{ item3.url.path }}" mat-menu-item *ngIf="!item3.url.internal" target="_blank">
                 <span>{{ item3.label }}</span>
-                <span class="htm-icon">launch</span>
+                <span class="htm-icon" aria-hidden="true">launch</span>
               </a>
             </li>
           </ul>
