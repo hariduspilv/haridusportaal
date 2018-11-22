@@ -14,6 +14,7 @@ jobs:
         name: Enter server
         command: |
           ssh -tt -o "StrictHostKeyChecking no" htm@90.190.106.49 -p 222 <<EOF1
+          cd ~
           ls -la
           EOF1
 workflows:
