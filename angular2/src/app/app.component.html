@@ -5,7 +5,7 @@
 <div class="inline" style="height: 100%;">
 	<mat-sidenav-container class="example-container"  style="min-height:100%;">
 		<mat-sidenav #sidenav mode="{{mode}}" (openedStart)="wasClicked=true" (closedStart)="wasClicked=false" [(opened)]="opened" [disableClose]="isSidenavCloseDisabled" fixedInViewport="true">
-			<app-side-menu></app-side-menu>
+			<app-side-menu attr.aria-label="{{'frontpage.main_menu' | translate}}"></app-side-menu>
 		</mat-sidenav>
 		
 		

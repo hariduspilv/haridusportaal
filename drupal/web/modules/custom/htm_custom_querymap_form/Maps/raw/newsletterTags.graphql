@@ -1,0 +1,9 @@
+query newsletterTags($lang: LanguageId!){
+    CustomTagsQuery(filter:{conditions:{field:"type", value:["news", "event"], operator:IN, language:$lang}}){
+        count
+        entities(language:$lang){
+            entityLabel
+            entityId
+        }
+    }
+}

@@ -1,11 +1,11 @@
 <ng-template #search>
-  <form class="section__form cloud__additions" [class.focusedError]='!searchFocus && !param && searchError'>
-    <div class="flex wrap xxs">
-      <div class="grow full">
-        <div class="round-input__wrapper" aria-live="assertive" 
+<form class="section__form cloud__additions" [class.focusedError]='!searchFocus && !param && searchError'>
+  <div class="flex wrap xxs" role="search">
+    <div class="grow full">
+      <div class="round-input__wrapper" aria-live="assertive" 
         [class.complete]="!searchFocus && param"
         [class.error]="!searchFocus && !param && searchError">
-        <span class="round-input__title">{{'button.search_from_page' | translate}}</span>
+        <span class="round-input__title" aria-hidden="true">{{'button.search_from_page' | translate}}</span>
         <div class="round-input__field-wrapper">
           <input attr.aria-label="{{ 'button.search_from_page' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" placeholder="{{ 'button.search_from_page' | translate }}" [(ngModel)]='param' name="param" />
         </div>
