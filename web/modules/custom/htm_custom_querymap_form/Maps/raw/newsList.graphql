@@ -1,6 +1,23 @@
-query ($offset: Int, $limit: Int, $lang: LanguageId!) {
-    nodeQuery(offset: $offset, limit: $limit, sort: {field: "created", direction: DESC}, filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: $lang}]}) {
-        entities(language: $lang) {
+query newsList (
+$tagValue: [String],
+$tagEnabled: Boolean,
+$titleValue: String,
+$titleEnabled: Boolean,
+$minDate: String,
+$maxDate: String,
+$lang: LanguageId!,
+$offset: Int,
+$limit: Int ) {
+    nodeQuery(offset: $offset, limit: $limit, sort: {field: "created", direction: DESC},
+        filter: {conjunction: AND, conditions: [
+            {operator: EQUAL, field: "type", value: ["news"], language: $lang},
+            {operator: IN, field: "field_tag.entity.tid", value: $tagValue, language: $lang, enabled: $tagEnabled },
+            {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled },
+            {operator: GREATER_THAN_OR_EQUAL, field: "created", value: [$minDate], language: $lang },
+            {operator: SMALLER_THAN_OR_EQUAL, field: "created", value: [$maxDate], language: $lang },
+
+        ]}) {
+        entities(language:$lang) {
             ... on NodeNews {
                 entityLabel
                 created
@@ -16,14 +33,16 @@ query ($offset: Int, $limit: Int, $lang: LanguageId!) {
                 fieldShortDescription
                 fieldAuthor
                 fieldIntroductionImage {
-                    derivative(style: CROP_SMALL) {
+                    derivative(style:CROP_SMALL){
                         url
                     }
                     alt
+                    title
                 }
                 fieldTag {
                     entity {
                         entityLabel
+                        tid
                     }
                 }
             }
