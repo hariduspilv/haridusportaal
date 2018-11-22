@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="header-toolbar mat-elevation-z6">
+<mat-toolbar color="primary" class="header-toolbar mat-elevation-z6" role="banner" attr.aria-label="{{'frontpage.header' | translate}}">
   <div class="inline">
 
     <div class="menu-burger pointer">
@@ -28,10 +28,10 @@
         <app-login></app-login>
 
           <div *ngIf="languages" class="languages pull-right">
-            <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
+            <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before" attr.aria-label="{{'frontpage.languages' | translate}}">
               <button [class.mat-menu-item-active]="item.argument === activeLanguage" role="button" mat-menu-item *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'frontpage.lang' | translate}} {{ item.argument }}">{{ item.argument === 'et' ? 'EST' : 'ENG' }}</button>
             </mat-menu>
-            <a href="javascript:void(0)" [matMenuTriggerFor]="appMenu" >{{activeLanguage === 'et' ? 'EST' : 'ENG'}}<span class="htm-icon">keyboard_arrow_down</span></a>
+            <a href="javascript:void(0)" [matMenuTriggerFor]="appMenu" >{{activeLanguage === 'et' ? 'EST' : 'ENG'}}<span class="htm-icon" aria-hidden="true">keyboard_arrow_down</span></a>
           </div>
 
   
@@ -40,7 +40,7 @@
       </div>
     </div>
     <span class="mob-space sm-show"></span>
-    <a href="javascript:void(0)" (click)="searchRoute(param)"><span class="htm-icon search sm-show">search</span></a>
+    <a href="javascript:void(0)" aria-hidden="true" (click)="searchRoute(param)"><span class="htm-icon search sm-show" aria-hidden="true">search</span></a>
 
     <app-login class="sm-show"></app-login>
 
@@ -48,7 +48,7 @@
       <mat-menu #appMenu="matMenu" overlapTrigger="false" direction="right" xPosition="before" role="button">
         <button mat-menu-item [class.mat-menu-item-active]="item.argument === activeLanguage" *ngFor="let item of languages" (click)="changeLanguage(item.argument)" attr.aria-label=" {{'frontpage.language'}} {{ item.argument }} ">{{ item.argument === 'et' ? 'EST' : 'ENG' }}</button>
       </mat-menu>
-      <a href="javascript:void(0)" [matMenuTriggerFor]="appMenu" >{{activeLanguage === 'et' ? 'EST' : 'ENG'}}<span class="htm-icon">keyboard_arrow_down</span></a>
+      <a href="javascript:void(0)" [matMenuTriggerFor]="appMenu" >{{activeLanguage === 'et' ? 'EST' : 'ENG'}}<span class="htm-icon" aria-hidden="true">keyboard_arrow_down</span></a>
     </div>
   </div><!--/inline-->
 </mat-toolbar>

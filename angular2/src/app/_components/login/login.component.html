@@ -1,7 +1,7 @@
 <span class="login-wrapper">
 
   <a href="javascript:void(0)" class="login__actions" *ngIf="!user.isExpired" [matMenuTriggerFor]="usermenu" [class.logged]="!user.isExpired">
-    <span class="person pointer htm-icon">person_outline</span>
+    <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
     <span class="login pointer sm-hide">{{ user.username }}</span>
   </a>
   <mat-menu #usermenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
@@ -11,7 +11,7 @@
 
 
   <a href="javascript:void(0)" class="login__actions" *ngIf="user.isExpired" (keyup.esc)="loginVisible = false;" (click)="toggleLogin()">
-    <span class="person pointer htm-icon">person_outline</span>
+    <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
     <span class="login pointer sm-hide">{{ 'button.login' | translate }}</span>
   </a>
   <div class="dropdown-menu-overlay" (click)="toggleLogin()" (keyup.esc)="loginVisible = false" *ngIf="loginVisible"></div>
