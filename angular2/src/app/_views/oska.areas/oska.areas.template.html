@@ -104,6 +104,10 @@
           <chart [data]="data.fieldMainProfessionGraph"></chart>
         </ng-container>
 
+        <ng-container *ngIf="data.fieldFieldPageGraph">
+          <chart [data]="data.fieldFieldPageGraph"></chart>
+        </ng-container>
+
         <ng-container *ngIf="data.fieldOskaFieldAccordion">
           <div class="accordion" *ngIf="data['fieldOskaFieldAccordion'].length > 0">
             <mat-accordion multi>

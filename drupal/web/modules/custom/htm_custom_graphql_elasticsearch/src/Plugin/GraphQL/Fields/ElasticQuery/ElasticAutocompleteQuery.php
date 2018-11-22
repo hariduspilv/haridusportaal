@@ -81,6 +81,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
         $responsevalues = [];
         $this->autocomplete_values = [];
+        $this->search_input = $args['search_input'];
         $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
         $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
         $elasticsearch_pass = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['password'];
@@ -106,6 +107,8 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         }
 
         $this->getAutocompleteValues($highlights);
+
+        array_multisort(array_map('strlen', $this->autocomplete_values), $this->autocomplete_values);
 
         if(count($this->autocomplete_values) > 0){
             foreach($this->autocomplete_values as $value){
@@ -141,24 +144,21 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
             'index' => $args['elasticsearch_index']
         ];
 
-        foreach($args['fields'] as $field){
-            $highlight_fields[$field] = [
-                'pre_tags' => '<highl>',
-                'post_tags' => '</highl>',
-                'require_field_match' => false
-            ];
-        }
         $query = [
             'query' => [
-                'multi_match' => [
-                    'query' => $args['search_input'],
-                    'type' => 'phrase',
-                    'fields' => $args['fields']
+                'query_string' => [
+                    'query' => '*'.$args['search_input'].'*',
                 ]
             ],
             'highlight' => [
                 'order' => 'score',
-                'fields' => $highlight_fields,
+                'fields' => [
+                    '*' => [
+                        'pre_tags' => '<highl>',
+                        'post_tags' => '</highl>',
+                        'require_field_match' => false
+                    ]
+                ]
             ]
         ];
 
@@ -172,24 +172,84 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     }
 
     protected function getAutocompleteCandidates($item, $key){
-        $regex = '#<highl>(.*?)</highl>#';
-        $code = preg_match($regex, $item, $matches);
+        $regex = '/<highl>(.*?)<\/highl>/';
+        preg_match_all($regex, $item, $matches);
         $item = explode(" ",$item);
-        $array_location = array_search($matches[0], $item);
+        $item_length = count($item);
+        if(count($matches[0]) == str_word_count($this->search_input)){
+            foreach($matches[0] as $match){
+                if(mb_strlen($match) < 50){
+                    is_int(array_search($match, $item)) ? $array_locations[] = array_search($match, $item) : null;
+                }
+            }
 
-        #clean array of unwanted values
-        foreach($item as $key => $value){
-            if($key < $array_location-1 || $key > $array_location+1){
-                unset($item[$key]);
+            #sort the array so the order won't get mixed up
+            asort($array_locations);
+
+            $matches_count = count($array_locations);
+
+            if(isset($array_locations) && $matches_count <= 3){
+
+                if($matches_count == 1){
+                    foreach($array_locations as $location){
+                        $location_position = $location;
+                        $location_count = 0;
+                        if($location != $item_length && $location != 0){
+                            $array_locations[] = $location-1;
+                            $array_locations[] = $location+1;
+                        }elseif($location == $item_length){
+                            while($location_position >= 0 && $location_count <= 2){
+                                $location_position--;
+                                $location_count++;
+                                $array_locations[] = $location_position;
+                            }
+                        }elseif($location == 0){
+                            while($location_position <= $item_length && $location_count <= 2){
+                                $location_position++;
+                                $location_count++;
+                                $array_locations[] = $location_position;
+                            }
+                        }
+                    }
+                }else{
+                    $range_start = reset($array_locations);
+                    $range_end = end($array_locations);
+                    if($range_end - $range_start <= 2){
+                        if($range_start > 0){
+                            $range_start--;
+                        }
+                        if($range_end < count($item)){
+                            $range_end++;
+                        }
+                        $array_locations = range($range_start, $range_end);
+                    }
+                }
+
+                #sort the array again after adding new locations
+                asort($array_locations);
+
+                #clean values for output and extract only values, that are needed for output
+                foreach($array_locations as $location){
+                    if(isset($item[$location])){
+                        $autocomplete_value_items[] = strip_tags($item[$location]);
+                    }
+                }
+
+                $mandatory_args = explode(" ", $this->search_input);
+                $autocomplete_value = implode(" ", $autocomplete_value_items);
+                #dump($mandatory_args);
+                #dump($autocomplete_value);
+                $correct_value = true;
+                foreach($mandatory_args as $value){
+                    if(fnmatch(mb_strtolower('*'.$value.'*'), mb_strtolower($autocomplete_value)) == false){
+                        $correct_value = false;
+                    }
+                }
+
+                if($correct_value == true && !in_array($autocomplete_value, $this->autocomplete_values)){
+                    $this->autocomplete_values[] = trim($autocomplete_value);
+                }
             }
         }
-        $item[$array_location] = $matches[1];
-
-        $item = implode(" ", $item);
-
-        if(!in_array($item, $this->autocomplete_values)){
-            $this->autocomplete_values[] = $item;
-        }
     }
-
 }

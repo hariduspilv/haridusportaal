@@ -57,9 +57,9 @@ export class ChartComponent implements OnInit{
           "title": graphTitle,
           "height": 400,
           "pieSliceTextStyle": {
-            "color": '#333333'
+            "color": '#ffffff'
           },
-          "colors": ['#b02d0c', '#d5401a', '#e2770d', '#f8b243', '#0b148c', '#4290bf', '#1b8c9f', '#15adc2', '#700280', '#aa85be', '#af4c96', '#f290aa']
+          "colors": ['#18218F', '#9E02B6', '#0252B0', '#C200C2', '#0071C7', '#D704A2', '#198294', '#D11B6F', '#00856A', '#D11B1B', '#257E25', '#DB3A00']
         }
       }
 
@@ -70,7 +70,7 @@ export class ChartComponent implements OnInit{
       if( chartType && secondaryGraphType ){
         let newType = chartType;
 
-        if( newType == "bar" ){
+        if( newType == "Bar" ){
           newType = "bars";
         }
 
@@ -84,6 +84,8 @@ export class ChartComponent implements OnInit{
             type: secondaryGraphType
           }
         }
+
+        console.log(tmp);
     
       }
 

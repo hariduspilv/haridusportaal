@@ -1,0 +1,4 @@
+services:
+  htm_custom_feedback.default:
+    class: Drupal\htm_custom_feedback\FeedbackService
+    arguments: ['@database', '@cache_tags.invalidator']

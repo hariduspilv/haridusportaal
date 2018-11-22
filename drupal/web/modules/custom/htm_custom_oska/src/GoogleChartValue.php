@@ -177,6 +177,22 @@ class GoogleChartValue extends TypedData {
                         $xlabels[] = $xlabel;
                     }
                 }
+
+                #add x-axis value to order array as first
+                $key_order[] = key($labelsums);
+
+                #get correct order for indicators
+                foreach($filter_values[$indicator_field] as $value){
+                    $key_order[] = Term::load($value['target_id'])->getName();
+                }
+
+                #create new array with correct order and values from old array
+                foreach($key_order as $key){
+                    $new_labelsums[$key] = $labelsums[$key];
+                }
+
+                $labelsums = $new_labelsums;
+
                 #add values to empty fields
                 if(count($xlabels) > 0){
                     foreach($xlabels as $label){

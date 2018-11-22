@@ -9,7 +9,7 @@ id: paragraph.main_profession_sidebar.field_pros
 field_name: field_pros
 entity_type: paragraph
 bundle: main_profession_sidebar
-label: Pros
+label: Plussid
 description: ''
 required: false
 translatable: true

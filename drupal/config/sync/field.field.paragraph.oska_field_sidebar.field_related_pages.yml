@@ -11,7 +11,7 @@ id: paragraph.oska_field_sidebar.field_related_pages
 field_name: field_related_pages
 entity_type: paragraph
 bundle: oska_field_sidebar
-label: 'Related pages'
+label: 'Sarnased teemad'
 description: ''
 required: false
 translatable: true

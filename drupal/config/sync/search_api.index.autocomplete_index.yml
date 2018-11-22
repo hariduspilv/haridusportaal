@@ -1,0 +1,314 @@
+uuid: 30fcf012-9f31-49b3-b604-99cc5b035d7e
+langcode: et
+status: true
+dependencies:
+  module:
+    - elasticsearch_connector
+    - paragraphs
+    - node
+    - search_api
+  config:
+    - field.storage.node.field_accordion_section
+    - field.storage.paragraph.field_survey_accordion_title
+    - field.storage.paragraph.field_body
+    - field.storage.node.field_author
+    - field.storage.node.body
+    - field.storage.node.field_organizer
+    - field.storage.node.field_oska_field_sidebar
+    - field.storage.paragraph.field_oska_main_profession
+    - field.storage.paragraph.field_cons
+    - field.storage.paragraph.field_oska_field_cons
+    - field.storage.paragraph.field_oska_field_pros
+    - field.storage.paragraph.field_pros
+    - field.storage.node.field_registration_code
+    - field.storage.node.field_tag
+    - field.storage.node.field_short_description
+    - field.storage.node.field_introduction
+    - field.storage.node.field_body_summary
+    - field.storage.node.field_body
+    - field.storage.node.field_event_type
+    - search_api.server.elasticsearch_server
+third_party_settings:
+  elasticsearch_connector:
+    ngram_filter_enabled: 0
+    ngram_config:
+      ngram_type: edge_ngram
+      min_gram: '3'
+      max_gram: '20'
+id: autocomplete_index
+name: Autocomplete
+description: ''
+read_only: false
+field_settings:
+  body:
+    label: Body
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_author:
+    label: Avaldaja
+    datasource_id: 'entity:node'
+    property_path: field_author
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_author
+  field_body:
+    label: Sisu
+    datasource_id: 'entity:node'
+    property_path: field_body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_body
+  field_body_1:
+    label: 'Akordion » Paragraph » Sisu'
+    datasource_id: 'entity:node'
+    property_path: 'field_accordion_section:entity:field_body'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_accordion_section
+        - field.storage.paragraph.field_body
+      module:
+        - paragraphs
+  field_body_summary:
+    label: Sissejuhatus
+    datasource_id: 'entity:node'
+    property_path: field_body_summary
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_body_summary
+  field_cons:
+    label: 'Parem veerg » Paragraph » Miinused'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_sidebar:entity:field_cons'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_cons
+      module:
+        - paragraphs
+  field_event_type:
+    label: 'Ürituse tüüp'
+    datasource_id: 'entity:node'
+    property_path: field_event_type
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_event_type
+  field_introduction:
+    label: Sissejuhatus
+    datasource_id: 'entity:node'
+    property_path: field_introduction
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_introduction
+  field_organizer:
+    label: Organiseerija
+    datasource_id: 'entity:node'
+    property_path: field_organizer
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_organizer
+  field_oska_field_cons:
+    label: 'Parem veerg » Paragraph » Miinused'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_sidebar:entity:field_oska_field_cons'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_oska_field_cons
+      module:
+        - paragraphs
+  field_oska_field_pros:
+    label: 'Parem veerg » Paragraph » Plussid'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_sidebar:entity:field_oska_field_pros'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_oska_field_pros
+      module:
+        - paragraphs
+  field_oska_main_profession:
+    label: 'Parem veerg » Paragraph » Ametialad'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_sidebar:entity:field_oska_main_profession'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_oska_main_profession
+      module:
+        - paragraphs
+  field_pros:
+    label: 'Parem veerg » Paragraph » Plussid'
+    datasource_id: 'entity:node'
+    property_path: 'field_oska_field_sidebar:entity:field_pros'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_oska_field_sidebar
+        - field.storage.paragraph.field_pros
+      module:
+        - paragraphs
+  field_registration_code:
+    label: Registrikood
+    datasource_id: 'entity:node'
+    property_path: field_registration_code
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_registration_code
+  field_short_description:
+    label: Sissejuhatus
+    datasource_id: 'entity:node'
+    property_path: field_short_description
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_short_description
+  field_survey_accordion_title:
+    label: 'Akordion » Paragraph » Akordioni pealkiri'
+    datasource_id: 'entity:node'
+    property_path: 'field_accordion_section:entity:field_survey_accordion_title'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_accordion_section
+        - field.storage.paragraph.field_survey_accordion_title
+      module:
+        - paragraphs
+  field_tag:
+    label: Sildid
+    datasource_id: 'entity:node'
+    property_path: field_tag
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_tag
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - article
+        - event
+        - news
+        - oska_field_page
+        - oska_main_profession_page
+        - oska_result_page
+        - oska_survey_page
+        - school
+        - study_programme
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  html_filter:
+    all_fields: true
+    fields:
+      - body
+      - field_author
+      - field_body
+      - field_body_1
+      - field_body_summary
+      - field_cons
+      - field_event_type
+      - field_introduction
+      - field_organizer
+      - field_oska_field_cons
+      - field_oska_field_pros
+      - field_pros
+      - field_registration_code
+      - field_short_description
+      - field_survey_accordion_title
+      - field_tag
+      - title
+    title: true
+    alt: true
+    tags:
+      b: 2
+      em: 1
+      h1: 5
+      h2: 3
+      h3: 2
+      strong: 2
+      u: 1
+    weights:
+      preprocess_index: -15
+      preprocess_query: -15
+  ignore_character:
+    all_fields: true
+    fields:
+      - body
+      - field_author
+      - field_body
+      - field_body_1
+      - field_body_summary
+      - field_cons
+      - field_event_type
+      - field_introduction
+      - field_organizer
+      - field_oska_field_cons
+      - field_oska_field_pros
+      - field_pros
+      - field_registration_code
+      - field_short_description
+      - field_survey_accordion_title
+      - field_tag
+      - title
+    ignorable: '[''¿¡!?,.:;]'
+    strip:
+      character_sets:
+        Cc: 0
+        Cf: 0
+        Co: 0
+        Mc: 0
+        Me: 0
+        Mn: 0
+        Pc: Pc
+        Pd: Pd
+        Pe: Pe
+        Pf: Pf
+        Pi: Pi
+        Po: Po
+        Ps: Ps
+        Sc: 0
+        Sk: 0
+        Sm: 0
+        So: 0
+        Zl: 0
+        Zp: 0
+        Zs: 0
+    weights:
+      preprocess_index: -10
+      preprocess_query: -10
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server

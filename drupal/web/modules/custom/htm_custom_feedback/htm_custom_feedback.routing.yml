@@ -1,0 +1,8 @@
+
+htm_custom_feedback.feedback_controller_AllFeedbacks:
+  path: '/feedbacks'
+  defaults:
+    _controller: '\Drupal\htm_custom_feedback\Controller\FeedbackController::AllFeedbacks'
+    _title: 'Feedbacks'
+  requirements:
+    _permission: 'access content'
