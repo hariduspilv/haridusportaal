@@ -14,8 +14,6 @@ jobs:
         name: Enter server
         command: |
           ssh -q -o StrictHostKeyChecking=no htm@90.190.106.49 -p 222 <<EOF1
-          cd ~
-          ls -la
           ssh -q -o StrictHostKeyChecking=no htmcircleci@test.edu.ee <<EOF2
           ls -la
           exit
