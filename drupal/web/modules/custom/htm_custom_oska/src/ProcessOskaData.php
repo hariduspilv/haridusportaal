@@ -61,15 +61,15 @@ class ProcessOskaData {
             if(
             !$object['naitaja']){
 
-                #$error_messag_func = function($values) {
-                #    foreach($values as $key => $value){
-                #        if($key === 'naitaja' && $value === FALSE){
-                #            return $key;
-                #        }
-                #    }
-                #};
+                $error_messag_func = function($values) {
+                    foreach($values as $key => $value){
+                        if($key === 'naitaja' && $value === FALSE){
+                            return $key;
+                        }
+                    }
+                };
 
-                #$context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
+                $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
             }else{
                 $results[] = [
                     'oska_indicator' => $object['naitaja'],
