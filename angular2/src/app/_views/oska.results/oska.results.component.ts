@@ -56,7 +56,7 @@ export class OskaResultsComponent implements OnInit{
   }
 
   getData(){
-    let url = "/graphql?queryId=oskaResultPageDetailView:1&variables=";
+    let url = "/graphql?queryName=oskaResultPageDetailView&queryId=ff16835c2d5f78292598cfa17b3d3bf9dcb76ef2:1&variables=";
     let variables = {
       "lang": this.rootScope.get('currentLang'),
       "path": this.router.url
@@ -123,7 +123,7 @@ export class OskaResultsComponent implements OnInit{
   }
 
   getTableData(){
-    let url = "/graphql?queryId=oskaResultPageTable:1";
+    let url = "/graphql?queryName=oskaResultPageTable&queryId=967afa08c955809c695fd060ea4a25e240e9eb01:1";
     let subscription = this.http.get(url).subscribe( (data) => {
       if ( data['data']['errors'] ) {
         this.error = true;

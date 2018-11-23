@@ -100,13 +100,10 @@
           <video-component [videos]="data.fieldSurveyPageVideo"></video-component>
         </ng-container>
 
-        <ng-container *ngIf="data.fieldMainProfessionGraph">
-          <chart [data]="data.fieldMainProfessionGraph"></chart>
+        <ng-container *ngIf="data.fieldMainProfessionGraph || data.fieldSurveyPageGraph	|| data.fieldFieldPageGraph">
+          <chart [data]="data.fieldMainProfessionGraph || data.fieldSurveyPageGraph	|| data.fieldFieldPageGraph"></chart>
         </ng-container>
 
-        <ng-container *ngIf="data.fieldFieldPageGraph">
-          <chart [data]="data.fieldFieldPageGraph"></chart>
-        </ng-container>
 
         <ng-container *ngIf="data.fieldOskaFieldAccordion">
           <div class="accordion" *ngIf="data['fieldOskaFieldAccordion'].length > 0">

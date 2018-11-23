@@ -1,0 +1,1 @@
+{"query site_langs {\n  availableLanguages {\n    name\n    argument\n    isDefault\n  }\n}\n":1}

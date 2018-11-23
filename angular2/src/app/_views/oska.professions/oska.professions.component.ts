@@ -49,7 +49,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       lang: this.lang.toUpperCase(),
       limit: this.limit
     };
-    this.filterSub = this.http.get('/graphql?queryId=oskaMainProfessionListViewFilter:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+    this.filterSub = this.http.get('/graphql?queryName=oskaMainProfessionListViewFilter&queryId=f7d1aaaec8b6c8119313669959e2455e7e2423c6:1&variables=' + JSON.stringify(variables)).subscribe(response => {
       this.oskaFieldValue = response['data']['oskaFields']['entities'];
 
       // Map unique indicators for ascending and descending cases
@@ -107,7 +107,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     
     let variables = {
       lang: this.lang.toUpperCase(),
-      titleValue: this.params['titleValue'] ? encodeURIComponent("%" + this.params['titleValue'] + "%") : "",
+      titleValue: this.params['titleValue'] ? "%" + this.params['titleValue'] + "%" : "",
       titleEnabled: this.params['titleValue'] ? true : false,
       oskaFieldValue: this.params['oskaFieldValue'] ? this.params['oskaFieldValue'] : "",
       oskaFieldEnabled: this.params['oskaFieldValue'] ? true : false,
@@ -118,7 +118,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       offset: 0,
       limit: this.limit
     };
-    this.dataSub = this.http.get('/graphql?queryId=oskaMainProfessionListView:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+    this.dataSub = this.http.get('/graphql?queryName=oskaMainProfessionListView&queryId=27dcbc2fc3ff7c8161a8783bb1235018470b42f4:1&variables=' + JSON.stringify(variables)).subscribe(response => {
       let responseVal: any = response['data']['nodeQuery']['entities'];
       let filterIndicator: any = false;
       let responseData: any = false;

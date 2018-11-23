@@ -1,0 +1,43 @@
+query studyProgrammeFilterOptions($lang: LanguageId!) {
+    type: taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: "vid", value: ["studyprogrammetype"], language: $lang}]}) {
+        entities {
+            ... on TaxonomyTerm {
+                tid
+                entityLabel
+                reverseFieldStudyProgrammeTypeNode {
+                    count
+                }
+            }
+        }
+    }
+    level: taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: "vid", value: ["studyprogrammelevel"], language: $lang}]}) {
+        entities {
+            ... on TaxonomyTerm {
+                tid
+                entityLabel
+                reverseFieldStudyProgrammeLevelNode {
+                    count
+                }
+            }
+        }
+    }
+    language: taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: "vid", value: ["teaching_language"], language: $lang}]}) {
+        entities {
+            ... on TaxonomyTerm {
+                tid
+                entityLabel
+                reverseFieldTeachingLanguageNode {
+                    count
+                }
+            }
+        }
+    }
+    isced_f: taxonomyTermQuery(filter: {conditions: {operator: EQUAL, field: "vid", value: "isced_f"}}) {
+        entities {
+            entityId
+            entityLabel
+            parentId
+            parentName
+        }
+    }
+}

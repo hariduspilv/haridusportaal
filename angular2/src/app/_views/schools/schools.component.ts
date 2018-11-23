@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
-import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
 
@@ -94,7 +93,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute,
-    private apollo: Apollo,
     private cdr: ChangeDetectorRef,
     private http: HttpService,
     private translate: TranslateService,
@@ -272,13 +270,13 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       }
     }
     
-    let url = "/graphql?queryId=schoolMapQuery:1&variables=";
+    let url = "/graphql?queryName=schoolMapQuery&queryId=55b4b11c2556abc3e768654a05459b6e0c457fb5:1&variables=";
 
     let variables = {
       lang: this.lang.toUpperCase(),
       offset: this.offset,
       limit: this.view == "list" ? this.limit : this.mapLimit,
-      title: this.params['title'] ? ""+encodeURI(this.params['title'].toLowerCase())+"" : "",
+      title: this.params['title'] ? ""+this.params['title'].toLowerCase()+"" : "",
       boundsEnabled: this.boundsEnabled,
       minLat: this.bounds.minLat,
       maxLat: this.bounds.maxLat,
@@ -321,7 +319,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   getOptions() {
 
-    let url = "/graphql?queryId=getSchoolFilterOptions:1&variables=";
+    let url = "/graphql?queryName=getSchoolFilterOptions&queryId=5fc71ac22d59b52d304f9938adf3c611241b7f7c:1&variables=";
 
     let variables = {
       lang: this.lang.toUpperCase()

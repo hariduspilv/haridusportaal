@@ -1,17 +1,17 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NewsService, RootScopeService } from '@app/_services';
+import { RootScopeService } from '@app/_services';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { componentFactoryName } from '@angular/compiler';
 import { AppComponent } from '@app/app.component';
 import { Subscription } from 'rxjs/Subscription';
-import { Apollo } from 'apollo-angular';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {ImagePopupDialog} from '@app/_components/dialogs/image.popup/image.popup.dialog';
 import {VideoComponent} from '@app/_components/video/video.component';
 import { UserService } from '@app/_services/userService';
 
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
   templateUrl: './news.single.component.html',
@@ -34,11 +34,10 @@ export class NewsSingleComponent implements OnInit {
   constructor(
 		private router: Router,
 		private route: ActivatedRoute,
-		private newsService: NewsService,
 		private rootScope:RootScopeService, 
-    private apollo: Apollo,
     public dialog: MatDialog,
-    private user: UserService
+    private user: UserService,
+    private http: HttpService
    ) {
 
     this.route.params.subscribe( params => {
@@ -51,7 +50,13 @@ export class NewsSingleComponent implements OnInit {
 
       const that = this;
 
-      newsService.getSingle(path, function(data) {
+      let url = "/graphql?queryName=newsSingle&queryId=8e6fff0c11ca8862a51ba71c913a453eb43ad771:1&variables=";
+      let variables = {
+        path: path
+      };
+      
+      let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+        let data = response['data'];
         if ( data['route'] == null ) {
           that.error = true;
         } else {
@@ -68,7 +73,7 @@ export class NewsSingleComponent implements OnInit {
           langValues[langOptions[i].language.id] = langOptions[i].url.path;
         }
         that.rootScope.set('langOptions', langValues);
-        //language service
+        subscribe.unsubscribe();
       });
 
     });

@@ -6,13 +6,13 @@
 
     <ng-container *ngIf="content">
       <article class="news-list__recent__elem" *ngFor="let item of content">
-        <a href="javascript:void();" class="normal-text" [routerLink]="[item.entityTranslation.entityUrl.path]">
-          <div class="pointer field-image" *ngIf="item.entityTranslation.fieldIntroductionImage">
-            <img src="{{ item.entityTranslation.fieldIntroductionImage.derivative.url }}" alt="{{ item.entityTranslation.fieldIntroductionImage.alt }}" width="100%" />
+        <a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]">
+          <div class="pointer field-image" *ngIf="item.fieldIntroductionImage">
+            <img src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
           </div>
-          <div class="title__recent"><h1> {{ item.entityTranslation.entityLabel }}</h1></div>
+          <div class="title__recent"><h1> {{ item.entityLabel }}</h1></div>
         </a>
-        <div class="author" attr.aria-label="{{'author.author' | translate}}">{{ item.entityTranslation.fieldAuthor }} {{ item.entityTranslation.created*1000 | date:"dd.MM.yyyy" }}</div>
+        <div class="author" attr.aria-label="{{'author.author' | translate}}">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
       </article>
     </ng-container>
 

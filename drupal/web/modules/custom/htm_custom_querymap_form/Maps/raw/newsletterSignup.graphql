@@ -1,0 +1,13 @@
+mutation newsletterSignup($email: String!, $tags: String!, $lang: LanguageId!) {
+    createTagSubscription(input: {email: $email, newtags: $tags}, language: $lang) {
+        errors
+        violations {
+            path
+            code
+            message
+        }
+        entity {
+            entityLabel
+        }
+    }
+}
