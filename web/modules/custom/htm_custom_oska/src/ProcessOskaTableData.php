@@ -42,7 +42,6 @@ class ProcessOskaTableData {
                     $item[cleanString($key)] = $value;
                 }
             }
-            dump($item);
 
             $object['valdkond'] = self::checkEntityReference('node', 'oska_field_page', $item['valdkond']);
             $object['juurprobleem'] = mb_strlen($item['juurprobleem']) <= 500 ? $item['juurprobleem'] : FALSE;
