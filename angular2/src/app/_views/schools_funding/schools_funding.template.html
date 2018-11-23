@@ -1,4 +1,63 @@
-
+<breadcrumbs></breadcrumbs>
+<div class="sm-show text-right filter-control">
+  <a href="javascript:void(0);" (click)="showFilter = !showFilter">
+    <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+    <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+  </a> 
+</div>
+<form (submit)="filterSubmit($event)" class="filter-wrapper" [class.filtersActive]="showFilter">
+  <div class="main-container">
+    <div class="row">
+      <div class="col-3 sm-12">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.ownershipType">
+          <mat-form-field>
+            <mat-select placeholder="{{ 'school.institution_ownership' | translate }}" [(ngModel)]="filterFormItems.ownershipType" name="ownershipType">
+              <mat-option>{{ 'button.all' | translate }}</mat-option>
+              <ng-container  *ngIf="filterData.ownerShipType && filterData.ownerShipType.entities">
+                <ng-container *ngFor="let item of filterData.ownerShipType.entities">
+                  <mat-option [value]="item.tid.toString()" *ngIf="item.reverseFieldOwnershipTypeNode.count > 0">
+                    {{ item.entityLabel }}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div><!--/round-inpuit__wrapper-->
+      </div><!--/col-4-->
+      <div class="col-5 sm-12">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.investmentMeasure">
+          <mat-form-field>
+            <mat-select placeholder="{{ 'school.investment_measure' | translate }}" [(ngModel)]="filterFormItems.investmentMeasure" name="investmentMeasure">
+              <mat-option>{{ 'button.all' | translate }}</mat-option>
+              <ng-container  *ngIf="filterData.investmentMeasure && filterData.investmentMeasure.entities">
+                <ng-container *ngFor="let item of filterData.investmentMeasure.entities">
+                  <mat-option [value]="item.tid.toString()" *ngIf="item.reverseInvestmentMeasureSubsidyProjectEntity.count > 0">
+                    {{ item.entityLabel }}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div><!--/round-inpuit__wrapper-->
+      </div><!--/col-4-->
+      <div class="col-4 sm-12 align-end flex-end">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.investmentDeadline">
+          <mat-form-field>
+            <mat-select placeholder="{{ 'school.investment_deadline_year' | translate }}" [(ngModel)]="filterFormItems.investmentDeadline" name="investmentDeadline">
+              <mat-option>{{ 'button.all' | translate }}</mat-option>
+              <mat-option [value]="item.toString()" *ngFor="let item of filterData.investmentDeadline">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div><!--/round-inpuit__wrapper-->
+        <div class="button-row">
+          <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate }}</button>
+        </div>
+      </div><!--/col-4-->
+    </div><!--/row-->
+  </div>
+</form>
 
 <div class="row-wrapper schools">
   <div class="row">
