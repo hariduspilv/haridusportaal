@@ -547,6 +547,18 @@ frontpage:
     translation_type: textarea
     et: Avaleht
     en: Frontpage
+  languages:
+    translation_type: textarea
+    et: Keelemenüü
+    en: 'Language menu'
+  header:
+    translation_type: textarea
+    et: Päis
+    en: Header
+  main_menu:
+    translation_type: textarea
+    et: Peamenüü
+    en: 'Main menu'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -2047,3 +2059,4 @@ dashboard:
     translation_type: textarea
     et: 'Pidaja liik'
     en: 'Owner type'
+general: {  }
