@@ -4,7 +4,6 @@ import { HttpHeaders } from '@angular/common/http';
 import { Params, Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService } from '../../_services';
 
-import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
 
 import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
@@ -50,7 +49,6 @@ export class ArticleComponent implements OnInit, OnDestroy{
     private router: Router,
     private route: ActivatedRoute,
     private rootScope: RootScopeService,
-    private apollo: Apollo,
     private http: HttpService,
     private user: UserService
     ) {}
@@ -60,10 +58,12 @@ export class ArticleComponent implements OnInit, OnDestroy{
     this.route
       .data
       .subscribe(v => console.log(v));
+
+      
     this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.lang = params['lang'];
-        let url = "/graphql?queryId=getArticle:1&variables=";
+        let url = "/graphql?queryName=getArticleData&queryId=734e267b92117f3ce44a22f5602e0624ded25f3f:1&variables=";
         let variables = {
           "path": this.router.url
         };
