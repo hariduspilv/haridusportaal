@@ -1,0 +1,103 @@
+query ($path: String!) {
+    route(path: $path) {
+        ... on EntityCanonicalUrl {
+            entity {
+                ... on NodeStudyProgramme {
+                    nid
+                    entityLabel
+                    fieldSchoolWebsite
+                    fieldAmountUnit
+                    fieldWebPageAddress {
+                        uri
+                    }
+                    fieldQualificationStandardId {
+                        entity {
+                            entityLabel
+                        }
+                    }
+                    fieldEducationalInstitution {
+                        entity {
+                            ... on NodeSchool {
+                                entityLabel
+                                fieldRegistrationCode
+                                fieldSchoolContactEmail
+                                fieldSchoolContactPhone
+                                fieldSchoolLocation {
+                                    entity {
+                                        ... on ParagraphSchoolLocation {
+                                            fieldAddress
+                                            fieldLocationType
+                                            fieldCoordinates {
+                                                lat
+                                                lon
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    fieldStudyProgrammeLevel {
+                        entity {
+                            entityLabel
+                        }
+                    }
+                    fieldDegreeOrDiplomaAwarded {
+                        entity {
+                            entityLabel
+                        }
+                    }
+                    fieldSpecialization
+                    fieldIscedfBoard {
+                        entity {
+                            entityLabel
+                        }
+                    }
+                    fieldIscedfDetailed {
+                        entity {
+                            entityLabel
+                        }
+                    }
+                    fieldShortDescription
+                    fieldTeachingLanguage {
+                        entity {
+                            entityLabel
+                        }
+                    }
+                    fieldAmount
+                    fieldPracticalTrainingAmount
+                    fieldDurationYears
+                    fieldDurationMonths
+                    fieldAdmissionStatus
+                    fieldAccreditationStatus
+                    fieldAccreditationValidUntil {
+                        value
+                        date
+                        unix
+                    }
+                    fieldWebPageAddress {
+                        uri
+                    }
+                    fieldQualificationStandardId {
+                        entity {
+                            entityLabel
+                        }
+                    }
+                }
+            }
+            languageSwitchLinks {
+                active
+                title
+                language {
+                    id
+                }
+                url {
+                    path
+                    routed
+                    pathAlias
+                    pathInternal
+                }
+            }
+        }
+    }
+}

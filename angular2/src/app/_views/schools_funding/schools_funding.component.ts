@@ -173,7 +173,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
   getFilters() {
 
-    let url = "/graphql?queryId=subsidyProjectFilters:1&variables=";
+    let url = "/graphql?queryName=subsidyProjectFilters&queryId=d682dd31fe64a0ed62a45662a93cb8bb5b690f9e:1&variables=";
     let variables = {
       "lang": this.lang.toUpperCase()
     }
@@ -226,12 +226,12 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
     this.loading = true;
 
-    let url = "/graphql?queryId=subsidyProjectQueryLocation:1&variables=";
+    let url = "/graphql?queryName=subsidyProjectQueryLocation&queryId=b51cfec3027aaf28dc7eea4964406f0e1f5d14d4:1&variables=";
 
     this.mapLabelSwitcher();
 
     if( this.view == "schools" ){
-      url = "/graphql?queryId=subsidyProjectQuerySchool:1&variables=";
+      url = "/graphql?queryName=subsidyProjectQuerySchool&queryId=52ce35003bef1ec38ec0fee1552e1a0f8bcc4b0b:1&variables=";
       this.heatMapRanges = [];
     }
 

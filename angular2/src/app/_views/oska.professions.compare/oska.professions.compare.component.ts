@@ -96,7 +96,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       fetchPolicy: 'no-cache',
       errorPolicy: 'all'
     }
-    this.url = this.settings.url + "/graphql?queryId=oskaMainProfessionListView:1&variables=" + JSON.stringify(variables);
+    this.url = this.settings.url + "/graphql?queryName=oskaMainProfessionListView&queryId=27dcbc2fc3ff7c8161a8783bb1235018470b42f4:1&variables=" + JSON.stringify(variables);
     
     this.http.get(this.url).subscribe(response => {
       let data = response['data']['nodeQuery']['entities'];

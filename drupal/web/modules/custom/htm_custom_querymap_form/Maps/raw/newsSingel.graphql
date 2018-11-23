@@ -1,0 +1,74 @@
+query ($path: String!) {
+    route(path: $path) {
+        ... on EntityCanonicalUrl {
+            languageSwitchLinks {
+                active
+                title
+                language {
+                    id
+                }
+                url {
+                    path
+                    routed
+                    pathAlias
+                    pathInternal
+                }
+            }
+            entity {
+                ... on NodeNews {
+                    entityLabel
+                    nid
+                    created
+                    fieldAuthor
+                    fieldNewsDescription {
+                        value
+                    }
+                    fieldShortDescription
+                    fieldIntroductionImage {
+                        derivative(style: CROP_LARGE) {
+                            url
+                        }
+                        alt
+                        title
+                    }
+                    fieldAdditionalImages {
+                        derivative(style: CROP_LARGE) {
+                            url
+                        }
+                        alt
+                    }
+                    fieldNewsLink {
+                        url {
+                            path
+                        }
+                        title
+                    }
+                    fieldTag {
+                        entity {
+                            entityLabel
+                            tid
+                        }
+                    }
+                    fieldNewsVideo {
+                        input
+                        videoDomain
+                        videoDescription
+                        videoId
+                    }
+                    entityUrl {
+                        ... on EntityCanonicalUrl {
+                            languageSwitchLinks {
+                                url {
+                                    routed
+                                    path
+                                    pathAlias
+                                    pathInternal
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

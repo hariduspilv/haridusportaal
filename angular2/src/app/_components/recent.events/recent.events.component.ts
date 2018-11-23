@@ -1,7 +1,6 @@
 import { Component, OnDestroy, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { RootScopeService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription'; 
 
 import { AgmCoreModule } from '@agm/core';

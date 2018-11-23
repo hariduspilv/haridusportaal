@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Apollo } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 
 import { RootScopeService } from '@app/_services';
@@ -27,7 +26,6 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
   private querySubscription: Subscription;
 
   constructor(
-    private apollo: Apollo,
     private route: ActivatedRoute,
     private router: Router,
     private rootScope: RootScopeService,
@@ -38,7 +36,7 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
 
   ngOnInit() {
 
-    let url = "/graphql?queryId=getSchoolSingle:1&variables=";
+    let url = "/graphql?queryName=getSchoolSingle&queryId=f71d2bb7d014d18e03d6e5c74257eede72fbdd58:1&variables=";
 
     let variables = {
       path: this.router.url
@@ -68,7 +66,7 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   getOptions(types) {
-    let url = "/graphql?queryId=getSchoolInstitutions:1&variables=";
+    let url = "/graphql?queryName=getSchoolInstitutions&queryId=ce9950247e2ca382b581c5615822630bcecee3c1:1&variables=";
 
     let variables = {
       lang: this.lang.toUpperCase()
