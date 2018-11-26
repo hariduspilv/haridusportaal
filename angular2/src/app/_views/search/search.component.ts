@@ -107,7 +107,7 @@ export class SearchComponent {
     this.loading = true;
     this.listLimit = this.listStep;
     this.updateParams('term', term);
-    let url = this.settings.url+"/graphql?queryId=homeSearch:1&variables=";
+    let url = this.settings.url+"/graphql?queryName=homeSearch&queryId=580bbb859e1510a09dd3d7da5d2d41db9332fb4a:1&variables=";
 
     let variables = {
       lang: this.rootScope.get('currentLang').toUpperCase(),

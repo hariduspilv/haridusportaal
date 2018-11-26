@@ -73,7 +73,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       nidValues: '[' + this.compare.map(id => '"'+id+'"') + ']'
     }
 
-    this.url = this.settings.url + "/graphql?queryId=studyProgrammeComparison:1&variables=" + JSON.stringify(variables);
+    this.url = this.settings.url + "/graphql?queryName=studyProgrammeComparison&queryId=c91043ae1543bf076c76072acf8437086fc9f421:1&variables=" + JSON.stringify(variables);
     
     this.http.get(this.url).subscribe(response => {
       this.list = response['data'].nodeQuery.entities;

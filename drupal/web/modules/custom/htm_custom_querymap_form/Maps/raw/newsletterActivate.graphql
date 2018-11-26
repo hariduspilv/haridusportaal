@@ -1,0 +1,11 @@
+mutation newsletterActivate($token: String!) {
+    activateTagSubscription(input: {uuid: $token}) {
+        errors
+        violations {
+            message
+        }
+        entity {
+            entityLabel
+        }
+    }
+}

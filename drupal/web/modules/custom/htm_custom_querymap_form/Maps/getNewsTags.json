@@ -1,0 +1,1 @@
+{"query getNewsTags2($lang: LanguageId!) {\n  nodeQuery(filter: {conditions: [{operator: EQUAL, field: \"type\", value: [\"news\"], language: $lang}]}) {\n    entities(language: $lang) {\n      ... on NodeNews {\n        Tag: fieldTag {\n          entity {\n            entityId\n            entityLabel\n          }\n        }\n      }\n    }\n  }\n}\n":1}
