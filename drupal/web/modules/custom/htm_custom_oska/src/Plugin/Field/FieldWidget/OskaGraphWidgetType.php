@@ -120,7 +120,6 @@ class OskaGraphWidgetType extends WidgetBase {
                     );
                 }else{
                     $graph_type_options = array(
-                        'line' => $this->t('line'),
                         'bar' => $this->t('bar'),
                         'column' => $this->t('column')
                     );
