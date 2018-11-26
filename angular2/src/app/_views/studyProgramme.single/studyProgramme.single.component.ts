@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SingleQuery } from '@app/_graph/studyProgramme.graph';
 import { FiltersService } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
 import { UserService } from '@app/_services/userService';
+
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
   templateUrl: "studyProgramme.single.template.html",
@@ -24,10 +24,10 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   private userLoggedOut: boolean = false;
 
   constructor(
-    private apollo: Apollo,
     public router: Router,
     public route: ActivatedRoute,
-    private user: UserService
+    private user: UserService,
+    private http: HttpService
   ){
     super(null,null)
   }
@@ -47,15 +47,15 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   }
   getData() {
     this.displayRelatedStudyProgrammes = false;
-    let subscribe = this.apollo.watchQuery({
-      query: SingleQuery,
-        variables: {
-          path: this.path
-        },
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
-    }).valueChanges.subscribe( ({data}) => {
 
+
+    let url = "/graphql?queryName=studyProgrammeSingle&queryId=0d539972ed54436d5d651243ee7754c2d81a5efc:1&variables=";
+    let variables = {
+      path: this.path
+    };
+    
+    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+      let data = response['data'];
       this.data = data['route']['entity'];
     });
     // Add subscription to main array for destroying

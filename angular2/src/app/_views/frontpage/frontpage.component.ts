@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { RootScopeService, MetaTagsService, NewsService} from '@app/_services';
+import { RootScopeService, MetaTagsService} from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Apollo } from 'apollo-angular';
 import { SettingsService } from '@app/_core/settings';
 import { HttpService } from '@app/_services/httpService';
 @Component({
@@ -24,12 +23,10 @@ export class FrontpageComponent {
   
   constructor (
     private rootScope:RootScopeService,
-    private newsService: NewsService,
     private metaTags: MetaTagsService,
     private translate: TranslateService,
     private router: Router,
     private route: ActivatedRoute,
-    private apollo: Apollo,
     private http: HttpService,
     private settings: SettingsService
   ) {
@@ -58,7 +55,7 @@ export class FrontpageComponent {
   }
 
   getEvents() {
-    let url = this.settings.url+"/graphql?queryId=frontPageEvents:1&variables=";
+    let url = this.settings.url+"/graphql?queryName=frontPageEvents&queryId=8ce3b383b8846ecc8b100748f331e47d84683aa5:1&variables=";
 
     let date = new Date();
     var formattedDate = `${date.getFullYear()}-${date.getMonth() <= 8 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)}-${date.getDate() <= 9 ? '0' + date.getDate() : date.getDate()}`;
@@ -78,7 +75,7 @@ export class FrontpageComponent {
   }
   
   getGeneral() {
-    let url = this.settings.url+"/graphql?queryId=frontPageQuery:1&variables=";
+    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=96812bdf09af8c10129c2ad464c7c34c25c88dd2:1&variables=";
     
     let variables = {lang: this.rootScope.get('currentLang').toUpperCase()}
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
@@ -129,13 +126,21 @@ export class FrontpageComponent {
       this.getEvents()
     });
 
-		this.newsService.getRecent(null, function(data){
-			if ( data['nodeQuery'] == null ) {
+    let url = this.settings.url+"/graphql?queryName=recentNews&queryId=02772fa14a0888ba796a22398f91d384777290fa:1&variables=";
+    
+    let variables = {lang: this.rootScope.get('currentLang').toUpperCase(), nid: 0}
+
+    let subscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+
+
+      if ( data['data']['nodeQuery'] == null ) {
         that.error = true;
         that.news = [];
 			} else {
-        that.news = data['nodeQuery']['entities'];
+        that.news = data['data']['nodeQuery']['entities'];
+        console.log(that.news);
       }
     });
+
 	}
 }

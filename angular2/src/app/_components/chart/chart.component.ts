@@ -59,7 +59,30 @@ export class ChartComponent implements OnInit{
           "pieSliceTextStyle": {
             "color": '#ffffff'
           },
+          "lineWidth": 5,
+          "pointsVisible": true,
+          "pointSize": 12,
+          "legend": { position: 'top', maxLines: 3 },
           "colors": ['#18218F', '#9E02B6', '#0252B0', '#C200C2', '#0071C7', '#D704A2', '#198294', '#D11B6F', '#00856A', '#D11B1B', '#257E25', '#DB3A00']
+        }
+      }
+
+
+      if( graphName == "ComboChart" ){
+        tmp['options']['colors'] = ["#18218f", "#db3a00"];
+      }
+      if( current.graphVAxis ){
+        tmp['options']['vAxes'] = {
+          0: { 'title': current.graphVAxis }
+        }
+
+
+        
+      }
+
+      if( current.graphHAxis ){
+        tmp['options']['hAxis'] = {
+          'title': current.graphHAxis
         }
       }
 
@@ -80,12 +103,14 @@ export class ChartComponent implements OnInit{
         
         tmp.options['seriesType'] = newType;
         tmp.options['series'] = {
+          0: {
+            targetAxisIndex: 0
+          },
           1: {
-            type: secondaryGraphType
+            type: secondaryGraphType,
+            targetAxisIndex: 1
           }
         }
-
-        console.log(tmp);
     
       }
 

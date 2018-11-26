@@ -59,7 +59,7 @@ class ProcessOskaData {
             $object['vaartus'] = $item['vaartus'];
 
             if(
-                !$object['naitaja']){
+            !$object['naitaja']){
 
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
@@ -110,12 +110,14 @@ class ProcessOskaData {
                     }
 
                     $entity->save();
+
                     $context['sandbox']['progress']++;
                     $context['sandbox']['current_id'] = $i;
                     #$context['message'] = t('Processing lines : @limit - @current ', ['@limit' => $limit, '@current' => $context['sandbox']['current_id'] + 1]);
                     $context['message'] = $context['sandbox']['max'];
 
                     $context['results']['processed'][] = $entity->id();
+
                 }
                 $context['sandbox']['current_id']++;
 
@@ -148,7 +150,9 @@ class ProcessOskaData {
         drupal_set_message($message[0], $message[1]);
     }
 
-    public function checkTaxonomyTerm($entity_type, $vocabulary, $name){
+    public static function checkTaxonomyTerm($entity_type, $vocabulary, $name){
+        $entity = false;
+
         if($name != ''){
             $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
 
@@ -157,7 +161,11 @@ class ProcessOskaData {
                 'name' => $name
             ];
 
-            $entity = reset($storage->loadByProperties($properties));
+            $results = $storage->loadByProperties($properties);
+
+            if($results){
+                $entity = reset($storage->loadByProperties($properties));
+            }
         }
 
         return ($entity) ? $entity->id() : FALSE;

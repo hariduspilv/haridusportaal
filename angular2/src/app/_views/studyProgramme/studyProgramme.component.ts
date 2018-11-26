@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ListQuery, FilterOptions} from '@app/_graph/studyProgramme.graph';
-import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 
 import { FiltersService } from '@app/_services/filtersService';
 
 import { RootScopeService } from '@app/_services/rootScopeService';
 import 'rxjs/add/operator/map';
+
+import { HttpService} from '@app/_services/httpService';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -48,7 +48,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute, 
-    private apollo: Apollo
+    private http: HttpService
     
   ) {
     super(null, null);
@@ -60,16 +60,13 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       this.filterOptionsSubscription.unsubscribe();
     }
     
-    this.filterOptionsSubscription = this.apollo.watchQuery({
-      query: FilterOptions,
-      variables: {
-        lang: this.lang.toUpperCase()
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges.subscribe( ({data}) => {
-
-      
+    let url = "/graphql?queryName=studyProgrammeFilterOptions&queryId=ca7e38bee7b0753e73a6813ba3ae20c9cce804fd:1&variables=";
+    let variables = {
+      lang: this.lang.toUpperCase()
+    };
+    
+    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+      let data = response['data'];
       if(data['isced_f'] !== undefined ){
         let iscedf_all = data['isced_f']['entities'];
         this.isceList['iscedf_broad'] = allocateIsceOptions(null, iscedf_all),
@@ -105,8 +102,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
        else return list.filter(entity => parent.some(parent => parent.entityId == entity.parentId) );
       } 
       this.loading = false;
-      this.filterOptionsSubscription.unsubscribe();
+      subscribe.unsubscribe();
     });
+
   }
   isValidAccreditation(date){
     //necessity pending on business logic decision #147
@@ -184,19 +182,22 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       onlyOpenAdmission: this.params['open_admission'] ? true: false,
   
     }
+
+    console.log(queryVars['title']);
+    
     for(let i in this.filterOptionKeys){
       //this.searchParams[i]
       let key = this.filterOptionKeys[i];
       queryVars[key] = this.params[key] ? this.params[key].split(",") : undefined,
       queryVars[key + "Enabled"] = this.params[key] ? true : false
     }
-    this.dataSubscription = this.apollo.watchQuery({
-      query: ListQuery,
-      variables: queryVars,
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges.subscribe( ({data}) => {
 
+
+    let url = "/graphql?queryName=studyProgrammeList&queryId=30bfa8638e3b0f2fdb9a5a5c747962bf13f69480:1&variables=";
+    let variables = queryVars;
+    
+    let subscribe = this.http.get(url+JSON.stringify(variables) ).subscribe( (response) => {
+      let data = response['data'];
       this.loading = false;
 
       if( data['nodeQuery']['entities'].length < this.limit ){ 
@@ -205,7 +206,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
       this.list = this.list ? [...this.list, ...data['nodeQuery']['entities']] : data['nodeQuery']['entities'];
 
-      this.dataSubscription.unsubscribe();
+      subscribe.unsubscribe();
 
     });
 
