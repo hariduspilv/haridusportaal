@@ -230,6 +230,7 @@ $grid-columns: 12;
   .important-pill{height: 1.125rem;top: 0;margin-left: 0;}
   share {padding-right: .5rem;margin-left: -.75rem;}
   @include break-on(sm, max) {white-space: nowrap;}
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {height: 3.0625rem;}
 }
 
 .grow {flex-grow: 1;
