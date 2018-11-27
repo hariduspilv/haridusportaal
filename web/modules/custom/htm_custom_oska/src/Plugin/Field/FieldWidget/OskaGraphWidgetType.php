@@ -38,8 +38,8 @@ class OskaGraphWidgetType extends WidgetBase {
         $data = isset($items[$delta]->filter_values) ? json_decode($items[$delta]->filter_values, true)['graph_options'] : NULL;
         $fields = [];
         $settings = $this->getFieldSettings();
-        $entity = \Drupal::entityTypeManager()->getStorage($settings['target_type'])->loadMultiple();
-        $entity = reset($entity);
+        $entity_fields = \Drupal::service('entity_field.manager')->getFieldDefinitions($settings['target_type'], 'bundle');
+        $oska_filters_path = '/app/drupal/web/sites/default/files/private/oska_filters/';
 
         $element += [
             '#type' => 'fieldset',
@@ -79,7 +79,7 @@ class OskaGraphWidgetType extends WidgetBase {
         }
 
         if($graph_set){
-            if($entity){
+            if($entity_fields){
                 $element['graph_options']['graph_title'] = [
                     '#title' => $this->t('Graph title'),
                     '#type' => 'textfield',
@@ -88,12 +88,12 @@ class OskaGraphWidgetType extends WidgetBase {
                     '#maxlength' => 100,
                 ];
 
-                foreach($entity->getFields() as $key => $field){
+                foreach($entity_fields as $key => $field){
                     $field_settings = $field->getSettings();
                     if(isset($field_settings['graph_filter'])){
                         $fields[$key] = $field;
                         if(!isset($field_settings['graph_indicator'])){
-                            $v_axis_options[$key] = $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString());
+                            $v_axis_options[$key] = $this->t($field->getLabel()->getUntranslatedString());
                         }
                     }
                     if(isset($field_settings['graph_indicator'])){
@@ -101,7 +101,7 @@ class OskaGraphWidgetType extends WidgetBase {
                     }
                     if(isset($field_settings['graph_label'])){
                         $fields[$key] = $field;
-                        $v_axis_options[$key] = $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString());
+                        $v_axis_options[$key] = $this->t($field->getLabel()->getUntranslatedString());
                     }
                 }
 
@@ -166,7 +166,7 @@ class OskaGraphWidgetType extends WidgetBase {
                 }
 
                 foreach($fields as $key => $field){
-                    if($field instanceof \Drupal\Core\Field\EntityReferenceFieldItemList){
+                    if($field->getType() === 'entity_reference'){
                         if(isset($data[$key])){
                             $data[$key] = $this->getEntities($data[$key]);
                         }
@@ -175,7 +175,7 @@ class OskaGraphWidgetType extends WidgetBase {
                             $selection[] = $bundle;
                         }
                         $element['graph_options'][$key] = [
-                            '#title' => $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString()),
+                            '#title' => $this->t($field->getLabel()->getUntranslatedString()),
                             '#type' => 'entity_autocomplete',
                             '#target_type' => 'taxonomy_term',
                             '#description' => $this->t('Enter multiple options by separating them with a comma.'),
@@ -188,16 +188,9 @@ class OskaGraphWidgetType extends WidgetBase {
                             '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
                         ];
                     }else{
-                        $selection = [];
-                        $values = \Drupal::entityTypeManager()->getStorage($settings['target_type'])->loadMultiple();
                         $field_name_item = $field->getName();
-                        foreach($values as $value){
-                            $selection_item = $value->$field_name_item->value;
-                            if($selection_item != ''){
-                                $selection[$selection_item] = $selection_item;
-                            }
-                        }
-                        $title = $field->getFieldDefinition()->getLabel()->getUntranslatedString();
+                        $selection = explode(PHP_EOL, file_get_contents($oska_filters_path.$key));
+                        $title = $field->getLabel()->getUntranslatedString();
                         $element['graph_options'][$key] = [
                             '#title' => $this->t($title),
                             '#type' => 'select',
