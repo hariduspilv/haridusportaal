@@ -1,5 +1,5 @@
 query oskaResultPageTable{
-  oskaTableEntityQuery{
+  oskaTableEntityQuery(limit:1000){
     entities{
       ... on OskaTableEntity{
         oskaField{
