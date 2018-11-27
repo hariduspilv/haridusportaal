@@ -93,9 +93,16 @@ class OskaImportDataForm extends FormBase {
 
         $file_array = $encoders->decode(file_get_contents($form_state->getValue('file')), 'csv', ['csv_delimiter' => ';']);
 
+
+        $nids = \Drupal::entityQuery('oska_entity')->execute();
+
         $batch = [
             'title' => t('Processing Oska data ....--'),
             'operations' => [
+                [
+                    '\Drupal\htm_custom_oska\ProcessOskaData::deleteNodes',
+                    [$nids]
+                ],
                 [
                     '\Drupal\htm_custom_oska\ProcessOskaData::ValidateFile',
                     [$file_array]

@@ -34,3 +34,4 @@ function cleanString($text) {
 
     return $text;
 }
+
