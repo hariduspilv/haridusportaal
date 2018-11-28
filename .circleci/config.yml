@@ -23,6 +23,7 @@ workflows:
   build:
     jobs:
     - build:
-       tags:
-         only: /.*/
+        filters:
+          tags:
+            only: /.*/
 version: 2
