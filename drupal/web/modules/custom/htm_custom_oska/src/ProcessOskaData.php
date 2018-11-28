@@ -7,6 +7,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\htm_custom_oska\Entity\OskaEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\node\Entity\Node;
+use League\Csv\Writer;
 
 /**
  * Class ProcessOskaData
@@ -26,11 +28,8 @@ class ProcessOskaData {
     public static function ValidateFile($items, &$context){
         $message = t('Validating file');
 
-        //first delete all subsidies
-        self::deleteAllEntities();
-
-        #dump(self::$k['EHIS_ID']);
         $results = [];
+
         $object = [
             'naitaja' => false,
             'valdkond' => false,
@@ -45,21 +44,13 @@ class ProcessOskaData {
 
             foreach($item as $key => $value){
                 if(mb_detect_encoding($key) == 'UTF-8'){
-                    unset($item[$key]);
-                    $item[cleanString($key)] = $value;
+                    $object[cleanString($key)] = $value;
+                }else{
+                    $object[$key] = $value;
                 }
             }
 
-            $object['naitaja'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_indicator', $item['naitaja']);
-            $object['valdkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['valdkond']);
-            $object['alavaldkond'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_field', $item['alavaldkond']);
-            $object['ametiala'] = self::checkTaxonomyTerm('taxonomy_term', 'oska_main_profession', $item['ametiala']);
-            $object['periood'] = $item['periood'];
-            $object['silt'] = $item['silt'];
-            $object['vaartus'] = $item['vaartus'];
-
-            if(
-            !$object['naitaja']){
+            if(!$object['naitaja']){
 
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
@@ -71,23 +62,35 @@ class ProcessOskaData {
 
                 $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
             }else{
-                $results[] = [
-                    'oska_indicator' => $object['naitaja'],
-                    'oska_field' => $object['valdkond'],
-                    'oska_sub_field' => $object['alavaldkond'],
-                    'oska_main_profession' => $object['ametiala'],
-                    'year' => $object['periood'],
-                    'oska_label' => $object['silt'],
-                    'value' => $object['vaartus']
-                ];
+                $results[] = $object;
             }
         }
 
         $context['message'] = $message;
         $context['results']['values'] = $results;
+
+        if(empty($context['results']['error'])){
+
+            $logpath = '/app/drupal/web/sites/default/files/private/oska_csv';
+            if(!file_exists($logpath)) mkdir($logpath, 0744, true);
+            $writer = Writer::createFromPath('/app/drupal/web/sites/default/files/private/oska_csv/oska_csv.csv', 'w+');
+            $writer->setDelimiter(';');
+            $writer->insertOne(['naitaja', 'valdkond', 'alavaldkond', 'ametiala', 'periood', 'silt', 'vaartus']);
+            $writer->insertAll($results);
+        }
     }
 
-    public static function ProcessOskaData($items, &$context){
+    public static function CreateOskaFilters($items, &$context){
+
+        $filter_values = [
+            'naitaja' => [],
+            'valdkond' => [],
+            'alavaldkond' => [],
+            'ametiala' => [],
+            'periood' => [],
+            'silt' => [],
+        ];
+
         //process only if no errors otherwise nothing
         if(empty($context['results']['error'])){
             if(empty($context['sandbox'])){
@@ -96,29 +99,45 @@ class ProcessOskaData {
                 $context['sandbox']['max'] = count($context['results']['values']);
             }
 
-
             if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
-                $limit = $context['sandbox']['current_id'] + 10;
-                if ($context['sandbox']['max'] - $context['sandbox']['current_id'] < 10){
-                    $limit = $context['sandbox']['max'] + 1;
-                }
-                for($i = $context['sandbox']['current_id']; $i < $limit; $i++){
+                for($i = $context['sandbox']['current_id']; $i <= $context['sandbox']['max']; $i++){
+
                     // do something
                     $values = $context['results']['values'][$i];
-                    if($values){
-                        $entity = OskaEntity::create($values);
+                    #if($values){
+                        foreach($values as $key => $value){
+                            if(isset($filter_values[$key]) && !in_array($value, $filter_values[$key]) && strlen(trim($value)) != 0){
+                                $filter_values[$key][] = $value;
+                            }
+                        }
+                    #}
+
+                    if($context['sandbox']['progress']+1 == $context['sandbox']['max']){
+                        foreach($filter_values as $key => $values){
+                            $values = array_unique($values);
+                            $logpath = '/app/drupal/web/sites/default/files/private/oska_filters';
+                            if(!file_exists($logpath)) mkdir($logpath, 0744, true);
+                            $logpath .= '/'.$key;
+                            $file = fopen($logpath, 'wb');
+                            $array_len = count($values)-1;
+                            foreach($values as $key => $val){
+                                if($key != $array_len){
+                                    fwrite($file, $val.PHP_EOL);
+                                }else{
+                                    fwrite($file, $val);
+                                }
+                            }
+                        }
                     }
-
-                    $entity->save();
-
                     $context['sandbox']['progress']++;
                     $context['sandbox']['current_id'] = $i;
                     #$context['message'] = t('Processing lines : @limit - @current ', ['@limit' => $limit, '@current' => $context['sandbox']['current_id'] + 1]);
                     $context['message'] = $context['sandbox']['max'];
 
-                    $context['results']['processed'][] = $entity->id();
+                    $context['results']['processed'][] = $i;
 
                 }
+
                 $context['sandbox']['current_id']++;
 
                 if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
@@ -138,10 +157,7 @@ class ProcessOskaData {
             if(isset($results['error'])){
                 $message = [implode(', ', $results['error']), 'error'];
             }else{
-                $message = [\Drupal::translation()->formatPlural(
-                    count($results['processed']),
-                    'One oska item processed.', '@count oska items processed.'
-                ), 'status'];
+                $message = [t('OSKA CSV imported'), 'status'];
             }
         }
         else {
@@ -150,31 +166,18 @@ class ProcessOskaData {
         drupal_set_message($message[0], $message[1]);
     }
 
-    public static function checkTaxonomyTerm($entity_type, $vocabulary, $name){
-        $entity = false;
-
-        if($name != ''){
-            $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
-
-            $properties = [
-                'vid' => $vocabulary,
-                'name' => $name
-            ];
-
-            $results = $storage->loadByProperties($properties);
-
-            if($results){
-                $entity = reset($storage->loadByProperties($properties));
-            }
+    public static function deleteNodesFinishedCallback($success, $results, $operations) {
+        // The 'success' parameter means no fatal PHP errors were detected. All
+        // other error management should be handled using 'results'.
+        if ($success) {
+            $message = \Drupal::translation()->formatPlural(
+                count($results),
+                'One post processed.', '@count posts processed.'
+            );
         }
-
-        return ($entity) ? $entity->id() : FALSE;
-    }
-
-    private function deleteAllEntities(){
-        $ids = \Drupal::entityQuery('oska_entity')->execute();
-        $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_entity');
-        $entities = $storage_handler->loadMultiple($ids);
-        $storage_handler->delete($entities);
+        else {
+            $message = t('Finished with an error.');
+        }
+        drupal_set_message($message);
     }
 }

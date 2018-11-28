@@ -1648,7 +1648,7 @@ tooltip:
     en: 'Remove from favourites'
   copy:
     translation_type: textarea
-    et: 'Kopeeri lõikepuhvrisse'
+    et: 'Kopeeri viit lõikepuhvrisse'
     en: 'Copy to clipboard'
   share_fb:
     translation_type: textarea
@@ -1825,6 +1825,10 @@ social:
     translation_type: textarea
     et: Sotsiaalvõrgustikud
     en: 'Social networks'
+  share_link:
+    translation_type: textarea
+    et: 'Sotsiaalmeedia jagamine'
+    en: 'Social media sharing'
 filter:
   info:
     translation_type: textarea
@@ -2041,7 +2045,7 @@ sidebar:
 url:
   copied_to_clipboard:
     translation_type: textarea
-    et: 'URL on kopeeritud lõikepuhvrisse.'
+    et: 'Lehe viit on kopeeritud lõikepuhvrisse.'
     en: 'URL copied to clipboard.'
 events:
   no_results:

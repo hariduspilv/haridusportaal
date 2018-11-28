@@ -4,167 +4,275 @@
 *
 * @license http://opensource.org/licenses/MIT
 * @link https://github.com/thephpleague/csv/
-* @version 8.2.3
+* @version 9.1.4
 * @package League.csv
 *
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 */
+declare(strict_types=1);
+
 namespace League\Csv;
 
-use InvalidArgumentException;
-use League\Csv\Modifier\RowFilter;
-use League\Csv\Modifier\StreamIterator;
-use ReflectionMethod;
-use RuntimeException;
-use SplFileObject;
 use Traversable;
+use TypeError;
 
 /**
- *  A class to manage data insertion into a CSV
+ * A class to insert records into a CSV Document
  *
  * @package League.csv
- * @since  4.0.0
- *
+ * @since   4.0.0
+ * @author  Ignace Nyamagana Butera <nyamsprod@gmail.com>
  */
 class Writer extends AbstractCsv
 {
-    use RowFilter;
+    /**
+     * callable collection to format the record before insertion
+     *
+     * @var callable[]
+     */
+    protected $formatters = [];
 
     /**
-     * @inheritdoc
+     * callable collection to validate the record before insertion
+     *
+     * @var callable[]
+     */
+    protected $validators = [];
+
+    /**
+     * newline character
+     *
+     * @var string
+     */
+    protected $newline = "\n";
+
+    /**
+     * Insert records count for flushing
+     *
+     * @var int
+     */
+    protected $flush_counter = 0;
+
+    /**
+     * Buffer flush threshold
+     *
+     * @var int|null
+     */
+    protected $flush_threshold;
+
+    /**
+     * {@inheritdoc}
      */
     protected $stream_filter_mode = STREAM_FILTER_WRITE;
 
     /**
-     * The CSV object holder
+     * Returns the current newline sequence characters
      *
-     * @var SplFileObject|StreamIterator
+     * @return string
      */
-    protected $csv;
-
-    /**
-     * fputcsv method from SplFileObject or StreamIterator
-     *
-     * @var ReflectionMethod
-     */
-    protected $fputcsv;
-
-    /**
-     * Nb parameters for SplFileObject::fputcsv method
-     *
-     * @var integer
-     */
-    protected $fputcsv_param_count;
-
-    /**
-     * Adds multiple lines to the CSV document
-     *
-     * a simple wrapper method around insertOne
-     *
-     * @param Traversable|array $rows a multidimensional array or a Traversable object
-     *
-     * @throws InvalidArgumentException If the given rows format is invalid
-     *
-     * @return static
-     */
-    public function insertAll($rows)
+    public function getNewline(): string
     {
-        if (!is_array($rows) && !$rows instanceof Traversable) {
-            throw new InvalidArgumentException(
-                'the provided data must be an array OR a `Traversable` object'
-            );
-        }
-
-        foreach ($rows as $row) {
-            $this->insertOne($row);
-        }
-
-        return $this;
+        return $this->newline;
     }
 
     /**
-     * Adds a single line to a CSV document
+     * Get the flush threshold
      *
-     * @param string[]|string $row a string, an array or an object implementing to '__toString' method
-     *
-     * @return static
+     * @return int|null
      */
-    public function insertOne($row)
+    public function getFlushThreshold()
     {
-        if (!is_array($row)) {
-            $row = str_getcsv($row, $this->delimiter, $this->enclosure, $this->escape);
-        }
-        $row = $this->formatRow($row);
-        $this->validateRow($row);
-        $this->addRow($row);
-
-        return $this;
+        return $this->flush_threshold;
     }
 
     /**
-     * Add new record to the CSV document
+     * Adds multiple records to the CSV document
      *
-     * @param array $row record to add
+     * @see Writer::insertOne
+     *
+     * @param Traversable|array $records a multidimensional array or a Traversable object
+     *
+     * @return int
      */
-    protected function addRow(array $row)
+    public function insertAll($records): int
     {
-        $this->initCsv();
-        if (!$this->fputcsv->invokeArgs($this->csv, $this->getFputcsvParameters($row))) {
-            throw new RuntimeException('Unable to write record to the CSV document.');
+        if (!\is_iterable($records)) {
+            throw new TypeError(sprintf('%s() expects argument passed to be iterable, %s given', __METHOD__, gettype($records)));
         }
 
-        if ("\n" !== $this->newline) {
-            $this->csv->fseek(-1, SEEK_CUR);
-            $this->csv->fwrite($this->newline, strlen($this->newline));
+        $bytes = 0;
+        foreach ($records as $record) {
+            $bytes += $this->insertOne($record);
         }
+
+        $this->flush_counter = 0;
+        $this->document->fflush();
+
+        return $bytes;
     }
 
     /**
-     * Initialize the CSV object and settings
+     * Adds a single record to a CSV document
+     *
+     * @param array $record An array containing
+     *                      - scalar types values,
+     *                      - NULL values,
+     *                      - or objects implementing the __toString() method.
+     *
+     * @throws CannotInsertRecord If the record can not be inserted
+     *
+     * @return int
      */
-    protected function initCsv()
+    public function insertOne(array $record): int
     {
-        if (null !== $this->csv) {
-            return;
+        $record = array_reduce($this->formatters, [$this, 'formatRecord'], $record);
+        $this->validateRecord($record);
+        $bytes = $this->document->fputcsv($record, $this->delimiter, $this->enclosure, $this->escape);
+        if ('' !== (string) $bytes) {
+            return $bytes + $this->consolidate();
         }
 
-        $this->csv = $this->getIterator();
-        $this->fputcsv = new ReflectionMethod(get_class($this->csv), 'fputcsv');
-        $this->fputcsv_param_count = $this->fputcsv->getNumberOfParameters();
+        throw CannotInsertRecord::triggerOnInsertion($record);
     }
 
     /**
-     * returns the parameters for SplFileObject::fputcsv
+     * Format a record
      *
-     * @param array $fields The fields to be add
+     * The returned array must contain
+     *   - scalar types values,
+     *   - NULL values,
+     *   - or objects implementing the __toString() method.
+     *
+     * @param array $record An array containing
+     *                      - scalar types values,
+     *                      - NULL values,
+     *                      - implementing the __toString() method.
+     *
+     * @param callable $formatter
      *
      * @return array
      */
-    protected function getFputcsvParameters(array $fields)
+    protected function formatRecord(array $record, callable $formatter): array
     {
-        $parameters = [$fields, $this->delimiter, $this->enclosure];
-        if (4 == $this->fputcsv_param_count) {
-            $parameters[] = $this->escape;
+        return $formatter($record);
+    }
+
+    /**
+     * Validate a record
+     *
+     * @param array $record An array containing
+     *                      - scalar types values,
+     *                      - NULL values
+     *                      - or objects implementing __toString() method.
+     *
+     * @throws CannotInsertRecord If the validation failed
+     */
+    protected function validateRecord(array $record)
+    {
+        foreach ($this->validators as $name => $validator) {
+            if (true !== $validator($record)) {
+                throw CannotInsertRecord::triggerOnValidation($name, $record);
+            }
+        }
+    }
+
+    /**
+     * Apply post insertion actions
+     *
+     * @return int
+     */
+    protected function consolidate(): int
+    {
+        $bytes = 0;
+        if ("\n" !== $this->newline) {
+            $this->document->fseek(-1, SEEK_CUR);
+            $bytes = $this->document->fwrite($this->newline, strlen($this->newline)) - 1;
         }
 
-        return $parameters;
+        if (null === $this->flush_threshold) {
+            return $bytes;
+        }
+
+        ++$this->flush_counter;
+        if (0 === $this->flush_counter % $this->flush_threshold) {
+            $this->flush_counter = 0;
+            $this->document->fflush();
+        }
+
+        return $bytes;
     }
 
     /**
-     *  {@inheritdoc}
+     * Adds a record formatter
+     *
+     * @param callable $formatter
+     *
+     * @return static
      */
-    public function isActiveStreamFilter()
+    public function addFormatter(callable $formatter): self
     {
-        return parent::isActiveStreamFilter() && null === $this->csv;
+        $this->formatters[] = $formatter;
+
+        return $this;
     }
 
     /**
-     *  {@inheritdoc}
+     * Adds a record validator
+     *
+     * @param callable $validator
+     * @param string   $validator_name the validator name
+     *
+     * @return static
      */
-    public function __destruct()
+    public function addValidator(callable $validator, string $validator_name): self
     {
-        $this->csv = null;
-        parent::__destruct();
+        $this->validators[$validator_name] = $validator;
+
+        return $this;
+    }
+
+    /**
+     * Sets the newline sequence
+     *
+     * @param string $newline
+     *
+     * @return static
+     */
+    public function setNewline(string $newline): self
+    {
+        $this->newline = $newline;
+
+        return $this;
+    }
+
+    /**
+     * Set the flush threshold
+     *
+     * @param int|null $threshold
+     *
+     * @throws Exception if the threshold is a integer lesser than 1
+     *
+     * @return static
+     */
+    public function setFlushThreshold($threshold): self
+    {
+        if ($threshold === $this->flush_threshold) {
+            return $this;
+        }
+
+        if (!is_nullable_int($threshold)) {
+            throw new TypeError(sprintf(__METHOD__.'() expects 1 Argument to be null or an integer %s given', gettype($threshold)));
+        }
+
+        if (null !== $threshold && 1 > $threshold) {
+            throw new Exception(__METHOD__.'() expects 1 Argument to be null or a valid integer greater or equal to 1');
+        }
+
+        $this->flush_threshold = $threshold;
+        $this->flush_counter = 0;
+        $this->document->fflush();
+
+        return $this;
     }
 }
