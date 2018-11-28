@@ -1,7 +1,0 @@
-uuid: c38009b1-272e-47af-a69e-37781dcbfc35
-langcode: en
-status: true
-dependencies: {  }
-version: deleteFavoriteItem
-map:
-  1: "mutation ($id: Int!, $language: LanguageId!) {\n  deleteFavoriteItem(id: $id, language: $language) {\n    violations {\n      message\n      path\n      code\n    }\n    entity {\n      ... on FavoriteEntity {\n        favoritesNew {\n          targetId\n          entity {\n            entityLabel\n            entityUrl {\n              routed\n              path\n            }\n          }\n        }\n      }\n    }\n    errors\n  }\n}\n"
