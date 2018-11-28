@@ -1,0 +1,7 @@
+uuid: 2a47f82e-9711-4c8d-80f8-d30f2d269746
+langcode: en
+status: true
+dependencies: {  }
+version: oskaResultPageTable
+map:
+  1: "query oskaResultPageTable {\n  oskaTableEntityQuery {\n    entities {\n      ... on OskaTableEntity {\n        oskaField {\n          entity {\n            ... on NodeOskaFieldPage {\n              title\n            }\n          }\n        }\n        problemDescription\n        proposal\n        responsible\n        proposalStatus\n        expertCommentary\n      }\n    }\n  }\n}\n"
