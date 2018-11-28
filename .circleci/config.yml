@@ -11,15 +11,19 @@ jobs:
         fingerprints:
           - $SSHFPRINT
     - run:
-        name: Enter servers
+        name: Enter server
         command: |
           ssh -q -o StrictHostKeyChecking=no htm@90.190.106.49 -p 222 <<EOF1
           ssh -q -o StrictHostKeyChecking=no htmcircleci@test.edu.ee -p 22 <<EOF2
+          sudo -i sh /srv/deploy/deploy.sh
           EOF2
           EOF1
 workflows:
   version: 2
   build:
     jobs:
-    - build
+    - build:
+        filters:
+          tags:
+            only: /.*/
 version: 2

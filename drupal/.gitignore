@@ -8,5 +8,3 @@ web/sites
 
 # Ignore .env files as they are personal
 /.env
-
-config/sync/graphql.*
