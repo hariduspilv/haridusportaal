@@ -1,7 +1,0 @@
-uuid: c3926a2d-3ffa-4c52-860f-846cdbf1202f
-langcode: en
-status: true
-dependencies: {  }
-version: eventRegistration
-map:
-  1: "mutation ($event_id: Int!, $id_code: Int, $first_name: String!, $last_name: String!, $organization: String, $email: String!, $phone: String!, $lang: LanguageId!, $comment: String) {\n  createEventRegistration(input: {event_id: $event_id, id_code: $id_code, first_name: $first_name, last_name: $last_name, organization: $organization, email: $email, phone: $phone, comment: $comment}, language: $lang) {\n    errors\n    violations {\n      path\n      code\n      message\n    }\n    entity {\n      entityId\n    }\n  }\n}\n"
