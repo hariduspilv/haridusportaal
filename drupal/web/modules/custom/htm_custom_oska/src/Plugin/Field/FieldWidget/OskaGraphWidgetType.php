@@ -117,7 +117,7 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#title' => $this->t('Graph type'),
                 '#size' => 256,
                 '#type' => 'select',
-                '#default_value' => isset($data['graph_type']) ? $data['graph_type'] : NULL,
+                '#default_value' => isset($data['graph_type']) && in_array($data['graph_type'], $graph_type_options) ? $data['graph_type'] : NULL,
                 '#options' => $graph_type_options,
                 '#required' => FALSE,
                 '#empty_option'  => '-',
