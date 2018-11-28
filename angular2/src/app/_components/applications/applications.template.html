@@ -178,7 +178,7 @@
         <mat-expansion-panel [expanded]="data.educationalInstitutions.length === 1 && first" *ngFor="let school of data.educationalInstitutions; let first = first; let ind = index;">
           <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
             <mat-panel-title *ngIf="school.institutionInfo && school.institutionInfo.generalData">
-              {{ school.institutionInfo.generalData.name }}<span *ngIf="school.institutionInfo.generalData.nameENG">/{{ school.institutionInfo.generalData.nameENG }}</span>
+              <span>{{ school.institutionInfo.generalData.name }}<ng-container *ngIf="school.institutionInfo.generalData.nameENG">/{{ school.institutionInfo.generalData.nameENG }}</ng-container></span>
             </mat-panel-title>
           </mat-expansion-panel-header>
   
@@ -206,7 +206,7 @@
                       <td>{{ 'event.participant_phone' | translate }}</td>
                       <td>{{ school.institutionInfo.contacts.contactPhone }}</td>
                       <td attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-                        <a href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+                        <a class="rowspan-btn" href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
                     <tr *ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail">
@@ -215,7 +215,7 @@
                         <a href="mailto:{{school.institutionInfo.contacts.contactEmail}}" attr.aria-label="{{'event.participant_email' | translate}}: {{school.institutionInfo.contacts.contactEmail}}">{{ school.institutionInfo.contacts.contactEmail | lowercase }}</a>
                       </td>
                       <td *ngIf="!school.institutionInfo.contacts.contactPhone" attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-                        <a href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+                        <a class="rowspan-btn" href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
                     <tr *ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress">
@@ -224,14 +224,14 @@
                         <a href="{{school.institutionInfo.contacts.webpageAddress}}" target="_blank" attr.aria-label="{{'school.website' | translate}}: {{school.institutionInfo.contacts.webpageAddress}}">{{ school.institutionInfo.contacts.webpageAddress | lowercase }}</a>
                       </td>
                       <td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail" attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-                        <a href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+                        <a class="rowspan-btn" href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
                     <tr *ngIf="school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable">
                       <td>{{ 'event.aadress' | translate }}</td>
                       <td class="light">{{ school.institutionInfo.address.addressHumanReadable }}</td>
                       <td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail && !school.institutionInfo.contacts.webpageAddress" attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-                        <a href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+                        <a class="rowspan-btn" href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
                     <tr *ngIf="school.institutionInfo.generalData && school.institutionInfo.generalData.studyInstitutionTypeType">
@@ -274,11 +274,11 @@
               </div>
               
               <div class="grid-load" *ngIf="school.acceptable_forms.length > acceptableFormsLimiter">
-                <a href="javascript:void(0);" (click)="acceptableFormsLimiter = school.acceptable_forms.length">+ {{ 'button.show_more' | translate }} ({{ school.acceptable_forms.length - 4 }})</a>
+                <a class="rowspan-btn" href="javascript:void(0);" (click)="acceptableFormsLimiter = school.acceptable_forms.length">+ {{ 'button.show_more' | translate }} ({{ school.acceptable_forms.length - 4 }})</a>
               </div>
               
               <div class="grid-load" *ngIf="school.acceptable_forms.length === acceptableFormsLimiter && school.acceptable_forms.length > 4">
-                <a href="javascript:void(0);" (click)="acceptableFormsLimiter = 4">- {{ 'button.show_less' | translate }}</a>
+                <a class="rowspan-btn" href="javascript:void(0);" (click)="acceptableFormsLimiter = 4">- {{ 'button.show_less' | translate }}</a>
               </div>
             </ng-container>
           </ng-container>
@@ -336,7 +336,7 @@
                           <ng-container *ngIf="form.document_date">{{ form.document_date }}</ng-container>
                         </td>
                         <td class="text-center">
-                          <a *ngIf="form.form_name" attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}" [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{draft:'true', identifier: form.id}">
+                          <a class="rowspan-btn" *ngIf="form.form_name" attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}" [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{draft:'true', identifier: form.id}">
                             {{ 'button.continue_filling' | translate }}
                           </a>
                         </td>
@@ -422,13 +422,13 @@
                         <td><span *ngIf="form.document_date">{{ form.document_date }}</span></td>
                         <td><span *ngIf="form.status">{{ form.status }}</span></td>
                         <td class="text-center">
-                          <a *ngIf="form.form_name" attr.aria-label="{{'button.open' | translate}} {{'frontpage.dokument' | translate}}" [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{existing:'true', identifier: form.id}">
+                          <a class="rowspan-btn" *ngIf="form.form_name" attr.aria-label="{{'button.open' | translate}} {{'frontpage.dokument' | translate}}" [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{existing:'true', identifier: form.id}">
                             {{ 'button.open' | translate }}
                           </a>
                         </td>
                       </tr>
                       <tr class="description-bottom" *ngIf="form.description">
-                        <td colspan="4"><p>{{ form. description }}</p></td>
+                        <td colspan="4"><p>{{ form.description }}</p></td>
                       </tr>
                     </ng-container>
                     
