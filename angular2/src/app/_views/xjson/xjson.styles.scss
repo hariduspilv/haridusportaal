@@ -143,6 +143,8 @@ a {
   
   .dropzone-title {
     display: block;
+    font-size: .875rem;
+    color: $black;
   }
   .dropzone-description {
     margin-top: 1rem;
@@ -325,5 +327,6 @@ table .mat-input-element:disabled { color: $black; }
   .disabled-step mat-datepicker-toggle { display: none; }
   .disabled-step table .round-input__field-wrapper { border: 0px solid transparent; }
 .subrow { display: flex; justify-content: flex-end; width: 100%; -webkit-box-sizing: border-box; box-sizing: border-box; }
+::ng-deep .xjson__component .mat-icon-button:disabled, ::ng-deep .xjson__component .mat-icon-button[disabled] {visibility: hidden;}
 
   
