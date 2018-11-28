@@ -304,15 +304,21 @@ public class MtsysWorker extends Worker {
     redisTemplate.opsForHash().put(identifier, "mtsys", jsonNode);
   }
 
-  public ObjectNode getMtsysTegevusluba(String formName, String identifier, String personalCode) {
+  public ObjectNode getMtsysTegevusluba(String formName, String identifier, String personalCode,
+      boolean isTaotlus) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
     jsonNode.putObject("header")
         .put("endpoint", "EHIS")
         .put("form_name", formName)
-        .putArray("acceptable_activity").add("VIEW");
+        .putArray("acceptable_activity");
+    if (isTaotlus) {
+      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).add("SAVE").add("SUBMIT");
+    } else {
+      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).add("VIEW");
+    }
     ((ObjectNode) jsonNode.get("header"))
-        .put("current_step", "step_0")
+        .put("current_step", isTaotlus ? "step_andmed" : "step_0")
         .put("identifier", identifier);
     jsonNode.putObject("body").putObject("steps");
     ((ObjectNode) jsonNode.get("body")).putArray("messages");
@@ -393,63 +399,77 @@ public class MtsysWorker extends Worker {
           .putArray("value").add(response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
           response.getTegevusloaAndmed().getKlSoidukiKategooria().intValue() : null);
 
-//      stepZeroDataElementsNode.putObject("id")
-//          .put("hidden", response.getTegevusloaAndmed().isSetId() ? true : false)
-//          .putArray("value").add(response.getTegevusloaAndmed().isSetId() ?
-//          response.getTegevusloaAndmed().getId().intValue() : null);
-//      stepZeroDataElementsNode.putObject("taotlusId")
-//          .put("hidden", response.getTegevusloaAndmed().isSetTaotlusId() ? true : false)
-//          .putArray("value").add(response.getTegevusloaAndmed().isSetTaotlusId() ?
-//          response.getTegevusloaAndmed().getTaotlusId().intValue() : null);
-//      stepZeroDataElementsNode.putObject("tyyp").putArray("value")
-//          .add(response.getTegevusloaAndmed().getTyyp());
-//      stepZeroDataElementsNode.putObject("lisainfo")
-//          .put("hidden", response.getTegevusloaAndmed().isSetLisainfo() ? true : false)
-//          .putArray("value").add(response.getTegevusloaAndmed().isSetLisainfo() ?
-//          response.getTegevusloaAndmed().getLisainfo() : null);
-//      stepZeroDataElementsNode.putObject("loomiseKp")
-//          .put("hidden", response.getTegevusloaAndmed().isSetLoomiseKp() ? true : false)
-//          .putArray("value").add(response.getTegevusloaAndmed().isSetLoomiseKp() ?
-//          response.getTegevusloaAndmed().getLoomiseKp() : null);
-//      stepZeroDataElementsNode.putObject("peatatudKuniKp")
-//          .put("hidden", response.getTegevusloaAndmed().isSetPeatatudKuniKp() ? true : false)
-//          .putArray("value").add(response.getTegevusloaAndmed().isSetPeatatudKuniKp() ?
-//          response.getTegevusloaAndmed().getPeatatudKuniKp() : null);
+      if (isTaotlus) {
+        stepZeroDataElementsNode.putObject("id")
+            .put("hidden", !response.getTegevusloaAndmed().isSetId() ? true : false)
+            .putArray("value").add(response.getTegevusloaAndmed().isSetId() ?
+            response.getTegevusloaAndmed().getId().intValue() : null);
+        stepZeroDataElementsNode.putObject("taotlusId")
+            .put("hidden", !response.getTegevusloaAndmed().isSetTaotlusId() ? true : false)
+            .putArray("value").add(response.getTegevusloaAndmed().isSetTaotlusId() ?
+            response.getTegevusloaAndmed().getTaotlusId().intValue() : null);
+        stepZeroDataElementsNode.putObject("tyyp").putArray("value")
+            .add(response.getTegevusloaAndmed().getTyyp());
+        stepZeroDataElementsNode.putObject("lisainfo")
+            .put("hidden", !response.getTegevusloaAndmed().isSetLisainfo() ? true : false)
+            .putArray("value").add(response.getTegevusloaAndmed().isSetLisainfo() ?
+            response.getTegevusloaAndmed().getLisainfo() : null);
+        stepZeroDataElementsNode.putObject("loomiseKp")
+            .put("hidden", !response.getTegevusloaAndmed().isSetLoomiseKp() ? true : false)
+            .putArray("value").add(response.getTegevusloaAndmed().isSetLoomiseKp() ?
+            response.getTegevusloaAndmed().getLoomiseKp() : null);
+        stepZeroDataElementsNode.putObject("peatatudKuniKp")
+            .put("hidden", !response.getTegevusloaAndmed().isSetPeatatudKuniKp() ? true : false)
+            .putArray("value").add(response.getTegevusloaAndmed().isSetPeatatudKuniKp() ?
+            response.getTegevusloaAndmed().getPeatatudKuniKp() : null);
+      }
 
       stepZeroDataElementsNode.putObject("oppeTasemed").putArray("value");
       response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList().forEach(
-          ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppeTasemed")
-              .get("value")).addObject()
-//              .put("id", ehisKlassifikaator.getId().intValue())
-              .put("nimetus", ehisKlassifikaator.getNimetus())
-              .put("onKehtiv", ehisKlassifikaator.getOnKehtiv()));
+          ehisKlassifikaator -> {
+            ObjectNode klfNode = ((ArrayNode) stepZeroDataElementsNode.get("oppeTasemed")
+                .get("value")).addObject();
+            klfNode.put("nimetus", ehisKlassifikaator.getNimetus())
+                .put("onKehtiv", ehisKlassifikaator.getOnKehtiv());
+            if (isTaotlus) {
+              klfNode.put("id", ehisKlassifikaator.getId().intValue());
+            }
+          });
 
       stepZeroDataElementsNode.putObject("oppekavaRuhmad").putArray("value");
       response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList().forEach(
-          ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppekavaRuhmad")
-              .get("value")).addObject()
-//              .put("id", ehisKlassifikaator.getId().intValue())
-              .put("nimetus", ehisKlassifikaator.getNimetus())
-              .put("onKehtiv", ehisKlassifikaator.getOnKehtiv()));
+          ehisKlassifikaator -> {
+            ObjectNode klfNode = ((ArrayNode) stepZeroDataElementsNode.get("oppekavaRuhmad")
+                .get("value")).addObject();
+            klfNode.put("nimetus", ehisKlassifikaator.getNimetus())
+                .put("onKehtiv", ehisKlassifikaator.getOnKehtiv());
+            if (isTaotlus) {
+              klfNode.put("id", ehisKlassifikaator.getId().intValue());
+            }
+          });
 
       stepZeroDataElementsNode.putObject("valisAadress").putArray("value")
           .add(response.getTegevusloaAndmed().getAadressid().getOnValismaa());
 
       stepZeroDataElementsNode.putObject("aadressid").putArray("value");
       response.getTegevusloaAndmed().getAadressid().getAadressList().forEach(
-          aadress -> ((ArrayNode) stepZeroDataElementsNode.get("aadressid").get("value"))
-              .addObject()
-              .put("maakond", aadress.getMaakond())
-              .put("omavalitsus", aadress.getOmavalitsus())
-              .put("asula", aadress.getAsula())
-              .put("aadress", aadress.getAdsAadressHumanReadable())
-//              .put("jrkNr", aadress.getJrkNr())
-//              .put("adsId", aadress.getAdsId().intValue())
-//              .put("adsOid", aadress.getAdsOid())
-//              .put("klElukoht", aadress.getKlElukoht())
-//              .put("taisAadress", aadress.getTaisAadress())
-//              .put("adsAadress", aadress.getAdsAadress())
-      );
+          aadress -> {
+            ObjectNode aadressObject = ((ArrayNode) stepZeroDataElementsNode.get("aadressid")
+                .get("value")).addObject();
+            aadressObject.put("maakond", aadress.getMaakond())
+                .put("omavalitsus", aadress.getOmavalitsus())
+                .put("asula", aadress.getAsula())
+                .put("aadress", aadress.getAdsAadressHumanReadable());
+
+            if (isTaotlus) {
+              aadressObject.put("jrkNr", aadress.getJrkNr())
+                  .put("adsId", aadress.getAdsId().intValue())
+                  .put("adsOid", aadress.getAdsOid())
+                  .put("klElukoht", aadress.getKlElukoht())
+                  .put("taisAadress", aadress.getTaisAadress())
+                  .put("adsAadress", aadress.getAdsAadress());
+            }
+          });
 
       stepZeroDataElementsNode.putObject("oppeasutuseNimetus").putArray("value")
           .add(response.getKontaktandmed().getKooliNimetus());
@@ -601,7 +621,8 @@ public class MtsysWorker extends Worker {
             .bigIntegerValue()); //optional, olemas siis kui on muutmine, muidu tühi
       }
       request.setRegNr(jsonNodeRequest.get("ownerId").bigIntegerValue()); //tegelusload/asutus/regnr
-      request.setNimetus(jsonNodeRequest.get("ownerName").asText()); //xsd optional / eesti.ee's mitte, tegevusload/asutus/nimetus
+      request.setNimetus(jsonNodeRequest.get("ownerName")
+          .asText()); //xsd optional / eesti.ee's mitte, tegevusload/asutus/nimetus
 
       OppeasutusDetail oppeasutusDetail = OppeasutusDetail.Factory.newInstance();
 
@@ -735,7 +756,8 @@ public class MtsysWorker extends Worker {
     return jsonNodeResponse;
   }
 
-  public Object getMtsysTegevusNaitajad(String formName, String identifier, String personalCode) {
+  public ObjectNode getMtsysTegevusNaitajad(String formName, String identifier,
+      String personalCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
     jsonNode.putObject("header")
