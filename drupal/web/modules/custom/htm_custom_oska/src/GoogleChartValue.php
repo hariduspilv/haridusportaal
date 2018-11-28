@@ -27,21 +27,25 @@ class GoogleChartValue extends TypedData {
         foreach($this->filter_values as $key => $filters){
             $match = false;
 
-            if(is_array($filters) && count($filters) > 0){
-                foreach($filters as $filter){
-                    if (strpos($row[$key], $filter) !== FALSE) {
+            if(isset($row[$key])){
+                if(is_array($filters) && count($filters) > 0){
+                    foreach($filters as $filter){
+                        if (strpos($row[$key], $filter) !== FALSE) {
+                            $match = true;
+                        }
+                    }
+                }else if(count($filters) == 0){
+                    $match = true;
+                }else{
+                    if(strpos($row[$key], $filters) !== FALSE){
                         $match = true;
                     }
                 }
-            }else if(count($filters) == 0){
-                $match = true;
-            }else{
-                if(strpos($row[$key], $filters) !== FALSE){
-                    $match = true;
-                }
-            }
 
-            if($match == false){
+                if($match == false){
+                    return false;
+                }
+            }else{
                 return false;
             }
         }
