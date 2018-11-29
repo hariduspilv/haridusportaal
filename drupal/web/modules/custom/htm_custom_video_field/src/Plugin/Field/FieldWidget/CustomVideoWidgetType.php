@@ -74,6 +74,7 @@ class CustomVideoWidgetType extends WidgetBase {
 				'#title' => $this->t('Map'),
 		];
 		$element['input'] = [
+            '#title' => $this->t('URL link'),
 			'#type' => 'textfield',
 			'#placeholder' => $this->getSetting('placeholder_url'),
 			'#default_value' => isset($items[$delta]->input) ? $items[$delta]->input : NULL,

@@ -121,17 +121,14 @@ class OskaGraphField extends FieldItemBase {
 
     public function preSave()
     {
-
-        $graph_v_axis_value = $this->getCleanLabel($this->values['graph_options']['graph_v_axis']);
-
         $this->values = [
             'graph_set' => $this->values['graph_set'],
             'graph_title' => $this->values['graph_options']['graph_title'],
             'graph_type' => $this->values['graph_options']['graph_type'],
-            'graph_v_axis' => $graph_v_axis_value,
-            'graph_indicator' => $this->getTaxonomyName($this->values['graph_options']['oska_indicator']),
+            'graph_v_axis' => $this->values['graph_options']['graph_v_axis'],
+            'graph_indicator' => $this->values['graph_options']['graph_indicator'],
             'secondary_graph_type' => isset($this->values['graph_options']['secondary_graph_type']) ? $this->values['graph_options']['secondary_graph_type'] : NULL,
-            'secondary_graph_indicator' => isset($this->values['graph_options']['secondary_graph_indicator']) ? $this->getTaxonomyName($this->values['graph_options']['secondary_graph_indicator']) : NULL,
+            'secondary_graph_indicator' => isset($this->values['graph_options']['secondary_graph_indicator']) ? $this->values['graph_options']['secondary_graph_indicator'] : NULL,
             'filter_values' => json_encode($this->values, TRUE),
         ];
     }
@@ -155,46 +152,5 @@ class OskaGraphField extends FieldItemBase {
             '#size' => 1,
         ];
         return $element;
-    }
-
-    public function getTaxonomyName($field_value){
-        foreach($field_value as $val){
-            $term_name = Term::load($val['target_id'])->getName();
-        }
-        return $term_name;
-    }
-
-    public function getIndicators($filter_values){
-        $target_type = $this->getFieldDefinition()->getSettings()['target_type'];
-
-        $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple();
-        #get entity fields for finding indicator fields
-        $entity_fields = reset($entities)->getFields();
-
-        #find label and value fields
-        foreach($entity_fields as $key => $field){
-            if(isset($field->getSettings()['graph_indicator'])){
-                $indicator_field = $key;
-            }
-        }
-        if(isset($indicator_field) && isset($filter_values[$indicator_field]) && $filter_values[$indicator_field] != NULL){
-            foreach($filter_values[$indicator_field] as $field_val){
-                $indicators[] = Term::load($field_val['target_id'])->getName();
-            }
-        }else{
-            $indicators = NULL;
-        }
-        return $indicators;
-    }
-
-    public function getCleanLabel($field_name){
-        $target_type = $this->getFieldDefinition()->getSettings()['target_type'];
-        $entities = \Drupal::entityTypeManager()->getStorage($target_type)->loadMultiple();
-
-        $entity_fields = reset($entities)->getFields();
-
-        $value_name = $this->t($entity_fields[$field_name]->getFieldDefinition()->getLabel()->getUntranslatedString());
-
-        return $value_name;
     }
 }

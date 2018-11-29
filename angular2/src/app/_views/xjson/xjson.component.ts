@@ -141,10 +141,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  addressAutocompleteSelectionValidation(element){
-
+  addressAutocompleteSelectionValidation(element) {
     if(this.autoCompleteContainer[element] ===  undefined) {
-      console.log('this.autoCompleteContainer[element] === undefined')
       return this.temporaryModel[element] = null;
     }   
 
@@ -187,7 +185,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }).catch(function(error: any){return Observable.throw(error)});
     
       _this.autocompleteSubscription[element] = jsonp.subscribe(data => {
-        if(data['error']) console.log('Something went wrong with In-ADS request')
+        if(data['error']) { _this.errorHandler('Something went wrong with In-ADS request') }
 
         _this.autocompleteLoader = false;
         _this.autoCompleteContainer[element] = data['addresses'] || [];
@@ -389,12 +387,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
     }
   }
+  
   tableColumnName(element, index){
     return Object.keys(this.data_elements[element].table_columns)[index];
   }
+
   tableColumnAttribute(element, index, attribute){
     return this.data_elements[element].table_columns[ this.tableColumnName(element, index) ][attribute]
   }
+
   tableAddRow(element): void{
     let table = this.data_elements[element];
     let newRow = {};
@@ -407,6 +408,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         newRow[col] = null;
       }
     }
+    if(table.value === undefined) table.value = [];
     table.value.push(newRow);
   }
   
@@ -495,33 +497,42 @@ export class XjsonComponent implements OnInit, OnDestroy {
     //check for required field
     if(field.required === true){
       if(field.value === undefined) return {valid: false, message: this.translate.get('xjson.missing_required_value')['value']}
-      //else if (!field.value) return {valid: false, message: 'Puudub kohustuslik väärtus'}
     }
-    //check for minlength
-    if(field.minlength !== undefined){
-      if(field.value.length < field.minlength) return {valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }
-    }
-    //check for maxlength
-    if(field.maxlength !== undefined){
-      if(field.value.length > field.maxlength) return {valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength }
-    }
-    //check for min
-    if(field.min !== undefined){
-      if(field.required === true){
-        if(field.value < field.min) return {valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min }
+    if(field.value) {
+      //check for minlength
+      if(field.minlength !== undefined){
+        if(field.value.length < field.minlength) return {valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }
       }
-    }
-    //check for max
-    if(field.max !== undefined){
-      if(field.required === true){
-        if(field.value > field.max) return {valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max }
+      //check for maxlength
+      if(field.maxlength !== undefined){
+        if(field.value.length > field.maxlength) return {valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength }
       }
-    }
-    //check for email format
-    if(field.type === 'email'){
-      if(field.required === true){
-        let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if(reg.test(field.value) === false) return {valid: false, message: this.translate.get('xjson.enter_valid_email')['value']  }
+      //check for min
+      if(field.min !== undefined){
+        if(field.type === 'date') {
+          if(moment(field.value).isBefore(field.min)) {
+            return {valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') }
+          }
+        } else if (field.value < field.min) {
+          return {valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min }
+        }
+      }
+      //check for max
+      if(field.max !== undefined){
+        if(field.type === 'date') {
+          if(moment(field.value).isAfter(field.max)) {
+            return {valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(field.max).format('DD.MM.YYYY') }
+          }
+        } else if (field.value > field.max) {
+          return {valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max };
+        }
+      }
+      //check for email format
+      if(field.type === 'email'){
+        if(field.required === true){
+          let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          if(reg.test(field.value) === false) return {valid: false, message: this.translate.get('xjson.enter_valid_email')['value']  }
+        }
       }
     }
     return {valid: true, message:'valid'};
@@ -545,44 +556,44 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return {valid: true, message: 'valid'}
   }
 
-  validateForm(elements){
-  
-    const NOT_FOR_VALIDATION = ['heading']
+  validateForm(elements): void{
+    const NOT_FOR_VALIDATION = ['heading', 'helpertext',]
+
     for(let field in elements) {
-      if(elements[field].type == 'table'){
-        let validation = this.tableValidation(elements[field]);
-        if(validation.valid !== true) {
-          return this.error[field] = validation;
+      let element = elements[field];
+      if (element.type == 'table') {
+        let validation = this.tableValidation(element);
+        if (validation.valid !== true) {
+          this.error[field] = validation;
+          break;
         }
-      }
-      else if(!NOT_FOR_VALIDATION.includes(elements[field].type)){
-
-        let validation = this.isValidField(elements[field]);
-
-        if(validation.valid !== true) {
-          console.log(validation.message);
-          return this.error[field] = validation;
+      }  else if (!NOT_FOR_VALIDATION.includes(element.type)) {        
+        let validation = this.isValidField(element);
+        if (validation.valid !== true) {
+          this.error[field] = validation;
+          break;
         }
       }
     };
   }
+
   submitForm(activity: string){
     this.error = {};
     console.log(this.data_elements);
+
     if(activity == 'EDIT') {
-      
       this.promptEditConfirmation();
-      
     } else {
       this.validateForm(this.data_elements);
 
       if(Object.keys(this.error).length == 0){
-        
         this.data.header["activity"] = activity;
-        
         let payload = {form_name: this.form_name, form_info: this.data};
-        if(this.test === true) this.promptDebugDialog(payload)
-        else this.getData(payload);
+        if(this.test === true) {
+          this.promptDebugDialog(payload)
+        } else {
+          this.getData(payload);
+        }
       }
     }
   }

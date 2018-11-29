@@ -25,7 +25,7 @@ h4.title-lg-padding { margin-bottom: 1rem; }
   }
   &:hover {
     border-left: .1875rem solid #15adc2;
-    .mat-expansion-indicator{ background: $blue;
+    ::ng-deep .mat-expansion-indicator{ background: $blue;
       &:after {
         color: $white;
       }
@@ -57,6 +57,7 @@ h4.title-lg-padding { margin-bottom: 1rem; }
       }
     }
   }
+  a.rowspan-btn {font-size: 1rem;}
   .section--header {margin-bottom: 1rem;
     @include break-on(sm, max) {margin: 0 1.5rem 1rem;}
   }
@@ -114,10 +115,11 @@ h4.title-lg-padding { margin-bottom: 1rem; }
     color: $blue; font-weight: 500; font-size: 0.875rem; flex: 0; margin-right: 1rem; margin-bottom: 1rem;
     display: flex; flex-basis: calc(50% - 2.125rem); justify-content: center; flex-direction: column;
     @include break-on(xxs, max) { flex-basis: 100%; }
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {flex-basis: calc(50% - 2.25rem);}
     &:hover { text-decoration: underline; box-shadow: 0 0.125rem 0.25rem 0 rgba(117, 117, 117, 0.5); border: solid 1px $gray; cursor: pointer; text-decoration: underline; }
     &:visited { 
       .grid-link { color: $visited; }
-     }
+    }
   }
     &-link{ text-decoration: none; }
 }

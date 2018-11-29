@@ -123,10 +123,10 @@ export class OskaResultsComponent implements OnInit{
   }
 
   getTableData(){
-    let url = "/graphql?queryName=oskaResultPageTable&queryId=967afa08c955809c695fd060ea4a25e240e9eb01:1";
+    let url = "/graphql?queryName=oskaResultPageTable&queryId=876ab0283370267b229f06bbc600ed7f1dda9043:1";
     let subscription = this.http.get(url).subscribe( (data) => {
       if ( data['data']['errors'] ) {
-        this.error = true;
+        // this.error = true;
         return false;
       } else {
         this.tableData = this.filteredTableData = data['data']['oskaTableEntityQuery']['entities'];
@@ -144,7 +144,7 @@ export class OskaResultsComponent implements OnInit{
       this.setScrollPos('resultsTable');
     }, (err) => {
       console.log(err);
-      this.error = true;
+      // this.error = true;
     });
   }
 
