@@ -35,7 +35,7 @@ export class ShareComponent{
       default:
         shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
     }
-    
+    this.resetFocus();
     return window.open(shareLink, 'targetWindow', 'toolbar=0,location=0,status=0,menubar=0,scrollbars=1,resizable=1,width=560,height=460')
   }
 
@@ -59,8 +59,7 @@ export class ShareComponent{
       this.mainShareElemLabel = 'tooltip.copy';
     } else {
       this.mainShareElemLabel = 'tooltip.share';
-      let elem = document.getElementById('mainShareElem');
-      elem.focus();
+      this.resetFocus();
     }
   }
 
@@ -73,20 +72,19 @@ export class ShareComponent{
     this.snackbar.open(message, action, {
       duration: 5000,
     });
+    this.resetFocus();
   }
 
   resetActiveState () {
     if (this.activeState) {
       this.activeState = false;
       this.mainShareElemLabel = 'tooltip.share';
-      let elem = document.getElementById('mainShareElem');
-      elem.focus();
+      this.resetFocus();
     }
   }
 
   resetFocus () {
-    let elem = document.getElementById('mainShareElemDesktop');
-    elem.focus();
+    (document.activeElement as HTMLElement).blur();
   }
 
   @HostListener('document:click', ['$event']) clickedOutside($event){

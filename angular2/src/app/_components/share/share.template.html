@@ -47,16 +47,15 @@
     
 <div class="sm-hide">
   <div class="share__wrapper">
-    <div class="share__component" [class.opened]="transitionState" role="list" (mouseover)="item = 'link'" (mouseout)="item = null">
+  <div class="share__component" [class.opened]="transitionState" role="list" (mouseover)="item = 'link'" (mouseout)="item = null">
       <a class="share__component__button--main" 
         id="mainShareElemDesktop"
         tabindex="0" 
         attr.aria-label="{{'tooltip.copy' | translate }}"
         (click)="copyLocation($event)" 
-        (keyup.enter)="copyLocation($event)"
-        (keyup.space)="copyLocation($event)"
-        (focus)="item = 'link'" 
-        (blur)="item = null"
+        (keyup.enter)="copyLocation($event); item = null;"
+        (keyup.space)="copyLocation($event); item = null;"
+        (focus)="item = 'link'"
         matTooltip="{{ 'tooltip.copy' | translate }}"
         matTooltipPosition="right">
         <span class="htm-icon primary" (transitionend)="transitionState = !transitionState">{{item || 'share'}}</span>
@@ -67,6 +66,7 @@
         attr.aria-label="{{ 'tooltip.share_fb' | translate }}"
         (keyup.enter)="share($event, 'facebook');resetFocus();"
         (keyup.space)="share($event, 'facebook');resetFocus();"
+        (focus)="item = null"
         (click)="share($event, 'facebook');resetFocus();"
         matTooltip="{{ 'tooltip.share_fb' | translate }}" 
         matTooltipPosition="right"
