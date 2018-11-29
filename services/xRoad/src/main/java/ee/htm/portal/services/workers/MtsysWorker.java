@@ -107,7 +107,7 @@ public class MtsysWorker extends Worker {
         ((ObjectNode) failiTyybidNode.get(item.getKlOkLiik().toString()))
             .putObject(item.getKlFailTyyp().toString())
             .put("et", item.getFailTyyp())
-            .put("required", item.getKohustuslik().equals(BigInteger.ONE) ? true : false);
+            .put("required", item.getKohustuslik().equals(BigInteger.ONE));
 
       });
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "failiTyybid", failiTyybidNode);
@@ -221,7 +221,7 @@ public class MtsysWorker extends Worker {
                         .put("description", tegevusnaitaja.getAasta().intValue())
                         .put("changeable", currentDate.before(beforeDate)
                             && tegevusnaitaja.getAasta().intValue()
-                            >= currentDate.get(Calendar.YEAR) - 1 ? true : false);
+                            >= currentDate.get(Calendar.YEAR) - 1);
                   }
                 });
               }
@@ -229,8 +229,9 @@ public class MtsysWorker extends Worker {
               if (item.isSetTegevusload()) {
                 item.getTegevusload().getTegevuslubaList().forEach(tegevusluba -> {
                   if (tegevusluba.getLiik().equalsIgnoreCase("18098")) {
-                    if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15667") &&
-                        tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15669")) {
+                    if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Sisestamisel") ||
+                        tegevusluba.getMenetlusStaatus()
+                            .equalsIgnoreCase("Tagastatud puudustega")) {
                       ((ArrayNode) itemNode.get("drafts")).addObject()
                           .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE")
                           .put("id", tegevusluba.isSetId() ? tegevusluba.getId().intValue() : null)
@@ -256,8 +257,9 @@ public class MtsysWorker extends Worker {
                           .put("description", description);
                     }
                   } else {
-                    if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15667") &&
-                        tegevusluba.getMenetlusStaatus().equalsIgnoreCase("15669")) {
+                    if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Sisestamisel") ||
+                        tegevusluba.getMenetlusStaatus()
+                            .equalsIgnoreCase("Tagastatud puudustega")) {
                       ((ArrayNode) itemNode.get("drafts")).addObject()
                           .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS")
                           .put("id", tegevusluba.isSetId() ? tegevusluba.getId().intValue() : null)
@@ -276,7 +278,7 @@ public class MtsysWorker extends Worker {
                       }
 
                       ((ArrayNode) itemNode.get("documents")).addObject()
-                          .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS")
+                          .put("form_name", "MTSYS_TEGEVUSLUBA")
                           .put("id", tegevusluba.getId().intValue())
                           .put("document_date", tegevusluba.getKehtivAlates())
                           .put("status", tegevusluba.getMenetlusStaatus())
@@ -332,10 +334,19 @@ public class MtsysWorker extends Worker {
       MtsysTegevuslubaResponse response = ehisXRoadService
           .mtsysTegevusluba(BigInteger.valueOf(Long.parseLong(identifier)), personalCode);
 
-      ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_0").putObject("title")
-          .put("et", "Tegevusluba");
-      ObjectNode stepZeroDataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps")
-          .get("step_0")).putObject("data_elements");
+      ObjectNode stepZeroDataElementsNode;
+      if (isTaotlus) {
+        ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_liik")
+            .putObject("tegevusloaLiik")
+            .put("value", response.getTegevusloaAndmed().getKlLiik().intValue());
+        stepZeroDataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
+            .putObject("step_andmed").putObject("data_elements");
+      } else {
+        ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_0").putObject("title")
+            .put("et", "Tegevusluba");
+        stepZeroDataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps")
+            .get("step_0")).putObject("data_elements");
+      }
 
       stepZeroDataElementsNode.putObject("tegevusloaLiik").putArray("value")
           .add(response.getTegevusloaAndmed().getKlLiik().intValue());
@@ -345,81 +356,81 @@ public class MtsysWorker extends Worker {
           .add(response.getTegevusloaAndmed().getLoaNumber());
       stepZeroDataElementsNode.putObject("oppekavaNimetus").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetNimetus() ? true : false)
+              || !response.getTegevusloaAndmed().isSetNimetus())
           .putArray("value").add(response.getTegevusloaAndmed().isSetNimetus() ?
           response.getTegevusloaAndmed().getNimetus() : null);
       stepZeroDataElementsNode.putObject("kaskkirjaNr").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKaskkirjaNr() ? true : false)
+              || !response.getTegevusloaAndmed().isSetKaskkirjaNr())
           .putArray("value").add(response.getTegevusloaAndmed().isSetKaskkirjaNr() ?
           response.getTegevusloaAndmed().getKaskkirjaNr() : null);
       stepZeroDataElementsNode.putObject("kaskkirjaKuupaev").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKaskkirjaKp() ? true : false)
+              || !response.getTegevusloaAndmed().isSetKaskkirjaKp())
           .putArray("value").add(response.getTegevusloaAndmed().isSetKaskkirjaKp() ?
           response.getTegevusloaAndmed().getKaskkirjaKp() : null);
       stepZeroDataElementsNode.putObject("alguseKuupaev").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKehtivAlates() ? true : false)
+              || !response.getTegevusloaAndmed().isSetKehtivAlates())
           .putArray("value").add(response.getTegevusloaAndmed().isSetKehtivAlates() ?
           response.getTegevusloaAndmed().getKehtivAlates() : null);
       stepZeroDataElementsNode.putObject("lopuKuupaev").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKehtivKuni() ? true : false)
+              || !response.getTegevusloaAndmed().isSetKehtivKuni())
           .putArray("value").add(response.getTegevusloaAndmed().isSetKehtivKuni() ?
           response.getTegevusloaAndmed().getKehtivKuni() : null);
       stepZeroDataElementsNode.putObject("tuhistamiseKuupaev").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetTyhistamiseKp() ? true : false)
+              || !response.getTegevusloaAndmed().isSetTyhistamiseKp())
           .putArray("value").add(response.getTegevusloaAndmed().isSetTyhistamiseKp() ?
           response.getTegevusloaAndmed().getTyhistamiseKp() : null);
       stepZeroDataElementsNode.putObject("laagriNimetus").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetLaagriNimetus() ? true : false)
+              || !response.getTegevusloaAndmed().isSetLaagriNimetus())
           .putArray("value").add(response.getTegevusloaAndmed().isSetLaagriNimetus() ?
           response.getTegevusloaAndmed().getLaagriNimetus() : null);
       stepZeroDataElementsNode.putObject("kohtadeArvLaagris").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKohtadeArvLaagris() ? true : false)
+              || !response.getTegevusloaAndmed().isSetKohtadeArvLaagris())
           .putArray("value").add(response.getTegevusloaAndmed().isSetKohtadeArvLaagris() ?
           response.getTegevusloaAndmed().getKohtadeArvLaagris().intValue() : null);
       stepZeroDataElementsNode.putObject("tkkLiik").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKlTkkLiik() ? true : false)
+              || !response.getTegevusloaAndmed().isSetKlTkkLiik())
           .putArray("value").add(response.getTegevusloaAndmed().isSetKlTkkLiik() ?
           response.getTegevusloaAndmed().getKlTkkLiik().intValue() : null);
       stepZeroDataElementsNode.putObject("keeleTase").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKlEkTase() ? true : false)
+              || !response.getTegevusloaAndmed().isSetKlEkTase())
           .putArray("value").add(response.getTegevusloaAndmed().isSetKlEkTase() ?
           response.getTegevusloaAndmed().getKlEkTase().intValue() : null);
       stepZeroDataElementsNode.putObject("soidukiteKategooria").put("hidden",
           response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ? true : false)
+              || !response.getTegevusloaAndmed().isSetKlSoidukiKategooria())
           .putArray("value").add(response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
           response.getTegevusloaAndmed().getKlSoidukiKategooria().intValue() : null);
 
       if (isTaotlus) {
         stepZeroDataElementsNode.putObject("id")
-            .put("hidden", !response.getTegevusloaAndmed().isSetId() ? true : false)
+            .put("hidden", !response.getTegevusloaAndmed().isSetId())
             .putArray("value").add(response.getTegevusloaAndmed().isSetId() ?
             response.getTegevusloaAndmed().getId().intValue() : null);
         stepZeroDataElementsNode.putObject("taotlusId")
-            .put("hidden", !response.getTegevusloaAndmed().isSetTaotlusId() ? true : false)
+            .put("hidden", !response.getTegevusloaAndmed().isSetTaotlusId())
             .putArray("value").add(response.getTegevusloaAndmed().isSetTaotlusId() ?
             response.getTegevusloaAndmed().getTaotlusId().intValue() : null);
         stepZeroDataElementsNode.putObject("tyyp").putArray("value")
             .add(response.getTegevusloaAndmed().getTyyp());
         stepZeroDataElementsNode.putObject("lisainfo")
-            .put("hidden", !response.getTegevusloaAndmed().isSetLisainfo() ? true : false)
+            .put("hidden", !response.getTegevusloaAndmed().isSetLisainfo())
             .putArray("value").add(response.getTegevusloaAndmed().isSetLisainfo() ?
             response.getTegevusloaAndmed().getLisainfo() : null);
         stepZeroDataElementsNode.putObject("loomiseKp")
-            .put("hidden", !response.getTegevusloaAndmed().isSetLoomiseKp() ? true : false)
+            .put("hidden", !response.getTegevusloaAndmed().isSetLoomiseKp())
             .putArray("value").add(response.getTegevusloaAndmed().isSetLoomiseKp() ?
             response.getTegevusloaAndmed().getLoomiseKp() : null);
         stepZeroDataElementsNode.putObject("peatatudKuniKp")
-            .put("hidden", !response.getTegevusloaAndmed().isSetPeatatudKuniKp() ? true : false)
+            .put("hidden", !response.getTegevusloaAndmed().isSetPeatatudKuniKp())
             .putArray("value").add(response.getTegevusloaAndmed().isSetPeatatudKuniKp() ?
             response.getTegevusloaAndmed().getPeatatudKuniKp() : null);
       }
