@@ -1,7 +1,0 @@
-uuid: a1b26680-5ca4-4fae-b1c3-bf80d9a79705
-langcode: en
-status: true
-dependencies: {  }
-version: schoolNodeQuery
-map:
-  1: "query schoolNodeQuery {\n  nodeQuery(filter: {conditions: {field: \"type\", value: \"school\", operator: EQUAL}}) {\n    entities {\n      ... on NodeSchool {\n        fieldSchoolLocation {\n          entity {\n            fieldCoordinates {\n              lat\n              lon\n            }\n            fieldAddress\n          }\n        }\n        fieldSchoolContactEmail\n        fieldSchoolWebpageAddress\n      }\n    }\n  }\n}\n"
