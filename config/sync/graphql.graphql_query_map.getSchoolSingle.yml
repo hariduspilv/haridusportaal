@@ -1,7 +1,0 @@
-uuid: 646d6515-d00a-461a-9138-41b7651755d0
-langcode: en
-status: true
-dependencies: {  }
-version: getSchoolSingle
-map:
-  1: "query getSchoolSingle($path: String!) {\n  route(path: $path) {\n    ... on EntityCanonicalUrl {\n      entity {\n        ... on NodeSchool {\n          isFavorite\n          nid\n          title\n          fieldRegistrationCode\n          fieldOwnershipType {\n            entity {\n              name\n            }\n          }\n          fieldEducationalInstitutionTy {\n            entity {\n              name\n              entityId\n            }\n          }\n          fieldTeachingLanguage {\n            entity {\n              name\n            }\n          }\n          fieldSpecialClass\n          fieldStudentHome\n          fieldSchoolContactPhone\n          fieldSchoolContactEmail\n          fieldSchoolWebpageAddress\n          fieldSchoolLocation {\n            entity {\n              ... on ParagraphSchoolLocation {\n                fieldAddress\n                fieldLocationType\n                fieldSchoolLocation {\n                  entity {\n                    name\n                  }\n                }\n                fieldCoordinates {\n                  lat\n                  lon\n                  zoom\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n"
