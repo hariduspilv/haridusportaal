@@ -1648,8 +1648,8 @@ tooltip:
     en: 'Remove from favourites'
   copy:
     translation_type: textarea
-    et: 'Kopeeri viit lõikepuhvrisse'
-    en: 'Copy to clipboard'
+    et: 'Kopeeri lehe viit lõikepuhvrisse'
+    en: 'Copy page url to clipboard'
   share_fb:
     translation_type: textarea
     et: 'Jaga facebookis'

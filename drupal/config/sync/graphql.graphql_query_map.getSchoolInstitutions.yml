@@ -1,7 +1,0 @@
-uuid: 707a2273-9d90-4b38-8aea-e696159d50ba
-langcode: en
-status: true
-dependencies: {  }
-version: getSchoolInstitutions
-map:
-  1: "query getSchoolInstitutions($lang: LanguageId!, $tids: [String]) {\n  taxonomyTermQuery(filter: {conditions: [{field: \"tid\", value: $tids, language: $lang, operator: IN}, {field: \"vid\", value: [\"educational_institution_type\"], language: $lang, operator: IN}]}) {\n    entities(language: $lang) {\n      entityLabel\n      entityId\n      parentId\n      ... on TaxonomyTermEducationalInstitutionType {\n        reverseFieldEducationalInstitutionTyNode {\n          count\n        }\n      }\n    }\n  }\n}\n"

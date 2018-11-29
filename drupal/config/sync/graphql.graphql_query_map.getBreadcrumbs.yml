@@ -1,7 +1,0 @@
-uuid: 49bed4f7-69ef-4833-9fe7-378afc241a9f
-langcode: en
-status: true
-dependencies: {  }
-version: getBreadcrumbs
-map:
-  1: "query getBreadcrumbs($path: String!) {\n  route(path: $path) {\n    ... on EntityCanonicalUrl {\n      languageSwitchLinks {\n        active\n        language {\n          id\n        }\n        url {\n          path\n        }\n      }\n      entity {\n        entityMetatags {\n          name: key\n          content: value\n        }\n      }\n      breadcrumb {\n        text\n        url {\n          path\n          routed\n        }\n      }\n    }\n  }\n}\n"
