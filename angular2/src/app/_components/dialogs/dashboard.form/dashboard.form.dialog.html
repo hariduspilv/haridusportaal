@@ -1,0 +1,238 @@
+<div class="dialog" [class.narrow]="data && data.edId" role="dialog" attr.aria-label="{{'modal.open | translate'}}" cdkTrapFocus>
+  <div class="row">
+    <div class="col-12" style="position: relative;">
+      <span class="dialog__text--medium">
+        <ng-container *ngIf="!data.edId">{{ 'dashboard.adding_educational_institution' | translate | uppercase }}</ng-container>
+        <ng-container *ngIf="data.edId">{{ 'button.edit' | translate | uppercase }}</ng-container>
+      </span>
+      <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
+        <span class="htm-icon">close
+          <button class="btn-hidden" (click)="close()" tabindex="0"></button>
+        </span>
+      </div>
+    </div>
+  
+    <div class="col-12" *ngIf="formOptions && !loader && data">
+      <h1>
+        <ng-container *ngIf="!data.edId">{{ 'dashboard.add_new_educational_institution' | translate }}</ng-container>
+        <ng-container *ngIf="data.edId">{{ 'button.edit_data' | translate }}</ng-container>
+      </h1>
+      <div *ngIf="!data.edId" class="dialog__required">* {{ 'event.registration_form_required' | translate }}</div>
+    </div>
+      
+    <form [formGroup]="form" class="dialog__form col-12" *ngIf="!loader">
+      <div class="dialog-content">
+
+        <div class="row form-first-row" *ngIf="data && !data.edId"><!-- ROW -->
+          <div class="col-12 sm-12 form-col">
+            <div class="round-input__wrapper" [class.complete]="form.controls.name.value">
+              <span class="round-input__title">{{ 'dashboard.name' | translate }} *</span>
+              <div class="round-input__field-wrapper">
+                <input attr.aria-label="{{ 'dashboard.name' | translate }} {{'required.modal' | translate}}" class="round-input__field" placeholder="{{ 'dashboard.name' | translate }} *" formControlName="name"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('name') && form.controls.name.errors.required">
+                  {{ 'event.registration_form_required' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 sm-12 form-col">
+            <div class="round-input__wrapper" [class.complete]="form.controls.nameENG.value">
+              <span class="round-input__title">{{ 'dashboard.nameENG' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input attr.aria-label="{{ 'dashboard.nameENG' | translate }}" class="round-input__field" placeholder="{{ 'dashboard.nameENG' | translate }}" formControlName="nameENG"/>
+              </div>
+            </div>
+          </div>
+        </div><!-- /ROW -->
+
+        <div class="row form-additional-row" *ngIf="data"><!-- ROW -->
+          <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
+            <div class="round-input__wrapper" [class.complete]="form.controls.contactPhone.value">
+              <span class="round-input__title">{{ 'dashboard.contactPhone' | translate }} <span *ngIf="!data.edId">*</span></span>
+              <div class="round-input__field-wrapper">
+                <input attr.aria-label="{{ 'dashboard.contactPhone' | translate }} {{ !data.edId && 'required.modal' | translate }}" class="round-input__field" placeholder="{{ 'dashboard.contactPhone' | translate }} {{ !data.edId ? '*' : ''}}" formControlName="contactPhone"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('contactPhone') && form.controls.contactPhone.errors.required && !data.edId">
+                  {{ 'event.registration_form_required' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
+            <div class="round-input__wrapper" 
+              [class.error]="isInvalidField('contactEmail') && form.controls.contactEmail.errors.email && !emailFocus" 
+              [class.complete]="!isInvalidField('contactEmail') && form.controls.contactEmail.value && !emailFocus">
+              <span class="round-input__title">{{ 'event.participant_email' | translate }} <span *ngIf="!data.edId">*</span></span>
+              <div class="round-input__field-wrapper">
+                <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{ !data.edId && 'required.modal' | translate }}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} {{ !data.edId ? '*' : ''}}" formControlName="contactEmail"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('contactEmail') && form.controls.contactEmail.errors.email && !emailFocus">
+                  {{ 'event.registration_form_valid_email' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /ROW -->
+
+        <div class="row form-additional-row" *ngIf="data"><!-- ROW -->
+          <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
+            <div class="round-input__wrapper" [class.complete]="form.controls.webpageAddress.value">
+              <span class="round-input__title">{{ 'dashboard.webpageAddress' | translate }} <span *ngIf="!data.edId">*</span></span>
+              <div class="round-input__field-wrapper">
+                <input attr.aria-label="{{ 'dashboard.webpageAddress' | translate }} {{ !data.edId && 'required.modal' | translate }}" class="round-input__field" placeholder="{{ 'dashboard.webpageAddress' | translate }} {{ !data.edId ? '*' : ''}}" formControlName="webpageAddress"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('webpageAddress') && form.controls.webpageAddress.errors.required && !data.edId">
+                  {{ 'event.registration_form_required' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
+            <div class="round-input__wrapper" [class.complete]="form.controls.address.value">
+              <span class="round-input__title">{{ 'dashboard.addressHumanReadable' | translate }} <span *ngIf="!data.edId">*</span></span>
+              <div class="round-input__field-wrapper">
+                <input attr.aria-label="{{ 'dashboard.addressHumanReadable' | translate }} {{ !data.edId && 'required.modal' | translate }}" class="round-input__field" placeholder="{{ 'dashboard.addressHumanReadable' | translate }} {{ !data.edId ? '*' : ''}}" formControlName="address"/>
+              </div>
+              <div class="round-input__error">
+                <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('address') && form.controls.address.errors.required && !data.edId">
+                  {{ 'event.registration_form_required' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /ROW -->
+        
+        <div class="row form-additional-row" *ngIf="data && !data.edId"><!-- ROW -->
+          <div class="col-6 sm-12 form-col">
+            <div class="round-input__wrapper" [class.complete]="form.controls.ownerType.value">
+              <mat-form-field>
+                <mat-select placeholder="{{ 'dashboard.ownerType' | translate }} *" name="ownerType" formControlName="ownerType">
+                  <mat-option>{{ 'button.all' | translate }}</mat-option>
+                  <mat-option *ngFor="let item of formOptions['ownerTypes']" [value]="item.id">
+                    {{item.et | titleCase}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-6 sm-12 form-col">
+            <div class="round-input__wrapper" [class.complete]="form.controls.ownershipType.value">
+              <mat-form-field>
+                <mat-select placeholder="{{ 'school.ownership' | translate }} *" name="ownershipType" formControlName="ownershipType">
+                  <mat-option>{{ 'button.all' | translate }}</mat-option>
+                  <mat-option *ngFor="let item of formOptions['ownershipTypes']" [value]="item.id">
+                    {{item.et | titleCase}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div><!-- /ROW -->
+        
+        <div class="row form-additional-row" *ngIf="data && !data.edId"><!-- ROW -->
+          <div class="col-6 sm-12 form-col">
+            <div class="round-input__wrapper" [class.complete]="form.controls.studyInstitutionType.value">
+              <mat-form-field>
+                <mat-select placeholder="{{ 'dashboard.studyInstitutionType' | translate }} *" name="studyInstitutionType" formControlName="studyInstitutionType">
+                  <mat-option>{{ 'button.all' | translate }}</mat-option>
+                  <mat-option *ngFor="let item of formOptions['studyInstitutionTypes']" [value]="item.id">
+                    {{item.et | titleCase}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div><!-- /ROW -->
+
+        
+        <div class="row form-additional-row" *ngIf="data && !data.edId"><!-- ROW -->
+          <div class="col-6 sm-12 form-col">
+            <div class="round-input__wrapper" [class.complete]="address">
+              <span class="round-input__title">{{ 'dashboard.addressHumanReadable' | translate }} <span *ngIf="!data.edId">*</span></span>
+              <div class="round-input__field-wrapper">
+                <input class="round-input__field" 
+                  type="text"
+                  matInput
+                  [(ngModel)]="address"
+                  placeholder="{{ 'dashboard.addressHumanReadable' | translate }}"
+                  (ngModelChange)="addressService.addressAutocomplete(address, 300, 'addressVal', false, 10, 1, 1)"
+                  (focus)="addressService.addressFieldFocus = true"
+                  (blur)="addressService.validateInAdsField('addressVal')"
+                  [name]="address" 
+                  [matAutocomplete]="autoAddress">
+                  <mat-autocomplete #autoAddress="matAutocomplete"
+                    (optionSelected)="addressService.addressFieldFocus = false"
+                    [(ngModel)]="address">
+                    <ng-container *ngIf="addressService.autocompleteLoader">
+                      <mat-option [value]="" disabled="true">
+                        <span>{{'xjson.searching_please_wait' | translate }}</span>
+                      </mat-option>
+                    </ng-container>
+                    <ng-container *ngIf="addressService.autocompleteLoader == false && addressService.autoCompleteContainer['addressVal']">
+                      <mat-option *ngIf="!addressService.autoCompleteContainer['addressVal'].length" [value]="" disabled="true">
+                        <span>{{'xjson.address_not_found' | translate }}</span>
+                      </mat-option>
+                      <ng-container *ngIf="addressService.autoCompleteContainer['addressVal'].length > 0">
+                        <mat-option *ngFor="let address of addressService.autoCompleteContainer['addressVal']" [value]="address.addressHumanReadable">
+                          <span>{{ address.addressHumanReadable }}</span>
+                        </mat-option>
+                      </ng-container>
+                    </ng-container>
+                  </mat-autocomplete>
+              </div>
+            </div>
+          </div>
+        </div><!-- /ROW -->
+
+      </div>
+  
+      <div class="dialog__actions row" *ngIf="!loader">
+        <div class="col-12 text-right" *ngIf="data && !data.edId">
+          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'button.save' | translate }}</button>
+          <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
+          <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && add($event)"></re-captcha>
+        </div>
+        <div class="col-12 text-right" *ngIf="data && data.edId">
+          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'button.save' | translate }}</button>
+          <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
+          <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && edit($event)"></re-captcha>
+        </div>
+      </div>
+  
+    </form>
+  
+    <div class="col-12" *ngIf="loader">
+      <mat-spinner></mat-spinner>
+    </div>
+    
+    <div class="dialog__success" *ngIf="step === 1">
+  
+      <div class="dialog__success__title">
+        <h1 *ngIf="response && response.errors.length == 0">{{ 'event.registration_form_thanks' | translate }}</h1>
+        <ng-container *ngFor="let item of response.errors">
+          <h1 *ngIf="item == 1">{{ 'event.registration_full' | translate }}</h1>
+        </ng-container>
+      </div>
+  
+      <div class="dialog__actions--success">
+        <div class="row text-center">
+          <div class="col-12" >
+            <ng-container *ngIf="response && response.errors.length == 0">
+              <a href="{{ iCalUrl }}" target="_blank" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'event.registration_form_add_to_calendar' | translate }}</a>
+            </ng-container>
+  
+          </div>
+          <div class="dialog__actions--success__close col-12"><a class="btn-link" href="javascript:void(0)" (click)="close()" tabindex="0">{{ 'event.registration_form_close' | translate }}</a></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  

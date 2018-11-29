@@ -17,6 +17,7 @@ import { StudiesComponent } from '@app/_components/studies/studies.component';
 import { TeachingsComponent } from '@app/_components/teachings/teachings.component';
 import { XjsonComponent } from '@app/_views/xjson/xjson.component';
 import { EventsRegistratonDialog } from './_components/dialogs/events.registration/events.registration.dialog';
+import { DashboardFormDialog } from './_components/dialogs/dashboard.form/dashboard.form.dialog';
 import { ImagePopupDialog } from './_components/dialogs/image.popup/image.popup.dialog';
 import { Modal } from './_components/dialogs/modal/modal';
 import { TableModal } from './_components/dialogs/table.modal/table.modal';
@@ -31,6 +32,7 @@ import { ChartComponent } from './_components/chart/chart.component';
 export const AppDeclarations = [
   routedComponents,
   EventsRegistratonDialog,
+  DashboardFormDialog,
   ImagePopupDialog,
   BreadcrumbsComponent,
   ShareComponent,
@@ -62,6 +64,7 @@ export const AppDeclarations = [
 
 export const AppEntryComponents = [
   EventsRegistratonDialog,
+  DashboardFormDialog,
   ImagePopupDialog,
   TableModal,
   CheckModal,
