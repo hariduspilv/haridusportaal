@@ -120,6 +120,7 @@ const appRoutes: Routes = [
 })
 export class AppRoutingModule { }
 
+/*
 const components = [];
 for( let i in appRoutes ){
   let current = appRoutes[i];
@@ -131,6 +132,37 @@ for( let i in appRoutes ){
     }
   }
 }
+*/
 
-export const routedComponents = components;
+
+export const routedComponents = [
+  ArticleComponent,
+  FrontpageComponent,
+  EventsComponent,
+  PersonalDataComponent,
+  EventsSingleComponent,
+  NewsComponent,
+  NewsSingleComponent,
+  SchoolsComponent,
+  SchoolsSingleComponent,
+  StudyProgrammeComponent,
+  StudyProgrammeSingleComponent,
+  NotFoundComponent,
+  StudyProgrammeCompareComponent,
+  DashboardComponent,
+  SchoolsFundingComponent,
+  XjsonComponent,
+  SearchComponent,
+  OskaAreasComponent,
+  OskaProfessionsComponent,
+  OskaProfessionsCompareComponent,
+  OskaSectorsComponent,
+  OskaResultsComponent,
+  CertificatesDetailedComponent,
+  TeachingsDetailedComponent,
+  CertificatesComponent,
+  ApplicationsComponent,
+  StudiesComponent,
+  TeachingsComponent
+];
 
