@@ -93,6 +93,11 @@ export class OskaAreasSidebarComponent implements OnInit {
     this.typeStatus[type] = true;
   }
 
+  formatNumber (number, locale) {
+    let num = parseInt(number, 10)
+    return num.toLocaleString(locale)
+  }
+
   isContactValid() {
     return (this.viewType === 'field' && this.sidebar.fieldOskaFieldContact && this.sidebar.fieldOskaFieldContact.entity 
     && (this.sidebar.fieldOskaFieldContact.entity.fieldOrganization || this.sidebar.fieldOskaFieldContact.entity.fieldPerson 

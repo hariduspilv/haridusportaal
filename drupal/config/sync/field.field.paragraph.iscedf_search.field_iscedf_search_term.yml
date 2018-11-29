@@ -11,7 +11,7 @@ field_name: field_iscedf_search_term
 entity_type: paragraph
 bundle: iscedf_search
 label: 'ISCEDF Detailed'
-description: ''
+description: 'Mitme lisamiseks kasutada eraldajana koma.'
 required: false
 translatable: true
 default_value: {  }

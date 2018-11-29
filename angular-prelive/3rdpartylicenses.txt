@@ -1,4 +1,4 @@
-moment@2.22.2
+moment@2.22.1
 MIT
 Copyright (c) JS Foundation and other contributors
 
@@ -75,7 +75,7 @@ SOFTWARE.
 MIT
 MIT
 
-punycode@1.3.2
+punycode@1.4.1
 MIT
 MIT
 

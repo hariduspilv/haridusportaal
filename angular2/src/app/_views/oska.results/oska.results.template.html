@@ -114,10 +114,12 @@
             </div>
           </div><!--/sm-12-->
         </div><!--flex flex-rows first-elem-->
-        <div class="download" *ngIf="data.fieldResultPageTableFile">
-          <a href="{{ data.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download' | translate }}: {{ data.fieldResultPageTableFile.description || data.fieldResultPageTableFile.entity.entityLabel }}">
-            <span>{{ 'button.download_table' | translate }}</span>
-          </a>
+        <div class="download">
+          <div class="link-holder" *ngIf="data.fieldResultPageTableFile">
+            <a href="{{ data.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download' | translate }}: {{ data.fieldResultPageTableFile.description || data.fieldResultPageTableFile.entity.entityLabel }}">
+              <span>{{ 'button.download_table' | translate }}</span>
+            </a>
+          </div>
         </div>
         <div class="text-center actions__error" *ngIf="filteredTableData && !filteredTableData.length">
           <div class="alert" role="alert">{{'search.no_results_start' | translate}} <span innerHtml="{{'search.no_results_end' | translate}}"></span></div>

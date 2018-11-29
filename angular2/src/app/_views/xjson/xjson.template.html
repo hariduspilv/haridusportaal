@@ -226,6 +226,7 @@
                       <div class="round-input__outer-wrapper">
                         <div class="round-input__field-wrapper">
                           <input class="round-input__field" type="number" [min]="data_elements[element].min" [max]="data_elements[element].max"
+                            placeholder="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [(ngModel)]="data_elements[element].value" [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                             [name]="element" [attr.required]="data_elements[element].required" />
                         </div>
@@ -418,11 +419,10 @@
                           </tr>
                         </thead>
                           <tbody>
-                          <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
+                            <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
                             <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
-
+                              
                               <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
-
                                 <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
                                   <input class="contnent-input" type="text" placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
                                     [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
@@ -465,24 +465,20 @@
                                 </ng-container> <!-- /CHECKBOX -->
 
                                 <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
-                               
                                   <div class="round-input__wrapper" [class.complete]="data_elements[element].value || opened_step != this.max_step">
                                     <div class="round-input__field-wrapper">
-                               
-                                  <mat-select class="round-input__field" [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                    [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                    placeholder="{{ tableColumnAttribute(element, colIndex, 'empty_option') ? selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}">
-                                    <mat-option>{{ tableColumnAttribute(element, colIndex, 'empty_option') ?
-                                      selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}</mat-option>
-                                    <mat-option *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
-                                      [value]="option">
-                                      {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
-                                    </mat-option>
-                                  </mat-select>
-
-                                </div>
-                                </div>
-
+                                      <mat-select class="round-input__field" [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                        [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                        placeholder="{{ tableColumnAttribute(element, colIndex, 'empty_option') ? selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}">
+                                        <mat-option>{{ tableColumnAttribute(element, colIndex, 'empty_option') ?
+                                          selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}</mat-option>
+                                        <mat-option *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
+                                          [value]="option">
+                                          {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
+                                        </mat-option>
+                                      </mat-select>
+                                    </div>
+                                  </div>
                                 </ng-container> <!-- /SELECTLIST -->
 
                                 <ng-container *ngIf="error[element]"> <!-- START OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
@@ -494,24 +490,27 @@
                                 </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
 
                               </td>
-                            </ng-container> <!-- END OF *NGFOR COLUMNS-->
-
-                          </tr> <!-- END OF *NGFOR COLUMNS-->
-
-                        </tbody>
+                              </ng-container> <!-- END OF *NGFOR COLUMNS-->
+                              <td *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                                <div>
+                                  <a class="table-link" href="javascript:void(0);" (click)="tableDeleteRow(element, rowIndex)">
+                                    {{ 'button.delete_table_row' | translate }}
+                                  </a>
+                                </div>
+                              </td>
+                            </tr> <!-- END OF *NGFOR COLUMNS-->
+                          </tbody>
                         </table>
-
-
                       </div>
                     </div>
 
                     <div *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
-                        <div [attr.colspan]="objectKeys(data_elements[element].table_columns).length + 1">
-                          <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
-                            + {{ 'button.add_table_row' | translate }}
-                          </a>
-                        </div>
-                      </div> <!-- ADD_DEL_ROWS -->
+                      <div>
+                        <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
+                          + {{ 'button.add_table_row' | translate }}
+                        </a>
+                      </div>
+                    </div> <!-- ADD_DEL_ROWS -->
 
                   </ng-container> <!-- /TABLE -->
 
@@ -526,43 +525,34 @@
             </ng-container>
           </form>
 
-         
           <div class="row button-list">
-
-           
-              <ng-container *ngFor="let activity of activityButtons['primary']">
-                  <div class="subrow">
+            <ng-container *ngFor="let activity of activityButtons['primary']">
+              <div class="subrow">
                 <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
                   {{ activity.label | translate }}
                 </button>
               </div>
-              </ng-container>
+            </ng-container>
            
       
-<div class="button-switch">
-            <ng-container *ngFor="let link of navigationLinks">
-              <a *ngIf="link.type === 'link'" href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
-              <button *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
-            </ng-container>
-
-            <ng-container *ngFor="let activity of activityButtons['primary']">
-              <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
-                {{ activity.label | translate }}
-              </button>
-            </ng-container>
-          </div>
+            <div class="button-switch">
+              <ng-container *ngFor="let link of navigationLinks">
+                <a *ngIf="link.type === 'link'" href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
+                <button *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
+              </ng-container>
+              <ng-container *ngFor="let activity of activityButtons['primary']">
+                <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+                  {{ activity.label | translate }}
+                </button>
+              </ng-container>
+            </div>
             
-              <ng-container *ngFor="let activity of activityButtons['secondary']">
-                  <div class="subrow" *ngIf="activityButtons['secondary'].length">
+            <ng-container *ngFor="let activity of activityButtons['secondary']">
+              <div class="subrow" *ngIf="activityButtons['secondary'].length">
                 <a href="javascript:void(0);" (click)="submitForm(activity.action)">{{ activity.label | translate }}</a>
               </div> <!-- /row button-list -->
-              </ng-container>
- 
-
+            </ng-container>
           </div> <!-- /row button-list -->
-
-
-
         </ng-container> <!-- /if data-->
       </div><!--/block border-blue-->
     </div> <!--/col-8-->

@@ -24,6 +24,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   };
   public dummyDataVersion: string; //Delete this row after testing is done
   public startTime;
+  public endViewCheck: boolean = false;
   public acceptableFormsLimiter = ACCEPTABLE_FORMS_RESTRICTED_LENGTH;
   public lang: string;
   public pollingLoader: boolean = true;
@@ -715,11 +716,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     });
   }
 
-  initialTableCheck(id, index) {
+  initialTableCheck(id, parentIndex, index) {
     const element = document.getElementById(id);
     if (element) {
-      this.tableOverflown[0][index] = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-      this.initialized[0][index] = true;
+      this.tableOverflown[parentIndex][index] = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.initialized[parentIndex][index] = true;
     }
   }
 
@@ -743,11 +744,18 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   }
   
   ngAfterViewChecked() {
-    this.initialTableCheck('table_0', 0);
-    this.initialTableCheck('table_1', 1);
-    this.initialTableCheck('juridicalFirst_0', 0);
-    this.initialTableCheck('juridicalSecond_0', 1);
-    this.initialTableCheck('juridicalThird_0', 2);
+    if (!this.endViewCheck) {
+      this.initialTableCheck('table_0', 0, 0);
+      this.initialTableCheck('table_1', 0, 1);
+      this.data.educationalInstitutions.forEach((elem, index) => {
+        this.initialTableCheck('juridicalFirst_'+index, index, 0);
+        this.initialTableCheck('juridicalSecond_'+index, index, 1);
+        this.initialTableCheck('juridicalThird_'+index, index, 2);
+      });
+      if (document.getElementById('juridicalThird_'+(this.data.educationalInstitutions.length - 1))) {
+        this.endViewCheck = true;
+      }
+    }
   }
 
   ngOnDestroy(){
