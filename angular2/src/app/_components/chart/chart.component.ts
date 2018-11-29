@@ -71,19 +71,24 @@ export class ChartComponent implements OnInit{
       if( graphName == "ComboChart" ){
         tmp['options']['colors'] = ["#18218f", "#db3a00"];
       }
+
       if( current.graphVAxis ){
-        tmp['options']['vAxes'] = {
+        tmp['options']['hAxes'] = {
           0: { 'title': current.graphVAxis }
         }
-
-
-        
       }
 
-      if( current.graphHAxis ){
-        tmp['options']['hAxis'] = {
-          'title': current.graphHAxis
+      if( current.graphIndicator || current.secondaryGraphIndicator){
+        tmp['options']['vAxes'] = {};
+        if( current.graphIndicator ){
+          tmp['options']['vAxes'][0] = {'title': current.graphIndicator};
         }
+        if( current.secondaryGraphIndicator ){
+          tmp['options']['vAxes'][1] = {'title': current.secondaryGraphIndicator};
+        }
+
+        console.log(tmp['options']['vAxis']);
+
       }
 
       if( current.graphType == "doughnut" ){
@@ -102,6 +107,7 @@ export class ChartComponent implements OnInit{
         }
         
         tmp.options['seriesType'] = newType;
+
         tmp.options['series'] = {
           0: {
             targetAxisIndex: 0
@@ -115,7 +121,11 @@ export class ChartComponent implements OnInit{
       }
 
       output.push(tmp);
+
+      console.log(tmp);
+
     }
+
 
     this.chartData = output;
 
