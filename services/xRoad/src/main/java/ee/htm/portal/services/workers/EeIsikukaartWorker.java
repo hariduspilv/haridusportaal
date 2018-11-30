@@ -98,7 +98,7 @@ public class EeIsikukaartWorker extends Worker {
                     : null));
 
         ArrayNode koormusArrayNode = opingNode.putArray("koormus");
-        oping.getKoormusList().forEach(koormus -> oppevormArrayNode.addObject()
+        oping.getKoormusList().forEach(koormus -> koormusArrayNode.addObject()
             .put("nimetus", koormus.getNimetus())
             .put("algusKp",
                 koormus.isSetAlgusKp() ? simpleDateFormat.format(koormus.getAlgusKp().getTime())
@@ -135,7 +135,7 @@ public class EeIsikukaartWorker extends Worker {
                     : null));
 
         ArrayNode akadPuhkusArrayNode = opingNode.putArray("akadPuhkus");
-        oping.getAkadPuhkusList().forEach(akadPuhkus -> finAllikasArrayNode.addObject()
+        oping.getAkadPuhkusList().forEach(akadPuhkus -> akadPuhkusArrayNode.addObject()
             .put("nimetus", akadPuhkus.getNimetus())
             .put("algusKp", akadPuhkus.isSetAlgusKp() ? simpleDateFormat
                 .format(akadPuhkus.getAlgusKp().getTime()) : null)
@@ -144,7 +144,7 @@ public class EeIsikukaartWorker extends Worker {
                     : null));
 
         ArrayNode ennistamineArrayNode = opingNode.putArray("ennistamine");
-        oping.getEnnistamineList().forEach(ennistamine -> finAllikasArrayNode.addObject()
+        oping.getEnnistamineList().forEach(ennistamine -> ennistamineArrayNode.addObject()
             .put("nimetus", ennistamine.getNimetus())
             .put("algusKp", ennistamine.isSetAlgusKp() ? simpleDateFormat
                 .format(ennistamine.getAlgusKp().getTime()) : null)

@@ -139,7 +139,8 @@ public class VPTWorker extends Worker {
     logForDrupal.setUser(applicantPersonalCode);
 
     List<String> acceptableActivity = new ArrayList<>();
-    ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).forEach(i -> acceptableActivity.add(i.asText()));
+    jsonNode.get("header").get("acceptable_activity")
+        .forEach(i -> acceptableActivity.add(i.asText()));
 
     if (acceptableActivity.contains("VIEW")) {
       return jsonNode;
