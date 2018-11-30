@@ -59,6 +59,7 @@ export class ChartComponent implements OnInit{
           "pieSliceTextStyle": {
             "color": '#ffffff'
           },
+          "curveType": "function",
           "lineWidth": 5,
           "pointsVisible": true,
           "pointSize": 12,
@@ -72,11 +73,12 @@ export class ChartComponent implements OnInit{
         tmp['options']['colors'] = ["#18218f", "#db3a00"];
       }
 
+      /*
       if( current.graphVAxis ){
         tmp['options']['hAxes'] = {
-          0: { 'title': current.graphVAxis }
+          0: { 'title': current.graphVAxis.charAt(0).toUpperCase() + current.graphVAxis.slice(1) }
         }
-      }
+      }*/
 
       if( current.graphIndicator || current.secondaryGraphIndicator){
         tmp['options']['vAxes'] = {};
