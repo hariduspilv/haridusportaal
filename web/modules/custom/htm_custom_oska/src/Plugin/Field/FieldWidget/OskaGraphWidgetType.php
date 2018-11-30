@@ -37,9 +37,11 @@ class OskaGraphWidgetType extends WidgetBase {
         $field_name = $this->fieldDefinition->getName();
         $data = isset($items[$delta]->filter_values) ? json_decode($items[$delta]->filter_values, true)['graph_options'] : NULL;
         $fields = [];
-        $settings = $this->getFieldSettings();
-        $entity = \Drupal::entityTypeManager()->getStorage($settings['target_type'])->loadMultiple();
-        $entity = reset($entity);
+
+        $oska_filters = [
+            'valdkond', 'alavaldkond', 'ametiala', 'periood', 'silt'
+        ];
+        $oska_filters_path = '/app/drupal/web/sites/default/files/private/oska_filters/';
 
         $element += [
             '#type' => 'fieldset',
@@ -72,186 +74,151 @@ class OskaGraphWidgetType extends WidgetBase {
 
         if(isset($form_state->getUserInput()[$field_name])){
             $graph_set = $form_state->getUserInput()[$field_name][$delta]['graph_set'];
-        }else if(isset($items[$delta]->graph_type)){
+        }else if(isset($items[$delta]->graph_set)){
             $graph_set = $items[$delta]->graph_set;
         }else{
             $graph_set = false;
         }
 
         if($graph_set){
-            if($entity){
-                $element['graph_options']['graph_title'] = [
-                    '#title' => $this->t('Graph title'),
-                    '#type' => 'textfield',
-                    '#placeholder' => $this->t("Enter title for graph."),
-                    '#default_value' => isset($items[$delta]->graph_title) ? $items[$delta]->graph_title : NULL,
-                    '#maxlength' => 100,
-                ];
+            $element['graph_options']['graph_title'] = [
+                '#title' => $this->t('Graph title'),
+                '#type' => 'textfield',
+                '#placeholder' => $this->t("Enter title for graph."),
+                '#default_value' => isset($items[$delta]->graph_title) ? $items[$delta]->graph_title : NULL,
+                '#maxlength' => 100,
+            ];
 
-                foreach($entity->getFields() as $key => $field){
-                    $field_settings = $field->getSettings();
-                    if(isset($field_settings['graph_filter'])){
-                        $fields[$key] = $field;
-                        if(!isset($field_settings['graph_indicator'])){
-                            $v_axis_options[$key] = $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString());
-                        }
-                    }
-                    if(isset($field_settings['graph_indicator'])){
-                        $fields[$key] = $field;
-                    }
-                    if(isset($field_settings['graph_label'])){
-                        $fields[$key] = $field;
-                        $v_axis_options[$key] = $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString());
-                    }
-                }
+            foreach($oska_filters as $field){
+                $fields[$field] = $this->t(ucfirst($field));
+            }
 
-                if($graph_set === 'simple'){
-                    $graph_type_options = array(
-                        'line' => $this->t('line'),
-                        'bar' => $this->t('bar'),
-                        'column' => $this->t('column'),
-                        'pie' => $this->t('pie'),
-                        'doughnut' => $this->t('doughnut')
-                    );
-                }elseif($graph_set === 'combo'){
-                    $graph_type_options = array(
-                        'line' => $this->t('line'),
-                        'bar' => $this->t('bar')
-                    );
-                }else{
-                    $graph_type_options = array(
-                        'line' => $this->t('line'),
-                        'bar' => $this->t('bar'),
-                        'column' => $this->t('column')
-                    );
-                }
+            if($graph_set === 'simple'){
+                $graph_type_options = array(
+                    'line' => $this->t('line'),
+                    'bar' => $this->t('bar'),
+                    'column' => $this->t('column'),
+                    'pie' => $this->t('pie'),
+                    'doughnut' => $this->t('doughnut')
+                );
+            }elseif($graph_set === 'combo'){
+                $graph_type_options = array(
+                    'line' => $this->t('line'),
+                    'bar' => $this->t('bar')
+                );
+            }else{
+                $graph_type_options = array(
+                    'bar' => $this->t('bar'),
+                    'column' => $this->t('column')
+                );
+            }
 
-                $element['graph_options']['graph_type'] = [
-                    '#title' => $this->t('Graph type'),
+            $element['graph_options']['graph_type'] = [
+                '#title' => $this->t('Graph type'),
+                '#size' => 256,
+                '#type' => 'select',
+                '#default_value' => isset($data['graph_type']) && in_array($data['graph_type'], $graph_type_options) ? $data['graph_type'] : NULL,
+                '#options' => $graph_type_options,
+                '#required' => FALSE,
+                '#empty_option'  => '-',
+                '#ajax' => [
+                    'callback' => [$this,'ajax_dependent_graph_type_options_callback'],
+                    'wrapper' => 'secondary_graph_type_options'.$delta,
+                ],
+                '#delta' => $delta,
+            ];
+
+            $indicator_options = explode(PHP_EOL, file_get_contents($oska_filters_path.'naitaja'));
+            foreach($indicator_options as $key => $value){
+                $indicator_options[$value] = $value;
+                unset($indicator_options[$key]);
+            }
+            $element['graph_options']['graph_indicator'] = [
+                '#title' => $this->t('OSKA indicator'),
+                '#type' => 'select',
+                '#options' => $indicator_options,
+                '#multiple' => FALSE,
+                '#required' => FALSE,
+                '#default_value' => isset($data['graph_indicator']) ? $data['graph_indicator'] : NULL,
+            ];
+
+            $element['graph_options']['graph_v_axis'] = [
+                '#title' => $this->t('Graph v-axis'),
+                '#size' => 256,
+                '#type' => 'select',
+                '#default_value' => isset($data['graph_v_axis']) ? $data['graph_v_axis'] : NULL,
+                '#options' =>  $fields,
+                '#empty_option'  => '-',
+                '#required' => FALSE,
+                '#element_validate' => array(array($this, 'validateChartVaxisInput')),
+                '#delta' => $delta,
+            ];
+
+            if($graph_set === 'multi'){
+                $element['graph_options']['graph_group_by'] = [
+                    '#title' => $this->t('Group results'),
                     '#size' => 256,
                     '#type' => 'select',
-                    '#default_value' => isset($data['graph_type']) ? $data['graph_type'] : NULL,
-                    '#options' => $graph_type_options,
-                    '#required' => FALSE,
+                    '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
+                    '#options' =>  $fields,
                     '#empty_option'  => '-',
-                    '#ajax' => [
-                        'callback' => [$this,'ajax_dependent_graph_type_options_callback'],
-                        'wrapper' => 'secondary_graph_type_options'.$delta,
+                    '#required' => FALSE,
+                    '#delta' => $delta,
+                ];
+            }
+
+            foreach($fields as $key => $field){
+
+                $selection = explode(PHP_EOL, file_get_contents($oska_filters_path.$key));
+                foreach($selection as $index => $value){
+                    $selection[$value] = $value;
+                    unset($selection[$index]);
+                }
+                $element['graph_options'][$key] = [
+                    '#title' => $field,
+                    '#type' => 'select',
+                    '#options' => $selection,
+                    '#multiple' => TRUE,
+                    '#required' => FALSE,
+                    '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
+                ];
+            }
+
+            if($graph_set == 'combo'){
+
+                $element['graph_options']['secondary_graph_type'] = [
+                    '#title' => $this->t('Secondary graph type'),
+                    '#size' => 256,
+                    '#type' => 'select',
+                    '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
+                    '#options' => [
+                        'line' => $this->t('line'),
+                        'bar' => $this->t('bar'),
                     ],
-                    '#delta' => $delta,
-                ];
-
-                $element['graph_options']['graph_v_axis'] = [
-                    '#title' => $this->t('Graph v-axis'),
-                    '#size' => 256,
-                    '#type' => 'select',
-                    '#default_value' => isset($data['graph_v_axis']) ? $data['graph_v_axis'] : NULL,
-                    '#options' =>  $v_axis_options,
                     '#empty_option'  => '-',
                     '#required' => FALSE,
-                    '#element_validate' => array(array($this, 'validateChartVaxisInput')),
                     '#delta' => $delta,
                 ];
 
-                if($graph_set === 'multi'){
-                    $element['graph_options']['graph_group_by'] = [
-                        '#title' => $this->t('Group results'),
-                        '#size' => 256,
-                        '#type' => 'select',
-                        '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
-                        '#options' =>  $v_axis_options,
-                        '#empty_option'  => '-',
-                        '#required' => FALSE,
-                        '#delta' => $delta,
-                    ];
-                }
-
-                foreach($fields as $key => $field){
-                    if($field instanceof \Drupal\Core\Field\EntityReferenceFieldItemList){
-                        if(isset($data[$key])){
-                            $data[$key] = $this->getEntities($data[$key]);
-                        }
-                        $selection = [];
-                        foreach($field->getSettings()['handler_settings']['target_bundles'] as $bundle){
-                            $selection[] = $bundle;
-                        }
-                        $element['graph_options'][$key] = [
-                            '#title' => $this->t($field->getFieldDefinition()->getLabel()->getUntranslatedString()),
-                            '#type' => 'entity_autocomplete',
-                            '#target_type' => 'taxonomy_term',
-                            '#description' => $this->t('Enter multiple options by separating them with a comma.'),
-                            '#tags' => TRUE,
-                            '#selection_settings' => [
-                                'target_bundles' => $selection
-                            ],
-                            '#validate_reference' => FALSE,
-                            '#required' => FALSE,
-                            '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
-                        ];
-                    }else{
-                        $selection = [];
-                        $values = \Drupal::entityTypeManager()->getStorage($settings['target_type'])->loadMultiple();
-                        $field_name_item = $field->getName();
-                        foreach($values as $value){
-                            $selection_item = $value->$field_name_item->value;
-                            if($selection_item != ''){
-                                $selection[$selection_item] = $selection_item;
-                            }
-                        }
-                        $title = $field->getFieldDefinition()->getLabel()->getUntranslatedString();
-                        $element['graph_options'][$key] = [
-                            '#title' => $this->t($title),
-                            '#type' => 'select',
-                            '#options' => $selection,
-                            '#multiple' => TRUE,
-                            '#required' => FALSE,
-                            '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
-                        ];
-                    }
-                }
-
-                if($graph_set == 'combo'){
-
-                    $element['graph_options']['secondary_graph_type'] = [
-                        '#title' => $this->t('Secondary graph type'),
-                        '#size' => 256,
-                        '#type' => 'select',
-                        '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
-                        '#options' => [
-                            'line' => $this->t('line'),
-                            'bar' => $this->t('bar'),
-                        ],
-                        '#empty_option'  => '-',
-                        '#required' => FALSE,
-                        '#delta' => $delta,
-                    ];
-
-                    $element['graph_options']['secondary_graph_indicator'] = [
-                        '#title' => $this->t('Secondary OSKA indicator'),
-                        '#type' => 'entity_autocomplete',
-                        '#target_type' => 'taxonomy_term',
-                        '#description' => $this->t('Enter multiple options by separating them with a comma.'),
-                        '#tags' => TRUE,
-                        '#selection_settings' => [
-                            'target_bundles' => array('oska_indicator' => 'oska_indicator')
-                        ],
-                        '#validate_reference' => FALSE,
-                        '#required' => FALSE,
-                        '#default_value' => isset($data['secondary_graph_indicator']) ? $this->getEntities($data['secondary_graph_indicator']) : NULL,
-                    ];
-                }
+                $element['graph_options']['secondary_graph_indicator'] = [
+                    '#title' => $this->t('Secondary OSKA indicator'),
+                    '#type' => 'select',
+                    '#options' => $indicator_options,
+                    '#multiple' => FALSE,
+                    '#required' => FALSE,
+                    '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
+                ];
             }
         }
 
         return $element;
-
     }
 
     public function ajax_dependent_graph_type_options_callback(array &$form, FormStateInterface $form_state){
         $field_name = $this->fieldDefinition->getName();
         $trigger_element = $form_state->getTriggeringElement();
 
-        return $form[$field_name]['widget'][$trigger_element['#delta']]['secondary_graph_type'];
+        return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options']['secondary_graph_type'];
     }
 
     public function ajax_dependent_graph_set_callback(array &$form, FormStateInterface $form_state){
@@ -259,14 +226,6 @@ class OskaGraphWidgetType extends WidgetBase {
         $trigger_element = $form_state->getTriggeringElement();
 
         return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options'];
-    }
-
-    public function getEntities($target_ids){
-        $entities = [];
-        foreach($target_ids as $target_id){
-            $entities[] = Term::load($target_id['target_id']);
-        }
-        return $entities;
     }
 
     public function extractFormValues(FieldItemListInterface $items, array $form, FormStateInterface $form_state)
@@ -335,40 +294,18 @@ class OskaGraphWidgetType extends WidgetBase {
         return $newValue;
     }
 
-    public function getSecondaryGraphOptions($primary_graph_type){
-
-        $select_options = [];
-
-        switch($primary_graph_type){
-            case 'line':
-                $select_options = [
-                    '' => $this->t('Select secondary graph type'),
-                    'bar' => $this->t('bar'),
-                ];
-                break;
-            case 'bar':
-                $select_options = [
-                    '' => $this->t('Select secondary graph type'),
-                    'line' => $this->t('line'),
-                ];
-                break;
-        }
-
-        return $select_options;
-    }
-
     /**
      * Validate chart selection.
      */
     public function validateChartVaxisInput(&$element, FormStateInterface &$form_state, $form) {
         $parent_field = $this->fieldDefinition->getName();
         $chart_values = $form_state->getValue($parent_field)[$element['#delta']]['graph_options'];
-        if($chart_values['graph_type'] != '' || $chart_values['oska_indicator'] != NULL) {
+        if($chart_values['graph_type'] != '' || $chart_values['graph_indicator'] != NULL) {
             if($element['#value'] == ''){
                 $form_state->setError($element, t('Chart v-axis is missing'));
             }
         }
-        if($chart_values['oska_indicator'] == NULL) {
+        if($chart_values['graph_indicator'] == NULL) {
             $form_state->setError($element, t('Chart indicator is missing'));
         }
     }
