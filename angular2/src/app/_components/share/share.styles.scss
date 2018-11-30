@@ -18,7 +18,7 @@
       }
       &__button--elem {display: none;width: 2rem;height: 2rem;cursor: pointer;margin-top: .75rem;border-radius: 50%;}
       &.active {z-index: 2;
-        .share__component__button--main {
+        .share__component__button--main {outline: none;
           background-color: $blue;transition: background-color 0.25s;
           .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
           &:hover, &:focus {background-color: rgb(69, 75, 146);transition: background-color 0.25s;}
@@ -56,7 +56,7 @@
         ~ a {opacity: 1;}
       }
       a.share__component__button--main:focus, a.share__component__button--main:hover  {
-        z-index: 2;background-color: rgb(69, 75, 146);transition: background-color 0.25s;
+        outline: none;z-index: 2;background-color: rgb(69, 75, 146);transition: background-color 0.25s;
         .htm-icon.primary {color: $white;transform: rotate(180deg);transition: .25s transform ease-out;}
       }
     }

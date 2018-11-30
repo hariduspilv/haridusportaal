@@ -12,7 +12,7 @@ field_name: field_job_link
 entity_type: paragraph
 bundle: job
 label: 'Ameti link'
-description: ''
+description: 'Sisesta link.'
 required: false
 translatable: true
 default_value: {  }

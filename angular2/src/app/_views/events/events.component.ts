@@ -14,7 +14,6 @@ import { delay, map } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/of';
 
-import { Apollo, QueryRef } from 'apollo-angular';
 import { HttpService } from '@app/_services/httpService';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 
@@ -71,7 +70,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   constructor(
     public router: Router,
     public route: ActivatedRoute,
-    private apollo: Apollo,
     private rootScope: RootScopeService,
     private http: HttpService
   ) {
@@ -239,28 +237,23 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   loadMore() {
     this.eventsConfig.offset = this.eventListRaw.length;
+  
+    let url = "/graphql?queryName=eventList&queryId=4abaff3a1d7f8e824f5e912c684fccf91ce099a6:1&variables=";
+    let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
-    var subscriber = this.route.queryParams.subscribe(
-      (params: ActivatedRoute) => {
+    let subscriber = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+      console.log("got data");
+      
+      let data = response['data'];
 
-        let url = "/graphql?queryId=getEventList:1&variables=";
-        let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
+      this.eventListRaw = this.eventListRaw.concat(data['nodeQuery']['entities']);
+      this.eventList = this.organizeList( this.eventListRaw );
 
-        let subscriber = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
-
-          let data = response['data'];
-
-          subscriber.unsubscribe();
-
-          this.eventListRaw = this.eventListRaw.concat(data['nodeQuery']['entities']);
-          this.eventList = this.organizeList( this.eventListRaw );
-
-          if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
-            this.listEnd = true;
-          }
-        });        
+      if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
+        this.listEnd = true;
       }
-    )
+      subscriber.unsubscribe();
+    });
   }
   
   ngOnInit() {
@@ -523,7 +516,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         }
 
         // GET LIST OBSERVABLE
-        let url = "/graphql?queryId=getEventList:1&variables=";
+        let url = "/graphql?queryName=eventList&queryId=4abaff3a1d7f8e824f5e912c684fccf91ce099a6:1&variables=";
         let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
         this.calendarDataEntries = "none";
@@ -562,7 +555,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   getTypes() {
 
-    let url = "/graphql?queryId=getEventTypes:1&variables=";
+    let url = "/graphql?queryName=eventType&queryId=59d9b7ca4412d95df15b0f36c94c9b08e935507c:1&variables=";
     let variables = {
       lang: this.lang.toUpperCase()
     };
@@ -615,7 +608,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   getTags() {
 
-    let url = "/graphql?queryId=getEventTags:1&variables=";
+    let url = "/graphql?queryName=getEventTags&queryId=674ddfb46da45fee73289f9f4eb6379aa347945f:1&variables=";
     let variables = {
       lang: this.lang.toUpperCase()
     };

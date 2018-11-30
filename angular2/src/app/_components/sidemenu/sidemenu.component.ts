@@ -48,7 +48,7 @@ export class SideMenuComponent implements OnInit {
       language: lang
     };
 
-    let url = "/graphql?queryId=getMenu:1&variables=";
+    let url = "/graphql?queryName=getMenu&queryId=2d7801aef671efb00f389dc444b1cd51a8b39b71:1&variables=";
     
     let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
       let data = response['data'];

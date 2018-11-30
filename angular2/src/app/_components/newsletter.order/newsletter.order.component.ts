@@ -1,6 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { getTags, signup, activate, deactivate } from '@app/_graph/newsletter.graph';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -8,6 +6,9 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from '@app/_core/settings';
+
+import { HttpService} from '@app/_services/httpService';
+
 @Component({
 	selector: 'newsletter-order',
   templateUrl: './newsletter.order.component.html',
@@ -34,12 +35,12 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
   urlPrefix;
 
   constructor(
-    private apollo: Apollo,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
     private translate: TranslateService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private http: HttpService
   ){}
 
   updateRSSLink() {
@@ -74,20 +75,18 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
 
         this.lang = params['lang'];
 
-        const tagSubscription = this.apollo.watchQuery({
-          query: getTags,
-          variables: {
-            lang: this.lang.toUpperCase(),
-          },
-          fetchPolicy: 'no-cache',
-          errorPolicy: 'all'
-        })
-        .valueChanges
-        .subscribe(({data}) => {
+        let url = "/graphql?queryName=newsletterTags&queryId=87257f778914b18b69ad43bcb1c246e2edee02c1:1&variables=";
+        let variables = {
+          lang: this.lang.toUpperCase()
+        };
+        
+        let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+          let data = response['data'];
           this.data = data['CustomTagsQuery']['entities'];
+          subscribe.unsubscribe();
         });
 
-        this.subscriptions = [...this.subscriptions, tagSubscription];
+        this.subscriptions = [...this.subscriptions];
 
       }
     )
@@ -130,24 +129,27 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     }
 
     this.data = false;
-    
-    const tagsSignup = this.apollo.mutate({
-      mutation: signup,
+
+    let data = {
+      queryId: "b6b08eb9a6d99bdfcfb3bf9f980830c2d7d3c3fb:1",
       variables: {
         lang: this.lang.toUpperCase(),
         email: this.email,
-        newtags: output
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all'
-    })
-    .subscribe(({data}) => {
+        tags: output
+      }
+    }
+
+    let register = this.http.post('/graphql', data).subscribe((response) => {
       this.subscribedStatus = true;
+      register.unsubscribe();
     }, (data) => {
       this.subscribedStatus = true;
       this.subscribedFailure = data;
+      register.unsubscribe();
+      
     });
-    this.subscriptions = [...this.subscriptions, tagsSignup];
+
+    this.subscriptions = [...this.subscriptions];
   }
 
   subscriptionModal(token:string) {
@@ -167,15 +169,18 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
       
     });
 
-    const subscribe = this.apollo.mutate({
-      mutation: activate,
+    let data = { 
+      queryId: "884704e2d1dd58c5b9eb3e1c237e46985301d36c:1",
       variables: {
         token: token
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all'
-    }).subscribe();
-    this.subscriptions = [...this.subscriptions, subscribe];
+      }
+    }
+
+    let subscribe = this.http.post('/graphql', data).subscribe((response) => {
+      subscribe.unsubscribe();
+    });
+
+    this.subscriptions = [...this.subscriptions];
   }
 
   unsubscriptionModal(token:string) {
@@ -195,15 +200,18 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
       
     });
 
-    const unsubscribe = this.apollo.mutate({
-      mutation: deactivate,
+    let data = { 
+      queryId: "550a90c42d4bb032cab8fd8ff5fb3e3b448c9596:1",
       variables: {
-        token: token,
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all'
-    }).subscribe();
-    this.subscriptions = [...this.subscriptions, unsubscribe];
+        token: token
+      }
+    }
+
+    let subscribe = this.http.post('/graphql', data).subscribe((response) => {
+      subscribe.unsubscribe();
+    });
+
+    this.subscriptions = [...this.subscriptions];
   }
 
   ngOnDestroy() {

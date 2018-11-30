@@ -64,7 +64,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       let variables = {
         language: this.lang.toUpperCase()
       }
-      let subscription = this.http.get('/graphql?queryId=customFavorites:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+      let subscription = this.http.get('/graphql?queryName=customFavorites&queryId=94f2a6ba49b930f284a00e4900e831724fd4bc91:1&variables=' + JSON.stringify(variables)).subscribe(response => {
         
         if(this.initializing == true) this.initializing = false;
         
@@ -103,7 +103,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   removeFavouriteItem(item){
     this.loading = true;
     let data = { 
-      queryId: "deleteFavoriteItem:1",
+      queryId: "c818e222e263618b752e74a997190b0f36a39818:1",
       variables: { 
         id: item.targetId,
         language: this.lang.toUpperCase()
@@ -138,7 +138,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   }
   submitFavouriteItem(): void {   
     this.loading = true;
-    let data = { queryId: "createFavoriteItem:1" }
+    let data = { queryId: "e926a65b24a5ce10d72ba44c62e38f094a38aa26:1" }
     data['variables'] = this.compileVariables();
     
     let sub = this.http.post('/graphql', data).subscribe(response => {

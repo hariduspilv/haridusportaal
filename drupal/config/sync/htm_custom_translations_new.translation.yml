@@ -547,6 +547,18 @@ frontpage:
     translation_type: textarea
     et: Avaleht
     en: Frontpage
+  languages:
+    translation_type: textarea
+    et: Keelemenüü
+    en: 'Language menu'
+  header:
+    translation_type: textarea
+    et: Päis
+    en: Header
+  main_menu:
+    translation_type: textarea
+    et: Peamenüü
+    en: 'Main menu'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1621,6 +1633,10 @@ button:
     translation_type: textarea
     et: 'Lae tabel alla'
     en: 'Download table'
+  edit_data:
+    translation_type: textarea
+    et: 'Muuda andmeid'
+    en: 'Edit data'
 tooltip:
   share:
     translation_type: textarea
@@ -1636,8 +1652,8 @@ tooltip:
     en: 'Remove from favourites'
   copy:
     translation_type: textarea
-    et: 'Kopeeri lõikepuhvrisse'
-    en: 'Copy to clipboard'
+    et: 'Kopeeri lehe viit lõikepuhvrisse'
+    en: 'Copy page url to clipboard'
   share_fb:
     translation_type: textarea
     et: 'Jaga facebookis'
@@ -1813,6 +1829,10 @@ social:
     translation_type: textarea
     et: Sotsiaalvõrgustikud
     en: 'Social networks'
+  share_link:
+    translation_type: textarea
+    et: 'Sotsiaalmeedia jagamine'
+    en: 'Social media sharing'
 filter:
   info:
     translation_type: textarea
@@ -2029,7 +2049,7 @@ sidebar:
 url:
   copied_to_clipboard:
     translation_type: textarea
-    et: 'URL on kopeeritud lõikepuhvrisse.'
+    et: 'Lehe viit on kopeeritud lõikepuhvrisse.'
     en: 'URL copied to clipboard.'
 events:
   no_results:
@@ -2047,3 +2067,36 @@ dashboard:
     translation_type: textarea
     et: 'Pidaja liik'
     en: 'Owner type'
+  add_new_educational_institution:
+    translation_type: textarea
+    et: 'Lisa uus õppeasutus'
+    en: 'Add a new educational institution'
+  adding_educational_institution:
+    translation_type: textarea
+    et: 'Õppeasutuse lisamine'
+    en: 'Add an educational institution'
+  nameENG:
+    translation_type: textarea
+    et: 'Õppeasutuse ingliskeelne nimi'
+    en: 'Educational institution english name'
+  name:
+    translation_type: textarea
+    et: 'Õppeasutuse nimi'
+    en: 'Educational Institution name'
+  contactPhone:
+    translation_type: textarea
+    et: 'Telefoni number'
+    en: Phone
+  webpageAddress:
+    translation_type: textarea
+    et: Veebileht
+    en: Webpage
+  address:
+    translation_type: textarea
+    et: Aadress
+    en: Address
+  addressHumanReadable:
+    translation_type: textarea
+    et: Aadress
+    en: Address
+general: {  }

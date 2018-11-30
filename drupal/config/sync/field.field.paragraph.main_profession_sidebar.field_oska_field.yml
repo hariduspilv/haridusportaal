@@ -11,8 +11,8 @@ field_name: field_oska_field
 entity_type: paragraph
 bundle: main_profession_sidebar
 label: 'OSKA valdkond'
-description: ''
-required: false
+description: 'Mitme sisestamiseks kasuta eraldamiseks koma.'
+required: true
 translatable: true
 default_value: {  }
 default_value_callback: ''

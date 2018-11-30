@@ -157,10 +157,11 @@ class EhisConnectorService {
 	 * @return mixed
 	 */
 	private function getCurrentUserIdRegCode($idcode = FALSE){
+		#dump($this->currentRole);
 		if($this->useReg() && !$idcode){
 			return $this->currentRole['current_role']['data']['reg_kood'];
 		}else{
-			return '37112110025';
+			#return '37112110025';
 			return $this->currentUser->getIdCode();
 		}
 	}

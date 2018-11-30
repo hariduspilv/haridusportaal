@@ -1,10 +1,10 @@
 import { Component, Input, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService, RootScopeService } from '@app/_services';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
 import { Router, Event, NavigationEnd, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
   selector: 'app-header',
@@ -24,27 +24,19 @@ export class HeaderComponent {
 
   constructor(
     private sidemenu: SideMenuService,
-    private apollo: Apollo,
     private rootScope: RootScopeService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private http: HttpService
+  ) {
 
     this.logoLink = '/et';
 
-    const queryObj = gql`
-      query site_langs{
-         availableLanguages{
-          name
-            argument
-            isDefault
-        }
-      }
-    `;
-
-    this.apollo.query({
-      query: queryObj
-    }).subscribe(({data}) => {
+    let url = "/graphql?queryName=siteLangs&queryId=938d5cb55fe96f1c0a6a69a0bbb983d939644f01:1";
+    
+    let subscribe = this.http.get(url).subscribe( (response) => {
+      let data = response['data'];
 
       let langValues = {};
 
@@ -62,6 +54,7 @@ export class HeaderComponent {
 
       this.languages = data['availableLanguages'];
     });
+
 
     router.events.subscribe( (event: Event) => {
       if (event instanceof RoutesRecognized) {
