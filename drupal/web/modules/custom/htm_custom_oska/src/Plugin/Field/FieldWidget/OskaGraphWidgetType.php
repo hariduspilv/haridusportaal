@@ -90,7 +90,7 @@ class OskaGraphWidgetType extends WidgetBase {
             ];
 
             foreach($oska_filters as $field){
-                $fields[$field] = $this->t($field);
+                $fields[$field] = $this->t(ucfirst($field));
             }
 
             if($graph_set === 'simple'){

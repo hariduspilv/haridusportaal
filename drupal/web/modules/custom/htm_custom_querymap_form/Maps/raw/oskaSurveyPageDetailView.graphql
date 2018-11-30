@@ -69,7 +69,7 @@ query oskaSurveyPageDetailView($path: String!) {
           }
           fieldSurveyPageAccordion {
             entity {
-              ... on ParagraphSurveyPageAccordion{
+              ... on ParagraphSurveyPageAccordion {
                 fieldSurveyAccordionTitle
                 fieldSurveyAccordionContent {
                   value
@@ -92,15 +92,41 @@ query oskaSurveyPageDetailView($path: String!) {
           }
           fieldSurveyPageSidebar {
             entity {
-              ... on ParagraphContactSection {
-                fieldEmail
-                fieldPerson
-                fieldPhone
-                fieldOrganization
+              ... on ParagraphRightSidebarSectionInfo {
+                fieldAdditional {
+                  entity {
+                    ... on ParagraphAdditionalSection {
+                      fieldTitle
+                      fieldAdditionalBody
+                    }
+                  }
+                }
+                fieldContactSection {
+                  entity {
+                    ... on ParagraphContactSection {
+                      fieldPhone
+                      fieldPerson
+                      fieldEmail
+                      fieldOrganization
+                    }
+                  }
+                }
+                fieldRelatedArticle {
+                  url {
+                    path
+                  }
+                  title
+                }
+                fieldHyperlinks {
+                  url {
+                    path
+                  }
+                  title
+                }
               }
             }
           }
-          fieldSurveyPageGraph{
+          fieldSurveyPageGraph {
             value
             graphSet
             graphTitle
