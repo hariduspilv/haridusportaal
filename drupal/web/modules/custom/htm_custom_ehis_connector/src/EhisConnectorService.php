@@ -447,9 +447,11 @@ class EhisConnectorService {
 	}
 
 	private function addInstitutionData(&$response){
-		foreach($response['educationalInstitutions'] as &$institution){
-			$institution_data  = $this->getEducationalInstitution(['id' => $institution['id'], 'addTitle' => true]);
-			if(isset($institution_data['educationalInstitution']) && !empty($institution_data['educationalInstitution'])) $institution['institutionInfo'] = $institution_data['educationalInstitution'];
+		if(isset($response['educationalInstitutions'])){
+			foreach($response['educationalInstitutions'] as &$institution){
+				$institution_data  = $this->getEducationalInstitution(['id' => $institution['id'], 'addTitle' => true]);
+				if(isset($institution_data['educationalInstitution']) && !empty($institution_data['educationalInstitution'])) $institution['institutionInfo'] = $institution_data['educationalInstitution'];
+			}
 		}
 		return $response;
 	}
