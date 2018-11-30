@@ -175,7 +175,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         this.request_iterator_timeout += (0.25 * this.request_iterator_timeout);
         this.loading['interval'] = true;
         let self = this;
-        console.log('HERE');
         this.request_iterator = setTimeout(() => {
           self.fetchData();
         }, this.request_iterator_timeout);
