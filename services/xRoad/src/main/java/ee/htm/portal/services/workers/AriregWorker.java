@@ -15,7 +15,7 @@ public class AriregWorker extends Worker {
   private static final Logger LOGGER = Logger.getLogger(AriregWorker.class);
 
   @Resource
-  AriregXRoadService ariregXRoadService;
+  private AriregXRoadService ariregXRoadService;
 
   public ObjectNode getEsindusOigus(String personalCode, String countryCode, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();

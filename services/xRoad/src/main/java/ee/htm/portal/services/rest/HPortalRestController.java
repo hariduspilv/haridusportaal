@@ -62,12 +62,14 @@ public class HPortalRestController {
       return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode, false), HttpStatus.OK);
+          mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode, false),
+          HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
       return new ResponseEntity<>(
           mtsysWorker.getMtsysTegevusNaitajad(formName, identifier, personalCode), HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
-      return new ResponseEntity<>(mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode, true), HttpStatus.OK);
+      return new ResponseEntity<>(
+          mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode, true), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request formName - " + formName);
