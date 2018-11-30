@@ -1633,6 +1633,10 @@ button:
     translation_type: textarea
     et: 'Lae tabel alla'
     en: 'Download table'
+  edit_data:
+    translation_type: textarea
+    et: 'Muuda andmeid'
+    en: 'Edit data'
 tooltip:
   share:
     translation_type: textarea
@@ -2063,4 +2067,36 @@ dashboard:
     translation_type: textarea
     et: 'Pidaja liik'
     en: 'Owner type'
+  add_new_educational_institution:
+    translation_type: textarea
+    et: 'Lisa uus õppeasutus'
+    en: 'Add a new educational institution'
+  adding_educational_institution:
+    translation_type: textarea
+    et: 'Õppeasutuse lisamine'
+    en: 'Add an educational institution'
+  nameENG:
+    translation_type: textarea
+    et: 'Õppeasutuse ingliskeelne nimi'
+    en: 'Educational institution english name'
+  name:
+    translation_type: textarea
+    et: 'Õppeasutuse nimi'
+    en: 'Educational Institution name'
+  contactPhone:
+    translation_type: textarea
+    et: 'Telefoni number'
+    en: Phone
+  webpageAddress:
+    translation_type: textarea
+    et: Veebileht
+    en: Webpage
+  address:
+    translation_type: textarea
+    et: Aadress
+    en: Address
+  addressHumanReadable:
+    translation_type: textarea
+    et: Aadress
+    en: Address
 general: {  }
