@@ -480,15 +480,17 @@ class EhisConnectorService {
 	 * @return mixed
 	 */
 	private function addTitles(&$response){
-		array_walk($response['educationalInstitution'], function(&$item, $key, $data){
-			$elm_topics = array_keys($data['topics']);
-			foreach($item as $value_key => &$value ){
-				if(in_array($value_key, $elm_topics)){
-					$redis_value = self::getAllClassificators(['hash' => $data['topics'][$value_key]]);
-					$item[$value_key.'Type'] = ($d = $redis_value[$value]) ? $d : ['et' => 'Puudub', 'valid' => false];
+		if(isset($response['educationalInstitution'])){
+			array_walk($response['educationalInstitution'], function(&$item, $key, $data){
+				$elm_topics = array_keys($data['topics']);
+				foreach($item as $value_key => &$value ){
+					if(in_array($value_key, $elm_topics)){
+						$redis_value = self::getAllClassificators(['hash' => $data['topics'][$value_key]]);
+						$item[$value_key.'Type'] = ($d = $redis_value[$value]) ? $d : ['et' => 'Puudub', 'valid' => false];
+					}
 				}
-			}
-		}, ['topics' => $this->ed_map]);
+			}, ['topics' => $this->ed_map]);
+		}
 
 		return $response;
 	}
