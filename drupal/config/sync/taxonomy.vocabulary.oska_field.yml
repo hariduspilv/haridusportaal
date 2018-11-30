@@ -2,8 +2,8 @@ uuid: f4eedc42-7d2b-459e-b5ca-2693836e3839
 langcode: et
 status: true
 dependencies: {  }
-name: 'OSKA field'
+name: 'OSKA valdkond ja alavaldkond'
 vid: oska_field
 description: ''
-hierarchy: 2
+hierarchy: 0
 weight: 0
