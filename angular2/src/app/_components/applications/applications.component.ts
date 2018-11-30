@@ -151,7 +151,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         
         this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms); 
       } else {
-        if (this.data.educationalInstitutions.length !== response['educationalInstitutions'].length) {
+        if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(response['educationalInstitutions'])) {
           this.data.educationalInstitutions = response['educationalInstitutions']; 
           // && response['educationalInstitutions'].length ? response['educationalInstitutions'] : juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
           this.data.message = response['message'];
