@@ -138,21 +138,20 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     let request_boolean = this.loading['initial'] === true ? 1 : 0;
    
     let subscription = this.http.get('/dashboard/applications/'+ request_boolean +'?_format=json').subscribe(response => {
-      
-      if(this.loading.initial === true) {
-        if (this.currentRole === 'natural_person') {
-          this.data.acceptable_forms = response['acceptable_forms']; 
-          // dummyData[this.dummyDataVersion].acceptable_forms || 
-          this.data.drafts = response['drafts'];
-          // dummyData[this.dummyDataVersion].drafts || 
-          this.data.documents = response['documents'];
-          // dummyData[this.dummyDataVersion].documents ||
-          this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
-          this.data.drafts = this.sortList(this.data.drafts, 'title');
-          this.data.documents = this.sortList(this.data.documents, 'date');
-          
-          this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms); 
-        } else {
+      if (this.currentRole === 'natural_person') {
+        this.data.acceptable_forms = response['acceptable_forms']; 
+        // dummyData[this.dummyDataVersion].acceptable_forms || 
+        this.data.drafts = response['drafts'];
+        // dummyData[this.dummyDataVersion].drafts || 
+        this.data.documents = response['documents'];
+        // dummyData[this.dummyDataVersion].documents ||
+        this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
+        this.data.drafts = this.sortList(this.data.drafts, 'title');
+        this.data.documents = this.sortList(this.data.documents, 'date');
+        
+        this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms); 
+      } else {
+        if (this.data.educationalInstitutions.length !== response['educationalInstitutions'].length) {
           this.data.educationalInstitutions = response['educationalInstitutions']; 
           // && response['educationalInstitutions'].length ? response['educationalInstitutions'] : juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
           this.data.message = response['message'];
@@ -168,7 +167,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
           }
         }
       }
-      /* END OF DUMMY DATA */
       
       if(this.loading.initial === true) this.loading.initial = false;
       subscription.unsubscribe();
@@ -177,6 +175,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         this.request_iterator_timeout += (0.25 * this.request_iterator_timeout);
         this.loading['interval'] = true;
         let self = this;
+        console.log('HERE');
         this.request_iterator = setTimeout(() => {
           self.fetchData();
         }, this.request_iterator_timeout);
@@ -213,7 +212,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     });
 		
 		dialogRef.afterClosed().subscribe(result => {
-		  // this.registrationData = result;
+      if (result) {
+        this.startTime = Date.now();
+        this.loading['initial'] = true;
+        this.fetchData();
+      }
 		});
 	}
 
