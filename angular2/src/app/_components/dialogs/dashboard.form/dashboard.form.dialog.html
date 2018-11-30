@@ -210,27 +210,6 @@
       <mat-spinner></mat-spinner>
     </div>
     
-    <div class="dialog__success" *ngIf="step === 1">
-  
-      <div class="dialog__success__title">
-        <h1 *ngIf="response && response.errors.length == 0">{{ 'event.registration_form_thanks' | translate }}</h1>
-        <ng-container *ngFor="let item of response.errors">
-          <h1 *ngIf="item == 1">{{ 'event.registration_full' | translate }}</h1>
-        </ng-container>
-      </div>
-  
-      <div class="dialog__actions--success">
-        <div class="row text-center">
-          <div class="col-12" >
-            <ng-container *ngIf="response && response.errors.length == 0">
-              <a href="{{ iCalUrl }}" target="_blank" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'event.registration_form_add_to_calendar' | translate }}</a>
-            </ng-container>
-  
-          </div>
-          <div class="dialog__actions--success__close col-12"><a class="btn-link" href="javascript:void(0)" (click)="close()" tabindex="0">{{ 'event.registration_form_close' | translate }}</a></div>
-        </div>
-      </div>
-    </div>
-    </div>
   </div>
+</div>
   
