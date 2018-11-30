@@ -48,7 +48,7 @@ export class OskaAreasComponent implements OnInit{
     }
     else if( this.router.url.match(/ulduuringud|survey-pages/ ) ){
       this.viewType = "surveyPage";
-      url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=efa4e2b4995cc04da837e2e422c60a2196f3144e:1&variables=";
+      url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=4c56c3151d3dc71b580e5785ddf5b7fd7df247b6:1&variables=";
     }
 
     let variables = {
@@ -69,6 +69,8 @@ export class OskaAreasComponent implements OnInit{
         this.sidebarData = this.data.fieldSidebar.entity;
       } else if (this.data.fieldOskaFieldSidebar) {
         this.sidebarData = this.data.fieldOskaFieldSidebar.entity;
+      } else if (this.data.fieldSurveyPageSidebar) {
+        this.sidebarData = this.data.fieldSurveyPageSidebar.entity;
       }
 
       this.setLangLinks(data);
