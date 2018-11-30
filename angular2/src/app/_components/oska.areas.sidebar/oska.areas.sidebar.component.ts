@@ -93,6 +93,11 @@ export class OskaAreasSidebarComponent implements OnInit {
     this.typeStatus[type] = true;
   }
 
+  formatNumber (number, locale) {
+    let num = parseInt(number, 10)
+    return num.toLocaleString(locale)
+  }
+
   isContactValid() {
     return (this.viewType === 'field' && this.sidebar.fieldOskaFieldContact && this.sidebar.fieldOskaFieldContact.entity 
     && (this.sidebar.fieldOskaFieldContact.entity.fieldOrganization || this.sidebar.fieldOskaFieldContact.entity.fieldPerson 
@@ -102,7 +107,7 @@ export class OskaAreasSidebarComponent implements OnInit {
     && (this.sidebar.fieldContact.entity.fieldOrganization || this.sidebar.fieldContact.entity.fieldPerson 
       || this.sidebar.fieldContact.entity.fieldEmail || this.sidebar.fieldContact.entity.fieldPhone))
     ||
-    (this.viewType === 'results' && this.sidebar.fieldContactSection && this.sidebar.fieldContactSection.entity 
+    ((this.viewType === 'results' || this.viewType === 'surveyPage') && this.sidebar.fieldContactSection && this.sidebar.fieldContactSection.entity 
     && (this.sidebar.fieldContactSection.entity.fieldOrganization || this.sidebar.fieldContactSection.entity.fieldPerson 
       || this.sidebar.fieldContactSection.entity.fieldEmail || this.sidebar.fieldContactSection.entity.fieldPhone));
   }

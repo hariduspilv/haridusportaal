@@ -65,8 +65,8 @@ const appRoutes: Routes = [
   { path: ':lang/dashboard/certificates/:id', component: CertificatesDetailedComponent},
   { path: ':lang/toolaud/opetan/:type', component: TeachingsDetailedComponent},
   { path: ':lang/dashboard/teachings/:type', component: TeachingsDetailedComponent},
-  {path: ':lang/dashboard/applications/:form_name', component: XjsonComponent},
-  {path: ':lang/toolaud/taotlused/:form_name', component: XjsonComponent},
+  { path: ':lang/dashboard/applications/:form_name', component: XjsonComponent},
+  { path: ':lang/toolaud/taotlused/:form_name', component: XjsonComponent},
 
   { path: ':lang/dashboard', component: DashboardComponent,
     children: [
@@ -76,7 +76,8 @@ const appRoutes: Routes = [
       { path: 'teachings', component: TeachingsComponent},
       { path: '', redirectTo: 'applications', pathMatch: 'full' },
       { path: '**', redirectTo: ':lang/404', pathMatch: 'full' }
-    ]},
+    ]
+  },
   { path: ':lang/toolaud', component: DashboardComponent,
     children: [
       { path: 'taotlused', component: ApplicationsComponent},
@@ -85,7 +86,8 @@ const appRoutes: Routes = [
       { path: 'opetan', component: TeachingsComponent},
       { path: '', redirectTo: 'taotlused', pathMatch: 'full' },
       { path: '**', redirectTo: ':lang/404', pathMatch: 'full' }
-    ]},
+    ]
+  },
 
   { path: ':lang/professions/compare', component:OskaProfessionsCompareComponent},
   { path: ':lang/ametialad/vordlus', component:OskaProfessionsCompareComponent},
@@ -118,12 +120,27 @@ const appRoutes: Routes = [
 })
 export class AppRoutingModule { }
 
+/*
+const components = [];
+for( let i in appRoutes ){
+  let current = appRoutes[i];
+  if( current.component && components.indexOf( current.component ) == -1 ){ components.push( current.component); }
+  if( current.children ){
+    for( let ii in current.children ){
+      let child = current.children[ii];
+      if( child.component && components.indexOf( child.component ) == -1 ){ components.push( child.component); }
+    }
+  }
+}
+*/
+
+
 export const routedComponents = [
   ArticleComponent,
   FrontpageComponent,
   EventsComponent,
-  EventsSingleComponent,
   PersonalDataComponent,
+  EventsSingleComponent,
   NewsComponent,
   NewsSingleComponent,
   SchoolsComponent,
@@ -134,12 +151,18 @@ export const routedComponents = [
   StudyProgrammeCompareComponent,
   DashboardComponent,
   SchoolsFundingComponent,
-  CertificatesComponent,
   XjsonComponent,
+  SearchComponent,
   OskaAreasComponent,
   OskaProfessionsComponent,
   OskaProfessionsCompareComponent,
   OskaSectorsComponent,
-  OskaResultsComponent
+  OskaResultsComponent,
+  CertificatesDetailedComponent,
+  TeachingsDetailedComponent,
+  CertificatesComponent,
+  ApplicationsComponent,
+  StudiesComponent,
+  TeachingsComponent
 ];
 

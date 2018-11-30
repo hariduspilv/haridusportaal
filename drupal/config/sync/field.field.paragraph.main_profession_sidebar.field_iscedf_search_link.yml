@@ -13,7 +13,7 @@ field_name: field_iscedf_search_link
 entity_type: paragraph
 bundle: main_profession_sidebar
 label: Õppimisvõimalused
-description: ''
+description: 'Mitme lisamiseks kasutada eraldajana koma.'
 required: false
 translatable: true
 default_value: {  }
@@ -55,6 +55,9 @@ settings:
       main_profession_sidebar:
         weight: 23
         enabled: false
+      job:
+        weight: 24
+        enabled: false
       registration_period:
         weight: 24
         enabled: false
@@ -63,5 +66,11 @@ settings:
         enabled: false
       school_location:
         weight: 26
+        enabled: false
+      oska_field_sidebar:
+        weight: 28
+        enabled: false
+      survey_page_accordion:
+        weight: 32
         enabled: false
 field_type: entity_reference_revisions

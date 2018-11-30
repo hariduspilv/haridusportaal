@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, Injector } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RootScopeService, NewsService, MetaTagsService, TableService } from './_services';
+import { RootScopeService, MetaTagsService, TableService, AddressService } from './_services';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from './_core/settings';
 import { HttpService } from '@app/_services/httpService';
@@ -30,11 +30,11 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
 
 export const AppProviders = [
   RootScopeService,
-  NewsService,
   MetaTagsService,
   SettingsService,
   TableService,
   HttpService,
+  AddressService,
   UserService,
   {
     provide: APP_INITIALIZER,

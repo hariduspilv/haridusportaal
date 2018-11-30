@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use League\Csv\Reader;
 /**
  * Class DeleteNodeForm.
  *
@@ -89,21 +90,28 @@ class OskaImportDataForm extends FormBase {
      * {@inheritdoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
-        $encoders = new CsvEncoder();
+        $data_items = [];
 
-        $file_array = $encoders->decode(file_get_contents($form_state->getValue('file')), 'csv', ['csv_delimiter' => ';']);
+        $orig_csv = Reader::createFromPath($form_state->getValue('file'), 'r');
+        $orig_csv->setDelimiter(';');
+        $orig_csv->setHeaderOffset(0);
+        $records = $orig_csv->getRecords();
+
+        foreach($records as $record){
+            $data_items[] = $record;
+        }
 
         $batch = [
             'title' => t('Processing Oska data ....--'),
             'operations' => [
                 [
                     '\Drupal\htm_custom_oska\ProcessOskaData::ValidateFile',
-                    [$file_array]
+                    [$data_items]
                 ],
                 [
-                    '\Drupal\htm_custom_oska\ProcessOskaData::ProcessOskaData',
-                    [$file_array]
-                ]
+                    '\Drupal\htm_custom_oska\ProcessOskaData::CreateOskaFilters',
+                    [$data_items]
+                ],
             ],
             'error_message' => t('The migration process has encountered an error.'),
             'finished' => '\Drupal\htm_custom_oska\ProcessOskaData::ProcessOskaDataFinishedCallback'

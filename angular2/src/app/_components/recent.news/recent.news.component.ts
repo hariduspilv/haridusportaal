@@ -1,6 +1,7 @@
 import { Component, OnDestroy, ViewChild, Input, OnInit, ElementRef} from '@angular/core';
-import { NewsService, RootScopeService } from '@app/_services';
+import { RootScopeService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
 	selector: 'recent-news',
@@ -14,16 +15,22 @@ export class RecentNewsComponent implements OnInit {
 	content: any;
 	lang: string;
 	allPath: any;
-	@Input('nid') nid: string = "";
+	@Input('nid') nid: any = 0;
+	@Input('data') data: any = false ;
 	@Input() frontpage: boolean = false; 
 
-	constructor(private newsService: NewsService, private router: Router, private route: ActivatedRoute) {
+	constructor(
+		private router: Router,
+		private route: ActivatedRoute,
+		private http: HttpService,
+		private rootScope: RootScopeService
+	) {
 		
 	}
+
 	ngOnInit() {
 
-		this.lang = this.router.url;
-		let that = this;
+		this.lang = this.rootScope.get("currentLang");
 		
 		this.route.params.subscribe( params => {
 
@@ -36,13 +43,31 @@ export class RecentNewsComponent implements OnInit {
 				this.allPath = "/et/uudised";
 			}
 
-			this.newsService.getRecent(this.nid, function(data){
-				if ( data['nodeQuery'] == null ) {
-					that.error = true;
-				} else {
-					that.content = data['nodeQuery']['entities'];
-				}
-			});
+
+			let url = "/graphql?queryName=recentNews&queryId=02772fa14a0888ba796a22398f91d384777290fa:1&variables=";
+			
+      let variables = {
+				nid: this.nid,
+				lang: this.lang.toUpperCase()
+			};
+			
+			if( this.data ){
+				this.content = this.data;
+			}else{
+				
+				let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+					let data = response['data'];
+				
+					if ( data['nodeQuery'] == null ) {
+						this.error = true;
+					} else {
+						this.content = data['nodeQuery']['entities'];
+					}
+					subscribe.unsubscribe();
+				});
+
+			}
+			
 		});
 		
 		

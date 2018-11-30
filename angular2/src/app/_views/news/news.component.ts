@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
-import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
 
@@ -12,13 +11,14 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
 import { RootScopeService } from '@app/_services/rootScopeService';
-import { getNewsTags2, sortByOptions } from '@app/_graph/news.graph';
 
 /* Datepicker Imports */
 import * as _moment from 'moment';
 const moment = _moment;
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
   templateUrl: './news.component.html',
@@ -50,7 +50,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute,
-    private apollo: Apollo
+    private http: HttpService
   ) {
     super(null, null);
   }
@@ -93,15 +93,14 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   }
 
   getTags() {
-    let subscribe = this.apollo.watchQuery({
-      query: getNewsTags2,
-      variables: {
-        lang: this.lang.toUpperCase(),        
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges
-    .subscribe(({data}) => {
+
+    let url = "/graphql?queryName=newsTags&queryId=ad43128fc10766aa8d60c341adc70dd6f456b654:1&variables=";
+    let variables = {
+      lang: this.lang.toUpperCase()
+    };
+    
+    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+      let data = response['data'];
       let entities = data['nodeQuery']['entities'];
       let tags = this.processTags( entities );
 
@@ -120,7 +119,6 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       this.tags = of(tags).pipe(delay(500));
 
       subscribe.unsubscribe();
-
     });
 
   }
@@ -160,24 +158,22 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       var dateToUnix:any = new Date(splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0] + "T23:59:59Z").getTime()/1000;
       dateToUnix = dateToUnix.toString();
     }
-    
-    let subscribe = this.apollo.watchQuery({
-      query: sortByOptions,
-      variables: {
-        tagValue: this.params.types ? this.params.types.split(",") : "",
-        tagEnabled: this.params.types ? true : false,
-        titleValue: "%"+(this.params.title || '')+"%",
-        titleEnabled: this.params.title ? true : false,
-        minDate: this.params.dateFrom ? dateFromUnix : "-2147483647",
-        maxDate: this.params.dateTo ? dateToUnix :"2147483647",
-        lang: this.lang.toUpperCase(),
-        offset: this.offset,
-        limit: this.limit
-      },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    }).valueChanges.subscribe( ({data}) => {
 
+    let url = "/graphql?queryName=newsList&queryId=093f4c9ca01ee6d369b4594e2d24b004f4d4fbc2:1&variables=";
+    let variables = {
+      tagValue: this.params.types ? this.params.types.split(",") : "",
+      tagEnabled: this.params.types ? true : false,
+      titleValue: "%"+(this.params.title || '')+"%",
+      titleEnabled: this.params.title ? true : false,
+      minDate: this.params.dateFrom ? dateFromUnix : "-2147483647",
+      maxDate: this.params.dateTo ? dateToUnix :"2147483647",
+      lang: this.lang.toUpperCase(),
+      offset: this.offset,
+      limit: this.limit
+    };
+    
+    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+      let data = response['data'];
       this.loading = false;
       if( data['nodeQuery']['entities'].length == 0 ){
         if( !this.list || this.list.length == 0 ){
@@ -197,7 +193,6 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
 
 
       subscribe.unsubscribe();
-
     });
 
   }

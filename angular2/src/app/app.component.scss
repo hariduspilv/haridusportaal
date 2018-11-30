@@ -230,6 +230,7 @@ $grid-columns: 12;
   .important-pill{height: 1.125rem;top: 0;margin-left: 0;}
   share {padding-right: .5rem;margin-left: -.75rem;}
   @include break-on(sm, max) {white-space: nowrap;}
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {height: 3.0625rem;}
 }
 
 .grow {flex-grow: 1;
@@ -713,7 +714,7 @@ font-family: 'Rubik', sans-serif!important;
 }
 
 .cdk-overlay-dark-backdrop { background: rgba(51,51,51,0.9); }
-.cdk-overlay-container{z-index: 9999999999;}
+.cdk-overlay-container{z-index: 99999999;}
 .mat-select-value {
   font-size: 0.875rem;
   font-weight: 300;

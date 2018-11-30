@@ -1,7 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Apollo } from 'apollo-angular';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SettingsService } from '@app/_core/settings';
 import { HttpService } from '@app/_services/httpService';
@@ -28,7 +27,6 @@ export class EventsRegistratonDialog {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EventsRegistratonDialog>,
-    private apollo: Apollo,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
     public route: ActivatedRoute,
@@ -69,7 +67,7 @@ export class EventsRegistratonDialog {
     this.loader = true;
 
     let data = { 
-      queryId: "postEventRegister:1",
+      queryId: "cfad8e08bfdf881d6c7c6533744dc5eb20d3d160:1",
       variables: {
         event_id: this.data.nid,
         lang: this.data.lang.toUpperCase(),
