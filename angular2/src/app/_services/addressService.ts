@@ -57,7 +57,6 @@ export class AddressService {
     } else {
       this.addressSelectionValue = this.inAdsFormatValue(match);
     }
-    console.log(this.addressSelectionValue);
   }
   validateInAdsField(element){
     if(this.addressFieldFocus === false){
