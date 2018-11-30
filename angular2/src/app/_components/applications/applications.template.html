@@ -169,10 +169,13 @@
 </div>
 
 <div *ngIf="loading.initial === false && currentRole === 'juridical_person'">
-  <div *ngIf="data.message" class="NOTICE lg-top">
+  <div *ngIf="data.message && false" class="NOTICE lg-top">
     <div class="alert">{{ data.message }}</div>
   </div>
-  <ng-container>
+  <ng-container *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions">
+    <button class="block-btn" role="button" (click)="openDialog()" attr.aria-label="{{'dashboard.add_new_educational_institution' | translate}}">+ {{'dashboard.add_new_educational_institution' | translate}}</button>
+  </ng-container>
+  <ng-container *ngIf="data.educationalInstitutions && data.educationalInstitutions.length">
     <div class="accordion">
       <mat-accordion multi>
         <mat-expansion-panel [expanded]="data.educationalInstitutions.length === 1 && first" *ngFor="let school of data.educationalInstitutions; let first = first; let ind = index;">
@@ -206,7 +209,7 @@
                       <td>{{ 'event.participant_phone' | translate }}</td>
                       <td>{{ school.institutionInfo.contacts.contactPhone }}</td>
                       <td attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-                        <a class="rowspan-btn" href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+                        <a class="rowspan-btn" href="javascript:void(0)" (click)="openDialog(school.id, school.institutionInfo)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
                     <tr *ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail">
@@ -215,7 +218,7 @@
                         <a href="mailto:{{school.institutionInfo.contacts.contactEmail}}" attr.aria-label="{{'event.participant_email' | translate}}: {{school.institutionInfo.contacts.contactEmail}}">{{ school.institutionInfo.contacts.contactEmail | lowercase }}</a>
                       </td>
                       <td *ngIf="!school.institutionInfo.contacts.contactPhone" attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-                        <a class="rowspan-btn" href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+                        <a class="rowspan-btn" href="javascript:void(0)" (click)="openDialog(school.id, school.institutionInfo)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
                     <tr *ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress">
@@ -224,14 +227,14 @@
                         <a href="{{school.institutionInfo.contacts.webpageAddress}}" target="_blank" attr.aria-label="{{'school.website' | translate}}: {{school.institutionInfo.contacts.webpageAddress}}">{{ school.institutionInfo.contacts.webpageAddress | lowercase }}</a>
                       </td>
                       <td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail" attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-                        <a class="rowspan-btn" href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+                        <a class="rowspan-btn" href="javascript:void(0)" (click)="openDialog(school.id, school.institutionInfo)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
                     <tr *ngIf="school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable">
                       <td>{{ 'event.aadress' | translate }}</td>
                       <td class="light">{{ school.institutionInfo.address.addressHumanReadable }}</td>
                       <td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail && !school.institutionInfo.contacts.webpageAddress" attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-                        <a class="rowspan-btn" href="javascript:void(0)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+                        <a class="rowspan-btn" href="javascript:void(0)" (click)="openDialog(school.id, school.institutionInfo)" attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
                       </td>
                     </tr>
                     <tr *ngIf="school.institutionInfo.generalData && school.institutionInfo.generalData.studyInstitutionTypeType">
