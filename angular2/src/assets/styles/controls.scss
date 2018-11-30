@@ -215,7 +215,11 @@
 }
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper {border: none;}
 .ng-select.ng-select-multiple .ng-select-container.ng-has-value .ng-clear-wrapper .ng-clear {top: 0;color:$red;}
-.ng-select .ng-clear-wrapper .ng-clear {color: rgba(0, 0, 0, .87);font-size: 1.75rem !important;position: relative;right: $gutter; top: 0.3125rem;}
+.ng-select{
+  .ng-clear-wrapper{position:relative; z-index: 3;
+    .ng-clear {color: rgba(0, 0, 0, .87);font-size: 1.75rem !important;position: relative;right: $gutter; top: 0.3125rem;}
+  }
+}
 .ng-select.ng-select-multiple .ng-select-container .ng-arrow-wrapper {display: none;}
 .ng-dropdown-panel.ng-select-bottom {top: 105%;}
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {border-bottom: 1px solid $white;}
