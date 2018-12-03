@@ -157,10 +157,11 @@ class EhisConnectorService {
 	 * @return mixed
 	 */
 	private function getCurrentUserIdRegCode($idcode = FALSE){
+		#dump($this->currentRole);
 		if($this->useReg() && !$idcode){
 			return $this->currentRole['current_role']['data']['reg_kood'];
 		}else{
-			return '37112110025';
+			#return '37112110025';
 			return $this->currentUser->getIdCode();
 		}
 	}
@@ -446,9 +447,11 @@ class EhisConnectorService {
 	}
 
 	private function addInstitutionData(&$response){
-		foreach($response['educationalInstitutions'] as &$institution){
-			$institution_data  = $this->getEducationalInstitution(['id' => $institution['id'], 'addTitle' => true]);
-			if(isset($institution_data['educationalInstitution']) && !empty($institution_data['educationalInstitution'])) $institution['institutionInfo'] = $institution_data['educationalInstitution'];
+		if(isset($response['educationalInstitutions'])){
+			foreach($response['educationalInstitutions'] as &$institution){
+				$institution_data  = $this->getEducationalInstitution(['id' => $institution['id'], 'addTitle' => true]);
+				if(isset($institution_data['educationalInstitution']) && !empty($institution_data['educationalInstitution'])) $institution['institutionInfo'] = $institution_data['educationalInstitution'];
+			}
 		}
 		return $response;
 	}
@@ -480,15 +483,17 @@ class EhisConnectorService {
 	 * @return mixed
 	 */
 	private function addTitles(&$response){
-		array_walk($response['educationalInstitution'], function(&$item, $key, $data){
-			$elm_topics = array_keys($data['topics']);
-			foreach($item as $value_key => &$value ){
-				if(in_array($value_key, $elm_topics)){
-					$redis_value = self::getAllClassificators(['hash' => $data['topics'][$value_key]]);
-					$item[$value_key.'Type'] = ($d = $redis_value[$value]) ? $d : ['et' => 'Puudub', 'valid' => false];
+		if(isset($response['educationalInstitution'])){
+			array_walk($response['educationalInstitution'], function(&$item, $key, $data){
+				$elm_topics = array_keys($data['topics']);
+				foreach($item as $value_key => &$value ){
+					if(in_array($value_key, $elm_topics)){
+						$redis_value = self::getAllClassificators(['hash' => $data['topics'][$value_key]]);
+						$item[$value_key.'Type'] = ($d = $redis_value[$value]) ? $d : ['et' => 'Puudub', 'valid' => false];
+					}
 				}
-			}
-		}, ['topics' => $this->ed_map]);
+			}, ['topics' => $this->ed_map]);
+		}
 
 		return $response;
 	}

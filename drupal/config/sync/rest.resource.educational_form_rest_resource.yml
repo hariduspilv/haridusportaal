@@ -1,0 +1,19 @@
+uuid: 3244cad3-167f-4139-b941-99e6733b74a7
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_professional_certific
+    - jwt
+    - serialization
+id: educational_form_rest_resource
+plugin_id: educational_form_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+  formats:
+    - json
+  authentication:
+    - jwt_auth
