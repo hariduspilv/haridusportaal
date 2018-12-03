@@ -31,12 +31,11 @@
       <thead>
         <tr>
           <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
-        <th></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="text-center font-normal" colspan="2">{{ 'frontpage.dashboard_tabs_applications_drafts_notfound' | translate }}</td>
+          <td class="text-center font-normal">{{ 'frontpage.dashboard_tabs_applications_drafts_notfound' | translate }}</td>
         </tr>
       </tbody>
     </table>
@@ -106,12 +105,11 @@
               <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
               <th>{{ 'frontpage.dashboard_tabs_applications_document_date' | translate }}</th>
               <th>{{ 'frontpage.dashboard_tabs_applications_document_status' | translate }}</th>
-              <th></th>
             </tr>
           </thead> 
           <tbody>
             <tr>
-              <td class="text-center font-normal" colspan="4">{{ 'frontpage.dashboard_tabs_applications_documents_notfound' | translate }}</td>
+              <td class="text-center font-normal" colspan="3">{{ 'frontpage.dashboard_tabs_applications_documents_notfound' | translate }}</td>
             </tr>
           </tbody>
         </table>
@@ -172,7 +170,8 @@
   <div *ngIf="data.message && false" class="NOTICE lg-top">
     <div class="alert">{{ data.message }}</div>
   </div>
-  <ng-container *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions">
+  <!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
+  <ng-container>
     <button class="block-btn" role="button" (click)="openDialog()" attr.aria-label="{{'dashboard.add_new_educational_institution' | translate}}">+ {{'dashboard.add_new_educational_institution' | translate}}</button>
   </ng-container>
   <ng-container *ngIf="data.educationalInstitutions && data.educationalInstitutions.length">

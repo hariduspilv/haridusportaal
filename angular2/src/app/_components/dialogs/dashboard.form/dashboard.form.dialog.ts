@@ -16,6 +16,7 @@ export class DashboardFormDialog {
   contactPhone: string;
   contactEmail: string;
   webpageAddress: string;
+  addressInvalid: boolean = false;
   address: any;
   studyInstitutionType: string;
   ownershipType: string;
@@ -32,6 +33,7 @@ export class DashboardFormDialog {
     studyInstitutionTypes: []
   };
   response: any;
+  initialized: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -70,9 +72,16 @@ export class DashboardFormDialog {
         ownershipType: [this.ownershipType, [Validators.required]],
         studyInstitutionType: [this.studyInstitutionType, [Validators.required]]
       });
+      this.initialized = true;
     }
-    
   }  
+
+  ngAfterViewInit() {
+    if (this.address && !this.initialized) {
+      this.addressService.addressAutocomplete(this.address, 300, true, 10, 1, 1)
+      this.initialized = true;
+    }
+  }
   
   getOptions() {
     this.loader = true;
@@ -98,9 +107,14 @@ export class DashboardFormDialog {
   }
 
   add() {
+    let addressVal = this.addressService.addressSelectionValue || null;
+    if (!addressVal) {
+      this.addressInvalid = true;
+      this.reqError = true;
+      return false; 
+    }
     this.loader = true;
     this.reqError = false;
-    let addressVal = this.addressService.addressSelectionValue || { addressHumanReadable: this.form.controls.address.value };
     let data = { 
       address: addressVal,
       general: { 
@@ -126,9 +140,14 @@ export class DashboardFormDialog {
   }
   
   edit() {
+    let addressVal = this.addressService.addressSelectionValue || null;
+    if (!addressVal) {
+      this.addressInvalid = true;
+      this.reqError = true;
+      return false; 
+    }
     this.loader = true;
     this.reqError = false;
-    let addressVal = this.addressService.addressSelectionValue || { addressHumanReadable: this.form.controls.address.value };
     let data = { 
       edId: this.data.edId,
       address: addressVal,
@@ -147,8 +166,8 @@ export class DashboardFormDialog {
     });
   }
   
-  close(reload) {
-    this.dialogRef.close(reload);
+  close() {
+    this.dialogRef.close(this.actionSuccess);
   }
   
   clear() {
