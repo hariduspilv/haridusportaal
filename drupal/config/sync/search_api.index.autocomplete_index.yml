@@ -16,15 +16,15 @@ dependencies:
     - field.storage.node.field_organizer
     - field.storage.node.field_oska_field_sidebar
     - field.storage.paragraph.field_oska_main_profession
-    - field.storage.paragraph.field_cons
     - field.storage.paragraph.field_oska_field_cons
+    - field.storage.paragraph.field_cons
     - field.storage.paragraph.field_oska_field_pros
     - field.storage.paragraph.field_pros
     - field.storage.node.field_registration_code
     - field.storage.node.field_tag
-    - field.storage.node.field_short_description
     - field.storage.node.field_introduction
     - field.storage.node.field_body_summary
+    - field.storage.node.field_short_description
     - field.storage.node.field_body
     - field.storage.node.field_event_type
     - search_api.server.elasticsearch_server
@@ -249,12 +249,10 @@ processor_settings:
     alt: true
     tags:
       b: 2
-      em: 1
       h1: 5
       h2: 3
       h3: 2
       strong: 2
-      u: 1
     weights:
       preprocess_index: -15
       preprocess_query: -15
