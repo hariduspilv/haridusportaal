@@ -47,7 +47,6 @@ export class OskaAreasSidebarComponent implements OnInit {
 	constructor(private rootScope: RootScopeService, private route: ActivatedRoute) {}
   
   ngOnInit() {
-    console.log(this.sidebar);
     let subscription = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.lang = this.rootScope.get('currentLang');
