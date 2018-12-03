@@ -12,13 +12,13 @@ dependencies:
     - field.field.node.oska_field_page.field_oska_field_sidebar
     - field.field.node.oska_field_page.field_oska_video
     - field.field.node.oska_field_page.field_oska_web_page
-    - image.style.thumbnail
+    - image.style.crop_result_thumb
     - node.type.oska_field_page
   module:
     - file
     - htm_custom_oska
     - htm_custom_video_field
-    - image
+    - image_widget_crop
     - link
     - maxlength
     - paragraphs
@@ -86,10 +86,17 @@ content:
   field_oska_field_picture:
     weight: 16
     settings:
+      show_default_crop: true
+      warn_multiple_usages: true
+      preview_image_style: crop_result_thumb
+      crop_preview_image_style: crop_thumbnail
+      crop_list:
+        - 16_9_large
       progress_indicator: throbber
-      preview_image_style: thumbnail
+      crop_types_required: {  }
+      show_crop_area: false
     third_party_settings: {  }
-    type: image_image
+    type: image_widget_crop
     region: content
   field_oska_field_sidebar:
     type: entity_reference_paragraphs
