@@ -80,17 +80,28 @@ export class ChartComponent implements OnInit{
         }
       }*/
 
-      if( current.graphIndicator || current.secondaryGraphIndicator){
-        tmp['options']['vAxes'] = {};
-        if( current.graphIndicator ){
-          tmp['options']['vAxes'][0] = {'title': current.graphIndicator};
-        }
-        if( current.secondaryGraphIndicator ){
-          tmp['options']['vAxes'][1] = {'title': current.secondaryGraphIndicator};
-        }
 
-        console.log(tmp['options']['vAxis']);
+      if( graphName == "BarChart" ){
 
+        if( current.graphIndicator || current.secondaryGraphIndicator){
+          tmp['options']['hAxes'] = {};
+          if( current.graphIndicator ){
+            tmp['options']['hAxes'][0] = {'title': current.graphIndicator};
+          }
+          if( current.secondaryGraphIndicator ){
+            tmp['options']['hAxes'][1] = {'title': current.secondaryGraphIndicator};
+          }
+        }
+      }else{
+        if( current.graphIndicator || current.secondaryGraphIndicator){
+          tmp['options']['vAxes'] = {};
+          if( current.graphIndicator ){
+            tmp['options']['vAxes'][0] = {'title': current.graphIndicator};
+          }
+          if( current.secondaryGraphIndicator ){
+            tmp['options']['vAxes'][1] = {'title': current.secondaryGraphIndicator};
+          }
+        }
       }
 
       if( current.graphType == "doughnut" ){
@@ -122,9 +133,8 @@ export class ChartComponent implements OnInit{
     
       }
 
-      output.push(tmp);
-
       console.log(tmp);
+      output.push(tmp);
 
     }
 

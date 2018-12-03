@@ -70,7 +70,6 @@ export class CertificatesComponent implements OnInit{
         sub.unsubscribe();
       }
     }, (err) => {
-      console.log(err);
       this.loading[_id] = false;
     });
   }
@@ -87,7 +86,6 @@ export class CertificatesComponent implements OnInit{
       sub.unsubscribe();
     }, (err) => {
       this.errRequest = true;
-      console.log(err);
       this.loading[_id] = false;
     });
   }

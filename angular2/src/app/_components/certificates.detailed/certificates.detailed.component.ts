@@ -113,7 +113,6 @@ export class CertificatesDetailedComponent implements OnInit{
       this.loading = false;
       sub.unsubscribe();
     }, (err) => {
-      console.log(err);
       this.loading = false;
       this.router.navigateByUrl( this.dashboardLink );
     });

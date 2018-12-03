@@ -12,13 +12,13 @@ dependencies:
     - field.field.node.oska_survey_page.field_survey_page_picture
     - field.field.node.oska_survey_page.field_survey_page_sidebar
     - field.field.node.oska_survey_page.field_survey_page_video
-    - image.style.thumbnail
+    - image.style.crop_result_thumb
     - node.type.oska_survey_page
   module:
     - file
     - htm_custom_oska
     - htm_custom_video_field
-    - image
+    - image_widget_crop
     - link
     - maxlength
     - paragraphs
@@ -94,10 +94,17 @@ content:
   field_survey_page_picture:
     weight: 16
     settings:
+      show_default_crop: true
+      warn_multiple_usages: true
+      preview_image_style: crop_result_thumb
+      crop_preview_image_style: crop_thumbnail
+      crop_list:
+        - 16_9_large
       progress_indicator: throbber
-      preview_image_style: thumbnail
+      crop_types_required: {  }
+      show_crop_area: false
     third_party_settings: {  }
-    type: image_image
+    type: image_widget_crop
     region: content
   field_survey_page_sidebar:
     type: entity_reference_paragraphs
