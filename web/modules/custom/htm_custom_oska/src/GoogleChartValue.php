@@ -198,6 +198,9 @@ class GoogleChartValue extends TypedData {
             }
         }
 
+
+        dump($data_array);
+        die();
         return $data_array != NULL ? json_encode($data_array, TRUE) : NULL;
     }
 
