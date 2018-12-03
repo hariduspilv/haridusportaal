@@ -214,6 +214,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
       if (result) {
         this.startTime = Date.now();
         this.loading['initial'] = true;
+        this.request_iterator_timeout = 2000;
         this.fetchData();
       }
 		});

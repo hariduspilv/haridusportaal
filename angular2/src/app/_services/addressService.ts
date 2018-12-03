@@ -10,11 +10,19 @@ export class AddressService {
   public autocompleteLoader: boolean = true;
   public addressFieldFocus: boolean = false;
   public addressSelectionValue: {} = {};
+  public previousSearch: string = '';
 
   constructor(private _jsonp: Jsonp) {}
 
-  addressAutocomplete(searchText: string, debounceTime: number = 300, autoselectOnMatch: boolean = false, limit: number, ihist: number, apartment: number) {
-    if(searchText.length < 3) return;
+  addressAutocomplete(searchText, debounceTime, selectOnMatch, limit: number, ihist: number, apartment: number) {
+    if(searchText.length < 3) {
+      this.addressSelectionValue = {};
+      return;
+    }
+    if(this.previousSearch === searchText) {
+      return;
+    }
+    this.previousSearch = searchText;
 
     if(this.debouncer) clearTimeout(this.debouncer)
     if(this.subscription !== undefined) {
@@ -26,7 +34,6 @@ export class AddressService {
       let jsonp = this._jsonp.get(url).map(function(res){
         return res.json() || {};
       });
-    
       this.subscription = jsonp.subscribe(data => {
         this.autocompleteLoader = false;
         this.resultSet = data['addresses'] || [];
@@ -38,6 +45,12 @@ export class AddressService {
             address.addressHumanReadable = address.pikkaadress;
           }
         })
+        if (!this.resultSet.length) {
+          this.addressSelectionValue = null;
+        }
+        if(selectOnMatch){
+          this.addressAutocompleteSelectionValidation(searchText);
+        }
         this.subscription.unsubscribe();
       })  
 
@@ -51,15 +64,15 @@ export class AddressService {
       return address.addressHumanReadable === humanReadable
     });
     if(!match) {
-      this.resultSet = null;
+      this.resultSet = undefined;
       this.addressSelectionValue = null;
-      return false;
     } else {
       this.addressSelectionValue = this.inAdsFormatValue(match);
     }
   }
+
   validateInAdsField(element){
-    if(this.addressFieldFocus === false){
+    if (!this.addressFieldFocus) {
       this.addressAutocompleteSelectionValidation(element)
     }
   }
