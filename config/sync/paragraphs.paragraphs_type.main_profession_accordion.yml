@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies: {  }
 id: main_profession_accordion
-label: 'OSKA ametiala akordion'
+label: 'OSKA akordion'
 icon_uuid: null
 description: ''
 behavior_plugins: {  }
