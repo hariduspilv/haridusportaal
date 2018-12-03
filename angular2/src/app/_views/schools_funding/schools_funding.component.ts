@@ -304,8 +304,6 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     let url = "/assets/polygons/"+this.polygonLayer+".json";
     let subscription = this.http.get(url).subscribe( data => {
       this.polygons = this.assignPolygonsColors(data);
-
-      console.log(this.polygons);
       this.loading = false;
       subscription.unsubscribe();
     });
@@ -361,8 +359,6 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       }
     }
 
-    console.log(color);
-
     return {
       fillColor: color,
       fillOpacity: 1,
@@ -380,11 +376,18 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
   kmlClick($event) {
     
+    let mouse;
+    for( let i in $event ){
+      if( typeof $event[i] == 'object' && $event[i]['clientX'] ){
+        mouse = $event[i];
+      }
+    }
+
     this.infoLayer = {
-      left: $event['va']['clientX']+"px",
-      top: $event['va']['clientY']+"px",
-      sum: $event['feature']['f']['investmentAmountSum'],
-      name: $event['feature']['f']['NIMI']
+      left: mouse['clientX']+"px",
+      top: mouse['clientY']+"px",
+      sum: $event.feature.getProperty('investmentAmountSum'),
+      name: $event.feature.getProperty('NIMI')
     };
 
     if( !this.infoLayer.sum ){
@@ -394,7 +397,6 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.sumWindowLat = $event.latLng.lat();
     this.sumWindowLon = $event.latLng.lng();
 
-    console.log(this.infoLayer);
     this.sumWindowStatus = true;
     this.changeDetectorRef.detectChanges();
   }
