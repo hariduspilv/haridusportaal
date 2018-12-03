@@ -237,28 +237,23 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   loadMore() {
     this.eventsConfig.offset = this.eventListRaw.length;
+  
+    let url = "/graphql?queryName=eventList&queryId=4abaff3a1d7f8e824f5e912c684fccf91ce099a6:1&variables=";
+    let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
-    var subscriber = this.route.queryParams.subscribe(
-      (params: ActivatedRoute) => {
+    let subscriber = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+      console.log("got data");
+      
+      let data = response['data'];
 
-        let url = "/graphql?queryName=eventList&queryId=4abaff3a1d7f8e824f5e912c684fccf91ce099a6:1&variables=";
-        let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
+      this.eventListRaw = this.eventListRaw.concat(data['nodeQuery']['entities']);
+      this.eventList = this.organizeList( this.eventListRaw );
 
-        let subscriber = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
-
-          let data = response['data'];
-
-          subscriber.unsubscribe();
-
-          this.eventListRaw = this.eventListRaw.concat(data['nodeQuery']['entities']);
-          this.eventList = this.organizeList( this.eventListRaw );
-
-          if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
-            this.listEnd = true;
-          }
-        });        
+      if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
+        this.listEnd = true;
       }
-    )
+      subscriber.unsubscribe();
+    });
   }
   
   ngOnInit() {

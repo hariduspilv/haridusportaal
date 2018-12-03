@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies: {  }
 id: survey_page_accordion
-label: 'OSKA tulemuste akordion'
+label: 'OSKA tööjõuprognoosi akordion'
 icon_uuid: null
 description: ''
 behavior_plugins: {  }
