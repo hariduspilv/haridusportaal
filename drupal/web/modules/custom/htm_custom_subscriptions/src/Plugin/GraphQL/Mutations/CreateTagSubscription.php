@@ -106,6 +106,7 @@ class CreateTagSubscription extends CreateEntityBase{
         }
 
         if(isset($args['id'])){
+            $entity=reset($entity);
 
             // The raw input needs to be converted to use the proper field and property
             // keys because we usually convert them to camel case when adding them to
@@ -113,7 +114,7 @@ class CreateTagSubscription extends CreateEntityBase{
             $input = $this->extractEntityInput($value, $args, $context, $info);
             try {
                 foreach ($input as $key => $value) {
-                    $entity->get($key)->setValue($value);
+                    $entity->set($key, $value);
                 }
             }
             catch (\InvalidArgumentException $exception) {
