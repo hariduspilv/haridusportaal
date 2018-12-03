@@ -18,6 +18,16 @@ export class CompareComponent implements OnInit, OnDestroy{
   checked:boolean;
 
   keydown: boolean = false;
+
+  keyDownEvent = (event) => {
+    if (event.ctrlKey || event.metaKey) {
+      this.keydown = true;
+    }
+  }
+  keyUpEvent = (event) => {
+    this.keydown = false;
+  }
+
   compareViewLink: string;
   compareViewLinkOptions = {
     "studyProgramme.compare":{
@@ -140,28 +150,25 @@ export class CompareComponent implements OnInit, OnDestroy{
       snackBarRef.afterDismissed().subscribe((obj) => {
         if (obj.dismissedByAction) {
           if (this.keydown) {
-            console.log('NETI');
-            window.open(`${window.location.href.split('?')[0]}/vordlus`, '_blank');
+            window.open(this.compareViewLink, '_blank');
             this.snackBarOpen = false;
           } else {
-            console.log('regular');
             this.router.navigateByUrl(this.compareViewLink);
             this.snackBarOpen = false;
           }
         }
-      })
+      });
+
     } else if (!this.viewLink){
       this.snackbar.dismiss();
       this.snackBarOpen = false;
     }
   }
   ngOnInit() {
-    document.addEventListener('keydown', (event) => {
-      if (event.ctrlKey || event.metaKey) {
-        this.keydown = true;
-        console.log('running')
-      }
-    });
+    document.addEventListener('keydown', this.keyDownEvent);
+
+    document.addEventListener('keyup', this.keyUpEvent);
+
     this.compare = this.readFromLocalStorage(this.localStorageKey);
   
     this.checked = this.isChecked(this.id);
@@ -185,6 +192,8 @@ export class CompareComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy() {
+    document.removeEventListener("keydown", this.keyDownEvent);
+    document.removeEventListener("keyup", this.keyUpEvent);
     this.comparePathSubscription.unsubscribe();
     this.localStorageSubscription.unsubscribe();
     this.snackbar.dismiss()
