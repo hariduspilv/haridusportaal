@@ -1720,6 +1720,10 @@ errors:
     translation_type: textarea
     et: 'Pilt puudub'
     en: 'Image missing'
+  enter_valid_address:
+    translation_type: textarea
+    et: 'Sisesta korrektne aadress'
+    en: 'Enter valid address'
 search:
   label:
     translation_type: textarea
@@ -2099,4 +2103,12 @@ dashboard:
     translation_type: textarea
     et: Aadress
     en: Address
+  educational_institution_data_updated:
+    translation_type: textarea
+    et: 'Õppeasutuse andmed muudetud!'
+    en: 'Educational institution information saved!'
+  educational_institution_data_saved:
+    translation_type: textarea
+    et: 'Õppeasutuse andmed lisatud!'
+    en: 'Educational institution information saved!'
 general: {  }
