@@ -7,7 +7,7 @@
       </span>
       <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
         <span class="htm-icon">close
-          <button class="btn-hidden" (click)="close(actionSuccess)" tabindex="0"></button>
+          <button class="btn-hidden" (click)="close()" tabindex="0"></button>
         </span>
       </div>
     </div>
@@ -193,21 +193,21 @@
   
       <div class="dialog__actions row" *ngIf="!loader">
         <div class="col-12 text-right" *ngIf="data && !data.edId && !actionSuccess">
-          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close(actionSuccess)">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
           <!-- <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="add($event)">{{ 'button.save' | translate }}</button> -->
           <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'button.save' | translate }}</button>
           <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
           <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && add($event)"></re-captcha>
         </div>
         <div class="col-12 text-right" *ngIf="data && data.edId && !actionSuccess">
-          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close(actionSuccess)">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
           <!-- <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="edit($event)">{{ 'button.save' | translate }}</button> -->
           <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'button.save' | translate }}</button>
           <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
           <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && edit($event)"></re-captcha>
         </div>
         <div class="col-12 text-right" *ngIf="data && actionSuccess">
-          <button tabindex="0" attr.aria-label="{{ 'event.registration_form_cancel' | translate }}" class="sm-hide btn-link" role="button" href="javascript:void(0)" (click)="close(actionSuccess)">{{ 'modal.close' | translate }}</button>
+          <button tabindex="0" attr.aria-label="{{ 'event.registration_form_cancel' | translate }}" class="sm-hide btn-link" role="button" href="javascript:void(0)" (click)="close()">{{ 'modal.close' | translate }}</button>
         </div>
       </div>
   
