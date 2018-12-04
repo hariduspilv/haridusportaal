@@ -1,0 +1,83 @@
+query nodePreview {
+  NodePreviewByUuid(uuid: "fb1c1a07-4b19-4cfa-aeed-200dde1dc187") {
+    entityBundle
+    ...article
+  }
+}
+
+fragment article on NodeArticle {
+  isFavorite
+  nid
+  title
+  fieldBody {
+    value
+  }
+  fieldBodySummary
+  fieldImage {
+    derivative(style: CROP_LARGE) {
+      url
+    }
+    targetId
+    alt
+    title
+  }
+  fieldVideo {
+    input
+    videoDomain
+    videoDescription
+    videoId
+  }
+  fieldAccordionSection {
+    entity {
+      ... on ParagraphAccordion {
+        fieldAccordionTitle
+        fieldRelatedArticle {
+          url {
+            path
+          }
+          title
+        }
+        fieldBody {
+          value
+        }
+      }
+    }
+  }
+  fieldRightSidebar {
+    entity {
+      ... on ParagraphRightSidebarSectionInfo {
+        fieldAdditional {
+          entity {
+            ... on ParagraphAdditionalSection {
+              fieldTitle
+              fieldAdditionalBody
+            }
+          }
+        }
+        fieldContactSection {
+          entity {
+            ... on ParagraphContactSection {
+              fieldPhone
+              fieldPerson
+              fieldEmail
+              fieldOrganization
+            }
+          }
+        }
+        fieldRelatedArticle {
+          url {
+            path
+          }
+          title
+        }
+        fieldHyperlinks {
+          url {
+            path
+          }
+          title
+        }
+      }
+    }
+  }
+}
+
