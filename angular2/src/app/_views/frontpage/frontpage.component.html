@@ -5,9 +5,44 @@
       <div class="round-input__wrapper" aria-live="assertive" 
         [class.complete]="!searchFocus && param"
         [class.error]="!searchFocus && !param && searchError">
-        <span class="round-input__title" aria-hidden="true">{{'button.search_from_page' | translate}}</span>
+        <label for="param" class="round-input__title" aria-hidden="true">{{'button.search_from_page' | translate}}</label>
         <div class="round-input__field-wrapper">
-          <input attr.aria-label="{{ 'button.search_from_page' | translate }}" class="round-input__field" (focus)="searchError = false;searchFocus = true;" (blur)="searchFocus = false" placeholder="{{ 'button.search_from_page' | translate }}" [(ngModel)]='param' name="param" />
+          <input type="text" 
+          attr.aria-label="{{ 'button.search_from_page' | translate }}" 
+          class="round-input__field" 
+          placeholder="{{ 'button.search_from_page' | translate }}"
+          [(ngModel)]='param' 
+          (focus)="populateSuggestionList(param, 300);searchError = false;searchFocus = true;"
+          (blur)="searchFocus = false"
+          role="combobox"
+          aria-autocomplete="both"
+          autocomplete="on"
+          aria-owns="matAutocomplete"
+          name="param" 
+          id="param"
+          [matAutocomplete]="auto"
+          (ngModelChange)="populateSuggestionList(param, 300)"/>
+          <mat-autocomplete #auto="matAutocomplete"
+            role="listbox"
+            id="matAutocomplete"
+            [(ngModel)]='param' 
+            (optionSelected)="autocompleteLoader = false; suggestionList = []">
+            <ng-container *ngIf="autocompleteLoader">
+              <mat-option [value]="" disabled="true">
+                <span>{{'search.searching_please_wait' | translate }}</span>
+              </mat-option>
+            </ng-container>
+            <ng-container *ngIf="autocompleteLoader == false && suggestionList">
+              <mat-option *ngIf="!suggestionList.length" [value]="" disabled="true">
+                <span>{{'search.not_found' | translate }}</span>
+              </mat-option>
+              <ng-container *ngIf="suggestionList.length > 0">
+                <mat-option *ngFor="let result of suggestionList" [value]="result.Suggestion">
+                  <span>{{ result.Suggestion }}</span>
+                </mat-option>
+              </ng-container>
+            </ng-container>
+          </mat-autocomplete>
         </div>
         <div class="round-input__error">
           <div class="round-input__error--text error-9" *ngIf="!searchFocus && searchError">

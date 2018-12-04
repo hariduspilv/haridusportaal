@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SettingsService } from '@app/_core/settings';
 import { HttpService } from '@app/_services/httpService';
+import { Subscription } from 'rxjs';
 @Component({
   templateUrl: './frontpage.component.html',
   styleUrls: ['./frontpage.component.scss']
@@ -11,15 +12,19 @@ import { HttpService } from '@app/_services/httpService';
 
 export class FrontpageComponent {
 
-  error: boolean;
-  searchError: boolean = false;
-  news: any = false;
-  superNewsShown: boolean = false;
-	events: any = false;
-	generalData: any = false;
-	lang: string;
-  allPath: any;
-  eventPath: any;
+  public error: boolean;
+  public searchError: boolean = false;
+  public news: any = false;
+  public superNewsShown: boolean = false;
+	public events: any = false;
+	public generalData: any = false;
+	public lang: string;
+  public allPath: any;
+  public eventPath: any;
+  public suggestionList: any = false;
+  public debouncer: any;
+  public autocompleteLoader: boolean = false;
+  public suggestionSubscription: Subscription;
   
   constructor (
     private rootScope:RootScopeService,
@@ -138,9 +143,32 @@ export class FrontpageComponent {
         that.news = [];
 			} else {
         that.news = data['data']['nodeQuery']['entities'];
-        console.log(that.news);
       }
     });
 
-	}
+  }
+  populateSuggestionList(searchText, debounceTime) {
+    if(searchText.length < 3) {
+      clearTimeout(this.debouncer);
+      this.suggestionList = [];
+      return;
+    }
+    if(this.debouncer) clearTimeout(this.debouncer)
+    if(this.suggestionSubscription !== undefined) {
+      this.suggestionSubscription.unsubscribe();
+    }
+    this.debouncer = setTimeout(_ => {
+      this.autocompleteLoader = true;
+      let url = this.settings.url+"/graphql?queryId=1cb2424e19c6048e3b584dc3671add1525f4a049:1&variables=";
+      let variables = {
+        search_term: searchText
+      }
+      let suggestionSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(res => {
+        this.autocompleteLoader = false;
+        this.suggestionList = res['data']['CustomElasticAutocompleteQuery'] || [];
+        this.suggestionSubscription.unsubscribe();
+      });
+
+    }, debounceTime)
+  }
 }
