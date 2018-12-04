@@ -1,5 +1,5 @@
-query nodePreview {
-  NodePreviewByUuid(uuid: "fb1c1a07-4b19-4cfa-aeed-200dde1dc187") {
+query nodePreview($uuid: String!) {
+  NodePreviewByUuid(uuid: $uuid) {
     entityBundle
     ...article
   }
