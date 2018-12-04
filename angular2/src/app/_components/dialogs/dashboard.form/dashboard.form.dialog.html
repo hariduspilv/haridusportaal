@@ -7,7 +7,7 @@
       </span>
       <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
         <span class="htm-icon">close
-          <button class="btn-hidden" (click)="close(actionSuccess)" tabindex="0"></button>
+          <button class="btn-hidden" (click)="close()" tabindex="0"></button>
         </span>
       </div>
     </div>
@@ -20,7 +20,7 @@
       <div *ngIf="!data.edId" class="dialog__required">* {{ 'event.registration_form_required' | translate }}</div>
     </div>
       
-    <form [formGroup]="form" class="dialog__form col-12" *ngIf="!loader">
+    <form [formGroup]="form" class="dialog__form col-12" *ngIf="!loader && initialized">
       <div class="dialog-content">
         <div *ngIf="actionSuccess" class="SUCCESS md-top">
           <div class="alert">
@@ -104,19 +104,19 @@
               </div>
             </div>
             <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
-              <div class="round-input__wrapper" [class.complete]="form.controls.address.value">
-                <span class="round-input__title">{{ 'dashboard.addressHumanReadable' | translate }} <span *ngIf="!data.edId">*</span></span>
+              <div class="round-input__wrapper" [class.error]="addressInvalid" [class.complete]="form.controls.address.value">
+                <span class="round-input__title">{{ 'dashboard.addressHumanReadable' | translate }} <span>*</span></span>
                 <div class="round-input__field-wrapper">
                   <input class="round-input__field" 
                     type="text"
                     formControlName="address"
                     [(ngModel)]="address"
-                    placeholder="{{ 'dashboard.addressHumanReadable' | translate }} {{ !data.edId ? '*' : ''}}"
-                    (ngModelChange)="addressService.addressAutocomplete(address, 300, false, 10, 1, 1)"
-                    (focus)="addressService.addressFieldFocus = true"
-                    (blur)="addressService.validateInAdsField(address)"
+                    placeholder="{{ 'dashboard.addressHumanReadable' | translate }} {{ '*' }}"
+                    (ngModelChange)="initialized && addressService.addressAutocomplete(address, 300, false, 10, 1, 1)"
+                    (focus)="addressService.addressFieldFocus = true; addressInvalid = false; addressService.validateInAdsField(address);"
+                    (blur)="addressService.validateInAdsField(address);"
                     [name]="address"
-                    attr.aria-label="{{ 'dashboard.addressHumanReadable' | translate }} {{ !data.edId && 'required.modal' | translate }}"
+                    attr.aria-label="{{ 'dashboard.addressHumanReadable' | translate }} {{ 'required.modal' | translate }}"
                     [matAutocomplete]="autoAddress">
                   <mat-autocomplete #autoAddress="matAutocomplete"
                     (optionSelected)="addressService.addressFieldFocus = false"
@@ -137,6 +137,11 @@
                       </ng-container>
                     </ng-container>
                   </mat-autocomplete>
+                </div>
+                <div class="round-input__error">
+                  <div class="round-input__error--text" role="alert" *ngIf="addressInvalid">
+                    {{ 'errors.enter_valid_address' | translate }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -188,19 +193,21 @@
   
       <div class="dialog__actions row" *ngIf="!loader">
         <div class="col-12 text-right" *ngIf="data && !data.edId && !actionSuccess">
-          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close(actionSuccess)">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
+          <!-- <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="add($event)">{{ 'button.save' | translate }}</button> -->
           <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'button.save' | translate }}</button>
           <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
           <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && add($event)"></re-captcha>
         </div>
         <div class="col-12 text-right" *ngIf="data && data.edId && !actionSuccess">
-          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close(actionSuccess)">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
+          <!-- <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="edit($event)">{{ 'button.save' | translate }}</button> -->
           <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'button.save' | translate }}</button>
           <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
           <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && edit($event)"></re-captcha>
         </div>
         <div class="col-12 text-right" *ngIf="data && actionSuccess">
-          <button tabindex="0" attr.aria-label="{{ 'event.registration_form_cancel' | translate }}" class="sm-hide btn-link" role="button" href="javascript:void(0)" (click)="close(actionSuccess)">{{ 'modal.close' | translate }}</button>
+          <button tabindex="0" attr.aria-label="{{ 'event.registration_form_cancel' | translate }}" class="sm-hide btn-link" role="button" href="javascript:void(0)" (click)="close()">{{ 'modal.close' | translate }}</button>
         </div>
       </div>
   

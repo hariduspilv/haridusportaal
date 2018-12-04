@@ -1,5 +1,5 @@
 query ($lang: LanguageId!, $schoolId: String!) {
-    nodeQuery(filter: {conditions: {field: "field_educational_institution", value: [$schoolId], language: $lang}}, sort: [{field: "title", direction: ASC}]) {
+    nodeQuery(limit:1000, filter: {conditions: {field: "field_educational_institution", value: [$schoolId], language: $lang}}, sort: [{field: "title", direction: ASC}]) {
         entities(language: $lang) {
             ... on NodeStudyProgramme {
                 nid

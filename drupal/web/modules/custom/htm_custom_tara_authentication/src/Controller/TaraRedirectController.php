@@ -121,6 +121,7 @@ class TaraRedirectController extends RedirectController{
 		}
 
 		$fe_url = $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+    $fe_url = 'http://htm.twn.ee/auth.html';
 		if(empty($this->messenger()->all()) && !$redirect_home){
 			$query = ['jwt' => $this->jsonAuth->generateToken(), 'error' => 'false'];
 		}elseif($redirect_home){
@@ -129,10 +130,10 @@ class TaraRedirectController extends RedirectController{
 			$query = ['error' => 'true'];
 		}
 		$redirect = Url::fromUri($fe_url, ['query' => $query, 'http' => true])->toString();
-		dump($redirect);
-		die();
+		#dump($redirect);
+		#die();
 		// log user out because we have own jwt token for auth and dont need session
-		#user_logout();
+		user_logout();
 		return new TrustedRedirectResponse($redirect);
 
 	}
