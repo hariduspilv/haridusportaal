@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit{
 
   loader:boolean;
 
+  taraUrl: any;
+
   constructor(
     private route : ActivatedRoute,
     private router: Router,
@@ -90,6 +92,8 @@ export class LoginComponent implements OnInit{
 
   }
   ngOnInit() {
+
+    this.taraUrl = this.settings.url+"/tara-login";
     this.user = this.userService.getData();
   }
 

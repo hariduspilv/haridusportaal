@@ -10,6 +10,7 @@
 
 
 
+
   <a href="javascript:void(0)" class="login__actions" *ngIf="user.isExpired" (keyup.esc)="loginVisible = false;" (click)="toggleLogin()">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
     <span class="login pointer sm-hide">{{ 'button.login' | translate }}</span>
@@ -19,7 +20,10 @@
 
     <mat-spinner *ngIf="loader"></mat-spinner>
 
-    <form (ngSubmit)="submit()" *ngIf="!loader">
+    <a role="link" mat-raised-button color="primary" href="{{ taraUrl }}">Logi sisse TARA-ga</a>
+
+    <!-- REGULAR LOGIN DISABLED-->
+    <form (ngSubmit)="submit()" *ngIf="!loader && 1 == 2">
       <div class="row">
         <div class="col-12 header">{{ 'button.login' | translate | uppercase }}</div>
         <div class="col-12">
