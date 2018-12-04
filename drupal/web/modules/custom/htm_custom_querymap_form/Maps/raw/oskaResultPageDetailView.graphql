@@ -110,6 +110,7 @@ query oskaResultPageDetailView($path: String!) {
             }
             __typename
           }
+          oskaGraphData
           fieldResultPageGraph{
             value
             graphSet
