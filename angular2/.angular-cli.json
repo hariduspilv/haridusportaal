@@ -9,7 +9,8 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "auth.html"
       ],
       "index": "index.html",
       "main": "main.ts",
