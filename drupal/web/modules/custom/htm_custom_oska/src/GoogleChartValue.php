@@ -22,36 +22,6 @@ use League\Csv\Statement;
  */
 class GoogleChartValue extends TypedData {
 
-    public function applyFilters($row){
-
-        foreach($this->filter_values as $key => $filters){
-            $match = false;
-
-            if(isset($row[$key])){
-                if(is_array($filters) && count($filters) > 0){
-                    foreach($filters as $filter){
-                        if (strpos($row[$key], $filter) !== FALSE) {
-                            $match = true;
-                        }
-                    }
-                }else if(count($filters) == 0){
-                    $match = true;
-                }else{
-                    if(strpos($row[$key], $filters) !== FALSE){
-                        $match = true;
-                    }
-                }
-
-                if($match == false){
-                    return false;
-                }
-            }else{
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     /**
      * {@inheritdoc}
@@ -209,5 +179,37 @@ class GoogleChartValue extends TypedData {
         }
 
         return $labelsums;
+    }
+
+
+    public function applyFilters($row){
+
+        foreach($this->filter_values as $key => $filters){
+            $match = false;
+
+            if(isset($row[$key])){
+                if(is_array($filters) && count($filters) > 0){
+                    foreach($filters as $filter){
+                        if (strpos($row[$key], $filter) !== FALSE) {
+                            $match = true;
+                        }
+                    }
+                }else if(count($filters) == 0){
+                    $match = true;
+                }else{
+                    if(strpos($row[$key], $filters) !== FALSE){
+                        $match = true;
+                    }
+                }
+
+                if($match == false){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        return true;
     }
 }

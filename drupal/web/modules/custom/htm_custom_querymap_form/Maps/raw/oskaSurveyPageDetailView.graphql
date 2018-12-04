@@ -126,6 +126,7 @@ query oskaSurveyPageDetailView($path: String!) {
               }
             }
           }
+          oskaGraphData
           fieldSurveyPageGraph {
             value
             graphSet
