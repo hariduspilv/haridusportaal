@@ -23,7 +23,7 @@ export class SchoolStudyProgrammesComponent implements OnInit {
 
   ngOnInit() {
 
-    let url = "/graphql?queryName=relatedStudyProgrammes&queryId=c72f6c17ef0593b31753c9094b69d89b845383bb:1&variables=";
+    let url = "/graphql?queryName=relatedStudyProgrammeList&queryId=37599424458ff4e1265aa9ce40f6232d54fe0422:1&variables=";
     let variables = {
       schoolId: this.schoolId.toString(),
       lang: this.rootScope.get('currentLang').toUpperCase()
