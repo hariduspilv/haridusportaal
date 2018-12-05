@@ -35,7 +35,7 @@
               role="listbox"
               id="matAutocomplete"
               [(ngModel)]='param' 
-              (optionSelected)="autocompleteLoader = false; suggestionList = []">
+              (optionSelected)="autocompleteLoader = false;suggestionList = [];getResults(param, [])">
               <ng-container *ngIf="autocompleteLoader">
                 <mat-option [value]="" disabled="true">
                   <span>{{'search.searching_please_wait' | translate }}</span>
@@ -43,7 +43,8 @@
               </ng-container>
               <ng-container *ngIf="autocompleteLoader == false && suggestionList">
                 <mat-option *ngIf="!suggestionList.length" [value]="" disabled="true">
-                  <span>{{'search.not_found' | translate }}</span>
+                  <span *ngIf="param && param.length < 3">{{'search.not_found_required_chars' | translate }}</span>
+                  <span *ngIf="param && param.length >= 3">{{'search.not_found' | translate }}</span>
                 </mat-option>
                 <ng-container *ngIf="suggestionList.length > 0">
                   <mat-option *ngFor="let result of suggestionList" [value]="result.Suggestion">
