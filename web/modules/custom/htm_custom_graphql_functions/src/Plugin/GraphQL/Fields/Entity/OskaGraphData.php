@@ -27,9 +27,6 @@ class OskaGraphData extends FieldPluginBase {
                 $graph_field = $key;
             }
         }
-
-        $value->__get($graph_field)->__get('value');
-
+        yield $value->__get($graph_field)->__get('value');
     }
-
 }
