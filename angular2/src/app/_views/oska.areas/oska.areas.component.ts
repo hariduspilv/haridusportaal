@@ -37,7 +37,7 @@ export class OskaAreasComponent implements OnInit{
   }
 
   getData(){
-    let url = "/graphql?queryName=oskaFieldDetailView&queryId=d971bff90f9020d4518214efa74b100acbd04f3b:1&variables=";
+    let url = "/graphql?queryName=oskaFieldDetailView&queryId=58404416fc8c07177d1aabfb82d914ba0494f1ed:1&variables=";
 
     this.viewType = "field";
 
@@ -48,7 +48,7 @@ export class OskaAreasComponent implements OnInit{
     }
     else if( this.router.url.match(/ulduuringud|survey-pages/ ) ){
       this.viewType = "surveyPage";
-      url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=4c56c3151d3dc71b580e5785ddf5b7fd7df247b6:1&variables=";
+      url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=30080f40d5c2f992f18cd959930f20409ae73146:1&variables=";
     }
 
     let variables = {
