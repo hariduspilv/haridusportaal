@@ -12,12 +12,13 @@ import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
 
 @Component({
+  selector: "ArticleComponent",
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss']
 })
 
 export class ArticleComponent implements OnInit, OnDestroy{
-  
+
   private querySubscription: Subscription;  
   private path: string;
   private lang: string;
