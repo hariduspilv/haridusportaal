@@ -1753,6 +1753,18 @@ search:
     translation_type: textarea
     et: 'Filtreeri tulemusi'
     en: 'Filter results'
+  searching_please_wait:
+    translation_type: textarea
+    et: 'Otsin, palun oodake'
+    en: 'Searching, please wait'
+  not_found:
+    translation_type: textarea
+    et: 'Tulemusi ei leitud'
+    en: 'No results'
+  not_found_required_chars:
+    translation_type: textarea
+    et: 'Tulemusi ei leitud, sisesta vähemalt 3 tähemärki'
+    en: 'No results, enter at least 3 characters'
 data:
   dashboard_link:
     translation_type: textarea
