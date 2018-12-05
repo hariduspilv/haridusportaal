@@ -193,6 +193,7 @@ query oskaMainProfessionDetailView($path: String!) {
               }
             }
           }
+          oskaGraphData
           fieldMainProfessionGraph{
             value
             graphSet

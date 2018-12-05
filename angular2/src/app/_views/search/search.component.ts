@@ -11,25 +11,26 @@ import { SettingsService } from '@app/_core/settings';
 
 export class SearchComponent {
   
-  results: any = false;
-  filteredResults: any = false;
-  dataSubscription: Subscription;
-  paramSubscription: Subscription;
-  breadcrumbs: any = false;
-  path: any;
-  lang: any;
-  param: string = '';
-  loading: boolean = true;
-  allFilters: boolean = true;
-  viewChecked: boolean = false;
-  listLimit: number = 5;
-  listStep: number = 5;
-  listLength: number;
-  initialCrumbs: any = {
+  public results: any = false;
+  public filteredResults: any = false;
+  public dataSubscription: Subscription;
+  public paramSubscription: Subscription;
+  public suggestionSubscription: Subscription;
+  public breadcrumbs: any = false;
+  public path: any;
+  public lang: any;
+  public param: string = '';
+  public loading: boolean = true;
+  public allFilters: boolean = true;
+  public viewChecked: boolean = false;
+  public listLimit: number = 5;
+  public listStep: number = 5;
+  public listLength: number;
+  public initialCrumbs: any = {
     'en': [{"text": "Home", "url": "/en"}],
     'et': [{"text": "Avaleht", "url": "/et"}]
   };
-  typesByLang: any = {
+  public typesByLang: any = {
     et: [
       {"name": "article.label", "sumLabel": "Sisuleht Artikkel", "value": false, "sum": 0},
       {"name": "news.label", "sumLabel": "Uudis", "value": false, "sum": 0},
@@ -47,9 +48,13 @@ export class SearchComponent {
       {"name": "oska.future_job_opportunities", "sumLabel": "Oska", "value": false, "sum": 0}
     ]
   };
-  oskaTypes: Array<string> = ['Sisuleht OSKA Ametiala','Sisuleht OSKA Tööjõuprognoos','Sisuleht OSKA Valdkond'];
-  types: Array<any>;
-  typeArr: any = [];
+  public oskaTypes: Array<string> = ['Sisuleht OSKA Ametiala','Sisuleht OSKA Tööjõuprognoos','Sisuleht OSKA Valdkond'];
+  public types: Array<any>;
+  public typeArr: any = [];
+
+  public suggestionList: any = false;
+  public debouncer: any;
+  public autocompleteLoader: boolean = false;
   
   constructor (
     private rootScope:RootScopeService,
@@ -208,4 +213,28 @@ export class SearchComponent {
     this.allFilters = this.checkForAllFilters();
   }
 
+  populateSuggestionList(searchText, debounceTime) {
+    if(searchText.length < 3) {
+      clearTimeout(this.debouncer);
+      this.suggestionList = [];
+      return;
+    }
+    if(this.debouncer) clearTimeout(this.debouncer)
+    if(this.suggestionSubscription !== undefined) {
+      this.suggestionSubscription.unsubscribe();
+    }
+    this.debouncer = setTimeout(_ => {
+      this.autocompleteLoader = true;
+      let url = this.settings.url+"/graphql?queryId=1cb2424e19c6048e3b584dc3671add1525f4a049:1&variables=";
+      let variables = {
+        search_term: searchText
+      }
+      let suggestionSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(res => {
+        this.autocompleteLoader = false;
+        this.suggestionList = res['data']['CustomElasticAutocompleteQuery'] || [];
+        this.suggestionSubscription.unsubscribe();
+      });
+
+    }, debounceTime)
+  }
 }

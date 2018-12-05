@@ -134,6 +134,7 @@ query oskaFieldDetailView($path: String!) {
               }
             }
           }
+          oskaGraphData
           fieldFieldPageGraph{
             value
             graphSet
