@@ -23,7 +23,7 @@
     <a role="link" mat-raised-button color="primary" href="{{ taraUrl }}">Logi sisse TARA-ga</a>
 
     <!-- REGULAR LOGIN DISABLED-->
-    <form (ngSubmit)="submit()" *ngIf="!loader && 1 == 2">
+    <form (ngSubmit)="submit()" *ngIf="!loader">
       <div class="row">
         <div class="col-12 header">{{ 'button.login' | translate | uppercase }}</div>
         <div class="col-12">
