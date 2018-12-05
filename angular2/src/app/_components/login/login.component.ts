@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit{
   }
   ngOnInit() {
 
-    this.taraUrl = this.settings.url+"/tara-login";
+    this.taraUrl = /*this.settings.url+*/"https://htm.wiseman.ee/tara-login";
     this.user = this.userService.getData();
   }
 

@@ -31,7 +31,7 @@ import { CertificatesComponent } from '@app/_components/certificates/certificate
 import { ApplicationsComponent } from '@app/_components/applications/applications.component';
 import { StudiesComponent } from '@app/_components/studies/studies.component';
 import { TeachingsComponent } from '@app/_components/teachings/teachings.component';
-
+import { PreviewComponent } from '@app/_views/preview/preview.component';
 const appRoutes: Routes = [
   { path: ':lang/artiklid/:id', component: ArticleComponent },
   { path: ':lang/articles/:id', component: ArticleComponent },
@@ -109,6 +109,8 @@ const appRoutes: Routes = [
   { path: ':lang/search', component: SearchComponent },
 
   { path: ':lang/isikukaart', component: PersonalDataComponent },
+
+  { path: 'preview/:id', component: PreviewComponent },
   { path: '', redirectTo: '/et', pathMatch: 'full' },
   { path: ':lang/404', component: NotFoundComponent },
   { path: '**', component: NotFoundComponent }
@@ -163,6 +165,7 @@ export const routedComponents = [
   CertificatesComponent,
   ApplicationsComponent,
   StudiesComponent,
-  TeachingsComponent
+  TeachingsComponent,
+  PreviewComponent
 ];
 

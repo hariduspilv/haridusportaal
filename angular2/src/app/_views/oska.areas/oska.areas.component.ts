@@ -37,18 +37,18 @@ export class OskaAreasComponent implements OnInit{
   }
 
   getData(){
-    let url = "/graphql?queryName=oskaFieldDetailView&queryId=d971bff90f9020d4518214efa74b100acbd04f3b:1&variables=";
+    let url = "/graphql?queryName=oskaFieldDetailView&queryId=58404416fc8c07177d1aabfb82d914ba0494f1ed:1&variables=";
 
     this.viewType = "field";
 
     if( this.router.url.match(/ametialad|sectors/ ) ){
       this.viewType = "mainProfession";
-      url = "/graphql?queryId=e7c86e79094d28c4c6b280535303a638bbfb46de:1&variables=";
+      url = "/graphql?queryName=oskaMainProfessionDetailView&queryId=6bd47460c3e312dd28e319189f78aa9fab737019:1&variables=";
       this.compareButton = true;
     }
     else if( this.router.url.match(/ulduuringud|survey-pages/ ) ){
       this.viewType = "surveyPage";
-      url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=4c56c3151d3dc71b580e5785ddf5b7fd7df247b6:1&variables=";
+      url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=30080f40d5c2f992f18cd959930f20409ae73146:1&variables=";
     }
 
     let variables = {
