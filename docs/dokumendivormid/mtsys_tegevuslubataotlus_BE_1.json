@@ -65,14 +65,11 @@
             "dokumendid": {
               Lugeda failiTyybid.
               Iga failiTyybi kohta, kus lkOkLiik = tegevusloa liik (steps.step_liik.data_elements.tegevusloaLiik.value) lisada üks rida, kus
-              "table_columns": {
-                "liik": {
-                  "value" : failiTyybid/failiTyyp/failTyyp + "kohustuslik" kui failiTyybid/failiTyyp/kohustuslik = 1
+              "value": [
+                { "liik": failiTyybid/failiTyyp/failTyyp + "kohustuslik" kui failiTyybid/failiTyyp/kohustuslik = 1,
+                  "klLiik" : failiTyybid/failiTyyp/klFailTyyp
                 },
-                "klLiik" : {
-                  "value" : failiTyybid/failiTyyp/klFailTyyp
-                },
-              }
+              ]
             },
             ...
           }
