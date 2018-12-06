@@ -1,5 +1,12 @@
-<ng-container *ngIf="data">
+<div class="main-container">
+  <div class="row">
+    <div class="col-12">
+      <button role="button" mat-raised-button color="primary" (click)="editPost()">{{ 'button.back' | translate }}</button>
+    </div><!--/col-12-->
+  </div><!--/row-->
+</div><!--/main-container-->
 
+<ng-container *ngIf="data">
   <article-component *ngIf="data.entityBundle == 'article'" [inputData]="data"></article-component>
   <event-component *ngIf="data.entityBundle == 'event'" [inputData]="data"></event-component>
   <news-component *ngIf="data.entityBundle == 'news'" [inputData]="data"></news-component>

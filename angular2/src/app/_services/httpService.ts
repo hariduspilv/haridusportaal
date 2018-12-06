@@ -45,12 +45,14 @@ export class HttpService {
     return encodeURI( url );
   }
 
-  get(url) {
+  get(url, inputHeaders:object = {} ) {
+
+    console.log(inputHeaders['withCredentials']);
     url = this.parseUrl(url);
     let headers = this.createAuthorizationHeader();
     return this.http.get(url, {
       headers: headers,
-      withCredentials: true
+      withCredentials: inputHeaders['withCredentials'] || false
     });
   }
 
