@@ -12,8 +12,8 @@ queue:
     threads: 4
     threshold: 10
 launcher:
-  thread: any
-  max_threads: 1
+  thread: '0'
+  max_threads: 2
   lock_timeout: 3600
   max_execution_time: 3600
 logger:
