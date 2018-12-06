@@ -1724,6 +1724,10 @@ errors:
     translation_type: textarea
     et: 'Sisesta korrektne aadress'
     en: 'Enter valid address'
+  enter_valid_webpage:
+    translation_type: textarea
+    et: 'Sisesta korrektne veebiaadress'
+    en: 'Enter a correct domain name'
 search:
   label:
     translation_type: textarea
