@@ -44,6 +44,10 @@ class CachePurgeQueue extends QueueWorkerBase {
             'timeout'  => 30,
         ]);
 
-        $client->request($varnishcommand, $purgeurl, []);
+        $header = [
+            $this->configuration->get('path') => $cache_tag
+        ];
+
+        $client->request($varnishcommand, $purgeurl, [$header]);
     }
 }
