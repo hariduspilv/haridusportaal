@@ -1,0 +1,13 @@
+<ng-container *ngIf="data">
+
+  <article-component *ngIf="data.entityBundle == 'article'" [inputData]="data"></article-component>
+  <event-component *ngIf="data.entityBundle == 'event'" [inputData]="data"></event-component>
+  <news-component *ngIf="data.entityBundle == 'news'" [inputData]="data"></news-component>
+  <schools-component *ngIf="data.entityBundle == 'school'" [inputData]="data"></schools-component>
+  <study-programme-component *ngIf="data.entityBundle == 'study_programme'" [inputData]="data"></study-programme-component>
+
+  <oska-areas-component *ngIf="data.entityBundle == 'oska_main_profession_page'" [inputData]="data"></oska-areas-component>
+  <oska-areas-component *ngIf="data.entityBundle == 'oska_field_page'" [inputData]="data"></oska-areas-component>
+  <oska-areas-component *ngIf="data.entityBundle == 'oska_survey_page'" [inputData]="data"></oska-areas-component>  
+  <oska-results-component *ngIf="data.entityBundle == 'oska_result_page'" [inputData]="data"></oska-results-component>
+</ng-container>
