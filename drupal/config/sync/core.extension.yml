@@ -69,6 +69,7 @@ module:
   htm_custom_tara_authentication: 0
   htm_custom_tokens: 0
   htm_custom_translations_new: 0
+  htm_custom_varnish_purge: 0
   htm_custom_video_field: 0
   htm_custom_xjson_services: 0
   image: 0
@@ -99,11 +100,6 @@ module:
   options: 0
   page_cache: 0
   path: 0
-  purge: 0
-  purge_processor_cron: 0
-  purge_queuer_coretags: 0
-  purge_tokens: 0
-  purge_ui: 0
   queue_ui: 0
   quickedit: 0
   rdf: 0
@@ -128,7 +124,6 @@ module:
   ultimate_cron: 0
   update: 0
   user: 0
-  varnish_purger: 0
   views_ui: 0
   menu_link_content: 1
   pathauto: 1
