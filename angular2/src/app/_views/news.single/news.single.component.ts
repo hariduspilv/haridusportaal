@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService } from '@app/_services';
@@ -14,11 +14,14 @@ import { UserService } from '@app/_services/userService';
 import { HttpService } from '@app/_services/httpService';
 
 @Component({
+  selector: "news-component",
   templateUrl: './news.single.component.html',
   styleUrls: ['./news.single.component.scss']
 })
 
 export class NewsSingleComponent implements OnInit {
+
+  @Input() inputData;
 
   private querySubscription: Subscription;  
   private path: string;
@@ -40,49 +43,61 @@ export class NewsSingleComponent implements OnInit {
     private http: HttpService
    ) {
 
-    this.route.params.subscribe( params => {
-
-      this.content = false;
-
-      this.error = false;
-
-      const path = this.router.url;
-
-      const that = this;
-
-      let url = "/graphql?queryName=newsSingle&queryId=8e6fff0c11ca8862a51ba71c913a453eb43ad771:1&variables=";
-      let variables = {
-        path: path
-      };
-      
-      let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
-        let data = response['data'];
-        if ( data['route'] == null ) {
-          that.error = true;
-        } else {
-          that.content = data['route']['entity'];
-        }
-
-        that.allNewsPath = path.split("/");
-        that.allNewsPath = that.allNewsPath.slice(0, that.allNewsPath.length - 1).join("/");
-
-        //language service
-        const langOptions = data['route']['languageSwitchLinks'];
-        let langValues = {};
-        for( var i in langOptions ){
-          langValues[langOptions[i].language.id] = langOptions[i].url.path;
-        }
-        that.rootScope.set('langOptions', langValues);
-        subscribe.unsubscribe();
-      });
-
-    });
   }
 
+  handleData(data){
+    var that = this;
+    const path = this.router.url;
+    that.content = data['route']['entity'];
+    that.allNewsPath = path.split("/");
+    that.allNewsPath = that.allNewsPath.slice(0, that.allNewsPath.length - 1).join("/");
+
+    //language service
+    const langOptions = data['route']['languageSwitchLinks'];
+    let langValues = {};
+    for( var i in langOptions ){
+      langValues[langOptions[i].language.id] = langOptions[i].url.path;
+    }
+    that.rootScope.set('langOptions', langValues);
+  }
   ngOnInit() {
-    this.route.params.subscribe( params => {
-      this.userLoggedOut = this.user.getData()['isExpired'];
-    });
+    if( this.inputData ){
+      this.handleData({
+        route: {entity: this.inputData}
+      });
+    }else{
+      this.route.params.subscribe( params => {
+
+        this.content = false;
+  
+        this.error = false;
+  
+        const path = this.router.url;
+  
+        const that = this;
+  
+        let url = "/graphql?queryName=newsSingle&queryId=8e6fff0c11ca8862a51ba71c913a453eb43ad771:1&variables=";
+        let variables = {
+          path: path
+        };
+        
+        let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+          let data = response['data'];
+          if ( data['route'] == null ) {
+            that.error = true;
+          } else {
+            this.handleData(data);
+          }
+  
+          subscribe.unsubscribe();
+        });
+  
+      });
+      this.route.params.subscribe( params => {
+        this.userLoggedOut = this.user.getData()['isExpired'];
+      });
+    }
+    
   }
 
   openDialog(): void {

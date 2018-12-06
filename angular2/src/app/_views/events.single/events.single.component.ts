@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit, AfterViewChecked, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService, MetaTagsService } from '@app/_services';
@@ -21,12 +21,15 @@ import { UserService } from '@app/_services/userService';
 const moment = _moment;
 
 @Component({
+  selector: "event-component",
   templateUrl: './events.single.component.html',
   styleUrls: ['./events.single.component.scss']
 })
 
 export class EventsSingleComponent implements AfterViewChecked {
   
+  @Input() inputData: any;
+
   private querySubscription: Subscription;  
   private path: string;
   private lang: string;
@@ -69,6 +72,36 @@ export class EventsSingleComponent implements AfterViewChecked {
     this.participantsUrl = this.settings.url+"/htm_custom_event_registration/registrations/";
   }
 
+  handleData(data){
+    var that = this;
+
+    that.content = data['route'];
+  
+    that.participants = JSON.parse(JSON.stringify(that.content.entity.EventRegistrations));
+
+    if( that.participants ){
+      that.organizeParticipants();
+    }
+
+    if( that.content.entity.fieldEventLocation ){
+      that.map = {
+        "lat": parseFloat(that.content.entity.fieldEventLocation.lat),
+        "lon": parseFloat(that.content.entity.fieldEventLocation.lon),
+        "zoom": parseFloat(that.content.entity.fieldEventLocation.zoom)
+      }
+    }
+    that.unix = new Date().getTime();
+    that.participantsListActiveState = that.participants && location.hash === "#osalejad";
+
+    const langOptions = data['languageSwitchLinks'];
+
+    let langValues = {};
+    for( var i in langOptions ){
+      langValues[langOptions[i].language.id] = langOptions[i].url.path;
+    }
+    that.rootScope.set('langOptions', langValues);
+  }
+
   ngOnInit() {
     this.routerSubscription = this.router.events.subscribe((event) => {
       this.participantsListActiveState = this.participants && location.hash === "#osalejad"
@@ -79,65 +112,51 @@ export class EventsSingleComponent implements AfterViewChecked {
     })
 
 
-    this.route.params.subscribe( params => {
-      this.content = false;
-      this.error = false;
-      const path = this.router.url;
-      const that = this;
-      
-      let url = "/graphql?queryName=getEventSingle&queryId=d8b8e4ea26dfb069301cae715498972dc2f9aff1:1&variables=";
-      let variables = {
-        path: path
-      };
-
-      this.userLoggedOut = this.user.getData()['isExpired'];
-
-      let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
-        let data = response['data'];
-        if ( data['route'] == null ) {
-          that.error = true;
-        } else {
-
-          that.content = data['route'];
-
-          that.participants = JSON.parse(JSON.stringify(that.content.entity.EventRegistrations));
-
-          if( that.participants ){
-            that.organizeParticipants();
-          }
-
-          if( that.content.entity.fieldEventLocation ){
-            that.map = {
-              "lat": parseFloat(that.content.entity.fieldEventLocation.lat),
-              "lon": parseFloat(that.content.entity.fieldEventLocation.lon),
-              "zoom": parseFloat(that.content.entity.fieldEventLocation.zoom)
-            }
-          }
-          that.unix = new Date().getTime();
-          that.participantsListActiveState = that.participants && location.hash === "#osalejad";
-
-          const langOptions = data['route']['languageSwitchLinks'];
-
-          let langValues = {};
-          for( var i in langOptions ){
-            langValues[langOptions[i].language.id] = langOptions[i].url.path;
-          }
-          that.rootScope.set('langOptions', langValues);
-          
-        }
-
-
-        subscribe.unsubscribe();
+    if( this.inputData ){
+      this.handleData({
+        "route": { "entity": this.inputData }
       });
-
+    }else{
+      this.route.params.subscribe( params => {
+        this.content = false;
+        this.error = false;
+        const path = this.router.url;
+        const that = this;
         
-    });
+        let url = "/graphql?queryName=getEventSingle&queryId=d8b8e4ea26dfb069301cae715498972dc2f9aff1:1&variables=";
+        let variables = {
+          path: path
+        };
+  
+        this.userLoggedOut = this.user.getData()['isExpired'];
+  
+        let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+          let data = response['data'];
+          if ( data['route'] == null ) {
+            that.error = true;
+          } else {
+  
+            this.handleData(data);
+            
+          }
+  
+  
+          subscribe.unsubscribe();
+        });
+  
+          
+      });
+    }
+
+    
   }
   ngAfterViewChecked() {
     this.initialTableCheck('participantsElem')
   }
   ngOnDestroy() {
-    this.routerSubscription.unsubscribe();
+    if( this.routerSubscription ){
+      this.routerSubscription.unsubscribe();
+    }
   }
 
   sortByKey(array, key) {
