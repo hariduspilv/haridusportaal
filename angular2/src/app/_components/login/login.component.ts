@@ -4,9 +4,10 @@ import { SideMenuService, RootScopeService } from '@app/_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SettingsService } from '@app/_core/settings';
 import { UserService } from '@app/_services/userService';
+import { taraLoginModal } from '../dialogs/taraLogin/taraLogin.modal';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,8 @@ export class LoginComponent implements OnInit{
 
   taraUrl: any;
 
+  basicLogin: boolean = false;
+
   constructor(
     private route : ActivatedRoute,
     private router: Router,
@@ -37,7 +40,8 @@ export class LoginComponent implements OnInit{
     private sidemenu: SideMenuService,
     private settings: SettingsService,
     private userService: UserService,
-    private rootScope: RootScopeService
+    private rootScope: RootScopeService,
+    public dialog: MatDialog
   ) {
     this.postUrl = this.settings.url+this.settings.login;
   }
@@ -91,9 +95,24 @@ export class LoginComponent implements OnInit{
     });
 
   }
+  openTara() {
+    this.taraUrl = /*this.settings.url+*/"https://htm.wiseman.ee/tara-login";
+
+    window.location = this.taraUrl;
+    /*
+    this.loginVisible = false;
+    
+    this.dialog.open(taraLoginModal, {
+      data: this.taraUrl
+    });*/
+    
+  }
   ngOnInit() {
 
-    this.taraUrl = /*this.settings.url+*/"https://htm.wiseman.ee/tara-login";
+    if( this.settings.url == "https://htm.wiseman.ee/" ){
+      this.basicLogin = true;
+    }
+    
     this.user = this.userService.getData();
   }
 

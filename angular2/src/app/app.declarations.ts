@@ -28,6 +28,7 @@ import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confi
 import { EventsListComponent } from '@app/_components/eventsList/eventsList.component';
 import { SideMenuComponent } from '@app/_components/sidemenu/sidemenu.component';
 import { ChartComponent } from './_components/chart/chart.component';
+import { taraLoginModal } from './_components/dialogs/taraLogin/taraLogin.modal';
 
 export const AppDeclarations = [
   routedComponents,
@@ -39,6 +40,7 @@ export const AppDeclarations = [
   Modal,
   TableModal,
   CheckModal,
+  taraLoginModal,
   VideoComponent,
   SchoolStudyProgrammesComponent,
   StudyProgrammeCompareComponent,
@@ -68,6 +70,7 @@ export const AppEntryComponents = [
   ImagePopupDialog,
   TableModal,
   CheckModal,
+  taraLoginModal,
   Modal,
   VideoComponent,
   StudyProgrammeCompareComponent,

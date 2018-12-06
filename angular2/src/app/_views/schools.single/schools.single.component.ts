@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -8,10 +8,13 @@ import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
 
 @Component({
+  selector: "schools-component",
   templateUrl: './schools.single.component.html',
   styleUrls: ['./schools.single.component.scss']
 })
 export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewChecked {
+
+  @Input() inputData;
 
   loading = true;
   data: any;
@@ -34,6 +37,15 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
     private user: UserService
   ) {}
 
+  handleData(data) {
+    this.loading = false;
+    this.data = data.route.entity;
+    if (data.route.entity.fieldEducationalInstitutionTy.length) {
+      let types = data.route.entity.fieldEducationalInstitutionTy.map(type => type.entity.entityId)
+      this.getOptions(types)
+    }
+  }
+
   ngOnInit() {
 
     let url = "/graphql?queryName=getSchoolSingle&queryId=f71d2bb7d014d18e03d6e5c74257eede72fbdd58:1&variables=";
@@ -44,25 +56,30 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
 
     this.userLoggedOut = this.user.getData()['isExpired'];
 
-    this.querySubscription = this.http.get(url+JSON.stringify(variables)).subscribe(( response ) => {
+    if( this.inputData ){
+      this.handleData({
+        route: { entity: this.inputData }
+      });
+    }else{
+      this.querySubscription = this.http.get(url+JSON.stringify(variables)).subscribe(( response ) => {
 
-      let data = response['data'];
-      this.lang = this.rootScope.get('currentLang');
-      this.loading = false;
-      if( !data['route'] ){
-        this.router.navigateByUrl(`/${this.lang}/404`, {replaceUrl: true});
-      } else if (data) {
-        this.data = data.route.entity;
-        if (data.route.entity.fieldEducationalInstitutionTy.length) {
-          let types = data.route.entity.fieldEducationalInstitutionTy.map(type => type.entity.entityId)
-          this.getOptions(types)
+        let data = response['data'];
+        this.lang = this.rootScope.get('currentLang');
+
+        if( !data['route'] ){
+          this.router.navigateByUrl(`/${this.lang}/404`, {replaceUrl: true});
+        } else if (data) {
+          this.handleData(data);
         }
-      }
-    });
+      });
+    }
+    
   }
 
   ngOnDestroy() {
-    this.querySubscription.unsubscribe();
+    if( this.querySubscription ){
+      this.querySubscription.unsubscribe();
+    }
   }
 
   getOptions(types) {
