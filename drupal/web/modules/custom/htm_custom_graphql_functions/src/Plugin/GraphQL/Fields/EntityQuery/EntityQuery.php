@@ -88,6 +88,9 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
         $metadata->addCacheTags($type->getListCacheTags());
         $metadata->addCacheContexts($type->getListCacheContexts());
 
+        #dump($metadata);
+        #die();
+
         return [$metadata];
     }
 

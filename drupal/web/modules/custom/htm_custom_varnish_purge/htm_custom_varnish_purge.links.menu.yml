@@ -1,0 +1,7 @@
+htm_custom_varnish_purge.varnish_purge_form:
+  title: 'Varnish Purge'
+  route_name: htm_custom_varnish_purge.varnish_purge_form
+  description: 'Configure Varnish Purge'
+  parent: system.admin_config_system
+  weight: 99
+
