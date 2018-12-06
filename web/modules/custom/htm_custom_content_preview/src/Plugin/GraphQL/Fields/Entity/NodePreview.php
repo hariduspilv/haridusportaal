@@ -24,6 +24,7 @@ use Drupal\Core\TempStore\PrivateTempStoreFactory;
  *   arguments = {
  *     "uuid" = "String!"
  *   },
+ *   response_cache_tags = {"preview_cachetag"},
  *   contextual_arguments = {"language"}
  * )
  */
