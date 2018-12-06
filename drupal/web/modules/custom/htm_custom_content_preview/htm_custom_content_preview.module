@@ -40,5 +40,6 @@ function redirectExternal($form, \Drupal\Core\Form\FormStateInterface $form_stat
 	$redirect_url = \Drupal\Core\Url::fromUri($new_url , ['http' => true])->toString();
 	
 	$redirect = new \Drupal\Core\Routing\TrustedRedirectResponse($redirect_url);
+	\Drupal\Core\Cache\Cache::invalidateTags(['preview_cachetag']);
 	$form_state->setResponse($redirect);
 }
