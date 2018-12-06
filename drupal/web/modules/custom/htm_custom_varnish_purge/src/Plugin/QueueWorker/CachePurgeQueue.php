@@ -37,7 +37,7 @@ class CachePurgeQueue extends QueueWorkerBase {
      * {@inheritdoc}
      */
     public function processItem($cache_tag) {
-        $purgeurl = $this->configuration->get('path');
+        $purgeurl = 'http://'.$this->configuration->get('path');
         $varnishcommand = "PURGE";
 
         $client = new Client([
@@ -45,7 +45,7 @@ class CachePurgeQueue extends QueueWorkerBase {
         ]);
 
         $request = $client->request($varnishcommand, $purgeurl, []);
-        $request->setPort( $this->configuration->get('port'));
+        $request->setPort($this->configuration->get('port'));
 
         $client->send($request);
     }
