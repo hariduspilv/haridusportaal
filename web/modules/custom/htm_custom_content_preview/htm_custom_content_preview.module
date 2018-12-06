@@ -22,3 +22,23 @@ function htm_custom_content_preview_help($route_name, RouteMatchInterface $route
     default:
   }
 }
+
+function htm_custom_content_preview_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id){
+	#dump($form);
+	if(isset($form['actions']['preview'])){
+		$form['actions']['preview']['#submit'][] = 'redirectExternal';
+	}
+	#dump($form_id);
+}
+
+function redirectExternal($form, \Drupal\Core\Form\FormStateInterface $form_state){
+	$fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+	$language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+	$old_url = $form_state->getRedirect();
+	
+	$new_url = $fe_url . '/' . $language . '/preview/' . $old_url->getRouteParameters()['node_preview'];
+	$redirect_url = \Drupal\Core\Url::fromUri($new_url , ['http' => true])->toString();
+	
+	$redirect = new \Drupal\Core\Routing\TrustedRedirectResponse($redirect_url);
+	$form_state->setResponse($redirect);
+}
