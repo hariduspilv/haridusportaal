@@ -7,6 +7,7 @@ module:
   block: 0
   block_content: 0
   breakpoint: 0
+  cache_tags: 0
   ckeditor: 0
   color: 0
   comment: 0
@@ -47,6 +48,7 @@ module:
   htm_custom_admin: 0
   htm_custom_admin_form: 0
   htm_custom_authentication: 0
+  htm_custom_content_preview: 0
   htm_custom_datetime_unix: 0
   htm_custom_ehis_connector: 0
   htm_custom_event_registration: 0
@@ -67,6 +69,7 @@ module:
   htm_custom_tara_authentication: 0
   htm_custom_tokens: 0
   htm_custom_translations_new: 0
+  htm_custom_varnish_purge: 0
   htm_custom_video_field: 0
   htm_custom_xjson_services: 0
   image: 0

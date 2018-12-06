@@ -1,83 +1,946 @@
 query nodePreview($uuid: String!) {
-  NodePreviewByUuid(uuid: $uuid) {
-    entityBundle
-    ...article
-  }
+    NodePreviewByUuid(uuid: $uuid) {
+        entityBundle
+        ...article
+        ...news
+        ...event
+        ...oskaDetail
+        ...oskaMainProfession
+        ...oskaSurveyPage
+        ...school
+        ...studyProgramme
+        ...oskaResult
+    }
+}
+
+fragment oskaResult on NodeOskaResultPage {
+    nid
+    entityLabel
+    fieldResultPageIntroduction
+    body {
+        value
+    }
+    fieldResultPagePicture {
+        derivative(style: CROP_LARGE) {
+            url
+            __typename
+        }
+        width
+        height
+        alt
+        title
+        __typename
+    }
+    fieldResultPageSidebar {
+        entity {
+            ... on ParagraphRightSidebarSectionInfo {
+                fieldAdditional {
+                    entity {
+                        ... on ParagraphAdditionalSection {
+                            fieldTitle
+                            fieldAdditionalBody
+                        }
+                    }
+                }
+                fieldContactSection {
+                    entity {
+                        ... on ParagraphContactSection {
+                            fieldPhone
+                            fieldPerson
+                            fieldEmail
+                            fieldOrganization
+                        }
+                    }
+                }
+                fieldRelatedArticle {
+                    url {
+                        path
+                        routed
+                    }
+                    title
+                }
+                fieldHyperlinks {
+                    url {
+                        path
+                    }
+                    title
+                }
+            }
+        }
+    }
+    fieldResultPageVideo {
+        input
+        videoDomain
+        videoDescription
+        videoId
+    }
+    fieldResultPageLinks {
+        url {
+            path
+            __typename
+        }
+        title
+    }
+    fieldResultPageFiles {
+        description
+        entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+            __typename
+        }
+        __typename
+    }
+    fieldResultPageTableFile {
+        description
+        entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+            __typename
+        }
+        __typename
+    }
+    oskaGraphData
+    fieldResultPageGraph {
+        value
+        graphSet
+        graphTitle
+        graphVAxis
+        graphType
+        secondaryGraphType
+        graphIndicator
+        secondaryGraphIndicator
+    }
+}
+
+fragment oskaSurveyPage on NodeOskaSurveyPage {
+    nid
+    entityLabel
+    fieldSurveyPageIntroduction
+    fieldSurveyPagePicture {
+        derivative(style: CROP_LARGE) {
+            url
+            __typename
+        }
+        width
+        height
+        alt
+        title
+        __typename
+    }
+    fieldSurveyPageVideo {
+        input
+        videoDomain
+        videoDescription
+        videoId
+    }
+    body {
+        value
+        processed
+    }
+    fieldSurveyPageLink {
+        url {
+            routed
+            path
+            __typename
+        }
+        title
+        __typename
+    }
+    fieldSurveyPageAttachment {
+        description
+        entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+            __typename
+        }
+        __typename
+    }
+    fieldSurveyPageAccordion {
+        entity {
+            ... on ParagraphSurveyPageAccordion {
+                fieldSurveyAccordionTitle
+                fieldSurveyAccordionContent {
+                    value
+                    __typename
+                }
+                fieldSurveyAccordionLink {
+                    url {
+                        routed
+                        path
+                        __typename
+                    }
+                    title
+                    __typename
+                }
+                __typename
+            }
+            __typename
+        }
+        __typename
+    }
+    fieldSurveyPageSidebar {
+        entity {
+            ... on ParagraphRightSidebarSectionInfo {
+                fieldAdditional {
+                    entity {
+                        ... on ParagraphAdditionalSection {
+                            fieldTitle
+                            fieldAdditionalBody
+                        }
+                    }
+                }
+                fieldContactSection {
+                    entity {
+                        ... on ParagraphContactSection {
+                            fieldPhone
+                            fieldPerson
+                            fieldEmail
+                            fieldOrganization
+                        }
+                    }
+                }
+                fieldRelatedArticle {
+                    url {
+                        path
+                    }
+                    title
+                }
+                fieldHyperlinks {
+                    url {
+                        path
+                    }
+                    title
+                }
+            }
+        }
+    }
+    oskaGraphData
+    fieldSurveyPageGraph {
+        value
+        graphSet
+        graphTitle
+        graphVAxis
+        graphType
+        secondaryGraphType
+        graphIndicator
+        secondaryGraphIndicator
+    }
+}
+
+fragment oskaMainProfession on NodeOskaMainProfessionPage {
+    nid
+    entityLabel
+    fieldFixedLabel
+    fieldIntroduction
+    fieldMainProfessionPicture {
+        derivative(style: CROP_LARGE) {
+            url
+            __typename
+        }
+        width
+        height
+        alt
+        title
+        __typename
+    }
+    fieldOskaMainProfessionVideo {
+        input
+        videoDomain
+        videoDescription
+        videoId
+    }
+    body {
+        value
+        processed
+    }
+    fieldOskaMainProfessionLinks {
+        url {
+            routed
+            path
+            __typename
+        }
+        title
+        __typename
+    }
+    fieldOskaMainProfessionFile {
+        description
+        entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+            __typename
+        }
+        __typename
+    }
+    fieldMainProfessionAccordion {
+        entity {
+            ... on ParagraphMainProfessionAccordion {
+                fieldTitle
+                fieldBody {
+                    value
+                    __typename
+                }
+                fieldLinks {
+                    url {
+                        routed
+                        path
+                        __typename
+                    }
+                    title
+                    __typename
+                }
+                __typename
+            }
+            __typename
+        }
+        __typename
+    }
+    fieldMainProfessionTag {
+        entity {
+            entityLabel
+            __typename
+        }
+        __typename
+    }
+    reverseOskaMainProfessionOskaIndicatorEntity {
+        entities {
+            ... on OskaIndicatorEntity {
+                oskaIndicator
+                value
+            }
+        }
+    }
+    reverseOskaMainProfessionOskaIndicatorEntity {
+        entities {
+            ... on OskaIndicatorEntity {
+                oskaIndicator
+                value
+            }
+        }
+    }
+    fieldSidebar {
+        entity {
+            ... on ParagraphMainProfessionSidebar {
+                fieldPros
+                fieldCons
+                fieldOskaField {
+                    entity {
+                        ... on NodeOskaFieldPage {
+                            entityLabel
+                            entityUrl {
+                                routed
+                                path
+                            }
+                        }
+                    }
+                }
+                fieldIscedfSearchLink {
+                    entity {
+                        ... on ParagraphIscedfSearch {
+                            fieldIscedfSearchText
+                            iscedf_detailed: fieldIscedfSearchTerm {
+                                entity {
+                                    ... on TaxonomyTermIscedF {
+                                        entityId
+                                        entityLabel
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                fieldJobOpportunities {
+                    url {
+                        path
+                        routed
+                    }
+                    title
+                }
+                fieldQualificationStandard {
+                    url {
+                        routed
+                        path
+                    }
+                    title
+                }
+                fieldJobs {
+                    entity {
+                        ... on ParagraphJob {
+                            fieldJobName
+                            fieldJobLink {
+                                url {
+                                    routed
+                                    path
+                                }
+                                title
+                            }
+                        }
+                    }
+                }
+                fieldQuickFind {
+                    url {
+                        routed
+                        path
+                    }
+                    title
+                }
+                fieldContact {
+                    entity {
+                        ... on ParagraphContactSection {
+                            fieldEmail
+                            fieldOrganization
+                            fieldPerson
+                            fieldPhone
+                        }
+                    }
+                }
+            }
+        }
+    }
+    oskaGraphData
+    fieldMainProfessionGraph {
+        value
+        graphSet
+        graphTitle
+        graphVAxis
+        graphType
+        secondaryGraphType
+        graphIndicator
+        secondaryGraphIndicator
+    }
+}
+
+fragment studyProgramme on NodeStudyProgramme {
+    nid
+    entityLabel
+    fieldSchoolWebsite
+    fieldAmountUnit
+    fieldWebPageAddress {
+        uri
+    }
+    fieldQualificationStandardId {
+        entity {
+            entityLabel
+        }
+    }
+    fieldEducationalInstitution {
+        entity {
+            ... on NodeSchool {
+                entityLabel
+                fieldRegistrationCode
+                fieldSchoolContactEmail
+                fieldSchoolContactPhone
+                fieldSchoolLocation {
+                    entity {
+                        ... on ParagraphSchoolLocation {
+                            fieldAddress
+                            fieldLocationType
+                            fieldCoordinates {
+                                lat
+                                lon
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    fieldStudyProgrammeLevel {
+        entity {
+            entityLabel
+        }
+    }
+    fieldDegreeOrDiplomaAwarded {
+        entity {
+            entityLabel
+        }
+    }
+    fieldSpecialization
+    fieldIscedfBoard {
+        entity {
+            entityLabel
+        }
+    }
+    fieldIscedfDetailed {
+        entity {
+            entityLabel
+        }
+    }
+    fieldShortDescription
+    fieldTeachingLanguage {
+        entity {
+            entityLabel
+        }
+    }
+    fieldAmount
+    fieldPracticalTrainingAmount
+    fieldDurationYears
+    fieldDurationMonths
+    fieldAdmissionStatus
+    fieldAccreditationStatus
+    fieldAccreditationValidUntil {
+        value
+        date
+        unix
+    }
+    fieldWebPageAddress {
+        uri
+    }
+    fieldQualificationStandardId {
+        entity {
+            entityLabel
+        }
+    }
+}
+
+fragment school on NodeSchool {
+    isFavorite
+    nid
+    title
+    fieldRegistrationCode
+    fieldOwnershipType {
+        entity {
+            name
+        }
+    }
+    fieldEducationalInstitutionTy {
+        entity {
+            name
+            entityId
+        }
+    }
+    fieldTeachingLanguage {
+        entity {
+            name
+        }
+    }
+    fieldSpecialClass
+    fieldStudentHome
+    fieldSchoolContactPhone
+    fieldSchoolContactEmail
+    fieldSchoolWebpageAddress
+    fieldSchoolLocation {
+        entity {
+            ... on ParagraphSchoolLocation {
+                fieldAddress
+                fieldLocationType
+                fieldSchoolLocation {
+                    entity {
+                        name
+                    }
+                }
+                fieldCoordinates {
+                    lat
+                    lon
+                    zoom
+                }
+            }
+        }
+    }
+}
+
+fragment oskaDetail on NodeOskaFieldPage {
+    nid
+    entityLabel
+    fieldIntroduction
+    fieldOskaFieldPicture {
+        derivative(style: CROP_LARGE) {
+            url
+            __typename
+        }
+        width
+        height
+        alt
+        title
+        __typename
+    }
+    fieldOskaVideo {
+        input
+        videoDomain
+        videoDescription
+        videoId
+    }
+    body {
+        value
+        processed
+    }
+    fieldOskaWebPage {
+        url {
+            routed
+            path
+            __typename
+        }
+        title
+        __typename
+    }
+    fieldOskaAttachmentFile {
+        description
+        entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+            __typename
+        }
+        __typename
+    }
+    fieldOskaFieldAccordion {
+        entity {
+            ... on ParagraphMainProfessionAccordion {
+                fieldTitle
+                fieldBody {
+                    value
+                    __typename
+                }
+                fieldLinks {
+                    url {
+                        routed
+                        path
+                        __typename
+                    }
+                    title
+                    __typename
+                }
+                __typename
+            }
+            __typename
+        }
+        __typename
+    }
+    fieldOskaFieldSidebar {
+        entity {
+            ... on ParagraphOskaFieldSidebar {
+                fieldNumberEmployed
+                fieldNumberEmployedText
+                fieldOskaFieldPros
+                fieldOskaFieldCons
+                fieldOskaMainProfession {
+                    entity {
+                        ... on NodeOskaMainProfessionPage {
+                            entityLabel
+                            entityUrl {
+                                path
+                            }
+                        }
+                    }
+                }
+                fieldOskaFieldQuickFind {
+                    url {
+                        routed
+                        path
+                    }
+                    title
+                }
+                fieldRelatedPages {
+                    url {
+                        routed
+                        path
+                    }
+                    title
+                }
+                fieldOskaFieldContact {
+                    entity {
+                        ... on ParagraphContactSection {
+                            fieldEmail
+                            fieldPerson
+                            fieldPhone
+                            fieldOrganization
+                        }
+                    }
+                }
+            }
+        }
+    }
+    oskaGraphData
+    fieldFieldPageGraph {
+        value
+        graphSet
+        graphTitle
+        graphVAxis
+        graphType
+        secondaryGraphType
+        graphIndicator
+        secondaryGraphIndicator
+    }
+}
+
+fragment event on NodeEvent {
+    isFavorite
+    entityLabel
+    nid
+    RegistrationCount
+    fieldMaxNumberOfParticipants
+    fieldPicture {
+        derivative(style: CROP_LARGE) {
+            url
+        }
+        width
+        height
+        alt
+        title
+    }
+    fieldEventMainDate {
+        value
+        date
+        unix
+    }
+    fieldEventMainStartTime
+    fieldEventMainEndTime
+    EventRegistrations {
+        entities {
+            ... on EventRegEntity {
+                participantCreated: created
+                participantEmail
+                participantPhone
+                participantLastName
+                participantFirstName
+                participantOrganization
+                participantComment
+            }
+        }
+    }
+    fieldAttachmentFile {
+        description
+        entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+        }
+    }
+    fieldEventLocation {
+        name
+        lat
+        lon
+        zoom
+    }
+    fieldEventLocationLink {
+        title
+        uri
+    }
+    fieldOrganizer
+    fieldEventDate {
+        entity {
+            ... on ParagraphEventDate {
+                fieldEventDate {
+                    value
+                    date
+                    unix
+                }
+                fieldEventStartTime
+                fieldEventEndTime
+            }
+        }
+    }
+    fieldEntryType
+    fieldRegistrationDate {
+        entity {
+            ... on ParagraphRegistrationPeriod {
+                fieldRegistrationFirstDate {
+                    value
+                    date
+                    unix
+                }
+                fieldRegistrationLastDate {
+                    value
+                    date
+                    unix
+                }
+            }
+        }
+    }
+    fieldEventLink {
+        url {
+            routed
+            path
+        }
+        title
+    }
+    fieldDescription {
+        value
+    }
+    fieldDescriptionSummary
+    fieldContactPerson
+    fieldContactPhone
+    fieldContactEmail
+    fieldPracticalInformation {
+        value
+        format
+        processed
+    }
+    fieldEventGroup {
+        targetId
+    }
+    fieldTag {
+        entity {
+            entityLabel
+        }
+    }
+    fieldEventType {
+        entity {
+            entityLabel
+        }
+    }
+}
+
+fragment news on NodeNews {
+    isFavorite
+    entityLabel
+    nid
+    created
+    fieldAuthor
+    fieldNewsDescription {
+        value
+    }
+    fieldShortDescription
+    fieldIntroductionImage {
+        derivative(style: CROP_LARGE) {
+            url
+        }
+        alt
+        title
+    }
+    fieldAdditionalImages {
+        derivative(style: CROP_LARGE) {
+            url
+        }
+        alt
+    }
+    fieldNewsLink {
+        url {
+            path
+        }
+        title
+    }
+    fieldTag {
+        entity {
+            entityLabel
+            tid
+        }
+    }
+    fieldNewsVideo {
+        input
+        videoDomain
+        videoDescription
+        videoId
+    }
+    entityUrl {
+        ... on EntityCanonicalUrl {
+            languageSwitchLinks {
+                url {
+                    routed
+                    path
+                    pathAlias
+                    pathInternal
+                }
+            }
+        }
+    }
 }
 
 fragment article on NodeArticle {
-  isFavorite
-  nid
-  title
-  fieldBody {
-    value
-  }
-  fieldBodySummary
-  fieldImage {
-    derivative(style: CROP_LARGE) {
-      url
-    }
-    targetId
-    alt
+    isFavorite
+    nid
     title
-  }
-  fieldVideo {
-    input
-    videoDomain
-    videoDescription
-    videoId
-  }
-  fieldAccordionSection {
-    entity {
-      ... on ParagraphAccordion {
-        fieldAccordionTitle
-        fieldRelatedArticle {
-          url {
-            path
-          }
-          title
-        }
-        fieldBody {
-          value
-        }
-      }
+    fieldBody {
+        value
     }
-  }
-  fieldRightSidebar {
-    entity {
-      ... on ParagraphRightSidebarSectionInfo {
-        fieldAdditional {
-          entity {
-            ... on ParagraphAdditionalSection {
-              fieldTitle
-              fieldAdditionalBody
-            }
-          }
+    fieldBodySummary
+    fieldImage {
+        derivative(style: CROP_LARGE) {
+            url
         }
-        fieldContactSection {
-          entity {
-            ... on ParagraphContactSection {
-              fieldPhone
-              fieldPerson
-              fieldEmail
-              fieldOrganization
-            }
-          }
-        }
-        fieldRelatedArticle {
-          url {
-            path
-          }
-          title
-        }
-        fieldHyperlinks {
-          url {
-            path
-          }
-          title
-        }
-      }
+        targetId
+        alt
+        title
     }
-  }
+    fieldVideo {
+        input
+        videoDomain
+        videoDescription
+        videoId
+    }
+    fieldAccordionSection {
+        entity {
+            ... on ParagraphAccordion {
+                fieldAccordionTitle
+                fieldRelatedArticle {
+                    url {
+                        path
+                    }
+                    title
+                }
+                fieldBody {
+                    value
+                }
+            }
+        }
+    }
+    fieldRightSidebar {
+        entity {
+            ... on ParagraphRightSidebarSectionInfo {
+                fieldAdditional {
+                    entity {
+                        ... on ParagraphAdditionalSection {
+                            fieldTitle
+                            fieldAdditionalBody
+                        }
+                    }
+                }
+                fieldContactSection {
+                    entity {
+                        ... on ParagraphContactSection {
+                            fieldPhone
+                            fieldPerson
+                            fieldEmail
+                            fieldOrganization
+                        }
+                    }
+                }
+                fieldRelatedArticle {
+                    url {
+                        path
+                    }
+                    title
+                }
+                fieldHyperlinks {
+                    url {
+                        path
+                    }
+                    title
+                }
+            }
+        }
+    }
 }
-
