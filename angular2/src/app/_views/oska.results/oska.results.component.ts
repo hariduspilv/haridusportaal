@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RootScopeService } from 'app/_services/rootScopeService';
@@ -6,12 +6,14 @@ import { UserService } from '@app/_services/userService';
 import { TableService } from '@app/_services';
 
 @Component({
+  selector: "oska-results-component",
   templateUrl: "oska.results.template.html",
   styleUrls: ["oska.results.styles.scss"]
 })
 
 export class OskaResultsComponent implements OnInit{
 
+  @Input() inputData:any ;
   public data: any = false;
   public tableData: any = false;
   public filteredTableData: any = false;
@@ -56,32 +58,41 @@ export class OskaResultsComponent implements OnInit{
   }
 
   getData(){
-    let url = "/graphql?queryName=oskaResultPageDetailView&queryId=d0ced119fe027ab9b4a115de022a9237117af136:1&variables=";
-    let variables = {
-      "lang": this.rootScope.get('currentLang'),
-      "path": this.router.url
-    };
-    url+= JSON.stringify(variables);
-    let subscription = this.http.get(url).subscribe( (data) => {
-      if ( data['errors'] ) {
-        this.error = true;
-        return false;
-      } else if ( data['data']['route'] == null ) {
-        this.error = true;
-        return false;
-      } else {
-        this.data = data['data']['route']['entity'];
-      }
+
+    if( this.inputData ){
+      this.data = this.inputData;
       if (this.data.fieldResultPageSidebar) {
         this.sidebarData = this.data.fieldResultPageSidebar.entity;
       }
-      this.setLangLinks(data);
+    }else{
+      let url = "/graphql?queryName=oskaResultPageDetailView&queryId=d0ced119fe027ab9b4a115de022a9237117af136:1&variables=";
+      let variables = {
+        "lang": this.rootScope.get('currentLang'),
+        "path": this.router.url
+      };
+      url+= JSON.stringify(variables);
+      let subscription = this.http.get(url).subscribe( (data) => {
+        if ( data['errors'] ) {
+          this.error = true;
+          return false;
+        } else if ( data['data']['route'] == null ) {
+          this.error = true;
+          return false;
+        } else {
+          this.data = data['data']['route']['entity'];
+        }
+        if (this.data.fieldResultPageSidebar) {
+          this.sidebarData = this.data.fieldResultPageSidebar.entity;
+        }
+        this.setLangLinks(data);
 
-      subscription.unsubscribe();
-    }, (err) => {
-      console.log(err);
-      this.error = true;
-    });
+        subscription.unsubscribe();
+      }, (err) => {
+        console.log(err);
+        this.error = true;
+      });
+    }
+    
   }
   
   filterView() {

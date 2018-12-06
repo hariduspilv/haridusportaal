@@ -1,0 +1,11 @@
+
+htm_custom_varnish_purge.varnish_purge_form:
+  path: '/admin/config/htm_custom_varnish_purge/varnishpurge'
+  defaults:
+    _form: '\Drupal\htm_custom_varnish_purge\Form\VarnishPurgeForm'
+    _title: 'VarnishPurgeForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+

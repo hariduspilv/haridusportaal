@@ -1,6 +1,7 @@
 query nodePreview($uuid: String!) {
     NodePreviewByUuid(uuid: $uuid) {
         entityBundle
+        entityId
         ...article
         ...news
         ...event
@@ -9,6 +10,118 @@ query nodePreview($uuid: String!) {
         ...oskaSurveyPage
         ...school
         ...studyProgramme
+        ...oskaResult
+    }
+}
+
+fragment oskaResult on NodeOskaResultPage {
+    nid
+    entityLabel
+    fieldResultPageIntroduction
+    body {
+        value
+    }
+    fieldResultPagePicture {
+        derivative(style: CROP_LARGE) {
+            url
+            __typename
+        }
+        width
+        height
+        alt
+        title
+        __typename
+    }
+    fieldResultPageSidebar {
+        entity {
+            ... on ParagraphRightSidebarSectionInfo {
+                fieldAdditional {
+                    entity {
+                        ... on ParagraphAdditionalSection {
+                            fieldTitle
+                            fieldAdditionalBody
+                        }
+                    }
+                }
+                fieldContactSection {
+                    entity {
+                        ... on ParagraphContactSection {
+                            fieldPhone
+                            fieldPerson
+                            fieldEmail
+                            fieldOrganization
+                        }
+                    }
+                }
+                fieldRelatedArticle {
+                    url {
+                        path
+                        routed
+                    }
+                    title
+                }
+                fieldHyperlinks {
+                    url {
+                        path
+                    }
+                    title
+                }
+            }
+        }
+    }
+    fieldResultPageVideo {
+        input
+        videoDomain
+        videoDescription
+        videoId
+    }
+    fieldResultPageLinks {
+        url {
+            path
+            __typename
+        }
+        title
+    }
+    fieldResultPageFiles {
+        description
+        entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+            __typename
+        }
+        __typename
+    }
+    fieldResultPageTableFile {
+        description
+        entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+            __typename
+        }
+        __typename
+    }
+    oskaGraphData
+    fieldResultPageGraph {
+        value
+        graphSet
+        graphTitle
+        graphVAxis
+        graphType
+        secondaryGraphType
+        graphIndicator
+        secondaryGraphIndicator
     }
 }
 
@@ -309,7 +422,7 @@ fragment oskaMainProfession on NodeOskaMainProfessionPage {
         }
     }
     oskaGraphData
-    fieldMainProfessionGraph{
+    fieldMainProfessionGraph {
         value
         graphSet
         graphTitle

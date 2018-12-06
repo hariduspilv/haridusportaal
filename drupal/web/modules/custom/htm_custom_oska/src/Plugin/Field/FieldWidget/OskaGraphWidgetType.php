@@ -295,6 +295,27 @@ class OskaGraphWidgetType extends WidgetBase {
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
+
+        foreach($values as $key => $value){
+            $new_values[$key] = [
+                'graph_set' => $value['graph_set'],
+                'graph_title' => $value['graph_options']['graph_title'],
+                'graph_type' => $value['graph_options']['graph_type'],
+                'graph_v_axis' => $value['graph_options']['graph_v_axis'],
+                'graph_indicator' => $value['graph_options']['graph_indicator'],
+                'secondary_graph_type' => isset($value['graph_options']['secondary_graph_type']) ? $value['graph_options']['secondary_graph_type'] : NULL,
+                'secondary_graph_indicator' => isset($value['graph_options']['secondary_graph_indicator']) ? $value['graph_options']['secondary_graph_indicator'] : NULL,
+                'filter_values' => json_encode($value, TRUE),
+            ];
+        }
+
+        return $new_values;
+    }
+
+    /**
      * Validate chart selection.
      */
     public function validateChartVaxisInput(&$element, FormStateInterface &$form_state, $form) {

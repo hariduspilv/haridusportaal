@@ -110,7 +110,7 @@ const appRoutes: Routes = [
 
   { path: ':lang/isikukaart', component: PersonalDataComponent },
 
-  { path: 'preview/:id', component: PreviewComponent },
+  { path: ':lang/preview/:id', component: PreviewComponent },
   { path: '', redirectTo: '/et', pathMatch: 'full' },
   { path: ':lang/404', component: NotFoundComponent },
   { path: '**', component: NotFoundComponent }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FiltersService } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
@@ -7,11 +7,14 @@ import { UserService } from '@app/_services/userService';
 import { HttpService } from '@app/_services/httpService';
 
 @Component({
+  selector: "study-programme-component",
   templateUrl: "studyProgramme.single.template.html",
   styleUrls: ["studyProgramme.single.styles.scss"]
 })
 
 export class StudyProgrammeSingleComponent extends FiltersService implements OnInit{
+
+  @Input() inputData;
 
   parseFloat = parseFloat;
   path: any;
@@ -49,17 +52,21 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
     this.displayRelatedStudyProgrammes = false;
 
 
-    let url = "/graphql?queryName=studyProgrammeSingle&queryId=0d539972ed54436d5d651243ee7754c2d81a5efc:1&variables=";
-    let variables = {
-      path: this.path
-    };
-    
-    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
-      let data = response['data'];
-      this.data = data['route']['entity'];
-    });
-    // Add subscription to main array for destroying
-    this.subscriptions = [ ...this.subscriptions, subscribe];
+    if( this.inputData ){
+      this.data = this.inputData;
+    }else{
+      let url = "/graphql?queryName=studyProgrammeSingle&queryId=0d539972ed54436d5d651243ee7754c2d81a5efc:1&variables=";
+      let variables = {
+        path: this.path
+      };
+      let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+        let data = response['data'];
+        this.data = data['route']['entity'];
+      });
+      // Add subscription to main array for destroying
+      this.subscriptions = [ ...this.subscriptions, subscribe];
+    }
+
   }
 
   ngOnInit() {
