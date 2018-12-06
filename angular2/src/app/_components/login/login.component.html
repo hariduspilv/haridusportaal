@@ -20,10 +20,8 @@
 
     <mat-spinner *ngIf="loader"></mat-spinner>
 
-    <a role="link" mat-raised-button color="primary" href="{{ taraUrl }}">Logi sisse TARA-ga</a>
-
     <!-- REGULAR LOGIN DISABLED-->
-    <form (ngSubmit)="submit()" *ngIf="!loader">
+    <form (ngSubmit)="submit()" *ngIf="!loader && basicLogin">
       <div class="row">
         <div class="col-12 header">{{ 'button.login' | translate | uppercase }}</div>
         <div class="col-12">
@@ -51,6 +49,11 @@
         </div><!--/col-12-->
       </div>
     </form>
+
     <div class="error" role="alert" tabindex="0" *ngIf="error">{{ 'login.error' | translate }}</div>
+
+    <div *ngIf="!loader && basicLogin" style="height:20px;"></div>
+    <button role="button" mat-raised-button color="primary" (click)="openTara()">Logi sisse TARA-ga</button>
+
   </div>
 </span>
