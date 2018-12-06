@@ -1,6 +1,7 @@
 query nodePreview($uuid: String!) {
     NodePreviewByUuid(uuid: $uuid) {
         entityBundle
+        entityId
         ...article
         ...news
         ...event
