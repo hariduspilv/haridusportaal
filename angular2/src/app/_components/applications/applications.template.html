@@ -171,9 +171,9 @@
     <div class="alert">{{ data.message }}</div>
   </div>
   <!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
-  <ng-container>
+  <div class="block-btn--holder">
     <button class="block-btn" role="button" (click)="openDialog()" attr.aria-label="{{'dashboard.add_new_educational_institution' | translate}}">+ {{'dashboard.add_new_educational_institution' | translate}}</button>
-  </ng-container>
+  </div>
   <ng-container *ngIf="data.educationalInstitutions && data.educationalInstitutions.length">
     <div class="accordion">
       <mat-accordion multi>
