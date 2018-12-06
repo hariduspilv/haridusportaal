@@ -47,22 +47,6 @@ class CachePurgeQueue extends QueueWorkerBase {
         $request = $client->request($varnishcommand, $purgeurl, []);
         $request->setPort( $this->configuration->get('port'));
 
-
-        #$response = $client->send($request);
-        dump($client->send($request));
-        die();
-        return json_decode($response->getBody());
-
-        $purgeurl = $this->configuration->get('path').$this->configuration->get('port');
-        $varnishhost = 'Host: ' . $_SERVER['SERVER_NAME'];
-        $varnishcommand = "PURGE";
-        #$this->client->requestAsync('PURGE', $purgeurl);
-        dump($this->client->requestAsync('PURGE', $purgeurl));
-        die();
-
-
-        dump($this->configuration);
-        dump($cache_tag);
-        die();
+        $client->send($request);
     }
 }
