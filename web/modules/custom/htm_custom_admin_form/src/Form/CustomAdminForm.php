@@ -199,7 +199,6 @@ class CustomAdminForm extends ConfigFormBase {
     ->set('emails.email_event_registration.registration_email_body', $form_state->getValue('email_event_registration_body'))
     ->set('emails.email_event_registration.organizer_email_subject', $form_state->getValue('email_event_notice_subject'))
     ->set('emails.email_event_registration.organizer_email_body', $form_state->getValue('email_event_notice_body'))
-
     ->set('emails.email_subscription.create_email_subject', $form_state->getValue('email_subscription_create_subject'))
     ->set('emails.email_subscription.create_email_body', $form_state->getValue('email_subscription_create_body'))
     ->set('emails.email_subscription.update_email_subject', $form_state->getValue('email_subscription_update_subject'))
