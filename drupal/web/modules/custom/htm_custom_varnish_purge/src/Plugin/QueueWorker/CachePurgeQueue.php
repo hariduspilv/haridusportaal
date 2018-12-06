@@ -5,6 +5,9 @@
  */
 namespace Drupal\htm_custom_varnish_purge\Plugin\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
+
 /**
  * Processes Tasks for Learning.
  *
@@ -22,44 +25,41 @@ class CachePurgeQueue extends QueueWorkerBase {
     protected $configuration;
 
     /**
-     * @var \GuzzleHttp\Client
-     */
-    protected $client;
-
-    /**
      * Constructs the Varnish purger.
      *
-     * @param \GuzzleHttp\ClientInterface $http_client
-     *   An HTTP client that can perform remote requests.
      *
      */
-    function __construct(ClientInterface $http_client) {
+    function __construct() {
         $this->configuration = \Drupal::config('htm_custom_varnish_purge.varnishpurge');
-        $this->client = $http_client;
     }
 
     /**
      * {@inheritdoc}
      */
     public function processItem($cache_tag) {
+        $purgeurl = $this->configuration->get('path');
+        $varnishcommand = "PURGE";
 
-        $this->configuration->get('path');
+        $client = new Client([
+            'timeout'  => 30,
+        ]);
+
+        $request = $client->request($varnishcommand, $purgeurl, []);
+        $request->setPort( $this->configuration->get('port'));
+
+
+        #$response = $client->send($request);
+        dump($client->send($request));
+        die();
+        return json_decode($response->getBody());
 
         $purgeurl = $this->configuration->get('path').$this->configuration->get('port');
         $varnishhost = 'Host: ' . $_SERVER['SERVER_NAME'];
         $varnishcommand = "PURGE";
-        $curl = curl_init($purgeurl);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $varnishcommand);
-        curl_setopt($curl, CURLOPT_ENCODING, $varnishhost);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Purge-Cache-Tags: '.$cache_tag
-        ]);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
-
-        $result = curl_exec($curl);
-        dump($result);
+        #$this->client->requestAsync('PURGE', $purgeurl);
+        dump($this->client->requestAsync('PURGE', $purgeurl));
         die();
-        curl_close($curl);
+
 
         dump($this->configuration);
         dump($cache_tag);
