@@ -47,7 +47,6 @@ export class HttpService {
 
   get(url, inputHeaders:object = {} ) {
 
-    console.log(inputHeaders['withCredentials']);
     url = this.parseUrl(url);
     let headers = this.createAuthorizationHeader();
     return this.http.get(url, {
