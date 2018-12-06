@@ -79,19 +79,23 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
 	 */
 	function htm_custom_admin_validate(&$form, FormStateInterface $form_state){
 
-	    $main_event_date = $form_state->getValue('field_event_main_date')[0]['value']->getPhpDateTime()->getTimestamp();
-	    $event_field_values = $form_state->getValue('field_event_date');
-	    foreach($event_field_values as $key => $value){
-	        if(is_int($key)){
-	            $event_dates[] = $event_field_values[$key]['subform']['field_event_date'][0]['value']->getPhpDateTime()->getTimestamp();
+	    $main_event_date = $form_state->getValue('field_event_main_date')[0]['value'];
+	    
+	    if($main_event_date instanceof Drupal\Core\DateTime\DrupalDateTime){
+            $main_event_date = $main_event_date->getPhpDateTime()->getTimestamp();
+            $event_field_values = $form_state->getValue('field_event_date');
+            foreach($event_field_values as $key => $value){
+                if(is_int($key)){
+                    $event_dates[] = $event_field_values[$key]['subform']['field_event_date'][0]['value']->getPhpDateTime()->getTimestamp();
+                }
             }
-        }
 
-        if(isset($event_dates)){
-            foreach($event_dates as $key => $event_date){
-                if($event_date < $main_event_date){
-                    $error_element = 'field_event_date]['.$key.'][subform][field_event_date][0';
-                    $form_state->setErrorByName($error_element, t('Event additional date should be later than main date.'));
+            if(isset($event_dates)){
+                foreach($event_dates as $key => $event_date){
+                    if($event_date < $main_event_date){
+                        $error_element = 'field_event_date]['.$key.'][subform][field_event_date][0';
+                        $form_state->setErrorByName($error_element, t('Event additional date should be later than main date.'));
+                    }
                 }
             }
         }
