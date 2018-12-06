@@ -1,0 +1,15 @@
+<div class="dialog" cdkTrapFocus>
+    <div class="row">
+      <div class="col-12" style="position: relative;">
+        <span class="dialog__text--medium">Logi sisse TARA-ga</span>
+        <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
+          <span class="htm-icon">close
+            <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0"></button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="dialog__success--modal dialog__success--modal--table">
+      <iframe width="100%" height="400px" [src]="url"></iframe>
+    </div>
+  </div>
