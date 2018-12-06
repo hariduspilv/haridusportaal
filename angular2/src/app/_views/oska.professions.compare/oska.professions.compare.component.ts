@@ -77,8 +77,9 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   }
   removeItemFromList(id, localStorageKey){
     let existing = this.readFromLocalStorage(localStorageKey);
-    this.removeItemFromLocalStorage(id, localStorageKey, existing)
-    this.list = this.list.filter(item => item.nid != id);
+    this.removeItemFromLocalStorage(id, localStorageKey, existing);
+    let data = this.list.filter(item => item.nid != id);
+    this.formatData(data);
     
     if(!this.list.length) this.rerouteToParent();
   }
@@ -100,37 +101,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     
     this.http.get(this.url).subscribe(response => {
       let data = response['data']['nodeQuery']['entities'];
-      data.forEach((elem, index) => {
-        if(elem.fieldSidebar) {
-          elem.fieldSidebar.entity.fieldOskaField.forEach((oska, indexVal) => {
-            this.oskaFields[index] = this.oskaFields[index] ? [...this.oskaFields[index], oska] : [oska];
-            if(this.oskaFieldsMaxLength < indexVal) {this.oskaFieldsMaxLength = indexVal};
-          });
-        };
-        if(elem.reverseOskaMainProfessionOskaIndicatorEntity && elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.length) {
-          elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.forEach((term, indexVal2) => {
-            this.termFields[index] = this.termFields[index] ? [...this.termFields[index], term] : [term];
-            if(this.termFieldsMaxLength < indexVal2) {this.termFieldsMaxLength = indexVal2};
-          });
-        };
-        if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldPros && elem.fieldSidebar.entity.fieldPros.length) {
-          elem.fieldSidebar.entity.fieldPros.forEach((pro, indexVal3) => {
-            this.prosFields[index] = this.prosFields[index] ? [...this.prosFields[index], pro] : [pro];
-            this.prosFieldsMaxLength = indexVal3 + 1;
-          });
-        };
-        if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldCons && elem.fieldSidebar.entity.fieldCons.length) {
-          elem.fieldSidebar.entity.fieldCons.forEach((con, indexVal4) => {
-            this.consFields[index] = this.consFields[index] ? [...this.consFields[index], con] : [con];
-            this.consFieldsMaxLength = indexVal4 + 1;
-          });
-        };
-      })
-      this.oskaFieldsArr = this.oskaFieldsMaxLength ? Array(this.oskaFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
-      this.termFieldsArr = this.termFieldsMaxLength ? Array(this.termFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
-      this.prosFieldsArr = this.prosFieldsMaxLength ? Array(this.prosFieldsMaxLength).fill(0).map((x,i)=>i) : [];
-      this.consFieldsArr = this.consFieldsMaxLength ? Array(this.consFieldsMaxLength).fill(0).map((x,i)=>i) : [];
-      this.list = data;
+      this.formatData(data);
       this.loading = false;
       if(!this.list.length) {
         this.rerouteToParent();
@@ -141,6 +112,56 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       console.log(err);
       this.loading = false;
     });
+  }
+
+  formatData(data) {
+    this.resetValues();
+    data.forEach((elem, index) => {
+      if(elem.fieldSidebar) {
+        elem.fieldSidebar.entity.fieldOskaField.forEach((oska, indexVal) => {
+          this.oskaFields[index] = this.oskaFields[index] ? [...this.oskaFields[index], oska] : [oska];
+          if(this.oskaFieldsMaxLength < indexVal) {this.oskaFieldsMaxLength = indexVal};
+        });
+      };
+      if(elem.reverseOskaMainProfessionOskaIndicatorEntity && elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.length) {
+        elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.forEach((term, indexVal2) => {
+          this.termFields[index] = this.termFields[index] ? [...this.termFields[index], term] : [term];
+          if(this.termFieldsMaxLength < indexVal2) {this.termFieldsMaxLength = indexVal2};
+        });
+      };
+      if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldPros && elem.fieldSidebar.entity.fieldPros.length) {
+        elem.fieldSidebar.entity.fieldPros.forEach((pro, indexVal3) => {
+          this.prosFields[index] = this.prosFields[index] ? [...this.prosFields[index], pro] : [pro];
+          this.prosFieldsMaxLength = indexVal3 + 1;
+        });
+      };
+      if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldCons && elem.fieldSidebar.entity.fieldCons.length) {
+        elem.fieldSidebar.entity.fieldCons.forEach((con, indexVal4) => {
+          this.consFields[index] = this.consFields[index] ? [...this.consFields[index], con] : [con];
+          this.consFieldsMaxLength = indexVal4 + 1;
+        });
+      };
+    })
+    this.oskaFieldsArr = this.oskaFieldsMaxLength ? Array(this.oskaFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
+    this.termFieldsArr = this.termFieldsMaxLength ? Array(this.termFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
+    this.prosFieldsArr = this.prosFieldsMaxLength ? Array(this.prosFieldsMaxLength).fill(0).map((x,i)=>i) : [];
+    this.consFieldsArr = this.consFieldsMaxLength ? Array(this.consFieldsMaxLength).fill(0).map((x,i)=>i) : [];
+    this.list = data;
+  }
+
+  resetValues() {
+    this.oskaFields = {};
+    this.termFields = {};
+    this.prosFields = {};
+    this.consFields = {};
+    this.oskaFieldsMaxLength = 0;
+    this.termFieldsMaxLength = 0;
+    this.prosFieldsMaxLength = 0;
+    this.consFieldsMaxLength = 0;
+    this.oskaFieldsArr = [];
+    this.termFieldsArr = [];
+    this.prosFieldsArr = [];
+    this.consFieldsArr = [];
   }
 
   @HostListener("window:scroll", [])
