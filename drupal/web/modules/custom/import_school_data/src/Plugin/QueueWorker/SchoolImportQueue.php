@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\import_school_data\Plugin\QueueWorker\SchoolImportQueue.
+ * Contains \Drupal\import_school_data\Plugin\QueueWorker\CachePurgeQueue.
  */
 namespace Drupal\import_school_data\Plugin\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
