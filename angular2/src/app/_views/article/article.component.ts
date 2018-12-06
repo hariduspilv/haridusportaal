@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Params, Router, ActivatedRoute } from '@angular/router';
@@ -12,12 +12,14 @@ import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
 
 @Component({
-  selector: "ArticleComponent",
+  selector: "article-component",
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss']
 })
 
 export class ArticleComponent implements OnInit, OnDestroy{
+
+  @Input() inputData: any;
 
   private querySubscription: Subscription;  
   private path: string;
@@ -54,71 +56,78 @@ export class ArticleComponent implements OnInit, OnDestroy{
     private user: UserService
     ) {}
   
+  parseData( data ){
+    //language service
+    const langOptions = data['languageSwitchLinks'];
+    let langValues = {};
+    for( var i in langOptions ){
+      langValues[langOptions[i].language.id] = langOptions[i].url.path;
+    }
+    this.rootScope.set('langOptions', langValues);
+    //language service
+    
+    data = data['entity'] || data;
+    this.content = data;
+    this.accordionSection = data['fieldAccordionSection'];
+    this.fieldRightSidebar = data['fieldRightSidebar'];
+    
+    if (this.fieldRightSidebar !== null) {
+      
+      this.fieldRightSidebar = data['fieldRightSidebar']['entity'];
+      
+      this.fieldContactSection = this.fieldRightSidebar['fieldContactSection'];
+      this.fieldAdditional = this.fieldRightSidebar['fieldAdditional'];
+      this.articleLinks = this.fieldRightSidebar['fieldHyperlinks'];
+      this.relatedArticles = this.fieldRightSidebar['fieldRelatedArticle'];        
+      
+      if(this.fieldAdditional !== null) {
+        
+        this.fieldAdditional = this.fieldRightSidebar['fieldAdditional']['entity'];
+        this.fieldAdditionalTitle = this.fieldAdditional['fieldTitle'];
+        this.fieldAdditionalBody = this.fieldAdditional['fieldAdditionalBody'];
+      }
+      
+      if(this.fieldContactSection !== null) {
+        
+        this.fieldContactSection = this.fieldRightSidebar['fieldContactSection']['entity'];
+        this.fieldContactPerson = this.fieldContactSection['fieldPerson'];
+        this.fieldContactPhone = this.fieldContactSection['fieldPhone'];
+        this.fieldContactEmail = this.fieldContactSection['fieldEmail'];
+        this.fieldContactOrganization = this.fieldContactSection['fieldOrganization'];
+      }
+    }
+  }
   ngOnInit() {
     
-    this.route
-      .data
-      .subscribe(v => console.log(v));
+    this.route.data.subscribe(v => console.log(v));
 
-      
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.lang = params['lang'];
-        let url = "/graphql?queryName=getArticleData&queryId=734e267b92117f3ce44a22f5602e0624ded25f3f:1&variables=";
-        let variables = {
-          "path": this.router.url
-        };
-
-        this.querySubscription = this.http.get(url+JSON.stringify(variables))
-        .subscribe( (response) => {
-          this.userLoggedOut = this.user.getData()['isExpired'];
-          let data = response['data'];
-          //language service
-          const langOptions = data['route']['languageSwitchLinks'];
-          let langValues = {};
-          for( var i in langOptions ){
-            langValues[langOptions[i].language.id] = langOptions[i].url.path;
-          }
-          this.rootScope.set('langOptions', langValues);
-          //language service
-          
-          this.content = data['route']['entity'];
-          this.accordionSection = data['route']['entity']['fieldAccordionSection'];
-          this.fieldRightSidebar = data['route']['entity']['fieldRightSidebar'];
-          
-          if (this.fieldRightSidebar !== null) {
-            
-            this.fieldRightSidebar = data['route']['entity']['fieldRightSidebar']['entity'];
-            
-            this.fieldContactSection = this.fieldRightSidebar['fieldContactSection'];
-            this.fieldAdditional = this.fieldRightSidebar['fieldAdditional'];
-            this.articleLinks = this.fieldRightSidebar['fieldHyperlinks'];
-            this.relatedArticles = this.fieldRightSidebar['fieldRelatedArticle'];        
-            
-            if(this.fieldAdditional !== null) {
-              
-              this.fieldAdditional = this.fieldRightSidebar['fieldAdditional']['entity'];
-              this.fieldAdditionalTitle = this.fieldAdditional['fieldTitle'];
-              this.fieldAdditionalBody = this.fieldAdditional['fieldAdditionalBody'];
-            }
-            
-            if(this.fieldContactSection !== null) {
-              
-              this.fieldContactSection = this.fieldRightSidebar['fieldContactSection']['entity'];
-              this.fieldContactPerson = this.fieldContactSection['fieldPerson'];
-              this.fieldContactPhone = this.fieldContactSection['fieldPhone'];
-              this.fieldContactEmail = this.fieldContactSection['fieldEmail'];
-              this.fieldContactOrganization = this.fieldContactSection['fieldOrganization'];
-            }
-          }
-        });
-      }
-    )
+    if( this.inputData ){
+      this.parseData( this.inputData );
+    }else{
+      this.route.params.subscribe(
+        (params: ActivatedRoute) => {
+          this.lang = params['lang'];
+          let url = "/graphql?queryName=getArticleData&queryId=734e267b92117f3ce44a22f5602e0624ded25f3f:1&variables=";
+          let variables = {
+            "path": this.router.url
+          };
+  
+          this.querySubscription = this.http.get(url+JSON.stringify(variables))
+          .subscribe( (response) => {
+            this.userLoggedOut = this.user.getData()['isExpired'];
+            let data = response['data']['route'];
+            this.parseData( data );
+          });
+        }
+      )
+    }
     
   }
   
   ngOnDestroy() {
-    this.querySubscription.unsubscribe();
+    if( this.querySubscription ){
+      this.querySubscription.unsubscribe();
+    }
   }
   
 }

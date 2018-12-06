@@ -20,7 +20,7 @@
   </ng-container>
 </ng-template>
 
-<breadcrumbs></breadcrumbs>
+<breadcrumbs *ngIf="!inputData"></breadcrumbs>
 <div class="main-container">
 
   <mat-spinner *ngIf="loading"></mat-spinner>
