@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_varnish_purge.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function htm_custom_varnish_purge_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the htm_custom_varnish_purge module.
+    case 'help.page.htm_custom_varnish_purge':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for Varnish Purge') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+function htm_custom_varnish_purge_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
+
+    $cache_tags = $entity->getCacheTagsToInvalidate();
+
+    /** @var QueueFactory $queue_factory */
+    $queue_factory = \Drupal::service('queue');
+    /** @var QueueInterface $queue */
+    $queue = $queue_factory->get('cron_purge_cache_tags');
+
+    foreach($cache_tags as $cache_tag){
+        $queue->createItem($cache_tag);
+    }
+}
