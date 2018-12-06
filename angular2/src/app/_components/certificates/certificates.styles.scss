@@ -12,6 +12,7 @@ h4.title-lg-padding { margin-bottom: 1rem; }
   }
   mat-panel-title { white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+    @include break-on(sm, min) {span {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}}
   }
   &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid #15adc2;
     mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
@@ -21,7 +22,9 @@ h4.title-lg-padding { margin-bottom: 1rem; }
   &-body { padding: 0 $medium !important;}
   &-spacing {margin: 0 0 $half-gutter 0;}
   &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;background: #bee3e8!important;
-    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;background: transparent!important;}
+    &.mat-expanded {height: 2.5rem !important;margin-top: 0;font-weight: 500;white-space: normal;padding-top: 0;background: transparent!important;
+      @include break-on(sm, max) {height: auto !important;padding-top: .5rem; padding-bottom: .5rem;}
+    }
   }
   &:hover {
     border-left: .1875rem solid #15adc2;
@@ -123,7 +126,9 @@ h4.title-lg-padding { margin-bottom: 1rem; }
   }
     &-link{ text-decoration: none; }
 }
-
+@supports (-ms-ime-align:auto) {
+  .grid-item {flex-basis: calc(50% - 2.25rem);}
+}
 .grid-load {display: flex; justify-content: center; 
   @include break-on(sm, max) { margin-top: 1rem; }
 }

@@ -56,16 +56,16 @@ export class DashboardFormDialog {
       this.address = this.data.institutionInfo.address.addressHumanReadable || "";
       this.form = this.fb.group({
         contactPhone: [this.contactPhone, []],
-        contactEmail: [this.contactEmail, [Validators.email]],
-        webpageAddress: [this.webpageAddress, []],
+        contactEmail: [this.contactEmail, [Validators.pattern]],
+        webpageAddress: [this.webpageAddress, [Validators.pattern]],
         address: [this.address, []]
       });
     } else {
       this.form = this.fb.group({
         contactPhone: [this.contactPhone, [Validators.required]],
-        contactEmail: [this.contactEmail, [Validators.required, Validators.email]],
+        contactEmail: [this.contactEmail, [Validators.required, Validators.pattern]],
         webpageAddress: [this.webpageAddress, [Validators.required]],
-        address: [this.address, [Validators.required]],
+        address: [this.address, [Validators.required, Validators.pattern]],
         name: [this.name, [Validators.required]],
         nameENG: [this.nameENG, []],
         ownerType: [this.ownerType, [Validators.required]],
@@ -176,5 +176,9 @@ export class DashboardFormDialog {
 
   isInvalidField(field): boolean {
     return this.form.controls[field].invalid && this.form.controls[field].value && this.form.controls[field].dirty
+  }
+  
+  loseFocus(event) {
+    if (!event) {(document.activeElement as HTMLElement).blur();}
   }
 }
