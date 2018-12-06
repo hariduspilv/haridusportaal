@@ -134,7 +134,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms);
   }
 
-  fetchData(){
+  fetchData(update){
     let request_boolean = this.loading['initial'] === true ? 1 : 0;
    
     let subscription = this.http.get('/dashboard/applications/'+ request_boolean +'?_format=json').subscribe(response => {
@@ -168,7 +168,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         }
       }
       
-      if(this.loading.initial === true) this.loading.initial = false;
+      if (this.loading.initial === true && !update) {
+        this.loading.initial = false;
+      }
       subscription.unsubscribe();
 
       if((Date.now() - this.startTime)/1000 < REQUEST_ITERATOR_LIFETIME ){
@@ -176,7 +178,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         this.loading['interval'] = true;
         let self = this;
         this.request_iterator = setTimeout(() => {
-          self.fetchData();
+          self.fetchData(false);
         }, this.request_iterator_timeout);
       } else {
         this.loading['interval'] = false;
@@ -215,7 +217,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         this.startTime = Date.now();
         this.loading['initial'] = true;
         this.request_iterator_timeout = 2000;
-        this.fetchData();
+        this.fetchData(true);
       }
 		});
 	}
@@ -227,7 +229,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     this.pathWatcher();
     this.startTime = Date.now();
     this.loading['initial'] = true;
-    this.fetchData();
+    this.fetchData(false);
   }
   
   ngAfterViewChecked() {
