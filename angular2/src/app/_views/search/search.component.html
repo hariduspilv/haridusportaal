@@ -25,7 +25,7 @@
             (focus)="populateSuggestionList(param, 300)"
             role="combobox"
             aria-autocomplete="both"
-            autocomplete="on"
+            autocomplete="off"
             aria-owns="matAutocomplete"
             name="param" 
             id="param"
@@ -36,12 +36,12 @@
               id="matAutocomplete"
               [(ngModel)]='param' 
               (optionSelected)="autocompleteLoader = false;suggestionList = [];getResults(param, [])">
-              <ng-container *ngIf="autocompleteLoader">
+              <ng-container *ngIf="autocompleteLoader && param">
                 <mat-option [value]="" disabled="true">
                   <span>{{'search.searching_please_wait' | translate }}</span>
                 </mat-option>
               </ng-container>
-              <ng-container *ngIf="autocompleteLoader == false && suggestionList">
+              <ng-container *ngIf="autocompleteLoader == false && suggestionList && param">
                 <mat-option *ngIf="!suggestionList.length" [value]="" disabled="true">
                   <span *ngIf="param && param.length < 3">{{'search.not_found_required_chars' | translate }}</span>
                   <span *ngIf="param && param.length >= 3">{{'search.not_found' | translate }}</span>
@@ -69,9 +69,9 @@
       <div *ngIf="filteredResults && filteredResults.length" class="search__title--filter">{{ 'search.filter_results' | translate }}:</div>
       <ng-container *ngIf="filteredResults && filteredResults.length">
         <div class="search__chips" role="group" attr.aria-label="Search filter">
-          <a id="initial" (keyup.enter)="filterAll()" (click)="filterAll()" *ngIf="results && results.length" href="javascript:void(0)" attr.aria-label="Filter: {{'button.all' | translate}} {{'search.results' | translate}}, status: {{allFilters ? 'On': 'Off'}}, count: {{ results.length }}" class="search__chips--chip pointer" [class.selected]="allFilters">{{'button.all' | translate}} <span>({{results.length}})</span></a>
+          <a role="alert" id="initial" (keyup.enter)="filterAll()" (click)="filterAll()" *ngIf="results && results.length" href="javascript:void(0)" attr.aria-label="{{'button.all' | translate}} {{'search.results' | translate}}, status: {{allFilters ? 'On': 'Off'}}, count: {{ results.length }}" class="search__chips--chip pointer" [class.selected]="allFilters">{{'button.all' | translate}} <span>({{results.length}})</span></a>
           <ng-container *ngFor="let chip of types; let i = index;">
-            <a role="button" *ngIf="chip.sum" href="javascript:void(0)" attr.aria-label="{{chip.name | translate}}, status: {{chip.value ? 'On': 'Off'}}, count: {{ chip.sum }}" (click)="filterView(i)" class="search__chips--chip pointer" [class.selected]="chip.value">{{chip.name | translate}} <span>({{chip.sum}})</span></a>
+            <a role="button" *ngIf="chip.sum" href="javascript:void(0)" attr.aria-label="Filter: {{chip.name | translate}}, status: {{chip.value ? 'On': 'Off'}}, count: {{ chip.sum }}" (click)="filterView(i)" class="search__chips--chip pointer" [class.selected]="chip.value">{{chip.name | translate}} <span>({{chip.sum}})</span></a>
           </ng-container>
         </div>
       </ng-container>

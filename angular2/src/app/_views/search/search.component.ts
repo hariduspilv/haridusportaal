@@ -189,6 +189,10 @@ export class SearchComponent {
   checkForAllFilters() {
     return this.types.filter((type) => type.value || !type.sum).length === 6 || this.types.filter((type) => !type.value).length === 6;
   }
+  
+  // checkForSingleFilter() {
+  //   return this.types.filter((type) => type.value || !type.sum).length === 1 || this.types.filter((type) => !type.value).length === 1;
+  // }
 
   filterAll() {
     this.typeArr = [];
