@@ -16,7 +16,7 @@
           (blur)="searchFocus = false"
           role="combobox"
           aria-autocomplete="both"
-          autocomplete="on"
+          autocomplete="off"
           aria-owns="matAutocomplete"
           name="param" 
           id="param"
@@ -27,12 +27,12 @@
             id="matAutocomplete"
             [(ngModel)]='param' 
             (optionSelected)="autocompleteLoader = false;suggestionList = [];searchRoute(param)">
-            <ng-container *ngIf="autocompleteLoader">
+            <ng-container *ngIf="autocompleteLoader && param">
               <mat-option [value]="" disabled="true">
                 <span>{{'search.searching_please_wait' | translate }}</span>
               </mat-option>
             </ng-container>
-            <ng-container *ngIf="autocompleteLoader == false && suggestionList">
+            <ng-container *ngIf="autocompleteLoader == false && suggestionList && param">
               <mat-option *ngIf="!suggestionList.length" [value]="" disabled="true">
                 <span *ngIf="param && param.length < 3">{{'search.not_found_required_chars' | translate }}</span>
                 <span *ngIf="param && param.length >= 3">{{'search.not_found' | translate }}</span>
