@@ -26,7 +26,7 @@ use Drupal\graphql\Utility\StringHelper;
  *     "elasticsearch_index" = "[String!]",
  *     "fields" = {
  *       "type" = "[String]",
- *       "default" = "['*']"
+ *       "default" = {"*"},
  *     },
  *     "search_input" = "String!",
  *     "limit" = "Int",
@@ -82,6 +82,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         $responsevalues = [];
         $this->autocomplete_values = [];
         $this->search_input = $args['search_input'];
+        $this->autocomplete_limit = $args['limit'];
         $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
         $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
         $elasticsearch_pass = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['password'];
@@ -140,9 +141,31 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
     protected function getElasticQuery($args){
 
+        $score_fields = [];
+
         $params = [
             'index' => $args['elasticsearch_index']
         ];
+
+        if(isset($args['score']['conditions'])){
+            foreach($args['score']['conditions'] as $value){
+                $score_terms = explode(" ", $args['score']['search_value']);
+                foreach($score_terms as $term){
+                    $score_fields[$value['field']] = [
+                        'query' => $term,
+                        'slop' => $value['weight']
+                    ];
+                }
+            }
+        }
+
+        foreach($args['fields'] as $value){
+            $fields[$value] = [
+                'pre_tags' => '<highl>',
+                'post_tags' => '</highl>',
+                'require_field_match' => false
+            ];
+        }
 
         $query = [
             'query' => [
@@ -150,15 +173,22 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                     'query' => '*'.$args['search_input'].'*',
                 ]
             ],
-            'highlight' => [
-                'order' => 'score',
-                'fields' => [
-                    '*' => [
-                        'pre_tags' => '<highl>',
-                        'post_tags' => '</highl>',
-                        'require_field_match' => false
+            'rescore' => [
+                'window_size' => 60,
+                'query' => [
+                    'rescore_query' => [
+                        'match_phrase' => [
+                            'title' => [
+                                'query' => $args['search_input'],
+                                'slop' => 5
+                            ]
+                        ]
                     ]
                 ]
+            ],
+            'highlight' => [
+                'order' => 'score',
+                'fields' => $fields
             ]
         ];
 
@@ -176,7 +206,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         preg_match_all($regex, $item, $matches);
         $item = explode(" ",$item);
         $item_length = count($item);
-        if(count($matches[0]) == str_word_count($this->search_input)){
+        if(count($matches[0]) == count(preg_split('/\s+/', $this->search_input))){
             foreach($matches[0] as $match){
                 if(mb_strlen($match) < 50){
                     is_int(array_search($match, $item)) ? $array_locations[] = array_search($match, $item) : null;
@@ -188,7 +218,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
             $matches_count = count($array_locations);
 
-            if(isset($array_locations) && $matches_count <= 3){
+            if(isset($array_locations) && $matches_count <= 4){
 
                 if($matches_count == 1){
                     foreach($array_locations as $location){
@@ -225,8 +255,9 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                     }
                 }
 
-                #sort the array again after adding new locations
-                asort($array_locations);
+                if(count($array_locations) > $this->autocomplete_limit){
+                    array_splice($array_locations, $this->autocomplete_limit);
+                }
 
                 #clean values for output and extract only values, that are needed for output
                 foreach($array_locations as $location){
@@ -237,8 +268,6 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
                 $mandatory_args = explode(" ", $this->search_input);
                 $autocomplete_value = implode(" ", $autocomplete_value_items);
-                #dump($mandatory_args);
-                #dump($autocomplete_value);
                 $correct_value = true;
                 foreach($mandatory_args as $value){
                     if(fnmatch(mb_strtolower('*'.$value.'*'), mb_strtolower($autocomplete_value)) == false){
