@@ -82,6 +82,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         $responsevalues = [];
         $this->autocomplete_values = [];
         $this->search_input = $args['search_input'];
+        $this->autocomplete_limit = $args['limit'];
         $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
         $elasticsearch_user = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['username'];
         $elasticsearch_pass = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('options')['password'];
@@ -254,8 +255,8 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                     }
                 }
 
-                if(count($array_locations) > 10){
-                    array_splice($array_locations, 10);
+                if(count($array_locations) > $this->autocomplete_limit){
+                    array_splice($array_locations, $this->autocomplete_limit);
                 }
 
                 #clean values for output and extract only values, that are needed for output
