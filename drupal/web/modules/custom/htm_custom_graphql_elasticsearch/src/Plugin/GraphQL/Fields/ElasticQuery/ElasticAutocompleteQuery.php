@@ -176,7 +176,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         preg_match_all($regex, $item, $matches);
         $item = explode(" ",$item);
         $item_length = count($item);
-        if(count($matches[0]) == str_word_count($this->search_input)){
+        if(count($matches[0]) == count(preg_split('/\s+/', $this->search_input))){
             foreach($matches[0] as $match){
                 if(mb_strlen($match) < 50){
                     is_int(array_search($match, $item)) ? $array_locations[] = array_search($match, $item) : null;
@@ -188,7 +188,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
             $matches_count = count($array_locations);
 
-            if(isset($array_locations) && $matches_count <= 3){
+            if(isset($array_locations) && $matches_count <= 4){
 
                 if($matches_count == 1){
                     foreach($array_locations as $location){
@@ -225,8 +225,9 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                     }
                 }
 
-                #sort the array again after adding new locations
-                asort($array_locations);
+                if(count($array_locations) > 10){
+                    array_splice($array_locations, 10);
+                }
 
                 #clean values for output and extract only values, that are needed for output
                 foreach($array_locations as $location){
@@ -237,8 +238,6 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
                 $mandatory_args = explode(" ", $this->search_input);
                 $autocomplete_value = implode(" ", $autocomplete_value_items);
-                #dump($mandatory_args);
-                #dump($autocomplete_value);
                 $correct_value = true;
                 foreach($mandatory_args as $value){
                     if(fnmatch(mb_strtolower('*'.$value.'*'), mb_strtolower($autocomplete_value)) == false){
