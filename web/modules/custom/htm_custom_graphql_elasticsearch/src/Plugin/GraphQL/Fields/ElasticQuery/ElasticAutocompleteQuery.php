@@ -26,7 +26,7 @@ use Drupal\graphql\Utility\StringHelper;
  *     "elasticsearch_index" = "[String!]",
  *     "fields" = {
  *       "type" = "[String]",
- *       "default" = "['*']"
+ *       "default" = {"*"},
  *     },
  *     "search_input" = "String!",
  *     "limit" = "Int",
@@ -140,9 +140,31 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
     protected function getElasticQuery($args){
 
+        $score_fields = [];
+
         $params = [
             'index' => $args['elasticsearch_index']
         ];
+
+        if(isset($args['score']['conditions'])){
+            foreach($args['score']['conditions'] as $value){
+                $score_terms = explode(" ", $args['score']['search_value']);
+                foreach($score_terms as $term){
+                    $score_fields[$value['field']] = [
+                        'query' => $term,
+                        'slop' => $value['weight']
+                    ];
+                }
+            }
+        }
+
+        foreach($args['fields'] as $value){
+            $fields[$value] = [
+                'pre_tags' => '<highl>',
+                'post_tags' => '</highl>',
+                'require_field_match' => false
+            ];
+        }
 
         $query = [
             'query' => [
@@ -150,15 +172,22 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                     'query' => '*'.$args['search_input'].'*',
                 ]
             ],
-            'highlight' => [
-                'order' => 'score',
-                'fields' => [
-                    '*' => [
-                        'pre_tags' => '<highl>',
-                        'post_tags' => '</highl>',
-                        'require_field_match' => false
+            'rescore' => [
+                'window_size' => 60,
+                'query' => [
+                    'rescore_query' => [
+                        'match_phrase' => [
+                            'title' => [
+                                'query' => $args['search_input'],
+                                'slop' => 5
+                            ]
+                        ]
                     ]
                 ]
+            ],
+            'highlight' => [
+                'order' => 'score',
+                'fields' => $fields
             ]
         ];
 
