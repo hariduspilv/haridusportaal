@@ -291,6 +291,10 @@ $grid-columns: 12;
     @include break-on(sm, min) {max-width: 80vw;}
     @include break-on(xxs, max) {min-width: 100vw;}
   }
+  .cdk-overlay-pane.mat-tooltip-panel {
+    @include break-on(xxs, max) {min-width: auto;}
+  }
+  .mat-tooltip.mat-tooltip-handset {margin: 0;}
   article{line-height:150%;}
   article a[href]{color:$blue;}
   .link-list{list-style:none; padding:0; margin:$small 0;
