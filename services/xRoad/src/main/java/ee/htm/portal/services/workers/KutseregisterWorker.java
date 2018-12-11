@@ -127,7 +127,6 @@ public class KutseregisterWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "kutseregister.kodanikKutsetunnistus.v2");
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 

@@ -46,17 +46,6 @@
       <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.kafka/ -->
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-oxm -->
 		<!-- needed because com.nortal.jroad/xtee-client-transport -->
     <dependency>
@@ -77,14 +66,6 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.17</version>
-    </dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.awaitility/awaitility -->
-    <dependency>
-      <groupId>org.awaitility</groupId>
-      <artifactId>awaitility</artifactId>
-      <version>3.0.0</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
