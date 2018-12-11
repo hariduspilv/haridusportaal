@@ -1,7 +1,0 @@
-uuid: a12b9bab-bad4-45cc-8c0c-f3c7cf97f67a
-langcode: en
-status: true
-dependencies: {  }
-version: nodeQuery
-map:
-  1: "query nodeQuery {\n  nodeQuery(limit: 1000, filter: {conditions: {field: \"type\", value: \"school\", operator: EQUAL}}) {\n    entities {\n      entityLabel\n    }\n  }\n}\n"
