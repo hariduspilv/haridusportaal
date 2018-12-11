@@ -99,7 +99,6 @@ public class AriregWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "arireg.esindus_v1.v1");
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 

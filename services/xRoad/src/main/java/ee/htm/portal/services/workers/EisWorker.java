@@ -71,7 +71,6 @@ public class EisWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "eis-adapter.testsessioonid_kod.v1");
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
@@ -142,7 +141,6 @@ public class EisWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "eis-adapter.testid_kod.v1");
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
@@ -191,7 +189,6 @@ public class EisWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "eis-adapter.e_tunnistus_kod.v1");
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
@@ -250,7 +247,6 @@ public class EisWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "eis-adapter.e_tunnistus_kehtivus.v1");
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 

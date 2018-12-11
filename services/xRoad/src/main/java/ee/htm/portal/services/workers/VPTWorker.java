@@ -95,7 +95,6 @@ public class VPTWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlusOpingud.v1");
 
     redisTemplate.opsForHash().put(personalCode, "vpTaotlus", documentsResponse);
   }
@@ -634,7 +633,6 @@ public class VPTWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlus... .v1");
 
     return jsonNode;
   }
@@ -680,7 +678,6 @@ public class VPTWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlusDokument.v1");
 
     return documentResponse;
   }
