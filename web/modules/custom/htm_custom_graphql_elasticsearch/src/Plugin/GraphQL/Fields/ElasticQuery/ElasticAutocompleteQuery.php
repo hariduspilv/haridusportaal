@@ -100,8 +100,6 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         $params = $this->getElasticQuery($args);
 
         $response = $client->search($params);
-        dump($response);
-        die();
 
         foreach($response['hits']['hits'] as $key => $value){
             if(isset($value['highlight'])){
@@ -110,9 +108,6 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
         }
 
         $this->getAutocompleteValues($highlights);
-
-        dump($this->autocomplete_values);
-        die();
 
         #array_multisort(array_map('strlen', $this->autocomplete_values), $this->autocomplete_values);
 
