@@ -8,25 +8,25 @@ dependencies:
     - node
     - search_api
   config:
+    - field.storage.node.body
     - field.storage.node.field_accordion_section
-    - field.storage.paragraph.field_survey_accordion_title
     - field.storage.paragraph.field_body
     - field.storage.node.field_author
-    - field.storage.node.body
-    - field.storage.node.field_organizer
+    - field.storage.node.field_body
+    - field.storage.node.field_body_summary
     - field.storage.node.field_oska_field_sidebar
-    - field.storage.paragraph.field_oska_main_profession
-    - field.storage.paragraph.field_oska_field_cons
     - field.storage.paragraph.field_cons
+    - field.storage.node.field_event_type
+    - field.storage.node.field_introduction
+    - field.storage.node.field_organizer
+    - field.storage.paragraph.field_oska_field_cons
     - field.storage.paragraph.field_oska_field_pros
+    - field.storage.paragraph.field_oska_main_profession
     - field.storage.paragraph.field_pros
     - field.storage.node.field_registration_code
-    - field.storage.node.field_tag
-    - field.storage.node.field_introduction
-    - field.storage.node.field_body_summary
     - field.storage.node.field_short_description
-    - field.storage.node.field_body
-    - field.storage.node.field_event_type
+    - field.storage.paragraph.field_survey_accordion_title
+    - field.storage.node.field_tag
     - search_api.server.elasticsearch_server
 third_party_settings:
   elasticsearch_connector:
@@ -48,6 +48,17 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.body
+  field_accordion_body:
+    label: 'Akordion » Paragraph » Sisu'
+    datasource_id: 'entity:node'
+    property_path: 'field_accordion_section:entity:field_body'
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_accordion_section
+        - field.storage.paragraph.field_body
+      module:
+        - paragraphs
   field_author:
     label: Avaldaja
     datasource_id: 'entity:node'
@@ -64,17 +75,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_body
-  field_body_1:
-    label: 'Akordion » Paragraph » Sisu'
-    datasource_id: 'entity:node'
-    property_path: 'field_accordion_section:entity:field_body'
-    type: text
-    dependencies:
-      config:
-        - field.storage.node.field_accordion_section
-        - field.storage.paragraph.field_body
-      module:
-        - paragraphs
   field_body_summary:
     label: Sissejuhatus
     datasource_id: 'entity:node'
@@ -229,9 +229,9 @@ processor_settings:
     all_fields: true
     fields:
       - body
+      - field_accordion_body
       - field_author
       - field_body
-      - field_body_1
       - field_body_summary
       - field_cons
       - field_event_type
@@ -260,9 +260,9 @@ processor_settings:
     all_fields: true
     fields:
       - body
+      - field_accordion_body
       - field_author
       - field_body
-      - field_body_1
       - field_body_summary
       - field_cons
       - field_event_type
@@ -285,13 +285,13 @@ processor_settings:
         Mc: 0
         Me: 0
         Mn: 0
-        Pc: Pc
-        Pd: Pd
-        Pe: Pe
-        Pf: Pf
-        Pi: Pi
-        Po: Po
-        Ps: Ps
+        Pc: 0
+        Pd: 0
+        Pe: 0
+        Pf: 0
+        Pi: 0
+        Po: 0
+        Ps: 0
         Sc: 0
         Sk: 0
         Sm: 0
