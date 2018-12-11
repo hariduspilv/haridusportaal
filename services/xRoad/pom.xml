@@ -10,7 +10,7 @@
 
 	<name>HTM portal micro services</name>
 	<description>HTM portal micro services for relaying xRoad massages.
-    Using Kafka or REST to get request and to response, using kafka to relay log eatery's.
+    Using REST to get request and to response.
   </description>
 	
 	<parent>
