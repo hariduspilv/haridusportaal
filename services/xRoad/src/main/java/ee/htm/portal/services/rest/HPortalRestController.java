@@ -62,14 +62,16 @@ public class HPortalRestController {
       return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode, false),
+          mtsysWorker.getMtsysTegevusluba(formName, Long.valueOf(identifier), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevusNaitajad(formName, identifier, personalCode), HttpStatus.OK);
+          mtsysWorker.getMtsysTegevusNaitajad(formName, Long.valueOf(identifier), personalCode),
+          HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevusluba(formName, identifier, personalCode, true), HttpStatus.OK);
+          mtsysWorker.getMtsysTegevuslubaTaotlus(formName, Long.valueOf(identifier), personalCode),
+          HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request formName - " + formName);
@@ -81,6 +83,9 @@ public class HPortalRestController {
   public ResponseEntity<?> postDocument(@RequestBody ObjectNode requestJson) {
     if (requestJson.get("header").get("form_name").asText().equalsIgnoreCase("VPT_TAOTLUS")) {
       return new ResponseEntity<>(vptWorker.postDocument(requestJson), HttpStatus.OK);
+//    } else if (requestJson.get("header").get("form_name").asText()
+//        .equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
+//      return new ResponseEntity<>(mtsysWorker.postMtsysTegevusluba(requestJson), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request JSON - " + requestJson);
@@ -169,7 +174,7 @@ public class HPortalRestController {
 
   @RequestMapping(value = "/getEducationalInstitution/{identifier}/{institutionId}/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getEducationalInstitution(
-      @PathVariable("identifier") String identifier,
+      @PathVariable("identifier") Long identifier,
       @PathVariable("institutionId") String institutionId,
       @PathVariable("personalCode") String personalCode) {
     return new ResponseEntity<>(

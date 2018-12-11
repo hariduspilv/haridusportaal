@@ -8,16 +8,12 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class Worker {
 
   @Autowired
   protected RedisTemplate<String, Object> redisTemplate;
-
-  @Value("${kafka.topic.logs}")
-  protected String logsTopic;
 
   protected JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
