@@ -1,0 +1,6 @@
+services:
+  elasticsearch_connector_index_adjust.default:
+    class: Drupal\htm_custom_graphql_elasticsearch\EventSubscriber\DefaultSubscriber
+    arguments: ['@entity_type.manager', '@database']
+    tags:
+    - { name: event_subscriber }
