@@ -194,7 +194,8 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     protected function getAutocompleteCandidates($item, $key){
         $regex = '/<highl>(.*?)<\/highl>/';
         preg_match_all($regex, $item, $matches);
-        $item = explode(" ", $item);
+        $matches[0] = array_unique($matches[0]);
+        $item = array_unique(explode(" ", $item));
         $item_length = count($item);
         if(count($matches[0]) == count(preg_split('/\s+/', $this->search_input))){
             foreach($matches[0] as $match){
