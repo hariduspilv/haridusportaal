@@ -71,15 +71,17 @@ export class EventsRegistratonDialog {
       variables: {
         event_id: this.data.nid,
         lang: this.data.lang.toUpperCase(),
-        firstName: this.form.controls.firstName.value,
-        lastName: this.form.controls.lastName.value,
-        companyName: this.form.controls.companyName.value,
-        telephone: this.form.controls.telephone.value,
-        email: this.form.controls.email.value,
-        marked: this.form.controls.marked.value
+        firstName: this.form.controls.firstName ? this.form.controls.firstName.value : false,
+        lastName: this.form.controls.lastName ? this.form.controls.lastName.value : false,
+        companyName: this.form.controls.companyName ? this.form.controls.companyName.value : false,
+        telephone: this.form.controls.telephone ? this.form.controls.telephone.value : false,
+        email: this.form.controls.email ? this.form.controls.email.value : false,
+        marked: this.form.controls.marked ? this.form.controls.marked.value : false
       }
     }
 
+
+    console.log(data);
     const register = this.http.post('/graphql', data).subscribe((response) => {
       let data = response['data'];
 
