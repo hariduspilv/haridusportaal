@@ -5,6 +5,9 @@ dependencies:
   config:
     - field.field.node.avaleht.body
     - field.field.node.avaleht.field_head_block_title
+    - field.field.node.avaleht.field_secondary_supernews
+    - field.field.node.avaleht.field_secondary_supernews_pub
+    - field.field.node.avaleht.field_secondary_supernews_unpub
     - field.field.node.avaleht.field_supernews
     - field.field.node.avaleht.field_supernews_publish_date
     - field.field.node.avaleht.field_supernews_unpublish_date
@@ -33,6 +36,27 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_secondary_supernews:
+    weight: 26
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_secondary_supernews_pub:
+    weight: 27
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_secondary_supernews_unpub:
+    weight: 28
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
     region: content
   field_supernews:
     weight: 11
