@@ -98,7 +98,7 @@ export class CertificatesDetailedComponent implements OnInit{
 
     this.loading = true;
 
-    let sub = this.http.get(`/state-exams/${id}?_format=json`).subscribe(response => {
+    let sub = this.http.get("/state-exams/" + id + "?_format=json").subscribe(response => {
       if(response['value']['teade'] || response['value']['testid_kod_jada'] === []){
         this.router.navigateByUrl( this.dashboardLink );
       } else {

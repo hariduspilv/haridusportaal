@@ -7,7 +7,7 @@ export class titleCasePipe implements PipeTransform {
     if (!input) {
       return '';
     } else {
-      return `${input.substr(0, 1).toUpperCase()}${input.substr(1)}`;
+      return input.substr(0, 1).toUpperCase() + input.substr(1);
     }
   } 
 }
