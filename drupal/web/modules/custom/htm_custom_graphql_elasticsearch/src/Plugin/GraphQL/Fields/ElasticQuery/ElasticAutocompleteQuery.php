@@ -81,6 +81,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
         $responsevalues = [];
         $this->autocomplete_values = [];
+        $args['search_input'] = trim($args['search_input']);
         $this->search_input = $args['search_input'];
         $this->autocomplete_limit = $args['limit'];
         $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
@@ -109,7 +110,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
         $this->getAutocompleteValues($highlights);
 
-        array_multisort(array_map('strlen', $this->autocomplete_values), $this->autocomplete_values);
+        #array_multisort(array_map('strlen', $this->autocomplete_values), $this->autocomplete_values);
 
         if(count($this->autocomplete_values) > 0){
             foreach($this->autocomplete_values as $value){
@@ -147,17 +148,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
             'index' => $args['elasticsearch_index']
         ];
 
-        if(isset($args['score']['conditions'])){
-            foreach($args['score']['conditions'] as $value){
-                $score_terms = explode(" ", $args['score']['search_value']);
-                foreach($score_terms as $term){
-                    $score_fields[$value['field']] = [
-                        'query' => $term,
-                        'slop' => $value['weight']
-                    ];
-                }
-            }
-        }
+        #$args['search_input'] = str_replace('-', ' ', $args['search_input']);
 
         foreach($args['fields'] as $value){
             $fields[$value] = [
@@ -174,7 +165,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                 ]
             ],
             'rescore' => [
-                'window_size' => 60,
+                'window_size' => 100,
                 'query' => [
                     'rescore_query' => [
                         'match_phrase' => [
@@ -204,12 +195,13 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     protected function getAutocompleteCandidates($item, $key){
         $regex = '/<highl>(.*?)<\/highl>/';
         preg_match_all($regex, $item, $matches);
-        $item = explode(" ",$item);
+        $matches[0] = array_unique($matches[0]);
+        $item = array_unique(explode(" ", $item));
         $item_length = count($item);
         if(count($matches[0]) == count(preg_split('/\s+/', $this->search_input))){
             foreach($matches[0] as $match){
                 if(mb_strlen($match) < 50){
-                    is_int(array_search($match, $item)) ? $array_locations[] = array_search($match, $item) : null;
+                    $array_locations[] = key(preg_grep('/'.strip_tags($match).'/i', $item));
                 }
             }
 
@@ -267,7 +259,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                 }
 
                 $mandatory_args = explode(" ", $this->search_input);
-                $autocomplete_value = implode(" ", $autocomplete_value_items);
+                $autocomplete_value = trim(implode(" ", $autocomplete_value_items));
                 $correct_value = true;
                 foreach($mandatory_args as $value){
                     if(fnmatch(mb_strtolower('*'.$value.'*'), mb_strtolower($autocomplete_value)) == false){
