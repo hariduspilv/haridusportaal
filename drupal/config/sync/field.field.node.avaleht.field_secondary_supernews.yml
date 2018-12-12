@@ -1,0 +1,28 @@
+uuid: c7b3f82f-fca5-4337-94ef-e084e67aada4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_secondary_supernews
+    - node.type.avaleht
+    - node.type.news
+id: node.avaleht.field_secondary_supernews
+field_name: field_secondary_supernews
+entity_type: node
+bundle: avaleht
+label: 'Teine superuudis'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
