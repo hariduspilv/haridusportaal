@@ -81,6 +81,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
     public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
         $responsevalues = [];
         $this->autocomplete_values = [];
+        $args['search_input'] = trim($args['search_input']);
         $this->search_input = $args['search_input'];
         $this->autocomplete_limit = $args['limit'];
         $elasticsearch_path = \Drupal::config('elasticsearch_connector.cluster.elasticsearch_cluster')->get('url');
