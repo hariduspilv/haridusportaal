@@ -209,6 +209,13 @@ class OskaGraphWidgetType extends WidgetBase {
                     '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
                 ];
             }
+
+            $element['graph_options']['graph_text'] = [
+                '#title' => $this->t('Graph info text'),
+                '#type' => 'textarea',
+                '#maxlength' => 1500,
+                '#default_value' => isset($data['graph_text']) ? $data['graph_text'] : NULL,
+            ];
         }
 
         return $element;
@@ -308,6 +315,7 @@ class OskaGraphWidgetType extends WidgetBase {
                 'graph_indicator' => $value['graph_options']['graph_indicator'],
                 'secondary_graph_type' => isset($value['graph_options']['secondary_graph_type']) ? $value['graph_options']['secondary_graph_type'] : NULL,
                 'secondary_graph_indicator' => isset($value['graph_options']['secondary_graph_indicator']) ? $value['graph_options']['secondary_graph_indicator'] : NULL,
+                'graph_text' => $value['graph_options']['graph_text'],
                 'filter_values' => json_encode($value, TRUE),
             ];
         }

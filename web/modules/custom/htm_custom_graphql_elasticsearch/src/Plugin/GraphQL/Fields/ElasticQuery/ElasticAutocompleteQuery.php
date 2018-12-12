@@ -110,8 +110,6 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
 
         $this->getAutocompleteValues($highlights);
 
-        #array_multisort(array_map('strlen', $this->autocomplete_values), $this->autocomplete_values);
-
         if(count($this->autocomplete_values) > 0){
             foreach($this->autocomplete_values as $value){
                 yield ['Nid' => [$value]];
