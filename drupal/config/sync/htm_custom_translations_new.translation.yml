@@ -1722,7 +1722,7 @@ errors:
     en: 'Image missing'
   enter_valid_address:
     translation_type: textarea
-    et: 'Sisesta korrektne aadress'
+    et: 'Sisesta korrektne aadress, tee valik rippmenüüst'
     en: 'Enter valid address'
   enter_valid_webpage:
     translation_type: textarea
@@ -1769,6 +1769,10 @@ search:
     translation_type: textarea
     et: 'Tulemusi ei leitud, sisesta vähemalt 3 tähemärki'
     en: 'No results, enter at least 3 characters'
+  suggestions_available:
+    translation_type: textarea
+    et: 'Tulemust saadaval'
+    en: 'Results available'
 data:
   dashboard_link:
     translation_type: textarea

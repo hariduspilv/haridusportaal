@@ -46,8 +46,10 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 
 		this.unix = new Date().getTime();
 
+		this.lang = this.route.snapshot.params['lang'];
+		
 		let tmpDates = {};
-		if (this.content.entity.fieldEventDate && this.content.entity.fieldEventDate[0].entity.fieldEventDate) {
+		if (this.content.entity.fieldEventDate && this.content.entity.fieldEventDate.length > 0) {
 			for( var i in this.content.entity.fieldEventDate ){
 				let unix = parseInt( this.content.entity.fieldEventDate[i].entity.fieldEventDate.unix );
 				tmpDates[unix] = this.content.entity.fieldEventDate[i];
@@ -59,11 +61,9 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 			this.content.entity.fieldEventDate = outputDates;
 		}
 
-		this.iCalUrl = this.settings.url+"/calendarexport/";
-		this.paramsSub = this.route.params.subscribe( params => {
-			this.lang = params['lang'];
-		});
+		console.log("katski");
 
+		this.iCalUrl = this.settings.url+"/calendarexport/";
 		
 	}
 	ngOnDestroy() {
@@ -79,6 +79,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	openDialog(): void {
 
+		console.log(this.lang);
 		let dialogRef = this.dialog.open(EventsRegistratonDialog, {
 		  // width: '500px',
 		  data: {
