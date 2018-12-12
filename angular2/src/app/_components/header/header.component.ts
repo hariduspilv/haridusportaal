@@ -18,7 +18,7 @@ export class HeaderComponent {
 
   @Input() wasClicked: boolean;
   hideElement = true;
-  param: any;
+  searchParam: any;
   languages: any;
   logoLink: any;
   activeLanguage: any;
@@ -106,10 +106,10 @@ export class HeaderComponent {
     this.sidemenu.sendMessage();
   }
 
-  searchRoute(param) {
-    if (!param) {param = ''}
-    let url = this.rootScope.get('currentLang') === 'et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
-    this.param = '';
+  searchRoute(searchParam) {
+    if (!searchParam) {searchParam = ''}
+    let url = this.rootScope.get('currentLang') === 'et' ? "/et/otsing?term=" + searchParam : "/en/search?term=" + searchParam;
+    this.searchParam = '';
     this.router.navigateByUrl(url)
   }
 

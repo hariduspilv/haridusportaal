@@ -99,7 +99,7 @@ export class FrontpageComponent {
     if (!param) {
       this.searchError = true;
     } else {
-      let url = this.lang === '/et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
+      let url = this.lang === '/et' ? "/et/otsing?term=" + param : "/en/search?term=" + param;
       this.router.navigateByUrl(url)
     }
   }
@@ -125,7 +125,7 @@ export class FrontpageComponent {
         this.allPath = "/et/uudised";
         this.eventPath = "/et/sundmused";
       } else if (this.lang !== '') {
-        this.router.navigateByUrl(`/${this.lang}/404`, {replaceUrl: true});
+        this.router.navigateByUrl("/" + this.lang +"/404", {replaceUrl: true});
       }
       this.getGeneral()
       this.getEvents()

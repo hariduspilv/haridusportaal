@@ -29,7 +29,7 @@ export class VideoComponent {
   fallbackUrl(domain, id) {
     switch (domain) {
       case 'youtube.com':
-        return `https://www.youtube.com/embed/${id}`;
+        return "https://www.youtube.com/embed/" + id;
       default:
         return null
     }
