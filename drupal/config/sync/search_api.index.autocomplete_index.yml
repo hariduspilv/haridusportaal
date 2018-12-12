@@ -63,7 +63,7 @@ field_settings:
     label: Avaldaja
     datasource_id: 'entity:node'
     property_path: field_author
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_author
@@ -166,7 +166,7 @@ field_settings:
     label: Registrikood
     datasource_id: 'entity:node'
     property_path: field_registration_code
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_registration_code
@@ -276,7 +276,7 @@ processor_settings:
       - field_survey_accordion_title
       - field_tag
       - title
-    ignorable: '[''¿¡!?,.:;]'
+    ignorable: '[()''¿¡!?,.:;]'
     strip:
       character_sets:
         Cc: 0

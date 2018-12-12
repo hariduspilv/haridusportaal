@@ -48,7 +48,13 @@ export class HttpService {
   get(url, inputHeaders:object = {} ) {
 
     url = this.parseUrl(url);
+
     let headers = this.createAuthorizationHeader();
+
+    if( inputHeaders['withCredentials']  ){
+      headers.delete('Authorization');
+    }
+
     return this.http.get(url, {
       headers: headers,
       withCredentials: inputHeaders['withCredentials'] || false
