@@ -58,6 +58,8 @@ class OskaGraphField extends FieldItemBase {
             ->setLabel(t('First graph indicator'));
         $properties['secondary_graph_indicator'] = DataDefinition::create('string')
             ->setLabel(t('Secondary graph indicator'));
+        $properties['graph_text'] = DataDefinition::create('string')
+            ->setLabel(t('Graph info text'));
 
         return $properties;
 
@@ -111,6 +113,11 @@ class OskaGraphField extends FieldItemBase {
         ];
         $schema['columns']['secondary_graph_indicator'] = [
             'description' => 'Secondary graph indicator.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
+        $schema['columns']['graph_text'] = [
+            'description' => 'Graph info text.',
             'type' => 'varchar',
             'not null' => FALSE,
         ];
