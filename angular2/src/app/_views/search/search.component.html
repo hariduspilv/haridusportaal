@@ -18,10 +18,11 @@
         <div class="round-input__wrapper" [class.complete]="param">
           <label for="param" class="round-input__title">{{'search.keyword' | translate}}</label>
           <div class="round-input__field-wrapper">
-            <input type="text" 
+            <input type="text"
             attr.aria-label="{{ 'button.search_from_page' | translate }}" 
             class="round-input__field" placeholder="{{'search.keyword' | translate}}" 
-            [(ngModel)]='param' 
+            [(ngModel)]='param'
+            spellcheck="false"
             (focus)="populateSuggestionList(param, 300)"
             role="combobox"
             aria-autocomplete="both"
@@ -32,8 +33,10 @@
             [matAutocomplete]="auto"
             (ngModelChange)="populateSuggestionList(param, 300)"/>
             <mat-autocomplete #auto="matAutocomplete" 
+              tabindex="0"
               role="listbox"
               id="matAutocomplete"
+              aria-activedescendant="option_0"
               [(ngModel)]='param' 
               (optionSelected)="autocompleteLoader = false;suggestionList = [];getResults(param, [])">
               <ng-container *ngIf="autocompleteLoader && param">
@@ -43,13 +46,16 @@
               </ng-container>
               <ng-container *ngIf="autocompleteLoader == false && suggestionList && param">
                 <mat-option *ngIf="!suggestionList.length" [value]="" disabled="true">
-                  <span *ngIf="param && param.length < 3">{{'search.not_found_required_chars' | translate }}</span>
-                  <span *ngIf="param && param.length >= 3">{{'search.not_found' | translate }}</span>
+                  <span role="alert" *ngIf="param && param.length < 3">{{'search.not_found_required_chars' | translate }}</span>
+                  <span role="alert" *ngIf="param && param.length >= 3">{{'search.not_found' | translate }}</span>
                 </mat-option>
                 <ng-container *ngIf="suggestionList.length > 0">
-                  <mat-option *ngFor="let result of suggestionList" [value]="result.Suggestion">
-                    <span>{{ result.Suggestion }}</span>
+                  <mat-option role="option" aria-selected="false" *ngFor="let result of suggestionList; let ind = index;" [value]="result.Suggestion">
+                    <span id="{{'option_' + ind" role="option">{{ result.Suggestion }}</span>
                   </mat-option>
+                  <div class="search__alert" role="alert">
+                    <span class="search__alert--elem">{{suggestionList.length}} {{'search.suggestions_available' | translate}}</span>
+                  </div>
                 </ng-container>
               </ng-container>
             </mat-autocomplete>

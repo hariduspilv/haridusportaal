@@ -166,6 +166,9 @@ $grid-columns: 12;
 }   
 .alert { font-size: 1rem; line-height: 1.38; text-align: left; color:$black; }
 
+.search__alert {position: absolute; overflow: hidden;
+  &--elem {position: relative; left: 100%;}
+}
 .dashboard-table {
   border: .0625rem solid $gray;
   border-collapse: collapse;
@@ -289,7 +292,7 @@ $grid-columns: 12;
   .cdk-overlay-pane, #cdk-overlay-0 {
     @include break-on(sm, max) {max-width: 100% !important;}
     @include break-on(sm, min) {max-width: 80vw;}
-    @include break-on(xxs, max) {min-width: 100vw;}
+    // @include break-on(xxs, max) {min-width: 100vw;}
   }
   .cdk-overlay-pane.mat-tooltip-panel {
     @include break-on(xxs, max) {min-width: auto;}
