@@ -5,6 +5,7 @@ import { Router, Event, NavigationEnd, RoutesRecognized } from '@angular/router'
 import { TranslateService } from '@ngx-translate/core';
 
 import { HttpService } from '@app/_services/httpService';
+import { SettingsService } from '@app/_core/settings';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,11 @@ export class HeaderComponent {
   languages: any;
   logoLink: any;
   activeLanguage: any;
+  public suggestionSubscription: Subscription;
+  public suggestionList: any = false;
+  public debouncer: any;
+  public autocompleteLoader: boolean = false;
+  
 
   constructor(
     private sidemenu: SideMenuService,
@@ -28,7 +34,8 @@ export class HeaderComponent {
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
     private translate: TranslateService,
-    private http: HttpService
+    private http: HttpService,
+    private settings: SettingsService
   ) {
 
     this.logoLink = '/et';
@@ -102,7 +109,33 @@ export class HeaderComponent {
   searchRoute(param) {
     if (!param) {param = ''}
     let url = this.rootScope.get('currentLang') === 'et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
+    this.param = '';
     this.router.navigateByUrl(url)
+  }
+
+  populateSuggestionList(searchText, debounceTime) {
+    if(searchText.length < 3) {
+      clearTimeout(this.debouncer);
+      this.suggestionList = [];
+      return;
+    }
+    if(this.debouncer) clearTimeout(this.debouncer)
+    if(this.suggestionSubscription !== undefined) {
+      this.suggestionSubscription.unsubscribe();
+    }
+    this.debouncer = setTimeout(_ => {
+      this.autocompleteLoader = true;
+      let url = this.settings.url+"/graphql?queryId=27813a87b01c759d984808a9e9ea0333627ad584:1&variables=";
+      let variables = {
+        search_term: searchText
+      }
+      let suggestionSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(res => {
+        this.autocompleteLoader = false;
+        this.suggestionList = res['data']['CustomElasticAutocompleteQuery'] || [];
+        this.suggestionSubscription.unsubscribe();
+      });
+
+    }, debounceTime)
   }
 
 
