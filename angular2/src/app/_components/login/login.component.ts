@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit{
 
   }
   openTara() {
-    this.taraUrl = /*this.settings.url+*/"http://htm.wiseman.ee/tara-login";
+    this.taraUrl = /*this.settings.url+*/"https://htm.wiseman.ee/tara-login";
 
     window.location.href = this.taraUrl;
     /*
@@ -111,7 +111,7 @@ export class LoginComponent implements OnInit{
   }
   ngOnInit() {
 
-    if( this.settings.url == "http://htm.wiseman.ee" ){
+    if( this.settings.url == "https://htm.wiseman.ee" ){
       this.basicLogin = true;
     }
     
