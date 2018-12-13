@@ -34,9 +34,17 @@ class GoogleChartValue extends TypedData {
         $condition_count = 0;
         $target_type = $item->getFieldDefinition()->getSettings()['target_type'];
         $filter_values = $graph_info['graph_options'];
+        $graph_info_fields = [
+            'graph_title',
+            'graph_type',
+            'graph_v_axis',
+            'secondary_graph_type',
+            'graph_group_by',
+            'graph_text'
+        ];
 
         foreach($graph_info['graph_options'] as $key => $value){
-            if($key != 'graph_title' && $key != 'graph_type' && $key != 'graph_v_axis' && $key != 'secondary_graph_type' && $key != 'graph_group_by'){
+            if(!in_array($key, $graph_info_fields)){
                 $filter_values[$key] = $value;
                 unset($graph_info['graph_options'][$key]);
             }else{
