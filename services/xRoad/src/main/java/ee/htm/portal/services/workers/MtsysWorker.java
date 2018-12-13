@@ -331,8 +331,10 @@ public class MtsysWorker extends Worker {
       MtsysTegevuslubaResponse response = ehisXRoadService
           .mtsysTegevusluba(BigInteger.valueOf(identifier), personalCode);
 
+      Long klOkLiik = response.getTegevusloaAndmed().getKlLiik().longValue();
       ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_0").putObject("title")
-          .put("et", "Tegevusluba");
+          .put("et", klOkLiik.equals(18098L)
+              ? "Majandustegevusteade" : "Tegevusluba");
       ObjectNode stepZeroDataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps")
           .get("step_0")).putObject("data_elements");
 
@@ -343,58 +345,47 @@ public class MtsysWorker extends Worker {
       stepZeroDataElementsNode.putObject("tegevusloaNumber")
           .put("value", response.getTegevusloaAndmed().getLoaNumber());
       stepZeroDataElementsNode.putObject("oppekavaNimetus").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetNimetus())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetNimetus())
           .put("value", response.getTegevusloaAndmed().isSetNimetus() ?
               response.getTegevusloaAndmed().getNimetus() : null);
       stepZeroDataElementsNode.putObject("kaskkirjaNr").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKaskkirjaNr())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetKaskkirjaNr())
           .put("value", response.getTegevusloaAndmed().isSetKaskkirjaNr() ?
               response.getTegevusloaAndmed().getKaskkirjaNr() : null);
       stepZeroDataElementsNode.putObject("kaskkirjaKuupaev").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKaskkirjaKp())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetKaskkirjaKp())
           .put("value", response.getTegevusloaAndmed().isSetKaskkirjaKp() ?
               response.getTegevusloaAndmed().getKaskkirjaKp() : null);
-      stepZeroDataElementsNode.putObject("alguseKuupaev").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKehtivAlates())
+      stepZeroDataElementsNode.putObject("alguseKuupaev")
+          .put("hidden", !response.getTegevusloaAndmed().isSetKehtivAlates())
           .put("value", response.getTegevusloaAndmed().isSetKehtivAlates() ?
               response.getTegevusloaAndmed().getKehtivAlates() : null);
       stepZeroDataElementsNode.putObject("lopuKuupaev").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKehtivKuni())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetKehtivKuni())
           .put("value", response.getTegevusloaAndmed().isSetKehtivKuni() ?
               response.getTegevusloaAndmed().getKehtivKuni() : null);
       stepZeroDataElementsNode.putObject("tuhistamiseKuupaev").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetTyhistamiseKp())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetTyhistamiseKp())
           .put("value", response.getTegevusloaAndmed().isSetTyhistamiseKp() ?
               response.getTegevusloaAndmed().getTyhistamiseKp() : null);
       stepZeroDataElementsNode.putObject("laagriNimetus").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetLaagriNimetus())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetLaagriNimetus())
           .put("value", response.getTegevusloaAndmed().isSetLaagriNimetus() ?
               response.getTegevusloaAndmed().getLaagriNimetus() : null);
       stepZeroDataElementsNode.putObject("kohtadeArvLaagris").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKohtadeArvLaagris())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetKohtadeArvLaagris())
           .put("value", response.getTegevusloaAndmed().isSetKohtadeArvLaagris() ?
               response.getTegevusloaAndmed().getKohtadeArvLaagris().intValue() : null);
       stepZeroDataElementsNode.putObject("tkkLiik").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKlTkkLiik())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetKlTkkLiik())
           .put("value", response.getTegevusloaAndmed().isSetKlTkkLiik() ?
               response.getTegevusloaAndmed().getKlTkkLiik().intValue() : null);
       stepZeroDataElementsNode.putObject("keeleTase").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKlEkTase())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetKlEkTase())
           .put("value", response.getTegevusloaAndmed().isSetKlEkTase() ?
               response.getTegevusloaAndmed().getKlEkTase().intValue() : null);
       stepZeroDataElementsNode.putObject("soidukiteKategooria").put("hidden",
-          response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))
-              || !response.getTegevusloaAndmed().isSetKlSoidukiKategooria())
+          klOkLiik.equals(18098L) || !response.getTegevusloaAndmed().isSetKlSoidukiKategooria())
           .put("value", response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
               response.getTegevusloaAndmed().getKlSoidukiKategooria().intValue() : null);
 
