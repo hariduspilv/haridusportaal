@@ -225,7 +225,9 @@ class OskaGraphWidgetType extends WidgetBase {
         $field_name = $this->fieldDefinition->getName();
         $trigger_element = $form_state->getTriggeringElement();
 
-        return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options']['secondary_graph_type'];
+        if($trigger_element['#value'] === 'combo'){
+            return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options']['secondary_graph_type'];
+        }
     }
 
     public function ajax_dependent_graph_set_callback(array &$form, FormStateInterface $form_state){
