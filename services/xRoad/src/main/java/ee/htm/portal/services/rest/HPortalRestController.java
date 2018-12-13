@@ -83,9 +83,9 @@ public class HPortalRestController {
   public ResponseEntity<?> postDocument(@RequestBody ObjectNode requestJson) {
     if (requestJson.get("header").get("form_name").asText().equalsIgnoreCase("VPT_TAOTLUS")) {
       return new ResponseEntity<>(vptWorker.postDocument(requestJson), HttpStatus.OK);
-//    } else if (requestJson.get("header").get("form_name").asText()
-//        .equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
-//      return new ResponseEntity<>(mtsysWorker.postMtsysTegevusluba(requestJson), HttpStatus.OK);
+    } else if (requestJson.get("header").get("form_name").asText()
+        .equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
+      return new ResponseEntity<>(mtsysWorker.postMtsysTegevusluba(requestJson), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request JSON - " + requestJson);

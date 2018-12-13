@@ -513,111 +513,49 @@ public class MtsysWorker extends Worker {
           .putObject("tegevusloaLiik")
           .put("value", response.getTegevusloaAndmed().getKlLiik().longValue());
 
-      ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_andmed")
-          .putObject("title").put("value", "Tegevusluba");
+      getTegevuslubaXJSON(jsonNode, response.getTegevusloaAndmed().getKlLiik().longValue(),
+          klfFailiTyybid);
 
-      ObjectNode stepAndmedDataElements = ((ObjectNode) jsonNode.get("body").get("steps")
-          .get("step_andmed")).putObject("data_elements");
+      ObjectNode stepAndmedDataElements = (ObjectNode) jsonNode.get("body").get("steps")
+          .get("step_andmed").get("data_elements");
 
-      stepAndmedDataElements.putObject("tegevusloaLiik")
+      ((ObjectNode) stepAndmedDataElements.get("tegevusloaLiik"))
           .put("value", response.getTegevusloaAndmed().getKlLiik().longValue());
-      stepAndmedDataElements.putObject("oppekavaNimetus")
-          .put("value", response.getTegevusloaAndmed().getNimetus())
-          .put("required",
-              !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18052L))
-                  && !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18189L))
-                  && !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L)))
-          .put("hidden",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18052L))
-                  || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18189L))
-                  || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L)));
-      stepAndmedDataElements.putObject("alguseKuupaev")
-          .put("value", response.getTegevusloaAndmed().getKehtivAlates())
-          .put("required",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18189L)))
-          .put("hidden",
-              !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18189L)));
-      stepAndmedDataElements.putObject("lopuKuupaev")
-          .put("value", response.getTegevusloaAndmed().getKehtivKuni())
-          .put("required",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18189L)))
-          .put("hidden",
-              !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18189L)));
-      stepAndmedDataElements.putObject("laagriNimetus")
-          .put("value", response.getTegevusloaAndmed().getLaagriNimetus())
-          .put("required",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18052L))
-                  || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18189L)))
-          .put("hidden",
-              !(response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18052L))
-                  || response.getTegevusloaAndmed().getKlLiik()
-                  .equals(BigInteger.valueOf(18189L))));
-      stepAndmedDataElements.putObject("kohtadeArvLaagris")
+      ((ObjectNode) stepAndmedDataElements.get("oppekavaNimetus"))
+          .put("value", response.getTegevusloaAndmed().getNimetus());
+      ((ObjectNode) stepAndmedDataElements.get("alguseKuupaev"))
+          .put("value", response.getTegevusloaAndmed().getKehtivAlates());
+      ((ObjectNode) stepAndmedDataElements.get("lopuKuupaev"))
+          .put("value", response.getTegevusloaAndmed().getKehtivKuni());
+      ((ObjectNode) stepAndmedDataElements.get("laagriNimetus"))
+          .put("value", response.getTegevusloaAndmed().getLaagriNimetus());
+      ((ObjectNode) stepAndmedDataElements.get("kohtadeArvLaagris"))
           .put("value", response.getTegevusloaAndmed().isSetKohtadeArvLaagris() ?
-              response.getTegevusloaAndmed().getKohtadeArvLaagris().longValue() : null)
-          .put("required",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18052L))
-                  || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18189L)))
-          .put("hidden",
-              !(response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18052L))
-                  || response.getTegevusloaAndmed().getKlLiik()
-                  .equals(BigInteger.valueOf(18189L))));
-      stepAndmedDataElements.putObject("tkkLiik")
+              response.getTegevusloaAndmed().getKohtadeArvLaagris().longValue() : null);
+      ((ObjectNode) stepAndmedDataElements.get("tkkLiik"))
           .put("value", response.getTegevusloaAndmed().isSetKlTkkLiik() ?
-              response.getTegevusloaAndmed().getKlTkkLiik().longValue() : null)
-          .put("required",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18101L)))
-          .put("hidden",
-              !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18101L)));
-      stepAndmedDataElements.putObject("keeleTase")
+              response.getTegevusloaAndmed().getKlTkkLiik().longValue() : null);
+      ((ObjectNode) stepAndmedDataElements.get("keeleTase"))
           .put("value", response.getTegevusloaAndmed().isSetKlEkTase() ?
-              response.getTegevusloaAndmed().getKlEkTase().longValue() : null)
-          .put("required",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18100L)))
-          .put("hidden",
-              !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18100L)));
-      stepAndmedDataElements.putObject("soidukiteKategooria")
+              response.getTegevusloaAndmed().getKlEkTase().longValue() : null);
+      ((ObjectNode) stepAndmedDataElements.get("soidukiteKategooria"))
           .put("value", response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
-              response.getTegevusloaAndmed().getKlSoidukiKategooria().longValue() : null)
-          .put("required",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18055L)))
-          .put("hidden",
-              !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18055L)));
+              response.getTegevusloaAndmed().getKlSoidukiKategooria().longValue() : null);
 
-      stepAndmedDataElements.putObject("oppeTasemed")
-          .put("required",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18057L)))
-          .put("hidden",
-              !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18057L)))
-          .put("add_del_rows", true)
-          .putArray("value");
       response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList()
           .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppeTasemed").get("value"))
               .addObject().put("id", item.getId().longValue())
               .put("nimetus", item.getNimetus())
               .put("onKehtiv", item.getOnKehtiv()));
 
-      stepAndmedDataElements.putObject("oppekavaRuhmad")
-          .put("required",
-              response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L)))
-          .put("hidden",
-              !response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L)))
-          .put("add_del_rows", true)
-          .putArray("value");
       response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList()
           .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppekavaRuhmad").get("value"))
               .addObject().put("id", item.getId().longValue())
               .put("nimetus", item.getNimetus())
               .put("onKehtiv", item.getOnKehtiv()));
 
-      stepAndmedDataElements.putObject("valisAadress")
-          .put("value", response.getTegevusloaAndmed().getAadressid().getOnValismaa())
-          .put("required", false)
-          .put("hidden", false);
-      stepAndmedDataElements.putObject("aadressid")
-          .put("required", false).put("hidden", false)
-          .put("add_del_rows", true)
-          .putArray("value");
+      ((ObjectNode) stepAndmedDataElements.get("valisAadress"))
+          .put("value", response.getTegevusloaAndmed().getAadressid().getOnValismaa());
       response.getTegevusloaAndmed().getAadressid().getAadressList()
           .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("aadressid").get("value"))
               .addObject().put("seqNo", item.getJrkNr())
@@ -631,84 +569,87 @@ public class MtsysWorker extends Worker {
               .put("addressFull", item.getTaisAadress())
               .put("addressHumanReadable", item.getAdsAadressHumanReadable()));
 
-      stepAndmedDataElements.putObject("oppeasutuseNimetus")
-          .put("value", response.getKontaktandmed().getKooliNimetus())
-          .put("required", false)
-          .put("hidden", false);
-      stepAndmedDataElements.putObject("omanik")
-          .put("value", response.getKontaktandmed().getOmanik())
-          .put("required", false)
-          .put("hidden", false);
-      stepAndmedDataElements.putObject("kontaktisik")
-          .put("value", response.getKontaktandmed().getKontaktisik())
-          .put("required", true)
-          .put("hidden", false);
-      stepAndmedDataElements.putObject("telefon")
-          .put("value", response.getKontaktandmed().getOppeasutuseYldtelefon())
-          .put("required", true)
-          .put("hidden", false);
-      stepAndmedDataElements.putObject("epost")
-          .put("value", response.getKontaktandmed().getOppeasutuseEpost())
-          .put("required", true)
-          .put("hidden", false);
-      stepAndmedDataElements.putObject("koduleht")
-          .put("value", response.getKontaktandmed().getKoduleht())
-          .put("required", true)
-          .put("hidden", false);
+      ((ObjectNode) stepAndmedDataElements.get("oppeasutuseNimetus"))
+          .put("value", response.getKontaktandmed().getKooliNimetus());
+      ((ObjectNode) stepAndmedDataElements.get("omanik"))
+          .put("value", response.getKontaktandmed().getOmanik());
+      ((ObjectNode) stepAndmedDataElements.get("kontaktisik"))
+          .put("value", response.getKontaktandmed().getKontaktisik());
+      ((ObjectNode) stepAndmedDataElements.get("telefon"))
+          .put("value", response.getKontaktandmed().getOppeasutuseYldtelefon());
+      ((ObjectNode) stepAndmedDataElements.get("epost"))
+          .put("value", response.getKontaktandmed().getOppeasutuseEpost());
+      ((ObjectNode) stepAndmedDataElements.get("koduleht"))
+          .put("value", response.getKontaktandmed().getKoduleht());
 
-      stepAndmedDataElements.putObject("dokumendid").put("hidden", false);
-      ArrayNode dokumendidValue = ((ObjectNode) stepAndmedDataElements.get("dokumendid"))
-          .putArray("value");
-      List<String> insertedFileTypes = new ArrayList<>();
       response.getDokumendid().getDokumentList().forEach(item -> {
         ObjectNode fileType = (ObjectNode) klfFailiTyybid
             .get(response.getTegevusloaAndmed().getKlLiik().toString())
             .get(String.valueOf(item.getKlLiik()));
 
-        dokumendidValue.addObject().put("liik", fileType.get("required").asBoolean() ?
-            fileType.get("et").asText() + " (Kohustuslik)" :
-            fileType.get("et").asText())
+        ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
+            .put("liik", fileType.get("required").asBoolean() ?
+                fileType.get("et").asText() + " (Kohustuslik)" :
+                fileType.get("et").asText())
             .put("klLiik", item.getKlLiik())
             .put("kommentaar", item.getKommentaar())
             .put("required", fileType.get("required").asBoolean())
             .putObject("fail").put("file_name", item.getFailiNimi())
             .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
 
-        insertedFileTypes.add(String.valueOf(item.getKlLiik()));
-
         redisTemplate.opsForHash()
             .put(personalCode, MTSYSFILE_KEY + "_" + item.getDokumentId(),
                 item.getContent());
       });
-      if (!response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))) {
-        Iterator<Entry<String, JsonNode>> fileTypes = klfFailiTyybid
-            .get(response.getTegevusloaAndmed().getKlLiik().toString()).fields();
-        while (fileTypes.hasNext()) {
-          Entry<String, JsonNode> fileType = fileTypes.next();
-          if (!fileType.getKey().equalsIgnoreCase("et") && !insertedFileTypes
-              .contains(fileType.getKey())) {
-            dokumendidValue.addObject()
-                .put("liik", fileType.getValue().get("required").asBoolean() ?
-                    fileType.getValue().get("et").asText() + " (Kohustuslik)" :
-                    fileType.getValue().get("et").asText())
-                .put("klLiik", Long.valueOf(fileType.getKey()))
-                .put("required", fileType.getValue().get("required").asBoolean());
-          }
-        }
-      } else {
-        ((ObjectNode) stepAndmedDataElements.get("dokumendid")).put("hidden", true);
-      }
 
-      stepAndmedDataElements.putObject("kommentaar")
-          .put("value", response.getTegevusloaAndmed().getLisainfo())
-          .put("required", false)
-          .put("hidden", false);
+      ((ObjectNode) stepAndmedDataElements.get("kommentaar"))
+          .put("value", response.getTegevusloaAndmed().getLisainfo());
 
     } catch (Exception e) {
       super.setXdzeisonError(LOGGER, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+
+    return jsonNode;
+  }
+
+  public ObjectNode postMtsysTegevusluba(ObjectNode jsonNode) {
+    String currentStep = jsonNode.get("header").get("current_step").isNull() ? null
+        : jsonNode.get("header").get("current_step").asText();
+    Long applicationId = jsonNode.get("header").get("identifier").isNull()
+        || Long.valueOf(0).equals(jsonNode.get("header").get("identifier").longValue()) ?
+        null : jsonNode.get("header").get("identifier").asLong();
+    String applicantPersonalCode = jsonNode.get("header").get("agents").get(0).get("person_id")
+        .asText();
+
+    List<String> acceptableActivity = new ArrayList<>();
+    jsonNode.get("header").get("acceptable_activity")
+        .forEach(i -> acceptableActivity.add(i.asText()));
+
+    if (acceptableActivity.contains("VIEW")) {
+      return jsonNode;
+    }
+
+    if (currentStep == null) {
+      jsonNode.putObject("body").putObject("steps");
+      ((ObjectNode) jsonNode.get("body")).putArray("messages");
+      jsonNode.putObject("messages");
+
+      ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_liik")
+          .putObject("tegevusloaLiik").putNull("value");
+
+      ((ObjectNode) jsonNode.get("header")).put("current_step", "step_liik");
+      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("CONTINUE");
+    } else if (currentStep.equalsIgnoreCase("step_liik")) {
+      getTegevuslubaXJSON(jsonNode,
+          jsonNode.get("body").get("steps").get("step_liik").get("tegevusloaLiik").get("value")
+              .asLong(), getKlfNode("failiTyybid"));
+
+      ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
+      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll()
+          .add("SAVE, SUBMIT");
+    }
 
     return jsonNode;
   }
@@ -1043,5 +984,126 @@ public class MtsysWorker extends Worker {
     }
 
     return result;
+  }
+
+  private void getTegevuslubaXJSON(ObjectNode jsonNode, Long klOkLiik,
+      ObjectNode klfFailiTyybid) {
+
+    ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_andmed")
+        .putObject("title")
+        .put("value", klOkLiik.equals(18098L) ? "Majandustegevusteade" : "Tegevusluba");
+
+    ObjectNode stepAndmedDataElements = ((ObjectNode) jsonNode.get("body").get("steps")
+        .get("step_andmed")).putObject("data_elements");
+
+    stepAndmedDataElements.putObject("tegevusloaLiik")
+        .put("value", klOkLiik);
+    stepAndmedDataElements.putObject("oppekavaNimetus")
+        .putNull("value")
+        .put("required",
+            !klOkLiik.equals(18052L) && !klOkLiik.equals(18189L) && !klOkLiik.equals(18098L))
+        .put("hidden",
+            klOkLiik.equals(18052L) || klOkLiik.equals(18189L) || klOkLiik.equals(18098L));
+    stepAndmedDataElements.putObject("alguseKuupaev")
+        .putNull("value")
+        .put("required", klOkLiik.equals(18189L))
+        .put("hidden", !klOkLiik.equals(18189L));
+    stepAndmedDataElements.putObject("lopuKuupaev")
+        .putNull("value")
+        .put("required", klOkLiik.equals(18189L))
+        .put("hidden", !klOkLiik.equals(18189L));
+    stepAndmedDataElements.putObject("laagriNimetus")
+        .putNull("value")
+        .put("required", klOkLiik.equals(18052L) || klOkLiik.equals(18189L))
+        .put("hidden", !(klOkLiik.equals(18052L) || klOkLiik.equals(18189L)));
+    stepAndmedDataElements.putObject("kohtadeArvLaagris")
+        .putNull("value")
+        .put("required", klOkLiik.equals(18052L) || klOkLiik.equals(18189L))
+        .put("hidden", !(klOkLiik.equals(18052L) || klOkLiik.equals(18189L)));
+    stepAndmedDataElements.putObject("tkkLiik")
+        .putNull("value")
+        .put("required", klOkLiik.equals(18101L))
+        .put("hidden", !klOkLiik.equals(18101L));
+    stepAndmedDataElements.putObject("keeleTase")
+        .putNull("value")
+        .put("required", klOkLiik.equals(18100L))
+        .put("hidden", !klOkLiik.equals(18100L));
+    stepAndmedDataElements.putObject("soidukiteKategooria")
+        .putNull("value")
+        .put("required", klOkLiik.equals(18055L))
+        .put("hidden", !klOkLiik.equals(18055L));
+
+    stepAndmedDataElements.putObject("oppeTasemed")
+        .put("required", klOkLiik.equals(18057L))
+        .put("hidden", !klOkLiik.equals(18057L))
+        .put("add_del_rows", true)
+        .putArray("value");
+
+    stepAndmedDataElements.putObject("oppekavaRuhmad")
+        .put("required", klOkLiik.equals(18098L))
+        .put("hidden", !klOkLiik.equals(18098L))
+        .put("add_del_rows", true)
+        .putArray("value");
+
+    stepAndmedDataElements.putObject("valisAadress")
+        .put("value", false)
+        .put("required", false)
+        .put("hidden", false);
+    stepAndmedDataElements.putObject("aadressid")
+        .put("required", false)
+        .put("hidden", false)
+        .put("add_del_rows", true)
+        .putArray("value");
+
+    stepAndmedDataElements.putObject("oppeasutuseNimetus")
+        .putNull("value")
+        .put("required", false)
+        .put("hidden", false);
+    stepAndmedDataElements.putObject("omanik")
+        .putNull("value")
+        .put("required", false)
+        .put("hidden", false);
+    stepAndmedDataElements.putObject("kontaktisik")
+        .putNull("value")
+        .put("required", true)
+        .put("hidden", false);
+    stepAndmedDataElements.putObject("telefon")
+        .putNull("value")
+        .put("required", true)
+        .put("hidden", false);
+    stepAndmedDataElements.putObject("epost")
+        .putNull("value")
+        .put("required", true)
+        .put("hidden", false);
+    stepAndmedDataElements.putObject("koduleht")
+        .putNull("value")
+        .put("required", true)
+        .put("hidden", false);
+
+    stepAndmedDataElements.putObject("dokumendid").put("hidden", false);
+    ArrayNode dokumendidValue = ((ObjectNode) stepAndmedDataElements.get("dokumendid"))
+        .putArray("value");
+    if (!klOkLiik.equals(18098L)) {
+      Iterator<Entry<String, JsonNode>> fileTypes = klfFailiTyybid.get(klOkLiik.toString())
+          .fields();
+      while (fileTypes.hasNext()) {
+        Entry<String, JsonNode> fileType = fileTypes.next();
+        if (!fileType.getKey().equalsIgnoreCase("et")) {
+          dokumendidValue.addObject()
+              .put("liik", fileType.getValue().get("required").asBoolean() ?
+                  fileType.getValue().get("et").asText() + " (Kohustuslik)" :
+                  fileType.getValue().get("et").asText())
+              .put("klLiik", Long.valueOf(fileType.getKey()))
+              .put("required", fileType.getValue().get("required").asBoolean());
+        }
+      }
+    } else {
+      ((ObjectNode) stepAndmedDataElements.get("dokumendid")).put("hidden", true);
+    }
+
+    stepAndmedDataElements.putObject("kommentaar")
+        .putNull("value")
+        .put("required", false)
+        .put("hidden", false);
   }
 }
