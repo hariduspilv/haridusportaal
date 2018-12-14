@@ -42,7 +42,7 @@ getDocument/{formName}/{documentIdentifier}/{userId}
 
 Vastuses on Xdzesion dokument
 
-*** GET DOCUMENTS ***
+*** POST DOCUMENT ***
 Dokumendi salvestamine
 #### /api/postDocument/{data}/{document}
 data:{

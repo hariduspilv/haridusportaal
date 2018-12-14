@@ -44,7 +44,7 @@ export class TeachingsDetailedComponent implements OnInit{
         this.path = this.router.url;
         this.lang = params['lang'];
         this.type = params['type'];
-        this.dashboardLink = this.path.split(`/${this.type}`)[0];
+        this.dashboardLink = this.path.split("/" + this.type)[0];
       }
     );
     this.setPaths();
@@ -76,7 +76,7 @@ export class TeachingsDetailedComponent implements OnInit{
   }
 
   parseTypeTranslation(type) {
-    return `frontpage.${type}`;
+    return "frontpage."+type;
   }
 
   constructCrumbs() {

@@ -189,6 +189,10 @@ export class SearchComponent {
   checkForAllFilters() {
     return this.types.filter((type) => type.value || !type.sum).length === 6 || this.types.filter((type) => !type.value).length === 6;
   }
+  
+  // checkForSingleFilter() {
+  //   return this.types.filter((type) => type.value || !type.sum).length === 1 || this.types.filter((type) => !type.value).length === 1;
+  // }
 
   filterAll() {
     this.typeArr = [];
@@ -225,7 +229,7 @@ export class SearchComponent {
     }
     this.debouncer = setTimeout(_ => {
       this.autocompleteLoader = true;
-      let url = this.settings.url+"/graphql?queryId=1cb2424e19c6048e3b584dc3671add1525f4a049:1&variables=";
+      let url = this.settings.url+"/graphql?queryId=27813a87b01c759d984808a9e9ea0333627ad584:1&variables=";
       let variables = {
         search_term: searchText
       }

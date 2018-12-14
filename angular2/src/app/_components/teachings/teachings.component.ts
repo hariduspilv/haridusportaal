@@ -63,19 +63,19 @@ export class TeachingsComponent{
 
   convertDates(dateA, dateB) {
     let arrA = dateA.split('.');
-    let valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;
+    let valA = arrA[2] + "-" + arrA[1] + "-" + arrA[0];
     let arrB = dateB.split('.');
-    let valB = `${arrB[2]}-${arrB[1]}-${arrB[0]}`;
+    let valB = arrB[2] + "-" + arrB[1] + "-" + arrB[0];
     return {valA, valB};
   }
 
   parseTypeTranslation(type) {
-    return `frontpage.${type}`;
+    return "frontpage."+type;
   }
   
   setTeachingsDetail(work, route) {
     this.rootScope.set('teachingsDetail', work);
-    this.router.navigateByUrl(`${this.router.url}/${route}`)
+    this.router.navigateByUrl(this.router.url + "/" + route)
   }
 
   ngOnDestroy() {

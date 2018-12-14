@@ -1,13 +1,13 @@
-<div class="dialog" [class.narrow]="data && data.edId" role="dialog" attr.aria-label="{{'modal.open | translate'}}" cdkTrapFocus>
+<div class="dialog" [class.narrow]="data && data.edId" role="dialog" attr.aria-label="{{'modal.open' | translate}}" cdkTrapFocus>
   <div class="row">
     <div class="col-12" style="position: relative;">
-      <span class="dialog__text--medium">
+      <span class="dialog__text--medium" tabindex="0">
         <ng-container *ngIf="!data.edId">{{ 'dashboard.adding_educational_institution' | translate | uppercase }}</ng-container>
         <ng-container *ngIf="data.edId">{{ 'button.edit' | translate | uppercase }}</ng-container>
       </span>
-      <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
+      <div class="pull-right">
         <span class="htm-icon">close
-          <button class="btn-hidden" (click)="close()" tabindex="0"></button>
+          <button class="btn-hidden" attr.aria-label="{{'modal.info' | translate}}" role="button" (click)="close()" tabindex="0"></button>
         </span>
       </div>
     </div>
@@ -17,12 +17,12 @@
         <ng-container *ngIf="!data.edId">{{ 'dashboard.add_new_educational_institution' | translate }}</ng-container>
         <ng-container *ngIf="data.edId">{{ 'button.edit_data' | translate }}</ng-container>
       </h1>
-      <div *ngIf="!data.edId" class="dialog__required">* {{ 'event.registration_form_required' | translate }}</div>
+      <div *ngIf="!data.edId && !actionSuccess" class="dialog__required dialog__required--top">* {{ 'event.registration_form_required' | translate | lowercase }}</div>
     </div>
       
     <form [formGroup]="form" class="dialog__form col-12" *ngIf="!loader && initialized">
       <div class="dialog-content">
-        <div *ngIf="actionSuccess" class="SUCCESS md-top">
+        <div *ngIf="actionSuccess" class="SUCCESS md-top" role="alert">
           <div class="alert">
             <ng-container *ngIf="data && data.edId">{{ 'dashboard.educational_institution_data_updated' | translate }}</ng-container>
             <ng-container *ngIf="data && !data.edId">{{ 'dashboard.educational_institution_data_saved' | translate }}</ng-container>
@@ -39,7 +39,13 @@
               <div class="round-input__wrapper" [class.complete]="form.controls.name.value">
                 <span class="round-input__title">{{ 'dashboard.name' | translate }} *</span>
                 <div class="round-input__field-wrapper">
-                  <input attr.aria-label="{{ 'dashboard.name' | translate }} {{'required.modal' | translate}}" class="round-input__field" placeholder="{{ 'dashboard.name' | translate }} *" formControlName="name"/>
+                  <input
+                    role="textbox"
+                    attr.aria-label="{{ 'dashboard.name' | translate }} {{'required.modal' | translate}}"
+                    class="round-input__field"
+                    placeholder="{{ 'dashboard.name' | translate }} *"
+                    formControlName="name"
+                    spellcheck="false"/>
                 </div>
                 <div class="round-input__error">
                   <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('name') && form.controls.name.errors.required">
@@ -52,7 +58,13 @@
               <div class="round-input__wrapper" [class.complete]="form.controls.nameENG.value">
                 <span class="round-input__title">{{ 'dashboard.nameENG' | translate }}</span>
                 <div class="round-input__field-wrapper">
-                  <input attr.aria-label="{{ 'dashboard.nameENG' | translate }}" class="round-input__field" placeholder="{{ 'dashboard.nameENG' | translate }}" formControlName="nameENG"/>
+                  <input
+                    role="textbox"
+                    attr.aria-label="{{ 'dashboard.nameENG' | translate }}"
+                    class="round-input__field"
+                    placeholder="{{ 'dashboard.nameENG' | translate }}"
+                    formControlName="nameENG"
+                    spellcheck="false"/>
                 </div>
               </div>
             </div>
@@ -63,7 +75,20 @@
               <div class="round-input__wrapper" [class.complete]="form.controls.contactPhone.value">
                 <span class="round-input__title">{{ 'dashboard.contactPhone' | translate }} <span *ngIf="!data.edId">*</span></span>
                 <div class="round-input__field-wrapper">
-                  <input attr.aria-label="{{ 'dashboard.contactPhone' | translate }} {{ !data.edId && 'required.modal' | translate }}" class="round-input__field" placeholder="{{ 'dashboard.contactPhone' | translate }} {{ !data.edId ? '*' : ''}}" formControlName="contactPhone"/>
+                  <input *ngIf="!data.edId"
+                    role="textbox"
+                    spellcheck="false"
+                    attr.aria-label="{{ 'dashboard.contactPhone' | translate }} {{ 'required.modal' | translate }}"
+                    class="round-input__field"
+                    placeholder="{{ 'dashboard.contactPhone' | translate }} {{ '*' }}" 
+                    formControlName="contactPhone"/>
+                  <input *ngIf="data.edId"
+                    role="textbox"
+                    spellcheck="false"
+                    attr.aria-label="{{ 'dashboard.contactPhone' | translate }}"
+                    class="round-input__field"
+                    placeholder="{{ 'dashboard.contactPhone' | translate }}" 
+                    formControlName="contactPhone"/>
                 </div>
                 <div class="round-input__error">
                   <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('contactPhone') && form.controls.contactPhone.errors.required && !data.edId">
@@ -74,14 +99,37 @@
             </div>
             <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
               <div class="round-input__wrapper" 
-                [class.error]="isInvalidField('contactEmail') && form.controls.contactEmail.errors.email && !emailFocus" 
+                [class.error]="isInvalidField('contactEmail') && form.controls.contactEmail.errors.pattern && !emailFocus" 
                 [class.complete]="!isInvalidField('contactEmail') && form.controls.contactEmail.value && !emailFocus">
                 <span class="round-input__title">{{ 'event.participant_email' | translate }} <span *ngIf="!data.edId">*</span></span>
                 <div class="round-input__field-wrapper">
-                  <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{ !data.edId && 'required.modal' | translate }}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} {{ !data.edId ? '*' : ''}}" formControlName="contactEmail"/>
+                  <input *ngIf="!data.edId"
+                    role="textbox" 
+                    spellcheck="false"
+                    maxlength="30"
+                    attr.aria-label="{{ 'event.participant_email' | translate }} {{ 'required.modal' | translate }}"
+                    class="round-input__field"
+                    (focus)="emailFocus = true"
+                    (blur)="emailFocus = false"
+                    [class.focused]='emailFocus'
+                    placeholder="{{ 'event.participant_email'  | translate }} {{ '*' }}"
+                    formControlName="contactEmail"
+                    pattern="[^@\s]+@[^@\s]+\.[^@\s][^@\s]+"/>
+                  <input *ngIf="data.edId"
+                    role="textbox" 
+                    spellcheck="false"
+                    maxlength="30"
+                    attr.aria-label="{{ 'event.participant_email' | translate }}"
+                    class="round-input__field"
+                    (focus)="emailFocus = true"
+                    (blur)="emailFocus = false"
+                    [class.focused]='emailFocus'
+                    placeholder="{{ 'event.participant_email'  | translate }}"
+                    formControlName="contactEmail"
+                    pattern="[^@\s]+@[^@\s]+\.[^@\s][^@\s]+"/>
                 </div>
                 <div class="round-input__error">
-                  <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('contactEmail') && form.controls.contactEmail.errors.email && !emailFocus">
+                  <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('contactEmail') && form.controls.contactEmail.errors.pattern && !emailFocus">
                     {{ 'event.registration_form_valid_email' | translate }}
                   </div>
                 </div>
@@ -91,23 +139,52 @@
   
           <div class="row form-additional-row" *ngIf="data"><!-- ROW -->
             <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
-              <div class="round-input__wrapper" [class.complete]="form.controls.webpageAddress.value">
+              <div class="round-input__wrapper" 
+                [class.complete]="form.controls.webpageAddress.value"
+                [class.error]="isInvalidField('webpageAddress') && (form.controls.webpageAddress.errors.required || form.controls.webpageAddress.errors.pattern) && !webFocus">
                 <span class="round-input__title">{{ 'dashboard.webpageAddress' | translate }} <span *ngIf="!data.edId">*</span></span>
                 <div class="round-input__field-wrapper">
-                  <input attr.aria-label="{{ 'dashboard.webpageAddress' | translate }} {{ !data.edId && 'required.modal' | translate }}" class="round-input__field" placeholder="{{ 'dashboard.webpageAddress' | translate }} {{ !data.edId ? '*' : ''}}" formControlName="webpageAddress"/>
+                  <input *ngIf="!data.edId"
+                    role="textbox"
+                    spellcheck="false"
+                    pattern=".*\..{2,}$"
+                    attr.aria-label="{{ 'dashboard.webpageAddress' | translate }} {{ 'required.modal' | translate }}"
+                    class="round-input__field"
+                    placeholder="{{ 'dashboard.webpageAddress' | translate }} {{ '*' }}"
+                    formControlName="webpageAddress"
+                    (focus)="webFocus = true" 
+                    (blur)="webFocus = false" 
+                    [class.focused]='webFocus'/>
+                  <input *ngIf="data.edId"
+                    role="textbox"
+                    spellcheck="false"
+                    pattern=".*\..{2,}$"
+                    attr.aria-label="{{ 'dashboard.webpageAddress' | translate }}"
+                    class="round-input__field"
+                    placeholder="{{ 'dashboard.webpageAddress' | translate }}"
+                    formControlName="webpageAddress"
+                    (focus)="webFocus = true" 
+                    (blur)="webFocus = false" 
+                    [class.focused]='webFocus'/>
                 </div>
                 <div class="round-input__error">
-                  <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('webpageAddress') && form.controls.webpageAddress.errors.required && !data.edId">
+                  <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('webpageAddress') && form.controls.webpageAddress.errors.required && !data.edId && !webFocus">
                     {{ 'event.registration_form_required' | translate }}
+                  </div>
+                  <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('webpageAddress') && form.controls.webpageAddress.errors.pattern && !data.edId && !webFocus">
+                    {{ 'errors.enter_valid_webpage' | translate }}
                   </div>
                 </div>
               </div>
             </div>
             <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
-              <div class="round-input__wrapper" [class.error]="addressInvalid" [class.complete]="form.controls.address.value">
+              <div class="round-input__wrapper" 
+                [class.error]="form.controls.address.value && addressInvalid" 
+                [class.complete]="form.controls.address.value">
                 <span class="round-input__title">{{ 'dashboard.addressHumanReadable' | translate }} <span>*</span></span>
                 <div class="round-input__field-wrapper">
-                  <input class="round-input__field" 
+                  <input class="round-input__field"
+                    spellcheck="false"
                     type="text"
                     formControlName="address"
                     [(ngModel)]="address"
@@ -119,9 +196,17 @@
                     attr.aria-label="{{ 'dashboard.addressHumanReadable' | translate }} {{ 'required.modal' | translate }}"
                     [matAutocomplete]="autoAddress">
                   <mat-autocomplete #autoAddress="matAutocomplete"
-                    (optionSelected)="addressService.addressFieldFocus = false"
+                    (optionSelected)="addressService.addressFieldFocus = false;addressService.validateInAdsField(address);"
+                    formControlName="address-1"
+                    ngDefaultControl
+                    name="address-1"
                     [(ngModel)]="address">
-                    <ng-container *ngIf="addressService.autocompleteLoader">
+                    <ng-container *ngIf="addressService.autocompleteLoader && (!address || (address && address.length < 3))">
+                      <mat-option [value]="" disabled="true">
+                        <span>{{'search.not_found_required_chars' | translate }}</span>
+                      </mat-option>
+                    </ng-container>
+                    <ng-container *ngIf="addressService.autocompleteLoader && (address && address.length >= 3)">
                       <mat-option [value]="" disabled="true">
                         <span>{{'xjson.searching_please_wait' | translate }}</span>
                       </mat-option>
@@ -139,7 +224,7 @@
                   </mat-autocomplete>
                 </div>
                 <div class="round-input__error">
-                  <div class="round-input__error--text" role="alert" *ngIf="addressInvalid">
+                  <div class="round-input__error--text" role="alert" *ngIf="form.controls.address.value && addressInvalid">
                     {{ 'errors.enter_valid_address' | translate }}
                   </div>
                 </div>
@@ -151,8 +236,7 @@
             <div class="col-6 sm-12 form-col">
               <div class="round-input__wrapper" [class.complete]="form.controls.ownerType.value">
                 <mat-form-field>
-                  <mat-select placeholder="{{ 'dashboard.ownerType' | translate }} *" name="ownerType" formControlName="ownerType">
-                    <mat-option>{{ 'button.all' | translate }}</mat-option>
+                  <mat-select (openedChange)="loseFocus($event)" placeholder="{{ 'dashboard.ownerType' | translate }} *" name="ownerType" formControlName="ownerType">
                     <mat-option *ngFor="let item of formOptions['ownerTypes']" [value]="item.id">
                       {{item.et | titleCase}}
                     </mat-option>
@@ -163,8 +247,7 @@
             <div class="col-6 sm-12 form-col">
               <div class="round-input__wrapper" [class.complete]="form.controls.ownershipType.value">
                 <mat-form-field>
-                  <mat-select placeholder="{{ 'school.ownership' | translate }} *" name="ownershipType" formControlName="ownershipType">
-                    <mat-option>{{ 'button.all' | translate }}</mat-option>
+                  <mat-select (openedChange)="loseFocus($event)" placeholder="{{ 'school.ownership' | translate }} *" name="ownershipType" formControlName="ownershipType">
                     <mat-option *ngFor="let item of formOptions['ownershipTypes']" [value]="item.id">
                       {{item.et | titleCase}}
                     </mat-option>
@@ -178,8 +261,7 @@
             <div class="col-6 sm-12 form-col">
               <div class="round-input__wrapper" [class.complete]="form.controls.studyInstitutionType.value">
                 <mat-form-field>
-                  <mat-select placeholder="{{ 'dashboard.studyInstitutionType' | translate }} *" name="studyInstitutionType" formControlName="studyInstitutionType">
-                    <mat-option>{{ 'button.all' | translate }}</mat-option>
+                  <mat-select (openedChange)="loseFocus($event)" placeholder="{{ 'dashboard.studyInstitutionType' | translate }} *" attr.aria-label="{{'dashboard.studyInstitutionType' | translate}} {{'required.modal' | translate}} {{formOptions['studyInstitutionTypes'].length}}" name="studyInstitutionType" formControlName="studyInstitutionType">
                     <mat-option *ngFor="let item of formOptions['studyInstitutionTypes']" [value]="item.id">
                       {{item.et | titleCase}}
                     </mat-option>
@@ -193,21 +275,21 @@
   
       <div class="dialog__actions row" *ngIf="!loader">
         <div class="col-12 text-right" *ngIf="data && !data.edId && !actionSuccess">
-          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
-          <!-- <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="add($event)">{{ 'button.save' | translate }}</button> -->
-          <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'button.save' | translate }}</button>
-          <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
-          <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && add($event)"></re-captcha>
+          <button tabindex="0" class="sm-hide btn-link mr-25" type="button" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button class="sm-show" tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="add($event)">{{ 'button.save' | translate }}</button>
+          <button class="sm-hide" tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="(reqError && captchaRef.reset());captchaRef.execute()">{{ 'button.save' | translate }}</button>
+          <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</a>
+          <re-captcha class="sm-hide" tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && add($event);"></re-captcha>
         </div>
         <div class="col-12 text-right" *ngIf="data && data.edId && !actionSuccess">
-          <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
-          <!-- <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="edit($event)">{{ 'button.save' | translate }}</button> -->
-          <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'button.save' | translate }}</button>
-          <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
-          <re-captcha tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && edit($event)"></re-captcha>
+          <button tabindex="0" class="sm-hide btn-link mr-25" type="button" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button class="sm-show" tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="edit($event)">{{ 'button.save' | translate }}</button>
+          <button class="sm-hide" tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="(reqError && captchaRef.reset());captchaRef.execute()">{{ 'button.save' | translate }}</button>
+          <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</a>
+          <re-captcha class="sm-hide" tabindex="-1" #captchaRef="reCaptcha" size="invisible" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="$event && edit($event);"></re-captcha>
         </div>
-        <div class="col-12 text-right" *ngIf="data && actionSuccess">
-          <button tabindex="0" attr.aria-label="{{ 'event.registration_form_cancel' | translate }}" class="sm-hide btn-link" role="button" href="javascript:void(0)" (click)="close()">{{ 'modal.close' | translate }}</button>
+        <div class="col-12 text-center" *ngIf="data && actionSuccess">
+          <button tabindex="0" attr.aria-label="{{ 'event.registration_form_close' | translate }}" class="btn-link" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_close' | translate }}</button>
         </div>
       </div>
   

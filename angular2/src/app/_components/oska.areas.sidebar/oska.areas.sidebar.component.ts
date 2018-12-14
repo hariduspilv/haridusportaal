@@ -51,7 +51,7 @@ export class OskaAreasSidebarComponent implements OnInit {
       (params: ActivatedRoute) => {
         this.lang = this.rootScope.get('currentLang');
         if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed) {
-          this.locationPerLang = this.lang === 'en' ? `/${this.lang}/study-programmes` : `/${this.lang}/erialad`;
+          this.locationPerLang = this.lang === 'en' ? "/" + this.lang + "/study-programmes" : "/" + this.lang + "/erialad";
           this.learningQuery = { iscedf_detailed: this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.entity.entityId };
         }
       }
@@ -82,7 +82,7 @@ export class OskaAreasSidebarComponent implements OnInit {
     let previousElement = this.limits[type] - 1;
     this.limits[type] = this.sidebar[compare].length;
     this.typeStatus[type] = false;
-    let elemToTarget = document.getElementById(`${compare}_${previousElement}`);
+    let elemToTarget = document.getElementById(compare + "_" + previousElement);
     if (elemToTarget) {
       elemToTarget.focus();
     }

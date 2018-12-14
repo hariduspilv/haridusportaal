@@ -19,8 +19,48 @@
       <div class="fill-space__flex">
         <div class="searchbar">
           <span class="search" [hidden]="hideElement">
-            <input role="search" class="search-input round-input" (keyup.enter)="searchRoute(param)" [(ngModel)]="param" placeholder="{{'button.search_from_page' | translate}}" />
-            <a role="button" (click)="searchRoute(param)" href="javascript:void(0)" class="search-icn"></a>
+            <input type="text"
+              (keyup.enter)="searchRoute(searchParam)"
+              attr.aria-label="{{ 'button.search_from_page' | translate }}" 
+              class="search-input round-input" placeholder="{{'search.keyword' | translate}}" 
+              [(ngModel)]='searchParam' 
+              (focus)="populateSuggestionList(searchParam, 300)"
+              role="combobox"
+              aria-autocomplete="both"
+              spellcheck="false"
+              autocomplete="off"
+              aria-owns="matAutocomplete"
+              name="searchParam" 
+              id="searchParam"
+              [matAutocomplete]="auto"
+              (ngModelChange)="populateSuggestionList(searchParam, 300)"/>
+            <mat-autocomplete #auto="matAutocomplete" 
+              role="listbox"
+              name="searchParam"
+              id="matAutocomplete"
+              [(ngModel)]='searchParam' 
+              (optionSelected)="autocompleteLoader = false;suggestionList = [];searchRoute(searchParam)">
+              <ng-container *ngIf="autocompleteLoader && searchParam">
+                <mat-option [value]="" disabled="true">
+                  <span>{{'search.searching_please_wait' | translate }}</span>
+                </mat-option>
+              </ng-container>
+              <ng-container *ngIf="autocompleteLoader == false && suggestionList && searchParam">
+                <mat-option *ngIf="!suggestionList.length" [value]="" disabled="true">
+                  <span role="alert" *ngIf="searchParam && searchParam.length < 3">{{'search.not_found_required_chars' | translate }}</span>
+                  <span role="alert" *ngIf="searchParam && searchParam.length >= 3">{{'search.not_found' | translate }}</span>
+                </mat-option>
+                <ng-container *ngIf="suggestionList.length > 0">
+                  <mat-option role="option" aria-selected="false" *ngFor="let result of suggestionList; let ind = index;" [value]="result.Suggestion">
+                    <span id="{{'option_' + ind" role="option">{{ result.Suggestion }}</span>
+                  </mat-option>
+                  <div class="search__alert" role="alert">
+                    <span class="search__alert--elem">{{suggestionList.length}} {{'search.suggestions_available' | translate}}</span>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </mat-autocomplete>
+            <a role="button" (click)="searchRoute(searchParam)" href="javascript:void(0)" class="search-icn"></a>
           </span>
         </div>
         <div class="loginbar">
@@ -40,7 +80,7 @@
       </div>
     </div>
     <span class="mob-space sm-show"></span>
-    <a href="javascript:void(0)" aria-hidden="true" (click)="searchRoute(param)"><span class="htm-icon search sm-show" aria-hidden="true">search</span></a>
+    <a href="javascript:void(0)" aria-hidden="true" (click)="searchRoute(searchParam)"><span class="htm-icon search sm-show" aria-hidden="true">search</span></a>
 
     <app-login class="sm-show"></app-login>
 

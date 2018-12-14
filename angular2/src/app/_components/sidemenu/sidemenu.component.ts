@@ -32,7 +32,7 @@ export class SideMenuComponent implements OnInit {
     current = current.includes('?') ? current.split('?')[0] : current;
     if ((current.match(/\//g) || []).length >= 3) {
       let childSplitVar = current.split('/').pop();
-      let childCurrent = current.split(`/${childSplitVar}`)[0];
+      let childCurrent = current.split("/" + childSplitVar)[0];
       return childCurrent === path;
     }
     return (path.match(/\//g) || []).length > 1 && current === path;

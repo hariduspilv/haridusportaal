@@ -21,6 +21,7 @@
                 <div class="title xxs-hide">{{ mainMenuCommonAttrs[item._id].label | translate }}</div>
               </a>
             </ng-container>
+            <div *ngIf="!item.active" class="view-item text-center"></div>
           </ng-container>
         </div><!--/button-list-->
 

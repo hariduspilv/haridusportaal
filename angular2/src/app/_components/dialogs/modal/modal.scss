@@ -6,9 +6,11 @@
   &__text {&--medium {color: $dark-gray; line-height: 2;}}
   &__close {position: absolute;top: 0.6875rem;right: $half-gutter;cursor:pointer;}
   &__time {padding: $half-gutter 0 $small 0;line-height: 1.38rem;}
-  &__required {line-height: 1.88rem;}
+  &__required {line-height: 1.88rem;
+    &--top {margin-top: 1rem;}
+  }
   &__form {padding-top: 0; .dialog-content {padding-top: $gutter;}}
-  &__actions {padding-top: $small;
+  &__actions {padding-top: $large;
     a {margin-top: $small;line-height:$medium;text-align: center;
       @include break-on(sm, min) {margin-right: $medium; margin-top: 0;}
     }
@@ -24,6 +26,7 @@
         &.wide--button .mat-raised-button.mat-primary {padding: 0 2.5rem;}
       }
     }
+    @include break-on(sm, min) {padding-top: $small;}
   }
   &__success {display: flex;flex-direction: column;justify-content: center;align-items: center;margin: 0 auto; min-height: 40vh;padding: 0 $gutter; margin-top: 2rem;
     &__title {padding-bottom: $xxl;}
@@ -57,7 +60,8 @@
   width: 1.5rem;
 }
 
-.htm-icon { position: relative}
+.btn-link:hover {text-decoration: none;}
+.htm-icon {position: relative;}
 
 .image {padding: 1.5rem;
   .htm-icon {float: right;position: relative;bottom: .75rem; }

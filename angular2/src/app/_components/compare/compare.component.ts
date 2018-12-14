@@ -137,11 +137,11 @@ export class CompareComponent implements OnInit, OnDestroy{
     if (this.viewLink && this.compare.length && !this.snackBarOpen) {
 
       this.snackBarOpen = true;
-      let message = `${this.translate.get(this.compareTranslationOptions[this.localStorageKey].added)['value']}`;
+      let message = this.translate.get(this.compareTranslationOptions[this.localStorageKey].added)['value'];
       if( panelClass == "info" ){
-        message = `${this.translate.get(this.compareTranslationOptions[this.localStorageKey].in)['value']}`;
+        message = this.translate.get(this.compareTranslationOptions[this.localStorageKey].in)['value'];
       }
-      let action = `${this.translate.get('button.see_comparison')['value']}`;
+      let action = this.translate.get('button.see_comparison')['value'];
       let snackBarRef = this.snackbar.open(message, action, {
         duration: 600000,
         panelClass: panelClass
