@@ -187,10 +187,10 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     }
     if (parseInt(this.scrollPos, 10) <= table.getBoundingClientRect().height) {
       if (document.getElementById('scrollableRight')) {
-        document.getElementById('scrollableRight').setAttribute('style', `top: ${this.scrollPos}px`);
+        document.getElementById('scrollableRight').setAttribute('style', "top: " + this.scrollPos + "px");
       }
       if (document.getElementById('scrollableLeft')) {
-        document.getElementById('scrollableLeft').setAttribute('style', `top: ${this.scrollPos}px`);
+        document.getElementById('scrollableLeft').setAttribute('style', "top: " + this.scrollPos + "px");
       }
     }
   }
@@ -203,7 +203,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     }
   }
   setDeleteText() {
-    this.deleteText = `${this.deleteIndicator}`;
+    this.deleteText = this.deleteIndicator.toString();
     this.deleteIndicator++;
   }
   back () {

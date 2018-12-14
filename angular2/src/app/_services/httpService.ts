@@ -25,14 +25,13 @@ export class HttpService {
       if( isExpired ){
         localStorage.removeItem('token');
       }else{
-        headers = headers.append('Authorization', `Bearer ${token}`);
+        headers = headers.append('Authorization', "Bearer " + token);
       }
-      
+
       headers = headers.append('Cache-Control', 'no-cache');
-
+    
     }
-
-    //console.log(headers);
+    
     return headers;
 
   }
@@ -62,8 +61,10 @@ export class HttpService {
   }
 
   post(url, data) {
+    const xcsrf = localStorage.getItem('xcsrfToken');
     url = this.parseUrl(url);
     let headers = this.createAuthorizationHeader();
+    headers = headers.append('X-CSRF-TOKEN', xcsrf);
     
     return this.http.post(url, data, {
       headers: headers

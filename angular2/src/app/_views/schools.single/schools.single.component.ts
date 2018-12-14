@@ -71,7 +71,7 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
         } else if (data) {
           this.handleData(data);
         }
-        
+
       });
     }
     

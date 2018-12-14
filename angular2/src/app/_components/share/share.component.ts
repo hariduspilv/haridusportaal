@@ -27,13 +27,13 @@ export class ShareComponent{
     let shareLink = '';
     switch (type) {
       case 'facebook':
-        shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        shareLink = "https://www.facebook.com/sharer/sharer.php?u=" + url;
         break;
       case 'twitter':
-        shareLink = `https://twitter.com/intent/tweet?text=${this.title} - ${url}`;
+        shareLink = "https://twitter.com/intent/tweet?text=" + this.title + " - " + url;
         break;
       default:
-        shareLink = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        shareLink = "https://www.facebook.com/sharer/sharer.php?u=" + url;
     }
     this.resetFocus();
     return window.open(shareLink, 'targetWindow', 'toolbar=0,location=0,status=0,menubar=0,scrollbars=1,resizable=1,width=560,height=460')
@@ -48,8 +48,8 @@ export class ShareComponent{
     $event.stopPropagation();
     if (this.activeState) {
       this._clipboardService.copyFromContent(this.copyLink);
-      let message = `${this.translate.get('url.copied_to_clipboard')['value']}`;
-      let action = `${this.translate.get('button.close')['value']}`;
+      let message = this.translate.get('url.copied_to_clipboard')['value'];
+      let action = this.translate.get('button.close')['value'];
       this.snackbar.open(message, action, {
         duration: 5000,
       });
@@ -67,8 +67,8 @@ export class ShareComponent{
     $event.preventDefault();
     $event.stopPropagation();
     this._clipboardService.copyFromContent(this.copyLink);
-    let message = `${this.translate.get('url.copied_to_clipboard')['value']}`;
-    let action = `${this.translate.get('button.close')['value']}`;
+    let message = this.translate.get('url.copied_to_clipboard')['value'];
+    let action = this.translate.get('button.close')['value'];
     this.snackbar.open(message, action, {
       duration: 5000,
     });

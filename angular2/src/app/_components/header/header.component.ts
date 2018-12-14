@@ -18,7 +18,7 @@ export class HeaderComponent {
 
   @Input() wasClicked: boolean;
   hideElement = true;
-  param: any;
+  searchParam: any;
   languages: any;
   logoLink: any;
   activeLanguage: any;
@@ -105,10 +105,11 @@ export class HeaderComponent {
     this.sidemenu.sendMessage();
   }
 
-  searchRoute(param) {
-    if (!param) {param = ''}
-    let url = `/otsing?term=${param}`;
-    this.param = '';
+
+  searchRoute(searchParam) {
+    if (!searchParam) {searchParam = ''}
+    let url = "/et/otsing?term=" + searchParam;
+    this.searchParam = '';
     this.router.navigateByUrl(url)
   }
 

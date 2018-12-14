@@ -39,7 +39,7 @@ export class TableModal {
       } else {
         
         this.data.fields.forEach((field) => {
-          let translationLink = `${this.data.fieldsTranslationSrc}.${field}`;
+          let translationLink = this.data.fieldsTranslationSrc[field];
           this.fieldTranslations.push(this.translate.get(translationLink)['value']);
         });
         

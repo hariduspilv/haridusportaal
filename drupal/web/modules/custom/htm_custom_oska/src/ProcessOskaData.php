@@ -102,15 +102,12 @@ class ProcessOskaData {
             if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
                 for($i = $context['sandbox']['current_id']; $i <= $context['sandbox']['max']; $i++){
 
-                    // do something
                     $values = $context['results']['values'][$i];
-                    #if($values){
-                        foreach($values as $key => $value){
-                            if(isset($filter_values[$key]) && !in_array($value, $filter_values[$key]) && strlen(trim($value)) != 0){
-                                $filter_values[$key][] = $value;
-                            }
+                    foreach($values as $key => $value){
+                        if(isset($filter_values[$key]) && !in_array($value, $filter_values[$key]) && strlen(trim($value)) != 0){
+                            $filter_values[$key][] = $value;
                         }
-                    #}
+                    }
 
                     if($context['sandbox']['progress']+1 == $context['sandbox']['max']){
                         foreach($filter_values as $key => $values){
