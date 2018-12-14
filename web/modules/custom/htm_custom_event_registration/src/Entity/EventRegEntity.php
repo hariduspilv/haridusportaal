@@ -173,23 +173,35 @@ class EventRegEntity extends ContentEntityBase implements EventRegEntityInterfac
 
 	public function getReferenceEventDates($format = NULL){
 		$event = $this->get('event_reference')->entity;
-		#dump($event);
-		$last_event_date = 0;
-		$first_event_date = strtotime('now');
-		foreach($event->field_event_date as $event_date){
-			$unix_event_date = strtotime($event_date->entity->field_event_date->value);
-			$last_event_date = ($unix_event_date >= $last_event_date)
-				? $unix_event_date
-				: $last_event_date;
-			$first_event_date = ($first_event_date >= $unix_event_date)
-				? $unix_event_date
-				: $first_event_date;
+
+		$last_event_date = NULL;
+		$first_event_date = strtotime($event->get('field_event_main_date')->value);
+		if(!empty($event->field_event_date->value)){
+			$last_event_date = 0;
+			foreach($event->field_event_date as $event_date){
+				$unix_event_date = strtotime($event_date->entity->field_event_date->value);
+				$last_event_date = ($unix_event_date >= $last_event_date)
+					? $unix_event_date
+					: $last_event_date;
+			}
 		}
+
+		$d = NULL;
+
 		if($format){
-			return date($format, $first_event_date) . ' - ' . date($format, $last_event_date);
+			if($last_event_date){
+				$d = implode(' - ', [date($format, $first_event_date), date($format, $last_event_date)]);
+			}else{
+				$d = date($format, $first_event_date);
+			}
 		}else{
-			return ['start' => $first_event_date, 'last' => $last_event_date];
+			if($last_event_date){
+				$d = ['start' => $first_event_date, 'last' => $last_event_date];
+			}else{
+				$d = ['start' => $first_event_date];
+			}
 		}
+		return $d;
 
 	}
 
