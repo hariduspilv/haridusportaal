@@ -38,7 +38,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     const breadcrumbSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
       let data = response['data'];
       if( !data['route'] ){
-        this.router.navigateByUrl(`/${this.lang}/404`, {replaceUrl: true});
+        this.router.navigateByUrl("/" + this.lang + "/404", {replaceUrl: true});
       }
       this.metaTags.set(data['route']['entity']['entityMetatags']);
       this.breadcrumb = data['route']['breadcrumb'];

@@ -34,7 +34,7 @@ export class NotFoundComponent {
   }
 
   toFrontpage() {
-    return `/${this.getLang()}`
+    return "/" + this.getLang();
   }
 
   constructUrl(type) {

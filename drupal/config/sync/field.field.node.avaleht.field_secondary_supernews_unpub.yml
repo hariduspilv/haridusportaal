@@ -1,0 +1,21 @@
+uuid: 844f41f1-d0fa-406e-baba-b9c72b50bad2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_secondary_supernews_unpub
+    - node.type.avaleht
+  module:
+    - htm_custom_datetime_unix
+id: node.avaleht.field_secondary_supernews_unpub
+field_name: field_secondary_supernews_unpub
+entity_type: node
+bundle: avaleht
+label: 'Teise superuudise varjamise kuupäev'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

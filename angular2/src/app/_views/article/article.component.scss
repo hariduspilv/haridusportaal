@@ -17,6 +17,7 @@ article {padding-bottom: $small;
     @include break-on(sm, max) {padding-bottom: 4.5rem;}
   }
 }
+.article-spacer{height:1.5rem;}
 .share-btn {
   .mat-button {min-width: $medium;width: $medium;padding: 0;position: relative;bottom: 0.3125rem;}
   .htm-icon {line-height: 1.3;

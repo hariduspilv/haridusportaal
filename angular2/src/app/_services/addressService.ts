@@ -39,6 +39,11 @@ export class AddressService {
         this.resultSet = data['addresses'] || [];
         this.resultSet = this.resultSet.filter(address => (address.kood6 != '0000' || address.kood7 != '0000'))
         this.resultSet.forEach(address => {
+          // if(address.kort_nr){
+          //   address.addressHumanReadable = address.liikluspind + ' ' + address.aadress_nr + ' - ' + address.kort_nr + ', ' + address.omavalitsus + ', ' + address.maakond;
+          // } else {
+          //   address.addressHumanReadable = address.liikluspind + ' ' + address.aadress_nr + ', ' + address.omavalitsus + ', ' + address.maakond;
+          // }
           if(address.kort_nr){
             address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
           } else {
@@ -59,7 +64,7 @@ export class AddressService {
   }
   
   addressAutocompleteSelectionValidation(humanReadable) {
-    if(this.resultSet ===  undefined) return false;  
+    if(this.resultSet === undefined) return false;  
     let match = this.resultSet.find(address => {
       return address.addressHumanReadable === humanReadable
     });

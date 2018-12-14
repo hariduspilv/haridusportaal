@@ -99,7 +99,7 @@ export class FrontpageComponent {
     if (!param) {
       this.searchError = true;
     } else {
-      let url = this.lang === '/et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
+      let url = this.lang === '/et' ? "/et/otsing?term=" + param : "/en/search?term=" + param;
       this.router.navigateByUrl(url)
     }
   }
@@ -125,7 +125,7 @@ export class FrontpageComponent {
         this.allPath = "/et/uudised";
         this.eventPath = "/et/sundmused";
       } else if (this.lang !== '') {
-        this.router.navigateByUrl(`/${this.lang}/404`, {replaceUrl: true});
+        this.router.navigateByUrl("/" + this.lang +"/404", {replaceUrl: true});
       }
       this.getGeneral()
       this.getEvents()
@@ -159,7 +159,7 @@ export class FrontpageComponent {
     }
     this.debouncer = setTimeout(_ => {
       this.autocompleteLoader = true;
-      let url = this.settings.url+"/graphql?queryId=1cb2424e19c6048e3b584dc3671add1525f4a049:1&variables=";
+      let url = this.settings.url+"/graphql?queryId=27813a87b01c759d984808a9e9ea0333627ad584:1&variables=";
       let variables = {
         search_term: searchText
       }

@@ -496,7 +496,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   isValidField(field){
     //check for required field
     if(field.required === true){
-      if(field.value === undefined) return {valid: false, message: this.translate.get('xjson.missing_required_value')['value']}
+      if(field.value === undefined || field.value === null) return {valid: false, message: this.translate.get('xjson.missing_required_value')['value']}
     }
     if(field.value) {
       //check for minlength
@@ -535,11 +535,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
       }
     }
-    return {valid: true, message:'valid'};
+    return { valid: true, message:'valid' };
   }
   tableValidation(table){
+    if(!table.value || !table.value.length) {
+      return { valid: true, message:'valid'};
+    }
     for (let row of table.value) {
-      
       for (let col of Object.keys(row)) {
         let column_properties = JSON.parse(JSON.stringify(table.table_columns[col]));
         column_properties.value = row[col];

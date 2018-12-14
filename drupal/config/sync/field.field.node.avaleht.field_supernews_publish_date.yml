@@ -6,12 +6,12 @@ dependencies:
     - field.storage.node.field_supernews_publish_date
     - node.type.avaleht
   module:
-    - datetime
+    - htm_custom_datetime_unix
 id: node.avaleht.field_supernews_publish_date
 field_name: field_supernews_publish_date
 entity_type: node
 bundle: avaleht
-label: 'Superduudise avaldamise kuupäev'
+label: 'Superuudise avaldamise kuupäev'
 description: ''
 required: true
 translatable: true

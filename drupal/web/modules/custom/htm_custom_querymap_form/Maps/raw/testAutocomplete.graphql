@@ -1,5 +1,5 @@
 query($search_term: String!){
-  CustomElasticAutocompleteQuery(elasticsearch_index:["elasticsearch_index_drupaldb_autocomplete_index"],fields:[""], search_input:$search_term, limit:1000){
+  CustomElasticAutocompleteQuery(elasticsearch_index:["elasticsearch_index_drupaldb_autocomplete_index"], search_input:$search_term, limit: 10){
     Suggestion:Nid
   }
 }

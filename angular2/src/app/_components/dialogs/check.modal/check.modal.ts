@@ -36,7 +36,7 @@ export class CheckModal {
     this.codeSelection = this.data.userData['role']['current_role']['data'] ? this.data.userData['role']['current_role']['data']['reg_kood'] : null;
     this.roleSelection = this.data.userData['role']['current_role']['type'];
     if (this.roleSelection === 'juridical_person') {
-      this.roleSelection = `juridical-${this.codeSelection}`
+      this.roleSelection = "juridical-"+this.codeSelection;
     } 
     this.initialRole = this.roleSelection;
     this.loading = true;
