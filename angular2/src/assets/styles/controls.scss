@@ -26,6 +26,12 @@
       }
 
     }
+    &.clean {
+      ::placeholder {font-size: 0.875rem;
+        @include break-on(sm, max) { font-size: 0.875rem; }}
+      .round-input__title {display: none;}
+      .round-input__field-wrapper {border-color: transparent;}
+    }
     &.complete {
       ::placeholder {color: transparent;  font-size: 0.875rem;
             @include break-on(sm, max) { font-size: 0.875rem; }}
