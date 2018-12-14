@@ -17,13 +17,18 @@
       @include break-on(xxs, max) {padding-right: 0;}
     }
     .button--wrapper {position:relative;flex-basis: 45%;margin: -1.5rem -1.5rem -1.5rem 0;
-      &:before {content: '';position: absolute;top: 0;z-index: 1;left: -.25rem;width: 0;
-        border-top: 90px solid white;
+      &:before {content: '';position: absolute;top: 0;z-index: 1;left: -.25rem;width: 0;pointer-events: none;
+        border-top: 89px solid $white;
         border-right: calc(((100vw - 260px) * 0.183)) solid rgba(0, 0, 0, 0);
         @include break-on(sm, max) {
           border-right: calc(100vw * 0.183) solid rgba(0, 0, 0, 0);
         }
         @include break-on(xxs, max) {display: none;}
+        @include break-on(xl, min) {
+          border-right: calc(((100vw - 340px) * 0.183)) solid rgba(0, 0, 0, 0);
+          border-top: 99px solid $white;
+        }
+        @include break-on(xxl, min) {border-top: 120px solid $white;}
       }
       button {height: 100%;width: 100%;border-radius: .25rem;box-sizing: border-box;text-align: right;padding-right: 4.5rem;
         @include break-on(xxs, max) {margin-top: 1.5rem;height: auto; text-align: center;padding-right: 0;border-radius: 1.25rem;}

@@ -1,18 +1,20 @@
 <ng-template #search>
-<form class="section__form" [class.focusedError]='!searchFocus && !param && searchError'>
+<form class="section__form">
+    <!-- [class.focusedError]='!searchFocus && !param && searchError' -->
   <div class="flex wrap xxs" role="search">
     <div class="grow">
+        <!-- [class.error]="!searchFocus && !param && searchError" -->
       <div class="round-input__wrapper" aria-live="assertive" 
         [class.complete]="!searchFocus && param"
-        [class.error]="!searchFocus && !param && searchError">
-        <label for="param" class="round-input__title" aria-hidden="true">{{'button.search_from_page' | translate}}</label>
+        [class.clean]="!searchFocus && !param && !searchError && !mobileView">
+        <label for="param" class="round-input__title" aria-hidden="true">{{'frontpage.enter_keyword_and_search' | translate}}</label>
         <div class="round-input__field-wrapper">
           <input type="text" 
-          attr.aria-label="{{ 'button.search_from_page' | translate }}" 
+          attr.aria-label="{{ 'frontpage.enter_keyword_and_search' | translate }}" 
           class="round-input__field" 
-          placeholder="{{ 'button.search_from_page' | translate }}"
+          placeholder="{{ 'frontpage.enter_keyword_and_search' | translate }}"
           [(ngModel)]='param' 
-          (focus)="populateSuggestionList(param, 300);searchError = false;searchFocus = true;"
+          (focus)="searchFocus = true;populateSuggestionList(param, 300);searchError = false;"
           (blur)="searchFocus = false"
           role="combobox"
           aria-autocomplete="both"
@@ -50,14 +52,15 @@
             </ng-container>
           </mat-autocomplete>
         </div>
-        <div class="round-input__error">
+        <!-- <div class="round-input__error">
           <div class="round-input__error--text error-9" *ngIf="!searchFocus && searchError">
             <span role="alert">{{ 'Otsingu käivitamiseks sisesta otsitav märksõna' }}</span>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="button--wrapper">
+      <div class="button--slicer"></div>
       <button (click)="searchRoute(param)" attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
     </div>
   </div>

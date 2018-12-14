@@ -23,6 +23,7 @@ export class FrontpageComponent {
   public eventPath: any;
   public suggestionList: any = false;
   public debouncer: any;
+  public mobileView: boolean = false;
   public autocompleteLoader: boolean = false;
   public suggestionSubscription: Subscription;
   
@@ -96,12 +97,14 @@ export class FrontpageComponent {
   }
 
   searchRoute(param) {
+    let url: string = '';
     if (!param) {
-      this.searchError = true;
+      // this.searchError = true;
+      url = this.lang === '/et' ? "/et/otsing" : "/en/search";
     } else {
-      let url = this.lang === '/et' ? "/et/otsing?term=" + param : "/en/search?term=" + param;
-      this.router.navigateByUrl(url)
+      url = this.lang === '/et' ? "/et/otsing?term=" + param : "/en/search?term=" + param;
     }
+    this.router.navigateByUrl(url)
   }
 
   superNewsValid() {
@@ -115,6 +118,7 @@ export class FrontpageComponent {
   }
   ngOnInit() {
     (document.activeElement as HTMLElement).blur();
+    this.mobileView = window.innerWidth <= 1024;
     this.lang = this.router.url;
 		let that = this;
 		this.route.params.subscribe(params => {
