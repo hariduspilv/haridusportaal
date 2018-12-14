@@ -38,8 +38,9 @@ export class HeaderComponent {
     private settings: SettingsService
   ) {
 
-    this.logoLink = '/et';
+    this.logoLink = "/";
 
+    /*
     let url = "/graphql?queryName=siteLangs&queryId=938d5cb55fe96f1c0a6a69a0bbb983d939644f01:1";
     
     let subscribe = this.http.get(url).subscribe( (response) => {
@@ -61,19 +62,17 @@ export class HeaderComponent {
 
       this.languages = data['availableLanguages'];
     });
-
+    */
 
     router.events.subscribe( (event: Event) => {
       if (event instanceof RoutesRecognized) {
 
         let params = event.state.root.firstChild.params;
-        
-        rootScope.set('currentLang', params['lang'] );
-        this.activeLanguage = params['lang'];
+        this.activeLanguage = this.rootScope.get("lang");
       }
       if (event instanceof NavigationEnd) {
         var partials = ['/et', '/en', '/ru', '/'];
-        this.hideElement = partials.includes(event.url) || event.url.includes('/et/otsing') || event.url.includes('/en/search');
+        this.hideElement = partials.includes(event.url) || event.url.includes('/otsing');
         this.wasClicked = false;
       }
     });
@@ -108,7 +107,7 @@ export class HeaderComponent {
 
   searchRoute(param) {
     if (!param) {param = ''}
-    let url = this.rootScope.get('currentLang') === 'et' ? `/et/otsing?term=${param}` : `/en/search?term=${param}`
+    let url = `/otsing?term=${param}`;
     this.param = '';
     this.router.navigateByUrl(url)
   }

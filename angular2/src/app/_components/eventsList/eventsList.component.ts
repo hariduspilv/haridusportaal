@@ -30,21 +30,8 @@ export class EventsListComponent implements OnInit, OnDestroy{
     public snackbar: MatSnackBar, 
     public route: ActivatedRoute) {}
 
-  pathWatcher() { 
-    let subscribe = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.lang = params['lang'];
-    });
-
-    this.subscriptions = [...this.subscriptions, subscribe];
-  }
-
   viewAllEventsLink(): string{
-    switch(this.lang){
-      case 'et':  return '/et/sundmused';
-      case 'en':  return '/en/events';
-      default: return '/et/sundmused';
-    }
+    return '/sundmused';
   }
 
   compareDate(unixDate) {
@@ -88,7 +75,7 @@ export class EventsListComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(){
-    this.pathWatcher();
+    this.lang = this.rootScope.get("lang");
     this.getData();
   }
   ngOnDestroy(){

@@ -33,8 +33,7 @@ export class CertificatesDetailedComponent implements OnInit{
   private error: boolean;
   private viewChecked: boolean = false;
   private initialCrumbs = {
-    'en': [{"text": "Home", "url": "/en"}, {"text": "Certificates", "url": "/en/dashboard/certificates"}],
-    'et': [{"text": "Avaleht", "url": "/et"}, {"text": "Tunnistused", "url": "/et/toolaud/tunnistused"}]
+    'et': [{"text": "Avaleht", "url": "/"}, {"text": "Tunnistused", "url": "/toolaud/tunnistused"}]
   };
   public subscriptions: Subscription[] = [];
 
@@ -45,23 +44,16 @@ export class CertificatesDetailedComponent implements OnInit{
     public http: HttpService,
     private route: ActivatedRoute,
     private router: Router,
-    private settings: SettingsService) {}
+    private settings: SettingsService
+  ) {}
 
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/dashboard/certificates/'+ this.certificateId,
-      'et': '/et/toolaud/tunnistused/'+ this.certificateId
-    });
-  }
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = params['lang'];
         this.certificateId = params['id'];
       }
     );
-    this.setPaths();
     this.subscriptions = [...this.subscriptions, subscribe];
   }
   loadCertificate() {
@@ -135,6 +127,7 @@ export class CertificatesDetailedComponent implements OnInit{
   }
 
   ngOnInit(){
+    this.lang = this.rootScope.get("lang");
     this.examsView = this.route.snapshot.queryParams['exams'];
     this.userData = this.user.getData();
     if(this.userData.isExpired === true){

@@ -16,7 +16,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       
       let langToSet = window.location.pathname.split("/")[1];
       if( langToSet == "" ) { langToSet = "et"; }
-      if( langToSet !== "" && !['et', 'en'].includes(langToSet) ){ window.location.href = '/et/404'; }
+      if( langToSet !== "" && !['et', 'en'].includes(langToSet) ){ window.location.href = '/404'; }
       translate.use(langToSet).subscribe(() => {
         console.info(`Successfully initialized '${langToSet}' language.'`);
       }, err => {

@@ -21,36 +21,28 @@ export class TeachingsDetailedComponent implements OnInit{
   public loading: boolean;
   subscribe: Subscription;
   initialCrumbs = {
-    'en': [{"text": "Home", "url": "/en"}, {"text": "Teaching", "url": "/en/dashboard/teachings"}],
-    'et': [{"text": "Avaleht", "url": "/et"}, {"text": "Õpetan", "url": "/et/toolaud/opetan"}]
+    'et': [{"text": "Avaleht", "url": "/"}, {"text": "Õpetan", "url": "/toolaud/opetan"}]
   };
 
   constructor(
     private user: UserService,
     private rootScope: RootScopeService,
     private route: ActivatedRoute,
-    private router: Router,) {}
-
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/dashboard/teachings/'+ this.type,
-      'et': '/et/toolaud/opetan/'+ this.type
-    });
-  }
+    private router: Router
+  ) {}
 
   pathWatcher() { 
     this.subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = params['lang'];
         this.type = params['type'];
         this.dashboardLink = this.path.split(`/${this.type}`)[0];
       }
     );
-    this.setPaths();
   }
 
   ngOnInit() {
+    this.lang = this.rootScope.get("lang");
     this.loading = true;
     this.pathWatcher();
     this.content = this.rootScope.get('teachingsDetail');

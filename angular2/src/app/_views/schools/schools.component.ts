@@ -173,18 +173,11 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   }
 
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/school',
-      'et': '/et/kool'
-    });
-  }
-
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = params['lang'];
+        this.lang = this.rootScope.get("lang");
       }
     );
 
@@ -374,7 +367,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.showFilter = window.innerWidth > 1024;
     this.filterFull = window.innerWidth < 1024;
 
-    this.setPaths();
     this.pathWatcher();
     this.watchSearch();
     this.getOptions();
