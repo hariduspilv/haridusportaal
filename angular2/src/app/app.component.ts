@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, HostListener, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SideMenuService } from './_services';
+import { SideMenuService, RootScopeService } from './_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -36,9 +36,11 @@ export class AppComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private adapter: DateAdapter<Date>
+    private adapter: DateAdapter<Date>,
+    private rootScope: RootScopeService
   ) {
-    
+
+    rootScope.set('lang', 'et');
 
     this.isSidenavCloseDisabled = true;
 
@@ -70,7 +72,7 @@ export class AppComponent implements OnInit {
 
       if (event instanceof NavigationError) {
         console.log('NavigationError: Previous route doesn`t exist or is broken.');
-        // this.router.navigateByUrl(`/et/404`, {replaceUrl: true});
+        // this.router.navigateByUrl(`/404`, {replaceUrl: true});
       }
         
     });

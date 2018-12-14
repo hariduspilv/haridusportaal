@@ -47,23 +47,6 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     this.subscriptions = [ ...this.subscriptions, subscribe];
   }
 
-  pathWatcher() { 
-    let subscribe = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.lang = params['lang'];
-      }
-    );
-
-    this.subscriptions = [...this.subscriptions, subscribe];
-  }
-
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/study-programmes/compare/',
-      'et': '/et/erialad/vordlus'
-    });
-  }
-
   getData(){
     let variables = {
       lang: this.lang.toUpperCase(),
@@ -90,8 +73,8 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   }
   ngOnInit() {
 
-    this.setPaths();
-    this.pathWatcher();
+    this.lang = this.rootScope.get("lang");
+    
     this.watchSearch();
 
     //make sure related study programmes are opened when user returns to this url via browser back button/link share

@@ -56,18 +56,13 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = params['lang'];
+        this.lang = this.rootScope.get("lang");
       }
     );
 
     this.subscriptions = [...this.subscriptions, subscribe];
   }
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/professions/compare',
-      'et': '/et/ametialad/vordlus'
-    });
-  }
+
   rerouteToParent(): void {
     let currentUrl = JSON.parse(JSON.stringify(this.path.split('/')));
     currentUrl.pop();
@@ -171,7 +166,6 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
 
   ngOnInit() {
     this.pathWatcher();
-    this.setPaths();
     this.getData();
   }
   ngAfterViewChecked() {
@@ -213,8 +207,8 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     this.deleteIndicator++;
   }
   back () {
-    let langOpts = this.rootScope.get('langOptions')[this.lang].split('/')
-    langOpts.splice(-1, 1)
-    return langOpts.join('/')
+    let langOpts = this.route.snapshot.url.toString().split("/");
+    langOpts.splice(-1, 1);
+    return langOpts.join('/');
   }
 }

@@ -31,12 +31,10 @@ export class CompareComponent implements OnInit, OnDestroy{
   compareViewLink: string;
   compareViewLinkOptions = {
     "studyProgramme.compare":{
-      "et": "/et/erialad/vordlus",
-      "en": "/en/studyprogrammes/compare"
+      "et": "/erialad/vordlus"
     },
     "oskaProfessions.compare":{
-      "et": "/et/ametialad/vordlus",
-      "en": "/en/professions/compare"
+      "et": "/ametialad/vordlus",
     }
   }
   compareTranslationOptions = {
@@ -175,11 +173,7 @@ export class CompareComponent implements OnInit, OnDestroy{
 
     let fallbackPath = this.compareViewLinkOptions[this.localStorageKey]['et'];
 
-    this.comparePathSubscription = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.compareViewLink = this.compareViewLinkOptions[this.localStorageKey][params['lang']] || fallbackPath
-      }
-    );
+    this.compareViewLink = this.compareViewLinkOptions[this.localStorageKey][this.rootScope.get("lang")] || fallbackPath
 
     this.displayViewLink(this.compare);
     this.openCompareSnackbar("info");
@@ -194,7 +188,6 @@ export class CompareComponent implements OnInit, OnDestroy{
   ngOnDestroy() {
     document.removeEventListener("keydown", this.keyDownEvent);
     document.removeEventListener("keyup", this.keyUpEvent);
-    this.comparePathSubscription.unsubscribe();
     this.localStorageSubscription.unsubscribe();
     this.snackbar.dismiss()
     this.snackBarOpen = false;

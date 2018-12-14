@@ -40,12 +40,10 @@ export class SideMenuComponent implements OnInit {
 
   getData(){
 
-    let lang = window.location.pathname.split("/")[1];
-    if( lang == "" ){ lang = "et"; }
-    lang = lang.toUpperCase();
+    let lang = this.rootScope.get("lang");
     
     let variables = {
-      language: lang
+      language: lang.toUpperCase()
     };
 
     let url = "/graphql?queryName=getMenu&queryId=2d7801aef671efb00f389dc444b1cd51a8b39b71:1&variables=";
@@ -57,7 +55,6 @@ export class SideMenuComponent implements OnInit {
     });
   }
   ngOnInit() {
-
     this.subscription = this.sidemenuService.updateLang().subscribe(status => {
       this.getData();
     });

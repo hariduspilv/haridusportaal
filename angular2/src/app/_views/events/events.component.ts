@@ -76,13 +76,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     super(null, null);
   }
   
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/events',
-      'et': '/et/sundmused'
-    });
-  }
-  
   date: any = new Date();
   year: number = this.date.getFullYear();
   month: any = this.date.getMonth() + 1;
@@ -268,8 +261,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.showFilter = false;
     }
     
-    this.setPaths();
-    
     var currMonthName  = moment().format('MMMM');
 
     let month:any = moment().format("M");
@@ -281,11 +272,12 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       year: parseInt(moment().format("YYYY"))
     }
 
+    this.lang = this.rootScope.get("lang");
+    
     // SUBSCRIBE TO QUERY PARAMS
     this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = params['lang'];
       }
     );
 

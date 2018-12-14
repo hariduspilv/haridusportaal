@@ -6,6 +6,7 @@ import { MatDialog, MatSnackBar, MatSnackBarConfig, MAT_SNACK_BAR_DATA } from '@
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from '@app/_services/userService';
+import { RootScopeService } from '@app/_services';
 
 @Component({
   selector: 'favourites',
@@ -44,20 +45,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       public translate: TranslateService,
       public user: UserService,
       public snackbar: MatSnackBar,
+      private rootScope: RootScopeService
       ) {
         
       }
 
-    pathWatcher() { 
-      let subscribe = this.route.params.subscribe(
-        (params: ActivatedRoute) => {
-
-          this.lang = params['lang'];
-      });
-
-      this.subscriptions = [...this.subscriptions, subscribe];
-    }
-    
     getFavouritesList():void{
       this.loading= true;
 
@@ -206,8 +198,8 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     else return true;
   }
   initiateComponent(){
+    this.lang = this.rootScope.get("lang");
     this.initializing = true;
-    this.pathWatcher();
 
     this.userLoggedOut = this.user.getData()['isExpired'];
     this.getFavouritesList();

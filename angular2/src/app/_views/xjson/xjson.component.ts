@@ -83,20 +83,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     public settings: SettingsService
   ) {}
 
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/xjson/' + this.form_name,
-      'et': '/et/xjson/' + this.form_name
-    });
-  }
-
   pathWatcher() { 
     let params = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.form_name = params['form_name']
         this.lang = params['lang'];
-
-        this.setPaths();
       }
     );
     let strings = this.route.queryParams.subscribe(
@@ -105,8 +96,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if(strings['draft'] == 'true') this.queryStrings['status'] = 'draft'
         if(strings['existing'] == 'true') this.queryStrings['status'] = 'submitted';
         if(strings['identifier'] != undefined ) this.queryStrings['id'] = Number(strings['identifier']);
-
-        this.setPaths();
       }
     );
 

@@ -21,15 +21,12 @@ export class DashboardComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[] = [];
   
   public mainMenu = {
-    "et": [ {_id: 1, link: '/et/toolaud/taotlused', active: true },
-          {_id: 2, link: '/et/toolaud/tunnistused', active: true },
-          {_id: 3, link: '/et/toolaud/opingud', active: true },
-          {_id: 4, link: '/et/toolaud/opetan', active: true }],
-
-    "en": [ {_id: 1, link: '/en/dashboard/applications', active: true },
-          {_id: 2, link: '/en/dashboard/certificates', active: true },
-          {_id: 3, link: '/en/dashboard/studies', active: true },
-          {_id: 4, link: '/en/dashboard/teachings', active: true }]
+    "et": [
+      {_id: 1, link: '/toolaud/taotlused', active: true },
+      {_id: 2, link: '/toolaud/tunnistused', active: true },
+      {_id: 3, link: '/toolaud/opingud', active: true },
+      {_id: 4, link: '/toolaud/opetan', active: true }
+    ],
   };
 
   public mainMenuCommonAttrs = {
@@ -55,7 +52,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
     let parameters = this.route.params.subscribe(
       (params: ActivatedRoute) => {
           //console.log('ROUTE PARAM CHANGED');
-          this.lang = params['lang'];
           this.path = this.router.url.split('?')[0];
           this.setPaths();       
       }
@@ -86,6 +82,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.rootScope.set('langOptions', opts);
   }
   ngOnInit(){
+    this.lang = this.rootScope.get("lang");
     this.rootScope.set('roleChanged', false);
     this.userData = this.user.getData();
     this.currentRole = this.userData['role']['current_role']['type'];
@@ -97,7 +94,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
       this.dialog.afterAllClosed.subscribe(result => {
         if (this.rootScope.get('roleChanged')) {
           this.rootScope.set('roleChanged', false);
-          let paths = { 'et': '/et/toolaud/taotlused', 'en': '/en/dashboard/applications' };
+          let paths = { 'et': '/toolaud/taotlused' };
           this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
             this.router.navigateByUrl(paths[this.lang]);
           });

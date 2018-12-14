@@ -73,17 +73,11 @@ export class LoginComponent implements OnInit{
 
       this.user = this.userService.storeData(data['token']);
       
-      let redirectUrl;
-      let lang = this.router.url.split('/')[1];
-      switch(lang){
-        case 'et': redirectUrl = '/et/toolaud/taotlused';
-        case 'en': redirectUrl = '/en/dashboard/certificates';
-        default: redirectUrl = '/et/toolaud/taotlused';
-      }
+      let redirectUrl = '/toolaud/taotlused';
+      let lang = this.rootScope.get("lang");
       
-      this.router.navigateByUrl(lang, {skipLocationChange: true}).then( () => {
+      this.router.navigateByUrl("/", {skipLocationChange: true}).then( () => {
         this.router.navigateByUrl(redirectUrl);
-        this.sidemenu.triggerLang(true);
       });
     
     
@@ -96,7 +90,7 @@ export class LoginComponent implements OnInit{
 
   }
   openTara() {
-    this.taraUrl = /*this.settings.url+*/"http://htm.wiseman.ee/tara-login";
+    this.taraUrl = /*this.settings.url+*/"https://htm.wiseman.ee/tara-login";
 
     window.location.href = this.taraUrl;
     /*
@@ -109,7 +103,7 @@ export class LoginComponent implements OnInit{
   }
   ngOnInit() {
 
-    if( this.settings.url == "http://htm.wiseman.ee" ){
+    if( this.settings.url == "https://htm.wiseman.ee" ){
       this.basicLogin = true;
     }
     

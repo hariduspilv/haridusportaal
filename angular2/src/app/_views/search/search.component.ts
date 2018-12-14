@@ -27,22 +27,13 @@ export class SearchComponent {
   public listStep: number = 5;
   public listLength: number;
   public initialCrumbs: any = {
-    'en': [{"text": "Home", "url": "/en"}],
-    'et': [{"text": "Avaleht", "url": "/et"}]
+    'et': [{"text": "Avaleht", "url": "/"}]
   };
   public typesByLang: any = {
     et: [
       {"name": "article.label", "sumLabel": "Sisuleht Artikkel", "value": false, "sum": 0},
       {"name": "news.label", "sumLabel": "Uudis", "value": false, "sum": 0},
       {"name": "event.label", "sumLabel": "Sündmus", "value": false, "sum": 0},
-      {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
-      {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
-      {"name": "oska.future_job_opportunities", "sumLabel": "Oska", "value": false, "sum": 0}
-    ],
-    en: [
-      {"name": "article.label", "sumLabel": "Article", "value": false, "sum": 0},
-      {"name": "news.label", "sumLabel": "News", "value": false, "sum": 0},
-      {"name": "event.label", "sumLabel": "Event", "value": false, "sum": 0},
       {"name": "school.label", "sumLabel": "Kool", "value": false, "sum": 0},
       {"name": "studyProgramme.label", "sumLabel": "Õppekava", "value": false, "sum": 0},
       {"name": "oska.future_job_opportunities", "sumLabel": "Oska", "value": false, "sum": 0}
@@ -66,8 +57,10 @@ export class SearchComponent {
 
   ngOnInit() {
 
+    this.lang = this.rootScope.get("lang");
+
     this.paramSubscription = this.route.queryParams.subscribe( params => {
-      this.lang = this.route.snapshot.params['lang'];
+      
       this.types = this.typesByLang[this.lang];
       if(this.route.snapshot.queryParams['term'] !== this.param && this.param.length) {
         this.param = this.route.snapshot.queryParams['term'];
@@ -94,11 +87,6 @@ export class SearchComponent {
       this.loading = false;
     }
 
-    this.rootScope.set('langOptions', {
-      'en': '/en/search',
-      'et': '/et/otsing',
-    });
-
     this.breadcrumbs = this.constructCrumbs();
   }
 
@@ -115,7 +103,7 @@ export class SearchComponent {
     let url = this.settings.url+"/graphql?queryName=homeSearch&queryId=580bbb859e1510a09dd3d7da5d2d41db9332fb4a:1&variables=";
 
     let variables = {
-      lang: this.rootScope.get('currentLang').toUpperCase(),
+      lang: this.rootScope.get('lang').toUpperCase(),
       search_term: term
     }
     this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
@@ -172,16 +160,14 @@ export class SearchComponent {
   }
 
   constructCrumbs() {
-    let lang = this.rootScope.get('currentLang');
+    let lang = this.rootScope.get('lang');
     let crumbs = this.initialCrumbs[lang];
     if (this.route.snapshot.queryParams['term']) {
-      var crumbText = lang === 'et' ? `Otsingu "${this.route.snapshot.queryParams['term']}" tulemused`
-        : `Keyword "${this.route.snapshot.queryParams['term']}" results`;
-      var crumbUrl = lang === 'et' ? `/${lang}/otsing?term=${this.route.snapshot.queryParams['term']}`
-        : `/${lang}/search?term=${this.route.snapshot.queryParams['term']}`;
+      var crumbText = `Otsingu "${this.route.snapshot.queryParams['term']}" tulemused`;
+      var crumbUrl = `/otsing?term=${this.route.snapshot.queryParams['term']}`;
     } else {
-      var crumbText = lang === 'et' ? 'Otsing' : 'Search'
-      var crumbUrl = lang === 'et' ? `/${lang}/otsing` : `/${lang}/search`;
+      var crumbText = 'Otsing';
+      var crumbUrl = `/otsing`;
     }
     return [...crumbs, {text: crumbText, url: crumbUrl}];
   }
