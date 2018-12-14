@@ -209,6 +209,13 @@ class OskaGraphWidgetType extends WidgetBase {
                     '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
                 ];
             }
+
+            $element['graph_options']['graph_text'] = [
+                '#title' => $this->t('Graph info text'),
+                '#type' => 'textarea',
+                '#maxlength' => 1500,
+                '#default_value' => isset($data['graph_text']) ? $data['graph_text'] : NULL,
+            ];
         }
 
         return $element;
@@ -218,7 +225,9 @@ class OskaGraphWidgetType extends WidgetBase {
         $field_name = $this->fieldDefinition->getName();
         $trigger_element = $form_state->getTriggeringElement();
 
-        return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options']['secondary_graph_type'];
+        if($trigger_element['#value'] === 'combo'){
+            return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options']['secondary_graph_type'];
+        }
     }
 
     public function ajax_dependent_graph_set_callback(array &$form, FormStateInterface $form_state){
@@ -292,6 +301,28 @@ class OskaGraphWidgetType extends WidgetBase {
         }
 
         return $newValue;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
+
+        foreach($values as $key => $value){
+            $new_values[$key] = [
+                'graph_set' => $value['graph_set'],
+                'graph_title' => $value['graph_options']['graph_title'],
+                'graph_type' => $value['graph_options']['graph_type'],
+                'graph_v_axis' => $value['graph_options']['graph_v_axis'],
+                'graph_indicator' => $value['graph_options']['graph_indicator'],
+                'secondary_graph_type' => isset($value['graph_options']['secondary_graph_type']) ? $value['graph_options']['secondary_graph_type'] : NULL,
+                'secondary_graph_indicator' => isset($value['graph_options']['secondary_graph_indicator']) ? $value['graph_options']['secondary_graph_indicator'] : NULL,
+                'graph_text' => $value['graph_options']['graph_text'],
+                'filter_values' => json_encode($value, TRUE),
+            ];
+        }
+
+        return $new_values;
     }
 
     /**
