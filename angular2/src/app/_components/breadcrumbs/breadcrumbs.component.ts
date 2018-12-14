@@ -39,6 +39,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
     const breadcrumbSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
       let data = response['data'];
+      
       if( !data['route'] ){
         this.router.navigateByUrl(`/404`, {replaceUrl: true});
       }
@@ -64,6 +65,8 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
         this.updateBreadcrumbs();
       }
     });
+
+    this.updateBreadcrumbs();
 
     this.subscriptions = [...this.subscriptions, eventsSub];
     
