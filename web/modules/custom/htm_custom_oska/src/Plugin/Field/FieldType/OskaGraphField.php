@@ -58,6 +58,8 @@ class OskaGraphField extends FieldItemBase {
             ->setLabel(t('First graph indicator'));
         $properties['secondary_graph_indicator'] = DataDefinition::create('string')
             ->setLabel(t('Secondary graph indicator'));
+        $properties['graph_text'] = DataDefinition::create('string')
+            ->setLabel(t('Graph info text'));
 
         return $properties;
 
@@ -114,23 +116,14 @@ class OskaGraphField extends FieldItemBase {
             'type' => 'varchar',
             'not null' => FALSE,
         ];
+        $schema['columns']['graph_text'] = [
+            'description' => 'Graph info text.',
+            'type' => 'varchar',
+            'not null' => FALSE,
+        ];
 
 
         return $schema;
-    }
-
-    public function preSave()
-    {
-        $this->values = [
-            'graph_set' => $this->values['graph_set'],
-            'graph_title' => $this->values['graph_options']['graph_title'],
-            'graph_type' => $this->values['graph_options']['graph_type'],
-            'graph_v_axis' => $this->values['graph_options']['graph_v_axis'],
-            'graph_indicator' => $this->values['graph_options']['graph_indicator'],
-            'secondary_graph_type' => isset($this->values['graph_options']['secondary_graph_type']) ? $this->values['graph_options']['secondary_graph_type'] : NULL,
-            'secondary_graph_indicator' => isset($this->values['graph_options']['secondary_graph_indicator']) ? $this->values['graph_options']['secondary_graph_indicator'] : NULL,
-            'filter_values' => json_encode($this->values, TRUE),
-        ];
     }
 
     public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data)
