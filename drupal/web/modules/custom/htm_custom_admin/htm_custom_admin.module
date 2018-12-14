@@ -85,7 +85,7 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
             $main_event_date = $main_event_date->getPhpDateTime()->getTimestamp();
             $event_field_values = $form_state->getValue('field_event_date');
             foreach($event_field_values as $key => $value){
-                if(is_int($key)){
+                if(is_int($key) && isset($event_field_values[$key]['subform'])){
                     $event_dates[] = $event_field_values[$key]['subform']['field_event_date'][0]['value']->getPhpDateTime()->getTimestamp();
                 }
             }
