@@ -92,7 +92,7 @@ export class FrontpageComponent {
     if (!param) {
       this.searchError = true;
     } else {
-      let url = `/otsing?term=${param}`;
+      let url = "/otsing?term="+param;
       this.router.navigateByUrl(url)
     }
   }

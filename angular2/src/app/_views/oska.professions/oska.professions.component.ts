@@ -59,8 +59,8 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       oskaIndicatorUniqueValues.forEach((elem, index) => {
         this.sortedBy = [
           ...this.sortedBy, 
-          { name: `${elem} - ${ascendingLabel}`, indicator: elem, id: `${elem}-asc`, modifier: 'ascending' }, 
-          { name: `${elem} - ${descendingLabel}`, indicator: elem, id: `${elem}-desc`, modifier: 'descending' }
+          { name: elem + " - " + ascendingLabel, indicator: elem, id: elem + "-asc", modifier: 'ascending' }, 
+          { name: elem + " - " + descendingLabel, indicator: elem, id: elem + "-desc", modifier: 'descending' }
         ];
       });
 

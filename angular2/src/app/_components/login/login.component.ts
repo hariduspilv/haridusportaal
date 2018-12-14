@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService, RootScopeService } from '@app/_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SettingsService } from '@app/_core/settings';
 import { UserService } from '@app/_services/userService';
@@ -59,7 +59,9 @@ export class LoginComponent implements OnInit{
     this.userService.clearStorage();
     this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password'];
     this.formModels['auth_method'] = 'basic';
-    this.http.post(this.postUrl, this.formModels).subscribe(data => {
+    let headers = new HttpHeaders();
+    headers = headers.append('X-CSRF-TOKEN', localStorage.getItem('xcsrfToken'));
+    this.http.post(this.postUrl, this.formModels, {headers}).subscribe(data => {
       this.formModels['password'] = '';
       this.loader = false;
       this.data = data;

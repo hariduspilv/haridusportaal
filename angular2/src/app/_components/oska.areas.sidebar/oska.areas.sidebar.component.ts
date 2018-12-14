@@ -47,6 +47,7 @@ export class OskaAreasSidebarComponent implements OnInit {
 	constructor(private rootScope: RootScopeService, private route: ActivatedRoute) {}
   
   ngOnInit() {
+    
     this.lang = this.rootScope.get('lang');
     if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed) {
       this.locationPerLang = `/erialad`;
@@ -78,7 +79,7 @@ export class OskaAreasSidebarComponent implements OnInit {
     let previousElement = this.limits[type] - 1;
     this.limits[type] = this.sidebar[compare].length;
     this.typeStatus[type] = false;
-    let elemToTarget = document.getElementById(`${compare}_${previousElement}`);
+    let elemToTarget = document.getElementById(compare + "_" + previousElement);
     if (elemToTarget) {
       elemToTarget.focus();
     }
