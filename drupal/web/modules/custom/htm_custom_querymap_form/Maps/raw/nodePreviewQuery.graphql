@@ -518,7 +518,6 @@ fragment studyProgramme on NodeStudyProgramme {
 }
 
 fragment school on NodeSchool {
-    isFavorite
     nid
     title
     fieldRegistrationCode
@@ -693,7 +692,6 @@ fragment oskaDetail on NodeOskaFieldPage {
 }
 
 fragment event on NodeEvent {
-    isFavorite
     entityLabel
     nid
     RegistrationCount
@@ -816,7 +814,6 @@ fragment event on NodeEvent {
 }
 
 fragment news on NodeNews {
-    isFavorite
     entityLabel
     nid
     created
@@ -871,7 +868,6 @@ fragment news on NodeNews {
 }
 
 fragment article on NodeArticle {
-    isFavorite
     nid
     title
     fieldBody {
