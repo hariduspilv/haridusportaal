@@ -32,7 +32,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
     public lang: string;
     private redirectUrls = {
-      "et": "/toolaud/taotlused",
+      "et": "/töölaud/taotlused",
       "en": "/dashboard/applications"
     }
     public subscriptions: Subscription[] = [];

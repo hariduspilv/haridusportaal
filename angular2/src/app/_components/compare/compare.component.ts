@@ -31,10 +31,10 @@ export class CompareComponent implements OnInit, OnDestroy{
   compareViewLink: string;
   compareViewLinkOptions = {
     "studyProgramme.compare":{
-      "et": "/erialad/vordlus"
+      "et": "/erialad/võrdlus"
     },
     "oskaProfessions.compare":{
-      "et": "/ametialad/vordlus",
+      "et": "/ametialad/võrdlus",
     }
   }
   compareTranslationOptions = {

@@ -31,7 +31,7 @@ export class EventsListComponent implements OnInit, OnDestroy{
     public route: ActivatedRoute) {}
 
   viewAllEventsLink(): string{
-    return '/sundmused';
+    return '/sündmused';
   }
 
   compareDate(unixDate) {
