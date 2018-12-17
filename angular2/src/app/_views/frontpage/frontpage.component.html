@@ -1,18 +1,18 @@
 <ng-template #search>
-<form class="section__form cloud__additions" [class.focusedError]='!searchFocus && !param && searchError'>
-  <div class="flex wrap xxs" role="search">
+<form class="section__form">
+  <div class="flex wrap xxs" role="search" [class.focusedError]='!searchFocus && !param && searchError'>
     <div class="grow full">
       <div class="round-input__wrapper" aria-live="assertive" 
-        [class.complete]="!searchFocus && param"
-        [class.error]="!searchFocus && !param && searchError">
-        <label for="param" class="round-input__title" aria-hidden="true">{{'button.search_from_page' | translate}}</label>
+        [class.error]="!searchFocus && !param && searchError"
+        [class.complete]="!searchFocus && param">
+        <label for="param" class="round-input__title" aria-hidden="true">{{'frontpage.enter_keyword_and_search' | translate}}</label>
         <div class="round-input__field-wrapper">
           <input type="text" 
-          attr.aria-label="{{ 'button.search_from_page' | translate }}" 
+          attr.aria-label="{{ 'frontpage.enter_keyword_and_search' | translate }}" 
           class="round-input__field" 
-          placeholder="{{ 'button.search_from_page' | translate }}"
+          placeholder="{{ 'frontpage.enter_keyword_and_search' | translate }}"
           [(ngModel)]='param' 
-          (focus)="populateSuggestionList(param, 300);searchError = false;searchFocus = true;"
+          (focus)="searchFocus = true;populateSuggestionList(param, 300);searchError = false;"
           (blur)="searchFocus = false"
           role="combobox"
           aria-autocomplete="both"
@@ -50,11 +50,11 @@
             </ng-container>
           </mat-autocomplete>
         </div>
-        <div class="round-input__error">
+        <!-- <div class="round-input__error">
           <div class="round-input__error--text error-9" *ngIf="!searchFocus && searchError">
             <span role="alert">{{ 'Otsingu käivitamiseks sisesta otsitav märksõna' }}</span>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="btn">
@@ -66,24 +66,28 @@
 
 <ng-template #origin>
   <article class="row origin" [class.extra-bottom]="!superNewsShown">
-    <div class="col-12 header">
-      <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown">{{generalData[0].fieldHeadBlockTitle}}</h1>
-    </div>
     <ng-container *ngFor="let item of generalData[0].fieldTopics; let i = index;">
       <a href="javascript:void(0)" class="col-3 sm-6 xxs-12 column-center spaced pointer" *ngIf="item.entity.fieldTopicLink && item.entity.fieldTopicLink.url.routed" [routerLink]="item.entity.fieldTopicLink.url.path">
-        <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        <div class="img__wrapper">
+          <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        </div>
         <div attr.aria-label="{{'frontpage.category' | translate }}" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="{{'frontpage.description' | translate }}" class="section__text">{{item.entity.fieldTopicText}}</div>
         <span [routerLink]="item.entity.fieldTopicLink.url.path" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</span>
       </a> 
       <a *ngIf="item.entity.fieldTopicLink && !item.entity.fieldTopicLink.url.routed" class="col-3 sm-6 xxs-12 column-center spaced pointer" href="{{item.entity.fieldTopicLink.url.path}}" target="_blank">
-        <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        <div class="img__wrapper">
+          <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        </div>
         <div attr.aria-label="{{'frontpage.category' | translate }}" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="{{'frontpage.description' | translate }}" class="section__text">{{item.entity.fieldTopicText}}</div>
         <span target="_blank" tabindex="-1" class="section__link">{{ 'button.view_more' | translate }}</span>
       </a>
       <div class="col-3 sm-6 xxs-12 column-center spaced" *ngIf="!item.entity.fieldTopicLink && (item.entity.fieldTopicTitle || item.entity.fieldTopicText)">
-        <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        <!-- <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}"> -->
+        <div class="img__wrapper">
+          <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
+        </div>
         <div attr.aria-label="{{'frontpage.category' | translate }}" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="{{'frontpage.description' | translate }}" class="section__text">{{item.entity.fieldTopicText}}</div>
       </div> 
@@ -108,7 +112,7 @@
 </ng-template>
 
 <ng-template #eventsList>
-  <div class="section__form events__recent__elem">
+  <div class="events__recent__elem">
     <article class="row">
       <div class="col-12 title">
         <span>{{ 'event.label' | translate | uppercase }}</span>
@@ -125,7 +129,7 @@
 </ng-template>
 
 <ng-template #eventsListMobile>
-  <div class="section__form main-container">
+  <div class="main-container">
     <article class="row events__recent__elem">
       <div class="col-12 title">
         <span>{{ 'event.label' | translate | uppercase }}</span>
@@ -145,45 +149,71 @@
       <div class="content--middle search">
         <h1 class="lead-title">
           <span class="sm-show xxs" innerHtml="{{'frontpage.lead_title_xxs' | translate}}"></span>
-          <span class="sm-show sm" innerHtml="{{ 'frontpage.lead_title_sm' | translate }}"></span>
+          <span class="sm-show sm" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
           <span class="sm-hide" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
         </h1>
         <div class="section__block--search">
-          <div class="section__content star__additions">
+          <div class="section__content">
             <ng-container *ngTemplateOutlet="search"></ng-container>
           </div>
+        </div>
+        <div class="col-12 header sm-hide">
+          <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown">{{generalData[0].fieldHeadBlockTitle}}</h1>
         </div>
       </div>
     </div>
     <div class="section section--origin main-container" *ngIf="generalData && generalData.length">
       <div class="content">
+        <div class="col-12 header sm-show">
+          <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown">{{generalData[0].fieldHeadBlockTitle}}</h1>
+        </div>
         <ng-container *ngTemplateOutlet="origin"></ng-container>
       </div>
     </div>
-    <div class="section section--list--item sm-show" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
-      <div class="content--listItem">
-        <ng-container *ngTemplateOutlet="newsItemMobile"></ng-container>
+    <!-- <div class="section section--list--item sm-show" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
+      <div class="content--overlapGrid">
+        <img class="content--img atStart" alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon1.svg'}}">
+        <div class="content--listItem atEnd">
+          <ng-container *ngTemplateOutlet="newsItemMobile"></ng-container>
+        </div>
       </div>
-    </div>
-    <div class="section section--list--item main-container sm-hide" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
-      <div class="content--listItem">
+    </div> -->
+    <div class="section section--list--item main-container" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
+      <!-- <div class="content--listItem">
         <ng-container *ngTemplateOutlet="newsItem"></ng-container>
-      </div>
-    </div>
-    <div class="section section--news main-container" *ngIf="news && news.length">
-      <div class="content">
-        <recent-news frontpage="true" [data]="news"></recent-news>
+      </div> -->
+      <div class="content--overlapGrid">
+        <img class="content--img atStart" alt="Info õppimise kohta" src="http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2018-09/3_1.jpg?itok=321xUmE_">
+        <div class="content--listItem atEnd">
+          <ng-container *ngTemplateOutlet="newsItem"></ng-container>
+        </div>
       </div>
     </div>
     <div class="section section--newsletter">
       <div class="content--middle newsletter">
-        <div class="section__block--newsletter star__additions">
-          <div class="section__content xl__additions">
+        <div class="section__block--newsletter">
+          <div class="section__content">
             <newsletter-order></newsletter-order>
           </div>
         </div>
       </div><!--/main-container-->
     </div><!--/section-->
+    <div class="section section--news main-container" *ngIf="news && news.length">
+      <div class="content">
+        <recent-news frontpage="true" [data]="news"></recent-news>
+      </div>
+    </div>
+    <div class="section section--list--item main-container" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
+      <!-- <div class="content--listItem">
+        <ng-container *ngTemplateOutlet="newsItem"></ng-container>
+      </div> -->
+      <div class="content--overlapGrid">
+        <div class="content--listItem atStart">
+          <ng-container *ngTemplateOutlet="newsItem"></ng-container>
+        </div>
+        <img class="content--img atEnd" alt="Info õppimise kohta" src="http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2018-09/3_1.jpg?itok=321xUmE_">
+      </div>
+    </div>
     <div class="section section--list altered main-container sm-hide" *ngIf="events && events.length">
       <div class="content--listItem content--listItem--altered">
         <ng-container *ngTemplateOutlet="eventsList"></ng-container>
@@ -194,5 +224,6 @@
         <ng-container *ngTemplateOutlet="eventsListMobile"></ng-container>
       </div>
     </div>
+    <div class="frontpage__triangle--bottom"></div>
   </div><!--/frontpage-->
 
