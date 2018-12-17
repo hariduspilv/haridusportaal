@@ -112,7 +112,7 @@ export class FrontpageComponent {
 		let that = this;
 		this.route.params.subscribe(params => {
       this.allPath = "/uudised";
-      this.eventPath = "/sundmused";
+      this.eventPath = "/sündmused";
       this.getGeneral()
       this.getEvents()
     });

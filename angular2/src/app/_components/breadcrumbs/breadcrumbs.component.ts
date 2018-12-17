@@ -19,7 +19,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   prevPath: string = "";
   lang: string;
   breadcrumb: any;
-  public unclickables: Array<string> = ['/toolaud'];
+  public unclickables: Array<string> = ['/töölaud'];
   
   constructor(
     private route: ActivatedRoute,

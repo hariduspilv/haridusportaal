@@ -60,7 +60,7 @@ export class UserService{
 
   public logout() {
     localStorage.removeItem( this.tokenKey ); 
-    if (this.router.url.includes('/toolaud/') || this.router.url.includes('/dashboard/')) {
+    if (this.router.url.includes('/töölaud/') || this.router.url.includes('/dashboard/')) {
       this.router.navigateByUrl('/');
     } else {
       this.triggerPageReload();

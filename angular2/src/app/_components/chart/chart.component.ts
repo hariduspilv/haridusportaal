@@ -51,20 +51,25 @@ export class ChartComponent implements OnInit{
       }
 
       let tmp = {
-        "chartType": graphName,
+        chartType: graphName,
         dataTable: value,
         options: {
-          "title": graphTitle,
-          "height": 400,
-          "pieSliceTextStyle": {
+          title: graphTitle,
+          height: 400,
+          pieSliceTextStyle: {
             "color": '#ffffff'
           },
-          "curveType": "function",
-          "lineWidth": 5,
-          "pointsVisible": true,
-          "pointSize": 12,
-          "legend": { position: 'top', maxLines: 3 },
-          "colors": ['#18218F', '#9E02B6', '#0252B0', '#C200C2', '#0071C7', '#D704A2', '#198294', '#D11B6F', '#00856A', '#D11B1B', '#257E25', '#DB3A00']
+          curveType: "function",
+          lineWidth: 5,
+          pointsVisible: true,
+          pointSize: 12,
+          legend: { position: 'top', maxLines: 3 },
+          colors: ['#18218F', '#9E02B6', '#0252B0', '#C200C2', '#0071C7', '#D704A2', '#198294', '#D11B6F', '#00856A', '#D11B1B', '#257E25', '#DB3A00'],
+          animation:{
+            duration: 1000,
+            easing: 'out',
+            startup: true //This is the new option
+          }
         }
       }
 

@@ -39,40 +39,40 @@ const appRoutes: Routes = [
   { path: 'artiklid/:id', component: ArticleComponent },
   { path: 'uudised', component: NewsComponent },
   { path: 'uudised/:id', component: NewsSingleComponent },
-  { path: 'sundmused', component: EventsComponent },
-  { path: 'sundmused/:id', component: EventsSingleComponent },
+  { path: 'sündmused', component: EventsComponent },
+  { path: 'sündmused/:id', component: EventsSingleComponent },
   { path: 'kool', component: SchoolsComponent },
   { path: 'kool/:id', component: SchoolsSingleComponent },
 
   { path: 'koolide-rahastus', component: SchoolsFundingComponent},
 
-  { path: 'erialad/vordlus', component: StudyProgrammeCompareComponent},
+  { path: 'erialad/võrdlus', component: StudyProgrammeCompareComponent},
 
   { path: 'erialad', component: StudyProgrammeComponent},
   { path: 'erialad/:id', component: StudyProgrammeSingleComponent},
 
-  { path: 'toolaud/tunnistused/:id', component: CertificatesDetailedComponent},
-  { path: 'toolaud/opetan/:type', component: TeachingsDetailedComponent},
-  { path: 'toolaud/taotlused/:form_name', component: XjsonComponent},
-  { path: 'toolaud', component: DashboardComponent,
+  { path: 'töölaud/tunnistused/:id', component: CertificatesDetailedComponent},
+  { path: 'töölaud/õpetan/:type', component: TeachingsDetailedComponent},
+  { path: 'töölaud/taotlused/:form_name', component: XjsonComponent},
+  { path: 'töölaud', component: DashboardComponent,
     children: [
       { path: 'taotlused', component: ApplicationsComponent},
       { path: 'tunnistused', component: CertificatesComponent},
-      { path: 'opingud', component: StudiesComponent},
-      { path: 'opetan', component: TeachingsComponent},
+      { path: 'õpingud', component: StudiesComponent},
+      { path: 'õpetan', component: TeachingsComponent},
       { path: '', redirectTo: 'taotlused', pathMatch: 'full' },
       { path: '**', redirectTo: '404', pathMatch: 'full' }
     ]
   },
 
-  { path: 'ametialad/vordlus', component:OskaProfessionsCompareComponent},
+  { path: 'ametialad/võrdlus', component:OskaProfessionsCompareComponent},
   { path: 'ametialad', component:OskaProfessionsComponent},
   { path: 'valdkonnad', component:OskaSectorsComponent},
   { path: 'ametialad/:id', component: OskaAreasComponent },
   { path: 'valdkonnad/:id', component:OskaAreasComponent},
   { path: 'oska-tulemused/:id', component:OskaResultsComponent},
 
-  { path: 'ulduuringud/:id', component:OskaAreasComponent},
+  { path: 'ülduuringud/:id', component:OskaAreasComponent},
   
   { path: 'otsing', component: SearchComponent },
 

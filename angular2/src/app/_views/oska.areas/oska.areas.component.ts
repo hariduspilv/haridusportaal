@@ -60,7 +60,7 @@ export class OskaAreasComponent implements OnInit{
         url = "/graphql?queryName=oskaMainProfessionDetailView&queryId=6bd47460c3e312dd28e319189f78aa9fab737019:1&variables=";
         this.compareButton = true;
       }
-      else if( this.router.url.match(/ulduuringud|survey-pages/ ) ){
+      else if( this.router.url.match(/ülduuringud|survey-pages/ ) ){
         this.viewType = "surveyPage";
         url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=30080f40d5c2f992f18cd959930f20409ae73146:1&variables=";
       }
