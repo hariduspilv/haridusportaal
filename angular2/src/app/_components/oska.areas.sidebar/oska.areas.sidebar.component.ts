@@ -14,7 +14,7 @@ export class OskaAreasSidebarComponent implements OnInit {
   @Input() indicators: any;
   @Input() viewType: any;
 
-  private lang: any = 'et';
+  private lang;
   private jobPagesExist: boolean = false;
   private locationPerLang: any = false;
   private learningQuery: any = false;
@@ -47,16 +47,13 @@ export class OskaAreasSidebarComponent implements OnInit {
 	constructor(private rootScope: RootScopeService, private route: ActivatedRoute) {}
   
   ngOnInit() {
-    let subscription = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.lang = this.rootScope.get('currentLang');
-        if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed) {
-          this.locationPerLang = this.lang === 'en' ? "/" + this.lang + "/study-programmes" : "/" + this.lang + "/erialad";
-          this.learningQuery = { iscedf_detailed: this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.entity.entityId };
-        }
-      }
-    );
-    subscription.unsubscribe()
+    
+    this.lang = this.rootScope.get('lang');
+    if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed) {
+      this.locationPerLang = `/erialad`;
+      this.learningQuery = { iscedf_detailed: this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.entity.entityId };
+    }
+
     if (this.viewType === 'field') {
       this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
       this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];

@@ -57,14 +57,6 @@ export class ArticleComponent implements OnInit, OnDestroy{
     ) {}
   
   parseData( data ){
-    //language service
-    const langOptions = data['languageSwitchLinks'];
-    let langValues = {};
-    for( var i in langOptions ){
-      langValues[langOptions[i].language.id] = langOptions[i].url.path;
-    }
-    this.rootScope.set('langOptions', langValues);
-    //language service
     
     data = data['entity'] || data;
     this.content = data;
@@ -106,7 +98,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
     }else{
       this.route.params.subscribe(
         (params: ActivatedRoute) => {
-          this.lang = params['lang'];
+          this.lang = this.rootScope.get("lang");
           let url = "/graphql?queryName=getArticleData&queryId=734e267b92117f3ce44a22f5602e0624ded25f3f:1&variables=";
           let variables = {
             "path": this.router.url

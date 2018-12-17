@@ -81,12 +81,9 @@ content:
     region: content
   field_oska_field:
     weight: 2
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
-    type: entity_reference_autocomplete_tags
+    type: options_select
     region: content
   field_pros:
     weight: 0

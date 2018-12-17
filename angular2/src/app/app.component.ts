@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, HostListener, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { SideMenuService } from './_services';
+import { SideMenuService, RootScopeService } from './_services';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -39,10 +39,13 @@ export class AppComponent implements OnInit {
     private route: ActivatedRoute,
     private translate: TranslateService,
     private adapter: DateAdapter<Date>,
+    private rootScope: RootScopeService,
     private http: HttpClient,
     private settings: SettingsService
   ) {
 
+    rootScope.set('lang', 'et');
+    
     this.http.get(this.settings.url + '/session/token', {responseType: 'text'}).subscribe(data => {
       localStorage.setItem('xcsrfToken', data);
     }, (err) => {
@@ -79,7 +82,7 @@ export class AppComponent implements OnInit {
 
       if (event instanceof NavigationError) {
         console.log('NavigationError: Previous route doesn`t exist or is broken.');
-        // this.router.navigateByUrl(`/et/404`, {replaceUrl: true});
+        // this.router.navigateByUrl(`/404`, {replaceUrl: true});
       }
         
     });

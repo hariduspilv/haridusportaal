@@ -20,12 +20,11 @@ export class FavouritesListComponent extends FavouritesComponent implements OnIn
       null,
       null,
       null,
-      snackbar)
+      snackbar,
+      null)
   }
 
   ngOnInit(){
-    this.pathWatcher();
-
     this.getFavouritesList();
   }
 }

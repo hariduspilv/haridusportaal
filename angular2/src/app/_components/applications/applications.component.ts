@@ -55,21 +55,10 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     public rootScope: RootScopeService,
     public route: ActivatedRoute,
     public tableService: TableService,
-    public user: UserService) {}
-
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/dashboard/applications',
-      'et': '/et/toolaud/taotlused'
-    });
-  }
+    public user: UserService
+  ){}
 
   pathWatcher() { 
-    let params = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.lang = params['lang'];
-      }
-    );
     let queryParams = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
         if(strings['version'] != undefined) {
@@ -81,8 +70,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     );
 
     this.subscriptions = [...this.subscriptions, queryParams];
-
-    this.subscriptions = [...this.subscriptions, params];
   }
 
   selectLanguage(obj: object){
@@ -223,9 +210,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
 	}
 
   ngOnInit(){
+    this.lang = this.rootScope.get("lang");
     this.userData = this.user.getData();
     this.currentRole = this.userData['role']['current_role']['type'];
-    this.setPaths();
     this.pathWatcher();
     this.startTime = Date.now();
     this.loading['initial'] = true;

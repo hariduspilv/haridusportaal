@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from '@app/_core/settings';
 
 import { HttpService} from '@app/_services/httpService';
+import { RootScopeService } from '@app/_services';
 
 @Component({
 	selector: 'newsletter-order',
@@ -40,7 +41,8 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     public dialog: MatDialog,
     private translate: TranslateService,
     private settings: SettingsService,
-    private http: HttpService
+    private http: HttpService,
+    private rootScope: RootScopeService
   ){}
 
   updateRSSLink() {
@@ -56,7 +58,8 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     
   }
   ngOnInit() {
-    this.urlPrefix = this.settings.url;
+    this.lang = this.rootScope.get("lang");
+    this.urlPrefix = this.settings.url+"/"+this.rootScope.get("lang");
     this.initialize()
   }
 
@@ -72,8 +75,6 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
       (params: ActivatedRoute) => {
         
         this.data = false;
-
-        this.lang = params['lang'];
 
         let url = "/graphql?queryName=newsletterTags&queryId=87257f778914b18b69ad43bcb1c246e2edee02c1:1&variables=";
         let variables = {

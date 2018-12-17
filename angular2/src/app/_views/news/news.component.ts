@@ -59,18 +59,11 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = params['lang'];
+        this.lang = this.rootScope.get("lang");
       }
     );
 
     this.subscriptions = [...this.subscriptions, subscribe];
-  }
-
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/news',
-      'et': '/et/uudised'
-    });
   }
 
   processTags(tags: Array<object>) {
@@ -200,8 +193,6 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   ngOnInit() {
 
     this.pathWatcher();
-
-    this.setPaths();
 
     this.getTags();
 

@@ -29,7 +29,6 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   private FilterOptions: object = {};
   private filterOptionKeys = ['oskaFieldValue', 'sortedBy', 'fixedLabelValue'];
   private paramsSub: Subscription;
-  private langSub: Subscription;
   private dataSub: Subscription;
   private filterSub: Subscription;
 
@@ -171,13 +170,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     this.showFilter = window.innerWidth > 1024;
     this.filterFull = window.innerWidth <= 1024;
 
-    this.langSub = this.route.params.subscribe((params: ActivatedRoute) => {
-      this.lang = params['lang'];
-    });
-    this.rootScope.set('langOptions', {
-      'en': '/en/professions',
-      'et': '/et/ametialad'
-    });
+    this.lang = this.rootScope.get("lang");
 
     this.watchParams();
     this.populateFilterOptions();
@@ -188,7 +181,6 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   }
   
   ngOnDestroy () {
-    this.langSub.unsubscribe();
     this.paramsSub.unsubscribe();
   }
 }

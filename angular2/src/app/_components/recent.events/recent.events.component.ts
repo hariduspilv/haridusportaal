@@ -37,7 +37,8 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		private router: Router,
 		private route: ActivatedRoute,
 		public dialog: MatDialog,
-		private settings: SettingsService
+		private settings: SettingsService,
+		private rootScope: RootScopeService
 	) {
 
 		}
@@ -46,7 +47,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 
 		this.unix = new Date().getTime();
 
-		this.lang = this.route.snapshot.params['lang'];
+		this.lang = this.rootScope.get("lang");
 		
 		let tmpDates = {};
 		if (this.content.entity.fieldEventDate && this.content.entity.fieldEventDate.length > 0) {
