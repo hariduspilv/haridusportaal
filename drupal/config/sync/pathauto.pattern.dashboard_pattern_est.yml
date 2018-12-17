@@ -8,24 +8,24 @@ dependencies:
 id: dashboard_pattern_est
 label: 'Dashboard pattern EST'
 type: 'canonical_entities:node'
-pattern: '/toolaud/[node:title]'
+pattern: '/töölaud/[node:title]'
 selection_criteria:
-  44b49119-5556-40f5-9d48-71e9d0890bc0:
+  de9a439b-7c45-4706-ad09-40f6bf2eeb69:
     id: node_type
     bundles:
       dashboard: dashboard
     negate: false
     context_mapping:
       node: node
-    uuid: 44b49119-5556-40f5-9d48-71e9d0890bc0
-  00dc891c-45c2-485b-a674-7af20e0707a6:
+    uuid: de9a439b-7c45-4706-ad09-40f6bf2eeb69
+  8eb550aa-4462-49b1-9abf-6975a8c9f50d:
     id: language
     langcodes:
       et: et
     negate: false
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 00dc891c-45c2-485b-a674-7af20e0707a6
+    uuid: 8eb550aa-4462-49b1-9abf-6975a8c9f50d
 selection_logic: and
 weight: -10
 relationships:
