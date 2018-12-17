@@ -34,6 +34,7 @@ a:visited {
           @include break-on(xxs, max) {padding: 0 $medium $gutter $medium;}
         }
         .news-list__recent__elem {flex: 1;padding: 0 0 $xxl 0; z-index: 1;
+          &:last-child {padding-bottom: 0;}
           @include break-on(sm, min) {padding: 0 $gutter 0 $gutter; width: 33.333333%;}
         }
         .news-list__recent__block {display: flex;flex: 3;flex-direction: column;padding: $gutter 0 0 0;overflow: hidden;

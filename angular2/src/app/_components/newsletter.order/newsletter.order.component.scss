@@ -1,5 +1,5 @@
 @import "../../../assets/styles/typography.scss"; 
-.block {border-top: none;background: #f4f4f4;padding: $gutter $small $xxl $small;border-radius: $half-gutter;
+.block {border-top: none;background: #f4f4f4;padding: $medium $small $xxl $small;border-radius: $half-gutter;
   @include break-on(sm, min) {border-radius: $half-gutter;padding: $small $medium $xxl $medium;margin-top: $small;margin-bottom: 0;}
   &__content {
     &--header {
