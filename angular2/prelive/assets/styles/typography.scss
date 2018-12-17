@@ -1,0 +1,81 @@
+
+$breakpoints: (
+  xxs: 480px,
+  xs: 720px,
+  sm: 1024px,
+  md: 1280px,
+  lg: 1440px,
+  xl: 1920px,
+  xxl: 2580px
+);
+
+@mixin break-on($breakpoint, $type) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $mediaValue: map-get($breakpoints, $breakpoint);
+    @if $type == min {
+      @media (min-width: $mediaValue) {
+        @content;
+      }
+    } @else if ($type == max) {
+      @media (max-width: $mediaValue) {
+        @content;
+      }
+    } @else {
+      @warn "Unknown `#{$type}` in $media query type";
+    }
+  } @else {
+    @warn "Unknown `#{$breakpoint}` in $breakpoints";
+  }
+}
+// Examples: 
+// @include break-on(sm, min)
+// @include break-on(lg, max)
+
+$white: #ffffff;
+$light-gray: #eeeeee;
+$gray: #c7c7c9;
+$dark-gray: #757575;
+$orange: #f8b243;
+$dark-orange: #fd8208;
+$light-orange: #ffe7c1;
+$red: #d5401a;
+$dark-red: rgba(208, 2, 27, 0.87);
+$light-blue: #15adc2;
+$aqua: #bee3e8;
+$blue: #2e3374;
+$black: #333333;
+$visited: #623258;
+
+$success: #00854d;
+$success-light: #E6F5EF;
+$info: #1565c0;
+$info-light: #f1f7fe;
+$error: #d0021b;
+$error-light: #fdf3f4;
+$warning: #f5a623;
+$warning-light: #fff7eb;
+
+$gutter: 0.5rem;
+$half-gutter: $gutter / 2;
+$quarter: $gutter + $half-gutter;
+$small: $gutter * 2;
+$medium: $gutter * 3;
+$large: $gutter * 4;
+$xxl: $gutter * 6;
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: $blue;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+h2, h3 {
+  font-size: 1rem;
+  font-weight: 500;
+}
