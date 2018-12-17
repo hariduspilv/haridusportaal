@@ -21,7 +21,7 @@ export class TeachingsDetailedComponent implements OnInit{
   public loading: boolean;
   subscribe: Subscription;
   initialCrumbs = {
-    'et': [{"text": "Avaleht", "url": "/"}, {"text": "Õpetan", "url": "/toolaud/opetan"}]
+    'et': [{"text": "Avaleht", "url": "/"}, {"text": "Õpetan", "url": "/töölaud/õpetan"}]
   };
 
   constructor(
