@@ -1,12 +1,10 @@
 <ng-template #search>
 <form class="section__form">
-    <!-- [class.focusedError]='!searchFocus && !param && searchError' -->
-  <div class="flex wrap xxs" role="search">
-    <div class="grow">
-        <!-- [class.error]="!searchFocus && !param && searchError" -->
+  <div class="flex wrap xxs" role="search" [class.focusedError]='!searchFocus && !param && searchError'>
+    <div class="grow full">
       <div class="round-input__wrapper" aria-live="assertive" 
-        [class.complete]="!searchFocus && param"
-        [class.clean]="!searchFocus && !param && !searchError && !mobileView">
+        [class.error]="!searchFocus && !param && searchError"
+        [class.complete]="!searchFocus && param">
         <label for="param" class="round-input__title" aria-hidden="true">{{'frontpage.enter_keyword_and_search' | translate}}</label>
         <div class="round-input__field-wrapper">
           <input type="text" 
@@ -59,7 +57,7 @@
         </div> -->
       </div>
     </div>
-    <div class="button--wrapper">
+    <div class="btn">
       <button (click)="searchRoute(param)" attr.aria-label="{{ 'button.search' | translate }}" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
     </div>
   </div>
@@ -71,7 +69,7 @@
     <ng-container *ngFor="let item of generalData[0].fieldTopics; let i = index;">
       <a href="javascript:void(0)" class="col-3 sm-6 xxs-12 column-center spaced pointer" *ngIf="item.entity.fieldTopicLink && item.entity.fieldTopicLink.url.routed" [routerLink]="item.entity.fieldTopicLink.url.path">
         <div class="img__wrapper">
-          <div class="htm-icon">book</div>
+          <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
         </div>
         <div attr.aria-label="{{'frontpage.category' | translate }}" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="{{'frontpage.description' | translate }}" class="section__text">{{item.entity.fieldTopicText}}</div>
@@ -79,7 +77,7 @@
       </a> 
       <a *ngIf="item.entity.fieldTopicLink && !item.entity.fieldTopicLink.url.routed" class="col-3 sm-6 xxs-12 column-center spaced pointer" href="{{item.entity.fieldTopicLink.url.path}}" target="_blank">
         <div class="img__wrapper">
-          <div class="htm-icon">book</div>
+          <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
         </div>
         <div attr.aria-label="{{'frontpage.category' | translate }}" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="{{'frontpage.description' | translate }}" class="section__text">{{item.entity.fieldTopicText}}</div>
@@ -88,7 +86,7 @@
       <div class="col-3 sm-6 xxs-12 column-center spaced" *ngIf="!item.entity.fieldTopicLink && (item.entity.fieldTopicTitle || item.entity.fieldTopicText)">
         <!-- <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}"> -->
         <div class="img__wrapper">
-          <div class="htm-icon">book</div>
+          <img alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon'}}{{i + 1}}{{'.svg'}}">
         </div>
         <div attr.aria-label="{{'frontpage.category' | translate }}" class="section__text--strong">{{item.entity.fieldTopicTitle}}</div>
         <div attr.aria-label="{{'frontpage.description' | translate }}" class="section__text">{{item.entity.fieldTopicText}}</div>
@@ -151,7 +149,7 @@
       <div class="content--middle search">
         <h1 class="lead-title">
           <span class="sm-show xxs" innerHtml="{{'frontpage.lead_title_xxs' | translate}}"></span>
-          <span class="sm-show sm" innerHtml="{{ 'frontpage.lead_title_sm' | translate }}"></span>
+          <span class="sm-show sm" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
           <span class="sm-hide" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
         </h1>
         <div class="section__block--search">
@@ -159,13 +157,16 @@
             <ng-container *ngTemplateOutlet="search"></ng-container>
           </div>
         </div>
-        <div class="col-12 header">
+        <div class="col-12 header sm-hide">
           <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown">{{generalData[0].fieldHeadBlockTitle}}</h1>
         </div>
       </div>
     </div>
     <div class="section section--origin main-container" *ngIf="generalData && generalData.length">
       <div class="content">
+        <div class="col-12 header sm-show">
+          <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown">{{generalData[0].fieldHeadBlockTitle}}</h1>
+        </div>
         <ng-container *ngTemplateOutlet="origin"></ng-container>
       </div>
     </div>
