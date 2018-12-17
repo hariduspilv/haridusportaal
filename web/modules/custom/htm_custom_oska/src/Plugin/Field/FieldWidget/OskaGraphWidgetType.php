@@ -56,7 +56,8 @@ class OskaGraphWidgetType extends WidgetBase {
             '#options' => [
                 'simple' => $this->t('simple'),
                 'combo' => $this->t('combo'),
-                'multi' => $this->t('multi')
+                'multi' => $this->t('multi'),
+                'multi-line' => $this->t('multi-line')
             ],
             '#required' => FALSE,
             '#empty_option'  => '-',
@@ -93,24 +94,33 @@ class OskaGraphWidgetType extends WidgetBase {
                 $fields[$field] = $this->t(ucfirst($field));
             }
 
-            if($graph_set === 'simple'){
-                $graph_type_options = array(
-                    'line' => $this->t('line'),
-                    'bar' => $this->t('bar'),
-                    'column' => $this->t('column'),
-                    'pie' => $this->t('pie'),
-                    'doughnut' => $this->t('doughnut')
-                );
-            }elseif($graph_set === 'combo'){
-                $graph_type_options = array(
-                    'line' => $this->t('line'),
-                    'bar' => $this->t('bar')
-                );
-            }else{
-                $graph_type_options = array(
-                    'bar' => $this->t('bar'),
-                    'column' => $this->t('column')
-                );
+            switch($graph_set){
+                case 'simple':
+                    $graph_type_options = array(
+                        'line' => $this->t('line'),
+                        'bar' => $this->t('bar'),
+                        'column' => $this->t('column'),
+                        'pie' => $this->t('pie'),
+                        'doughnut' => $this->t('doughnut')
+                    );
+                    break;
+                case 'combo':
+                    $graph_type_options = array(
+                        'line' => $this->t('line'),
+                        'bar' => $this->t('bar')
+                    );
+                    break;
+                case 'multi':
+                    $graph_type_options = array(
+                        'bar' => $this->t('bar'),
+                        'column' => $this->t('column')
+                    );
+                    break;
+                case 'multi-line':
+                    $graph_type_options = array(
+                        'line' => $this->t('line')
+                    );
+                    break;
             }
 
             $element['graph_options']['graph_type'] = [
@@ -154,7 +164,7 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            if($graph_set === 'multi'){
+            if($graph_set === 'multi' || $graph_set === 'multi-line'){
                 $element['graph_options']['graph_group_by'] = [
                     '#title' => $this->t('Group results'),
                     '#size' => 256,
