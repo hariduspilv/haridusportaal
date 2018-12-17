@@ -18,6 +18,7 @@ const moment = _moment;
 })
 
 export class StudyProgrammeComponent extends FiltersService implements OnInit, OnDestroy{
+
   private today = moment().format('YYYY-MM-DD');
   public list:any = false;
   public listEnd: boolean;
@@ -43,13 +44,11 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed'];
   private isceList: object = {};
   
-
   constructor (
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute, 
     private http: HttpService
-    
   ) {
     super(null, null);
   }
@@ -124,13 +123,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     }   
   }
 
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/study-programmes',
-      'et': '/et/erialad'
-    });
-  }
-
   reset() {
     this.offset = 0;
     this.list = false;
@@ -140,7 +132,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = params['lang'];
+        this.lang = this.rootScope.get("lang");
       }
     );
 
@@ -217,7 +209,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     this.showFilter = window.innerWidth > 1024;
     this.filterFull = window.innerWidth < 1024;
     
-    this.setPaths();
     this.pathWatcher();
     this.watchSearch();
     

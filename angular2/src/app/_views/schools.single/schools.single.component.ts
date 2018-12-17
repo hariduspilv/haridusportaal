@@ -64,13 +64,14 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
       this.querySubscription = this.http.get(url+JSON.stringify(variables)).subscribe(( response ) => {
 
         let data = response['data'];
-        this.lang = this.rootScope.get('currentLang');
+        this.lang = this.rootScope.get('lang');
 
         if( !data['route'] ){
-          this.router.navigateByUrl("/" + this.lang + "/404", {replaceUrl: true});
+          this.router.navigateByUrl(`/404`, {replaceUrl: true});
         } else if (data) {
           this.handleData(data);
         }
+
       });
     }
     
@@ -91,7 +92,7 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
 
     let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( ( response ) => {
       let data = response['data'];
-      this.lang = this.rootScope.get('currentLang');
+      this.lang = this.rootScope.get('lang');
       let initialData = data['taxonomyTermQuery']['entities'];
       let children = initialData.filter(elem => elem.parentId);
       let parents = initialData.filter(elem => !children.includes(elem))

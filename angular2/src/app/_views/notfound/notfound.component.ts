@@ -13,15 +13,16 @@ export class NotFoundComponent {
   viewTranslations: any;
   loaded: boolean = false;
   translatedLinks: object = {
-    school: {et: '/et/kool', en: '/en/school'},
-    events: {et: '/et/sundmused', en: '/en/events'},
-    news: {et: '/et/uudised', en: '/en/news'}
+    school: {et: '/kool'},
+    events: {et: '/sundmused'},
+    news: {et: '/uudised'}
   }
 
-  constructor(private translate: TranslateService, private rootScope: RootScopeService, private sidemenu: SideMenuService, private router: Router) {
-    let langString = this.router.url && this.router.url.split('/').length > 1 && this.router.url.split('/')[1] ? this.router.url.split('/')[1] : 'et';
-    langString = langString === 'et' || langString === 'en' ? langString : 'et';
-    this.rootScope.set('currentLang', langString);
+  constructor(
+    private translate: TranslateService,
+    private rootScope: RootScopeService,
+    private sidemenu: SideMenuService,
+    private router: Router) {
   }
   
   ngOnInit() {
@@ -30,11 +31,11 @@ export class NotFoundComponent {
   }
 
   getLang() {
-    return this.rootScope.get('currentLang');
+    return this.rootScope.get('lang');
   }
 
   toFrontpage() {
-    return "/" + this.getLang();
+    return `/`;
   }
 
   constructUrl(type) {

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { MetaTagsService } from '@app/_services/metaTagsService';
 import { HttpService } from '@app/_services/httpService';
+import { RootScopeService } from '@app/_services';
 @Component({
   selector: 'breadcrumbs',
   templateUrl: 'breadcrumbs.component.html',
@@ -18,13 +19,14 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   prevPath: string = "";
   lang: string;
   breadcrumb: any;
-  public unclickables: Array<string> = ['/et/toolaud', '/en/dashboard'];
+  public unclickables: Array<string> = ['/toolaud'];
   
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private metaTags: MetaTagsService,
-    private http: HttpService
+    private http: HttpService,
+    private rootScope: RootScopeService
   ) {}
   
   getData() {
@@ -37,8 +39,9 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
     const breadcrumbSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
       let data = response['data'];
+      
       if( !data['route'] ){
-        this.router.navigateByUrl("/" + this.lang + "/404", {replaceUrl: true});
+        this.router.navigateByUrl(`/404`, {replaceUrl: true});
       }
       this.metaTags.set(data['route']['entity']['entityMetatags']);
       this.breadcrumb = data['route']['breadcrumb'];
@@ -56,21 +59,15 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    const paramsSub = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        
-        this.lang = params['lang'];
-        this.updateBreadcrumbs();
-       
-      }
-    );
+    this.lang = this.rootScope.get("lang");
     const eventsSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {       
         this.updateBreadcrumbs();
       }
     });
 
-    this.subscriptions = [...this.subscriptions, paramsSub];
+    this.updateBreadcrumbs();
+
     this.subscriptions = [...this.subscriptions, eventsSub];
     
     

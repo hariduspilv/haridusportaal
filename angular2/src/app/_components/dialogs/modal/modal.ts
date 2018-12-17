@@ -24,8 +24,8 @@ export class Modal {
   ){}
   
   ngOnInit() {
-    let lang = this.rootScope.get('currentLang');
-    this.dashboardLink = lang === 'et' ? 'et/toolaud/taotlused' : 'en/dashboard/applications';
+    let lang = this.rootScope.get('lang');
+    this.dashboardLink = 'et/toolaud/taotlused';
   }  
   
   closeModal() {

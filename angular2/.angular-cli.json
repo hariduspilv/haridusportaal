@@ -11,7 +11,9 @@
         "assets",
         "favicon.ico",
         "auth.html",
-        "manifest.json"
+        "manifest.json",
+        "redirect.php",
+        ".htaccess"
       ],
       "index": "index.html",
       "main": "main.ts",

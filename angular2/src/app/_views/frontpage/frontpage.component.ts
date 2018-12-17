@@ -37,8 +37,6 @@ export class FrontpageComponent {
   ) {
 
     this.route.params.subscribe( params => {
-        
-      const defaultLang = translate.getDefaultLang();
 
       const translations = translate.translations;
 
@@ -52,11 +50,6 @@ export class FrontpageComponent {
       });
 
     });
-
-    this.rootScope.set('langOptions', {
-      'en': '/en',
-      'et': '/et',
-    });
   }
 
   getEvents() {
@@ -65,7 +58,7 @@ export class FrontpageComponent {
     let date = new Date();
     var formattedDate = `${date.getFullYear()}-${date.getMonth() <= 8 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)}-${date.getDate() <= 9 ? '0' + date.getDate() : date.getDate()}`;
     let variables = {
-      lang: this.rootScope.get('currentLang').toUpperCase(),
+      lang: this.rootScope.get('lang').toUpperCase(),
       currentDate: formattedDate
     }
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
@@ -82,7 +75,7 @@ export class FrontpageComponent {
   getGeneral() {
     let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=96812bdf09af8c10129c2ad464c7c34c25c88dd2:1&variables=";
     
-    let variables = {lang: this.rootScope.get('currentLang').toUpperCase()}
+    let variables = {lang: this.rootScope.get('lang').toUpperCase()}
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
       if (data['errors'] && data['errors'].length) {
         this.generalData = [];
@@ -99,7 +92,7 @@ export class FrontpageComponent {
     if (!param) {
       this.searchError = true;
     } else {
-      let url = this.lang === '/et' ? "/et/otsing?term=" + param : "/en/search?term=" + param;
+      let url = "/otsing?term="+param;
       this.router.navigateByUrl(url)
     }
   }
@@ -115,25 +108,18 @@ export class FrontpageComponent {
   }
   ngOnInit() {
     (document.activeElement as HTMLElement).blur();
-    this.lang = this.router.url;
+    this.lang = this.rootScope.get("lang");
 		let that = this;
 		this.route.params.subscribe(params => {
-			if (this.lang === '/en' || this.lang.includes('/en?')) {
-        this.allPath = "/en/news";
-        this.eventPath = "/en/events";
-			} else if (this.lang === '/et' || this.lang.includes('/et?')) {
-        this.allPath = "/et/uudised";
-        this.eventPath = "/et/sundmused";
-      } else if (this.lang !== '') {
-        this.router.navigateByUrl("/" + this.lang +"/404", {replaceUrl: true});
-      }
+      this.allPath = "/uudised";
+      this.eventPath = "/sundmused";
       this.getGeneral()
       this.getEvents()
     });
 
     let url = this.settings.url+"/graphql?queryName=recentNews&queryId=02772fa14a0888ba796a22398f91d384777290fa:1&variables=";
     
-    let variables = {lang: this.rootScope.get('currentLang').toUpperCase(), nid: 0}
+    let variables = {lang: this.rootScope.get('lang').toUpperCase(), nid: 0}
 
     let subscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
 

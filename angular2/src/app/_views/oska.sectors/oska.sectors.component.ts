@@ -17,7 +17,6 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
   public lang: string;
   public limit: number = 100;
   public offset: number = 0;
-  private langSub: Subscription;
   private dataSub: Subscription;
 
   constructor(
@@ -53,17 +52,13 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit () {
-    this.langSub = this.route.params.subscribe((params: ActivatedRoute) => {
-      this.lang = params['lang'];
-    });
-    this.rootScope.set('langOptions', {
-      'en': '/en/sectors',
-      'et': '/et/valdkonnad'
-    });
+
+    this.lang = this.rootScope.get("lang");
     this.getData()
+
   }
   
   ngOnDestroy () {
-    this.langSub.unsubscribe();
+
   }
 }

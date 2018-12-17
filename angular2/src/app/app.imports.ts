@@ -43,11 +43,10 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 export function HttpLoaderFactory(http: HttpClient) {
   let localAddress = ['192', '10'];
   let translateUrls = {
-    "localhost": ["http://test-htm.wiseman.ee:30000/", "/translations?_format=json"],
-    // "localhost": ["/assets/", ".json"],
-    "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/", "/translations?_format=json"],
-    // "htm.twn.ee": ["https://htm.wiseman.ee/", "/translations?_format=json"],
-    "otherwise": ["https://apitest.hp.edu.ee/", "/translations?_format=json"]
+    "localhost": ["http://test-htm.wiseman.ee:30000/translations?_format=json&lang=", ""],
+    // "htm.twn.ee": ["/assets/", ".json"],
+    "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/translations?_format=json&lang=", ""],
+    "otherwise": ["https://apitest.hp.edu.ee/translations?_format=json&lang=", ""]
   }
 
   let path;
