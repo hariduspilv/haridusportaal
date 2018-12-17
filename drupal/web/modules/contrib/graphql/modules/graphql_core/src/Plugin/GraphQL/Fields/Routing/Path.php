@@ -27,7 +27,7 @@ class Path extends FieldPluginBase {
   public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
     if ($value instanceof Url) {
       $url = $value->toString(TRUE);
-      yield new CacheableValue($url->getGeneratedUrl(), [$url]);
+      yield new CacheableValue(urldecode($url->getGeneratedUrl()), [$url]);
     }
   }
 

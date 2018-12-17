@@ -7,7 +7,7 @@ dependencies:
 id: xdzeison_pattern_und
 label: 'xDzeison pattern UND'
 type: 'canonical_entities:x_json_entity'
-pattern: '/toolaud/taotlused/[x_json_entity:name]'
+pattern: '/töölaud/taotlused/[x_json_entity:name]'
 selection_criteria: {  }
 selection_logic: and
 weight: 0
