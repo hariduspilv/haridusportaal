@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { HttpService } from "@app/_services/httpService";
 import { Router, ActivatedRoute } from "@angular/router";
 import { SettingsService } from "@app/_core/settings";
+import { RootScopeService } from "@app/_services";
 
 @Component({
   templateUrl: "preview.template.html"
@@ -15,13 +16,14 @@ export class PreviewComponent implements OnInit{
     private http: HttpService,
     private router: Router,
     private route: ActivatedRoute,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private rootScope: RootScopeService
   ) {
 
   }
 
   editPost() {
-    let href = this.settings.url+"/et/node/"+this.data.entityId+"/edit?uuid="+this.route.snapshot.params.id;
+    let href = this.settings.url+"/"+this.rootScope.get("lang")+"/node/"+this.data.entityId+"/edit?uuid="+this.route.snapshot.params.id;
     window.location.href = href;
   }
   ngOnInit() {

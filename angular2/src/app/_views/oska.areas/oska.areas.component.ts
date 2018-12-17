@@ -28,16 +28,6 @@ export class OskaAreasComponent implements OnInit{
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
-  setLangLinks(data){
-    //language service
-    const langOptions = data['data']['route']['languageSwitchLinks'];
-    let langValues = {};
-    for( var i in langOptions ){
-      langValues[langOptions[i].language.id] = langOptions[i].url.path;
-    }
-    this.rootScope.set('langOptions', langValues);
-  }
-
   getData(){
 
     if( this.inputData ){
@@ -96,8 +86,6 @@ export class OskaAreasComponent implements OnInit{
         } else if (this.data.fieldSurveyPageSidebar) {
           this.sidebarData = this.data.fieldSurveyPageSidebar.entity;
         }
-
-        this.setLangLinks(data);
 
         subscription.unsubscribe();
 

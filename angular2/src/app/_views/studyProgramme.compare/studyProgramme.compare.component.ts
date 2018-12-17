@@ -36,22 +36,18 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
   ) {
     super(null, null, null, null, null, null)
   }
+  
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = params['lang'];
+        this.lang = this.rootScope.get("lang");
       }
     );
 
     this.subscriptions = [...this.subscriptions, subscribe];
   }
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/study-programmes/compare',
-      'et': '/et/erialad/vordlus'
-    });
-  }
+
   rerouteToParent(): void {
     let currentUrl = JSON.parse(JSON.stringify(this.path.split('/')));
     currentUrl.pop();
@@ -84,7 +80,6 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
   ngOnInit() {
     
     this.pathWatcher();
-    this.setPaths();
     this.getData();
   }
   ngAfterViewChecked() {
@@ -106,8 +101,8 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     }
   }
   back () {
-    let langOpts = this.rootScope.get('langOptions')[this.lang].split('/')
-    langOpts.splice(-1, 1)
-    return langOpts.join('/')
+    let langOpts = this.route.snapshot.url.toString().split("/");
+    langOpts.splice(-1, 1);
+    return langOpts.join('/');
   }
 }

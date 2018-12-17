@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SideMenuService } from '@app/_services/sidemenuService';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { RootScopeService } from './rootScopeService';
 
 @Injectable()
 export class UserService{
@@ -10,7 +11,8 @@ export class UserService{
 
   constructor(
     private router: Router,
-    private sidemenu: SideMenuService
+    private sidemenu: SideMenuService,
+    private rootScope: RootScopeService
   ) {
     
   }
@@ -46,7 +48,7 @@ export class UserService{
   public triggerPageReload() {
 
     let url = {
-      lang: this.router.url.split("/")[1],
+      lang: this.rootScope.get("lang"),
       current: this.router.url
     }
 

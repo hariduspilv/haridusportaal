@@ -30,18 +30,13 @@ export class RecentNewsComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.lang = this.rootScope.get("currentLang");
+		this.lang = this.rootScope.get("lang");
 		
 		this.route.params.subscribe( params => {
 
 			this.content = false;
 
-			if( this.lang == "/en" ){
-				this.allPath = "/en/news";
-			}
-			else if( this.lang == "/et" ){
-				this.allPath = "/et/uudised";
-			}
+			this.allPath = "/uudised";
 
 
 			let url = "/graphql?queryName=recentNews&queryId=02772fa14a0888ba796a22398f91d384777290fa:1&variables=";
