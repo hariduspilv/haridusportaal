@@ -48,15 +48,6 @@ export class OskaResultsComponent implements OnInit{
     private tableService: TableService
   ) {}
 
-  setLangLinks(data){
-    const langOptions = data['data']['route']['languageSwitchLinks'];
-    let langValues = {};
-    for( var i in langOptions ){
-      langValues[langOptions[i].language.id] = langOptions[i].url.path;
-    }
-    this.rootScope.set('langOptions', langValues);
-  }
-
   getData(){
 
     if( this.inputData ){
@@ -65,11 +56,14 @@ export class OskaResultsComponent implements OnInit{
         this.sidebarData = this.data.fieldResultPageSidebar.entity;
       }
     }else{
+      
       let url = "/graphql?queryName=oskaResultPageDetailView&queryId=d0ced119fe027ab9b4a115de022a9237117af136:1&variables=";
+
       let variables = {
-        "lang": this.rootScope.get('currentLang'),
+        "lang": this.rootScope.get('lang'),
         "path": this.router.url
       };
+
       url+= JSON.stringify(variables);
       let subscription = this.http.get(url).subscribe( (data) => {
         if ( data['errors'] ) {
@@ -84,7 +78,6 @@ export class OskaResultsComponent implements OnInit{
         if (this.data.fieldResultPageSidebar) {
           this.sidebarData = this.data.fieldResultPageSidebar.entity;
         }
-        this.setLangLinks(data);
 
         subscription.unsubscribe();
       }, (err) => {

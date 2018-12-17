@@ -8,24 +8,24 @@ dependencies:
 id: events_pattern_est
 label: 'Events pattern EST'
 type: 'canonical_entities:node'
-pattern: 'sundmused/[node:title]'
+pattern: 'sündmused/[node:title]'
 selection_criteria:
-  abd09a81-cc50-47d8-8c9e-a6237752df41:
+  42c07bc8-0851-4d2b-a170-66ccf50fbfd5:
     id: node_type
     bundles:
       event: event
     negate: false
     context_mapping:
       node: node
-    uuid: abd09a81-cc50-47d8-8c9e-a6237752df41
-  8b6a3fda-020a-4c17-8a9a-7ecf7770ecc3:
+    uuid: 42c07bc8-0851-4d2b-a170-66ccf50fbfd5
+  cf8ae7e1-6bb4-4a73-b986-41e4e64d975d:
     id: language
     langcodes:
       et: et
     negate: false
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 8b6a3fda-020a-4c17-8a9a-7ecf7770ecc3
+    uuid: cf8ae7e1-6bb4-4a73-b986-41e4e64d975d
 selection_logic: and
 weight: -10
 relationships:

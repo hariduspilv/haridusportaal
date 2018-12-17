@@ -414,31 +414,15 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.polygonLayer = name;
     this.getData();
   }
-  setPaths() {
-    this.rootScope.set('langOptions', {
-      'en': '/en/school-funding',
-      'et': '/et/koolide-rahastus'
-    });
-  }
-
-  pathWatcher() { 
-    let subscribe = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.lang = params['lang'];
-      }
-    );
-
-    this.subscriptions = [...this.subscriptions, subscribe];
-  }
 
   ngOnInit() {
 
-    this.mapOptions.styles = this.rootScope.get("mapStyles");
+    this.lang = this.rootScope.get("lang");
 
-    this.setPaths();
-    this.pathWatcher();
+    this.mapOptions.styles = this.rootScope.get("mapStyles");
     this.getFilters();
     this.watchSearch();
+    
   }
 
   ngOnDestroy() {

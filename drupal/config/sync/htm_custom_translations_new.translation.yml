@@ -559,6 +559,10 @@ frontpage:
     translation_type: textarea
     et: Peamenüü
     en: 'Main menu'
+  enter_keyword_and_search:
+    translation_type: textarea
+    et: 'Sisesta märksõna ja vajuta “Otsi”..'
+    en: 'Enter keyword and search ..'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
