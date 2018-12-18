@@ -22,10 +22,10 @@ export class DashboardComponent implements OnInit, OnDestroy{
   
   public mainMenu = {
     "et": [
-      {_id: 1, link: '/toolaud/taotlused', active: true },
-      {_id: 2, link: '/toolaud/tunnistused', active: true },
-      {_id: 3, link: '/toolaud/opingud', active: true },
-      {_id: 4, link: '/toolaud/opetan', active: true }
+      {_id: 1, link: '/töölaud/taotlused', active: true },
+      {_id: 2, link: '/töölaud/tunnistused', active: true },
+      {_id: 3, link: '/töölaud/õpingud', active: true },
+      {_id: 4, link: '/töölaud/õpetan', active: true }
     ],
   };
 
@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
       this.dialog.afterAllClosed.subscribe(result => {
         if (this.rootScope.get('roleChanged')) {
           this.rootScope.set('roleChanged', false);
-          let paths = { 'et': '/toolaud/taotlused' };
+          let paths = { 'et': '/töölaud/taotlused' };
           this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
             this.router.navigateByUrl(paths[this.lang]);
           });

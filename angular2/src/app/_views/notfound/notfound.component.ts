@@ -14,7 +14,7 @@ export class NotFoundComponent {
   loaded: boolean = false;
   translatedLinks: object = {
     school: {et: '/kool'},
-    events: {et: '/sundmused'},
+    events: {et: '/sündmused'},
     news: {et: '/uudised'}
   }
 

@@ -15,7 +15,10 @@ export class FrontpageComponent {
   public error: boolean;
   public searchError: boolean = false;
   public news: any = false;
-  public superNewsShown: boolean = false;
+  public superNewsShown: {} = {
+    'first': false,
+    'second': false
+  }
 	public events: any = false;
 	public generalData: any = false;
 	public lang: string;
@@ -23,6 +26,7 @@ export class FrontpageComponent {
   public eventPath: any;
   public suggestionList: any = false;
   public debouncer: any;
+  public mobileView: boolean = false;
   public autocompleteLoader: boolean = false;
   public suggestionSubscription: Subscription;
   
@@ -73,7 +77,7 @@ export class FrontpageComponent {
   }
   
   getGeneral() {
-    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=96812bdf09af8c10129c2ad464c7c34c25c88dd2:1&variables=";
+    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=13a8e1423d1f5afb100aa97e4c8133b957da2967:1&variables=";
     
     let variables = {lang: this.rootScope.get('lang').toUpperCase()}
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
@@ -81,7 +85,8 @@ export class FrontpageComponent {
         this.generalData = [];
       } else {
         this.generalData = data['data']['nodeQuery']['entities'];
-        this.superNewsShown = this.superNewsValid();
+        this.superNewsShown['first'] = this.superNewsValid('fieldSuperNews');
+        this.superNewsShown['second'] = this.superNewsValid('fieldSecondarySuperNews');
       }
     },(data) => {
       this.generalData = [];
@@ -97,10 +102,22 @@ export class FrontpageComponent {
     }
   }
 
-  superNewsValid() {
-    var valid = true;
-    let superNewsPublished = this.generalData[0].fieldSupernewsPublishDate && (this.generalData[0].fieldSupernewsPublishDate.unix * 1000);
-    let superNewsUnPublished = this.generalData[0].fieldSupernewsUnpublishDate && this.generalData[0].fieldSupernewsUnpublishDate.unix && (this.generalData[0].fieldSupernewsUnpublishDate.unix * 1000);
+  superNewsValid(component) {
+    let publishDateLabel: string = '';
+    let unPublishDateLabel: string = '';
+    switch (component) {
+      case 'fieldSecondarySuperNews':
+        publishDateLabel = 'fieldSecondarySupernewsPub';
+        unPublishDateLabel = 'fieldSecondarySupernewsUnpub';
+        break;
+      case 'fieldSuperNews':
+        publishDateLabel = 'fieldSupernewsPublishDate';
+        unPublishDateLabel = 'fieldSupernewsUnpublishDate';
+        break;
+    }
+    let valid = true;
+    let superNewsPublished = this.generalData[0][publishDateLabel] && (this.generalData[0][publishDateLabel].unix * 1000);
+    let superNewsUnPublished = this.generalData[0][unPublishDateLabel] && this.generalData[0][unPublishDateLabel].unix && (this.generalData[0][unPublishDateLabel].unix * 1000);
     let dateNow = new Date();
     if (superNewsPublished) { var superNewsPublishedVal = dateNow > new Date(superNewsPublished) };
     if (superNewsUnPublished) { var superNewsUnPublishedVal = dateNow < new Date(superNewsUnPublished) } else { superNewsUnPublishedVal = true; };
@@ -109,10 +126,11 @@ export class FrontpageComponent {
   ngOnInit() {
     (document.activeElement as HTMLElement).blur();
     this.lang = this.rootScope.get("lang");
+    this.mobileView = window.innerWidth <= 1024;
 		let that = this;
 		this.route.params.subscribe(params => {
       this.allPath = "/uudised";
-      this.eventPath = "/sundmused";
+      this.eventPath = "/sündmused";
       this.getGeneral()
       this.getEvents()
     });

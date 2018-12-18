@@ -33,7 +33,7 @@ export class CertificatesDetailedComponent implements OnInit{
   private error: boolean;
   private viewChecked: boolean = false;
   private initialCrumbs = {
-    'et': [{"text": "Avaleht", "url": "/"}, {"text": "Tunnistused", "url": "/toolaud/tunnistused"}]
+    'et': [{"text": "Avaleht", "url": "/"}, {"text": "Tunnistused", "url": "/töölaud/tunnistused"}]
   };
   public subscriptions: Subscription[] = [];
 
