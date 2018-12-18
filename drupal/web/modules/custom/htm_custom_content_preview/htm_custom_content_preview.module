@@ -36,7 +36,7 @@ function redirectExternal($form, \Drupal\Core\Form\FormStateInterface $form_stat
 	$language = \Drupal::languageManager()->getCurrentLanguage()->getId();
 	$old_url = $form_state->getRedirect();
 	
-	$new_url = $fe_url . '/' . $language . '/preview/' . $old_url->getRouteParameters()['node_preview'];
+	$new_url = $fe_url . '/preview/' . $old_url->getRouteParameters()['node_preview'];
 	$redirect_url = \Drupal\Core\Url::fromUri($new_url , ['http' => true])->toString();
 	
 	$redirect = new \Drupal\Core\Routing\TrustedRedirectResponse($redirect_url);
