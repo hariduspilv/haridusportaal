@@ -28,6 +28,7 @@ permissions:
   - 'administer nodes'
   - 'administer scheduler'
   - 'administer subscription entity entities'
+  - 'administer subsidy project entities'
   - 'administer taxonomy'
   - 'administer users'
   - 'cancel account'
