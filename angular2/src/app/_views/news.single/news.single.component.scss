@@ -26,7 +26,7 @@ a:visited {
       .news-title { a:hover{text-decoration: none;}}
       @include break-on(sm, min) {border-radius: $half-gutter; margin-left: 0;}
       &__elem {padding-bottom: $xxl;}
-      &.horizontal {border-top: none;background: transparent;
+      &.horizontal {border-top: none;background: transparent;margin:0;
         @include break-on(sm, min) { margin: 0 3rem; }
         a:visited {color: $blue;}
         .news-title {padding-top: 0; color: $black; padding-left: 0; padding-right: 0;
