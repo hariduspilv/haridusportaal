@@ -1,40 +1,66 @@
-query frontPageQuery(
-  $lang: LanguageId!
-){
-  nodeQuery(sort:{field:"changed",direction:DESC},filter:{conditions:{field:"type", value:"avaleht", language: $lang}}){
-    entities(language:$lang){
-      ... on NodeAvaleht{
+query frontPageQuery($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "avaleht", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeAvaleht {
         fieldHeadBlockTitle
-        fieldTopics{
-          entity{
-            fieldTopicTitle
-            fieldTopicText
-            fieldTopicLink{
-              url{
-                routed
-                path
+        fieldTopics {
+          entity {
+            ... on ParagraphHomepageTopics {
+              fieldTopicTitle
+              fieldTopicText
+              fieldTopicLink {
+                url {
+                  routed
+                  path
+                }
               }
             }
           }
         }
-        fieldSupernews{
-          entity{
-            nid
-            title
-            entityUrl{
-              routed
-              path
+        fieldSupernews {
+          entity {
+            ... on NodeNews {
+              nid
+              title
+              entityUrl {
+                routed
+                path
+              }
+              fieldAuthor
+              created
             }
-            fieldAuthor
-            created
           }
         }
-        fieldSupernewsPublishDate{
+        fieldSupernewsPublishDate {
           value
           date
           unix
         }
-        fieldSupernewsUnpublishDate{
+        fieldSupernewsUnpublishDate {
+          value
+          date
+          unix
+        }
+        fieldSecondarySupernews {
+          entity {
+            ... on NodeNews {
+              nid
+              title
+              entityUrl {
+                routed
+                path
+              }
+              fieldAuthor
+              created
+            }
+          }
+        }
+        fieldSecondarySupernewsPub {
+          value
+          date
+          unix
+        }
+        fieldSecondarySupernewsUnpub {
           value
           date
           unix
