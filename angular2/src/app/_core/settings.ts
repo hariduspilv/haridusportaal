@@ -3,7 +3,7 @@ import { Inject } from '@angular/core';
 
 export class SettingsService {
 
-  login = "/et/api/v1/token?_format=json";
+  login = "/api/v1/token?_format=json";
 
   url = "";
 
