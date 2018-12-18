@@ -86,8 +86,7 @@ class JsonQueryMapQueryProvider implements QueryProviderInterface {
         $maps[$hash] = $file->getPathname();
       }
     }
-	dump($maps);
-    die();
+	#dump($maps);
     return $maps;
   }
 }
