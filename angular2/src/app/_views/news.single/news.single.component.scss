@@ -26,20 +26,19 @@ a:visited {
       .news-title { a:hover{text-decoration: none;}}
       @include break-on(sm, min) {border-radius: $half-gutter; margin-left: 0;}
       &__elem {padding-bottom: $xxl;}
-      &.horizontal {border-top: none;background: transparent;
+      &.horizontal {border-top: none;background: transparent;margin:0;
         @include break-on(sm, min) { margin: 0 3rem; }
-        @include break-on(lg, min) { margin: 0 1.5rem; }
         a:visited {color: $blue;}
-        .news-title {padding-top: $medium; color: $black; padding-left: 0; padding-right: 0;
+        .news-title {padding-top: 0; color: $black; padding-left: 0; padding-right: 0;
           @include break-on(sm, max) {padding: 0 0 $gutter 0; }
           @include break-on(xxs, max) {padding: 0 $medium $gutter $medium;}
         }
-        .news-list__recent__elem {flex: 1;padding: 0 0 $xxl 0; 
-          @include break-on(sm, min) {padding: 0 $gutter $xxl $gutter; width: 33.333333%;}
+        .news-list__recent__elem {flex: 1;padding: 0 0 $xxl 0; z-index: 1;
+          &:last-child {padding-bottom: 0;}
+          @include break-on(sm, min) {padding: 0 $gutter 0 $gutter; width: 33.333333%;}
         }
         .news-list__recent__block {display: flex;flex: 3;flex-direction: column;padding: $gutter 0 0 0;overflow: hidden;
-          @include break-on(sm, min) { flex-direction: row; display: flex; margin: 0 0rem 0 -0.5rem; }
-          @include break-on(md, min) { margin: 0 -0.5rem 0 -0.5rem; }
+          @include break-on(sm, min) {flex-direction: row;display: flex;margin: 0 -0.5rem 0 -0.5rem;}
         }
         .title__recent {
           @include break-on(xxs, min) {padding: 0; padding-top: $gutter;}
