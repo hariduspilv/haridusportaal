@@ -111,8 +111,7 @@ class NodePreview extends FieldPluginBase implements ContainerFactoryPluginInter
 	protected function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 		$store = $this->tempStoreFactory->get('node_preview');
 		$preview = $store->get($args['uuid']);
-
-		yield $preview->getFormObject()->getEntity();
+		if ($preview) yield $preview->getFormObject()->getEntity();
 	}
 
 }
