@@ -50,11 +50,11 @@
             </ng-container>
           </mat-autocomplete>
         </div>
-        <!-- <div class="round-input__error">
+        <div class="round-input__error">
           <div class="round-input__error--text error-9" *ngIf="!searchFocus && searchError">
             <span role="alert">{{ 'Otsingu käivitamiseks sisesta otsitav märksõna' }}</span>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
     <div class="btn">
@@ -65,7 +65,7 @@
 </ng-template>
 
 <ng-template #origin>
-  <article class="row origin" [class.extra-bottom]="!superNewsShown">
+  <article class="row origin" [class.extra-bottom]="!superNewsShown['first']">
     <ng-container *ngFor="let item of generalData[0].fieldTopics; let i = index;">
       <a href="javascript:void(0)" class="col-3 sm-6 xxs-12 column-center spaced pointer" *ngIf="item.entity.fieldTopicLink && item.entity.fieldTopicLink.url.routed" [routerLink]="item.entity.fieldTopicLink.url.path">
         <div class="img__wrapper">
@@ -103,11 +103,11 @@
   </article>
 </ng-template>
 
-<ng-template #newsItemMobile>
-  <article class="news-list__recent__elem main-container">
+<ng-template #newsItemSecondary>
+  <article class="news-list__recent__elem">
     <div class="title">{{ 'news.label' | translate | uppercase }}</div>
-    <div attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="generalData[0].fieldSupernews.entity.entityUrl.path"><h1> {{ generalData[0].fieldSupernews.entity.title }}</h1></a></div>
-    <div attr.aria-label="Author" class="author">{{ generalData[0].fieldSupernews.entity.fieldAuthor }} {{ generalData[0].fieldSupernews.entity.created*1000 | date:"dd.MM.yyyy" }}</div>
+    <div attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="generalData[0].fieldSecondarySupernews.entity.entityUrl.path"><h1> {{ generalData[0].fieldSecondarySupernews.entity.title }}</h1></a></div>
+    <div attr.aria-label="Author" class="author">{{ generalData[0].fieldSecondarySupernews.entity.fieldAuthor }} {{ generalData[0].fieldSecondarySupernews.entity.created*1000 | date:"dd.MM.yyyy" }}</div>
   </article>
 </ng-template>
 
@@ -158,32 +158,21 @@
           </div>
         </div>
         <div class="col-12 header sm-hide">
-          <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown">{{generalData[0].fieldHeadBlockTitle}}</h1>
+          <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown['first']">{{generalData[0].fieldHeadBlockTitle}}</h1>
         </div>
       </div>
     </div>
     <div class="section section--origin main-container" *ngIf="generalData && generalData.length">
       <div class="content">
         <div class="col-12 header sm-show">
-          <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown">{{generalData[0].fieldHeadBlockTitle}}</h1>
+          <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown['first']">{{generalData[0].fieldHeadBlockTitle}}</h1>
         </div>
         <ng-container *ngTemplateOutlet="origin"></ng-container>
       </div>
     </div>
-    <!-- <div class="section section--list--item sm-show" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
+    <div class="section section--list--item main-container" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown['first']">
       <div class="content--overlapGrid">
-        <img class="content--img atStart" alt="Info õppimise kohta" src="{{'../../assets/img/frontpage-ikoon1.svg'}}">
-        <div class="content--listItem atEnd">
-          <ng-container *ngTemplateOutlet="newsItemMobile"></ng-container>
-        </div>
-      </div>
-    </div> -->
-    <div class="section section--list--item main-container" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
-      <!-- <div class="content--listItem">
-        <ng-container *ngTemplateOutlet="newsItem"></ng-container>
-      </div> -->
-      <div class="content--overlapGrid">
-        <img class="content--img atStart" alt="Info õppimise kohta" src="http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2018-09/3_1.jpg?itok=321xUmE_">
+        <div class="content--img atStart"><img alt="Info õppimise kohta" src="http://test-htm.wiseman.ee:30000/sites/default/files/styles/crop_small/public/2018-09/3_1.jpg?itok=321xUmE_"></div>
         <div class="content--listItem atEnd">
           <ng-container *ngTemplateOutlet="newsItem"></ng-container>
         </div>
@@ -203,15 +192,12 @@
         <recent-news frontpage="true" [data]="news"></recent-news>
       </div>
     </div>
-    <div class="section section--list--item main-container" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown">
-      <!-- <div class="content--listItem">
-        <ng-container *ngTemplateOutlet="newsItem"></ng-container>
-      </div> -->
+    <div class="section section--list--item main-container" *ngIf="generalData && generalData.length && generalData[0].fieldSecondarySupernews && superNewsShown['second']">
       <div class="content--overlapGrid">
         <div class="content--listItem atStart">
-          <ng-container *ngTemplateOutlet="newsItem"></ng-container>
+          <ng-container *ngTemplateOutlet="newsItemSecondary"></ng-container>
         </div>
-        <img class="content--img atEnd" alt="Info õppimise kohta" src="http://htm.wiseman.ee/sites/default/files/styles/crop_small/public/2018-09/3_1.jpg?itok=321xUmE_">
+        <div class="content--img atEnd"><img alt="Info õppimise kohta" src="http://test-htm.wiseman.ee:30000/sites/default/files/styles/crop_small/public/2018-09/3_1.jpg?itok=321xUmE_"></div>
       </div>
     </div>
     <div class="section section--list altered main-container sm-hide" *ngIf="events && events.length">
@@ -224,6 +210,8 @@
         <ng-container *ngTemplateOutlet="eventsListMobile"></ng-container>
       </div>
     </div>
-    <div class="frontpage__triangle--bottom"></div>
+    <div class="frontpage__triangle--wrapper">
+      <div class="frontpage__triangle--bottom"></div>
+    </div>
   </div><!--/frontpage-->
 
