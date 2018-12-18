@@ -19,7 +19,7 @@ jobs:
           EOF2
           EOF1
     - run:
-        name: Enter server and update Angular
+        name: Enter server and updates Angular
         command: |
           ssh -q -o StrictHostKeyChecking=no $PROXYSERVER -p 222 <<EOF1
           ssh -q -o StrictHostKeyChecking=no $PRELIVESERVER -p 22 <<EOF2
