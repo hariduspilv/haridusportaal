@@ -4,28 +4,28 @@ status: true
 dependencies:
   module:
     - elasticsearch_connector
+    - node
     - paragraphs
     - taxonomy
-    - node
     - scheduler
     - search_api
   config:
-    - field.storage.node.field_adrid
     - field.storage.node.field_school_location
     - field.storage.paragraph.field_address
-    - field.storage.paragraph.field_location_type
-    - field.storage.paragraph.field_school_location
-    - field.storage.paragraph.field_coordinates
-    - field.storage.node.field_school_contact_email
+    - field.storage.node.field_adrid
+    - field.storage.node.field_educational_institution_ty
     - field.storage.node.field_ehis_id
-    - field.storage.node.field_special_class
-    - field.storage.node.field_school_contact_phone
+    - field.storage.paragraph.field_location_type
     - field.storage.node.field_ownership_type
     - field.storage.node.field_registration_code
+    - field.storage.node.field_school_contact_email
+    - field.storage.node.field_school_contact_phone
+    - field.storage.paragraph.field_school_location
     - field.storage.node.field_school_webpage_address
+    - field.storage.node.field_special_class
     - field.storage.node.field_student_home
-    - field.storage.node.field_educational_institution_ty
     - field.storage.node.field_teaching_language
+    - field.storage.paragraph.field_coordinates
     - search_api.server.elasticsearch_server
 third_party_settings:
   elasticsearch_connector:
@@ -299,6 +299,6 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: true
+  index_directly: false
   cron_limit: 50
 server: elasticsearch_server
