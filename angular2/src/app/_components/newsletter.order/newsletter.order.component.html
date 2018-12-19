@@ -19,26 +19,26 @@
 
 
       <div class="block__content--form__input">
-        <div class="flex wrap xxs flex-justify-center">
+        <div class="flex wrap flex-justify-center" [class.order]="order">
           <ng-container *ngIf="!order">
             <div class="grow full short">
               <button type="button" (click)="order = true" attr.aria-label="{{'newsletter.order_to_email' | translate}}" mat-raised-button color="primary">{{ 'newsletter.order_to_email' | translate }} </button>
             </div>
             <div class="btn">
               <div class="outer">
-                <a href="{{ urlPrefix }}/custom/rss.xml{{ rssIDs }}" target="_blank">{{ 'button.rss_order' | translate }} </a>
+                <a role="button" href="custom/rss.xml{{ rssIDs }}" target="_blank">{{ 'button.rss_order' | translate }} </a>
               </div>
             </div>
           </ng-container>
           <ng-container *ngIf="order">
-            <div class="grow full">
-              <div class="round-input__wrapper" [class.error]="errors.email && !emailFocus">
+            <div class="grow full lengthy">
+              <div class="round-input__wrapper" [class.error]="(email || errors.email) && (errors.email || errors.items) && !emailFocus">
                 <span class="round-input__title" [class.exists]="email">{{ 'newsletter.email' | translate }}</span>
                 <div class="round-input__field-wrapper" [class.spacing]="email">
-                  <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' name="email" placeholder="{{ 'newsletter.email' | translate }}" [(ngModel)]="email"/>
+                  <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false;errors.email = false;" [class.focused]='emailFocus' name="email" placeholder="{{ 'newsletter.email' | translate }}" [(ngModel)]="email"/>
                 </div>
-                <div class="round-input__error">
-                  <div class="round-input__error--text" *ngIf="!emailFocus" aria-live="assertive">
+                <div class="round-input__error" *ngIf="(email || errors.email) && !emailFocus && (errors.email || errors.items)">
+                  <div class="round-input__error--text" aria-live="assertive">
                     <span *ngIf="errors.items" role="alert">{{ 'newsletter.subscription_choose_one' | translate }}</span>
                     <span *ngIf="errors.email && !errors.items" role="alert">{{ 'newsletter.valid_email' | translate }}</span>
                   </div>
@@ -46,7 +46,7 @@
               </div>
             </div>
 
-            <div class="btn">
+            <div class="btn unpadded">
               <button mat-raised-button color="primary">{{ 'button.newsletter_submit' | translate }} </button>
             </div>
           </ng-container>
@@ -56,12 +56,14 @@
     </form><!--block__content--form-->
   </div><!--block__content-->
 
-  <div class="block__content--message" *ngIf="subscribedStatus && !subscribedFailure">
-    <div class="block__content--message__content" role="alert">{{ 'newsletter.subscription_thanks_content' | translate }}</div>
-    <div class="block__content--message__subcontent" role="alert">{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{email}}</b>.</div>
-  </div>
-  <div class="block__content--message" *ngIf="subscribedStatus && subscribedFailure">
-    <div class="block__content--message__content" role="alert">{{ 'newsletter.subscription_failed' | translate }}</div>
-    <button class="again" type="button" (click)="resetView()" attr.aria-label="{{'button.try_again' | translate}}" mat-raised-button color="primary">{{ 'button.try_again' | translate }} </button>
+  <div tabindex="0" attr.aria-label="{{'frontpage.notification' | translate}}" class="message--holder" id="message-holder">
+    <div class="block__content--message" *ngIf="subscribedStatus && !subscribedFailure">
+      <div class="block__content--message__content" role="alert">{{ 'newsletter.subscription_thanks_content' | translate }}</div>
+      <div class="block__content--message__subcontent" role="alert">{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{email}}</b>.</div>
+    </div>
+    <div class="block__content--message" *ngIf="subscribedStatus && subscribedFailure">
+      <div class="block__content--message__content" role="alert">{{ 'newsletter.subscription_failed' | translate }}</div>
+      <button class="again" type="button" (click)="resetView()" attr.aria-label="{{'button.try_again' | translate}}" mat-raised-button color="primary">{{ 'button.try_again' | translate }} </button>
+    </div>
   </div>
 </div><!--block-->

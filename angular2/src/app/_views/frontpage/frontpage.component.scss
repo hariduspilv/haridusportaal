@@ -7,13 +7,18 @@
   }
   &__triangle--wrapper {width: 100%;box-sizing: content-box;
     @include break-on(sm, max) {margin-left: 50vw;}
-    @include break-on(xxs, max) {margin-left: 30vw;}
+    @include break-on(xxs, max) {margin-left: 45vw;}
   }
   &__triangle--bottom {width: 0;height: 0;
     border-left: 14rem solid transparent;
     border-right: 14rem solid transparent;
     border-bottom: 10.5rem solid $aqua;
     @include break-on(sm, max) {margin-top: -4.5rem;}
+    @include break-on(xxs, max) {
+      border-left: 10rem solid transparent;
+      border-right: 10rem solid transparent;
+      border-bottom: 8rem solid $aqua;
+    }
   }
   @include break-on(sm, min) {margin-top: -$small;}
   .section {z-index: 1;padding-top: 4.5rem;
@@ -22,8 +27,9 @@
     .btn {@include break-on(xxs, max) {width: 100%;}z-index: 5;}
     .content {
       &--listItem {padding: $medium;border-radius: $half-gutter;background-color: $orange;
-        .title {line-height: 2;color: $black;padding-bottom: $half-gutter;z-index: 1;}
+        .title {line-height: 2;color: $black;padding-bottom: 0;z-index: 1;}
         h1 {color: $blue;text-align: left;padding-bottom: $gutter;
+          &.dark {color: $black;}
         }
         .author {font-size: .875rem;line-height: 1.43;color: $black;}
         &--altered {background-color: $white;}
@@ -76,14 +82,18 @@
     }
     &__link {color: $blue; font-size: $small; line-height: 1.375rem;text-align: center;margin-top: $gutter;}
     &__text {color: $black; font-size: $small; line-height: 1.375rem;text-align: center;max-width: 16rem;
-      &--strong {color: $black;font-weight: 500;}
+      &--strong {color: $black;font-weight: 500;text-align: center;}
     }
     &--newsletter {position: relative;
       &:after {content: '';position: absolute;z-index: -1;bottom: -37rem;right: 0;clear: both;
         border-top: 14rem solid transparent;
         border-right: 19rem solid #ffe7c1;
         border-bottom: 14rem solid transparent;
-        @include break-on(sm, max) {bottom: -44.5rem;}
+        @include break-on(sm, max) {bottom: -44.5rem;
+          border-top: 12rem solid transparent;
+          border-right: 14rem solid #ffe7c1;
+          border-bottom: 12rem solid transparent;
+        }
       }
     }
     &--origin {padding-top: 0;}
@@ -129,7 +139,7 @@
       .img__wrapper {width: 7rem;height: 7rem;border-radius: 50%;background: #f4f4f4;margin-bottom: 1rem;}
       img {position: relative;left: calc(50% - 1.5rem);color: black;top: calc(50% - 1.5rem);width: 3rem;}
     }
-    .header h1 {padding: 7rem 0 3.5rem 0;
+    .header h1 {padding: 7rem 2rem 3.5rem;
       @include break-on(sm, max) {padding-top: 0;}
       @include break-on(xxs, max) {padding: 2.5rem 2rem 2rem;
         &.missing-content {margin-bottom: $large} 
@@ -160,7 +170,9 @@
       .subtext {font-size: .875rem; line-height: 1.25rem;padding-top: 0;padding-bottom: $gutter;color: $dark-gray;
         &--bottom {font-size: .875rem; line-height: 1.25rem;margin-top: -$gutter; padding-bottom: 0;color: $dark-gray;}
       }
+      .title {color: $dark-gray;}
       @include break-on(sm, max) {padding-top: 1.5rem;}
+      @include break-on(xxs, max) {padding: 1.5rem 1.5rem 0;}
     }
     .event__elem {margin-bottom: $medium;}
   }

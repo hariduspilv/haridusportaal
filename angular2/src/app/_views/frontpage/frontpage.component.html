@@ -97,15 +97,15 @@
 
 <ng-template #newsItem>
   <article class="news-list__recent__elem">
-    <div class="title">{{ 'news.label' | translate | uppercase }}</div>
-    <div attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="generalData[0].fieldSupernews.entity.entityUrl.path"><h1> {{ generalData[0].fieldSupernews.entity.title }}</h1></a></div>
+    <div class="title">{{ 'news.current' | translate | uppercase }}</div>
+    <div attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="generalData[0].fieldSupernews.entity.entityUrl.path"><h1 class="dark"> {{ generalData[0].fieldSupernews.entity.title }}</h1></a></div>
     <div attr.aria-label="Author" class="author">{{ generalData[0].fieldSupernews.entity.fieldAuthor }} {{ generalData[0].fieldSupernews.entity.created*1000 | date:"dd.MM.yyyy" }}</div>
   </article>
 </ng-template>
 
 <ng-template #newsItemSecondary>
   <article class="news-list__recent__elem">
-    <div class="title">{{ 'news.label' | translate | uppercase }}</div>
+    <div class="title">{{ 'news.current' | translate | uppercase }}</div>
     <div attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="generalData[0].fieldSecondarySupernews.entity.entityUrl.path"><h1> {{ generalData[0].fieldSecondarySupernews.entity.title }}</h1></a></div>
     <div attr.aria-label="Author" class="author">{{ generalData[0].fieldSecondarySupernews.entity.fieldAuthor }} {{ generalData[0].fieldSecondarySupernews.entity.created*1000 | date:"dd.MM.yyyy" }}</div>
   </article>
@@ -172,7 +172,7 @@
     </div>
     <div class="section section--list--item main-container" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown['first']">
       <div class="content--overlapGrid">
-        <div class="content--img atStart"><img [alt]="generalData[0].fieldSupernews.entity.fieldIntroductionImage.alt" [src]="generalData[0].fieldSupernews.entity.fieldIntroductionImage.derivative.url"></div>
+        <div class="content--img atStart pointer" [routerLink]="generalData[0].fieldSupernews.entity.entityUrl.path"><img [alt]="generalData[0].fieldSupernews.entity.fieldIntroductionImage.alt" [src]="generalData[0].fieldSupernews.entity.fieldIntroductionImage.derivative.url"></div>
         <div class="content--listItem atEnd">
           <ng-container *ngTemplateOutlet="newsItem"></ng-container>
         </div>
@@ -197,7 +197,7 @@
         <div class="content--listItem atStart">
           <ng-container *ngTemplateOutlet="newsItemSecondary"></ng-container>
         </div>
-        <div class="content--img atEnd"><img [alt]="generalData[0].fieldSecondarySupernews.entity.fieldIntroductionImage.alt" [src]="generalData[0].fieldSecondarySupernews.entity.fieldIntroductionImage.derivative.url"></div>
+        <div class="content--img atEnd pointer" [routerLink]="generalData[0].fieldSupernews.entity.entityUrl.path"><img [alt]="generalData[0].fieldSecondarySupernews.entity.fieldIntroductionImage.alt" [src]="generalData[0].fieldSecondarySupernews.entity.fieldIntroductionImage.derivative.url"></div>
       </div>
     </div>
     <div class="section section--list altered main-container sm-hide" *ngIf="events && events.length">
