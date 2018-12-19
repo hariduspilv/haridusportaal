@@ -28,6 +28,14 @@ query frontPageQuery($lang: LanguageId!) {
               }
               fieldAuthor
               created
+              fieldIntroductionImage {
+                derivative(style: CROP_LARGE) {
+                  url
+                }
+                targetId
+                alt
+                title
+              }
             }
           }
         }
@@ -52,6 +60,14 @@ query frontPageQuery($lang: LanguageId!) {
               }
               fieldAuthor
               created
+              fieldIntroductionImage {
+                derivative(style: CROP_LARGE) {
+                  url
+                }
+                targetId
+                alt
+                title
+              }
             }
           }
         }
