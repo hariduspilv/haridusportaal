@@ -172,7 +172,7 @@
     </div>
     <div class="section section--list--item main-container" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && superNewsShown['first']">
       <div class="content--overlapGrid">
-        <div class="content--img atStart"><img alt="Info õppimise kohta" src="http://test-htm.wiseman.ee:30000/sites/default/files/styles/crop_small/public/2018-09/3_1.jpg?itok=321xUmE_"></div>
+        <div class="content--img atStart"><img [alt]="generalData[0].fieldSupernews.entity.fieldIntroductionImage.alt" [src]="generalData[0].fieldSupernews.entity.fieldIntroductionImage.derivative.url"></div>
         <div class="content--listItem atEnd">
           <ng-container *ngTemplateOutlet="newsItem"></ng-container>
         </div>
@@ -197,7 +197,7 @@
         <div class="content--listItem atStart">
           <ng-container *ngTemplateOutlet="newsItemSecondary"></ng-container>
         </div>
-        <div class="content--img atEnd"><img alt="Info õppimise kohta" src="http://test-htm.wiseman.ee:30000/sites/default/files/styles/crop_small/public/2018-09/3_1.jpg?itok=321xUmE_"></div>
+        <div class="content--img atEnd"><img [alt]="generalData[0].fieldSecondarySupernews.entity.fieldIntroductionImage.alt" [src]="generalData[0].fieldSecondarySupernews.entity.fieldIntroductionImage.derivative.url"></div>
       </div>
     </div>
     <div class="section section--list altered main-container sm-hide" *ngIf="events && events.length">
