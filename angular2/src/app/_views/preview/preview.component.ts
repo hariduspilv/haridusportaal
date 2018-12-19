@@ -28,7 +28,7 @@ export class PreviewComponent implements OnInit{
   }
   ngOnInit() {
 
-    let url = "/graphql?queryName=preview&queryId=8a44fd02bedec952cd7f910d5ac42008ba04d452:1&variables=";
+    let url = "/graphql?queryName=preview&queryId=b79fe7e1dd2aa13e251ac8f5d58d3cbce74af700:1&variables=";
     
     let variables = {
       "uuid": this.route.snapshot.params.id
