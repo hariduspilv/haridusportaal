@@ -178,7 +178,7 @@
         </div>
       </div>
     </div>
-    <div class="section section--newsletter">
+    <div class="section section--newsletter" *ngIf="((events && events.length) || (news && news.length)) && generalData">
       <div class="content--middle newsletter">
         <div class="section__block--newsletter">
           <div class="section__content">
