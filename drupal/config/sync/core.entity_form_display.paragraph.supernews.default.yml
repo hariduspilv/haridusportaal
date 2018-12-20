@@ -1,0 +1,41 @@
+uuid: dbc391cc-9b18-4487-b8c1-837693897524
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.supernews.field_publish_date
+    - field.field.paragraph.supernews.field_supernews_node
+    - field.field.paragraph.supernews.field_unpublish_date
+    - paragraphs.paragraphs_type.supernews
+  module:
+    - datetime
+id: paragraph.supernews.default
+targetEntityType: paragraph
+bundle: supernews
+mode: default
+content:
+  field_publish_date:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_supernews_node:
+    weight: 0
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_unpublish_date:
+    weight: 2
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+hidden:
+  created: true
+  status: true
+  uid: true
