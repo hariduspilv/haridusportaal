@@ -26,6 +26,11 @@ use Exception;
 
 
 class HarID extends Generic {
+
+	protected $userInfoMapping = [
+		'personal_code' => 'id_code',
+	];
+
 	public function authorize ($scope = 'openid') {
 		$url_options = [
 			'query' => [
@@ -129,8 +134,7 @@ class HarID extends Generic {
 		try {
 			$response = $client->get($endpoints['userinfo'], $request_options);
 			$response_data = (string) $response->getBody();
-			dump($response_data);
-			die();
+
 			return json_decode($response_data, TRUE);
 		}
 		catch (Exception $e) {
