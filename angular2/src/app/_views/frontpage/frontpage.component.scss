@@ -103,11 +103,35 @@
         }
       }
     }
-    &--origin {padding-top: 0;}
-    &--search {padding-top: 3rem;background-image: linear-gradient(to bottom right, $aqua 50%, $white 50%);
+    &--origin {padding-top: 0;
+      @include break-on(sm, min) {padding-top: 3.5rem;}
+    }
+    &--search {padding-top: 3rem;background-color: $aqua;
+      .bg-gradient {position: relative;top: .125rem;
+        background-image: linear-gradient(to bottom right, $aqua 50%, $white 50%);
+        @include break-on(xxs, max) {position: relative;background-image: none;
+          &__mobile {
+            background-image: linear-gradient(to bottom right, $aqua 50%, $white 50%);
+            width: 100%;
+            height: 50%;
+            display: block;
+            position: absolute;
+            z-index: 1;
+            top: 25%;
+            &--start {
+              background-color: $aqua;
+              width: 100%;
+              height: 50%;
+              display: block;
+              position: absolute;
+              z-index: 0;
+            }
+          }
+        }
+      }
       @include break-on(xxs, max) {padding-top: 2rem;}
     }
-    &__content {width: 66%;box-sizing: border-box;
+    &__content {width: 66%;box-sizing: border-box;z-index: 2;
       @include break-on(sm, max) {width: 100%;
         @include break-on(xxs, min) {margin-left: auto!important;margin-right: auto!important;max-width: 590px;}
       }
@@ -126,6 +150,9 @@
           @include break-on(xxs, min) {
             padding-bottom: 5.25rem;
           }
+        }
+        @include break-on(xxs, max) {
+          background: $white;
         }
       }
     }
@@ -149,10 +176,14 @@
         path {fill: $black;}
       }
     }
-    a.column-center:hover {
-      svg path {fill: #0F7B8A;}
+    a.column-center {
+      &:hover {
+        @include break-on(sm, min) {
+          svg path {fill: #0F7B8A;}
+        }
+      }
     }
-    .header h1 {padding: 7rem 3rem 3.5rem;
+    .header h1 {padding: 7rem 3rem 0rem;
       @include break-on(sm, max) {padding: 0 2rem 3.5rem;}
       @include break-on(xxs, max) {padding: 2.5rem 2rem 2rem;
         &.missing-content {margin-bottom: $large} 

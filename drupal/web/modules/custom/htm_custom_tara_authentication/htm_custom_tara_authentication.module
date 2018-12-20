@@ -10,9 +10,18 @@ use Drupal\user\UserInterface;
 function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$userinfo, array $context) {
 	//@TODO we need to change email
 	$sub = $context['user_data']['sub'];
+	#dump($userinfo);
+	#dump($context);
+	#die();
 	$userinfo['email'] = "$sub@HTMportaal.ee";
 	#$userinfo['email'] = "$sub@HTMportaal.ee";
-	$userinfo['id_code'] = substr($sub, 2);
+	if($context['user_data']['iss'] === 'https://test.harid.ee'){
+		$userinfo['id_code'] = preg_replace("/[^0-9]/", "", $userinfo['personal_code']);
+	}else{
+		$userinfo['id_code'] = substr($sub, 2);
+	}
+	#dump($userinfo);
+	#die();
 }
 
 function htm_custom_tara_authentication_openid_connect_claims_alter(&$claims){
