@@ -21,7 +21,6 @@ export class taraLoginModal {
   
   ngOnInit() {
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.data);
-    console.log(this.url);
   }  
 
   closeModal() {
