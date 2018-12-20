@@ -77,7 +77,7 @@ export class FrontpageComponent {
   }
   
   getGeneral() {
-    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=13a8e1423d1f5afb100aa97e4c8133b957da2967:1&variables=";
+    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=d82b0ee6466b620c8e7c7c4269e3176dcf40349f:1&variables=";
     
     let variables = {lang: this.rootScope.get('lang').toUpperCase()}
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {

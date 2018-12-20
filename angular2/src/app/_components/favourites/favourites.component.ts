@@ -45,14 +45,12 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       public translate: TranslateService,
       public user: UserService,
       public snackbar: MatSnackBar,
-      private rootScope: RootScopeService
-      ) {
-        
-      }
+      public rootScope: RootScopeService
+      ) {}
 
     getFavouritesList():void{
       this.loading= true;
-
+      this.lang = this.rootScope.get('lang');
       let variables = {
         language: this.lang.toUpperCase()
       }
@@ -200,7 +198,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   initiateComponent(){
     this.lang = this.rootScope.get("lang");
     this.initializing = true;
-
+    
     this.userLoggedOut = this.user.getData()['isExpired'];
     this.getFavouritesList();
   }

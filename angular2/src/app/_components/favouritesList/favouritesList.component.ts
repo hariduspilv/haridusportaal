@@ -3,6 +3,7 @@ import { FavouritesComponent } from '@app/_components/favourites/favourites.comp
 import { HttpService } from '@app/_services/httpService';
 import { MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
+import { RootScopeService } from '@app/_services';
 @Component({
   selector: 'favouritesList',
   templateUrl: './favouritesList.template.html',
@@ -12,7 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class FavouritesListComponent extends FavouritesComponent implements OnInit{
   
   constructor( 
-    public http: HttpService, public snackbar: MatSnackBar, public route: ActivatedRoute) {
+    public http: HttpService, public snackbar: MatSnackBar, public route: ActivatedRoute, public rootScope: RootScopeService) {
     super(
       null,
       null,
@@ -21,7 +22,7 @@ export class FavouritesListComponent extends FavouritesComponent implements OnIn
       null,
       null,
       snackbar,
-      null)
+      rootScope)
   }
 
   ngOnInit(){
