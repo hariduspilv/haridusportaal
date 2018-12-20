@@ -19,67 +19,31 @@ query frontPageQuery($lang: LanguageId!) {
         }
         fieldSupernews {
           entity {
-            ... on NodeNews {
-              nid
-              title
-              entityUrl {
-                routed
-                path
-              }
-              fieldAuthor
-              created
-              fieldIntroductionImage {
-                derivative(style: CROP_LARGE) {
-                  url
+            ... on ParagraphSupernews {
+              fieldSupernewsNode {
+                entity {
+                  ... on NodeNews {
+                    nid
+                    title
+                    entityUrl {
+                      routed
+                      path
+                    }
+                    fieldAuthor
+                    created
+                    fieldIntroductionImage {
+                      derivative(style: CROP_LARGE) {
+                        url
+                      }
+                      targetId
+                      alt
+                      title
+                    }
+                  }
                 }
-                targetId
-                alt
-                title
               }
             }
           }
-        }
-        fieldSupernewsPublishDate {
-          value
-          date
-          unix
-        }
-        fieldSupernewsUnpublishDate {
-          value
-          date
-          unix
-        }
-        fieldSecondarySupernews {
-          entity {
-            ... on NodeNews {
-              nid
-              title
-              entityUrl {
-                routed
-                path
-              }
-              fieldAuthor
-              created
-              fieldIntroductionImage {
-                derivative(style: CROP_LARGE) {
-                  url
-                }
-                targetId
-                alt
-                title
-              }
-            }
-          }
-        }
-        fieldSecondarySupernewsPub {
-          value
-          date
-          unix
-        }
-        fieldSecondarySupernewsUnpub {
-          value
-          date
-          unix
         }
       }
     }

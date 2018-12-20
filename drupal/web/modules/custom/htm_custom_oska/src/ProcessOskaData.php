@@ -80,6 +80,15 @@ class ProcessOskaData {
         }
     }
 
+    public static function DeleteOldData($items, &$context){
+
+        $storage = \Drupal::entityTypeManager()->getStorage('oska_entity');
+        $nids = \Drupal::entityQuery('oska_entity')->execute();
+        $entities = $storage->loadMultiple($nids);
+        $storage->delete($entities);
+
+    }
+
     public static function CreateOskaFilters($items, &$context){
 
         $filter_values = [
@@ -93,11 +102,9 @@ class ProcessOskaData {
 
         //process only if no errors otherwise nothing
         if(empty($context['results']['error'])){
-            if(empty($context['sandbox'])){
-                $context['sandbox']['progress'] = 0;
-                $context['sandbox']['current_id'] = 0;
-                $context['sandbox']['max'] = count($context['results']['values']);
-            }
+            $context['sandbox']['progress'] = 0;
+            $context['sandbox']['current_id'] = 0;
+            $context['sandbox']['max'] = count($context['results']['values']);
 
             if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
                 for($i = $context['sandbox']['current_id']; $i <= $context['sandbox']['max']; $i++){
