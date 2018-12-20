@@ -7,6 +7,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\node\Entity\Node;
 use Drupal\user\UserInterface;
 
 /**
@@ -172,14 +173,14 @@ class EventRegEntity extends ContentEntityBase implements EventRegEntityInterfac
 	}
 
 	public function getReferenceEventDates($format = NULL){
+		/* @var Node $event */
 		$event = $this->get('event_reference')->entity;
 
-		$last_event_date = NULL;
 		$first_event_date = strtotime($event->get('field_event_main_date')->value);
-		if(!empty($event->field_event_date->value)){
-			$last_event_date = 0;
-			foreach($event->field_event_date as $event_date){
-				$unix_event_date = strtotime($event_date->entity->field_event_date->value);
+		$last_event_date = null;
+		if($ref = $event->get('field_event_date')->referencedEntities()){
+			foreach($ref as $value){
+				$unix_event_date = strtotime($value->field_event_date->value);
 				$last_event_date = ($unix_event_date >= $last_event_date)
 					? $unix_event_date
 					: $last_event_date;
