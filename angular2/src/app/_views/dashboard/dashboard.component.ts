@@ -51,7 +51,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
     
     let parameters = this.route.params.subscribe(
       (params: ActivatedRoute) => {
-          //console.log('ROUTE PARAM CHANGED');
           this.path = this.router.url.split('?')[0];
           this.setPaths();       
       }
@@ -59,7 +58,6 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
     let endpoint = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        //console.log('ROUTE CHANGED');
         this.path = this.router.url.split('?')[0];
         this.setPaths();
       }

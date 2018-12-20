@@ -203,70 +203,72 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                 }
             }
 
-            #sort the array so the order won't get mixed up
-            asort($array_locations);
+            if(isset($array_locations)){
+                #sort the array so the order won't get mixed up
+                asort($array_locations);
 
-            $matches_count = count($array_locations);
+                $matches_count = count($array_locations);
 
-            if(isset($array_locations) && $matches_count <= 4){
+                if(isset($array_locations) && $matches_count <= 4){
 
-                if($matches_count == 1){
+                    if($matches_count == 1){
+                        foreach($array_locations as $location){
+                            $location_position = $location;
+                            $location_count = 0;
+                            if($location != $item_length && $location != 0){
+                                $array_locations[] = $location-1;
+                                $array_locations[] = $location+1;
+                            }elseif($location == $item_length){
+                                while($location_position >= 0 && $location_count <= 2){
+                                    $location_position--;
+                                    $location_count++;
+                                    $array_locations[] = $location_position;
+                                }
+                            }elseif($location == 0){
+                                while($location_position <= $item_length && $location_count <= 2){
+                                    $location_position++;
+                                    $location_count++;
+                                    $array_locations[] = $location_position;
+                                }
+                            }
+                        }
+                    }else{
+                        $range_start = reset($array_locations);
+                        $range_end = end($array_locations);
+                        if($range_end - $range_start <= 2){
+                            if($range_start > 0){
+                                $range_start--;
+                            }
+                            if($range_end < count($item)){
+                                $range_end++;
+                            }
+                            $array_locations = range($range_start, $range_end);
+                        }
+                    }
+
+                    if(count($array_locations) > $this->autocomplete_limit){
+                        array_splice($array_locations, $this->autocomplete_limit);
+                    }
+
+                    #clean values for output and extract only values, that are needed for output
                     foreach($array_locations as $location){
-                        $location_position = $location;
-                        $location_count = 0;
-                        if($location != $item_length && $location != 0){
-                            $array_locations[] = $location-1;
-                            $array_locations[] = $location+1;
-                        }elseif($location == $item_length){
-                            while($location_position >= 0 && $location_count <= 2){
-                                $location_position--;
-                                $location_count++;
-                                $array_locations[] = $location_position;
-                            }
-                        }elseif($location == 0){
-                            while($location_position <= $item_length && $location_count <= 2){
-                                $location_position++;
-                                $location_count++;
-                                $array_locations[] = $location_position;
-                            }
+                        if(isset($item[$location])){
+                            $autocomplete_value_items[] = strip_tags($item[$location]);
                         }
                     }
-                }else{
-                    $range_start = reset($array_locations);
-                    $range_end = end($array_locations);
-                    if($range_end - $range_start <= 2){
-                        if($range_start > 0){
-                            $range_start--;
+
+                    $mandatory_args = explode(" ", $this->search_input);
+                    $autocomplete_value = trim(implode(" ", $autocomplete_value_items));
+                    $correct_value = true;
+                    foreach($mandatory_args as $value){
+                        if(fnmatch(mb_strtolower('*'.$value.'*'), mb_strtolower($autocomplete_value)) == false){
+                            $correct_value = false;
                         }
-                        if($range_end < count($item)){
-                            $range_end++;
-                        }
-                        $array_locations = range($range_start, $range_end);
                     }
-                }
 
-                if(count($array_locations) > $this->autocomplete_limit){
-                    array_splice($array_locations, $this->autocomplete_limit);
-                }
-
-                #clean values for output and extract only values, that are needed for output
-                foreach($array_locations as $location){
-                    if(isset($item[$location])){
-                        $autocomplete_value_items[] = strip_tags($item[$location]);
+                    if($correct_value == true && !in_array($autocomplete_value, $this->autocomplete_values)){
+                        $this->autocomplete_values[] = trim($autocomplete_value);
                     }
-                }
-
-                $mandatory_args = explode(" ", $this->search_input);
-                $autocomplete_value = trim(implode(" ", $autocomplete_value_items));
-                $correct_value = true;
-                foreach($mandatory_args as $value){
-                    if(fnmatch(mb_strtolower('*'.$value.'*'), mb_strtolower($autocomplete_value)) == false){
-                        $correct_value = false;
-                    }
-                }
-
-                if($correct_value == true && !in_array($autocomplete_value, $this->autocomplete_values)){
-                    $this->autocomplete_values[] = trim($autocomplete_value);
                 }
             }
         }

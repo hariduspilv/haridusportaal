@@ -77,7 +77,7 @@ export class FrontpageComponent {
   }
   
   getGeneral() {
-    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=13a8e1423d1f5afb100aa97e4c8133b957da2967:1&variables=";
+    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=b1472199ff7ea1b39b4542bd3d00202e1bfe5928:1&variables=";
     
     let variables = {lang: this.rootScope.get('lang').toUpperCase()}
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
@@ -85,8 +85,8 @@ export class FrontpageComponent {
         this.generalData = [];
       } else {
         this.generalData = data['data']['nodeQuery']['entities'];
-        this.superNewsShown['first'] = this.superNewsValid('fieldSuperNews');
-        this.superNewsShown['second'] = this.superNewsValid('fieldSecondarySuperNews');
+        this.superNewsShown['first'] = this.superNewsValid(0);
+        this.superNewsShown['second'] = this.superNewsValid(1);
       }
     },(data) => {
       this.generalData = [];
@@ -102,22 +102,10 @@ export class FrontpageComponent {
     }
   }
 
-  superNewsValid(component) {
-    let publishDateLabel: string = '';
-    let unPublishDateLabel: string = '';
-    switch (component) {
-      case 'fieldSecondarySuperNews':
-        publishDateLabel = 'fieldSecondarySupernewsPub';
-        unPublishDateLabel = 'fieldSecondarySupernewsUnpub';
-        break;
-      case 'fieldSuperNews':
-        publishDateLabel = 'fieldSupernewsPublishDate';
-        unPublishDateLabel = 'fieldSupernewsUnpublishDate';
-        break;
-    }
+  superNewsValid(identifier) {
     let valid = true;
-    let superNewsPublished = this.generalData[0][publishDateLabel] && (this.generalData[0][publishDateLabel].unix * 1000);
-    let superNewsUnPublished = this.generalData[0][unPublishDateLabel] && this.generalData[0][unPublishDateLabel].unix && (this.generalData[0][unPublishDateLabel].unix * 1000);
+    let superNewsPublished = this.generalData[0].fieldSupernews && this.generalData[0].fieldSupernews[identifier] && (this.generalData[0].fieldSupernews[identifier].entity.fieldPublishDate.unix * 1000);
+    let superNewsUnPublished = this.generalData[0].fieldSupernews && this.generalData[0].fieldSupernews[identifier] && this.generalData[0].fieldSupernews[identifier].entity.fieldUnpublishDate.unix && (this.generalData[0].fieldSupernews[identifier].entity.fieldUnpublishDate.unix * 1000);
     let dateNow = new Date();
     if (superNewsPublished) { var superNewsPublishedVal = dateNow > new Date(superNewsPublished) };
     if (superNewsUnPublished) { var superNewsUnPublishedVal = dateNow < new Date(superNewsUnPublished) } else { superNewsUnPublishedVal = true; };

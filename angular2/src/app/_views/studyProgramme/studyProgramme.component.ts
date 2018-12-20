@@ -174,8 +174,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       onlyOpenAdmission: this.params['open_admission'] ? true: false,
   
     }
-
-    console.log(queryVars['title']);
     
     for(let i in this.filterOptionKeys){
       //this.searchParams[i]

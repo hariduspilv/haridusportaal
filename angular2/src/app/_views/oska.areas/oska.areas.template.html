@@ -31,9 +31,9 @@
 
         <!-- field image-->
         <ng-container *ngIf="data.fieldOskaFieldPicture">
-          <div *ngIf="data.fieldOskaFieldPicture && data.fieldOskaFieldPicture.length > 0" class="article-image pull-right">
-            <img src="{{ data.fieldOskaFieldPicture[0].derivative.url }}" alt="{{ data.fieldOskaFieldPicture[0].alt }}" title="{{ data.fieldOskaFieldPicture[0].title }}" style="max-width:100%;" />
-            <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture[0].title">{{ data.fieldOskaFieldPicture[0].title }}</div>
+          <div *ngIf="data.fieldOskaFieldPicture && data.fieldOskaFieldPicture.derivative && data.fieldOskaFieldPicture.derivative.url && !data.fieldOskaVideo" class="article-image pull-right">
+            <img src="{{ data.fieldOskaFieldPicture.derivative.url }}" alt="{{ data.fieldOskaFieldPicture.alt }}" title="{{ data.fieldOskaFieldPicture.title }}" style="max-width:100%;" />
+            <div aria-hidden="true" class="image-alt-text" *ngIf="data.fieldOskaFieldPicture.title">{{ data.fieldOskaFieldPicture.title }}</div>
           </div><!--/fieldOskaFieldPicture-->
         </ng-container>
 

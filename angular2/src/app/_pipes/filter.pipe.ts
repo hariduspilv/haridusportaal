@@ -27,26 +27,6 @@ export class FilterPipe implements PipeTransform {
           }
         });
         
-        
-        // item tag - item.entityTranslation.fieldNewsTag.map((item) => { item.entity.entityLabel });
-        // tag - tagSearch.map((item) => { item.entityLabel });
-        // if item tag has an tag
-        
-        // item.entityTranslation.fieldNewsTag.some(
-        //   (itemTag) => {
-
-        
-        //     // if (tagSearch!=null) {
-        //     //   tagSearch.some((tsItem) => {                
-        //     //     if (tsItem.entityLabel === itemTag.entity.entityLabel) {
-        //     //       return true;
-        //     //     }
-        //     //   })
-        
-        //     // }
-        //   }
-        // )      
-        
         return true;
       })
     }

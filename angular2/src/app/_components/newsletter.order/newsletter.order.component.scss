@@ -18,8 +18,8 @@
           }
         }
         @include break-on(sm, min) {padding: $medium 0;flex-flow: row wrap;}
-        @include break-on(xxs, min) {padding: $medium $large;flex-flow: row wrap;}
-        @include break-on(xxs, max) {padding: $medium $large;}
+        @include break-on(xxs, min) {padding: $medium $large;padding-bottom:$large;flex-flow: row wrap;}
+        @include break-on(xxs, max) {padding: $medium $large;margin: 0 auto;width: max-content; box-sizing: content-box;}
       }
       &__input {
         @include break-on(xxs, min) {padding: 0 $gutter;}
@@ -31,8 +31,9 @@
     }
   }
 
-  button {width: 100%;box-sizing: border-box;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+  button {width: auto;box-sizing: border-box;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
     &.again {width: 100%; @include break-on(sm, min){width: auto;}}
+    @include break-on(sm, max){width: 100%}
   }
 
 }
@@ -55,7 +56,23 @@
 .outer {line-height: 2.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
   @include break-on(xxs, max) {line-height: 2rem;text-align: center;}
 }
-.btn {@include break-on(xxs, max) {width: 100%;}}
-.grow.full.short {overflow: hidden;
-  @include break-on(sm, min) {flex-grow: 0;flex-basis: auto;}
+.btn {padding-top: .25rem;
+  @include break-on(sm, max) {width: 100%;padding-top: 1rem;}
+  &.unpadded {
+    @include break-on(sm, min) {padding-top: 0rem;}
+  }
+}
+.flex {flex-wrap: wrap;text-align: center;
+  .round-input__wrapper {text-align: left;}
+  @include break-on(sm, min) {
+    &.order {flex-wrap: nowrap;}
+  }
+}
+.grow {
+  &.full.lengthy {flex-basis: auto;
+    @include break-on(sm, max) {flex-basis: 100%; padding-right: 0;}
+  }
+  &.full.short {overflow: hidden;flex-wrap: wrap;padding-right: 0;
+    @include break-on(sm, min) {flex-grow: 0;}
+  }
 }
