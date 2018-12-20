@@ -38,7 +38,6 @@ export class PreviewComponent implements OnInit{
       withCredentials: true
     }).subscribe( (data) => {
       this.data = data['data']['NodePreviewByUuid'];
-      console.log(this.data);
       subscription.unsubscribe();
     });
   }

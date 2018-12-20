@@ -235,7 +235,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
     let subscriber = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
-      console.log("got data");
       
       let data = response['data'];
 
@@ -455,8 +454,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           this.eventsConfig.limit = 999;
           this.eventsConfig.offset = 0;
         }
-        
-        console.log(this.eventsConfig.dateFrom);
         
         /*
         if( this.view == "list" ){

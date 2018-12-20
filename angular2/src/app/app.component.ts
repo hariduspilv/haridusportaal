@@ -81,7 +81,7 @@ export class AppComponent implements OnInit {
       }
 
       if (event instanceof NavigationError) {
-        console.log('NavigationError: Previous route doesn`t exist or is broken.');
+        console.log('NavigationError: Previous route doesn`t exist or is broken. Look into the code inside ngOnDestroy. Might be a logic error. Did you unsubscribe on something there wasnt a subscription?');
         // this.router.navigateByUrl(`/404`, {replaceUrl: true});
       }
         
