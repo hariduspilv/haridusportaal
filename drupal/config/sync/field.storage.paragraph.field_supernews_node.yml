@@ -1,0 +1,20 @@
+uuid: 92f061a0-b6f8-4f96-801c-75e83d457ac1
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - paragraphs
+id: paragraph.field_supernews_node
+field_name: field_supernews_node
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

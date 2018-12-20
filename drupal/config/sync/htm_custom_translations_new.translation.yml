@@ -338,11 +338,11 @@ frontpage:
   lead_title:
     translation_type: text_format
     et:
+      value: "<p><strong>Haridusportaal edu.ee -</strong><br />\r\nhoia end haridusinfoga kursis!</p>\r\n"
       format: custom_editor
-      value: '<b>Eduportaal -</b><br>hoia end haridusinfoga kursis!'
     en:
+      value: "<p><strong>Haridusportaal edu.ee -</strong><br />\r\nhoia end haridusinfoga kursis!ENG</p>\r\n"
       format: custom_editor
-      value: '<b>Eduportaal -</b><br>hoia end haridusinfoga kursis!ENG'
   ametikoht:
     translation_type: textarea
     et: Ametikoht
@@ -563,6 +563,10 @@ frontpage:
     translation_type: textarea
     et: 'Sisesta märksõna ja vajuta “Otsi”..'
     en: 'Enter keyword and search ..'
+  notification:
+    translation_type: textarea
+    et: Teavitus
+    en: Notification
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -662,6 +666,10 @@ news:
     translation_type: textarea
     et: 'Otsingutulemused puuduvad'
     en: 'No Search Results'
+  current:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Daily
 newsletter:
   title:
     translation_type: textarea
@@ -669,7 +677,7 @@ newsletter:
     en: 'Newsletter - order interesting stories'
   intro:
     translation_type: textarea
-    et: 'Sissejuhatus peab olema maksimaalselt 150 tähemärki pikk yo jeti! Sissejuhatus peab olema maksimaalselt 150 tähemärki pikk yo jeti! Sissejuhatus peab olema maksimaalselt 150 tähemärki pikk yo jeti!Sissejuhatus peab olema maksimaalselt 150 tähemärki pikk yo jeti!Sissejuhatus peab olema maksimaalselt 150 tähemärki pikk yo jeti!Sissejuhatus peab olema maksimaalselt 150 tähemärki pikk yo jeti!Sissejuhatus peab olema maksimaalselt 150 tähemärki pikk yo jeti!Sissejuhatus peab olema maksimaalselt 150 tähemärki pikk yo jeti!Sissejuhatus peab olema maksimaalselt 150 tähemärki pikk yo jeti!'
+    et: 'Tee valik end huvitavate märksõnade seast ja telli nendele vastavad uudised ja sündmused endale e-postile või RSS-uudisvoona.'
     en: Introduction
   confirm_subscription:
     translation_type: textarea

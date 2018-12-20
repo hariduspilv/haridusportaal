@@ -384,6 +384,7 @@ $grid-columns: 12;
     &.flex-grow {flex-grow: 1; }
     &.flex-center {align-items: center; }
     &.flex-justify-end {justify-content: flex-end; }
+    &.flex-justify-center {justify-content: center; }
     &.input-row {padding: .5rem 0 .5rem 0;flex-direction: column;
       &.no-top {padding-top: 0;}
       &.no-bottom {padding-bottom: 0;}
