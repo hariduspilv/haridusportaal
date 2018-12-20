@@ -200,13 +200,17 @@
           <span class="sm-show sm" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
           <span class="sm-hide" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
         </h1>
-        <div class="section__block--search">
-          <div class="section__content">
-            <ng-container *ngTemplateOutlet="search"></ng-container>
+        <div class="bg-gradient">
+          <div class="bg-gradient__mobile--start"></div>
+          <div class="bg-gradient__mobile"></div>
+          <div class="section__block--search">
+            <div class="section__content">
+              <ng-container *ngTemplateOutlet="search"></ng-container>
+            </div>
           </div>
-        </div>
-        <div class="col-12 header sm-hide main-container">
-          <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown['first']">{{generalData[0].fieldHeadBlockTitle}}</h1>
+          <div class="col-12 header sm-hide main-container">
+            <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown['first']">{{generalData[0].fieldHeadBlockTitle}}</h1>
+          </div>
         </div>
       </div>
     </div>
