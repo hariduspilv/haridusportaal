@@ -80,8 +80,6 @@ export class EventsRegistratonDialog {
       }
     }
 
-
-    console.log(data);
     const register = this.http.post('/graphql', data).subscribe((response) => {
       let data = response['data'];
 

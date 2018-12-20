@@ -5,17 +5,10 @@ dependencies:
   config:
     - field.field.node.avaleht.body
     - field.field.node.avaleht.field_head_block_title
-    - field.field.node.avaleht.field_secondary_supernews
-    - field.field.node.avaleht.field_secondary_supernews_pub
-    - field.field.node.avaleht.field_secondary_supernews_unpub
     - field.field.node.avaleht.field_supernews
-    - field.field.node.avaleht.field_supernews_publish_date
-    - field.field.node.avaleht.field_supernews_unpublish_date
     - field.field.node.avaleht.field_topics
     - node.type.avaleht
   module:
-    - conditional_fields
-    - datetime
     - paragraphs
     - path
 id: node.avaleht.default
@@ -37,79 +30,17 @@ content:
     third_party_settings: {  }
     type: string_textfield
     region: content
-  field_secondary_supernews:
+  field_supernews:
+    type: entity_reference_paragraphs
     weight: 26
     settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
     third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
-  field_secondary_supernews_pub:
-    weight: 27
-    settings: {  }
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
-  field_secondary_supernews_unpub:
-    weight: 28
-    settings: {  }
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
-  field_supernews:
-    weight: 11
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
-  field_supernews_publish_date:
-    weight: 12
-    settings: {  }
-    third_party_settings:
-      conditional_fields:
-        315bcf35-d1ae-462b-9cd1-7b5a26ad5b00:
-          dependee: field_supernews
-          settings:
-            state: disabled
-            condition: empty
-            grouping: AND
-            values_set: 1
-            value: ''
-            values: {  }
-            value_form: {  }
-            effect: show
-            effect_options: {  }
-            selector: ''
-          entity_type: node
-          bundle: avaleht
-    type: datetime_default
-    region: content
-  field_supernews_unpublish_date:
-    weight: 13
-    settings: {  }
-    third_party_settings:
-      conditional_fields:
-        00471f5d-b9a2-4118-a018-b9db2a8cd5b7:
-          dependee: field_supernews
-          settings:
-            state: disabled
-            condition: empty
-            grouping: AND
-            values_set: 1
-            value: ''
-            values: {  }
-            value_form: {  }
-            effect: show
-            effect_options: {  }
-            selector: ''
-          entity_type: node
-          bundle: avaleht
-    type: datetime_default
     region: content
   field_topics:
     type: entity_reference_paragraphs

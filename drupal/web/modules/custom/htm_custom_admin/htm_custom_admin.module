@@ -58,6 +58,10 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
 	  if ($form_id === 'node_school_form' || $form_id === 'node_school_edit_form'){
 	    unset($form['status']['widget']['#options']['_none']);
 	  }
+
+	  if($form_id === 'system_performance_settings'){
+	      $form['caching']['page_cache_maximum_age']['#options']['2592000'] = t('1 month');
+      }
 	}
 
 

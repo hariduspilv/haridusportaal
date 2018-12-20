@@ -1,13 +1,13 @@
-uuid: f8a679e1-1c51-43a9-8f06-0e3f877613eb
-langcode: et
+uuid: cf129d42-e658-4702-a239-c83b97e07330
+langcode: en
 status: true
 dependencies:
   module:
     - htm_custom_datetime_unix
-    - node
-id: node.field_secondary_supernews_unpub
-field_name: field_secondary_supernews_unpub
-entity_type: node
+    - paragraphs
+id: paragraph.field_publish_date
+field_name: field_publish_date
+entity_type: paragraph
 type: datetime
 settings:
   datetime_type: datetime
