@@ -134,7 +134,7 @@ class HarID extends Generic {
 		try {
 			$response = $client->get($endpoints['userinfo'], $request_options);
 			$response_data = (string) $response->getBody();
-
+			$response_data['sub'] = $response_data['personal_code'];
 			return json_decode($response_data, TRUE);
 		}
 		catch (Exception $e) {
