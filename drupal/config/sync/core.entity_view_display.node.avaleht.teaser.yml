@@ -6,9 +6,6 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.avaleht.body
     - field.field.node.avaleht.field_head_block_title
-    - field.field.node.avaleht.field_supernews
-    - field.field.node.avaleht.field_supernews_publish_date
-    - field.field.node.avaleht.field_supernews_unpublish_date
     - field.field.node.avaleht.field_topics
     - node.type.avaleht
   module:
@@ -34,8 +31,5 @@ content:
     third_party_settings: {  }
 hidden:
   field_head_block_title: true
-  field_supernews: true
-  field_supernews_publish_date: true
-  field_supernews_unpublish_date: true
   field_topics: true
   langcode: true
