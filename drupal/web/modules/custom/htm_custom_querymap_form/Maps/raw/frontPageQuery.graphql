@@ -42,6 +42,16 @@ query frontPageQuery($lang: LanguageId!) {
                   }
                 }
               }
+              fieldPublishDate{
+                value
+                date
+                unix
+              }
+              fieldUnpublishDate{
+                value
+                date
+                unix
+              }
             }
           }
         }
