@@ -14,8 +14,8 @@
         <div class="col-3 md-4 xs-6 sectors--col">
           <a href="javascript:void(0)" attr.aria-label="{{ elem.title }}" [routerLink]="elem.entityUrl.path" class="sector__wrapper">
             <div class="sector__wrapper--pic">
-              <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.length" [alt]="elem.fieldOskaFieldPicture[0].alt" [title]="elem.fieldOskaFieldPicture[0].title" [src]="elem.fieldOskaFieldPicture[0].derivative.url">
-              <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" *ngIf="elem.fieldOskaFieldPicture && !elem.fieldOskaFieldPicture.length" src="../../assets/img/1208x680.png">
+              <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.derivative && elem.fieldOskaFieldPicture.derivative.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url">
+              <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" *ngIf="!elem.fieldOskaFieldPicture" src="../../assets/img/1208x680.png">
               <div class="overlay"></div>
             </div>
             <div class="sector__wrapper--title">
