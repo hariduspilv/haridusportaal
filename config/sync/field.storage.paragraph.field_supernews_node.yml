@@ -1,12 +1,13 @@
-uuid: f6e66b03-2ec9-46ed-a28a-754ebc62b1ce
+uuid: 92f061a0-b6f8-4f96-801c-75e83d457ac1
 langcode: et
 status: true
 dependencies:
   module:
     - node
-id: node.field_secondary_supernews
-field_name: field_secondary_supernews
-entity_type: node
+    - paragraphs
+id: paragraph.field_supernews_node
+field_name: field_supernews_node
+entity_type: paragraph
 type: entity_reference
 settings:
   target_type: node
