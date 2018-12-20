@@ -29,7 +29,7 @@
 
             <div *ngIf="content.fieldImage" class="article-image pull-right">
               <img src="{{ content.fieldImage.derivative.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
-              <div aria-hidden="true" class="image-alt-text" *ngIf="content.fieldImage.alt">{{ content.fieldImage.alt }}</div>
+              <div aria-hidden="true" class="image-alt-text" *ngIf="content.fieldImage.title">{{ content.fieldImage.alt }}</div>
             </div>
             
             <div class="description" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
