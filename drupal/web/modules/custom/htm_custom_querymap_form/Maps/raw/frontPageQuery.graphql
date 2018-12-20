@@ -1,43 +1,59 @@
-query frontPageQuery(
-  $lang: LanguageId!
-){
-  nodeQuery(sort:{field:"changed",direction:DESC},filter:{conditions:{field:"type", value:"avaleht", language: $lang}}){
-    entities(language:$lang){
-      ... on NodeAvaleht{
+query frontPageQuery($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "avaleht", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeAvaleht {
         fieldHeadBlockTitle
-        fieldTopics{
-          entity{
-            fieldTopicTitle
-            fieldTopicText
-            fieldTopicLink{
-              url{
-                routed
-                path
+        fieldTopics {
+          entity {
+            ... on ParagraphHomepageTopics {
+              fieldTopicTitle
+              fieldTopicText
+              fieldTopicLink {
+                url {
+                  routed
+                  path
+                }
               }
             }
           }
         }
-        fieldSupernews{
-          entity{
-            nid
-            title
-            entityUrl{
-              routed
-              path
+        fieldSupernews {
+          entity {
+            ... on ParagraphSupernews {
+              fieldSupernewsNode {
+                entity {
+                  ... on NodeNews {
+                    nid
+                    title
+                    entityUrl {
+                      routed
+                      path
+                    }
+                    fieldAuthor
+                    created
+                    fieldIntroductionImage {
+                      derivative(style: CROP_LARGE) {
+                        url
+                      }
+                      targetId
+                      alt
+                      title
+                    }
+                  }
+                }
+              }
+              fieldPublishDate{
+                value
+                date
+                unix
+              }
+              fieldUnpublishDate{
+                value
+                date
+                unix
+              }
             }
-            fieldAuthor
-            created
           }
-        }
-        fieldSupernewsPublishDate{
-          value
-          date
-          unix
-        }
-        fieldSupernewsUnpublishDate{
-          value
-          date
-          unix
         }
       }
     }

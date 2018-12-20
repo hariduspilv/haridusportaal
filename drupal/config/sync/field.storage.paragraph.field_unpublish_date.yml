@@ -1,0 +1,20 @@
+uuid: daad32ae-e229-4d90-aed2-810159e9dbda
+langcode: en
+status: true
+dependencies:
+  module:
+    - htm_custom_datetime_unix
+    - paragraphs
+id: paragraph.field_unpublish_date
+field_name: field_unpublish_date
+entity_type: paragraph
+type: datetime
+settings:
+  datetime_type: datetime
+module: htm_custom_datetime_unix
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

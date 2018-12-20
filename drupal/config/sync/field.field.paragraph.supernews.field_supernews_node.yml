@@ -1,0 +1,28 @@
+uuid: 5355a0a4-65c8-4d52-b686-886f026373ba
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_supernews_node
+    - node.type.news
+    - paragraphs.paragraphs_type.supernews
+id: paragraph.supernews.field_supernews_node
+field_name: field_supernews_node
+entity_type: paragraph
+bundle: supernews
+label: Superuudis
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

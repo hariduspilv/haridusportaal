@@ -1,18 +1,20 @@
-uuid: 492bdb67-51a3-428c-bc09-92de388f4564
-langcode: et
+uuid: 9f89c476-fdf7-4669-b0de-2fc9a444fb35
+langcode: en
 status: true
 dependencies:
   module:
+    - entity_reference_revisions
     - node
+    - paragraphs
 id: node.field_supernews
 field_name: field_supernews
 entity_type: node
-type: entity_reference
+type: entity_reference_revisions
 settings:
-  target_type: node
-module: core
+  target_type: paragraph
+module: entity_reference_revisions
 locked: false
-cardinality: 1
+cardinality: 2
 translatable: true
 indexes: {  }
 persist_with_no_fields: false
