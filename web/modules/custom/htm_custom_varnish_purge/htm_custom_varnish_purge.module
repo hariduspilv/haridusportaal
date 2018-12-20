@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use GuzzleHttp\Client;
 
 /**
  * Implements hook_help().
@@ -27,12 +28,27 @@ function htm_custom_varnish_purge_entity_presave(Drupal\Core\Entity\EntityInterf
 
     $cache_tags = $entity->getCacheTagsToInvalidate();
 
-    /** @var QueueFactory $queue_factory */
-    $queue_factory = \Drupal::service('queue');
-    /** @var QueueInterface $queue */
-    $queue = $queue_factory->get('cron_purge_cache_tags');
+    if(count($cache_tags) > 0){
 
-    foreach($cache_tags as $cache_tag){
-        $queue->createItem($cache_tag);
+        $configuration = \Drupal::config('htm_custom_varnish_purge.varnishpurge');
+        $client = new Client([
+            'timeout'  => 30,
+        ]);
+
+        $purgeurl = 'http://'.$configuration->get('path').':'.$configuration->get('port');
+        $varnishcommand = "PURGE";
+
+        foreach($cache_tags as $cache_tag){
+
+            $header = [
+                $configuration->get('path') => $cache_tag
+            ];
+
+            try{
+                $client->request($varnishcommand, $purgeurl, [$header]);
+            } catch (Guzzle\Http\Exception\BadResponseException $e){
+                \Drupal::logger('htm_custom_varnish_purge')->error($e);
+            }
+        }
     }
 }

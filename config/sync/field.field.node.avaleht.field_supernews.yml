@@ -1,28 +1,79 @@
-uuid: 536c96b1-db88-400c-81a0-014b2f25b16b
-langcode: et
+uuid: 4f05a2a3-8952-4e30-96a1-0a092ff6f089
+langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_supernews
     - node.type.avaleht
-    - node.type.news
+    - paragraphs.paragraphs_type.supernews
+  module:
+    - entity_reference_revisions
 id: node.avaleht.field_supernews
 field_name: field_supernews
 entity_type: node
 bundle: avaleht
-label: Superuudis
+label: Superuudised
 description: ''
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:node'
+  handler: 'default:paragraph'
   handler_settings:
+    negate: 0
     target_bundles:
-      news: news
-    sort:
-      field: _none
-    auto_create: false
-    auto_create_bundle: ''
-field_type: entity_reference
+      supernews: supernews
+    target_bundles_drag_drop:
+      supernews:
+        enabled: true
+        weight: 18
+      accordion:
+        weight: 19
+        enabled: false
+      additional_section:
+        weight: 20
+        enabled: false
+      contact_section:
+        weight: 21
+        enabled: false
+      event_date:
+        weight: 22
+        enabled: false
+      favorite_item:
+        weight: 23
+        enabled: false
+      homepage_topics:
+        weight: 24
+        enabled: false
+      iscedf_search:
+        weight: 25
+        enabled: false
+      job:
+        weight: 26
+        enabled: false
+      link:
+        weight: 27
+        enabled: false
+      main_profession_accordion:
+        weight: 28
+        enabled: false
+      main_profession_sidebar:
+        weight: 29
+        enabled: false
+      oska_field_sidebar:
+        weight: 30
+        enabled: false
+      registration_period:
+        weight: 31
+        enabled: false
+      right_sidebar_section_info:
+        weight: 32
+        enabled: false
+      school_location:
+        weight: 33
+        enabled: false
+      survey_page_accordion:
+        weight: 34
+        enabled: false
+field_type: entity_reference_revisions

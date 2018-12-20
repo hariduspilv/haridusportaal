@@ -332,7 +332,7 @@ class OskaGraphWidgetType extends WidgetBase {
             ];
         }
 
-        return $new_values;
+        return isset($new_values) ? $new_values : $values;
     }
 
     /**
