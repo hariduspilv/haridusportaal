@@ -62,8 +62,6 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 			this.content.entity.fieldEventDate = outputDates;
 		}
 
-		console.log("katski");
-
 		this.iCalUrl = this.settings.url+"/calendarexport/";
 		
 	}
@@ -80,7 +78,6 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	openDialog(): void {
 
-		console.log(this.lang);
 		let dialogRef = this.dialog.open(EventsRegistratonDialog, {
 		  // width: '500px',
 		  data: {

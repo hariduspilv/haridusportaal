@@ -137,8 +137,8 @@ export class ChartComponent implements OnInit{
         }
     
       }
-
-      console.log(tmp);
+      
+      //console.log(tmp);
       output.push(tmp);
 
     }
