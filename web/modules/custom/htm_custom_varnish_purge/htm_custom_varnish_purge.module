@@ -35,15 +35,20 @@ function htm_custom_varnish_purge_entity_presave(Drupal\Core\Entity\EntityInterf
             'timeout'  => 30,
         ]);
 
+        $purgeurl = 'http://'.$configuration->get('path').':'.$configuration->get('port');
+        $varnishcommand = "PURGE";
+
         foreach($cache_tags as $cache_tag){
-            $purgeurl = 'http://'.$configuration->get('path').':'.$configuration->get('port');
-            $varnishcommand = "PURGE";
 
             $header = [
                 $configuration->get('path') => $cache_tag
             ];
 
-            $client->request($varnishcommand, $purgeurl, [$header]);
+            try{
+                $client->request($varnishcommand, $purgeurl, [$header]);
+            } catch (Guzzle\Http\Exception\BadResponseException $e){
+                \Drupal::logger('htm_custom_varnish_purge')->error($e);
+            }
         }
     }
 }
