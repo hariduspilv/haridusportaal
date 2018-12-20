@@ -1,0 +1,43 @@
+uuid: c1a5fcdf-0f25-46ca-81b1-0964c4295f14
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.supernews.field_publish_date
+    - field.field.paragraph.supernews.field_supernews_node
+    - field.field.paragraph.supernews.field_unpublish_date
+    - paragraphs.paragraphs_type.supernews
+  module:
+    - datetime
+id: paragraph.supernews.default
+targetEntityType: paragraph
+bundle: supernews
+mode: default
+content:
+  field_publish_date:
+    weight: 1
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_supernews_node:
+    weight: 3
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_unpublish_date:
+    weight: 2
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+hidden: {  }

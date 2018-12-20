@@ -563,6 +563,10 @@ frontpage:
     translation_type: textarea
     et: 'Sisesta märksõna ja vajuta “Otsi”..'
     en: 'Enter keyword and search ..'
+  notification:
+    translation_type: textarea
+    et: Teavitus
+    en: Notification
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -662,6 +666,10 @@ news:
     translation_type: textarea
     et: 'Otsingutulemused puuduvad'
     en: 'No Search Results'
+  current:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Daily
 newsletter:
   title:
     translation_type: textarea
