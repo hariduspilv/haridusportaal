@@ -176,13 +176,11 @@
         path {fill: $black;}
       }
     }
-    a.column-center
     a.column-center {
       &:hover {
-        svg path {fill: #0F7B8A;}
-      }
-      @media (hover: none) {
-        svg path {fill: $black;}
+        @include break-on(sm, min) {
+          svg path {fill: #0F7B8A;}
+        }
       }
     }
     .header h1 {padding: 7rem 3rem 0rem;
