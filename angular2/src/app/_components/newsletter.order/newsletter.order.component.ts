@@ -127,7 +127,6 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     }
 
     this.data = false;
-
     let data = {
       queryId: "b6b08eb9a6d99bdfcfb3bf9f980830c2d7d3c3fb:1",
       variables: {
@@ -137,15 +136,16 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
       }
     }
 
+    let element = document.getElementById('blockTop');
+    element.scrollIntoView({behavior: "smooth", block: "start"});
+
     let register = this.http.post('/graphql', data).subscribe((response) => {
       this.subscribedStatus = true;
       register.unsubscribe();
-      document.getElementById('message-holder').focus();
     }, (data) => {
       this.subscribedStatus = true;
       this.subscribedFailure = data;
       register.unsubscribe();
-      document.getElementById('message-holder').focus();
     });
 
     this.subscriptions = [...this.subscriptions];
