@@ -33,8 +33,6 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
   subscribedStatus: boolean = false;
   subscribedFailure: string = "";
 
-  urlPrefix;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -59,7 +57,6 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
   }
   ngOnInit() {
     this.lang = this.rootScope.get("lang");
-    this.urlPrefix = this.settings.url+"/"+this.rootScope.get("lang");
     this.initialize()
   }
 
@@ -143,11 +140,12 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     let register = this.http.post('/graphql', data).subscribe((response) => {
       this.subscribedStatus = true;
       register.unsubscribe();
+      document.getElementById('message-holder').focus();
     }, (data) => {
       this.subscribedStatus = true;
       this.subscribedFailure = data;
       register.unsubscribe();
-      
+      document.getElementById('message-holder').focus();
     });
 
     this.subscriptions = [...this.subscriptions];

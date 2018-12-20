@@ -9,16 +9,16 @@ dependencies:
     - search_api
   config:
     - field.storage.node.field_accreditation_status
-    - field.storage.node.field_qualification_standard_id
-    - field.storage.node.field_duration_years
-    - field.storage.node.field_duration_months
-    - field.storage.node.field_degree_or_diploma_awarded
-    - field.storage.node.field_school_address
-    - field.storage.node.field_school_website
     - field.storage.node.field_admission_status
-    - field.storage.node.field_educational_institution
     - field.storage.node.field_amount
+    - field.storage.node.field_degree_or_diploma_awarded
+    - field.storage.node.field_duration_months
+    - field.storage.node.field_duration_years
     - field.storage.node.field_iscedf_detailed
+    - field.storage.node.field_qualification_standard_id
+    - field.storage.node.field_school_address
+    - field.storage.node.field_educational_institution
+    - field.storage.node.field_school_website
     - field.storage.node.field_study_programme_level
     - field.storage.node.field_study_programme_type
     - field.storage.node.field_teaching_language
@@ -223,6 +223,6 @@ tracker_settings:
   default:
     indexing_order: fifo
 options:
-  index_directly: true
+  index_directly: false
   cron_limit: 50
 server: elasticsearch_server
