@@ -192,7 +192,7 @@
     </div>
   </ng-template>
   <mat-spinner *ngIf="!events || !news || !generalData" ></mat-spinner>
-  <div class="frontpage" *ngIf="events && news && generalData">
+  <div class="frontpage" *ngIf="(events && news && generalData) || (events && news)">
     <div class="section section--search">
       <div class="content--middle search">
         <h1 class="lead-title">
