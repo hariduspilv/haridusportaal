@@ -203,7 +203,7 @@
                     [(ngModel)]="address">
                     <ng-container *ngIf="addressService.autocompleteLoader && (!address || (address && address.length < 3))">
                       <mat-option [value]="" disabled="true">
-                        <span>{{'search.not_found_required_chars' | translate }}</span>
+                        <span role="alert">{{'search.not_found_required_chars' | translate }}</span>
                       </mat-option>
                     </ng-container>
                     <ng-container *ngIf="addressService.autocompleteLoader && (address && address.length >= 3)">
@@ -213,12 +213,15 @@
                     </ng-container>
                     <ng-container *ngIf="addressService.autocompleteLoader == false && addressService.resultSet">
                       <mat-option *ngIf="!addressService.resultSet.length" [value]="" disabled="true">
-                        <span>{{'xjson.address_not_found' | translate }}</span>
+                        <span role="alert">{{'xjson.address_not_found' | translate }}</span>
                       </mat-option>
                       <ng-container *ngIf="addressService.resultSet.length > 0">
                         <mat-option *ngFor="let address of addressService.resultSet" [value]="address.addressHumanReadable">
                           <span>{{ address.addressHumanReadable }}</span>
                         </mat-option>
+                        <div class="search__alert" role="alert">
+                          <span class="search__alert--elem">{{addressService.resultSet.length}} {{'search.suggestions_available' | translate}}</span>
+                        </div>
                       </ng-container>
                     </ng-container>
                   </mat-autocomplete>
