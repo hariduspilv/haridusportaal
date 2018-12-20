@@ -570,7 +570,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   submitForm(activity: string){
     this.error = {};
-    console.log(this.data_elements);
 
     if(activity == 'EDIT') {
       this.promptEditConfirmation();
@@ -675,7 +674,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
 
     let subscription = this.http.post('/xjson_service?_format=json', data ).subscribe(response => {
-      console.log(response);
+
       if(!response['header']) return this.errorHandler('Missing header from response');
       if(!response['body']) return this.errorHandler('Missing body from response');
       if(!response['body']['steps']) return this.errorHandler('Missing body.steps from response');

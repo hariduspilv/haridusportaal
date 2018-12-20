@@ -6,10 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class EllipsisPipe implements PipeTransform {
 
-  transform(value: any, length: number): any {
-    if ( !length ) {
-      length = 100;
-    }
+  transform(value: any, length: number = 100): any {
 
     if ( value.length <= length) {
       return value;
