@@ -1,0 +1,9 @@
+uuid: 85f4af05-21db-415d-8d0d-13addec9f257
+langcode: en
+status: true
+dependencies: {  }
+id: supernews
+label: Superuudised
+icon_uuid: null
+description: ''
+behavior_plugins: {  }
