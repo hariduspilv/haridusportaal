@@ -95,6 +95,12 @@
           border-right: 14rem solid #ffe7c1;
           border-bottom: 12rem solid transparent;
         }
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+          display: none;
+        }
+        @supports (-ms-ime-align:auto) {
+          display: none;
+        }
       }
     }
     &--origin {padding-top: 0;}

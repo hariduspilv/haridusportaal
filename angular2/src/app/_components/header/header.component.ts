@@ -108,7 +108,7 @@ export class HeaderComponent {
 
   searchRoute(searchParam) {
     if (!searchParam) {searchParam = ''}
-    let url = "/et/otsing?term=" + searchParam;
+    let url = "/otsing?term=" + searchParam;
     this.searchParam = '';
     this.router.navigateByUrl(url)
   }
