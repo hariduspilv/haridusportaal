@@ -77,7 +77,7 @@ export class FrontpageComponent {
   }
   
   getGeneral() {
-    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=b1472199ff7ea1b39b4542bd3d00202e1bfe5928:1&variables=";
+    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=c5f254677df76920cdc966cd190d1ee378613f92:1&variables=";
     
     let variables = {lang: this.rootScope.get('lang').toUpperCase()}
     this.http.get(url+JSON.stringify(variables)).subscribe(data => {
@@ -106,6 +106,8 @@ export class FrontpageComponent {
     let valid = true;
     let superNewsPublished = this.generalData[0].fieldSupernews && this.generalData[0].fieldSupernews[identifier] && (this.generalData[0].fieldSupernews[identifier].entity.fieldPublishDate.unix * 1000);
     let superNewsUnPublished = this.generalData[0].fieldSupernews && this.generalData[0].fieldSupernews[identifier] && this.generalData[0].fieldSupernews[identifier].entity.fieldUnpublishDate.unix && (this.generalData[0].fieldSupernews[identifier].entity.fieldUnpublishDate.unix * 1000);
+    let superNewsState = this.generalData[0].fieldSupernews && this.generalData[0].fieldSupernews[identifier] && this.generalData[0].fieldSupernews[identifier].entity.fieldSupernewsNode.entity.entityPublished;
+    if (!superNewsState) {return false}
     let dateNow = new Date();
     if (superNewsPublished) { var superNewsPublishedVal = dateNow > new Date(superNewsPublished) };
     if (superNewsUnPublished) { var superNewsUnPublishedVal = dateNow < new Date(superNewsUnPublished) } else { superNewsUnPublishedVal = true; };

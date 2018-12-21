@@ -23,6 +23,8 @@ query frontPageQuery($lang: LanguageId!) {
               fieldSupernewsNode {
                 entity {
                   ... on NodeNews {
+                    entityAccess(operation:"view")
+                    entityPublished
                     nid
                     title
                     entityUrl {
