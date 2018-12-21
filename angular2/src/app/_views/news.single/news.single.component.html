@@ -30,7 +30,7 @@
                 <div class="short" [innerHtml]="content.fieldShortDescription"></div>
                 <div *ngIf="content.fieldIntroductionImage !== null" class="article-image pull-right" (click)="openDialog()">
                   <img class="pointer" src="{{ content.fieldIntroductionImage.derivative.url }}" alt="{{ content.fieldIntroductionImage.alt }}" title="{{ content.fieldIntroductionImage.title }}" style="max-width:100%;" />
-                  <div class="image-alt-text" aria-hidden="true" *ngIf="content.fieldIntroductionImage.alt">{{ content.fieldIntroductionImage.alt }}</div>
+                  <div class="image-alt-text" aria-hidden="true" *ngIf="content.fieldIntroductionImage.title">{{ content.fieldIntroductionImage.title }}</div>
                 </div>
 
                 <div class="description" [innerHtml]="content.fieldNewsDescription.value"></div>
