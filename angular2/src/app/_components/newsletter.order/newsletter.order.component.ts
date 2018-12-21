@@ -96,6 +96,18 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     this.initialize()
   }
 
+  scrollElementIntoView = (element: HTMLElement, behavior?: 'smooth' | 'instant' | 'auto') => {
+
+    let scrollTop = window.pageYOffset || element.scrollTop;
+    const headerOutsideIframe = window.parent.document.getElementsByClassName('maincontent')[0].clientHeight;
+    const finalOffset = element.getBoundingClientRect().top + scrollTop + headerOutsideIframe;
+  
+    window.parent.scrollTo({
+      top: finalOffset,
+      behavior: behavior || 'auto'
+    })
+  }
+
   submit() {
 
     this.errors = {};
@@ -137,7 +149,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     }
 
     let element = document.getElementById('blockTop');
-    element.scrollIntoView({behavior: "smooth", block: "start"});
+    this.scrollElementIntoView(element, 'smooth');
 
     let register = this.http.post('/graphql', data).subscribe((response) => {
       this.subscribedStatus = true;
