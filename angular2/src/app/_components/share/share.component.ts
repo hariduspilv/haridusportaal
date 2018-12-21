@@ -40,7 +40,7 @@ export class ShareComponent{
   }
 
   ngOnInit () {
-    this.copyLink = window.location.href;
+    this.copyLink = decodeURI(window.location.href);
   }
 
   stateChangeWithCopy ($event) {
