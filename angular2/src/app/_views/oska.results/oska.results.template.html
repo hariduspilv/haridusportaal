@@ -15,10 +15,10 @@
     <div class="col-8 sm-12">
       <div class="block border-blue padding-block">
         <div class="block__head no-border">
-          <div class="block__head__title">{{ data['entityLabel'] | uppercase }}</div>
+          <div class="block__head__title">{{ 'oska.results' | translate | uppercase }}</div>
         </div><!--/block__head-->
 
-        <h1>{{ 'oska.results' | translate }}</h1>
+        <h1>{{ data['entityLabel'] }}</h1>
         <div class="mininav flex text-right">
           <favourites *ngIf="!userLoggedOut" [id]="data.nid" [title]="data.entityLabel"></favourites>
           <share></share>
