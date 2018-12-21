@@ -6,7 +6,8 @@
     <div class="col-8 sm-12">
       <div class="block border-blue padding-block">
         <div class="block__head no-border">
-          <div class="block__head__title" *ngIf="viewType == 'surveyPage' || viewType == 'field'">{{ 'oska.title_field' | translate | uppercase }}</div>
+          <div class="block__head__title" *ngIf="viewType == 'surveyPage'">{{ 'oska.workforcePrognosis' | translate | uppercase }}</div>
+          <div class="block__head__title" *ngIf="viewType == 'field'">{{ 'oska.title_field' | translate | uppercase }}</div>
           <div class="block__head__title" *ngIf="viewType == 'mainProfession'">{{ 'oska.title_main_profession' | translate | uppercase }}</div>
         </div><!--/block__head-->
 
@@ -45,8 +46,9 @@
           </div><!--/fieldOskaFieldPicture-->
         </ng-container>
 
-        
-        
+        <ng-container *ngIf="data.fieldOskaVideo">
+          <video-component [videos]="[data.fieldOskaVideo]"></video-component>
+        </ng-container>
 
         <div [innerHTML]="data['body']['value']" attr.aria-label="{{'description' | translate}}" class="description" ></div>
 
@@ -87,10 +89,6 @@
               </li>
             </ul>
           </ng-container>
-        </ng-container>
-
-        <ng-container *ngIf="data.fieldOskaVideo">
-          <video-component [videos]="[data.fieldOskaVideo]"></video-component>
         </ng-container>
 
         <ng-container *ngIf="data.fieldOskaMainProfessionVideo">
