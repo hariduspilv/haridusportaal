@@ -8,7 +8,6 @@ dependencies:
     - field.storage.node.field_description_summary
     - field.storage.node.field_news_description
     - field.storage.node.field_short_description
-    - field.storage.node.field_tag
     - node.type.event
     - node.type.news
     - taxonomy.vocabulary.tags
@@ -938,7 +937,7 @@ display:
         options:
           grouping: {  }
           description: Descriptioon
-      path: custom/rss.xml
+      path: custom/rss
       displays:
         default: '0'
       rendering_language: '***LANGUAGE_language_interface***'
