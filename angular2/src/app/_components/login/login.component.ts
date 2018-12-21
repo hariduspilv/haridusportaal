@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit{
   }
   ngOnInit() {
 
-    if( this.settings.url == "https://htm.wiseman.ee" ){
+    if( this.settings.url == "https://htm.wiseman.ee" || this.settings.url == "http://test-htm.wiseman.ee:30000" ){
       this.basicLogin = true;
     }
     
