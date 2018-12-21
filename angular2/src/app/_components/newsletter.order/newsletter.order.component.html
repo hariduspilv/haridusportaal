@@ -1,4 +1,4 @@
-<div class="block">
+<div class="block" id="blockTop" tabindex="0">
   <mat-spinner *ngIf="!data && !subscribedStatus"></mat-spinner>
   <div class="block__content" *ngIf="data">
     <div class="block__content--header">
@@ -26,7 +26,7 @@
             </div>
             <div class="btn">
               <div class="outer">
-                <a role="button" href="{{settings.url}}/custom/rss.xml{{rssIDs}}" target="_blank">{{ 'button.rss_order' | translate }} </a>
+                <a role="button" href="{{settings.url}}/custom/rss{{rssIDs}}" target="_blank">{{ 'button.rss_order' | translate }} </a>
               </div>
             </div>
           </ng-container>
@@ -56,7 +56,7 @@
     </form><!--block__content--form-->
   </div><!--block__content-->
 
-  <div tabindex="0" attr.aria-label="{{'frontpage.notification' | translate}}" class="message--holder" id="message-holder">
+  <div class="message--holder">
     <div class="block__content--message" *ngIf="subscribedStatus && !subscribedFailure">
       <div class="block__content--message__content" role="alert">{{ 'newsletter.subscription_thanks_content' | translate }}</div>
       <div class="block__content--message__subcontent" role="alert">{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{email}}</b>.</div>

@@ -48,6 +48,8 @@ function htm_custom_varnish_purge_entity_presave(Drupal\Core\Entity\EntityInterf
                 $client->request($varnishcommand, $purgeurl, [$header]);
             } catch (Guzzle\Http\Exception\BadResponseException $e){
                 \Drupal::logger('htm_custom_varnish_purge')->error($e);
+            } catch (GuzzleHttp\Exception\ConnectException $e){
+                \Drupal::logger('htm_custom_varnish_purge')->error($e);
             }
         }
     }
