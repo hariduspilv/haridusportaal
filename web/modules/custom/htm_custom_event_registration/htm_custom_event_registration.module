@@ -88,10 +88,11 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 		}
 
 		// Now send to organizer aswell
-
-		$to = $translated_reference_event->field_contact_email->value;
-
-		if(!empty($to)){
+		$to = NULL;
+		if($translated_reference_event->field_entry_type->value === 'register'){
+			$to = $translated_reference_event->field_registration_date->entity->field_registration_notification_->value;
+		}
+		if($to){
 			$params['subject'] = $config->get('emails.email_event_registration.organizer_email_subject');
 			$params['body'] = $config->get('emails.email_event_registration.organizer_email_body');
 
