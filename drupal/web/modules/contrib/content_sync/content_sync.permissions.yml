@@ -1,0 +1,12 @@
+synchronize content:
+  title: 'Synchronize content'
+  restrict access: true
+export content:
+  title: 'Export content'
+  restrict access: true
+import content:
+  title: 'Import content'
+  restrict access: true
+logs content:
+  title: 'Logs content'
+  restrict access: true
