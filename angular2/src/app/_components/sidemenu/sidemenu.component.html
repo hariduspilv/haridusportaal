@@ -1,4 +1,9 @@
 <aside role="navigation" attr.aria-label="{{'frontpage.main_menu' | translate}}" *ngIf="data" class="side-menu-wrapper">
+  
+  <!-- FOR MENU CLASSES INCLUSION-->
+  <mat-menu style="display:none;">
+    <button mat-menu-item></button>
+  </mat-menu>
 
   <ul *ngFor="let item of data" class="ul-styleless category" [class.empty-parent]="item.links.length == 0 && item.url.path === '#nolink'">
     <li class="subcategory" *ngIf="item.url.path && item.url.path !== '#category' && item.url.path !== '#nocategory'" [class.has-children]="item.links.length > 0">
