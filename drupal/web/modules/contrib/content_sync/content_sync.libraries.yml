@@ -1,0 +1,26 @@
+# Help.
+
+content_sync.help:
+  version: VERSION
+  css:
+    theme:
+      css/content_sync.help.css: {}
+  js:
+    js/content_sync.help.js:  {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+    - core/jquery.ui.accordion
+
+content_sync.element.message:
+  version: VERSION
+  css:
+    theme:
+      css/content_sync.element.message.css: {}
+  js:
+    js/content_sync.element.message.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
