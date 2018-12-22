@@ -96,16 +96,36 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     this.initialize()
   }
 
-  scrollElementIntoView = (element: HTMLElement, behavior?: 'smooth' | 'instant' | 'auto') => {
+  // scrollElementIntoView = (element: HTMLElement, behavior?: 'smooth' | 'instant' | 'auto') => {
 
-    let scrollTop = window.pageYOffset || element.scrollTop;
-    const headerOutsideIframe = window.parent.document.getElementsByClassName('maincontent')[0].clientHeight;
-    const finalOffset = element.getBoundingClientRect().top + scrollTop + headerOutsideIframe;
+  //   let scrollTop = window.pageYOffset || element.scrollTop;
+  //   const headerOutsideIframe = window.parent.document.getElementsByClassName('maincontent')[0].clientHeight;
+  //   const finalOffset = element.getBoundingClientRect().top + scrollTop + headerOutsideIframe;
   
-    window.parent.scrollTo({
-      top: finalOffset,
-      behavior: behavior || 'auto'
-    })
+  //   window.parent.scrollTo({
+  //     top: finalOffset,
+  //     behavior: behavior || 'auto'
+  //   })
+  // }
+  scrollElementIntoView(element){ 
+    try { 
+      element.scrollIntoView(true); 
+    } catch(er) { 
+      console.log('here');
+      let T= 0; 
+      let reference = element; 
+      while(reference.parentNode) { 
+        T += (reference.offsetTop)? reference.offsetTop: 0; 
+        if(reference == document.body) break; 
+        reference = reference.parentNode; 
+      } 
+      window.scrollTo(0,T);
+    } 
+    try { 
+      element.focus(); 
+    } catch(er){ 
+      return true 
+    } 
   }
 
   submit() {
@@ -149,7 +169,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     }
 
     let element = document.getElementById('blockTop');
-    this.scrollElementIntoView(element, 'smooth');
+    this.scrollElementIntoView(element);
 
     let register = this.http.post('/graphql', data).subscribe((response) => {
       this.subscribedStatus = true;
