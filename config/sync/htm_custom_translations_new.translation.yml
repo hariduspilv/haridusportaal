@@ -1649,6 +1649,10 @@ button:
     translation_type: textarea
     et: 'Muuda andmeid'
     en: 'Edit data'
+  try_again:
+    translation_type: textarea
+    et: 'Proovi uuesti'
+    en: 'Try again'
 tooltip:
   share:
     translation_type: textarea
