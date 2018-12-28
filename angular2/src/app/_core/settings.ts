@@ -20,6 +20,7 @@ export class SettingsService {
   urlTemplates = {
     "localhost": "https://htm.wiseman.ee",
     "htm.twn.ee": "http://test-htm.wiseman.ee:30000",
+    "edu.ee": "https://api.hp.edu.ee",
     "10.0.2.2": "https://htm.wiseman.ee",
     "192.168.1.5": "https://htm.wiseman.ee", //Virtualbox local IP
     "otherwise": "https://apitest.hp.edu.ee"
