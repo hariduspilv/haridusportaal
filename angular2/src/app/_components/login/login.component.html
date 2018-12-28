@@ -1,4 +1,4 @@
-<span class="login-wrapper">
+<span class="login-wrapper" *ngIf="basicLogin">
 
   <a href="javascript:void(0)" class="login__actions" *ngIf="!user.isExpired" [matMenuTriggerFor]="usermenu" [class.logged]="!user.isExpired">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
