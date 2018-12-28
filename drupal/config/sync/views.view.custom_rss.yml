@@ -1765,8 +1765,8 @@ display:
           label: ''
           exclude: false
           alter:
-            alter_text: true
-            text: '{{ path(''entity.node.canonical'', {''node'': nid}) }}'
+            alter_text: false
+            text: '{{path(''entity.node.canonical'', {''node'': nid})}}'
             make_link: false
             path: ''
             absolute: false
