@@ -1,0 +1,61 @@
+
+mstysTegevusnaitajaResponse mäping tegevusnäitajate aruande vormi
+
+  {
+    "header": {
+      "endpoint": "EHIS",
+      "form_name": "MTSYS_TEGEVUSNAITAJAD_ARUANNE",
+      "acceptable_activity" : [ "SUBMIT", "SAVE" ],
+      "current_step" : "step_aruanne",
+      "identifier" : araundeId
+    },
+    "body": {
+      "steps": {
+        "step_aruanne": {
+          "data_elements": {
+            "aasta" : {
+              "value" : aasta
+            },
+            "oppeasutusId" : {
+              "value" : oppeasutusId
+            },
+            "eeltaidetudCSV" : {
+              "value" : { "file_name" : csvFail.filename, "file_identifier" : "mtsys_tegevusnaitajad_aruanne_eeltaidetud"+aruandeId (csvfail salvestub vaheandmebaasi) }
+            },
+            "majandustegevuseTeateTabel": {
+              "value" : [
+                Tabelisse rida iga naitajad/item elemendi kohta, kus klOkLiik = 18098
+                {
+                  "nimetus": naitajad/item/nimetus,
+                  "oppijateArv": naitajad/item/oppijaArv,
+                  "tunnistusteArv": naitajad/item/tunnistusArv,
+                  "kuni8": naitajad/item/kuni8,
+                  "kuni26": naitajad/item/kuni26,
+                  "kuni80": naitajad/item/kuni80,
+                  "kuni240": naitajad/item/kuni240,
+                  "yle240": naitajad/item/yle240,
+                  "kokku": naitajad/item/kokku,
+                  "klOkLiik" : naitajad/item/klOkLiik,
+                  "klOpperuhm" : naitajad/item/klOpperuhm,
+                  "klKategooria" : naitajad/item/klKategooria,
+                  "klEkTase" : naitajad/item/klOpperuhm
+                }
+              ]
+            },
+            "tegevuslubaTabel" : {
+              "value" : [
+                Tabelisse rida iga naitajad/item elemendi kohta, kus klOkLiik != 18098 ja klOkLiik != -1
+                {
+                  sama kui majandustegevuseTeateTabel
+                }
+              ]
+            }
+          }
+        },
+        "step_esitamise_tagasiside": {
+          "data_elements" : {
+          }
+        }
+      }
+    }
+  }
