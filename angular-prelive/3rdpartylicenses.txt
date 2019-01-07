@@ -1,4 +1,4 @@
-moment@2.22.1
+moment@2.22.2
 MIT
 Copyright (c) JS Foundation and other contributors
 
@@ -75,7 +75,7 @@ SOFTWARE.
 MIT
 MIT
 
-punycode@1.4.1
+punycode@1.3.2
 MIT
 MIT
 
@@ -354,6 +354,10 @@ ngx-clipboard@11.1.9
 MIT
 MIT
 
+@angular/compiler@5.2.10
+MIT
+MIT
+
 @agm/core@1.0.0-beta.3
 MIT
 The MIT License (MIT)
@@ -377,10 +381,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-@angular/compiler@5.2.10
-MIT
-MIT
 
 @agm/snazzy-info-window@1.0.0-beta.3
 MIT
