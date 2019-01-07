@@ -1,0 +1,14 @@
+name: 'Content Sync'
+type: module
+description: 'Allows to import/export content using YAML files'
+package: Custom
+# core: 8.x
+configure: content.sync
+dependencies:
+  - serialization
+
+# Information added by Drupal.org packaging script on 2017-12-28
+version: '8.x-2.0'
+core: '8.x'
+project: 'content_sync'
+datestamp: 1514473998

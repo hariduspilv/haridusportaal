@@ -1,0 +1,109 @@
+content.sync:
+  path: '/admin/config/development/content'
+  defaults:
+    _title: 'Synchronize'
+    _form: '\Drupal\content_sync\Form\ContentSync'
+  requirements:
+    _permission: 'synchronize content'
+
+content.diff:
+  path: '/admin/config/development/content/sync/diff/{source_name}/{target_name}'
+  defaults:
+    _controller: '\Drupal\content_sync\Controller\ContentController::diff'
+    target_name: NULL
+  requirements:
+    _permission: 'synchronize content'
+
+content.diff_collection:
+  path: '/admin/config/development/content/sync/diff_collection/{collection}/{source_name}/{target_name}'
+  defaults:
+    _controller: '\Drupal\content_sync\Controller\ContentController::diff'
+    target_name: NULL
+  requirements:
+    _permission: 'synchronize content'
+
+content.import_single:
+  path: '/admin/config/development/content/import/single'
+  defaults:
+    _title: 'Single Import'
+    _form: '\Drupal\content_sync\Form\ContentSingleImportForm'
+  requirements:
+    _permission: 'import content'
+
+content.import_full:
+  path: '/admin/config/development/content/import/full'
+  defaults:
+    _title: 'Import Archives'
+    _form: '\Drupal\content_sync\Form\ContentImportForm'
+  requirements:
+    _permission: 'import content'
+
+content.export_full:
+  path: '/admin/config/development/content/export/full'
+  defaults:
+    _title: 'Export Archives'
+    _form: '\Drupal\content_sync\Form\ContentExportForm'
+  requirements:
+    _permission: 'export content'
+
+content.export_download:
+  path: '/admin/config/development/content/export/download'
+  defaults:
+    _controller: '\Drupal\content_sync\Controller\ContentController::downloadExport'
+  requirements:
+    _permission: 'export content'
+
+content.export_single:
+  path: '/admin/config/development/content/export/single'
+  defaults:
+    _title: 'Single Export'
+    _form: '\Drupal\content_sync\Form\ContentSingleExportForm'
+    config_type: NULL
+    config_name: NULL
+  requirements:
+    _permission: 'export content'
+
+content.export_multiple_confirm:
+  path: '/admin/config/development/content/export/confirm'
+  defaults:
+    _form: '\Drupal\content_sync\Form\ContentExportMultiple'
+    _title: 'Content export'
+  requirements:
+    _permission: 'export content'
+  options:
+    _admin_route: TRUE
+
+content.overview:
+  path: '/admin/config/development/content/logs'
+  defaults:
+    _controller: '\Drupal\content_sync\Controller\ContentLogController::overview'
+    _title: 'Recent log messages'
+  requirements:
+    _permission: 'logs content'
+
+content.settings:
+  path: '/admin/config/development/content/settings'
+  defaults:
+    _title: 'Settings'
+    _form: '\Drupal\content_sync\Form\ContentSettingsForm'
+  requirements:
+    _permission: 'synchronize content'
+  options:
+    _admin_route: TRUE
+
+content.help.about:
+  path: '/admin/help/content_sync/about'
+  defaults:
+    _controller: '\Drupal\content_sync\Controller\ContentHelpController::about'
+    _title: 'How can we help you?'
+  requirements:
+    _permission: 'access administration pages'
+
+content_sync.element.message.close:
+  path: '/content_sync/message/close/{storage}/{id}'
+  defaults:
+    _controller: '\Drupal\content_sync\Controller\ContentElementController::close'
+    _storage: user
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    _csrf_token: 'TRUE'
