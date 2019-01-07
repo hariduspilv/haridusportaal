@@ -1,0 +1,179 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the content_sync module.
+ */
+
+use Drupal\Core\Entity\ContentEntityType;
+
+/**
+ * Implements hook_install().
+ */
+function content_sync_install(){
+  //TODO - Move this and the batch to a class
+  //Entity types manager
+  $entityTypeManager = \Drupal::entityTypeManager();
+  $entityBundles = \Drupal::service("entity_type.bundle.info");
+  //Set batch operations by entity type/bundle
+  $operations = [];
+  $operations[] = ['generateSiteUUIDFile', [0=>'snapshot']];
+  $entity_type_definitions = $entityTypeManager->getDefinitions();
+  foreach ($entity_type_definitions as $entity_type => $definition) {
+    if ($definition instanceof ContentEntityType) {
+      $entity_bundles = $entityBundles->getBundleInfo($entity_type);
+      foreach ($entity_bundles as $entity_bundle => $bundle) {
+        //Get BundleKey
+        $bundleKey = \Drupal::entityTypeManager()->getStorage($entity_type)->getEntityType()->getKey('bundle');
+        if (!empty($bundleKey)) {
+          // Load entities by their property values.
+          $entities = \Drupal::entityTypeManager()
+            ->getStorage($entity_type)
+            ->loadByProperties(array($bundleKey => $entity_bundle));
+        }else{
+          $entities = \Drupal::entityTypeManager()
+            ->getStorage($entity_type)
+            ->loadMultiple();
+        }
+        $entity = [];
+        foreach($entities as $entity_id => $entity_obj) {
+          $entity['values'][] = [
+            'entity_type' => $entity_type,
+            'entity_bundle' => $entity_bundle,
+            'entity_id' => $entity_id
+          ];
+        }
+        if(!empty($entity)) {
+          $operations[] = ['processContentSyncSnapshot', $entity];
+        }
+      }
+    }
+  }
+  if(empty($operations)){
+    $operations[] = ['processContentSyncSnapshot', [0=>0] ];
+  }
+  //Set Batch
+  $batch = [
+    'operations' => $operations,
+    'title' => t('Content Snapshot'),
+    'init_message' => t('Starting content snapshot.'),
+    'progress_message' => t('Completed @current step of @total.'),
+    'error_message' => t('Content sync snapshot has encountered an error.'),
+    'file' => drupal_get_path('module', 'content_sync') . '/content_sync.batch.inc',
+  ];
+  batch_set($batch);
+}
+
+/**
+ * Implements hook_schema().
+ */
+function content_sync_schema() {
+  // Content Sync Table to use for diff.
+  $schema['cs_db_snapshot'] = [
+    'description' => 'The base table for configuration data.',
+      'fields' => [
+      'collection' => [
+        'description' => 'Primary Key: Config object collection.',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'name' => [
+        'description' => 'Primary Key: Config object name.',
+        'type' => 'varchar_ascii',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'data' => [
+        'description' => 'A serialized configuration object data.',
+        'type' => 'blob',
+        'not null' => FALSE,
+        'size' => 'big',
+      ],
+    ],
+    'primary key' => ['collection', 'name'],
+  ];
+  // Content Sync Logs Table
+  $schema['cs_logs'] = [
+    'description' => 'Table that contains content_sync logs.',
+    'fields' => [
+      'csid' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique content_sync event ID.',
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The {users}.uid of the user who triggered the event.',
+      ],
+      'type' => [
+        'type' => 'varchar_ascii',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Type of log message, for example "Import" or "Export"',
+      ],
+      'message' => [
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big',
+        'description' => 'Text of log message to be passed into the t() function.',
+      ],
+      'variables' => [
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+        'description' => 'Serialized array of variables that match the message string and that is passed into the t() function.',
+      ],
+      'severity' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+        'description' => 'The severity level of the event; ranges from 0 (Emergency) to 7 (Debug)',
+      ],
+      'link' => [
+        'type' => 'text',
+        'not null' => FALSE,
+        'description' => 'Link to view the result of the event.',
+      ],
+      'location'  => [
+        'type' => 'text',
+        'not null' => TRUE,
+        'description' => 'URL of the origin of the event.',
+      ],
+      'referer' => [
+        'type' => 'text',
+        'not null' => FALSE,
+        'description' => 'URL of referring page.',
+      ],
+      'hostname' => [
+        'type' => 'varchar_ascii',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Hostname of the user who triggered the event.',
+      ],
+      'timestamp' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Unix timestamp of when event occurred.',
+      ],
+    ],
+    'primary key' => ['csid'],
+    'indexes' => [
+      'type' => ['type'],
+      'uid' => ['uid'],
+      'severity' => ['severity'],
+    ],
+  ];
+
+  return $schema;
+}

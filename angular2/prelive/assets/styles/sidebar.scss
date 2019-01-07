@@ -8,6 +8,8 @@
     border-right: solid .0625rem $gray;
   }
   .mat-menu-item {
+    text-overflow: unset !important;
+    white-space: normal !important;
     border-left: .3125rem solid transparent;
     line-height: 1.25rem;
     padding: 0 1.1875rem;
