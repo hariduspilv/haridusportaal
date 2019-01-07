@@ -34,8 +34,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   let localAddress = ['192', '10'];
   let translateUrls = {
     "localhost": ["https://htm.wiseman.ee/translations?_format=json&lang=", ""],
+    // "localhost": ["https://api.hp.edu.ee/translations?_format=json&lang=", ""],
     // "htm.twn.ee": ["/assets/", ".json"],
     "htm.twn.ee": ["https://htm.wiseman.ee/translations?_format=json&lang=", ""],
+    "edu.ee": ["https://api.hp.edu.ee/translations?_format=json&lang=", ""],
     "otherwise": ["https://apitest.hp.edu.ee/translations?_format=json&lang=", ""]
   }
 
