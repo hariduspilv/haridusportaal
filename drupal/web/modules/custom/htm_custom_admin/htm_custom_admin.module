@@ -25,13 +25,12 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
 	      $output .= '<h3>' . t('About') . '</h3>';
 	      $output .= '<p>' . t('Module for altering forms') . '</p>';
 	      return $output;
-
-	      default:
+				break;
+      default:
+      	return '';
+      	break;
     }
   }
-
-
-
 
 	/**
 	 * Implements hook_form_alter() on behalf of form_alter_hook.module.
@@ -148,14 +147,54 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
 			if($item_element['key'] === 'guid'){
 				/* @var $item_value \Drupal\Core\Render\Markup */
 				$item_value = $item_element['value'];
-				$item_element['value'] = $fe_url . $item_value;
+				$item_element['value'] = urldecode($fe_url . $item_value);
 			}
 		}
 		try{
 			$request = \Symfony\Component\HttpFoundation\Request::create($variables['link']);
-             		$url_from_request = Url::createFromRequest($request);
-
-                	$variables['link'] = $fe_url . $url_from_request->toString();
+      $url_from_request = Url::createFromRequest($request);
+      $variables['link'] = urldecode($fe_url . $url_from_request->toString());
 		}catch(\Exception $e){
 		}
+	}
+
+	function htm_custom_admin_form_editor_file_dialog_alter(&$form, FormStateInterface $form_state){
+		$form['actions']['save_modal']['#ajax']['callback'] = '_htm_custom_admin_form_editor_file_dialog_submit';
+		#dump($form);
+	}
+
+	function _htm_custom_admin_form_editor_file_dialog_submit($form, FormStateInterface $form_state){
+
+		$response = new \Drupal\Core\Ajax\AjaxResponse();
+		// Convert any uploaded files from the FID values to data-entity-uuid
+		// attributes and set data-entity-type to 'file'.
+		$fid = $form_state->getValue(array('fid', 0));
+		if (!empty($fid)) {
+			$file = Drupal::entityTypeManager()->getStorage('file')->load($fid);
+			$file_url = file_create_url($file->getFileUri());
+			// Transform absolute file URLs to relative file URLs: prevent problems
+			// on multisite set-ups and prevent mixed content errors.
+
+			//remove this line because we need absolute urls :( #decoupled
+			#$file_url = file_url_transform_relative($file_url);
+			$form_state->setValue(array('attributes', 'href'), $file_url);
+			$form_state->setValue(array('attributes', 'data-entity-uuid'), $file->uuid());
+			$form_state->setValue(array('attributes', 'data-entity-type'), 'file');
+		}
+
+		if ($form_state->getErrors()) {
+			unset($form['#prefix'], $form['#suffix']);
+			$form['status_messages'] = [
+				'#type' => 'status_messages',
+				'#weight' => -10,
+			];
+			$response->addCommand(new \Drupal\Core\Ajax\HtmlCommand('#editor-file-dialog-form', $form));
+		}
+		else {
+			$response->addCommand(new \Drupal\editor\Ajax\EditorDialogSave($form_state->getValues()));
+			$response->addCommand(new \Drupal\Core\Ajax\CloseModalDialogCommand());
+		}
+
+		return $response;
+		#die();
 	}
