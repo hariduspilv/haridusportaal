@@ -72,8 +72,10 @@
       {
         Üks objekt asutus/oppeasutus/tegevusnaitaja elemendi kohta, kus on ainult asutus/oppeasutus/tegevusnaitaja/aasta (muude elementide väärtused puuduvad)
         "form_name" : "MTSYS_TEGEVUSNAITAJAD",
-        "description" : aasta
+        "description" : asutus/oppeasutus/tegevusnaitaja/,
+        "parameters" : { "year" : asutus/oppeasutus/tegevusnaitaja/aasta, "educationalInstitutionId" : asutus/oppeasutus/id }
       }
+      Kui selle aasta ja õppeastuse id kohta on olemas draft objekt, siis acceptable_forms objekti ei lisa
     ],
     "drafts" : [
       {
