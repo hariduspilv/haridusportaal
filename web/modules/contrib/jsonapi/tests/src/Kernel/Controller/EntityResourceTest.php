@@ -228,7 +228,8 @@ class EntityResourceTest extends JsonapiKernelTestBase {
       $this->container->get('entity_field.manager'),
       $this->container->get('plugin.manager.field.field_type'),
       $this->container->get('jsonapi.link_manager'),
-      $this->container->get('jsonapi.resource_type.repository')
+      $this->container->get('jsonapi.resource_type.repository'),
+      $this->container->get('renderer')
     );
 
     // Get the response.
@@ -263,7 +264,8 @@ class EntityResourceTest extends JsonapiKernelTestBase {
       $this->container->get('entity_field.manager'),
       $this->container->get('plugin.manager.field.field_type'),
       $this->container->get('jsonapi.link_manager'),
-      $this->container->get('jsonapi.resource_type.repository')
+      $this->container->get('jsonapi.resource_type.repository'),
+      $this->container->get('renderer')
     );
 
     // Get the response.
@@ -299,7 +301,8 @@ class EntityResourceTest extends JsonapiKernelTestBase {
       $this->container->get('entity_field.manager'),
       $this->container->get('plugin.manager.field.field_type'),
       $this->container->get('jsonapi.link_manager'),
-      $this->container->get('jsonapi.resource_type.repository')
+      $this->container->get('jsonapi.resource_type.repository'),
+      $this->container->get('renderer')
     );
 
     // Get the response.
@@ -890,7 +893,8 @@ class EntityResourceTest extends JsonapiKernelTestBase {
       $this->container->get('entity_field.manager'),
       $this->container->get('plugin.manager.field.field_type'),
       $this->container->get('jsonapi.link_manager'),
-      $this->container->get('jsonapi.resource_type.repository')
+      $this->container->get('jsonapi.resource_type.repository'),
+      $this->container->get('renderer')
     );
   }
 

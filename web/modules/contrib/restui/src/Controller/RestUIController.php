@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Url;
+use Drupal\Core\Messenger\MessengerInterface;
 
 /**
  * Controller routines for REST resources.
@@ -40,13 +41,21 @@ class RestUIController implements ContainerInjectionInterface {
   protected $resourceConfigStorage;
 
   /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * Injects RestUIManager Service.
    */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('plugin.manager.rest'),
       $container->get('url_generator'),
-      $container->get('entity_type.manager')->getStorage('rest_resource_config')
+      $container->get('entity_type.manager')->getStorage('rest_resource_config'),
+      $container->get('messenger')
     );
   }
 
@@ -59,11 +68,14 @@ class RestUIController implements ContainerInjectionInterface {
    *   The URL generator.
    * @param \Drupal\Core\Entity\EntityStorageInterface $resource_config_storage
    *   The REST resource config storage.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    */
-  public function __construct(ResourcePluginManager $resourcePluginManager, UrlGeneratorInterface $url_generator, EntityStorageInterface $resource_config_storage) {
+  public function __construct(ResourcePluginManager $resourcePluginManager, UrlGeneratorInterface $url_generator, EntityStorageInterface $resource_config_storage, MessengerInterface $messenger) {
     $this->resourcePluginManager = $resourcePluginManager;
     $this->urlGenerator = $url_generator;
     $this->resourceConfigStorage = $resource_config_storage;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -277,7 +289,7 @@ class RestUIController implements ContainerInjectionInterface {
 
     if ($resources[$this->getResourceKey($resource_id)]) {
       $resources[$this->getResourceKey($resource_id)]->disable()->save();
-      drupal_set_message(t('The resource was disabled successfully.'));
+      $this->messenger->addStatus($this->t('The resource was disabled successfully.'));
     }
 
     // Redirect back to the page.

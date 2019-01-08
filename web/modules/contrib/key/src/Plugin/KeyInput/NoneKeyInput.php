@@ -30,7 +30,10 @@ class NoneKeyInput extends KeyInputBase {
    * {@inheritdoc}
    */
   public function processSubmittedKeyValue(FormStateInterface $form_state) {
-    return '';
+    return [
+      'submitted' => NULL,
+      'processed_submitted' => NULL,
+    ];
   }
 
   /**

@@ -3,12 +3,14 @@
 namespace Drupal\Tests\jsonapi\Functional;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Url;
 use Drupal\jsonapi\Normalizer\HttpExceptionNormalizer;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
+use Drupal\Tests\jsonapi\Traits\CommonCollectionFilterAccessTestPatternsTrait;
 use Drupal\user\Entity\User;
 use GuzzleHttp\RequestOptions;
 
@@ -20,6 +22,7 @@ use GuzzleHttp\RequestOptions;
 class NodeTest extends ResourceTestBase {
 
   use BcTimestampNormalizerUnixTestTrait;
+  use CommonCollectionFilterAccessTestPatternsTrait;
 
   /**
    * {@inheritdoc}
@@ -348,6 +351,48 @@ class NodeTest extends ResourceTestBase {
       'uid.type' => ['administer users'],
       'uid.roles' => ['administer permissions'],
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function testCollectionFilterAccess() {
+    $label_field_name = 'title';
+    $this->doTestCollectionFilterAccessForPublishableEntities($label_field_name, 'access content', 'bypass node access');
+
+    $collection_url = Url::fromRoute('jsonapi.entity_test--bar.collection');
+    $collection_filter_url = $collection_url->setOption('query', ["filter[spotlight.$label_field_name]" => $this->entity->label()]);
+    $request_options = [];
+    $request_options[RequestOptions::HEADERS]['Accept'] = 'application/vnd.api+json';
+    $request_options = NestedArray::mergeDeep($request_options, $this->getAuthenticationRequestOptions());
+
+    $this->revokePermissionsFromTestedRole(['bypass node access']);
+
+    // 0 results because the node is unpublished.
+    $response = $this->request('GET', $collection_filter_url, $request_options);
+    $doc = Json::decode((string) $response->getBody());
+    $this->assertCount(0, $doc['data']);
+
+    $this->grantPermissionsToTestedRole(['view own unpublished content']);
+
+    // 1 result because the current user is the owner of the unpublished node.
+    $response = $this->request('GET', $collection_filter_url, $request_options);
+    $doc = Json::decode((string) $response->getBody());
+    $this->assertCount(1, $doc['data']);
+
+    $this->entity->setOwnerId(0)->save();
+
+    // 0 results because the current user is no longer the owner.
+    $response = $this->request('GET', $collection_filter_url, $request_options);
+    $doc = Json::decode((string) $response->getBody());
+    $this->assertCount(0, $doc['data']);
+
+    // Assert bubbling of cacheability from query alter hook.
+    $this->assertTrue($this->container->get('module_installer')->install(['node_access_test'], TRUE), 'Installed modules.');
+    node_access_rebuild();
+    $this->rebuildAll();
+    $response = $this->request('GET', $collection_filter_url, $request_options);
+    $this->assertTrue(in_array('user.node_grants:view', explode(' ', $response->getHeader('X-Drupal-Cache-Contexts')[0]), TRUE));
   }
 
 }

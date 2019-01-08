@@ -475,11 +475,13 @@ abstract class ResourceTestBase extends BrowserTestBase {
    * @param \Drupal\Core\Session\AccountInterface $account
    *   An account for which cacheability should be computed (cacheability is
    *   dependent on access).
+   * @param bool $filtered
+   *   Whether the collection is filtered or not.
    *
    * @return \Drupal\Core\Cache\CacheableMetadata
    *   The expected cacheability for the given entity collection.
    */
-  protected static function getExpectedCollectionCacheability(array $collection, array $sparse_fieldset = NULL, AccountInterface $account) {
+  protected static function getExpectedCollectionCacheability(array $collection, array $sparse_fieldset = NULL, AccountInterface $account, $filtered = FALSE) {
     $cacheability = array_reduce($collection, function (CacheableMetadata $cacheability, EntityInterface $entity) use ($sparse_fieldset, $account) {
       $access_result = static::entityAccess($entity, 'view', $account);
       $cacheability->addCacheableDependency($access_result);
@@ -567,6 +569,20 @@ abstract class ResourceTestBase extends BrowserTestBase {
    */
   protected function grantPermissionsToTestedRole(array $permissions) {
     $this->grantPermissions(Role::load(RoleInterface::AUTHENTICATED_ID), $permissions);
+  }
+
+  /**
+   * Revokes permissions from the authenticated role.
+   *
+   * @param string[] $permissions
+   *   Permissions to revoke.
+   */
+  protected function revokePermissionsFromTestedRole(array $permissions) {
+    $role = Role::load(RoleInterface::AUTHENTICATED_ID);
+    foreach ($permissions as $permission) {
+      $role->revokePermission($permission);
+    }
+    $role->trustData()->save();
   }
 
   /**
@@ -889,30 +905,9 @@ abstract class ResourceTestBase extends BrowserTestBase {
 
     // DX: 403 when unauthorized.
     $response = $this->request('GET', $url, $request_options);
-    $expected_403_cacheability = $this->getExpectedUnauthorizedAccessCacheability();
     $reason = $this->getExpectedUnauthorizedAccessMessage('GET');
-    // @todo Remove $expected + assertResourceResponse() in favor of the commented line below once https://www.drupal.org/project/jsonapi/issues/2943176 lands.
-    $expected_document = [
-      'errors' => [
-        [
-          'title' => 'Forbidden',
-          'status' => 403,
-          'detail' => "The current user is not allowed to GET the selected resource." . (strlen($reason) ? ' ' . $reason : ''),
-          'links' => [
-            'info' => HttpExceptionNormalizer::getInfoUrl(403),
-          ],
-          'code' => 0,
-          'id' => '/' . static::$resourceTypeName . '/' . $this->entity->uuid(),
-          'source' => [
-            'pointer' => '/data',
-          ],
-        ],
-      ],
-    ];
-    $this->assertResourceResponse(403, $expected_document, $response);
-    /* $this->assertResourceErrorResponse(403, "The current user is not allowed to GET the selected resource." . (strlen($reason) ? ' ' . $reason : ''), $response, '/data'); */
-    // @todo Uncomment in https://www.drupal.org/project/jsonapi/issues/2929428.
-    /* $this->assertResourceResponse(403, $expected_document, $response, $expected_403_cacheability->getCacheTags(), $expected_403_cacheability->getCacheContexts(), FALSE, 'MISS'); */
+    $message = trim("The current user is not allowed to GET the selected resource. $reason");
+    $this->assertResourceErrorResponse(403, $message, $response, '/data');
     $this->assertArrayNotHasKey('Link', $response->getHeaders());
 
     $this->setUpAuthorization('GET');
@@ -1096,6 +1091,30 @@ abstract class ResourceTestBase extends BrowserTestBase {
     $dynamic_cache = $dynamic_cache === 'UNCACHEABLE' ? 'UNCACHEABLE' : 'HIT';
     $this->assertResourceResponse(200, $expected_document, $response, $expected_cacheability->getCacheTags(), $expected_cacheability->getCacheContexts(), FALSE, $dynamic_cache);
 
+    if ($this->entity instanceof FieldableEntityInterface) {
+      // 403 for filtering on an unauthorized field on the base resource type.
+      $unauthorized_filter_url = clone $collection_url;
+      $unauthorized_filter_url->setOption('query', [
+        'filter' => [
+          'related_author_id' => [
+            'operator' => '<>',
+            'path' => 'field_jsonapi_test_entity_ref.mail',
+            'value' => 'doesnt@matter.com',
+          ],
+        ],
+      ]);
+      $response = $this->request('GET', $unauthorized_filter_url, $request_options);
+      $expected_error_message = "The current user is not authorized to filter by the `field_jsonapi_test_entity_ref` field, given in the path `field_jsonapi_test_entity_ref`. The 'field_jsonapi_test_entity_ref view access' permission is required.";
+      $this->assertResourceErrorResponse(403, $expected_error_message, $response);
+
+      $this->grantPermissionsToTestedRole(['field_jsonapi_test_entity_ref view access']);
+
+      // 403 for filtering on an unauthorized field on a related resource type.
+      $response = $this->request('GET', $unauthorized_filter_url, $request_options);
+      $expected_error_message = "The current user is not authorized to filter by the `mail` field, given in the path `field_jsonapi_test_entity_ref.entity:user.mail`.";
+      $this->assertResourceErrorResponse(403, $expected_error_message, $response);
+    }
+
     // Remove an entity from the collection, then filter it out.
     $filtered_entity_collection = $entity_collection;
     $removed = array_shift($filtered_entity_collection);
@@ -1112,12 +1131,12 @@ abstract class ResourceTestBase extends BrowserTestBase {
       ],
     ];
     $filtered_collection_url->setOption('query', $entity_collection_filter);
-    $expected_response = $this->getExpectedCollectionResponse($filtered_entity_collection, $filtered_collection_url->toString(), $request_options);
+    $expected_response = $this->getExpectedCollectionResponse($filtered_entity_collection, $filtered_collection_url->toString(), $request_options, TRUE);
     $expected_cacheability = $expected_response->getCacheableMetadata();
     $expected_document = $expected_response->getResponseData();
     $response = $this->request('GET', $filtered_collection_url, $request_options);
     // MISS or UNCACHEABLE depends on the collection data. It must not be HIT.
-    $dynamic_cache = $expected_cacheability->getCacheMaxAge() === 0 ? 'UNCACHEABLE' : 'MISS';
+    $dynamic_cache = $expected_cacheability->getCacheMaxAge() === 0 || !empty(array_intersect(['user', 'session'], $expected_cacheability->getCacheContexts())) ? 'UNCACHEABLE' : 'MISS';
     $this->assertResourceResponse(200, $expected_document, $response, $expected_cacheability->getCacheTags(), $expected_cacheability->getCacheContexts(), FALSE, $dynamic_cache);
 
     // Filtered collection with includes.
@@ -1127,7 +1146,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
     $include = ['include' => implode(',', $relationship_field_names)];
     $filtered_collection_include_url = clone $collection_url;
     $filtered_collection_include_url->setOption('query', array_merge($entity_collection_filter, $include));
-    $expected_response = $this->getExpectedCollectionResponse($filtered_entity_collection, $filtered_collection_include_url->toString(), $request_options);
+    $expected_response = $this->getExpectedCollectionResponse($filtered_entity_collection, $filtered_collection_include_url->toString(), $request_options, TRUE);
     $related_responses = array_reduce($filtered_entity_collection, function ($related_responses, $entity) use ($relationship_field_names, $request_options) {
       return array_merge($related_responses, array_values($this->getExpectedRelatedResponses($relationship_field_names, $request_options, $entity)));
     }, []);
@@ -1142,7 +1161,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
     }
     $response = $this->request('GET', $filtered_collection_include_url, $request_options);
     // MISS or UNCACHEABLE depends on the included data. It must not be HIT.
-    $dynamic_cache = $expected_cacheability->getCacheMaxAge() === 0 ? 'UNCACHEABLE' : 'MISS';
+    $dynamic_cache = $expected_cacheability->getCacheMaxAge() === 0 || !empty(array_intersect(['user', 'session'], $expected_cacheability->getCacheContexts())) ? 'UNCACHEABLE' : 'MISS';
     $this->assertResourceResponse(200, $expected_document, $response, $expected_cacheability->getCacheTags(), $expected_cacheability->getCacheContexts(), FALSE, $dynamic_cache);
 
     // Sorted collection with includes.
@@ -1186,13 +1205,15 @@ abstract class ResourceTestBase extends BrowserTestBase {
    *   The self link for the collection response document.
    * @param array $request_options
    *   Request options to apply.
+   * @param bool $filtered
+   *   Whether the collection is filtered or not.
    *
    * @return \Drupal\jsonapi\ResourceResponse
    *   A ResourceResponse for the expected entity collection.
    *
    * @see \GuzzleHttp\ClientInterface::request()
    */
-  protected function getExpectedCollectionResponse(array $collection, $self_link, array $request_options) {
+  protected function getExpectedCollectionResponse(array $collection, $self_link, array $request_options, $filtered = FALSE) {
     $resource_identifiers = array_map([static::class, 'toResourceIdentifier'], $collection);
     $individual_responses = static::toResourceResponses($this->getResponses(static::getResourceLinks($resource_identifiers), $request_options));
     $merged_response = static::toCollectionResourceResponse($individual_responses, $self_link, TRUE);
@@ -1208,7 +1229,7 @@ abstract class ResourceTestBase extends BrowserTestBase {
       }
     }
 
-    $cacheability = static::getExpectedCollectionCacheability($collection, NULL, $this->account);
+    $cacheability = static::getExpectedCollectionCacheability($collection, NULL, $this->account, $filtered);
     $cacheability->setCacheMaxAge($merged_response->getCacheableMetadata()->getCacheMaxAge());
 
     $collection_response = ResourceResponse::create($merged_document);
@@ -1832,26 +1853,8 @@ abstract class ResourceTestBase extends BrowserTestBase {
     // DX: 403 when unauthorized.
     $response = $this->request('POST', $url, $request_options);
     $reason = $this->getExpectedUnauthorizedAccessMessage('POST');
-    // @todo Remove $expected + assertResourceResponse() in favor of the commented line below once https://www.drupal.org/project/jsonapi/issues/2943176 lands.
-    $expected_document = [
-      'errors' => [
-        [
-          'title' => 'Forbidden',
-          'status' => 403,
-          // @todo Why is the reason missing here?
-          'detail' => "The current user is not allowed to POST the selected resource." . (strlen($reason) ? ' ' . $reason : ''),
-          'links' => [
-            'info' => HttpExceptionNormalizer::getInfoUrl(403),
-          ],
-          'code' => 0,
-          'source' => [
-            'pointer' => '/data',
-          ],
-        ],
-      ],
-    ];
-    $this->assertResourceResponse(403, $expected_document, $response);
-    /* $this->assertResourceErrorResponse(403, "The current user is not allowed to POST the selected resource." . (strlen($reason) ? ' ' . $reason : ''), $response, '/data'); */
+    $message = trim("The current user is not allowed to POST the selected resource. $reason");
+    $this->assertResourceErrorResponse(403, $message, $response, '/data');
 
     $this->setUpAuthorization('POST');
 
@@ -1886,30 +1889,11 @@ abstract class ResourceTestBase extends BrowserTestBase {
 
     $request_options[RequestOptions::BODY] = $parseable_invalid_request_body_2;
 
-    // @todo Uncomment when https://www.drupal.org/project/jsonapi/issues/2934386 lands.
     // DX: 403 when invalid entity: UUID field too long.
     // @todo Fix this in https://www.drupal.org/node/2149851.
     if ($this->entity->getEntityType()->hasKey('uuid')) {
       $response = $this->request('POST', $url, $request_options);
-      // @todo Remove $expected + assertResourceResponse() in favor of the commented line below once https://www.drupal.org/project/jsonapi/issues/2943176 lands.
-      $expected_document = [
-        'errors' => [
-          [
-            'title' => 'Forbidden',
-            'status' => 403,
-            'detail' => "IDs should be properly generated and formatted UUIDs as described in RFC 4122.",
-            'links' => [
-              'info' => HttpExceptionNormalizer::getInfoUrl(403),
-            ],
-            'code' => 0,
-            'source' => [
-              'pointer' => '/data/id',
-            ],
-          ],
-        ],
-      ];
-      $this->assertResourceResponse(403, $expected_document, $response);
-      /* $this->assertResourceErrorResponse(403, "IDs should be properly generated and formatted UUIDs as described in RFC 4122.", $response, '/data/id'); */
+      $this->assertResourceErrorResponse(422, "IDs should be properly generated and formatted UUIDs as described in RFC 4122.", $response);
     }
 
     $request_options[RequestOptions::BODY] = $parseable_invalid_request_body_3;

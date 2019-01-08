@@ -7,6 +7,7 @@ use Drupal\block_content\Entity\BlockContentType;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Url;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
+use Drupal\Tests\jsonapi\Traits\CommonCollectionFilterAccessTestPatternsTrait;
 
 /**
  * JSON API integration test for the "BlockContent" content entity type.
@@ -16,6 +17,7 @@ use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
 class BlockContentTest extends ResourceTestBase {
 
   use BcTimestampNormalizerUnixTestTrait;
+  use CommonCollectionFilterAccessTestPatternsTrait;
 
   /**
    * {@inheritdoc}
@@ -97,7 +99,7 @@ class BlockContentTest extends ResourceTestBase {
    */
   protected function getExpectedDocument() {
     $self_url = Url::fromUri('base:/jsonapi/block_content/basic/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
-    return [
+    $expected_document = [
       'jsonapi' => [
         'meta' => [
           'links' => [
@@ -160,6 +162,10 @@ class BlockContentTest extends ResourceTestBase {
         ],
       ],
     ];
+    if (floatval(\Drupal::VERSION) >= 8.6) {
+      $expected_document['data']['attributes']['reusable'] = TRUE;
+    }
+    return $expected_document;
   }
 
   /**
@@ -260,6 +266,14 @@ class BlockContentTest extends ResourceTestBase {
    */
   public function testRelated() {
     $this->markTestSkipped('Remove this in https://www.drupal.org/project/jsonapi/issues/2940339');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function testCollectionFilterAccess() {
+    $this->entity->setPublished()->save();
+    $this->doTestCollectionFilterAccessForPublishableEntities('info', NULL, 'administer blocks');
   }
 
 }
