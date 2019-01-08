@@ -12,6 +12,7 @@ query oskaResultPageDetailView($path: String!) {
       }
       entity {
         ... on NodeOskaResultPage {
+          isFavorite
           nid
           entityLabel
           fieldResultPageIntroduction

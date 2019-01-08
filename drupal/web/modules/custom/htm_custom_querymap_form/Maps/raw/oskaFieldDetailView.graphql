@@ -19,6 +19,7 @@ query oskaFieldDetailView($path: String!) {
       }
       entity {
         ... on NodeOskaFieldPage {
+          isFavorite
           nid
           entityLabel
           fieldIntroduction
