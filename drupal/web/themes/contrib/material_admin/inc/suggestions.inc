@@ -22,6 +22,16 @@ function material_admin_theme_suggestions_input_alter(&$suggestions, array $vari
   if (isset($element['#attributes']['data-twig-suggestion'])) {
     $suggestions[] = 'input__' . $element['#type'] . '__' . $element['#attributes']['data-twig-suggestion'];
   }
+
+  if (isset($variables['element']['#type']) && $variables['element']['#type'] == 'submit') {
+    // Paragraph button
+    if (isset($variables['element']['#paragraphs_mode'])) {
+      $suggestions[] = 'input__submit__paragraphs_' . $variables['element']['#paragraphs_mode'];
+    }
+    if (isset($variables['element']['#name']) && $variables['element']['#name'] == 'button_add_modal') {
+      $suggestions[] = 'input__submit__button';
+    }
+  }
 }
 
 function material_admin_theme_suggestions_form_element_alter(array &$suggestions, array $variables, $hook) {

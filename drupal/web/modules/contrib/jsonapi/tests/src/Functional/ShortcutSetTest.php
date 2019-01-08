@@ -57,6 +57,19 @@ class ShortcutSetTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
+  protected function getExpectedUnauthorizedAccessMessage($method) {
+    switch ($method) {
+      case 'GET':
+        return floatval(\Drupal::VERSION >= 8.7) ? "The 'access shortcuts' permission is required." : '';
+
+      default:
+        return parent::getExpectedUnauthorizedAccessMessage($method);
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function createEntity() {
     $set = ShortcutSet::create([
       'id' => 'llama_set',
