@@ -5,7 +5,6 @@ import { Observable, Subscription } from '../../../../node_modules/rxjs';
 import { MatDialog, MatSnackBar, MatSnackBarConfig, MAT_SNACK_BAR_DATA } from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
-import { UserService } from '@app/_services/userService';
 import { RootScopeService } from '@app/_services';
 
 @Component({
@@ -15,64 +14,61 @@ import { RootScopeService } from '@app/_services';
 })
 
 export class FavouritesComponent implements OnInit, OnDestroy{
-    @Input() title: string;
-    @Input() id: string;
+  @Input() title: string;
+  @Input() id: string;
+  @Input() state: boolean;
 
-    private maxFavouriteItems = 10;
-    public existingFavouriteItems;
+  private maxFavouriteItems = 10;
+  public existingFavouriteItems;
 
-    public initializing: boolean;
-    public loading: boolean;
-    public displaySuccess: boolean;
-    public userLoggedOut: boolean;
-    public favouritesDropdown: boolean = false;
+  public loading: boolean;
+  public displaySuccess: boolean;
+  public favouritesDropdown: boolean = false;
 
-    public existingItem: any;
-    public existing: boolean;
+  public existingItem: any;
+  public existing: boolean;
 
-    public lang: string;
-    private redirectUrls = {
-      "et": "/töölaud/taotlused",
-      "en": "/dashboard/applications"
+  public lang: string;
+  private redirectUrls = {
+    "et": "/töölaud/taotlused",
+    "en": "/dashboard/applications"
+  }
+  public subscriptions: Subscription[] = [];
+
+  constructor(
+    public route: ActivatedRoute,
+    public router: Router,
+    public http: HttpService,
+    public dialog: MatDialog,
+    public translate: TranslateService,
+    public snackbar: MatSnackBar,
+    public rootScope: RootScopeService
+    ) {}
+
+  getFavouritesList():void{
+    this.loading= true;
+    this.lang = this.rootScope.get('lang');
+    let variables = {
+      language: this.lang.toUpperCase()
     }
-    public subscriptions: Subscription[] = [];
-
-    constructor(
-      public route: ActivatedRoute,
-      public router: Router,
-      public http: HttpService,
-      public dialog: MatDialog,
-      public translate: TranslateService,
-      public user: UserService,
-      public snackbar: MatSnackBar,
-      public rootScope: RootScopeService
-      ) {}
-
-    getFavouritesList():void{
-      this.loading= true;
-      this.lang = this.rootScope.get('lang');
-      let variables = {
-        language: this.lang.toUpperCase()
+    let subscription = this.http.get('/graphql?queryName=customFavorites&queryId=94f2a6ba49b930f284a00e4900e831724fd4bc91:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+      
+      
+      if(response['data']['CustomFavorites'] && response['data']['CustomFavorites']['favoritesNew'].length) {
+        this.existingFavouriteItems = response['data']['CustomFavorites']['favoritesNew'].filter(item => item.entity != null );
       }
-      let subscription = this.http.get('/graphql?queryName=customFavorites&queryId=94f2a6ba49b930f284a00e4900e831724fd4bc91:1&variables=' + JSON.stringify(variables)).subscribe(response => {
-        
-        if(this.initializing == true) this.initializing = false;
-        
-        if(response['data']['CustomFavorites'] && response['data']['CustomFavorites']['favoritesNew'].length) {
-          this.existingFavouriteItems = response['data']['CustomFavorites']['favoritesNew'].filter(item => item.entity != null );
-        }
-        else {
-          this.existingFavouriteItems = [];
-        }
-        
-        if(this.id != undefined) this.isFavouriteExisting( this.existingFavouriteItems);
-        
-        this.loading = false;
-        subscription.unsubscribe();
-      });
-    }
-    openDialog(): void {
-     this.dialog.open(Modal, {
+      else {
+        this.existingFavouriteItems = [];
+      }
+      
+      if(this.id != undefined) this.isFavouriteExisting( this.existingFavouriteItems);
+      
+      this.loading = false;
+      subscription.unsubscribe();
+    });
+  }
+  openDialog(): void {
+    this.dialog.open(Modal, {
       data: {
         title: this.translate.get('frontpage.favourites_limit_modal_title')['value'].toUpperCase(),
         content: this.translate.get('frontpage.favourites_limit_modal_content')['value'],
@@ -80,16 +76,15 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         linkStatus: true
       }
     });
-
-   }
+  }
    compileVariables(){
-
     let output = {
       language: this.lang.toUpperCase(),
       id: this.id
     };
     return output;
   }
+
   removeFavouriteItem(item){
     this.loading = true;
     let data = { 
@@ -110,7 +105,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       }
       this.loading = false;
       this.getFavouritesList();
-      
+      this.state = false;
       sub.unsubscribe();
     });
   }
@@ -126,7 +121,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       }
     });
   }
-  submitFavouriteItem(): void {   
+  submitFavouriteItem(): void {  
     this.loading = true;
     let data = { queryId: "e926a65b24a5ce10d72ba44c62e38f094a38aa26:1" }
     data['variables'] = this.compileVariables();
@@ -143,7 +138,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.getFavouritesList();
         this.openFavouriteSnackbar('add');
       } 
-   
+      this.state = true;
       sub.unsubscribe();
     });
   }
@@ -167,7 +162,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
     snackBarRef.afterDismissed().subscribe((obj) => {
       if (obj.dismissedByAction) {
-        this.router.navigateByUrl(this.lang + this.redirectUrls[this.lang]);
+        this.router.navigateByUrl(this.redirectUrls[this.lang]);
       }
     });
 
@@ -197,9 +192,6 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   }
   initiateComponent(){
     this.lang = this.rootScope.get("lang");
-    this.initializing = true;
-    
-    this.userLoggedOut = this.user.getData()['isExpired'];
     this.getFavouritesList();
   }
   destroyComponent(){
