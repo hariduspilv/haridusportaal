@@ -169,7 +169,7 @@ class GoogleChartValue extends TypedData {
                 foreach($labelsums as $label => $value){
                     $data_array[0][] = (string)$label;
                     foreach($value as $key => $val){
-                        $data_array[$key][] = $val;
+                        $data_array[$key][] = round($val);
                     }
                 }
                 $data_array = array_values($data_array);

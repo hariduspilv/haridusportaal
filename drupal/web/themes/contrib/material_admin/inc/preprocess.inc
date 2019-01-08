@@ -37,6 +37,12 @@ function material_admin_preprocess_page(&$variables) {
       }
     }
   }
+  // Check if dblog is on - if so, provide a variable in @notification-drawer.html.twig
+  // to conditionally provide a link to dblog overview.
+  $moduleHandler = \Drupal::service('module_handler');
+  if ($moduleHandler->moduleExists('dblog')){
+    $variables['dblog_link'] = TRUE;
+  }
 }
 
 /**
@@ -78,8 +84,8 @@ function material_admin_preprocess_menu_local_task(&$variables) {
  */
 function material_admin_preprocess_input(&$variables) {
   $element = $variables['element'];
-  if (isset($variables['attributes']['placeholder']) && empty((string) $variables['attributes']['placeholder'])) {
-    unset($variables['attributes']['placeholder']);
+  if (isset($variables['attributes']['placeholder']) && empty(implode($variables['attributes']['placeholder']))) {
+     unset($variables['attributes']['placeholder']);
   }
   $variables['children'] = $element['#children'];
 }
@@ -154,6 +160,13 @@ function material_admin_preprocess_views_ui_display_tab_setting(&$variables) {
         $generated_link = $link->getGeneratedLink();
         $generated_link = str_replace('views-ajax-link', 'views-ajax-link collection-item', $generated_link);
         $link->setGeneratedLink($generated_link);
+      }
+      if ($link instanceof \Drupal\Component\Render\MarkupInterface && $variables['settings_links'][0] == strip_tags($variables['settings_links'][0])) {
+        $variables['empty_markup_string'] = TRUE;
+      }
+      else if ($link instanceof \Drupal\Component\Render\MarkupInterface) {
+        $link = (string) $link;
+        $link = \Drupal\Core\Render\Markup::create(str_replace('views-ajax-link', 'views-ajax-link collection-item', $link));
       }
     }
   }

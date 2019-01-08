@@ -107,7 +107,7 @@ services:
     arguments: ['@router.no_access_checks', '@url_generator']
   jsonapi.field_resolver:
     class: Drupal\jsonapi\Context\FieldResolver
-    arguments: ['@entity_type.manager', '@entity_field.manager', '@entity_type.bundle.info', '@jsonapi.resource_type.repository']
+    arguments: ['@entity_type.manager', '@entity_field.manager', '@entity_type.bundle.info', '@jsonapi.resource_type.repository', '@module_handler']
   access_check.jsonapi.custom_query_parameter_names:
     class: Drupal\jsonapi\Access\CustomQueryParameterNamesAccessCheck
     tags:
@@ -154,6 +154,7 @@ services:
       - '@entity_field.manager'
       - '@plugin.manager.field.field_type'
       - '@jsonapi.link_manager'
+      - '@renderer'
 
   # Event subscribers.
   jsonapi.resource_response.subscriber:

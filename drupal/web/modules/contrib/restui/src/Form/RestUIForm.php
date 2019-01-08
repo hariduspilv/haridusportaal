@@ -13,6 +13,7 @@ use Drupal\rest\RestResourceConfigInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Drupal\rest\Plugin\Type\ResourcePluginManager;
+use Drupal\Core\Messenger\MessengerInterface;
 
 /**
  * Provides a REST resource configuration form.
@@ -55,6 +56,13 @@ class RestUIForm extends ConfigFormBase {
   protected $resourceConfigStorage;
 
   /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * Constructs a \Drupal\user\RestForm object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -69,14 +77,17 @@ class RestUIForm extends ConfigFormBase {
    *   The REST plugin manager.
    * @param \Drupal\Core\Entity\EntityStorageInterface $resource_config_storage
    *   The REST resource config storage.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandler $module_handler, AuthenticationCollectorInterface $authentication_collector, array $formats, ResourcePluginManager $resourcePluginManager, EntityStorageInterface $resource_config_storage) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandler $module_handler, AuthenticationCollectorInterface $authentication_collector, array $formats, ResourcePluginManager $resourcePluginManager, EntityStorageInterface $resource_config_storage, MessengerInterface $messenger) {
     parent::__construct($config_factory);
     $this->moduleHandler = $module_handler;
     $this->authenticationCollector = $authentication_collector;
     $this->formats = $formats;
     $this->resourcePluginManager = $resourcePluginManager;
     $this->resourceConfigStorage = $resource_config_storage;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -89,7 +100,8 @@ class RestUIForm extends ConfigFormBase {
       $container->get('authentication_collector'),
       $container->getParameter('serializer.formats'),
       $container->get('plugin.manager.rest'),
-      $container->get('entity_type.manager')->getStorage('rest_resource_config')
+      $container->get('entity_type.manager')->getStorage('rest_resource_config'),
+      $container->get('messenger')
     );
   }
 
@@ -356,17 +368,20 @@ class RestUIForm extends ConfigFormBase {
   protected function validateFormValuesForMethodGranularity(FormStateInterface $form_state) {
     // At least one method must be checked.
     $method_checked = FALSE;
-    foreach ($form_state->getValue(['wrapper', 'methods']) as $method => $values) {
-      if ($values[$method]) {
-        $method_checked = TRUE;
-        // At least one format and authentication provider must be selected.
-        $formats = array_filter($values['settings']['formats']);
-        if (empty($formats)) {
-          $form_state->setErrorByName('methods][' . $method . '][settings][formats', $this->t('At least one format must be selected for method @method.', ['@method' => $method]));
-        }
-        $auth = array_filter($values['settings']['auth']);
-        if (empty($auth)) {
-          $form_state->setErrorByName('methods][' . $method . '][settings][auth', $this->t('At least one authentication provider must be selected for method @method.', ['@method' => $method]));
+    $methods = $form_state->getValue(['wrapper', 'methods']);
+    if (!empty($methods)) {
+      foreach ($methods as $method => $values) {
+        if ($values[$method]) {
+          $method_checked = TRUE;
+          // At least one format and authentication provider must be selected.
+          $formats = array_filter($values['settings']['formats']);
+          if (empty($formats)) {
+            $form_state->setErrorByName('methods][' . $method . '][settings][formats', $this->t('At least one format must be selected for method @method.', ['@method' => $method]));
+          }
+          $auth = array_filter($values['settings']['auth']);
+          if (empty($auth)) {
+            $form_state->setErrorByName('methods][' . $method . '][settings][auth', $this->t('At least one authentication provider must be selected for method @method.', ['@method' => $method]));
+          }
         }
       }
     }
@@ -386,13 +401,13 @@ class RestUIForm extends ConfigFormBase {
   protected function validateFormValuesForResourceGranularity(FormStateInterface $form_state) {
     $settings = $form_state->getValue(['wrapper', 'settings']);
 
-    if (empty(array_filter($settings['methods']))) {
+    if (empty($settings) || empty(array_filter($settings['methods']))) {
       $form_state->setErrorByName('methods', $this->t('At least one HTTP method must be selected.'));
     }
-    if (empty(array_filter($settings['formats']))) {
+    if (empty($settings) || empty(array_filter($settings['formats']))) {
       $form_state->setErrorByName('formats', $this->t('At least one request format must be selected.'));
     }
-    if (empty(array_filter($settings['authentication']))) {
+    if (empty($settings) || empty(array_filter($settings['authentication']))) {
       $form_state->setErrorByName('authentication', $this->t('At least one authentication provider must be selected'));
     }
   }
@@ -418,7 +433,7 @@ class RestUIForm extends ConfigFormBase {
     $config->enable();
     $config->save();
 
-    drupal_set_message($this->t('The resource has been updated.'));
+    $this->messenger->addStatus($this->t('The resource has been updated.'));
     // Redirect back to the listing.
     $form_state->setRedirect('restui.list');
   }

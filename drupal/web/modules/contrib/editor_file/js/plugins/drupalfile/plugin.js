@@ -217,7 +217,6 @@
    *
    * @return {?HTMLElement}
    *   The selected file element, or null.
-   *
    */
   function getSelectedFile(editor) {
     var selection = editor.getSelection();

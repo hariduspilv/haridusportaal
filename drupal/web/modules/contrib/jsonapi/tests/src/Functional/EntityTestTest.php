@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\jsonapi\Functional;
 
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\entity_test\Entity\EntityTest;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
@@ -184,6 +185,17 @@ class EntityTestTest extends ResourceTestBase {
       'nested_empty_fieldset',
       'nested_fieldset_with_owner_fieldset',
     ]));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static function getExpectedCollectionCacheability(array $collection, array $sparse_fieldset = NULL, AccountInterface $account, $filtered = FALSE) {
+    $cacheability = parent::getExpectedCollectionCacheability($collection, $sparse_fieldset, $account, $filtered);
+    if ($filtered) {
+      $cacheability->addCacheTags(['state:jsonapi__entity_test_filter_access_blacklist']);
+    }
+    return $cacheability;
   }
 
 }

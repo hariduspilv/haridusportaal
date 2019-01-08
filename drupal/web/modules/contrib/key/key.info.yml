@@ -5,8 +5,8 @@ description: Provides the ability to manage site-wide keys.
 package: Security
 configure: entity.key.collection
 
-# Information added by Drupal.org packaging script on 2018-01-29
-version: '8.x-1.7'
+# Information added by Drupal.org packaging script on 2019-01-03
+version: '8.x-1.8'
 core: '8.x'
 project: 'key'
-datestamp: 1517255287
+datestamp: 1546543385
