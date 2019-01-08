@@ -3,6 +3,7 @@ query ($path: String!) {
         ... on EntityCanonicalUrl {
             entity {
                 ... on NodeStudyProgramme {
+                    isFavorite
                     nid
                     entityLabel
                     fieldSchoolWebsite
