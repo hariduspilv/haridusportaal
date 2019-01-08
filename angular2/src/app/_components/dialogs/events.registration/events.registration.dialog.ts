@@ -23,6 +23,11 @@ export class EventsRegistratonDialog {
   lang: any;
   loader: boolean = false;
   response: any;
+  public formErrors: {} = {
+    'firstName': false,
+    'lastName': false,
+    'email': false
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -64,37 +69,42 @@ export class EventsRegistratonDialog {
   }  
   
   save() {
-    this.loader = true;
-
-    let data = { 
-      queryId: "cfad8e08bfdf881d6c7c6533744dc5eb20d3d160:1",
-      variables: {
-        event_id: this.data.nid,
-        lang: this.data.lang.toUpperCase(),
-        firstName: this.form.controls.firstName ? this.form.controls.firstName.value : false,
-        lastName: this.form.controls.lastName ? this.form.controls.lastName.value : false,
-        companyName: this.form.controls.companyName ? this.form.controls.companyName.value : false,
-        telephone: this.form.controls.telephone ? this.form.controls.telephone.value : false,
-        email: this.form.controls.email ? this.form.controls.email.value : false,
-        marked: this.form.controls.marked ? this.form.controls.marked.value : false
+    if (!this.form.controls.firstName.valid) {this.formErrors['firstName'] = true;}
+    if (!this.form.controls.lastName.valid) {this.formErrors['lastName'] = true;}
+    if (!this.form.controls.email.valid) {this.formErrors['email'] = true;}
+    if (this.form.valid) {
+      this.loader = true;
+      
+      let data = { 
+        queryId: "cfad8e08bfdf881d6c7c6533744dc5eb20d3d160:1",
+        variables: {
+          event_id: this.data.nid,
+          lang: this.data.lang.toUpperCase(),
+          firstName: this.form.controls.firstName ? this.form.controls.firstName.value : false,
+          lastName: this.form.controls.lastName ? this.form.controls.lastName.value : false,
+          companyName: this.form.controls.companyName ? this.form.controls.companyName.value : false,
+          telephone: this.form.controls.telephone ? this.form.controls.telephone.value : false,
+          email: this.form.controls.email ? this.form.controls.email.value : false,
+          marked: this.form.controls.marked ? this.form.controls.marked.value : false
+        }
       }
+
+      const register = this.http.post('/graphql', data).subscribe((response) => {
+        let data = response['data'];
+
+        /*
+          ERROR MESSAGES
+          1 => "No more free spaces"
+          2 => "Something else"
+        */
+
+        this.response = data['createEventRegistration'];
+        this.step = 1;
+        this.loader = false;
+      }, (data) => {
+        this.loader = false;
+      });
     }
-
-    const register = this.http.post('/graphql', data).subscribe((response) => {
-      let data = response['data'];
-
-      /*
-        ERROR MESSAGES
-        1 => "No more free spaces"
-        2 => "Something else"
-      */
-
-      this.response = data['createEventRegistration'];
-      this.step = 1;
-      this.loader = false;
-    }, (data) => {
-      this.loader = false;
-    });
   }
   
   close() {
