@@ -16,6 +16,7 @@ query ($path: String!) {
             }
             entity {
                 ... on NodeNews {
+                    isFavorite
                     entityLabel
                     nid
                     created
