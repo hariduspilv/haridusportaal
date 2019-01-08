@@ -34,6 +34,14 @@ class Terms extends Bucket
         $this->order = $order;
     }
 
+    /**
+     * @param $value
+     */
+    public function setMinDocCount($value)
+    {
+        $this->addParameter('min_doc_count', $value);
+    }
+
     public function constructAggregation()
     {
         $aggregation = parent::constructAggregation();

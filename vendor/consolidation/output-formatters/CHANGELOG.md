@@ -1,5 +1,13 @@
 # Change Log
 
+### 3.4.0 - 19 October 2018
+
+- Add an UnstucturedInterface marker interface, and update the 'string' format to not accept data types that implement this interface unless they also implement StringTransformationInterface.
+
+### 3.3.2 - 18 October 2018
+
+- Add a 'null' output formatter that accepts all data types and never produces output
+
 ### 3.3.0 & 3.3.1 - 15 October 2018
 
 - Add UnstructuredListData and UnstructuredData to replace deprecated ListDataFromKeys

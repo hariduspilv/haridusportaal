@@ -2,17 +2,22 @@
 
 namespace Drupal\jsonapi\Context;
 
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Access\AccessResultReasonInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Entity\TypedData\EntityDataDefinitionInterface;
 use Drupal\Core\Field\TypedData\FieldItemDataDefinition;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\TypedData\ComplexDataDefinitionInterface;
 use Drupal\Core\TypedData\DataReferenceDefinitionInterface;
 use Drupal\Core\TypedData\DataReferenceTargetDefinition;
 use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -89,6 +94,13 @@ class FieldResolver {
   protected $resourceTypeRepository;
 
   /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * Creates a FieldResolver instance.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -99,12 +111,15 @@ class FieldResolver {
    *   The bundle info service.
    * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resource_type_repository
    *   The resource type repository.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info, ResourceTypeRepositoryInterface $resource_type_repository) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info, ResourceTypeRepositoryInterface $resource_type_repository, ModuleHandlerInterface $module_handler) {
     $this->entityTypeManager = $entity_type_manager;
     $this->fieldManager = $field_manager;
     $this->entityTypeBundleInfo = $entity_type_bundle_info;
     $this->resourceTypeRepository = $resource_type_repository;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -279,6 +294,24 @@ class FieldResolver {
       // We have a valid field, so add it to the validated trail of path parts.
       $reference_breadcrumbs[] = $field_name;
 
+      // Remove resource types which do not have a candidate definition.
+      $resource_types = array_filter($resource_types, function (ResourceType $resource_type) use ($candidate_definitions) {
+        return isset($candidate_definitions[$resource_type->getTypeName()]);
+      });
+
+      // Check access to execute a query for each field per resource type since
+      // field definitions are bundle-specific.
+      foreach ($resource_types as $resource_type) {
+        $field_access = $this->getFieldAccess($resource_type, $field_name);
+        if (!$field_access->isAllowed()) {
+          $message = sprintf('The current user is not authorized to filter by the `%s` field, given in the path `%s`.', $field_name, implode('.', $reference_breadcrumbs));
+          if ($field_access instanceof AccessResultReasonInterface && ($reason = $field_access->getReason()) && !empty($reason)) {
+            $message .= ' ' . $reason;
+          }
+          throw new AccessDeniedHttpException($message);
+        }
+      }
+
       // Get all of the referenceable resource types.
       $resource_types = $this->getReferenceableResourceTypes($candidate_definitions);
 
@@ -369,7 +402,7 @@ class FieldResolver {
       $bundle = $resource_type->getBundle();
       $definitions = $this->fieldManager->getFieldDefinitions($entity_type, $bundle);
       if (isset($definitions[$field_name])) {
-        $result[] = $definitions[$field_name]->getItemDefinition();
+        $result[$resource_type->getTypeName()] = $definitions[$field_name]->getItemDefinition();
       }
       return $result;
     }, []);
@@ -605,6 +638,33 @@ class FieldResolver {
    */
   protected static function getPathPartPropertyName($part) {
     return strpos($part, ':') !== FALSE ? explode(':', $part)[0] : $part;
+  }
+
+  /**
+   * Gets the field access result for the 'view' operation.
+   *
+   * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
+   *   The JSON:API resource type on which the field exists.
+   * @param string $internal_field_name
+   *   The field name for which access should be checked.
+   *
+   * @return \Drupal\Core\Access\AccessResultInterface
+   *   The 'view' access result.
+   */
+  protected function getFieldAccess(ResourceType $resource_type, $internal_field_name) {
+    $definitions = $this->fieldManager->getFieldDefinitions($resource_type->getEntityTypeId(), $resource_type->getBundle());
+    assert(isset($definitions[$internal_field_name]), 'The field name should have already been validated.');
+    $field_definition = $definitions[$internal_field_name];
+    $filter_access_results = $this->moduleHandler->invokeAll('jsonapi_entity_field_filter_access', [$field_definition, \Drupal::currentUser()]);
+    $filter_access_result = array_reduce($filter_access_results, function (AccessResultInterface $combined_result, AccessResultInterface $result) {
+      return $combined_result->orIf($result);
+    }, AccessResult::neutral());
+    if (!$filter_access_result->isNeutral()) {
+      return $filter_access_result;
+    }
+    $entity_access_control_handler = $this->entityTypeManager->getAccessControlHandler($resource_type->getEntityTypeId());
+    $field_access = $entity_access_control_handler->fieldAccess('view', $field_definition, NULL, NULL, TRUE);
+    return $filter_access_result->orIf($field_access);
   }
 
 }
