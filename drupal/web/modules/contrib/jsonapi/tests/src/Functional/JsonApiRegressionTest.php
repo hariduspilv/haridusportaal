@@ -279,4 +279,35 @@ class JsonApiRegressionTest extends JsonApiFunctionalTestBase {
     $this->assertSame(200, $response->getStatusCode(), (string) $response->getBody());
   }
 
+  /**
+   * Ensures GETting node collection + hook_node_grants() implementations works.
+   *
+   * @see https://www.drupal.org/project/jsonapi/issues/2984964
+   */
+  public function testGetNodeCollectionWithHookNodeGrantsImplementationsFromIssue2984964() {
+    // Set up data model.
+    $this->assertTrue($this->container->get('module_installer')->install(['node_access_test'], TRUE), 'Installed modules.');
+    node_access_rebuild();
+    $this->rebuildAll();
+
+    // Create data.
+    Node::create([
+      'title' => 'test article',
+      'type' => 'article',
+    ])->save();
+
+    // Test.
+    $user = $this->drupalCreateUser([
+      'access content',
+    ]);
+    $response = $this->request('GET', Url::fromUri('internal:/jsonapi/node/article'), [
+      RequestOptions::AUTH => [
+        $user->getUsername(),
+        $user->pass_raw,
+      ],
+    ]);
+    $this->assertSame(200, $response->getStatusCode());
+    $this->assertTrue(in_array('user.node_grants:view', explode(' ', $response->getHeader('X-Drupal-Cache-Contexts')[0]), TRUE));
+  }
+
 }

@@ -6,12 +6,14 @@ general:
   js:
     js/better_exposed_filters.js: {}
   dependencies:
+    - core/drupal
     - core/jquery
 auto_submit:
   version: 3.x
   js:
     js/auto_submit.js: {}
   dependencies:
+    - core/drupal
     - core/jquery.once
     - core/drupal.debounce
 select_all_none:
@@ -19,17 +21,20 @@ select_all_none:
   js:
     js/bef_select_all_none.js: {}
   dependencies:
+    - core/drupal
     - core/jquery
 sliders:
   version: 3.x
   js:
     js/bef_sliders.js: {}
   dependencies:
+    - core/drupal
     - core/jquery
 datepickers:
   version: 3.x
   js:
     js/bef_datepickers.js: {}
   dependencies:
+    - core/drupal
     - core/jquery
     - core/jquery.ui.slider
