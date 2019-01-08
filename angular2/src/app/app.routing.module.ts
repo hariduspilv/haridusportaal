@@ -65,14 +65,14 @@ const appRoutes: Routes = [
     ]
   },
 
-  { path: 'ametialad/võrdlus', component:OskaProfessionsCompareComponent},
-  { path: 'ametialad', component:OskaProfessionsComponent},
-  { path: 'valdkonnad', component:OskaSectorsComponent},
-  { path: 'ametialad/:id', component: OskaAreasComponent },
-  { path: 'valdkonnad/:id', component:OskaAreasComponent},
-  { path: 'oska-tulemused/:id', component:OskaResultsComponent},
+  { path: 'ametialad/võrdlus', component: OskaProfessionsCompareComponent},
+  { path: 'ametialad', component: OskaProfessionsComponent},
+  { path: 'valdkonnad', component: OskaSectorsComponent},
+  { path: 'ametialad/:id', component: OskaAreasComponent},
+  { path: 'valdkonnad/:id', component: OskaAreasComponent},
+  { path: 'oska-tulemused/:id', component: OskaResultsComponent},
 
-  { path: 'ülduuringud/:id', component:OskaAreasComponent},
+  { path: 'tööjõuprognoos/:id', component: OskaAreasComponent},
   
   { path: 'otsing', component: SearchComponent },
 
