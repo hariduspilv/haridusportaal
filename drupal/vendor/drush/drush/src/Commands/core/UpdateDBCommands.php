@@ -80,6 +80,8 @@ class UpdateDBCommands extends DrushCommands
      * @bootstrap full
      * @kernel update
      * @aliases entup,entity-updates
+     * @usage drush updatedb:status --entity-updates | grep entity-update
+     *   Use updatedb:status to detect pending updates.
      *
      */
     public function entityUpdates($options = ['cache-clear' => true])
@@ -92,7 +94,9 @@ class UpdateDBCommands extends DrushCommands
             throw new \Exception('Entity updates not run.');
         }
 
-        drush_drupal_cache_clear_all();
+        if ($options['cache-clear']) {
+            drush_drupal_cache_clear_all();
+        }
 
         $this->logger()->success(dt('Finished performing updates.'));
     }
@@ -191,9 +195,12 @@ class UpdateDBCommands extends DrushCommands
                 $this->logger()->notice("Update started: $function");
                 $ret['results']['query'] = $function($context['sandbox']);
                 $ret['results']['success'] = true;
-            } // @TODO We may want to do different error handling for different exception
-            // types, but for now we'll just print the message.
-            catch (\Exception $e) {
+            } catch (\Throwable $e) {
+                // PHP 7 introduces Throwable, which covers both Error and Exception throwables.
+                $ret['#abort'] = ['success' => false, 'query' => $e->getMessage()];
+                $this->logger()->error($e->getMessage());
+            } catch (\Exception $e) {
+                // In order to be compatible with PHP 5 we also catch regular Exceptions.
                 $ret['#abort'] = ['success' => false, 'query' => $e->getMessage()];
                 $this->logger()->error($e->getMessage());
             }

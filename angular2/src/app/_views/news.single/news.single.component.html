@@ -20,7 +20,7 @@
 
           <div class="row title">
             <div class="mininav col-12 flex text-right">
-              <favourites *ngIf="!userLoggedOut" [id]="content.nid" [title]="content.entityLabel"></favourites>
+              <favourites *ngIf="!userLoggedOut" [state]="content.isFavorite" [id]="content.nid" [title]="content.entityLabel"></favourites>
               <share [title]="content.entityLabel"></share>
             </div><!--/col-10-->
           </div><!--/row-->

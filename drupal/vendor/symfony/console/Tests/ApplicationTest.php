@@ -776,6 +776,20 @@ class ApplicationTest extends TestCase
         $this->assertStringMatchesFormatFile(self::$fixturesPath.'/application_renderexception_linebreaks.txt', $tester->getDisplay(true), '->renderException() keep multiple line breaks');
     }
 
+    public function testRenderExceptionStackTraceContainsRootException()
+    {
+        $application = new Application();
+        $application->setAutoExit(false);
+        $application->register('foo')->setCode(function () {
+            throw new \Exception('Verbose exception');
+        });
+
+        $tester = new ApplicationTester($application);
+        $tester->run(array('command' => 'foo'), array('decorated' => false, 'verbosity' => Output::VERBOSITY_VERBOSE));
+
+        $this->assertContains(sprintf('() at %s:', __FILE__), $tester->getDisplay());
+    }
+
     public function testRun()
     {
         $application = new Application();
@@ -905,7 +919,7 @@ class ApplicationTest extends TestCase
         $application->setAutoExit(false);
         $application->expects($this->once())
             ->method('doRun')
-            ->will($this->throwException($exception));
+            ->willThrowException($exception);
 
         $exitCode = $application->run(new ArrayInput(array()), new NullOutput());
 
@@ -944,7 +958,7 @@ class ApplicationTest extends TestCase
         $application->setAutoExit(false);
         $application->expects($this->once())
             ->method('doRun')
-            ->will($this->throwException($exception));
+            ->willThrowException($exception);
 
         $exitCode = $application->run(new ArrayInput(array()), new NullOutput());
 

@@ -106,7 +106,7 @@
           </div>
         </div>
         <div class="inline__items sm-hide">
-          <ng-container *ngIf="item.fieldSidebar">
+          <ng-container *ngIf="item.fieldSidebar && item.fieldSidebar.entity && item.fieldSidebar.entity.fieldOskaField && item.fieldSidebar.entity.fieldOskaField[0] && item.fieldSidebar.entity.fieldOskaField[0].entity">
             <ng-container *ngFor="let elem of item.fieldSidebar.entity.fieldOskaField; let ind = index; let last = last;">
               <ng-container *ngIf="ind < 3">
                 <div class="item item--inline">

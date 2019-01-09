@@ -60,8 +60,8 @@ regions:
 regions_hidden:
   - sidebar_first
 
-# Information added by Drupal.org packaging script on 2018-03-10
-version: '8.x-1.0-alpha6'
+# Information added by Drupal.org packaging script on 2018-11-28
+version: '8.x-1.0-alpha7'
 core: '8.x'
 project: 'material_admin'
-datestamp: 1520698992
+datestamp: 1543440189

@@ -13,7 +13,7 @@
             <h1 *ngIf="data.entityLabel">{{ data.entityLabel }}</h1>
           </div><!--/col-8-->
           <div class="mininav col-12 flex text-right">
-            <favourites *ngIf="!userLoggedOut" [id]="data.nid" [title]="data.entityLabel"></favourites>
+            <favourites *ngIf="!userLoggedOut" [state]="data.isFavorite" [id]="data.nid" [title]="data.entityLabel"></favourites>
             <share [title]="data.entityLabel"></share>
             <compare [id]="data.nid" localStorageKey="studyProgramme.compare"></compare>
           </div>

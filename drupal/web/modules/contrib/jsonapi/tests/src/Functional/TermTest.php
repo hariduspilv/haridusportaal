@@ -11,6 +11,7 @@ use Drupal\jsonapi\ResourceResponse;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
+use Drupal\Tests\jsonapi\Traits\CommonCollectionFilterAccessTestPatternsTrait;
 use GuzzleHttp\RequestOptions;
 
 /**
@@ -21,6 +22,7 @@ use GuzzleHttp\RequestOptions;
 class TermTest extends ResourceTestBase {
 
   use BcTimestampNormalizerUnixTestTrait;
+  use CommonCollectionFilterAccessTestPatternsTrait;
 
   /**
    * {@inheritdoc}
@@ -225,7 +227,7 @@ class TermTest extends ResourceTestBase {
       ];
     }
 
-    $document = [
+    $expected_document = [
       'jsonapi' => [
         'meta' => [
           'links' => [
@@ -279,11 +281,12 @@ class TermTest extends ResourceTestBase {
         ],
       ],
     ];
-    // @todo Remove this when JSON API requires Drupal 8.5 or newer.
-    if (floatval(\Drupal::VERSION) < 8.5) {
-      unset($document['data']['attributes']['description']['processed']);
+
+    if (floatval(\Drupal::VERSION) >= 8.6) {
+      $expected_document['data']['attributes']['status'] = TRUE;
     }
-    return $document;
+
+    return $expected_document;
   }
 
   /**
@@ -358,13 +361,11 @@ class TermTest extends ResourceTestBase {
   protected function getExpectedUnauthorizedAccessMessage($method) {
     switch ($method) {
       case 'GET':
-        return "The 'access content' permission is required.";
+        return floatval(\Drupal::VERSION) >= 8.6
+          ? "The 'access content' permission is required and the taxonomy term must be published."
+          : "The 'access content' permission is required.";
 
       case 'POST':
-        // @todo Remove this when JSON API requires Drupal 8.5 or newer.
-        if (floatval(\Drupal::VERSION) < 8.5) {
-          return "The 'administer taxonomy' permission is required.";
-        }
         return "The following permissions are required: 'create terms in camelids' OR 'administer taxonomy'.";
 
       case 'PATCH':
@@ -499,6 +500,18 @@ class TermTest extends ResourceTestBase {
         [3, 2],
       ],
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function testCollectionFilterAccess() {
+    if (floatval(\Drupal::VERSION) >= 8.6) {
+      $this->doTestCollectionFilterAccessForPublishableEntities('name', 'access content', 'administer taxonomy');
+    }
+    else {
+      $this->doTestCollectionFilterAccessBasedOnPermissions('name', 'access content');
+    }
   }
 
 }

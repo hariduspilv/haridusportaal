@@ -5,6 +5,7 @@ namespace Drupal\jsonapi\Controller;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\jsonapi\LinkManager\LinkManager;
 use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
@@ -65,6 +66,13 @@ class RequestHandler {
   protected $linkManager;
 
   /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * Creates a new RequestHandler instance.
    *
    * @param \Symfony\Component\Serializer\SerializerInterface $serializer
@@ -79,14 +87,17 @@ class RequestHandler {
    *   The field type manager.
    * @param \Drupal\jsonapi\LinkManager\LinkManager $link_manager
    *   The JSON API link manager.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer.
    */
-  public function __construct(SerializerInterface $serializer, ResourceTypeRepositoryInterface $resource_type_repository, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, FieldTypePluginManagerInterface $field_type_manager, LinkManager $link_manager) {
+  public function __construct(SerializerInterface $serializer, ResourceTypeRepositoryInterface $resource_type_repository, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, FieldTypePluginManagerInterface $field_type_manager, LinkManager $link_manager, RendererInterface $renderer) {
     $this->serializer = $serializer;
     $this->resourceTypeRepository = $resource_type_repository;
     $this->entityTypeManager = $entity_type_manager;
     $this->fieldManager = $field_manager;
     $this->fieldTypeManager = $field_type_manager;
     $this->linkManager = $link_manager;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -239,7 +250,8 @@ class RequestHandler {
       $this->fieldManager,
       $this->fieldTypeManager,
       $this->linkManager,
-      $this->resourceTypeRepository
+      $this->resourceTypeRepository,
+      $this->renderer
     );
     return $resource;
   }
