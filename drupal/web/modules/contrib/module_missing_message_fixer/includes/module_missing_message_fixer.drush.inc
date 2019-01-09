@@ -1,52 +1,21 @@
 <?php
+
 /**
  * @file
  * Provide Drush integration for release building and dependency building.
  */
 
-use Drupal\module_missing_message_fixer\ModuleMissingMessageFixer;
-
-/**
- * Helper function to check for modules to fix.
- *
- * @param bool $return
- *   If we are to return to rows or just print the list.
- *
- * @return array[]|null
- *   An array of table rows, or NULL if $return === FALSE.
- */
-function module_missing_message_fixer_check_modules($return = FALSE) {
-
-  if ($return) {
-    return ModuleMissingMessageFixer::getTableRows();
-  }
-
-  $rows = [];
-
-  // Use a key for the head row that is not a valid module name.
-  $rows['*HEAD*'] = ModuleMissingMessageFixer::getTableHeader();
-  $rows += ModuleMissingMessageFixer::getTableRows();
-
-  // Print Table here instead of in the hook_command.
-  $output = count($rows) > 1 ? drush_format_table($rows, TRUE) : 'No Missing Modules Found!!!';
-  drush_print($output);
-
-  return NULL;
-}
-
 /**
  * Implements hook_drush_help().
- *
- * @param string $section
- *
- * @return null|string
  */
 function module_missing_message_fixer_drush_help($section) {
   switch ($section) {
     case 'module-missing-message-fixer-list':
       return dt("Returns a list of modules that have missing messages.");
+
     case 'module-missing-message-fixer-fix':
       return dt("Fixes a specified module that has missing messages. (optional --all)");
+
     default:
       return NULL;
   }
@@ -57,26 +26,26 @@ function module_missing_message_fixer_drush_help($section) {
  */
 function module_missing_message_fixer_drush_command() {
   $items = [];
-  $items['module-missing-message-fixer-list'] = array(
+  $items['module-missing-message-fixer-list'] = [
     'description' => dt('Returns a list of modules that have missing messages.'),
-    'aliases' => array(
+    'aliases' => [
       'mmmfl',
-    ),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL
-  );
-  $items['module-missing-message-fixer-fix'] = array(
+    ],
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+  ];
+  $items['module-missing-message-fixer-fix'] = [
     'description' => dt('Fixes modules that have missing messages.'),
-    'aliases' => array(
+    'aliases' => [
       'mmmff',
-    ),
-    'arguments' => array(
+    ],
+    'arguments' => [
       'name' => 'The name of the module to fix.',
-    ),
-    'options' => array(
+    ],
+    'options' => [
       'all' => dt('Fixes all module missing messages'),
-    ),
-    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL
-  );
+    ],
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
+  ];
   return $items;
 }
 
@@ -86,18 +55,20 @@ function module_missing_message_fixer_drush_command() {
  * Displays a list of modules that have missing messages.
  */
 function drush_module_missing_message_fixer_list() {
-  module_missing_message_fixer_check_modules();
+  \Drupal::service('module_missing_message_fixer.fixer')->checkModules();
 }
 
 /**
  * Drush command.
  *
  * @param string $name
- *        The name of the module to fix messages for.
+ *   The name of the module to fix messages for.
  */
 function drush_module_missing_message_fixer_fix($name = NULL) {
   $modules = [];
-  $rows = module_missing_message_fixer_check_modules(TRUE);
+  $rows = \Drupal::service('module_missing_message_fixer.fixer')
+    ->checkModules(TRUE);
+
   if (drush_get_option('all') !== NULL) {
     if (!empty($rows)) {
       foreach ($rows as $row) {

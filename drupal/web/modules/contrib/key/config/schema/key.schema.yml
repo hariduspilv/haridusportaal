@@ -74,6 +74,20 @@ key.provider.file:
       type: boolean
       label: 'Strip trailing line breaks'
 
+key.provider.env:
+  type: mapping
+  label: 'Environment key provider settings'
+  mapping:
+    env_variable:
+      type: string
+      label: 'Environment variable'
+    base64_encoded:
+      type: boolean
+      label: 'Base64-encoded'
+    strip_line_breaks:
+      type: boolean
+      label: 'Strip trailing line breaks'
+
 key.input.none:
   type: sequence
 

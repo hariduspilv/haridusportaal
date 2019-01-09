@@ -5,11 +5,11 @@ package: Web services
 # core: 8.x
 configure: restui.list
 dependencies:
-  - rest
-  - system (>=8.2.0)
+  - drupal:rest
+  - drupal:system (>=8.2.0)
 
-# Information added by Drupal.org packaging script on 2017-06-08
-version: '8.x-1.15'
+# Information added by Drupal.org packaging script on 2018-11-04
+version: '8.x-1.16'
 core: '8.x'
 project: 'restui'
-datestamp: 1496919844
+datestamp: 1541330286

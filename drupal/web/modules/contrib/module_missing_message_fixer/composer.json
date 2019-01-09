@@ -1,0 +1,28 @@
+{
+  "name": "drupal/module_missing_message_fixer",
+  "description": "This module displays a list of missing modules that appear on your site and lets you fix the entries",
+  "type": "drupal-module",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/module_missing_message_fixer",
+  "authors": [
+    {
+      "name": "See contributors",
+      "homepage": "https://www.drupal.org/node/2951176/committers",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/module_missing_message_fixer",
+    "source": "http://cgit.drupalcode.org/module_missing_message_fixer"
+  },
+  "extra": {
+    "drush": {
+      "services": {
+        "drush.services.yml": "^9"
+      }
+    }
+  }
+}

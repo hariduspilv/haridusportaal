@@ -300,17 +300,8 @@ class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginColl
    */
   public function preSave(EntityStorageInterface $storage) {
     // If the key provider supports setting a key value.
-    if ($this->getKeyProvider() instanceof KeyProviderSettableValueInterface) {
-      // If the provider requires a key value, but it is either not set
-      // or empty, throw an exception.
-      if ($this->getKeyProvider()->getPluginDefinition()['key_value']['required'] && (is_null($this->keyValue) || $this->keyValue === '')) {
-        throw new KeyValueNotSetException('The selected key provider requires a key value.');
-      }
-
-      // If a key value was defined, set the key value using the key provider.
-      if (isset($this->keyValue)) {
-        $this->getKeyProvider()->setKeyValue($this, $this->keyValue);
-      }
+    if ($this->getKeyProvider() instanceof KeyProviderSettableValueInterface && isset($this->keyValue)) {
+      $this->getKeyProvider()->setKeyValue($this, $this->keyValue);
     }
     // If the key provider does not support setting a value.
     else {
