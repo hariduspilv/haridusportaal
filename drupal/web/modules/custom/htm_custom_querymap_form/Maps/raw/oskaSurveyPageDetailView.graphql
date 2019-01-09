@@ -19,6 +19,7 @@ query oskaSurveyPageDetailView($path: String!) {
       }
       entity {
         ... on NodeOskaSurveyPage {
+          isFavorite
           nid
           entityLabel
           fieldSurveyPageIntroduction
