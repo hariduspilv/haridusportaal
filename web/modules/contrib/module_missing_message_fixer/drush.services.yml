@@ -1,0 +1,11 @@
+services:
+  module_missing_message_fixer.fix:
+    class: \Drupal\module_missing_message_fixer\Commands\MmmfFixCommand
+    arguments: ['@module_missing_message_fixer.fixer', '@database', '@config.factory']
+    tags:
+      - { name: drush.command }
+  module_missing_message_fixer.list:
+    class: \Drupal\module_missing_message_fixer\Commands\MmmfListCommand
+    arguments: ['@module_missing_message_fixer.fixer']
+    tags:
+      - { name: drush.command }

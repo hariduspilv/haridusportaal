@@ -45,7 +45,7 @@ class ConfigKeyProvider extends KeyProviderBase implements KeyPluginFormInterfac
         '#type' => 'checkbox',
         '#title' => $this->t('Base64-encoded'),
         '#description' => $this->t('Checking this will store the key with Base64 encoding.'),
-        '#default_value' => $this->getConfiguration()['base64_encoded'],
+        '#default_value' => isset($this->getConfiguration()['base64_encoded']) ? $this->getConfiguration()['base64_encoded'] : $this->defaultConfiguration()['base64_encoded'],
       ];
     }
 

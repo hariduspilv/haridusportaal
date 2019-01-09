@@ -8,6 +8,7 @@ use Drupal\file\Entity\File;
 use Drupal\media\Entity\Media;
 use Drupal\media\Entity\MediaType;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
+use Drupal\Tests\jsonapi\Traits\CommonCollectionFilterAccessTestPatternsTrait;
 use Drupal\user\Entity\User;
 
 /**
@@ -18,6 +19,7 @@ use Drupal\user\Entity\User;
 class MediaTest extends ResourceTestBase {
 
   use BcTimestampNormalizerUnixTestTrait;
+  use CommonCollectionFilterAccessTestPatternsTrait;
 
   /**
    * {@inheritdoc}
@@ -151,7 +153,7 @@ class MediaTest extends ResourceTestBase {
     $thumbnail = File::load(3);
     $author = User::load($this->entity->getOwnerId());
     $self_url = Url::fromUri('base:/jsonapi/media/camelids/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
-    $normalization = [
+    $data = [
       'jsonapi' => [
         'meta' => [
           'links' => [
@@ -209,10 +211,10 @@ class MediaTest extends ResourceTestBase {
             'data' => [
               'id' => $thumbnail->uuid(),
               'meta' => [
-                'alt' => 'Thumbnail',
+                'alt' => '',
                 'width' => 180,
                 'height' => 180,
-                'title' => 'Llama',
+                'title' => NULL,
               ],
               'type' => 'file--file',
             ],
@@ -254,15 +256,12 @@ class MediaTest extends ResourceTestBase {
         ],
       ],
     ];
-    // @todo Remove this modification when JSON API requires Drupal 8.5 or newer, and do an early return above instead.
-    if (floatval(\Drupal::VERSION) < 8.5) {
-      unset($normalization['data']['attributes']['revision_default']);
-      $normalization['data']['relationships']['field_media_file_1'] = $normalization['data']['relationships']['field_media_file'];
-      $normalization['data']['relationships']['field_media_file_1']['links']['related'] .= '_1';
-      $normalization['data']['relationships']['field_media_file_1']['links']['self'] .= '_1';
-      unset($normalization['data']['relationships']['field_media_file']);
+    // @todo Make this unconditional when JSON:API requires Drupal 8.6 or newer.
+    if (floatval(\Drupal::VERSION) < 8.6) {
+      $data['data']['relationships']['thumbnail']['data']['meta']['alt'] = 'Thumbnail';
+      $data['data']['relationships']['thumbnail']['data']['meta']['title'] = 'Llama';
     }
-    return $normalization;
+    return $data;
   }
 
   /**
@@ -350,11 +349,16 @@ class MediaTest extends ResourceTestBase {
     switch ($relationship_field_name) {
       case 'thumbnail':
         $data['meta'] = [
-          'alt' => 'Thumbnail',
+          'alt' => '',
           'width' => 180,
           'height' => 180,
-          'title' => 'Llama',
+          'title' => NULL,
         ];
+        // @todo Make this unconditional when JSON:API requires Drupal 8.6 or newer.
+        if (floatval(\Drupal::VERSION) < 8.6) {
+          $data['meta']['alt'] = 'Thumbnail';
+          $data['meta']['title'] = 'Llama';
+        }
         return $data;
 
       case 'field_media_file':
@@ -377,6 +381,13 @@ class MediaTest extends ResourceTestBase {
   protected function doTestRelationshipPost(array $request_options) {
     $this->grantPermissionsToTestedRole(['access content']);
     parent::doTestRelationshipPost($request_options);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function testCollectionFilterAccess() {
+    $this->doTestCollectionFilterAccessForPublishableEntities('name', 'view media', 'administer media');
   }
 
 }

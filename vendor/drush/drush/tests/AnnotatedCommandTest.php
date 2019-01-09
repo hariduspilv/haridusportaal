@@ -37,20 +37,35 @@ class AnnotatedCommandCase extends CommandUnishTestCase
             'directory' => self::getSandbox(),
         ];
 
-        $original = getenv('SHELL_INTERACTIVE');
-        $this->setEnv(['SHELL_INTERACTIVE' => 1]);
-        $this->drush('generate', ['foo-example'], $options);
-        $this->setEnv(['SHELL_INTERACTIVE' => $original]);
+        $this->drush('generate', ['foo-example'], $options, null, null, self::EXIT_SUCCESS, null, ['SHELL_INTERACTIVE' => 1]);
 
-        $target = Path::join($this->getSandbox(), 'foo.php');
+        $target = Path::join($options['directory'], 'foo.php');
         $actual = trim(file_get_contents($target));
         $this->assertEquals('Foo.', $actual);
         unlink($target);
     }
 
+    public function siteWideCommands()
+    {
+        $this->drush('sut:simple');
+        $output = $this->getErrorOutput();
+        $this->assertContains("This is an example site-wide command committed to the repository in the SUT inside of the 'drush/Commands' directory.", $output);
+
+        $this->drush('sut:nested');
+        $output = $this->getErrorOutput();
+        $this->assertContains("This is an example site-wide command committed to the repository in the SUT nested inside a custom/example-site-wide-command directory.", $output);
+
+        $this->drush('sut:nested-src');
+        $output = $this->getErrorOutput();
+        $this->assertContains("This is an example site-wide command committed to the repository in the SUT nested inside a custom/example-site-wide-command/src directory.", $output);
+    }
+
     public function testExecute()
     {
         $this->setUpDrupal(1, true);
+
+        // Test the site-wide commands first
+        $this->siteWideCommands();
 
         // Copy the 'woot' module over to the Drupal site we just set up.
         $this->setupModulesForTests(['woot'], Path::join(__DIR__, 'resources/modules/d8'));
@@ -66,15 +81,13 @@ class AnnotatedCommandCase extends CommandUnishTestCase
             'name' => 'foo',
             'machine_name' => 'bar',
         ]);
-        $optionsExample['directory'] = self::getSandbox();
+        $optionsExample['directory'] = self::webrootSlashDrush();
         $optionsExample['yes'] = null;
-        $original = getenv('SHELL_INTERACTIVE');
-        $this->setEnv(['SHELL_INTERACTIVE' => 1]);
-        $this->drush('generate', ['woot-example'], $optionsExample);
-        $this->setEnv(['SHELL_INTERACTIVE' => $original]);
-        $target = Path::join(self::getSandbox(), '/src/Commands/ExampleBarCommands.php');
+        $this->drush('generate', ['woot-example'], $optionsExample, null, null, self::EXIT_SUCCESS, null, ['SHELL_INTERACTIVE' => 1]);
+        $target = Path::join($optionsExample['directory'], 'Commands/ExampleBarCommands.php');
         $actual = trim(file_get_contents($target));
         $this->assertEquals('ExampleBarCommands says Woot mightily.', $actual);
+        unlink($target);
 
         // drush woot
         $this->drush('woot');

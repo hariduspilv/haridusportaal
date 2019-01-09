@@ -13,6 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @GraphQLField(
+ *   secure = true,
  *   id = "entity_metatags",
  *   name = "entityMetatags",
  *   type = "[Metatag]",

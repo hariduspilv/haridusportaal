@@ -14,7 +14,6 @@
 # http://www.robotstxt.org/robotstxt.html
 
 User-agent: *
-Disallow: /
 # CSS, JS, Images
 Allow: /core/*.css$
 Allow: /core/*.css?

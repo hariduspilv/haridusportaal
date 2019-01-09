@@ -133,6 +133,9 @@ class KeyRepository implements KeyRepositoryInterface {
         case 'type_group':
           $keys = array_intersect_key($this->getKeysByTypeGroup($filter), $keys);
           break;
+        case 'storage_method':
+          $keys = array_intersect_key($this->getKeysByStorageMethod($filter), $keys);
+          break;
       }
     }
 
