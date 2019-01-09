@@ -3,14 +3,14 @@ type: module
 description: 'Allow users to link uploaded files in the text Editor.'
 # core: 8.x
 dependencies:
-  - ckeditor
-  - editor
-  - filter
-  - file
+  - drupal:ckeditor
+  - drupal:editor
+  - drupal:filter
+  - drupal:file
 configure: filter.admin_overview
 
-# Information added by Drupal.org packaging script on 2016-11-01
-version: '8.x-1.2'
+# Information added by Drupal.org packaging script on 2018-11-19
+version: '8.x-1.3'
 core: '8.x'
 project: 'editor_file'
-datestamp: 1478039640
+datestamp: 1542624483

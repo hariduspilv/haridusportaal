@@ -559,7 +559,7 @@ class ContainerBuilderTest extends TestCase
         $config->setDefinition('baz', new Definition('BazClass'));
         $config->setAlias('alias_for_foo', 'foo');
         $container->merge($config);
-        $this->assertEquals(array('service_container', 'foo', 'bar', 'baz'), array_keys($container->getDefinitions()), '->merge() merges definitions already defined ones');
+        $this->assertEquals(array('foo', 'bar', 'service_container', 'baz'), array_keys($container->getDefinitions()), '->merge() merges definitions already defined ones');
 
         $aliases = $container->getAliases();
         $this->assertArrayHasKey('alias_for_foo', $aliases);
@@ -1388,6 +1388,8 @@ class ContainerBuilderTest extends TestCase
 
         $foo6 = $container->get('foo6');
         $this->assertEquals((object) array('bar6' => (object) array()), $foo6);
+
+        $this->assertInstanceOf(\stdClass::class, $container->get('root'));
     }
 
     public function provideAlmostCircular()
