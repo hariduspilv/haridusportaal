@@ -1,5 +1,9 @@
 jobs:
   build:
+    branches:
+      only:
+        - master
+        - /^greenkeeper.*$/
     docker:
     - image: alpine:3.7
     steps:
