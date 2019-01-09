@@ -102,10 +102,10 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.existingItem = false;
         this.existing = false;
         this.openFavouriteSnackbar('remove');
+        this.state = false;
       }
       this.loading = false;
       this.getFavouritesList();
-      this.state = false;
       sub.unsubscribe();
     });
   }
@@ -132,13 +132,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.openDialog();
         if(this.snackbar) this.snackbar.dismiss();
       } else if(response['data']['createFavoriteItem']){
-
+        this.state = true;
         this.existing = true;
-        
         this.getFavouritesList();
         this.openFavouriteSnackbar('add');
       } 
-      this.state = true;
       sub.unsubscribe();
     });
   }
