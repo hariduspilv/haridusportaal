@@ -2,10 +2,6 @@ jobs:
   build:
     docker:
     - image: alpine:3.7
-    branches:
-      only:
-        - master
-        - /^greenkeeper.*$/
     steps:
     - run:
         name: Install ssh
@@ -38,4 +34,8 @@ workflows:
         filters:
           tags:
             only: /.*/
+          branches:
+            only:
+              - master
+              - /^greenkeeper.*$/
 version: 2
