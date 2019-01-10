@@ -111,7 +111,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     try { 
       element.scrollIntoView(true); 
     } catch(er) { 
-      console.log('here');
+
       let T= 0; 
       let reference = element; 
       while(reference.parentNode) { 

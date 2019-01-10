@@ -18,13 +18,11 @@ export class CookieService {
     let enabled = false;
     if (window['doNotTrack'] || navigator['doNotTrack'] || navigator['msDoNotTrack'] || 'msTrackingProtectionEnabled' in window.external) {
       if (window['doNotTrack'] == "1" || navigator['doNotTrack'] == "yes" || navigator['doNotTrack'] == "1" || navigator['msDoNotTrack'] == "1" || ( window['external']['msTrackingProtectionEnabled'] && window['external']['msTrackingProtectionEnabled']() ) ) {
-        console.log("tracking enabled");
         enabled = true;
       } else {
         enabled = false;
       }
     } else {
-      console.log("unable to get tracking data");
       enabled = true;
     }
 
@@ -40,8 +38,6 @@ export class CookieService {
       allowed = true;
       this.remove("test");
     }
-
-    console.log("cookies allowed: "+ allowed);
 
     return allowed;
   }

@@ -107,10 +107,8 @@ export class AppComponent implements OnInit {
 
     if( cookiesAuth !== 'not_allowed' ){
       if( cookiesAuth ){
-        console.log("show chat");
         this.showChat();
       }else{
-        console.log("show cookie notifycation");
         this.showCookieNotification = true;
       }
     }
