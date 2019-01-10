@@ -24,6 +24,6 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.8.0",
     "rimraf": "2.6.3",
-    "webpack": "^4.28.1"
+    "webpack": "^4.28.4"
   }
 }
