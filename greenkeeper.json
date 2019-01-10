@@ -1,0 +1,16 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "angular2/package.json",
+        "drupal/vendor/hshn/base64-encoded-file/package.json",
+        "drupal/web/core/assets/vendor/jquery.ui/package.json",
+        "drupal/web/core/package.json",
+        "drupal/web/modules/contrib/graphql/assets/explorer/package.json",
+        "drupal/web/modules/contrib/graphql/assets/voyager/package.json",
+        "drupal/web/modules/contrib/paragraphs/css/package.json",
+        "drupal/web/themes/contrib/material_admin/package.json"
+      ]
+    }
+  }
+}
