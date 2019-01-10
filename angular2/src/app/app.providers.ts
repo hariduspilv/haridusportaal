@@ -7,6 +7,7 @@ import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
 
 import { LOCATION_INITIALIZED } from '@angular/common';
+import { CookieService } from './_services/cookieService';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector) {
   return () => new Promise<any>((resolve: any) => {
@@ -40,6 +41,7 @@ export const AppProviders = [
   HttpService,
   AddressService,
   UserService,
+  CookieService,
   {
     provide: APP_INITIALIZER,
     useFactory: appInitializerFactory,
