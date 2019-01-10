@@ -27,6 +27,17 @@ export class DashboardFormDialog {
   loader: boolean = false;
   actionSuccess: boolean = false;
   reqError: boolean = false;
+  fieldsError: boolean = false;
+  public formErrors: {} = {
+    'name': false,
+    'contactPhone': false,
+    'study': false,
+    'ownership': false,
+    'owner': false,
+    'address': false,
+    'webpageAddress': false,
+    'contactEmail': false
+  };
   formOptions: {} = {
     ownerTypes: [],
     ownershipTypes: [],
@@ -68,9 +79,9 @@ export class DashboardFormDialog {
         address: [this.address, [Validators.required, Validators.pattern]],
         name: [this.name, [Validators.required]],
         nameENG: [this.nameENG, []],
-        ownerType: [this.ownerType, [Validators.required]],
-        ownershipType: [this.ownershipType, [Validators.required]],
-        studyInstitutionType: [this.studyInstitutionType, [Validators.required]]
+        ownerType: [this.ownerType],
+        ownershipType: [this.ownershipType],
+        studyInstitutionType: [this.studyInstitutionType]
       });
       this.initialized = true;
     }
@@ -78,7 +89,7 @@ export class DashboardFormDialog {
 
   ngAfterViewInit() {
     if (this.address && !this.initialized) {
-      this.addressService.addressAutocomplete(this.address, 300, true, 10, 1, 1)
+      this.addressService.addressAutocomplete(this.address, 300, true, 10, 1, 1);
       this.initialized = true;
     }
   }
@@ -86,7 +97,6 @@ export class DashboardFormDialog {
   getOptions() {
     this.loader = true;
     const add = this.http.get('/educational-institution/data').subscribe((response) => {
-
       Object.values(response['ownershipType']).forEach((elem, index) => {
         elem['id'] = Object.keys(response['ownershipType'])[index];
         this.formOptions['ownershipTypes'].push(elem);
@@ -100,7 +110,6 @@ export class DashboardFormDialog {
         this.formOptions['studyInstitutionTypes'].push(elem);
       });
       this.loader = false;
-
     }, (data) => {
       this.loader = false;
     });
@@ -108,35 +117,48 @@ export class DashboardFormDialog {
 
   add() {
     let addressVal = this.addressService.addressSelectionValue || null;
+    if (!this.form.controls.name.valid) {this.formErrors['name'] = true;}
+    if (!this.form.controls.contactPhone.valid) {this.formErrors['contactPhone'] = true;}
+    if (!this.form.controls.ownerType.value) {this.formErrors['owner'] = true;}
+    if (!this.form.controls.ownershipType.value) {this.formErrors['ownership'] = true;} 
+    if (!this.form.controls.studyInstitutionType.value) {this.formErrors['study'] = true;}
+    if (!this.form.controls.webpageAddress.value) {this.formErrors['webpageAddress'] = true;}
+    if (!this.form.controls.contactEmail.value) {this.formErrors['contactEmail'] = true;}
+    if (!this.form.controls.address.value) {this.formErrors['address'] = true;}
     if (!addressVal) {
       this.addressInvalid = true;
       this.reqError = true;
       return false; 
     }
-    this.loader = true;
-    this.reqError = false;
-    let data = { 
-      address: addressVal,
-      general: { 
-        "name": this.form.controls.name.value,
-        "nameENG": this.form.controls.nameENG.value,
-        "ownerType": this.form.controls.ownerType.value,
-        "ownershipType": this.form.controls.ownershipType.value,
-        "studyInstitutionType": this.form.controls.studyInstitutionType.value
-      },
-      contacts: {
-        "contactPhone" : this.form.controls.contactPhone.value,
-        "contactEmail": this.form.controls.contactEmail.value,
-        "webpageAddress": this.form.controls.webpageAddress.value
+    if (!this.form.controls.studyInstitutionType.value || !this.form.controls.ownershipType.value || !this.form.controls.ownerType.value) {return false;}
+    if (this.form.valid) {
+      this.loader = true;
+      this.reqError = false;
+      let data = { 
+        address: addressVal,
+        general: { 
+          "name": this.form.controls.name.value,
+          "nameENG": this.form.controls.nameENG.value,
+          "ownerType": this.form.controls.ownerType.value,
+          "ownershipType": this.form.controls.ownershipType.value,
+          "studyInstitutionType": this.form.controls.studyInstitutionType.value
+        },
+        contacts: {
+          "contactPhone" : this.form.controls.contactPhone.value,
+          "contactEmail": this.form.controls.contactEmail.value,
+          "webpageAddress": this.form.controls.webpageAddress.value
+        }
       }
+      const add = this.http.post('/educational-institution/add', data).subscribe((response) => {
+        this.actionSuccess = true;
+        this.loader = false;
+      }, (data) => {
+        this.reqError = true;
+        this.loader = false;
+      });
+    } else {
+      this.fieldsError = true;
     }
-    const add = this.http.post('/educational-institution/add', data).subscribe((response) => {
-      this.actionSuccess = true;
-      this.loader = false;
-    }, (data) => {
-      this.reqError = true;
-      this.loader = false;
-    });
   }
   
   edit() {
@@ -146,24 +168,26 @@ export class DashboardFormDialog {
       this.reqError = true;
       return false; 
     }
-    this.loader = true;
-    this.reqError = false;
-    let data = { 
-      edId: this.data.edId,
-      address: addressVal,
-      contacts: {
-        "contactPhone" : this.form.controls.contactPhone.value,
-        "contactEmail": this.form.controls.contactEmail.value,
-        "webpageAddress": this.form.controls.webpageAddress.value
+    if (this.form.valid) {
+      this.loader = true;
+      this.reqError = false;
+      let data = { 
+        edId: this.data.edId,
+        address: addressVal,
+        contacts: {
+          "contactPhone" : this.form.controls.contactPhone.value,
+          "contactEmail": this.form.controls.contactEmail.value,
+          "webpageAddress": this.form.controls.webpageAddress.value
+        }
       }
+      const edit = this.http.post('/educational-institution/edit', data).subscribe((response) => {
+        this.actionSuccess = true;
+        this.loader = false;
+      }, (data) => {
+        this.reqError = true;
+        this.loader = false;
+      });
     }
-    const edit = this.http.post('/educational-institution/edit', data).subscribe((response) => {
-      this.actionSuccess = true;
-      this.loader = false;
-    }, (data) => {
-      this.reqError = true;
-      this.loader = false;
-    });
   }
   
   close() {

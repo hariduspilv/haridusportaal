@@ -69,7 +69,7 @@ export class NewsSingleComponent implements OnInit {
   
         const that = this;
   
-        let url = "/graphql?queryName=newsSingle&queryId=8e6fff0c11ca8862a51ba71c913a453eb43ad771:1&variables=";
+        let url = "/graphql?queryName=newsSingle&queryId=948aa7e7f80ba87b6634d1e6834dd560ac2591ba:1&variables=";
         let variables = {
           path: path
         };

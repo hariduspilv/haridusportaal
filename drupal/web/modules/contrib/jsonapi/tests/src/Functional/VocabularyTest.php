@@ -59,7 +59,7 @@ class VocabularyTest extends ResourceTestBase {
    */
   protected function getExpectedDocument() {
     $self_url = Url::fromUri('base:/jsonapi/taxonomy_vocabulary/taxonomy_vocabulary/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
-    return [
+    $expected_document = [
       'jsonapi' => [
         'meta' => [
           'links' => [
@@ -85,11 +85,14 @@ class VocabularyTest extends ResourceTestBase {
           'dependencies' => [],
           'name' => 'Llama',
           'description' => NULL,
-          'hierarchy' => 0,
           'weight' => 0,
         ],
       ],
     ];
+    if (floatval(\Drupal::VERSION) < 8.7) {
+      $expected_document['data']['attributes']['hierarchy'] = 0;
+    }
+    return $expected_document;
   }
 
   /**

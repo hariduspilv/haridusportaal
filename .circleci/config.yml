@@ -15,23 +15,11 @@ jobs:
         command: |
           ssh -q -o StrictHostKeyChecking=no $PROXYSERVER -p 222 <<EOF1
           ssh -q -o StrictHostKeyChecking=no $PRELIVESERVER -p 22 <<EOF2
-          sudo -i sh /srv/deploy/deploy.sh
-          EOF2
-          EOF1
-    - run:
-        name: Enter server and updates Angular
-        command: |
-          ssh -q -o StrictHostKeyChecking=no $PROXYSERVER -p 222 <<EOF1
-          ssh -q -o StrictHostKeyChecking=no $PRELIVESERVER -p 22 <<EOF2
-          sudo -i sh /srv/deploy/angular-deploy.sh
           EOF2
           EOF1
 workflows:
   version: 2
   build:
     jobs:
-    - build:
-        filters:
-          tags:
-            only: /.*/
+    - build
 version: 2

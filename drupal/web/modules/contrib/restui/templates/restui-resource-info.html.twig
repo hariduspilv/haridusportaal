@@ -13,14 +13,14 @@
  */
 #}
 {% if granularity == 'resource' %}
-    <p>methods: {{ configuration.methods|join(', ') }}</br>
-        formats: {{ configuration.formats|join(', ') }}</br>
+    <p>methods: {{ configuration.methods|join(', ') }}<br>
+        formats: {{ configuration.formats|join(', ') }}<br>
         authentication: {{ configuration.authentication|join(', ') }}
     </p>
 {% else %}
     {% for method, properties in configuration %}
-        <p>{{ method }}</br>
-            formats: {{ properties.supported_formats|join(', ') }}</br>
+        <p>{{ method }}<br>
+            formats: {{ properties.supported_formats|join(', ') }}<br>
             authentication: {{ properties.supported_auth|join(', ') }}
         </p>
     {% endfor %}

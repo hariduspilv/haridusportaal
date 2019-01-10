@@ -12,7 +12,7 @@ entity_type: paragraph
 bundle: main_profession_sidebar
 label: 'OSKA valdkond'
 description: 'Mitme sisestamiseks kasuta eraldamiseks koma.'
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''

@@ -57,7 +57,7 @@ export class OskaResultsComponent implements OnInit{
       }
     }else{
       
-      let url = "/graphql?queryName=oskaResultPageDetailView&queryId=d0ced119fe027ab9b4a115de022a9237117af136:1&variables=";
+      let url = "/graphql?queryName=oskaResultPageDetailView&queryId=1ef9aa98714acd10656cec197329ad7a012f672a:1&variables=";
 
       let variables = {
         "lang": this.rootScope.get('lang'),

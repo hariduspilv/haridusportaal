@@ -3,9 +3,9 @@
 namespace Drupal\better_exposed_filters\Plugin\views\exposed_form;
 
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\views\Plugin\views\exposed_form\InputRequired;
 use Drupal\views\Plugin\views\filter\NumericFilter;
@@ -116,8 +116,9 @@ class BetterExposedFilters extends InputRequired {
      * Add options for exposed sorts.
      */
     $exposed = FALSE;
+    /* @var \Drupal\views\Plugin\views\HandlerBase $sort */
     foreach ($this->view->display_handler->getHandlers('sort') as $label => $sort) {
-      if ($sort->options['exposed']) {
+      if ($sort->isExposed()) {
         $exposed = TRUE;
         break;
       }
@@ -254,8 +255,9 @@ Title Desc|Z -> A</pre> Leave the replacement text blank to remove an option alt
     $bef_filter_intro = FALSE;
 
     // Go through each filter and add BEF options.
+    /* @var \Drupal\views\Plugin\views\HandlerBase $filter */
     foreach ($this->view->display_handler->getHandlers('filter') as $label => $filter) {
-      if (!$filter->options['exposed']) {
+      if (!$filter->isExposed()) {
         continue;
       }
 
@@ -521,7 +523,15 @@ Title Desc|Z -> A</pre> Leave the replacement text blank to remove an option alt
         '#description' => $this->t('Places this element in the secondary options portion of the exposed form.'),
       );
 
-      if ($filter instanceof StringFilter) {
+      $filter_form = array();
+      $form_state = new FormState();
+      /** @var \Drupal\views\Plugin\views\filter\FilterPluginBase $filter */
+      $filter->buildExposedForm($filter_form, $form_state);
+
+      $supported_types = array('entity_autocomplete', 'textfield');
+
+      $filter_id = $filter->options['expose']['identifier'];
+      if (in_array($filter_form[$filter_id]['#type'], $supported_types) || in_array($filter_form[$filter_id]['value']['#type'], $supported_types)) {
         // Allow users to specify placeholder text.
         $bef_options[$label]['more_options']['placeholder_text'] = [
           '#type' => 'textfield',
@@ -873,13 +883,14 @@ Title Desc|Z -> A</pre> Leave the replacement text blank to remove an option alt
     }
 
     // Shorthand for all filters in this view.
+    /* @var \Drupal\views\Plugin\views\HandlerBase[] $filters */
     $filters = $form_state->get('view')->display_handler->handlers['filter'];
 
     // Go through each saved option looking for Better Exposed Filter settings.
     foreach ($settings as $label => $options) {
 
       // Sanity check: Ensure this filter is an exposed filter.
-      if (empty($filters[$label]) || !$filters[$label]->options['exposed']) {
+      if (empty($filters[$label]) || !$filters[$label]->isExposed()) {
         continue;
       }
 
@@ -890,7 +901,7 @@ Title Desc|Z -> A</pre> Leave the replacement text blank to remove an option alt
       // Check for placeholder text.
       if (!empty($settings[$label]['more_options']['placeholder_text'])) {
         // @todo: Add token replacement for placeholder text.
-        $form[$label]['#placeholder'] = $settings[$label]['more_options']['placeholder_text'];
+        $form[$field_id]['#placeholder'] = $settings[$label]['more_options']['placeholder_text'];
       }
 
       // Handle filter value rewrites.
@@ -1247,6 +1258,7 @@ Title Desc|Z -> A</pre> Leave the replacement text blank to remove an option alt
           $secondary[$identifier] = $form[$identifier];
           unset($form[$identifier]);
           $secondary[$identifier]['#title'] = $form['#info'][$filter_info_name]['label'];
+          $secondary[$identifier]['#description'] = $form['#info'][$filter_info_name]['description'];
           unset($form['#info'][$filter_info_name]);
         }
       }
@@ -1580,8 +1592,9 @@ Title Desc|Z -> A</pre> Leave the replacement text blank to remove an option alt
     );
 
     // Go through each exposed filter and collect settings.
+    /* @var \Drupal\views\Plugin\views\HandlerBase $filter */
     foreach ($this->view->display_handler->getHandlers('filter') as $label => $filter) {
-      if (!$filter->options['exposed']) {
+      if (!$filter->isExposed()) {
         continue;
       }
 

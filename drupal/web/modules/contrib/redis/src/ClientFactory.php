@@ -151,6 +151,7 @@ class ClientFactory {
         'base' => self::REDIS_DEFAULT_BASE,
         'password' => self::REDIS_DEFAULT_PASSWORD,
       ];
+
       // If using replication, lets create the client appropriately.
       if (isset($settings['replication']) && $settings['replication'] === TRUE) {
         foreach ($settings['replication.host'] as $key => $replicationHost) {

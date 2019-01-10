@@ -67,6 +67,7 @@ class PhpRedis implements ClientInterface {
    *   An array with ip & port of the Master instance or NULL.
    */
   protected function askForMaster(\Redis $client, array $sentinels = [], $password = NULL) {
+
     $ip_port = NULL;
     $settings = Settings::get('redis.connection', []);
     $settings += ['instance' => NULL];

@@ -2,10 +2,11 @@
 
 namespace Unish;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 use Webmozart\PathUtil\Path;
 
-abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
+abstract class UnishTestCase extends TestCase
 {
 
     /**
@@ -20,13 +21,40 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
 
     private static $drush;
 
-    private static $tmp;
-
     private static $db_url;
 
     private static $usergroup = null;
 
     private static $backendOutputDelimiter = 'DRUSH_BACKEND_OUTPUT_START>>>%s<<<DRUSH_BACKEND_OUTPUT_END';
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+
+        // We read from env then globals then default to mysql.
+        self::$db_url = getenv('UNISH_DB_URL') ?: (isset($GLOBALS['UNISH_DB_URL']) ? $GLOBALS['UNISH_DB_URL'] : 'mysql://root:@127.0.0.1');
+
+        // require_once __DIR__ . '/unish.inc';
+        // list($unish_tmp, $unish_sandbox, $unish_drush_dir) = \unishGetPaths();
+        $unish_sandbox = Path::join(dirname(__DIR__), 'sandbox');
+        self::mkdir($unish_sandbox);
+        $unish_cache = Path::join($unish_sandbox, 'cache');
+
+        self::$drush = self::getComposerRoot() . '/drush';
+
+        self::$sandbox = $unish_sandbox;
+        self::$usergroup = isset($GLOBALS['UNISH_USERGROUP']) ? $GLOBALS['UNISH_USERGROUP'] : null;
+
+        self::setEnv(['CACHE_PREFIX' => $unish_cache]);
+        $home = $unish_sandbox . '/home';
+        self::setEnv(['HOME' => $home]);
+        self::setEnv(['HOMEDRIVE' => $home]);
+        $composer_home = $unish_cache . '/.composer';
+        self::setEnv(['COMPOSER_HOME' => $composer_home]);
+        self::setEnv(['ETC_PREFIX' => $unish_sandbox]);
+        self::setEnv(['SHARE_PREFIX' => $unish_sandbox]);
+        self::setEnv(['TEMP' => Path::join($unish_sandbox, 'tmp')]);
+    }
 
     /**
      * @return array
@@ -64,14 +92,6 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return string
      */
-    public static function getTmp()
-    {
-        return self::$tmp;
-    }
-
-    /**
-     * @return string
-     */
     public static function getSandbox()
     {
         return self::$sandbox;
@@ -82,7 +102,12 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
      */
     public static function getSut()
     {
-        return Path::join(self::getTmp(), 'drush-sut');
+        return self::getComposerRoot();
+    }
+
+    public static function getComposerRoot()
+    {
+        return dirname(__DIR__);
     }
 
     /**
@@ -96,14 +121,18 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
             if (file_exists($sandbox)) {
                 self::recursiveDelete($sandbox);
             }
-            foreach (['modules', 'themes', 'profiles', 'drush'] as $dir) {
-                $target = Path::join(self::getSut(), 'web', $dir, 'contrib');
+            $webrootSlashDrush = self::webrootSlashDrush();
+            if (file_exists($webrootSlashDrush)) {
+                self::recursiveDelete($webrootSlashDrush, true, false, ['Commands']);
+            }
+            foreach (['modules', 'themes', 'profiles'] as $dir) {
+                $target = Path::join(self::webroot(), $dir, 'contrib');
                 if (file_exists($target)) {
                     self::recursiveDeleteDirContents($target);
                 }
             }
             foreach (['sites/dev', 'sites/stage', 'sites/prod'] as $dir) {
-                $target = Path::join(self::getSut(), 'web', $dir);
+                $target = Path::join(self::webroot(), $dir);
                 if (file_exists($target)) {
                     self::recursiveDelete($target);
                 }
@@ -133,40 +162,6 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
     public static function getBackendOutputDelimiter()
     {
         return self::$backendOutputDelimiter;
-    }
-
-    public function __construct($name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-
-        // Default drupal major version to run tests over.
-        // @todo Remove this.
-        if (!defined('UNISH_DRUPAL_MAJOR_VERSION')) {
-            define('UNISH_DRUPAL_MAJOR_VERSION', '8');
-        }
-
-        // We read from env then globals then default to mysql.
-        self::$db_url = getenv('UNISH_DB_URL') ?: (isset($GLOBALS['UNISH_DB_URL']) ? $GLOBALS['UNISH_DB_URL'] : 'mysql://root:@127.0.0.1');
-
-        require_once __DIR__ . '/unish.inc';
-        list($unish_tmp, $unish_sandbox, $unish_drush_dir) = \unishGetPaths();
-        $unish_cache = Path::join($unish_sandbox, 'cache');
-
-        self::$drush = $unish_drush_dir . '/drush';
-        self::$tmp = $unish_tmp;
-        self::$sandbox = $unish_sandbox;
-        self::$usergroup = isset($GLOBALS['UNISH_USERGROUP']) ? $GLOBALS['UNISH_USERGROUP'] : null;
-
-        self::setEnv(['CACHE_PREFIX' => $unish_cache]);
-        $home = $unish_sandbox . '/home';
-        self::setEnv(['HOME' => $home]);
-        self::setEnv(['HOMEDRIVE' => $home]);
-        $composer_home = $unish_cache . '/.composer';
-        self::setEnv(['COMPOSER_HOME' => $composer_home]);
-        self::setEnv(['ETC_PREFIX' => $unish_sandbox]);
-        self::setEnv(['SHARE_PREFIX' => $unish_sandbox]);
-        self::setEnv(['TEMP' => Path::join($unish_sandbox, 'tmp')]);
-        self::setEnv(['DRUSH_AUTOLOAD_PHP' => PHPUNIT_COMPOSER_INSTALL]);
     }
 
     /**
@@ -397,13 +392,15 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
      * @param bool $follow_symlinks
      *   Whether or not to delete symlinked files. Defaults to FALSE--simply
      *   unlinking symbolic links.
+     * @param string[] $exclude
+     *   Top-level items to retain
      *
      * @return bool
      *   FALSE on failure, TRUE if everything was deleted.
      *
      * @see drush_delete_dir()
      */
-    public static function recursiveDelete($dir, $force = true, $follow_symlinks = false)
+    public static function recursiveDelete($dir, $force = true, $follow_symlinks = false, $exclude = [])
     {
         // Do not delete symlinked files, only unlink symbolic links
         if (is_link($dir) && !$follow_symlinks) {
@@ -420,8 +417,12 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
             }
             return unlink($dir);
         }
-        if (self::recursiveDeleteDirContents($dir, $force) === false) {
+        if (self::recursiveDeleteDirContents($dir, $force, $exclude) === false) {
             return false;
+        }
+        // Don't delete the directory itself if we are retaining some of its contents
+        if (!empty($exclude)) {
+            return true;
         }
         if ($force) {
             // Force deletion of items with readonly flag.
@@ -440,13 +441,15 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
      * @param bool $force
      *   Whether or not to try everything possible to delete the contents, even if
      *   they're read-only. Defaults to FALSE.
+     * @param string[] $exclude
+     *   Top-level items to retain
      *
      * @return bool
      *   FALSE on failure, TRUE if everything was deleted.
      *
      * @see drush_delete_dir_contents()
      */
-    public static function recursiveDeleteDirContents($dir, $force = false)
+    public static function recursiveDeleteDirContents($dir, $force = false, $exclude = [])
     {
         $scandir = @scandir($dir);
         if (!is_array($scandir)) {
@@ -455,6 +458,9 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
 
         foreach ($scandir as $item) {
             if ($item == '.' || $item == '..') {
+                continue;
+            }
+            if (in_array($item, $exclude)) {
                 continue;
             }
             if ($force) {
@@ -467,12 +473,17 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
         return true;
     }
 
-    public function webroot()
+    public static function webroot()
     {
-        return Path::join(self::getSut(), 'web');
+        return Path::join(self::getSut(), 'sut');
     }
 
-    public function directoryCache($subdir = '')
+    public static function webrootSlashDrush()
+    {
+        return Path::join(self::webroot(), 'drush');
+    }
+
+    public static function directoryCache($subdir = '')
     {
         return getenv('CACHE_PREFIX') . '/' . $subdir;
     }
@@ -495,7 +506,7 @@ abstract class UnishTestCase extends \PHPUnit_Framework_TestCase
      * Create some fixture sites that only have a 'settings.php' file
      * with a database record.
      *
-     * @param array $sites key=site_subder value=array of extra alias data
+     * @param array $sites key=site_subdir value=array of extra alias data
      * @param string $aliasGroup Write aliases into a file named group.alias.yml
      */
     public function setUpSettings(array $sites, $aliasGroup = 'fixture')
@@ -554,7 +565,7 @@ EOT;
             copy($root . '/sites/example.sites.php', $root . '/sites/sites.php');
         }
 
-        $siteData = $this->createAliasFile($sites_subdirs, 'unish');
+        $siteData = $this->createAliasFile($sites_subdirs, 'sut');
         self::$sites = [];
         foreach ($siteData as $key => $data) {
             self::$sites[$key] = $data;
@@ -562,7 +573,7 @@ EOT;
         return self::$sites;
     }
 
-    public function createAliasFileData($sites_subdirs, $aliasGroup = 'unish')
+    public function createAliasFileData($sites_subdirs)
     {
         $root = $this->webroot();
         // Stash details about each site.
@@ -577,10 +588,10 @@ EOT;
         return $sites;
     }
 
-    public function createAliasFile($sites_subdirs, $aliasGroup = 'unish')
+    public function createAliasFile($sites_subdirs, $aliasGroup)
     {
         // Make an alias group for the sites.
-        $sites = $this->createAliasFileData($sites_subdirs, $aliasGroup);
+        $sites = $this->createAliasFileData($sites_subdirs);
         $this->writeSiteAliases($sites, $aliasGroup);
 
         return $sites;
@@ -620,19 +631,11 @@ EOT;
      *
      * @param $sites
      */
-    public function writeSiteAliases($sites, $aliasGroup = 'unish')
+    public function writeSiteAliases($sites, $aliasGroup = 'sut')
     {
-        $this->writeUnishConfig($sites, [], $aliasGroup);
-    }
-
-    public function writeUnishConfig($unishAliases, $config = [], $aliasGroup = 'unish')
-    {
-        $etc = self::getSandbox() . '/etc/drush';
-        $aliases_dir = Path::join($etc, 'sites');
-        @mkdir($aliases_dir);
-        file_put_contents(Path::join($aliases_dir, $aliasGroup . '.site.yml'), Yaml::dump($unishAliases, PHP_INT_MAX, 2));
-        $config['drush']['paths']['alias-path'][] = $aliases_dir;
-        file_put_contents(Path::join($etc, 'drush.yml'), Yaml::dump($config, PHP_INT_MAX, 2));
+        $target = Path::join(self::webrootSlashDrush(), "sites/$aliasGroup.site.yml");
+        $this->mkdir(dirname($target));
+        file_put_contents($target, Yaml::dump($sites, PHP_INT_MAX, 2));
     }
 
     /**
@@ -648,8 +651,6 @@ EOT;
      *
      * @param array $vars
      *   The variables to set.
-     *
-     *   We will change implementation to take advantage of https://github.com/symfony/symfony/pull/19053/files once we drop Symfony 2 compat.
      */
     public static function setEnv(array $vars)
     {

@@ -9,8 +9,8 @@ dependencies:
 test_dependencies:
   - schemata:schemata_json_schema
 
-# Information added by Drupal.org packaging script on 2018-07-19
-version: '8.x-1.23'
+# Information added by Drupal.org packaging script on 2018-12-19
+version: '8.x-1.24'
 core: '8.x'
 project: 'jsonapi'
-datestamp: 1532014094
+datestamp: 1545239286

@@ -1,16 +1,14 @@
-<div class="favourites__wrapper" attr.aria-label="{{'fave.dropdown' | translate}}" *ngIf="!userLoggedOut && !initializing">
-    
-    <span *ngIf="existingFavouriteItems && existing"
-     matTooltip="{{  'tooltip.favourites_remove' | translate}}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">
-      {{  'star'  }}
-    </span>
-    
-     <span *ngIf="existingFavouriteItems && !existing "
-     matTooltip="{{ 'tooltip.favourites' | translate}}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">
-      {{ 'star_border' }}
-    </span>
-  
+<div class="favourites__wrapper" attr.aria-label="{{'fave.dropdown' | translate}}">
+    <div class="sm-hide">
+      <div *ngIf="state" matTooltip="{{  'tooltip.favourites_remove' | translate}}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">
+        {{  'star'  }}
+      </div>
+      <div *ngIf="!state" matTooltip="{{ 'tooltip.favourites' | translate}}" matTooltipPosition="above" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">
+        {{ 'star_border' }}
+      </div>
+    </div>
+    <div class="sm-show">
+      <div *ngIf="state" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">{{  'star'  }}</div>
+      <div *ngIf="!state" tabindex="0" class="primary htm-icon" role="button" (click)="toggleFavouritesButton()">{{ 'star_border' }}</div>
+    </div>
 </div>
-
-
-<!-- {{ existing === true ? 'tooltip.favourites'}} -->

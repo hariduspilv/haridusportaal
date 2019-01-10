@@ -673,7 +673,7 @@ news:
 newsletter:
   title:
     translation_type: textarea
-    et: 'Uudiskiri - telli endale huvitavad lood ahh'
+    et: 'Uudiskiri - telli endale huvitavad lood'
     en: 'Newsletter - order interesting stories'
   intro:
     translation_type: textarea
@@ -1744,6 +1744,10 @@ errors:
     translation_type: textarea
     et: 'Sisesta korrektne veebiaadress'
     en: 'Enter a correct domain name'
+  enter_required_fields:
+    translation_type: textarea
+    et: 'Täida nõutud väljad!'
+    en: 'Enter required fields!'
 search:
   label:
     translation_type: textarea

@@ -13,8 +13,12 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
+use Drupal\Core\Entity\Query\QueryInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
+use Drupal\Core\Render\RenderContext;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\jsonapi\Access\TemporaryQueryGuard;
 use Drupal\jsonapi\Exception\EntityAccessDeniedHttpException;
 use Drupal\jsonapi\Exception\UnprocessableHttpEntityException;
 use Drupal\jsonapi\Query\Filter;
@@ -85,6 +89,13 @@ class EntityResource {
   protected $resourceTypeRepository;
 
   /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * Instantiates a EntityResource object.
    *
    * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
@@ -99,14 +110,17 @@ class EntityResource {
    *   The link manager service.
    * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resource_type_repository
    *   The link manager service.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer.
    */
-  public function __construct(ResourceType $resource_type, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, FieldTypePluginManagerInterface $plugin_manager, LinkManager $link_manager, ResourceTypeRepositoryInterface $resource_type_repository) {
+  public function __construct(ResourceType $resource_type, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $field_manager, FieldTypePluginManagerInterface $plugin_manager, LinkManager $link_manager, ResourceTypeRepositoryInterface $resource_type_repository, RendererInterface $renderer) {
     $this->resourceType = $resource_type;
     $this->entityTypeManager = $entity_type_manager;
     $this->fieldManager = $field_manager;
     $this->pluginManager = $plugin_manager;
     $this->linkManager = $link_manager;
     $this->resourceTypeRepository = $resource_type_repository;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -343,12 +357,15 @@ class EntityResource {
     // Instantiate the query for the filtering.
     $entity_type_id = $this->resourceType->getEntityTypeId();
 
-    $route_params = $request->attributes->get('_route_params');
-    $params = isset($route_params['_json_api_params']) ? $route_params['_json_api_params'] : [];
-    $query = $this->getCollectionQuery($entity_type_id, $params);
+    $params = static::getJsonApiParams($request, $this->resourceType);
+    $query_cacheability = new CacheableMetadata();
+    $query = $this->getCollectionQuery($entity_type_id, $params, $query_cacheability);
 
     try {
-      $results = $query->execute();
+      $results = $this->executeQueryInRenderContext(
+        $query,
+        $query_cacheability
+      );
     }
     catch (\LogicException $e) {
       // Ensure good DX when an entity query involves a config entity type.
@@ -378,10 +395,13 @@ class EntityResource {
     $entity_collection->setHasNextPage($has_next_page);
 
     // Calculate all the results and pass them to the EntityCollectionInterface.
+    $count_query_cacheability = new CacheableMetadata();
     if ($this->resourceType->includeCount()) {
-      $total_results = $this
-        ->getCollectionCountQuery($entity_type_id, $params)
-        ->execute();
+      $count_query = $this->getCollectionCountQuery($entity_type_id, $params, $count_query_cacheability);
+      $total_results = $this->executeQueryInRenderContext(
+        $count_query,
+        $count_query_cacheability
+      );
 
       $entity_collection->setTotalCount($total_results);
     }
@@ -393,8 +413,40 @@ class EntityResource {
     array_walk($access_info, function ($access) use ($response) {
       $response->addCacheableDependency($access);
     });
+    $response->addCacheableDependency($query_cacheability);
+    $response->addCacheableDependency($count_query_cacheability);
 
     return $response;
+  }
+
+  /**
+   * Executes the query in a render context, to catch bubbled cacheability.
+   *
+   * @param \Drupal\Core\Entity\Query\QueryInterface $query
+   *   The query to execute to get the return results.
+   * @param \Drupal\Core\Cache\CacheableMetadata $query_cacheability
+   *   The value object to carry the query cacheability.
+   *
+   * @return int|array
+   *   Returns an integer for count queries or an array of IDs. The values of
+   *   the array are always entity IDs. The keys will be revision IDs if the
+   *   entity supports revision and entity IDs if not.
+   *
+   * @see node_query_node_access_alter()
+   * @see https://www.drupal.org/project/drupal/issues/2557815
+   * @see https://www.drupal.org/project/drupal/issues/2794385
+   * @todo Remove this when the query sytems's return value is able to carry
+   * cacheability.
+   */
+  protected function executeQueryInRenderContext(QueryInterface $query, CacheableMetadata $query_cacheability) {
+    $context = new RenderContext();
+    $results = $this->renderer->executeInRenderContext($context, function () use ($query) {
+      return $query->execute();
+    });
+    if (!$context->isEmpty()) {
+      $query_cacheability->addCacheableDependency($context->pop());
+    }
+    return $results;
   }
 
   /**
@@ -749,13 +801,15 @@ class EntityResource {
    *   The entity type for the entity query.
    * @param array $params
    *   The parameters for the query.
+   * @param \Drupal\Core\Cache\CacheableMetadata $query_cacheability
+   *   Collects cacheability for the query.
    *
    * @return \Drupal\Core\Entity\Query\QueryInterface
    *   A new query.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    */
-  protected function getCollectionQuery($entity_type_id, array $params) {
+  protected function getCollectionQuery($entity_type_id, array $params, CacheableMetadata $query_cacheability) {
     $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
     $entity_storage = $this->entityTypeManager->getStorage($entity_type_id);
 
@@ -767,6 +821,9 @@ class EntityResource {
     // Compute and apply an entity query condition from the filter parameter.
     if (isset($params[Filter::KEY_NAME]) && $filter = $params[Filter::KEY_NAME]) {
       $query->condition($filter->queryCondition($query));
+      TemporaryQueryGuard::setFieldManager($this->fieldManager);
+      TemporaryQueryGuard::setModuleHandler(\Drupal::moduleHandler());
+      TemporaryQueryGuard::applyAccessControls($filter, $query, $query_cacheability);
     }
 
     // Apply any sorts to the entity query.
@@ -808,15 +865,17 @@ class EntityResource {
    *   The entity type for the entity query.
    * @param array $params
    *   The parameters for the query.
+   * @param \Drupal\Core\Cache\CacheableMetadata $query_cacheability
+   *   Collects cacheability for the query.
    *
    * @return \Drupal\Core\Entity\Query\QueryInterface
    *   A new query.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    */
-  protected function getCollectionCountQuery($entity_type_id, array $params) {
+  protected function getCollectionCountQuery($entity_type_id, array $params, CacheableMetadata $query_cacheability) {
     // Reset the range to get all the available results.
-    return $this->getCollectionQuery($entity_type_id, $params)->range()->count();
+    return $this->getCollectionQuery($entity_type_id, $params, $query_cacheability)->range()->count();
   }
 
   /**
@@ -1056,6 +1115,28 @@ class EntityResource {
     return !empty($entity_storage->loadByProperties([
       'uuid' => $entity->uuid(),
     ]));
+  }
+
+  /**
+   * Extracts JSON:API query parameters from the request.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request object.
+   * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
+   *   The current JSON:API resoure type.
+   *
+   * @return array
+   *   An array of JSON:API parameters like `sort` and `filter`.
+   */
+  protected static function getJsonApiParams(Request $request, ResourceType $resource_type) {
+    $route_params = $request->attributes->get('_route_params');
+    $params = isset($route_params['_json_api_params']) ? $route_params['_json_api_params'] : [];
+    if ($request->query->has('filter')) {
+      $serializer = \Drupal::service('jsonapi.serializer_do_not_use_removal_imminent');
+      $context = ['entity_type_id' => $resource_type->getEntityTypeId(), 'bundle' => $resource_type->getBundle()];
+      $params[Filter::KEY_NAME] = $serializer->denormalize($request->query->get('filter'), Filter::class, NULL, $context);
+    }
+    return $params;
   }
 
 }
