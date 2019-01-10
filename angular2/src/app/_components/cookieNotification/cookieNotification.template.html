@@ -1,0 +1,10 @@
+<div class="inline">
+  <div class="cookieNotification__desc">
+    {{ 'cookie_text' | translate }}
+  </div><!--/cookieNotification__desc-->
+
+  <div class="cookieNotification__buttons">
+    <a [routerLink]="link">{{ 'read_terms' | translate }}</a>
+    <button mat-raised-button color="primary" (click)="agree()">{{ 'agree' | translate }}</button>
+  </div><!--/cookieNotification__desc-->
+</div><!--/inline-->
