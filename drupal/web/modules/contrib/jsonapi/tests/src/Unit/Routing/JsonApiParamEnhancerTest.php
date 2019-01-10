@@ -44,22 +44,6 @@ class JsonApiParamEnhancerTest extends UnitTestCase {
   /**
    * @covers ::enhance
    */
-  public function testEnhanceFilter() {
-    list($filter_normalizer, $sort_normalizer, $page_normalizer) = $this->getMockNormalizers();
-    $object = new JsonApiParamEnhancer($filter_normalizer, $sort_normalizer, $page_normalizer);
-    $defaults = $object->enhance([
-      RouteObjectInterface::CONTROLLER_NAME => Routes::FRONT_CONTROLLER,
-      Routes::RESOURCE_TYPE_KEY => new ResourceType('foo', 'bar', NULL),
-      Routes::JSON_API_ROUTE_FLAG_KEY => TRUE,
-    ], Request::create('/jsonapi/foo/bar', 'GET', ['filter' => ['filed1' => 'lorem']]));
-    $this->assertInstanceOf(Filter::class, $defaults['_json_api_params']['filter']);
-    $this->assertInstanceOf(OffsetPage::class, $defaults['_json_api_params']['page']);
-    $this->assertTrue(empty($defaults['_json_api_params']['sort']));
-  }
-
-  /**
-   * @covers ::enhance
-   */
   public function testEnhancePage() {
     list($filter_normalizer, $sort_normalizer, $page_normalizer) = $this->getMockNormalizers();
     $object = new JsonApiParamEnhancer($filter_normalizer, $sort_normalizer, $page_normalizer);

@@ -60,8 +60,11 @@ system, as long as it's readable by the user that runs the web server.
 Storing the key in a file outside of the web root is generally more
 secure than storing it in the database.
 
-Both the Configuration and File provider plugins support storing the
-key with Base64 encoding.
+* **Environment:** Allows the key to be stored in an environmental
+variable.
+
+All three provider plugins support storing encryption keys with Base64
+encoding.
 
 Key providers are native Drupal plugins, so new providers can be defined
 easily.
@@ -96,7 +99,7 @@ choose one. This could appear, for instance, on the integrating
 module's configuration page.
 
 Modules can add a key field to a form using the key_select API element,
-which behaves like a select element, but is populated with available 
+which behaves like a select element, but is populated with available
 keys as options.
 
 ```
@@ -108,28 +111,30 @@ $form['secret_key'] = [
 
 There are a couple of additional properties that can be used:
 
-* `#key_filters` An array of filters to apply to the list of keys. 
+* `#key_filters` An array of filters to apply to the list of keys.
 Filtering can be performed on any combination of key type, key provider,
-or key type group. Examples:
-  * `#key_filters = ['type' => 'mailchimp']` This would only display 
+key type group, or storage method. Examples:
+  * `#key_filters = ['type' => 'mailchimp']` This would only display
     MailChimp keys.
-  * `#key_filters = ['provider' => 'file']` This would only display keys 
+  * `#key_filters = ['provider' => 'file']` This would only display keys
     that use the File key provider.
   * `#key_filters = ['type' => 'mailchimp', 'provider' => 'file']`
     This would only display MailChimp keys that use the File key provider.
-  * `#key_filters = ['type_group' => 'encryption']` This would only display 
+  * `#key_filters = ['type_group' => 'encryption']` This would only display
     keys that are of a key type that belongs to the 'encryption' group.
+  * `#key_filters = ['storage_method' => 'file']` This would only display keys
+    that are defined to use file as the storage_method.
 * `#key_description` This is a boolean value that determines if information
   about keys is added to the element's description. It is TRUE by default
-  and it prepends the description with the following text (with a link to 
+  and it prepends the description with the following text (with a link to
   the add key form), which can be disabled by setting #key_description to 
   FALSE:
 
-  > Choose an available key. If the desired key is not listed, create a new 
+  > Choose an available key. If the desired key is not listed, create a new
     key.
 
-Modules can retrieve information about keys or a specific key value by making 
-a call to the Key Manager service. It is best practice to 
+Modules can retrieve information about keys or a specific key value by making
+a call to the Key Manager service. It is best practice to
 [inject the service](https://www.drupal.org/node/2133171)
 into your own service, [form](https://www.drupal.org/node/2203931), or
 [controller](https://api.drupal.org/api/drupal/core!lib!Drupal!Core!DependencyInjection!ContainerInjectionInterface.php/interface/ContainerInjectionInterface/8).

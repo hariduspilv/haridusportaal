@@ -55,7 +55,7 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
     if( this.inputData ){
       this.data = this.inputData;
     }else{
-      let url = "/graphql?queryName=studyProgrammeSingle&queryId=0d539972ed54436d5d651243ee7754c2d81a5efc:1&variables=";
+      let url = "/graphql?queryName=studyProgrammeSingle&queryId=7d6785f86b803917820fb2050a5cf69af34be422:1&variables=";
       let variables = {
         path: this.path
       };

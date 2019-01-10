@@ -265,10 +265,12 @@ class JsonApiDocumentTopLevelNormalizerTest extends JsonapiKernelTestBase {
       $normalized['meta']['errors'][0]['detail']
     );
     $this->assertEquals(403, $normalized['meta']['errors'][0]['status']);
-    $this->assertEquals($this->term1->uuid(), $normalized['included'][0]['id']);
-    $this->assertEquals('taxonomy_term--tags', $normalized['included'][0]['type']);
-    $this->assertEquals($this->term1->label(), $normalized['included'][0]['attributes']['name']);
-    $this->assertTrue(!isset($normalized['included'][0]['attributes']['created']));
+    $expected_index_of_term1 = floatval(\Drupal::VERSION) >= 8.6 ? 1 : 0;
+    $this->assertEquals($this->term1->uuid(), $normalized['included'][$expected_index_of_term1]['id']);
+    $this->assertEquals('taxonomy_term--tags', $normalized['included'][$expected_index_of_term1]['type']);
+    $this->assertEquals($this->term1->label(), $normalized['included'][$expected_index_of_term1]['attributes']['name']);
+    $this->assertCount(floatval(\Drupal::VERSION) >= 8.6 ? 9 : 8, $normalized['included'][$expected_index_of_term1]['attributes']);
+    $this->assertTrue(!isset($normalized['included'][$expected_index_of_term1]['attributes']['created']));
     // Make sure that the cache tags for the includes and the requested entities
     // are bubbling as expected.
     $this->assertArraySubset(
@@ -363,6 +365,7 @@ class JsonApiDocumentTopLevelNormalizerTest extends JsonapiKernelTestBase {
     $this->assertFalse(empty($normalized['included'][0]['id']));
     $this->assertFalse(empty($normalized['meta']['errors']));
     $this->assertEquals($this->term1->uuid(), $normalized['included'][0]['id']);
+    $this->assertCount(floatval(\Drupal::VERSION) >= 8.6 ? 9 : 8, $normalized['included'][1]['attributes']);
     // Make sure that the cache tags for the includes and the requested entities
     // are bubbling as expected.
     $this->assertArraySubset(

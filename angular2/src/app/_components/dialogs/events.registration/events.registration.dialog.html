@@ -33,10 +33,10 @@
       <div class="dialog-content">
         <div class="row form-first-row">
           <div class="col-6 sm-12 form-col">
-            <div class="round-input__wrapper" [class.complete]="form.controls.firstName.value">
+            <div class="round-input__wrapper" [class.complete]="form.controls.firstName.value" [class.error]="formErrors.firstName">
               <span class="round-input__title">{{ 'event.participant_first_name' | translate }} *</span>
               <div class="round-input__field-wrapper">
-                <input attr.aria-label="{{ 'event.participant_first_name' | translate }} {{'required.modal' | translate}}" maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_first_name' | translate }} *" formControlName="firstName"/>
+                <input attr.aria-label="{{ 'event.participant_first_name' | translate }} {{'required.modal' | translate}}" maxlength="30" class="round-input__field" placeholder="{{ 'event.participant_first_name' | translate }} *" formControlName="firstName" (focus)="formErrors.firstName = false;"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('firstName') && form.controls.firstName.errors.required">
@@ -47,10 +47,10 @@
           </div>
           
           <div class="col-6 sm-12 form-col">
-            <div class="round-input__wrapper" [class.complete]="form.controls.lastName.value">
+            <div class="round-input__wrapper" [class.complete]="form.controls.lastName.value" [class.error]="formErrors.lastName">
               <span class="round-input__title">{{ 'event.participant_last_name' | translate }} *</span>
               <div class="round-input__field-wrapper">
-                <input maxlength="30" attr.aria-label="{{ 'event.participant_last_name' | translate }} {{'required.modal' | translate}}" class="round-input__field" placeholder="{{ 'event.participant_last_name' | translate }} *" formControlName="lastName"/>
+                <input maxlength="30" attr.aria-label="{{ 'event.participant_last_name' | translate }} {{'required.modal' | translate}}" class="round-input__field" placeholder="{{ 'event.participant_last_name' | translate }} *" formControlName="lastName" (focus)="formErrors.lastName = false;"/>
               </div>
               <div class="round-input__error">
                 <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('lastName') && form.controls.lastName.errors.required">
@@ -76,11 +76,11 @@
         <div class="row form-additional-row">
           <div class="col-6 sm-12 form-col">
             <div class="round-input__wrapper" 
-            [class.error]="isInvalidField('email') && form.controls.email.errors.email && !emailFocus" 
+            [class.error]="(isInvalidField('email') && form.controls.email.errors.email && !emailFocus) || formErrors.email" 
             [class.complete]="!isInvalidField('email') && form.controls.email.value && !emailFocus">
             <span class="round-input__title">{{ 'event.participant_email' | translate }} *</span>
             <div class="round-input__field-wrapper">
-              <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{'required.modal' | translate }}" class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
+              <input maxlength="30"  attr.aria-label="{{ 'event.participant_email' | translate }} {{'required.modal' | translate }}" class="round-input__field" (focus)="emailFocus = true;formErrors.email = false;" (blur)="emailFocus = false" [class.focused]='emailFocus' placeholder="{{ 'event.participant_email'  | translate }} *" formControlName="email"/>
             </div>
             <div class="round-input__error">
               <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('email') && form.controls.email.errors.email && !emailFocus">
@@ -115,7 +115,7 @@
       <div class="col-12 text-right">
 
         <button tabindex="0" class="sm-hide btn-link mr-25" role="button" href="javascript:void(0)" (click)="close()">{{ 'event.registration_form_cancel' | translate }}</button>
-        <button tabindex="0" [disabled]="form.status === 'INVALID'" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'event.registration_form_send' | translate }}</button>
+        <button tabindex="0" role="button" mat-raised-button color="primary" (click)="captchaRef.execute()">{{ 'event.registration_form_send' | translate }}</button>
         <a tabindex="0" class="sm-show" href="javascript:void(0)" (click)="clear()">{{ 'event.registration_form_cancel' | translate }}</a>
         <!-- [disabled]="form.invalid" -->
         

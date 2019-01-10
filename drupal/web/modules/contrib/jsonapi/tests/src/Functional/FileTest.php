@@ -2,10 +2,14 @@
 
 namespace Drupal\Tests\jsonapi\Functional;
 
+use Drupal\Component\Serialization\Json;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
+use Drupal\Tests\jsonapi\Traits\CommonCollectionFilterAccessTestPatternsTrait;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
 use Drupal\user\Entity\User;
+use GuzzleHttp\RequestOptions;
 
 /**
  * JSON API integration test for the "File" content entity type.
@@ -15,6 +19,7 @@ use Drupal\user\Entity\User;
 class FileTest extends ResourceTestBase {
 
   use BcTimestampNormalizerUnixTestTrait;
+  use CommonCollectionFilterAccessTestPatternsTrait;
 
   /**
    * {@inheritdoc}
@@ -228,6 +233,38 @@ class FileTest extends ResourceTestBase {
       $this->markTestSkipped('File entities had a dysfunctional access control handler until 8.5, this is necessary for this test coverage to work.');
     }
     return parent::testGetIndividual();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function testCollectionFilterAccess() {
+    $label_field_name = 'filename';
+    // Verify the expected behavior in the common case: when the file is public.
+    $this->doTestCollectionFilterAccessBasedOnPermissions($label_field_name, 'access content');
+
+    $collection_url = Url::fromRoute('jsonapi.entity_test--bar.collection');
+    $collection_filter_url = $collection_url->setOption('query', ["filter[spotlight.$label_field_name]" => $this->entity->label()]);
+    $request_options = [];
+    $request_options[RequestOptions::HEADERS]['Accept'] = 'application/vnd.api+json';
+    $request_options = NestedArray::mergeDeep($request_options, $this->getAuthenticationRequestOptions());
+
+    // 1 result because the current user is the file owner, even though the file
+    // is private.
+    $this->entity->setFileUri('private://drupal.txt');
+    $this->entity->setOwner($this->account);
+    $this->entity->save();
+    $response = $this->request('GET', $collection_filter_url, $request_options);
+    $doc = Json::decode((string) $response->getBody());
+    $this->assertCount(1, $doc['data']);
+
+    // 0 results because the current user is no longer the file owner and the
+    // file is private.
+    $this->entity->setOwner(User::load(0));
+    $this->entity->save();
+    $response = $this->request('GET', $collection_filter_url, $request_options);
+    $doc = Json::decode((string) $response->getBody());
+    $this->assertCount(0, $doc['data']);
   }
 
 }

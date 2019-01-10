@@ -5,8 +5,8 @@ type: module
 # core: 8.x
 configure: redis.admin_display
 
-# Information added by Drupal.org packaging script on 2018-05-30
-version: '8.x-1.0'
+# Information added by Drupal.org packaging script on 2018-11-07
+version: '8.x-1.1'
 core: '8.x'
 project: 'redis'
-datestamp: 1527699489
+datestamp: 1541600592

@@ -66,11 +66,6 @@ class JsonApiParamEnhancer implements RouteEnhancerInterface {
       'bundle' => $resource_type->getBundle(),
     ];
 
-    if ($request->query->has('filter')) {
-      $filter = $request->query->get('filter');
-      $options['filter'] = $this->filterNormalizer->denormalize($filter, Filter::class, NULL, $context);
-    }
-
     if ($request->query->has('sort')) {
       $sort = $request->query->get('sort');
       $options['sort'] = $this->sortNormalizer->denormalize($sort, Sort::class, NULL, $context);

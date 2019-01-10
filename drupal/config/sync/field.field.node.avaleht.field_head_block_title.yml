@@ -9,7 +9,7 @@ id: node.avaleht.field_head_block_title
 field_name: field_head_block_title
 entity_type: node
 bundle: avaleht
-label: 'Peabloki pealkiri'
+label: 'Peaploki pealkiri'
 description: ''
 required: true
 translatable: true

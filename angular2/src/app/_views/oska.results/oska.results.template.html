@@ -20,7 +20,7 @@
 
         <h1>{{ data['entityLabel'] }}</h1>
         <div class="mininav flex text-right">
-          <favourites *ngIf="!userLoggedOut" [id]="data.nid" [title]="data.entityLabel"></favourites>
+          <favourites *ngIf="!userLoggedOut" [state]="data.isFavorite" [id]="data.nid" [title]="data.entityLabel"></favourites>
           <share></share>
         </div>  
         <div class="short" [attr.aria-label]="'description.short' | translate">

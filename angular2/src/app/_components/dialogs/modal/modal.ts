@@ -13,20 +13,12 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 export class Modal {
 
-  dashboardLink: string = "";
-
-
-    constructor(
-      private rootScope: RootScopeService,
-      private router: Router,
+  constructor(
+    private rootScope: RootScopeService,
+    private router: Router,
     public dialogRef: MatDialogRef<Modal>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ){}
-  
-  ngOnInit() {
-    let lang = this.rootScope.get('lang');
-    this.dashboardLink = 'et/töölaud/taotlused';
-  }  
   
   closeModal() {
     this.dialogRef.close();

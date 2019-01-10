@@ -4,7 +4,7 @@ namespace Consolidation\SiteAlias;
 use Consolidation\Config\Config;
 use Consolidation\Config\ConfigInterface;
 use Consolidation\Config\Util\ArrayUtil;
-use Drush\Utils\FsUtils;
+use Consolidation\SiteAlias\Util\FsUtils;
 
 /**
  * An alias record is a configuration record containing well-known items.
@@ -134,7 +134,7 @@ class AliasRecord extends Config implements AliasRecordInterface
      */
     public function isRemote()
     {
-        return !$this->isLocal();
+        return $this->has('host');
     }
 
     /**
@@ -142,10 +142,7 @@ class AliasRecord extends Config implements AliasRecordInterface
      */
     public function isLocal()
     {
-        if ($host = $this->remoteHost()) {
-            return $host == 'localhost' || $host == '127.0.0.1';
-        }
-        return true;
+        return !$this->isRemote();
     }
 
     /**
@@ -161,11 +158,31 @@ class AliasRecord extends Config implements AliasRecordInterface
      */
     public function localRoot()
     {
-        if (!$this->isRemote()) {
+        if ($this->isLocal() && $this->hasRoot()) {
             return $this->root();
         }
 
         return false;
+    }
+
+    /**
+     * os returns the OS that this alias record points to. For local alias
+     * records, PHP_OS will be returned. For remote alias records, the
+     * value from the `os` element will be returned. If there is no `os`
+     * element, then the default assumption is that the remote system is Linux.
+     *
+     * @return string
+     *   Linux
+     *   WIN* (e.g. WINNT)
+     *   CYGWIN
+     *   MINGW* (e.g. MINGW32)
+     */
+    public function os()
+    {
+        if ($this->isLocal()) {
+            return PHP_OS;
+        }
+        return $this->get('os', 'Linux');
     }
 
     /**

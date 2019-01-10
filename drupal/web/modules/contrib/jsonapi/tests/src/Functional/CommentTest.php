@@ -13,6 +13,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\entity_test\Entity\EntityTest;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
+use Drupal\Tests\jsonapi\Traits\CommonCollectionFilterAccessTestPatternsTrait;
 use Drupal\user\Entity\User;
 use GuzzleHttp\RequestOptions;
 
@@ -25,6 +26,7 @@ class CommentTest extends ResourceTestBase {
 
   use BcTimestampNormalizerUnixTestTrait;
   use CommentTestTrait;
+  use CommonCollectionFilterAccessTestPatternsTrait;
 
   /**
    * {@inheritdoc}
@@ -318,7 +320,6 @@ class CommentTest extends ResourceTestBase {
    *   validation errors other than "missing required field".
    */
   public function testPostIndividualDxWithoutCriticalBaseFields() {
-    // @codingStandardsIgnoreStart
     $this->setUpAuthorization('POST');
 
     $url = Url::fromRoute(sprintf('jsonapi.%s.collection', static::$resourceTypeName));
@@ -326,41 +327,41 @@ class CommentTest extends ResourceTestBase {
     $request_options[RequestOptions::HEADERS]['Accept'] = 'application/vnd.api+json';
     $request_options = NestedArray::mergeDeep($request_options, $this->getAuthenticationRequestOptions());
 
-    $remove_field = function(array $normalization, $type, $attribute_name) {
+    $remove_field = function (array $normalization, $type, $attribute_name) {
       unset($normalization['data'][$type][$attribute_name]);
       return $normalization;
     };
 
     // DX: 422 when missing 'entity_type' field.
-    $request_options[RequestOptions::BODY] = Json::encode($remove_field($this->getPostDocument(), 'attributes',  'entity_type'));
+    $request_options[RequestOptions::BODY] = Json::encode($remove_field($this->getPostDocument(), 'attributes', 'entity_type'));
     $response = $this->request('POST', $url, $request_options);
-    // @todo Uncomment, remove next line in https://www.drupal.org/node/2820364.
-    $this->assertResourceErrorResponse(500, 'The "" entity type does not exist.', $response);
-    // $this->assertResourceErrorResponse(422, 'Unprocessable Entity', 'entity_type: This value should not be null.', $response);
+    if (floatval(\Drupal::VERSION) >= 8.7) {
+      $this->assertResourceErrorResponse(422, 'entity_type: This value should not be null.', $response, '/data/attributes/entity_type');
+    }
+    else {
+      $this->assertResourceErrorResponse(500, 'The "" entity type does not exist.', $response, FALSE);
+    }
 
     // DX: 422 when missing 'entity_id' field.
     $request_options[RequestOptions::BODY] = Json::encode($remove_field($this->getPostDocument(), 'relationships', 'entity_id'));
-    // @todo Remove the try/catch in favor of the two commented lines in
-    // https://www.drupal.org/node/2820364.
+    // @todo Remove the try/catch in https://www.drupal.org/node/2820364.
     try {
       $response = $this->request('POST', $url, $request_options);
-      // This happens on DrupalCI.
-      $this->assertSame(500, $response->getStatusCode());
+      $this->assertResourceErrorResponse(422, 'entity_id: This value should not be null.', $response, '/data/attributes/entity_id');
     }
     catch (\Exception $e) {
-      // This happens on local development environments
       $this->assertSame("Error: Call to a member function get() on null\nDrupal\\comment\\Plugin\\Validation\\Constraint\\CommentNameConstraintValidator->getAnonymousContactDetailsSetting()() (Line: 96)\n", $e->getMessage());
     }
-    // $response = $this->request('POST', $url, $request_options);
-    // $this->assertResourceErrorResponse(422, 'Unprocessable Entity', 'entity_id: This value should not be null.', $response);
 
     // DX: 422 when missing 'field_name' field.
     $request_options[RequestOptions::BODY] = Json::encode($remove_field($this->getPostDocument(), 'attributes', 'field_name'));
     $response = $this->request('POST', $url, $request_options);
-    // @todo Uncomment, remove next line in https://www.drupal.org/node/2820364.
-    $this->assertResourceErrorResponse(500, 'Field  is unknown.', $response);
-    // $this->assertResourceErrorResponse(422, 'Unprocessable Entity', 'field_name: This value should not be null.', $response);
-    // @codingStandardsIgnoreEnd
+    if (floatval(\Drupal::VERSION) >= 8.7) {
+      $this->assertResourceErrorResponse(422, 'field_name: This value should not be null.', $response, '/data/attributes/field_name');
+    }
+    else {
+      $this->assertSame(500, $response->getStatusCode());
+    }
   }
 
   /**
@@ -427,6 +428,49 @@ class CommentTest extends ResourceTestBase {
       'type' => ['administer comment types'],
       'uid' => ['access user profiles'],
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function testCollectionFilterAccess() {
+    // Verify the expected behavior in the common case.
+    $this->doTestCollectionFilterAccessForPublishableEntities('subject', 'access comments', 'administer comments');
+
+    $collection_url = Url::fromRoute('jsonapi.entity_test--bar.collection');
+    $request_options = [];
+    $request_options[RequestOptions::HEADERS]['Accept'] = 'application/vnd.api+json';
+    $request_options = NestedArray::mergeDeep($request_options, $this->getAuthenticationRequestOptions());
+
+    // Go back to a simpler scenario: revoke the admin permission, publish the
+    // comment and uninstall the query access test module.
+    $this->revokePermissionsFromTestedRole(['administer comments']);
+    $this->entity->setPublished()->save();
+    $this->assertTrue($this->container->get('module_installer')->uninstall(['jsonapi_test_field_filter_access'], TRUE), 'Uninstalled modules.');
+    // ?filter[spotlight.LABEL]: 1 result. Just as already tested above in
+    // ::doTestCollectionFilterAccessForPublishableEntities().
+    $collection_filter_url = $collection_url->setOption('query', ["filter[spotlight.subject]" => $this->entity->label()]);
+    $response = $this->request('GET', $collection_filter_url, $request_options);
+    $doc = Json::decode((string) $response->getBody());
+    $this->assertCount(1, $doc['data']);
+    // Mark the commented entity as inaccessible.
+    \Drupal::state()->set('jsonapi__entity_test_filter_access_blacklist', [$this->entity->getCommentedEntityId()]);
+    Cache::invalidateTags(['state:jsonapi__entity_test_filter_access_blacklist']);
+    // ?filter[spotlight.LABEL]: 0 results.
+    $response = $this->request('GET', $collection_filter_url, $request_options);
+    $doc = Json::decode((string) $response->getBody());
+    $this->assertCount(0, $doc['data']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static function getExpectedCollectionCacheability(array $collection, array $sparse_fieldset = NULL, AccountInterface $account, $filtered = FALSE) {
+    $cacheability = parent::getExpectedCollectionCacheability($collection, $sparse_fieldset, $account, $filtered);
+    if ($filtered) {
+      $cacheability->addCacheTags(['state:jsonapi__entity_test_filter_access_blacklist']);
+    }
+    return $cacheability;
   }
 
 }

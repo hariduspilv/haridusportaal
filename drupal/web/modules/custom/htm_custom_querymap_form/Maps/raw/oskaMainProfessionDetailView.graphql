@@ -19,6 +19,7 @@ query oskaMainProfessionDetailView($path: String!) {
       }
       entity {
         ... on NodeOskaMainProfessionPage {
+          isFavorite
           nid
           entityLabel
           fieldFixedLabel

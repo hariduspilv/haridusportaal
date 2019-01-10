@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "gulp": "^3.8.10",
-    "gulp-phpunit": "^0.7.0",
-    "gulp-watch": "^3.0.0"
+    "gulp": "^4.0.0",
+    "gulp-phpunit": "^0.26.0",
+    "gulp-watch": "^5.0.1"
   },
   "scripts": {
     "test": "gulp test"

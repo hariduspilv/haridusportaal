@@ -772,6 +772,10 @@ a:hover .important-pill {
 .important-pill { 
   font-size: 0.875rem; line-height: 1.29; color: $black; border-radius: 0.78125rem; background-color: $light-orange; padding: 0.25rem 0.75rem 0.25rem;
   font-weight: normal; margin-left: 1rem; pointer-events: none; text-decoration: none; display: inline-block; top: -0.25rem; position: relative;
+  @include break-on(xxs, max) {
+    margin-left: 0;
+    &.xxs-show {display: inline-block !important;}
+  }
 }
 
 .tooltip { display: flex; align-items: baseline; margin-top: 0.75rem; margin-left: 0.5rem; }

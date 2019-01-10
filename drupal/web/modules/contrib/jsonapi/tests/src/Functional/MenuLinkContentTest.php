@@ -5,6 +5,7 @@ namespace Drupal\Tests\jsonapi\Functional;
 use Drupal\Core\Url;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
+use Drupal\Tests\jsonapi\Traits\CommonCollectionFilterAccessTestPatternsTrait;
 
 /**
  * JSON API integration test for the "MenuLinkContent" content entity type.
@@ -14,6 +15,7 @@ use Drupal\Tests\rest\Functional\BcTimestampNormalizerUnixTestTrait;
 class MenuLinkContentTest extends ResourceTestBase {
 
   use BcTimestampNormalizerUnixTestTrait;
+  use CommonCollectionFilterAccessTestPatternsTrait;
 
   /**
    * {@inheritdoc}
@@ -142,11 +144,18 @@ class MenuLinkContentTest extends ResourceTestBase {
   protected function getExpectedUnauthorizedAccessMessage($method) {
     switch ($method) {
       case 'DELETE':
-        return '';
+        return floatval(\Drupal::VERSION >= 8.7) ? "The 'administer menu' permission is required." : '';
 
       default:
         return parent::getExpectedUnauthorizedAccessMessage($method);
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function testCollectionFilterAccess() {
+    $this->doTestCollectionFilterAccessBasedOnPermissions('title', 'administer menu');
   }
 
 }

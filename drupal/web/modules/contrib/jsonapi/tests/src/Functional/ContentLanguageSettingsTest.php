@@ -143,8 +143,8 @@ class ContentLanguageSettingsTest extends ResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static function getExpectedCollectionCacheability(array $collection, array $sparse_fieldset = NULL, AccountInterface $account) {
-    $cacheability = parent::getExpectedCollectionCacheability($collection, $sparse_fieldset, $account);
+  protected static function getExpectedCollectionCacheability(array $collection, array $sparse_fieldset = NULL, AccountInterface $account, $filtered = FALSE) {
+    $cacheability = parent::getExpectedCollectionCacheability($collection, $sparse_fieldset, $account, $filtered);
     if (static::entityAccess(reset($collection), 'view', $account)->isAllowed()) {
       $cacheability->addCacheContexts(['languages:language_interface']);
     }
