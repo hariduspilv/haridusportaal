@@ -138,12 +138,12 @@ class TaraRedirectController extends RedirectController{
 
 	}
 
-	public function startAuth(){
-		$configuration = $this->config('openid_connect.settings.tara')
+	public function startAuth($method){
+		$configuration = $this->config('openid_connect.settings.' . $method)
 			->get('settings');
 
 		$client = $this->pluginManager->createInstance(
-			'tara',
+			$method,
 			$configuration
 		);
 
