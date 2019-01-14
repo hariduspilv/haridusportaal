@@ -2,8 +2,6 @@
 
 namespace Drupal\htm_custom_exports\Controller;
 
-use Drupal\Component\Datetime\Time;
-use Drupal\Console\Bootstrap\Drupal;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
@@ -11,8 +9,6 @@ use Eluceo\iCal\Component\Calendar;
 use Eluceo\iCal\Component\Event;
 
 //use \Drupal\Core\Datetime;
-use Drupal\Core\Datetime\DrupalDateTime;
-use Eluceo\iCal\Component\Timezone;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

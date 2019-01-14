@@ -5,7 +5,6 @@ namespace  Drupal\htm_custom_authentication;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Jumbojett\OpenIDConnectClient;
 use Drupal\Core\Site\Settings;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * A wrapper around base64_decode which decodes Base64URL-encoded data,

@@ -2,7 +2,7 @@
 
 namespace Drupal\htm_custom_subscriptions_notification\Plugin\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
-use Drupal\htm_custom_subscriptions_notification\Controller\NotificationController;
+
 /**
  * Processes Tasks for Learning.
  *
