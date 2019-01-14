@@ -2,18 +2,14 @@
 
 namespace Drupal\htm_custom_favorites\Plugin\GraphQL\Mutations;
 
-use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\CreateEntityBase;
-use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\user\Entity\User;
 use GraphQL\Type\Definition\ResolveInfo;
-use http\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Drupal\htm_custom_graphql_functions\Language\CustomGraphqlLanguageNegotiator;

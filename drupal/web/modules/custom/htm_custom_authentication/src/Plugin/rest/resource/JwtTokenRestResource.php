@@ -4,19 +4,12 @@ namespace Drupal\htm_custom_authentication\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
-use Drupal\jwt\Authentication\Event\JwtAuthEvents;
-use Drupal\jwt\JsonWebToken\JsonWebToken;
 use Drupal\jwt\Transcoder\JwtTranscoderInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
-use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-
-use Drupal\jwt\Authentication\Event\JwtAuthGenerateEvent;
-use Drupal\jwt\Authentication\Provider\JwtAuth;
 
 /**
  * Provides a resource to get view modes by entity and bundle.

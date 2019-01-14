@@ -156,11 +156,11 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 						break;
 				}
 				if ($uid) {
-					$this->flood->clear('json_authentication_provider.failed_login_user', $identifier);
+					$this->flood->clear('json_authentication_provider.failed_login_user', $uid);
 					return $this->entityManager->getStorage('user')->load($uid);
 				} else {
 					// Register a per-user failed login event.
-					$this->flood->register('json_authentication_provider.failed_login_user', $flood_config->get('user_window'), $identifier);
+					$this->flood->register('json_authentication_provider.failed_login_user', $flood_config->get('user_window'), $uid);
 				}
 			} else {
 				$accounts = $this->entityManager->getStorage('user')->loadByProperties(['name' => $username, 'status' => 1]);

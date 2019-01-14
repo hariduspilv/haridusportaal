@@ -2,12 +2,7 @@
 
 namespace Drupal\htm_custom_oska;
 
-use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\htm_custom_oska\Entity\OskaEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\taxonomy\Entity\Term;
-use Drupal\node\Entity\Node;
 use League\Csv\Writer;
 
 /**
