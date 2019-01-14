@@ -328,9 +328,6 @@ class SchoolImportController extends ControllerBase {
         $county = $school['school_location_taxonomy']['field_school_county'];
         $localgov = $school['school_location_taxonomy']['field_school_local_gov'];
         $setunit = $school['school_location_taxonomy']['field_school_set_unit'];
-        $countyterm;
-        $localgovterm;
-        $setunitterm;
         $terms = [];
 
         if(!isset($loctaxonomy[$this->parse_key($county['name'])])){

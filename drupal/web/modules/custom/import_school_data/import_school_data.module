@@ -8,7 +8,6 @@
 use Drupal\import_school_data\Controller\SchoolImportController;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueInterface;
-use Drupal\Core\Database\Database;
 
 /**
  * Implements hook_cron().

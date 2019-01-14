@@ -21,5 +21,12 @@ workflows:
   version: 2
   build:
     jobs:
-    - build
+    - build:
+        filters:
+          tags:
+            only: /.*/
+          branches:
+            only:
+              - master
+              - /^greenkeeper.*$/
 version: 2

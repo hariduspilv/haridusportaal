@@ -1,7 +1,0 @@
-htm_custom_kafka_module.custom_kafka_status_form:
-  title: 'CustomKafkaStatusForm'
-  route_name: htm_custom_kafka_module.custom_kafka_status_form
-  description: 'A description for the menu entry'
-  parent: system.admin_config_system
-  weight: 99
-
