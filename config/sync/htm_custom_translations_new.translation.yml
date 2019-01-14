@@ -1682,11 +1682,11 @@ notFound:
   explanation:
     translation_type: text_format
     et:
+      value: "<p>Tundub, et otsitud lehte ei leitud.<br />\r\nVeakood: <strong>404</strong></p>\r\n"
       format: custom_editor
-      value: 'Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>'
     en:
+      value: "<p>It looks like the page you were looking for was not found.<br />\r\nError code: <strong> 404 </strong></p>\r\n"
       format: custom_editor
-      value: 'It looks like the page you were looking for was not found. <br> Error code: <b> 404 </b>'
 errors:
   enter_valid_date:
     translation_type: textarea
@@ -2152,3 +2152,15 @@ dashboard:
     et: 'Õppeasutuse andmed lisatud!'
     en: 'Educational institution information saved!'
 general: {  }
+agree:
+  translation_type: textarea
+  et: Nõustun
+  en: Agree
+read_terms:
+  translation_type: textarea
+  et: 'Loe kasutustingimusi'
+  en: 'Read terms'
+cookie_text:
+  translation_type: textarea
+  et: 'See veebileht kasutab “küpsiseid”, et salvestada tehtud valikuid ja lemmikobjekte.'
+  en: 'See veebileht kasutab “küpsiseid”, et salvestada tehtud valikuid ja lemmikobjekte.'
