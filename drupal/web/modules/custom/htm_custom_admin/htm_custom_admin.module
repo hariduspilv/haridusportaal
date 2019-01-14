@@ -148,13 +148,10 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
 				/* @var $item_value \Drupal\Core\Render\Markup */
 				$item_value = $item_element['value'];
 				$item_element['value'] = urldecode($fe_url . $item_value);
+
+				// change link to external aswell
+				$variables['link'] = $item_element['value'];
 			}
-		}
-		try{
-			$request = \Symfony\Component\HttpFoundation\Request::create($variables['link']);
-      $url_from_request = Url::createFromRequest($request);
-      $variables['link'] = urldecode($fe_url . $url_from_request->toString());
-		}catch(\Exception $e){
 		}
 	}
 
