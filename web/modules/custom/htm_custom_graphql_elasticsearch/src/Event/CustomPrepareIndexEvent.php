@@ -2,7 +2,6 @@
 
 namespace Drupal\htm_custom_graphql_elasticsearch\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Drupal\elasticsearch_connector\Event\PrepareIndexEvent;
 
 /**

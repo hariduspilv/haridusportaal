@@ -6,26 +6,26 @@ dependencies:
     - language
     - node
 id: ulduuringud_pattern_est
-label: 'Ülduuringud pattern EST'
+label: 'Tööjõuprognoos pattern EST'
 type: 'canonical_entities:node'
-pattern: 'ülduuringud/[node:title]'
+pattern: 'tööjõuprognoos/[node:title]'
 selection_criteria:
-  5395ac12-3d1f-4e88-b0ec-9c9a1bdc4f16:
+  bca2be2c-5840-4951-909e-5563d24fea5f:
     id: node_type
     bundles:
       oska_survey_page: oska_survey_page
     negate: false
     context_mapping:
       node: node
-    uuid: 5395ac12-3d1f-4e88-b0ec-9c9a1bdc4f16
-  5a4ebab0-ad90-4e90-a046-ca373dae3554:
+    uuid: bca2be2c-5840-4951-909e-5563d24fea5f
+  1a835a92-a557-419d-9907-e188f3cc90ea:
     id: language
     langcodes:
       et: et
     negate: false
     context_mapping:
       language: 'node:langcode:language'
-    uuid: 5a4ebab0-ad90-4e90-a046-ca373dae3554
+    uuid: 1a835a92-a557-419d-9907-e188f3cc90ea
 selection_logic: and
 weight: -10
 relationships:

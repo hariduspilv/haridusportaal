@@ -1,8 +1,0 @@
-services:
-  htm_custom_kafka_module.default:
-    class: Drupal\htm_custom_kafka_module\KafkaService
-    arguments: ['@date.formatter', '@logger.channel.htm_custom_kafka_module', '@kafka.low_level_consumer' ]
-  logger.channel.htm_custom_kafka_module:
-    class: Drupal\Core\Logger\LoggerChannel
-    factory: logger.factory:get
-    arguments: ['kafka_logger']

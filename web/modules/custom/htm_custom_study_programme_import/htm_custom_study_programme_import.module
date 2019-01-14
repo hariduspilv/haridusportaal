@@ -8,7 +8,6 @@
 use Drupal\htm_custom_study_programme_import\Controller\StudyProgrammeController;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueInterface;
-use Drupal\Core\Database\Database;
 
 /**
  * Implements hook_cron().

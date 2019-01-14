@@ -1,11 +1,5 @@
 <?php
 
-/**
-* @file
-* Contains htm_custom_subscriptions.module.
-*/
-
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Component\Utility\Unicode;
 
 /**

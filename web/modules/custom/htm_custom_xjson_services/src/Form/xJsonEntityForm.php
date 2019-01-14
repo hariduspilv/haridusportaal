@@ -2,7 +2,6 @@
 
 namespace Drupal\htm_custom_xjson_services\Form;
 
-use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
