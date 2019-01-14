@@ -11,9 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
 use Elasticsearch\ClientBuilder;
 use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
-use Drupal\graphql\Utility\StringHelper;
 use Drupal\paragraphs\Entity\Paragraph;
-use Drupal\taxonomy\Entity\Term;
 
 
 /**

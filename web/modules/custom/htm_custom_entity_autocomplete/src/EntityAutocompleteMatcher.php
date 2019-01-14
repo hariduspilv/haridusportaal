@@ -2,11 +2,6 @@
 
 namespace Drupal\htm_custom_entity_autocomplete;
 
-use Drupal\Component\Utility\Html;
-use Drupal\Component\Utility\Tags;
-use Drupal\taxonomy\Entity\Term;
-use Drupal\Core\Entity\Entity;
-
 class EntityAutocompleteMatcher extends \Drupal\Core\Entity\EntityAutocompleteMatcher {
 
     /**

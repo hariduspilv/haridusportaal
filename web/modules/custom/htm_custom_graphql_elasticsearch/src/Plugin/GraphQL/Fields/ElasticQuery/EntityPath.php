@@ -2,11 +2,9 @@
 
 namespace Drupal\htm_custom_graphql_elasticsearch\Plugin\GraphQL\Fields\ElasticQuery;
 
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 use GraphQL\Type\Definition\ResolveInfo;
-use Drupal\Core\Link;
 
 /**
  * Retrieve a link text.

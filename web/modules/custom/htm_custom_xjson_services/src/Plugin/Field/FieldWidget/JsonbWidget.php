@@ -14,8 +14,6 @@ use Drupal\Core\Field\Plugin\Field\FieldWidget\StringTextareaWidget;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Utility\Unicode as Unicode;
 use Drupal\Component\Serialization\Json as Json;
-use Drupal\Core\Language\LanguageManager;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
  * Plugin implementation of the 'jsonb_textarea' widget.

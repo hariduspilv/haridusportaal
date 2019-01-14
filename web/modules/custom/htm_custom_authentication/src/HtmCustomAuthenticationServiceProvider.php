@@ -4,7 +4,6 @@ namespace Drupal\htm_custom_authentication;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\DependencyInjection\ServiceProviderBase;
 use Drupal\Core\DependencyInjection\ServiceProviderInterface;
-use Symfony\Component\DependencyInjection\Reference;
 
 class HtmCustomAuthenticationServiceProvider extends ServiceProviderBase implements ServiceProviderInterface{
 	public function alter(ContainerBuilder $container)

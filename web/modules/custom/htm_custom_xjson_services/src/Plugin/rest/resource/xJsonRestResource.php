@@ -2,20 +2,14 @@
 
 namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 
-use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\htm_custom_xjson_services\xJsonService;
-use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
-use Drupal\user\Entity\User;
-use GuzzleHttp\Exception\RequestException;
-use PhpParser\Node\Expr\AssignOp\Mod;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
