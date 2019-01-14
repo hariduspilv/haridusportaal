@@ -7,7 +7,6 @@ include ('conf.php');
 use \SoapClient;
 use \SoapVar;
 use \SoapFault;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use \Exception;
 #use Drupal\Core\Entity\Exception;
 /**

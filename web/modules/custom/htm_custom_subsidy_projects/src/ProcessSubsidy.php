@@ -3,7 +3,6 @@
 namespace Drupal\htm_custom_subsidy_projects;
 
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\htm_custom_subsidy_projects\Entity\SubsidyProjectEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

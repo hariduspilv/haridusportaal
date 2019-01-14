@@ -1,5 +1,0 @@
-name: 'HTM custom Kafka module'
-type: module
-description: 'HTM custom Kafka things'
-core: 8.x
-package: 'HTM'

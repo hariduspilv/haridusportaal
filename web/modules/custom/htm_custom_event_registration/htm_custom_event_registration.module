@@ -1,8 +1,5 @@
 <?php
 
-use Drupal\Component\Utility\Unicode;
-use Drupal\Core\Render\BubbleableMetadata;
-
 /**
  * Implements hook_mail().
  */

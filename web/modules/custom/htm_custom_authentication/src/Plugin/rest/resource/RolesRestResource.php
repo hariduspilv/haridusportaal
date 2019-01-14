@@ -6,7 +6,6 @@ use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
 use Drupal\htm_custom_authentication\CustomRoleSwitcher;
-use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;

@@ -3,7 +3,7 @@
 namespace Drupal\htm_custom_subsidy_projects\Plugin\GraphQL\Derivers;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
-use Drupal\graphql\Utility\StringHelper;
+
 /**
 * Provides GraphQL Field plugin definitions for Subsidy project fields.
 */

@@ -3,13 +3,11 @@
 namespace Drupal\custom_translation_module\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
