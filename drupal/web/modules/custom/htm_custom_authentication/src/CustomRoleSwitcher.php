@@ -3,9 +3,7 @@
 namespace Drupal\htm_custom_authentication;
 
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\user\UserDataInterface;
-use GuzzleHttp\Exception\BadResponseException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CustomRoleSwitcher {

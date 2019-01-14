@@ -8,7 +8,6 @@
 use Drupal\htm_custom_subscriptions_notification\Controller\NotificationController;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueInterface;
-use Drupal\Core\Database\Database;
 use Drupal\Component\Utility\Unicode;
 
 /**
@@ -23,6 +22,7 @@ function htm_custom_subscriptions_notification_cron() {
         $queue = $queue_factory->get('cron_htm_custom_subscriptions_notification');
 
         $notificationnodes = $notification_controller->notify();
+
         foreach($notificationnodes as $notificationnode){
           $queue->createItem($notificationnode);
         }
