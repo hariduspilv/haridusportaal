@@ -3,15 +3,8 @@
 namespace Drupal\htm_custom_oska\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\Core\Field\Plugin\Field\FieldWidget\EntityReferenceAutocompleteTagsWidget;
-use Drupal\Core\Field\Plugin\Field\FieldWidget\EntityReferenceAutocompleteWidget;
-use Drupal\Core\Field\Plugin\Field\FieldWidget\StringTextfieldWidget;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Field\WidgetBase;
-use Drupal\taxonomy\Entity\Term;
-use Drupal\Component\Serialization\Json;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Utility\SortArray;
 

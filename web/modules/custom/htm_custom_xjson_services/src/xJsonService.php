@@ -7,10 +7,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\user\Entity\User;
-use GuzzleHttp\Exception\BadResponseException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Drupal\redis\ClientFactory;
 
 /**
  * Class xJsonService.

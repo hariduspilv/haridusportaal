@@ -2,11 +2,9 @@
 
 namespace Drupal\htm_custom_subscriptions\Plugin\GraphQL\Mutations;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\CreateEntityBase;
-use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\UpdateEntityBase;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
 use GraphQL\Type\Definition\ResolveInfo;
 use Symfony\Component\DependencyInjection\ContainerInterface;

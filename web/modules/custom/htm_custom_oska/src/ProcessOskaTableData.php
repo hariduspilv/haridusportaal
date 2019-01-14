@@ -3,10 +3,8 @@
 namespace Drupal\htm_custom_oska;
 
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\htm_custom_oska\Entity\OskaTableEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\taxonomy\Entity\Term;
 
 /**
  * Class ProcessOskaTableData
@@ -168,14 +166,5 @@ class ProcessOskaTableData {
         $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_table_entity');
         $entities = $storage_handler->loadMultiple($ids);
         $storage_handler->delete($entities);
-    }
-
-    private function checkDateFormat($date_string, $format){
-        try{
-            $d = DrupalDateTime::createFromFormat($format, $date_string);
-            return $d->format('Y-m-d');
-        }catch (\Exception $e){
-            return false;
-        }
     }
 }

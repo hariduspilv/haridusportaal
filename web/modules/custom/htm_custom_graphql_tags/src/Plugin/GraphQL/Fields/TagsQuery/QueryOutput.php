@@ -4,7 +4,6 @@ namespace Drupal\htm_custom_graphql_tags\Plugin\GraphQL\Fields\TagsQuery;
 
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
-use Drupal\system\MenuInterface;
 use GraphQL\Type\Definition\ResolveInfo;
 
 /**

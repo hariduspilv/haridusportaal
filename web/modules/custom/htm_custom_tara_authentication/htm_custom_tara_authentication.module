@@ -1,12 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains htm_custom_tara_authentication.module.
- */
-
-use Drupal\user\UserInterface;
-
 function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$userinfo, array $context) {
 	//@TODO we need to change email
 	$sub = $context['user_data']['sub'];

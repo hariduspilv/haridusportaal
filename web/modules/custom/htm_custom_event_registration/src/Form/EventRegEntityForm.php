@@ -4,7 +4,7 @@ namespace Drupal\htm_custom_event_registration\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Datetime\DrupalDateTime;
+
 /**
  * Form controller for Event registration edit forms.
  *

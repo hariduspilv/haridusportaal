@@ -2,14 +2,11 @@
 
 namespace Drupal\htm_custom_subscriptions\Plugin\GraphQL\Mutations;
 
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
-use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\CreateEntityBase;
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\UpdateEntityBase;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
 use GraphQL\Type\Definition\ResolveInfo;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * Simple mutation for creating a new article node.
  *
@@ -49,9 +46,8 @@ class ActivateTagSubscription extends UpdateEntityBase{
 	 */
 	public function resolve($value, array $args, ResolveContext $context, ResolveInfo $info)
 	{
-		// Set new language by its langcode.
-		// Needed to re-run language negotiation.
 
+        $bundleName = $this->pluginDefinition['entity_bundle'];
 		$entityTypeId = $this->pluginDefinition['entity_type'];
 		$storage = $this->entityTypeManager->getStorage($entityTypeId);
 		$entity = $storage->loadByProperties(['uuid' => $args['input']['uuid']]);
