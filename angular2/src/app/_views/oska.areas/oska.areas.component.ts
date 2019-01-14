@@ -65,7 +65,7 @@ export class OskaAreasComponent implements OnInit{
       }
       else if( decodeURI(this.router.url).match(/tööjõuprognoos|survey-pages/ ) ){
         this.viewType = "surveyPage";
-        url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=30080f40d5c2f992f18cd959930f20409ae73146:1&variables=";
+        url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=c90143a08503ff84dbb9377214455e1e8e47d945:1&variables=";
       }
 
       let variables = {

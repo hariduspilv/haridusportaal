@@ -8,6 +8,7 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { SettingsService } from '@app/_core/settings';
 import { HttpClient } from '@angular/common/http'
+import { CookieService } from './_services/cookieService';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +42,8 @@ export class AppComponent implements OnInit {
     private adapter: DateAdapter<Date>,
     private rootScope: RootScopeService,
     private http: HttpClient,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private cookies: CookieService
   ) {
 
     rootScope.set('lang', 'et');
@@ -92,7 +94,40 @@ export class AppComponent implements OnInit {
 
   subscription: Subscription;
 
+  showCookieNotification = false;
+
+  agreeTerms() {
+    this.cookies.authorize();
+    this.showCookieNotification = false;
+    this.showChat();
+  }
+
+  initCookies(){
+    let cookiesAuth = this.cookies.isAuthorized();
+
+    if( cookiesAuth !== 'not_allowed' ){
+      if( cookiesAuth ){
+        this.showChat();
+      }else{
+        this.showCookieNotification = true;
+      }
+    }
+  }
+  
+  showChat(){
+    window['__lc'] = window['__lc'] || {};
+    window['__lc'].license = 10492167;
+    (function() {
+      var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = false;
+      lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+    })();
+  }
+
   ngOnInit() {
+
+    this.initCookies();
+
     this.menuStyle();
   }
 

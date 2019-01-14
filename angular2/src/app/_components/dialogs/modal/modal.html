@@ -18,9 +18,9 @@
         <div class="dialog__actions--success__close">
  
 
-        <a *ngIf="data.linkStatus" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" [routerLink]="[dashboardLink]" href="javascript:void(0)" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'data.dashboard_link' | translate }}</a>
+        <a *ngIf="data.linkStatus" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" routerLink="/töölaud/taotlused" href="javascript:void(0)" role="button" tabindex="0" mat-raised-button color="primary" >{{ 'data.dashboard_link' | translate }}</a>
  
-          <a href="javascript:void(0)" attr.aria-label="{{'modal.close' | translate}}" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a>
+        <a href="javascript:void(0)" attr.aria-label="{{'modal.close' | translate}}" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a>
  
        </div>
 
