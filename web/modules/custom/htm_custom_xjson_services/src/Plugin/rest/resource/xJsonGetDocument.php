@@ -96,7 +96,6 @@ class xJsonGetDocument extends ResourceBase {
 		//build params
 		$params['url'] = [$form_name, $file_id];
 		$response = $this->ehisService->getDocument($params);
-
 		$response['header'] += [
 			'endpoint' => 'empty'
 		];
