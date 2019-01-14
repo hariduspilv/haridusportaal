@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SettingsService } from '@app/_core/settings';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
+
 @Injectable()
 export class HttpService {
 
@@ -57,6 +60,9 @@ export class HttpService {
     return this.http.get(url, {
       headers: headers,
       withCredentials: inputHeaders['withCredentials'] || false
+    }).catch((err) => {
+
+      return Observable.throw(err);
     });
   }
 
