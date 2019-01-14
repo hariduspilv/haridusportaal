@@ -122,11 +122,11 @@ class xJsonRestResource extends ResourceBase {
 			'endpoint' => 'empty'
 		];
 		$form_name = $response['header']['form_name'];
-		//validate header acivity
+		//validate header activity
 		$acceptable_activity = $response['header']['acceptable_activity'];
 		if ($data['status'] === 'draft') $allowed_activites = ['SAVE' => 'SAVE', 'SUBMIT' => 'SUBMIT', 'CONTINUE' => 'CONTINUE'];
 		if ($data['status'] === 'submitted') $allowed_activites = ['VIEW' => 'VIEW'];
-
+		#dump($response);
 		foreach ($acceptable_activity as $value) {
 			if (!isset($allowed_activites[$value])) {
 				$errorJson = $this->xJsonService->returnErrorxDzeison();
