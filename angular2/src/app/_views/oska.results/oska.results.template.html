@@ -188,7 +188,11 @@
             </table>
           </div>
         </div>
+
+        <feedback [nid]="data.nid"></feedback>
+        
       </div><!--/block-->
+
     </div><!--/col-8-->
     <div class="col-4 sm-12" *ngIf="sidebarData">
       <oska-areas-sidebar [sidebar]="sidebarData" [viewType]="viewType"></oska-areas-sidebar>

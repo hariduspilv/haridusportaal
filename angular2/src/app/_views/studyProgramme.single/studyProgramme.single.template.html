@@ -30,7 +30,6 @@
                   </tr>
                 </thead>
                 <tbody>
-
                   <tr *ngIf="data.fieldEducationalInstitution">
                     <td>Registrikood</td>
                     <td>{{ data.fieldEducationalInstitution.entity.fieldRegistrationCode }}</td>
@@ -120,6 +119,7 @@
             </div><!--/table-wrapper-->
           </div>
         </div>
+        <feedback [nid]="data.nid"></feedback>
       </div><!--/block-->
 
       <ng-container>
