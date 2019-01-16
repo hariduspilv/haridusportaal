@@ -4,8 +4,6 @@ namespace Drupal\htm_custom_authentication;
 
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Password\PasswordInterface;
-use Drupal\rest\ResourceResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Drupal\htm_custom_authentication\Plugin\DigiDocService;
@@ -70,6 +68,8 @@ class UserAuth implements UserAuthInterface {
 
   public function authenticateMobileId($session_code, $id_code){
     $uid = FALSE;
+
+    $result = [];
 
     $dds = DigiDocService::Instance();
     $params = array(

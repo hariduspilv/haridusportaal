@@ -15,11 +15,20 @@ jobs:
         command: |
           ssh -q -o StrictHostKeyChecking=no $PROXYSERVER -p 222 <<EOF1
           ssh -q -o StrictHostKeyChecking=no $PRELIVESERVER -p 22 <<EOF2
+          sudo -i docker restart drupal
+          sudo -i docker restart angular
           EOF2
           EOF1
 workflows:
   version: 2
   build:
     jobs:
-    - build
+    - build:
+        filters:
+          tags:
+            only: /.*/
+          branches:
+            only:
+              - master
+              - /^greenkeeper.*$/
 version: 2

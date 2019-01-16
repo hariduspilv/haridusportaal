@@ -3,7 +3,6 @@
 namespace Drupal\htm_custom_graphql_functions\Plugin\GraphQL\Fields\EntityQuery;
 
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
-use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;

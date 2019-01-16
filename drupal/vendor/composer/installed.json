@@ -6022,6 +6022,73 @@
         }
     },
     {
+        "name": "drupal/sitemap",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/sitemap",
+            "reference": "8.x-1.5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/sitemap-8.x-1.5.zip",
+            "reference": "8.x-1.5",
+            "shasum": "aa6f0189eba189c9f6c1a1e24505f1ce802eeea1"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.5",
+                "datestamp": "1541693881",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Nik Alexandrov",
+                "homepage": "https://www.drupal.org/u/nafes",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Anna Kalata",
+                "homepage": "https://www.drupal.org/u/akalata",
+                "role": "Co-maintainer"
+            },
+            {
+                "name": "killes@www.drop.org",
+                "homepage": "https://www.drupal.org/u/killeswww.drop.org",
+                "role": "Co-maintainer"
+            },
+            {
+                "name": "See other contributors",
+                "homepage": "https://www.drupal.org/node/3295/committers",
+                "role": "contributor"
+            }
+        ],
+        "description": "Display a sitemap.",
+        "homepage": "http://drupal.org/project/sitemap",
+        "support": {
+            "source": "http://cgit.drupalcode.org/sitemap",
+            "issues": "http://drupal.org/project/issues/sitemap",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
+    },
+    {
         "name": "drupal/smtp",
         "version": "1.0.0-beta4",
         "version_normalized": "1.0.0.0-beta4",
@@ -12026,17 +12093,6 @@
         "name": "webflo/drupal-core-require-dev",
         "version": "8.6.5",
         "version_normalized": "8.6.5.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/webflo/drupal-core-require-dev.git",
-            "reference": "626e9fa839853f99aaf400be515064fe59682d4c"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/webflo/drupal-core-require-dev/zipball/626e9fa839853f99aaf400be515064fe59682d4c",
-            "reference": "626e9fa839853f99aaf400be515064fe59682d4c",
-            "shasum": ""
-        },
         "require": {
             "behat/mink": "1.7.x-dev",
             "behat/mink-goutte-driver": "^1.2",

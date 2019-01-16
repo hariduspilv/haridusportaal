@@ -5,7 +5,6 @@ namespace Drupal\htm_custom_professional_certific\Plugin\rest\resource;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
-use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use GuzzleHttp\Exception\RequestException;

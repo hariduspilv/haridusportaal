@@ -8,7 +8,6 @@ use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\htm_custom_xjson_services\xJsonService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
-use Drupal\rest\ResourceResponse;
 use Hshn\Base64EncodedFile\HttpFoundation\File\Base64EncodedFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

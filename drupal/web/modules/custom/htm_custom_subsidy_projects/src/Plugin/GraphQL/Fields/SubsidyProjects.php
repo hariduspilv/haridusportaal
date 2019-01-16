@@ -5,7 +5,6 @@ namespace Drupal\htm_custom_subsidy_projects\Plugin\GraphQL\Fields;
 use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\graphql\GraphQL\Cache\CacheableValue;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
-use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 use Drupal\graphql_core\Plugin\GraphQL\Fields\EntityQuery\EntityQueryEntities;
 use GraphQL\Type\Definition\ResolveInfo;
 
