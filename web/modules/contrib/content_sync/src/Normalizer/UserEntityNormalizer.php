@@ -18,7 +18,7 @@ class UserEntityNormalizer extends ContentEntityNormalizer {
   /**
    * {@inheritdoc}
    */
-  public function denormalize($data, $class, $format = NULL, array $context = array()) {
+  public function denormalize($data, $class, $format = NULL, array $context = []) {
 
     $entity = parent::denormalize($data, $class, $format, $context);
 
@@ -26,14 +26,17 @@ class UserEntityNormalizer extends ContentEntityNormalizer {
     if ((int) $entity->id() === 1) {
       return $entity->load(1);
     }
-
+    // User 0 is not updated.
+    if (!empty($data['_content_sync']['is_anonymous']) && (int) $entity->id() === 0) {
+      return $entity->load(0);
+    }
     return $entity;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function normalize($object, $format = NULL, array $context = array()) {
+  public function normalize($object, $format = NULL, array $context = []) {
     $normalized_data = parent::normalize($object, $format, $context);
     if (!empty($context['content_sync'])) {
       $normalized_data['pass'] = [
@@ -51,4 +54,15 @@ class UserEntityNormalizer extends ContentEntityNormalizer {
     return $normalized_data;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function getContentSyncMetadata($object, $context = []) {
+    /** @var \Drupal\user\Entity\User $object */
+    $metadata = parent::getContentSyncMetadata($object, $context);
+    if ($object->isAnonymous()) {
+      $metadata['is_anonymous'] = TRUE;
+    }
+    return $metadata;
+  }
 }
