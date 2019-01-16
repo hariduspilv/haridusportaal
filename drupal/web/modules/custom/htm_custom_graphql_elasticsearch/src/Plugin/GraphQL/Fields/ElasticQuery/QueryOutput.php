@@ -5,7 +5,6 @@ namespace Drupal\htm_custom_graphql_elasticsearch\Plugin\GraphQL\Fields\ElasticQ
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 use GraphQL\Type\Definition\ResolveInfo;
-use Drupal\graphql\Utility\StringHelper;
 
 /**
  * Retrieve a Drupal menu's description.

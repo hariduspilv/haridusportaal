@@ -5,14 +5,7 @@ namespace Drupal\htm_custom_oska\Plugin\Field\FieldType;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\TypedData\DataDefinition;
-use Drupal\taxonomy\Entity\Term;
-use Drupal\Component\Utility\Html;
-use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
-use Drupal\Core\TypedData\DataReferenceTargetDefinition;
-use Drupal\Core\Entity\TypedData\EntityDataDefinition;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Field\FieldItemBase;
-use Drupal\Component\Serialization\Json;
 
 /**
  * Plugin implementation of the 'oska_graph_field' field type.

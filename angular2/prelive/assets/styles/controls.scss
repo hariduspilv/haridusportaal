@@ -24,7 +24,9 @@
       .round-input__field-wrapper {border-color: $red; margin-top: 0;
         @include break-on(xl, min) {margin-top: .0625rem;}
       }
-
+      .mat-form-field{border-color: $red;
+        .mat-form-field-label{color: $red;}
+      }
     }
     &.clean {
       ::placeholder {font-size: 0.875rem;

@@ -7,10 +7,8 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\user\Entity\User;
-use GuzzleHttp\Exception\BadResponseException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Drupal\redis\ClientFactory;
 
 /**
  * Class xJsonService.
@@ -67,6 +65,7 @@ class xJsonService implements xJsonServiceInterface {
 
 	public function getBasexJsonForm ($first = false, $response_info = [], $form_name = null) {
 		$baseJson = [];
+		#dump($this->currentRequestContent->educationalInstitutions_id);
 		if ($first && !empty($this->getEntityJsonObject($form_name))) {
 			$definition_header = $this->getxJsonHeader();
 			$baseJson['header'] = $definition_header + [
@@ -75,8 +74,14 @@ class xJsonService implements xJsonServiceInterface {
 					'identifier' => null,
 					'acceptable_activity' => ['CONTINUE'],
 					'agents' => [
-						['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
-					]
+						[
+							'role' => 'TAOTLEJA',
+							'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
+							'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
+							'educationalInstitutions_id' => ($this->currentRequestContent->educationalInstitutions_id) ?: null,
+						]
+					],
+					'parameters' => ($this->currentRequestContent->additional_parameters) ?: null,
 				];
 
 			/*TODO fix empty arrays*/
@@ -95,12 +100,17 @@ class xJsonService implements xJsonServiceInterface {
 			// set definition header and add server-side idCode
 			$baseJson['header'] = $definition_header + [
 					'agents' => [
-						['person_id' => $this->getCurrentUserIdCode(), 'role' => 'TAOTLEJA']
+						[
+							'role' => 'TAOTLEJA',
+							'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
+							'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
+							'educationalInstitutions_id' => ($this->currentRequestContent->educationalInstitutions_id) ?: null,
+						]
 					]
 				] + $baseJson['header'];
-			#dump($response_info);
 		}
-		#dump($baseJson);
+		#dump($this->currentRequestContent);
+		#dump(json_encode($baseJson));
 		return $baseJson;
 	}
 
@@ -326,7 +336,7 @@ class xJsonService implements xJsonServiceInterface {
 				}
 				break;
 			case 'table':
-				$additional_keys = ['add_del_rows', 'table_columns'];
+				$additional_keys = ['add_del_rows', 'table_columns' , 'hidden'];
 				if (isset($element['add_del_rows']) && !is_bool($element['add_del_rows'])) $valid = false;
 				if (isset($element['table_columns'])) {
 					foreach ($element['table_columns'] as $key => $column_element) {
@@ -342,7 +352,7 @@ class xJsonService implements xJsonServiceInterface {
 				}
 				break;
 			case 'address':
-				$additional_keys = ['multiple', 'appartment', 'results', 'ihist'];
+				$additional_keys = ['multiple', 'appartment', 'results', 'ihist', 'hidden', 'required', 'readonly'];
 				break;
 			case 'checkbox':
 				$additional_keys = ['width'];

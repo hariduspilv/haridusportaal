@@ -5,7 +5,6 @@ namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\htm_custom_xjson_services\xJsonService;
-use Drupal\htm_custom_xjson_services\xJsonServiceInterface;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
@@ -96,7 +95,6 @@ class xJsonGetDocument extends ResourceBase {
 		//build params
 		$params['url'] = [$form_name, $file_id];
 		$response = $this->ehisService->getDocument($params);
-
 		$response['header'] += [
 			'endpoint' => 'empty'
 		];
