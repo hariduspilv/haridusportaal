@@ -94,11 +94,16 @@
             </table>
           </div>
         </div>
+
+        <feedback [nid]="data.nid"></feedback>
+        
       </div>
       <div class="orange-container" id="contacts-mobile">
         <ng-container *ngTemplateOutlet="contacts"></ng-container>
       </div>
       <school-study-programmes [schoolName]="data.title" [schoolId]="data.nid"></school-study-programmes>
+
+      
     </div>
     <!-- /col-8 -->
     <div class="col-4 right-col" id="contacts">

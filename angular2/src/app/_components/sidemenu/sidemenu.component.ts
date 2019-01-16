@@ -42,6 +42,7 @@ export class SideMenuComponent implements OnInit {
 
   getData(){
 
+    clearTimeout( this.debounce );
     this.debounce = setTimeout( () => {
       let lang = this.rootScope.get("lang");
       
