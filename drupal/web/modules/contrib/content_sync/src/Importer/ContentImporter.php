@@ -226,6 +226,10 @@ class ContentImporter implements ContentImporterInterface {
     $reflection = new \ReflectionClass($entity);
     $valid = TRUE;
     if ($reflection->implementsInterface('\Drupal\user\UserInterface')) {
+      // Anonymous and Admin users are not valid for updating
+      if ((int) $entity->id() === 1 || (int) $entity->id() === 0) {
+        return FALSE;
+      }
       $validations = $entity->validate();
       if (count($validations)) {
         /**

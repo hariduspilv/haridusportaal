@@ -60,6 +60,11 @@ services:
     class: Drupal\content_sync\Normalizer\TextItemNormalizer
     tags:
       - { name: normalizer, priority: 10 }
+  content_sync.normalizer.image_item:
+    class: Drupal\content_sync\Normalizer\ImageItemNormalizer
+    tags:
+      - { name: normalizer, priority: 9 }
+    arguments: ['@entity.repository']
   plugin.manager.sync_normalizer_decorator:
     class: Drupal\content_sync\Plugin\SyncNormalizerDecoratorManager
     parent: default_plugin_manager

@@ -2789,18 +2789,12 @@
     },
     {
         "name": "drupal/content_sync",
-        "version": "2.0.0",
-        "version_normalized": "2.0.0.0",
+        "version": "dev-2.x",
+        "version_normalized": "dev-2.x",
         "source": {
             "type": "git",
             "url": "https://git.drupal.org/project/content_sync",
-            "reference": "8.x-2.0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://ftp.drupal.org/files/projects/content_sync-8.x-2.0.zip",
-            "reference": "8.x-2.0",
-            "shasum": "8382a422c907f353bdbaad13ea788390a13038eb"
+            "reference": "4c259ebbde12c4ca02612112bcaddb3ba581d0f3"
         },
         "require": {
             "drupal/core": "*"
@@ -2811,15 +2805,15 @@
                 "dev-2.x": "2.x-dev"
             },
             "drupal": {
-                "version": "8.x-2.0",
-                "datestamp": "1514473985",
+                "version": "8.x-2.0+3-dev",
+                "datestamp": "1524798184",
                 "security-coverage": {
-                    "status": "covered",
-                    "message": "Covered by Drupal's security advisory policy"
+                    "status": "not-covered",
+                    "message": "Dev releases are not covered by Drupal security advisories."
                 }
             }
         },
-        "installation-source": "dist",
+        "installation-source": "source",
         "notification-url": "https://packages.drupal.org/8/downloads",
         "license": [
             "GPL-2.0-or-later"
