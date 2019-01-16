@@ -15,7 +15,7 @@ jobs:
         command: |
           ssh -q -o StrictHostKeyChecking=no $PROXYSERVER -p 222 <<EOF1
           ssh -q -o StrictHostKeyChecking=no $PRELIVESERVER -p 22 <<EOF2
-	  docker restart drupal
+          docker restart drupal
           docker restart angular
           EOF2
           EOF1
