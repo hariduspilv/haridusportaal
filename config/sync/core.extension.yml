@@ -15,6 +15,7 @@ module:
   config: 0
   config_translation: 0
   contact: 0
+  content_sync: 0
   contextual: 0
   crop: 0
   ctools: 0
