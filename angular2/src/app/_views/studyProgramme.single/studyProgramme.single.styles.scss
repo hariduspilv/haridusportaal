@@ -66,6 +66,7 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   a {text-decoration: none;
     &:hover {text-decoration: underline;}}
   }
-  @include break-on(sm, max) {.block {margin-bottom: 0;}}
+  @include break-on(sm, max) {.block {margin-bottom: 0;}
+}
 
-
+feedback{margin-left:0; margin-right:0; margin-bottom:-2rem;}

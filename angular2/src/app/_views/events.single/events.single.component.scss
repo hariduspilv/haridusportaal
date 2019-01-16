@@ -4,7 +4,7 @@ a:visited {
   color: $visited!important;
 }
 
-article {padding-bottom: $xxl;
+article {padding-bottom: 1rem;
   a {color: $blue;padding-right: $small;
     .htm-icon {color: $blue;}
     @include break-on(sm, min) {padding-right: 0;}
