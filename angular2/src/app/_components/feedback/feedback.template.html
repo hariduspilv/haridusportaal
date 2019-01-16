@@ -1,0 +1,27 @@
+<ng-container *ngIf="status == 'vote'">
+  <p><b>{{ 'feedback_heading' | translate }}</b></p>
+  <div class="options">
+    <button (click)="vote(true)">
+      <span class="htm-icon">thumb_up</span>{{ 'feedback_yes' | translate }}
+    </button>
+    <button (click)="vote(false)">
+      <span class="htm-icon negative">thumb_down</span>{{ 'feedback_no' | translate }}
+    </button>
+  </div><!--/options-->
+</ng-container>
+
+<ng-container *ngIf="status == 'add_comment'">
+  <p><b>{{ 'feedback_how_to_improve' | translate }}</b></p>
+  <div class="comment">
+    <div class="formItem">
+      <textarea placeholder="{{ 'feedback_comment' | translate }}" [(ngModel)]='values.comment'></textarea>
+    </div><!--/formItem-->
+    <button mat-raised-button (click)="sendVote()" color="primary">{{ 'feedback_send' | translate }}</button>
+  </div><!--/comment-->
+</ng-container>
+
+<ng-container *ngIf="status == 'response'">
+  <div class="response">
+    <p><b>{{ 'feedback_thanks' | translate }}</b></p>
+  </div><!--/response-->
+</ng-container>

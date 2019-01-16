@@ -30,6 +30,7 @@ import { SideMenuComponent } from '@app/_components/sidemenu/sidemenu.component'
 import { ChartComponent } from './_components/chart/chart.component';
 import { taraLoginModal } from './_components/dialogs/taraLogin/taraLogin.modal';
 import { CookieNotification } from './_components/cookieNotification/cookieNotification.component';
+import { FeedbackComponent } from './_components/feedback/feedback.component';
 
 export const AppDeclarations = [
   routedComponents,
@@ -63,7 +64,8 @@ export const AppDeclarations = [
   SideMenuComponent,
   ChartComponent,
   EventsListComponent,
-  CookieNotification
+  CookieNotification,
+  FeedbackComponent
 ];
 
 export const AppEntryComponents = [
