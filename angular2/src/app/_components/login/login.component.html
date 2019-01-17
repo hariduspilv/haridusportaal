@@ -53,7 +53,9 @@
     <div class="error" role="alert" tabindex="0" *ngIf="error">{{ 'login.error' | translate }}</div>
 
     <div *ngIf="!loader && basicLogin" style="height:20px;"></div>
-    <button role="button" mat-raised-button color="primary" (click)="openTara()">Logi sisse TARA-ga</button>
+    <button role="button" mat-raised-button color="primary" (click)="openTara()">{{ 'login_tara' | translate }}</button>
+    <button role="button" mat-raised-button color="primary" (click)="openHarID()">{{ 'login_harid' | translate }}</button>
+    
 
   </div>
 </span>

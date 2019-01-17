@@ -49,6 +49,8 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
     this.displayRelatedStudyProgrammes = value;
   }
   getData() {
+
+    this.data = false;
     this.displayRelatedStudyProgrammes = false;
 
 
