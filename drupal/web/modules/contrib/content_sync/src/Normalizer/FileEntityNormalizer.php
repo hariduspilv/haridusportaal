@@ -124,7 +124,7 @@ class FileEntityNormalizer extends ContentEntityNormalizer {
 
     // Set base64-encoded file contents to the "data" property.
     if (!empty($context['content_sync_file_base_64'])) {
-      $file_data = base64_encode(file_get_contents($this->fileSystem->realpath($object->getFileUri())));
+      $file_data = base64_encode(file_get_contents($object->getFileUri()));
       $data['data'] = [['value' => $file_data]];
     }
 

@@ -91,23 +91,23 @@ class ContentExportForm extends FormBase {
   }
 
   /**
-   * @inheritdoc
+   * @{@inheritdoc}
    */
   protected function getEntityTypeManager() {
     return $this->entityTypeManager;
   }
 
   /**
-   * @inheritdoc
+   * @{@inheritdoc}
    */
   protected function getContentExporter() {
     return $this->contentExporter;
   }
 
   /**
-   * @inheritdoc
+   * @{@inheritdoc}
    */
-  protected function getLogger() {
+  protected function getExportLogger() {
     return $this->logger('content_sync');
   }
 

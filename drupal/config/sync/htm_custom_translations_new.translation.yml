@@ -2164,3 +2164,39 @@ cookie_text:
   translation_type: textarea
   et: 'See veebileht kasutab “küpsiseid”, et salvestada tehtud valikuid ja lemmikobjekte.'
   en: 'See veebileht kasutab “küpsiseid”, et salvestada tehtud valikuid ja lemmikobjekte.'
+feedback_heading:
+  translation_type: textarea
+  et: 'Kas said leheküljelt vajaliku info?'
+  en: 'Did you get correct info from this page?'
+feedback_yes:
+  translation_type: textarea
+  et: 'Jah, leidsin kõik vajaliku'
+  en: 'Yes i found what i need'
+feedback_no:
+  translation_type: textarea
+  et: 'Ei leidnud vajalikku infot'
+  en: 'No i didnt find anything useful'
+feedback_how_to_improve:
+  translation_type: textarea
+  et: 'Kuidas saaksime lehte parandada?'
+  en: 'How could we make the site better?'
+feedback_comment:
+  translation_type: textarea
+  et: Kommentaar
+  en: Comment
+feedback_thanks:
+  translation_type: textarea
+  et: 'Aitäh tagasiside eest!'
+  en: 'Thank you for your feedback!'
+feedback_send:
+  translation_type: textarea
+  et: Saada
+  en: Send
+login_tara:
+  translation_type: textarea
+  et: 'Logi sisse TARA-ga'
+  en: 'Login with TARA'
+login_harid:
+  translation_type: textarea
+  et: 'Logi sisse HarID-ga'
+  en: 'Login with HarID'

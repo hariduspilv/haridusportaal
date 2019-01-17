@@ -137,7 +137,7 @@ trait ContentExportTrait {
       foreach ($results as $key => $result) {
         if ($key != 'errors') {
           //drupal_set_message(t('Processed UUID @title.', array('@title' => $result)));
-          $this->getLogger()
+          $this->getExportLogger()
                ->info('Processed UUID @title.', [
                  '@title' => $result,
                  'link' => 'Export',
@@ -149,17 +149,17 @@ trait ContentExportTrait {
         $errors = array_unique($errors);
         foreach ($errors as $error) {
           //drupal_set_message($error, 'error');
-          $this->getLogger()->error($error);
+          $this->getExportLogger()->error($error);
         }
         // Log the note that the content was exported with errors.
         drupal_set_message($this->t('The content was exported with errors. <a href=":content-overview">Logs</a>', [':content-overview' => \Drupal::url('content.overview')]), 'warning');
-        $this->getLogger()
+        $this->getExportLogger()
              ->warning('The content was exported with errors.', ['link' => 'Export']);
       }
       else {
         // Log the new created export link if applicable.
         drupal_set_message($this->t('The content was exported successfully. <a href=":export-download">Download tar file</a>', [':export-download' => \Drupal::url('content.export_download')]));
-        $this->getLogger()
+        $this->getExportLogger()
              ->info('The content was exported successfully. <a href=":export-download">Download tar file</a>', [
                ':export-download' => \Drupal::url('content.export_download'),
                'link' => 'Export',
@@ -170,7 +170,7 @@ trait ContentExportTrait {
       // Log that there was an error
       $message = $this->t('Finished with an error.<a href=":content-overview">Logs</a>', [':content-overview' => \Drupal::url('content.overview')]);
       drupal_set_message($message);
-      $this->getLogger()
+      $this->getExportLogger()
            ->error('Finished with an error.', ['link' => 'Export']);
     }
   }
@@ -199,7 +199,7 @@ trait ContentExportTrait {
   /**
    * @return \Psr\Log\LoggerInterface
    */
-  abstract protected function getLogger();
+  abstract protected function getExportLogger();
 
 
 }
