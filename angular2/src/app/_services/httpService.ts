@@ -19,6 +19,11 @@ export class HttpService {
     let headers = new HttpHeaders();
     const token = localStorage.getItem('token');
 
+    headers = headers.append('Cache-Control', 'no-cache');
+    headers = headers.append('Pragma', 'no-cache');
+    headers = headers.append('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
+    headers = headers.append('If-Modified-Since', '0');
+    
     if (token){
 
       const helper = new JwtHelperService();
@@ -30,9 +35,6 @@ export class HttpService {
       }else{
         headers = headers.append('Authorization', "Bearer " + token);
       }
-
-      headers = headers.append('Cache-Control', 'no-cache');
-    
     }
     
     return headers;
@@ -58,6 +60,7 @@ export class HttpService {
     }
 
     return this.http.get(url, {
+
       headers: headers,
       withCredentials: inputHeaders['withCredentials'] || false
     }).catch((err) => {

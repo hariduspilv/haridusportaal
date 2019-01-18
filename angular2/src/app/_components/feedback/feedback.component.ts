@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from "@angular/core";
 import { HttpService } from "@app/_services/httpService";
 
 @Component({
@@ -16,7 +16,8 @@ export class FeedbackComponent implements OnInit {
   values: Object = {};
 
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private cd: ChangeDetectorRef
   ){
 
   }
