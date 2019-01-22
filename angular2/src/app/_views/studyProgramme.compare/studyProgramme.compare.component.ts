@@ -101,7 +101,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     }
   }
   back () {
-    let langOpts = this.route.snapshot.url.toString().split("/");
+    let langOpts = this.router.url.split("/");
     langOpts.splice(-1, 1);
     return langOpts.join('/');
   }
