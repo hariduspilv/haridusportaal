@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from "@angular/core";
 import { HttpService } from "@app/_services/httpService";
 
 @Component({
@@ -7,7 +7,7 @@ import { HttpService } from "@app/_services/httpService";
   styleUrls: ["feedback.styles.scss"]
 })
 
-export class FeedbackComponent {
+export class FeedbackComponent implements OnInit {
 
   @Input() nid: any;
 
@@ -16,7 +16,8 @@ export class FeedbackComponent {
   values: Object = {};
 
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private cd: ChangeDetectorRef
   ){
 
   }
@@ -39,9 +40,13 @@ export class FeedbackComponent {
     }
 
     let subscribe = this.http.post("/feedback?_format=json", data).subscribe( (response) => {
-      console.log(response);
       subscribe.unsubscribe();
     });
+  }
+
+  ngOnInit() {
+
+    this.status = 'vote';
   }
 
 }

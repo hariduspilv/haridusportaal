@@ -44,7 +44,7 @@
 .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
 .actions{margin-bottom:$xxl; padding:0 $medium;margin-top: -$medium;
   @include break-on(sm, min) {margin-top: 0;}
-  &.snackBar {margin-bottom: 7.75rem;
+  &.snackBar {margin-bottom: 3rem;
     @include break-on(sm, min) {margin-bottom: 5.25rem;}
   }
 }

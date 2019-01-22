@@ -24,6 +24,9 @@ export class PreviewComponent implements OnInit{
 
   editPost() {
     let href = this.settings.url+"/node/"+this.data.entityId+"/edit?uuid="+this.route.snapshot.params.id;
+    if( !this.data.entityId ){
+      href = this.settings.url+"/node/add/"+this.data.entityBundle+"?uuid="+this.route.snapshot.params.id 
+    }
     window.location.href = href;
   }
   ngOnInit() {
