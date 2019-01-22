@@ -123,6 +123,11 @@ class xJsonService implements xJsonServiceInterface {
             $baseJson = $this->checkAcceptableForms($baseJson);
         }
 
+        // add form title to references
+        if(isset($baseJson['header']['references'])){
+            $baseJson = $this->checkReferences($baseJson);
+        }
+
 		#dump($this->currentRequestContent);
 		#dump(json_encode($baseJson));
 		return $baseJson;
@@ -132,7 +137,7 @@ class xJsonService implements xJsonServiceInterface {
 
         if(in_array('VIEW', $checkJson['header']['acceptable_activity'])){
             foreach($checkJson['header']['acceptable_forms'] as $key => $form_data){
-                $form_data['body']['title'] = $checkJson['body']['title'];
+                $form_data['title'] = $checkJson['body']['title'];
                 $checkJson['header']['acceptable_forms'][$key] = $form_data;
             }
         }else{
@@ -141,6 +146,16 @@ class xJsonService implements xJsonServiceInterface {
 
         return $checkJson;
 
+    }
+
+    public function checkReferences($checkJson){
+
+        foreach($checkJson['header']['references'] as $key => $form_data){
+            $form_data['title'] = $checkJson['body']['title'];
+            $checkJson['header']['references'][$key] = $form_data;
+        }
+
+        return checkJson;
     }
 
 	/**
