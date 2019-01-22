@@ -19,7 +19,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   @Input() state: boolean;
 
   private maxFavouriteItems = 10;
-  public existingFavouriteItems;
+  public existingFavouriteItems: any = false;
 
   public loading: boolean;
   public displaySuccess: boolean;
@@ -52,17 +52,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       language: this.lang.toUpperCase()
     }
     let subscription = this.http.get('/graphql?queryName=customFavorites&queryId=94f2a6ba49b930f284a00e4900e831724fd4bc91:1&variables=' + JSON.stringify(variables)).subscribe(response => {
-      
-      
       if(response['data']['CustomFavorites'] && response['data']['CustomFavorites']['favoritesNew'].length) {
         this.existingFavouriteItems = response['data']['CustomFavorites']['favoritesNew'].filter(item => item.entity != null );
-      }
-      else {
+      } else {
         this.existingFavouriteItems = [];
       }
-      
-      if(this.id != undefined) this.isFavouriteExisting( this.existingFavouriteItems);
-      
       this.loading = false;
       subscription.unsubscribe();
     });
@@ -85,12 +79,12 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     return output;
   }
 
-  removeFavouriteItem(item){
+  removeFavouriteItem(){
     this.loading = true;
     let data = { 
       queryId: "c818e222e263618b752e74a997190b0f36a39818:1",
       variables: { 
-        id: item.targetId,
+        id: this.id,
         language: this.lang.toUpperCase()
       }
     }
@@ -99,26 +93,12 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       if(response['data']['deleteFavoriteItem']['errors'].length) {
         console.error('something went terribly wrong with favourite item deletion');
       } else {
-        this.existingItem = false;
-        this.existing = false;
         this.openFavouriteSnackbar('remove');
+        this.existingFavouriteItems.pop()
         this.state = false;
       }
       this.loading = false;
-      this.getFavouritesList();
       sub.unsubscribe();
-    });
-  }
-  isFavouriteExisting(list){
-    if(!list.length) return false;
-
-    this.existing = list.some(item => {
-      if(item.entity != null){
-        if(item.targetId == this.id ){
-          this.existingItem = item;
-          return true
-        }
-      }
     });
   }
   submitFavouriteItem(): void {  
@@ -133,8 +113,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         if(this.snackbar) this.snackbar.dismiss();
       } else if(response['data']['createFavoriteItem']){
         this.state = true;
-        this.existing = true;
-        this.getFavouritesList();
+        this.existingFavouriteItems.push({});
         this.openFavouriteSnackbar('add');
       } 
       sub.unsubscribe();
@@ -166,22 +145,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
  }
 
-  toggleFavouritesButton(){
-    if(this.loading) return;
-
-    this.isFavouriteExisting( this.existingFavouriteItems);
-
-    if(this.existing === true){
-
-      this.removeFavouriteItem(this.existingItem);
-
+  addFavouriteItem(){
+    if(this.canAddToFavourites() === true){
+      this.submitFavouriteItem();
     } else {
-
-      if(this.canAddToFavourites() === true){
-        this.submitFavouriteItem();
-      } else {
-        this.openDialog();
-      }
+      this.openDialog();
     }
   }
   canAddToFavourites(): boolean{
@@ -189,8 +157,10 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     else return true;
   }
   initiateComponent(){
+    if (!this.existingFavouriteItems) {
+      this.getFavouritesList();
+    }
     this.lang = this.rootScope.get("lang");
-    this.getFavouritesList();
   }
   destroyComponent(){
     

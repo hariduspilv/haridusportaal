@@ -158,13 +158,13 @@ function htm_custom_tokens_tokens($type, $tokens, array $data, array $options, B
 					$entity = $data['subscription_entity'];
 					$langcode = $entity->language->value;
 					$uuid = $entity->uuid();
-					$replacements[$original] = '<a href="'.$options['custom_link_path'].'/'.$langcode.'?confirmsubscription='.$uuid.'">kinnita minu tellimus</a>';
+					$replacements[$original] = '<a href="'.$options['custom_link_path'].'/?confirmsubscription='.$uuid.'">kinnita minu tellimus</a>';
 					break;
 				case 'unsubscribe_link':
 					$entity = $data['subscription_entity'];
 					$langcode = $entity->language->value;
 					$uuid = $entity->uuid();
-					$replacements[$original] = '<a href="'.$options['custom_link_path'].'/'.$langcode.'?unsubscribe='.$uuid.'">tühista minu tellimus</a>';
+					$replacements[$original] = '<a href="'.$options['custom_link_path'].'/?unsubscribe='.$uuid.'">tühista minu tellimus</a>';
 					break;
 				case 'newtags':
 					foreach($data['newtags'] as $tag){

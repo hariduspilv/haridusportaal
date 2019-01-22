@@ -12,7 +12,11 @@
       &__checklist {padding: $medium $small;display: flex;flex-flow: column;
         &__elem {margin-bottom: $quarter;
           &:last-child {margin-bottom: 0;}
-          @include break-on(sm, min) {margin: $half-gutter;flex: 0 1 calc(33.33333% - .5rem);}
+          @include break-on(sm, min) {margin: $half-gutter;flex: 0 1 calc(33.33333% - .5rem);
+            @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+              flex-basis: 32%;
+            }
+          }
           @include break-on(sm, max) {
             @include break-on(xxs, min) {margin: $half-gutter;flex: 0 1 calc(50% - .5rem);}
           }
