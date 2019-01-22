@@ -11,7 +11,7 @@
 
 
 
-  <a href="javascript:void(0)" class="login__actions" *ngIf="user.isExpired" (keyup.esc)="loginVisible = false;" (click)="toggleLogin()">
+  <a href="javascript:void(0)" class="login__actions" *ngIf="user.isExpired" (keyup.esc)="loginVisible = false;" (click)="toggleLogin()" attr.aria-label="{{ 'button.login' | translate }}">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
     <span class="login pointer sm-hide">{{ 'button.login' | translate }}</span>
   </a>
@@ -53,8 +53,8 @@
     <div class="error" role="alert" tabindex="0" *ngIf="error">{{ 'login.error' | translate }}</div>
 
     <div *ngIf="!loader && basicLogin" style="height:20px;"></div>
-    <button role="button" mat-raised-button color="primary" (click)="openTara()">{{ 'login_tara' | translate }}</button>
-    <button role="button" mat-raised-button color="primary" (click)="openHarID()">{{ 'login_harid' | translate }}</button>
+    <button role="button" mat-raised-button color="primary" (click)="openTara()" attr.aria-label="{{ 'login_tara' | translate }}">{{ 'login_tara' | translate }}</button>
+    <button role="button" mat-raised-button color="primary" (click)="openHarID()" attr.aria-label="{{ 'login_harid' | translate }}">{{ 'login_harid' | translate }}</button>
     
 
   </div>
