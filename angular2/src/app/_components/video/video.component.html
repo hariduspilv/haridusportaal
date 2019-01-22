@@ -3,8 +3,8 @@
     <div class="video-container" *ngIf="embeddedInputs && embeddedInputs.length && embeddedInputs[i]" [innerHtml]="embeddedInputs[i]"></div>
     <div class="video-container" *ngIf="embedFailed && video.videoId">
       <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(fallbackUrl(video.videoDomain, video.videoId))" frameborder="0" allowfullscreen></iframe>
-      <div *ngIf="video.videoDescription && embedFailed" class="video-alt-text">{{video.videoDescription}}</div>
     </div>
+    <div *ngIf="video.videoDescription && embedFailed" class="video-alt-text">{{video.videoDescription}}</div>
     <div *ngIf="video.videoDescription && embeddedInputs.length && embeddedInputs[i]" class="video-alt-text">{{video.videoDescription}}</div>
   </div><!--/col-12-->
 </div> <!--/row-->

@@ -29,6 +29,7 @@ class HarID extends Generic {
 	];
 
 	public function authorize ($scope = 'openid') {
+		$scope = 'openid personal_code profile';
 		$url_options = [
 			'query' => [
 				'client_id' => $this->configuration['client_id'],

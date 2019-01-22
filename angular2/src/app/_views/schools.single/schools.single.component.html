@@ -10,7 +10,7 @@
   <ng-container *ngFor="let location of data.fieldSchoolLocation" tabindex="-1">
     <div *ngIf="location.entity.fieldLocationType == 'L'" class="block location-block">
 
-      <map-wrapper aria-hidden="true" [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
+      <map-wrapper *ngIf="location.entity.fieldCoordinates" aria-hidden="true" [latitude]="location.entity.fieldCoordinates.lat" [longitude]="location.entity.fieldCoordinates.lon" [zoom]="location.entity.fieldCoordinates.zoom"></map-wrapper>
 
       <div class="padding-block">
         <h2>{{ 'school.legal_address' | translate }}</h2>
