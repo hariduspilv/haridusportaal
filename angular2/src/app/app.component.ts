@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     rootScope.set('lang', 'et');
     
     this.http.get(this.settings.url + '/session/token', {responseType: 'text'}).subscribe(data => {
-      localStorage.setItem('xcsrfToken', data);
+      sessionStorage.setItem('xcsrfToken', data);
     }, (err) => {
       console.log(err);
     });
