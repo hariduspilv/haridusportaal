@@ -1,5 +1,5 @@
 @import "../../../assets/styles/typography.scss"; 
-.frontpage {background-color: $white;
+.frontpage {background-color: $white; margin-bottom:-4rem;
   .main-container {
     @include break-on(sm, max) {
       @include break-on(xxs, min) {margin-left: auto!important;margin-right: auto!important;max-width: 590px;}

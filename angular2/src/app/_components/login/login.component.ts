@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit{
   loader:boolean;
 
   taraUrl: any;
+  harIDurl: any;
 
   basicLogin: boolean = false;
 
@@ -92,16 +93,12 @@ export class LoginComponent implements OnInit{
 
   }
   openTara() {
-    this.taraUrl = /*this.settings.url+*/"https://htm.wiseman.ee/tara-login";
-
+    this.taraUrl = this.settings.url+"/external-login/tara";
     window.location.href = this.taraUrl;
-    /*
-    this.loginVisible = false;
-    
-    this.dialog.open(taraLoginModal, {
-      data: this.taraUrl
-    });*/
-    
+  }
+  openHarID() {
+    this.harIDurl = this.settings.url+"/external-login/harid";
+    window.location.href = this.harIDurl;
   }
   ngOnInit() {
 

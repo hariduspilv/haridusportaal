@@ -47,7 +47,7 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
 
 .actions{margin-bottom:3rem;
   @include break-on(sm, max) {margin-left: 1.5rem;margin-right: 1.5rem;}
-  &.snackBar {margin-bottom: 7.75rem;
+  &.snackBar {margin-bottom: 3rem;
     @include break-on(sm, min) {margin-bottom: 5.25rem;}
   }
 }

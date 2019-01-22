@@ -107,7 +107,7 @@ export class AppComponent implements OnInit {
 
     if( cookiesAuth !== 'not_allowed' ){
       if( cookiesAuth ){
-        this.showChat();
+        //this.showChat();
       }else{
         this.showCookieNotification = true;
       }
@@ -126,6 +126,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
+    this.showChat();
     this.initCookies();
 
     this.menuStyle();

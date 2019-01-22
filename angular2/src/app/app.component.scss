@@ -814,3 +814,8 @@ a:hover .important-pill {
 }
 
 .link-ellipsis{display:block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+
+.mat-drawer-content {padding-bottom:4rem;}
+@include break-on(sm, max) {
+  .mat-drawer-content {padding-bottom:10rem !important;}
+}
