@@ -109,10 +109,39 @@ class xJsonService implements xJsonServiceInterface {
 					]
 				] + $baseJson['header'];
 		}
+
+		if(isset($baseJson['header']['acceptable_forms']) && in_array('VIEW', $baseJson['header']['acceptable_activity'])){
+		    foreach($baseJson['header']['acceptable_forms'] as $key => $form_data){
+		        $form_data['body']['title'] = $baseJson['body']['title'];
+            }
+        }else{
+            unset($baseJson['header']['acceptable_forms']);
+        }
+
+        // check if acceptable_forms is allowed
+        if(isset($baseJson['header']['acceptable_forms'])){
+            $baseJson = $this->checkAcceptableForms($baseJson);
+        }
+
 		#dump($this->currentRequestContent);
 		#dump(json_encode($baseJson));
 		return $baseJson;
 	}
+
+	public function checkAcceptableForms($checkJson){
+
+        if(in_array('VIEW', $checkJson['header']['acceptable_activity'])){
+            foreach($checkJson['header']['acceptable_forms'] as $key => $form_data){
+                $form_data['body']['title'] = $checkJson['body']['title'];
+                $checkJson['header']['acceptable_forms'][$key] = $form_data;
+            }
+        }else{
+            unset($checkJson['header']['acceptable_forms']);
+        }
+
+        return $checkJson;
+
+    }
 
 	/**
 	 * @return mixed
@@ -213,6 +242,11 @@ class xJsonService implements xJsonServiceInterface {
 		//Add body information
 		unset($definition_body['steps']);
 		$return['body'] += $definition_body;
+
+        // check if acceptable_forms is allowed
+        if(isset($return['header']['acceptable_forms'])){
+            $return = $this->checkAcceptableForms($return);
+        }
 
 		return $return;
 	}

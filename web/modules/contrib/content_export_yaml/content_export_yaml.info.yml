@@ -1,0 +1,11 @@
+name: 'Content Export Yaml'
+type: module
+description: 'Export and Import Content Using YAML file'
+# core: 8.x
+package: 'Content'
+
+# Information added by Drupal.org packaging script on 2019-01-08
+version: '8.x-1.6'
+core: '8.x'
+project: 'content_export_yaml'
+datestamp: 1546953209

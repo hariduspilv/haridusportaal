@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Contains content_export.module.
+ */
+use Drupal\Core\Routing\RouteMatchInterface;
+/**
+ * Implements hook_help().
+ */
+function content_export_yaml_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the content_export module.
+    case 'help.page.content_export_yaml':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Export and Import Content Using YAML file') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+

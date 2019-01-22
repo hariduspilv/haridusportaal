@@ -128,7 +128,6 @@ class xJsonRestResource extends ResourceBase {
 			}
 		}
 
-
 		$builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
 		if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
 
