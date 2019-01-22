@@ -94,6 +94,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         console.error('something went terribly wrong with favourite item deletion');
       } else {
         this.openFavouriteSnackbar('remove');
+        this.existingFavouriteItems.pop()
         this.state = false;
       }
       this.loading = false;
@@ -112,7 +113,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         if(this.snackbar) this.snackbar.dismiss();
       } else if(response['data']['createFavoriteItem']){
         this.state = true;
-        this.getFavouritesList();
+        this.existingFavouriteItems.push({});
         this.openFavouriteSnackbar('add');
       } 
       sub.unsubscribe();
