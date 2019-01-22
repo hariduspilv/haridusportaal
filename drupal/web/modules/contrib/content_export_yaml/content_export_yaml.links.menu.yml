@@ -1,0 +1,7 @@
+content_export_yaml.content_export_yaml_setting_form:
+  title: 'Content Export YAML Setting'
+  route_name: content_export_yaml.content_export_yaml_setting_form
+  description: 'Settings Content Export'
+  parent: system.admin_config_system
+  weight: 99
+
