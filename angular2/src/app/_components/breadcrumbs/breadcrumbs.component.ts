@@ -52,7 +52,11 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   }
   private updateBreadcrumbs(){
     this.path = this.router.url.split('?')[0];
-    if( this.path !== this.prevPath ){
+    if( this.path !== this.prevPath && this.path.includes('/t%C3%B6%C3%B6laud/') && this.prevPath.includes('/t%C3%B6%C3%B6laud/')){
+      this.prevPath = this.path;
+      let title = decodeURIComponent(this.path.split('/')[2]);
+      this.breadcrumb[2].text = `${title.charAt(0).toUpperCase()}${title.substr(1).toLowerCase()}`;
+    } else if( this.path !== this.prevPath ){
       this.prevPath = this.path;
       this.breadcrumb = [];
       this.getData();

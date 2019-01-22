@@ -97,7 +97,10 @@
               <ul class="link-list mt-0 mb-0">
                 <li *ngFor="let relatedArticle of relatedArticles">
                   <a href="{{relatedArticle.url.path}}" tabindex="0" [attr.target]="relatedArticle.url.__typename === 'ExternalUrl' ? '_blank' : ''" class="link related">
-                    <div><span class="htm-icon">link</span></div>
+                    <div>
+                      <span *ngIf="relatedArticle.url.__typename !== 'ExternalUrl'" class="htm-icon">link</span>
+                      <span *ngIf="relatedArticle.url.__typename === 'ExternalUrl'" class="htm-icon">launch</span>
+                    </div>
                     <div>{{relatedArticle.title}}</div>
                   </a>
                 </li>
