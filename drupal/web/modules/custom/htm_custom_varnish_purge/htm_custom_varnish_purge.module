@@ -39,7 +39,6 @@ function htm_custom_varnish_purge_entity_presave(Drupal\Core\Entity\EntityInterf
         $varnishcommand = "PURGE";
 
         foreach($cache_tags as $cache_tag){
-
             $header = [
                 $configuration->get('path') => $cache_tag
             ];

@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains vbo_content_export_yaml.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function vbo_content_export_yaml_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the vbo_content_export_yaml module.
+    case 'help.page.vbo_content_export_yaml':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Views Operation Bulk Content Export YAML') . '</p>';
+      return $output;
+
+    default:
+  }
+}
