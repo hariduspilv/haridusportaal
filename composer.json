@@ -66,6 +66,7 @@
         "drupal/restui": "^1.15",
         "drupal/scheduler": "^1.0",
         "drupal/search_api": "^1.8",
+        "drupal/seckit": "^1.1",
         "drupal/session_limit": "^1.0",
         "drupal/sitemap": "^1.5",
         "drupal/smtp": "^1.0",
