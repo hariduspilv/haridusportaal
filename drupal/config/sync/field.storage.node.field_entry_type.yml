@@ -13,13 +13,16 @@ settings:
   allowed_values:
     -
       value: invite
-      label: invitations
+      label: kutsetega
     -
       value: free
-      label: 'free entry'
+      label: 'vaba sissepääs'
     -
       value: register
-      label: registration
+      label: registreerimisega
+    -
+      value: juhan
+      label: JUHAN
   allowed_values_function: ''
 module: options
 locked: false
