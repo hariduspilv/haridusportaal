@@ -59,7 +59,7 @@ export class UserService{
   }
 
   public logout() {
-    localStorage.removeItem( this.tokenKey ); 
+    sessionStorage.removeItem( this.tokenKey ); 
 
     if ( decodeURIComponent(this.router.url).indexOf('/töölaud/') !== -1 || decodeURIComponent(this.router.url).indexOf('/dashboard/')  !== -1 ) {
       console.log("aaa");
@@ -70,15 +70,15 @@ export class UserService{
   }
 
   public clearStorage() {
-    localStorage.removeItem( this.tokenKey );
+    sessionStorage.removeItem( this.tokenKey );
   }
 
   private getStorage() {
-    return localStorage.getItem( this.tokenKey );
+    return sessionStorage.getItem( this.tokenKey );
   }
 
   private setStorage(token) {
-    localStorage.setItem( this.tokenKey, token);
+    sessionStorage.setItem( this.tokenKey, token);
     
   }
 

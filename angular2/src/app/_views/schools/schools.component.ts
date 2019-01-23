@@ -50,7 +50,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   boundsEnabled: boolean = false;
 
-  view: any = localStorage.getItem("schools.view") || "list";
+  view: any = sessionStorage.getItem("schools.view") || "list";
 
   loading: boolean = true;
 
@@ -202,7 +202,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   changeView( view:String = "list" ) {
     this.view = view;
-    localStorage.setItem("schools.view", view.toString());
+    sessionStorage.setItem("schools.view", view.toString());
     this.reset();
   }
 
