@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the seckit module.
+ */
+
+/**
+ * Remove x_content_type from seckit module configuration.
+ */
+function seckit_update_8101() {
+  \Drupal::configFactory()->getEditable('seckit.settings')
+    ->clear('seckit_xss.x_content_type')
+    ->save();
+}
