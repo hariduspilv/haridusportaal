@@ -57,7 +57,7 @@ content:
       placeholder: ''
     third_party_settings:
       maxlength:
-        maxlength_js: 25
+        maxlength_js: 50
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
     type: string_textfield
     region: content
@@ -114,7 +114,7 @@ content:
       placeholder: ''
     third_party_settings:
       maxlength:
-        maxlength_js: 300
+        maxlength_js: 500
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
         maxlength_js_enforce: false
         maxlength_js_truncate_html: false
