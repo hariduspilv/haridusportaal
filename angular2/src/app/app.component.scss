@@ -6,6 +6,27 @@
 @import "../assets/styles/layout.scss";
 @import "../assets/styles/htm-icon.scss";
 
+article table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
+  thead {background: $light-gray;
+    .sortable {&:hover { color: $dark-gray;}}
+    .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
+  }
+  th {white-space: nowrap; font-weight: normal;}
+  th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;
+    &:first-child{width:37%;}
+    &:last-child{font-weight: 500;}
+  }
+  td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
+  th.hidden {text-align: center;border-bottom: none;}
+  td {font-weight: 400;
+    &.hidden {border-top: none;border-bottom: none;
+      &.last {border-bottom: .0625rem solid $gray;}
+      &.vertical {position: relative;}
+      .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;font-size: .875rem;left: $gutter;top: $half-gutter;}
+    }
+  }
+  .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
+}
 
 /* You can add global styles to this file, and also import other style files */
 body{margin:0; padding:0; padding-top:4rem; background: $light-gray;

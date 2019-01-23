@@ -15,7 +15,7 @@
         <div class="mininav flex text-right">
           <favourites *ngIf="!userLoggedOut" [state]="data.isFavorite" [title]="data['entityLabel']" [id]="data['nid']"></favourites>
           <share></share>
-          <compare *ngIf="compareButton" [id]="data.nid" localStorageKey="oskaProfessions.compare"></compare>
+          <compare *ngIf="compareButton" [id]="data.nid" sessionStorageKey="oskaProfessions.compare"></compare>
           <span class="important-pill xxs-hide" *ngIf="data.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span> 
         </div>  
         <div class="important-pill xxs-show" *ngIf="data.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</div>
@@ -93,7 +93,7 @@
         </ng-container>
 
         <ng-container *ngIf="data.fieldOskaMainProfessionVideo">
-          <video-component [videos]="data.fieldOskaMainProfessionVideo"></video-component>
+          <video-component *ngIf="data.fieldOskaMainProfessionVideo.length > 0" [videos]="data.fieldOskaMainProfessionVideo"></video-component>
         </ng-container>
 
         <ng-container *ngIf="data.fieldSurveyPageVideo">

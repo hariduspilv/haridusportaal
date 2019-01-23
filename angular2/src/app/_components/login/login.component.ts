@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit{
     this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password'];
     this.formModels['auth_method'] = 'basic';
     let headers = new HttpHeaders();
-    headers = headers.append('X-CSRF-TOKEN', localStorage.getItem('xcsrfToken'));
+    headers = headers.append('X-CSRF-TOKEN', sessionStorage.getItem('xcsrfToken'));
     this.http.post(this.postUrl, this.formModels, {headers}).subscribe(data => {
       this.formModels['password'] = '';
       this.loader = false;
@@ -137,7 +137,7 @@ export class LoginComponent implements OnInit{
       
       if( data['token'] ){
         
-        localStorage.setItem("token", this.data.token);
+        sessionStorage.setItem("token", this.data.token);
 
         for( let i in this.formModels ){
           this.formModels[i] = '';
@@ -160,7 +160,7 @@ export class LoginComponent implements OnInit{
   }
 
   readStorage() {
-    return localStorage.getItem("token");
+    return sessionStorage.getItem("token");
   }
 
   ngOnInit() {

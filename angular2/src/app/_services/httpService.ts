@@ -17,7 +17,7 @@ export class HttpService {
   createAuthorizationHeader() {
 
     let headers = new HttpHeaders();
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     headers = headers.append('Cache-Control', 'no-cache');
     headers = headers.append('Pragma', 'no-cache');
@@ -31,7 +31,7 @@ export class HttpService {
       const decodedToken = helper.decodeToken(token);
       const isExpired = helper.isTokenExpired(token);
       if( isExpired ){
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
       }else{
         headers = headers.append('Authorization', "Bearer " + token);
       }
@@ -70,7 +70,7 @@ export class HttpService {
   }
 
   post(url, data) {
-    const xcsrf = localStorage.getItem('xcsrfToken');
+    const xcsrf = sessionStorage.getItem('xcsrfToken');
     url = this.parseUrl(url);
     let headers = this.createAuthorizationHeader();
     headers = headers.append('X-CSRF-TOKEN', xcsrf);
