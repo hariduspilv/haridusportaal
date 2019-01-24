@@ -342,7 +342,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     for( let i in entities ){
       for( let key of Object.keys(entities[i]) ){
         if( options[key] ){
-          if( entities[i][key]['count'] == 0 ){ continue; }
           entities[i]['count'] = entities[i][key]['count'];
           delete entities[i][key];
           delete entities[i]['__typename'];
