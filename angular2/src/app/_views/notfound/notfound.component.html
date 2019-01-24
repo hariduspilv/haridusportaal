@@ -1,7 +1,7 @@
 <div class="notFound">
   <div class="flex" *ngIf="loaded">
     <div class="error__head">{{'frontpage.message' | translate}}</div>
-    <div class="error__explanation" innerHtml="{{getLang() !== 'en' ? 'Tundub, et otsitud lehte ei leitud. <br>Error kood: <b>404</b>' : 'It looks like the page you were looking for was not found. <br> Error code: <b> 404 </b>'}}"></div>
+    <div class="error__explanation" innerHtml="{{getLang() !== 'en' ? 'Tundub, et otsitud lehte ei leitud. <br>Veakood: <b>404</b>' : 'It looks like the page you were looking for was not found. <br> Error code: <b> 404 </b>'}}"></div>
     <div class="error__button">
       <button role="link" attr.aria-label="{{'frontpage.navigate' | translate}}" mat-raised-button routerLink="{{toFrontpage()}}" color="primary" tabindex="0">{{'frontpage.navigate' | translate}}</button>
     </div>
