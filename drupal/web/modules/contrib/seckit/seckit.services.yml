@@ -1,0 +1,6 @@
+services:
+  seckit.subscriber:
+    class: Drupal\seckit\EventSubscriber\SecKitEventSubscriber
+#    arguments: ['@request']
+    tags:
+      - { name: event_subscriber }
