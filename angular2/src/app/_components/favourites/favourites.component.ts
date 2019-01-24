@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy , SimpleChanges} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
-import { Observable, Subscription } from '../../../../node_modules/rxjs';
+import { Observable, Subscription, Subscriber } from '../../../../node_modules/rxjs';
 import { MatDialog, MatSnackBar, MatSnackBarConfig, MAT_SNACK_BAR_DATA } from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,7 +19,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   @Input() state: boolean;
 
   private maxFavouriteItems = 10;
-  public existingFavouriteItems;
+  public existingFavouriteItems: any = false;
 
   public loading: boolean;
   public displaySuccess: boolean;
@@ -34,6 +34,9 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     "en": "/dashboard/applications"
   }
   public subscriptions: Subscription[] = [];
+  public addingSub: Subscription;
+  public removingSub: Subscription;
+  public processing: boolean = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -52,17 +55,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       language: this.lang.toUpperCase()
     }
     let subscription = this.http.get('/graphql?queryName=customFavorites&queryId=94f2a6ba49b930f284a00e4900e831724fd4bc91:1&variables=' + JSON.stringify(variables)).subscribe(response => {
-      
-      
       if(response['data']['CustomFavorites'] && response['data']['CustomFavorites']['favoritesNew'].length) {
         this.existingFavouriteItems = response['data']['CustomFavorites']['favoritesNew'].filter(item => item.entity != null );
-      }
-      else {
+      } else {
         this.existingFavouriteItems = [];
       }
-      
-      if(this.id != undefined) this.isFavouriteExisting( this.existingFavouriteItems);
-      
       this.loading = false;
       subscription.unsubscribe();
     });
@@ -85,59 +82,58 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     return output;
   }
 
-  removeFavouriteItem(item){
+  removeFavouriteItem(){
+    this.processing = true;
+    if( this.removingSub !== undefined ){
+      this.removingSub.unsubscribe();
+    }
     this.loading = true;
     let data = { 
       queryId: "c818e222e263618b752e74a997190b0f36a39818:1",
       variables: { 
-        id: item.targetId,
+        id: this.id,
         language: this.lang.toUpperCase()
       }
     }
-
-    let sub = this.http.post('/graphql', data).subscribe(response => {
+    this.removingSub = this.http.post('/graphql', data).subscribe(response => {
       if(response['data']['deleteFavoriteItem']['errors'].length) {
         console.error('something went terribly wrong with favourite item deletion');
       } else {
-        this.existingItem = false;
-        this.existing = false;
         this.openFavouriteSnackbar('remove');
+        this.existingFavouriteItems.pop()
         this.state = false;
       }
       this.loading = false;
-      this.getFavouritesList();
-      sub.unsubscribe();
-    });
-  }
-  isFavouriteExisting(list){
-    if(!list.length) return false;
-
-    this.existing = list.some(item => {
-      if(item.entity != null){
-        if(item.targetId == this.id ){
-          this.existingItem = item;
-          return true
-        }
-      }
+      this.removingSub.unsubscribe();
+      this.processing = false;
+    }, (err) => {
+      this.loading = false;
+      this.processing = false;
     });
   }
   submitFavouriteItem(): void {  
+    this.processing = true;
+    if( this.addingSub !== undefined ){
+      this.addingSub.unsubscribe();
+    }
     this.loading = true;
     let data = { queryId: "e926a65b24a5ce10d72ba44c62e38f094a38aa26:1" }
     data['variables'] = this.compileVariables();
     
-    let sub = this.http.post('/graphql', data).subscribe(response => {
+    this.addingSub = this.http.post('/graphql', data).subscribe(response => {
       this.loading = false;
       if(response['data']['createFavoriteItem']["errors"].length){
         this.openDialog();
         if(this.snackbar) this.snackbar.dismiss();
       } else if(response['data']['createFavoriteItem']){
         this.state = true;
-        this.existing = true;
-        this.getFavouritesList();
+        this.existingFavouriteItems.push({});
         this.openFavouriteSnackbar('add');
       } 
-      sub.unsubscribe();
+      this.addingSub.unsubscribe();
+      this.processing = false;
+    }, (err) => {
+      this.processing = false;
     });
   }
   openFavouriteSnackbar(operation: string) {
@@ -166,22 +162,11 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
  }
 
-  toggleFavouritesButton(){
-    if(this.loading) return;
-
-    this.isFavouriteExisting( this.existingFavouriteItems);
-
-    if(this.existing === true){
-
-      this.removeFavouriteItem(this.existingItem);
-
+  addFavouriteItem(){
+    if(this.canAddToFavourites() === true){
+      this.submitFavouriteItem();
     } else {
-
-      if(this.canAddToFavourites() === true){
-        this.submitFavouriteItem();
-      } else {
-        this.openDialog();
-      }
+      this.openDialog();
     }
   }
   canAddToFavourites(): boolean{
@@ -189,8 +174,10 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     else return true;
   }
   initiateComponent(){
+    if (!this.existingFavouriteItems) {
+      this.getFavouritesList();
+    }
     this.lang = this.rootScope.get("lang");
-    this.getFavouritesList();
   }
   destroyComponent(){
     

@@ -6,6 +6,25 @@
 @import "../assets/styles/layout.scss";
 @import "../assets/styles/htm-icon.scss";
 
+article table, .accordion table{width: 100%;border-collapse: collapse; margin:$small 0 0 0;
+  th {background: $light-gray;
+    .sortable {&:hover { color: $dark-gray;}}
+    .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
+  }
+  th {white-space: nowrap; font-weight: 500; }
+  th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;
+  }
+  td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
+  th.hidden {text-align: center;border-bottom: none;}
+  td {font-weight: 400;
+    &.hidden {border-top: none;border-bottom: none;
+      &.last {border-bottom: .0625rem solid $gray;}
+      &.vertical {position: relative;}
+      .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;font-size: .875rem;left: $gutter;top: $half-gutter;}
+    }
+  }
+  .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
+}
 
 /* You can add global styles to this file, and also import other style files */
 body{margin:0; padding:0; padding-top:4rem; background: $light-gray;
@@ -650,10 +669,17 @@ mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
 }
 ::ng-deep .accordion__links {line-height: 1.375rem;font-size: $small;padding-top: $small;
 }
-::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
-  font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
+::ng-deep .accordion__body a, ::ng-deep .description a, ::ng-deep .short a {
+  text-decoration: underline;
+  &:hover {text-decoration: none;}
 }
-::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: underline;}
+::ng-deep .accordion__body a[target="_blank"], ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {
+  text-decoration: none;
+  &:hover {text-decoration: underline;}
+}
+::ng-deep .accordion__body a[target="_blank"]:after, ::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after {
+  font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;
+}
 
 .mat-expansion-panel-header {
   width: 100%;
@@ -814,3 +840,8 @@ a:hover .important-pill {
 }
 
 .link-ellipsis{display:block; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+
+.mat-drawer-content {padding-bottom:4rem;}
+@include break-on(sm, max) {
+  .mat-drawer-content {padding-bottom:10rem !important;}
+}

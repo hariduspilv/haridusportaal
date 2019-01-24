@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit{
   loader:boolean;
 
   taraUrl: any;
+  harIDurl: any;
 
   basicLogin: boolean = false;
 
@@ -60,7 +61,7 @@ export class LoginComponent implements OnInit{
     this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password'];
     this.formModels['auth_method'] = 'basic';
     let headers = new HttpHeaders();
-    headers = headers.append('X-CSRF-TOKEN', localStorage.getItem('xcsrfToken'));
+    headers = headers.append('X-CSRF-TOKEN', sessionStorage.getItem('xcsrfToken'));
     this.http.post(this.postUrl, this.formModels, {headers}).subscribe(data => {
       this.formModels['password'] = '';
       this.loader = false;
@@ -80,6 +81,7 @@ export class LoginComponent implements OnInit{
       
       this.router.navigateByUrl("/", {skipLocationChange: true}).then( () => {
         this.router.navigateByUrl(redirectUrl);
+        this.sidemenu.triggerLang();
       });
     
     
@@ -92,16 +94,12 @@ export class LoginComponent implements OnInit{
 
   }
   openTara() {
-    this.taraUrl = /*this.settings.url+*/"https://htm.wiseman.ee/tara-login";
-
+    this.taraUrl = this.settings.url+"/external-login/tara";
     window.location.href = this.taraUrl;
-    /*
-    this.loginVisible = false;
-    
-    this.dialog.open(taraLoginModal, {
-      data: this.taraUrl
-    });*/
-    
+  }
+  openHarID() {
+    this.harIDurl = this.settings.url+"/external-login/harid";
+    window.location.href = this.harIDurl;
   }
   ngOnInit() {
 
@@ -117,6 +115,7 @@ export class LoginComponent implements OnInit{
     this.user = this.userService.getData();
     this.rootScope.set('teachingsAccordion', 0);
     this.rootScope.set('certificatesAccordion', 0);
+    this.sidemenu.triggerLang();
   }
 
   /*
@@ -140,7 +139,7 @@ export class LoginComponent implements OnInit{
       
       if( data['token'] ){
         
-        localStorage.setItem("token", this.data.token);
+        sessionStorage.setItem("token", this.data.token);
 
         for( let i in this.formModels ){
           this.formModels[i] = '';
@@ -163,7 +162,7 @@ export class LoginComponent implements OnInit{
   }
 
   readStorage() {
-    return localStorage.getItem("token");
+    return sessionStorage.getItem("token");
   }
 
   ngOnInit() {

@@ -47,7 +47,7 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
 
 .actions{margin-bottom:3rem;
   @include break-on(sm, max) {margin-left: 1.5rem;margin-right: 1.5rem;}
-  &.snackBar {margin-bottom: 7.75rem;
+  &.snackBar {margin-bottom: 3rem;
     @include break-on(sm, min) {margin-bottom: 5.25rem;}
   }
 }
@@ -66,6 +66,7 @@ table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   a {text-decoration: none;
     &:hover {text-decoration: underline;}}
   }
-  @include break-on(sm, max) {.block {margin-bottom: 0;}}
+  @include break-on(sm, max) {.block {margin-bottom: 0;}
+}
 
-
+feedback{margin-left:0; margin-right:0; margin-bottom:-2rem;}

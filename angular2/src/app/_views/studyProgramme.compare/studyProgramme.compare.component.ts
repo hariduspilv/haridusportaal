@@ -15,7 +15,7 @@ import { TableService } from '@app/_services/tableService';
 })
 
 export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit, AfterViewChecked, OnDestroy {
-  public compare = JSON.parse(localStorage.getItem('studyProgramme.compare')) || [];
+  public compare = JSON.parse(sessionStorage.getItem('studyProgramme.compare')) || [];
   public error;
   private url;
   private lang: string;
@@ -55,9 +55,9 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     let parentUrl = currentUrl.join('/');
     this.router.navigateByUrl(parentUrl);
   }
-  removeItemFromList(id, localStorageKey){
-    let existing = this.readFromLocalStorage(localStorageKey);
-    this.removeItemFromLocalStorage(id, localStorageKey, existing)
+  removeItemFromList(id, sessionStorageKey){
+    let existing = this.readFromLocalStorage(sessionStorageKey);
+    this.removeItemFromLocalStorage(id, sessionStorageKey, existing)
     this.list = this.list.filter(item => item.nid != id);
     
     if(!this.list.length) this.rerouteToParent();
@@ -101,7 +101,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     }
   }
   back () {
-    let langOpts = this.route.snapshot.url.toString().split("/");
+    let langOpts = this.router.url.split("/");
     langOpts.splice(-1, 1);
     return langOpts.join('/');
   }

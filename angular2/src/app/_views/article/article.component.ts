@@ -90,7 +90,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
     }
   }
   ngOnInit() {
-    
+
     this.route.data.subscribe(v => console.log(v));
 
     if( this.inputData ){
@@ -104,6 +104,10 @@ export class ArticleComponent implements OnInit, OnDestroy{
             "path": this.router.url
           };
   
+          this.content = false;
+          this.accordionSection = [];
+          this.fieldRightSidebar = false;
+
           this.querySubscription = this.http.get(url+JSON.stringify(variables))
           .subscribe( (response) => {
             this.userLoggedOut = this.user.getData()['isExpired'];

@@ -13,7 +13,7 @@ import { Modal } from '@app/_components/dialogs/modal/modal';
 
 export class CompareComponent implements OnInit, OnDestroy{
   @Input() id: number;
-  @Input() localStorageKey: string;
+  @Input() sessionStorageKey: string;
   
   checked:boolean;
 
@@ -63,7 +63,7 @@ export class CompareComponent implements OnInit, OnDestroy{
 
   public snackBarOpen: boolean;
   comparePathSubscription: any;
-  localStorageSubscription: any;
+  sessionStorageSubscription: any;
 
   compare:any;
   
@@ -81,17 +81,17 @@ export class CompareComponent implements OnInit, OnDestroy{
   }
   removeItemFromLocalStorage(id, inputKey:string, existing: number[]){
     existing = existing.filter(existing_id => existing_id != id);
-    localStorage.setItem(inputKey, JSON.stringify(existing));
+    sessionStorage.setItem(inputKey, JSON.stringify(existing));
   }
   addItemToLocalStorage(id, inputKey:string, existing: number[]){
     existing.push(id);
-    localStorage.setItem(inputKey, JSON.stringify(existing));
+    sessionStorage.setItem(inputKey, JSON.stringify(existing));
   }
   compareChange(id, $event){
 
-    this.compare = this.readFromLocalStorage(this.localStorageKey);
+    this.compare = this.readFromLocalStorage(this.sessionStorageKey);
 
-    let max = this.maxItemsConf[this.localStorageKey] ? this.maxItemsConf[this.localStorageKey] : this.maxItemsConf.default;
+    let max = this.maxItemsConf[this.sessionStorageKey] ? this.maxItemsConf[this.sessionStorageKey] : this.maxItemsConf.default;
     
     if($event.checked == true && !this.isChecked(id)){
       if(this.compare.length >= max){
@@ -99,10 +99,10 @@ export class CompareComponent implements OnInit, OnDestroy{
         this.openDialog();
         
       }else{
-        this.addItemToLocalStorage(id, this.localStorageKey, this.compare);
+        this.addItemToLocalStorage(id, this.sessionStorageKey, this.compare);
       }
     } else if ($event.checked == false && this.isChecked(id)) {
-      this.removeItemFromLocalStorage(id, this.localStorageKey, this.compare);
+      this.removeItemFromLocalStorage(id, this.sessionStorageKey, this.compare);
     }
 
     this.rootScope.get("compareObservable").next(false);
@@ -112,16 +112,16 @@ export class CompareComponent implements OnInit, OnDestroy{
     this.viewLink = list.length? true: false;
   }
   readFromLocalStorage(key){
-    let data = JSON.parse(localStorage.getItem(key))
+    let data = JSON.parse(sessionStorage.getItem(key))
     return data instanceof Array ? data : [];
   }
   openDialog(): void {
 		let dialogRef = this.dialog.open(Modal, {
 
 		  data: {
-        title: this.translate.get(this.compareTranslationOptions[this.localStorageKey].title)['value'].toUpperCase(),
-        content: this.translate.get(this.compareTranslationOptions[this.localStorageKey].content)['value'],
-        close: this.translate.get(this.compareTranslationOptions[this.localStorageKey].close)['value']
+        title: this.translate.get(this.compareTranslationOptions[this.sessionStorageKey].title)['value'].toUpperCase(),
+        content: this.translate.get(this.compareTranslationOptions[this.sessionStorageKey].content)['value'],
+        close: this.translate.get(this.compareTranslationOptions[this.sessionStorageKey].close)['value']
 		  }
 		});
 
@@ -135,9 +135,9 @@ export class CompareComponent implements OnInit, OnDestroy{
     if (this.viewLink && this.compare.length && !this.snackBarOpen) {
 
       this.snackBarOpen = true;
-      let message = this.translate.get(this.compareTranslationOptions[this.localStorageKey].added)['value'];
+      let message = this.translate.get(this.compareTranslationOptions[this.sessionStorageKey].added)['value'];
       if( panelClass == "info" ){
-        message = this.translate.get(this.compareTranslationOptions[this.localStorageKey].in)['value'];
+        message = this.translate.get(this.compareTranslationOptions[this.sessionStorageKey].in)['value'];
       }
       let action = this.translate.get('button.see_comparison')['value'];
       let snackBarRef = this.snackbar.open(message, action, {
@@ -167,19 +167,19 @@ export class CompareComponent implements OnInit, OnDestroy{
 
     document.addEventListener('keyup', this.keyUpEvent);
 
-    this.compare = this.readFromLocalStorage(this.localStorageKey);
+    this.compare = this.readFromLocalStorage(this.sessionStorageKey);
   
     this.checked = this.isChecked(this.id);
 
-    let fallbackPath = this.compareViewLinkOptions[this.localStorageKey]['et'];
+    let fallbackPath = this.compareViewLinkOptions[this.sessionStorageKey]['et'];
 
-    this.compareViewLink = this.compareViewLinkOptions[this.localStorageKey][this.rootScope.get("lang")] || fallbackPath
+    this.compareViewLink = this.compareViewLinkOptions[this.sessionStorageKey][this.rootScope.get("lang")] || fallbackPath
 
     this.displayViewLink(this.compare);
     this.openCompareSnackbar("info");
 
-    this.localStorageSubscription = this.rootScope.get("compareObservable").subscribe(data => {
-      this.compare = this.readFromLocalStorage(this.localStorageKey);
+    this.sessionStorageSubscription = this.rootScope.get("compareObservable").subscribe(data => {
+      this.compare = this.readFromLocalStorage(this.sessionStorageKey);
       this.displayViewLink(this.compare);
       this.openCompareSnackbar()
     });
@@ -188,7 +188,7 @@ export class CompareComponent implements OnInit, OnDestroy{
   ngOnDestroy() {
     document.removeEventListener("keydown", this.keyDownEvent);
     document.removeEventListener("keyup", this.keyUpEvent);
-    this.localStorageSubscription.unsubscribe();
+    this.sessionStorageSubscription.unsubscribe();
     this.snackbar.dismiss()
     this.snackBarOpen = false;
   }

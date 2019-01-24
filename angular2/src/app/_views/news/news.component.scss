@@ -41,10 +41,16 @@
 }
 .col-25 {width: 20.83%;}
 .inline-flex {display: inline-flex;justify-content: flex-end;} 
-
-::ng-deep .description a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
-  font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
+::ng-deep .accordion__body a, ::ng-deep .description a, ::ng-deep .short a {
+  text-decoration: underline;
+  &:hover {text-decoration: none;}
 }
-::ng-deep .description a[target="_blank"] {text-decoration: none;}
+::ng-deep .accordion__body a[target="_blank"], ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {
+  text-decoration: none;
+  &:hover {text-decoration: underline;}
+}
+::ng-deep .accordion__body a[target="_blank"]:after, ::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after {
+  font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;
+}
 ::ng-deep .mat-calendar-body-selected {background-color: $blue;}
 ::ng-deep .news-row:hover h1 { text-decoration: underline; }
