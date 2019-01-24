@@ -1,18 +1,16 @@
 @import "../../../assets/styles/typography.scss"; 
 .mat-toolbar.mat-primary {background: $blue;height: 4rem;box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0,0,0,.2), 0 0.125rem 0.125rem 0 rgba(0,0,0,.14), 0 0.0625rem 0.3125rem 0 rgba(0,0,0,.12);}
-.header-logo {text-align: center;margin-left: 1.25rem;text-decoration: none;letter-spacing: 0.03125rem;font-size: 1.25rem;line-height: 1.4;color: $white;
+.header-logo {text-align: left;margin-left: 1.25rem;text-decoration: none;letter-spacing: 0.03125rem;font-size: 1.25rem;line-height: 1.4;color: $white; box-sizing: border-box; padding-left:1.5rem;
   span {font-weight: 300;}
   span.bold {font-weight: 500;}
-  @include break-on(sm, min) {width: 16.25rem;margin-left: 0;
-  }
+  @include break-on(sm, min) {width: 16.25rem;margin-left: 0;}
+  @include break-on(sm, max) {padding-left:0;}
 }
 .search-input  {height: 2.5rem;border-radius: 1.25rem;background-color: rgba(255, 255, 255, 0.1);border: .0625rem solid rgba(255, 255, 255, 0);
-  color: $white;padding: 0 $small 0 2.5rem;font-size: $small;width: 100%;box-sizing: border-box;max-width: 40.625rem;margin-left: $medium;
+  color: $white;padding: 0 $small 0 2.5rem;font-size: $small;width: 100%;box-sizing: border-box;max-width: 40.625rem; 
 }
 .searchbar {
   position: relative;
-  flex: 3;
-  .search {flex-basis: 75%;}
   .search-icn {
     &::before {
       position: absolute;
@@ -21,7 +19,7 @@
       font-size: 1.25rem;
       content: 'search';
       color: white;
-      left: 2.5rem;
+      left: 1rem;
       top: .33rem;
       @include break-on (xl, min) {top: .5rem;}
     }
@@ -35,6 +33,15 @@
   a {color: $white;text-decoration: none;font-size: $small;font-weight: 400;}
 }
 
+.assets_wrapper{flex-grow: 1; display:flex; align-items:center; padding:0 1.5rem;
+  @include break-on(lg, min) {max-width: 1130px;margin-left: auto !important;margin-right: auto !important;}
+  @include break-on(xl, min) {max-width: 1430px;margin-left: auto !important;margin-right: auto !important;}
+  @include break-on(xxl, min) {max-width: 1890px;margin-left: auto !important;margin-right: auto !important;}
+  .searchbar{width:66.66666667%;
+    .search{display: block;}
+    .search-input{max-width: unset; }
+  }
+}
 
 .loginbar {margin-left: $xxl; display: flex;
   @include break-on(xl, min) {position: relative;top: 0rem; }
@@ -74,7 +81,7 @@ input:focus:-ms-input-placeholder { color:transparent; }
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     max-width: none !important;
   }
-  &__flex {display: flex; align-items: center; }
+  &__flex {display: flex; align-items: center; justify-content: flex-end;}
 }
 .mob-space {flex: 1 1 auto;}
 
