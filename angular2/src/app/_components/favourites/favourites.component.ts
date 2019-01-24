@@ -36,6 +36,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   public subscriptions: Subscription[] = [];
   public addingSub: Subscription;
   public removingSub: Subscription;
+  public processing: boolean = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -82,6 +83,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   }
 
   removeFavouriteItem(){
+    this.processing = true;
     if( this.removingSub !== undefined ){
       this.removingSub.unsubscribe();
     }
@@ -103,9 +105,14 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       }
       this.loading = false;
       this.removingSub.unsubscribe();
+      this.processing = false;
+    }, (err) => {
+      this.loading = false;
+      this.processing = false;
     });
   }
   submitFavouriteItem(): void {  
+    this.processing = true;
     if( this.addingSub !== undefined ){
       this.addingSub.unsubscribe();
     }
@@ -124,6 +131,9 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.openFavouriteSnackbar('add');
       } 
       this.addingSub.unsubscribe();
+      this.processing = false;
+    }, (err) => {
+      this.processing = false;
     });
   }
   openFavouriteSnackbar(operation: string) {
