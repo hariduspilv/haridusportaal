@@ -671,10 +671,17 @@ mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
 }
 ::ng-deep .accordion__links {line-height: 1.375rem;font-size: $small;padding-top: $small;
 }
-::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after {
+::ng-deep .accordion__body a, ::ng-deep .description a, ::ng-deep .short a {
+  text-decoration: underline;
+  &:hover {text-decoration: none;}
+}
+::ng-deep .accordion__body a[target="_blank"], ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {
+  text-decoration: none;
+  &:hover {text-decoration: underline;}
+}
+::ng-deep .accordion__body a[target="_blank"]:after, ::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after {
   font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;
 }
-::ng-deep .description a, ::ng-deep .short a {text-decoration: none;}
 
 .mat-expansion-panel-header {
   width: 100%;
