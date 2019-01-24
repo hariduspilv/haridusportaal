@@ -324,7 +324,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
   
   fileDownloadlink(id){
-    let token = localStorage.getItem('token');
+    let token = sessionStorage.getItem('token');
     return this.settings.url + '/xjson_service/documentFile/' + id + '?jwt_token=' + token;
   }
 

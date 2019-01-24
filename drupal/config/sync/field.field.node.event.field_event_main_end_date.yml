@@ -1,0 +1,21 @@
+uuid: 645c586a-3783-4dd8-a31b-ee5262a39913
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_main_end_date
+    - node.type.event
+  module:
+    - htm_custom_datetime_unix
+id: node.event.field_event_main_end_date
+field_name: field_event_main_end_date
+entity_type: node
+bundle: event
+label: 'Sündmuse lõpu põhikuupäev'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime
