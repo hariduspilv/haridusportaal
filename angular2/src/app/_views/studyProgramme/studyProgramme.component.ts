@@ -186,7 +186,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     let url = "/graphql?queryName=studyProgrammeList&queryId=30bfa8638e3b0f2fdb9a5a5c747962bf13f69480:1&variables=";
     let variables = queryVars;
     
-    let subscribe = this.http.get(url+JSON.stringify(variables) ).subscribe( (response) => {
+    this.dataSubscription = this.http.get(url+JSON.stringify(variables) ).subscribe( (response) => {
       let data = response['data'];
       this.loading = false;
 
@@ -196,25 +196,24 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
       this.list = this.list ? [...this.list, ...data['nodeQuery']['entities']] : data['nodeQuery']['entities'];
 
-      subscribe.unsubscribe();
+      this.dataSubscription.unsubscribe();
 
     });
 
   }
 
   ngOnInit() {
-
     this.showFilter = window.innerWidth > 1024;
     this.filterFull = window.innerWidth < 1024;
     
     this.pathWatcher();
     this.watchSearch();
-    
     this.populateFilterOptions();
     this.filterFormItems.open_admission = true; //default
     this.filterSubmit();
   }
   ngOnDestroy() {
+    this.list = false;
     /* Clear all subscriptions */
     for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
