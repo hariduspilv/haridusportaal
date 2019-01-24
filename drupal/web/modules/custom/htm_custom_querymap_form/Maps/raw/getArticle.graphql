@@ -73,12 +73,14 @@ query getArticle($path: String!) {
                 fieldRelatedArticle{
                   url {
                     path
+                    routed
                   }
                   title
                 }
                 fieldHyperlinks {
                   url {
                     path
+                    routed
                   }
                   title
                 }
