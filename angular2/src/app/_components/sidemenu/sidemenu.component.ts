@@ -12,7 +12,7 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 export class SideMenuComponent implements OnInit {
 
   data: any;
-
+  public isMobile: boolean = false;
   subscription: any;
 
   debounce: any;
@@ -32,7 +32,7 @@ export class SideMenuComponent implements OnInit {
   routeIncludes(path) {
     let current = this.router.url;
     current = current.includes('?') ? current.split('?')[0] : current;
-    if ((current.match(/\//g) || []).length >= 3) {
+    if ((current.match(/\//g) || []).length >= 2) {
       let childSplitVar = current.split('/').pop();
       let childCurrent = current.split("/" + childSplitVar)[0];
       return childCurrent === path;
@@ -42,6 +42,7 @@ export class SideMenuComponent implements OnInit {
 
   getData(){
 
+    clearTimeout( this.debounce );
     this.debounce = setTimeout( () => {
       let lang = this.rootScope.get("lang");
       
@@ -60,6 +61,7 @@ export class SideMenuComponent implements OnInit {
     
   }
   ngOnInit() {
+    this.isMobile = window.innerWidth <= 1024;
     this.subscription = this.sidemenuService.updateLang().subscribe(status => {
       this.getData();
     });

@@ -1,10 +1,10 @@
 <div class="inline">
-  <div class="cookieNotification__desc">
+  <div class="cookieNotification__desc" attr.aria-label="{{ 'cookie_text' | translate }}">
     {{ 'cookie_text' | translate }}
   </div><!--/cookieNotification__desc-->
-
   <div class="cookieNotification__buttons">
-    <a [routerLink]="link">{{ 'read_terms' | translate }}</a>
-    <button mat-raised-button color="primary" (click)="agree()">{{ 'agree' | translate }}</button>
+    <a [routerLink]="link" class="sm-hide" attr.aria-label="{{ 'read_terms' | translate }}">{{ 'read_terms' | translate }}</a>
+    <button mat-raised-button color="primary" attr.aria-label="{{ 'agree' | translate }}" (click)="agree()">{{ 'agree' | translate }}</button>
+    <a [routerLink]="link" class="sm-show" attr.aria-label="{{ 'read_terms' | translate }}">{{ 'read_terms' | translate }}</a>
   </div><!--/cookieNotification__desc-->
 </div><!--/inline-->

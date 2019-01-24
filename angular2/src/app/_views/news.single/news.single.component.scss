@@ -4,7 +4,7 @@ a:visited {
   color: $visited!important;
 }
 
-  article {padding-bottom: $xxl;
+  article {padding-bottom: 1rem;
     a {color: $blue;
       .htm-icon {color: $blue;}
     }
@@ -71,11 +71,17 @@ a:visited {
   }
   .links {padding: 0 $medium;}
   .breadcrumb { padding-bottom: $gutter;}
-
-  ::ng-deep .description a[target="_blank"]:before, ::ng-deep .short a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
-    font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
+  ::ng-deep .accordion__body a, ::ng-deep .description a, ::ng-deep .short a {
+    text-decoration: underline;
+    &:hover {text-decoration: none;}
   }
-  ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {text-decoration: underline;}
+  ::ng-deep .accordion__body a[target="_blank"], ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {
+    text-decoration: none;
+    &:hover {text-decoration: underline;}
+  }
+  ::ng-deep .accordion__body a[target="_blank"]:after, ::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after {
+    font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;
+  }
 
 .mininav {
   margin-top: 1rem;

@@ -1,0 +1,80 @@
+langcode: et
+page_title: Sitemap
+message:
+  value: ''
+  format: restricted_html
+show_front: true
+show_titles: true
+show_books: {  }
+books_expanded: true
+show_menus:
+  main: main
+  account: '0'
+  admin: '0'
+  devel: '0'
+  footer: '0'
+  tools: '0'
+show_menus_hidden: false
+show_vocabularies:
+  accreditationstatus: '0'
+  admissionstatus: '0'
+  degreeordiploma: '0'
+  educational_institution_location: '0'
+  educational_institution_type: '0'
+  event_group: '0'
+  event_tags: '0'
+  event_type: '0'
+  investmentmeasure: '0'
+  isced_f: '0'
+  isco_occupation: '0'
+  main_profession_tags: '0'
+  oska_field: '0'
+  oska_indicator: '0'
+  oska_main_profession: '0'
+  ownership_type: '0'
+  qualificationstandardid: '0'
+  studyprogrammelevel: '0'
+  studyprogrammetype: '0'
+  tags: '0'
+  teaching_language: '0'
+show_description: true
+show_count: true
+vocabulary_show_links: false
+vocabulary_depth: -1
+term_threshold: 0
+forum_threshold: -1
+rss_front: rss.xml
+show_rss_links: 1
+rss_taxonomy: -1
+css: true
+order:
+  front: -50
+  vocabularies_event_type: -50
+  vocabularies_tags: -50
+  vocabularies_studyprogrammetype: -50
+  vocabularies_studyprogrammelevel: -50
+  vocabularies_qualificationstandardid: -50
+  vocabularies_ownership_type: -50
+  vocabularies_oska_main_profession: -50
+  vocabularies_oska_indicator: -50
+  vocabularies_oska_field: -50
+  vocabularies_main_profession_tags: -50
+  vocabularies_isco_occupation: -50
+  vocabularies_isced_f: -50
+  vocabularies_investmentmeasure: -50
+  vocabularies_event_tags: -50
+  menus_account: -50
+  vocabularies_event_group: -50
+  vocabularies_educational_institution_type: -50
+  vocabularies_educational_institution_location: -50
+  vocabularies_degreeordiploma: -50
+  vocabularies_admissionstatus: -50
+  vocabularies_accreditationstatus: -50
+  menus_tools: -50
+  menus_main: -50
+  menus_footer: -50
+  menus_devel: -50
+  menus_admin: -50
+  vocabularies_teaching_language: -50
+_core:
+  default_config_hash: f4sH8CGbEMFQXKFoGeaHbmIP_f6cOTi02EeFhHSbYyo

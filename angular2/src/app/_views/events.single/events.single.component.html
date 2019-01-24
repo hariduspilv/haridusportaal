@@ -48,6 +48,9 @@
               </mat-chip-list>
             </div><!--/col-10-->
           </div><!--/row-->
+
+          <feedback [nid]="content.entity.nid"></feedback>
+
         </article>
       </div>
       <div class="events__list second sm-hide" *ngIf="content.entity.fieldEventGroup">

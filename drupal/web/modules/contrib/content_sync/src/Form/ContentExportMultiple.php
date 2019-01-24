@@ -183,7 +183,7 @@ class ContentExportMultiple extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  protected function getLogger() {
+  protected function getExportLogger() {
     return $this->logger('content_sync');
   }
 

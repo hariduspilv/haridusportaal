@@ -217,7 +217,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.eventsConfig.limit = 5;
     }
 
-    localStorage.setItem("events.view", view);
+    sessionStorage.setItem("events.view", view);
 
     if( update ){
       this.status = false;
@@ -250,8 +250,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     this.loadingCalendar = true;
-    if( localStorage.getItem("events.view") ){
-      this.changeView(localStorage.getItem("events.view"), false);
+    if( sessionStorage.getItem("events.view") ){
+      this.changeView(sessionStorage.getItem("events.view"), false);
     }else{
       this.changeView("list", false);
     }

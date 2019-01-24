@@ -122,7 +122,7 @@ export class CertificatesDetailedComponent implements OnInit{
   }
 
   downloadCertificate() {
-    let token = localStorage.getItem('token');
+    let token = sessionStorage.getItem('token');
     return this.settings.url + '/certificate-download/' + this.downloadId + '?jwt_token=' + token;
   }
 

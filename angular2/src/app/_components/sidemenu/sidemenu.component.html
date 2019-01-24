@@ -12,7 +12,7 @@
         <span class="htm-icon" aria-hidden="true" *ngIf="item.links && item.links.length > 0">chevron_right</span>
       </a>
       
-      <a href="javascript:void(0);" [routerLink]="[item.url.path]" [class.isActive]="routeIncludes(item.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0 && item.url.path !== '#nolink'">
+      <a href="javascript:void(0);" [routerLink]="[item.url.path]" (click)="(isMobile && (item.url.path === router.url)) && sidemenuService.sendMessage()" [class.isActive]="routeIncludes(item.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0 && item.url.path !== '#nolink'">
         <span>{{ item.label }}</span>
       </a>
       <ul class="ul-styleless submenu deep" *ngIf="item.links">
@@ -24,7 +24,7 @@
           </a>
 
           <!-- Internal link -->
-          <a href="javascript:void(0);" [routerLink]="[item2.url.path]" [class.isActive]="routeIncludes(item2.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.links.length == 0 && item2.url.path !== '#nolink'">
+          <a href="javascript:void(0);" [routerLink]="[item2.url.path]" (click)="(isMobile && (item2.url.path === router.url)) && sidemenuService.sendMessage()" [class.isActive]="routeIncludes(item2.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.links.length == 0 && item2.url.path !== '#nolink'">
             <span>{{ item2.label }}</span>
           </a>
         </li>
@@ -41,14 +41,14 @@
           </a>
 
           <!-- Internal link -->
-          <a href="javascript:void(0);" [routerLink]="[item2.url.path]" [class.isActive]="routeIncludes(item2.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.links.length == 0 && item2.url.path !== '#nolink'">
+          <a href="javascript:void(0);" [routerLink]="[item2.url.path]" (click)="(isMobile && (item2.url.path === router.url)) && sidemenuService.sendMessage()" [class.isActive]="routeIncludes(item2.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item2.links.length == 0 && item2.url.path !== '#nolink'">
             <span>{{ item2.label }}</span>
           </a>
           <ul class="ul-styleless submenu deep" *ngIf="item2.links">
             <li *ngFor="let item3 of item2.links">
               
               <!-- Internal link -->
-              <a href="javascript:void(0);" [routerLink]="[item3.url.path]" [class.isActive]="routeIncludes(item3.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item3.url.internal">
+              <a href="javascript:void(0);" [routerLink]="[item3.url.path]" (click)="(isMobile && (item3.url.path === router.url)) && sidemenuService.sendMessage()" [class.isActive]="routeIncludes(item3.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item3.url.internal">
                 <span>{{ item3.label }}</span>
               </a>
 

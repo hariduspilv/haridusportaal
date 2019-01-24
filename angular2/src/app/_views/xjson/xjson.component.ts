@@ -95,6 +95,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.test = (strings['test'] == 'true');
         if(strings['draft'] == 'true') this.queryStrings['status'] = 'draft'
         if(strings['existing'] == 'true') this.queryStrings['status'] = 'submitted';
+        if(this.form_name && this.form_name.includes('MTSYS') && strings['educationalInstitutions_id']) this.queryStrings['educationalInstitutions_id'] = strings['educationalInstitutions_id'];
         if(strings['identifier'] != undefined ) this.queryStrings['id'] = Number(strings['identifier']);
       }
     );
@@ -324,7 +325,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
   
   fileDownloadlink(id){
-    let token = localStorage.getItem('token');
+    let token = sessionStorage.getItem('token');
     return this.settings.url + '/xjson_service/documentFile/' + id + '?jwt_token=' + token;
   }
 
@@ -663,10 +664,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   getData(data){
-    
+
     if(this.test) {
       data.test = true; //TEST
-
     }
     
     if(this.queryStrings){

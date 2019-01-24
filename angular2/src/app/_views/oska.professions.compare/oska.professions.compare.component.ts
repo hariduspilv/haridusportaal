@@ -15,7 +15,7 @@ import { TableService } from '@app/_services/tableService';
 })
 
 export class OskaProfessionsCompareComponent extends CompareComponent implements OnInit, AfterViewChecked, OnDestroy {
-  public compare = JSON.parse(localStorage.getItem('oskaProfessions.compare')) || [];
+  public compare = JSON.parse(sessionStorage.getItem('oskaProfessions.compare')) || [];
   public error;
   private url;
   private lang: string;
@@ -70,9 +70,9 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     let parentUrl = currentUrl.join('/');
     this.router.navigateByUrl(parentUrl);
   }
-  removeItemFromList(id, localStorageKey){
-    let existing = this.readFromLocalStorage(localStorageKey);
-    this.removeItemFromLocalStorage(id, localStorageKey, existing);
+  removeItemFromList(id, sessionStorageKey){
+    let existing = this.readFromLocalStorage(sessionStorageKey);
+    this.removeItemFromLocalStorage(id, sessionStorageKey, existing);
     let data = this.list.filter(item => item.nid != id);
     this.formatData(data);
     
@@ -207,7 +207,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     this.deleteIndicator++;
   }
   back () {
-    let langOpts = this.route.snapshot.url.toString().split("/");
+    let langOpts = this.router.url.split("/");
     langOpts.splice(-1, 1);
     return langOpts.join('/');
   }
