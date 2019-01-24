@@ -6,8 +6,8 @@
 @import "../assets/styles/layout.scss";
 @import "../assets/styles/htm-icon.scss";
 
-article table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
-  thead {background: $light-gray;
+article table, .accordion table{width: 100%;border-collapse: collapse; margin:$small 0 0 0;
+  th {background: $light-gray;
     .sortable {&:hover { color: $dark-gray;}}
     .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
   }
