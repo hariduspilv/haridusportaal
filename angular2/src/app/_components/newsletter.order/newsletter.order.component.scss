@@ -22,7 +22,7 @@
           }
         }
         @include break-on(sm, min) {padding: $medium 0;flex-flow: row wrap;}
-        @include break-on(xxs, min) {padding: $medium $large;padding-bottom:$large;flex-flow: row wrap;}
+        @include break-on(xxs, min) {padding: $medium $small;padding-bottom:$large;flex-flow: row wrap;}
         @include break-on(xxs, max) {padding: $medium $large;margin: 0 auto;width: max-content; box-sizing: content-box;}
       }
       &__input {

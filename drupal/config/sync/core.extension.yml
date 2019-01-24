@@ -108,7 +108,9 @@ module:
   scheduler: 0
   search_api: 0
   search_api_autocomplete: 0
+  seckit: 0
   serialization: 0
+  session_limit: 0
   shortcut: 0
   sitemap: 0
   smtp: 0

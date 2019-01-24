@@ -46,13 +46,13 @@
       <ng-container *ngIf="typeStatus['fields']">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('fields', 'fieldOskaField')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaField.length - limits['fields']}})</span></a>
+          <a href="javascript:void(0)" role="button" (click)="showMore('fields', 'fieldOskaField')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaField.length - limits['fields']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['fields'] && sidebar.fieldOskaField.length > generalLimiter">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('fields', 'fieldOskaField')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldOskaField.length - generalLimiter}})</span></a>
+          <a href="javascript:void(0)" role="button" (click)="hideExtra('fields', 'fieldOskaField')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldOskaField.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>
@@ -93,13 +93,13 @@
       <ng-container *ngIf="typeStatus['opportunities']">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('opportunities', 'fieldJobOpportunities')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldJobOpportunities.length - limits['opportunities']}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="showMore('opportunities', 'fieldJobOpportunities')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldJobOpportunities.length - limits['opportunities']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['opportunities'] && sidebar.fieldJobOpportunities.length > generalLimiter">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('opportunities', 'fieldJobOpportunities')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldJobOpportunities.length - generalLimiter}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="hideExtra('opportunities', 'fieldJobOpportunities')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldJobOpportunities.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>
@@ -124,13 +124,13 @@
       <ng-container *ngIf="typeStatus['qualification']">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('qualification', 'fieldQualificationStandard')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldQualificationStandard.length - limits['qualification']}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="showMore('qualification', 'fieldQualificationStandard')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldQualificationStandard.length - limits['qualification']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['qualification'] && sidebar.fieldQualificationStandard.length > generalLimiter">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('qualification', 'fieldQualificationStandard')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldQualificationStandard.length - generalLimiter}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="hideExtra('qualification', 'fieldQualificationStandard')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldQualificationStandard.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>
@@ -158,13 +158,13 @@
       <ng-container *ngIf="typeStatus['jobs']">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('jobs', 'fieldJobs')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldJobs.length - limits['jobs']}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="showMore('jobs', 'fieldJobs')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldJobs.length - limits['jobs']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['jobs'] && sidebar.fieldJobs.length > generalLimiter">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('jobs', 'fieldJobs')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldJobs.length - generalLimiter}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="hideExtra('jobs', 'fieldJobs')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldJobs.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>
@@ -189,13 +189,13 @@
       <ng-container *ngIf="typeStatus['profQuickFind']">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('profQuickFind', 'fieldQuickFind')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldQuickFind.length - limits['profQuickFind']}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="showMore('profQuickFind', 'fieldQuickFind')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldQuickFind.length - limits['profQuickFind']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['profQuickFind'] && sidebar.fieldQuickFind.length > generalLimiter" >
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('profQuickFind', 'fieldQuickFind')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldQuickFind.length - generalLimiter}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="hideExtra('profQuickFind', 'fieldQuickFind')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldQuickFind.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>
@@ -247,13 +247,13 @@
       <ng-container *ngIf="typeStatus['professions']">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('professions', 'fieldOskaMainProfession')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaMainProfession.length - limits['professions']}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="showMore('professions', 'fieldOskaMainProfession')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaMainProfession.length - limits['professions']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['professions'] && sidebar.fieldOskaMainProfession.length > generalLimiter" >
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('professions', 'fieldOskaMainProfession')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldOskaMainProfession.length - generalLimiter}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="hideExtra('professions', 'fieldOskaMainProfession')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldOskaMainProfession.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>
@@ -278,13 +278,13 @@
       <ng-container *ngIf="typeStatus['quickFind']">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('quickFind', 'fieldOskaFieldQuickFind')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaFieldQuickFind.length - limits['quickFind']}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="showMore('quickFind', 'fieldOskaFieldQuickFind')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaFieldQuickFind.length - limits['quickFind']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['quickFind'] && sidebar.fieldOskaFieldQuickFind.length > generalLimiter" >
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('quickFind', 'fieldOskaFieldQuickFind')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldOskaFieldQuickFind.length - generalLimiter}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="hideExtra('quickFind', 'fieldOskaFieldQuickFind')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldOskaFieldQuickFind.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>
@@ -309,13 +309,13 @@
       <ng-container *ngIf="typeStatus['relatedPages']">
         <hr aria-hidden="true" >
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('relatedPages', 'fieldRelatedPages')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldRelatedPages.length - limits['relatedPages']}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="showMore('relatedPages', 'fieldRelatedPages')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldRelatedPages.length - limits['relatedPages']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['relatedPages'] && sidebar.fieldRelatedPages.length > generalLimiter">
         <hr aria-hidden="true" >
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('relatedPages', 'fieldRelatedPages')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldRelatedPages.length - generalLimiter}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="hideExtra('relatedPages', 'fieldRelatedPages')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldRelatedPages.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>
@@ -376,13 +376,13 @@
       <ng-container *ngIf="typeStatus['resultHyperlinks']">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('resultHyperlinks', 'fieldHyperlinks')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldHyperlinks.length - limits['resultHyperlinks']}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="showMore('resultHyperlinks', 'fieldHyperlinks')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldHyperlinks.length - limits['resultHyperlinks']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['resultHyperlinks'] && sidebar.fieldHyperlinks.length > generalLimiter" >
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('resultHyperlinks', 'fieldHyperlinks')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldHyperlinks.length - generalLimiter}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="hideExtra('resultHyperlinks', 'fieldHyperlinks')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldHyperlinks.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>
@@ -407,13 +407,13 @@
       <ng-container *ngIf="typeStatus['resultRelatedArticle']">
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="showMore('resultRelatedArticle', 'fieldRelatedArticle')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldRelatedArticle.length - limits['resultRelatedArticle']}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="showMore('resultRelatedArticle', 'fieldRelatedArticle')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldRelatedArticle.length - limits['resultRelatedArticle']}})</span></a>
         </div>
       </ng-container>
       <ng-container *ngIf="!typeStatus['resultRelatedArticle'] && sidebar.fieldRelatedArticle.length > generalLimiter" >
         <hr aria-hidden="true">
         <div class="showMore">
-          <a href="javascript:void(0)" (click)="hideExtra('resultRelatedArticle', 'fieldRelatedArticle')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldRelatedArticle.length - generalLimiter}})</span></a>
+          <a role="button" href="javascript:void(0)" (click)="hideExtra('resultRelatedArticle', 'fieldRelatedArticle')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldRelatedArticle.length - generalLimiter}})</span></a>
         </div>
       </ng-container>
     </div>

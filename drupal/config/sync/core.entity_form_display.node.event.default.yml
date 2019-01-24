@@ -16,9 +16,11 @@ dependencies:
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_location_link
     - field.field.node.event.field_event_main_date
+    - field.field.node.event.field_event_main_end_date
     - field.field.node.event.field_event_main_end_time
     - field.field.node.event.field_event_main_start_time
     - field.field.node.event.field_event_type
+    - field.field.node.event.field_external_id
     - field.field.node.event.field_max_number_of_participants
     - field.field.node.event.field_metatags
     - field.field.node.event.field_organizer
@@ -27,6 +29,7 @@ dependencies:
     - field.field.node.event.field_practical_information
     - field.field.node.event.field_registration_
     - field.field.node.event.field_registration_date
+    - field.field.node.event.field_registration_url
     - field.field.node.event.field_tag
     - image.style.crop_result_thumb
     - node.type.event
@@ -112,7 +115,7 @@ content:
     region: content
   field_event_date:
     type: entity_reference_paragraphs
-    weight: 24
+    weight: 25
     region: content
     settings:
       title: Paragraph
@@ -123,7 +126,7 @@ content:
       default_paragraph_type: _none
     third_party_settings: {  }
   field_event_group:
-    weight: 25
+    weight: 26
     settings:
       match_operator: CONTAINS
       size: 60
@@ -159,8 +162,14 @@ content:
     third_party_settings: {  }
     type: datetime_default
     region: content
+  field_event_main_end_date:
+    weight: 22
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
   field_event_main_end_time:
-    weight: 23
+    weight: 24
     settings:
       format: 'h:mm'
       default_placeholder: 1
@@ -169,7 +178,7 @@ content:
     type: hms_default
     region: content
   field_event_main_start_time:
-    weight: 22
+    weight: 23
     settings:
       format: 'h:mm'
       default_placeholder: 1
@@ -183,6 +192,13 @@ content:
     third_party_settings: {  }
     type: options_select
     region: content
+  field_external_id:
+    weight: 32
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
   field_max_number_of_participants:
     weight: 19
     settings:
@@ -191,7 +207,7 @@ content:
     type: number
     region: content
   field_metatags:
-    weight: 29
+    weight: 30
     settings: {  }
     third_party_settings: {  }
     type: metatag_firehose
@@ -311,6 +327,14 @@ content:
           entity_type: node
           bundle: event
     region: content
+  field_registration_url:
+    weight: 33
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
   field_tag:
     weight: 4
     settings:
@@ -322,19 +346,19 @@ content:
     region: content
   path:
     type: path
-    weight: 28
+    weight: 29
     region: content
     settings: {  }
     third_party_settings: {  }
   publish_on:
     type: datetime_timestamp_no_default
-    weight: 26
+    weight: 27
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 30
+    weight: 31
     region: content
     settings:
       display_label: true
@@ -357,7 +381,7 @@ content:
     third_party_settings: {  }
   unpublish_on:
     type: datetime_timestamp_no_default
-    weight: 27
+    weight: 28
     region: content
     settings: {  }
     third_party_settings: {  }
