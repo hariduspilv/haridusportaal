@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy , SimpleChanges} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
-import { Observable, Subscription } from '../../../../node_modules/rxjs';
+import { Observable, Subscription, Subscriber } from '../../../../node_modules/rxjs';
 import { MatDialog, MatSnackBar, MatSnackBarConfig, MAT_SNACK_BAR_DATA } from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
@@ -34,6 +34,9 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     "en": "/dashboard/applications"
   }
   public subscriptions: Subscription[] = [];
+  public addingSub: Subscription;
+  public removingSub: Subscription;
+  public processing: boolean = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -80,6 +83,10 @@ export class FavouritesComponent implements OnInit, OnDestroy{
   }
 
   removeFavouriteItem(){
+    this.processing = true;
+    if( this.removingSub !== undefined ){
+      this.removingSub.unsubscribe();
+    }
     this.loading = true;
     let data = { 
       queryId: "c818e222e263618b752e74a997190b0f36a39818:1",
@@ -88,8 +95,7 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         language: this.lang.toUpperCase()
       }
     }
-
-    let sub = this.http.post('/graphql', data).subscribe(response => {
+    this.removingSub = this.http.post('/graphql', data).subscribe(response => {
       if(response['data']['deleteFavoriteItem']['errors'].length) {
         console.error('something went terribly wrong with favourite item deletion');
       } else {
@@ -98,15 +104,23 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.state = false;
       }
       this.loading = false;
-      sub.unsubscribe();
+      this.removingSub.unsubscribe();
+      this.processing = false;
+    }, (err) => {
+      this.loading = false;
+      this.processing = false;
     });
   }
   submitFavouriteItem(): void {  
+    this.processing = true;
+    if( this.addingSub !== undefined ){
+      this.addingSub.unsubscribe();
+    }
     this.loading = true;
     let data = { queryId: "e926a65b24a5ce10d72ba44c62e38f094a38aa26:1" }
     data['variables'] = this.compileVariables();
     
-    let sub = this.http.post('/graphql', data).subscribe(response => {
+    this.addingSub = this.http.post('/graphql', data).subscribe(response => {
       this.loading = false;
       if(response['data']['createFavoriteItem']["errors"].length){
         this.openDialog();
@@ -116,7 +130,10 @@ export class FavouritesComponent implements OnInit, OnDestroy{
         this.existingFavouriteItems.push({});
         this.openFavouriteSnackbar('add');
       } 
-      sub.unsubscribe();
+      this.addingSub.unsubscribe();
+      this.processing = false;
+    }, (err) => {
+      this.processing = false;
     });
   }
   openFavouriteSnackbar(operation: string) {
