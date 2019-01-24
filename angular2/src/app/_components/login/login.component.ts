@@ -81,6 +81,7 @@ export class LoginComponent implements OnInit{
       
       this.router.navigateByUrl("/", {skipLocationChange: true}).then( () => {
         this.router.navigateByUrl(redirectUrl);
+        this.sidemenu.triggerLang();
       });
     
     
@@ -114,6 +115,7 @@ export class LoginComponent implements OnInit{
     this.user = this.userService.getData();
     this.rootScope.set('teachingsAccordion', 0);
     this.rootScope.set('certificatesAccordion', 0);
+    this.sidemenu.triggerLang();
   }
 
   /*
