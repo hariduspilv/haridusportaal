@@ -42,9 +42,9 @@
 .col-25 {width: 20.83%;}
 .inline-flex {display: inline-flex;justify-content: flex-end;} 
 
-::ng-deep .description a[target="_blank"]:before {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
-  font-family: 'htm-icon';content: 'launch' !important;position: relative;top: 0.1875rem;
+::ng-deep .description a[target="_blank"]:after {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';
+  font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;
 }
-::ng-deep .description a[target="_blank"] {text-decoration: none;}
+::ng-deep .description a {text-decoration: none;}
 ::ng-deep .mat-calendar-body-selected {background-color: $blue;}
 ::ng-deep .news-row:hover h1 { text-decoration: underline; }
