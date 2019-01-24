@@ -11,6 +11,8 @@ use Symfony\Component\Serializer\Serializer;
 
 class ContentSyncManager implements ContentSyncManagerInterface {
 
+  const DELIMITER = '.';
+  
   /**
    * @var \Symfony\Component\Serializer\Serializer
    */
@@ -66,7 +68,7 @@ class ContentSyncManager implements ContentSyncManagerInterface {
     $queue = [];
     foreach ($file_names as $file) {
       $file_path = $directory . "/" . $file . ".yml";
-      if (!file_exists($file_path)) {
+      if (!file_exists($file_path) || !$this->isValidFilename($file)) {
         continue;
       }
       $content = file_get_contents($file_path);
@@ -93,6 +95,18 @@ class ContentSyncManager implements ContentSyncManagerInterface {
    */
   public function getEntityTypeManager() {
     return $this->entityTypeManager;
+  }
+
+  /**
+   * Checks filename structure
+   *
+   * @param $filename
+   *
+   * @return bool
+   */
+  protected function isValidFilename($filename) {
+    $parts = explode(static::DELIMITER, $filename);
+    return count($parts) === 3;
   }
 
 }
