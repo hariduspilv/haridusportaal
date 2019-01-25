@@ -6,15 +6,13 @@
 @import "../assets/styles/layout.scss";
 @import "../assets/styles/htm-icon.scss";
 
-article table {width: 100%;border-collapse: collapse; margin:$small 0 0 0;
-  thead {background: $light-gray;
+article table, .accordion table{width: 100%;border-collapse: collapse; margin:$small 0 0 0;
+  th {background: $light-gray;
     .sortable {&:hover { color: $dark-gray;}}
     .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
   }
-  th {white-space: nowrap; font-weight: normal;}
+  th {white-space: nowrap; font-weight: 500; }
   th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;
-    &:first-child{width:37%;}
-    &:last-child{font-weight: 500;}
   }
   td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
   th.hidden {text-align: center;border-bottom: none;}
@@ -671,10 +669,17 @@ mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
 }
 ::ng-deep .accordion__links {line-height: 1.375rem;font-size: $small;padding-top: $small;
 }
-::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after {
+::ng-deep .accordion__body a, ::ng-deep .description a, ::ng-deep .short a {
+  text-decoration: underline;
+  &:hover {text-decoration: none;}
+}
+::ng-deep .accordion__body a[target="_blank"], ::ng-deep .description a[target="_blank"], ::ng-deep .short a[target="_blank"] {
+  text-decoration: none;
+  &:hover {text-decoration: underline;}
+}
+::ng-deep .accordion__body a[target="_blank"]:after, ::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after {
   font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;
 }
-::ng-deep .description a, ::ng-deep .short a {text-decoration: none;}
 
 .mat-expansion-panel-header {
   width: 100%;
