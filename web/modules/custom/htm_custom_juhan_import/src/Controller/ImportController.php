@@ -128,6 +128,7 @@ class ImportController extends ControllerBase {
 
         $unpublish_ids = \Drupal::entityQuery('node')
             ->condition('field_external_id', $juhan_ids, 'NOT IN')
+            ->condition('field_entry_type', 'juhan')
             ->condition('type', 'event')
             ->execute();
 
