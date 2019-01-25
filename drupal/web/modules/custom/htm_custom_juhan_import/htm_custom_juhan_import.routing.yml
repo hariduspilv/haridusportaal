@@ -1,0 +1,8 @@
+
+htm_custom_juhan_import.import_controller_import:
+  path: '/htm_custom_juhan_import/import'
+  defaults:
+    _controller: '\Drupal\htm_custom_juhan_import\Controller\ImportController::import'
+    _title: 'import'
+  requirements:
+    _permission: 'access content'

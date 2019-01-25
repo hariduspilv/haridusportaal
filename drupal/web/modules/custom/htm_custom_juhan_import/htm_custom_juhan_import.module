@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_juhan_import.module.
+ */
+
+use Drupal\htm_custom_juhan_import\Controller\ImportController;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
+
+/**
+ * Implements hook_cron().
+ */
+function htm_custom_juhan_import_cron() {
+    $import_controller = new ImportController();
+
+    /** @var QueueFactory $queue_factory */
+    $queue_factory = \Drupal::service('queue');
+    /** @var QueueInterface $queue */
+    $queue = $queue_factory->get('cron_htm_custom_juhan_import');
+
+    $eventnodes = $import_controller->import();
+    foreach($eventnodes as $eventnode){
+        $queue->createItem($eventnode);
+    }
+}
