@@ -1,0 +1,5 @@
+name: 'HTM Custom Juhan Import'
+type: module
+description: 'Module for importing Juhan events'
+core: 8.x
+package: 'HTM'
