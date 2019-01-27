@@ -36,7 +36,7 @@
     "core-js": "2.6.2",
     "js-marker-clusterer": "1.0.0",
     "ng-recaptcha": "4.2.1",
-    "ng2-google-charts": "3.5.0",
+    "ng2-google-charts": "4.0.0",
     "ngx-clipboard": "11.1.9",
     "rxjs": "6.3.3",
     "scss": "0.2.4",
