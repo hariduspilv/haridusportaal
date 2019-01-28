@@ -1,0 +1,20 @@
+uuid: 6f1fe446-647b-4955-b249-7d1e4422e26a
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_juhan_import
+title: 'Queue: Import task worker: juhan event import queue'
+id: ultimate_cron_queue_cron_htm_custom_juhan_import
+weight: 10
+module: htm_custom_juhan_import
+callback: 'ultimate_cron.queue_worker:queueCallback'
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '* * * * *'
+launcher:
+  id: serial
+logger:
+  id: database
