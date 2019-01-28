@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.iscedf_search.field_iscedf_search_term
-    - field.field.paragraph.iscedf_search.field_iscedf_search_text
+    - field.field.paragraph.iscedf_search.field_level
     - paragraphs.paragraphs_type.iscedf_search
 id: paragraph.iscedf_search.default
 targetEntityType: paragraph
@@ -19,11 +19,12 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  field_iscedf_search_text:
-    weight: 1
+  field_level:
+    weight: 2
     label: above
-    settings: {  }
+    settings:
+      link: true
     third_party_settings: {  }
-    type: basic_string
+    type: entity_reference_label
     region: content
 hidden: {  }

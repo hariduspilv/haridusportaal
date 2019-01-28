@@ -1,16 +1,16 @@
-uuid: 8c8cf95c-26ee-46a1-bf99-5715979170ca
+uuid: eaea1484-b620-46e0-8a1b-7e596a0fdd13
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_iscedf_search_term
+    - field.storage.paragraph.field_level
     - paragraphs.paragraphs_type.iscedf_search
-    - taxonomy.vocabulary.isced_f
-id: paragraph.iscedf_search.field_iscedf_search_term
-field_name: field_iscedf_search_term
+    - taxonomy.vocabulary.studyprogrammelevel
+id: paragraph.iscedf_search.field_level
+field_name: field_level
 entity_type: paragraph
 bundle: iscedf_search
-label: 'Õppekava rühm'
+label: 'Õppekava tase'
 description: ''
 required: false
 translatable: true
@@ -20,7 +20,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      isced_f: isced_f
+      studyprogrammelevel: studyprogrammelevel
     sort:
       field: name
       direction: asc
