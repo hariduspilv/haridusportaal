@@ -1,0 +1,40 @@
+<breadcrumbs></breadcrumbs>
+<div class="main-container block__main">
+  <div class="row">
+    <div class="col-8 sm-12">
+      <div class="block border-blue padding-block">
+        <div class="block__head no-border no-bottom">
+          <div class="block__head__title">{{ 'frontpage.dashboard_tabs_certificates' | translate | uppercase }}</div>
+        </div><!--/block__head-->
+        <h1 class="main-title">{{ 'frontpage.certificate_check' | translate }}</h1>
+        <div class="block__introduction" innerHtml="{{'frontpage.certificate_check_body' | translate}}"></div><!--/block__introduction-->
+        <div class="block__form text-center">
+          <div class="row flex flex-justify-center">
+            <div class="col-6 sm-12">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'frontpage.certificate_owner_id' | translate }}</mat-label>
+                <input matInput placeholder="{{ 'frontpage.certificate_owner_id' | translate }}">
+              </mat-form-field>
+            </div>
+          </div> 
+          <div class="row flex flex-justify-center">
+            <div class="col-6 sm-12">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'frontpage.certificate_id' | translate }}</mat-label>
+                <input matInput placeholder="{{ 'frontpage.certificate_id' | translate }}">
+              </mat-form-field>
+            </div>
+          </div> 
+          <div class="row flex flex-justify-center">
+            <div class="recaptcha">
+              <re-captcha tabindex="-1" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="captcha" name="captcha" required></re-captcha>
+            </div>
+          </div> 
+          <div class="block__actions">
+            <button tabindex="0" role="button" mat-raised-button color="primary" (click)="submit">{{ 'button.search' | translate }}</button>
+          </div>
+        </div>
+      </div>
+    </div><!--/col-8-->
+  </div><!--/row-->
+</div>

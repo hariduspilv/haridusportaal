@@ -359,7 +359,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         reader.readAsDataURL(file);
         reader.onload = () => {
           let payload = {
-            file: reader.result.split(',')[1],
+            file: reader.result.toString().split(',')[1],
             form_name: this.form_name,
             data_element: element
           }

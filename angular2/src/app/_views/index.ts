@@ -20,3 +20,4 @@ export * from './oska.professions/oska.professions.component';
 export * from './oska.sectors/oska.sectors.component';
 export * from './oska.professions.compare/oska.professions.compare.component';
 export * from './oska.results/oska.results.component';
+export * from './certificate.check/certificate.check.component';
