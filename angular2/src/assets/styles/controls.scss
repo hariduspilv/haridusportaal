@@ -268,3 +268,30 @@
 @include break-on(sm, max){
   input{font-size:16px !important;}
 }
+
+.mat-form-field.mat-form-field-appearance-outline.mat-form-field {width: 100%; box-sizing: border-box;margin-top: .5rem;}
+.mat-form-field.mat-form-field-appearance-outline .mat-form-field-infix {
+  border-top-width: .75rem;
+  padding-top: .375rem;
+}
+.mat-form-field.mat-form-field-appearance-outline .mat-form-field-label {
+  left: 1.2rem!important;
+}
+.mat-form-field.mat-form-field-appearance-outline.mat-form-field-hide-placeholder .mat-form-field-label {
+  left: 0rem !important;
+  top: 1.5rem;
+}
+.mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline-start {
+    border-radius: 2em 0 0 2em!important;
+    min-width: 2rem!important;
+}
+.mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline-end {
+    border-radius: 0 2em 2em 0!important;
+    min-width: 2rem!important;
+}
+.mat-form-field.mat-form-field-appearance-outline.mat-focused {border: none !important;}
+.mat-form-field.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  width: 100%;
+}
+.mat-form-field-appearance-outline .mat-form-field-wrapper {padding-bottom: 0;margin: 0 !important;}
+.mat-form-field-appearance-outline .mat-form-field-flex {padding: 0 1rem !important;}
