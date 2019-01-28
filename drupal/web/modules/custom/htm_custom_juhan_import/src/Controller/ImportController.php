@@ -75,7 +75,7 @@ class ImportController extends ControllerBase {
                 'field_event_location' => [
                     'name' => isset($item->venueFullAddress) ? $item->venueFullAddress : '',
                 ],
-                'field_organizer' => $item->institution->name,
+                'field_organizer' => isset($item->institution) ? $item->institution->name : '',
                 'field_contact_person' => $item->projectManager->projectManagerFullName,
                 'field_contact_phone' => $item->projectManager->phone,
                 'field_contact_email' => $item->projectManager->email,
