@@ -18,23 +18,24 @@ import { SettingsService } from '@app/_core/settings';
 
 export class CertificateCheckComponent {
 
-  private querySubscription: Subscription;  
-  private loader: boolean = false;
-  private errorRequest: any = false;
-  private certificateData: any = false;
+  public querySubscription: Subscription;  
+  public loader: boolean = false;
+  public errorRequest: any = false;
+  public certificateData: any = false;
   public tableOverflown: any = false;
   public elemAtStart: any = true;
   public initialized: any = false;
-  public error: {} = {
+  public error = {
     captcha: false,
     request: false,
     file: false
   };
-  public resultSetIds: {} = {
+  public resultSetIds = {
     id_code: null,
     certificate_id: null
   };
-  public model: {} = {
+  public model = {
+    captcha: false,
     id_code: '',
     certificate_id: ''
   };
