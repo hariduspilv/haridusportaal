@@ -25,16 +25,16 @@ export class CertificateCheckComponent {
   public tableOverflown: any = false;
   public elemAtStart: any = true;
   public initialized: any = false;
-  private error: {} = {
+  public error: {} = {
     captcha: false,
     request: false,
     file: false
   };
-  private resultSetIds: {} = {
+  public resultSetIds: {} = {
     id_code: null,
     certificate_id: null
   };
-  private model: {} = {
+  public model: {} = {
     id_code: '',
     certificate_id: ''
   };
