@@ -174,7 +174,7 @@ $grid-columns: 12;
 .ERROR { margin-bottom: 1rem; position: relative; border-radius: 4px; background-color: #fdf3f4; border: solid 1px $error; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
   &:before {
     font-family: 'htm-icon'; content: "highlight_off"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $error; position: absolute;
-    left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;
+    left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;speak: none;
   }
 }
 .SUCCESS { margin-bottom: 1rem; position: relative;border-radius: 4px; background-color: #e6f5ef; border: solid 1px $success; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
@@ -461,7 +461,7 @@ $grid-columns: 12;
   }
 
   .tags { padding: $small $medium;
-    .mat-chip {height: $gutter; border-radius: .8125rem; border: solid .0625rem $gray; background-color: $white;
+    .mat-chip {height: $gutter; border-radius: .8125rem; border: solid .0625rem $gray; background-color: $white; min-height: 24px;
       &-wrapper {pointer-events: none;}
       &:not(.mat-basic-chip):focus {box-shadow: none;outline: 0;}
       font-size: .875rem;font-weight: 300;line-height: 1.43;letter-spacing: normal;color: $black;
@@ -565,8 +565,8 @@ $grid-columns: 12;
   .mat-snack-bar-container {
    box-shadow: 0 .125rem $half-gutter 0 rgba(0, 0, 0, 0.5);
    height: 3.75rem;
-   @include break-on(sm, min) {min-width: 50rem !important;}
-   @include break-on(sm, max) {min-width: 100vw !important;height: auto; padding: 1.25rem 1.5rem 0.875rem 4.6875rem!important;}
+   @include break-on(sm, min) {min-width: 50rem !important;margin-bottom: 0 !important;}
+   @include break-on(sm, max) {min-width: 100vw !important;height: auto; padding: 1.25rem 1.5rem 0.875rem 4.6875rem!important;margin: 0 !important;}
    padding: 1.25rem 1.5rem 0.875rem 4.6875rem!important;
    border-radius: 0.25rem; background-color: $success-light; border: solid 0.09375rem $success;
    @include break-on(sm, max) {
@@ -773,6 +773,7 @@ font-family: 'Rubik', sans-serif!important;
 
 .mat-checkbox {
   .mat-checkbox-inner-container {
+    width: 20px; height: 20px;
     margin: 0px 0.5rem auto 0;
   }
   .mat-checkbox-layout {

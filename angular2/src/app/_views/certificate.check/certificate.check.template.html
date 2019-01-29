@@ -1,4 +1,4 @@
-<breadcrumbs></breadcrumbs>
+<div><breadcrumbs></breadcrumbs></div>
 <div class="main-container block__main">
   <div class="row">
     <div class="col-8 sm-12">
@@ -13,7 +13,7 @@
             <div class="col-6 sm-12">
               <mat-form-field appearance="outline">
                 <mat-label>{{ 'frontpage.certificate_owner_id' | translate }}</mat-label>
-                <input tabindex="-1" type="number" [(ngModel)]="model.id_code" matInput placeholder="{{ 'frontpage.certificate_owner_id' | translate }}">
+                <input type="number" [(ngModel)]="model.id_code" matInput placeholder="{{ 'frontpage.certificate_owner_id' | translate }}">
               </mat-form-field>
             </div>
           </div> 
@@ -21,16 +21,16 @@
             <div class="col-6 sm-12">
               <mat-form-field appearance="outline">
                 <mat-label>{{ 'frontpage.certificate_id' | translate }}</mat-label>
-                <input tabindex="-1" type="text" [(ngModel)]="model.certificate_id" matInput placeholder="{{ 'frontpage.certificate_id' | translate }}">
+                <input type="text" [(ngModel)]="model.certificate_id" matInput placeholder="{{ 'frontpage.certificate_id' | translate }}">
               </mat-form-field>
             </div>
           </div> 
           <div class="row flex flex-justify-center">
-            <div role="text" attr.aria-label="'Recaptcha'" class="recaptcha sm-show" style="transform:scale(0.7);transform-origin:0;">
-              <re-captcha tabindex="-1" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="model.captcha" name="captcha" required></re-captcha>
+            <div class="recaptcha sm-show" style="transform:scale(0.7);transform-origin:0;">
+              <re-captcha tabindex="0" attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="model.captcha" name="captcha" required></re-captcha>
             </div>
-            <div role="text" attr.aria-label="'Recaptcha'" class="recaptcha sm-hide">
-              <re-captcha tabindex="-1" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="model.captcha" name="captcha" required></re-captcha>
+            <div class="recaptcha sm-hide">
+              <re-captcha tabindex="0" attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="model.captcha" name="captcha" required></re-captcha>
             </div>
           </div> 
           <div class="block__actions">
@@ -72,7 +72,7 @@
                       <span>{{ certificateData.nimi | lowercase | titleCase }}</span>
                     </td>
                     <td attr.rowspan="{{fieldSum()}}" class="text-center">
-                      <a class="rowspan-btn" role="link" href="{{downloadLink()}}" attr.aria-label="{{ 'button.download' | translate }}">{{ 'button.download' | translate }}</a>
+                      <a class="rowspan-btn" role="button" href="{{downloadLink()}}" attr.aria-label="{{ 'button.download' | translate }}">{{ 'button.download' | translate }}</a>
                     </td>
                   </tr>
                   <tr *ngIf="certificateData && certificateData.tunnistus_nr">
@@ -83,7 +83,7 @@
                       <span>{{ certificateData.tunnistus_nr }}</span>
                     </td>
                     <td *ngIf="!certificateData.nimi" attr.rowspan="{{fieldSum()}}" class="text-center">
-                      <a class="rowspan-btn" role="link" href="{{downloadLink()}}" attr.aria-label="{{ 'button.download' | translate }}">{{ 'button.download' | translate }}</a>
+                      <a class="rowspan-btn" role="button" href="{{downloadLink()}}" attr.aria-label="{{ 'button.download' | translate }}">{{ 'button.download' | translate }}</a>
                     </td>
                   </tr>
                   <tr *ngIf="certificateData && certificateData.kehtiv">
@@ -95,7 +95,7 @@
                       <span *ngIf="certificateData.kehtiv != '1'">{{ 'status.unpublished' | translate }}</span>
                     </td>
                     <td *ngIf="!certificateData.nimi && !certificateData.tunnistus_nr" attr.rowspan="{{fieldSum()}}" class="text-center">
-                      <a class="rowspan-btn" role="link" href="{{downloadLink()}}" attr.aria-label="{{ 'button.download' | translate }}">{{ 'button.download' | translate }}</a>
+                      <a class="rowspan-btn" role="button" href="{{downloadLink()}}" attr.aria-label="{{ 'button.download' | translate }}">{{ 'button.download' | translate }}</a>
                     </td>
                   </tr>
                   <tr>

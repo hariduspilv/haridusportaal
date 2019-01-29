@@ -65,7 +65,7 @@
       .mat-input-placeholder{font-size:0.875rem;
         @include break-on(sm, min) {font-size: .875rem;}
       }
-      .mat-form-field-label{transition:none !important; transform:none !important;
+      .mat-form-field-label{transition:none !important; transform:none !important;font-size: .875rem;
         @include break-on(sm, min) {padding-top: .3rem;}
       }
       &.mat-form-field-should-float{
