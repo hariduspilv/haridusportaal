@@ -28,10 +28,17 @@
   &__actions {
     padding-top: 2rem;
   }
+  &__notice {
+    margin-top: 2rem;
+    &.ERROR {margin-bottom: 0;}
+  }
   &__main {
     @include break-on(sm, min) {
-      margin-left: 1.5rem;margin-right: 1.5rem;
+      margin-left: 1.5rem;margin-right: 1.5rem;padding-top: 1rem;
     }
+  }
+  &__body {
+    h2 {margin: 2rem 0 .5rem 0;line-height: 1.375rem;}
   }
   &__inline {
     display: inline;

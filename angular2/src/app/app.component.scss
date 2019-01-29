@@ -226,6 +226,7 @@ $grid-columns: 12;
         &.lastRow {border-bottom: .0625rem solid $gray;}
       }
       &.nonBreakable {white-space: nowrap;}
+      &.dark {font-weight: 500;}
       &.light {font-weight: 400;
         &.underlineHover {
           a {text-decoration: none;
@@ -442,6 +443,7 @@ $grid-columns: 12;
     .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
   }
   .scrollable {position: relative; padding: $small 0 0 0;
+    &.scrollable__unpadded {padding: 0;}
     @include break-on(sm, min) {position: relative;padding-right: $small;padding-left: $small;}
     &__table {overflow:auto;}
     &__rectangle {width: 3.125rem;height: 3.125rem;border-radius: 50%;background-color: $dark-gray;position: absolute;right: $small;top: 50%;z-index: 5;user-select: none;
