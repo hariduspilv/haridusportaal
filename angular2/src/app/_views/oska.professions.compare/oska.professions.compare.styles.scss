@@ -20,7 +20,7 @@ table {width: 100%;border-collapse: collapse; margin: 0;
     &.highlighted {font-weight: 500;}
     &.groupCell {border-bottom: .0625rem solid $white;}
     &.groupHead {border-bottom: .0625rem solid $light-gray;}
-    .important-pill {margin: 0;}
+    .important-pill {margin: 0; border:$gray 1px solid;}
   }
   tr th:first-of-type, tr td:first-of-type  { text-align: left; } 
   td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
