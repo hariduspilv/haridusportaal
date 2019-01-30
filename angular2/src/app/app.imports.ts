@@ -39,7 +39,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     "htm.twn.ee": ["https://htm.wiseman.ee/translations?_format=json&lang=", ""],
     "edu.ee": ["https://api.hp.edu.ee/translations?_format=json&lang=", ""],
     "www.edu.ee": ["https://api.hp.edu.ee/translations?_format=json&lang=", ""],
-    "otherwise": ["https://apitest.hp.edu.ee/translations?_format=json&lang=", ""]
+    "test.edu.ee": ["https://apitest.hp.edu.ee/translations?_format=json&lang=", ""],
+    "otherwise": ["https://api.hp.edu.ee/translations?_format=json&lang=", ""]
   }
 
   let path;
