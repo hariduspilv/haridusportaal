@@ -1,0 +1,29 @@
+uuid: eaea1484-b620-46e0-8a1b-7e596a0fdd13
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_level
+    - paragraphs.paragraphs_type.iscedf_search
+    - taxonomy.vocabulary.studyprogrammelevel
+id: paragraph.iscedf_search.field_level
+field_name: field_level
+entity_type: paragraph
+bundle: iscedf_search
+label: 'Õppekava tase'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      studyprogrammelevel: studyprogrammelevel
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

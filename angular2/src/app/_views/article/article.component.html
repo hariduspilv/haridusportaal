@@ -1,4 +1,4 @@
-<breadcrumbs *ngIf="!inputData"></breadcrumbs>
+<div><breadcrumbs *ngIf="!inputData"></breadcrumbs></div>
 <div class="main-container">
   <mat-spinner *ngIf="!content && !error"></mat-spinner>
 
@@ -96,10 +96,10 @@
             <div class="sidebar__paragraph">
               <ul class="link-list mt-0 mb-0">
                 <li *ngFor="let relatedArticle of relatedArticles">
-                  <a href="{{relatedArticle.url.path}}" tabindex="0" [attr.target]="relatedArticle.url.__typename === 'ExternalUrl' ? '_blank' : ''" class="link related">
+                  <a href="{{relatedArticle.url.path}}" tabindex="0" [attr.target]="relatedArticle.url.routed ? '' : '_blank'" class="link related">
                     <div>
-                      <span *ngIf="relatedArticle.url.__typename !== 'ExternalUrl'" class="htm-icon">link</span>
-                      <span *ngIf="relatedArticle.url.__typename === 'ExternalUrl'" class="htm-icon">launch</span>
+                      <span *ngIf="relatedArticle.url && relatedArticle.url.routed" class="htm-icon">link</span>
+                      <span *ngIf="relatedArticle.url && !relatedArticle.url.routed" class="htm-icon">launch</span>
                     </div>
                     <div>{{relatedArticle.title}}</div>
                   </a>

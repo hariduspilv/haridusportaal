@@ -561,12 +561,28 @@ frontpage:
     en: 'Main menu'
   enter_keyword_and_search:
     translation_type: textarea
-    et: 'Sisesta märksõna ja vajuta “Otsi”..'
-    en: 'Enter keyword and search ..'
+    et: 'Sisesta märksõna ja vajuta Enter'
+    en: 'Enter keyword and click Enter'
   notification:
     translation_type: textarea
     et: Teavitus
     en: Notification
+  search_by_keyword:
+    translation_type: textarea
+    et: 'Otsi märksõna järgi'
+    en: 'Search by keyword'
+  certificate_check:
+    translation_type: textarea
+    et: 'Tunnistuse kehtivuse kontroll'
+    en: 'Certificate validity check'
+  certificate_check_body:
+    translation_type: text_format
+    et:
+      value: "<p>Teenus võimaldab kolmandal osapoolel (sh tööandjal) kontrollida tunnistusel olevate andmete kehtivust ja vajadusel ka tunnistus alla laadida. Sisestades tunnistuse numbri ja omaniku isikukoodi kuvatakse vastuseks isiku nimi ning tunnistuse andmete staatus. Mõlema välja täitmine on kohustuslik.</p>\r\n\r\n<p>Elektrooniliselt välja antud tunnistusel on samasugune õiguslik jõud nagu varasematel aastatel väljastatud paberkandjal oleval tunnistusel.</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Teenus võimaldab kolmandal osapoolel (sh tööandjal) kontrollida tunnistusel olevate andmete kehtivust ja vajadusel ka tunnistus alla laadida. Sisestades tunnistuse numbri ja omaniku isikukoodi kuvatakse vastuseks isiku nimi ning tunnistuse andmete staatus. Mõlema välja täitmine on kohustuslik.</p>\r\n\r\n<p>Elektrooniliselt välja antud tunnistusel on samasugune õiguslik jõud nagu varasematel aastatel väljastatud paberkandjal oleval tunnistusel.</p>\r\n"
+      format: custom_editor
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea

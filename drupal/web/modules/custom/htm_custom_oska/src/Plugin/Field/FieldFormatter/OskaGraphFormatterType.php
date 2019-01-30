@@ -15,7 +15,8 @@ use Drupal\Core\Form\FormStateInterface;
  *   id = "oska_graph_formatter_type",
  *   label = @Translation("Oska graph formatter type"),
  *   field_types = {
- *     "oska_graph_field"
+ *     "oska_graph_field",
+ *     "oska_dynamic_graph_field"
  *   }
  * )
  */

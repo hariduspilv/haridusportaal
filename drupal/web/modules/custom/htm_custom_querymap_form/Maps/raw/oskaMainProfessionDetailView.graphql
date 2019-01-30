@@ -134,10 +134,17 @@ query oskaMainProfessionDetailView($path: String!) {
                 fieldIscedfSearchLink {
                   entity {
                     ... on ParagraphIscedfSearch {
-                      fieldIscedfSearchText
                       iscedf_detailed: fieldIscedfSearchTerm {
                         entity {
                           ... on TaxonomyTermIscedF {
+                            entityId
+                            entityLabel
+                          }
+                        }
+                      }
+                      fieldLevel {
+                        entity {
+                          ... on TaxonomyTermStudyprogrammelevel{
                             entityId
                             entityLabel
                           }
