@@ -5,7 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from './_core/settings';
 import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
-
+import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
+ 
 import { LOCATION_INITIALIZED } from '@angular/common';
 import { CookieService } from './_services/cookieService';
 
@@ -47,6 +48,10 @@ export const AppProviders = [
     useFactory: appInitializerFactory,
     deps: [TranslateService, Injector],
     multi: true
-  }
+  },
+  {
+    provide: RECAPTCHA_LANGUAGE,
+    useValue: 'et'
+  },
 
 ]

@@ -10,8 +10,8 @@ id: paragraph.iscedf_search.field_iscedf_search_term
 field_name: field_iscedf_search_term
 entity_type: paragraph
 bundle: iscedf_search
-label: 'ISCEDF Detailed'
-description: 'Mitme lisamiseks kasutada eraldajana koma.'
+label: 'Õppekava rühm'
+description: ''
 required: false
 translatable: true
 default_value: {  }

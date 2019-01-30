@@ -1,6 +1,6 @@
 import { Component, Output, Injectable} from '@angular/core';
 import { Jsonp } from '@angular/http';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class AddressService {
