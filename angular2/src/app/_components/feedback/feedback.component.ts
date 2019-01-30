@@ -46,7 +46,6 @@ export class FeedbackComponent implements OnInit {
 
   ngOnInit() {
 
-    this.status = 'vote';
   }
 
 }

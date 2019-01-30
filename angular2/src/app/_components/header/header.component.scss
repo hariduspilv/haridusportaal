@@ -6,7 +6,7 @@
   @include break-on(sm, min) {width: 16.25rem;margin-left: 0;}
   @include break-on(sm, max) {padding-left:0;}
 }
-.search-input  {height: 2.5rem;border-radius: 1.25rem;background-color: rgba(255, 255, 255, 0.1);border: .0625rem solid rgba(255, 255, 255, 0);
+.search-input  {height: 2.5rem;border-radius: 1.25rem;background-color: rgba(255, 255, 255, 0.1);border: .0625rem solid rgba(255, 255, 255, 0); font-weight: 300;
   color: $white;padding: 0 $small 0 2.5rem;font-size: $small;width: 100%;box-sizing: border-box;max-width: 40.625rem; 
 }
 .searchbar {

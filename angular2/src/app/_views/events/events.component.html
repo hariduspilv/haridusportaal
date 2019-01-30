@@ -194,10 +194,10 @@
                   </div>
                   <div class="sm-hide info info-bar">
 
-                    <span class="time">{{ 'event.start_time' | translate }}: <strong>{{ event.firstEventTime | unixToTime }}</strong> </span>
+                    <span class="time">{{ 'event.start_time' | translate }}: <strong *ngIf="event.firstEventTime">{{ event.firstEventTime | unixToTime }}</strong> <strong *ngIf="!event.firstEventTime">-</strong> </span>
 
                     <span class="location" *ngIf="event.location">{{ 'event.location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
-                    <span class="entrance" *ngIf="event.fieldEntryType">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
+                    <span class="entrance" *ngIf="event.fieldEntryType && event.fieldEntryType !== 'juhan'">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
                   </div>
                   <div class="tags sm-hide" *ngIf="(event.hashTags && event.hashTags.length) || event.fieldEventType">
                     <mat-chip-list tabindex="0" aria-multiselectable="true" >
@@ -237,7 +237,7 @@
           <span class="pointer htm-icon" (click)="changeMonth(-1);">chevron_left</span>
         </span>
       </span>
-      <span class="month"><h1 tabindex="0">{{ 'time.' + monthName | lowercase | translate }} <ng-container *ngIf="year !== current.year">{{ year }}</ng-container></h1></span>
+      <span class="month"><h1 tabindex="0">{{ 'time.' + monthName | lowercase | translate | lowercase }} <ng-container *ngIf="year !== current.year">{{ year }}</ng-container></h1></span>
       <span  tabindex="0" (keyup.enter)="changeMonth(1);" attr.aria-label="{{'month.next' | translate}}">
         <span class="icon-wrapper">
           <span class="htm-icon pointer" (click)="changeMonth(1);">chevron_right</span>
@@ -269,7 +269,7 @@
 
                 <a href="javascript:void(0)" attr.title="{{ event.title }}" class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" (keyup.enter)="togglePopup(event.nid)" (keyup.esc)="popup = null" tabindex="0">
                   <span><div class="marker"></div></span>
-                  <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
+                  <span class="content__medium" *ngIf="event.fieldEventMainStartTime">{{ event.fieldEventMainStartTime | unixToTime }}</span>
                   <span class="content__strong">{{ event.title }}</span>
                 </a>
               </ng-container>
@@ -289,13 +289,23 @@
                         </div>
                       </div>
                     </div>
-                      <div class="event__block">
-                      
-                      <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
-                      <div role="none" *ngIf="event.eventDates"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
-                      <div *ngIf="event.location"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
-                      <div *ngIf="event.fieldEntryType"><span>{{ 'event.entrance' | translate }}: </span>{{ 'event.' + event.fieldEntryType | translate}}</div>
-                    </div>
+                    <div class="event__block">
+
+                      <ng-container [ngSwitch]="event.fieldEntryType">
+
+                        <ng-container *ngSwitchCase="'juhan'">
+                          <div><span>{{ 'event_duration' | translate }}: </span>{{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM.yyyy' }}</div>
+                        </ng-container>
+
+                        <ng-container *ngSwitchDefault>
+                          <div><span>{{ 'time.date' | translate }}: </span>{{ day.i }}. {{'time.'+monthName | lowercase | translate}}</div>
+                          <div role="none" *ngIf="event.fieldEventMainStartTime"><span>{{ 'event.start_time' | translate }}: </span>{{ event.fieldEventMainStartTime | unixToTime }}</div>
+                          <div *ngIf="event.location"><span>{{ 'event.location' | translate }}: </span>{{ event.location ? event.location.name : '' }}</div>
+                          <div *ngIf="event.fieldEntryType"><span>{{ 'event.entrance' | translate }}: </span>{{ 'event.' + event.fieldEntryType | translate}}</div>
+                        </ng-container>
+
+                      </ng-container>
+                    </div><!--/event__block-->
                     <div class="line"></div>
                     <div class="event__more"><a href="javascript:void(0)" (blur)="trapFocus('firstClose')" [routerLink]="event.entityUrl.path" tabindex="0">{{'button.view_more' | translate}}</a></div>
                   </div>
@@ -340,5 +350,3 @@
     </div><!--/calendar-wrapper-->
   </div><!--/view content-->
 </div>
-
-

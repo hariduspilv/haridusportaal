@@ -26,6 +26,9 @@ article table, .accordion table{width: 100%;border-collapse: collapse; margin:$s
   .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
 }
 
+.accordion{
+  ul, ol{margin-left:0; padding-left:1rem;}
+}
 /* You can add global styles to this file, and also import other style files */
 body{margin:0; padding:0; padding-top:4rem; background: $light-gray;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
