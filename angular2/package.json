@@ -31,7 +31,7 @@
     "@ng-select/ng-select": "2.14.0",
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
-    "angular2-csv": "0.2.9",
+    "angular2-csv": "^0.2.5",
     "angular2-moment": "1.9.0",
     "core-js": "2.6.2",
     "js-marker-clusterer": "1.0.0",
@@ -39,11 +39,14 @@
     "ng2-google-charts": "3.5.0",
     "ngx-clipboard": "11.1.9",
     "rxjs": "6.3.3",
+    "rxjs-compat": "^6.3.3",
     "scss": "0.2.4",
     "snazzy-info-window": "1.1.1",
+    "tslib": "^1.9.0",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "~0.12.0",
     "@angular/cli": "7.2.2",
     "@angular/compiler-cli": "7.2.0",
     "@angular/language-service": "7.2.0",

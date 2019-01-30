@@ -23,7 +23,8 @@ import {
   OskaProfessionsComponent,
   OskaProfessionsCompareComponent,
   OskaSectorsComponent,
-  OskaResultsComponent
+  OskaResultsComponent,
+  CertificateCheckComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
@@ -51,6 +52,8 @@ const appRoutes: Routes = [
   { path: 'erialad', component: StudyProgrammeComponent},
   { path: 'erialad/:id', component: StudyProgrammeSingleComponent},
 
+  { path: 'tunnistuse-kehtivus', component: CertificateCheckComponent },
+  
   { path: 'töölaud/tunnistused/:id', component: CertificatesDetailedComponent},
   { path: 'töölaud/õpetan/:type', component: TeachingsDetailedComponent},
   { path: 'töölaud/taotlused/:form_name', component: XjsonComponent},
@@ -133,6 +136,7 @@ export const routedComponents = [
   ApplicationsComponent,
   StudiesComponent,
   TeachingsComponent,
-  PreviewComponent
+  PreviewComponent,
+  CertificateCheckComponent
 ];
 

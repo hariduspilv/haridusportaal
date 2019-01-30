@@ -143,12 +143,12 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     if(operation === 'add'){
       message = this.translate.get('frontpage.favourites_snackbar_message')['value'];
       action = this.translate.get('frontpage.favourites_snackbar_action')['value'];
-      config.extraClasses = ['background-green', 'add'];
+      config.panelClass = ['background-green', 'add'];
       config.duration = 600000;
          
     } else if ('remove'){
       message = this.translate.get('frontpage.favourites_snackbar_message_remove')['value'];
-      config.extraClasses = ['background-green-removed', 'remove'];
+      config.panelClass = ['background-green-removed', 'remove'];
       config.duration = 3000;
     }
 
