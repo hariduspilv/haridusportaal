@@ -25,7 +25,7 @@ article table, .accordion table{width: 100%;border-collapse: collapse; margin:$s
   }
   .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
 }
-.app-version {margin-top: .25rem;padding: 1.5rem;text-align: center;color: $dark-gray;font-size: .875rem;border-top: .0625rem solid $gray;font-weight: 300;}
+.app-version {margin-top: .25rem;padding: 1.5rem;text-align: center;color: $dark-gray;font-size: .875rem;font-weight: 300;}
 /* You can add global styles to this file, and also import other style files */
 body{margin:0; padding:0; padding-top:4rem; background: $light-gray;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
