@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "importHelpers": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -18,7 +19,10 @@
     ],
     "baseUrl": "./src",
     "paths": {
-      "@app/*": ["app/*"]
-    }
+      "@app/*": [
+        "app/*"
+      ]
+    },
+    "module": "es2015"
   }
 }

@@ -1,0 +1,30 @@
+uuid: 45266249-c99b-49eb-af82-2d43848c31b1
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_juhan_import
+title: 'Default cron handler'
+id: htm_custom_juhan_import_cron
+weight: 0
+module: htm_custom_juhan_import
+callback: htm_custom_juhan_import_cron
+scheduler:
+  id: crontab
+  configuration:
+    rules:
+      - '0 3 * * *'
+    catch_up: 0
+launcher:
+  id: serial
+  configuration:
+    timeouts:
+      lock_timeout: 3600
+    launcher:
+      thread: 0
+logger:
+  id: database
+  configuration:
+    method: '3'
+    expire: 1209600
+    retain: 1000

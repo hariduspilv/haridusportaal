@@ -1,0 +1,135 @@
+<div><breadcrumbs></breadcrumbs></div>
+<div class="main-container block__main">
+  <div class="row">
+    <div class="col-8 sm-12">
+      <div class="block border-blue padding-block lg-bottom">
+        <div class="block__head no-border no-bottom">
+          <div class="block__head__title">{{ 'frontpage.dashboard_tabs_certificates' | translate | uppercase }}</div>
+        </div><!--/block__head-->
+        <h1 class="main-title">{{ 'frontpage.certificate_check' | translate }}</h1>
+        <div class="block__introduction" innerHtml="{{'frontpage.certificate_check_body' | translate}}"></div><!--/block__introduction-->
+        <div class="block__form text-center">
+          <div class="row flex flex-justify-center">
+            <div class="col-6 sm-12">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'frontpage.certificate_owner_id' | translate }}</mat-label>
+                <input type="number" [(ngModel)]="model.id_code" matInput placeholder="{{ 'frontpage.certificate_owner_id' | translate }}">
+              </mat-form-field>
+            </div>
+          </div> 
+          <div class="row flex flex-justify-center">
+            <div class="col-6 sm-12">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'frontpage.certificate_id' | translate }}</mat-label>
+                <input type="text" [(ngModel)]="model.certificate_id" matInput placeholder="{{ 'frontpage.certificate_id' | translate }}">
+              </mat-form-field>
+            </div>
+          </div> 
+          <div class="row flex flex-justify-center">
+            <div class="recaptcha sm-show" style="transform:scale(0.7);transform-origin:0;">
+              <re-captcha tabindex="0" attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="model.captcha" name="captcha" required></re-captcha>
+            </div>
+            <div class="recaptcha sm-hide">
+              <re-captcha tabindex="0" attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="model.captcha" name="captcha" required></re-captcha>
+            </div>
+          </div> 
+          <div class="block__actions">
+            <button tabindex="0" role="button" type="button" attr.aria-label="{{'button.search' | translate}}" mat-raised-button color="primary" (click)="checkCertificate()">{{ 'button.search' | translate }}</button>
+          </div>
+        </div>
+        <div class="ERROR block__notice" role="alert" *ngIf="error.captcha || error.request || error.file">
+          <span *ngIf="error.captcha">{{'errors.captcha' | translate}}</span>
+          <span *ngIf="error.request && errorRequest">{{errorRequest}}</span>
+          <span *ngIf="error.request && !errorRequest">{{'errors.request' | translate}}</span>
+          <span *ngIf="error.file">{{'errors.certificate_missing' | translate}}</span>
+        </div>
+        <mat-spinner *ngIf="loader && !error.request && !error.captcha"></mat-spinner>
+        <div class="block__body" *ngIf="certificateData && !loader">
+          <h2>{{'certificate.data' | translate}}</h2>
+          <div class="scrollable scrollable__unpadded">
+            <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
+              (touchstart)="tableService.scrollStart('certificateTable')"
+              (mousedown)="tableService.scrollStart('certificateTable')"
+              (touchend)="tableService.scrollEnd()" 
+              (mouseup)="tableService.scrollEnd()">
+              <span class="htm-icon">keyboard_arrow_left</span>
+            </div>
+            <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown" 
+              (touchstart)="tableService.scrollStart('certificateTable', true)"
+              (mousedown)="tableService.scrollStart('certificateTable', true)"
+              (touchend)="tableService.scrollEnd(true)"
+              (mouseup)="tableService.scrollEnd(true)">
+              <span class="htm-icon">keyboard_arrow_right</span>
+            </div>
+            <div class="scrollable__table" id="certificateTable" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('certificateTable')">
+              <table class="dashboard-table highCells scrollableTable">
+                <tbody>
+                  <tr *ngIf="certificateData && certificateData.nimi">
+                    <td class="dark">
+                      <span>{{ 'certificate.name' | translate }}</span>
+                    </td>
+                    <td class="dark">
+                      <span>{{ certificateData.nimi | lowercase | titleCase }}</span>
+                    </td>
+                    <td attr.rowspan="{{fieldSum()}}" class="text-center">
+                      <a class="rowspan-btn" role="button" href="{{downloadLink()}}" attr.aria-label="{{ 'button.download' | translate }}">{{ 'button.download' | translate }}</a>
+                    </td>
+                  </tr>
+                  <tr *ngIf="certificateData && certificateData.tunnistus_nr">
+                    <td class="dark">
+                      <span>{{ 'certificate.nr' | translate }}</span>
+                    </td>
+                    <td class="dark">
+                      <span>{{ certificateData.tunnistus_nr }}</span>
+                    </td>
+                    <td *ngIf="!certificateData.nimi" attr.rowspan="{{fieldSum()}}" class="text-center">
+                      <a class="rowspan-btn" role="button" href="{{downloadLink()}}" attr.aria-label="{{ 'button.download' | translate }}">{{ 'button.download' | translate }}</a>
+                    </td>
+                  </tr>
+                  <tr *ngIf="certificateData && certificateData.kehtiv">
+                    <td class="dark">
+                      <span>{{ 'certificate.status' | translate }}</span>
+                    </td>
+                    <td class="dark">
+                      <span *ngIf="certificateData.kehtiv === '1'">{{ 'status.published' | translate }}</span>
+                      <span *ngIf="certificateData.kehtiv != '1'">{{ 'status.unpublished' | translate }}</span>
+                    </td>
+                    <td *ngIf="!certificateData.nimi && !certificateData.tunnistus_nr" attr.rowspan="{{fieldSum()}}" class="text-center">
+                      <a class="rowspan-btn" role="button" href="{{downloadLink()}}" attr.aria-label="{{ 'button.download' | translate }}">{{ 'button.download' | translate }}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th colspan="3">{{ 'certificate.registered_exams' | translate }}</th>
+                  </tr>
+                </tbody>
+                <ng-container *ngIf="certificateData.eksam_jada && certificateData.eksam_jada.length">
+                  <tbody *ngFor="let examResults of certificateData.eksam_jada">
+                    <tr *ngIf="examResults.nimetus">
+                      <td>{{ 'exam.subject' | translate }}</td>
+                      <td colspan="2" class="light">{{ examResults.nimetus }}</td>
+                    </tr>
+                    <tr *ngIf="examResults.aeg">
+                      <td>{{ 'exam.time' | translate }}</td>
+                      <td colspan="2" class="light">{{ examResults.aeg }}</td>
+                    </tr>
+                    <tr *ngIf="examResults.staatus">
+                      <td>{{ 'exam.status' | translate }}</td>
+                      <td colspan="2" class="light">
+                        <span *ngIf="examResults.staatus === '1'">{{ 'exam.result_known' | translate }}</span>
+                        <span *ngIf="examResults.staatus != '1'">{{ 'exam.result_unknown' | translate }}</span>
+                      </td>
+                    </tr>
+                    <tr *ngIf="examResults.tulemus">
+                      <td>{{ 'frontpage.tulemus' | translate }}</td>
+                      <td colspan="2" class="light">{{ examResults.tulemus }}</td>
+                    </tr>
+                  </tbody>
+                </ng-container>
+              </table>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div><!--/col-8-->
+  </div><!--/row-->
+</div>

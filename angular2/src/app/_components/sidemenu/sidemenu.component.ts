@@ -13,6 +13,7 @@ export class SideMenuComponent implements OnInit {
 
   data: any;
   public isMobile: boolean = false;
+  public version: any = false;
   subscription: any;
 
   debounce: any;
@@ -41,7 +42,6 @@ export class SideMenuComponent implements OnInit {
   }
 
   getData(){
-
     clearTimeout( this.debounce );
     this.debounce = setTimeout( () => {
       let lang = this.rootScope.get("lang");
@@ -66,6 +66,12 @@ export class SideMenuComponent implements OnInit {
       this.getData();
     });
     this.getData();
+    this.appVersion();
   }
 
+  appVersion() {
+    return this.http.get('./assets/version.json').subscribe(data => {
+      this.version = data;
+    });
+  }
 }
