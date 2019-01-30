@@ -227,6 +227,7 @@ $grid-columns: 12;
       }
       &.nonBreakable {white-space: nowrap;}
       &.dark {font-weight: 500;}
+      &.action-spanning {text-align: center;width: 20%;}
       &.light {font-weight: 400;
         &.underlineHover {
           a {text-decoration: none;
