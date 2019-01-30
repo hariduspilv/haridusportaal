@@ -116,13 +116,15 @@ export class AppComponent implements OnInit {
   }
   
   showChat(){
-    window['__lc'] = window['__lc'] || {};
-    window['__lc'].license = 10492167;
-    (function() {
-      var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = false;
-      lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
-    })();
+    if (window.location.host !== 'haridusportaal.edu.ee' && window.location.host !== 'edu.ee') {
+      window['__lc'] = window['__lc'] || {};
+      window['__lc'].license = 10492167;
+      (function() {
+        var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = false;
+        lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+      })();
+    }
   }
 
   ngOnInit() {
