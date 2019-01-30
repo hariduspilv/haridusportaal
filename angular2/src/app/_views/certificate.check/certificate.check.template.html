@@ -45,7 +45,7 @@
         </div>
         <mat-spinner *ngIf="loader && !error.request && !error.captcha"></mat-spinner>
         <div class="block__body" *ngIf="certificateData && !loader">
-          <h2>{{'certificate.data' | translate}}:</h2>
+          <h2 role="alert">{{'certificate.data' | translate}}:</h2>
           <div class="scrollable scrollable__unpadded">
             <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
               (touchstart)="tableService.scrollStart('certificateTable')"
