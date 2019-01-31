@@ -32,13 +32,18 @@ query getEventSingle(
             alt
             title
           }
-          fieldEventMainDate{
-            value
-            date
-            unix
-          }
-          fieldEventMainStartTime
-          fieldEventMainEndTime
+fieldEventMainDate {
+          value
+          date
+          unix
+        }
+        fieldEventMainEndDate {
+          value
+          date
+          unix
+        }
+        fieldEventMainStartTime
+        fieldEventMainEndTime
           EventRegistrations{
             entities{
               ... on EventRegEntity{
