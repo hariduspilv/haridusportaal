@@ -39,8 +39,6 @@ class OskaGraphField extends FieldItemBase {
             ->setLabel(t('Chart set'));
         $properties['graph_title'] = DataDefinition::create('string')
             ->setLabel(t('Chart title'));
-        $properties['graph_v_axis'] = DataDefinition::create('string')
-            ->setLabel(t('Chart x axis'));
         $properties['filter_values'] = DataDefinition::create('string')
             ->setLabel(t('Graph filter values'));
         $properties['graph_type'] = DataDefinition::create('string')
@@ -91,11 +89,6 @@ class OskaGraphField extends FieldItemBase {
         ];
         $schema['columns']['secondary_graph_type'] = [
             'description' => 'Combo graph type.',
-            'type' => 'varchar',
-            'not null' => FALSE,
-        ];
-        $schema['columns']['graph_v_axis'] = [
-            'description' => 'Graph v axis.',
             'type' => 'varchar',
             'not null' => FALSE,
         ];

@@ -28,6 +28,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
     public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
 
         $field_name = $this->fieldDefinition->getName();
+        $csv_location = $this->fieldDefinition->getSettings()['csv_location'];
         $data = isset($items[$delta]->filter_values) ? json_decode($items[$delta]->filter_values, true)['graph_options'] : NULL;
         $fields = [];
 
@@ -93,14 +94,11 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                         'line' => $this->t('line'),
                         'bar' => $this->t('bar'),
                         'column' => $this->t('column'),
-                        'pie' => $this->t('pie'),
-                        'doughnut' => $this->t('doughnut')
                     );
                     break;
                 case 'combo':
                     $graph_type_options = array(
-                        'line' => $this->t('line'),
-                        'bar' => $this->t('bar')
+                        'line' => $this->t('line')
                     );
                     break;
                 case 'multi':
@@ -131,18 +129,25 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            $indicator_options = explode(PHP_EOL, file_get_contents($oska_filters_path.'naitaja'));
-            foreach($indicator_options as $key => $value){
-                $indicator_options[$value] = $value;
-                unset($indicator_options[$key]);
+            $indicator_data = json_decode(file_get_contents($oska_filters_path.'naitaja'), TRUE);
+            $indicator_options = [];
+
+            foreach($indicator_data as $key => $value){
+                $indicator_options[$key] = $key;
             }
+
             $element['graph_options']['graph_indicator'] = [
                 '#title' => $this->t('OSKA indicator'),
                 '#type' => 'select',
                 '#options' => $indicator_options,
-                '#multiple' => FALSE,
+                '#multiple' => TRUE,
                 '#required' => FALSE,
                 '#default_value' => isset($data['graph_indicator']) ? $data['graph_indicator'] : NULL,
+                '#ajax' => [
+                    'callback' => [$this,'ajax_dependent_graph_filters_callback'],
+                    'wrapper' => 'graph_filter_set'.$delta,
+                ],
+                '#delta' => $delta,
             ];
 
             $element['graph_options']['graph_v_axis'] = [
@@ -170,14 +175,31 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 ];
             }
 
+            $element['graph_options']['graph_filters'] = [
+                '#prefix' => '<div id="graph_filter_set'.$delta.'">',
+                '#suffix' => '</div>',
+            ];
+
             foreach($fields as $key => $field){
 
-                $selection = explode(PHP_EOL, file_get_contents($oska_filters_path.$key));
-                foreach($selection as $index => $value){
-                    $selection[$value] = $value;
-                    unset($selection[$index]);
+                if(isset($form_state->getUserInput()[$field_name])){
+                    $graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['graph_indicator'];
+                }else if(isset($items[$delta]->graph_indicator)){
+                    $graph_indicator = $items[$delta]->graph_indicator;
+                }else{
+                    $graph_indicator = false;
                 }
-                $element['graph_options'][$key] = [
+
+                $selection_data = json_decode(file_get_contents($oska_filters_path.$key), TRUE);
+                $selection = [];
+
+                foreach($graph_indicator as $value){
+                    foreach($selection_data[$value] as $select_item){
+                        $selection[$select_item] = $select_item;
+                    }
+                }
+
+                $element['graph_options']['graph_filters'][$key] = [
                     '#title' => $field,
                     '#type' => 'select',
                     '#options' => $selection,
@@ -195,8 +217,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#type' => 'select',
                     '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
                     '#options' => [
-                        'line' => $this->t('line'),
-                        'bar' => $this->t('bar'),
+                        'column' => $this->t('column'),
+                        'clustered_column' => $this->t('clustered column'),
+                        'stacked_column' => $this->t('stacked column'),
                     ],
                     '#empty_option'  => '-',
                     '#required' => FALSE,
@@ -238,6 +261,13 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         $trigger_element = $form_state->getTriggeringElement();
 
         return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options'];
+    }
+
+    public function ajax_dependent_graph_filters_callback(array &$form, FormStateInterface $form_state){
+        $field_name = $this->fieldDefinition->getName();
+        $trigger_element = $form_state->getTriggeringElement();
+
+        return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options']['graph_filters'];
     }
 
     public function extractFormValues(FieldItemListInterface $items, array $form, FormStateInterface $form_state)
@@ -316,7 +346,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 'graph_set' => $value['graph_set'],
                 'graph_title' => $value['graph_options']['graph_title'],
                 'graph_type' => $value['graph_options']['graph_type'],
-                'graph_v_axis' => $value['graph_options']['graph_v_axis'],
                 'graph_indicator' => $value['graph_options']['graph_indicator'],
                 'secondary_graph_type' => isset($value['graph_options']['secondary_graph_type']) ? $value['graph_options']['secondary_graph_type'] : NULL,
                 'secondary_graph_indicator' => isset($value['graph_options']['secondary_graph_indicator']) ? $value['graph_options']['secondary_graph_indicator'] : NULL,
