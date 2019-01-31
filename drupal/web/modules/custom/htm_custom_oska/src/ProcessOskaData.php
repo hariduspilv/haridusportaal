@@ -86,14 +86,7 @@ class ProcessOskaData {
 
     public static function CreateOskaFilters($items, &$context){
 
-        $filter_values = [
-            'naitaja' => [],
-            'valdkond' => [],
-            'alavaldkond' => [],
-            'ametiala' => [],
-            'periood' => [],
-            'silt' => [],
-        ];
+        $filter_values = [];
 
         //process only if no errors otherwise nothing
         if(empty($context['results']['error'])){
@@ -105,27 +98,24 @@ class ProcessOskaData {
                 for($i = $context['sandbox']['current_id']; $i <= $context['sandbox']['max']; $i++){
 
                     $values = $context['results']['values'][$i];
+                    $indicator = $values['naitaja'];
+
                     foreach($values as $key => $value){
-                        if(isset($filter_values[$key]) && !in_array($value, $filter_values[$key]) && strlen(trim($value)) != 0){
-                            $filter_values[$key][] = $value;
+                        if(!in_array($value, $filter_values[$key][$indicator]) && strlen(trim($value)) != 0){
+                            $filter_values[$key][$indicator][] = $value;
                         }
                     }
 
                     if($context['sandbox']['progress']+1 == $context['sandbox']['max']){
                         foreach($filter_values as $key => $values){
-                            $values = array_unique($values);
                             $logpath = '/app/drupal/web/sites/default/files/private/oska_filters';
                             if(!file_exists($logpath)) mkdir($logpath, 0744, true);
                             $logpath .= '/'.$key;
                             $file = fopen($logpath, 'wb');
-                            $array_len = count($values)-1;
-                            foreach($values as $key => $val){
-                                if($key != $array_len){
-                                    fwrite($file, $val.PHP_EOL);
-                                }else{
-                                    fwrite($file, $val);
-                                }
+                            foreach($values as $label => $childs){
+                                $values[$label] = array_unique($childs);
                             }
+                            fwrite($file, json_encode($values, TRUE));
                         }
                     }
                     $context['sandbox']['progress']++;

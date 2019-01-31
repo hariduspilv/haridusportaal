@@ -14,7 +14,7 @@ use Drupal\Core\Field\FieldItemBase;
  *   id = "oska_dynamic_graph_field",
  *   label = @Translation("Oska dynamic graph field"),
  *   description = @Translation("Field which consists of OSKA dynamic graph information"),
- *   default_widget = "oska_graph_widget_type",
+ *   default_widget = "oska_dynamic_graph_widget_type",
  *   default_formatter = "oska_graph_formatter_type"
  * )
  */
@@ -25,7 +25,7 @@ class OskaDynamicGraphField extends FieldItemBase {
      */
     public static function defaultStorageSettings() {
         return [
-                'target_type' => '',
+                'csv_location' => '',
             ] + parent::defaultStorageSettings();
     }
 
