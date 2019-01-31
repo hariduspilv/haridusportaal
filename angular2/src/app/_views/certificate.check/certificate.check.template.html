@@ -9,23 +9,23 @@
         <h1 class="main-title">{{ 'frontpage.certificate_check' | translate }}</h1>
         <div class="block__introduction" innerHtml="{{'frontpage.certificate_check_body' | translate}}"></div><!--/block__introduction-->
         <div class="block__form text-center">
-          <div class="row flex flex-justify-center">
-            <div class="col-6 sm-12">
+          <div class="flex flex-justify-center">
+            <div class="block__form__elem--66">
               <mat-form-field appearance="outline">
                 <mat-label>{{ 'frontpage.certificate_owner_id' | translate }}</mat-label>
-                <input type="text" [(ngModel)]="model.id_code" matInput>
+                <input type="number" autocomplete="off" [(ngModel)]="model.id_code" matInput>
               </mat-form-field>
             </div>
           </div> 
-          <div class="row flex flex-justify-center">
-            <div class="col-6 sm-12">
+          <div class="flex flex-justify-center">
+            <div class="block__form__elem--66">
               <mat-form-field appearance="outline">
                 <mat-label>{{ 'frontpage.certificate_id' | translate }}</mat-label>
-                <input type="text" [(ngModel)]="model.certificate_id" matInput>
+                <input autocomplete="off" [(ngModel)]="model.certificate_id" matInput>
               </mat-form-field>
             </div>
           </div> 
-          <div class="row flex flex-justify-center">
+          <div class="flex flex-justify-center">
             <div class="recaptcha sm-show" style="transform:scale(0.7);transform-origin:0;">
               <re-captcha tabindex="0" attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="model.captcha" name="captcha" required></re-captcha>
             </div>
