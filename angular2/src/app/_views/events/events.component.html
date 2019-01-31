@@ -189,7 +189,7 @@
                 <div class="events__content">
              <div class="title"><a href="javascript:void();" [routerLink]="event.entityUrl.path"><h1>{{ event.title }}</h1></a></div>
                   <div class="sm-show info">
-                    <span>{{ event.firstEventTime | unixToTime }}</span>
+                    <span *ngIf="event.firstEventTime">{{ event.firstEventTime | unixToTime }}</span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
                   </div>
                   <div class="sm-hide info info-bar">
