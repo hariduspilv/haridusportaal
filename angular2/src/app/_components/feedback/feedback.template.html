@@ -14,7 +14,8 @@
   <p  attr.aria-label="{{ 'feedback_how_to_improve' | translate }}" role="alert"><b>{{ 'feedback_how_to_improve' | translate }}</b></p>
   <div class="comment">
     <div class="formItem">
-      <textarea placeholder="{{ 'feedback_comment' | translate }}" [(ngModel)]='values.comment' attr.aria-label="{{ 'feedback_comment' | translate }}"></textarea>
+      <textarea [(ngModel)]='values.comment' attr.aria-label="{{ 'feedback_comment' | translate }}" formItemStates></textarea>
+      <div class="textarea-title">{{ 'feedback_comment' | translate }}</div>
     </div><!--/formItem-->
     <button mat-raised-button (click)="sendVote()" color="primary" attr.aria-label="{{ 'feedback_send' | translate }}">{{ 'feedback_send' | translate }}</button>
   </div><!--/comment-->

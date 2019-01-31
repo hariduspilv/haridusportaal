@@ -52,7 +52,7 @@ const appRoutes: Routes = [
   { path: 'erialad', component: StudyProgrammeComponent},
   { path: 'erialad/:id', component: StudyProgrammeSingleComponent},
 
-  { path: 'tunnistuse-kehtivus', component: CertificateCheckComponent },
+  { path: 'tunnistuse-kehtivuse-kontroll', component: CertificateCheckComponent },
   
   { path: 'töölaud/tunnistused/:id', component: CertificatesDetailedComponent},
   { path: 'töölaud/õpetan/:type', component: TeachingsDetailedComponent},
