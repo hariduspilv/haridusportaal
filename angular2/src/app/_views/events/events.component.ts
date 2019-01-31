@@ -231,7 +231,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   loadMore() {
     this.eventsConfig.offset = this.eventListRaw.length;
   
-    let url = "/graphql?queryName=eventList&queryId=094c224754a9806a9a6d73b9859def085608166c:1&variables=";
+    let url = "/graphql?queryName=eventList&queryId=1a6fb75f663b1f6171a768028e20d63babb94097:1&variables=";
     let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
     variables['timeEnabled'] = false;
@@ -507,7 +507,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         }
 
         // GET LIST OBSERVABLE
-        let url = "/graphql?queryName=eventList&queryId=094c224754a9806a9a6d73b9859def085608166c:1&variables=";
+        let url = "/graphql?queryName=eventList&queryId=1a6fb75f663b1f6171a768028e20d63babb94097:1&variables=";
         let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
 

@@ -3,9 +3,23 @@
   <div class="row xjson-wrapper">
     <div class="col-8 sm-12">
       <div class="block padding-block border-blue">
+
+        <div class="block__head">
+          <div class="block__head__title">{{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}</div>
+          <div class="block__head__buttons">
+            <div class="view-item" (click)="changeView('document')" attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0" [class.active]="view === 'document'">
+              <span class="htm-icon">insert_drive_file</span>
+              <div class="title" >{{ 'frontpage.dokument' | translate }}</div>
+            </div>
+            <div class="view-item" (click)="changeView('related_documents')" attr.aria-label="{{ 'frontpage.dashboard_related_documents' | translate }}" tabindex="0" [class.active]="view === 'related_documents'">
+              <span class="htm-icon">call_split</span>
+              <div class="title">{{ 'frontpage.dashboard_related_documents' | translate }}</div>
+            </div>
+          </div><!--/block__head__buttons-->
+        </div><!--/block__hed-->
+          
         <mat-spinner *ngIf="!data"></mat-spinner>
         <ng-container *ngIf="data">
-          <div class="block-title" *ngIf="data.header.form_name">{{data.header.form_name}}</div>
 
           <div class="xjson__title" *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</div>
           <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>

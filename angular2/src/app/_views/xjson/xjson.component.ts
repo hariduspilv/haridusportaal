@@ -39,6 +39,8 @@ const XJSON_DATEPICKER_FORMAT = {
 })
 export class XjsonComponent implements OnInit, OnDestroy {
 
+  public view = 'document';
+
   public tableOverflown: any = {};
   public elemAtStart: any = {};
   public tableCountPerStep: number = 0;
@@ -104,6 +106,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.subscriptions = [...this.subscriptions, strings];
   }
 
+  changeView(key) {
+    this.view = key;
+  }
+  
   fillAddressFieldsTemporaryModel(data_elements){
     Object.keys(data_elements).forEach(element => {
      
