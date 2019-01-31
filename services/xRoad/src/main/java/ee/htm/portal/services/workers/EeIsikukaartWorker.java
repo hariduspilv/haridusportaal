@@ -278,6 +278,7 @@ public class EeIsikukaartWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
