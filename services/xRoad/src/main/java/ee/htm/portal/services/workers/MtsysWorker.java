@@ -179,6 +179,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
 //    redisTemplate.opsForHash().put(MTSYSKLF_KEY, "mtsysKlf", mtsysKlfResponse);
 
@@ -326,6 +327,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
     redisTemplate.opsForHash().put(identifier, "mtsys", jsonNode);
   }
@@ -498,6 +500,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
     return jsonNode;
   }
@@ -635,6 +638,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
     return jsonNode;
   }
@@ -941,6 +945,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
     redisTemplate.opsForHash().put(institutionId, "educationalInstitution_" + identifier, jsonNode);
 
@@ -1093,6 +1098,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
     return jsonNodeResponse;
   }
@@ -1185,6 +1191,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
     return jsonNode;
   }
@@ -1286,6 +1293,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
     return jsonNode;
   }
