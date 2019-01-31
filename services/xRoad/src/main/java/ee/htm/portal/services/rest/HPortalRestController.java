@@ -44,7 +44,9 @@ public class HPortalRestController {
   @Autowired
   AriregWorker ariregWorker;
 
-  @RequestMapping(value = "/getDocuments/{identifier}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/getDocuments/{identifier}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDocuments(@PathVariable("identifier") String identifier) {
     if (identifier.length() == 8) {
       new Thread(() -> mtsysWorker.getMtsystegevusLoad(identifier)).start();
@@ -110,7 +112,9 @@ public class HPortalRestController {
     return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
   }
 
-  @RequestMapping(value = "/getDocumentFile/{documentId}/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/getDocumentFile/{documentId}/{personalCode}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDockumentFile(
       @PathVariable("documentId") String documentId,
       @PathVariable("personalCode") String personalCode) {
@@ -123,7 +127,9 @@ public class HPortalRestController {
     return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
   }
 
-  @RequestMapping(value = "/kodanikKutsetunnistus/{personalCode}/{invalidBoolean}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/kodanikKutsetunnistus/{personalCode}/{invalidBoolean}/{requestTimestamp}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getKodanikKutsetunnistus(
       @PathVariable("personalCode") String personalCode,
       @PathVariable("invalidBoolean") boolean invalidBoolean,
@@ -133,7 +139,9 @@ public class HPortalRestController {
         HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/eeIsikukaart/{personalCode}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/eeIsikukaart/{personalCode}/{requestTimestamp}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getEeIsikukaart(
       @PathVariable("personalCode") String personalcode,
       @PathVariable("requestTimestamp") Long timestamp) {
@@ -141,12 +149,16 @@ public class HPortalRestController {
         eeIsikukaartWorker.getEeIsikukaart(personalcode, timestamp), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/mtsysKlfTeenus", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/mtsysKlfTeenus",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getMtsysKlfTeenus() {
     return new ResponseEntity<>(mtsysWorker.getMtsysKlf(), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/testsessioonidKod/{personalCode}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/testsessioonidKod/{personalCode}/{requestTimestamp}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getTestsessioonidKod(
       @PathVariable("personalCode") String personalCode,
       @PathVariable("requestTimestamp") Long timestamp) {
@@ -154,7 +166,9 @@ public class HPortalRestController {
         eisWorker.getTestsessioonidKod(personalCode, timestamp), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/testidKod/{personalCode}/{testSessionId}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/testidKod/{personalCode}/{testSessionId}/{requestTimestamp}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getTestidKod(
       @PathVariable("personalCode") String personalCode,
       @PathVariable("testSessionId") BigInteger testSessionId,
@@ -163,7 +177,9 @@ public class HPortalRestController {
         eisWorker.getTestidKod(personalCode, testSessionId, timestamp), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/eTunnistusKod/{personalCode}/{tunnistusId}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/eTunnistusKod/{personalCode}/{tunnistusId}/{requestTimestamp}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getETunnistusKod(
       @PathVariable("personalCode") String personalCode,
       @PathVariable("tunnistusId") BigInteger tunnistusId,
@@ -172,7 +188,9 @@ public class HPortalRestController {
         eisWorker.getETunnistusKod(personalCode, tunnistusId, timestamp), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/eTunnistusKehtivus/{personalCode}/{tunnistusNr}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/eTunnistusKehtivus/{personalCode}/{tunnistusNr}/{requestTimestamp}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getETunnistusKehtivus(
       @PathVariable("personalCode") String personalCode,
       @PathVariable("tunnistusNr") String tunnistusNr,
@@ -181,7 +199,9 @@ public class HPortalRestController {
         eisWorker.getETunnistusKehtivus(personalCode, tunnistusNr, timestamp), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/esindusOigus/{personalCode}/{countryCode}/{requestTimestamp}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/esindusOigus/{personalCode}/{countryCode}/{requestTimestamp}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getEsindusOigus(
       @PathVariable("personalCode") String personalCode,
       @PathVariable("countryCode") String countryCode,
@@ -190,7 +210,9 @@ public class HPortalRestController {
         ariregWorker.getEsindusOigus(personalCode, countryCode, timestamp), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/getEducationalInstitution/{identifier}/{institutionId}/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/getEducationalInstitution/{identifier}/{institutionId}/{personalCode}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getEducationalInstitution(
       @PathVariable("identifier") Long identifier,
       @PathVariable("institutionId") String institutionId,
@@ -199,8 +221,10 @@ public class HPortalRestController {
         mtsysWorker.getMtsysOppeasutus(identifier, institutionId, personalCode), HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/postEducationalInstitution/{personalCode}", method = RequestMethod.POST,
-      produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/postEducationalInstitution/{personalCode}",
+      method = RequestMethod.POST,
+      produces = "application/json;charset=UTF-8",
+      consumes = "application/json;charset=UTF-8")
   public ResponseEntity<?> postEducationalInstitution(
       @PathVariable("personalCode") String personalCode,
       @RequestBody ObjectNode requestJson) {
