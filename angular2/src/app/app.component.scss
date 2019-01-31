@@ -26,6 +26,12 @@ article table, .accordion table{width: 100%;border-collapse: collapse; margin:$s
   .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 .accordion{
   ul, ol{margin-left:0; padding-left:1rem;}
 }
@@ -231,7 +237,7 @@ $grid-columns: 12;
       }
       &.nonBreakable {white-space: nowrap;}
       &.dark {font-weight: 500;}
-      &.action-spanning {text-align: center;width: 20%;}
+      &.action-spanning {text-align: center;width: 20%;font-size: 1rem;}
       &.light {font-weight: 400;
         &.underlineHover {
           a {text-decoration: none;
