@@ -8,6 +8,8 @@ import ee.htm.portal.services.workers.KutseregisterWorker;
 import ee.htm.portal.services.workers.MtsysWorker;
 import ee.htm.portal.services.workers.VPTWorker;
 import java.math.BigInteger;
+import java.util.Optional;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,11 +55,16 @@ public class HPortalRestController {
     return new ResponseEntity<>("{\"MESSAGE\":\"WORKING\"}", HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/getDocument/{formName}/{identifier}/{personalCode}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+  @RequestMapping(value = {"/getDocument/{formName}/{identifier}/{personalCode}",
+      "/getDocument/{formName}/{identifier}/{personalCode}/{year}/{educationalInstitutionsId}"},
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDocument(
       @PathVariable("formName") String formName,
       @PathVariable("identifier") String identifier,
-      @PathVariable("personalCode") String personalCode) {
+      @PathVariable("personalCode") String personalCode,
+      @PathVariable("year") Optional<Long> year,
+      @PathVariable("educationalInstitutionsId") Optional<Long> educationalInstitutionsId) {
     if (formName.startsWith("VPT_ESITATUD")) {
       return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
@@ -66,26 +73,37 @@ public class HPortalRestController {
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevusNaitajad(formName, Long.valueOf(identifier), personalCode),
+          mtsysWorker.getMtsysTegevusNaitaja(formName, Long.valueOf(identifier), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
       return new ResponseEntity<>(
           mtsysWorker.getMtsysTegevuslubaTaotlus(formName, Long.valueOf(identifier), personalCode),
           HttpStatus.OK);
+    } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_ARUANNE")) {
+      return new ResponseEntity<>(mtsysWorker
+          .getMtsysTegevusNaitajaTaotlus(formName,
+              NumberUtils.isDigits(identifier) ? Long.valueOf(identifier) : null,
+              year.isPresent() ? year.get() : null,
+              educationalInstitutionsId.get(), personalCode), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request formName - " + formName);
     return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
   }
 
-  @RequestMapping(value = "/postDocument", method = RequestMethod.POST,
-      produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+  @RequestMapping(value = "/postDocument",
+      method = RequestMethod.POST,
+      produces = "application/json;charset=UTF-8",
+      consumes = "application/json;charset=UTF-8")
   public ResponseEntity<?> postDocument(@RequestBody ObjectNode requestJson) {
     if (requestJson.get("header").get("form_name").asText().equalsIgnoreCase("VPT_TAOTLUS")) {
       return new ResponseEntity<>(vptWorker.postDocument(requestJson), HttpStatus.OK);
     } else if (requestJson.get("header").get("form_name").asText()
         .equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
       return new ResponseEntity<>(mtsysWorker.postMtsysTegevusluba(requestJson), HttpStatus.OK);
+    } else if (requestJson.get("header").get("form_name").asText()
+        .equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_ARUANNE")) {
+      return new ResponseEntity<>(mtsysWorker.postMtysTegevusNaitaja(requestJson), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request JSON - " + requestJson);

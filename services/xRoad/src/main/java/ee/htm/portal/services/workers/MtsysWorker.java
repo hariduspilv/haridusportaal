@@ -12,11 +12,13 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Do
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EhisKlassifikaator;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaDocument.MtsysEsitaTegevusluba;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaResponseDocument.MtsysEsitaTegevuslubaResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadDocument.MtsysEsitaTegevusnaitajad;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusDocument.MtsysLaeOppeasutus;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusResponseDocument.MtsysLaeOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaDocument.MtsysLaeTegevusluba;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaResponseDocument.MtsysLaeTegevuslubaResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevusnaitajadDocument.MtsysLaeTegevusnaitajad;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusAndmed;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusKontaktandmed;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysOppeasutusResponseDocument.MtsysOppeasutusResponse;
@@ -25,11 +27,14 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Mt
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevuslubaResponseDocument.MtsysTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusnaitajaDocument.MtsysTegevusnaitaja;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusnaitajaResponseDocument.MtsysTegevusnaitajaResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysTegevusnaitajateResponseDocument.MtsysTegevusnaitajateResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Naitajad;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.OppeasutusDetail;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Oppekava;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.OppekavaOppetasemed;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Opperyhmad;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Taotlus;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.TnItem;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -49,7 +54,7 @@ public class MtsysWorker extends Worker {
   private static final Logger LOGGER = Logger.getLogger(MtsysWorker.class);
 
   private static final String MTSYSKLF_KEY = "klassifikaator";
-  private static final String MTSYSFILE_KEY = "mtsysFile_";
+  private static final String MTSYSFILE_KEY = "mtsysFile";
 
   @Resource
   private EhisXRoadService ehisXRoadService;
@@ -837,7 +842,7 @@ public class MtsysWorker extends Worker {
         dokument.setFailiNimi(item.get("fail").get("file_name").asText());
         dokument.setKommentaar(item.get("kommentaar").asText());
         dokument.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
-            .get(MTSYSFILE_KEY, item.get("fail").get("file_identifier").asText()))));
+            .get(applicantPersonalCode, item.get("fail").get("file_identifier").asText()))));
         dokumendid.getDokumentList().add(dokument);
       }
     });
@@ -890,10 +895,16 @@ public class MtsysWorker extends Worker {
 
         if (response.getOppeasutus().isSetAadress()) {
           educationalInstitutionNode.putObject("address")
-              .put("seqNo", response.getOppeasutus().getAadress().isSetJrkNr() ? response.getOppeasutus().getAadress().getJrkNr() : null)
-              .put("adsId", response.getOppeasutus().getAadress().isSetAdsId() ? response.getOppeasutus().getAadress().getAdsId().longValue() : null)
+              .put("seqNo",
+                  response.getOppeasutus().getAadress().isSetJrkNr() ? response.getOppeasutus()
+                      .getAadress().getJrkNr() : null)
+              .put("adsId",
+                  response.getOppeasutus().getAadress().isSetAdsId() ? response.getOppeasutus()
+                      .getAadress().getAdsId().longValue() : null)
               .put("adsOid", response.getOppeasutus().getAadress().getAdsOid())
-              .put("klElukoht", response.getOppeasutus().getAadress().isSetKlElukoht() ? response.getOppeasutus().getAadress().getKlElukoht().intValue() : null)
+              .put("klElukoht",
+                  response.getOppeasutus().getAadress().isSetKlElukoht() ? response.getOppeasutus()
+                      .getAadress().getKlElukoht().intValue() : null)
               .put("county", response.getOppeasutus().getAadress().getMaakond())
               .put("localGovernment", response.getOppeasutus().getAadress().getOmavalitsus())
               .put("settlementUnit", response.getOppeasutus().getAadress().getAsula())
@@ -1086,7 +1097,7 @@ public class MtsysWorker extends Worker {
     return jsonNodeResponse;
   }
 
-  public ObjectNode getMtsysTegevusNaitajad(String formName, Long identifier,
+  public ObjectNode getMtsysTegevusNaitaja(String formName, Long identifier,
       String personalCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
@@ -1176,6 +1187,257 @@ public class MtsysWorker extends Worker {
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
 
     return jsonNode;
+  }
+
+  public ObjectNode getMtsysTegevusNaitajaTaotlus(String formName, Long identifier, Long year,
+      Long educationalInstitutionsId, String personalCode) {
+    ObjectNode jsonNode = nodeFactory.objectNode();
+
+    jsonNode.putObject("header")
+        .put("endpoint", "EHIS")
+        .put("form_name", formName)
+        .put("current_step", "step_aruanne")
+        .put("identifier", identifier)
+        .putArray("acceptable_activity").add("SAVE").add("SUBMIT");
+
+    ((ObjectNode) jsonNode.get("header")).putArray("agents").addObject()
+        .put("person_id", personalCode)
+        .putNull("role")
+        .putNull("owner_id")
+        .put("educationalInstitutions_id", educationalInstitutionsId);
+
+    ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("aasta", year);
+    ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("fileSubmit", false);
+
+    jsonNode.putObject("body").putObject("steps");
+    ((ObjectNode) jsonNode.get("body")).putArray("messages");
+    jsonNode.putObject("messages");
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - mtsysTegegevusnaitja.v1");
+
+    try {
+      MtsysTegevusnaitaja request = MtsysTegevusnaitaja.Factory.newInstance();
+      if (year != null) {
+        request.setAasta(BigInteger.valueOf(year));
+      }
+      if (identifier != null) {
+        request.setAruandeId(BigInteger.valueOf(identifier));
+      }
+      request.setOppeasutusId(BigInteger.valueOf(educationalInstitutionsId));
+
+      MtsysTegevusnaitajaResponse response = ehisXRoadService
+          .mtsysTegevusnaitaja(request, personalCode);
+
+      ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
+          .putObject("step_aruanne").putObject("data_elements");
+
+      dataElementsNode.putObject("aasta").put("value", year);
+      dataElementsNode.putObject("oppeasutusId").put("value", educationalInstitutionsId);
+
+      String redisHK =
+          "mtsys_tegevusnaitajad_aruanne_eeltaidetud_" + educationalInstitutionsId + "_" + year;
+      dataElementsNode.putObject("eeltaidetudCSV").putObject("value")
+          .put("file_name", response.getCsvFail().getFilename())
+          .put("file_identifier", redisHK);
+      redisTemplate.opsForHash().put(personalCode, redisHK, response.getCsvFail());
+
+      dataElementsNode.putObject("majandustegevuseTeateTabel").putArray("value");
+      dataElementsNode.putObject("tegevuslubaTabel").putArray("value");
+
+      response.getNaitajad().getItemList().forEach(item -> {
+        if (item.getKlOkLiik().equals(BigInteger.valueOf(18098L))) {
+          ((ArrayNode) dataElementsNode.get("majandustegevuseTeateTabel").get("value")).addObject()
+              .put("nimetus", item.getNimetus())
+              .put("oppijateArv", item.getOppijaArv())
+              .put("tunnistusteArv", item.getTunnistusArv())
+              .put("kuni8", item.getKuni8())
+              .put("kuni26", item.getKuni26())
+              .put("kuni80", item.getKuni80())
+              .put("kuni240", item.getKuni240())
+              .put("yle240", item.getYle240())
+              .put("kokku", item.getKokku())
+              .put("klOkLiik", item.getKlOkLiik())
+              .put("klOpperuhm", item.getKlOpperuhm())
+              .put("klKategooria", item.getKlKategooria())
+              .put("klEkTase", item.getKlEkTase());
+        } else if (!item.getKlOkLiik().equals(BigInteger.valueOf(18098L)) && !item.getKlOkLiik()
+            .equals(BigInteger.valueOf(-1L))) {
+          ((ArrayNode) dataElementsNode.get("tegevuslubaTabel").get("value")).addObject()
+              .put("nimetus", item.getNimetus())
+              .put("oppijateArv", item.getOppijaArv())
+              .put("tunnistusteArv", item.getTunnistusArv())
+              .put("kuni8", item.getKuni8())
+              .put("kuni26", item.getKuni26())
+              .put("kuni80", item.getKuni80())
+              .put("kuni240", item.getKuni240())
+              .put("yle240", item.getYle240())
+              .put("kokku", item.getKokku())
+              .put("klOkLiik", item.getKlOkLiik())
+              .put("klOpperuhm", item.getKlOpperuhm())
+              .put("klKategooria", item.getKlKategooria())
+              .put("klEkTase", item.getKlEkTase());
+        }
+      });
+
+    } catch (Exception e) {
+      super.setXdzeisonError(LOGGER, jsonNode, e);
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+
+    return jsonNode;
+  }
+
+  public ObjectNode postMtysTegevusNaitaja(ObjectNode jsonNode) {
+    String currentStep = jsonNode.get("header").get("current_step").isNull() ? null
+        : jsonNode.get("header").get("current_step").asText();
+    Long identifier = jsonNode.get("header").get("identifier").isNull()
+        || Long.valueOf(0).equals(jsonNode.get("header").get("identifier").longValue()) ?
+        null : jsonNode.get("header").get("identifier").asLong();
+    String personalCode = jsonNode.get("header").get("agents").get(0).get("person_id")
+        .asText();
+
+    List<String> acceptableActivity = new ArrayList<>();
+    jsonNode.get("header").get("acceptable_activity")
+        .forEach(i -> acceptableActivity.add(i.asText()));
+
+    if (acceptableActivity.contains("VIEW")) {
+      return jsonNode;
+    }
+
+    try {
+      if (acceptableActivity.contains("SAVE")) {
+        saveMtsysTegevusNaitaja(jsonNode, identifier, personalCode);
+
+        List<String> bodyMessages = new ArrayList<>();
+        jsonNode.get("body").get("messages").forEach(i -> bodyMessages.add(i.asText()));
+
+        if (bodyMessages.contains("veatekst")) {
+          return jsonNode;
+        }
+      }
+
+      if (acceptableActivity.contains("SUBMIT")) {
+        saveMtsysTegevusNaitaja(jsonNode, identifier, personalCode);
+
+        List<String> bodyMessages = new ArrayList<>();
+        jsonNode.get("body").get("messages").forEach(i -> bodyMessages.add(i.asText()));
+
+        if (bodyMessages.contains("veatekst")) {
+          return jsonNode;
+        }
+
+        MtsysEsitaTegevusnaitajad request = MtsysEsitaTegevusnaitajad.Factory.newInstance();
+        request.setOperatsioon("ESITAMINE");
+        request.setAruandeId(jsonNode.get("header").get("identifier").bigIntegerValue());
+//        request.setMenetlusKommentaar();
+
+        MtsysTegevusnaitajateResponse response = ehisXRoadService.mtsysEsitaTegevusnaitajad(request, personalCode);
+
+        if (response.isSetInfotekst()) {
+          ((ArrayNode) jsonNode.get("body").get("messages")).add("infotekst");
+          ((ObjectNode) jsonNode.get("messages")).putObject("infotekst")
+              .put("message_type", "NOTICE")
+              .putObject("message_text")
+              .put("et", response.getInfotekst());
+        }
+
+        if (response.isSetVeatekst()) {
+          ((ArrayNode) jsonNode.get("body").get("messages")).add("veatekst");
+          ((ObjectNode) jsonNode.get("messages")).putObject("veatekst")
+              .put("message_type", "ERROR")
+              .putObject("message_text")
+              .put("et", response.getVeatekst());
+        }
+
+        if (response.isSetAruandeId()) {
+          ((ObjectNode) jsonNode.get("header"))
+              .put("identifier", response.getAruandeId().longValue());
+        }
+      }
+
+    } catch (Exception e) {
+      setXdzeisonError(LOGGER, jsonNode, e);
+    }
+
+    return jsonNode;
+  }
+
+  private void saveMtsysTegevusNaitaja(ObjectNode jsonNode, Long identifier,
+      String applicantPersonalCode)
+      throws ParseException, XRoadServiceConsumptionException {
+    MtsysLaeTegevusnaitajad request = MtsysLaeTegevusnaitajad.Factory.newInstance();
+    ObjectNode dataElementNode = (ObjectNode) jsonNode.get("body").get("steps")
+        .get("step_aruanne").get("data_elements");
+
+    if (identifier != null) {
+      request.setAruandeId(BigInteger.valueOf(identifier));
+    }
+    request.setAasta(dataElementNode.get("aasta").get("value").bigIntegerValue());
+    request.setOppeasutusId(dataElementNode.get("oppeasutusId").get("value").bigIntegerValue());
+
+    if (jsonNode.get("header").get("parameters").get("fileSubmit").asBoolean()) {
+      request.setFail(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+          .get(applicantPersonalCode,
+              dataElementNode.get("esitamiseksCSV").get("value").get("file_identifier")
+                  .asText()))));
+    } else {
+      Naitajad naitajad = Naitajad.Factory.newInstance();
+
+      ArrayNode values = nodeFactory.arrayNode();
+      values.addAll((ArrayNode) dataElementNode.get("majandustegevuseTeateTabel").get("value"));
+      values.addAll((ArrayNode) dataElementNode.get("tegevuslubaTabel").get("value"));
+
+      values.forEach(item -> {
+        TnItem naitaja = TnItem.Factory.newInstance();
+        naitaja.setNimetus(item.get("nimetus").asText());
+        naitaja.setKlOkLiik(item.get("klOkLiik").bigIntegerValue());
+        if (!item.get("klOpperuhm").isNull()) {
+          naitaja.setKlOpperuhm(item.get("klOpperuhm").bigIntegerValue());
+        }
+        if (!item.get("klEkTase").isNull()) {
+          naitaja.setKlEkTase(item.get("klEkTase").bigIntegerValue());
+        }
+        if (!item.get("klKategooria").isNull()) {
+          naitaja.setKlKategooria(item.get("klKategooria").bigIntegerValue());
+        }
+        naitaja.setOppijaArv(item.get("oppijateArv").bigIntegerValue());
+        naitaja.setTunnistusArv(item.get("tunnistusteArv").bigIntegerValue());
+        naitaja.setKuni8(item.get("kuni8").bigIntegerValue());
+        naitaja.setKuni26(item.get("kuni26").bigIntegerValue());
+        naitaja.setKuni80(item.get("kuni80").bigIntegerValue());
+        naitaja.setKuni240(item.get("kuni240").bigIntegerValue());
+        naitaja.setYle240(item.get("yle240").bigIntegerValue());
+        naitajad.getItemList().add(naitaja);
+      });
+      request.setNaitajad(naitajad);
+    }
+
+    MtsysTegevusnaitajateResponse response = ehisXRoadService
+        .mtsysLaeTegevusnaitajad(request, applicantPersonalCode);
+
+    if (response.isSetInfotekst()) {
+      ((ArrayNode) jsonNode.get("body").get("messages")).add("infotekst");
+      ((ObjectNode) jsonNode.get("messages")).putObject("infotekst")
+          .put("message_type", "NOTICE")
+          .putObject("message_text")
+          .put("et", response.getInfotekst());
+    }
+
+    if (response.isSetVeatekst()) {
+      ((ArrayNode) jsonNode.get("body").get("messages")).add("veatekst");
+      ((ObjectNode) jsonNode.get("messages")).putObject("veatekst")
+          .put("message_type", "ERROR")
+          .putObject("message_text")
+          .put("et", response.getVeatekst());
+    }
+
+    if (response.isSetAruandeId()) {
+      ((ObjectNode) jsonNode.get("header"))
+          .put("identifier", response.getAruandeId().longValue());
+    }
   }
 
   private ObjectNode getKlfNode(String hashKey) {
