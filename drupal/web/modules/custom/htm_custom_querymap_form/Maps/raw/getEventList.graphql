@@ -30,6 +30,11 @@ query getEventList($tagsValue: [String], $tagsEnabled: Boolean, $typesValue: [St
           date
           unix
         }
+        fieldEventMainEndDate {
+          value
+          date
+          unix
+        }
         fieldEventMainStartTime
         fieldEventMainEndTime
         eventDates: fieldEventDate {

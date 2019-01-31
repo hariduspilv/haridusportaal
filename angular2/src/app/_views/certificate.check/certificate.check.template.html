@@ -8,7 +8,7 @@
         </div><!--/block__head-->
         <h1 class="main-title">{{ 'frontpage.certificate_check' | translate }}</h1>
         <div class="block__introduction" innerHtml="{{'frontpage.certificate_check_body' | translate}}"></div><!--/block__introduction-->
-        <div class="block__form text-center">
+        <div class="block__form sm-top text-center">
           <div class="flex flex-justify-center">
             <div class="block__form__elem--66">
               <mat-form-field appearance="outline">
@@ -26,10 +26,10 @@
             </div>
           </div> 
           <div class="flex flex-justify-center">
-            <div class="recaptcha sm-show" style="transform:scale(0.7);transform-origin:0;">
+            <div class="recaptcha xxs-show" style="transform:scale(0.7);transform-origin:0;">
               <re-captcha tabindex="0" attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="model.captcha" name="captcha" required></re-captcha>
             </div>
-            <div class="recaptcha sm-hide">
+            <div class="recaptcha xxs-hide">
               <re-captcha tabindex="0" attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha" siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" [(ngModel)]="model.captcha" name="captcha" required></re-captcha>
             </div>
           </div> 
