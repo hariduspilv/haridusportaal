@@ -269,13 +269,15 @@
   input{font-size:16px !important;}
 }
 
-.mat-form-field.mat-form-field-appearance-outline.mat-form-field {width: 100%; box-sizing: border-box;margin-top: .5rem;}
+.mat-form-field.mat-form-field-appearance-outline.mat-form-field {width: 100%; box-sizing: border-box;margin-top: 1rem;}
 .mat-form-field.mat-form-field-appearance-outline .mat-form-field-infix {
-  border-top-width: .75rem;
+  border-top-width: .5rem;
   padding-top: .375rem;
+  padding-bottom: .75rem;
 }
 .mat-form-field.mat-form-field-appearance-outline .mat-form-field-label {
   left: 1.2rem!important;
+  top: 2rem;
 }
 .mat-form-field.mat-form-field-appearance-outline.mat-form-field-hide-placeholder .mat-form-field-label {
   left: 0rem !important;
@@ -295,3 +297,11 @@
 }
 .mat-form-field-appearance-outline .mat-form-field-wrapper {padding-bottom: 0;margin: 0 !important;}
 .mat-form-field-appearance-outline .mat-form-field-flex {padding: 0 1rem !important;}
+.mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-end,
+.mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-gap,
+.mat-form-field-appearance-outline .mat-form-field-outline-thick .mat-form-field-outline-start {
+  border-width: .0625rem !important;
+}
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: rgba(0,0,0,.12);
+}

@@ -53,7 +53,7 @@ export class EventsListComponent implements OnInit, OnDestroy{
       "timeFrom":"0",
       "timeTo":"99999999"};
 
-    let url = "/graphql?queryName=eventList&queryId=4abaff3a1d7f8e824f5e912c684fccf91ce099a6:1&variables=";
+    let url = "/graphql?queryName=eventList&queryId=094c224754a9806a9a6d73b9859def085608166c:1&variables=";
     
     let subscription = this.http.get( url + JSON.stringify(variables) ).subscribe( response => {
       

@@ -5,12 +5,12 @@
       <div class="round-input__wrapper" aria-live="assertive" 
         [class.error]="!searchFocus && !param && searchError"
         [class.complete]="!searchFocus && param">
-        <label for="param" class="round-input__title" aria-hidden="true">{{'frontpage.enter_keyword_and_search' | translate}}</label>
+        <label for="param" class="round-input__title" aria-hidden="true">{{'frontpage.search_by_keyword' | translate}}</label>
         <div class="round-input__field-wrapper">
           <input type="text" 
-          attr.aria-label="{{ 'frontpage.enter_keyword_and_search' | translate }}" 
+          attr.aria-label="{{ 'frontpage.search_by_keyword' | translate }}" 
           class="round-input__field" 
-          placeholder="{{ 'frontpage.enter_keyword_and_search' | translate }}"
+          placeholder="{{ 'frontpage.search_by_keyword' | translate }}"
           [(ngModel)]='param' 
           (focus)="searchFocus = true;populateSuggestionList(param, 300);searchError = false;"
           (blur)="searchFocus = false"

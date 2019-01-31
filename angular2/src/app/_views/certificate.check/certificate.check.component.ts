@@ -3,17 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
 import { TableService } from '@app/_services';
 import { SettingsService } from '@app/_core/settings';
 
 @Component({
-  templateUrl: './certificate.check.template.html',
-  styleUrls: ['./certificate.check.styles.scss'],
-  providers: [{
-    provide: RECAPTCHA_LANGUAGE,
-    useValue: 'et'
-  }]
+  templateUrl: './certificate.check.template.html'
 })
 
 export class CertificateCheckComponent {

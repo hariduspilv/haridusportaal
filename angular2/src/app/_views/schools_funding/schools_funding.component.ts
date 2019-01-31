@@ -24,7 +24,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
   map: any;
   data:any;
-  filterData: any;
+  filterData: any = {};
 
   params:any;
 
@@ -422,6 +422,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.mapOptions.styles = this.rootScope.get("mapStyles");
     this.getFilters();
     this.watchSearch();
+    
     
   }
 

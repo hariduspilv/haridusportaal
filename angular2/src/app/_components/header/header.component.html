@@ -21,8 +21,8 @@
         <span class="search" *ngIf="!hideElement">
           <input type="text"
             (keyup.enter)="searchRoute(searchParam)"
-            attr.aria-label="{{ 'button.search_from_page' | translate }}" 
-            class="search-input round-input" placeholder="{{'search.keyword' | translate}}" 
+            attr.aria-label="{{ 'frontpage.enter_keyword_and_search' | translate }}" 
+            class="search-input round-input" placeholder="{{'frontpage.enter_keyword_and_search' | translate}}" 
             [(ngModel)]='searchParam' 
             (focus)="populateSuggestionList(searchParam, 300)"
             role="combobox"
