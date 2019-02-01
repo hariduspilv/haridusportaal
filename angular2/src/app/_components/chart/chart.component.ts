@@ -91,20 +91,32 @@ export class ChartComponent implements OnInit{
         if( current.graphIndicator || current.secondaryGraphIndicator){
           tmp['options']['hAxes'] = {};
           if( current.graphIndicator ){
-            tmp['options']['hAxes'][0] = {'title': current.graphIndicator};
+            tmp['options']['hAxes'][0] = {
+              title: current.graphIndicator,
+              format: 'currency'
+            };
           }
           if( current.secondaryGraphIndicator ){
-            tmp['options']['hAxes'][1] = {'title': current.secondaryGraphIndicator};
+            tmp['options']['hAxes'][1] = {
+              title: current.secondaryGraphIndicator,
+              format: 'currency'
+            };
           }
         }
       }else{
         if( current.graphIndicator || current.secondaryGraphIndicator){
           tmp['options']['vAxes'] = {};
           if( current.graphIndicator ){
-            tmp['options']['vAxes'][0] = {'title': current.graphIndicator};
+            tmp['options']['vAxes'][0] = {
+              title: current.graphIndicator,
+              format: 'currency'
+            };
           }
           if( current.secondaryGraphIndicator ){
-            tmp['options']['vAxes'][1] = {'title': current.secondaryGraphIndicator};
+            tmp['options']['vAxes'][1] = {
+              title: current.secondaryGraphIndicator,
+              format: 'currency'
+            };
           }
         }
       }
@@ -128,7 +140,7 @@ export class ChartComponent implements OnInit{
 
         tmp.options['series'] = {
           0: {
-            targetAxisIndex: 0
+            targetAxisIndex: 0,
           },
           1: {
             type: secondaryGraphType,
