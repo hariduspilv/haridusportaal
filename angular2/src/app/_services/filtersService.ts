@@ -120,7 +120,11 @@ export class FiltersService {
         let values = '';
         for( let ii in this.filterFormItems[i] ){
           if( values !== '' ){ values+= ','}
-          values+= this.filterFormItems[i][ii].id;
+          if( this.filterFormItems[i][ii].id ) {
+            values+= this.filterFormItems[i][ii].id;
+          } else {
+            values+= this.filterFormItems[i][ii];
+          }
         }
         urlParams[i] = values;
       }
