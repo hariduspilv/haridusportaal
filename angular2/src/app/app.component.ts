@@ -97,6 +97,10 @@ export class AppComponent implements OnInit {
 
   showCookieNotification = false;
 
+  closeNotification() {
+    this.showCookieNotification = false;
+  }
+  
   agreeTerms() {
     this.cookies.authorize();
     this.showCookieNotification = false;

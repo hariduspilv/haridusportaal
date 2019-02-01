@@ -1,3 +1,5 @@
+<cookie-notification link="/uudised/haridus-ja-teadusminister-mailis-repsi-kooliaasta-alguse-tervitus" (action)="agreeTerms()" (close)="closeNotification()" *ngIf="showCookieNotification"></cookie-notification>
+
 <button role="button" (click)="focusMainContent()" (keyup.enter)="focusMainContent()" (keyup.space)="focusMainContent()" class="maincontent" attr.aria-label="{{'frontpage.skip' | translate}}">Skip to main content</button>
 
 <app-header [wasClicked]="wasClicked"></app-header>
@@ -17,5 +19,3 @@
 		
 	</mat-sidenav-container>
 </div><!--/inline-->
-
-<cookie-notification link="/uudised/haridus-ja-teadusminister-mailis-repsi-kooliaasta-alguse-tervitus" (action)="agreeTerms()" *ngIf="showCookieNotification"></cookie-notification>
