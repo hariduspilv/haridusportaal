@@ -9,8 +9,13 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
 export class CookieNotification{
   @Input() link: any;
   @Output() action: EventEmitter<any> = new EventEmitter<any>();
+  @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
-  agree(){
+  agree() {
     this.action.emit(true);
+  }
+
+  closeNotification() {
+    this.close.emit(true);
   }
 }

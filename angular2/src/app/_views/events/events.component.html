@@ -189,7 +189,7 @@
                 <div class="events__content">
              <div class="title"><a href="javascript:void();" [routerLink]="event.entityUrl.path"><h1>{{ event.title }}</h1></a></div>
                   <div class="sm-show info">
-                    <span *ngIf="event.firstEventTime">{{ event.firstEventTime | unixToTime }}</span>
+                    <span *ngIf="event.firstEventTime">{{ event.firstEventTime | unixToTime }} </span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
                   </div>
                   <div class="sm-hide info info-bar">
@@ -269,8 +269,8 @@
 
                 <a href="javascript:void(0)" attr.title="{{ event.title }}" class="content" role="button" [class.active]="popup === event.nid" (click)="togglePopup(event.nid)" (keyup.enter)="togglePopup(event.nid)" (keyup.esc)="popup = null" tabindex="0">
                   <span><div class="marker"></div></span>
-                  <span class="content__medium" *ngIf="event.fieldEventMainStartTime">{{ event.fieldEventMainStartTime | unixToTime }}</span>
-                  <span class="content__strong">{{ event.title }}</span>
+                  <span class="content__medium" *ngIf="event.fieldEventMainStartTime"> {{ event.fieldEventMainStartTime | unixToTime }}</span>
+                  <span class="content__strong"> {{ event.title }}</span>
                 </a>
               </ng-container>
               
@@ -294,7 +294,10 @@
                       <ng-container [ngSwitch]="event.fieldEntryType">
 
                         <ng-container *ngSwitchCase="'juhan'">
-                          <div><span>{{ 'event_duration' | translate }}: </span>{{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM.yyyy' }}</div>
+                          <div>
+                            <span>{{ 'event_duration' | translate }}: </span>{{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM.yyyy' }}
+                            <ng-container *ngIf="event.fieldEventMainEndDate && event.fieldEventMainDate.unix !== event.fieldEventMainEndDate.unix">- {{ event.fieldEventMainEndDate.unix*1000 | date: 'dd.MM.yyyy' }}</ng-container>
+                          </div>
                         </ng-container>
 
                         <ng-container *ngSwitchDefault>
@@ -334,7 +337,7 @@
                       <a href="javascript:void(0)" (blur)="trapFocus('secondClose')" class="cal__event pointer" [routerLink]="event.entityUrl.path">
                         <div class="content content__more">
                           <span><div class="marker"></div></span>
-                          <span class="content__medium">{{ event.fieldEventMainStartTime | unixToTime }}</span>
+                          <span class="content__medium" *ngIf="event.fieldEventMainStartTime">{{ event.fieldEventMainStartTime | unixToTime }}</span>
                           <span class="content__strong">{{ event.title }}</span>
                         </div>
                       </a>

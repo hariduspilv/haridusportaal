@@ -1,20 +1,17 @@
 <span class="login-wrapper" *ngIf="basicLogin">
 
-  <a href="javascript:void(0)" class="login__actions" *ngIf="!user.isExpired" [matMenuTriggerFor]="usermenu" [class.logged]="!user.isExpired">
+  <button class="login__actions" *ngIf="!user.isExpired" [matMenuTriggerFor]="usermenu" [class.logged]="!user.isExpired">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
     <span class="login pointer sm-hide">{{ user.username }}</span>
-  </a>
+  </button>
   <mat-menu #usermenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
     <button mat-menu-item (click)="logOut()">{{ 'button.logout' | translate }}</button>
   </mat-menu>
 
-
-
-
-  <a href="javascript:void(0)" class="login__actions" *ngIf="user.isExpired" (keyup.esc)="loginVisible = false;" (click)="toggleLogin()" attr.aria-label="{{ 'button.login' | translate }}">
+  <button class="login__actions" *ngIf="user.isExpired" (keyup.esc)="loginVisible = false;" (click)="toggleLogin()" attr.aria-label="{{ 'button.login' | translate }}">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
     <span class="login pointer sm-hide">{{ 'button.login' | translate }}</span>
-  </a>
+  </button>
   <div class="dropdown-menu-overlay" (click)="toggleLogin()" (keyup.esc)="loginVisible = false" *ngIf="loginVisible"></div>
   <div class="dropdown-menu" *ngIf="loginVisible" (keyup.esc)="loginVisible = false">
 
