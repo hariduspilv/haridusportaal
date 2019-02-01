@@ -115,7 +115,7 @@ export class EventsSingleComponent implements AfterViewChecked {
         const path = this.router.url;
         const that = this;
         
-        let url = "/graphql?queryName=getEventSingle&queryId=d8b8e4ea26dfb069301cae715498972dc2f9aff1:1&variables=";
+        let url = "/graphql?queryName=getEventSingle&queryId=8d7169386af75107bce43190b02559ca7a2e06f3:1&variables=";
         let variables = {
           path: path
         };

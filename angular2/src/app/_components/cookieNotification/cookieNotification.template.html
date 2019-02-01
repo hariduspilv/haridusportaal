@@ -6,5 +6,6 @@
     <a [routerLink]="link" class="sm-hide" attr.aria-label="{{ 'read_terms' | translate }}">{{ 'read_terms' | translate }}</a>
     <button mat-raised-button color="primary" attr.aria-label="{{ 'agree' | translate }}" (click)="agree()">{{ 'agree' | translate }}</button>
     <a [routerLink]="link" class="sm-show" attr.aria-label="{{ 'read_terms' | translate }}">{{ 'read_terms' | translate }}</a>
+    <button class="htm-icon" attr.aria-label="{{ 'cookie_close' | translate }}" (click)="closeNotification()">close</button>
   </div><!--/cookieNotification__desc-->
 </div><!--/inline-->

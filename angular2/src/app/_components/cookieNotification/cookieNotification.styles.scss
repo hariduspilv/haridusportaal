@@ -2,10 +2,10 @@
 @import "../../../assets/styles/layout.scss"; 
 
 :host{position:fixed; bottom:0; left:0; width:100%; z-index: 9999999999; font-family:Rubik;
-  .inline{max-width:1280px; margin:0 auto; border:#c7c7c9 1px solid; border-radius:4px; background:#eeeeee; padding:1.4375rem 4.75rem; display:flex;
+  .inline{max-width:1280px; margin:0 auto; border:#c7c7c9 1px solid; border-radius:4px; background:#eeeeee; padding:1.4375rem 4.75rem; display:flex; position:relative;
     @include break-on(sm, max) { padding:1.4375rem 2rem;  flex-wrap: wrap; }
   }
-  .cookieNotification__desc{font-size:1rem; color:#333; display: flex; align-items: center; flex-grow: 1; flex-shrink: 1;}
+  .cookieNotification__desc{font-size:1rem; color:#333; display: flex; align-items: center; flex-grow: 1; flex-shrink: 1; padding-right:2rem;}
   .cookieNotification__buttons{ flex-shrink: 0;
     @include break-on(sm, max) { margin-top:1rem; width:100%;
       .mat-raised-button{margin-top:1rem; margin-left:0; width:100% !important;}
@@ -14,6 +14,10 @@
   button{margin-left:1.5rem; width:auto !important;
     @include break-on(sm, max){ margin-top:0 !important;}
     &+.sm-show{margin-top:1.3rem; text-align: center;}
+  }
+
+  .htm-icon{position:absolute; top:50%; right:0; appearance:none; border:none; background:none; padding:0 1.5rem; font-size:1.5rem; line-height:1.5rem; margin-top:-0.75rem;
+    @include break-on(sm, max){ top:1rem;}
   }
   
 }
