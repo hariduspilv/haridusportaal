@@ -19,7 +19,8 @@
         </div><!--/block__hed-->
           
         <mat-spinner *ngIf="!data"></mat-spinner>
-        <ng-container *ngIf="data">
+        
+        <ng-container *ngIf="data && view == 'document'">
 
           <div class="xjson__title" *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</div>
           <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>

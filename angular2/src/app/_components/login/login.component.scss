@@ -3,7 +3,7 @@
   @include break-on(sm, min) {top: 0;}
 }
 
-.login-wrapper { position: relative;
+.login-wrapper { position: relative; display: block;
   @include break-on(sm, max) { position: static; }
 
 
@@ -38,6 +38,10 @@
     &.person { padding-right: 0.75rem; color: $white;
       @include break-on(md, min) {padding-right: 0px;}
     }
+  }
+
+  .login__actions{background:none; padding:0; border:none; appearance: none;
+    .person{padding-right:0.3125rem;}
   }
 }
     @include break-on(md, max) {
