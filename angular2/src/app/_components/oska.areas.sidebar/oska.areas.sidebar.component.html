@@ -59,15 +59,28 @@
   </div>
   <!-- / sidebar.fieldOskaMainProfession / -->
   <!-- sidebar learningOpportunities -->
-  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldIscedfSearchLink && (sidebar.fieldIscedfSearchLink.entity.fieldIscedfSearchText || sidebar.fieldIscedfSearchLink.entity.iscedf_detailed)">
+  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldIscedfSearchLink && ((sidebar.fieldIscedfSearchLink.entity.iscedf_detailed && sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.length) || (sidebar.fieldIscedfSearchLink.entity.fieldLevel && sidebar.fieldIscedfSearchLink.entity.fieldLevel.length))">
     <h1 class="medium">{{ 'oska.learningOpportunities' | translate }}</h1>
     <div class="padding-block--content">
-      <div *ngIf="sidebar.fieldIscedfSearchLink.entity.fieldIscedfSearchText">{{ sidebar.fieldIscedfSearchLink.entity.fieldIscedfSearchText }}</div>
-      <ul class="link-list mt-0 mb-0 extra" *ngIf="locationPerLang && learningQuery">
+      <!-- <div *ngIf="sidebar.fieldIscedfSearchLink.entity.fieldIscedfSearchText">{{ sidebar.fieldIscedfSearchLink.entity.fieldIscedfSearchText }}</div> -->
+      <ul class="link-list mt-0 mb-0 extra" *ngIf="locationPerLang">
         <li>
           <a href="javascript:void(0)" [routerLink]="locationPerLang" [queryParams]="learningQuery" attr.aria-label="{{ 'oska.programme_search' | translate }}" class="link related">
             <div><span class="htm-icon">link</span></div>
-            <div class="label">{{ sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.entity.entityLabel }}</div>
+            <div class="label">
+              <div *ngIf="sidebar.fieldIscedfSearchLink.entity.iscedf_detailed && sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.length">
+                <span>{{ 'studyProgramme.filter_iscedf_detailed' | translate }}: </span>
+                <ng-container *ngFor="let elem of sidebar.fieldIscedfSearchLink.entity.iscedf_detailed; let last = last;">
+                  {{ elem.entity.entityLabel }}{{ last ? '.' : ', ' }}
+                </ng-container>
+              </div>
+              <div *ngIf="sidebar.fieldIscedfSearchLink.entity.fieldLevel && sidebar.fieldIscedfSearchLink.entity.fieldLevel.length">
+                <span>{{ 'studyProgramme.level' | translate }}: </span>
+                <ng-container *ngFor="let elem of sidebar.fieldIscedfSearchLink.entity.fieldLevel; let last = last;">
+                  {{ elem.entity.entityLabel }}{{ last ? '.' : ', ' }}
+                </ng-container>
+              </div>
+            </div>
           </a>
         </li>
       </ul>
