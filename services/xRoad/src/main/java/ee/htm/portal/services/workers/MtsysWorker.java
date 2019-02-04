@@ -46,6 +46,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -845,8 +847,10 @@ public class MtsysWorker extends Worker {
         dokument.setKlLiik(item.get("klLiik").asInt());
         dokument.setFailiNimi(item.get("fail").get("file_name").asText());
         dokument.setKommentaar(item.get("kommentaar").asText());
+        redisTemplate.setHashValueSerializer(new StringRedisSerializer());
         dokument.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
             .get(applicantPersonalCode, item.get("fail").get("file_identifier").asText()))));
+        redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(ObjectNode.class));
         dokumendid.getDokumentList().add(dokument);
       }
     });
@@ -1248,7 +1252,9 @@ public class MtsysWorker extends Worker {
       dataElementsNode.putObject("eeltaidetudCSV").putObject("value")
           .put("file_name", response.getCsvFail().getFilename())
           .put("file_identifier", redisHK);
-      redisTemplate.opsForHash().put(personalCode, redisHK, response.getCsvFail());
+      redisTemplate.setHashValueSerializer(new StringRedisSerializer());
+      redisTemplate.opsForHash().put(personalCode, redisHK, response.getCsvFail().getStringValue());
+      redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(ObjectNode.class));
 
       dataElementsNode.putObject("majandustegevuseTeateTabel").putArray("value");
       dataElementsNode.putObject("tegevuslubaTabel").putArray("value");
@@ -1342,7 +1348,8 @@ public class MtsysWorker extends Worker {
         request.setAruandeId(jsonNode.get("header").get("identifier").bigIntegerValue());
 //        request.setMenetlusKommentaar();
 
-        MtsysTegevusnaitajateResponse response = ehisXRoadService.mtsysEsitaTegevusnaitajad(request, personalCode);
+        MtsysTegevusnaitajateResponse response = ehisXRoadService
+            .mtsysEsitaTegevusnaitajad(request, personalCode);
 
         if (response.isSetInfotekst()) {
           ((ArrayNode) jsonNode.get("body").get("messages")).add("infotekst");
@@ -1387,10 +1394,12 @@ public class MtsysWorker extends Worker {
     request.setOppeasutusId(dataElementNode.get("oppeasutusId").get("value").bigIntegerValue());
 
     if (jsonNode.get("header").get("parameters").get("fileSubmit").asBoolean()) {
+      redisTemplate.setHashValueSerializer(new StringRedisSerializer());
       request.setFail(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
           .get(applicantPersonalCode,
               dataElementNode.get("esitamiseksCSV").get("value").get("file_identifier")
                   .asText()))));
+      redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(ObjectNode.class));
     } else {
       Naitajad naitajad = Naitajad.Factory.newInstance();
 
