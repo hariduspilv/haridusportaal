@@ -58,33 +58,34 @@ public class HPortalRestController {
   }
 
   @RequestMapping(value = {"/getDocument/{formName}/{identifier}/{personalCode}",
+      "/getDocument/{formName}/{personalCode}/{year}/{educationalInstitutionsId}",
       "/getDocument/{formName}/{identifier}/{personalCode}/{year}/{educationalInstitutionsId}"},
       method = RequestMethod.GET,
       produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDocument(
       @PathVariable("formName") String formName,
-      @PathVariable("identifier") String identifier,
+      @PathVariable("identifier") Optional<String> identifier,
       @PathVariable("personalCode") String personalCode,
       @PathVariable("year") Optional<Long> year,
       @PathVariable("educationalInstitutionsId") Optional<Long> educationalInstitutionsId) {
     if (formName.startsWith("VPT_ESITATUD")) {
-      return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
+      return new ResponseEntity<>(vptWorker.getDocument(formName, identifier.get()), HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevusluba(formName, Long.valueOf(identifier), personalCode),
+          mtsysWorker.getMtsysTegevusluba(formName, Long.valueOf(identifier.get()), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevusNaitaja(formName, Long.valueOf(identifier), personalCode),
+          mtsysWorker.getMtsysTegevusNaitaja(formName, Long.valueOf(identifier.get()), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevuslubaTaotlus(formName, Long.valueOf(identifier), personalCode),
+          mtsysWorker.getMtsysTegevuslubaTaotlus(formName, Long.valueOf(identifier.get()), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_ARUANNE")) {
       return new ResponseEntity<>(mtsysWorker
           .getMtsysTegevusNaitajaTaotlus(formName,
-              NumberUtils.isDigits(identifier) ? Long.valueOf(identifier) : null,
+              identifier.isPresent() && NumberUtils.isDigits(identifier.get()) ? Long.valueOf(identifier.get()) : null,
               year.isPresent() ? year.get() : null,
               educationalInstitutionsId.get(), personalCode), HttpStatus.OK);
     }

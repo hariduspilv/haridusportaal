@@ -4670,20 +4670,20 @@
 						<element default="false" maxOccurs="1" minOccurs="0" name="saabMuuta" type="boolean"/>
 						<element maxOccurs="1" minOccurs="0" name="aadressid" type="tns:aadressid"/>
 						<element maxOccurs="1" minOccurs="0" name="tegevusnaitajaInfotekst" type="string"/>
-						<element maxOccurs="1" minOccurs="0" name="csvFail" type="tns:contentBase64"/>
+						<element maxOccurs="1" minOccurs="0" name="csvFail">
+							<complexType>
+								<simpleContent>
+									<extension base="base64Binary">
+										<attribute name="filename" type="string"/>
+										<attribute name="mediatype" type="string"/>
+										<attribute name="size" type="int"/>
+									</extension>
+								</simpleContent>
+							</complexType>
+						</element>
 					</sequence>
 				</complexType>
 			</element>
-
-			<complexType name="contentBase64">
-				<simpleContent>
-					<extension base="base64Binary">
-						<attribute name="filename" type="string"/>
-						<attribute name="mediatype" type="string"/>
-						<attribute name="size" type="int"/>
-					</extension>
-				</simpleContent>
-			</complexType>
 
 			<!-- =================================== mtsysLaeTegevusnaitajad =================================== -->
 			<element name="mtsysLaeTegevusnaitajad">

@@ -30,6 +30,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -375,6 +377,7 @@ public class VPTWorker extends Worker {
 
         if (stepOneDataElements.get("custody_proof").get("value").size() > 0) {
           List<FailInfoDto> custodyFiles = new ArrayList<>();
+          redisTemplate.setHashValueSerializer(new StringRedisSerializer());
           stepOneDataElements.get("custody_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
             failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
@@ -382,10 +385,12 @@ public class VPTWorker extends Worker {
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             custodyFiles.add(failInfoDto);
           });
+          redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(ObjectNode.class));
           request.getHoolealuneFailidList().addAll(custodyFiles);
         }
         if (stepOneDataElements.get("family_members_proof").get("value").size() > 0) {
           List<FailInfoDto> personFailInfoDtoList = new ArrayList<>();
+          redisTemplate.setHashValueSerializer(new StringRedisSerializer());
           stepOneDataElements.get("family_members_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
             failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
@@ -393,6 +398,7 @@ public class VPTWorker extends Worker {
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             personFailInfoDtoList.add(failInfoDto);
           });
+          redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(ObjectNode.class));
           request.getLisatudFailidList().addAll(personFailInfoDtoList);
         }
 
@@ -527,6 +533,7 @@ public class VPTWorker extends Worker {
         }
         if (stepTwoDataElements.get("family_members_income_proof").get("value").size() > 0) {
           List<FailInfoDto> addedFiles = new ArrayList<>();
+          redisTemplate.setHashValueSerializer(new StringRedisSerializer());
           stepTwoDataElements.get("family_members_income_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
             failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
@@ -534,11 +541,13 @@ public class VPTWorker extends Worker {
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             addedFiles.add(failInfoDto);
           });
+          redisTemplate.setHashValueSerializer(new StringRedisSerializer());
           request.getLisatudFailidList().addAll(addedFiles);
         }
         if (stepTwoDataElements.get("family_members_nonresident_income_proof")
             .get("value").size() > 0) {
           List<FailInfoDto> nonResidentFiles = new ArrayList<>();
+          redisTemplate.setHashValueSerializer(new StringRedisSerializer());
           stepTwoDataElements.get("family_members_nonresident_income_proof")
               .get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
@@ -547,6 +556,7 @@ public class VPTWorker extends Worker {
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             nonResidentFiles.add(failInfoDto);
           });
+          redisTemplate.setHashValueSerializer(new StringRedisSerializer());
           request.getNonResidentFailidList().addAll(nonResidentFiles);
         }
 //endregion;
