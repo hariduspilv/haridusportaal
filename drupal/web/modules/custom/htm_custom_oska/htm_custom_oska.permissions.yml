@@ -76,3 +76,22 @@ view published oska table entity entities:
 
 view unpublished oska table entity entities:
   title: 'View unpublished Oska table entity entities'
+add oska filling bar entity entities:
+  title: 'Create new Oska filling bar entity entities'
+
+administer oska filling bar entity entities:
+  title: 'Administer Oska filling bar entity entities'
+  description: 'Allow to access the administration form to configure Oska filling bar entity entities.'
+  restrict access: true
+
+delete oska filling bar entity entities:
+  title: 'Delete Oska filling bar entity entities'
+
+edit oska filling bar entity entities:
+  title: 'Edit Oska filling bar entity entities'
+
+view published oska filling bar entity entities:
+  title: 'View published Oska filling bar entity entities'
+
+view unpublished oska filling bar entity entities:
+  title: 'View unpublished Oska filling bar entity entities'

@@ -202,15 +202,17 @@ query oskaMainProfessionDetailView($path: String!) {
             }
           }
           oskaGraphData
-          fieldMainProfessionGraph{
+          fieldDynamicGraph{
             value
             graphSet
             graphTitle
             graphVAxis
+            filterValues
             graphType
             secondaryGraphType
             graphIndicator
             secondaryGraphIndicator
+            graphText
           }
         }
         __typename
