@@ -28,3 +28,13 @@ entity.oska_table_entity.import_projects:
   title: 'Import OSKA table data'
   appears_on:
   - entity.oska_table_entity.collection
+entity.oska_filling_bar_entity.add_form:
+  route_name: entity.oska_filling_bar_entity.add_form
+  title: 'Add Oska filling bar entity'
+  appears_on:
+    - entity.oska_filling_bar_entity.collection
+entity.oska_filling_bar_entity.import_projects:
+  route_name: oska_filling_bar_entity.batch_import
+  title: 'Import OSKA filling bar data'
+  appears_on:
+  - entity.oska_filling_bar_entity.collection
