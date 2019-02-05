@@ -5,6 +5,7 @@ import { MaterialModule } from '@app/_core/material.module';
 import { AppPipes } from '@app/_pipes';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '@app/_core/shared.module';
+import { ProgressBarComponent } from '@app/_components/progress.bar/progress.bar.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { SharedModule } from '@app/_core/shared.module';
     SharedModule
   ],
   declarations: [
+    ProgressBarComponent,
     OskaAreasSidebarComponent
   ],
   exports: [
