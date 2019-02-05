@@ -1,0 +1,29 @@
+query GoogleChartData(
+  $graphSet: String!,
+  $graphType: String!,
+  $secondaryGraphType: String,
+  $graphGroupBy: String,
+  $indicator: String,
+  $secondaryGraphIndicator: String,
+  $oskaField: [String],
+  $oskaSubField: [String],
+  $oskaMainProfession: [String],
+  $period: [String],
+  $label: [String]
+){
+  GoogleChartQuery(filters:{
+    graph_set: $graphSet,
+    graph_type: $graphType,
+    secondary_graph_type: $secondaryGraphType,
+    graph_group_by: $graphGroupBy,
+    indicator: $indicator,
+    secondary_graph_indicator: $secondaryGraphIndicator,
+    valdkond: $oskaField,
+    alavaldkond: $oskaSubField,
+    ametiala: $oskaMainProfession,
+    periood: $period,
+    silt: $label,
+  }){
+    ChartValue
+  }
+}
