@@ -1,0 +1,31 @@
+@import "../../../assets/styles/typography.scss";
+.progress {margin-top: 1rem;
+  &__tag {height: 1.375rem;font-size: .75rem;border-radius: .6875rem;background: #f8b243;text-align: center;padding: 0 1rem;position: relative;
+    &--wrapper {height: 2rem;display: flex;}
+  }
+  &__bar {height: .9375rem;position: relative;border-radius: .46875rem;
+    &#level--1 {width: 17%;background: #15adc2;}
+    &#level--2 {width: 32%;background: #15adc2;}
+    &#level--3 {width: 57%;background: #fd8208;}
+    &#level--4 {width: 78%;background: #d5401a;}
+    &#level--5 {width: 96%;background: #d5401a;}
+    &--wrapper {border-radius: .46875rem;background: $light-gray;position: relative;
+      &:after {content: '';top: 0;left: calc(57% - .8125rem);position: absolute;border-right: .1875rem solid transparent;
+        border-left: .1875rem solid transparent;border-top: .25rem solid white;
+      }
+      &#level--1:after {left: calc(17% - .8125rem)}
+      &#level--2:after {left: calc(32% - .8125rem)}
+      &#level--3:after {left: calc(57% - .8125rem)}
+      &#level--4:after {left: calc(78% - .8125rem)}
+      &#level--5:after {left: calc(96% - .8125rem)}
+    }
+    &--labels {font-size: .75rem;font-weight: normal;margin-top: .25rem;line-height: 1.375rem;color: $dark-gray;
+      .label--right {float: right;}
+    }
+    &:before {content: '';position: absolute;border-right: .5rem solid transparent;border-left: .5rem solid transparent;
+      border-top: .875rem solid #f8b243;right: .125rem;bottom: .8125rem;z-index: 1;}
+    &:after {content: '';right: .5rem;position: absolute;background: white;
+      top: .3125rem;height: .25rem;width: .25rem;border-radius: 1rem;
+    }
+  }
+}

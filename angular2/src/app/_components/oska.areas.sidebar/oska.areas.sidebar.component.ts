@@ -31,6 +31,12 @@ export class OskaAreasSidebarComponent implements OnInit {
     resultHyperlinks: this.generalLimiter,
     resultRelatedArticle: this.generalLimiter
   };
+  public competition: {} = {
+    level: 3,
+    labelVerdict: 'Keskmine',
+    labelStart: 'Kerge',
+    labelEnd: 'Raske'
+  };
   private typeStatus: any = {
     professions: null,
     opportunities: null,
