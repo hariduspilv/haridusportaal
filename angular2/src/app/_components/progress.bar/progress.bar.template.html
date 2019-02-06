@@ -1,14 +1,14 @@
 <div class="progress" id="progressElem">
   <div class="progress__tag--wrapper">
-    <span attr.id="level--{{data.level}}" class="progress__tag">{{data.labelVerdict}}</span>
+    <span attr.id="level--{{level}}" class="progress__tag">{{status | translate}}</span>
   </div>
   <div class="progress__bar--component">
-    <div attr.id="level--{{data.level}}" class="progress__bar--wrapper">
-      <div attr.id="level--{{data.level}}" class="progress__bar"></div>
+    <div attr.id="level--{{level}}" class="progress__bar--wrapper">
+      <div attr.id="level--{{level}}" class="progress__bar"></div>
     </div>
     <div class="progress__bar--labels">
-      <span class="label--left">{{data.labelStart}}</span>
-      <span class="label--right">{{data.labelEnd}}</span>
+      <span class="label--left">{{labelStart}}</span>
+      <span class="label--right">{{labelEnd}}</span>
     </div>
   </div>
 </div>
