@@ -31,10 +31,6 @@ class OskaDynamicGraphField extends FieldItemBase {
 
     public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition)
     {
-        $properties['value'] = DataDefinition::create('string')
-            ->setLabel(t('Chart value'))
-            ->setComputed(TRUE)
-            ->setClass('\Drupal\htm_custom_oska\GoogleChartValue');
         $properties['graph_set'] = DataDefinition::create('string')
             ->setLabel(t('Chart set'));
         $properties['graph_title'] = DataDefinition::create('string')
@@ -47,10 +43,6 @@ class OskaDynamicGraphField extends FieldItemBase {
             ->setLabel(t('Graph type'));
         $properties['secondary_graph_type'] = DataDefinition::create('string')
             ->setLabel(t('Secondary graph type'));
-        $properties['graph_indicator'] = DataDefinition::create('string')
-            ->setLabel(t('First graph indicator'));
-        $properties['secondary_graph_indicator'] = DataDefinition::create('string')
-            ->setLabel(t('Secondary graph indicator'));
         $properties['graph_text'] = DataDefinition::create('string')
             ->setLabel(t('Graph info text'));
 
@@ -60,13 +52,6 @@ class OskaDynamicGraphField extends FieldItemBase {
 
     public static function schema(FieldStorageDefinitionInterface $field_definition)
     {
-        $schema['columns']['value'] = [
-            'description' => 'Graph value.',
-            'type' => 'json',
-            'pgsql_type' => 'json',
-            'mysql_type' => 'json',
-            'not null' => FALSE,
-        ];
         $schema['columns']['graph_set'] = [
             'description' => 'Graph set.',
             'type' => 'varchar',
@@ -96,16 +81,6 @@ class OskaDynamicGraphField extends FieldItemBase {
         ];
         $schema['columns']['graph_v_axis'] = [
             'description' => 'Graph v axis.',
-            'type' => 'varchar',
-            'not null' => FALSE,
-        ];
-        $schema['columns']['graph_indicator'] = [
-            'description' => 'First graph indicator.',
-            'type' => 'varchar',
-            'not null' => FALSE,
-        ];
-        $schema['columns']['secondary_graph_indicator'] = [
-            'description' => 'Secondary graph indicator.',
             'type' => 'varchar',
             'not null' => FALSE,
         ];
