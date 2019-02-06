@@ -210,15 +210,11 @@ query oskaMainProfessionDetailView($path: String!) {
           }
           oskaGraphData
           fieldDynamicGraph {
-            value
             graphSet
             graphTitle
-            graphVAxis
             filterValues
             graphType
             secondaryGraphType
-            graphIndicator
-            secondaryGraphIndicator
             graphText
           }
         }
