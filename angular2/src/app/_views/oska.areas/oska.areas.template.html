@@ -191,7 +191,7 @@
       </div><!--/block-->
     </div><!--/col-8-->
 
-    <div class="col-4 sm-12" *ngIf="sidebarData">
+    <div class="col-4 sm-12" *ngIf="sidebarData || (data.reverseOskaMainProfessionOskaFillingBarEntity && data.reverseOskaMainProfessionOskaFillingBarEntity.entities)">
       <oska-areas-sidebar [sidebar]="sidebarData" [indicators]="data.reverseOskaMainProfessionOskaIndicatorEntity" [fillingbar]="data.reverseOskaMainProfessionOskaFillingBarEntity && data.reverseOskaMainProfessionOskaFillingBarEntity.entities" [viewType]="viewType"></oska-areas-sidebar>
     </div><!--/col-4-->
   </div><!--/row-->
