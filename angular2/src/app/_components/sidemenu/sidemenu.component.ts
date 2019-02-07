@@ -71,7 +71,7 @@ export class SideMenuComponent implements OnInit {
 
   appVersion() {
     return this.http.get('./assets/version.json').subscribe(data => {
-      this.version = data.toString();
-    });
+      this.version = data;
+    }, (err) => console.log(err));
   }
 }
