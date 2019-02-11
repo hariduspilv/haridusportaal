@@ -66,7 +66,7 @@ class ImportController extends ControllerBase {
                 'title' => $item->courseDescription->trainingName,
                 'field_description_summary' => $item->courseDescription->lead,
                 'field_event_type' => $event_type,
-                'field_description' => $item->courseDescription->fullDescription,
+                'field_description' => strip_tags($item->courseDescription->fullDescription),
                 'field_event_link' => [
                     'uri' => $item->publicUrl,
                     'title' => 'Täpsem info täienduskoolituste infosüsteemis'
