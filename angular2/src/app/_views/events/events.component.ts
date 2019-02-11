@@ -227,7 +227,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   }
 
-
   loadMore() {
     this.eventsConfig.offset = this.eventListRaw.length;
   
