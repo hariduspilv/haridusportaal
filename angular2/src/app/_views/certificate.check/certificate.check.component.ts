@@ -5,6 +5,7 @@ import { HttpService } from '@app/_services/httpService';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TableService } from '@app/_services';
 import { SettingsService } from '@app/_core/settings';
+import { UserService } from '@app/_services/userService';
 
 @Component({
   templateUrl: './certificate.check.template.html'
@@ -19,6 +20,7 @@ export class CertificateCheckComponent {
   public tableOverflown: any = false;
   public elemAtStart: any = true;
   public initialized: any = false;
+  public userLoggedOut: boolean = false;
   public error = {
     captcha: false,
     request: false,
@@ -39,7 +41,8 @@ export class CertificateCheckComponent {
 		private route: ActivatedRoute,
     private http: HttpService,
     private tableService: TableService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private user: UserService
   ) {}
 
   checkCertificate() {
@@ -49,7 +52,7 @@ export class CertificateCheckComponent {
     if( this.querySubscription ){
       this.querySubscription.unsubscribe();
     }
-    if (!model['captcha']) {
+    if (!model['captcha'] && this.userLoggedOut) {
       this.error['captcha'] = true;
       return;
     }
@@ -101,4 +104,7 @@ export class CertificateCheckComponent {
     }
   }
 
+  ngOnInit() {
+    this.userLoggedOut = this.user.getData()['isExpired'];
+  }
 }

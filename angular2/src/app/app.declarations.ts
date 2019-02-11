@@ -28,6 +28,7 @@ import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confi
 import { EventsListComponent } from '@app/_components/eventsList/eventsList.component';
 import { SideMenuComponent } from '@app/_components/sidemenu/sidemenu.component';
 import { ChartComponent } from './_components/chart/chart.component';
+import { ProgressBarComponent } from './_components/progress.bar/progress.bar.component';
 import { taraLoginModal } from './_components/dialogs/taraLogin/taraLogin.modal';
 import { CookieNotification } from './_components/cookieNotification/cookieNotification.component';
 import { FeedbackComponent } from './_components/feedback/feedback.component';
@@ -63,6 +64,7 @@ export const AppDeclarations = [
   ConfirmPopupDialog,
   SideMenuComponent,
   ChartComponent,
+  // ProgressBarComponent,
   EventsListComponent,
   CookieNotification,
   FeedbackComponent
