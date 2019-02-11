@@ -1,4 +1,13 @@
 <div [class.snackBar]="viewType === 'mainProfession'">
+  <!-- sidebar competition -->
+  <div class="block border-orange padding-block sm-top" *ngIf="competitionLevel && viewType === 'mainProfession'">
+    <h1 class="medium">{{ 'oska.competition' | translate }}</h1>
+    <div class="padding-block--content">
+      <div>{{ 'oska.competition_introduction' | translate }}</div>
+      <progress-bar [level]="competitionLevel" [status]="competitionLabel" labelStart="{{'oska.simple' | translate}}" labelEnd="{{'oska.difficult' | translate}}"></progress-bar>
+    </div>
+  </div>
+  <!-- / sidebar competition / -->
   <!-- sidebar indicators -->
   <div class="block border-orange padding-block sm-top" *ngIf="indicators && indicators.entities && indicators.entities.length">
     <h1 class="medium">{{ 'oskaProfessions.general_indicators' | translate }}</h1>

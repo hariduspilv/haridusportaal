@@ -57,13 +57,13 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             '#empty_option'  => '-',
             '#ajax' => [
                 'callback' => [$this,'ajax_dependent_graph_set_callback'],
-                'wrapper' => 'secondary_graph_set'.$delta
+                'wrapper' => 'secondary_dynamic_graph_set'.$delta
             ],
             '#delta' => $delta,
         ];
 
         $element['graph_options'] = [
-            '#prefix' => '<div id="secondary_graph_set'.$delta.'">',
+            '#prefix' => '<div id="secondary_dynamic_graph_set'.$delta.'">',
             '#suffix' => '</div>',
         ];
 
@@ -124,7 +124,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#empty_option'  => '-',
                 '#ajax' => [
                     'callback' => [$this,'ajax_dependent_graph_type_options_callback'],
-                    'wrapper' => 'secondary_graph_type_options'.$delta,
+                    'wrapper' => 'secondary_dynamic_graph_type_options'.$delta,
                 ],
                 '#delta' => $delta,
             ];
@@ -145,20 +145,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#default_value' => isset($data['graph_indicator']) ? $data['graph_indicator'] : NULL,
                 '#ajax' => [
                     'callback' => [$this,'ajax_dependent_graph_filters_callback'],
-                    'wrapper' => 'graph_filter_set'.$delta,
+                    'wrapper' => 'dynamic_graph_filter_set'.$delta,
                 ],
-                '#delta' => $delta,
-            ];
-
-            $element['graph_options']['graph_v_axis'] = [
-                '#title' => $this->t('Graph v-axis'),
-                '#size' => 256,
-                '#type' => 'select',
-                '#default_value' => isset($data['graph_v_axis']) ? $data['graph_v_axis'] : NULL,
-                '#options' =>  $fields,
-                '#empty_option'  => '-',
-                '#required' => FALSE,
-                '#element_validate' => array(array($this, 'validateChartVaxisInput')),
+                '#element_validate' => array(array($this, 'validateChartIndicatorInput')),
                 '#delta' => $delta,
             ];
 
@@ -176,7 +165,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             }
 
             $element['graph_options']['graph_filters'] = [
-                '#prefix' => '<div id="graph_filter_set'.$delta.'">',
+                '#prefix' => '<div id="dynamic_graph_filter_set'.$delta.'">',
                 '#suffix' => '</div>',
             ];
 
@@ -346,9 +335,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 'graph_set' => $value['graph_set'],
                 'graph_title' => $value['graph_options']['graph_title'],
                 'graph_type' => $value['graph_options']['graph_type'],
-                'graph_indicator' => $value['graph_options']['graph_indicator'],
                 'secondary_graph_type' => isset($value['graph_options']['secondary_graph_type']) ? $value['graph_options']['secondary_graph_type'] : NULL,
-                'secondary_graph_indicator' => isset($value['graph_options']['secondary_graph_indicator']) ? $value['graph_options']['secondary_graph_indicator'] : NULL,
                 'graph_text' => $value['graph_options']['graph_text'],
                 'filter_values' => json_encode($value, TRUE),
             ];
@@ -360,14 +347,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
     /**
      * Validate chart selection.
      */
-    public function validateChartVaxisInput(&$element, FormStateInterface &$form_state, $form) {
+    public function validateChartIndicatorInput(&$element, FormStateInterface &$form_state, $form) {
         $parent_field = $this->fieldDefinition->getName();
         $chart_values = $form_state->getValue($parent_field)[$element['#delta']]['graph_options'];
-        if($chart_values['graph_type'] != '' || $chart_values['graph_indicator'] != NULL) {
-            if($element['#value'] == ''){
-                $form_state->setError($element, t('Chart v-axis is missing'));
-            }
-        }
         if($chart_values['graph_indicator'] == NULL) {
             $form_state->setError($element, t('Chart indicator is missing'));
         }

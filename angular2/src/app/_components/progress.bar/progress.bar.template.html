@@ -1,0 +1,15 @@
+<div class="progress" id="progressElem">
+  <div class="progress__tag--wrapper">
+    <span attr.id="level--{{level}}" class="progress__tag">{{status | translate}}</span>
+  </div>
+  <div class="progress__bar--component">
+    <div attr.id="level--{{level}}" class="progress__bar--wrapper">
+      <div attr.id="level--{{level}}" class="progress__bar"></div>
+    </div>
+    <div class="progress__bar--labels" aria-hidden="true">
+      <span class="label--left">{{labelStart}}</span>
+      <span class="label--right">{{labelEnd}}</span>
+    </div>
+  </div>
+</div>
+  

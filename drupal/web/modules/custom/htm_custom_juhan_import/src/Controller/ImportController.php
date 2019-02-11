@@ -20,7 +20,7 @@ class ImportController extends ControllerBase {
     }
 
     public function get_public_trainings(){
-        $json_url = 'https://testkoolitus.hitsa.ee/api/public/trainings';
+        $json_url = 'https://koolitus.hitsa.ee/api/public/trainings';
 
         $client = \Drupal::httpClient();
 
@@ -66,7 +66,7 @@ class ImportController extends ControllerBase {
                 'title' => $item->courseDescription->trainingName,
                 'field_description_summary' => $item->courseDescription->lead,
                 'field_event_type' => $event_type,
-                'field_description' => $item->courseDescription->fullDescription,
+                'field_description' => strip_tags($item->courseDescription->fullDescription),
                 'field_event_link' => [
                     'uri' => $item->publicUrl,
                     'title' => 'Täpsem info täienduskoolituste infosüsteemis'

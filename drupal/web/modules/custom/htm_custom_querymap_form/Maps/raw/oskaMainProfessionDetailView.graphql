@@ -108,13 +108,20 @@ query oskaMainProfessionDetailView($path: String!) {
             }
           }
           reverseOskaMainProfessionOskaIndicatorEntity {
-                      entities {
-                          ... on OskaIndicatorEntity {
-                              oskaIndicator
-                              value
-                          }
-                      }
-                    }
+            entities {
+              ... on OskaIndicatorEntity {
+                oskaIndicator
+                value
+              }
+            }
+          }
+          reverseOskaMainProfessionOskaFillingBarEntity {
+            entities {
+              ... on OskaFillingBarEntity {
+                value
+              }
+            }
+          }
           fieldSidebar {
             entity {
               ... on ParagraphMainProfessionSidebar {
@@ -144,7 +151,7 @@ query oskaMainProfessionDetailView($path: String!) {
                       }
                       fieldLevel {
                         entity {
-                          ... on TaxonomyTermStudyprogrammelevel{
+                          ... on TaxonomyTermStudyprogrammelevel {
                             entityId
                             entityLabel
                           }
@@ -202,15 +209,13 @@ query oskaMainProfessionDetailView($path: String!) {
             }
           }
           oskaGraphData
-          fieldMainProfessionGraph{
-            value
+          fieldDynamicGraph {
             graphSet
             graphTitle
-            graphVAxis
+            filterValues
             graphType
             secondaryGraphType
-            graphIndicator
-            secondaryGraphIndicator
+            graphText
           }
         }
         __typename

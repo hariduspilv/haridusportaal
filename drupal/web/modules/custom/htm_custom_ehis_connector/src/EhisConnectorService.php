@@ -156,7 +156,7 @@ class EhisConnectorService {
 	 *  If true return IDcode
 	 * @return mixed
 	 */
-	private function getCurrentUserIdRegCode($idcode = FALSE){
+	public function getCurrentUserIdRegCode($idcode = FALSE){
 		#dump($this->currentRole);
 		if($this->useReg() && !$idcode){
 			return $this->currentRole['current_role']['data']['reg_kood'];
@@ -169,7 +169,7 @@ class EhisConnectorService {
 	/**
 	 * @return bool
 	 */
-	private function useReg(){
+	public function useReg(){
 		if($this->currentRole['current_role']['type'] === 'juridical_person') return true;
 		return false;
 	}
