@@ -12,6 +12,7 @@ export class OskaAreasSidebarComponent implements OnInit {
   
   @Input() sidebar: any;
   @Input() indicators: any;
+  @Input() fillingbar: any;
   @Input() viewType: any;
 
   private lang;
@@ -31,12 +32,9 @@ export class OskaAreasSidebarComponent implements OnInit {
     resultHyperlinks: this.generalLimiter,
     resultRelatedArticle: this.generalLimiter
   };
-  public competition: {} = {
-    level: 3,
-    labelVerdict: 'Keskmine',
-    labelStart: 'Kerge',
-    labelEnd: 'Raske'
-  };
+  public competitionLabels = ['oska.simple', 'oska.quite_simple', 'oska.medium', 'oska.quite_difficult', 'oska.difficult'];
+  public competitionLevel: any = null;
+  public competitionLabel: string = '';
   private typeStatus: any = {
     professions: null,
     opportunities: null,
@@ -55,35 +53,41 @@ export class OskaAreasSidebarComponent implements OnInit {
   ngOnInit() {
     
     this.lang = this.rootScope.get('lang');
-    if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed) {
-      this.locationPerLang = `/erialad`;
-      this.learningQuery = {iscedf_detailed: []};
-      this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.forEach(elem => {
-        this.learningQuery = { iscedf_detailed: [...this.learningQuery.iscedf_detailed, elem.entity.entityId] };
-      });
-      this.sidebar.fieldIscedfSearchLink.entity.fieldLevel.forEach(elem => {
-        this.learningQuery['level'] = this.learningQuery['level'] ? [...this.learningQuery['level'], elem.entity.entityId] : [elem.entity.entityId];
-      });
+    if (this.sidebar) {
+      if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed) {
+        this.locationPerLang = `/erialad`;
+        this.learningQuery = {iscedf_detailed: []};
+        this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.forEach(elem => {
+          this.learningQuery = { iscedf_detailed: [...this.learningQuery.iscedf_detailed, elem.entity.entityId] };
+        });
+        this.sidebar.fieldIscedfSearchLink.entity.fieldLevel.forEach(elem => {
+          this.learningQuery['level'] = this.learningQuery['level'] ? [...this.learningQuery['level'], elem.entity.entityId] : [elem.entity.entityId];
+        });
+      }
+  
+      if (this.viewType === 'field') {
+        this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
+        this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
+        this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];
+      } else if (this.viewType === 'mainProfession') {
+        this.typeStatus['fields'] = this.sidebar.fieldOskaField.length > this.limits['fields'];
+        this.typeStatus['opportunities'] = this.sidebar.fieldJobOpportunities.length > this.limits['opportunities'];
+        this.typeStatus['qualification'] = this.sidebar.fieldQualificationStandard.length > this.limits['qualification'];
+        this.typeStatus['profQuickFind'] = this.sidebar.fieldQuickFind.length > this.limits['profQuickFind'];
+        this.typeStatus['jobs'] = this.sidebar.fieldJobs.length > this.limits['jobs'];
+      } else {
+        this.typeStatus['resultHyperlinks'] = this.sidebar.fieldHyperlinks.length > this.limits['resultHyperlinks'];
+        this.typeStatus['resultRelatedArticle'] = this.sidebar.fieldRelatedArticle.length > this.limits['resultRelatedArticle'];
+      }
+      if(this.sidebar.fieldJobs) {
+        this.sidebar.fieldJobs.forEach(elem => {
+          if (elem.entity.fieldJobLink) { this.jobPagesExist = true; }
+        });
+      }
     }
-
-    if (this.viewType === 'field') {
-      this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
-      this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
-      this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];
-    } else if (this.viewType === 'mainProfession') {
-      this.typeStatus['fields'] = this.sidebar.fieldOskaField.length > this.limits['fields'];
-      this.typeStatus['opportunities'] = this.sidebar.fieldJobOpportunities.length > this.limits['opportunities'];
-      this.typeStatus['qualification'] = this.sidebar.fieldQualificationStandard.length > this.limits['qualification'];
-      this.typeStatus['profQuickFind'] = this.sidebar.fieldQuickFind.length > this.limits['profQuickFind'];
-      this.typeStatus['jobs'] = this.sidebar.fieldJobs.length > this.limits['jobs'];
-    } else {
-      this.typeStatus['resultHyperlinks'] = this.sidebar.fieldHyperlinks.length > this.limits['resultHyperlinks'];
-      this.typeStatus['resultRelatedArticle'] = this.sidebar.fieldRelatedArticle.length > this.limits['resultRelatedArticle'];
-    }
-    if(this.sidebar.fieldJobs) {
-      this.sidebar.fieldJobs.forEach(elem => {
-        if (elem.entity.fieldJobLink) { this.jobPagesExist = true; }
-      });
+    if (this.viewType === 'mainProfession' && this.fillingbar[0] && this.fillingbar[0].value) {
+      this.competitionLevel = parseInt(this.fillingbar[0].value, 10);
+      this.competitionLabel = this.competitionLabels[this.competitionLevel - 1];
     }
   }
 
