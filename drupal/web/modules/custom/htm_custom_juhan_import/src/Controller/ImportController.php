@@ -20,7 +20,7 @@ class ImportController extends ControllerBase {
     }
 
     public function get_public_trainings(){
-        $json_url = 'https://testkoolitus.hitsa.ee/api/public/trainings';
+        $json_url = 'https://koolitus.hitsa.ee/api/public/trainings';
 
         $client = \Drupal::httpClient();
 
