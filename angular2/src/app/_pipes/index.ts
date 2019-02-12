@@ -11,6 +11,7 @@ import { RemoveProtocolPipe } from './removeProtocol.pipe';
 import { titleCasePipe } from './titleCase.pipe';
 import { LegendCurrencyPipe } from './legendCurrency.pipe';
 import { EuroCurrencyPipe } from './euroCurrency';
+import { CapitalizePipe } from './capitalize.pipe';
 
 @NgModule({
   declarations:[
@@ -23,7 +24,8 @@ import { EuroCurrencyPipe } from './euroCurrency';
     RemoveProtocolPipe,
     titleCasePipe,
     LegendCurrencyPipe,
-    EuroCurrencyPipe
+    EuroCurrencyPipe,
+    CapitalizePipe
   ],
   imports:[CommonModule],
   exports:[
@@ -36,7 +38,8 @@ import { EuroCurrencyPipe } from './euroCurrency';
     RemoveProtocolPipe,
     titleCasePipe,
     LegendCurrencyPipe,
-    EuroCurrencyPipe
+    EuroCurrencyPipe,
+    CapitalizePipe
   ]
 })
 
