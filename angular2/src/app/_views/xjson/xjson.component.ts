@@ -599,6 +599,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     console.log('DEBUG_ERROR: ', message);
   }
 
+  closeMessage( i ){
+    this.data_messages.splice(i, 1);
+  }
+
   selectStep(step){
     if(step === this.opened_step) {
       return //to nothing
