@@ -87,6 +87,7 @@ class ProcessOskaData {
     public static function CreateOskaFilters($items, &$context){
 
         $filter_values = [];
+        $hierarchy = [];
 
         //process only if no errors otherwise nothing
         if(empty($context['results']['error'])){
@@ -106,6 +107,13 @@ class ProcessOskaData {
                         }
                     }
 
+                    $hierarchy['naitaja'][$indicator]['valdkond'][$values['valdkond']] = [
+                        'alavaldkond' => $values['alavaldkond'],
+                        'ametiala' => $values['ametiala'],
+                        'periood' => $values['periood'],
+                        'silt' => $values['silt']
+                    ];
+
                     if($context['sandbox']['progress']+1 == $context['sandbox']['max']){
                         foreach($filter_values as $key => $values){
                             $logpath = '/app/drupal/web/sites/default/files/private/oska_filters';
@@ -117,6 +125,14 @@ class ProcessOskaData {
                             }
                             fwrite($file, json_encode($values, TRUE));
                         }
+
+                        // filter hierarchy for front-end
+                        $logpath = '/app/drupal/web/sites/default/files/private/oska_filters';
+                        if(!file_exists($logpath)) mkdir($logpath, 0744, true);
+                        $logpath .= '/hierarchy';
+                        $file = fopen($logpath, 'wb');
+                        fwrite($file, json_encode($hierarchy, TRUE));
+
                     }
                     $context['sandbox']['progress']++;
                     $context['sandbox']['current_id'] = $i;
