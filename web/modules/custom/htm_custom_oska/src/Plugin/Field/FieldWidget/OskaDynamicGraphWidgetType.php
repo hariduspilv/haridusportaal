@@ -51,7 +51,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 'simple' => $this->t('simple'),
                 'combo' => $this->t('combo'),
                 'multi' => $this->t('multi'),
-                'multi-line' => $this->t('multi-line')
+                'multi-line' => $this->t('multi-line'),
             ],
             '#required' => FALSE,
             '#empty_option'  => '-',
@@ -103,8 +103,10 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     break;
                 case 'multi':
                     $graph_type_options = array(
-                        'bar' => $this->t('bar'),
-                        'column' => $this->t('column')
+                        'clustered bar' => $this->t('clustered bar'),
+                        'stacked bar' => $this->t('stacked bar'),
+                        'clustered column' => $this->t('clustered column'),
+                        'stacked column' => $this->t('stacked column'),
                     );
                     break;
                 case 'multi-line':
@@ -151,7 +153,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            if($graph_set === 'multi' || $graph_set === 'multi-line'){
+            if($graph_set === 'multi-line'){
                 $element['graph_options']['graph_group_by'] = [
                     '#title' => $this->t('Group results'),
                     '#size' => 256,
@@ -222,6 +224,19 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#multiple' => FALSE,
                     '#required' => FALSE,
                     '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
+                ];
+
+                $element['graph_options']['graph_y_unit'] = [
+                    '#title' => $this->t('Graph Y unit'),
+                    '#type' => 'select',
+                    '#options' => [
+                        'summa' => $this->t('summa'),
+                        '%' => $this->t('%'),
+                        'euro' => $this->t('euro'),
+                    ],
+                    '#multiple' => FALSE,
+                    '#required' => FALSE,
+                    '#default_value' => isset($data['graph_y_unit']) ? $data['graph_y_unit'] : NULL,
                 ];
             }
 
