@@ -237,7 +237,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#title' => $this->t('Secondary OSKA indicator'),
                     '#type' => 'select',
                     '#options' => $indicator_options,
-                    '#multiple' => FALSE,
+                    '#multiple' => TRUE,
                     '#required' => FALSE,
                     '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
                 ];
