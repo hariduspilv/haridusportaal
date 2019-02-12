@@ -96,7 +96,7 @@ class ProcessOskaData {
             $context['sandbox']['max'] = count($context['results']['values']);
 
             if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
-                for($i = $context['sandbox']['current_id']; $i <= $context['sandbox']['max']; $i++){
+                for($i = $context['sandbox']['current_id']; $i < $context['sandbox']['max']; $i++){
 
                     $values = $context['results']['values'][$i];
                     $indicator = $values['naitaja'];
