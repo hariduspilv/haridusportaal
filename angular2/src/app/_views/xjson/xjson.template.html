@@ -26,9 +26,9 @@
           <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
 
           <ng-container *ngIf="data_messages">
-            <div [class]="data.messages[message].message_type" *ngFor="let message of data_messages">
-              <div class="alert">{{ selectLanguage(data.messages[message].message_text)}}</div>
-            </div>
+            <ng-container *ngFor="let message of data_messages; let i = index;">
+              <div class="alert" [ngClass]="'alert__'+data.messages[message].message_type | lowercase" >{{ selectLanguage(data.messages[message].message_text)}}<button class="alert__close" (click)="closeMessage(i)" [attr.aria-label]="'notification.close' | translate"></button></div>
+            </ng-container>
           </ng-container>
 
           <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
