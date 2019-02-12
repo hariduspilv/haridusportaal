@@ -219,31 +219,24 @@ a {
   
   /*ALERTS*/
   
-  .NOTICE { margin-bottom: 1rem; position: relative; border-radius: 0.25rem; background-color: #f1f7fe; border: solid 0.0625rem $info; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
+  .alert{ margin-bottom: 1rem; position: relative; border-radius: 0.25rem; background-color: #f1f7fe; border: solid 0.0625rem $info; padding: 0.5625rem 3.5rem;  font-size: 1rem; line-height: 1.38; text-align: left; color:$black;  font-weight: normal;
     &:before {
       font-family: 'htm-icon'; content: "info"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $info; position: absolute;
       left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400; 
-    } 
-  }
-  .WARNING { margin-bottom: 1rem; position: relative; border-radius: 0.25rem; background-color: #fff7eb; border: solid 0.0625rem $warning; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
-    &:before {transform:rotate(180deg);
-      font-family: 'htm-icon'; content: "info"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $warning; position: absolute;
-      left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;
+    }
+    &__warning{ background-color: #fff7eb; border-color:$warning;
+      &:before{content:"info"; background:$warning; transform:rotate(180deg);}
+    }
+    &__error{ background-color: #fdf3f4; border-color:$error;
+      &:before{content:"highlight_off"; background:$error;}
+    }
+    &__success{ background-color: #e6f5ef; border-color:$success;
+      &:before{content:"check_circle"; background:$success;}
+    }
+    &__close{font-family:'htm-icon'; position:absolute; top:0; right:0; height:100%; display:flex; align-items:center; width:3.5rem; cursor: pointer; appearance: none; padding:0; border:none; background:none; text-align: center; font-size:1rem;
+      &:before{content:'close'; display:block; width:100%;}
     }
   }
-  .ERROR { margin-bottom: 1rem; position: relative; border-radius: 4px; background-color: #fdf3f4; border: solid 1px $error; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
-    &:before {
-      font-family: 'htm-icon'; content: "highlight_off"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $error; position: absolute;
-      left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;
-    }
-  }
-  .SUCCESS { margin-bottom: 1rem; position: relative;border-radius: 4px; background-color: #e6f5ef; border: solid 1px $success; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
-    &:before {
-      font-family: 'htm-icon'; content: "check_circle"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $success; position: absolute;
-      left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;
-    } 
-  }   
-  .alert { font-size: 1rem; line-height: 1.38; text-align: left; color:$black; }
   
   .xjson__component ::ng-deep .round-input__field .mat-select-trigger { margin: -0.5rem 1rem 0rem 0rem; display: block!important;
   }
