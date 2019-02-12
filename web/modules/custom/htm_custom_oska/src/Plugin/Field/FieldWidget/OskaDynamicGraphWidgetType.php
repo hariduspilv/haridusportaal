@@ -330,7 +330,11 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
      */
     public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
 
+        $oska_hierarchy_path = '/app/drupal/web/sites/default/files/private/oska_filters/hierarchy';
+        $hierarchy_data = json_decode(file_get_contents($oska_hierarchy_path), TRUE);
+
         foreach($values as $key => $value){
+            $value['hierarchy'] = $hierarchy_data;
             $new_values[$key] = [
                 'graph_set' => $value['graph_set'],
                 'graph_title' => $value['graph_options']['graph_title'],
