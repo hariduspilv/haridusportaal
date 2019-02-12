@@ -200,7 +200,23 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 ];
             }
 
+            $element['graph_options']['graph_y_min'] = [
+                '#title' => $this->t('Minimum Y'),
+                '#type' => 'textfield',
+                '#placeholder' => $this->t("Enter minimum Y value."),
+                '#default_value' => isset($data['graph_y_min']) ? $data['graph_y_min'] : NULL,
+                '#maxlength' => 100,
+            ];
+
             if($graph_set == 'combo'){
+
+                $element['graph_options']['secondary_graph_y_min'] = [
+                    '#title' => $this->t('Secondary minimum Y'),
+                    '#type' => 'textfield',
+                    '#placeholder' => $this->t("Enter secondary minimum Y value."),
+                    '#default_value' => isset($data['secondary_graph_y_min']) ? $data['secondary_graph_y_min'] : NULL,
+                    '#maxlength' => 100,
+                ];
 
                 $element['graph_options']['secondary_graph_type'] = [
                     '#title' => $this->t('Secondary graph type'),
