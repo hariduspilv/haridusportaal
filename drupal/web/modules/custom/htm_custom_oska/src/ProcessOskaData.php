@@ -102,7 +102,7 @@ class ProcessOskaData {
                     $indicator = $values['naitaja'];
 
                     foreach($values as $key => $value){
-                        if(!in_array($value, $filter_values[$key][$indicator]) && strlen(trim($value)) != 0){
+                        if(strlen(trim($value)) != 0){
                             $filter_values[$key][$indicator][] = $value;
                         }
                     }
