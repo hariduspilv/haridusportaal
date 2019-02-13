@@ -1,0 +1,18 @@
+uuid: b3f7ee44-75f9-42a9-bdd1-f1ceb3478e0a
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_variables
+    - serialization
+    - user
+id: variables_rest_resource
+plugin_id: variables_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - cookie
