@@ -6,7 +6,7 @@ use Drupal\Core\Config\Config;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class TranslationFormEditTranslation.
+ * Class VariableFormEditVariable.
  */
 class TranslationFormEditTranslation extends TranslationFormAddTranslation {
 	function actionType()
