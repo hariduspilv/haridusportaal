@@ -33,6 +33,7 @@ permissions:
   - 'restful get roles_rest_resource'
   - 'restful get state_exams_rest_resource'
   - 'restful get translations_rest_resource'
+  - 'restful get variables_rest_resource'
   - 'restful get x_json_document_rest_resource'
   - 'restful get x_json_file_rest_resource'
   - 'restful post educational_form_rest_resource'
