@@ -1,16 +1,16 @@
-uuid: 85a42c7e-9ed7-485d-8927-c162675dbf80
+uuid: 2540f1eb-9a1e-43b9-bd03-d2dd259dccde
 langcode: et
 status: true
 dependencies:
   module:
     - htm_custom_oska
     - node
-id: node.field_main_profession_graph
-field_name: field_main_profession_graph
+id: node.field_dynamic_graph
+field_name: field_dynamic_graph
 entity_type: node
-type: oska_graph_field
+type: oska_dynamic_graph_field
 settings:
-  target_type: oska_entity
+  csv_location: ''
 module: htm_custom_oska
 locked: false
 cardinality: -1
