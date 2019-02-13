@@ -2113,7 +2113,7 @@ oska:
     en: Competition
   competition_introduction:
     translation_type: textarea
-    et: 'Kui raske on leida sellel ametialal tööd järgmise 5-10 aasta vältel?'
+    et: 'Kui raske on leida sellel ametialal tööd järgmisel 5–10 aastal?'
     en: 'How hard is it to find work in this field over the next 5 to 10 years?'
   simple:
     translation_type: textarea
@@ -2340,3 +2340,8 @@ notification:
     translation_type: textarea
     et: 'Sulge teavitus'
     en: 'Close notification'
+professions:
+  go_to_subjects:
+    translation_type: textarea
+    et: 'Vaata erialasid'
+    en: 'Check study programmes'
