@@ -1,0 +1,6 @@
+htm_custom_variables.variable_form:
+  title: 'VariableForm'
+  route_name: htm_custom_variables.variable_form
+  description: 'A description for the menu entry'
+  parent: system.admin_config_system
+  weight: 99

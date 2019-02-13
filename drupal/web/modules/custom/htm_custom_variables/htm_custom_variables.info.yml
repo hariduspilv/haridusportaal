@@ -1,0 +1,5 @@
+name: 'HTM Variables'
+type: module
+description: 'Custom variable module with REST endpoint'
+core: 8.x
+package: 'HTM'
