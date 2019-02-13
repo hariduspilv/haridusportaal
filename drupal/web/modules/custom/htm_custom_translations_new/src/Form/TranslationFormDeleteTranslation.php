@@ -8,7 +8,7 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class VariableFormEditVariable.
+ * Class TranslationFormDeleteTranslation.
  */
 class TranslationFormDeleteTranslation extends ConfigFormBase {
 
