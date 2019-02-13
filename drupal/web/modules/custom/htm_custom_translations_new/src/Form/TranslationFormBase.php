@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\htm_custom_translations_new\translationHelper;
+use Drupal\htm_custom_translations_new\variableHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -37,7 +37,7 @@ abstract class TranslationFormBase extends ConfigFormBase {
 	public function __construct(MessengerInterface $messenger, LanguageManagerInterface $language_manager) {
 		$this->messenger = $messenger;
 		$this->languageManager = $language_manager;
-		$this->keyformatter = new translationHelper();
+		$this->keyformatter = new variableHelper();
 	}
 
 	/**

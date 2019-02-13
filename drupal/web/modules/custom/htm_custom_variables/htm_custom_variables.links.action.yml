@@ -1,0 +1,12 @@
+htm_custom_variables.add_variable:
+  route_name: htm_custom_variables.add_variable
+  title: 'Add new variable'
+  appears_on:
+    - htm_custom_variables.variable_form
+htm_custom_variables.back:
+  route_name: htm_custom_variables.variable_form
+  title: '← Back'
+  appears_on:
+    - htm_custom_variables.new_variable
+    - htm_custom_variables.edit_variable
+    - htm_custom_variables.delete_variable
