@@ -20,6 +20,8 @@ export class OskaAreasSidebarComponent implements OnInit {
   private locationPerLang: any = false;
   private learningQuery: any = false;
   private generalLimiter: number = 5;
+  private filledNumberEmployed: any = false;
+  private outlinedNumberEmployed: any = false;
   private limits: any = {
     professions: this.generalLimiter,
     fields: this.generalLimiter,
@@ -69,6 +71,7 @@ export class OskaAreasSidebarComponent implements OnInit {
         this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
         this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
         this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];
+        this.formatNumber(this.numberEmployed(this.sidebar.fieldNumberEmployed), 'et');
       } else if (this.viewType === 'mainProfession') {
         this.typeStatus['fields'] = this.sidebar.fieldOskaField.length > this.limits['fields'];
         this.typeStatus['opportunities'] = this.sidebar.fieldJobOpportunities.length > this.limits['opportunities'];
@@ -110,6 +113,25 @@ export class OskaAreasSidebarComponent implements OnInit {
     let num = parseInt(number, 10)
     return num.toLocaleString(locale)
   }
+
+  numberEmployed (elem: number) {
+    let employedSection: any = false;
+    let employedModifier: number = 11;
+    if (0 < elem && elem < 10000) employedSection = 1;
+    if (10000 <= elem && elem < 15000) employedSection = 2;
+    if (15000 <= elem && elem < 20000) employedSection = 3;
+    if (20000 <= elem && elem < 25000) employedSection = 4;
+    if (25000 <= elem && elem < 30000) employedSection = 5;
+    if (30000 <= elem && elem < 35000) employedSection = 6;
+    if (35000 <= elem && elem < 45000) employedSection = 7;
+    if (45000 <= elem && elem < 55000) employedSection = 8;
+    if (55000 <= elem && elem < 65000) employedSection = 9;
+    if (65000 <= elem && elem < 75000) employedSection = 10;
+    if (elem >= 75000) employedSection = 11;
+    this.filledNumberEmployed = Array(employedSection).fill(0).map((x,i)=>i);
+    this.outlinedNumberEmployed = Array(employedModifier - employedSection).fill(0).map((x,i)=>i);
+  }
+  
 
   isContactValid() {
     return (this.viewType === 'field' && this.sidebar.fieldOskaFieldContact && this.sidebar.fieldOskaFieldContact.entity 
