@@ -68,6 +68,7 @@ module:
   htm_custom_tara_authentication: 0
   htm_custom_tokens: 0
   htm_custom_translations_new: 0
+  htm_custom_variables: 0
   htm_custom_varnish_purge: 0
   htm_custom_video_field: 0
   htm_custom_xjson_services: 0
