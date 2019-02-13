@@ -76,20 +76,7 @@
         <li>
           <a href="javascript:void(0)" [routerLink]="locationPerLang" [queryParams]="learningQuery" attr.aria-label="{{ 'oska.programme_search' | translate }}" class="link related">
             <div><span class="htm-icon">link</span></div>
-            <div class="label">
-              <div *ngIf="sidebar.fieldIscedfSearchLink.entity.iscedf_detailed && sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.length">
-                <span>{{ 'studyProgramme.filter_iscedf_detailed' | translate }}: </span>
-                <ng-container *ngFor="let elem of sidebar.fieldIscedfSearchLink.entity.iscedf_detailed; let last = last;">
-                  {{ elem.entity.entityLabel }}{{ last ? '.' : ', ' }}
-                </ng-container>
-              </div>
-              <div *ngIf="sidebar.fieldIscedfSearchLink.entity.fieldLevel && sidebar.fieldIscedfSearchLink.entity.fieldLevel.length">
-                <span>{{ 'studyProgramme.level' | translate }}: </span>
-                <ng-container *ngFor="let elem of sidebar.fieldIscedfSearchLink.entity.fieldLevel; let last = last;">
-                  {{ elem.entity.entityLabel }}{{ last ? '.' : ', ' }}
-                </ng-container>
-              </div>
-            </div>
+            <div class="label">{{ 'professions.go_to_subjects' | translate }}</div>
           </a>
         </li>
       </ul>
@@ -225,10 +212,13 @@
   <!-- / sidebar.fieldQuickFind / -->
   <!-- sidebar.fieldNumberEmployed -->
   <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldNumberEmployed || sidebar.fieldNumberEmployed == '0' || sidebar.fieldNumberEmployedText">
-    <h1 class="medium">{{ 'oska.fieldNumberEmployed' | translate }}</h1>
+    <h1 class="medium" attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ sidebar.fieldNumberEmployed }}">{{ 'oska.fieldNumberEmployed' | translate }} {{ sidebar.fieldNumberEmployed }}</h1>
     <div class="padding-block--content">
-      <strong>{{ formatNumber(sidebar.fieldNumberEmployed, 'et') }}</strong>
-      <div>{{ sidebar.fieldNumberEmployedText }}</div>
+      <div class="flex">
+        <div class="flex--single htm-icon" *ngFor="let item of filledNumberEmployed" aria-hidden="true">thumb_up</div>
+        <div class="flex--single htm-icon" *ngFor="let elem of outlinedNumberEmployed" aria-hidden="true">thumb_down</div>
+      </div>
+      <div *ngIf="sidebar.fieldNumberEmployedText">{{ sidebar.fieldNumberEmployedText }}</div>
     </div>
   </div>
   <!-- / sidebar.fieldNumberEmployed / -->
