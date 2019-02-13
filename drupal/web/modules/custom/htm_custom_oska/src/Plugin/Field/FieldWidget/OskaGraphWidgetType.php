@@ -50,7 +50,6 @@ class OskaGraphWidgetType extends WidgetBase {
                 'simple' => $this->t('simple'),
                 'combo' => $this->t('combo'),
                 'multi' => $this->t('multi'),
-                'multi-line' => $this->t('multi-line')
             ],
             '#required' => FALSE,
             '#empty_option'  => '-',
@@ -109,11 +108,6 @@ class OskaGraphWidgetType extends WidgetBase {
                         'column' => $this->t('column')
                     );
                     break;
-                case 'multi-line':
-                    $graph_type_options = array(
-                        'line' => $this->t('line')
-                    );
-                    break;
             }
 
             $element['graph_options']['graph_type'] = [
@@ -157,7 +151,7 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            if($graph_set === 'multi' || $graph_set === 'multi-line'){
+            if($graph_set === 'multi'){
                 $element['graph_options']['graph_group_by'] = [
                     '#title' => $this->t('Group results'),
                     '#size' => 256,
