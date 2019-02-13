@@ -6,16 +6,16 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\htm_custom_translations_new\variableHelper;
+use Drupal\htm_custom_translations_new\translationHelper;
 
 /**
- * Class VariableFormList.
+ * Class TranslationFormList.
  */
 class TranslationFormList extends ConfigFormBase {
 	public function __construct(ConfigFactoryInterface $config_factory)
 	{
 		parent::__construct($config_factory);
-		$this->formatter = new variableHelper();
+		$this->formatter = new translationHelper();
 	}
 
 	/**
