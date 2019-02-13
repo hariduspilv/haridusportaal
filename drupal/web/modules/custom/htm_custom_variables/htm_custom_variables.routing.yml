@@ -1,0 +1,35 @@
+
+htm_custom_variables.variable_form:
+  path: '/admin/config/htm_custom_variables/variable'
+  defaults:
+    _form: '\Drupal\htm_custom_variables\Form\VariableFormList'
+    _title: 'variableForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
+htm_custom_variables.add_variable:
+  path: '/admin/config/htm_custom_variables/variable/add'
+  defaults:
+    _form: '\Drupal\htm_custom_variables\Form\VariableFormAddVariable'
+    _title: 'Add new variable'
+  requirements:
+    _permission: 'access content'
+
+htm_custom_variables.edit_variable:
+  path: '/admin/config/htm_custom_variables/variable/edit/{variable_key}'
+  defaults:
+    _form: '\Drupal\htm_custom_variables\Form\VariableFormEditVariable'
+    _title: 'Edit variable'
+  requirements:
+    _permission: 'access content'
+
+htm_custom_variables.delete_variable:
+  path: '/admin/config/htm_custom_variables/variable/delete/{variable_key}'
+  defaults:
+    _form: '\Drupal\htm_custom_variables\Form\VariableFormDeleteVariable'
+    _title: 'Delete variable'
+  requirements:
+    _permission: 'access content'
+
