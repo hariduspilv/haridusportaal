@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\htm_custom_translations_new\Form;
+namespace Drupal\htm_custom_variables\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Class VariableFormEditVariable.
  */
-class TranslationFormDeleteTranslation extends ConfigFormBase {
+class VariableFormDeleteVariable extends ConfigFormBase {
 
 	/**
 	 * The Messenger service.
@@ -20,7 +20,7 @@ class TranslationFormDeleteTranslation extends ConfigFormBase {
 	protected $messenger;
 
 	/**
-	 * TranslationFormBase constructor.
+	 * VariableFormBase constructor.
 	 *
 	 * @param \Drupal\Core\Messenger\MessengerInterface $messenger
 	 *   The messenger service.
@@ -31,7 +31,7 @@ class TranslationFormDeleteTranslation extends ConfigFormBase {
 
 	/**
 	 * @param ContainerInterface $container
-	 * @return ConfigFormBase|TranslationFormBase
+	 * @return ConfigFormBase|VariableFormBase
 	 */
 	public static function create(ContainerInterface $container)
 	{
@@ -45,7 +45,7 @@ class TranslationFormDeleteTranslation extends ConfigFormBase {
 	 */
 	protected function getEditableConfigNames() {
 		return [
-				'htm_custom_translations_new.translation',
+				'htm_custom_variables.variable',
 		];
 	}
 
@@ -53,22 +53,22 @@ class TranslationFormDeleteTranslation extends ConfigFormBase {
 	 * {@inheritdoc}
 	 */
 	public function getFormId() {
-		return 'translation_form';
+		return 'variable_form';
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function buildForm(array $form, FormStateInterface $form_state, $translation_key = NULL) {
+	public function buildForm(array $form, FormStateInterface $form_state, $variable_key = NULL) {
 
 		$form = parent::buildForm($form, $form_state);
-		$form['actions']['submit']['#value'] = $this->t('Delete translation');
+		$form['actions']['submit']['#value'] = $this->t('Delete variable');
 		$form['key_to_delete'] = [
 			'#type' => 'hidden',
-			'#value' => $translation_key,
+			'#value' => $variable_key,
 		] ;
 		$form['text'] = [
-			'#markup' => $this->t('<p>Are you sure you want to delete <b>@key</b> translation</p>', ['@key' => $translation_key]),
+			'#markup' => $this->t('<p>Are you sure you want to delete <b>@key</b> variable</p>', ['@key' => $variable_key]),
 		];
 
 		return $form;
@@ -76,12 +76,12 @@ class TranslationFormDeleteTranslation extends ConfigFormBase {
 	}
 
 	public function submitForm(array &$form, FormStateInterface $form_state) {
-		$config_key = 'htm_custom_translations_new.translation';
-		$translation_key = $form_state->getValue('key_to_delete');
+		$config_key = 'htm_custom_variables.variable';
+		$variable_key = $form_state->getValue('key_to_delete');
 
-		$this->config($config_key)->clear($translation_key)->save();
+		$this->config($config_key)->clear($variable_key)->save();
 		$this->messenger->addMessage($this->t('Key deleted'));
-		$form_state->setRedirect('htm_custom_translations_new.translation_form');
+		$form_state->setRedirect('htm_custom_variables.variable_form');
 	}
 
 
