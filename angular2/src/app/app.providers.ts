@@ -34,6 +34,10 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
   });
 }
 
+export function SettingsProviderFactory(provider: SettingsService) {
+  return () => provider.load();
+}
+
 export const AppProviders = [
   RootScopeService,
   MetaTagsService,
@@ -53,5 +57,11 @@ export const AppProviders = [
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et'
   },
+  {
+		provide: APP_INITIALIZER,
+		useFactory: SettingsProviderFactory,
+		deps: [ SettingsService ],
+		multi: true
+	}
 
 ]

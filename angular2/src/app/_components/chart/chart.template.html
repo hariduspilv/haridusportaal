@@ -1,3 +1,39 @@
-<ng-container *ngFor="let item of chartData">
-  <google-chart [data]="item"></google-chart>
+<ng-container [ngSwitch]="type">
+  <ng-container *ngSwitchCase="'default'">
+    <ng-container *ngFor="let item of chartData">
+      <google-chart [data]="item"></google-chart>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'filter'">
+    <ng-container *ngFor="let item of data">
+      
+      <ng-container *ngIf="item.filters">
+        <div class="row">
+          <ng-container *ngFor="let select of item.filters">
+            <div class="col-3">
+              <div class="round-input__wrapper" *ngIf="select.options.length > 0">
+                <mat-form-field>
+                  <mat-select placeholder="{{ select.key | capitalize }}" [(ngModel)]="filters[item.id][select.key]" (selectionChange)="getGraphData( item.id )">
+                    <mat-option>-</mat-option>
+                    <mat-option *ngFor="let item of select.options" [value]="item">
+                      {{ item }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div><!--/col-->
+          </ng-container>
+        </div><!--/row-->
+
+        <ng-container *ngIf="filtersData[item.id]">
+          <google-chart [data]="filtersData[item.id]"></google-chart>
+        </ng-container>
+
+      </ng-container>
+
+    </ng-container>
+
+  </ng-container>
+
 </ng-container>
