@@ -411,7 +411,7 @@ $grid-columns: 12;
   .clist-item{padding:.4375rem $quarter; background:#e0e0e0; border-radius:$medium; font-size: 0.8125rem; line-height:1.125rem;}
   .inline{margin:0 auto; padding:0;}
   .flex{display:flex;
-    .flex--single {font-size: inherit;}
+    .flex--single {font-size: inherit;height: auto !important;}
     &.centered { align-items: center; }
     &.flex-wrap {flex-wrap: wrap; }
     &.flex-notrows {flex-direction: column; }

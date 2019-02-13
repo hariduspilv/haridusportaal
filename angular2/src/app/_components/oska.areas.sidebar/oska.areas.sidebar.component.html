@@ -3,7 +3,7 @@
   <div class="block border-orange padding-block sm-top" *ngIf="competitionLevel && viewType === 'mainProfession'">
     <h1 class="medium">{{ 'oska.competition' | translate }}</h1>
     <div class="padding-block--content">
-      <div>{{ 'oska.competition_introduction' | translate }}</div>
+      <div innerHtml="{{'oska.competition_introduction_label' | translate}}"></div>
       <progress-bar [level]="competitionLevel" [status]="competitionLabel" labelStart="{{'oska.simple' | translate}}" labelEnd="{{'oska.difficult' | translate}}"></progress-bar>
     </div>
   </div>
@@ -215,10 +215,10 @@
     <h1 class="medium" attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ sidebar.fieldNumberEmployed }}">{{ 'oska.fieldNumberEmployed' | translate }} {{ sidebar.fieldNumberEmployed }}</h1>
     <div class="padding-block--content">
       <div class="flex">
-        <div class="flex--single htm-icon" *ngFor="let item of filledNumberEmployed" aria-hidden="true">thumb_up</div>
-        <div class="flex--single htm-icon" *ngFor="let elem of outlinedNumberEmployed" aria-hidden="true">thumb_down</div>
+        <div class="flex--single htm-icon" *ngFor="let item of filledNumberEmployed" aria-hidden="true"><img alt="icon" src="/assets/img/person_filled.svg"/></div>
+        <div class="flex--single htm-icon" *ngFor="let elem of outlinedNumberEmployed" aria-hidden="true"><img alt="icon" src="/assets/img/person.svg"/></div>
       </div>
-      <div *ngIf="sidebar.fieldNumberEmployedText">{{ sidebar.fieldNumberEmployedText }}</div>
+      <div class="block__footer" *ngIf="sidebar.fieldNumberEmployedText">{{ sidebar.fieldNumberEmployedText }}</div>
     </div>
   </div>
   <!-- / sidebar.fieldNumberEmployed / -->
