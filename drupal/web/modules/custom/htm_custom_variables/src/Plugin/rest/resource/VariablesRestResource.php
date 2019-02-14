@@ -112,14 +112,11 @@ class VariablesRestResource extends ResourceBase {
 	private function flatten($array, $prefix = '', $lang_code) {
 		$result = array();
 		foreach($array as $key => $value) {
-			if($key === 'langcode') continue;
-			if(is_array($value) && !isset($value['variable_type'])) {
-				$result[$key] = $this->flatten($value, $key, $lang_code);
-			}
-			else {
-				$variable_value = ($value['variable_type'] === 'text_format') ? $value[$lang_code]['value'] : $value[$lang_code];
-				$result[$key] = $variable_value;
-			}
+			if($key === 'langcode'){
+			    continue;
+            }else{
+			    $result[$key] = $value;
+            }
 		}
 		#dump($result);
 		return $result;
