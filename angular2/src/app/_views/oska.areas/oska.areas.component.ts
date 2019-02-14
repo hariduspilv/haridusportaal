@@ -54,13 +54,13 @@ export class OskaAreasComponent implements OnInit{
       }
 
     }else{
-      let url = "/graphql?queryName=oskaFieldDetailView&queryId=eda8309b67b34f696fd90b34a67d0a0685d2fdd3:1&variables=";
+      let url = "/graphql?queryName=oskaFieldDetailView&queryId=be029a22992c7d2d5f65a6c270f5db98c3abaf4a:1&variables=";
 
       this.viewType = "field";
 
       if( decodeURI(this.router.url).match(/ametialad|sectors/ ) ){
         this.viewType = "mainProfession";
-        url = "/graphql?queryName=oskaMainProfessionDetailView&queryId=51fb98f167e26f648072f9cf68b96f86d73ae71a:1&variables=";
+        url = "/graphql?queryName=oskaMainProfessionDetailView&queryId=d99f63d6a0229caef0b557ab4b3854be3236e634:1&variables=";
         this.compareButton = true;
       }
       else if( decodeURI(this.router.url).match(/tööjõuprognoos|survey-pages/ ) ){
