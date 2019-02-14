@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from '../../../../node_modules/rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { UserService } from '@app/_services/userService';
 

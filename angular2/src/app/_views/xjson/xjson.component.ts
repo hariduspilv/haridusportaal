@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
-import { Subscription } from '../../../../node_modules/rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { Jsonp } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,7 +10,8 @@ import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confi
 import { TableService } from '@app/_services/tableService';
 import { SettingsService } from '@app/_core/settings'
 import 'rxjs/add/operator/map';
-import {Observable} from "rxjs/Rx";
+import { Observable } from 'rxjs/Observable';
+import { throwError } from 'rxjs';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -178,7 +179,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       let url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist='+ ihist +'&appartment='+ apartment +'&address=' + searchText + '&results='+ limit + '&callback=JSONP_CALLBACK';
       let jsonp = _this._jsonp.get(url).map(function(res){
         return res.json() || {};
-      }).catch(function(error: any){return Observable.throw(error)});
+      }).catch(function(error: any){return throwError(error)});
     
       _this.autocompleteSubscription[element] = jsonp.subscribe(data => {
         if(data['error']) { _this.errorHandler('Something went wrong with In-ADS request') }

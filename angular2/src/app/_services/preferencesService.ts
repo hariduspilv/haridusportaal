@@ -20,7 +20,7 @@ export class PreferencesService {
 
 	load() {
 		return new Promise((resolve, reject) => {
-			this.http.get('/translations?_format=json&lang=et').subscribe(response => {
+			this.http.get('/variables?_format=json&lang=et').subscribe(response => {
 				this.data = response;
 				resolve(true);
 			}, () => {

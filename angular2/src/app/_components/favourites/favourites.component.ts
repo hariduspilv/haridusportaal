@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, OnDestroy , SimpleChanges} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
-import { Observable, Subscription, Subscriber } from '../../../../node_modules/rxjs';
+import { Subscription } from 'rxjs/Subscription';
+import { Subscriber } from 'rxjs/Subscriber';
+
 import { MatDialog, MatSnackBar, MatSnackBarConfig, MAT_SNACK_BAR_DATA } from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
