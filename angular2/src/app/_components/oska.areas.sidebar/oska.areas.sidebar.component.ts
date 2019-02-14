@@ -71,7 +71,7 @@ export class OskaAreasSidebarComponent implements OnInit {
         this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
         this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
         this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];
-        this.formatNumber(this.numberEmployed(this.sidebar.fieldNumberEmployed), 'et');
+        this.numberEmployed(this.sidebar.fieldNumberEmployed)
       } else if (this.viewType === 'mainProfession') {
         this.typeStatus['fields'] = this.sidebar.fieldOskaField.length > this.limits['fields'];
         this.typeStatus['opportunities'] = this.sidebar.fieldJobOpportunities.length > this.limits['opportunities'];
@@ -111,7 +111,8 @@ export class OskaAreasSidebarComponent implements OnInit {
 
   formatNumber (number, locale) {
     let num = parseInt(number, 10)
-    return num.toLocaleString(locale)
+    let formattedNum = num.toLocaleString(locale)
+    return formattedNum.replace(',', ' ')
   }
 
   numberEmployed (elem: number) {
