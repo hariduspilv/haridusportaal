@@ -51,7 +51,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 'simple' => $this->t('simple'),
                 'combo' => $this->t('combo'),
                 'multi' => $this->t('multi'),
-                'multi-line' => $this->t('multi-line')
+                'multi-line' => $this->t('multi-line'),
             ],
             '#required' => FALSE,
             '#empty_option'  => '-',
@@ -103,8 +103,10 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     break;
                 case 'multi':
                     $graph_type_options = array(
-                        'bar' => $this->t('bar'),
-                        'column' => $this->t('column')
+                        'clustered bar' => $this->t('clustered bar'),
+                        'stacked bar' => $this->t('stacked bar'),
+                        'clustered column' => $this->t('clustered column'),
+                        'stacked column' => $this->t('stacked column'),
                     );
                     break;
                 case 'multi-line':
@@ -151,7 +153,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            if($graph_set === 'multi' || $graph_set === 'multi-line'){
+            if($graph_set === 'multi-line'){
                 $element['graph_options']['graph_group_by'] = [
                     '#title' => $this->t('Group results'),
                     '#size' => 256,
@@ -198,7 +200,23 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 ];
             }
 
+            $element['graph_options']['graph_y_min'] = [
+                '#title' => $this->t('Minimum Y'),
+                '#type' => 'textfield',
+                '#placeholder' => $this->t("Enter minimum Y value."),
+                '#default_value' => isset($data['graph_y_min']) ? $data['graph_y_min'] : NULL,
+                '#maxlength' => 100,
+            ];
+
             if($graph_set == 'combo'){
+
+                $element['graph_options']['secondary_graph_y_min'] = [
+                    '#title' => $this->t('Secondary minimum Y'),
+                    '#type' => 'textfield',
+                    '#placeholder' => $this->t("Enter secondary minimum Y value."),
+                    '#default_value' => isset($data['secondary_graph_y_min']) ? $data['secondary_graph_y_min'] : NULL,
+                    '#maxlength' => 100,
+                ];
 
                 $element['graph_options']['secondary_graph_type'] = [
                     '#title' => $this->t('Secondary graph type'),
@@ -219,9 +237,22 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#title' => $this->t('Secondary OSKA indicator'),
                     '#type' => 'select',
                     '#options' => $indicator_options,
-                    '#multiple' => FALSE,
+                    '#multiple' => TRUE,
                     '#required' => FALSE,
                     '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
+                ];
+
+                $element['graph_options']['graph_y_unit'] = [
+                    '#title' => $this->t('Graph Y unit'),
+                    '#type' => 'select',
+                    '#options' => [
+                        'summa' => $this->t('summa'),
+                        '%' => $this->t('%'),
+                        'euro' => $this->t('euro'),
+                    ],
+                    '#multiple' => FALSE,
+                    '#required' => FALSE,
+                    '#default_value' => isset($data['graph_y_unit']) ? $data['graph_y_unit'] : NULL,
                 ];
             }
 
@@ -330,7 +361,11 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
      */
     public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
 
+        $oska_hierarchy_path = '/app/drupal/web/sites/default/files/private/oska_filters/hierarchy';
+        $hierarchy_data = json_decode(file_get_contents($oska_hierarchy_path), TRUE);
+
         foreach($values as $key => $value){
+            $value['hierarchy'] = $hierarchy_data;
             $new_values[$key] = [
                 'graph_set' => $value['graph_set'],
                 'graph_title' => $value['graph_options']['graph_title'],

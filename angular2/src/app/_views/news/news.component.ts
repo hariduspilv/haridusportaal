@@ -152,7 +152,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       dateToUnix = dateToUnix.toString();
     }
 
-    let url = "/graphql?queryName=newsList&queryId=093f4c9ca01ee6d369b4594e2d24b004f4d4fbc2:1&variables=";
+    let url = "/graphql?queryName=newsList&queryId=6a48969d2450d8d77f7b3ae8c4c72a893d2bf3a9:1&variables=";
     let variables = {
       tagValue: this.params.types ? this.params.types.split(",") : "",
       tagEnabled: this.params.types ? true : false,

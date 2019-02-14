@@ -573,7 +573,7 @@ frontpage:
     en: 'Search by keyword'
   certificate_check:
     translation_type: textarea
-    et: 'Tunnistuse kehtivuse kontroll'
+    et: 'Riigieksami tunnistuse kehtivuse kontroll'
     en: 'Certificate validity check'
   certificate_check_body:
     translation_type: text_format
@@ -583,6 +583,22 @@ frontpage:
     en:
       value: "<p>Teenus võimaldab kolmandal osapoolel (sh tööandjal) kontrollida tunnistusel olevate andmete kehtivust ja vajadusel ka tunnistus alla laadida. Sisestades tunnistuse numbri ja omaniku isikukoodi kuvatakse vastuseks isiku nimi ning tunnistuse andmete staatus. Mõlema välja täitmine on kohustuslik.</p>\r\n\r\n<p>Elektrooniliselt välja antud tunnistusel on samasugune õiguslik jõud nagu varasematel aastatel väljastatud paberkandjal oleval tunnistusel.</p>\r\n"
       format: custom_editor
+  certificate_owner_id:
+    translation_type: textarea
+    et: 'Tunnistuse omaniku isikukood'
+    en: 'Certificate owner ID'
+  certificate_id:
+    translation_type: textarea
+    et: 'Tunnistuse number'
+    en: 'Certificate number'
+  version:
+    translation_type: textarea
+    et: Versioon
+    en: Version
+  dashboard_related_documents:
+    translation_type: textarea
+    et: 'Seotud dokumendid'
+    en: 'Related documents'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -952,6 +968,14 @@ event:
     translation_type: textarea
     et: Koduleht
     en: Homepage
+  registration:
+    translation_type: textarea
+    et: Registreerumine
+    en: Registration
+  registration_link:
+    translation_type: textarea
+    et: 'Registreerumine täiendkoolituste infosüsteemis'
+    en: 'Registration in info system'
 school:
   label:
     translation_type: textarea
@@ -1764,6 +1788,14 @@ errors:
     translation_type: textarea
     et: 'Täida nõutud väljad!'
     en: 'Enter required fields!'
+  captcha:
+    translation_type: textarea
+    et: 'Palun märkige linnuke kasti "Ma ei ole robot"'
+    en: 'Please check the tickbox "I''m not a robot"'
+  certificate_missing:
+    translation_type: textarea
+    et: 'Tunnistus ei ole saadaval faili kujul e-tunnistusena'
+    en: 'Certificate not available as a file'
 search:
   label:
     translation_type: textarea
@@ -2075,6 +2107,42 @@ oska:
     translation_type: textarea
     et: 'Ettepaneku staatus'
     en: 'Proposition status'
+  competition:
+    translation_type: textarea
+    et: 'Konkurents tööturul'
+    en: Competition
+  competition_introduction:
+    translation_type: textarea
+    et: 'Kui raske on leida sellel ametialal tööd järgmisel 5–10 aastal?'
+    en: 'How hard is it to find work in this field over the next 5 to 10 years?'
+  simple:
+    translation_type: textarea
+    et: Kerge
+    en: Easy
+  difficult:
+    translation_type: textarea
+    et: Raske
+    en: Difficult
+  quite_simple:
+    translation_type: textarea
+    et: 'Üsna kerge'
+    en: 'Quite simple'
+  quite_difficult:
+    translation_type: textarea
+    et: 'Üsna raske'
+    en: 'Quite difficult'
+  medium:
+    translation_type: textarea
+    et: Keskmine
+    en: Medium
+  competition_introduction_label:
+    translation_type: text_format
+    et:
+      value: "Kui raske on leida sellel ametialal tööd järgmisel 5&#8209;10 aastal?\r\n"
+      format: restricted_html
+    en:
+      value: "<p>How hard is it to find work in this field over the next 5 to 10 years?</p>\r\n"
+      format: custom_editor
 oskaProfession: {  }
 langcode: et
 sidebar:
@@ -2216,3 +2284,72 @@ login_harid:
   translation_type: textarea
   et: 'Logi sisse HarID-ga'
   en: 'Login with HarID'
+certificate:
+  name:
+    translation_type: textarea
+    et: 'Ees- ja perekonnanimi'
+    en: 'First and last name'
+  nr:
+    translation_type: textarea
+    et: 'Tunnistuse nr'
+    en: 'Certificate nr'
+  status:
+    translation_type: textarea
+    et: 'Tunnistuse olek'
+    en: 'Certificate state'
+  registered_exams:
+    translation_type: textarea
+    et: 'Registreeritud riigieksamid'
+    en: 'Registered national exams'
+  data:
+    translation_type: textarea
+    et: 'Tunnistuse andmed'
+    en: 'Certificate data'
+status:
+  published:
+    translation_type: textarea
+    et: Avaldatud
+    en: Published
+  unpublished:
+    translation_type: textarea
+    et: Avaldamata
+    en: Unpublished
+exam:
+  subject:
+    translation_type: textarea
+    et: 'Eksami aine'
+    en: Exam
+  time:
+    translation_type: textarea
+    et: 'Toimumise aeg'
+    en: Time
+  status:
+    translation_type: textarea
+    et: Staatus
+    en: Status
+  result_known:
+    translation_type: textarea
+    et: 'Tulemus teada'
+    en: 'Result known'
+  result_unknown:
+    translation_type: textarea
+    et: 'Tulemus puudub'
+    en: 'Result unknown'
+event_duration:
+  translation_type: textarea
+  et: Toimumisaeg
+  en: 'Event duration'
+cookie_close:
+  translation_type: textarea
+  et: 'Sulge küpsiste teavitus'
+  en: 'Close cookies notification'
+notification:
+  close:
+    translation_type: textarea
+    et: 'Sulge teavitus'
+    en: 'Close notification'
+professions:
+  go_to_subjects:
+    translation_type: textarea
+    et: 'Vaata erialasid'
+    en: 'Check study programmes'
