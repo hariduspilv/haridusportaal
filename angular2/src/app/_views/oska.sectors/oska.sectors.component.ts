@@ -38,7 +38,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
       limit: this.limit,
       nidEnabled: false
     };
-    this.dataSub = this.http.get('/graphql?queryName=oskaFieldListView&queryId=646bab2dc9f74461b9cf3961f7443abd5b1039e3:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+    this.dataSub = this.http.get('/graphql?queryName=oskaFieldListView&queryId=22a08139aac421effe05769ce983ff940de0d59d:1&variables=' + JSON.stringify(variables)).subscribe(response => {
       if (response['errors']) {
         this.loading = false;
         this.errMessage = true;
