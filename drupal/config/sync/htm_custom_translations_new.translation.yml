@@ -2135,6 +2135,14 @@ oska:
     translation_type: textarea
     et: Keskmine
     en: Medium
+  competition_introduction_label:
+    translation_type: text_format
+    et:
+      value: "Kui raske on leida sellel ametialal tööd järgmisel 5&#8209;10 aastal?\r\n"
+      format: restricted_html
+    en:
+      value: "<p>How hard is it to find work in this field over the next 5 to 10 years?</p>\r\n"
+      format: custom_editor
 oskaProfession: {  }
 langcode: et
 sidebar:

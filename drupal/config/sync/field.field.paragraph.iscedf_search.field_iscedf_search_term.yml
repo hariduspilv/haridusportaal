@@ -10,8 +10,8 @@ id: paragraph.iscedf_search.field_iscedf_search_term
 field_name: field_iscedf_search_term
 entity_type: paragraph
 bundle: iscedf_search
-label: 'Õppekava rühm'
-description: ''
+label: Õppekavarühm
+description: 'Mitme lisamiseks tuleb eraldada need omavahel komadega'
 required: false
 translatable: true
 default_value: {  }
