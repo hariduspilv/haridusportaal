@@ -153,7 +153,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            if($graph_set === 'multi-line'){
+            if($graph_set === 'multi-line' || $graph_set === 'multi'){
                 $element['graph_options']['graph_group_by'] = [
                     '#title' => $this->t('Group results'),
                     '#size' => 256,
