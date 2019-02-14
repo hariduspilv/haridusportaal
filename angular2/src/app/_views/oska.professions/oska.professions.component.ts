@@ -144,6 +144,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
         responseData = responseVal;
       }
       this.data = responseData;
+
       if( responseData.length <= this.listLimit ){ 
         this.listEnd = true;
       } else this.listEnd = false;
