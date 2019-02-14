@@ -1,0 +1,30 @@
+<div style="padding:1.5rem;">
+  <div class="row">
+    <div class="col-12">
+
+      <div class="block border-blue padding-block">
+        <div class="block__head">
+          <div class="block__head__title">Süsteemi muutujad</div>
+        </div><!--/block__head-->
+
+        <article>
+          <table>
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data">
+                <td>{{ item.key }}</td>
+                <td>{{ item.value | json }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+      </div><!--/block-->
+      
+    </div><!--/col-12-->
+  </div><!--/row-->
+</div>

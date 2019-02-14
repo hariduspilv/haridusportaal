@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpService } from '@app/_services/httpService';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from '../../../../node_modules/rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { UserService } from '@app/_services/userService';
 import { TableService } from '@app/_services/tableService';

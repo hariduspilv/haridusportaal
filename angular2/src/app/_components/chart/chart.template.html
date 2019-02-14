@@ -11,11 +11,11 @@
       <ng-container *ngIf="item.filters">
         <div class="row">
           <ng-container *ngFor="let select of item.filters">
-            <div class="col-3">
-              <div class="round-input__wrapper" *ngIf="select.options.length > 0">
+            <div class="col-3"  *ngIf="select.options.length > 0">
+              <div class="round-input__wrapper">
                 <mat-form-field>
                   <mat-select placeholder="{{ select.key | capitalize }}" [(ngModel)]="filters[item.id][select.key]" (selectionChange)="getGraphData( item.id )">
-                    <mat-option>-</mat-option>
+                    <mat-option *ngIf="select.key !== 'näitaja'">-</mat-option>
                     <mat-option *ngFor="let item of select.options" [value]="item">
                       {{ item }}
                     </mat-option>
@@ -26,9 +26,12 @@
           </ng-container>
         </div><!--/row-->
 
-        <ng-container *ngIf="filtersData[item.id]">
-          <google-chart [data]="filtersData[item.id]"></google-chart>
-        </ng-container>
+        <div class="chart-wrapper">
+          <ng-container *ngIf="filtersData[item.id]">
+            <mat-spinner diameter="20" style="margin:0 auto;" *ngIf="filtersData[item.id].loading"></mat-spinner>
+            <google-chart [data]="filtersData[item.id]"></google-chart>
+          </ng-container>
+        </div><!--/chart-wrapper-->
 
       </ng-container>
 

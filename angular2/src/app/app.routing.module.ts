@@ -33,6 +33,7 @@ import { ApplicationsComponent } from '@app/_components/applications/application
 import { StudiesComponent } from '@app/_components/studies/studies.component';
 import { TeachingsComponent } from '@app/_components/teachings/teachings.component';
 import { PreviewComponent } from '@app/_views/preview/preview.component';
+import { VariablesComponent } from './_views/variables/variables.component';
 const appRoutes: Routes = [
 
   { path: '', component: FrontpageComponent },
@@ -80,6 +81,7 @@ const appRoutes: Routes = [
   { path: 'otsing', component: SearchComponent },
 
   { path: 'isikukaart', component: PersonalDataComponent },
+  { path: 'variables', component: VariablesComponent },
 
   { path: 'preview/:id', component: PreviewComponent },
   { path: '404', component: NotFoundComponent },
@@ -137,6 +139,7 @@ export const routedComponents = [
   StudiesComponent,
   TeachingsComponent,
   PreviewComponent,
-  CertificateCheckComponent
+  CertificateCheckComponent,
+  VariablesComponent
 ];
 

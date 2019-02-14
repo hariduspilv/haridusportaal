@@ -4,7 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { SettingsService } from '@app/_core/settings';
 
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class HttpService {
@@ -65,7 +65,7 @@ export class HttpService {
       withCredentials: inputHeaders['withCredentials'] || false
     }).catch((err) => {
 
-      return Observable.throw(err);
+      return throwError(err);
     });
   }
 
