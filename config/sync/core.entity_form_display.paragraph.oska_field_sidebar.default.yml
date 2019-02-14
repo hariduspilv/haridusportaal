@@ -3,6 +3,7 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.paragraph.oska_field_sidebar.field_neutral
     - field.field.paragraph.oska_field_sidebar.field_number_employed
     - field.field.paragraph.oska_field_sidebar.field_number_employed_text
     - field.field.paragraph.oska_field_sidebar.field_oska_field_cons
@@ -21,6 +22,19 @@ targetEntityType: paragraph
 bundle: oska_field_sidebar
 mode: default
 content:
+  field_neutral:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
   field_number_employed:
     weight: 0
     settings:
@@ -42,7 +56,7 @@ content:
     type: string_textarea
     region: content
   field_oska_field_cons:
-    weight: 3
+    weight: 4
     settings:
       rows: 5
       placeholder: ''
@@ -56,7 +70,7 @@ content:
     region: content
   field_oska_field_contact:
     type: entity_reference_paragraphs
-    weight: 7
+    weight: 8
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -80,20 +94,6 @@ content:
     type: string_textarea
     region: content
   field_oska_field_quick_find:
-    weight: 5
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-    type: link_default
-    region: content
-  field_oska_main_profession:
-    weight: 4
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
-  field_related_pages:
     weight: 6
     settings:
       placeholder_url: ''
@@ -101,8 +101,22 @@ content:
     third_party_settings: {  }
     type: link_default
     region: content
+  field_oska_main_profession:
+    weight: 5
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_related_pages:
+    weight: 7
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
   translation:
-    weight: 10
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
