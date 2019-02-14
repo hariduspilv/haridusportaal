@@ -11,6 +11,7 @@ query oskaMainProfessionListView($nid: [String], $nidEnabled: Boolean, $titleVal
       {operator: LIKE, field: "field_sidebar.entity.field_jobs.entity.field_job_name", value: [$titleValue], language: $lang, enabled: $titleEnabled},
     ]
   }]}) {
+    count
     entities(language: $lang) {
       ... on NodeOskaMainProfessionPage {
         nid
