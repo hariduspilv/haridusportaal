@@ -3,6 +3,7 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.paragraph.oska_field_sidebar.field_neutral
     - field.field.paragraph.oska_field_sidebar.field_number_employed
     - field.field.paragraph.oska_field_sidebar.field_number_employed_text
     - field.field.paragraph.oska_field_sidebar.field_oska_field_cons
@@ -20,6 +21,13 @@ targetEntityType: paragraph
 bundle: oska_field_sidebar
 mode: default
 content:
+  field_neutral:
+    weight: 8
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
   field_number_employed:
     weight: 0
     label: above

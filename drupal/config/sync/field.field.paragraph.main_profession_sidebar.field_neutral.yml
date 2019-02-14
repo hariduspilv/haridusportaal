@@ -1,0 +1,19 @@
+uuid: 93390a00-a9c1-47d0-939e-ca6e201ce98f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_neutral
+    - paragraphs.paragraphs_type.main_profession_sidebar
+id: paragraph.main_profession_sidebar.field_neutral
+field_name: field_neutral
+entity_type: paragraph
+bundle: main_profession_sidebar
+label: 'Neutraalsed faktid'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
