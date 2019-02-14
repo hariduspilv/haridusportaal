@@ -89,6 +89,7 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
             'graph_type',
             'secondary_graph_type',
             'graph_group_by',
+            'graph_v_axis'
         ];
 
         foreach($graph_info as $key => $value){
@@ -139,11 +140,13 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
         }
 
         #find label and value fields
-        $label_field = $graph_info['graph_set'] != 'multi' ? 'periood' : $graph_data['graph_group_by'];
-
+        $label_field = $graph_data['graph_v_axis'];
         $value_field = 'vaartus';
+        $indicator_field = $graph_info['graph_set'] === 'multi-line' ? $graph_data['graph_group_by'] : 'naitaja';
 
-        $indicator_field = $graph_info['graph_set'] !== 'multi' ? 'naitaja' : $graph_data['graph_group_by'];
+        if($graph_info['graph_set'] === 'multi'){
+            $indicator_field = $graph_data['graph_group_by'];
+        }
 
         if($label_field && $value_field){
             $labelsums = [];
