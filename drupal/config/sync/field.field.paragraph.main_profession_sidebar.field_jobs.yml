@@ -12,7 +12,7 @@ id: paragraph.main_profession_sidebar.field_jobs
 field_name: field_jobs
 entity_type: paragraph
 bundle: main_profession_sidebar
-label: Näidisametid
+label: Ametid
 description: ''
 required: false
 translatable: true
@@ -66,5 +66,14 @@ settings:
         enabled: false
       school_location:
         weight: 28
+        enabled: false
+      oska_field_sidebar:
+        weight: 29
+        enabled: false
+      supernews:
+        weight: 33
+        enabled: false
+      survey_page_accordion:
+        weight: 34
         enabled: false
 field_type: entity_reference_revisions
