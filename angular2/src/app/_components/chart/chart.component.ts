@@ -26,6 +26,9 @@ export class ChartComponent implements OnInit{
     pieSliceTextStyle: {
       "color": '#ffffff'
     },
+    tooltip: {
+      format: '####'
+    },
     curveType: "function",
     lineWidth: 5,
     pointsVisible: true,
@@ -78,10 +81,16 @@ export class ChartComponent implements OnInit{
       let graphIndicator = current.graphIndicator;
       let graphTitle = current.graphTitle;
       let secondaryGraphType = current.secondaryGraphType;
-
+      let isStacked = false;
 
       if( chartType == "Doughnut" ){
         chartType = "Pie";
+      }
+
+
+      if( chartType.toLowerCase() == "clustered bar"){
+        isStacked = true;
+        chartType = "Bar";
       }
 
       let graphName = chartType+"Chart";
@@ -96,33 +105,51 @@ export class ChartComponent implements OnInit{
         options: { ... this.graphOptions }
       }
 
+      
+      tmp.options['isStacked'] = isStacked;
+
       tmp.options['title'] = graphTitle;
 
 
+      tmp.options['vAxis'] = {
+        format: '####'
+      };
+
+      tmp.options['hAxis'] = {
+        format: '####'
+      };
 
       if( graphName == "ComboChart" ){
         tmp['options']['colors'] = ["#18218f", "#db3a00"];
-      }
+      };
 
       if( graphName == "BarChart" ){
 
         if( current.graphIndicator || current.secondaryGraphIndicator){
           tmp['options']['hAxes'] = {};
           if( current.graphIndicator ){
-            tmp['options']['hAxes'][0] = {'title': current.graphIndicator};
+            tmp['options']['hAxes'][0] = {
+              title: current.graphIndicator
+            };
           }
           if( current.secondaryGraphIndicator ){
-            tmp['options']['hAxes'][1] = {'title': current.secondaryGraphIndicator};
+            tmp['options']['hAxes'][1] = {
+              title: current.secondaryGraphIndicator
+            };
           }
         }
       }else{
         if( current.graphIndicator || current.secondaryGraphIndicator){
           tmp['options']['vAxes'] = {};
           if( current.graphIndicator ){
-            tmp['options']['vAxes'][0] = {'title': current.graphIndicator};
+            tmp['options']['vAxes'][0] = {
+              title: current.graphIndicator
+            };
           }
           if( current.secondaryGraphIndicator ){
-            tmp['options']['vAxes'][1] = {'title': current.secondaryGraphIndicator};
+            tmp['options']['vAxes'][1] = {
+              title: current.secondaryGraphIndicator
+            };
           }
         }
       }
@@ -224,7 +251,7 @@ export class ChartComponent implements OnInit{
           options: options
         });
 
-        this.filters[ item.id ]['näitaja'] = item.filters[ item.filters.length - 1 ].options[0];
+        this.filters[ item.id ]['näitaja'] = [ item.filters[ item.filters.length - 1 ].options[0] ];
 
         console.log( item );
       }catch(err){
@@ -259,22 +286,35 @@ export class ChartComponent implements OnInit{
   
       if( !this.filtersData[current.id] ){ this.filtersData[current.id] = {}; }
       this.filtersData[current.id].loading = true;
-  
+
       let variables = {
         graphSet: current['graphSet'],
         graphType: current['graphType'],
         secondaryGraphType: '',
-        graphGroupBy: '',
-        indicator: filters['näitaja'].length > 0 ? filters['näitajad'] : '',
+        indicator: filters['näitaja'].length > 0 ? filters['näitaja'] : false,
         secondaryGraphIndicator: '',
         oskaField: filters.valdkond || '',
         oskaSubField: filters.alavaldkond || '',
         oskaMainProfession: filters.ametiala || '',
         period: filters.periood || '',
         label: filters.silt || '',
-        graph_group_by: current['graph_group_by']
+        graphGroupBy: current['graph_group_by']
       }
-  
+
+
+      if( !variables.indicator ){
+        try{
+          let tmpIndicators = [];
+          for( let i in current.filterValues.graph_options.graph_indicator ){
+            tmpIndicators.push(i);
+          }
+          variables.indicator = tmpIndicators;
+        }catch(err){
+
+        }
+      }
+
+
       let tmpVariables = {};
   
       for( let i in variables ){
@@ -284,10 +324,13 @@ export class ChartComponent implements OnInit{
       }
   
       this.requestSubscription = this.http.get( this.dataUrl + JSON.stringify( tmpVariables ) ).subscribe( (response) => {
-        console.log( current );
+
         let data = response['data'].GoogleChartQuery.map( (item) => {
+
+          let type = variables['graphType'];
+
           return {
-            graphType: variables['graphType'],
+            graphType: type,
             /*graphIndicator: 'Mis ma siia panen? :O',*/
             graphTitle: current.graphTitle,
             graphSet: variables['graphSet'],
@@ -297,13 +340,12 @@ export class ChartComponent implements OnInit{
           }
         });
   
-        console.log( data );
         this.filtersData[current.id] = this.compileData( data );
-  
-        this.requestSubscription.unsubscribe();
-        this.requestSubscription = false;
 
         this.filtersData[current.id].loading = false;
+
+        this.requestSubscription.unsubscribe();
+        this.requestSubscription = false;
 
       }, (err) =>{
         this.filtersData[current.id].loading = false;
