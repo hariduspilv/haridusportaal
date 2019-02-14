@@ -8,6 +8,7 @@ dependencies:
     - field.field.paragraph.main_profession_sidebar.field_iscedf_search_link
     - field.field.paragraph.main_profession_sidebar.field_job_opportunities
     - field.field.paragraph.main_profession_sidebar.field_jobs
+    - field.field.paragraph.main_profession_sidebar.field_neutral
     - field.field.paragraph.main_profession_sidebar.field_oska_field
     - field.field.paragraph.main_profession_sidebar.field_pros
     - field.field.paragraph.main_profession_sidebar.field_qualification_standard
@@ -66,6 +67,13 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
+  field_neutral:
+    weight: 9
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
     region: content
   field_oska_field:
     weight: 2
