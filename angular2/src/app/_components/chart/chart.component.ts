@@ -19,6 +19,8 @@ export class ChartComponent implements OnInit{
 
   filtersData:any = {};
 
+  requestDebounce = {};
+  requestSubscription:any = false;
   graphOptions = {
     height: 400,
     pieSliceTextStyle: {
@@ -37,7 +39,7 @@ export class ChartComponent implements OnInit{
     }
   }
 
-  dataUrl = '/graphql?queryName=googleChartData&queryId=4fc7afde3daa640f0770a826ec2df3015af1b019:1&variables=';
+  dataUrl = '/graphql?queryName=googleChartData&queryId=758190a943297019c1d281bb0cc7345f14c6abd7:1&variables=';
 
   /*{
     chartType: 'ColumnChart',
@@ -181,6 +183,7 @@ export class ChartComponent implements OnInit{
     this.data = this.data.map( ( item ) => {
       item.filterValues = JSON.parse( item.filterValues );
       item.id = this.generateID();
+      item.graph_group_by = item.filterValues.graph_options.graph_group_by;
 
       this.filters[ item.id ] = {};
 
@@ -217,12 +220,13 @@ export class ChartComponent implements OnInit{
         }
 
         item.filters.push({
-          key: 'indikaator',
+          key: 'näitaja',
           options: options
         });
 
-        this.filters[ item.id ].indikaator = item.filters[0].value;
+        this.filters[ item.id ]['näitaja'] = item.filters[ item.filters.length - 1 ].options[0];
 
+        console.log( item );
       }catch(err){
         console.error("Couldn't parse indicators!");
       }
@@ -237,56 +241,75 @@ export class ChartComponent implements OnInit{
 
   getGraphData( id ) {
 
-    let current = this.data.filter( (item) => {
-      if( id == item.id ){
-        return item;
+    clearTimeout( this.requestDebounce[id] );
+
+    this.requestDebounce[id] = setTimeout( () => {
+
+      if( this.requestSubscription ){
+        this.requestSubscription.unsubscribe();
       }
-    })[0];
-
-    let filters = this.filters[current.id];
-
-    let variables = {
-      graphSet: current['graphSet'],
-      graphType: current['graphType'],
-      secondaryGraphType: '',
-      graphGroupBy: '',
-      indicator: filters.indikaator,
-      secondaryGraphIndicator: '',
-      oskaField: filters.valdkond || '',
-      oskaSubField: filters.alavaldkond || '',
-      oskaMainProfession: filters.ametiala || '',
-      period: filters.periood || '',
-      label: ''
-    }
-
-    let tmpVariables = {};
-
-    for( let i in variables ){
-      if( variables[i] !== ''){
-        tmpVariables[i] = variables[i];
-      }
-    }
-
-    let subscription = this.http.get( this.dataUrl + JSON.stringify( tmpVariables ) ).subscribe( (response) => {
-      let data = response['data'].GoogleChartQuery.map( (item) => {
-        return {
-          graphType: variables['graphType'],
-          graphIndicator: 'Mis ma siia panen? :O',
-          graphTitle: current.graphTitle,
-          graphSet: variables['graphSet'],
-          value: item.ChartValue,
-          secondaryGraphType:	null,
-          secondaryGraphIndicator:	null
+      
+      let current = this.data.filter( (item) => {
+        if( id == item.id ){
+          return item;
         }
+      })[0];
+  
+      let filters = this.filters[current.id];
+  
+      if( !this.filtersData[current.id] ){ this.filtersData[current.id] = {}; }
+      this.filtersData[current.id].loading = true;
+  
+      let variables = {
+        graphSet: current['graphSet'],
+        graphType: current['graphType'],
+        secondaryGraphType: '',
+        graphGroupBy: '',
+        indicator: filters['näitaja'].length > 0 ? filters['näitajad'] : '',
+        secondaryGraphIndicator: '',
+        oskaField: filters.valdkond || '',
+        oskaSubField: filters.alavaldkond || '',
+        oskaMainProfession: filters.ametiala || '',
+        period: filters.periood || '',
+        label: filters.silt || '',
+        graph_group_by: current['graph_group_by']
+      }
+  
+      let tmpVariables = {};
+  
+      for( let i in variables ){
+        if( variables[i] !== ''){
+          tmpVariables[i] = variables[i];
+        }
+      }
+  
+      this.requestSubscription = this.http.get( this.dataUrl + JSON.stringify( tmpVariables ) ).subscribe( (response) => {
+        console.log( current );
+        let data = response['data'].GoogleChartQuery.map( (item) => {
+          return {
+            graphType: variables['graphType'],
+            /*graphIndicator: 'Mis ma siia panen? :O',*/
+            graphTitle: current.graphTitle,
+            graphSet: variables['graphSet'],
+            value: item.ChartValue,
+            secondaryGraphType:	null,
+            secondaryGraphIndicator:	null
+          }
+        });
+  
+        console.log( data );
+        this.filtersData[current.id] = this.compileData( data );
+  
+        this.requestSubscription.unsubscribe();
+        this.requestSubscription = false;
+
+        this.filtersData[current.id].loading = false;
+
+      }, (err) =>{
+        this.filtersData[current.id].loading = false;
       });
-
-      console.log(current);
-
-      this.filtersData[current.id] = this.compileData( data );
-
-      console.log( this.filtersData );
-      subscription.unsubscribe();
-    });
+    }, 300);
+    
   }
 
   ngOnInit() {

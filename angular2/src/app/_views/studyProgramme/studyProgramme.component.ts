@@ -183,7 +183,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     }
 
 
-    let url = "/graphql?queryName=studyProgrammeList&queryId=30bfa8638e3b0f2fdb9a5a5c747962bf13f69480:1&variables=";
+    let url = "/graphql?queryName=studyProgrammeList&queryId=c81156975e42fdbbaf0142bc9cac2f42f982c76b:1&variables=";
     let variables = queryVars;
     
     this.dataSubscription = this.http.get(url+JSON.stringify(variables) ).subscribe( (response) => {
