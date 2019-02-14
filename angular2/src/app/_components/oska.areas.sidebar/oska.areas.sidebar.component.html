@@ -211,8 +211,8 @@
   </div>
   <!-- / sidebar.fieldQuickFind / -->
   <!-- sidebar.fieldNumberEmployed -->
-  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldNumberEmployed || sidebar.fieldNumberEmployed == '0' || sidebar.fieldNumberEmployedText">
-    <h1 class="medium" attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ sidebar.fieldNumberEmployed }}">{{ 'oska.fieldNumberEmployed' | translate }} {{ sidebar.fieldNumberEmployed }}</h1>
+  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldNumberEmployed || sidebar.fieldNumberEmployed == '0'">
+    <h1 class="medium" attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ sidebar.fieldNumberEmployed }}">{{ 'oska.fieldNumberEmployed' | translate }} {{ formatNumber(sidebar.fieldNumberEmployed, 'et') }}</h1>
     <div class="padding-block--content">
       <div class="block__footer" *ngIf="sidebar.fieldNumberEmployedText">{{ sidebar.fieldNumberEmployedText }}</div>
       <div class="flex">
@@ -243,7 +243,7 @@
   </div>
   <!-- / sidebar.fieldOskaFieldPros/Cons / -->
   <!-- sidebar.fieldOskaMainProfession -->
-  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldOskaMainProfession">
+  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldOskaMainProfession && sidebar.fieldOskaMainProfession.length">
     <h1 class="medium">{{ 'oskaProfessions.label' | translate }}</h1>
     <div class="padding-block--content">
       <ul class="link-list mt-0 mb-0">
