@@ -217,11 +217,14 @@ export class ChartComponent implements OnInit{
         }
 
         item.filters.push({
-          key: 'indikaator',
+          key: 'näitaja',
           options: options
         });
 
-        this.filters[ item.id ].indikaator = item.filters[0].value;
+        this.filters[ item.id ]['näitaja'] = item.filters[ item.filters.length - 1 ].options[0];
+
+        console.log(item.filters);
+        console.log(this.filters);
 
       }catch(err){
         console.error("Couldn't parse indicators!");
@@ -245,18 +248,21 @@ export class ChartComponent implements OnInit{
 
     let filters = this.filters[current.id];
 
+    if( !this.filtersData[current.id] ){ this.filtersData[current.id] = {}; }
+    this.filtersData[current.id].loading = true;
+
     let variables = {
       graphSet: current['graphSet'],
       graphType: current['graphType'],
       secondaryGraphType: '',
       graphGroupBy: '',
-      indicator: filters.indikaator,
+      indicator: filters['näitaja'],
       secondaryGraphIndicator: '',
       oskaField: filters.valdkond || '',
       oskaSubField: filters.alavaldkond || '',
       oskaMainProfession: filters.ametiala || '',
       period: filters.periood || '',
-      label: ''
+      label: filters.silt || ''
     }
 
     let tmpVariables = {};
@@ -280,12 +286,12 @@ export class ChartComponent implements OnInit{
         }
       });
 
-      console.log(current);
-
       this.filtersData[current.id] = this.compileData( data );
 
-      console.log( this.filtersData );
       subscription.unsubscribe();
+      this.filtersData[current.id].loading = false;
+    }, function(err){
+      this.filtersData[current.id].loading = false;
     });
   }
 
