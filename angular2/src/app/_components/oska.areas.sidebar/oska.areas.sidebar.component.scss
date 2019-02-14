@@ -1,6 +1,7 @@
 @import "../../../assets/styles/typography.scss";
 .flex.centered {padding-bottom: .75rem;
-  &.last {padding-bottom: 0;}
+  &.last {padding-bottom: 1.5rem;}
+  &.final {padding-bottom: 0;}
 }
 .flex-text {margin-left: 1rem;font-size: .875rem;line-height: 1.125rem;}
 .link-list {
