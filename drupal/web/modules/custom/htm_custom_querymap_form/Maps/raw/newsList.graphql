@@ -17,6 +17,7 @@ $limit: Int ) {
             {operator: SMALLER_THAN_OR_EQUAL, field: "created", value: [$maxDate], language: $lang },
 
         ]}) {
+        count
         entities(language:$lang) {
             ... on NodeNews {
                 entityLabel

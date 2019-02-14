@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - htm_custom_professional_certific
+    - jwt
     - serialization
     - user
 id: get_certificate_public_rest_resource
@@ -16,4 +17,5 @@ configuration:
   formats:
     - json
   authentication:
+    - jwt_auth
     - cookie
