@@ -46,7 +46,7 @@ export class SettingsService {
 
 	load() {
 		return new Promise((resolve, reject) => {
-			this.http.get(this.url+'/translations?_format=json&lang=et&settings=true').subscribe(response => {
+			this.http.get(this.url+'/variables?_format=json&lang=et').subscribe(response => {
 				this.data = response;
 				resolve(true);
 			}, () => {

@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import * as _moment from 'moment';
 const moment = _moment;
-import { Subscription } from '../../../../node_modules/rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'eventsList',
