@@ -139,7 +139,8 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
         }
 
         #find label and value fields
-        $graph_info['graph_type'] != 'stacked' ? $label_field = 'periood' : $label_field = 'silt';
+        $label_field = $graph_info['graph_set'] != 'multi' ? 'periood' : $graph_data['graph_group_by'];
+
         $value_field = 'vaartus';
 
         $indicator_field = $graph_info['graph_set'] !== 'multi' ? 'naitaja' : $graph_data['graph_group_by'];
