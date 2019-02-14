@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies: {  }
 id: job
-label: Näidisamet
+label: Amet
 icon_uuid: null
 description: ''
 behavior_plugins: {  }
