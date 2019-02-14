@@ -126,6 +126,7 @@ query oskaMainProfessionDetailView($path: String!) {
             entity {
               ... on ParagraphMainProfessionSidebar {
                 fieldPros
+                fieldNeutral
                 fieldCons
                 fieldOskaField {
                   entity {
