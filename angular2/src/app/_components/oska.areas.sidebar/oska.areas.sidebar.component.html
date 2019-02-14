@@ -19,19 +19,24 @@
   </div>
   <!-- / sidebar indicators / -->
   <!-- sidebar.fieldPros/Cons -->
-  <div class="block border-orange padding-block sm-top" *ngIf="((sidebar.fieldPros && sidebar.fieldPros.length) || (sidebar.fieldCons && sidebar.fieldCons.length))">
+  <div class="block border-orange padding-block sm-top" *ngIf="((sidebar.fieldPros && sidebar.fieldPros.length) || (sidebar.fieldCons && sidebar.fieldCons.length) || (sidebar.fieldNeutral && sidebar.fieldNeutral.length && viewType === 'mainProfession'))">
     <h1 class="medium">{{ 'sidebar.pros_and_cons' | translate }}</h1>
     <div class="padding-block--content">
       <ng-container *ngIf="sidebar.fieldPros && sidebar.fieldPros.length">
         <div class="flex centered" [class.last]="last" *ngFor="let elem of sidebar.fieldPros; let last = last">
-          <div class="icon-wrapper pos"><span class="htm-icon" aria-hidden="true">thumb_up</span></div>
+          <div class="icon-wrapper top"><span class="htm-icon" aria-hidden="true">vertical_align_top</span></div>
           <div class="flex-text"><span role="text" attr.aria-label="{{'sidebar.pro' | translate}} {{ elem }}">{{ elem }}</span></div>
         </div>
       </ng-container>
-      <hr aria-hidden="true" *ngIf="sidebar.fieldCons && sidebar.fieldCons.length && sidebar.fieldPros && sidebar.fieldPros.length">
+      <ng-container *ngIf="sidebar.fieldNeutral && sidebar.fieldNeutral.length">
+        <div class="flex centered" [class.last]="last" *ngFor="let elem of sidebar.fieldNeutral; let last = last">
+          <div class="icon-wrapper neutral"><span class="htm-icon" aria-hidden="true">vertical_align_center</span></div>
+          <div class="flex-text"><span role="text" attr.aria-label="{{'sidebar.neutral' | translate}} {{ elem }}">{{ elem }}</span></div>
+        </div>
+      </ng-container>
       <ng-container *ngIf="sidebar.fieldCons && sidebar.fieldCons.length">
-        <div class="flex centered" [class.last]="last" *ngFor="let elem of sidebar.fieldCons; let last = last">
-          <div class="icon-wrapper neg"><span class="htm-icon" aria-hidden="true">thumb_down</span></div>
+        <div class="flex centered" [class.final]="last" *ngFor="let elem of sidebar.fieldCons; let last = last">
+          <div class="icon-wrapper bottom"><span class="htm-icon" aria-hidden="true">vertical_align_bottom</span></div>
           <div class="flex-text"><span role="text" attr.aria-label="{{'sidebar.con' | translate}} {{ elem }}">{{ elem }}</span></div>
         </div>
       </ng-container>
@@ -223,19 +228,24 @@
   </div>
   <!-- / sidebar.fieldNumberEmployed / -->
   <!-- sidebar.fieldOskaFieldPros/Cons -->
-  <div class="block border-orange padding-block sm-top" *ngIf="(sidebar.fieldOskaFieldPros && sidebar.fieldOskaFieldPros.length) || (sidebar.fieldOskaFieldCons && sidebar.fieldOskaFieldCons.length)">
+  <div class="block border-orange padding-block sm-top" *ngIf="(sidebar.fieldOskaFieldPros && sidebar.fieldOskaFieldPros.length) || (sidebar.fieldOskaFieldCons && sidebar.fieldOskaFieldCons.length) || (sidebar.fieldNeutral && sidebar.fieldNeutral.length && viewType != 'mainProfession')">
     <h1 class="medium">{{ 'sidebar.pros_and_cons' | translate }}</h1>
     <div class="padding-block--content">
       <ng-container *ngIf="sidebar.fieldOskaFieldPros && sidebar.fieldOskaFieldPros.length">
-        <div class="flex centered" [class.last]="last" *ngFor="let elem of sidebar.fieldOskaFieldPros; let last = last">
-          <div class="icon-wrapper pos"><span class="htm-icon" aria-hidden="true">thumb_up</span></div>
+        <div class="flex centered" [class.last]="last" [class.final]="last && (sidebar.fieldNeutral && !sidebar.fieldNeutral.length) && (sidebar.fieldOskaFieldCons && !sidebar.fieldOskaFieldCons.length)" *ngFor="let elem of sidebar.fieldOskaFieldPros; let last = last">
+          <div class="icon-wrapper top"><span class="htm-icon" aria-hidden="true">vertical_align_top</span></div>
           <div class="flex-text" attr.aria-label="{{'sidebar.pro' | translate}}">{{ elem }}</div>
         </div>
       </ng-container>
-      <hr aria-hidden="true" *ngIf="sidebar.fieldOskaFieldCons && sidebar.fieldOskaFieldCons.length && sidebar.fieldOskaFieldPros && sidebar.fieldOskaFieldPros.length">
+      <ng-container *ngIf="sidebar.fieldNeutral && sidebar.fieldNeutral.length">
+        <div class="flex centered" [class.last]="last" [class.final]="last && (sidebar.fieldOskaFieldCons && !sidebar.fieldOskaFieldCons.length)" *ngFor="let elem of sidebar.fieldNeutral; let last = last">
+          <div class="icon-wrapper neutral"><span class="htm-icon" aria-hidden="true">vertical_align_center</span></div>
+          <div class="flex-text"><span role="text" attr.aria-label="{{'sidebar.neutral' | translate}} {{ elem }}">{{ elem }}</span></div>
+        </div>
+      </ng-container>
       <ng-container *ngIf="sidebar.fieldOskaFieldCons && sidebar.fieldOskaFieldCons.length">
-        <div class="flex centered" [class.last]="last" *ngFor="let elem of sidebar.fieldOskaFieldCons; let last = last">
-          <div class="icon-wrapper neg"><span class="htm-icon" aria-hidden="true">thumb_down</span></div>
+        <div class="flex centered" [class.final]="last" *ngFor="let elem of sidebar.fieldOskaFieldCons; let last = last">
+          <div class="icon-wrapper bottom"><span class="htm-icon" aria-hidden="true">vertical_align_bottom</span></div>
           <div class="flex-text" attr.aria-label="{{'sidebar.con' | translate}}">{{ elem }}</div>
         </div>
       </ng-container>
