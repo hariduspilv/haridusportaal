@@ -263,6 +263,15 @@ $grid-columns: 12;
   &.neg{border: 1px solid #d0021b;background-color: #fdf3f4;
     .htm-icon {color: #d0021b;}
   }
+  &.top{background-color: $light-gray;border-radius:50%;
+    .htm-icon {color: #15adc2}
+  }
+  &.neutral{background-color: $light-gray;border-radius:50%;
+    .htm-icon {color: $orange}
+  }
+  &.bottom{background-color: $light-gray;border-radius:50%;
+    .htm-icon {color: $red}
+  }
 }
 
 .flex.mininav {line-height: 2;flex-wrap: wrap;min-height: 3.0625rem;align-items: center;
