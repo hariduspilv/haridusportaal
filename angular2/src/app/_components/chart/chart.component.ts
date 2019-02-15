@@ -20,7 +20,8 @@ export class ChartComponent implements OnInit{
   filtersData:any = {};
 
   requestDebounce = {};
-  requestSubscription:any = false;
+  requestSubscription = {};
+
   graphOptions = {
     height: 400,
     pieSliceTextStyle: {
@@ -42,7 +43,7 @@ export class ChartComponent implements OnInit{
     }
   }
 
-  dataUrl = '/graphql?queryName=googleChartData&queryId=758190a943297019c1d281bb0cc7345f14c6abd7:1&variables=';
+  dataUrl = '/graphql?queryName=googleChartData&queryId=f0fee643583ce2e9374da0e53a030c62daad2263:1&variables=';
 
   /*{
     chartType: 'ColumnChart',
@@ -86,7 +87,6 @@ export class ChartComponent implements OnInit{
       if( chartType == "Doughnut" ){
         chartType = "Pie";
       }
-
 
       if( chartType.toLowerCase() == "clustered bar"){
         isStacked = true;
@@ -207,10 +207,13 @@ export class ChartComponent implements OnInit{
 
   parseData() {
 
+    
     this.data = this.data.map( ( item ) => {
       item.filterValues = JSON.parse( item.filterValues );
       item.id = this.generateID();
       item.graph_group_by = item.filterValues.graph_options.graph_group_by;
+      item.graph_v_axis = item.filterValues.graph_options.graph_v_axis;
+      item.secondaryGraphType = item.filterValues.graph_options.secondary_graph_type;
 
       this.filters[ item.id ] = {};
 
@@ -253,7 +256,6 @@ export class ChartComponent implements OnInit{
 
         this.filters[ item.id ]['näitaja'] = [ item.filters[ item.filters.length - 1 ].options[0] ];
 
-        console.log( item );
       }catch(err){
         console.error("Couldn't parse indicators!");
       }
@@ -270,10 +272,11 @@ export class ChartComponent implements OnInit{
 
     clearTimeout( this.requestDebounce[id] );
 
+
     this.requestDebounce[id] = setTimeout( () => {
 
-      if( this.requestSubscription ){
-        this.requestSubscription.unsubscribe();
+      if( this.requestSubscription[id] ){
+        this.requestSubscription[id].unsubscribe();
       }
       
       let current = this.data.filter( (item) => {
@@ -285,12 +288,13 @@ export class ChartComponent implements OnInit{
       let filters = this.filters[current.id];
   
       if( !this.filtersData[current.id] ){ this.filtersData[current.id] = {}; }
+
       this.filtersData[current.id].loading = true;
 
       let variables = {
         graphSet: current['graphSet'],
         graphType: current['graphType'],
-        secondaryGraphType: '',
+        secondaryGraphType: current.secondaryGraphType,
         indicator: filters['näitaja'].length > 0 ? filters['näitaja'] : false,
         secondaryGraphIndicator: '',
         oskaField: filters.valdkond || '',
@@ -298,7 +302,8 @@ export class ChartComponent implements OnInit{
         oskaMainProfession: filters.ametiala || '',
         period: filters.periood || '',
         label: filters.silt || '',
-        graphGroupBy: current['graph_group_by']
+        graphGroupBy: current['graph_group_by'],
+        graphVAxis: current['graph_v_axis']
       }
 
 
@@ -323,7 +328,7 @@ export class ChartComponent implements OnInit{
         }
       }
   
-      this.requestSubscription = this.http.get( this.dataUrl + JSON.stringify( tmpVariables ) ).subscribe( (response) => {
+      this.requestSubscription[id] = this.http.get( this.dataUrl + JSON.stringify( tmpVariables ) ).subscribe( (response) => {
 
         let data = response['data'].GoogleChartQuery.map( (item) => {
 
@@ -335,7 +340,7 @@ export class ChartComponent implements OnInit{
             graphTitle: current.graphTitle,
             graphSet: variables['graphSet'],
             value: item.ChartValue,
-            secondaryGraphType:	null,
+            secondaryGraphType:	variables['secondaryGraphType'],
             secondaryGraphIndicator:	null
           }
         });
@@ -344,8 +349,10 @@ export class ChartComponent implements OnInit{
 
         this.filtersData[current.id].loading = false;
 
-        this.requestSubscription.unsubscribe();
-        this.requestSubscription = false;
+        this.requestSubscription[id].unsubscribe();
+        this.requestSubscription[id] = false;
+
+        console.log( JSON.stringify( this.filtersData[current.id].dataTable ) );
 
       }, (err) =>{
         this.filtersData[current.id].loading = false;
