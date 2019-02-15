@@ -42,7 +42,7 @@ export class ChartComponent implements OnInit{
     }
   }
 
-  dataUrl = '/graphql?queryName=googleChartData&queryId=758190a943297019c1d281bb0cc7345f14c6abd7:1&variables=';
+  dataUrl = '/graphql?queryName=googleChartData&queryId=f0fee643583ce2e9374da0e53a030c62daad2263:1&variables=';
 
   /*{
     chartType: 'ColumnChart',
@@ -207,11 +207,14 @@ export class ChartComponent implements OnInit{
 
   parseData() {
 
+    
     this.data = this.data.map( ( item ) => {
       item.filterValues = JSON.parse( item.filterValues );
       item.id = this.generateID();
       item.graph_group_by = item.filterValues.graph_options.graph_group_by;
-
+      item.graph_v_axis = item.filterValues.graph_options.graph_v_axis;
+      
+      console.log(item);
       this.filters[ item.id ] = {};
 
       try{
@@ -298,7 +301,8 @@ export class ChartComponent implements OnInit{
         oskaMainProfession: filters.ametiala || '',
         period: filters.periood || '',
         label: filters.silt || '',
-        graphGroupBy: current['graph_group_by']
+        graphGroupBy: current['graph_group_by'],
+        graphVAxis: current['graph_v_axis']
       }
 
 
