@@ -111,11 +111,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                         'stacked column' => $this->t('stacked column'),
                     );
                     break;
-                case 'multi-line':
-                    $graph_type_options = array(
-                        'line' => $this->t('line')
-                    );
-                    break;
             }
 
             $element['graph_options']['graph_type'] = [
@@ -189,8 +184,8 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
                 if(isset($form_state->getUserInput()[$field_name])){
                     $graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['graph_indicator'];
-                }else if(isset($items[$delta]->graph_indicator)){
-                    $graph_indicator = $items[$delta]->graph_indicator;
+                }else if(isset($data['graph_indicator'])){
+                    $graph_indicator = $data['graph_indicator'];
                 }else{
                     $graph_indicator = false;
                 }
@@ -199,8 +194,10 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 $selection = [];
 
                 foreach($graph_indicator as $value){
-                    foreach($selection_data[$value] as $select_item){
-                        $selection[$select_item] = $select_item;
+                    if(isset($selection_data[$value])){
+                        foreach($selection_data[$value] as $select_item){
+                            $selection[$select_item] = $select_item;
+                        }
                     }
                 }
 
@@ -210,7 +207,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#options' => $selection,
                     '#multiple' => TRUE,
                     '#required' => FALSE,
-                    '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
+                    '#default_value' => isset($data['graph_filters'][$key]) ? $data['graph_filters'][$key] : NULL,
                 ];
             }
 
