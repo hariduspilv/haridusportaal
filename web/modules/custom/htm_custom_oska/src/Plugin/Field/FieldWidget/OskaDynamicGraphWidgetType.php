@@ -107,8 +107,10 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     $graph_type_options = array(
                         'clustered bar' => $this->t('clustered bar'),
                         'stacked bar' => $this->t('stacked bar'),
+                        'stacked bar 100' => $this->t('stacked bar 100%'),
                         'clustered column' => $this->t('clustered column'),
                         'stacked column' => $this->t('stacked column'),
+                        'stacked column 100' => $this->t('stacked column 100%'),
                     );
                     break;
             }
