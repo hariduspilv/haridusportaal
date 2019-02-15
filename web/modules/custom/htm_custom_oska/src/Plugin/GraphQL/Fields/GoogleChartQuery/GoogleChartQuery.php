@@ -102,7 +102,10 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
         }
 
         if(isset($filter_values['secondary_graph_indicator'])){
-            $filter_values['indicator'] = [$filter_values['indicator'], $filter_values['secondary_graph_indicator']];
+            $filter_values['indicator'] = $filter_values['indicator'];
+            foreach($filter_values['secondary_graph_indicator'] as $value){
+                $filter_values['indicator'][] = $value;
+            }
             unset($filter_values['secondary_graph_indicator']);
         }
 
