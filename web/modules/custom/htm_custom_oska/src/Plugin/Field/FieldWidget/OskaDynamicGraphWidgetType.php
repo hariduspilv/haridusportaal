@@ -51,7 +51,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 'simple' => $this->t('simple'),
                 'combo' => $this->t('combo'),
                 'multi' => $this->t('multi'),
-                'multi-line' => $this->t('multi-line'),
             ],
             '#required' => FALSE,
             '#empty_option'  => '-',
