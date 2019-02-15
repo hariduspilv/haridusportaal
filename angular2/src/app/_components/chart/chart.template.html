@@ -28,12 +28,12 @@
 
         <div class="chart-wrapper">
           <ng-container *ngIf="filtersData[item.id]">
-            
             <div class="chart-wrapper__loader" *ngIf="filtersData[item.id].loading">
               <mat-spinner diameter="20" style="margin:0 auto;"></mat-spinner>  
             </div><!--/chart-wrapper__loader-->
-            
+            {{ filtersData[item.id]  | json }}            
             <google-chart [data]="filtersData[item.id]"></google-chart>
+
           </ng-container>
         </div><!--/chart-wrapper-->
 
