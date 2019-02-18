@@ -2045,7 +2045,7 @@ oska:
     en: 'Studyprogramme search'
   sample_jobs:
     translation_type: textarea
-    et: Näidisametid
+    et: Ametid
     en: 'Possible jobs'
   qualification_standard:
     translation_type: textarea
@@ -2152,7 +2152,7 @@ sidebar:
     en: 'Similar topics'
   pros_and_cons:
     translation_type: textarea
-    et: 'Plussid ja miinused'
+    et: 'Tasub teada'
     en: 'Pros and cons'
   find_quick:
     translation_type: textarea

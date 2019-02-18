@@ -995,9 +995,9 @@ MIT
 
 @angular/material/datepicker
 
-@angular/material/tooltip
-
 @angular/material/snack-bar
+
+@angular/material/tooltip
 
 @angular/material/core
 

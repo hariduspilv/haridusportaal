@@ -13,6 +13,7 @@ use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
  *     "graph_type" = "String!",
  *     "secondary_graph_type" = "String",
  *     "graph_group_by" = "String",
+ *     "graph_v_axis" = "String",
  *     "indicator" = "[String]",
  *     "secondary_graph_indicator" = "[String]",
  *     "valdkond" = "[String]",
