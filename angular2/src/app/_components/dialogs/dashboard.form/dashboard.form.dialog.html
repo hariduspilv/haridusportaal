@@ -146,46 +146,7 @@
           </div><!-- /ROW -->
   
           <div class="row form-additional-row" *ngIf="data"><!-- ROW -->
-            <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
-              <div class="round-input__wrapper" 
-                [class.complete]="form.controls.webpageAddress.value"
-                [class.error]="(isInvalidField('webpageAddress') && (form.controls.webpageAddress.errors.required || form.controls.webpageAddress.errors.pattern) && !webFocus) || (formErrors.webpageAddress)">
-                <span class="round-input__title">{{ 'dashboard.webpageAddress' | translate }} <span *ngIf="!data.edId">*</span></span>
-                <div class="round-input__field-wrapper">
-                  <input *ngIf="!data.edId"
-                    role="textbox"
-                    spellcheck="false"
-                    pattern=".*\..{2,}$"
-                    attr.aria-label="{{ 'dashboard.webpageAddress' | translate }} {{ 'required.modal' | translate }}"
-                    class="round-input__field"
-                    placeholder="{{ 'dashboard.webpageAddress' | translate }} {{ '*' }}"
-                    formControlName="webpageAddress"
-                    (focus)="webFocus = true;formErrors.webpageAddress = false;" 
-                    (blur)="webFocus = false" 
-                    [class.focused]='webFocus'/>
-                  <input *ngIf="data.edId"
-                    role="textbox"
-                    spellcheck="false"
-                    pattern=".*\..{2,}$"
-                    attr.aria-label="{{ 'dashboard.webpageAddress' | translate }}"
-                    class="round-input__field"
-                    placeholder="{{ 'dashboard.webpageAddress' | translate }}"
-                    formControlName="webpageAddress"
-                    (focus)="webFocus = true;formErrors.webpageAddress = false;" 
-                    (blur)="webFocus = false" 
-                    [class.focused]='webFocus'/>
-                </div>
-                <div class="round-input__error">
-                  <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('webpageAddress') && form.controls.webpageAddress.errors.required && !data.edId && !webFocus">
-                    {{ 'event.registration_form_required' | translate }}
-                  </div>
-                  <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('webpageAddress') && form.controls.webpageAddress.errors.pattern && !webFocus">
-                    {{ 'errors.enter_valid_webpage' | translate }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
+            <div class="col-12 sm-12 form-col">
               <div class="round-input__wrapper" 
                 [class.error]="(form.controls.address.value && addressInvalid) || formErrors.address" 
                 [class.complete]="form.controls.address.value">
@@ -241,10 +202,46 @@
                 </div>
               </div>
             </div>
-          </div><!-- /ROW -->
-          
-          <div class="row form-additional-row" *ngIf="data && !data.edId"><!-- ROW -->
-            <div class="col-6 sm-12 form-col">
+            <div class="sm-12 form-col" [class.col-6]="!data.edId" [class.col-12]="data.edId">
+              <div class="round-input__wrapper" 
+                [class.complete]="form.controls.webpageAddress.value"
+                [class.error]="(isInvalidField('webpageAddress') && (form.controls.webpageAddress.errors.required || form.controls.webpageAddress.errors.pattern) && !webFocus) || (formErrors.webpageAddress)">
+                <span class="round-input__title">{{ 'dashboard.webpageAddress' | translate }} <span *ngIf="!data.edId">*</span></span>
+                <div class="round-input__field-wrapper">
+                  <input *ngIf="!data.edId"
+                    role="textbox"
+                    spellcheck="false"
+                    pattern=".*\..{2,}$"
+                    attr.aria-label="{{ 'dashboard.webpageAddress' | translate }} {{ 'required.modal' | translate }}"
+                    class="round-input__field"
+                    placeholder="{{ 'dashboard.webpageAddress' | translate }} {{ '*' }}"
+                    formControlName="webpageAddress"
+                    (focus)="webFocus = true;formErrors.webpageAddress = false;" 
+                    (blur)="webFocus = false" 
+                    [class.focused]='webFocus'/>
+                  <input *ngIf="data.edId"
+                    role="textbox"
+                    spellcheck="false"
+                    pattern=".*\..{2,}$"
+                    attr.aria-label="{{ 'dashboard.webpageAddress' | translate }}"
+                    class="round-input__field"
+                    placeholder="{{ 'dashboard.webpageAddress' | translate }}"
+                    formControlName="webpageAddress"
+                    (focus)="webFocus = true;formErrors.webpageAddress = false;" 
+                    (blur)="webFocus = false" 
+                    [class.focused]='webFocus'/>
+                </div>
+                <div class="round-input__error">
+                  <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('webpageAddress') && form.controls.webpageAddress.errors.required && !data.edId && !webFocus">
+                    {{ 'event.registration_form_required' | translate }}
+                  </div>
+                  <div class="round-input__error--text" role="alert" *ngIf="isInvalidField('webpageAddress') && form.controls.webpageAddress.errors.pattern && !webFocus">
+                    {{ 'errors.enter_valid_webpage' | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 sm-12 form-col" *ngIf="data && !data.edId">
               <div class="round-input__wrapper" [class.complete]="form.controls.ownerType.value" [class.error]="formErrors.owner">
                 <mat-form-field>
                   <mat-select (openedChange)="loseFocus($event);formErrors.owner = false;" placeholder="{{ 'dashboard.ownerType' | translate }} *" name="ownerType" formControlName="ownerType">
@@ -255,6 +252,9 @@
                 </mat-form-field>
               </div>
             </div>
+          </div><!-- /ROW -->
+          
+          <div class="row form-additional-row" *ngIf="data && !data.edId"><!-- ROW -->
             <div class="col-6 sm-12 form-col">
               <div class="round-input__wrapper" [class.complete]="form.controls.ownershipType.value" [class.error]="formErrors.ownership">
                 <mat-form-field>
@@ -266,9 +266,6 @@
                 </mat-form-field>
               </div>
             </div>
-          </div><!-- /ROW -->
-          
-          <div class="row form-additional-row" *ngIf="data && !data.edId"><!-- ROW -->
             <div class="col-6 sm-12 form-col">
               <div class="round-input__wrapper" [class.complete]="form.controls.studyInstitutionType.value" [class.error]="formErrors.study">
                 <mat-form-field>
