@@ -2174,6 +2174,10 @@ sidebar:
     translation_type: textarea
     et: Miinus
     en: Con
+  neutral:
+    translation_type: textarea
+    et: Neutraalne
+    en: Neutral
 url:
   copied_to_clipboard:
     translation_type: textarea
