@@ -57,7 +57,6 @@ export class FrontpageComponent {
   }
 
   getEvents() {
-    let url = this.settings.url+"/graphql?queryName=frontPageEvents&queryId=8ce3b383b8846ecc8b100748f331e47d84683aa5:1&variables=";
 
     let date = new Date();
     var formattedDate = `${date.getFullYear()}-${date.getMonth() <= 8 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)}-${date.getDate() <= 9 ? '0' + date.getDate() : date.getDate()}`;
@@ -65,7 +64,7 @@ export class FrontpageComponent {
       lang: this.rootScope.get('lang').toUpperCase(),
       currentDate: formattedDate
     }
-    this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+    this.http.get('frontPageEvents', {params:variables}).subscribe(data => {
       if (data['errors'] && data['errors'].length) {
         this.events = [];
       } else {
@@ -77,10 +76,10 @@ export class FrontpageComponent {
   }
   
   getGeneral() {
-    let url = this.settings.url+"/graphql?queryName=frontPageQuery&queryId=c5f254677df76920cdc966cd190d1ee378613f92:1&variables=";
     
     let variables = {lang: this.rootScope.get('lang').toUpperCase()}
-    this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+
+    this.http.get('frontPageQuery', {params:variables}).subscribe(data => {
       if (data['errors'] && data['errors'].length) {
         this.generalData = [];
       } else {
@@ -125,11 +124,10 @@ export class FrontpageComponent {
       this.getEvents()
     });
 
-    let url = this.settings.url+"/graphql?queryName=recentNews&queryId=02772fa14a0888ba796a22398f91d384777290fa:1&variables=";
     
     let variables = {lang: this.rootScope.get('lang').toUpperCase(), nid: 0}
 
-    let subscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+    let subscription = this.http.get('recentNews', {params:variables}).subscribe(data => {
 
 
       if ( data['data']['nodeQuery'] == null ) {
@@ -153,11 +151,11 @@ export class FrontpageComponent {
     }
     this.debouncer = setTimeout(_ => {
       this.autocompleteLoader = true;
-      let url = this.settings.url+"/graphql?queryId=27813a87b01c759d984808a9e9ea0333627ad584:1&variables=";
+
       let variables = {
         search_term: searchText
       }
-      let suggestionSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(res => {
+      let suggestionSubscription = this.http.get('testAutocomplete', {params:variables}).subscribe(res => {
         this.autocompleteLoader = false;
         this.suggestionList = res['data']['CustomElasticAutocompleteQuery'] || [];
         this.suggestionSubscription.unsubscribe();

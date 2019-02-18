@@ -68,10 +68,8 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
       lang: this.lang.toUpperCase(),
       nidValues: '[' + this.compare.map(id => '"'+id+'"') + ']'
     }
-
-    this.url = this.settings.url + "/graphql?queryName=studyProgrammeComparison&queryId=c91043ae1543bf076c76072acf8437086fc9f421:1&variables=" + JSON.stringify(variables);
     
-    this.http.get(this.url).subscribe(response => {
+    this.http.get('studyProgrammeComparison', {params:variables}).subscribe(response => {
       this.list = response['data'].nodeQuery.entities;
       if(!this.list.length) this.rerouteToParent();
     });

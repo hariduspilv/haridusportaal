@@ -54,27 +54,25 @@ export class OskaAreasComponent implements OnInit{
       }
 
     }else{
-      let url = "/graphql?queryName=oskaFieldDetailView&queryId=be029a22992c7d2d5f65a6c270f5db98c3abaf4a:1&variables=";
+      let url = "oskaFieldDetailView";
 
       this.viewType = "field";
 
       if( decodeURI(this.router.url).match(/ametialad|sectors/ ) ){
         this.viewType = "mainProfession";
-        url = "/graphql?queryName=oskaMainProfessionDetailView&queryId=d99f63d6a0229caef0b557ab4b3854be3236e634:1&variables=";
+        url = "oskaMainProfessionDetailView";
         this.compareButton = true;
       }
       else if( decodeURI(this.router.url).match(/tööjõuprognoos|survey-pages/ ) ){
         this.viewType = "surveyPage";
-        url = "/graphql?queryName=oskaSurveyPageDetailView&queryId=c90143a08503ff84dbb9377214455e1e8e47d945:1&variables=";
+        url = "oskaSurveyPageDetailView";
       }
 
       let variables = {
         "path": decodeURI(this.router.url)
       };
 
-      url+= JSON.stringify(variables);
-
-      let subscription = this.http.get(url).subscribe( (data) => {
+      let subscription = this.http.get(url, {params:variables}).subscribe( (data) => {
         if ( data['data']['route'] == null ) {
           this.error = true;
           return false;

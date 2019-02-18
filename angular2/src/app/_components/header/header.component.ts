@@ -40,30 +40,6 @@ export class HeaderComponent {
 
     this.logoLink = "/";
 
-    /*
-    let url = "/graphql?queryName=siteLangs&queryId=938d5cb55fe96f1c0a6a69a0bbb983d939644f01:1";
-    
-    let subscribe = this.http.get(url).subscribe( (response) => {
-      let data = response['data'];
-
-      let langValues = {};
-
-      this.activeLanguage = this.rootScope.get('currentLang');
-
-      this.logoLink = '/'+this.activeLanguage;
-
-      for( var i in data['availableLanguages'] ){
-        langValues[data['availableLanguages'][i].argument] = data['availableLanguages'][i].argument;
-      }
-
-      if( !rootScope.get('langOptions') ){
-        rootScope.set('langOptions', langValues);
-      }
-
-      this.languages = data['availableLanguages'];
-    });
-    */
-
     router.events.subscribe( (event: Event) => {
       if (event instanceof RoutesRecognized) {
 
@@ -125,11 +101,11 @@ export class HeaderComponent {
     }
     this.debouncer = setTimeout(_ => {
       this.autocompleteLoader = true;
-      let url = this.settings.url+"/graphql?queryId=27813a87b01c759d984808a9e9ea0333627ad584:1&variables=";
+
       let variables = {
         search_term: searchText
       }
-      let suggestionSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(res => {
+      let suggestionSubscription = this.http.get('testAutocomplete', {params:variables}).subscribe(res => {
         this.autocompleteLoader = false;
         this.suggestionList = res['data']['CustomElasticAutocompleteQuery'] || [];
         this.suggestionSubscription.unsubscribe();

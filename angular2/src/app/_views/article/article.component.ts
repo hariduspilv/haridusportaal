@@ -99,7 +99,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
       this.route.params.subscribe(
         (params: ActivatedRoute) => {
           this.lang = this.rootScope.get("lang");
-          let url = "/graphql?queryName=getArticle&queryId=3c358a042fc11d4708393c6e508b542947293c01:1&variables=";
+
           let variables = {
             "path": this.router.url
           };
@@ -108,7 +108,7 @@ export class ArticleComponent implements OnInit, OnDestroy{
           this.accordionSection = [];
           this.fieldRightSidebar = false;
 
-          this.querySubscription = this.http.get(url+JSON.stringify(variables))
+          this.querySubscription = this.http.get('getArticle', { params: variables } )
           .subscribe( (response) => {
             this.userLoggedOut = this.user.getData()['isExpired'];
             let data = response['data']['route'];

@@ -87,12 +87,11 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
 
   getTags() {
 
-    let url = "/graphql?queryName=newsTags&queryId=ad43128fc10766aa8d60c341adc70dd6f456b654:1&variables=";
     let variables = {
       lang: this.lang.toUpperCase()
     };
     
-    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+    let subscribe = this.http.get('newsTags', {params:variables}).subscribe( (response) => {
       let data = response['data'];
       let entities = data['nodeQuery']['entities'];
       let tags = this.processTags( entities );
@@ -152,7 +151,6 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       dateToUnix = dateToUnix.toString();
     }
 
-    let url = "/graphql?queryName=newsList&queryId=6a48969d2450d8d77f7b3ae8c4c72a893d2bf3a9:1&variables=";
     let variables = {
       tagValue: this.params.types ? this.params.types.split(",") : "",
       tagEnabled: this.params.types ? true : false,
@@ -165,7 +163,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       limit: this.limit
     };
     
-    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+    let subscribe = this.http.get('newsList', {params:variables}).subscribe( (response) => {
       let data = response['data'];
       this.loading = false;
       if( data['nodeQuery']['entities'].length == 0 ){

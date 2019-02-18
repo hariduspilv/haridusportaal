@@ -82,19 +82,19 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     this.loading = true;
     let variables = {
       lang: this.lang.toUpperCase(),
-      limit: 3,
-      titleEnabled: false,
-      oskaFieldEnabled: false,
-      fixedLabelEnabled: false,
-      offset: 0,
+      limit: "3",
+      titleEnabled: "false",
+      oskaFieldEnabled: "false",
+      fixedLabelEnabled: "false",
+      offset: "0",
       nid: this.compare,
-      nidEnabled: true,
+      nidEnabled: "true",
       fetchPolicy: 'no-cache',
       errorPolicy: 'all'
     }
-    this.url = this.settings.url + "/graphql?queryName=oskaMainProfessionListView&queryId=e710be5e6f2c611c82230686e16f28c42637d2f6:1&variables=" + JSON.stringify(variables);
+
     
-    this.http.get(this.url).subscribe(response => {
+    this.http.get('oskaMainProfessionListView', {params:variables}).subscribe(response => {
       let data = response['data']['nodeQuery']['entities'];
       this.formatData(data);
       this.loading = false;
