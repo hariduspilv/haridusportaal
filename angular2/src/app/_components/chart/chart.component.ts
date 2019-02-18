@@ -168,6 +168,10 @@ export class ChartComponent implements OnInit{
         if( secondaryGraphType == "bar" ){
           secondaryGraphType = "bars";
         }
+
+        if( secondaryGraphType == "column" ){
+          secondaryGraphType = "bars";
+        }
         
         tmp.options['seriesType'] = newType;
 
@@ -180,6 +184,8 @@ export class ChartComponent implements OnInit{
             targetAxisIndex: 1
           }
         }
+
+        console.log(tmp.options);
     
       }
       
@@ -214,6 +220,11 @@ export class ChartComponent implements OnInit{
       item.graph_group_by = item.filterValues.graph_options.graph_group_by;
       item.graph_v_axis = item.filterValues.graph_options.graph_v_axis;
       item.secondaryGraphType = item.filterValues.graph_options.secondary_graph_type;
+
+      if( item.filterValues.graph_options.secondary_graph_indicator ){
+        let secondaryGraphIndicator =  item.filterValues.graph_options.secondary_graph_indicator;
+        item.secondaryGraphIndicator = secondaryGraphIndicator[ Object.keys(secondaryGraphIndicator)[0] ];
+      }
 
       this.filters[ item.id ] = {};
 
@@ -295,8 +306,8 @@ export class ChartComponent implements OnInit{
         graphSet: current['graphSet'],
         graphType: current['graphType'],
         secondaryGraphType: current.secondaryGraphType,
+        secondaryGraphIndicator: current.secondaryGraphIndicator,
         indicator: filters['näitaja'].length > 0 ? filters['näitaja'] : false,
-        secondaryGraphIndicator: '',
         oskaField: filters.valdkond || '',
         oskaSubField: filters.alavaldkond || '',
         oskaMainProfession: filters.ametiala || '',
