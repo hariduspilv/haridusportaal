@@ -1,7 +1,0 @@
-htm_custom_varnish_purge: null
-_core:
-  default_config_hash: oM5ZzgLrtMIPp3BOJJBwTw0lByzMNxLslWIDHGOpJAk
-langcode: et
-path: varnish
-port: '8080'
-header_name: Purge-Cache-Tags
