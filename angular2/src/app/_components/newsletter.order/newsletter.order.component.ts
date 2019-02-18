@@ -73,12 +73,12 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
         
         this.data = false;
 
-        let url = "/graphql?queryName=newsletterTags&queryId=87257f778914b18b69ad43bcb1c246e2edee02c1:1&variables=";
+        let url = "newsletterTags";
         let variables = {
           lang: this.lang.toUpperCase()
         };
         
-        let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+        let subscribe = this.http.get('newsletterTags', { params: variables } ).subscribe( (response) => {
           let data = response['data'];
           this.data = data['CustomTagsQuery']['entities'];
           subscribe.unsubscribe();
@@ -254,4 +254,3 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
   }
 
 }
-

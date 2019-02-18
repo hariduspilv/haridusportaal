@@ -262,8 +262,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
         types.push(this.params['subtype'].split(",")[0]);
       }
     }
-    
-    let url = "/graphql?queryName=schoolMapQuery&queryId=55b4b11c2556abc3e768654a05459b6e0c457fb5:1&variables=";
 
     let variables = {
       lang: this.lang.toUpperCase(),
@@ -289,7 +287,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       studentHomeEnabled: this.params['studentHome'] ? true : false,
     }
 
-    this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+    this.dataSubscription = this.http.get('schoolMapQuery', { params: variables }).subscribe(data => {
 
       let entities = data['data']['CustomElasticQuery'];
 
@@ -312,13 +310,11 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
   getOptions() {
 
-    let url = "/graphql?queryName=getSchoolFilterOptions&queryId=5fc71ac22d59b52d304f9938adf3c611241b7f7c:1&variables=";
-
     let variables = {
       lang: this.lang.toUpperCase()
     };
 
-    let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+    let subscription = this.http.get('getSchoolFilterOptions', {params:variables}).subscribe( (response) => {
       let data = response['data'];
       let entities = data['taxonomyTermQuery']['entities'];
       this.parseOptions(entities);

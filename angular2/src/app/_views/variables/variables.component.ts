@@ -14,12 +14,20 @@ export class VariablesComponent implements OnInit{
   ){}
 
   ngOnInit() {
+
     this.data = [];
 
     for( var i in this.settings.data ){
       this.data.push({
         key: i,
         value: this.settings.data[i]
+      });
+    }
+
+    for( var i in this.settings.requests ){
+      this.data.push({
+        key: i,
+        value: this.settings.requests[i]
       });
     }
 

@@ -30,14 +30,13 @@ export class RelatedEventsComponent implements OnInit {
 
 		this.lang = this.rootScope.get('lang');
 
-		let url = "/graphql?queryName=getRelatedEvents&queryId=589e6ae883a7cb54f4bf5e9c7f9046decfa54196:1&variables=";
 		let variables = {
 			groupID: this.groupID.toString(),
 			nid: this.nid.toString(),
 			lang: this.lang.toUpperCase()
 		};
 
-		let subscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+		let subscription = this.http.get('getRelatedEvents', { params: variables }).subscribe((response) => {
 			
 			let data = response['data'];
 

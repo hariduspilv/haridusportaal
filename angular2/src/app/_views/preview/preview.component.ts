@@ -30,15 +30,14 @@ export class PreviewComponent implements OnInit{
     window.location.href = href;
   }
   ngOnInit() {
-
-    let url = "/graphql?queryName=preview&queryId=b79fe7e1dd2aa13e251ac8f5d58d3cbce74af700:1&variables=";
     
     let variables = {
       "uuid": this.route.snapshot.params.id
     };
 
-    let subscription = this.http.get(url+JSON.stringify(variables), {
-      withCredentials: true
+    let subscription = this.http.get('preview', {
+      withCredentials: true,
+      params: variables
     }).subscribe( (data) => {
       this.data = data['data']['NodePreviewByUuid'];
       subscription.unsubscribe();

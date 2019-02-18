@@ -49,20 +49,26 @@ export class HttpService {
     return encodeURI( url );
   }
 
-  get(url, inputHeaders:object = {} ) {
+  get(url, options:any = {} ) {
+
+    if( this.settings.requests[url] ){
+      url = '/graphql?queryName='+url+'&queryId='+this.settings.requests[url];
+      if( options.params ){
+        url+= '&variables='+JSON.stringify( options.params );
+      }
+    }
 
     url = this.parseUrl(url);
 
     let headers = this.createAuthorizationHeader();
 
-    if( inputHeaders['withCredentials']  ){
+    if( options['withCredentials']  ){
       headers.delete('Authorization');
     }
 
     return this.http.get(url, {
 
-      headers: headers,
-      withCredentials: inputHeaders['withCredentials'] || false
+      headers: headers
     }).catch((err) => {
 
       return throwError(err);

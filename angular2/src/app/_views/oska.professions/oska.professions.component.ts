@@ -48,7 +48,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       lang: this.lang.toUpperCase(),
       limit: this.limit
     };
-    this.filterSub = this.http.get('/graphql?queryName=oskaMainProfessionListViewFilter&queryId=f7d1aaaec8b6c8119313669959e2455e7e2423c6:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+    this.filterSub = this.http.get('oskaMainProfessionListViewFilter', {params:variables}).subscribe(response => {
       this.oskaFieldValue = response['data']['oskaFields']['entities'];
 
       // Map unique indicators for ascending and descending cases
@@ -117,7 +117,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       offset: 0,
       limit: this.limit
     };
-    this.dataSub = this.http.get('/graphql?queryName=oskaMainProfessionListView&queryId=e710be5e6f2c611c82230686e16f28c42637d2f6:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+    this.dataSub = this.http.get('oskaMainProfessionListView', {params:variables}).subscribe(response => {
       let responseVal: any = response['data']['nodeQuery']['entities'];
       let filterIndicator: any = false;
       let responseData: any = false;
