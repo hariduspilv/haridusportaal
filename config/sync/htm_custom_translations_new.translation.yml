@@ -2143,6 +2143,26 @@ oska:
     en:
       value: "<p>How hard is it to find work in this field over the next 5 to 10 years?</p>\r\n"
       format: custom_editor
+  quite_simple_extended:
+    translation_type: textarea
+    et: 'Üsna kerge leida tööd'
+    en: 'Quite simple to find work'
+  simple_extended:
+    translation_type: textarea
+    et: 'Kerge leida tööd'
+    en: 'Easy to find work'
+  medium_extended:
+    translation_type: textarea
+    et: 'Keskmised töö leidmise võimalused'
+    en: 'Medium job finding possibilities'
+  quite_difficult_extended:
+    translation_type: textarea
+    et: 'Üsna raske leida tööd'
+    en: 'Quite difficult to find work'
+  difficult_extended:
+    translation_type: textarea
+    et: 'Raske leida tööd'
+    en: 'Difficult to find work'
 oskaProfession: {  }
 langcode: et
 sidebar:
