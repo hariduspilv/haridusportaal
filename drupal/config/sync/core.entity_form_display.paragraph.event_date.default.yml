@@ -34,7 +34,7 @@ content:
     weight: 1
     settings:
       format: 'hh:mm'
-      placeholder: '00:00'
+      placeholder: 'hh:mm'
       default_placeholder: 0
     third_party_settings: {  }
     type: hms_default

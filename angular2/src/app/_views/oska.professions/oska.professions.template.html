@@ -108,7 +108,7 @@
         <div class="inline__items sm-hide">
           <ng-container *ngIf="item.fieldSidebar && item.fieldSidebar.entity && item.fieldSidebar.entity.fieldOskaField && item.fieldSidebar.entity.fieldOskaField[0] && item.fieldSidebar.entity.fieldOskaField[0].entity">
             <ng-container *ngFor="let elem of item.fieldSidebar.entity.fieldOskaField; let ind = index; let last = last;">
-              <ng-container *ngIf="ind < 3">
+              <ng-container *ngIf="ind < 3 && elem.entity">
                 <div class="item item--inline">
                   <a href="javascript:void(0)" tabindex="0" attr.aria-label="{{ elem.entity.title }}" [routerLink]="elem.entity.entityUrl.path">{{ elem.entity.title }}</a>
                 </div>
