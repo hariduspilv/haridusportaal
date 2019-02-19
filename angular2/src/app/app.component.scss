@@ -498,9 +498,10 @@ $grid-columns: 12;
     .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;white-space: nowrap;
       a {white-space: pre-wrap;}
       &--inline {display: inline;}
+      .dark {color: $black;}
     }
   }
-  .bar {padding: 0 $half-gutter;}
+  .bar {padding: 0 .375rem;}
   .nonActive {padding: $half-gutter $quarter;border-radius: $quarter;font-size: .875rem;line-height: 1.125rem;white-space: nowrap;
     width: fit-content;display: inline;position: relative;bottom: .125rem;
     &--blue {@extend .nonActive;background-color: #bee3e8;}
@@ -843,7 +844,7 @@ a:hover .important-pill {
    }
 }
 
-.bar {color: $gray; font-weight: 400; }
+.bar {color: $gray; font-weight: 300; }
 .notification--alert {position: absolute;overflow: hidden;
   span {position: relative; right: 100%;}
 }

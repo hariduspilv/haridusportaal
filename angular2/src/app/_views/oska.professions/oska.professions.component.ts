@@ -28,6 +28,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   public sortedBy: any = [];
   private FilterOptions: object = {};
   private filterOptionKeys = ['oskaFieldValue', 'sortedBy', 'fixedLabelValue'];
+  public competitionLabels = ['oska.simple_extended', 'oska.quite_simple_extended', 'oska.medium_extended', 'oska.quite_difficult_extended', 'oska.difficult_extended'];
   private paramsSub: Subscription;
   private dataSub: Subscription;
   private filterSub: Subscription;
@@ -117,7 +118,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       offset: 0,
       limit: this.limit
     };
-    this.dataSub = this.http.get('/graphql?queryName=oskaMainProfessionListView&queryId=9bed1b4cadbafaaa0970af06a26ec6d9845549ae:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+    this.dataSub = this.http.get('/graphql?queryName=oskaMainProfessionListView&queryId=68b27854b17715c53b5d413381431ba52b8d2eed:1&variables=' + JSON.stringify(variables)).subscribe(response => {
       let responseVal: any = response['data']['nodeQuery']['entities'];
       let filterIndicator: any = false;
       let responseData: any = false;
