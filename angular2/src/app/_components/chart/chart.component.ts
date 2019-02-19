@@ -43,8 +43,6 @@ export class ChartComponent implements OnInit{
     }
   }
 
-  dataUrl = '/graphql?queryName=googleChartData&queryId=f0fee643583ce2e9374da0e53a030c62daad2263:1&variables=';
-
   /*{
     chartType: 'ColumnChart',
     dataTable: [
@@ -339,7 +337,7 @@ export class ChartComponent implements OnInit{
         }
       }
   
-      this.requestSubscription[id] = this.http.get( this.dataUrl + JSON.stringify( tmpVariables ) ).subscribe( (response) => {
+      this.requestSubscription[id] = this.http.get('googleChartData', { params: tmpVariables} ).subscribe( (response) => {
 
         let data = response['data'].GoogleChartQuery.map( (item) => {
 

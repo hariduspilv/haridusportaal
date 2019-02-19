@@ -52,10 +52,8 @@ export class EventsListComponent implements OnInit, OnDestroy{
       "lang": this.lang.toUpperCase(),
       "timeFrom":"0",
       "timeTo":"99999999"};
-
-    let url = "/graphql?queryName=eventList&queryId=1a6fb75f663b1f6171a768028e20d63babb94097:1&variables=";
     
-    let subscription = this.http.get( url + JSON.stringify(variables) ).subscribe( response => {
+    let subscription = this.http.get('eventList', {params:variables} ).subscribe( response => {
       
       this.loading = false;
       
