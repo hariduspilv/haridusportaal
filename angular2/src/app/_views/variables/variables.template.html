@@ -17,8 +17,32 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of data">
-                <td>{{ item.key }}</td>
-                <td>{{ item.value | json }}</td>
+                <td valign="top" style="text-align:right; width:10px; white-space: nowrap;">{{ item.key }} </td>
+                <ng-container [ngSwitch]="varType(item.value)">
+                  <ng-container *ngSwitchCase="'object'">
+                    <td>
+                      <div style="margin:0 -1.05rem;">
+                        <table style="margin-top:-0.55rem; margin-bottom:-0.55rem;">
+                          <thead>
+                            <tr>
+                              <th>Key</th>
+                              <th>Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let subItem of objectKeys(item.value)">
+                              <td  style="text-align:right; width:10px; white-space: nowrap;">{{ subItem }}</td>
+                              <td>{{ item.value[subItem] }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    <td>{{ item.value }}</td>
+                  </ng-container>
+                </ng-container>
               </tr>
             </tbody>
           </table>

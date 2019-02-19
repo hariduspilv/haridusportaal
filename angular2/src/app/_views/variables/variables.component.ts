@@ -13,6 +13,12 @@ export class VariablesComponent implements OnInit{
     private settings: SettingsService
   ){}
 
+  objectKeys = Object.keys;
+  
+  varType(input) {
+    return typeof input;
+  }
+
   ngOnInit() {
 
     this.data = [];
