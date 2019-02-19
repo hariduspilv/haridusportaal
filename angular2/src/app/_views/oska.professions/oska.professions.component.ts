@@ -117,7 +117,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       offset: 0,
       limit: this.limit
     };
-    this.dataSub = this.http.get('/graphql?queryName=oskaMainProfessionListView&queryId=e710be5e6f2c611c82230686e16f28c42637d2f6:1&variables=' + JSON.stringify(variables)).subscribe(response => {
+    this.dataSub = this.http.get('/graphql?queryName=oskaMainProfessionListView&queryId=9bed1b4cadbafaaa0970af06a26ec6d9845549ae:1&variables=' + JSON.stringify(variables)).subscribe(response => {
       let responseVal: any = response['data']['nodeQuery']['entities'];
       let filterIndicator: any = false;
       let responseData: any = false;
