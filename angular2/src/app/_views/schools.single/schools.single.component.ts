@@ -48,8 +48,6 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
 
   ngOnInit() {
 
-    let url = "/graphql?queryName=getSchoolSingle&queryId=f71d2bb7d014d18e03d6e5c74257eede72fbdd58:1&variables=";
-
     let variables = {
       path: this.router.url
     };
@@ -61,7 +59,7 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
         route: { entity: this.inputData }
       });
     }else{
-      this.querySubscription = this.http.get(url+JSON.stringify(variables)).subscribe(( response ) => {
+      this.querySubscription = this.http.get('getSchoolSingle', {params:variables}).subscribe(( response ) => {
 
         let data = response['data'];
         this.lang = this.rootScope.get('lang');
@@ -84,13 +82,12 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
   }
 
   getOptions(types) {
-    let url = "/graphql?queryName=getSchoolInstitutions&queryId=ce9950247e2ca382b581c5615822630bcecee3c1:1&variables=";
 
     let variables = {
       lang: this.lang.toUpperCase()
     };
 
-    let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( ( response ) => {
+    let subscription = this.http.get('getSchoolInstitutions', {params:variables}).subscribe( ( response ) => {
       let data = response['data'];
       this.lang = this.rootScope.get('lang');
       let initialData = data['taxonomyTermQuery']['entities'];

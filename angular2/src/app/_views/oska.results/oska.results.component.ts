@@ -57,15 +57,14 @@ export class OskaResultsComponent implements OnInit{
       }
     }else{
       
-      let url = "/graphql?queryName=oskaResultPageDetailView&queryId=1ef9aa98714acd10656cec197329ad7a012f672a:1&variables=";
 
       let variables = {
         "lang": this.rootScope.get('lang'),
         "path": this.router.url
       };
 
-      url+= JSON.stringify(variables);
-      let subscription = this.http.get(url).subscribe( (data) => {
+
+      let subscription = this.http.get('oskaResultPageDetailView', {params:variables}).subscribe( (data) => {
         if ( data['errors'] ) {
           this.error = true;
           return false;
@@ -127,8 +126,8 @@ export class OskaResultsComponent implements OnInit{
   }
 
   getTableData(){
-    let url = "/graphql?queryName=oskaResultPageTable&queryId=876ab0283370267b229f06bbc600ed7f1dda9043:1";
-    let subscription = this.http.get(url).subscribe( (data) => {
+
+    let subscription = this.http.get('oskaResultPageTable').subscribe( (data) => {
       if ( data['data']['errors'] ) {
         // this.error = true;
         return false;

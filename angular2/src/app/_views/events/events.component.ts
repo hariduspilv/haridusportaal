@@ -230,12 +230,11 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   loadMore() {
     this.eventsConfig.offset = this.eventListRaw.length;
   
-    let url = "/graphql?queryName=getEventList&queryId=555a15e87a9d4ba63ee24ed6224ed41674f2dc45:1&variables=";
     let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
     variables['timeEnabled'] = false;
     
-    let subscriber = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+    let subscriber = this.http.get('getEventList', {params: variables}).subscribe((response) => {
       
       let data = response['data'];
 
@@ -505,16 +504,13 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           this.eventsConfig['timeFrom'] = "0";
         }
 
-        // GET LIST OBSERVABLE
-        let url = "/graphql?queryName=getEventList&queryId=555a15e87a9d4ba63ee24ed6224ed41674f2dc45:1&variables=";
         let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
-
 
         variables['timeEnabled'] = false;
 
         this.calendarDataEntries = "none";
 
-        let dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+        let dataSubscription = this.http.get('getEventList', {params: variables}).subscribe((response) => {
 
           let data = response['data'];
           
@@ -548,12 +544,11 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   getTypes() {
 
-    let url = "/graphql?queryName=eventType&queryId=59d9b7ca4412d95df15b0f36c94c9b08e935507c:1&variables=";
     let variables = {
       lang: this.lang.toUpperCase()
     };
 
-    let typesSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+    let typesSubscription = this.http.get('getEventTypes', {params:variables}).subscribe((response) => {
       
       let data = response['data'];
 
@@ -601,12 +596,11 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   getTags() {
 
-    let url = "/graphql?queryName=getEventTags&queryId=674ddfb46da45fee73289f9f4eb6379aa347945f:1&variables=";
     let variables = {
       lang: this.lang.toUpperCase()
     };
 
-    let tagSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+    let tagSubscription = this.http.get('getEventTags', {params:variables}).subscribe((response) => {
       
       let data = response['data'];
 

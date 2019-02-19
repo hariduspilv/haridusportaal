@@ -173,12 +173,11 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
   getFilters() {
 
-    let url = "/graphql?queryName=subsidyProjectFilters&queryId=d682dd31fe64a0ed62a45662a93cb8bb5b690f9e:1&variables=";
     let variables = {
       "lang": this.lang.toUpperCase()
     }
 
-    let subscription = this.http.get(url+JSON.stringify( variables ) ).subscribe( data => {
+    let subscription = this.http.get('subsidyProjectFilters', {params:variables}).subscribe( data => {
 
       this.filterData = this.parseFilters( data['data'] );
   
@@ -226,12 +225,12 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
     this.loading = true;
 
-    let url = "/graphql?queryName=subsidyProjectQueryLocation&queryId=b51cfec3027aaf28dc7eea4964406f0e1f5d14d4:1&variables=";
+    let url = "subsidyProjectQueryLocation";
 
     this.mapLabelSwitcher();
 
     if( this.view == "schools" ){
-      url = "/graphql?queryName=subsidyProjectQuerySchool&queryId=52ce35003bef1ec38ec0fee1552e1a0f8bcc4b0b:1&variables=";
+      url = "subsidyProjectQuerySchool";
       this.heatMapRanges = [];
     }
 
@@ -246,7 +245,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       variables.levelOfDetail = 2;
     }
 
-    let subscription = this.http.get(url+JSON.stringify(variables)).subscribe( data => {
+    let subscription = this.http.get(url, {params:variables}).subscribe( data => {
 
       if( this.view == "schools" ){
         this.polygons = false;

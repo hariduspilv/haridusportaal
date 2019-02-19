@@ -100,13 +100,12 @@ export class SearchComponent {
     this.loading = true;
     this.listLimit = this.listStep;
     this.updateParams('term', term);
-    let url = this.settings.url+"/graphql?queryName=homeSearch&queryId=580bbb859e1510a09dd3d7da5d2d41db9332fb4a:1&variables=";
 
     let variables = {
       lang: this.rootScope.get('lang').toUpperCase(),
       search_term: term
     }
-    this.dataSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(data => {
+    this.dataSubscription = this.http.get('homeSearch', {params:variables}).subscribe(data => {
       this.updateParams('type', type.length ? type : null);
       this.results = this.filteredResults = data['data']['CustomElasticQuery'];
       
@@ -215,11 +214,11 @@ export class SearchComponent {
     }
     this.debouncer = setTimeout(_ => {
       this.autocompleteLoader = true;
-      let url = this.settings.url+"/graphql?queryId=27813a87b01c759d984808a9e9ea0333627ad584:1&variables=";
+
       let variables = {
         search_term: searchText
       }
-      let suggestionSubscription = this.http.get(url+JSON.stringify(variables)).subscribe(res => {
+      let suggestionSubscription = this.http.get('testAutocomplete', {params:variables}).subscribe(res => {
         this.autocompleteLoader = false;
         this.suggestionList = res['data']['CustomElasticAutocompleteQuery'] || [];
         this.suggestionSubscription.unsubscribe();
