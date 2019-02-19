@@ -49,7 +49,7 @@ class ProcessOskaIndicatorData {
             $object['id'] = $item['id'] != '' && is_numeric($item['id']) ? $item['id'] : FALSE;
             $object['naitaja'] = $item['naitaja'] != '' && is_string($item['naitaja']) ? $item['naitaja'] : FALSE;
             $object['ametiala'] = self::checkEntityReference('node', 'oska_main_profession_page', $item['ametiala']);
-            $object['vaartus'] = $item['vaartus'] != '' && is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
+            $object['vaartus'] = $item['vaartus'];
             $object['ikoon'] = $item['ikoon'] != '' && is_numeric($item['ikoon']) ? $item['ikoon'] : FALSE;
 
             if(
@@ -60,7 +60,7 @@ class ProcessOskaIndicatorData {
                 !$object['vaartus']
                 ||
                 !$object['ikoon']){
-
+                
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
                         if($value === FALSE){
