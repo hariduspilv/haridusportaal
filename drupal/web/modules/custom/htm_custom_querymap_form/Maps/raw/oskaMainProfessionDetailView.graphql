@@ -102,16 +102,10 @@ query oskaMainProfessionDetailView($path: String!) {
           reverseOskaMainProfessionOskaIndicatorEntity {
             entities {
               ... on OskaIndicatorEntity {
+                oskaId
                 oskaIndicator
                 value
-              }
-            }
-          }
-          reverseOskaMainProfessionOskaIndicatorEntity {
-            entities {
-              ... on OskaIndicatorEntity {
-                oskaIndicator
-                value
+                icon
               }
             }
           }
