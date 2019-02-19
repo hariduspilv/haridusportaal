@@ -22,11 +22,16 @@ class OskaGraphData extends FieldPluginBase {
      */
     public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 
+        $graph_field = '';
+
         foreach($value->getFieldDefinitions() as $key => $field){
             if($field->getType() === 'oska_graph_field'){
                 $graph_field = $key;
             }
         }
-        yield $value->__get($graph_field)->__get('value');
+
+        if(!empty($graph_field)){
+            yield $value->__get($graph_field)->__get('value');
+        }
     }
 }

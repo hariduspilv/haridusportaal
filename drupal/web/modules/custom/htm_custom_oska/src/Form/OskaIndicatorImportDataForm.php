@@ -53,7 +53,7 @@ class OskaIndicatorImportDataForm extends FormBase {
 
     public function validateForm(array &$form, FormStateInterface $form_state){
         $required_headers = [
-            'naitaja', 'pohikutseala', 'vaartus'
+            'id', 'naitaja', 'ametiala', 'vaartus', 'ikoon'
         ];
         $all_files = $this->getRequest()->files->get('files', []);
         if (!empty($all_files['file'])) {
@@ -72,7 +72,7 @@ class OskaIndicatorImportDataForm extends FormBase {
                 //check headers
                 foreach($required_headers as $required_header){
                     if(!in_array($required_header, $header_info['keys'])){
-                        $form_state->setErrorByName('file', $this->t("$required_header header is not wrong spelled or missing"));
+                        $form_state->setErrorByName('file', $this->t("$required_header header is wrongly spelled or missing"));
                     }
                 }
 
