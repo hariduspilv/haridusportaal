@@ -36,6 +36,9 @@ class ProcessOskaIndicatorData {
             'vaartus' => false,
             'ikoon' => false,
         ];
+        $required_fields = [
+            'id', 'naitaja', 'vaartus', 'ikoon'
+        ];
 
         foreach ($items as $index => $item){
 
@@ -49,7 +52,7 @@ class ProcessOskaIndicatorData {
             $object['id'] = $item['id'] != '' && is_numeric($item['id']) ? $item['id'] : FALSE;
             $object['naitaja'] = $item['naitaja'] != '' && is_string($item['naitaja']) ? $item['naitaja'] : FALSE;
             $object['ametiala'] = self::checkEntityReference('node', 'oska_main_profession_page', $item['ametiala']);
-            $object['vaartus'] = $item['vaartus'];
+            $object['vaartus'] = $item['vaartus'] != '' ? $item['vaartus'] : FALSE;
             $object['ikoon'] = $item['ikoon'] != '' && is_numeric($item['ikoon']) ? $item['ikoon'] : FALSE;
 
             if(
@@ -61,14 +64,14 @@ class ProcessOskaIndicatorData {
                 ||
                 !$object['ikoon']){
 
-                $error_messag_func = function($values) {
+                $error_messag_func = function($values, $required_fields) {
                     foreach($values as $key => $value){
-                        if($value === FALSE){
+                        if(in_array($key, $required_fields) && $value === FALSE){
                             return t('Missing ').$key;
                         }
                     }
                 };
-                $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
+                $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object, $required_fields));
             }elseif(!$object['ametiala']){
                 continue;
             }else{

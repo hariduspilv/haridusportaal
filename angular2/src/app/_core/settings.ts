@@ -23,7 +23,9 @@ export class SettingsService {
 
   error: boolean = false;
   
-	data: any;
+  data: any;
+  
+  requests = {};
 
   constructor(
     @Inject(DOCUMENT) private document,
@@ -47,7 +49,7 @@ export class SettingsService {
 	load() {
 		return new Promise((resolve, reject) => {
 			this.http.get(this.url+'/variables?_format=json&lang=et').subscribe(response => {
-				this.data = response;
+        this.data = response;
 				resolve(true);
 			}, () => {
 				this.error = true;

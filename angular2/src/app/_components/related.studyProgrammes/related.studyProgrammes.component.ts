@@ -50,13 +50,11 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   getData(){
     let variables = {
       lang: this.lang.toUpperCase(),
-      nid: this.studyProgrammeId
+      nid: this.studyProgrammeId.toString()
     }
     if(this.params['location']) variables['address'] = this.params['location'];
-
-    this.url = this.settings.url + "/graphql?queryName=similarStudyProgrammes&queryId=a723295e59d15fedb8ccadf3b0a2ac3fadddcecb:1&variables=" + JSON.stringify(variables);
     
-    let subscribe = this.http.get(this.url).subscribe(response => {
+    let subscribe = this.http.get('similarStudyProgrammes', { params: variables } ).subscribe(response => {
       
       this.list = response['data']['CustomStudyProgrammeElasticQuery'];
 

@@ -32,12 +32,12 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   getData() {
     // GET BREADCRUMB
 
-    let url = "/graphql?queryName=getBreadcrumbs&queryId=57f49f8c29ee9cd9a7c9c63deefcede45fde9ef9:1&variables=";
+    let url = "getBreadcrumbs";
     let variables = {
       path: this.path
     };
 
-    const breadcrumbSubscription = this.http.get(url+JSON.stringify(variables)).subscribe((response) => {
+    const breadcrumbSubscription = this.http.get(url, {params: variables}).subscribe((response) => {
       let data = response['data'];
       
       if( !data['route'] ){

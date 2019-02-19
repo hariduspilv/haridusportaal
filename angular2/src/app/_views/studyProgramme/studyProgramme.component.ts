@@ -59,12 +59,11 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       this.filterOptionsSubscription.unsubscribe();
     }
     
-    let url = "/graphql?queryName=studyProgrammeFilterOptions&queryId=ca7e38bee7b0753e73a6813ba3ae20c9cce804fd:1&variables=";
     let variables = {
       lang: this.lang.toUpperCase()
     };
     
-    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+    let subscribe = this.http.get('studyProgrammeFilterOptions', {params:variables}).subscribe( (response) => {
       let data = response['data'];
       if(data['isced_f'] !== undefined ){
         let iscedf_all = data['isced_f']['entities'];
@@ -182,11 +181,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       queryVars[key + "Enabled"] = this.params[key] ? true : false
     }
 
-
-    let url = "/graphql?queryName=studyProgrammeList&queryId=c81156975e42fdbbaf0142bc9cac2f42f982c76b:1&variables=";
     let variables = queryVars;
     
-    this.dataSubscription = this.http.get(url+JSON.stringify(variables) ).subscribe( (response) => {
+    this.dataSubscription = this.http.get('studyProgrammeList', {params:variables}).subscribe( (response) => {
       let data = response['data'];
       this.loading = false;
 
