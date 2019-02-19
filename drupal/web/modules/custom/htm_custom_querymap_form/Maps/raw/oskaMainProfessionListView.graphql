@@ -1,16 +1,5 @@
 query oskaMainProfessionListView($nid: [String], $nidEnabled: Boolean, $titleValue: String, $titleEnabled: Boolean, $fixedLabelValue: String, $fixedLabelEnabled: Boolean, $oskaFieldValue: String, $oskaFieldEnabled: Boolean, $lang: LanguageId!, $offset: Int, $limit: Int) {
-  nodeQuery(offset: $offset, limit: $limit, sort: {field: "title", direction: ASC, language: $lang}, filter: {conjunction: AND, conditions: [
-    {operator: EQUAL, field: "type", value: ["oska_main_profession_page"], language: $lang},
-    {operator: IN, field: "nid", value: $nid, language: $lang, enabled: $nidEnabled},
-    {operator: IN, field: "field_fixed_label", value: [$fixedLabelValue], language: $lang, enabled: $fixedLabelEnabled},
-    {operator: IN, field: "field_sidebar.entity.field_oska_field", value: [$oskaFieldValue], language: $lang, enabled: $oskaFieldEnabled}],
-  groups:[{
-    conjunction: OR,
-    conditions: [
-      {operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled},
-      {operator: LIKE, field: "field_sidebar.entity.field_jobs.entity.field_job_name", value: [$titleValue], language: $lang, enabled: $titleEnabled},
-    ]
-  }]}) {
+  nodeQuery(offset: $offset, limit: $limit, sort: {field: "title", direction: ASC, language: $lang}, filter: {conjunction: AND, conditions: [{operator: EQUAL, field: "type", value: ["oska_main_profession_page"], language: $lang}, {operator: IN, field: "nid", value: $nid, language: $lang, enabled: $nidEnabled}, {operator: IN, field: "field_fixed_label", value: [$fixedLabelValue], language: $lang, enabled: $fixedLabelEnabled}, {operator: IN, field: "field_sidebar.entity.field_oska_field", value: [$oskaFieldValue], language: $lang, enabled: $oskaFieldEnabled}], groups: [{conjunction: OR, conditions: [{operator: LIKE, field: "title", value: [$titleValue], language: $lang, enabled: $titleEnabled}, {operator: LIKE, field: "field_sidebar.entity.field_jobs.entity.field_job_name", value: [$titleValue], language: $lang, enabled: $titleEnabled}]}]}) {
     count
     entities(language: $lang) {
       ... on NodeOskaMainProfessionPage {
@@ -42,12 +31,20 @@ query oskaMainProfessionListView($nid: [String], $nidEnabled: Boolean, $titleVal
         reverseOskaMainProfessionOskaIndicatorEntity {
           entities {
             ... on OskaIndicatorEntity {
+              oskaId
               oskaIndicator
+              value
+              icon
+            }
+          }
+        }
+        reverseOskaMainProfessionOskaFillingBarEntity {
+          entities {
+            ... on OskaFillingBarEntity {
               value
             }
           }
         }
-
         __typename
       }
       __typename

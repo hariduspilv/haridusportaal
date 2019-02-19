@@ -92,7 +92,6 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       fetchPolicy: 'no-cache',
       errorPolicy: 'all'
     }
-
     
     this.http.get('oskaMainProfessionListView', {params:variables}).subscribe(response => {
       let data = response['data']['nodeQuery']['entities'];
