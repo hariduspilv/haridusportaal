@@ -57,8 +57,6 @@ class ProcessOskaIndicatorData {
                 ||
                 !$object['naitaja']
                 ||
-                !$object['ametiala']
-                ||
                 !$object['vaartus']
                 ||
                 !$object['ikoon']){
@@ -71,6 +69,8 @@ class ProcessOskaIndicatorData {
                     }
                 };
                 $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
+            }elseif(!$object['ametiala']){
+                continue;
             }else{
                 $results[] = [
                     'oska_id' => $object['id'],
