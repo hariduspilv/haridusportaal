@@ -105,22 +105,34 @@
             <compare [id]="item.nid" sessionStorageKey="oskaProfessions.compare"></compare>
           </div>
         </div>
-        <div class="inline__items sm-hide">
-          <ng-container *ngIf="item.fieldSidebar && item.fieldSidebar.entity && item.fieldSidebar.entity.fieldOskaField && item.fieldSidebar.entity.fieldOskaField[0] && item.fieldSidebar.entity.fieldOskaField[0].entity">
-            <ng-container *ngFor="let elem of item.fieldSidebar.entity.fieldOskaField; let ind = index; let last = last;">
-              <ng-container *ngIf="ind < 3 && elem.entity">
-                <div class="item item--inline">
-                  <a href="javascript:void(0)" tabindex="0" attr.aria-label="{{ elem.entity.title }}" [routerLink]="elem.entity.entityUrl.path">{{ elem.entity.title }}</a>
-                </div>
-                <span aria-hidden="true" class="bar" *ngIf="elem.entity.title && ind !== 2 && !last">|</span>
-              </ng-container>
+        <div class="inline__items sm-hide" *ngIf="item.fieldSidebar && item.fieldSidebar.entity && item.fieldSidebar.entity.fieldOskaField && item.fieldSidebar.entity.fieldOskaField[0] && item.fieldSidebar.entity.fieldOskaField[0].entity">
+          <ng-container *ngFor="let elem of item.fieldSidebar.entity.fieldOskaField; let ind = index; let last = last;">
+            <ng-container *ngIf="ind < 2 && elem.entity">
+              <div class="item item--inline">
+                <a href="javascript:void(0)" tabindex="0" attr.aria-label="{{ elem.entity.title }}" [routerLink]="elem.entity.entityUrl.path">{{ elem.entity.title }}</a>
+              </div>
+              <span aria-hidden="true" class="bar" *ngIf="elem.entity.title && ind === 0 && !last">|</span>
             </ng-container>
+          </ng-container>
+        </div>
+        <div class="inline__items sm-hide"
+          *ngIf="(item.reverseOskaMainProfessionOskaFillingBarEntity.entities && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value)
+            || (item.reverseOskaMainProfessionOskaIndicatorEntity.entities && item.reverseOskaMainProfessionOskaIndicatorEntity.entities.length)">
+          <ng-container *ngIf="item.reverseOskaMainProfessionOskaFillingBarEntity.entities && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value">
+            <span class="item">{{ 'oska.competition' | translate | titleCase }}: <span class="dark">{{ competitionLabels[item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value - 1] | translate }}</span></span>
           </ng-container>
           <ng-container *ngIf="item.reverseOskaMainProfessionOskaIndicatorEntity.entities && item.reverseOskaMainProfessionOskaIndicatorEntity.entities.length">
             <ng-container *ngFor="let elem of item.reverseOskaMainProfessionOskaIndicatorEntity.entities; let ind = index;">
-              <ng-container *ngIf="ind < 2">
-                <span class="bar" *ngIf="(ind === 0 && item.fieldSidebar && item.fieldSidebar.entity.fieldOskaField && item.fieldSidebar.entity.fieldOskaField.length) || ind > 0">|</span>
-                <span class="item">{{ elem.oskaIndicator | titleCase }}: {{ elem.value | titleCase }}</span>
+              <ng-container *ngIf="elem.oskaId === 1">
+                <span class="bar" *ngIf="item.reverseOskaMainProfessionOskaFillingBarEntity.entities && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value">|</span>
+                <span class="item">{{ elem.oskaIndicator | titleCase }}: <span class="dark">{{ elem.value | titleCase }}</span></span>
+              </ng-container>
+              <ng-container *ngIf="elem.oskaId === 1 && !(item.reverseOskaMainProfessionOskaFillingBarEntity.entities && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value)">
+                <span class="bar">|</span>
+              </ng-container>
+              <ng-container *ngIf="elem.oskaId === 3">
+                <span class="bar" *ngIf="item.reverseOskaMainProfessionOskaFillingBarEntity.entities && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value">|</span>
+                <span class="item">{{ elem.oskaIndicator | titleCase }}: <span class="dark">{{ elem.value | titleCase }} €</span></span>
               </ng-container>
             </ng-container>
           </ng-container>
