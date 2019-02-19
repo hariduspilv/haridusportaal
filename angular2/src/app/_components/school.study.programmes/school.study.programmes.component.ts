@@ -23,13 +23,12 @@ export class SchoolStudyProgrammesComponent implements OnInit {
 
   ngOnInit() {
 
-    let url = "/graphql?queryName=relatedStudyProgrammeList&queryId=37599424458ff4e1265aa9ce40f6232d54fe0422:1&variables=";
     let variables = {
       schoolId: this.schoolId.toString(),
       lang: this.rootScope.get('lang').toUpperCase()
     };
     
-    let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+    let subscribe = this.http.get('relatedStudyProgrammeList', { params: variables }).subscribe( (response) => {
       let data = response['data'];
       this.loading = false;
       this.programmes = data.nodeQuery.entities;

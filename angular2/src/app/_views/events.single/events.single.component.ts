@@ -115,14 +115,13 @@ export class EventsSingleComponent implements AfterViewChecked {
         const path = this.router.url;
         const that = this;
         
-        let url = "/graphql?queryName=getEventSingle&queryId=8d7169386af75107bce43190b02559ca7a2e06f3:1&variables=";
         let variables = {
           path: path
         };
   
         this.userLoggedOut = this.user.getData()['isExpired'];
   
-        let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+        let subscribe = this.http.get('getEventSingle', {params:variables}).subscribe( (response) => {
           let data = response['data'];
           if ( data['route'] == null ) {
             that.error = true;

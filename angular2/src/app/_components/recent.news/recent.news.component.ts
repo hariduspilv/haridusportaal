@@ -37,9 +37,6 @@ export class RecentNewsComponent implements OnInit {
 			this.content = false;
 
 			this.allPath = "/uudised";
-
-
-			let url = "/graphql?queryName=recentNews&queryId=02772fa14a0888ba796a22398f91d384777290fa:1&variables=";
 			
       let variables = {
 				nid: this.nid,
@@ -50,7 +47,7 @@ export class RecentNewsComponent implements OnInit {
 				this.content = this.data;
 			}else{
 				
-				let subscribe = this.http.get(url+JSON.stringify(variables)).subscribe( (response) => {
+				let subscribe = this.http.get('recentNews', { params: variables } ).subscribe( (response) => {
 					let data = response['data'];
 				
 					if ( data['nodeQuery'] == null ) {
