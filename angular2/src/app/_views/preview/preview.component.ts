@@ -35,7 +35,7 @@ export class PreviewComponent implements OnInit{
       "uuid": this.route.snapshot.params.id
     };
 
-    let subscription = this.http.get('preview', {
+    let subscription = this.http.get('nodePreviewQuery', {
       withCredentials: true,
       params: variables
     }).subscribe( (data) => {

@@ -73,7 +73,7 @@ export class NewsSingleComponent implements OnInit {
           path: path
         };
         
-        let subscribe = this.http.get('newsSingle', {params:variables}).subscribe( (response) => {
+        let subscribe = this.http.get('newsSingel', {params:variables}).subscribe( (response) => {
           let data = response['data'];
           if ( data['route'] == null ) {
             that.error = true;

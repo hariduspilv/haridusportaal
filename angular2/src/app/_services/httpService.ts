@@ -51,13 +51,13 @@ export class HttpService {
 
   get(url, options:any = {} ) {
 
-    if( this.settings.requests[url] ){
-      url = '/graphql?queryName='+url+'&queryId='+this.settings.requests[url];
+    if( this.settings.data.request[url] ){
+      url = '/graphql?queryName='+url+'&queryId='+this.settings.data.request[url]+':1';
       if( options.params ){
         url+= '&variables='+JSON.stringify( options.params );
       }
     }
-
+    
     url = this.parseUrl(url);
 
     let headers = this.createAuthorizationHeader();
@@ -68,7 +68,8 @@ export class HttpService {
 
     return this.http.get(url, {
 
-      headers: headers
+      headers: headers,
+      withCredentials: options['withCredentials'] || false
     }).catch((err) => {
 
       return throwError(err);

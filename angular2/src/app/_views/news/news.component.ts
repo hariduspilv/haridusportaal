@@ -91,7 +91,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       lang: this.lang.toUpperCase()
     };
     
-    let subscribe = this.http.get('newsTags', {params:variables}).subscribe( (response) => {
+    let subscribe = this.http.get('getNewsTags', {params:variables}).subscribe( (response) => {
       let data = response['data'];
       let entities = data['nodeQuery']['entities'];
       let tags = this.processTags( entities );

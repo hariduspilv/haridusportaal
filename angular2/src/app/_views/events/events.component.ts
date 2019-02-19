@@ -548,7 +548,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       lang: this.lang.toUpperCase()
     };
 
-    let typesSubscription = this.http.get('eventType', {params:variables}).subscribe((response) => {
+    let typesSubscription = this.http.get('getEventTypes', {params:variables}).subscribe((response) => {
       
       let data = response['data'];
 
