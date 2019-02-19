@@ -60,7 +60,7 @@ class ProcessOskaIndicatorData {
                 !$object['vaartus']
                 ||
                 !$object['ikoon']){
-                
+
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
                         if($value === FALSE){
