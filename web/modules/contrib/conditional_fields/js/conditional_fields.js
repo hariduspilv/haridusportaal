@@ -75,32 +75,74 @@ $(document).bind('state:visible-fade', function(e) {
   }
 })
 // Empty/Filled.
-.bind('state:empty-empty', function(e) {
+.bind('state:empty', function(e) {
   if (e.trigger) {
-    var field = $(e.target).find('input, select, textarea');
-    if (e.effect.reset) {
-      if (typeof oldValue == 'undefined' || field.val() !== e.effect.value) {
-        oldValue = field.val();
+    var fields = $(e.target).find('input, select, textarea');
+    fields.each(function() {
+      if (typeof $(fields).data('conditionalFieldsSavedValue') === 'undefined') {
+        $(this).data('conditionalFieldsSavedValue', $(this).val());
       }
-      field.val(e.value ? e.effect.value : oldValue);
+      if (e.value) {
+        $(this).val('');
+      }
+      else if (e.effect && e.effect.reset) {
+        if (e.value) {
+          $(this).val(e.effect.value);
+        }
+        else if ($(this).data('conditionalFieldsSavedValue')) {
+          $(this).val($(this).data('conditionalFieldsSavedValue'));
+        }
+      }
+    })
+  }
+})
+// On invisible make empty and unrequired.
+.bind('state:visible', function(e) {
+  if (e.trigger) {
+    // Save required property.
+    if (typeof $(e.target).data('conditionalFieldsSavedRequired') === 'undefined') {
+      var field = $(e.target).find('input, select, textarea');
+      if (field) {
+        $(e.target).data('conditionalFieldsSavedRequired', $(field).attr('required'));
+      }
     }
-    else if (e.value) {
-      field.val(e.effect.value);
+    // Go invisible.
+    if (!e.value) {
+      // Make empty.
+      $(e.target).trigger({type: 'state:empty', value: true, trigger: true});
+      // Remove required property.
+      $(e.target).trigger({type: 'state:required', value: false, trigger: true});
+    }
+    // Go visible.
+    else {
+      // Make non-empty again.
+      $(e.target).trigger({type: 'state:empty', value: false, trigger: true, effect: {reset: true}});
+      // Restore required if necessary.
+      if ($(e.target).data('conditionalFieldsSavedRequired')) {
+        $(e.target).trigger({type: 'state:required', value: true, trigger: true});
+      }
     }
   }
 })
-.bind('state:empty-fill', function(e) {
+// Fix core's required handling.
+.bind('state:required', function (e) {
   if (e.trigger) {
-    var field = $(e.target).find('input, select, textarea');
-    if (e.effect.reset) {
-      if (typeof oldValue === 'undefined' || field.val() !== e.effect.value) {
-        oldValue = field.val();
+    var fields = $(e.target).find('input, select, textarea');
+    fields.each(function() {
+      var label = 'label' + (this.id ? '[for=' + this.id + ']' : '');
+      var $label = $(e.target).find(label);
+      if (e.value) {
+        $(this).attr({ required: 'required', 'aria-required': 'aria-required' });
+        $label.each(function() {
+          $(this).addClass('js-form-required form-required');
+        });
+      } else {
+        $(this).removeAttr('required aria-required');
+        $label.each(function() {
+          $(this).removeClass('js-form-required form-required');
+        });
       }
-      field.val(!e.value ? e.effect.value : oldValue);
-    }
-    else if (!e.value) {
-      field.val(e.effect.value);
-    }
+    })
   }
 })
 // Unchanged state. Do nothing.
