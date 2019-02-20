@@ -5,6 +5,7 @@ namespace Drupal\menu_breadcrumb;
 use Drupal\Component\Utility\SortArray;
 use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Breadcrumb\BreadcrumbBuilderInterface;
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\TitleResolverInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -13,6 +14,8 @@ use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Link;
+use Drupal\Core\Lock\LockBackendInterface;
+use Drupal\Core\Menu\MenuActiveTrail;
 use Drupal\Core\Menu\MenuActiveTrailInterface;
 use Drupal\Core\Menu\MenuLinkManagerInterface;
 use Drupal\Core\Routing\AdminContext;
@@ -34,13 +37,6 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
    * @var \Drupal\Core\Config\ConfigFactory
    */
   protected $configFactory;
-
-  /**
-   * The menu active trail interface.
-   *
-   * @var \Drupal\Core\Menu\MenuActiveTrailInterface
-   */
-  protected $menuActiveTrail;
 
   /**
    * The menu link manager interface.
@@ -85,6 +81,20 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
   protected $entityTypeManager;
 
   /**
+   * The caching backend.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $cacheMenu;
+
+  /**
+   * The locking backend.
+   *
+   * @var \Drupal\Core\Lock\LockBackendInterface
+   */
+  protected $lock;
+
+  /**
    * The Menu Breadcrumbs configuration.
    *
    * @var \Drupal\Core\Config\Config
@@ -124,22 +134,24 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
    */
   public function __construct(
     ConfigFactoryInterface $config_factory,
-    MenuActiveTrailInterface $menu_active_trail,
     MenuLinkManagerInterface $menu_link_manager,
     AdminContext $admin_context,
     TitleResolverInterface $title_resolver,
     RequestStack $request_stack,
     LanguageManagerInterface $language_manager,
-    EntityTypeManagerInterface $entity_type_manager
+    EntityTypeManagerInterface $entity_type_manager,
+    CacheBackendInterface $cache_menu,
+    LockBackendInterface $lock
   ) {
     $this->configFactory = $config_factory;
-    $this->menuActiveTrail = $menu_active_trail;
     $this->menuLinkManager = $menu_link_manager;
     $this->adminContext = $admin_context;
     $this->titleResolver = $title_resolver;
     $this->currentRequest = $request_stack->getCurrentRequest();
     $this->languageManager = $language_manager;
     $this->entityTypeManager = $entity_type_manager;
+    $this->cacheMenu = $cache_menu;
+    $this->lock = $lock;
     $this->config = $this->configFactory->get('menu_breadcrumb.settings');
   }
 
@@ -202,7 +214,10 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
           }
         }
 
-        $trail_ids = $this->menuActiveTrail->getActiveTrailIds($menu_name);
+        // Do not use the global MenuActiveTrail service because we need one
+        // which is aware of the given routeMatch, not of the global one.
+        $menuActiveTrail = new MenuActiveTrail($this->menuLinkManager, $route_match, $this->cacheMenu, $this->lock);
+        $trail_ids = $menuActiveTrail->getActiveTrailIds($menu_name);
         $trail_ids = array_filter($trail_ids);
         if ($trail_ids) {
           $this->menuName = $menu_name;
@@ -226,7 +241,7 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
               $route_links = $this->menuLinkManager->loadLinksByRoute($url->getRouteName(), $url->getRouteParameters(), $menu_name);
               if (!empty($route_links)) {
                 // Successfully found taxonomy attachment, so pass to build():
-                // - the menu in in which we have found the attachment
+                // - the menu in which we have found the attachment
                 // - the effective menu trail of the taxonomy-attached node
                 // - the node itself (in build() we will find its title & URL)
                 $taxonomy_term_link = reset($route_links);
@@ -364,7 +379,7 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
         $last_url->getRouteName() === $route_match->getRouteName() &&
         $last_url->getRouteParameters() === $route_match->getRawParameters()->all()
       ) {
-        // We already have a link, no need to add one.
+        // We already have a link, so no need to add one.
         return;
       }
     }
