@@ -42,7 +42,6 @@ class ProcessOskaTableData {
             }
 
             $object['valdkond'] = self::checkEntityReference('node', 'oska_field_page', $item['valdkond']);
-            $object['juurprobleem'] = mb_strlen($item['juurprobleem']) <= 500 ? $item['juurprobleem'] : FALSE;
             $object['ettepanek'] = mb_strlen($item['ettepanek']) <= 500 ? $item['ettepanek'] : FALSE;
             $object['peavastutaja'] = mb_strlen($item['peavastutaja']) <= 100 ? $item['peavastutaja'] : FALSE;
             $object['staatus'] = mb_strlen($item['staatus']) <= 50 ? $item['staatus'] : FALSE;
@@ -50,8 +49,6 @@ class ProcessOskaTableData {
 
             if(
                 !$object['valdkond']
-                ||
-                !$object['juurprobleem']
                 ||
                 !$object['ettepanek']
                 ||
@@ -72,7 +69,6 @@ class ProcessOskaTableData {
             }else{
                 $results[] = [
                     'oska_field' => $object['valdkond'],
-                    'problem_description' => $object['juurprobleem'],
                     'proposal' => $object['ettepanek'],
                     'responsible' => $object['peavastutaja'],
                     'proposal_status' => $object['staatus'],

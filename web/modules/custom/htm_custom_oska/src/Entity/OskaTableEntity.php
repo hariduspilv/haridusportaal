@@ -224,24 +224,6 @@ class OskaTableEntity extends ContentEntityBase implements OskaTableEntityInterf
             ->setDisplayConfigurable('form', TRUE)
             ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
-        $fields['problem_description'] = BaseFieldDefinition::create('string_long')
-            ->setLabel(t('Problem description'))
-            ->setSettings([
-                'max_length' => 500,
-                'text_processing' => 0,
-            ])
-            ->setRevisionable(TRUE)
-            ->setTranslatable(TRUE)
-            ->setDisplayOptions('view', array(
-                'label' => 'above',
-                'type' => 'string',
-            ))
-            ->setDisplayOptions('form', array(
-                'type' => 'string_textfield',
-            ))
-            ->setDisplayConfigurable('form', TRUE)
-            ->setDisplayConfigurable('view', TRUE);
-
         $fields['proposal'] = BaseFieldDefinition::create('string_long')
             ->setLabel(t('Proposal'))
             ->setSettings([
