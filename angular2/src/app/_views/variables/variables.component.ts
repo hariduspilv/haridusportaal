@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 
 @Component({
   templateUrl: 'variables.template.html'
@@ -14,7 +14,7 @@ export class VariablesComponent implements OnInit{
   ){}
 
   objectKeys = Object.keys;
-  
+
   varType(input) {
     return typeof input;
   }

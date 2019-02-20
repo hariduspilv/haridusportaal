@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RootScopeService, MetaTagsService} from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 import { HttpService } from '@app/_services/httpService';
 import { Subscription } from 'rxjs/Subscription';
 @Component({
