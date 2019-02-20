@@ -21,4 +21,13 @@ $limit: Int) {
       }
     }
   }
+
+  oskaFixedLabels:taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: "vid", value: ["oska_fixed_labels"], language: $lang}]}) {
+    entities(language: $lang) {
+      ... on TaxonomyTermOskaFixedLabels {
+        entityId
+        entityLabel
+      }
+    }
+  }
 }
