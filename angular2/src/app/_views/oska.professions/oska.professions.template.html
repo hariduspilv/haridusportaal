@@ -125,8 +125,13 @@
           <ng-container *ngIf="item.reverseOskaMainProfessionOskaIndicatorEntity.entities && item.reverseOskaMainProfessionOskaIndicatorEntity.entities.length">
             <ng-container *ngFor="let elem of indicatorValues(item.reverseOskaMainProfessionOskaIndicatorEntity.entities); let ind = index;">
               <ng-container *ngIf="elem.oskaId">
-                <span class="bar" *ngIf="(item.reverseOskaMainProfessionOskaFillingBarEntity.entities && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value) || ind === 1">|</span>
+                <span class="bar" *ngIf="(item.reverseOskaMainProfessionOskaFillingBarEntity.entities && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value
+                  && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value > 0 && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value < 6) || ind === 1">|</span>
                 <span class="item">{{ elem.oskaIndicator | titleCase }}: <span class="dark">{{ formatNumber(elem.value, 'et') }} <ng-container *ngIf="elem.oskaId === 3">€</ng-container></span></span>
+                <!-- <span class="item">{{ elem.oskaIndicator | titleCase }}: 
+                  <span *ngIf="elem.oskaId === 1" class="dark">{{ elem.value }}</span>
+                  <span *ngIf="elem.oskaId === 3" class="dark">{{ formatNumber(elem.value, 'et') }} €</span>
+                </span> -->
               </ng-container>
              
             </ng-container>

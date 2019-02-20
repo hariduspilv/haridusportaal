@@ -265,12 +265,33 @@ $grid-columns: 12;
   }
   &.top{background-color: $light-gray;border-radius:50%;
     .htm-icon {color: #15adc2}
+    .icon {background: #15adc2;width: 1rem;height: 1rem;border-radius: 50%;}
   }
   &.neutral{background-color: $light-gray;border-radius:50%;
     .htm-icon {color: $orange}
+    .icon {background: $orange;width: 1rem;height: 1rem;border-radius: 50%;}
   }
   &.bottom{background-color: $light-gray;border-radius:50%;
     .htm-icon {color: $red}
+    .icon {background: $red;width: 1rem;height: 1rem;border-radius: 50%;}
+  }
+  &.stagnant {background-color: $light-gray;border-radius:50%;
+    .htm-icon {color: #fd8208;}
+    .icon {background: #fd8208;width: 1rem;height: 1rem;border-radius: 50%;}
+  }
+  &.low {background-color: $light-gray;border-radius:50%;
+    .htm-icon {color: $gray;}
+    .icon {background: $gray;width: 1rem;height: 1rem;border-radius: 50%;}
+  }
+  &.trending-down {
+    .htm-icon {transform: rotate(90deg);
+      // font-size: 1.75rem;width: 1.75rem !important;height: 1.75rem !important;
+    }
+  }
+  &.trending-up {
+    .htm-icon {transform: rotate(270deg);
+      // font-size: 1.75rem;width: 1.75rem !important;height: 1.75rem !important;
+    }
   }
 }
 
