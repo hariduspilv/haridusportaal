@@ -7,16 +7,15 @@ dependencies:
     - paragraphs
     - search_api
   config:
-    - field.storage.node.field_fixed_label
-    - field.storage.node.field_introduction
     - field.storage.node.field_main_profession_accordion
-    - field.storage.paragraph.field_title
     - field.storage.paragraph.field_body
+    - field.storage.paragraph.field_title
+    - field.storage.node.body
+    - field.storage.node.field_introduction
     - field.storage.node.field_sidebar
     - field.storage.paragraph.field_jobs
     - field.storage.paragraph.field_job_name
     - field.storage.paragraph.field_oska_field
-    - field.storage.node.body
     - search_api.server.elasticsearch_server
 id: oska_main_profession
 name: 'OSKA Main Profession'
@@ -73,14 +72,6 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_introduction
-  field_fixed_label:
-    label: 'Fixed Label'
-    datasource_id: 'entity:node'
-    property_path: field_fixed_label
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_fixed_label
   field_job_name:
     label: 'Sidebar » Paragraph » Näidisametid » Paragraph » Ameti nimetus'
     datasource_id: 'entity:node'
