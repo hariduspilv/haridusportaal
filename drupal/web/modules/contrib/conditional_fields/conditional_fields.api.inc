@@ -315,13 +315,7 @@ function conditional_fields_dependent_validate($element, FormStateInterface &$fo
             unset($input_state['add_more']);
           }
           $input_state = (is_null($input_state)) ? [] : $input_state;
-          if (isset($dependent['field_parents'][0])) {
-            $field = FieldStorageConfig::loadByName($form['#entity_type'], $dependent['field_parents'][0]);
-          }
           if (empty($input_state)) {
-            // Default to the field machine name.
-            $title = $field->getName();
-
             if (isset($element['widget']['#title'])) {
               $title = $element['widget']['#title'];
             }
@@ -329,7 +323,7 @@ function conditional_fields_dependent_validate($element, FormStateInterface &$fo
               $title = $dependent['field_parents'][0];
             }
 
-            $form_state->setErrorByName($field->getName(), t('%name is required.', ['%name' => $title]));
+            $form_state->setError($element, t('%name is required.', ['%name' => $title]));
           }
         }
       }
@@ -395,6 +389,12 @@ function conditional_fields_evaluate_dependencies($dependent, $form, $form_state
   foreach ($dependencies as $dependency_id => $dependency) {
     // Extract field values from submitted values.
     $dependee = $dependency['dependee'];
+
+    // Skip any misconfigured conditions.
+    if (empty($form['#conditional_fields'][$dependee]['parents'])) {
+      continue;
+    }
+
     $dependee_parents = $form['#conditional_fields'][$dependee]['parents'];
 
     // We have the parents of the field, but depending on the entity type and
@@ -592,7 +592,7 @@ function conditional_fields_evaluate_dependency($context, $values, $options) {
       // If $dependency_values is not an array, we can only assume that it
       // should map to the first key of the first value of $values.
       if (!is_array($dependency_values)) {
-        if (is_null(current($values))) {
+        if (is_null(current($values)) || empty($options['value'][0])) {
           return FALSE;
         }
         $key = current(array_keys((array) current($values)));

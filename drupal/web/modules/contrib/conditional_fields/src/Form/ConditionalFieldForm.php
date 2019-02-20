@@ -8,6 +8,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\conditional_fields\Conditions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * Class ConditionalFieldForm.
@@ -28,6 +30,20 @@ class ConditionalFieldForm extends FormBase {
   protected $uuidGenerator;
 
   /**
+   * Provides an interface for an entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
+   * Provides an interface for entity type managers.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * CF lists builder.
    *
    * @var Conditions $list
@@ -37,12 +53,18 @@ class ConditionalFieldForm extends FormBase {
   /**
    * Class constructor.
    *
-   * @param Conditions $list
+   * @param \Drupal\conditional_fields\Conditions $list
    *   Conditions list provider.
-   * @param UuidInterface $uuid
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   *   Provides an interface for an entity field manager.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   Provides an interface for entity type managers.
+   * @param \Drupal\Component\Uuid\UuidInterface $uuid
    *   Uuid generator.
    */
-  public function __construct(Conditions $list, UuidInterface $uuid) {
+  public function __construct(Conditions $list, EntityFieldManagerInterface $entity_field_manager, EntityTypeManagerInterface $entity_type_manager, UuidInterface $uuid) {
+    $this->entityFieldManager = $entity_field_manager;
+    $this->entityTypeManager = $entity_type_manager;
     $this->list = $list;
     $this->uuidGenerator = $uuid;
   }
@@ -55,6 +77,8 @@ class ConditionalFieldForm extends FormBase {
     return new static(
     // Load the service required to construct this class.
       $container->get('conditional_fields.conditions'),
+      $container->get('entity_field.manager'),
+      $container->get('entity_type.manager'),
       $container->get('uuid')
     );
   }
@@ -104,7 +128,7 @@ class ConditionalFieldForm extends FormBase {
       $all_states = $this->list->conditionalFieldsStates();
       $entity_type = $form_state->getValue('entity_type');
       $bundle = $form_state->getValue('bundle');
-      $instances = \Drupal::getContainer()->get('entity_field.manager')
+      $instances = $this->entityFieldManager
         ->getFieldDefinitions($entity_type, $bundle);
       foreach ($dependent as $field) {
         if ($conditional_values['dependee'] == $field) {
@@ -165,7 +189,7 @@ class ConditionalFieldForm extends FormBase {
     $component_value['bundle'] = $form_state->getValue('bundle');
 
     /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $entity */
-    $entity = \Drupal::entityTypeManager()
+    $entity = $this->entityTypeManager
       ->getStorage('entity_form_display')
       ->load($component_value['entity_type'] . '.' . $component_value['bundle'] . '.' . 'default');
     if (!$entity) {
@@ -218,7 +242,7 @@ class ConditionalFieldForm extends FormBase {
 
     // Build list of available fields.
     $fields = [];
-    $instances = \Drupal::getContainer()->get('entity_field.manager')
+    $instances = $this->entityFieldManager
       ->getFieldDefinitions($entity_type, $bundle_name);
     foreach ($instances as $field) {
       $fields[$field->getName()] = $field->getLabel() . ' (' . $field->getName() . ')';
@@ -229,7 +253,7 @@ class ConditionalFieldForm extends FormBase {
     /* Existing conditions. */
 
     /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $form_display_entity */
-    $form_display_entity = \Drupal::entityTypeManager()
+    $form_display_entity = $this->entityTypeManager
       ->getStorage('entity_form_display')
       ->load("$entity_type.$bundle_name.default");
 
