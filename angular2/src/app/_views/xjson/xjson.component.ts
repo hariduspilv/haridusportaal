@@ -8,7 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 import { TableService } from '@app/_services/tableService';
-import { SettingsService } from '@app/_core/settings'
+import { SettingsService } from '@app/_services/settings.service'
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';

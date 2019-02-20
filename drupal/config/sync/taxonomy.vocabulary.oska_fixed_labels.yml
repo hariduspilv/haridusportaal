@@ -1,0 +1,9 @@
+uuid: 70f0b437-5e65-4ddd-9471-7d70bfff7761
+langcode: et
+status: true
+dependencies: {  }
+name: 'OSKA Ametiala Fikseeritud Sildid'
+vid: oska_fixed_labels
+description: ''
+hierarchy: 0
+weight: 0

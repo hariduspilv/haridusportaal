@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
 import { TranslateService } from '@ngx-translate/core';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 
 import { HttpService} from '@app/_services/httpService';
 import { RootScopeService } from '@app/_services';

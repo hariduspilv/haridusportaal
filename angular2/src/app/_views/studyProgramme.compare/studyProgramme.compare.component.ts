@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 import { Subscription } from 'rxjs/Subscription';
 import { CompareComponent } from '@app/_components/compare/compare.component';
 import { TableService } from '@app/_services/tableService';

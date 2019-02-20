@@ -22,7 +22,14 @@ query oskaMainProfessionDetailView($path: String!) {
           isFavorite
           nid
           entityLabel
-          fieldFixedLabel
+          fieldFixedLabel{
+            entity {
+              ... on TaxonomyTermOskaFixedLabels{
+                entityId
+                entityLabel
+              }
+            }
+          }
           fieldIntroduction
           fieldMainProfessionPicture {
             derivative(style: CROP_LARGE) {
