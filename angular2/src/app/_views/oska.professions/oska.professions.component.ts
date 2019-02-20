@@ -168,6 +168,32 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     this.filterRetrieveParams( this.params );
   }
 
+  indicatorValues (item) {
+    let res = [];
+    let employed = {};
+    let pay = {};
+    let values = item.forEach(elem => {
+      if (elem.oskaId === 1) employed = elem;
+      if (elem.oskaId === 3) pay = elem;
+    });
+    if (employed['oskaId']) res.push(employed);
+    if (pay['oskaId']) res.push(pay);
+    return res;
+  }
+  
+  formatNumber (number, locale) {
+    let num = parseInt(number, 10)
+    let formattedNum = num.toLocaleString(locale)
+    return formattedNum.replace(',', ' ')
+  }
+
+  getCompetitionLabel (val) {
+    if (val > 0 && val < 6) {
+      return this.competitionLabels[val - 1];
+    }
+    return '';
+  }
+ 
   ngOnInit () {
     this.showFilter = window.innerWidth > 1024;
     this.filterFull = window.innerWidth <= 1024;
