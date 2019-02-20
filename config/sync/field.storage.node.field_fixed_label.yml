@@ -1,14 +1,16 @@
-uuid: d1851b9a-220e-4a90-9179-e6d93726396b
+uuid: 5cd315e5-abbe-4b6d-9e2c-fd818e877de5
 langcode: et
 status: true
 dependencies:
   module:
     - node
+    - taxonomy
 id: node.field_fixed_label
 field_name: field_fixed_label
 entity_type: node
-type: boolean
-settings: {  }
+type: entity_reference
+settings:
+  target_type: taxonomy_term
 module: core
 locked: false
 cardinality: 1
