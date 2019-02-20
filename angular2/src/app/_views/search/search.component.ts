@@ -3,7 +3,7 @@ import { RootScopeService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
 import { Subscription } from 'rxjs/Subscription';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 @Component({
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']

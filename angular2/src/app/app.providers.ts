@@ -1,8 +1,7 @@
 import { APP_INITIALIZER, Injector } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { RootScopeService, MetaTagsService, TableService, AddressService } from './_services';
 import { TranslateService } from '@ngx-translate/core';
-import { SettingsService } from './_core/settings';
+import { SettingsService } from './_services/settings.service';
 import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
 import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';

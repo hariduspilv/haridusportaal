@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { UserService } from '@app/_services/userService';
 import { TableService } from '@app/_services/tableService';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 
 @Component({
   selector: 'certificates-detailed',
