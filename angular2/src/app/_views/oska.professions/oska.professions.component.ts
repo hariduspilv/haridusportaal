@@ -28,6 +28,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   public sortedBy: any = [];
   private FilterOptions: object = {};
   private filterOptionKeys = ['oskaFieldValue', 'sortedBy', 'fixedLabelValue'];
+  public competitionLabels = ['oska.simple_extended', 'oska.quite_simple_extended', 'oska.medium_extended', 'oska.quite_difficult_extended', 'oska.difficult_extended'];
   private paramsSub: Subscription;
   private dataSub: Subscription;
   private filterSub: Subscription;
