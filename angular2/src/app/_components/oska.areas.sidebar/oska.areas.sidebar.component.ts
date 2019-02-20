@@ -35,6 +35,20 @@ export class OskaAreasSidebarComponent implements OnInit {
     resultRelatedArticle: this.generalLimiter
   };
   public competitionLabels = ['oska.simple', 'oska.quite_simple', 'oska.medium', 'oska.quite_difficult', 'oska.difficult'];
+  public trendingValues = [
+    {icon: 'trending_flat', class: "top trending-up", text: 'oska.big_increase'},
+    {icon: 'trending_up', class: "top", text: 'oska.increase'},
+    {icon: 'trending_flat', class: "stagnant", text: 'oska.stagnant'},
+    {icon: 'trending_down', class: "bottom", text: 'oska.decline'},
+    {icon: 'trending_flat', class: "bottom trending-down", text: 'oska.big_decline'}
+  ];
+  public graduatesToJobsValues = [
+    {icon: 'dot', class: "bottom", text: 'oska.more_graduates'},
+    {icon: 'dot', class: "bottom", text: 'oska.less_graduates'},
+    {icon: 'dot', class: "top", text: 'oska.enough_graduates'},
+    {icon: 'dot', class: "stagnant", text: 'oska.graduates_work_outside_field'},
+    {icon: 'dot', class: "low", text: 'oska.no_graduates'}
+  ];
   public competitionLevel: any = null;
   public competitionLabel: string = '';
   private typeStatus: any = {
@@ -71,13 +85,17 @@ export class OskaAreasSidebarComponent implements OnInit {
         this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
         this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
         this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];
-        this.numberEmployed(this.sidebar.fieldNumberEmployed)
+        this.numberEmployed(this.sidebar.fieldNumberEmployed, 'filledNumberEmployed', 'outlinedNumberEmployed')
       } else if (this.viewType === 'mainProfession') {
+        if (this.indicators) {
+          this.indicators.entities.sort((a, b) => a.oskaId - b.oskaId);
+        }
         this.typeStatus['fields'] = this.sidebar.fieldOskaField.length > this.limits['fields'];
         this.typeStatus['opportunities'] = this.sidebar.fieldJobOpportunities.length > this.limits['opportunities'];
         this.typeStatus['qualification'] = this.sidebar.fieldQualificationStandard.length > this.limits['qualification'];
         this.typeStatus['profQuickFind'] = this.sidebar.fieldQuickFind.length > this.limits['profQuickFind'];
         this.typeStatus['jobs'] = this.sidebar.fieldJobs.length > this.limits['jobs'];
+        this.numberEmployed(this.sidebar.fieldNumberEmployed, 'factsFilledNumber', 'factsOutlinedNumber')
       } else {
         this.typeStatus['resultHyperlinks'] = this.sidebar.fieldHyperlinks.length > this.limits['resultHyperlinks'];
         this.typeStatus['resultRelatedArticle'] = this.sidebar.fieldRelatedArticle.length > this.limits['resultRelatedArticle'];
@@ -115,7 +133,7 @@ export class OskaAreasSidebarComponent implements OnInit {
     return formattedNum.replace(',', ' ')
   }
 
-  numberEmployed (elem: number) {
+  numberEmployed (elem: number, filled, outlined) {
     let employedSection: any = false;
     let employedModifier: number = 11;
     if (0 < elem && elem < 10000) employedSection = 1;
@@ -129,10 +147,13 @@ export class OskaAreasSidebarComponent implements OnInit {
     if (55000 <= elem && elem < 65000) employedSection = 9;
     if (65000 <= elem && elem < 75000) employedSection = 10;
     if (elem >= 75000) employedSection = 11;
-    this.filledNumberEmployed = Array(employedSection).fill(0).map((x,i)=>i);
-    this.outlinedNumberEmployed = Array(employedModifier - employedSection).fill(0).map((x,i)=>i);
+    this[filled] = Array(employedSection).fill(0).map((x,i)=>i);
+    this[outlined] = Array(employedModifier - employedSection).fill(0).map((x,i)=>i);
   }
   
+  arrayOfLength (len) {
+    return Array(len).fill(0).map((x,i)=>i)
+  }
 
   isContactValid() {
     return (this.viewType === 'field' && this.sidebar.fieldOskaFieldContact && this.sidebar.fieldOskaFieldContact.entity 
