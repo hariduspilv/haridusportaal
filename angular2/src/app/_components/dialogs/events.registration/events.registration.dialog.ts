@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 import { HttpService } from '@app/_services/httpService';
 @Component({
   selector: 'events-registration-dialog',

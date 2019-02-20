@@ -8,7 +8,7 @@ import { AgmCoreModule } from '@agm/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {EventsRegistratonDialog} from '@app/_components/dialogs/events.registration/events.registration.dialog'
 
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 
 @Component({
 	selector: 'recent-events',

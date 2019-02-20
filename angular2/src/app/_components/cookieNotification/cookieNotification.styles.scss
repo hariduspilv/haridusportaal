@@ -15,9 +15,7 @@
     @include break-on(sm, max){ margin-top:0 !important;}
     &+.sm-show{margin-top:1.3rem; text-align: center;}
   }
-
   .htm-icon{position:absolute; top:50%; right:0; appearance:none; border:none; background:none; padding:0 1.5rem; font-size:1.5rem; line-height:1.5rem; margin-top:-0.75rem;
     @include break-on(sm, max){ top:1.4rem;}
   }
-  
 }

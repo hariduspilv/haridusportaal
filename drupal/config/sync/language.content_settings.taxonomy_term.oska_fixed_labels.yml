@@ -1,0 +1,16 @@
+uuid: f6ff7c0e-3430-4daf-897c-4f063161bf37
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.oska_fixed_labels
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.oska_fixed_labels
+target_entity_type_id: taxonomy_term
+target_bundle: oska_fixed_labels
+default_langcode: site_default
+language_alterable: true

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 import { RootScopeService } from '@app/_services';
 
 @Component({

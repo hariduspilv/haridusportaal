@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TableService } from '@app/_services';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 import { UserService } from '@app/_services/userService';
 
 @Component({
