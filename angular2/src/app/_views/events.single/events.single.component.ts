@@ -13,7 +13,7 @@ import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { TranslateService } from '@ngx-translate/core';
 import { TableService } from '@app/_services/tableService';
 
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 import { HttpService } from '@app/_services/httpService';
 import * as _moment from 'moment';
 import { UserService } from '@app/_services/userService';

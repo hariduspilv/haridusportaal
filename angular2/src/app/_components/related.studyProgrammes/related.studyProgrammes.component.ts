@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 import { Subscription } from 'rxjs/Subscription';
 import { FiltersService } from '@app/_services/filtersService';
 @Component({

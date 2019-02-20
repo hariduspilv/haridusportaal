@@ -5,7 +5,7 @@ import { Router, Event, NavigationStart, NavigationEnd, NavigationError, Activat
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 import { UserService } from '@app/_services/userService';
 import { taraLoginModal } from '../dialogs/taraLogin/taraLogin.modal';
 
