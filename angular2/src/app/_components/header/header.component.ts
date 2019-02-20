@@ -5,7 +5,7 @@ import { Router, Event, NavigationEnd, RoutesRecognized } from '@angular/router'
 import { TranslateService } from '@ngx-translate/core';
 
 import { HttpService } from '@app/_services/httpService';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 
 @Component({
   selector: 'app-header',

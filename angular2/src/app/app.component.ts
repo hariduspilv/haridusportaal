@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import { SettingsService } from '@app/_core/settings';
+import { SettingsService } from '@app/_services/settings.service';
 import { HttpClient } from '@angular/common/http'
 import { CookieService } from './_services/cookieService';
 

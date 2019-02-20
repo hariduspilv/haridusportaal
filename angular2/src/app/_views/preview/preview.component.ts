@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpService } from "@app/_services/httpService";
 import { Router, ActivatedRoute } from "@angular/router";
-import { SettingsService } from "@app/_core/settings";
+import { SettingsService } from "@app/_services/settings.service";
 import { RootScopeService } from "@app/_services";
 
 @Component({

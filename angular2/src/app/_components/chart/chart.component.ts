@@ -39,22 +39,9 @@ export class ChartComponent implements OnInit{
     animation:{
       duration: 1000,
       easing: 'out',
-      startup: true //This is the new option
+      startup: true
     }
   }
-
-  /*{
-    chartType: 'ColumnChart',
-    dataTable: [
-      ['Task', 'Hours per Day'],
-      ['Work',     11],
-      ['Eat',      2],
-      ['Commute',  2],
-      ['Watch TV', 2],
-      ['Sleep',    7]
-    ],
-    options: {'title': 'Tasks'},
-  };*/
 
   constructor(
     private http: HttpService
@@ -80,7 +67,7 @@ export class ChartComponent implements OnInit{
       let graphIndicator = current.graphIndicator;
       let graphTitle = current.graphTitle;
       let secondaryGraphType = current.secondaryGraphType;
-      let isStacked = false;
+      let isStacked:any = false;
 
       if( chartType == "Doughnut" ){
         chartType = "Pie";
@@ -88,6 +75,9 @@ export class ChartComponent implements OnInit{
 
       if( chartType.toLowerCase() == "clustered bar"){
         isStacked = true;
+        chartType = "Bar";
+      }else if( chartType == "Stacked bar 100" ) {
+        isStacked = "percent";
         chartType = "Bar";
       }
 
@@ -102,7 +92,6 @@ export class ChartComponent implements OnInit{
         dataTable: value,
         options: { ... this.graphOptions }
       }
-
       
       tmp.options['isStacked'] = isStacked;
 
@@ -182,8 +171,6 @@ export class ChartComponent implements OnInit{
             targetAxisIndex: 1
           }
         }
-
-        console.log(tmp.options);
     
       }
       
@@ -191,6 +178,8 @@ export class ChartComponent implements OnInit{
 
     }
 
+
+    console.log(output);
 
     if( inputData ){
       return output[0];
@@ -281,7 +270,6 @@ export class ChartComponent implements OnInit{
 
     clearTimeout( this.requestDebounce[id] );
 
-
     this.requestDebounce[id] = setTimeout( () => {
 
       if( this.requestSubscription[id] ){
@@ -293,12 +281,16 @@ export class ChartComponent implements OnInit{
           return item;
         }
       })[0];
+
+      console.log(current);
   
       let filters = this.filters[current.id];
   
       if( !this.filtersData[current.id] ){ this.filtersData[current.id] = {}; }
 
       this.filtersData[current.id].loading = true;
+
+      let professionList = current.filters.filter( x => x.key == 'ametiala' ).map( y => y.options)[0];
 
       let variables = {
         graphSet: current['graphSet'],
@@ -308,7 +300,7 @@ export class ChartComponent implements OnInit{
         indicator: filters['näitaja'].length > 0 ? filters['näitaja'] : false,
         oskaField: filters.valdkond || '',
         oskaSubField: filters.alavaldkond || '',
-        oskaMainProfession: filters.ametiala || '',
+        oskaMainProfession: filters.ametiala || professionList,
         period: filters.periood || '',
         label: filters.silt || '',
         graphGroupBy: current['graph_group_by'],
@@ -360,8 +352,6 @@ export class ChartComponent implements OnInit{
 
         this.requestSubscription[id].unsubscribe();
         this.requestSubscription[id] = false;
-
-        console.log( JSON.stringify( this.filtersData[current.id].dataTable ) );
 
       }, (err) =>{
         this.filtersData[current.id].loading = false;
