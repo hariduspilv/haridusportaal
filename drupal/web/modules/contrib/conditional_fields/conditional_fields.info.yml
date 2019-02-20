@@ -4,11 +4,11 @@ description: Define dependencies between fields based on their states and values
 # core: 8.x
 package: Fields
 dependencies:
-  - field
-  - field_ui
+  - drupal:field
+  - drupal:field_ui
 
-# Information added by Drupal.org packaging script on 2017-11-24
-version: '8.x-1.0-alpha4'
+# Information added by Drupal.org packaging script on 2019-02-14
+version: '8.x-1.0-alpha5'
 core: '8.x'
 project: 'conditional_fields'
-datestamp: 1511554987
+datestamp: 1550176398

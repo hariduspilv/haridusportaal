@@ -28,7 +28,7 @@ which in Drupal 8 is extended as follows:
 <ul>
   <li>
 If the "Taxonomy Attachment" option is selected for a menu,
-and if the current page belongs to a taxonomy that is on that menu,
+and if the current page belongs to a taxonomy on that menu,
 it will inherit the taxonomy page's menu breadcrumbs (e.g., to provide
 breadcrumbs for blog entries that aren't on menus themselves).
   </li>
@@ -65,15 +65,15 @@ dragging &amp; dropping the menus on that list.
 Taxonomy terms are searched in the order that their entity reference fields
 appear in the current page's field listing.
 One way to change an unwanted taxonomy term taking precendence over the one
-you want to "attach" on would be to change the order of those fields.
+on which you want to "attach" would be to change the order of those fields.
 </p>
 <p>
-When the current page is displaying the breadcrumbs of its taxonomy parent,
+When the current page displays the breadcrumbs of its taxonomy parent,
 the breadcrumb for that taxonomy is <u>always</u> a link regardless of the
 "Show current page as link" option.  (This can be confusing until we remember
 that this breadcrumb <u>is not</u> for the current page, and must be a link
 because the current page is no anchored at all in the menu&hellip; unlike a
-breacrumb that isn't taxonomy-attached.)
+breadcrumb that isn't taxonomy-attached.)
 </p>
 EOT;
       break;
@@ -83,7 +83,7 @@ EOT;
       $output = <<<EOT
 <p>
 Select the first option to enable the Menu Breadcrumb module,
-which will generate a breadcrumb trail the first match
+which will generate a breadcrumb trail according to the first match
 in the selected menu below: first looking for the current page on a menu
 (unless avoiding that menu due to language settings),
 and then seeing if the current page belongs to a taxonomy on that menu
