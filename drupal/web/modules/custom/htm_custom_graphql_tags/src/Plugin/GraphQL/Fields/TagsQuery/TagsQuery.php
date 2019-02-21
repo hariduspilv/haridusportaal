@@ -101,8 +101,6 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
 		// The context object can e.g. transport the parent entity language.
 		$query->addMetaData('graphql_context', $this->getQueryContext($value, $args, $context, $info));
 
-		//return $query;
-
 		$taxonomy_tids = [];
 
 		$entities = $this->entityTypeManager->getStorage('node')->loadMultiple($query->execute());
@@ -114,7 +112,7 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
 				}
 			}
 		}
-		
+
 		$categories = $this->entityTypeManager->getStorage("taxonomy_term");
 		$taxonomy_query = $categories->getQuery();
 		$taxonomy_query->accessCheck(TRUE);
