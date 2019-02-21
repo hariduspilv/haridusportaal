@@ -12,6 +12,7 @@ use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 use Drupal\taxonomy\TermInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
+use Drupal\graphql\GraphQL\Cache\CacheableValue;
 
 
 /**
@@ -72,7 +73,9 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
 	 * {@inheritdoc}
 	 */
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
-		yield $this->getQuery($value, $args, $context, $info);
+
+	    yield new CacheableValue($this->getQuery($value, $args, $context, $info));
+		#yield $this->getQuery($value, $args, $context, $info);
 	}
 
 	/**
