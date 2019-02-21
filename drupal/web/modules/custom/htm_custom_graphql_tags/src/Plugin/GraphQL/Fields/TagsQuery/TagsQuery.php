@@ -20,6 +20,10 @@ use GraphQL\Type\Definition\ResolveInfo;
  *   secure = true,
  *   type = "EntityQueryResult!",
  *   name = "CustomTagsQuery",
+ *   response_cache_contexts = {
+ *     "languages:language_url",
+ *     "languages:language_interface"
+ *   },
  *   arguments = {
  *     "filter" = "EntityQueryFilterInput",
  *   }
