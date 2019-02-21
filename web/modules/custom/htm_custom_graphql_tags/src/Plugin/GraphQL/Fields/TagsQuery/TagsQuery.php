@@ -12,7 +12,7 @@ use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 use Drupal\taxonomy\TermInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
-use Drupal\graphql\GraphQL\Cache\CacheableValue;
+use Drupal\Core\Cache\CacheableMetadata;
 
 
 /**
@@ -69,13 +69,25 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
 		$this->entityTypeManager = $entityTypeManager;
 	}
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCacheDependencies(array $result, $value, array $args, ResolveContext $context, ResolveInfo $info) {
+        $vocabulary = \Drupal\taxonomy\Entity\Vocabulary::load('tags');
+
+        $metadata = new CacheableMetadata();
+        $metadata->addCacheTags($vocabulary->getCacheTags());
+        $metadata->addCacheContexts($vocabulary->getCacheContexts());
+
+        return [$metadata];
+    }
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 
-	    yield new CacheableValue($this->getQuery($value, $args, $context, $info));
-		#yield $this->getQuery($value, $args, $context, $info);
+		yield $this->getQuery($value, $args, $context, $info);
 	}
 
 	/**
