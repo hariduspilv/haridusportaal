@@ -27,8 +27,6 @@ function htm_custom_varnish_purge_help($route_name, RouteMatchInterface $route_m
 function htm_custom_varnish_purge_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
 
     $cache_tags = $entity->getCacheTagsToInvalidate();
-    kint($cache_tags);
-    die();
 
     if(count($cache_tags) > 0){
 

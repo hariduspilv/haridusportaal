@@ -75,7 +75,7 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
     protected function getCacheDependencies(array $result, $value, array $args, ResolveContext $context, ResolveInfo $info) {
         $vocabulary = \Drupal\taxonomy\Entity\Vocabulary::load('tags');
         $terms =\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('tags');
-        
+
         $metadata = new CacheableMetadata();
         $metadata->addCacheTags($vocabulary->getCacheTags());
         $metadata->addCacheContexts($vocabulary->getCacheContexts());
