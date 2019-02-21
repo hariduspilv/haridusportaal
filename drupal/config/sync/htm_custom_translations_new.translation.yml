@@ -2105,12 +2105,12 @@ oska:
     en: Responsible
   table_experts_comment:
     translation_type: textarea
-    et: 'Eksperdikogu kommentaar'
-    en: 'Experts comment'
+    et: Kommentaar
+    en: Comment
   table_proposition_status:
     translation_type: textarea
-    et: 'Ettepaneku staatus'
-    en: 'Proposition status'
+    et: Staatus
+    en: Status
   competition:
     translation_type: textarea
     et: 'Konkurents tööturul'
