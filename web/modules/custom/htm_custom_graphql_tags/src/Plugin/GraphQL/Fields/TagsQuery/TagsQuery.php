@@ -12,7 +12,6 @@ use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
 use Drupal\taxonomy\TermInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
-use Drupal\Core\Cache\CacheableMetadata;
 
 
 /**
@@ -21,10 +20,6 @@ use Drupal\Core\Cache\CacheableMetadata;
  *   secure = true,
  *   type = "EntityQueryResult!",
  *   name = "CustomTagsQuery",
- *   response_cache_contexts = {
- *     "languages:language_url",
- *     "languages:language_interface"
- *   },
  *   arguments = {
  *     "filter" = "EntityQueryFilterInput",
  *   }
@@ -68,25 +63,6 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
 		parent::__construct($configuration, $pluginId, $pluginDefinition);
 		$this->entityTypeManager = $entityTypeManager;
 	}
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getCacheDependencies(array $result, $value, array $args, ResolveContext $context, ResolveInfo $info) {
-        $vocabulary = \Drupal\taxonomy\Entity\Vocabulary::load('tags');
-        $terms =\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadTree('tags');
-
-        $metadata = new CacheableMetadata();
-        $metadata->addCacheTags($vocabulary->getCacheTags());
-        $metadata->addCacheContexts($vocabulary->getCacheContexts());
-        foreach($terms as $term){
-            $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($term->tid);
-            $metadata->addCacheTags($term->getCacheTags());
-            $metadata->addCacheContexts($term->getCacheContexts());
-        }
-        
-        return [$metadata];
-    }
 
 	/**
 	 * {@inheritdoc}
