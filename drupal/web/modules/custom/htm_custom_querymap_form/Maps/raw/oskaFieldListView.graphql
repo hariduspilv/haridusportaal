@@ -22,6 +22,32 @@ query oskaFieldListView($nid: [String], $nidEnabled: Boolean, $lang: LanguageId!
             title
             __typename
         }
+        fieldOskaVideo{
+          input
+          videoDomain
+          videoDescription
+          videoId
+        }
+        fieldIntroduction
+        fieldOskaFieldSidebar{
+          entity {
+            ... on ParagraphOskaFieldSidebar{
+              fieldOskaMainProfession{
+                entity{
+                  ... on NodeOskaMainProfessionPage{
+                    entityId
+                    entityLabel
+                    entityUrl{
+                      routed
+                      path
+                      __typename
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
         __typename
       }
       __typename
