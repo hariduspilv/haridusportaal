@@ -80,10 +80,11 @@ class TagsQuery extends FieldPluginBase implements ContainerFactoryPluginInterfa
         $metadata->addCacheTags($vocabulary->getCacheTags());
         $metadata->addCacheContexts($vocabulary->getCacheContexts());
         foreach($terms as $term){
+            $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($term->tid);
             $metadata->addCacheTags($term->getCacheTags());
             $metadata->addCacheContexts($term->getCacheContexts());
         }
-
+        
         return [$metadata];
     }
 
