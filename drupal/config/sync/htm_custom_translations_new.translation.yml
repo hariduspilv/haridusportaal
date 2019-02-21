@@ -1997,6 +1997,10 @@ oskaProfessions:
     translation_type: textarea
     et: 'Ametiala(d) on võrdluses.'
     en: 'Professions are in comparison.'
+  facts:
+    translation_type: textarea
+    et: Faktid
+    en: Facts
 fieldFixedLabel:
   label:
     translation_type: textarea
@@ -2163,6 +2167,62 @@ oska:
     translation_type: textarea
     et: 'Raske leida tööd'
     en: 'Difficult to find work'
+  numberEmployedChange:
+    translation_type: textarea
+    et: 'Hõive muutus'
+    en: 'Employment rate change'
+  incline:
+    translation_type: textarea
+    et: 'Väike kasv'
+    en: 'Small incline'
+  increase:
+    translation_type: textarea
+    et: 'Väike kasv'
+    en: 'Small increase'
+  big_increase:
+    translation_type: textarea
+    et: 'Suur kasv'
+    en: 'Big increase'
+  stagnant:
+    translation_type: textarea
+    et: 'Jääb samaks'
+    en: Stagnant
+  decline:
+    translation_type: textarea
+    et: 'Väike kahanemine'
+    en: 'Small decline'
+  big_decline:
+    translation_type: textarea
+    et: 'Suur kahanemine'
+    en: 'Big decline'
+  graduation_to_jobs_rate:
+    translation_type: textarea
+    et: 'Töökohtade ja lõpetajate arvu võrdlus'
+    en: 'Graduates to jobs rate'
+  wage:
+    translation_type: textarea
+    et: Brutopalk
+    en: Wage
+  more_graduates:
+    translation_type: textarea
+    et: 'Eriala lõpetajaid rohkem kui tulevikus töökohti'
+    en: 'More graduates than available work'
+  less_graduates:
+    translation_type: textarea
+    et: 'Eriala lõpetajaid vähem kui tulevikus töökohti'
+    en: 'Less graduates than work'
+  enough_graduates:
+    translation_type: textarea
+    et: 'Eriala lõpetajaid piisavalt tuleviku töökohtade täitmiseks'
+    en: 'Enough graduates to fill jobs'
+  graduates_work_outside_field:
+    translation_type: textarea
+    et: 'Lõpetajad ei lähe erialasele tööle'
+    en: 'Graduates work outside their field'
+  no_graduates:
+    translation_type: textarea
+    et: 'Eestis kutse- või kõrgkoolides eriala õppida ei saa'
+    en: 'Cant study in Estonia'
 oskaProfession: {  }
 langcode: et
 sidebar:
