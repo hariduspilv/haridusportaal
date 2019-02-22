@@ -80,7 +80,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
         
         let subscribe = this.http.get('newsletterTags', { params: variables } ).subscribe( (response) => {
           let data = response['data'];
-          this.data = data['CustomTagsQuery']['entities'];
+          this.data = data['taxonomyTermQuery']['entities'];
           subscribe.unsubscribe();
         });
 
