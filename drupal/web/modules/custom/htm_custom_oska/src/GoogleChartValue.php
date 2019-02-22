@@ -94,10 +94,11 @@ class GoogleChartValue extends TypedData {
         #find label and value fields
         $label_field = $graph_data['graph_v_axis'];
         $value_field = 'vaartus';
-        $graph_info['graph_set'] === 'multi-line' ?  $indicator_field = $graph_data['graph_group_by'] : $indicator_field = 'naitaja';
 
-        if($graph_info['graph_set'] === 'multi'){
+        if($graph_info['graph_set'] === 'multi' || $graph_info['graph_set'] === 'multi-line'){
             $indicator_field = $graph_data['graph_group_by'];
+        }else{
+            $indicator_field = 'naitaja';
         }
 
         if($label_field && $value_field){
