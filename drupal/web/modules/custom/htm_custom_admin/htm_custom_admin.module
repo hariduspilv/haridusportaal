@@ -141,7 +141,7 @@ function htm_custom_admin_tags_validate(&$form, FormStateInterface $form_state){
     $langcode = $form_state->getValue('langcode')[0]['value'];
 
     $query = \Drupal::entityQuery('taxonomy_term');
-    $query->condition('vid', ['tags', 'event_type'], IN);
+    $query->condition('vid', ['tags', 'event_type'], 'IN');
     $query->condition('langcode', $langcode);
     $tags_count = count($query->execute());
     if($tags_count >= $tags_limit){
