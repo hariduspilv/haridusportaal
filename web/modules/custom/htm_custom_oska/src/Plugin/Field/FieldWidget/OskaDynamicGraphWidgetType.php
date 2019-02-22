@@ -51,6 +51,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 'simple' => $this->t('simple'),
                 'combo' => $this->t('combo'),
                 'multi' => $this->t('multi'),
+                'multi-line' => $this->t('multi-line'),
             ],
             '#required' => FALSE,
             '#empty_option'  => '-',
@@ -110,6 +111,11 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                         'clustered column' => $this->t('clustered column'),
                         'stacked column' => $this->t('stacked column'),
                         'stacked column 100' => $this->t('stacked column 100%'),
+                    );
+                    break;
+                case 'multi-line':
+                    $graph_type_options = array(
+                        'line' => $this->t('line'),
                     );
                     break;
             }
