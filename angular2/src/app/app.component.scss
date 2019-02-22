@@ -472,6 +472,11 @@ $grid-columns: 12;
     }
   }
   .scrollableTable {width: 100%;border-collapse: collapse;margin-top: 0;
+    tbody {
+      tr.shade {background: $light-gray;
+        .center {text-align: center !important;}
+      }
+    }
     thead {background: $light-gray;
       .sortable {&:hover { color: $dark-gray;}}
       .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
@@ -486,6 +491,7 @@ $grid-columns: 12;
         &.vertical {position: relative;}
         .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;font-size: .875rem;left: $gutter;top: $half-gutter;}
       }
+      &.dark {font-weight: 500;}
     }
     .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
   }
