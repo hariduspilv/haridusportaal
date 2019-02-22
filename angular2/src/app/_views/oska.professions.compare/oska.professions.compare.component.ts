@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewChecked, HostListener } from '@angular/core';
 import { RootScopeService } from '@app/_services/rootScopeService';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -8,6 +7,7 @@ import { SettingsService } from '@app/_services/settings.service';
 import { Subscription } from 'rxjs/Subscription';
 import { CompareComponent } from '@app/_components/compare/compare.component';
 import { TableService } from '@app/_services/tableService';
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
   templateUrl: "oska.professions.compare.template.html",
@@ -45,7 +45,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   constructor (
     public route: ActivatedRoute, 
     public router: Router,
-    private http: HttpClient,
+    private http: HttpService,
     public rootScope: RootScopeService,
     private settings: SettingsService,
     private tableService: TableService
@@ -88,7 +88,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       fixedLabelEnabled: "false",
       offset: "0",
       nid: this.compare,
-      nidEnabled: "true",
+      nidEnabled: true,
       fetchPolicy: 'no-cache',
       errorPolicy: 'all'
     }
@@ -113,16 +113,18 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     data.forEach((elem, index) => {
       if(elem.fieldSidebar) {
         elem.fieldSidebar.entity.fieldOskaField.forEach((oska, indexVal) => {
-          this.oskaFields[index] = this.oskaFields[index] ? [...this.oskaFields[index], oska] : [oska];
-          if(this.oskaFieldsMaxLength < indexVal) {this.oskaFieldsMaxLength = indexVal};
+          if (oska.entity) {
+            this.oskaFields[index] = this.oskaFields[index] ? [...this.oskaFields[index], oska] : [oska];
+            if(this.oskaFieldsMaxLength < indexVal) {this.oskaFieldsMaxLength = indexVal};
+          }
         });
       };
-      if(elem.reverseOskaMainProfessionOskaIndicatorEntity && elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.length) {
-        elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.forEach((term, indexVal2) => {
-          this.termFields[index] = this.termFields[index] ? [...this.termFields[index], term] : [term];
-          if(this.termFieldsMaxLength < indexVal2) {this.termFieldsMaxLength = indexVal2};
-        });
-      };
+      // if(elem.reverseOskaMainProfessionOskaIndicatorEntity && elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.length) {
+      //   elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.forEach((term, indexVal2) => {
+      //     this.termFields[index] = this.termFields[index] ? [...this.termFields[index], term] : [term];
+      //     if(this.termFieldsMaxLength < indexVal2) {this.termFieldsMaxLength = indexVal2};
+      //   });
+      // };
       if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldPros && elem.fieldSidebar.entity.fieldPros.length) {
         elem.fieldSidebar.entity.fieldPros.forEach((pro, indexVal3) => {
           this.prosFields[index] = this.prosFields[index] ? [...this.prosFields[index], pro] : [pro];
@@ -137,7 +139,7 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
       };
     })
     this.oskaFieldsArr = this.oskaFieldsMaxLength ? Array(this.oskaFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
-    this.termFieldsArr = this.termFieldsMaxLength ? Array(this.termFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
+    // this.termFieldsArr = this.termFieldsMaxLength ? Array(this.termFieldsMaxLength+1).fill(0).map((x,i)=>i) : [];
     this.prosFieldsArr = this.prosFieldsMaxLength ? Array(this.prosFieldsMaxLength).fill(0).map((x,i)=>i) : [];
     this.consFieldsArr = this.consFieldsMaxLength ? Array(this.consFieldsMaxLength).fill(0).map((x,i)=>i) : [];
     this.list = data;
@@ -145,15 +147,15 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
 
   resetValues() {
     this.oskaFields = {};
-    this.termFields = {};
+    // this.termFields = {};
     this.prosFields = {};
     this.consFields = {};
     this.oskaFieldsMaxLength = 0;
-    this.termFieldsMaxLength = 0;
+    // this.termFieldsMaxLength = 0;
     this.prosFieldsMaxLength = 0;
     this.consFieldsMaxLength = 0;
     this.oskaFieldsArr = [];
-    this.termFieldsArr = [];
+    // this.termFieldsArr = [];
     this.prosFieldsArr = [];
     this.consFieldsArr = [];
   }

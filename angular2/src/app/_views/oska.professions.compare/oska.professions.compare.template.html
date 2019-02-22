@@ -31,93 +31,76 @@
           </div>
           <div class="scrollable__table" id="tableRef" (scroll)="tableOverflown = tableService.isOverflownWhileScrolling($event); elemAtStart = tableService.isElemAtStart('tableRef');setScrollPos('tableRef')">
             <table class="scrollableTable">
-              <thead>
-                <tr *ngIf="list">
-                  <th class="groupHead"></th>
-                  <th class="groupHead" *ngFor="let item of list">
-                    <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.title}}">{{ item.title | titleCase }}</a>
-                  </th>
-                </tr>
-                <tr *ngIf="list">
-                  <th></th>
-                  <th *ngFor="let item of list">
-                    <span class="important-pill" *ngIf="item.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span>
-                  </th>
-                </tr>
-              </thead>
               <tbody>
+                <tr *ngIf="list">
+                  <td class="borderless" *ngFor="let item of list">
+                    <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.title}}">{{ item.title | titleCase }}</a>
+                  </td>
+                </tr>
+                <tr *ngIf="list">
+                  <td *ngFor="let item of list">
+                    <span class="important-pill" *ngIf="item.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span>
+                  </td>
+                </tr>
+                <tr *ngIf="list" class="shade">
+                  <td colspan="100%" class="dark center">{{ 'oskaProfessions.fields' | translate | uppercase }}</td>
+                </tr>
                 <tr *ngFor="let elem of oskaFieldsArr; let childInd = index; let last = last;">
-                  <td [class.groupCell]="!last"><span *ngIf="childInd === 0">{{ 'oskaProfessions.fields' | translate }}</span></td>
                   <ng-container *ngFor="let item of list; let ind = index;">
-                    <td class="highlighted" [class.groupCell]="!last">
+                    <td [class.groupCell]="!last">
                       <ng-container *ngIf="oskaFields[ind]">
-                        <span *ngIf="!oskaFields[ind][childInd]">-</span>
-                        <a *ngIf="oskaFields[ind][childInd]" href="javascript:void(0)" [routerLink]="oskaFields[ind][childInd].entity.entityUrl.path">{{oskaFields[ind][childInd].entity.title}}</a>
+                        <span *ngIf="!oskaFields[ind][childInd]"></span>
+                        <span *ngIf="oskaFields[ind][childInd]">{{oskaFields[ind][childInd].entity.title}}</span>
                       </ng-container>
                       <ng-container *ngIf="!oskaFields[ind]">
-                        <span>-</span>
+                        <span></span>
                       </ng-container>
                     </td>
                   </ng-container>
                 </tr>
-                <tr *ngFor="let elem of termFieldsArr; let childInd = index; let last = last;">
-                  <td [class.groupCell]="!last"><span *ngIf="childInd === 0">{{ 'oskaProfessions.indicators' | translate }}</span></td>
-                  <ng-container *ngFor="let item of list; let ind = index;">
-                    <td class="highlighted" [class.groupCell]="!last">
-                      <ng-container *ngIf="termFields[ind]">
-                        <span *ngIf="!termFields[ind][childInd]">-</span>
-                        <span *ngIf="termFields[ind][childInd]">{{termFields[ind][childInd].oskaIndicator}}: {{termFields[ind][childInd].value}}</span>
-                      </ng-container>
-                      <ng-container *ngIf="!termFields[ind]">
-                        <span>-</span>
-                      </ng-container>
-                    </td>
-                  </ng-container>
+                <!-- <tr class="shade" *ngIf="list">
+                  <td colspan="100%" class="dark center">{{ 'oska.competition' | translate | uppercase }}</td>
+                </tr> -->
+                <tr class="shade" *ngIf="list">
+                  <td colspan="100%" class="dark center">{{ 'sidebar.pros_and_cons' | translate | uppercase }}</td>
                 </tr>
                 <tr *ngFor="let elem of prosFieldsArr; let childInd = index; let last = last;">
-                  <td [class.groupCell]="!last">
-                    <span *ngIf="childInd === 0">{{ 'sidebar.pros' | translate }}</span>
-                  </td>
                   <ng-container *ngFor="let item of list; let ind = index;">
-                    <td class="highlighted" [class.groupCell]="!last">
+                    <td [class.groupCell]="!last">
                       <ng-container *ngIf="prosFields[ind]">
-                        <span *ngIf="!prosFields[ind][childInd]">-</span>
+                        <span *ngIf="!prosFields[ind][childInd]"></span>
                         <ng-container *ngIf="prosFields[ind][childInd]">
                           <div class="flex centered">
-                            <div aria-hidden="true" class="icon-wrapper pos"><span class="htm-icon">thumb_up</span></div>
+                            <div aria-hidden="true" class="icon-wrapper top"><span class="htm-icon">vertical_align_top</span></div>
                             <div>{{prosFields[ind][childInd]}}</div>
                           </div>
                         </ng-container>
                       </ng-container>
                       <ng-container *ngIf="!prosFields[ind]">
-                        <span>-</span>
+                        <span></span>
                       </ng-container>
                     </td>
                   </ng-container>
                 </tr>
                 <tr *ngFor="let elem of consFieldsArr; let childInd = index; let last = last;">
-                  <td [class.groupCell]="!last">
-                    <span *ngIf="childInd === 0">{{ 'sidebar.cons' | translate }}</span>
-                  </td>
                   <ng-container *ngFor="let item of list; let ind = index;">
-                    <td class="highlighted" [class.groupCell]="!last">
+                    <td [class.groupCell]="!last">
                       <ng-container *ngIf="consFields[ind]">
-                        <span *ngIf="!consFields[ind][childInd]">-</span>
+                        <span *ngIf="!consFields[ind][childInd]"></span>
                         <ng-container *ngIf="consFields[ind][childInd]">
                           <div class="flex centered">
-                            <div aria-hidden="true" class="icon-wrapper neg"><span class="htm-icon">thumb_down</span></div>
+                            <div aria-hidden="true" class="icon-wrapper bottom"><span class="htm-icon">vertical_align_bottom</span></div>
                             <div>{{consFields[ind][childInd]}}</div>
                           </div>
                         </ng-container>
                       </ng-container>
                       <ng-container *ngIf="!consFields[ind]">
-                        <span>-</span>
+                        <span></span>
                       </ng-container>
                     </td>
                   </ng-container>
                 </tr>
                 <tr>
-                  <td></td>
                   <td *ngFor="let item of list; let i = index;">
                     <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'oskaProfessions.compare'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
                   </td>
