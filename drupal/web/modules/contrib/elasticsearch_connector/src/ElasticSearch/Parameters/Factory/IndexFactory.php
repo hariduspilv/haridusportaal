@@ -71,6 +71,20 @@ class IndexFactory {
      $event = $dispatcher->dispatch(PrepareIndexEvent::PREPARE_INDEX, $prepareIndexEvent);
      $indexConfig = $event->getIndexConfig();
 
+     $indexConfig['body']['settings']['analysis']['analyzer']['default'] = [
+         'tokenizer' => 'standard',
+         'filter' => [
+             'lowercase',
+             "et_EE"
+         ]
+     ];
+
+     $indexConfig['body']['settings']['analysis']['filter']['et_EE'] = [
+         'type' => 'hunspell',
+         'locale' => 'et_EE',
+         'dedup' => True
+     ];
+
      return $indexConfig;
    }
 
