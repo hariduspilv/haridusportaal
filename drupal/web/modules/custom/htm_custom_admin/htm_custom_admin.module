@@ -41,7 +41,9 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
 function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
     if($form_id === 'taxonomy_term_tags_form'){
-        $form['#validate'][] = 'htm_custom_admin_tags_validate';
+        if($form['tid']['#value'] == NULL){
+            $form['#validate'][] = 'htm_custom_admin_tags_validate';
+        }
     }
 
     if(isset($form['field_teaching_language']['widget']['#options']['_none'])){
