@@ -36,6 +36,13 @@
         </ng-container>
         <ng-container *ngIf="indicator.oskaId === 3 && indicator.icon > 0 && indicator.icon < 21">
           <h2 class="medium" attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}: {{ indicator.value }}">{{ 'oska.wage' | translate }}: {{ formatNumber(indicator.value, 'et') }} €</h2>
+          <div class="padding-block--content">
+            <div class="flex">
+              <div class="flex--single" *ngFor="let item of arrayOfLength((indicator.icon - (indicator.icon % 2)) / 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin_full.svg"/></div>
+              <div class="flex--single" *ngFor="let item of arrayOfLength(indicator.icon % 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin_half.svg"/></div>
+              <div class="flex--single" *ngFor="let elem of arrayOfLength((20 - indicator.icon) / 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin.svg"/></div>
+            </div>
+          </div>
           <hr *ngIf="!last">
         </ng-container>
         <ng-container *ngIf="indicator.oskaId === 4 && indicator.icon > 0 && indicator.icon < 6">

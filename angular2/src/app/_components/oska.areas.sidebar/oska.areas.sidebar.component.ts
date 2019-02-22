@@ -152,7 +152,7 @@ export class OskaAreasSidebarComponent implements OnInit {
   }
   
   arrayOfLength (len) {
-    return Array(len).fill(0).map((x,i)=>i)
+    return Array(parseInt(len, 10)).fill(0).map((x,i)=>i);
   }
 
   isContactValid() {
