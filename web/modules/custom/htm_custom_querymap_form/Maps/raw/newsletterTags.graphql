@@ -1,16 +1,9 @@
 query newsletterTags(
   $lang: LanguageId!
 ){
-  taxonomyTermQuery(limit:1000, filter: {conditions: [{operator: IN, field: "vid", value: ["tags", "event_tags", "event_type"], language:$lang}]}) {
+  taxonomyTermQuery(limit:1000, filter: {conditions: [{operator: IN, field: "vid", value: ["tags", "event_type"], language:$lang}]}) {
     entities {
       ... on TaxonomyTermTags {
-        entityId
-        entityLabel
-        parentsCount:reverseFieldTagNode {
-          count
-        }
-      }
-      ... on TaxonomyTermEventTags {
         entityId
         entityLabel
         parentsCount:reverseFieldTagNode {
