@@ -155,6 +155,9 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
             #get value for each label, sum reoccurring labels
             foreach($records as $record){
 
+                dump($record);
+                die();
+
                 if(isset($record[$label_field]) && $record[$label_field] != ''){
                     $xlabel = $record[$label_field];
                 }else{

@@ -9,7 +9,6 @@ use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
  *   id = "google_chart_filter_input",
  *   name = "GoogleChartFilterInput",
  *   fields = {
- *     "graph_set" = "String!",
  *     "graph_type" = "String!",
  *     "secondary_graph_type" = "String",
  *     "graph_group_by" = "String",
