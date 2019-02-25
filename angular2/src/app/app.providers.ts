@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, Injector } from '@angular/core';
-import { RootScopeService, MetaTagsService, TableService, AddressService } from './_services';
+import { RootScopeService, MetaTagsService, TableService, AddressService } from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from './_services/settings.service';
 import { HttpService } from '@app/_services/httpService';
