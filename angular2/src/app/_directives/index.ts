@@ -9,6 +9,7 @@ import { FormItemStatesDirective } from './formItemStates';
 		ToggleClassDirective,
 		DateFormatterDirective,
 		FormItemStatesDirective
+
 	],
 	exports: [
 		ToggleClassDirective,
