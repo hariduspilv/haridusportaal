@@ -98,7 +98,7 @@ class SettingsForm extends ConfigFormBase {
     $form['append_member_page'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Attach taxonomy member page to breadcrumb'),
-      '#description' => $this->t('This option affects breadcrumb display when the current page is a member of a taxonomy whose term is on a menu with "Taxonomy Attachment" selected, when it "attaches" to the menu-based breadcrumbs of that taxonomy term. In this case that term\'s menu title will show as a link regardless of the "current page" options above. Set this option TRUE to also show the the current ("attached") <i>page</i> title as the final breadcrumb.'),
+      '#description' => $this->t('This option affects breadcrumb display when the current page is a member of a taxonomy whose term is on a menu with "Taxonomy Attachment" selected, when it "attaches" to the menu-based breadcrumbs of that taxonomy term. In this case that term\'s menu title will show as a link regardless of the "current page" options above. Set this option TRUE to also show the current ("attached") <i>page</i> title as the final breadcrumb.'),
       '#default_value' => $config->get('append_member_page'),
     ];
 

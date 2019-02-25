@@ -2,7 +2,6 @@
 
 namespace Drupal\ctools\Form;
 
-
 use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Component\Uuid\Uuid;
 use Drupal\Core\Ajax\AjaxResponse;
@@ -12,7 +11,8 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\ctools\ConstraintConditionInterface;
-use Drupal\user\SharedTempStoreFactory;
+use Drupal\Core\TempStore\SharedTempStoreFactory;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class ConditionConfigure extends FormBase {
 
   /**
-   * @var \Drupal\user\SharedTempStoreFactory
+   * @var \Drupal\Core\TempStore\SharedTempStoreFactory
    */
   protected $tempstore;
 
@@ -132,7 +132,8 @@ abstract class ConditionConfigure extends FormBase {
     $response = new AjaxResponse();
     $cached_values = $this->tempstore->get($this->tempstore_id)->get($this->machine_name);
     list($route_name, $route_parameters) = $this->getParentRouteInfo($cached_values);
-    $response->addCommand(new RedirectCommand($this->url($route_name, $route_parameters)));
+    $url = Url::fromRoute($route_name, $route_parameters);
+    $response->addCommand(new RedirectCommand($url));
     $response->addCommand(new CloseModalDialogCommand());
     return $response;
   }

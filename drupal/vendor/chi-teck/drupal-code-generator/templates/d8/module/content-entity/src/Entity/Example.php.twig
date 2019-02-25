@@ -6,7 +6,9 @@ namespace Drupal\{{ machine_name }}\Entity;
 {% if not revisionable %}
 use Drupal\Core\Entity\ContentEntityBase;
 {% endif %}
+{% if author_base_field %}
 use Drupal\Core\Entity\EntityStorageInterface;
+{% endif %}
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 {% if revisionable %}
@@ -52,10 +54,16 @@ use Drupal\Core\Entity\EntityChangedTrait;
  *     }
  *   },
  *   base_table = "{{ entity_type_id }}",
+{% if translatable %}
  *   data_table = "{{ entity_type_id }}_field_data",
+{% endif %}
 {% if revisionable %}
  *   revision_table = "{{ entity_type_id }}_revision",
+{% endif %}
+{% if revisionable and translatable %}
  *   revision_data_table = "{{ entity_type_id }}_field_revision",
+{% endif %}
+{% if revisionable %}
  *   show_revision_ui = TRUE,
 {% endif %}
 {% if translatable %}
@@ -113,6 +121,7 @@ class {{ class_prefix }} extends {% if revisionable %}Revisionable{% endif %}Con
   use EntityChangedTrait;
 
 {% endif %}
+{% if author_base_field %}
   /**
    * {@inheritdoc}
    *
@@ -124,6 +133,7 @@ class {{ class_prefix }} extends {% if revisionable %}Revisionable{% endif %}Con
     $values += ['uid' => \Drupal::currentUser()->id()];
   }
 
+{% endif %}
 {% if title_base_field %}
   /**
    * {@inheritdoc}

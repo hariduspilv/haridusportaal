@@ -122,12 +122,9 @@ content:
     region: content
   field_tag:
     weight: 27
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
-    type: entity_reference_autocomplete_tags
+    type: options_select
     region: content
   langcode:
     type: language_select

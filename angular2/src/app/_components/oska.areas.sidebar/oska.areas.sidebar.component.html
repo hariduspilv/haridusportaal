@@ -1,6 +1,7 @@
 <div [class.snackBar]="viewType === 'mainProfession'">
   <!-- sidebar competition -->
-  <div class="block border-orange padding-block sm-top" *ngIf="competitionLevel && viewType === 'mainProfession'">
+  <div class="block border-orange padding-block sm-top" *ngIf="competitionLevel && viewType === 'mainProfession' 
+    && this.fillingbar[0] && this.fillingbar[0].value && this.fillingbar[0].value > 0 && this.fillingbar[0].value < 6">
     <h1 class="medium">{{ 'oska.competition' | translate }}</h1>
     <div class="padding-block--content">
       <div innerHtml="{{'oska.competition_introduction_label' | translate}}"></div>
@@ -10,10 +11,50 @@
   <!-- / sidebar competition / -->
   <!-- sidebar indicators -->
   <div class="block border-orange padding-block sm-top" *ngIf="indicators && indicators.entities && indicators.entities.length">
-    <h1 class="medium">{{ 'oskaProfessions.general_indicators' | translate }}</h1>
+    <h1 class="medium">{{ 'oskaProfessions.facts' | translate }}</h1>
     <div class="padding-block--content">
-      <div *ngFor="let indicator of indicators.entities">
-        <span>{{ indicator.oskaIndicator }}: </span><strong>{{ formatNumber(indicator.value, 'et') }}</strong>
+      <div *ngFor="let indicator of indicators.entities; let last = last;">
+        <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12">
+          <h2 class="medium" attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">{{ 'oska.fieldNumberEmployed' | translate }}: {{ formatNumber(indicator.value, 'et') }}</h2>
+          <div class="padding-block--content">
+            <div class="flex">
+              <div class="flex--single" *ngFor="let item of arrayOfLength(indicator.icon)" aria-hidden="true"><img alt="icon" src="/assets/img/person_filled.svg"/></div>
+              <div class="flex--single" *ngFor="let elem of arrayOfLength(11 - indicator.icon)" aria-hidden="true"><img alt="icon" src="/assets/img/person.svg"/></div>
+            </div>
+          </div>
+          <hr *ngIf="!last">
+        </ng-container>
+        <ng-container *ngIf="indicator.oskaId === 2 && indicator.icon > 0 && indicator.icon < 6">
+          <h2 class="medium" attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}: {{ indicator.value }}">{{ 'oska.numberEmployedChange' | translate }}:</h2>
+          <div class="padding-block--content">
+            <div class="flex centered final">
+              <div class="{{'icon-wrapper'}} {{trendingValues[indicator.icon - 1].class}}"><span class="htm-icon" aria-hidden="true">{{trendingValues[indicator.icon - 1].icon}}</span></div>
+              <div class="flex-text"><span role="text" attr.aria-label="{{trendingValues[indicator.icon - 1].text | translate}}">{{trendingValues[indicator.icon - 1].text | translate}}</span></div>
+            </div>
+          </div>
+          <hr *ngIf="!last">
+        </ng-container>
+        <ng-container *ngIf="indicator.oskaId === 3 && indicator.icon > 0 && indicator.icon < 21">
+          <h2 class="medium" attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}: {{ indicator.value }}">{{ 'oska.wage' | translate }}: {{ formatNumber(indicator.value, 'et') }} €</h2>
+          <div class="padding-block--content">
+            <div class="flex">
+              <div class="flex--single" *ngFor="let item of arrayOfLength((indicator.icon - (indicator.icon % 2)) / 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin_full.svg"/></div>
+              <div class="flex--single" *ngFor="let item of arrayOfLength(indicator.icon % 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin_half.svg"/></div>
+              <div class="flex--single" *ngFor="let elem of arrayOfLength((20 - indicator.icon) / 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin.svg"/></div>
+            </div>
+          </div>
+          <hr *ngIf="!last">
+        </ng-container>
+        <ng-container *ngIf="indicator.oskaId === 4 && indicator.icon > 0 && indicator.icon < 6">
+          <h2 class="medium" attr.aria-label="{{ 'oska.graduation_to_jobs_rate' | translate }}: {{ indicator.value }}">{{ 'oska.graduation_to_jobs_rate' | translate }}:</h2>
+          <div class="padding-block--content">
+            <div class="flex centered final">
+              <div class="{{'icon-wrapper'}} {{graduatesToJobsValues[indicator.icon - 1].class}}"><span class="icon" aria-hidden="true"></span></div>
+              <div class="flex-text"><span role="text" attr.aria-label="{{graduatesToJobsValues[indicator.icon - 1].text | translate}}">{{graduatesToJobsValues[indicator.icon - 1].text | translate}}</span></div>
+            </div>
+          </div>
+          <hr *ngIf="!last">
+        </ng-container>
       </div>
     </div>
   </div>
@@ -49,12 +90,14 @@
     <div class="padding-block--content">
       <ul class="link-list mt-0 mb-0">
         <ng-container *ngFor="let item of sidebar.fieldOskaField; let ind = index;">
-          <li *ngIf="ind < limits['fields']">
-            <a href="javascript:void(0)" attr.id="fieldOskaField_{{ind}}" [routerLink]="item.entity.entityUrl.path" attr.aria-label="{{item.entity.entityLabel}}" class="link related">
-              <div><span class="htm-icon">link</span></div>
-              <div class="label">{{item.entity.entityLabel}}</div>
-            </a>
-          </li>
+          <ng-container *ngIf="item.entity">
+            <li *ngIf="ind < limits['fields']">
+              <a href="javascript:void(0)" attr.id="fieldOskaField_{{ind}}" [routerLink]="item.entity.entityUrl.path" attr.aria-label="{{item.entity.entityLabel}}" class="link related">
+                <div><span class="htm-icon">link</span></div>
+                <div class="label">{{item.entity.entityLabel}}</div>
+              </a>
+            </li>
+          </ng-container>
         </ng-container>
       </ul>
       <ng-container *ngIf="typeStatus['fields']">

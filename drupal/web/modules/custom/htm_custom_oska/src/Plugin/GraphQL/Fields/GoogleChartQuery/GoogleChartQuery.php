@@ -145,11 +145,8 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
         #find label and value fields
         $label_field = $graph_data['graph_v_axis'];
         $value_field = 'vaartus';
-        $indicator_field = $graph_info['graph_set'] === 'multi-line' ? $graph_data['graph_group_by'] : 'naitaja';
 
-        if($graph_info['graph_set'] === 'multi'){
-            $indicator_field = $graph_data['graph_group_by'];
-        }
+        $indicator_field = $graph_data['graph_group_by'];
 
         if($label_field && $value_field){
             $labelsums = [];
@@ -157,6 +154,9 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
 
             #get value for each label, sum reoccurring labels
             foreach($records as $record){
+
+                dump($record);
+                die();
 
                 if(isset($record[$label_field]) && $record[$label_field] != ''){
                     $xlabel = $record[$label_field];
@@ -184,21 +184,19 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
                 }
             }
 
-            if($graph_info['graph_set'] === 'combo'){
-                #sort data array by indicators
-                #add first fixed row to new array
-                $new_labelsums[key($labelsums)] = reset($labelsums);
+            #sort data array by indicators
+            #add first fixed row to new array
+            $new_labelsums[key($labelsums)] = reset($labelsums);
 
-                #get correct key order by indicator
-                $key_order = $filter_values[$indicator_field];
+            #get correct key order by indicator
+            $key_order = $filter_values[$indicator_field];
 
-                #put values in new order to the array
-                foreach($key_order as $value){
-                    $new_labelsums[$value] = $labelsums[$value];
-                }
-
-                $labelsums = $new_labelsums;
+            #put values in new order to the array
+            foreach($key_order as $value){
+                $new_labelsums[$value] = $labelsums[$value];
             }
+
+            $labelsums = $new_labelsums;
 
             #add values to empty fields
             if(count($xlabels) > 0){

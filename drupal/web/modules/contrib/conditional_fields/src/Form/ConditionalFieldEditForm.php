@@ -11,7 +11,8 @@ use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Core\Render\Element;
 use Drupal\conditional_fields\Conditions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormBuilderInterface;
 
 /**
  * Class ConditionalFieldEditForm.
@@ -30,10 +31,26 @@ class ConditionalFieldEditForm extends FormBase {
   protected $list;
 
   /**
+   * Provides an interface for entity type managers.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Provides an interface for form building and processing.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
    * Class constructor.
    */
-  public function __construct(Conditions $list) {
+  public function __construct(Conditions $list, EntityTypeManagerInterface $entity_type_manager, FormBuilderInterface $form_builder) {
     $this->list = $list;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->formBuilder = $form_builder;
   }
 
   /**
@@ -43,7 +60,9 @@ class ConditionalFieldEditForm extends FormBase {
     // Instantiates this form class.
     return new static(
     // Load the service required to construct this class.
-      $container->get('conditional_fields.conditions')
+      $container->get('conditional_fields.conditions'),
+      $container->get('entity_type.manager'),
+      $container->get('form_builder')
     );
   }
 
@@ -63,7 +82,7 @@ class ConditionalFieldEditForm extends FormBase {
       return $form;
     }
 
-    $form_display_entity = \Drupal::entityTypeManager()
+    $form_display_entity = $this->entityTypeManager
       ->getStorage('entity_form_display')
       ->load("$entity_type.$bundle.default");
     if (!$form_display_entity) {
@@ -275,7 +294,7 @@ class ConditionalFieldEditForm extends FormBase {
     $bundle = $values['bundle'];
 
     /** @var EntityFormDisplay $entity */
-    $entity = \Drupal::entityTypeManager()
+    $entity = $this->entityTypeManager
       ->getStorage('entity_form_display')
       ->load("$entity_type.$bundle.default");
     if (!$entity) {
@@ -473,12 +492,12 @@ class ConditionalFieldEditForm extends FormBase {
     $field_name = $condition['dependee'];
     $dummy_field = [];
 
-    $entityTypeManager = \Drupal::entityTypeManager();
+    $entityTypeManager = $this->entityTypeManager;
     $storage = $entityTypeManager->getStorage($entity_type);
     $bundle_key = $storage->getEntityType()->getKey('bundle');
 
     $dummy_entity = $storage->create([
-      'uid' => \Drupal::currentUser()->id(),
+      'uid' => $this->currentUser()->id(),
       $bundle_key => $bundle,
     ]);
 
@@ -500,7 +519,7 @@ class ConditionalFieldEditForm extends FormBase {
       return NULL;
     }
 
-    $form_builder_service = \Drupal::service('form_builder');
+    $form_builder_service = $this->formBuilder;
     $form_state_additions = [];
     $form_state_new = (new FormState())->setFormState($form_state_additions);
 
