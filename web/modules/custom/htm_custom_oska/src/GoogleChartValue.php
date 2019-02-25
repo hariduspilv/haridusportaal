@@ -95,11 +95,7 @@ class GoogleChartValue extends TypedData {
         $label_field = $graph_data['graph_v_axis'];
         $value_field = 'vaartus';
 
-        if($graph_info['graph_set'] === 'multi' || $graph_info['graph_set'] === 'multi-line'){
-            $indicator_field = $graph_data['graph_group_by'];
-        }else{
-            $indicator_field = 'naitaja';
-        }
+        $indicator_field = $graph_data['graph_group_by'];
 
         if($label_field && $value_field){
             $labelsums = [];
@@ -135,21 +131,19 @@ class GoogleChartValue extends TypedData {
                 }
             }
 
-            if($graph_info['graph_set'] === 'combo'){
-                #sort data array by indicators
-                #add first fixed row to new array
-                $new_labelsums[key($labelsums)] = reset($labelsums);
+            #sort data array by indicators
+            #add first fixed row to new array
+            $new_labelsums[key($labelsums)] = reset($labelsums);
 
-                #get correct key order by indicator
-                $key_order = $filter_values[$indicator_field];
+            #get correct key order by indicator
+            $key_order = $filter_values[$indicator_field];
 
-                #put values in new order to the array
-                foreach($key_order as $value){
-                    $new_labelsums[$value] = $labelsums[$value];
-                }
-
-                $labelsums = $new_labelsums;
+            #put values in new order to the array
+            foreach($key_order as $value){
+                $new_labelsums[$value] = $labelsums[$value];
             }
+
+            $labelsums = $new_labelsums;
 
             #add values to empty fields
             if(count($xlabels) > 0){
