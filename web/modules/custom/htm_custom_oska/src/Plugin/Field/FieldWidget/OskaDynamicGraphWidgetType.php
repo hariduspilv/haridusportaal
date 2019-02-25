@@ -46,7 +46,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             '#title' => $this->t('Graph type'),
             '#size' => 256,
             '#type' => 'select',
-            '#default_value' => isset($items[$delta]->graph_set) ? $items[$delta]->graph_set : NULL,
+            '#default_value' => isset($items[$delta]->graph_type) ? $items[$delta]->graph_type : NULL,
             '#options' => [
                 'line' => $this->t('line'),
                 'clustered column' => $this->t('clustered column'),
@@ -195,58 +195,76 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            if($graph_type != 'line'){
+            $element['graph_options']['secondary_graph_y_min'] = [
+                '#title' => $this->t('Secondary minimum Y'),
+                '#type' => 'textfield',
+                '#placeholder' => $this->t("Enter secondary minimum Y value."),
+                '#default_value' => isset($data['secondary_graph_y_min']) ? $data['secondary_graph_y_min'] : 0,
+                '#maxlength' => 100,
+                '#delta' => $delta,
+            ];
 
-                $element['graph_options']['secondary_graph_y_min'] = [
-                    '#title' => $this->t('Secondary minimum Y'),
-                    '#type' => 'textfield',
-                    '#placeholder' => $this->t("Enter secondary minimum Y value."),
-                    '#default_value' => isset($data['secondary_graph_y_min']) ? $data['secondary_graph_y_min'] : 0,
-                    '#maxlength' => 100,
-                    '#delta' => $delta,
-                ];
+            $secondary_graph_type_options = [];
 
-                $element['graph_options']['secondary_graph_type'] = [
-                    '#title' => $this->t('Secondary graph type'),
-                    '#size' => 256,
-                    '#type' => 'select',
-                    '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
-                    '#options' => [
-                        'line' => $this->t('line'),
-                    ],
-                    '#empty_option'  => '-',
-                    '#required' => FALSE,
-                    '#delta' => $delta,
-                    '#delta' => $delta,
-                ];
-
-                $element['graph_options']['secondary_graph_indicator'] = [
-                    '#title' => $this->t('Secondary OSKA indicator'),
-                    '#type' => 'select',
-                    '#options' => $indicator_options,
-                    '#multiple' => TRUE,
-                    '#required' => FALSE,
-                    '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
-                    '#ajax' => [
-                        'callback' => [$this,'ajax_dependent_graph_filters_callback'],
-                        'wrapper' => 'dynamic_graph_filter_set'.$delta,
-                    ],
-                    '#delta' => $delta,
-                ];
-
-                $element['graph_options']['graph_y_unit'] = [
-                    '#title' => $this->t('Graph Y unit'),
-                    '#type' => 'select',
-                    '#options' => [
-                        'summa' => $this->t('summa'),
-                        '%' => $this->t('%'),
-                        'euro' => $this->t('euro'),
-                    ],
-                    '#multiple' => FALSE,
-                    '#required' => FALSE,
-                    '#default_value' => isset($data['graph_y_unit']) ? $data['graph_y_unit'] : NULL,
-                ];
+            switch($graph_type){
+                case 'line':
+                    $secondary_graph_type_options = array(
+                        'multi-line' => $this->t('multi-line'),
+                    );
+                    break;
+                case 'clustered column':
+                case 'stacked column':
+                case 'stacked column 100':
+                    $secondary_graph_type_options = array(
+                        'column' => $this->t('column'),
+                    );
+                    break;
+                case 'clustered bar':
+                case 'stacked bar':
+                case 'stacked bar 100':
+                    $secondary_graph_type_options = array(
+                        'bar' => $this->t('bar'),
+                    );
+                    break;
             }
+
+            $element['graph_options']['secondary_graph_type'] = [
+                '#title' => $this->t('Secondary graph type'),
+                '#size' => 256,
+                '#type' => 'select',
+                '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
+                '#options' => $secondary_graph_type_options,
+                '#empty_option'  => '-',
+                '#required' => FALSE,
+                '#delta' => $delta,
+            ];
+
+            $element['graph_options']['secondary_graph_indicator'] = [
+                '#title' => $this->t('Secondary OSKA indicator'),
+                '#type' => 'select',
+                '#options' => $indicator_options,
+                '#multiple' => TRUE,
+                '#required' => FALSE,
+                '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
+                '#ajax' => [
+                    'callback' => [$this,'ajax_dependent_graph_filters_callback'],
+                    'wrapper' => 'dynamic_graph_filter_set'.$delta,
+                ],
+                '#delta' => $delta,
+            ];
+
+            $element['graph_options']['graph_y_unit'] = [
+                '#title' => $this->t('Graph Y unit'),
+                '#type' => 'select',
+                '#options' => [
+                    'summa' => $this->t('summa'),
+                    '%' => $this->t('%'),
+                    'euro' => $this->t('euro'),
+                ],
+                '#multiple' => FALSE,
+                '#required' => FALSE,
+                '#default_value' => isset($data['graph_y_unit']) ? $data['graph_y_unit'] : NULL,
+            ];
 
             $element['graph_options']['graph_text'] = [
                 '#title' => $this->t('Graph info text'),
