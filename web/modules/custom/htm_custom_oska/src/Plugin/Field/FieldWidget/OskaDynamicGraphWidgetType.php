@@ -100,7 +100,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     break;
                 case 'combo':
                     $graph_type_options = array(
-                        'line' => $this->t('line')
+                        'column' => $this->t('column'),
+                        'clustered_column' => $this->t('clustered column'),
+                        'stacked_column' => $this->t('stacked column'),
                     );
                     break;
                 case 'multi':
@@ -190,13 +192,22 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
             foreach($fields as $key => $field){
 
+                $graph_indicator = [];
+                $secondary_graph_indicator = [];
+
                 if(isset($form_state->getUserInput()[$field_name])){
                     $graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['graph_indicator'];
                 }else if(isset($data['graph_indicator'])){
                     $graph_indicator = $data['graph_indicator'];
-                }else{
-                    $graph_indicator = false;
                 }
+
+                if(isset($form_state->getUserInput()[$field_name])){
+                    $secondary_graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['secondary_graph_indicator'];
+                }else if(isset($data['secondary_graph_indicator'])){
+                    $secondary_graph_indicator = $data['secondary_graph_indicator'];
+                }
+                
+                $graph_indicator = array_merge($graph_indicator, $secondary_graph_indicator);
 
                 $selection_data = json_decode(file_get_contents($oska_filters_path.$key), TRUE);
                 $selection = [];
@@ -247,9 +258,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#type' => 'select',
                     '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
                     '#options' => [
-                        'column' => $this->t('column'),
-                        'clustered_column' => $this->t('clustered column'),
-                        'stacked_column' => $this->t('stacked column'),
+                        'line' => $this->t('line'),
                     ],
                     '#empty_option'  => '-',
                     '#required' => FALSE,
