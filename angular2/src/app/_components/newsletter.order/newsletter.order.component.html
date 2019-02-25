@@ -8,13 +8,15 @@
     <form class="block__content--form" (ngSubmit)="submit()">
 
       <div class="block__content--form__checklist">
-        <div class="block__content--form__checklist__elem" *ngFor="let item of data">
-          <label class="checkbox__container pointer">
-            <span class="label">{{ item.entityLabel }}</span>
-            <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" (change)="updateRSSLink()">
-            <span class="checkmark" [class.checked]="formItems[item.entityId]"></span>
-          </label>
-        </div>
+        <ng-container *ngFor="let item of data">
+          <div class="block__content--form__checklist__elem" *ngIf="item && item.parentsCount && item.parentsCount.count > 0">
+            <label class="checkbox__container pointer">
+              <span class="label">{{ item.entityLabel }}</span>
+              <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" (change)="updateRSSLink()">
+              <span class="checkmark" [class.checked]="formItems[item.entityId]"></span>
+            </label>
+          </div>
+        </ng-container>
       </div><!--block__content--form__checklist-->
 
 

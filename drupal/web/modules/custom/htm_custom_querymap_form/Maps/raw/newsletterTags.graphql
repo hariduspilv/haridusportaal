@@ -1,9 +1,22 @@
-query newsletterTags($lang: LanguageId!){
-    CustomTagsQuery(filter:{conditions:{field:"type", value:["news", "event"], operator:IN, language:$lang}}){
-        count
-        entities(language:$lang){
-            entityLabel
-            entityId
+query newsletterTags(
+  $lang: LanguageId!
+){
+  taxonomyTermQuery(limit:1000, filter: {conditions: [{operator: IN, field: "vid", value: ["tags", "event_type"], language:$lang}]}) {
+    entities {
+      ... on TaxonomyTermTags {
+        entityId
+        entityLabel
+        parentsCount:reverseFieldTagNode {
+          count
         }
+      }
+      ... on TaxonomyTermEventType {
+        entityId
+        entityLabel
+        parentsCount:reverseFieldEventTypeNode {
+          count
+        }
+      }
     }
+  }
 }

@@ -22,3 +22,7 @@ a:hover {
 .snackBar {margin-bottom: 7.75rem;
   @include break-on(sm, min) {margin-bottom: 5.25rem;}
 }
+h2 {margin-bottom: 0;}
+.padding-block--content hr {
+  margin: 1rem 0;
+}

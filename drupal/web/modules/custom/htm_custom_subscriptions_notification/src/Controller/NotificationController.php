@@ -88,7 +88,7 @@ class NotificationController extends ControllerBase {
       $nodes[$node->toArray()['type'][0]['target_id']][] = $node;
     }
 
-    return $nodes;
+    return $nodes ? $nodes : FALSE;
   }
 
   public function notification_email_content($tags, $entity, $content_types){
@@ -100,18 +100,18 @@ class NotificationController extends ControllerBase {
     foreach($tags as $tag){
       $contents = $this->get_content_by_tag($tag, $content_types);
     }
-    $news = $contents['news'];
-    $events = $contents['event'];
+    if($contents){
+        $news = $contents['news'];
+        $events = $contents['event'];
 
-    $template['subject'] = $config->get('emails.email_subscription.notify_email_subject');
-		$template['body'] = $config->get('emails.email_subscription.notify_email_body');
+        $template['subject'] = $config->get('emails.email_subscription.notify_email_subject');
+        $template['body'] = $config->get('emails.email_subscription.notify_email_body');
 
-    $email['subject'] = $token_service->replace($template['subject'], ['subscription_entity' => $entity, 'news' => $news, 'events' => $events], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
-    $email['body'] = $token_service->replace($template['body'], ['subscription_entity' => $entity, 'news' => $news, 'events' => $events], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
-    $email['entity'] = $entity;
+        $email['subject'] = $token_service->replace($template['subject'], ['subscription_entity' => $entity, 'news' => $news, 'events' => $events], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+        $email['body'] = $token_service->replace($template['body'], ['subscription_entity' => $entity, 'news' => $news, 'events' => $events], ['clear' => TRUE, 'langcode' => $langcode, 'custom_link_path' => $link_root]);
+        $email['entity'] = $entity;
 
-    return $email;
-
+        return $email;
+    }
   }
-
 }
