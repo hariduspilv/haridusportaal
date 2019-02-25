@@ -6,9 +6,10 @@
   &__list-head {margin-top: 0;}
   &__list-body {padding: 1.5rem 0 3rem;
     @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
-    .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%;overflow: hidden;
-      &--title {margin: auto 0;padding: .5rem;display: flex;align-items: center;min-height: 2.25rem;width: 100%;justify-content: center;
-        h1 {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;
+    .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%; position:relative; appearance:none; padding:0; border:none; width:100%;
+      span{display:block;}
+      &--title {margin: auto 0;padding: .5rem;display: flex !important;align-items: center;min-height: 2.25rem;width: 100%;justify-content: center;
+        .sector__title {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;
           text-decoration: underline;padding: 0 .5rem;overflow: hidden;text-overflow: ellipsis;
         }
       }
@@ -21,7 +22,12 @@
       .overlay {position: absolute;top: 0;left: 0;right: 0;bottom: 0;clear: float;background-color: rgba(51,51,51,.2);}
       &:hover {background-color: $gray;
         .overlay {display: none;}
-        h1 {text-decoration: none;color: $black;font-weight: 500;}
+        .sector__title {text-decoration: none;color: $black;font-weight: 500;}
+      }
+      &.active{background-color:$light-gray;
+        .overlay{display:none;}
+        .sector__title {text-decoration: none;color: $black;font-weight: 500;}
+        &:after{top: 100%; left: 50%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-color: rgba(213, 203, 60, 0); border-bottom-color: $light-gray; border-width: 1.5rem; margin-left: -1.5rem; margin-top:-0.8125rem;}
       }
     }
   }
@@ -43,4 +49,43 @@
     }
   }
   .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
+}
+
+.modal{background:$light-gray; padding:2rem 2rem 0.4rem 2rem; margin-top:0.8rem;
+  &__header{border-bottom:$white 3px solid; margin:-2rem -2rem 0 -2rem; padding:0 2rem; display:flex; height:4.625rem;
+    &__col{flex-grow:1; display:flex; align-items: center; padding:0 !important;
+      &:last-child{flex-grow:0; flex-shrink: 0;}
+    }
+    h2{margin:0; font-size:1.5rem; line-height:100%;}
+
+    button{padding:0; margin:0; appearance: none; background:none; border:none; color:$dark-gray; margin-left:30px;}
+  }
+  &__content{padding:1.3rem 0;
+    p{line-height:1.375rem; margin:0.5625rem 0;}
+    p:first-child{margin-top:0;}
+    p:last-child{margin-bottom:0;}
+  }
+  &__image{background:center center no-repeat; background-size:cover;  padding-bottom:56%; position:relative;
+    img{position: absolute; top:0; left:0; width:100%; height:100%; opacity:0;}
+  }
+  &__video{padding-bottom:56%; position:relative; background:rgba(0,0,0,0.6);
+    iframe{position: absolute; top:0; left:0; width:100%; height:100%;}
+  }
+
+  hr{margin:1.5rem 0; border:none; height:3px; background:$white; overflow: hidden;
+    &.xs-show{margin-top:0.5rem;}
+  }
+
+  &__padding{padding-left:18px;
+    @include break-on(xs, max) {padding-left:0;}
+  }
+
+  [class*='col']{position:relative;}
+  .separator{position:absolute; top:0.5rem; left:0; width:3px; bottom:0.5rem; background:$white;}
+  ul{list-style:none; margin:0; padding:0; display:flex; flex-wrap: wrap;
+    li{width:100%; margin:5px 0;
+      @include break-on(xs, min) {width:50%;}
+      @include break-on(md, min) {width:33.3333%;}
+    }
+  }
 }
