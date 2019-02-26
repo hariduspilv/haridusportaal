@@ -30,7 +30,7 @@
                 <h2 role="heading" tabindex="0">{{ modal.title }}</h2>
               </div><!--/modal__header__col-->
               <div class="modal__header__col">
-                <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfessions.read_more' | translate }}">{{ 'oskaProfessions.read_more' | translate }}</a>
+                <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfession.view_field_info' | translate }}">{{ 'oskaProfession.view_field_info' | translate }}</a>
                 <button role="button" attr.aria-label="{{ 'oskaProfessions.close_modal' | translate }}" (click)="modalClose()"><span class="htm-icon">close-1</span></button>
               </div><!--/modal__header__col-->
             </div>
@@ -70,9 +70,10 @@
                 </div><!--/col-->
               </div>
               <hr />
-              <p><b>Valdkonna põhikutsealad</b></p>
+
+              <p *ngIf="modal.list && modal.list.length > 0"><b>{{ 'oskaProfessions.main_profession' | translate }}</b></p>
               <ul>
-                <li *ngFor="let item of modal.list"><a [routerLink]="item.entity.entityUrl.path">{{ item.entity.entityLabel }}</a></li>
+                <li *ngFor="let item of modal.list"><a [routerLink]="item.entityUrl.path" [title]="item.entityLabel">{{ item.entityLabel }}</a></li>
               </ul>
             </div><!--/modal__content-->
           </div>
