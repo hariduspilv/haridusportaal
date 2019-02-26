@@ -22,38 +22,38 @@
               <div class="flex--single" *ngFor="let elem of arrayOfLength(11 - indicator.icon)" aria-hidden="true"><img alt="icon" src="/assets/img/person.svg"/></div>
             </div>
           </div>
-          <hr *ngIf="!last">
+          <hr aria-hidden="true" *ngIf="!last">
         </ng-container>
         <ng-container *ngIf="indicator.oskaId === 2 && indicator.icon > 0 && indicator.icon < 6">
-          <h2 class="medium" attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}: {{ indicator.value }}">{{ 'oska.numberEmployedChange' | translate }}:</h2>
+          <h2 class="medium" attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}">{{ 'oska.numberEmployedChange' | translate }}:</h2>
           <div class="padding-block--content">
             <div class="flex centered final">
               <div class="{{'icon-wrapper'}} {{trendingValues[indicator.icon - 1].class}}"><span class="htm-icon" aria-hidden="true">{{trendingValues[indicator.icon - 1].icon}}</span></div>
               <div class="flex-text"><span role="text" attr.aria-label="{{trendingValues[indicator.icon - 1].text | translate}}">{{trendingValues[indicator.icon - 1].text | translate}}</span></div>
             </div>
           </div>
-          <hr *ngIf="!last">
+          <hr aria-hidden="true" *ngIf="!last">
         </ng-container>
         <ng-container *ngIf="indicator.oskaId === 3 && indicator.icon > 0 && indicator.icon < 21">
-          <h2 class="medium" attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}: {{ indicator.value }}">{{ 'oska.wage' | translate }}: {{ formatNumber(indicator.value, 'et') }} €</h2>
+          <h2 class="medium" attr.aria-label="{{ 'oska.wage' | translate }}: {{ indicator.value }}">{{ 'oska.wage' | translate }}: {{ formatNumber(indicator.value, 'et') }} €</h2>
           <div class="padding-block--content">
             <div class="flex">
-              <div class="flex--single" *ngFor="let item of arrayOfLength((indicator.icon - (indicator.icon % 2)) / 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin_full.svg"/></div>
-              <div class="flex--single" *ngFor="let item of arrayOfLength(indicator.icon % 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin_half.svg"/></div>
-              <div class="flex--single" *ngFor="let elem of arrayOfLength((20 - indicator.icon) / 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin.svg"/></div>
+              <div class="flex--single padded" *ngFor="let item of arrayOfLength((indicator.icon - (indicator.icon % 2)) / 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin_full.svg"/></div>
+              <div class="flex--single padded" *ngFor="let item of arrayOfLength(indicator.icon % 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin_half.svg"/></div>
+              <div class="flex--single padded" *ngFor="let elem of arrayOfLength((20 - indicator.icon) / 2)" aria-hidden="true"><img alt="icon" src="/assets/img/coin.svg"/></div>
             </div>
           </div>
-          <hr *ngIf="!last">
+          <hr aria-hidden="true" *ngIf="!last">
         </ng-container>
         <ng-container *ngIf="indicator.oskaId === 4 && indicator.icon > 0 && indicator.icon < 6">
-          <h2 class="medium" attr.aria-label="{{ 'oska.graduation_to_jobs_rate' | translate }}: {{ indicator.value }}">{{ 'oska.graduation_to_jobs_rate' | translate }}:</h2>
+          <h2 class="medium" attr.aria-label="{{ 'oska.graduation_to_jobs_rate' | translate }}">{{ 'oska.graduation_to_jobs_rate' | translate }}:</h2>
           <div class="padding-block--content">
             <div class="flex centered final">
               <div class="{{'icon-wrapper'}} {{graduatesToJobsValues[indicator.icon - 1].class}}"><span class="icon" aria-hidden="true"></span></div>
               <div class="flex-text"><span role="text" attr.aria-label="{{graduatesToJobsValues[indicator.icon - 1].text | translate}}">{{graduatesToJobsValues[indicator.icon - 1].text | translate}}</span></div>
             </div>
           </div>
-          <hr *ngIf="!last">
+          <hr aria-hidden="true" *ngIf="!last">
         </ng-container>
       </div>
     </div>
