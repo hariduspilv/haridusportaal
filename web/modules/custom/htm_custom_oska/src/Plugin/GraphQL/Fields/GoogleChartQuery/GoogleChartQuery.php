@@ -197,19 +197,21 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
                 }
             }
 
-            #sort data array by indicators
-            #add first fixed row to new array
-            $new_labelsums[key($labelsums)] = reset($labelsums);
+            if($indicator_field == 'naitaja'){
+                #sort data array by indicators
+                #add first fixed row to new array
+                $new_labelsums[key($labelsums)] = reset($labelsums);
 
-            #get correct key order by indicator
-            $key_order = $filter_values[$indicator_field];
+                #get correct key order by indicator
+                $key_order = $filter_values[$indicator_field];
 
-            #put values in new order to the array
-            foreach($key_order as $value){
-                $new_labelsums[$value] = $labelsums[$value];
+                #put values in new order to the array
+                foreach($key_order as $value){
+                    $new_labelsums[$value] = $labelsums[$value];
+                }
+
+                $labelsums = $new_labelsums;
             }
-
-            $labelsums = $new_labelsums;
 
             #add values to empty fields
             if(count($xlabels) > 0){
