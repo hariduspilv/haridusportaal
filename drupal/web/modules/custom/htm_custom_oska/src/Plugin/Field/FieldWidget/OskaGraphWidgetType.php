@@ -127,10 +127,15 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            $indicator_options = explode(PHP_EOL, file_get_contents($oska_filters_path.'naitaja'));
-            foreach($indicator_options as $key => $value){
-                $indicator_options[$value] = $value;
-                unset($indicator_options[$key]);
+            foreach($oska_filters as $field){
+                $fields[$field] = $this->t(ucfirst($field));
+            }
+
+            $indicator_data = json_decode(file_get_contents($oska_filters_path.'naitaja'), TRUE);
+            $indicator_options = [];
+
+            foreach($indicator_data as $key => $value){
+                $indicator_options[$key] = $key;
             }
 
             $element['graph_options']['graph_indicator'] = [
