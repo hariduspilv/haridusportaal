@@ -68,21 +68,26 @@ query oskaFieldDetailView($path: String!) {
             }
             __typename
           }
-          reverseFieldOskaFieldParagraph{
-            entities{
-              ... on NodeOskaMainProfessionPage{
+          reverseFieldOskaFieldParagraph {
+            entities {
+              ... on NodeOskaMainProfessionPage {
                 entityLabel
                 entityId
-                reverseOskaMainProfessionOskaFillingBarEntity{
+                entityUrl {
+                  routed
+                  path
+                  __typename
+                }
+                reverseOskaMainProfessionOskaFillingBarEntity {
                   entities {
-                    ... on OskaFillingBarEntity{
+                    ... on OskaFillingBarEntity {
                       value
                     }
                   }
                 }
-                reverseOskaMainProfessionOskaIndicatorEntity{
+                reverseOskaMainProfessionOskaIndicatorEntity {
                   entities {
-                    ... on OskaIndicatorEntity{
+                    ... on OskaIndicatorEntity {
                       oskaIndicator
                       value
                     }
@@ -150,7 +155,7 @@ query oskaFieldDetailView($path: String!) {
             }
           }
           oskaGraphData
-          fieldFieldPageGraph{
+          fieldFieldPageGraph {
             value
             graphSet
             graphTitle
