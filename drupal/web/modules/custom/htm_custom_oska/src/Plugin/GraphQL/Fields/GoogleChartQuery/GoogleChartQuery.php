@@ -146,12 +146,12 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
         $label_field = $graph_data['graph_v_axis'];
         $value_field = 'vaartus';
 
-        $indicator_field = $graph_data['graph_group_by'];
+        $indicator_field = count($filter_values['naitaja']) > 1 ? 'naitaja' : $graph_data['graph_group_by'];
 
         if($label_field && $value_field){
             $labelsums = [];
             $xlabels = [];
-
+            
             #get value for each label, sum reoccurring labels
             foreach($records as $record){
 
