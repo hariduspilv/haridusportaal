@@ -1,49 +1,41 @@
 query oskaFieldListView($nid: [String], $nidEnabled: Boolean, $lang: LanguageId!, $offset: Int, $limit: Int) {
-  nodeQuery(offset: $offset, limit: $limit, sort: {field: "created", direction: DESC, language: $lang}, filter: {conjunction: AND, conditions: [
-    {operator: EQUAL, field: "type", value: ["oska_field_page"], language: $lang},
-    {operator: IN, field: "nid", value: $nid, language: $lang, enabled: $nidEnabled}]}) {
+  nodeQuery(offset: $offset, limit: $limit, sort: {field: "created", direction: DESC, language: $lang}, filter: {conjunction: AND, conditions: [{operator: EQUAL, field: "type", value: ["oska_field_page"], language: $lang}, {operator: IN, field: "nid", value: $nid, language: $lang, enabled: $nidEnabled}]}) {
     count
     entities(language: $lang) {
       ... on NodeOskaFieldPage {
         nid
         title
-        entityUrl{
+        entityUrl {
           routed
           path
         }
-        fieldOskaFieldPicture{
+        fieldOskaFieldPicture {
           derivative(style: CROP_LARGE) {
-              url
-              __typename
-            }
-            width
-            height
-            alt
-            title
+            url
             __typename
+          }
+          width
+          height
+          alt
+          title
+          __typename
         }
-        fieldOskaVideo{
+        fieldOskaVideo {
           input
           videoDomain
           videoDescription
           videoId
         }
         fieldIntroduction
-        fieldOskaFieldSidebar{
-          entity {
-            ... on ParagraphOskaFieldSidebar{
-              fieldOskaMainProfession{
-                entity{
-                  ... on NodeOskaMainProfessionPage{
-                    entityId
-                    entityLabel
-                    entityUrl{
-                      routed
-                      path
-                      __typename
-                    }
-                  }
-                }
+        reverseFieldOskaFieldParagraph {
+          entities {
+            ... on NodeOskaMainProfessionPage {
+              entityId
+              entityLabel
+              entityUrl {
+                routed
+                path
+                __typename
               }
             }
           }
