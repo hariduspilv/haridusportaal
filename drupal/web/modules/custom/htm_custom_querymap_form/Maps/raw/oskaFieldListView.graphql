@@ -28,18 +28,22 @@ query oskaFieldListView($nid: [String], $nidEnabled: Boolean, $lang: LanguageId!
         }
         fieldIntroduction
         reverseFieldOskaFieldParagraph {
-          entities {
-            ... on NodeOskaMainProfessionPage {
-              entityId
-              entityLabel
-              entityUrl {
-                routed
-                path
-                __typename
-              }
-            }
-          }
-        }
+                    entities {
+                      ... on ParagraphMainProfessionSidebar {
+                        paragraphReference {
+                          ... on NodeOskaMainProfessionPage {
+                            entityLabel
+                            entityId
+                            entityUrl {
+                              routed
+                              path
+                              __typename
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
         __typename
       }
       __typename

@@ -70,26 +70,30 @@ query oskaFieldDetailView($path: String!) {
           }
           reverseFieldOskaFieldParagraph {
             entities {
-              ... on NodeOskaMainProfessionPage {
-                entityLabel
-                entityId
-                entityUrl {
-                  routed
-                  path
-                  __typename
-                }
-                reverseOskaMainProfessionOskaFillingBarEntity {
-                  entities {
-                    ... on OskaFillingBarEntity {
-                      value
+              ... on ParagraphMainProfessionSidebar {
+                paragraphReference {
+                  ... on NodeOskaMainProfessionPage {
+                    entityLabel
+                    entityId
+                    entityUrl {
+                      routed
+                      path
+                      __typename
                     }
-                  }
-                }
-                reverseOskaMainProfessionOskaIndicatorEntity {
-                  entities {
-                    ... on OskaIndicatorEntity {
-                      oskaIndicator
-                      value
+                    reverseOskaMainProfessionOskaFillingBarEntity {
+                      entities {
+                        ... on OskaFillingBarEntity {
+                          value
+                        }
+                      }
+                    }
+                    reverseOskaMainProfessionOskaIndicatorEntity {
+                      entities {
+                        ... on OskaIndicatorEntity {
+                          oskaIndicator
+                          value
+                        }
+                      }
                     }
                   }
                 }
