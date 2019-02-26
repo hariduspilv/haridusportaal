@@ -68,6 +68,38 @@ query oskaFieldDetailView($path: String!) {
             }
             __typename
           }
+          reverseFieldOskaFieldParagraph {
+            entities {
+              ... on ParagraphMainProfessionSidebar {
+                paragraphReference {
+                  ... on NodeOskaMainProfessionPage {
+                    entityLabel
+                    entityId
+                    entityUrl {
+                      routed
+                      path
+                      __typename
+                    }
+                    reverseOskaMainProfessionOskaFillingBarEntity {
+                      entities {
+                        ... on OskaFillingBarEntity {
+                          value
+                        }
+                      }
+                    }
+                    reverseOskaMainProfessionOskaIndicatorEntity {
+                      entities {
+                        ... on OskaIndicatorEntity {
+                          oskaIndicator
+                          value
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
           fieldOskaFieldAccordion {
             entity {
               ... on ParagraphMainProfessionAccordion {
@@ -99,16 +131,6 @@ query oskaFieldDetailView($path: String!) {
                 fieldOskaFieldPros
                 fieldNeutral
                 fieldOskaFieldCons
-                fieldOskaMainProfession {
-                  entity {
-                    ... on NodeOskaMainProfessionPage {
-                      entityLabel
-                      entityUrl {
-                        path
-                      }
-                    }
-                  }
-                }
                 fieldOskaFieldQuickFind {
                   url {
                     routed
@@ -137,7 +159,7 @@ query oskaFieldDetailView($path: String!) {
             }
           }
           oskaGraphData
-          fieldFieldPageGraph{
+          fieldFieldPageGraph {
             value
             graphSet
             graphTitle

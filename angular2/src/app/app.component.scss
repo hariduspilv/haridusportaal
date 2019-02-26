@@ -450,6 +450,9 @@ $grid-columns: 12;
   .flex{display:flex;
     .flex--single {flex: 1;display:flex;
       img {line-height: inherit;width: 100%;}
+      &.padded {padding-right: .25rem;
+        &:last-child {padding-right: 0;}
+      }
     }
     &.centered { align-items: center; }
     &.flex-wrap {flex-wrap: wrap; }
