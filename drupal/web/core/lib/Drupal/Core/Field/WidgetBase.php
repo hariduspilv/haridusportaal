@@ -253,20 +253,6 @@ abstract class WidgetBase extends PluginSettingsBase implements WidgetInterface 
             'effect' => 'fade',
           ],
         ];
-
-          $elements['remove'] = [
-              '#type' => 'submit',
-              '#name' => strtr($id_prefix, '-', '_') . '_add_more',
-              '#value' => t('Add another item'),
-              '#attributes' => ['class' => ['field-add-more-submit']],
-              '#limit_validation_errors' => [array_merge($parents, [$field_name])],
-              '#submit' => [[get_class($this), 'addMoreSubmit']],
-              '#ajax' => [
-                  'callback' => [get_class($this), 'addMoreAjax'],
-                  'wrapper' => $wrapper_id,
-                  'effect' => 'fade',
-              ],
-          ];
       }
     }
 
