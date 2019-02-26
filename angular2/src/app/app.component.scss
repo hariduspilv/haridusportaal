@@ -148,6 +148,8 @@ $grid-columns: 12;
 }
 .xxs-show{display:none !important;}
 .xxs-flex{display:none !important;}
+.xs-show{display:none !important;}
+.xs-flex{display:none !important;}
 .sm-show{display:none !important;}
 .sm-flex{display:none !important;}
 .md-show{display:none !important;}
@@ -156,6 +158,11 @@ $grid-columns: 12;
   .xxs-hide{display:none !important;}
   .xxs-show{display: block !important;}
   .xxs-flex{display: flex !important;}
+}
+@include break-on(xs, max) {
+  .xs-hide{display:none !important;}
+  .xs-show{display: block !important;}
+  .xs-flex{display: flex !important;}
 }
 @include break-on(sm, max) {
   .sm-hide{display:none !important;}

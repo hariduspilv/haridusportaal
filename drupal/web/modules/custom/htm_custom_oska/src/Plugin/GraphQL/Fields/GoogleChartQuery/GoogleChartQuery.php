@@ -145,11 +145,8 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
         #find label and value fields
         $label_field = $graph_data['graph_v_axis'];
         $value_field = 'vaartus';
-        $indicator_field = $graph_info['graph_set'] === 'multi-line' ? $graph_data['graph_group_by'] : 'naitaja';
 
-        if($graph_info['graph_set'] === 'multi'){
-            $indicator_field = $graph_data['graph_group_by'];
-        }
+        $indicator_field = count($filter_values['naitaja']) > 1 ? 'naitaja' : $graph_data['graph_group_by'];
 
         if($label_field && $value_field){
             $labelsums = [];
@@ -157,6 +154,22 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
 
             #get value for each label, sum reoccurring labels
             foreach($records as $record){
+
+                switch($indicator_field){
+                    case 'valdkond':
+                        if($record['alavaldkond'] != '' && $record['ametiala'] != ''){
+                            continue;
+                        }
+                        break;
+                    case 'alavaldkond':
+                        if(empty($record['valdkond']) && empty($record['alavaldkond']) && $record['ametiala'] != ''){
+                            continue;
+                        }
+                    case 'ametiala':
+                        if(empty($record['valdkond']) && empty($record['alavaldkond']) && empty($record['ametiala'])){
+                            continue;
+                        }
+                }
 
                 if(isset($record[$label_field]) && $record[$label_field] != ''){
                     $xlabel = $record[$label_field];
@@ -184,7 +197,7 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
                 }
             }
 
-            if($graph_info['graph_set'] === 'combo'){
+            if($indicator_field == 'naitaja'){
                 #sort data array by indicators
                 #add first fixed row to new array
                 $new_labelsums[key($labelsums)] = reset($labelsums);
