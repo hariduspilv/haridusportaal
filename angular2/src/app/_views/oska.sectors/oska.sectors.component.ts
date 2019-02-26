@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   templateUrl: "oska.sectors.template.html",
@@ -10,6 +11,16 @@ import { RootScopeService } from '@app/_services';
 })
 
 export class OskaSectorsComponent implements OnInit, OnDestroy {
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    clearTimeout( this.resizeDebounce );
+    this.resizeDebounce = setTimeout( () => {
+      this.calculateColsPerRow();
+    }, 60);
+  }
+  
+  private resizeDebounce;
 
   public data: any = false;
   public loading: boolean = false;
@@ -19,12 +30,71 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
   public offset: number = 0;
   private dataSub: Subscription;
 
+  private modal:any = false;
+  private colsPerRow = 4;
+
   constructor(
     private http: HttpService,
     public router: Router,
     public route: ActivatedRoute,
-    public rootScope: RootScopeService
+    public rootScope: RootScopeService,
+    private sanitizer: DomSanitizer
   ) {}
+
+  calculateColsPerRow() {
+    let tmpValue;
+    let winWidth = window.innerWidth;
+    if( winWidth >= 1280 ){ tmpValue = 4; }
+    else if( winWidth > 720 ){ tmpValue = 3; }
+    else{ tmpValue = 2; }
+
+    if( this.modal ){
+      let modalIndex = this.modal.index;
+      this.modal.index = 9999;
+      this.modalOpen( modalIndex );
+    }
+
+    this.colsPerRow = tmpValue;
+  }
+  modalClose() {
+    this.modal = false;
+  }
+  modalOpen(index){
+
+    if( this.modal && this.modal.index == index ){
+      this.modal = false;
+      let elem = document.querySelector('#block_'+index);
+
+      setTimeout( () => {
+        window.scrollTo({behavior: 'smooth', top:elem['offsetTop']});
+      }, 0);
+      return false;
+    }
+
+    let position = (Math.ceil( (index+1)/this.colsPerRow)*this.colsPerRow)-1;
+
+    this.modal = this.data[index];
+    this.modal.position = position;
+    this.modal.index = index;
+
+    if( this.modal.fieldOskaVideo ){
+      this.modal.videoUrl = 'http://www.youtube.com/embed/'+this.modal.fieldOskaVideo.videoId;
+    }
+
+    try{
+      this.modal.list = this.modal.fieldOskaFieldSidebar.entity.fieldOskaMainProfession;
+    }catch(err){}
+    
+    let elem = document.querySelector('#block_'+index);
+
+    setTimeout( () => {
+      window.scrollTo({behavior: 'smooth', top:elem['offsetTop']});
+      document.getElementById("modal").focus();
+    }, 0);
+    
+    console.log(this.modal);
+
+  }
 
   getData () {
     this.loading = true;
@@ -53,6 +123,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
 
   ngOnInit () {
 
+    this.calculateColsPerRow();
     this.lang = this.rootScope.get("lang");
     this.getData()
 

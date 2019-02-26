@@ -8,20 +8,74 @@
   <div class="sectors__list-body" *ngIf="loading && !data">
     <mat-spinner></mat-spinner>
   </div>
-  <div class="sectors__list-body" *ngIf="data">
+  <div class="sectors__list-body" *ngIf="data" areaModal>
     <div class="row sectors--row" *ngIf="data.length">
-      <ng-container *ngFor="let elem of data">
+      <ng-container *ngFor="let elem of data; let i = index;">
         <div class="col-3 md-4 xs-6 sectors--col">
-          <a href="javascript:void(0)" attr.aria-label="{{ elem.title }}" [routerLink]="elem.entityUrl.path" class="sector__wrapper">
-            <div class="sector__wrapper--pic">
-              <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.derivative && elem.fieldOskaFieldPicture.derivative.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url">
+          <button attr.aria-label="{{ elem.title }}" class="sector__wrapper" (click)="modalOpen(i)" [class.active]="i == modal.index" [id]="'block_'+i">
+            <span class="sector__wrapper--pic">
+              <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.derivative && elem.fieldOskaFieldPicture.derivative.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url" />
               <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" *ngIf="!elem.fieldOskaFieldPicture" src="../../assets/img/1208x680.png">
-              <div class="overlay"></div>
+              <span class="overlay"></span>
+            </span>
+            <span class="sector__wrapper--title">
+              <span class="sector__title">{{ elem.title }}</span>
+            </span>
+          </button>
+        </div>
+        <div class="col-12" *ngIf="modal && modal.position == i">
+          <div class="modal" id="modal" tabindex="0" role="alert" attr.aria-label="{{ 'oskaProfessions.modal_opened' | translate }}">
+            <div class="modal__header">
+              <div class="modal__header__col">
+                <h2 role="heading" tabindex="0">{{ modal.title }}</h2>
+              </div><!--/modal__header__col-->
+              <div class="modal__header__col">
+                <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfessions.read_more' | translate }}">{{ 'oskaProfessions.read_more' | translate }}</a>
+                <button role="button" attr.aria-label="{{ 'oskaProfessions.close_modal' | translate }}" (click)="modalClose()"><span class="htm-icon">close-1</span></button>
+              </div><!--/modal__header__col-->
             </div>
-            <div class="sector__wrapper--title">
-              <h1>{{ elem.title }}</h1>
-            </div>
-          </a>
+            <div class="modal__content">
+              <div class="row">
+                <div class="col-8 xs-12">
+                  <ng-container *ngIf="modal.fieldIntroduction">
+                    <p role="heading"><b>{{ 'oskaProfessions.general_info' | translate }}</b></p>
+                    <p role="text">{{ modal.fieldIntroduction }}</p>
+                  </ng-container>
+                </div><!--/col-->
+                <div class="col-4 xs-12">
+
+                  <div class="separator xs-hide"></div>
+
+                  <hr class="xs-show"/>
+
+                  <div class="modal__padding">
+                    <ng-container *ngIf="!modal.fieldOskaFieldPicture && !modal.videoUrl">
+                      <div class="modal__image" [ngStyle]="{'background-image': 'url(../../assets/img/1208x680.png)'}">
+                        <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" src="../../assets/img/1208x680.png" />
+                      </div><!--/modal__image-->
+                    </ng-container>
+                    
+                    <ng-container *ngIf="modal.fieldOskaFieldPicture && !modal.videoUrl">
+                      <div class="modal__image" [ngStyle]="{'background-image': 'url(' + modal.fieldOskaFieldPicture.derivative.url + ')'}">
+                        <img [src]="modal.fieldOskaFieldPicture.derivative.url" [alt]="modal.fieldOskaFieldPicture.alt" [title]="modal.fieldOskaFieldPicture.title" />
+                      </div><!--/modal__image-->
+                    </ng-container>
+
+                    <ng-container *ngIf="modal.videoUrl">
+                      <div class="modal__video">
+                        <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(modal.videoUrl)" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                      </div><!--/modal__video-->
+                    </ng-container>
+                  </div><!--/modal__padding-->
+                </div><!--/col-->
+              </div>
+              <hr />
+              <p><b>Valdkonna põhikutsealad</b></p>
+              <ul>
+                <li *ngFor="let item of modal.list"><a [routerLink]="item.entity.entityUrl.path">{{ item.entity.entityLabel }}</a></li>
+              </ul>
+            </div><!--/modal__content-->
+          </div>
         </div>
       </ng-container>
     </div>

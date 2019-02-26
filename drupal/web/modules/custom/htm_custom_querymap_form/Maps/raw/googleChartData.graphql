@@ -1,5 +1,4 @@
 query GoogleChartData(
-  $graphSet: String!,
   $graphType: String!,
   $secondaryGraphType: String,
   $graphGroupBy: String,
@@ -13,7 +12,6 @@ query GoogleChartData(
   $label: [String]
 ){
   GoogleChartQuery(filters:{
-    graph_set: $graphSet,
     graph_type: $graphType,
     secondary_graph_type: $secondaryGraphType,
     graph_group_by: $graphGroupBy,

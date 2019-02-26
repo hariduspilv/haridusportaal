@@ -42,15 +42,19 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             '#title' => $this->t('Graph'),
         ];
 
-        $element['graph_set'] = [
-            '#title' => $this->t('Graph set'),
+        $element['graph_type'] = [
+            '#title' => $this->t('Graph type'),
             '#size' => 256,
             '#type' => 'select',
-            '#default_value' => isset($items[$delta]->graph_set) ? $items[$delta]->graph_set : NULL,
+            '#default_value' => isset($items[$delta]->graph_type) ? $items[$delta]->graph_type : NULL,
             '#options' => [
-                'simple' => $this->t('simple'),
-                'combo' => $this->t('combo'),
-                'multi' => $this->t('multi'),
+                'line' => $this->t('line'),
+                'clustered column' => $this->t('clustered column'),
+                'stacked column' => $this->t('stacked column'),
+                'stacked column 100' => $this->t('stacked column 100%'),
+                'clustered bar' => $this->t('clustered bar'),
+                'stacked bar' => $this->t('stacked bar'),
+                'stacked bar 100' => $this->t('stacked bar 100%'),
             ],
             '#required' => FALSE,
             '#empty_option'  => '-',
@@ -67,14 +71,14 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         ];
 
         if(isset($form_state->getUserInput()[$field_name])){
-            $graph_set = $form_state->getUserInput()[$field_name][$delta]['graph_set'];
-        }else if(isset($items[$delta]->graph_set)){
-            $graph_set = $items[$delta]->graph_set;
+            $graph_type = $form_state->getUserInput()[$field_name][$delta]['graph_type'];
+        }else if(isset($items[$delta]->graph_type)){
+            $graph_type = $items[$delta]->graph_type;
         }else{
-            $graph_set = false;
+            $graph_type = false;
         }
 
-        if($graph_set){
+        if($graph_type){
             $element['graph_options']['graph_title'] = [
                 '#title' => $this->t('Graph title'),
                 '#type' => 'textfield',
@@ -88,46 +92,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             foreach($oska_filters as $field){
                 $fields[$field] = $this->t(ucfirst($field));
             }
-
-            switch($graph_set){
-                case 'simple':
-                    $graph_type_options = array(
-                        'line' => $this->t('line'),
-                        'bar' => $this->t('bar'),
-                        'column' => $this->t('column'),
-                    );
-                    break;
-                case 'combo':
-                    $graph_type_options = array(
-                        'line' => $this->t('line')
-                    );
-                    break;
-                case 'multi':
-                    $graph_type_options = array(
-                        'clustered bar' => $this->t('clustered bar'),
-                        'stacked bar' => $this->t('stacked bar'),
-                        'stacked bar 100' => $this->t('stacked bar 100%'),
-                        'clustered column' => $this->t('clustered column'),
-                        'stacked column' => $this->t('stacked column'),
-                        'stacked column 100' => $this->t('stacked column 100%'),
-                    );
-                    break;
-            }
-
-            $element['graph_options']['graph_type'] = [
-                '#title' => $this->t('Graph type'),
-                '#size' => 256,
-                '#type' => 'select',
-                '#default_value' => isset($data['graph_type']) && in_array($data['graph_type'], $graph_type_options) ? $data['graph_type'] : NULL,
-                '#options' => $graph_type_options,
-                '#required' => FALSE,
-                '#empty_option'  => '-',
-                '#ajax' => [
-                    'callback' => [$this,'ajax_dependent_graph_type_options_callback'],
-                    'wrapper' => 'secondary_dynamic_graph_type_options'.$delta,
-                ],
-                '#delta' => $delta,
-            ];
 
             $indicator_data = json_decode(file_get_contents($oska_filters_path.'naitaja'), TRUE);
             $indicator_options = [];
@@ -163,18 +127,17 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            if($graph_set === 'multi-line' || $graph_set === 'multi'){
-                $element['graph_options']['graph_group_by'] = [
-                    '#title' => $this->t('Group results'),
-                    '#size' => 256,
-                    '#type' => 'select',
-                    '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
-                    '#options' =>  $fields,
-                    '#empty_option'  => '-',
-                    '#required' => FALSE,
-                    '#delta' => $delta,
-                ];
-            }
+            $element['graph_options']['graph_group_by'] = [
+                '#title' => $this->t('Group results'),
+                '#size' => 256,
+                '#type' => 'select',
+                '#multiple' => TRUE,
+                '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
+                '#options' =>  $fields,
+                '#empty_option'  => '-',
+                '#required' => FALSE,
+                '#delta' => $delta,
+            ];
 
             $element['graph_options']['graph_filters'] = [
                 '#prefix' => '<div id="dynamic_graph_filter_set'.$delta.'">',
@@ -188,8 +151,18 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 }else if(isset($data['graph_indicator'])){
                     $graph_indicator = $data['graph_indicator'];
                 }else{
-                    $graph_indicator = false;
+                    $graph_indicator = [];
                 }
+
+                if(isset($form_state->getUserInput()[$field_name])){
+                    $secondary_graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['secondary_graph_indicator'];
+                }else if(isset($data['secondary_graph_indicator'])){
+                    $secondary_graph_indicator = $data['secondary_graph_indicator'];
+                }else{
+                    $secondary_graph_indicator = [];
+                }
+
+                $graph_indicator = $secondary_graph_indicator != null ? array_unique(array_merge($graph_indicator, $secondary_graph_indicator)) : $graph_indicator;
 
                 $selection_data = json_decode(file_get_contents($oska_filters_path.$key), TRUE);
                 $selection = [];
@@ -222,7 +195,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            if($graph_set == 'combo'){
+            if($graph_type != 'line'){
 
                 $element['graph_options']['secondary_graph_y_min'] = [
                     '#title' => $this->t('Secondary minimum Y'),
@@ -230,7 +203,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#placeholder' => $this->t("Enter secondary minimum Y value."),
                     '#default_value' => isset($data['secondary_graph_y_min']) ? $data['secondary_graph_y_min'] : 0,
                     '#maxlength' => 100,
-                    '#element_validate' => array(array($this, 'validateChartYInput')),
                     '#delta' => $delta,
                 ];
 
@@ -240,14 +212,10 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#type' => 'select',
                     '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
                     '#options' => [
-                        'column' => $this->t('column'),
-                        'clustered_column' => $this->t('clustered column'),
-                        'stacked_column' => $this->t('stacked column'),
+                        'line' => $this->t('line'),
                     ],
                     '#empty_option'  => '-',
                     '#required' => FALSE,
-                    '#delta' => $delta,
-                    '#element_validate' => array(array($this, 'validateChartInput')),
                     '#delta' => $delta,
                 ];
 
@@ -258,7 +226,10 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#multiple' => TRUE,
                     '#required' => FALSE,
                     '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
-                    '#element_validate' => array(array($this, 'validateChartInput')),
+                    '#ajax' => [
+                        'callback' => [$this,'ajax_dependent_graph_filters_callback'],
+                        'wrapper' => 'dynamic_graph_filter_set'.$delta,
+                    ],
                     '#delta' => $delta,
                 ];
 
@@ -387,9 +358,8 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         foreach($values as $key => $value){
             $value['hierarchy'] = $hierarchy_data;
             $new_values[$key] = [
-                'graph_set' => $value['graph_set'],
+                'graph_type' => $value['graph_type'],
                 'graph_title' => $value['graph_options']['graph_title'],
-                'graph_type' => $value['graph_options']['graph_type'],
                 'secondary_graph_type' => isset($value['graph_options']['secondary_graph_type']) ? $value['graph_options']['secondary_graph_type'] : NULL,
                 'graph_text' => $value['graph_options']['graph_text'],
                 'filter_values' => json_encode($value, TRUE),
