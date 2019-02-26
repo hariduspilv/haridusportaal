@@ -1,6 +1,6 @@
 @import "../../../assets/styles/typography.scss";
-.progress {margin-top: 1rem;
-  &__tag {height: 1.375rem;font-size: .75rem;border-radius: .6875rem;background: #f8b243;text-align: center;padding: 0 1rem;position: relative;
+.progress {
+  &__tag {height: 1.375rem;font-size: .75rem;border-radius: .6875rem;background: #f8b243;text-align: center;padding: 0 1rem;position: relative;white-space: nowrap;
     &--wrapper {height: 2rem;display: flex;}
   }
   &__bar {height: .9375rem;position: relative;border-radius: .46875rem;
