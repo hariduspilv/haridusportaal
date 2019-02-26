@@ -75,7 +75,7 @@ class OskaGraphWidgetType extends WidgetBase {
 
         if($graph_set){
             $graph_type_options = [];
-            
+
             $element['graph_options']['graph_title'] = [
                 '#title' => $this->t('Graph title'),
                 '#type' => 'textfield',
@@ -132,13 +132,19 @@ class OskaGraphWidgetType extends WidgetBase {
                 $indicator_options[$value] = $value;
                 unset($indicator_options[$key]);
             }
+
             $element['graph_options']['graph_indicator'] = [
                 '#title' => $this->t('OSKA indicator'),
                 '#type' => 'select',
                 '#options' => $indicator_options,
-                '#multiple' => FALSE,
+                '#multiple' => TRUE,
                 '#required' => FALSE,
                 '#default_value' => isset($data['graph_indicator']) ? $data['graph_indicator'] : NULL,
+                '#ajax' => [
+                    'callback' => [$this,'ajax_dependent_graph_filters_callback'],
+                    'wrapper' => 'dynamic_graph_filter_set'.$delta,
+                ],
+                '#delta' => $delta,
             ];
 
             $element['graph_options']['graph_v_axis'] = [
@@ -166,20 +172,49 @@ class OskaGraphWidgetType extends WidgetBase {
                 ];
             }
 
+            $element['graph_options']['graph_filters'] = [
+                '#prefix' => '<div id="dynamic_graph_filter_set'.$delta.'">',
+                '#suffix' => '</div>',
+            ];
+
             foreach($fields as $key => $field){
 
-                $selection = explode(PHP_EOL, file_get_contents($oska_filters_path.$key));
-                foreach($selection as $index => $value){
-                    $selection[$value] = $value;
-                    unset($selection[$index]);
+                if(isset($form_state->getUserInput()[$field_name])){
+                    $graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['graph_indicator'];
+                }else if(isset($data['graph_indicator'])){
+                    $graph_indicator = $data['graph_indicator'];
+                }else{
+                    $graph_indicator = [];
                 }
-                $element['graph_options'][$key] = [
+
+                if(isset($form_state->getUserInput()[$field_name])){
+                    $secondary_graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['secondary_graph_indicator'];
+                }else if(isset($data['secondary_graph_indicator'])){
+                    $secondary_graph_indicator = $data['secondary_graph_indicator'];
+                }else{
+                    $secondary_graph_indicator = [];
+                }
+
+                $graph_indicator = $secondary_graph_indicator != null ? array_unique(array_merge($graph_indicator, $secondary_graph_indicator)) : $graph_indicator;
+
+                $selection_data = json_decode(file_get_contents($oska_filters_path.$key), TRUE);
+                $selection = [];
+
+                foreach($graph_indicator as $value){
+                    if(isset($selection_data[$value])){
+                        foreach($selection_data[$value] as $select_item){
+                            $selection[$select_item] = $select_item;
+                        }
+                    }
+                }
+
+                $element['graph_options']['graph_filters'][$key] = [
                     '#title' => $field,
                     '#type' => 'select',
                     '#options' => $selection,
                     '#multiple' => TRUE,
                     '#required' => FALSE,
-                    '#default_value' => isset($data[$key]) ? $data[$key] : NULL,
+                    '#default_value' => isset($data['graph_filters'][$key]) ? $data['graph_filters'][$key] : NULL,
                 ];
             }
 
@@ -234,6 +269,13 @@ class OskaGraphWidgetType extends WidgetBase {
         $trigger_element = $form_state->getTriggeringElement();
 
         return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options'];
+    }
+
+    public function ajax_dependent_graph_filters_callback(array &$form, FormStateInterface $form_state){
+        $field_name = $this->fieldDefinition->getName();
+        $trigger_element = $form_state->getTriggeringElement();
+
+        return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options']['graph_filters'];
     }
 
     public function extractFormValues(FieldItemListInterface $items, array $form, FormStateInterface $form_state)
