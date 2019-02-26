@@ -38,6 +38,7 @@ query oskaMainProfessionListView($nid: [String],
           entity {
             ... on ParagraphMainProfessionSidebar {
               fieldPros
+              fieldNeutral
               fieldCons
               fieldOskaField {
                 entity {

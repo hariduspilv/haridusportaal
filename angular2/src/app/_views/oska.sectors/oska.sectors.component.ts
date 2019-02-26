@@ -56,6 +56,14 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
 
     this.colsPerRow = tmpValue;
   }
+
+  sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+  }
+
   modalClose() {
     this.modal = false;
   }
@@ -73,6 +81,9 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
 
     let position = (Math.ceil( (index+1)/this.colsPerRow)*this.colsPerRow)-1;
 
+    if( position > this.data.length-1 ){
+      position = this.data.length-1;
+    }
     this.modal = this.data[index];
     this.modal.position = position;
     this.modal.index = index;
@@ -82,17 +93,19 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
     }
 
     try{
-      this.modal.list = this.modal.fieldOskaFieldSidebar.entity.fieldOskaMainProfession;
+      let tmpList = this.modal.reverseFieldOskaFieldParagraph.entities.map( item => {
+        return item.paragraphReference[0];
+      });
+      this.modal.list = this.sortByKey(tmpList, 'entityLabel');
     }catch(err){}
-    
+
+    console.log(this.modal);
     let elem = document.querySelector('#block_'+index);
 
     setTimeout( () => {
       window.scrollTo({behavior: 'smooth', top:elem['offsetTop']});
       document.getElementById("modal").focus();
     }, 0);
-    
-    console.log(this.modal);
 
   }
 
