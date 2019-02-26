@@ -26,3 +26,6 @@ h2 {margin-bottom: 0;}
 .padding-block--content hr {
   margin: 1rem 0;
 }
+img:-moz-loading {
+  visibility: hidden;
+}
