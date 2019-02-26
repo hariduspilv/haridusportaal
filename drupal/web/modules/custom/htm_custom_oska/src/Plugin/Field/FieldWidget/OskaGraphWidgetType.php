@@ -74,6 +74,8 @@ class OskaGraphWidgetType extends WidgetBase {
         }
 
         if($graph_set){
+            $graph_type_options = [];
+            
             $element['graph_options']['graph_title'] = [
                 '#title' => $this->t('Graph title'),
                 '#type' => 'textfield',
