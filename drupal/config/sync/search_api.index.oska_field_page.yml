@@ -2,21 +2,20 @@ uuid: 8287e370-d803-4cb1-b0b3-a1b286de0936
 langcode: et
 status: true
 dependencies:
+  module:
+    - node
+    - paragraphs
+    - search_api
   config:
     - field.storage.node.field_oska_field_accordion
-    - field.storage.paragraph.field_title
     - field.storage.paragraph.field_body
+    - field.storage.paragraph.field_title
     - field.storage.node.body
     - field.storage.node.field_introduction
     - field.storage.node.field_oska_field_sidebar
-    - field.storage.paragraph.field_oska_main_profession
     - field.storage.paragraph.field_oska_field_cons
     - field.storage.paragraph.field_oska_field_pros
     - search_api.server.elasticsearch_server
-  module:
-    - paragraphs
-    - node
-    - search_api
 id: oska_field_page
 name: 'OSKA Field Page'
 description: ''
@@ -81,17 +80,6 @@ field_settings:
       config:
         - field.storage.node.field_oska_field_sidebar
         - field.storage.paragraph.field_oska_field_cons
-      module:
-        - paragraphs
-  field_oska_main_profession:
-    label: 'Parem veerg » Paragraph » Ametialad'
-    datasource_id: 'entity:node'
-    property_path: 'field_oska_field_sidebar:entity:field_oska_main_profession'
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_oska_field_sidebar
-        - field.storage.paragraph.field_oska_main_profession
       module:
         - paragraphs
   field_pros:
