@@ -24,7 +24,7 @@ class FileLog implements LoggerInterface {
     public function log($level, $message, array $context = []){
         kint('jou');
         die();
-        \Drupal::service('custom_logging_to_file.write')->write('error', 'Watchdog logid', $message);
+        \Drupal::service('htm_custom_file_logging.write')->write('error', 'Watchdog logid', $message);
     }
 
 }

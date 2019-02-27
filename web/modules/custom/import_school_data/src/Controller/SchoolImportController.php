@@ -54,7 +54,7 @@ class SchoolImportController extends ControllerBase {
     }
     catch(RequestException $e){
       $message = t('EHIS avaandmete päringu viga: @error', array('@error' => $e));
-      \Drupal::service('custom_logging_to_file.write')->write('error', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
+      \Drupal::service('htm_custom_file_logging.write')->write('error', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
     }
 
     $data = $response->getBody();
@@ -64,7 +64,7 @@ class SchoolImportController extends ControllerBase {
       if(!isset($school->regNr) || !isset($school->nimetus)){
         unset($schools[$key]);
         $message = t('Puuduvad kohustuslikud andmed: @ehisid', array('@ehisid' => $school->koolId));
-        \Drupal::service('custom_logging_to_file.write')->write('error', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
+        \Drupal::service('htm_custom_file_logging.write')->write('error', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
       }
     }
     return $schools;
