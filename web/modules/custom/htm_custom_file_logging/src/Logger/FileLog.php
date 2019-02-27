@@ -15,7 +15,7 @@ class FileLog implements LoggerInterface {
    * {@inheritdoc}
    */
   public function log($level, $message, array $context = []) {
-      \Drupal::service('htm_custom_file_logging.write')->write($level, 'Watchdog logid', $message);
+      \Drupal::service('htm_custom_file_logging.write')->write('error', 'Watchdog logid', $level);
   }
 
 }
