@@ -19,11 +19,21 @@ table {width: 100%;border-collapse: collapse; margin: 0;
   th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray; text-align: left;
     &.highlighted {font-weight: 500;}
     &.groupCell {border-bottom: .0625rem solid $white;}
+    &.firstCell {padding-top: 1rem;}
+    &.centered {text-align: center;}
+    &.bold {font-weight: 500;}
+    &.lastCell {padding-bottom: 1rem;}
     &.groupHead {border-bottom: .0625rem solid $light-gray;}
     &.borderless {border-bottom: .0625rem solid $white;}
-    .important-pill {margin: 0; border:$gray 1px solid;}
+    .important-pill {margin: 0; border:$gray 1px solid;white-space: nowrap;}
   }
-  tr th:first-of-type, tr td:first-of-type  { text-align: left; } 
+  tr.slim {
+    td {padding: .375rem 1rem;
+      &.lastCell {padding-bottom: 1rem;}
+    }
+    &.firstSlim td {padding-top: 1rem;}
+    &.another td {padding-top: 1.125rem;}
+  }
   td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
   th.hidden {text-align: center;border-bottom: none;}
   td {font-weight: 400;
