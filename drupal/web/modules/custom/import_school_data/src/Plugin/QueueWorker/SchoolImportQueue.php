@@ -25,15 +25,15 @@ class SchoolImportQueue extends QueueWorkerBase {
     $action = $import_controller->save_school($school, $loctaxonomy);
     if($action === 'update'){
       $message = t('Uuendatud kooli @school', array('@school' => $school['school_field']['title']));
-      \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
+      \Drupal::service('htm_custom_file_logging.write')->write('notice', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
     }
     if($action === 'create'){
       $message = t('Loodud kool @school', array('@school' => $school['school_field']['title']));
-      \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
+      \Drupal::service('htm_custom_file_logging.write')->write('notice', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
     }
     if($action === 'unpublish'){
       $message = t('Avaldamine lõpetatud koolil @school', array('@school' => $school['school_field']['title']));
-      \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
+      \Drupal::service('htm_custom_file_logging.write')->write('notice', 'EHIS avaandmetest õppeasutuste uuendamine', $message);
     }
   }
 }
