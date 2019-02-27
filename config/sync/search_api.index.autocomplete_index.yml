@@ -21,7 +21,6 @@ dependencies:
     - field.storage.node.field_organizer
     - field.storage.paragraph.field_oska_field_cons
     - field.storage.paragraph.field_oska_field_pros
-    - field.storage.paragraph.field_oska_main_profession
     - field.storage.paragraph.field_pros
     - field.storage.node.field_registration_code
     - field.storage.node.field_short_description
@@ -138,17 +137,6 @@ field_settings:
       config:
         - field.storage.node.field_oska_field_sidebar
         - field.storage.paragraph.field_oska_field_pros
-      module:
-        - paragraphs
-  field_oska_main_profession:
-    label: 'Parem veerg » Paragraph » Ametialad'
-    datasource_id: 'entity:node'
-    property_path: 'field_oska_field_sidebar:entity:field_oska_main_profession'
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_oska_field_sidebar
-        - field.storage.paragraph.field_oska_main_profession
       module:
         - paragraphs
   field_pros:
