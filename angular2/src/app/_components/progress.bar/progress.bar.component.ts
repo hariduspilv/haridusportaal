@@ -27,7 +27,7 @@ export class ProgressBarComponent implements AfterViewInit {
 
   setLabelOffset() {
     const { levelOffsets, level, extraPadding } = this;
-    let label = document.querySelector('.progress__tag') as HTMLElement;
+    let label = document.querySelector(`#level--${level}`) as HTMLElement;
     let labelWidth = label.getBoundingClientRect().width;
     if (level === 5) {
       label.style.left = `calc(${levelOffsets[level]}% - ${labelWidth}px)`;
@@ -38,7 +38,7 @@ export class ProgressBarComponent implements AfterViewInit {
   }
 
   checkOffsetValidity (label){
-    let parentOffset = document.getElementById('progressElem').offsetLeft;
+    let parentOffset = document.getElementById(`progressElem--${this.level}`).offsetLeft;
     if (parentOffset > label.offsetLeft) {
       label.style.left = '0px';
     }
