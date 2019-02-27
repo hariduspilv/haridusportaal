@@ -2,3 +2,7 @@ services:
   custom_logging_to_file.write:
     class: Drupal\custom_logging_to_file\WriteService
     arguments: []
+  logger.filelog:
+    class: Drupal\custom_logging_to_file\FileLog
+    tags:
+    - { name: logger }
