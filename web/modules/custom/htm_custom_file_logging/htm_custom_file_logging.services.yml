@@ -1,0 +1,8 @@
+services:
+  logger.dblog:
+    class: Drupal\htm_custom_file_logging\Logger\FileLog
+    tags:
+      - { name: logger }
+  htm_custom_file_logging.write:
+    class: Drupal\htm_custom_file_logging\WriteService
+    arguments: []

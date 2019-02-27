@@ -1,0 +1,5 @@
+name: 'HTM Custom File Logging'
+type: module
+description: 'Service for logging to files'
+core: 8.x
+package: HTM
