@@ -108,10 +108,10 @@
         <div class="inline__items sm-hide" *ngIf="item.fieldSidebar && item.fieldSidebar.entity && item.fieldSidebar.entity.fieldOskaField && item.fieldSidebar.entity.fieldOskaField[0] && item.fieldSidebar.entity.fieldOskaField[0].entity">
           <ng-container *ngFor="let elem of item.fieldSidebar.entity.fieldOskaField; let ind = index; let last = last;">
             <ng-container *ngIf="ind < 2 && elem.entity">
+              <span aria-hidden="true" class="bar" *ngIf="elem.entity.title && ind !== 0">|</span>
               <div class="item item--inline">
                 <a href="javascript:void(0)" tabindex="0" attr.aria-label="{{ 'oska.title_field' | translate }} {{ elem.entity.title }}" [routerLink]="elem.entity.entityUrl.path">{{ elem.entity.title }}</a>
               </div>
-              <span aria-hidden="true" class="bar" *ngIf="elem.entity.title && ind === 0 && !last">|</span>
             </ng-container>
           </ng-container>
         </div>
