@@ -29,7 +29,7 @@ class ImportController extends ControllerBase {
         }
         catch(RequestException $e){
             $message = t('Getting data from JUHAN failed: @error', array('@error' => $e));
-            \Drupal::service('custom_logging_to_file.write')->write('error', 'JUHAN import', $message);
+            \Drupal::service('htm_custom_file_logging.write')->write('error', 'JUHAN import', $message);
         }
 
         $data = json_decode($response->getBody()->getContents());
