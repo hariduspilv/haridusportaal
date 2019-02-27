@@ -35,6 +35,7 @@
         "drupal/elasticsearch_connector_autocomp": "1.x-dev",
         "drupal/entity_embed": "^1.0@beta",
         "drupal/externalauth": "^1.1",
+        "drupal/filelog": "^1.0",
         "drupal/google_map_field": "^1.5",
         "drupal/graphql": "^3.0@beta",
         "drupal/graphql_metatag": "1.x-dev",
