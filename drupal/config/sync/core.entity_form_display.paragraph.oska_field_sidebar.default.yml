@@ -10,7 +10,6 @@ dependencies:
     - field.field.paragraph.oska_field_sidebar.field_oska_field_contact
     - field.field.paragraph.oska_field_sidebar.field_oska_field_pros
     - field.field.paragraph.oska_field_sidebar.field_oska_field_quick_find
-    - field.field.paragraph.oska_field_sidebar.field_oska_main_profession
     - field.field.paragraph.oska_field_sidebar.field_related_pages
     - paragraphs.paragraphs_type.oska_field_sidebar
   module:
@@ -100,12 +99,6 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
     type: link_default
-    region: content
-  field_oska_main_profession:
-    weight: 5
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
     region: content
   field_related_pages:
     weight: 7
