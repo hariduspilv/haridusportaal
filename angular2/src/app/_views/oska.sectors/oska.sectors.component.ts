@@ -44,9 +44,11 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
   calculateColsPerRow() {
     let tmpValue;
     let winWidth = window.innerWidth;
-    if( winWidth >= 1280 ){ tmpValue = 4; }
+    if( winWidth > 1280 ){ tmpValue = 4; }
     else if( winWidth > 720 ){ tmpValue = 3; }
     else{ tmpValue = 2; }
+
+    this.colsPerRow = tmpValue;
 
     if( this.modal ){
       let modalIndex = this.modal.index;
@@ -54,7 +56,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
       this.modalOpen( modalIndex );
     }
 
-    this.colsPerRow = tmpValue;
+    console.log(this.modal);
   }
 
   sortByKey(array, key) {
@@ -99,7 +101,6 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
       this.modal.list = this.sortByKey(tmpList, 'entityLabel');
     }catch(err){}
 
-    console.log(this.modal);
     let elem = document.querySelector('#block_'+index);
 
     setTimeout( () => {

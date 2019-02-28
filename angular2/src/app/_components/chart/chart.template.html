@@ -16,12 +16,25 @@
             <div class="col-3"  *ngIf="select.options.length > 0">
               <div class="round-input__wrapper">
                 <mat-form-field>
-                  <mat-select placeholder="{{ select.key | capitalize }}" [(ngModel)]="filters[item.id][select.key]" (selectionChange)="getGraphData( item.id )" multiple>
-                    <!--<mat-option *ngIf="select.key !== 'näitaja'">-</mat-option>-->
-                    <mat-option *ngFor="let item of select.options" [value]="item">
-                      {{ item }}
-                    </mat-option>
-                  </mat-select>
+
+                  <ng-container [ngSwitch]='select.key'>
+                    <ng-container *ngSwitchCase="'groupBy'">
+                      <mat-select placeholder="{{ select.key | capitalize }}" [(ngModel)]="filters[item.id][select.key]" (selectionChange)="getGraphData( item.id )">
+                          <mat-option *ngFor="let item of select.options" [value]="item">
+                            {{ item }}
+                          </mat-option>
+                        </mat-select>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                      <mat-select placeholder="{{ select.key | capitalize }}" [(ngModel)]="filters[item.id][select.key]" (selectionChange)="getGraphData( item.id )" multiple>
+                        <mat-option *ngFor="let item of select.options" [value]="item">
+                          {{ item }}
+                        </mat-option>
+                      </mat-select>
+                    </ng-container>
+
+                  </ng-container>
+                  
                 </mat-form-field>
               </div>
             </div><!--/col-->
