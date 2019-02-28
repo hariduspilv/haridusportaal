@@ -1,6 +1,7 @@
 services:
   logger.dblog:
     class: Drupal\htm_custom_file_logging\Logger\FileLog
+    arguments: ['@database', '@logger.log_message_parser']
     tags:
       - { name: logger }
   htm_custom_file_logging.write:
