@@ -26,7 +26,7 @@ table {width: 100%;border-collapse: collapse; margin: 0;table-layout: fixed;
       &.withBottom {border-bottom: .0625rem solid $gray;}
     }
     &.layoutCell {width: 100%;box-sizing: border-box;font-size: 1rem;}
-    &.xHidden {overflow-x: auto;}
+    &.xHidden {overflow-x: hidden;}
     &.groupHead {border-bottom: .0625rem solid $light-gray;}
     &.borderless {border-bottom: .0625rem solid $white;}
     .important-pill {margin: 0; border:$gray 1px solid;white-space: nowrap;}
