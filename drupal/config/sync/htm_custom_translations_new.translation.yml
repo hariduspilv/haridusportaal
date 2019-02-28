@@ -1693,6 +1693,10 @@ button:
     translation_type: textarea
     et: 'Proovi uuesti'
     en: 'Try again'
+  back_to_professions:
+    translation_type: textarea
+    et: 'Tagasi ametialade nimekirja vaatesse'
+    en: 'Back to professions list'
 tooltip:
   share:
     translation_type: textarea
@@ -2001,6 +2005,26 @@ oskaProfessions:
     translation_type: textarea
     et: Faktid
     en: Facts
+  general_info:
+    translation_type: textarea
+    et: Üldinfo
+    en: 'General info'
+  read_more:
+    translation_type: textarea
+    et: 'Loe rohkem'
+    en: 'Read more'
+  close_modal:
+    translation_type: textarea
+    et: 'Sulge modaal'
+    en: 'Close modal'
+  modal_opened:
+    translation_type: textarea
+    et: 'Modaalaken avanes'
+    en: 'Modal window opened'
+  main_profession:
+    translation_type: textarea
+    et: Ametialad
+    en: 'Field main profession'
 fieldFixedLabel:
   label:
     translation_type: textarea
@@ -2223,7 +2247,11 @@ oska:
     translation_type: textarea
     et: 'Eestis kutse- või kõrgkoolides eriala õppida ei saa'
     en: 'Cant study in Estonia'
-oskaProfession: {  }
+oskaProfession:
+  view_field_info:
+    translation_type: textarea
+    et: 'Vaata valdkonna infot'
+    en: 'View field info'
 langcode: et
 sidebar:
   similar_topics:

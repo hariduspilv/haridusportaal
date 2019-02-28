@@ -8,7 +8,7 @@
   @include break-on(sm, min) {margin-bottom: 0;padding-bottom: $xxl;}
 }
 
-table {width: 100%;border-collapse: collapse; margin: 0;
+table {width: 100%;border-collapse: collapse; margin: 0;table-layout: fixed;
   thead {background: $light-gray;
     .sortable {&:hover { color: $dark-gray;}}
     .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
@@ -16,14 +16,28 @@ table {width: 100%;border-collapse: collapse; margin: 0;
   th {white-space: normal; font-weight: normal; vertical-align: top;
     @include break-on(sm, max) {min-width: 13rem;}
   }
-  th, td {line-height: 1.38rem;font-size: 1rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray; text-align: left;
+  th, td {line-height: 1.38rem;font-size: .875rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray; text-align: left;
     &.highlighted {font-weight: 500;}
     &.groupCell {border-bottom: .0625rem solid $white;}
+    &.firstCell {padding-top: 1rem;}
+    &.centered {text-align: center;}
+    &.bold {font-weight: 500;}
+    &.lastCell {padding-bottom: 1rem;border-bottom: .0625rem solid $white;
+      &.withBottom {border-bottom: .0625rem solid $gray;}
+    }
+    &.layoutCell {width: 100%;box-sizing: border-box;font-size: 1rem;}
+    &.xHidden {overflow-x: hidden;}
     &.groupHead {border-bottom: .0625rem solid $light-gray;}
     &.borderless {border-bottom: .0625rem solid $white;}
-    .important-pill {margin: 0; border:$gray 1px solid;}
+    .important-pill {margin: 0; border:$gray 1px solid;white-space: nowrap;}
   }
-  tr th:first-of-type, tr td:first-of-type  { text-align: left; } 
+  tr.slim {
+    td {padding: .375rem 1rem;
+      &.lastCell {padding-bottom: 1rem;}
+    }
+    &.firstSlim td {padding-top: 1rem;}
+    td.another {padding-top: 1.125rem;}
+  }
   td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
   th.hidden {text-align: center;border-bottom: none;}
   td {font-weight: 400;
@@ -34,6 +48,7 @@ table {width: 100%;border-collapse: collapse; margin: 0;
     }
   }
   .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
+  @include break-on(xs, max) {table-layout: auto;}
 }
 .block{border-top-color:$light-blue;
   p{line-height:1.375rem; font-size:1rem;}

@@ -7,11 +7,14 @@
       <div class="block">
         <div class="block-title">{{ 'oskaProfessions.label' | translate }}</div>
         <div class="row">
-          <div class="col-10 flex">
+          <div class="col sm-10 flex">
             <h1 class="block-heading">{{ 'oskaProfessions.compare_label' | translate | titleCase }}</h1>
           </div>
-          <div class="col-2 flex action--back">
-            <a href="javascript:void(0)" [routerLink]="back()">{{ 'button.back' | translate }}</a>
+          <div class="col sm-2 flex action--back">
+            <a href="javascript:void(0)" [routerLink]="back()">
+              <span class="sm-show">{{ 'button.back' | translate }}</span>
+              <span class="sm-hide">{{ 'button.back_to_professions' | translate }}</span>
+            </a>
           </div>
         </div>
         <div class="scrollable">
@@ -33,21 +36,24 @@
             <table class="scrollableTable">
               <tbody>
                 <tr *ngIf="list">
-                  <td class="borderless" *ngFor="let item of list">
+                  <td class="firstCell centered bold layoutCell" [class.borderless]="fixedLabelExists" [class.lastCell]="!fixedLabelExists" *ngFor="let item of list"
+                  [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length && !progressFields.length && !oskaFieldsArr.length && !fixedLabelExists">
                     <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.title}}">{{ item.title | titleCase }}</a>
                   </td>
                 </tr>
-                <tr *ngIf="list">
-                  <td *ngFor="let item of list">
+                <tr *ngIf="list && fixedLabelExists">
+                  <td *ngFor="let item of list" class="lastCell centered"
+                    [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length && !progressFields.length && !oskaFieldsArr.length">
                     <span class="important-pill" *ngIf="item.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span>
                   </td>
                 </tr>
-                <tr *ngIf="list" class="shade">
-                  <td colspan="100%" class="dark center">{{ 'oskaProfessions.fields' | translate | uppercase }}</td>
+                <tr *ngIf="list && oskaFieldsArr.length" class="shade">
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oskaProfessions.fields' | translate | uppercase }}</td>
                 </tr>
                 <tr *ngFor="let elem of oskaFieldsArr; let childInd = index; let last = last;">
                   <ng-container *ngFor="let item of list; let ind = index;">
-                    <td [class.groupCell]="!last">
+                    <td [class.firstCell]="childInd === 0" [class.groupCell]="!last" [class.lastCell]="last" 
+                      [class.withBottom]="last && !graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length && !progressFields.length">
                       <ng-container *ngIf="oskaFields[ind]">
                         <span *ngIf="!oskaFields[ind][childInd]"></span>
                         <span *ngIf="oskaFields[ind][childInd]">{{oskaFields[ind][childInd].entity.title}}</span>
@@ -58,50 +64,86 @@
                     </td>
                   </ng-container>
                 </tr>
-                <!-- <tr class="shade" *ngIf="list">
-                  <td colspan="100%" class="dark center">{{ 'oska.competition' | translate | uppercase }}</td>
-                </tr> -->
-                <tr class="shade" *ngIf="list">
-                  <td colspan="100%" class="dark center">{{ 'sidebar.pros_and_cons' | translate | uppercase }}</td>
+                <tr class="shade" *ngIf="list && progressFields.length">
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.competition' | translate | uppercase }}</td>
                 </tr>
-                <tr *ngFor="let elem of prosFieldsArr; let childInd = index; let last = last;">
+                <tr *ngIf="progressFields && progressFields.length">
+                  <td class="firstCell lastCell xHidden" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length" *ngFor="let item of progressFields; let ind = index;">
+                    <progress-bar *ngIf="item && item > 0 && item < 6" [level]="item" [status]="competitionLabel[ind]" labelStart="{{'oska.simple' | translate}}" labelEnd="{{'oska.difficult' | translate}}"></progress-bar>
+                  </td>
+                </tr>
+                <tr class="shade" *ngIf="list && employedFields.length">
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.fieldNumberEmployed' | translate | uppercase }}</td>
+                </tr>
+                <tr *ngIf="list && employedFields.length">
+                  <td class="firstCell lastCell" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length" *ngFor="let item of employedFields;">
+                    <span *ngIf="item">{{ formatNumber(item, 'et') }}</span>
+                    <span *ngIf="!item"></span>
+                  </td>
+                </tr>
+                <tr class="shade" *ngIf="list && employedChangeFields.length">
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.numberEmployedChange' | translate | uppercase }}</td>
+                </tr>
+                <tr *ngIf="list && employedChangeFields.length">
+                  <td class="firstCell lastCell" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length" *ngFor="let item of employedChangeFields;">
+                    <div class="flex centered final" *ngIf="item && item > 0 && item < 6">
+                      <div class="{{'icon-wrapper'}} {{trendingValues[item - 1].class}}"><span class="htm-icon" aria-hidden="true">{{trendingValues[item - 1].icon}}</span></div>
+                      <div class="flex-text"><span role="text" attr.aria-label="{{trendingValues[item - 1].text | translate}}">{{trendingValues[item - 1].text | translate}}</span></div>
+                    </div>
+                    <div *ngIf="!(item && item > 0 && item < 6)"></div>
+                  </td>
+                </tr>
+                <tr class="shade" *ngIf="list && paymentFields.length">
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.wage' | translate | uppercase }}</td>
+                </tr>
+                <tr *ngIf="list && paymentFields.length">
+                  <td class="firstCell lastCell" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length" *ngFor="let item of paymentFields;">
+                    <span *ngIf="item">{{ formatNumber(item, 'et') }} €</span>
+                    <span *ngIf="!item"></span>
+                  </td>
+                </tr>
+                <tr class="shade" *ngIf="list && graduatesToJobsFields.length">
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.graduation_to_jobs_rate' | translate | uppercase }}</td>
+                </tr>
+                <tr *ngIf="list && graduatesToJobsFields.length">
+                  <td class="firstCell lastCell" [class.withBottom]="!finalFieldsArr.length" *ngFor="let item of graduatesToJobsFields;">
+                    <div class="flex centered final" *ngIf="item && item > 0 && item < 6">
+                      <div class="{{'icon-wrapper'}} {{graduatesToJobsValues[item - 1].class}}"><span class="icon" aria-hidden="true"></span></div>
+                      <div class="flex-text"><span role="text" attr.aria-label="{{graduatesToJobsValues[item - 1].text | translate}}">{{graduatesToJobsValues[item - 1].text | translate}}</span></div>
+                    </div>
+                    <div *ngIf="!(item && item > 0 && item < 6)"></div>
+                  </td>
+                </tr>
+                <tr class="shade" *ngIf="list && finalFieldsArr.length">
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'sidebar.pros_and_cons' | translate | uppercase }}</td>
+                </tr>
+                <tr class="slim" [class.firstSlim]="childInd === 0" *ngFor="let elem of finalFieldsArr; let childInd = index; let last = last;">
                   <ng-container *ngFor="let item of list; let ind = index;">
-                    <td [class.groupCell]="!last">
-                      <ng-container *ngIf="prosFields[ind]">
-                        <span *ngIf="!prosFields[ind][childInd]"></span>
-                        <ng-container *ngIf="prosFields[ind][childInd]">
+                    <td [class.groupCell]="!last" [class.lastCell]="last" [class.withBottom]="last" [class.another]="childInd > 0 && finalFields[ind][childInd] && finalFields[ind][childInd].type !== finalFields[ind][childInd - 1].type">
+                      <ng-container *ngIf="finalFields[ind]">
+                        <span *ngIf="!finalFields[ind][childInd]"></span>
+                        <ng-container *ngIf="finalFields[ind][childInd]">
                           <div class="flex centered">
-                            <div aria-hidden="true" class="icon-wrapper top"><span class="htm-icon">vertical_align_top</span></div>
-                            <div>{{prosFields[ind][childInd]}}</div>
+                            <div aria-hidden="true" class="icon-wrapper"
+                              [class.top]="finalFields[ind][childInd].type === 'pro'"
+                              [class.neutral]="finalFields[ind][childInd].type === 'neutral'"
+                              [class.bottom]="finalFields[ind][childInd].type === 'con'">
+                              <span *ngIf="finalFields[ind][childInd].type === 'pro'" class="htm-icon">vertical_align_top</span>
+                              <span *ngIf="finalFields[ind][childInd].type === 'neutral'" class="htm-icon">vertical_align_center</span>
+                              <span *ngIf="finalFields[ind][childInd].type === 'con'" class="htm-icon">vertical_align_bottom</span>
+                            </div>
+                            <div>{{finalFields[ind][childInd].value}}</div>
                           </div>
                         </ng-container>
                       </ng-container>
-                      <ng-container *ngIf="!prosFields[ind]">
-                        <span></span>
-                      </ng-container>
-                    </td>
-                  </ng-container>
-                </tr>
-                <tr *ngFor="let elem of consFieldsArr; let childInd = index; let last = last;">
-                  <ng-container *ngFor="let item of list; let ind = index;">
-                    <td [class.groupCell]="!last">
-                      <ng-container *ngIf="consFields[ind]">
-                        <span *ngIf="!consFields[ind][childInd]"></span>
-                        <ng-container *ngIf="consFields[ind][childInd]">
-                          <div class="flex centered">
-                            <div aria-hidden="true" class="icon-wrapper bottom"><span class="htm-icon">vertical_align_bottom</span></div>
-                            <div>{{consFields[ind][childInd]}}</div>
-                          </div>
-                        </ng-container>
-                      </ng-container>
-                      <ng-container *ngIf="!consFields[ind]">
+                      <ng-container *ngIf="!finalFields[ind]">
                         <span></span>
                       </ng-container>
                     </td>
                   </ng-container>
                 </tr>
                 <tr>
-                  <td *ngFor="let item of list; let i = index;">
+                  <td class="centered" *ngFor="let item of list; let i = index;">
                     <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'oskaProfessions.compare'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
                   </td>
                 </tr>

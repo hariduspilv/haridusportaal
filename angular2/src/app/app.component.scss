@@ -448,7 +448,8 @@ $grid-columns: 12;
   .clist-item{padding:.4375rem $quarter; background:#e0e0e0; border-radius:$medium; font-size: 0.8125rem; line-height:1.125rem;}
   .inline{margin:0 auto; padding:0;}
   .flex{display:flex;
-    .flex--single {flex: 1;display:flex;
+    .flex--single {flex: 1;display: flex;
+      @include break-on(sm, max) {display: block;flex: none;}
       img {line-height: inherit;width: 100%;}
       &.padded {padding-right: .25rem;
         &:last-child {padding-right: 0;}
@@ -485,6 +486,9 @@ $grid-columns: 12;
     tbody {
       tr.shade {background: $light-gray;
         .center {text-align: center !important;}
+        td {font-weight: 500;
+          border-bottom: .0625rem solid $white;
+        }
       }
     }
     thead {background: $light-gray;
@@ -629,17 +633,19 @@ $grid-columns: 12;
   .mat-snack-bar-container {
    box-shadow: 0 .125rem $half-gutter 0 rgba(0, 0, 0, 0.5);
    height: 3.75rem;
-   @include break-on(sm, min) {min-width: 50rem !important;margin-bottom: 0 !important;}
+   @include break-on(sm, min) {min-width: 50rem !important;margin-bottom: 0 !important;max-width: 100% !important; 
+  }
    @include break-on(sm, max) {min-width: 100vw !important;height: auto; padding: 1.25rem 1.5rem 0.875rem 4.6875rem!important;margin: 0 !important;}
-   padding: 1.25rem 1.5rem 0.875rem 4.6875rem!important;
+   padding: 1rem 1.5rem 0.875rem 4.6875rem!important;
    border-radius: 0.25rem; background-color: $success-light; border: solid 0.09375rem $success;
    @include break-on(sm, max) {
     height: auto;
     &.mat-snack-bar-center {max-width:100%;}
   }
-
+  
   button {
-   font-size: 1rem; font-weight: normal; font-style: normal; font-stretch: normal; line-height: 0; color: #2e3374;
+   font-size: 1rem; font-weight: normal; font-style: normal; font-stretch: normal; line-height: 0; color: #2e3374;text-decoration: underline;
+   &:hover {text-decoration: none;}
  }
  .mat-simple-snackbar { font-size: 1rem; font-weight: normal; font-style: normal; font-stretch: normal; 
   line-height: 1.38; letter-spacing: normal; text-align: left; color: #333333; 
@@ -657,8 +663,11 @@ $grid-columns: 12;
   flex-direction: column;
 }
 
-@include break-on(sm, max) {
-  .mat-simple-snackbar button { text-align: left; margin-left: 0px; padding: 0.4375rem 0; margin-top: 0.875rem; margin-bottom: 0.7rem; }
+
+.mat-simple-snackbar button {min-height: 1rem;
+  @include break-on(sm, max) {
+    text-align: left; margin-left: 0px; padding: 0.4375rem 0; margin-top: 0.875rem; margin-bottom: 0.7rem;
+  }
 }
 @include break-on(sm, min) {
   .mat-simple-snackbar { flex-direction: row;}

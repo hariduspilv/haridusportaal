@@ -53,7 +53,7 @@ class StudyProgrammeController extends ControllerBase {
       }
       catch(RequestException $e){
         $message = t('EHIS avaandmete päringu viga: @error', array('@error' => $e));
-        \Drupal::service('custom_logging_to_file.write')->write('error', 'EHIS avaandmetest õppekava uuendamine', $message);
+        \Drupal::service('htm_custom_file_logging.write')->write('error', 'EHIS avaandmetest õppekava uuendamine', $message);
       }
 
       $data = $response->getBody();
@@ -64,7 +64,7 @@ class StudyProgrammeController extends ControllerBase {
             $programmes[] = $oppekava;
           }else{
             $message = t('Puuduvad kohustuslikud andmed õppekavas: @code', array('@code' => $oppekava->oppekavaKood));
-            \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
+            \Drupal::service('htm_custom_file_logging.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
           }
         }
       }
@@ -155,7 +155,7 @@ class StudyProgrammeController extends ControllerBase {
         $programmenode['programme_field']['field_educational_institution'] = $schools[$programme->koolId];
       }else{
         $message = t('Puudub õppekavas @programme viidatud õppeasutus @schoolcode.', array('@programme' => $programme->oppekavaKood, '@schoolcode' => $programme->koolId));
-        \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
+        \Drupal::service('htm_custom_file_logging.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
       }
 
       if(isset($taxonomies['studyprogrammetype'][$this->parse_key($programme->oppekavaLiik)])){
@@ -169,7 +169,7 @@ class StudyProgrammeController extends ControllerBase {
         }
       }else{
         $message = t('Õppekavas @programmecode on portaali loendis puuduv väärtus @taxonomyvalue', array('@programmecode' => $programme->oppekavaKood, '@taxonomyvalue' => $programme->oppekavaLiik));
-        \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
+        \Drupal::service('htm_custom_file_logging.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
       }
 
       if(isset($programme->akadKraadDiplom)){
@@ -178,7 +178,7 @@ class StudyProgrammeController extends ControllerBase {
           $programmenode['programme_field']['field_degree_or_diploma_awarded'] = $degreeordiplomavalue;
         }else{
           $message = t('Õppekavas @programmecode on portaali loendis puuduv väärtus @taxonomyvalue', array('@programmecode' => $programme->oppekavaKood, '@taxonomyvalue' => $programme->akadKraadDiplom));
-          \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
+          \Drupal::service('htm_custom_file_logging.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
         }
       }
 
@@ -209,7 +209,7 @@ class StudyProgrammeController extends ControllerBase {
             $langvalues[] = $taxonomies['teaching_language'][$this->parse_key($ehislanguage)];
           }else{
             $message = t('Õppekavas @programmecode on portaali loendis puuduv väärtus @taxonomyvalue', array('@programmecode' => $programme->oppekavaKood, '@taxonomyvalue' => $ehislanguage));
-            \Drupal::service('custom_logging_to_file.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
+            \Drupal::service('htm_custom_file_logging.write')->write('notice', 'EHIS avaandmetest õppekava uuendamine', $message);
           }
         }
       }
