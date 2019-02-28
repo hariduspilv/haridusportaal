@@ -31,22 +31,15 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
   public elemAtStart: boolean = true;
   public initialized: boolean = false;
   public oskaFields: any = {};
-  public prosFields: any = {};
-  public neutralFields: any = {};
-  public consFields: any = {};
   public oskaFieldsMaxLength: number = 0;
-  public prosFieldsMaxLength: number = 0;
-  public neutralFieldsMaxLength: number = 0;
-  public consFieldsMaxLength: number = 0;
   public progressFields: Array<any> = [];
   public employedFields: Array<any> = [];
   public employedChangeFields: Array<any> = [];
   public paymentFields: Array<any> = [];
   public graduatesToJobsFields: Array<any> = [];
   public oskaFieldsArr: Array<any> = [];
-  public prosFieldsArr: Array<any> = [];
-  public neutralFieldsArr: Array<any> = [];
-  public consFieldsArr: Array<any> = [];
+  public finalFields: Array<any> = [];
+  public finalFieldsArr: Array<any> = [];
   public competitionLabel: Array<any> = [];
   public competitionLabels = ['oska.simple', 'oska.quite_simple', 'oska.medium', 'oska.quite_difficult', 'oska.difficult'];
   public trendingValues = [
@@ -132,7 +125,13 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
 
   formatData(data) {
     this.resetValues();
-    data.forEach((elem, index) => {
+    let prosFields = {};
+    let prosFieldsMaxLength = 0;
+    let neutralFields = {};
+    let neutralFieldsMaxLength = 0;
+    let consFields = {};
+    let consFieldsMaxLength = 0;
+    data.sort((a, b) => this.compare.indexOf(a.nid) - this.compare.indexOf(b.nid)).forEach((elem, index) => {
       if(elem.fieldFixedLabel) {
         this.fixedLabelExists = true;
       }
@@ -174,35 +173,32 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
         this.paymentFields.push('')
         this.graduatesToJobsFields.push('')
       }
-      if(elem.reverseOskaMainProfessionOskaFillingBarEntity && elem.reverseOskaMainProfessionOskaFillingBarEntity.entities.length && elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value) {
-        this.progressFields.push(elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value);
-        if (elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value
-          && elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value > 0
-          && elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value < 6) {
-            this.competitionLabel.push(this.competitionLabels[elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value - 1])
-        } else {
-          this.competitionLabel.push("");
-        }
+      if(elem.reverseOskaMainProfessionOskaFillingBarEntity && elem.reverseOskaMainProfessionOskaFillingBarEntity.entities.length
+        && elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value
+        && elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value > 0
+        && elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value < 6) {
+          this.progressFields.push(elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value);
+          this.competitionLabel.push(this.competitionLabels[elem.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value - 1])
       } else {
         this.progressFields.push("");
         this.competitionLabel.push("");
       }
       if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldPros && elem.fieldSidebar.entity.fieldPros.length) {
         elem.fieldSidebar.entity.fieldPros.forEach((pro, ind) => {
-          this.prosFields[index] = this.prosFields[index] ? [...this.prosFields[index], pro] : [pro];
-          if (this.prosFieldsMaxLength < ind + 1) { this.prosFieldsMaxLength = ind + 1; }
+          prosFields[index] = prosFields[index] ? [...prosFields[index], {value: pro, type: 'pro'}] : [{value: pro, type: 'pro'}];
+          if (prosFieldsMaxLength < ind + 1) { prosFieldsMaxLength = ind + 1; }
         });
       };
       if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldNeutral && elem.fieldSidebar.entity.fieldNeutral.length) {
         elem.fieldSidebar.entity.fieldNeutral.forEach((neutral, ind) => {
-          this.neutralFields[index] = this.neutralFields[index] ? [...this.neutralFields[index], neutral] : [neutral];
-          if (this.neutralFieldsMaxLength < ind + 1) { this.neutralFieldsMaxLength = ind + 1; }
+          neutralFields[index] = neutralFields[index] ? [...neutralFields[index], {value: neutral, type: 'neutral'}] : [{value: neutral, type: 'neutral'}];
+          if (neutralFieldsMaxLength < ind + 1) { neutralFieldsMaxLength = ind + 1; }
         });
       };
       if(elem.fieldSidebar && elem.fieldSidebar.entity.fieldCons && elem.fieldSidebar.entity.fieldCons.length) {
         elem.fieldSidebar.entity.fieldCons.forEach((con, ind) => {
-          this.consFields[index] = this.consFields[index] ? [...this.consFields[index], con] : [con];
-          if (this.consFieldsMaxLength < ind + 1) { this.consFieldsMaxLength = ind + 1; }
+          consFields[index] = consFields[index] ? [...consFields[index], {value: con, type: 'con'}] : [{value: con, type: 'con'}];
+          if (consFieldsMaxLength < ind + 1) { consFieldsMaxLength = ind + 1; }
         });
       };
     })
@@ -211,10 +207,17 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     if (this.employedChangeFields.every(this.isEmptyString)) {this.employedChangeFields = [];}
     if (this.paymentFields.every(this.isEmptyString)) {this.paymentFields = [];}
     if (this.graduatesToJobsFields.every(this.isEmptyString)) {this.graduatesToJobsFields = [];}
+    let finalFields = []
+    data.forEach((e, index) => {
+      let pros = prosFields[index] || [];
+      let neutrals = neutralFields[index] || [];
+      let cons = consFields[index] || [];
+      finalFields.push([...pros, ...neutrals, ...cons])
+    });
+    this.finalFields = finalFields;
+    let finalArrLength = prosFieldsMaxLength + neutralFieldsMaxLength + consFieldsMaxLength;
+    this.finalFieldsArr = finalArrLength ? Array(finalArrLength - 1).fill(0).map((x,i)=>i) : [];
     this.oskaFieldsArr = this.oskaFieldsMaxLength ? Array(this.oskaFieldsMaxLength).fill(0).map((x,i)=>i) : [];
-    this.prosFieldsArr = this.prosFieldsMaxLength ? Array(this.prosFieldsMaxLength).fill(0).map((x,i)=>i) : [];
-    this.neutralFieldsArr = this.neutralFieldsMaxLength ? Array(this.neutralFieldsMaxLength).fill(0).map((x,i)=>i) : [];
-    this.consFieldsArr = this.consFieldsMaxLength ? Array(this.consFieldsMaxLength).fill(0).map((x,i)=>i) : [];
     this.list = data;
   }
 
@@ -230,17 +233,10 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
 
   resetValues() {
     this.oskaFields = {};
-    this.prosFields = {};
-    this.neutralFields = {};
-    this.consFields = {};
+    this.finalFields = [];
     this.oskaFieldsMaxLength = 0;
-    this.prosFieldsMaxLength = 0;
-    this.neutralFieldsMaxLength = 0;
-    this.consFieldsMaxLength = 0;
     this.oskaFieldsArr = [];
-    this.prosFieldsArr = [];
-    this.neutralFieldsArr = [];
-    this.consFieldsArr = [];
+    this.finalFieldsArr = [];
     this.progressFields = [];
     this.employedFields = [];
     this.employedChangeFields = [];

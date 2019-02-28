@@ -486,7 +486,9 @@ $grid-columns: 12;
     tbody {
       tr.shade {background: $light-gray;
         .center {text-align: center !important;}
-        td {font-weight: 500;}
+        td {font-weight: 500;
+          border-bottom: .0625rem solid $white;
+        }
       }
     }
     thead {background: $light-gray;
