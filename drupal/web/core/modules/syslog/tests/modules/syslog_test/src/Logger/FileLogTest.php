@@ -2,13 +2,13 @@
 
 namespace Drupal\syslog_test\Logger;
 
-use Drupal\syslog\Logger\SysLog;
+use Drupal\syslog\Logger\FileLog;
 use Psr\Log\LoggerInterface;
 
 /**
  * Redirects logging messages to error_log.
  */
-class SysLogTest extends SysLog implements LoggerInterface {
+class FileLogTest extends FileLog implements LoggerInterface {
 
   /**
    * {@inheritdoc}

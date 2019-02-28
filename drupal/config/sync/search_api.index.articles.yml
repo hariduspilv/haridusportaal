@@ -4,15 +4,15 @@ status: true
 dependencies:
   module:
     - elasticsearch_connector
-    - paragraphs
     - node
+    - paragraphs
     - search_api
   config:
     - field.storage.node.field_accordion_section
-    - field.storage.paragraph.field_accordion_title
     - field.storage.paragraph.field_body
-    - field.storage.node.field_body_summary
+    - field.storage.paragraph.field_accordion_title
     - field.storage.node.field_body
+    - field.storage.node.field_body_summary
     - search_api.server.elasticsearch_server
 third_party_settings:
   elasticsearch_connector:

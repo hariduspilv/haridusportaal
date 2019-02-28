@@ -3834,6 +3834,62 @@
         }
     },
     {
+        "name": "drupal/filelog",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupal.org/project/filelog",
+            "reference": "8.x-1.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/filelog-8.x-1.0.zip",
+            "reference": "8.x-1.0",
+            "shasum": "797e098beb2ffcaddce7943e5265c460a7329d29"
+        },
+        "require": {
+            "drupal/core": "~8.0",
+            "php": "^7.1"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0",
+                "datestamp": "1529609020",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Christoph Burschka",
+                "homepage": "https://github.com/cburschka-pwc",
+                "email": "christoph.burschka@pwc-digital.ch",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "Logs system events to a file.",
+        "homepage": "https://www.drupal.org/project/filelog",
+        "keywords": [
+            "Drupal"
+        ],
+        "support": {
+            "source": "http://cgit.drupalcode.org/filelog",
+            "issues": "https://www.drupal.org/project/issues/filelog"
+        }
+    },
+    {
         "name": "drupal/google_map_field",
         "version": "1.5.0",
         "version_normalized": "1.5.0.0",
