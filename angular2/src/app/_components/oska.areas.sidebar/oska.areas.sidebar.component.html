@@ -18,8 +18,8 @@
           <h2 class="medium" attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">{{ 'oska.fieldNumberEmployed' | translate }}: {{ formatNumber(indicator.value, 'et') }}</h2>
           <div class="padding-block--content">
             <div class="flex">
-              <div class="flex--single" *ngFor="let item of arrayOfLength(indicator.icon)" aria-hidden="true"><img alt="icon" src="/assets/img/person_filled.svg"/></div>
-              <div class="flex--single" *ngFor="let elem of arrayOfLength(11 - indicator.icon)" aria-hidden="true"><img alt="icon" src="/assets/img/person.svg"/></div>
+              <div class="flex--single padded" *ngFor="let item of arrayOfLength(indicator.icon)" aria-hidden="true"><img alt="icon" src="/assets/img/person_filled.svg"/></div>
+              <div class="flex--single padded" *ngFor="let elem of arrayOfLength(11 - indicator.icon)" aria-hidden="true"><img alt="icon" src="/assets/img/person.svg"/></div>
             </div>
           </div>
           <hr aria-hidden="true" *ngIf="!last">
@@ -264,8 +264,8 @@
     <div class="padding-block--content">
       <div class="block__footer" *ngIf="sidebar.fieldNumberEmployedText">{{ sidebar.fieldNumberEmployedText }}</div>
       <div class="flex">
-        <div class="flex--single" *ngFor="let item of filledNumberEmployed" aria-hidden="true"><img alt="icon" src="/assets/img/person_filled.svg"/></div>
-        <div class="flex--single" *ngFor="let elem of outlinedNumberEmployed" aria-hidden="true"><img alt="icon" src="/assets/img/person.svg"/></div>
+        <div class="flex--single padded" *ngFor="let item of filledNumberEmployed" aria-hidden="true"><img alt="icon" src="/assets/img/person_filled.svg"/></div>
+        <div class="flex--single padded" *ngFor="let elem of outlinedNumberEmployed" aria-hidden="true"><img alt="icon" src="/assets/img/person.svg"/></div>
       </div>
     </div>
   </div>
