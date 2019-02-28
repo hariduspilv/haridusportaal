@@ -48,7 +48,7 @@
                   </td>
                 </tr>
                 <tr *ngIf="list && oskaFieldsArr.length" class="shade">
-                  <td colspan="100%" class="dark center">{{ 'oskaProfessions.fields' | translate | uppercase }}</td>
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oskaProfessions.fields' | translate | uppercase }}</td>
                 </tr>
                 <tr *ngFor="let elem of oskaFieldsArr; let childInd = index; let last = last;">
                   <ng-container *ngFor="let item of list; let ind = index;">
@@ -65,7 +65,7 @@
                   </ng-container>
                 </tr>
                 <tr class="shade" *ngIf="list && progressFields.length">
-                  <td colspan="100%" class="dark center">{{ 'oska.competition' | translate | uppercase }}</td>
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.competition' | translate | uppercase }}</td>
                 </tr>
                 <tr *ngIf="progressFields && progressFields.length">
                   <td class="firstCell lastCell xHidden" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length" *ngFor="let item of progressFields; let ind = index;">
@@ -73,7 +73,7 @@
                   </td>
                 </tr>
                 <tr class="shade" *ngIf="list && employedFields.length">
-                  <td colspan="100%" class="dark center">{{ 'oska.fieldNumberEmployed' | translate | uppercase }}</td>
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.fieldNumberEmployed' | translate | uppercase }}</td>
                 </tr>
                 <tr *ngIf="list && employedFields.length">
                   <td class="firstCell lastCell" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length" *ngFor="let item of employedFields;">
@@ -82,7 +82,7 @@
                   </td>
                 </tr>
                 <tr class="shade" *ngIf="list && employedChangeFields.length">
-                  <td colspan="100%" class="dark center">{{ 'oska.numberEmployedChange' | translate | uppercase }}</td>
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.numberEmployedChange' | translate | uppercase }}</td>
                 </tr>
                 <tr *ngIf="list && employedChangeFields.length">
                   <td class="firstCell lastCell" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length" *ngFor="let item of employedChangeFields;">
@@ -94,7 +94,7 @@
                   </td>
                 </tr>
                 <tr class="shade" *ngIf="list && paymentFields.length">
-                  <td colspan="100%" class="dark center">{{ 'oska.wage' | translate | uppercase }}</td>
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.wage' | translate | uppercase }}</td>
                 </tr>
                 <tr *ngIf="list && paymentFields.length">
                   <td class="firstCell lastCell" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length" *ngFor="let item of paymentFields;">
@@ -103,7 +103,7 @@
                   </td>
                 </tr>
                 <tr class="shade" *ngIf="list && graduatesToJobsFields.length">
-                  <td colspan="100%" class="dark center">{{ 'oska.graduation_to_jobs_rate' | translate | uppercase }}</td>
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'oska.graduation_to_jobs_rate' | translate | uppercase }}</td>
                 </tr>
                 <tr *ngIf="list && graduatesToJobsFields.length">
                   <td class="firstCell lastCell" [class.withBottom]="!finalFieldsArr.length" *ngFor="let item of graduatesToJobsFields;">
@@ -115,7 +115,7 @@
                   </td>
                 </tr>
                 <tr class="shade" *ngIf="list && finalFieldsArr.length">
-                  <td colspan="100%" class="dark center">{{ 'sidebar.pros_and_cons' | translate | uppercase }}</td>
+                  <td [attr.colspan]="list.length" class="dark center">{{ 'sidebar.pros_and_cons' | translate | uppercase }}</td>
                 </tr>
                 <tr class="slim" [class.firstSlim]="childInd === 0" *ngFor="let elem of finalFieldsArr; let childInd = index; let last = last;">
                   <ng-container *ngFor="let item of list; let ind = index;">
