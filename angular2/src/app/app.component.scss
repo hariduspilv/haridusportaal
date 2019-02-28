@@ -448,10 +448,8 @@ $grid-columns: 12;
   .clist-item{padding:.4375rem $quarter; background:#e0e0e0; border-radius:$medium; font-size: 0.8125rem; line-height:1.125rem;}
   .inline{margin:0 auto; padding:0;}
   .flex{display:flex;
-    .flex--single {flex: 1;display:flex;
-      @include break-on(sm, max) {display: block;margin: 0 1rem;}
-      @include break-on(xs, max) {display: block;margin: 0 .5rem;}
-      @include break-on(xxs, max) {display: flex;margin: auto;}
+    .flex--single {flex: 1;display: flex;
+      @include break-on(sm, max) {display: block;flex: none;}
       img {line-height: inherit;width: 100%;}
       &.padded {padding-right: .25rem;
         &:last-child {padding-right: 0;}
