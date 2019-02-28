@@ -36,12 +36,14 @@
             <table class="scrollableTable">
               <tbody>
                 <tr *ngIf="list">
-                  <td class="firstCell centered bold layoutCell" [class.borderless]="fixedLabelExists" [class.lastCell]="!fixedLabelExists" *ngFor="let item of list">
+                  <td class="firstCell centered bold layoutCell" [class.borderless]="fixedLabelExists" [class.lastCell]="!fixedLabelExists" *ngFor="let item of list"
+                  [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length && !progressFields.length && !oskaFieldsArr.length && !fixedLabelExists">
                     <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.title}}">{{ item.title | titleCase }}</a>
                   </td>
                 </tr>
                 <tr *ngIf="list && fixedLabelExists">
-                  <td *ngFor="let item of list" class="lastCell centered">
+                  <td *ngFor="let item of list" class="lastCell centered"
+                    [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length && !progressFields.length && !oskaFieldsArr.length">
                     <span class="important-pill" *ngIf="item.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span>
                   </td>
                 </tr>
@@ -50,7 +52,8 @@
                 </tr>
                 <tr *ngFor="let elem of oskaFieldsArr; let childInd = index; let last = last;">
                   <ng-container *ngFor="let item of list; let ind = index;">
-                    <td [class.firstCell]="childInd === 0" [class.groupCell]="!last" [class.lastCell]="last">
+                    <td [class.firstCell]="childInd === 0" [class.groupCell]="!last" [class.lastCell]="last" 
+                      [class.withBottom]="last && !graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length && !progressFields.length">
                       <ng-container *ngIf="oskaFields[ind]">
                         <span *ngIf="!oskaFields[ind][childInd]"></span>
                         <span *ngIf="oskaFields[ind][childInd]">{{oskaFields[ind][childInd].entity.title}}</span>
@@ -65,15 +68,15 @@
                   <td colspan="100%" class="dark center">{{ 'oska.competition' | translate | uppercase }}</td>
                 </tr>
                 <tr *ngIf="progressFields && progressFields.length">
-                  <td class="firstCell lastCell xHidden" *ngFor="let item of progressFields; let ind = index;">
+                  <td class="firstCell lastCell xHidden" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length" *ngFor="let item of progressFields; let ind = index;">
                     <progress-bar *ngIf="item && item > 0 && item < 6" [level]="item" [status]="competitionLabel[ind]" labelStart="{{'oska.simple' | translate}}" labelEnd="{{'oska.difficult' | translate}}"></progress-bar>
                   </td>
                 </tr>
                 <tr class="shade" *ngIf="list && employedFields.length">
                   <td colspan="100%" class="dark center">{{ 'oska.fieldNumberEmployed' | translate | uppercase }}</td>
                 </tr>
-                <tr>
-                  <td class="firstCell lastCell" *ngFor="let item of employedFields;">
+                <tr *ngIf="list && employedFields.length">
+                  <td class="firstCell lastCell" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length" *ngFor="let item of employedFields;">
                     <span *ngIf="item">{{ formatNumber(item, 'et') }}</span>
                     <span *ngIf="!item"></span>
                   </td>
@@ -81,8 +84,8 @@
                 <tr class="shade" *ngIf="list && employedChangeFields.length">
                   <td colspan="100%" class="dark center">{{ 'oska.numberEmployedChange' | translate | uppercase }}</td>
                 </tr>
-                <tr>
-                  <td class="firstCell lastCell" *ngFor="let item of employedChangeFields;">
+                <tr *ngIf="list && employedChangeFields.length">
+                  <td class="firstCell lastCell" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length" *ngFor="let item of employedChangeFields;">
                     <div class="flex centered final" *ngIf="item && item > 0 && item < 6">
                       <div class="{{'icon-wrapper'}} {{trendingValues[item - 1].class}}"><span class="htm-icon" aria-hidden="true">{{trendingValues[item - 1].icon}}</span></div>
                       <div class="flex-text"><span role="text" attr.aria-label="{{trendingValues[item - 1].text | translate}}">{{trendingValues[item - 1].text | translate}}</span></div>
@@ -93,8 +96,8 @@
                 <tr class="shade" *ngIf="list && paymentFields.length">
                   <td colspan="100%" class="dark center">{{ 'oska.wage' | translate | uppercase }}</td>
                 </tr>
-                <tr>
-                  <td class="firstCell lastCell" *ngFor="let item of paymentFields;">
+                <tr *ngIf="list && paymentFields.length">
+                  <td class="firstCell lastCell" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length" *ngFor="let item of paymentFields;">
                     <span *ngIf="item">{{ formatNumber(item, 'et') }} €</span>
                     <span *ngIf="!item"></span>
                   </td>
@@ -102,8 +105,8 @@
                 <tr class="shade" *ngIf="list && graduatesToJobsFields.length">
                   <td colspan="100%" class="dark center">{{ 'oska.graduation_to_jobs_rate' | translate | uppercase }}</td>
                 </tr>
-                <tr>
-                  <td class="firstCell lastCell" *ngFor="let item of graduatesToJobsFields;">
+                <tr *ngIf="list && graduatesToJobsFields.length">
+                  <td class="firstCell lastCell" [class.withBottom]="!finalFieldsArr.length" *ngFor="let item of graduatesToJobsFields;">
                     <div class="flex centered final" *ngIf="item && item > 0 && item < 6">
                       <div class="{{'icon-wrapper'}} {{graduatesToJobsValues[item - 1].class}}"><span class="icon" aria-hidden="true"></span></div>
                       <div class="flex-text"><span role="text" attr.aria-label="{{graduatesToJobsValues[item - 1].text | translate}}">{{graduatesToJobsValues[item - 1].text | translate}}</span></div>
@@ -116,7 +119,7 @@
                 </tr>
                 <tr class="slim" [class.firstSlim]="childInd === 0" *ngFor="let elem of finalFieldsArr; let childInd = index; let last = last;">
                   <ng-container *ngFor="let item of list; let ind = index;">
-                    <td [class.groupCell]="!last" [class.lastCell]="last" [class.another]="childInd > 0 && finalFields[ind][childInd] && finalFields[ind][childInd].type !== finalFields[ind][childInd - 1].type">
+                    <td [class.groupCell]="!last" [class.lastCell]="last" [class.withBottom]="last" [class.another]="childInd > 0 && finalFields[ind][childInd] && finalFields[ind][childInd].type !== finalFields[ind][childInd - 1].type">
                       <ng-container *ngIf="finalFields[ind]">
                         <span *ngIf="!finalFields[ind][childInd]"></span>
                         <ng-container *ngIf="finalFields[ind][childInd]">
