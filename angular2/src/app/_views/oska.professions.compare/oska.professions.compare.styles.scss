@@ -22,7 +22,9 @@ table {width: 100%;border-collapse: collapse; margin: 0;table-layout: fixed;
     &.firstCell {padding-top: 1rem;}
     &.centered {text-align: center;}
     &.bold {font-weight: 500;}
-    &.lastCell {padding-bottom: 1rem;border-bottom: .0625rem solid $white;}
+    &.lastCell {padding-bottom: 1rem;border-bottom: .0625rem solid $white;
+      &.withBottom {border-bottom: .0625rem solid $gray;}
+    }
     &.layoutCell {width: 100%;box-sizing: border-box;font-size: 1rem;}
     &.xHidden {overflow-x: auto;}
     &.groupHead {border-bottom: .0625rem solid $light-gray;}
