@@ -26,6 +26,6 @@ class FileLog extends DbLog {
     public function log($level, $message, array $context = [])
     {
         parent::log($level, $message, $context);
-        \Drupal::service('htm_custom_file_logging.write')->write('info', 'Watchdog logid', $message.' severity '.$level);
+        \Drupal::service('htm_custom_file_logging.write')->write($level, 'Watchdog logid', $message);
     }
 }
