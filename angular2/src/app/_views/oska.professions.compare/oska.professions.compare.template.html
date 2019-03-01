@@ -69,7 +69,7 @@
                 </tr>
                 <tr *ngIf="progressFields && progressFields.length">
                   <td class="firstCell lastCell xHidden" [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length" *ngFor="let item of progressFields; let ind = index;">
-                    <progress-bar *ngIf="item && item > 0 && item < 6" [level]="item" [status]="competitionLabel[ind]" labelStart="{{'oska.simple' | translate}}" labelEnd="{{'oska.difficult' | translate}}"></progress-bar>
+                    <progress-bar [id]="ind" *ngIf="item && item > 0 && item < 6" [level]="item" [status]="competitionLabel[ind]" labelStart="{{'oska.simple' | translate}}" labelEnd="{{'oska.difficult' | translate}}"></progress-bar>
                   </td>
                 </tr>
                 <tr class="shade" *ngIf="list && employedFields.length">
