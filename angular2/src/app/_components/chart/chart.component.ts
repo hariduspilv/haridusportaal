@@ -68,21 +68,41 @@ export class ChartComponent implements OnInit{
       let graphTitle = current.graphTitle;
       let secondaryGraphType = current.secondaryGraphType;
       let isStacked:any = false;
+      let seriesType:any = false;
 
       if( chartType == "Doughnut" ){
         chartType = "Pie";
       }
 
-      if( chartType.toLowerCase() == "clustered bar"){
-        isStacked = true;
-        chartType = "Bar";
-      }else if( chartType == "Stacked bar 100" ) {
-        isStacked = "percent";
-        chartType = "Bar";
+      switch( chartType.toLowerCase() ){
+        case 'clustered bar' : {
+          isStacked = false;
+          chartType = "Bar";
+          seriesType = 'bars';
+          break;
+        }
+        case 'clustered column' : {
+          isStacked = false;
+          chartType = "Column";
+          seriesType = 'bars';
+          break;
+        }
+        case 'stacked bar' : {
+          isStacked = true;
+          chartType = "Bar";
+          seriesType = 'bars';
+          break;
+        }
+        case 'stacked bar 100' : {
+          isStacked = "percent";
+          chartType = "Bar";
+          seriesType = 'bars';
+          break;
+        }
       }
 
       let graphName = chartType+"Chart";
-      
+
       if( chartType && secondaryGraphType ){
         graphName = "ComboChart"
       }
@@ -107,7 +127,7 @@ export class ChartComponent implements OnInit{
       };
 
       if( graphName == "ComboChart" ){
-        tmp['options']['colors'] = ["#18218f", "#db3a00"];
+        //tmp['options']['colors'] = ["#18218f", "#db3a00"];
       };
 
       if( graphName == "BarChart" ){
@@ -146,9 +166,12 @@ export class ChartComponent implements OnInit{
       }
 
       if( chartType && secondaryGraphType ){
-        let newType = chartType;
+
+        let newType = seriesType  || chartType;
 
         if( newType == "Bar" ){
+          newType = "bars";
+        }else if( newType == "column" ){
           newType = "bars";
         }
 
@@ -157,7 +180,7 @@ export class ChartComponent implements OnInit{
         }
 
         if( secondaryGraphType == "column" ){
-          secondaryGraphType = "bars";
+          secondaryGraphType = "columns";
         }
         
         tmp.options['seriesType'] = newType;
@@ -165,21 +188,23 @@ export class ChartComponent implements OnInit{
         tmp.options['series'] = {
           0: {
             targetAxisIndex: 0
-          },
-          1: {
-            type: secondaryGraphType,
-            targetAxisIndex: 1
           }
         }
+
+        let secondaryIndex = value[0].length-2;
+
+        tmp.options['series'][secondaryIndex] = {
+          type: secondaryGraphType,
+          targetAxisIndex: secondaryIndex
+        };
+
+        console.log( JSON.stringify( value ) );
     
       }
       
       output.push(tmp);
 
     }
-
-
-    console.log(output);
 
     if( inputData ){
       return output[0];
@@ -200,7 +225,6 @@ export class ChartComponent implements OnInit{
 
   parseData() {
 
-    
     this.data = this.data.map( ( item ) => {
       item.filterValues = JSON.parse( item.filterValues );
       item.id = this.generateID();
@@ -217,7 +241,6 @@ export class ChartComponent implements OnInit{
 
       try{
         let tmpFilters = [];
-
         for( let i in item.filterValues.graph_options.graph_filters ){
           let current = item.filterValues.graph_options.graph_filters[i];
 
@@ -247,16 +270,36 @@ export class ChartComponent implements OnInit{
           options.push(item.filterValues.graph_options.graph_indicator[i]);
         }
 
-        item.filters.push({
+        item.filters.unshift({
           key: 'näitaja',
           options: options
         });
 
-        this.filters[ item.id ]['näitaja'] = [ item.filters[ item.filters.length - 1 ].options[0] ];
+        let indicatorItem = item.filters.filter( item => {
+          if( item.key == 'näitaja' ){
+            return item;
+          }
+        })[0];
+
+        this.filters[ item.id ]['näitaja'] = indicatorItem.options[0];
 
       }catch(err){
         console.error("Couldn't parse indicators!");
       }
+
+      try{
+        let groupBy = {
+          key: 'groupBy',
+          options: []
+        };
+        for( let i in item.graph_group_by ){
+          groupBy.options.push(item.graph_group_by[i]);
+        }
+
+        this.filters[ item.id ]['groupBy'] = groupBy.options[0];
+        item.filters.unshift(groupBy);
+
+      }catch(err){}
 
       this.getGraphData( item.id );
 
@@ -281,8 +324,6 @@ export class ChartComponent implements OnInit{
           return item;
         }
       })[0];
-
-      console.log(current);
   
       let filters = this.filters[current.id];
   
@@ -291,19 +332,26 @@ export class ChartComponent implements OnInit{
       this.filtersData[current.id].loading = true;
 
       let professionList = current.filters.filter( x => x.key == 'ametiala' ).map( y => y.options)[0];
+      let subFieldList = current.filters.filter( x => x.key == 'alavaldkond' ).map( y => y.options)[0];
 
+      if( professionList.length == 0 ){
+        professionList = '';
+      }
+
+      if( subFieldList.length == 0 ){
+        subFieldList = '';
+      }
       let variables = {
-        graphSet: current['graphSet'],
         graphType: current['graphType'],
         secondaryGraphType: current.secondaryGraphType,
         secondaryGraphIndicator: current.secondaryGraphIndicator,
         indicator: filters['näitaja'].length > 0 ? filters['näitaja'] : false,
         oskaField: filters.valdkond || '',
-        oskaSubField: filters.alavaldkond || '',
-        oskaMainProfession: filters.ametiala || professionList,
+        oskaSubField: filters.alavaldkond && filters.alavaldkond.length > 0  ? filters.alavaldkond : subFieldList,
+        oskaMainProfession: filters.ametiala && filters.ametiala.length > 0 ? filters.ametiala : professionList,
         period: filters.periood || '',
         label: filters.silt || '',
-        graphGroupBy: current['graph_group_by'],
+        graphGroupBy: filters['groupBy'] || '',
         graphVAxis: current['graph_v_axis']
       }
 
@@ -339,7 +387,6 @@ export class ChartComponent implements OnInit{
             graphType: type,
             /*graphIndicator: 'Mis ma siia panen? :O',*/
             graphTitle: current.graphTitle,
-            graphSet: variables['graphSet'],
             value: item.ChartValue,
             secondaryGraphType:	variables['secondaryGraphType'],
             secondaryGraphIndicator:	null
