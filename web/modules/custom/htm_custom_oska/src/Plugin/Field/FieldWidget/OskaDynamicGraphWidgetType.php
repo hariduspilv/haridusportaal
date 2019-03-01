@@ -101,7 +101,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             }
 
             $group_by_options = $fields;
-            $fields['naitaja'] = $this->t('indicator');
+            $group_by_options['naitaja'] = $this->t('indicator');
 
             $element['graph_options']['graph_indicator'] = [
                 '#title' => $this->t('OSKA indicator'),
