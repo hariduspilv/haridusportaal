@@ -100,6 +100,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 $indicator_options[$key] = $key;
             }
 
+            $group_by_options = $fields;
+            $fields['naitaja'] = $this->t('indicator');
+
             $element['graph_options']['graph_indicator'] = [
                 '#title' => $this->t('OSKA indicator'),
                 '#type' => 'select',
@@ -133,7 +136,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#type' => 'select',
                 '#multiple' => TRUE,
                 '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
-                '#options' =>  $fields,
+                '#options' =>  $group_by_options,
                 '#empty_option'  => '-',
                 '#required' => FALSE,
                 '#delta' => $delta,
