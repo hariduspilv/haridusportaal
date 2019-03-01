@@ -28,9 +28,10 @@
             <div class="modal__header">
               <div class="modal__header__col">
                 <h2 role="heading" tabindex="0">{{ modal.title }}</h2>
+                <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfession.view_field_info' | translate }}" class="sm-show">{{ 'oskaProfession.view_field_info' | translate }}</a>
               </div><!--/modal__header__col-->
               <div class="modal__header__col">
-                <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfession.view_field_info' | translate }}">{{ 'oskaProfession.view_field_info' | translate }}</a>
+                <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfession.view_field_info' | translate }}" class="sm-hide">{{ 'oskaProfession.view_field_info' | translate }}</a>
                 <button role="button" attr.aria-label="{{ 'oskaProfessions.close_modal' | translate }}" (click)="modalClose()"><span class="htm-icon">close-1</span></button>
               </div><!--/modal__header__col-->
             </div>
