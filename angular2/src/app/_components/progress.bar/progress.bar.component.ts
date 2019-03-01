@@ -7,6 +7,7 @@ import { Component, Input, OnInit, AfterViewInit } from "@angular/core";
 })
 
 export class ProgressBarComponent implements AfterViewInit {
+  @Input() id;
   @Input() level;
   @Input() status;
   @Input() labelStart;
@@ -26,8 +27,8 @@ export class ProgressBarComponent implements AfterViewInit {
   }
 
   setLabelOffset() {
-    const { levelOffsets, level, extraPadding } = this;
-    let label = document.querySelector(`#level--${level}`) as HTMLElement;
+    const { levelOffsets, level, extraPadding, id } = this;
+    let label = document.querySelector(`#progress--${id}`) as HTMLElement;
     let labelWidth = label.getBoundingClientRect().width;
     if (level === 5) {
       label.style.left = `calc(${levelOffsets[level]}% - ${labelWidth}px)`;
@@ -38,7 +39,7 @@ export class ProgressBarComponent implements AfterViewInit {
   }
 
   checkOffsetValidity (label){
-    let parentOffset = document.getElementById(`progressElem--${this.level}`).offsetLeft;
+    let parentOffset = document.getElementById(`progressElem--${this.id}`).offsetLeft;
     if (parentOffset > label.offsetLeft) {
       label.style.left = '0px';
     }
