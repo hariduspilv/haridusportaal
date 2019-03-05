@@ -1,0 +1,70 @@
+@import "../../../assets/styles/typography.scss"; 
+
+.short{font-weight: 500; padding:1rem 0 1rem 0;}
+.short, .description{line-height:1.375rem;}
+
+::ng-deep .padding-block{
+  .row.video{padding:0 0 1rem 0 !important;
+    .video-alt-text{padding-bottom:0.2rem;}
+  }
+  @include break-on(sm, max) {
+    .row.video{margin-left:-2rem !important; margin-right:-2rem !important;
+      .video-alt-text{padding-left:1.5rem; padding-right:1.5rem;}
+    }
+  }
+}
+.image-alt-text {font-size: 0.875rem; color:$black; font-style: italic; font-weight: 300; padding: 0 $medium $small;
+  @include break-on(sm, min) {padding: 0 0 $small 0;}
+}
+
+h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5rem;}
+
+.external-links{padding:0; margin:1rem 0; display:block; list-style:none;
+  a{display:block; text-decoration: underline; margin-bottom:1rem;
+    &:hover{text-decoration: none; }
+  }
+  .htm-icon{font-size:1.375rem; display:inline-block; text-decoration: none; vertical-align: middle; margin-right:0.3125rem;}
+  li:last-child a{margin-bottom:0;}
+  &+video-component{margin-top:1rem;}
+}
+.button-row {
+  button {width: 100%; box-sizing: border-box;}
+}
+::ng-deep table{width:100%; border-collapse: collapse; border:$gray 1px solid;
+  caption{font-size: 1rem; color:$black; font-weight: 500; padding:0 0 0.5rem 0; text-align:left;}
+  td, th{text-align:left; padding:0.5rem 1rem;  border:$gray 1px solid; font-size:0.875rem; line-height:135%;
+    p:first-child{margin-top:0;}
+    p:last-child{margin-bottom:0;}
+  }
+  thead{
+    th{background:$light-gray; background:$light-gray; font-size:0.875rem; font-weight: 500;}
+  }
+}
+.pointer {user-select: none;}
+.scrollable {padding: 0;}
+.scrollableTable {
+  td {
+    &.narrow {min-width: 7.5rem; font-weight: 400;}
+    &.wide {min-width: 15rem; font-weight: 400;}
+  }
+  td, th {font-size: 1rem;line-height: 1.375rem;}
+}
+.block__head {margin-bottom: 0;}
+@include break-on(sm, max) {
+  .padding-block{
+    .article-image{margin-left:-1.5rem; margin-right:-1.5rem;}
+  }
+}
+.download {padding: 1.5rem 0 0 0;
+  .link-holder {padding-bottom: 1rem;}
+}
+.scrollableTable thead span.icon {position: relative;min-width: 1.5rem;display: inline-block;bottom: 1rem;
+  .htm-icon {
+    position: absolute;
+    top: -.125rem;
+    font-size: 1.5rem;
+    left: .25rem;
+  }
+}
+
+feedback{margin-left:0; margin-right:0; margin-bottom:-2rem;}
