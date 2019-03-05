@@ -1,0 +1,96 @@
+uuid: 6bb286d1-b6ef-40da-a4ca-e1de997a5fe1
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - search_api
+  config:
+    - field.storage.node.field_result_page_introduction
+    - field.storage.node.body
+    - search_api.server.elasticsearch_server
+id: oska_result_page
+name: 'OSKA Result Page'
+description: ''
+read_only: false
+field_settings:
+  content_type:
+    label: 'Sisu tüüp'
+    datasource_id: 'entity:node'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - node
+  entity_path:
+    label: URI
+    property_path: search_api_url
+    type: string
+  field_body:
+    label: Sisu
+    datasource_id: 'entity:node'
+    property_path: body
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.body
+  field_body_summary:
+    label: Sissejuhatus
+    datasource_id: 'entity:node'
+    property_path: field_result_page_introduction
+    type: text
+    dependencies:
+      config:
+        - field.storage.node.field_result_page_introduction
+  langcode:
+    label: Keel
+    datasource_id: 'entity:node'
+    property_path: langcode
+    type: text
+    dependencies:
+      module:
+        - node
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  status:
+    label: Avaldatud
+    datasource_id: 'entity:node'
+    property_path: status
+    type: integer
+    dependencies:
+      module:
+        - node
+  title:
+    label: Pealkiri
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - node
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - oska_result_page
+    languages:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  rendered_item: {  }
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: elasticsearch_server
