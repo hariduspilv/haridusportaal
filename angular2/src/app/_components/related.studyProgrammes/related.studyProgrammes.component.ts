@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import { RootScopeService } from '@app/_services/rootScopeService';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SettingsService } from '@app/_services/settings.service';
 import { Subscription } from 'rxjs/Subscription';
 import { FiltersService } from '@app/_services/filtersService';
+import { HttpService } from '@app/_services/httpService';
 @Component({
   selector: "related-studyprogrammes",
   templateUrl: "related.studyProgrammes.component.html",
@@ -26,7 +26,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   constructor (
     public route: ActivatedRoute, 
     public router: Router,
-    private http: HttpClient,
+    private http: HttpService,
     public rootScope: RootScopeService,
     private settings: SettingsService
   ) { 
