@@ -7,7 +7,8 @@ query (
   CustomElasticQuery(offset: $offset, limit: $limit, content_type:true, elasticsearch_index: $indexes,
     filter: {conjunction: AND,
       conditions: [
-        {operator: EQUAL, field: "langcode", value: [$lang]}]},
+        {operator: EQUAL, field: "langcode", value: [$lang]},
+        {operator: EQUAL, field: "status", value: "1"}]},
   	score: {search_value: $search_term, conditions:[
       {field:"title", weight:5},
       {field:"field_body_summary", weight:2},
