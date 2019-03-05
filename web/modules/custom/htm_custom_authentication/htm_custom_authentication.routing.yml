@@ -1,0 +1,9 @@
+htm_custom_authentication.custom_auth_setting_form:
+  path: '/admin/config/htm_custom_authentication/custom_auth_setting'
+  defaults:
+    _form: '\Drupal\htm_custom_authentication\Form\CustomAuthSettingForm'
+    _title: 'CustomAuthSettingForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
