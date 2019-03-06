@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
-import { TableService } from '@app/_services';
+import { TableService, RootScopeService } from '@app/_services';
 import { FiltersService } from '@app/_services/filtersService'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -15,6 +15,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
 
   @Input() inputData:any ;
   public tableData: any = false;
+  public tableFile: any = false;
   public filteredTableData: any = false;
   public error: boolean = false;
   public tableOverflown: boolean = false;
@@ -42,6 +43,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   constructor(
     private http: HttpService,
     private tableService: TableService,
+    private rootScope: RootScopeService,
     public route: ActivatedRoute, 
     public router: Router
   ) {
@@ -90,12 +92,16 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   }
 
   getTableData(){
-    let subscription = this.http.get('oskaResultPageTable').subscribe( (data) => {
+    let variables = {
+      "lang": this.rootScope.get('lang').toUpperCase()
+    };
+    let subscription = this.http.get('oskaResultPageTable', {params:variables}).subscribe( (data) => {
       if ( data['data']['errors'] ) {
          this.error = true;
         return false;
       } else {
-        this.tableData = this.filteredTableData = data['data']['oskaTableEntityQuery']['entities'];
+        this.tableData = this.filteredTableData = data['data']['oskaTable']['entities'];
+        this.tableFile = data['data']['oskaTableFile']['entities'] ? data['data']['oskaTableFile']['entities'][0] : false;
       }
       let fieldsToProcess = ['responsible', 'proposalStatus'];
       if (this.tableData) {

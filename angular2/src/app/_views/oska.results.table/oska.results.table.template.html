@@ -75,6 +75,9 @@
   <div class="row wrapper__row" *ngIf="error">
     <div class="col-12">
       <div class="block border-blue padding-block">
+        <div class="block__head no-border">
+          <div class="block__head__title">{{ 'oska.results' | translate | uppercase }}</div>
+        </div><!--/block__head-->
         <h1>{{ 'oska.results' | translate }}</h1>
         <div class="text-center actions__error">
           <div class="alert" role="alert">{{'errors.request' | translate}}</div>
@@ -89,55 +92,20 @@
         <div class="block__head no-border">
           <div class="block__head__title">{{ 'oska.results' | translate | uppercase }}</div>
         </div><!--/block__head-->
-        <!-- <div class="flex flex-wrap flex-rows first-elem">
-          <div class="flex flex-wrap flex-notrows flex-grow">
-            <div class="flex input-row no-top">
-              <div class="grow additional" *ngIf="filterItemValues && filterItemValues.field.length">
-                <div class="round-input__wrapper">
-                  <mat-form-field>
-                    <mat-select placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]='filterItems.field' name="field">
-                      <mat-option>{{ 'button.all' | translate }}</mat-option>
-                      <mat-option *ngFor="let item of filterItemValues.field" [value]="item">
-                        {{item | titleCase}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="grow" *ngIf="filterItemValues && filterItemValues.responsible.length">
-                <div class="round-input__wrapper">
-                  <mat-form-field>
-                    <mat-select placeholder="{{ 'oska.table_responsible_person' | translate }}" [(ngModel)]='filterItems.responsible' name="responsible">
-                      <mat-option>{{ 'button.all' | translate }}</mat-option>
-                      <mat-option *ngFor="let item of filterItemValues.responsible" [value]="item">
-                        {{item | titleCase}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="flex input-row no-bottom" *ngIf="filterItemValues && filterItemValues.proposalStatus.length">
-              <div class="grow">
-                <div class="round-input__wrapper">
-                  <mat-form-field>
-                    <mat-select placeholder="{{ 'oska.table_proposition_status' | translate }}" [(ngModel)]='filterItems.proposalStatus' name="proposalStatus">
-                      <mat-option>{{ 'button.all' | translate }}</mat-option>
-                      <mat-option *ngFor="let item of filterItemValues.proposalStatus" [value]="item">
-                        {{item | titleCase}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
+        <div class="row">
+          <div class="col sm-8 flex">
+            <h1>{{ 'oska.proposal_title' | translate }}</h1>
+            <!-- <h1 class="block-heading">{{ 'oskaProfessions.compare_label' | translate | titleCase }}</h1> -->
+          </div>
+          <div class="col sm-4 flex flex-center flex-justify-end action--back" *ngIf="tableFile">
+            <div class="link-holder">
+              <a href="{{ tableFile.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download' | translate }}: {{ tableFile.fieldResultPageTableFile.description || tableFile.fieldResultPageTableFile.entity.entityLabel }}">
+                <span class="sm-hide">{{ 'button.download_table' | translate }}</span>
+                <span class="sm-show">{{ 'button.download' | translate }}</span>
+              </a>
             </div>
           </div>
-          <div class="sm-12 align-end">
-            <div class="button-row">
-              <button (click)="filterView()" type="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
-            </div>
-          </div>
-        </div> -->
+        </div>
         <div class="text-center actions__error" *ngIf="filteredTableData && !filteredTableData.length">
           <div class="alert" role="alert">{{'search.no_results_start' | translate}} <span innerHtml="{{'search.no_results_end' | translate}}"></span></div>
         </div><!--/text-center-->
