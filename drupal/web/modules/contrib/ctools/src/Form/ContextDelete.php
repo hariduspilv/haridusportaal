@@ -35,7 +35,7 @@ abstract class ContextDelete extends ConfirmFormBase {
   protected $context_id;
 
   public static function create(ContainerInterface $container) {
-    return new static($container->get('user.shared_tempstore'));
+    return new static($container->get('tempstore.shared'));
   }
 
   public function __construct(SharedTempStoreFactory $tempstore) {

@@ -383,7 +383,6 @@ class ContentSync extends FormBase {
                                          ->importEntity($decoded_entity, $cs_context);
       if($entity) {
         $context['results'][] = TRUE;
-        $context['sandbox']['progress']++;
         $context['message'] = $this->t('Imported content @label (@entity_type: @id).', [
           '@label' => $entity->label(),
           '@id' => $entity->id(),
@@ -406,6 +405,8 @@ class ContentSync extends FormBase {
       if ($error) {
         drupal_set_message($context['message'], 'error');
       }
+      // We need to count the progress anyway even if an error has occured.
+      $context['sandbox']['progress']++;
     }
     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
     if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {

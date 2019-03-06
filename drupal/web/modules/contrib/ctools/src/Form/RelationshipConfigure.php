@@ -38,7 +38,7 @@ abstract class RelationshipConfigure extends FormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('user.shared_tempstore'), $container->get('ctools.typed_data.resolver'));
+    return new static($container->get('tempstore.shared'), $container->get('ctools.typed_data.resolver'));
   }
 
   public function __construct(SharedTempStoreFactory $tempstore, TypedDataResolver $resolver) {
@@ -113,7 +113,7 @@ abstract class RelationshipConfigure extends FormBase {
     list($route_name, $route_parameters) = $this->getParentRouteInfo($cached_values);
     $response = new AjaxResponse();
     $url = Url::fromRoute($route_name, $route_parameters);
-    $response->addCommand(new RedirectCommand($url));
+    $response->addCommand(new RedirectCommand($url->toString()));
     $response->addCommand(new CloseModalDialogCommand());
     return $response;
   }

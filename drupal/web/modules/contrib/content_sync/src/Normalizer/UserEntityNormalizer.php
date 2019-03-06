@@ -40,8 +40,10 @@ class UserEntityNormalizer extends ContentEntityNormalizer {
     $normalized_data = parent::normalize($object, $format, $context);
     if (!empty($context['content_sync'])) {
       $normalized_data['pass'] = [
-        'value' => $object->getPassword(),
-        'pre_hashed' => TRUE,
+        [
+          'value' => $object->getPassword(),
+          'pre_hashed' => TRUE,
+        ],
       ];
       $normalized_data['mail'] = [
         'value' => $object->getEmail(),

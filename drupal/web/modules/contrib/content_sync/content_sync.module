@@ -210,8 +210,6 @@ function content_sync_entity_update(Drupal\Core\Entity\EntityInterface $entity){
   $entityTypeManager = \Drupal::entityTypeManager();
   $instances = $entityTypeManager->getDefinitions();
   if ( isset($instances[$entity_type]) && $instances[$entity_type] instanceof ContentEntityType ) {
-    // Store the data for diff
-    module_load_include('inc', 'content_sync', 'content_sync.batch');
     $entity = \Drupal::entityTypeManager()->getStorage($entity_type)
       ->load($entity_id);
     // Generate the YAML file.
@@ -219,7 +217,6 @@ function content_sync_entity_update(Drupal\Core\Entity\EntityInterface $entity){
     $exported_entity = \Drupal::service('content_sync.exporter')->exportEntity($entity, $serializer_context);
     // Create the name
     $name = $entity_type . "." . $entity_bundle . "." . $entity->uuid();
-
     //Insert/Update Data
     $activeStorage = new Drupal\Core\Config\DatabaseStorage(\Drupal::database(), 'cs_db_snapshot');
     $activeStorage->write($name, \Drupal\Core\Serialization\Yaml::decode($exported_entity));
