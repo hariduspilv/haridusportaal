@@ -1,9 +1,8 @@
-import { Component, OnInit, HostListener, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RootScopeService } from 'app/_services/rootScopeService';
 import { UserService } from '@app/_services/userService';
-import { TableService } from '@app/_services';
 
 @Component({
   selector: "oska-results-component",
@@ -11,33 +10,16 @@ import { TableService } from '@app/_services';
   styleUrls: ["oska.results.styles.scss"]
 })
 
-export class OskaResultsComponent implements OnInit{
+export class OskaResultsComponent implements OnInit, OnDestroy {
 
   @Input() inputData:any ;
   public data: any = false;
-  public tableData: any = false;
-  public filteredTableData: any = false;
   public video: any = false;
   public error: boolean = false;
   public viewType : string = 'results'
   public sidebarData: any = false;
   public userLoggedOut: boolean = false;
-  public tableOverflown: boolean = false;
-  public elemAtStart: boolean = true;
-  public initialized: boolean = false;
-  public modifier: boolean = false;
   public field: string = 'field';
-  private scrollPos: string = '0';
-  public filterItems: {} = {
-    field: '',
-    responsible: '',
-    proposalStatus: ''
-  }
-  public filterItemValues: {} = {
-    field: [],
-    responsible: [],
-    proposalStatus: []
-  }
 
   constructor(
     private http: HttpService,
@@ -45,7 +27,6 @@ export class OskaResultsComponent implements OnInit{
     private router: Router,
     private rootScope: RootScopeService,
     private user: UserService,
-    private tableService: TableService
   ) {}
 
   getData(){
@@ -87,119 +68,14 @@ export class OskaResultsComponent implements OnInit{
     
   }
   
-  filterView() {
-    if (!this.filterItems['field'] && !this.filterItems['responsible'] && !this.filterItems['proposalStatus']) {
-      this.filteredTableData = this.tableData;
-    }
-    Object.keys(this.filterItems).forEach((key) => this.filterItems[key] = this.filterItems[key] || "");
-    this.filteredTableData = this.tableData.filter((elem) => {
-      let field = elem.oskaField && elem.oskaField[0] ? elem.oskaField[0].entity.title.toLowerCase() : '';
-      let responsible = elem.responsible ? elem.responsible.toLowerCase() : '';
-      let proposalStatus = elem.proposalStatus ? elem.proposalStatus.toLowerCase() : '';
-      return field.includes(this.filterItems['field'].toLowerCase())
-        && responsible.includes(this.filterItems['responsible'].toLowerCase())
-        && proposalStatus.includes(this.filterItems['proposalStatus'].toLowerCase());
-    })
-    this.resetTableScroll();
-  }
-
-  sortView(field) {
-    this.modifier = !this.modifier;
-    this.field = field;
-    if (field === 'field') {
-      this.filteredTableData = this.filteredTableData.sort((a, b) => {
-        let aField = a['oskaField'] && a['oskaField'][0] ? a['oskaField'][0]['entity']['title'].toLowerCase() : '';
-        let bField = b['oskaField'] && b['oskaField'][0] ? b['oskaField'][0]['entity']['title'].toLowerCase() : '';
-        if(aField < bField) { return this.modifier ? -1 : 1; }
-        if(aField > bField) { return this.modifier ? 1 : -1; }
-        return 0;
-      })
-    } else {
-      this.filteredTableData = this.filteredTableData.sort((a, b) => {
-        let aField = a[field] ? a[field].toLowerCase() : '';
-        let bField = b[field] ? b[field].toLowerCase() : '';
-        if(aField < bField) { return this.modifier ? -1 : 1; }
-        if(aField > bField) { return this.modifier ? 1 : -1; }
-        return 0;
-      })
-    }
-  }
-
-  getTableData(){
-
-    let subscription = this.http.get('oskaResultPageTable').subscribe( (data) => {
-      if ( data['data']['errors'] ) {
-        // this.error = true;
-        return false;
-      } else {
-        this.tableData = this.filteredTableData = data['data']['oskaTableEntityQuery']['entities'];
-      }
-      let fieldsToProcess = ['responsible', 'proposalStatus'];
-      if (this.tableData) {
-        this.tableData.forEach(elem => {
-          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
-          return fieldsToProcess.forEach(item => {
-            if (elem[item] && !this.filterItemValues[item].includes(elem[item])) this.filterItemValues[item].push(elem[item]);
-          });
-        });
-      }
-      subscription.unsubscribe();
-      this.setScrollPos('resultsTable');
-    }, (err) => {
-      console.log(err);
-      // this.error = true;
-    });
-  }
-
-  initialTableCheck(id) {
-    const element = document.getElementById(id);
-    if (element) {
-      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-      this.setScrollPos('resultsTable');
-      this.initialized = true;
-    }
-  }
-  
-  resetTableScroll () {
-    let table = document.getElementById('resultsTable');
-    table.scrollLeft = 0;
-  }
-  
-  setScrollPos (id) {
-    let table = document.getElementById(id);
-    let clientHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    if (table && (table.getBoundingClientRect().top < (clientHeight / 2))) {
-      this.scrollPos = ((clientHeight / 2) - table.getBoundingClientRect().top).toString();
-    }
-    if (table && (parseInt(this.scrollPos, 10) <= table.getBoundingClientRect().height)) {
-      if (document.getElementById('scrollableRight')) {
-        document.getElementById('scrollableRight').setAttribute('style', 'top: ' + this.scrollPos + 'px');
-      }
-      if (document.getElementById('scrollableLeft')) {
-        document.getElementById('scrollableLeft').setAttribute('style', 'top: ' + this.scrollPos + 'px');
-      }
-    }
-  }
-
-  @HostListener("window:scroll", [])
-  onWindowScroll() {
-    this.setScrollPos('resultsTable');
-  }
-  @HostListener('document:touchend', ['$event']) touchedOutside($event){
-    (document.activeElement as HTMLElement).blur();
-  }
-
   ngOnInit() {
     this.getData();
-    this.getTableData();
     this.route.params.subscribe( params => {
       this.userLoggedOut = this.user.getData()['isExpired'];
     });
   }
 
-  ngAfterViewChecked() {
-    if(!this.initialized) {
-      this.initialTableCheck('resultsTable');
-    }
+  ngOnDestroy() {
+    this.data = false;
   }
 }
