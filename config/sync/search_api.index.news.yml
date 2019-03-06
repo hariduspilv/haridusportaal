@@ -9,9 +9,9 @@ dependencies:
     - search_api
   config:
     - field.storage.node.field_author
-    - field.storage.node.field_news_description
-    - field.storage.node.field_short_description
     - field.storage.node.field_tag
+    - field.storage.node.field_short_description
+    - field.storage.node.field_news_description
     - search_api.server.elasticsearch_server
 third_party_settings:
   elasticsearch_connector:
@@ -84,6 +84,14 @@ field_settings:
     label: ID
     datasource_id: 'entity:node'
     property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
+  status:
+    label: Avaldatud
+    datasource_id: 'entity:node'
+    property_path: status
     type: integer
     dependencies:
       module:

@@ -1539,7 +1539,7 @@ button:
     en: 'Confirm order'
   login:
     translation_type: textarea
-    et: 'Logi sisse'
+    et: Sisene
     en: 'Log in'
   logout:
     translation_type: textarea
@@ -2329,7 +2329,7 @@ dashboard:
     en: 'Educational Institution name'
   contactPhone:
     translation_type: textarea
-    et: 'Telefoni number'
+    et: Telefoninumber
     en: Phone
   webpageAddress:
     translation_type: textarea
@@ -2394,11 +2394,11 @@ feedback_send:
   en: Send
 login_tara:
   translation_type: textarea
-  et: 'Logi sisse TARA-ga'
+  et: 'Sisene TARA-ga'
   en: 'Login with TARA'
 login_harid:
   translation_type: textarea
-  et: 'Logi sisse HarID-ga'
+  et: 'Sisene HarID-ga'
   en: 'Login with HarID'
 certificate:
   name:
@@ -2469,3 +2469,12 @@ professions:
     translation_type: textarea
     et: 'Vaata erialasid'
     en: 'Check study programmes'
+label:
+  or:
+    translation_type: textarea
+    et: või
+    en: or
+login_mobile:
+  translation_type: textarea
+  et: 'Sisene Mobiil ID-ga'
+  en: 'Mobile ID login'
