@@ -23,6 +23,9 @@ settings:
     -
       value: juhan
       label: JUHAN
+    -
+      value: external_inv
+      label: 'väline registreerimisega'
   allowed_values_function: ''
 module: options
 locked: false

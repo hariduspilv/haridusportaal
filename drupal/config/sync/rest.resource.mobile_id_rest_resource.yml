@@ -1,0 +1,18 @@
+uuid: fe6d463e-462e-45d4-a89d-0890eea363b6
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_authentication
+    - serialization
+    - user
+id: mobile_id_rest_resource
+plugin_id: mobile_id_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - cookie
