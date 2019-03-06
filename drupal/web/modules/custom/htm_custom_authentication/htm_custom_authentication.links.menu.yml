@@ -1,0 +1,6 @@
+htm_custom_authentication.custom_auth_setting_form:
+  title: 'Authentication settings form'
+  route_name: htm_custom_authentication.custom_auth_setting_form
+  description: 'Enable or disable authentication methods'
+  parent: system.admin_config_system
+  weight: 99
