@@ -215,9 +215,9 @@ class ContentLogController extends ControllerBase {
       '#rows' => $rows,
       '#attributes' => ['id' => 'admin-cslog', 'class' => ['admin-cslog']],
       '#empty' => $this->t('No log messages available.'),
-      '#attached' => [
-        'library' => ['cslog/drupal.cslog'],
-      ],
+      //'#attached' => [
+      //  'library' => ['cslog/drupal.cslog'],
+      //],
     ];
     $build['log_pager'] = ['#type' => 'pager'];
 

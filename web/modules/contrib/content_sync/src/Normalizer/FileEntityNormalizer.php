@@ -64,7 +64,14 @@ class FileEntityNormalizer extends ContentEntityNormalizer {
           if (!file_exists($file) || (md5_file($file) !== md5_file($source))) {
             $dir = $this->fileSystem->dirname($data['uri'][0]['value']);
             file_prepare_directory($dir, FILE_CREATE_DIRECTORY);
-            $data['uri'] = file_unmanaged_copy($source, $data['uri'][0]['value']);
+            $uri = file_unmanaged_copy($source, $data['uri'][0]['value']);
+            $data['uri'] = [
+              [
+                'value' => $uri,
+                'url' => str_replace($GLOBALS['base_url'], '', file_create_url($uri))
+              ]
+            ];
+
             // We just need a method to create the image.
             $file_data = '';
           }

@@ -175,10 +175,10 @@ class UserTest extends ResourceTestBase {
         return "The 'access user profiles' permission is required and the user must be active.";
 
       case 'PATCH':
-        return floatval(\Drupal::VERSION >= 8.7) ? "Users can only update their own account, unless they have the 'administer users' permission." : '';
+        return "Users can only update their own account, unless they have the 'administer users' permission.";
 
       case 'DELETE':
-        return floatval(\Drupal::VERSION >= 8.7) ? "The 'cancel account' permission is required." : '';
+        return "The 'cancel account' permission is required.";
 
       default:
         return parent::getExpectedUnauthorizedAccessMessage($method);

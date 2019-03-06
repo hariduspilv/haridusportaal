@@ -45,7 +45,7 @@ abstract class ContextConfigure extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('user.shared_tempstore'),
+      $container->get('tempstore.shared'),
       $container->get('entity_type.manager')
     );
   }

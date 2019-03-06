@@ -303,16 +303,10 @@ class MediaTest extends ResourceTestBase {
         return "The following permissions are required: 'administer media' OR 'create media' OR 'create camelids media'.";
 
       case 'PATCH':
-        // @todo Make this unconditional when JSON API requires Drupal 8.6 or newer.
-        if (floatval(\Drupal::VERSION) >= 8.6) {
-          return "The following permissions are required: 'update any media' OR 'update own media' OR 'camelids: edit any media' OR 'camelids: edit own media'.";
-        }
+        return "The following permissions are required: 'update any media' OR 'update own media' OR 'camelids: edit any media' OR 'camelids: edit own media'.";
 
       case 'DELETE':
-        // @todo Make this unconditional when JSON API requires Drupal 8.6 or newer.
-        if (floatval(\Drupal::VERSION) >= 8.6) {
-          return "The following permissions are required: 'delete any media' OR 'delete own media' OR 'camelids: delete any media' OR 'camelids: delete own media'.";
-        }
+        return "The following permissions are required: 'delete any media' OR 'delete own media' OR 'camelids: delete any media' OR 'camelids: delete own media'.";
 
       default:
         return '';
