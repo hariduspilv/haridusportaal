@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class SettingsService {
 
   login = "/api/v1/token?_format=json";
+  mobileLogin = "/custom/login/mobile_id?_format=json";
 
   url = "";
 

@@ -27,7 +27,7 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
   li:last-child a{margin-bottom:0;}
   &+video-component{margin-top:1rem;}
 }
-.button-row {padding-top: 1.5rem;
+.button-row {
   button {width: 100%; box-sizing: border-box;}
 }
 ::ng-deep table{width:100%; border-collapse: collapse; border:$gray 1px solid;
@@ -55,9 +55,7 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
     .article-image{margin-left:-1.5rem; margin-right:-1.5rem;}
   }
 }
-.download {padding: 1.5rem 0 0 0;
-  .link-holder {padding-bottom: 1rem;}
-}
+.link-holder {padding-bottom: .5rem;}
 .scrollableTable thead span.icon {position: relative;min-width: 1.5rem;display: inline-block;bottom: 1rem;
   .htm-icon {
     position: absolute;
@@ -66,5 +64,5 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
     left: .25rem;
   }
 }
-.navigation {padding-top: 1.5rem;}
-feedback{margin-left:0; margin-right:0;}
+
+feedback{margin-left:0; margin-right:0; margin-bottom:-2rem;}

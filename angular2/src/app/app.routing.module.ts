@@ -24,6 +24,7 @@ import {
   OskaProfessionsCompareComponent,
   OskaSectorsComponent,
   OskaResultsComponent,
+  OskaResultsTableComponent,
   CertificateCheckComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
@@ -74,6 +75,7 @@ const appRoutes: Routes = [
   { path: 'valdkonnad', component: OskaSectorsComponent},
   { path: 'ametialad/:id', component: OskaAreasComponent},
   { path: 'valdkonnad/:id', component: OskaAreasComponent},
+  { path: 'oska-tulemused/ettepanekute-elluviimine', component: OskaResultsTableComponent},
   { path: 'oska-tulemused/:id', component: OskaResultsComponent},
 
   { path: 'tööjõuprognoos/:id', component: OskaAreasComponent},
@@ -132,6 +134,7 @@ export const routedComponents = [
   OskaProfessionsCompareComponent,
   OskaSectorsComponent,
   OskaResultsComponent,
+  OskaResultsTableComponent,
   CertificatesDetailedComponent,
   TeachingsDetailedComponent,
   CertificatesComponent,
