@@ -118,8 +118,10 @@ class ContentSingleExportForm extends FormBase {
             'event' => 'autocompleteclose',
         ],
       ];
-      // Remove target bundles for user & file because it is not supported.
-      if($default_type == 'user' || $default_type == 'file'){
+      // Autocomplete doesn't support target bundles parameter on bundle-less entities.
+      $target_type = \Drupal::entityManager()->getDefinition($default_type);
+      $target_type_bundles = $target_type->getBundleEntityType();
+      if(is_null($target_type_bundles)){
         unset($form['content_entity']['#selection_settings']);
       }
     }

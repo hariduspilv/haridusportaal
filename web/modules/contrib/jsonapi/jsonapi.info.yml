@@ -4,13 +4,13 @@ description: Provides a JSON API standards-compliant API for accessing and manip
 # core: 8.x
 package: Web services
 dependencies:
-  - drupal:system (>=8.4.3)
+  - drupal:system (>=8.5.11)
   - drupal:serialization
 test_dependencies:
   - schemata:schemata_json_schema
 
-# Information added by Drupal.org packaging script on 2018-12-19
-version: '8.x-1.24'
+# Information added by Drupal.org packaging script on 2019-02-21
+version: '8.x-1.26'
 core: '8.x'
 project: 'jsonapi'
-datestamp: 1545239286
+datestamp: 1550719992

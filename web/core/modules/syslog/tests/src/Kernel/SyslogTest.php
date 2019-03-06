@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Test syslog logger functionality.
  *
  * @group syslog
- * @coversDefaultClass \Drupal\syslog\Logger\FileLog
+ * @coversDefaultClass \Drupal\syslog\Logger\SysLog
  */
 class SyslogTest extends KernelTestBase {
 

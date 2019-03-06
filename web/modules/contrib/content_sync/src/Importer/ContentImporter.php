@@ -45,6 +45,11 @@ class ContentImporter implements ContentImporterInterface {
       return NULL;
     }
 
+    // Replace a menu link to a node with an actual one.
+    if ($entity_type_id == 'menu_link_content' && !empty($decoded_entity["_content_sync"]["menu_entity_link"])) {
+      $decoded_entity = $this->alterMenuLink($decoded_entity);
+    }
+
     $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
 
     //Exception for parent null -- allowing the term to be displayed on the taxonomy list.
@@ -62,6 +67,10 @@ class ContentImporter implements ContentImporterInterface {
     $entity = $this->serializer->denormalize($decoded_entity, $entity_type->getClass(), $this->format, $context);
 
     if (!empty($entity)) {
+      // Prevent Anonymous User from being saved.
+      if ($entity_type_id == 'user' && !$entity->isNew() && (int) $entity->id() === 0) {
+        return $entity;
+      }
       $entity = $this->syncEntity($entity);
     }
 
@@ -110,6 +119,25 @@ class ContentImporter implements ContentImporterInterface {
       }
     }
     return $entity;
+  }
+
+  /**
+   * Replaces a link to a node with an actual one.
+   *
+   * @param array $decoded_entity
+   *   Array of entity values.
+   *
+   * @return array
+   *   Array of entity values with the link values changed.
+   */
+  protected function alterMenuLink(array $decoded_entity) {
+    $referenced_entity_uuid = reset($decoded_entity["_content_sync"]["menu_entity_link"]);
+    $referenced_entity_type = key($decoded_entity["_content_sync"]["menu_entity_link"]);
+    if ($referenced_entity = \Drupal::service('entity.repository')->loadEntityByUuid($referenced_entity_type, $referenced_entity_uuid)) {
+      $url = $referenced_entity->toUrl();
+      $decoded_entity["link"][0]["uri"] = $url->toUriString();
+    }
+    return $decoded_entity;
   }
 
   /**
@@ -200,18 +228,15 @@ class ContentImporter implements ContentImporterInterface {
       // Unchanged values for entity keys don't need access checking.
       if ($original_entity->get($field_name)
                           ->getValue() === $entity->get($field_name)->getValue()
-
           // It is not possible to set the language to NULL as it is
           // automatically re-initialized.
           // As it must not be empty, skip it if it is.
-          || isset($entity_keys['langcode']) && $field_name === $entity_keys['langcode'] && $entity->get($field_name)
-                                                                                                   ->isEmpty()
-
+          || isset($entity_keys['langcode'])
+          && $field_name === $entity_keys['langcode']
+          && $entity->get($field_name)->isEmpty()
           || $field_name === $entity->getEntityType()->getKey('id')
-
-          || $entity->getEntityType()
-                    ->isRevisionable() && $field_name === $entity->getEntityType()
-                                                                 ->getKey('revision')
+          || $entity->getEntityType()->isRevisionable()
+          && $field_name === $entity->getEntityType()->getKey('revision')
       ) {
         $valid = FALSE;
       }
@@ -226,10 +251,6 @@ class ContentImporter implements ContentImporterInterface {
     $reflection = new \ReflectionClass($entity);
     $valid = TRUE;
     if ($reflection->implementsInterface('\Drupal\user\UserInterface')) {
-      // Anonymous and Admin users are not valid for updating
-      if ((int) $entity->id() === 1 || (int) $entity->id() === 0) {
-        return FALSE;
-      }
       $validations = $entity->validate();
       if (count($validations)) {
         /**

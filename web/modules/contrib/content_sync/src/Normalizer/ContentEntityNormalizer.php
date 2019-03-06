@@ -8,6 +8,7 @@ use Drupal\content_sync\Plugin\SyncNormalizerDecoratorTrait;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\RevisionableInterface;
+use Drupal\Core\Url;
 use Drupal\serialization\Normalizer\ContentEntityNormalizer as BaseContentEntityNormalizer;
 
 /**
@@ -95,6 +96,15 @@ class ContentEntityNormalizer extends BaseContentEntityNormalizer {
      * @var \Drupal\Core\Entity\ContentEntityBase $object
      */
     $referenced_entities = $object->referencedEntities();
+
+    // Add node uuid for menu link if any.
+    if ($object->getEntityTypeId() == 'menu_link_content') {
+      if ($entity = $this->getMenuLinkNodeAttached($object)) {
+        $normalized_data['_content_sync']['menu_entity_link'][$entity->getEntityTypeId()] = $entity->uuid();
+        $referenced_entities[] = $entity;
+      }
+    }
+
     if (!empty($referenced_entities)) {
       $dependencies = [];
       foreach ($referenced_entities as $entity) {
@@ -118,6 +128,37 @@ class ContentEntityNormalizer extends BaseContentEntityNormalizer {
       $this->decorateNormalization($normalized_data, $object, $format, $context);
     }
     return $normalized_data;
+  }
+
+  /**
+   * Gets a node attached to a menu link. The node has already been imported.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $object
+   *   Menu Link Entity
+   *
+   * @return bool|\Drupal\Core\Entity\EntityInterface|null
+   *   Node Entity.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   */
+  protected function getMenuLinkNodeAttached($object) {
+    $entity = FALSE;
+
+    $uri = $object->get('link')->getString();
+    $url = Url::fromUri($uri);
+    $route_parameters = NULL;
+    try {
+      $route_parameters = $url->getRouteParameters();
+    }
+    catch (\Exception $e) {
+      // If menu link is linked to a non-node page - just do nothing.
+    }
+    if (count($route_parameters) == 1) {
+      $entity_id = reset($route_parameters);
+      $entity_type = key($route_parameters);
+      $entity = \Drupal::entityTypeManager()->getStorage($entity_type)->load($entity_id);
+    }
+    return $entity;
   }
 
   /**

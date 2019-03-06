@@ -226,13 +226,10 @@ class NodeTest extends ResourceTestBase {
   protected function getExpectedUnauthorizedAccessMessage($method) {
     switch ($method) {
       case 'GET':
+      case 'POST':
       case 'PATCH':
       case 'DELETE':
         return "The 'access content' permission is required.";
-
-      case 'POST':
-        // @see \Drupal\node\NodeAccessControlHandler::createAccess() forbids access without providing a reason if the user doe
-        return '';
     }
   }
 

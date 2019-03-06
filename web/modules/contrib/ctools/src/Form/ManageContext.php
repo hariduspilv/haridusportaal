@@ -181,7 +181,7 @@ abstract class ManageContext extends FormBase {
       ],
     ];
     $url = Url::fromRoute($route_name, $route_parameters, $route_options);
-    $content['submit']['#attached']['drupalSettings']['ajax'][$content['submit']['#id']]['url'] = $url;
+    $content['submit']['#attached']['drupalSettings']['ajax'][$content['submit']['#id']]['url'] = $url->toString();
     $response = new AjaxResponse();
     $response->addCommand(new OpenModalDialogCommand($this->t('Add new context'), $content, array('width' => '700')));
     return $response;
@@ -200,7 +200,7 @@ abstract class ManageContext extends FormBase {
       ],
     ];
     $url = Url::fromRoute($route_name, $route_parameters, $route_options);
-    $content['submit']['#attached']['drupalSettings']['ajax'][$content['submit']['#id']]['url'] = $url;
+    $content['submit']['#attached']['drupalSettings']['ajax'][$content['submit']['#id']]['url'] = $url->toString();
     $response = new AjaxResponse();
     $response->addCommand(new OpenModalDialogCommand($this->t('Configure Relationship'), $content, array('width' => '700')));
     return $response;

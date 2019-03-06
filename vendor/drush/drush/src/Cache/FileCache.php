@@ -57,7 +57,7 @@ class FileCache implements CacheInterface
             foreach ($cids as $cid) {
                 $filename = $this->getFilePath($cid);
                 if (!file_exists($filename)) {
-                    return [];
+                    throw new \Exception;
                 }
 
                 $item = $this->readFile($filename);

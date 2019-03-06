@@ -47,7 +47,7 @@ class ConfigTestTest extends ResourceTestBase {
   protected function getExpectedUnauthorizedAccessMessage($method) {
     switch ($method) {
       case 'GET':
-        return floatval(\Drupal::VERSION >= 8.7) ? "The 'view config_test' permission is required." : '';
+        return "The 'view config_test' permission is required.";
 
       default:
         return parent::getExpectedUnauthorizedAccessMessage($method);

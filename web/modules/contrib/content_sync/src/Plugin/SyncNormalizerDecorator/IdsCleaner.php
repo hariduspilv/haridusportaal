@@ -44,7 +44,7 @@ class IdsCleaner extends SyncNormalizerDecoratorBase {
       if (!is_a($field_definition->getClass(), '\Drupal\Core\Field\EntityReferenceFieldItemList', TRUE)) {
         continue;
       }
-      if (is_array($normalized_entity[$field_name]) && !empty($normalized_entity[$field_name])) {
+      if (isset($normalized_entity[$field_name]) && !empty($normalized_entity[$field_name]) && is_array($normalized_entity[$field_name])) {
         $entity_type = $field_definition->getFieldStorageDefinition()
                                         ->getSetting('target_type');
         $reflection = new \ReflectionClass(\Drupal::entityTypeManager()
