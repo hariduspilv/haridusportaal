@@ -1,5 +1,5 @@
 query studyProgrammeFilterOptions($lang: LanguageId!) {
-    type: taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: "vid", value: ["studyprogrammetype"], language: $lang}]}) {
+    type: taxonomyTermQuery(limit: 100, filter: {conditions: [{operator: EQUAL, field: "vid", value: ["studyprogrammetype"], language: $lang}]}) {
         entities {
             ... on TaxonomyTerm {
                 tid
@@ -10,7 +10,7 @@ query studyProgrammeFilterOptions($lang: LanguageId!) {
             }
         }
     }
-    level: taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: "vid", value: ["studyprogrammelevel"], language: $lang}]}) {
+    level: taxonomyTermQuery(limit: 100, filter: {conditions: [{operator: EQUAL, field: "vid", value: ["studyprogrammelevel"], language: $lang}]}) {
         entities {
             ... on TaxonomyTerm {
                 tid
@@ -21,7 +21,7 @@ query studyProgrammeFilterOptions($lang: LanguageId!) {
             }
         }
     }
-    language: taxonomyTermQuery(filter: {conditions: [{operator: EQUAL, field: "vid", value: ["teaching_language"], language: $lang}]}) {
+    language: taxonomyTermQuery(limit: 100, filter: {conditions: [{operator: EQUAL, field: "vid", value: ["teaching_language"], language: $lang}]}) {
         entities {
             ... on TaxonomyTerm {
                 tid
@@ -32,7 +32,7 @@ query studyProgrammeFilterOptions($lang: LanguageId!) {
             }
         }
     }
-    isced_f: taxonomyTermQuery(filter: {conditions: {operator: EQUAL, field: "vid", value: "isced_f"}}) {
+    isced_f: taxonomyTermQuery(limit: 100, filter: {conditions: {operator: EQUAL, field: "vid", value: "isced_f"}}) {
         entities {
             entityId
             entityLabel
