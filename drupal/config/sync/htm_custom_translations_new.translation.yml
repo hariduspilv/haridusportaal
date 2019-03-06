@@ -2251,6 +2251,10 @@ oska:
     translation_type: textarea
     et: 'Ettepanekute elluviimine'
     en: 'Delivering on promises'
+  see_proposals:
+    translation_type: textarea
+    et: 'Vaata ettepanekute elluviimist'
+    en: 'Go to proposals'
 oskaProfession:
   view_field_info:
     translation_type: textarea
