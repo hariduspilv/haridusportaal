@@ -1683,7 +1683,7 @@ button:
     en: 'Yes'
   download_table:
     translation_type: textarea
-    et: 'Lae tabel alla'
+    et: 'Lae tabel alla (.xlsx)'
     en: 'Download table'
   edit_data:
     translation_type: textarea
@@ -2247,6 +2247,10 @@ oska:
     translation_type: textarea
     et: 'Eestis kutse- või kõrgkoolides eriala õppida ei saa'
     en: 'Cant study in Estonia'
+  proposal_title:
+    translation_type: textarea
+    et: 'Ettepanekute elluviimine'
+    en: 'Delivering on promises'
 oskaProfession:
   view_field_info:
     translation_type: textarea
