@@ -50,17 +50,17 @@
                     <td>{{ data.fieldSpecialization | titleCase }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldIscedfBoard">
+                  <tr *ngIf="data.fieldIscedfBoard && data.fieldIscedfBoard.entity">
                     <td>Õppevaldkond</td>
                     <td>{{ data.fieldIscedfBoard.entity.entityLabel | titleCase }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldIscedfNarrow">
+                  <tr *ngIf="data.fieldIscedfNarrow && data.fieldIscedfNarrow.entity">
                     <td>Õppesuund</td>
                     <td>{{ data.fieldIscedfNarrow.entity.entityLabel | titleCase }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldIscedfDetailed">
+                  <tr *ngIf="data.fieldIscedfDetailed && data.fieldIscedfDetailed.entity">
                     <td>Õppekavarühm</td>
                     <td>{{ data.fieldIscedfDetailed.entity.entityLabel | titleCase }}</td>
                   </tr>
