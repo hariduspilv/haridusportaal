@@ -50,7 +50,7 @@ class SerializableTempstoreFactory extends SharedTempStoreFactory {
     }
 
     // Store the data for this collection in the database.
-    $storage = $this->storageFactory->get("user.shared_tempstore.$collection");
+    $storage = $this->storageFactory->get("tempstore.shared.$collection");
     return new SerializableTempstore($storage, $this->lockBackend, $owner, $this->requestStack, $this->expire);
   }
 

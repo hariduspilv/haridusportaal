@@ -10,7 +10,6 @@
 .messages.messages--info {
   color: #31708f;
   background-color: #d9edf7;
-  background-image: url(../images/icons/info.svg);
   border-color: #0074bd #0074bd #0074bd transparent;  /* LTR */
   box-shadow: -8px 0 0 #0074bd; /* LTR */
 }

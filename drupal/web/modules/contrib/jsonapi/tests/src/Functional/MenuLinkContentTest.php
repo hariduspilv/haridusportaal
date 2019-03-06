@@ -144,7 +144,7 @@ class MenuLinkContentTest extends ResourceTestBase {
   protected function getExpectedUnauthorizedAccessMessage($method) {
     switch ($method) {
       case 'DELETE':
-        return floatval(\Drupal::VERSION >= 8.7) ? "The 'administer menu' permission is required." : '';
+        return "The 'administer menu' permission is required.";
 
       default:
         return parent::getExpectedUnauthorizedAccessMessage($method);

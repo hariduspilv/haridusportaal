@@ -1,0 +1,14 @@
+name: File Log
+type: module
+description: Logs system events to a file.
+# core: 8.x
+package: Logging
+configure: system.logging_settings
+dependencies:
+  drupal:system (>=8.5)
+
+# Information added by Drupal.org packaging script on 2018-06-21
+version: '8.x-1.0'
+core: '8.x'
+project: 'filelog'
+datestamp: 1529609032

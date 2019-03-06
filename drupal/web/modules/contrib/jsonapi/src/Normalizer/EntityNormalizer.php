@@ -4,6 +4,9 @@ namespace Drupal\jsonapi\Normalizer;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\TypedData\TypedDataInternalPropertiesHelper;
 use Drupal\jsonapi\Normalizer\Value\EntityNormalizerValue;
 use Drupal\jsonapi\Normalizer\Value\FieldNormalizerValueInterface;
@@ -12,6 +15,7 @@ use Drupal\jsonapi\Normalizer\Value\NullFieldNormalizerValue;
 use Drupal\jsonapi\ResourceType\ResourceType;
 use Drupal\jsonapi\LinkManager\LinkManager;
 use Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface;
+use Drupal\serialization\Normalizer\SerializedColumnNormalizerTrait;
 use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
@@ -21,6 +25,8 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  * @internal
  */
 class EntityNormalizer extends NormalizerBase implements DenormalizerInterface {
+
+  use SerializedColumnNormalizerTrait;
 
   /**
    * The interface or class that this Normalizer supports.
@@ -234,10 +240,83 @@ class EntityNormalizer extends NormalizerBase implements DenormalizerInterface {
         continue;
       }
       $internal_name = $resource_type->getInternalName($public_field_name);
-      $data_internal[$internal_name] = $field_value;
+      if ($resource_type->getDeserializationTargetClass() instanceof FieldableEntityInterface) {
+        // If $field_value contains items (recognizable by numerical array keys
+        // which Drupal's Field API calls "deltas"), then it already is itemized;
+        // it's not using the simplified JSON structure that JSON:API generates.
+        $is_already_itemized = is_array($field_value) && array_reduce(array_keys($field_value), function ($carry, $index) {
+            return $carry && is_numeric($index);
+          }, TRUE);
+
+        $itemized_data = $is_already_itemized
+          ? $field_value
+          : [0 => $field_value];
+
+        try {
+          $field_item = $this->getFieldItemInstance($resource_type, $internal_name);
+          foreach ($itemized_data as $delta => $field_item_value) {
+            $this->checkForSerializedStrings($field_item_value, get_class($field_item), $field_item);
+            $serialized_property_names = $this->getCustomSerializedPropertyNames($field_item);
+
+            // Explicitly serialize the input, unlike properties that rely on
+            // being automatically serialized, manually managed serialized
+            // properties expect to receive serialized input.
+            if (is_array($field_item_value)) {
+              foreach ($serialized_property_names as $serialized_property_name) {
+                if (!empty($field_item_value[$serialized_property_name])) {
+                  $itemized_data[$delta][$serialized_property_name] = serialize($field_item_value[$serialized_property_name]);
+                }
+              }
+            }
+            elseif (in_array($field_item->getDataDefinition()
+              ->getMainPropertyName(), $serialized_property_names, TRUE)) {
+              $itemized_data[$delta] = serialize($field_item_value);
+            }
+          }
+        }
+        catch (\InvalidArgumentException $e) {
+          // The field does not exist, so there is no processing to be done. A
+          // helpful error will be shown by EntityResource::createIndividual() or
+          // EntityResource::patchIndividual().
+        }
+        $data_internal[$internal_name] = $is_already_itemized ? $itemized_data : $itemized_data[0];
+      }
+      else {
+        $data_internal[$internal_name] = $field_value;
+      }
     }
 
     return $data_internal;
+  }
+
+  /**
+   * Gets a field item instance for use with SerializedColumnNormalizerTrait.
+   *
+   * @param \Drupal\jsonapi\ResourceType\ResourceType $resource_type
+   *   The JSON:API resource type of the entity being denormalized.
+   * @param string $field_name
+   *   The name of the field to get a field item instance for.
+   *
+   * @return \Drupal\Core\Field\FieldItemInterface
+   *   The requested field item instance.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  protected function getFieldItemInstance(ResourceType $resource_type, $field_name) {
+    if ($bundle_key = $this->entityTypeManager->getDefinition($resource_type->getEntityTypeId())
+      ->getKey('bundle')) {
+      $create_values = [$bundle_key => $resource_type->getBundle()];
+    }
+    else {
+      $create_values = [];
+    }
+    $entity = $this->entityTypeManager->getStorage($resource_type->getEntityTypeId())->create($create_values);
+    $field = $entity->get($field_name);
+    assert($field instanceof FieldItemListInterface);
+    $field_item = $field->appendItem();
+    assert($field_item instanceof FieldItemInterface);
+    return $field_item;
   }
 
 }

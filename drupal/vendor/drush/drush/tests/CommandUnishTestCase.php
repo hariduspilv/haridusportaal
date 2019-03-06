@@ -4,7 +4,7 @@ namespace Unish;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
-use PHPUnit\Framework\TestResult;
+use Webmozart\PathUtil\Path;
 
 abstract class CommandUnishTestCase extends UnishTestCase
 {
@@ -94,7 +94,7 @@ abstract class CommandUnishTestCase extends UnishTestCase
     {
         // We do not care if Drush inserts a -t or not in the string. Depends on whether there is a tty.
         $output = preg_replace('# -t #', ' ', $output);
-        // Remove double spaces from output to help protect test from false negatives if spacing changes subtly
+        // Remove double spaces from output to help protect test from false negatives if spacing changes subtlely
         $output = preg_replace('#  *#', ' ', $output);
         // Remove leading and trailing spaces.
         $output = preg_replace('#^ *#m', '', $output);
@@ -216,6 +216,8 @@ abstract class CommandUnishTestCase extends UnishTestCase
    * @param sting cd
    *   The directory to run the command in.
    * @param array $env
+   *  @todo: Not fully implemented yet. Inheriting environment is hard - http://stackoverflow.com/questions/3780866/why-is-my-env-empty.
+   *         @see drush_env().
    *  Extra environment variables.
    * @param string $input
    *   A string representing the STDIN that is piped to the command.
@@ -224,6 +226,7 @@ abstract class CommandUnishTestCase extends UnishTestCase
    */
     public function execute($command, $expected_return = self::EXIT_SUCCESS, $cd = null, $env = null, $input = null)
     {
+        $return = 1;
         $this->tick();
 
         // Apply the environment variables we need for our test to the head of the
@@ -242,8 +245,7 @@ abstract class CommandUnishTestCase extends UnishTestCase
 
         try {
             // Process uses a default timeout of 60 seconds, set it to 0 (none).
-            $this->process = new Process($command, $cd, $env, $input, 0);
-            $this->process->inheritEnvironmentVariables(true);
+            $this->process = new Process($command, $cd, null, $input, 0);
             if (!getenv('UNISH_NO_TIMEOUTS')) {
                 $this->process->setTimeout($this->timeout)
                 ->setIdleTimeout($this->idleTimeout);
@@ -251,7 +253,7 @@ abstract class CommandUnishTestCase extends UnishTestCase
             $return = $this->process->run();
             if ($expected_return !== $return) {
                 $message = 'Unexpected exit code ' . $return . ' (expected ' . $expected_return . ") for command:\n" .  $command;
-                throw new UnishProcessFailedException($message . $this->buildProcessMessage($this->process));
+                throw new UnishProcessFailedError($message, $this->process);
             }
             // Reset timeouts to default.
             $this->timeout = $this->defaultTimeout;
@@ -263,24 +265,8 @@ abstract class CommandUnishTestCase extends UnishTestCase
             } else {
                 $message = 'Command had no output for ' . $this->idleTimeout . " seconds:\n" .  $command;
             }
-            throw new UnishProcessFailedException($message . $this->buildProcessMessage($this->process));
+            throw new UnishProcessFailedError($message, $this->process);
         }
-    }
-
-    /**
-     * @param Process $process
-     * @return string
-     */
-    public function buildProcessMessage(Process $process)
-    {
-        $message = '';
-        if ($output = $process->getOutput()) {
-            $message = "\n\nCommand output:\n" . $output;
-        }
-        if ($stderr = $process->getErrorOutput()) {
-            $message = "\n\nCommand stderr:\n" . $stderr;
-        }
-        return $message;
     }
 
   /**
@@ -343,7 +329,7 @@ abstract class CommandUnishTestCase extends UnishTestCase
         // where options after the command are passed along to external commands.
         $result = $this->getTestResultObject();
         if ($result->getCollectCodeCoverageInformation()) {
-            $coverage_file = tempnam($this->getSandbox(), 'drush_coverage');
+            $coverage_file = tempnam($this->getTmp(), 'drush_coverage');
             if ($coverage_file) {
                 $cmd[] = "--drush-coverage=" . $coverage_file;
             }
@@ -389,6 +375,49 @@ abstract class CommandUnishTestCase extends UnishTestCase
         }
 
         return $return;
+    }
+
+  /**
+   * Override the run method, so we can add in our code coverage data after the
+   * test has run.
+   *
+   * We have to collect all coverage data, merge them and append them as one, to
+   * avoid having phpUnit duplicating the test function as many times as drush
+   * has been invoked.
+   *
+   * Runs the test case and collects the results in a TestResult object.
+   * If no TestResult object is passed a new one will be created.
+   *
+   * @param  \PHPUnit_Framework_TestResult $result
+   * @return \PHPUnit_Framework_TestResult
+   * @throws \PHPUnit_Framework_Exception
+   */
+    public function run(\PHPUnit_Framework_TestResult $result = null)
+    {
+        $result = parent::run($result);
+        $data = [];
+        foreach ($this->coverage_data as $merge_data) {
+            foreach ($merge_data as $file => $lines) {
+                if (!isset($data[$file])) {
+                    $data[$file] = $lines;
+                } else {
+                    foreach ($lines as $num => $executed) {
+                        if (!isset($data[$file][$num])) {
+                            $data[$file][$num] = $executed;
+                        } else {
+                            $data[$file][$num] = ($executed == 1 ? $executed : $data[$file][$num]);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Reset coverage data.
+        $this->coverage_data = [];
+        if (!empty($data)) {
+            $result->getCodeCoverage()->append($data, $this);
+        }
+        return $result;
     }
 
   /**

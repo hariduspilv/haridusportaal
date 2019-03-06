@@ -157,7 +157,7 @@ class BlockTest extends ResourceTestBase {
   protected function getExpectedUnauthorizedAccessMessage($method) {
     switch ($method) {
       case 'GET':
-        return floatval(\Drupal::VERSION >= 8.7) ? "The block visibility condition 'user_role' denied access." : '';
+        return "The block visibility condition 'user_role' denied access.";
 
       default:
         return parent::getExpectedUnauthorizedAccessMessage($method);
