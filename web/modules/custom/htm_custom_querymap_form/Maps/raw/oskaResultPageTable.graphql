@@ -1,10 +1,31 @@
-query oskaResultPageTable{
-  oskaTableEntityQuery(limit:1000){
-    entities{
-      ... on OskaTableEntity{
-        oskaField{
-          entity{
-            ... on NodeOskaFieldPage{
+query oskaResultPageTable($lang: LanguageId!) {
+  oskaTableFile: nodeQuery(limit: 1, sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "oska_result_page", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeOskaResultPage {
+        fieldResultPageTableFile {
+          description
+          entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+            __typename
+          }
+          __typename
+        }
+      }
+    }
+  }
+  oskaTable:oskaTableEntityQuery(limit: 1000) {
+    entities {
+      ... on OskaTableEntity {
+        oskaField {
+          entity {
+            ... on NodeOskaFieldPage {
               title
             }
           }
