@@ -5,7 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SharedModule } from '@app/_core/shared.module';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms'
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LabeledSeparatorModule } from '@app/_components/labeled.separator/labeled.separator.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    LabeledSeparatorModule
   ],
   declarations: [
     LoginComponent
