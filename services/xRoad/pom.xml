@@ -54,10 +54,31 @@
       <version>4.0.5.RELEASE</version>
     </dependency>
 
-		<!-- JRoad -->
+		<!-- JRoad EHIS Client-->
 		<dependency>
 			<groupId>ee.htm.portal.services</groupId>
-			<artifactId>jRoad_Clients</artifactId>
+			<artifactId>jRoad_EHIS_Client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- JRoad EIS Client-->
+		<dependency>
+			<groupId>ee.htm.portal.services</groupId>
+			<artifactId>jRoad_EIS_Client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- JRoad ARIREG Client-->
+		<dependency>
+			<groupId>ee.htm.portal.services</groupId>
+			<artifactId>jRoad_ARIREG_Client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- JRoad KUTSEREGISTER Client-->
+		<dependency>
+			<groupId>ee.htm.portal.services</groupId>
+			<artifactId>jRoad_KUTSEREGISTER_Client</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ee.htm.portal.services</groupId>
-  <artifactId>jRoad_Clients</artifactId>
+  <artifactId>jRoad_KUTSEREGISTER_Client</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>jRoad_Clients</name>
+  <name>jRoad_KUTSEREGISTER_Client</name>
 
   <parent>
     <groupId>com.nortal.jroad</groupId>
