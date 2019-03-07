@@ -1,67 +1,16 @@
 <?php
-
 /**
  * @file
  * Install, update and uninstall functions for the content_sync module.
  */
 
-use Drupal\Core\Entity\ContentEntityType;
-
 /**
  * Implements hook_install().
  */
 function content_sync_install(){
-  //TODO - Move this and the batch to a class
-  //Entity types manager
-  $entityTypeManager = \Drupal::entityTypeManager();
-  $entityBundles = \Drupal::service("entity_type.bundle.info");
-  //Set batch operations by entity type/bundle
-  $operations = [];
-  $operations[] = ['generateSiteUUIDFile', [0=>'snapshot']];
-  $entity_type_definitions = $entityTypeManager->getDefinitions();
-  foreach ($entity_type_definitions as $entity_type => $definition) {
-    if ($definition instanceof ContentEntityType) {
-      $entity_bundles = $entityBundles->getBundleInfo($entity_type);
-      foreach ($entity_bundles as $entity_bundle => $bundle) {
-        //Get BundleKey
-        $bundleKey = \Drupal::entityTypeManager()->getStorage($entity_type)->getEntityType()->getKey('bundle');
-        if (!empty($bundleKey)) {
-          // Load entities by their property values.
-          $entities = \Drupal::entityTypeManager()
-            ->getStorage($entity_type)
-            ->loadByProperties(array($bundleKey => $entity_bundle));
-        }else{
-          $entities = \Drupal::entityTypeManager()
-            ->getStorage($entity_type)
-            ->loadMultiple();
-        }
-        $entity = [];
-        foreach($entities as $entity_id => $entity_obj) {
-          $entity['values'][] = [
-            'entity_type' => $entity_type,
-            'entity_bundle' => $entity_bundle,
-            'entity_id' => $entity_id
-          ];
-        }
-        if(!empty($entity)) {
-          $operations[] = ['processContentSyncSnapshot', $entity];
-        }
-      }
-    }
-  }
-  if(empty($operations)){
-    $operations[] = ['processContentSyncSnapshot', [0=>0] ];
-  }
-  //Set Batch
-  $batch = [
-    'operations' => $operations,
-    'title' => t('Content Snapshot'),
-    'init_message' => t('Starting content snapshot.'),
-    'progress_message' => t('Completed @current step of @total.'),
-    'error_message' => t('Content sync snapshot has encountered an error.'),
-    'file' => drupal_get_path('module', 'content_sync') . '/content_sync.batch.inc',
-  ];
-  batch_set($batch);
+  //Create the content snapshot.
+  $cs_snapshoot = Drupal::service('content_sync.snaphoshot');
+  $cs_snapshoot->snapshot();
 }
 
 /**

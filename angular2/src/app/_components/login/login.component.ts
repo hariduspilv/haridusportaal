@@ -19,9 +19,14 @@ export class LoginComponent implements OnInit{
   
   loginVisible: boolean;
   postUrl:string;
+  mobileUrl:string;
   formModels: object = {};
   data: any;
 
+  mobError: object = {
+    state: false,
+    text: ''
+  };
   error: boolean = false;
 
   user: any;
@@ -45,28 +50,59 @@ export class LoginComponent implements OnInit{
     public dialog: MatDialog
   ) {
     this.postUrl = this.settings.url+this.settings.login;
+    this.mobileUrl = this.settings.url+this.settings.mobileLogin;
   }
 
   toggleLogin() {
     this.loginVisible = !this.loginVisible;
   }
 
-  submit() {
+  submit(type) {
 
     /* clear all values */
     this.error = false;
+    this.mobError['state'] = false;
+    this.mobError['text'] = '';
     this.loader = true;
     this.user = false;
     this.userService.clearStorage();
     this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password'];
-    this.formModels['auth_method'] = 'basic';
+    this.formModels['auth_method'] = type === 'mobile' ? 'mobile_id' : 'basic';
+    
     let headers = new HttpHeaders();
     headers = headers.append('X-CSRF-TOKEN', sessionStorage.getItem('xcsrfToken'));
-    this.http.post(this.postUrl, this.formModels, {headers}).subscribe(data => {
-      this.formModels['password'] = '';
+
+    if (type === 'mobile') {
+      let mobileForm = {telno: this.formModels['tel']};
+      this.http.post(this.mobileUrl, mobileForm, {headers}).subscribe(data => {
+        let consecutiveForm = { session_code: data['Sesscode'], id_code: data['UserIDCode'], auth_method: 'mobile_id' }
+        this.loginSubmit(consecutiveForm, headers, true)
+      }, (data) => {
+        this.loader = false;
+        if( !data['token'] ) {
+          this.mobError['state'] = true;
+          this.mobError['text'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
+          return false; 
+        }
+      });
+    } else {
+      this.loginSubmit(this.formModels, headers, false)
+    }
+  }
+
+  loginSubmit (form, headers, isMobile) {
+    this.http.post(this.postUrl, form, {headers}).subscribe(data => {
       this.loader = false;
       this.data = data;
-      if( !data['token'] ){ this.error = true; return false; }
+      
+      if( !data['token'] ) { 
+        if (isMobile) { 
+          this.mobError['state'] = true; 
+          this.mobError['text'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
+        }
+        if (!isMobile) this.error = true; 
+        return false; 
+      }
 
       for( let i in this.formModels ){
         this.formModels[i] = '';
@@ -83,16 +119,21 @@ export class LoginComponent implements OnInit{
         this.router.navigateByUrl(redirectUrl);
         this.sidemenu.triggerLang();
       });
-    
-    
       
     }, (data) => {
       this.formModels['password'] = '';
       this.loader = false;
-      if( !data['token'] ){ this.error = true; return false; }
+      if( !data['token'] ){
+        if (isMobile) { 
+          this.mobError['state'] = true; 
+          this.mobError['text'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
+        }
+        if (!isMobile) this.error = true;
+        return false; 
+      }
     });
-
   }
+
   openTara() {
     this.taraUrl = this.settings.url+"/external-login/tara";
     window.location.href = this.taraUrl;

@@ -1,0 +1,259 @@
+<?php
+
+/**
+ * @file
+ * Contains filelog.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Logger\RfcLogLevel;
+
+/**
+ * Implements hook_help().
+ *
+ * @param string $route_name
+ *
+ * @return string
+ */
+function filelog_help($route_name) {
+  if ($route_name === 'help.page.filelog') {
+    $output = '';
+    $output .= '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('Logs system events to a file.') . '</p>';
+    return $output;
+  }
+
+  return NULL;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function filelog_cron() {
+  \Drupal::service('filelog.rotator')->run();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function filelog_theme() {
+  return [
+    'filelog_help' => [
+      'variables' => [
+        'title'        => NULL,
+        'rows'         => [],
+        'label_prefix' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for system_logging_settings().
+ *
+ * @param array $form
+ */
+function filelog_form_system_logging_settings_alter(array &$form) {
+  $config = \Drupal::configFactory()->getEditable('filelog.settings');
+
+  $form['filelog_enabled'] = [
+    '#type'          => 'checkbox',
+    '#title'         => t('Log messages to file'),
+    '#default_value' => $config->get('enabled'),
+  ];
+
+  $form['filelog'] = [
+    '#type'   => 'fieldset',
+    '#title'  => 'Logfile settings',
+    '#tree'   => TRUE,
+    '#states' => [
+      'visible' => [':input[name="filelog_enabled"]' => ['checked' => TRUE]],
+    ],
+  ];
+
+  $location = $config->get('location');
+  if (strpos($location, 'public://') === 0) {
+    $location = substr($location, strlen('public://'));
+  }
+
+  $form['filelog']['location'] = [
+    '#type'          => 'textfield',
+    '#title'         => t('Location'),
+    '#description'   => t('The location where logs are saved. Relative paths are inside the public <code>files/</code> directory, but protected from web access.'),
+    '#states'        => [
+      'required' => [':input[name="filelog_enabled"]' => ['checked' => TRUE]],
+    ],
+    '#default_value' => $location,
+  ];
+
+  $form['filelog']['level'] = [
+    '#type'          => 'select',
+    '#title'         => t('Threshold'),
+    '#description'   => t('Messages below this level are not logged to the file.'),
+    '#options'       => RfcLogLevel::getLevels(),
+    '#default_value' => $config->get('level'),
+  ];
+
+  $form['filelog']['rotation'] = [
+    '#type'     => 'details',
+    '#open'     => $config->get('rotation.mode') !== 'none',
+    '#title'    => t('Rotation'),
+    '#required' => $config->get('enabled'),
+    '#tree'     => TRUE,
+  ];
+
+  $form['filelog']['rotation']['schedule'] = [
+    '#type'          => 'select',
+    '#title'         => t('Schedule'),
+    '#options'       => [
+      'daily'   => t('Daily'),
+      'weekly'  => t('Weekly'),
+      'monthly' => t('Monthly'),
+      'never'   => t('Never'),
+    ],
+    '#default_value' => $config->get('rotation.schedule'),
+    '#description'   => t('The rotation will happen on the first cron run after the specified part of the calendar date changes; this is dependent on the server timezone. Use an external cron task for more control.'),
+  ];
+
+  $form['filelog']['rotation']['delete'] = [
+    '#type'          => 'checkbox',
+    '#title'         => t('Delete logfile instead of moving it.'),
+    '#default_value' => $config->get('rotation.delete'),
+    '#states'        => [
+      'invisible' => [':input[name="filelog[rotation][schedule]"]' => ['value' => 'never']],
+    ],
+  ];
+
+  $form['filelog']['rotation']['destination'] = [
+    '#type'          => 'textfield',
+    '#title'         => t('Destination filename'),
+    '#default_value' => $config->get('rotation.destination'),
+    '#description'   => t('Where to save archived files (relative to the log directory). Use <code>[date:custom:...]</code> to include a date. Old files with the same name will be overwritten.'),
+    '#states'        => [
+      'invisible' => [
+        [':input[name="filelog[rotation][schedule]"]' => ['value' => 'never']],
+        [':input[name="filelog[rotation][delete]"]' => ['checked' => TRUE]],
+      ],
+    ],
+  ];
+
+  $gzip = extension_loaded('zlib');
+  $form['filelog']['rotation']['gzip'] = [
+    '#type'          => 'checkbox',
+    '#title'         => t('Compress archived files with <code>gzip</code>.'),
+    '#default_value' => $config->get('rotation.gzip') && $gzip,
+    '#disabled'      => !$gzip,
+    '#states'        => [
+      'invisible' => [
+        [':input[name="filelog[rotation][schedule]"]' => ['value' => 'never']],
+        [':input[name="filelog[rotation][delete]"]' => ['checked' => TRUE]],
+      ],
+    ],
+  ];
+
+  $form['filelog']['format'] = [
+    '#type'          => 'textarea',
+    '#title'         => t('Log entry format'),
+    '#default_value' => $config->get('format'),
+    '#description'   => t('Specify the format of the log entry.'),
+  ];
+
+  $form['filelog']['help'] = [
+    '#type'  => 'details',
+    '#open'  => FALSE,
+    '#title' => t('Format variables'),
+  ];
+
+  $form['filelog']['help']['variables'] = [
+    '#theme'        => 'filelog_help',
+    '#title'        => t('Available placeholders include:'),
+    '#label_prefix' => 'log:',
+    '#rows'         => [
+      'type'     => t('The category of the log message.'),
+      'level'    => t('The severity of the log message.'),
+      'message'  => t('The message text, without HTML and with escaped line breaks.'),
+      'ip'       => t('The IP of the user triggering the message.'),
+      'location' => t('The requested URI.'),
+      'referrer' => t('The referrer URL, if available.'),
+      'user'     => [
+        'description' => t('The user who triggered the message.'),
+        'suffix'      => [':uid', ':mail', ':...'],
+      ],
+      'created'  => [
+        'description' => t('The time when the message was created.'),
+        'suffix'      => [':long', ':short', ':custom:...'],
+      ],
+    ],
+  ];
+
+  if (\Drupal::moduleHandler()->moduleExists('token')) {
+    // Show the token help relevant to this pattern type.
+    $form['filelog']['help']['tokens'] = [
+      '#theme'       => 'token_tree_link',
+      '#token_types' => ['log'],
+    ];
+  }
+
+  $form['#validate'][] = 'filelog_logging_settings_validate';
+  $form['#submit'][] = 'filelog_logging_settings_submit';
+}
+
+/**
+ * Form validation handler for system_logging_settings().
+ *
+ * @param array                                $form
+ * @param \Drupal\Core\Form\FormStateInterface $formState
+ *
+ * @see filelog_form_system_logging_settings_alter()
+ */
+function filelog_logging_settings_validate(array $form,
+                                           FormStateInterface $formState) {
+  /** @var \Drupal\Core\File\FileSystemInterface $fileSystem */
+  $fileSystem = \Drupal::service('file_system');
+  // Ignore the settings if logging is disabled.
+  if ($formState->getValue('filelog_enabled')) {
+    // Place relative paths into the public files directory.
+    $location = (string) $formState->getValue(['filelog', 'location']);
+    if (!$fileSystem->uriScheme($location) && $location[0] !== '/') {
+      $location = 'public://' . $location;
+      $formState->setValue(['filelog', 'location'], $location);
+    }
+
+    // Set up the logging directory.
+    if (!file_prepare_directory($location, FILE_CREATE_DIRECTORY) ||
+        !file_save_htaccess($location)
+    ) {
+      $formState->setError($form['filelog']['location'],
+                           t('The directory %dir could not be created, or is not writable.',
+                             [
+                               '%dir' => $location,
+                             ]));
+    }
+
+    // Ensure that gzip is enabled.
+    if ($formState->getValue(['filelog', 'rotation', 'gzip']) &&
+        !extension_loaded('zlib')
+    ) {
+      $formState->setError($form['filelog']['rotation']['gzip'],
+                           t('The <em>zlib</em> extension is required for gzip compression.'));
+    }
+  }
+}
+
+/**
+ * Form submission handler for system_logging_settings().
+ *
+ * @param array                                $form
+ * @param \Drupal\Core\Form\FormStateInterface $formState
+ *
+ * @see filelog_form_system_logging_settings_alter()
+ */
+function filelog_logging_settings_submit(array $form,
+                                         FormStateInterface $formState) {
+  $config = \Drupal::configFactory()->getEditable('filelog.settings');
+  $config->set('enabled', $formState->getValue('filelog_enabled'));
+  foreach ((array) $formState->getValue('filelog') as $key => $value) {
+    $config->set($key, $value);
+  }
+  $config->save();
+}

@@ -5,6 +5,9 @@ services:
     tags:
       - { name: logger }
       - { name: backend_overridable }
+  content_sync.snaphoshot:
+    class: Drupal\content_sync\Form\ContentExportForm
+    arguments: ['@entity_type.manager','@content_sync.exporter']
   content.storage.staging:
     class: Drupal\Core\Config\FileStorage
     factory: Drupal\content_sync\Content\ContentFileStorageFactory::getSync

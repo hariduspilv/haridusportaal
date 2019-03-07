@@ -40,7 +40,7 @@ abstract class ResolverRelationshipDelete extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('user.shared_tempstore'), $container->get('ctools.typed_data.resolver'));
+    return new static($container->get('tempstore.shared'), $container->get('ctools.typed_data.resolver'));
   }
 
   /**

@@ -24,7 +24,7 @@
       .round-input__field-wrapper {border-color: $red;}
     }
     button {width:100% !important;}
-    .header {font-size: $small;line-height: $large;text-align: left;color: $dark-gray;font-weight: 400;}
+    .header {font-size: $small;line-height: $large;text-align: left;color: $dark-gray;font-weight: 400;padding-bottom: 1.5rem;}
     @include break-on(sm, min) {margin-top: .875rem;}
     @include break-on(xl, min) {margin-top: .9375rem;}
     @include break-on(sm, max) {  &:after {
@@ -58,3 +58,5 @@
 .dropdown-menu-overlay{position: fixed; top:0; left:0; bottom:0; right:0; background:transparent;}
 button{ display: block;}
 button+button{margin-top:1rem;}
+labeled-separator {display: block;padding: 2rem 0;}
+h2 {color: $black; line-height: 1rem;}

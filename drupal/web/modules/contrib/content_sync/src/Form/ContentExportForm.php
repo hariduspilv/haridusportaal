@@ -89,6 +89,29 @@ class ContentExportForm extends FormBase {
       batch_set($batch);
     }
   }
+  public function snapshot() {
+    //Set batch operations by entity type/bundle
+    $entities_list = [];
+    $entity_type_definitions = $this->entityTypeManager->getDefinitions();
+    foreach ($entity_type_definitions as $entity_type => $definition) {
+      $reflection = new \ReflectionClass($definition->getClass());
+      if ($reflection->implementsInterface(ContentEntityInterface::class)) {
+        $entities = $this->entityTypeManager->getStorage($entity_type)
+                                            ->getQuery()
+                                            ->execute();
+        foreach ($entities as $entity_id) {
+          $entities_list[] = [
+            'entity_type' => $entity_type,
+            'entity_id' => $entity_id,
+          ];
+        }
+      }
+    }
+    if (!empty($entities_list)) {
+      $batch = $this->generateBatch($entities_list, 'snapshot');
+      batch_set($batch);
+    }
+  }
 
   /**
    * @{@inheritdoc}
@@ -112,4 +135,3 @@ class ContentExportForm extends FormBase {
   }
 
 }
-
