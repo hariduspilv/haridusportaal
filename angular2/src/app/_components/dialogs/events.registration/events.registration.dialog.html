@@ -14,14 +14,36 @@
       <h1 tabindex="0">{{ data.eventTitle }}</h1>
       <div class="dialog__time" tabindex="0"> 
         <span class="capitalize">{{ 'time.'+ (data.eventStartDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ data.eventStartDate.unix*1000 | date: "dd.MM"}}</span>
-        <span>{{ 'time.time_of_day' | translate }}</span>
-        <span>{{ data.eventStartTime | unixToTime }} - {{ data.eventEndTime | unixToTime }}</span>
+        
+        <span *ngIf="data.eventStartTime || data.eventEndTime">
+          <span> {{ 'time.time_of_day' | translate }}</span>
+          <ng-container *ngIf="data.eventStartTime">
+            {{ data.eventStartTime | unixToTime  }}
+          </ng-container>
+          <ng-container *ngIf="data.eventStartTime && data.eventEndTime">
+            -
+          </ng-container>
+          <ng-container *ngIf="data.eventEndTime">
+            {{ data.eventEndTime | unixToTime  }}
+          </ng-container>
+        </span>
         <ng-container *ngIf="data.eventExtraDates && data.eventExtraDates.length">
           <div *ngFor="let item of data.eventExtraDates">
             <ng-container *ngIf="item.entity.fieldEventDate">
               <span class="capitalize">{{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
-              <span>{{ 'time.time_of_day' | translate }}</span>
-              <span>{{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}</span>
+              <span *ngIf="item.entity.fieldEventStartTime || item.entity.fieldEventEndTime">
+                <span> {{ 'time.time_of_day' | translate }}</span>
+                <ng-container *ngIf="item.entity.fieldEventStartTime">
+                  {{ item.entity.fieldEventStartTime | unixToTime  }}
+                </ng-container>
+                <ng-container *ngIf="item.entity.fieldEventStartTime && item.entity.fieldEventEndTime">
+                  -
+                </ng-container>
+                <ng-container *ngIf="item.entity.fieldEventEndTime">
+                  {{ item.entity.fieldEventEndTime | unixToTime  }}
+                </ng-container>
+              </span>
+              
             </ng-container>
           </div>
         </ng-container>
