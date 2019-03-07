@@ -92,7 +92,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
       this.dialog.afterAllClosed.subscribe(result => {
         if (this.rootScope.get('roleChanged')) {
           this.rootScope.set('roleChanged', false);
-          let paths = { 'et': '/töölaud/taotlused' };
+          let paths = { 'et': '/töölaud/tunnistused' };
           this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
             this.router.navigateByUrl(paths[this.lang]);
           });
