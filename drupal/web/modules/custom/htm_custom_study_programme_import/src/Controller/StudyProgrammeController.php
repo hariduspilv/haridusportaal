@@ -37,7 +37,7 @@ class StudyProgrammeController extends ControllerBase {
     public function get_programme_data($type, $schools, $programmetype){
         switch($type){
             case 'programme':
-                #$json_urls[] = 'http://enda.ehis.ee/avaandmed/rest/oppekavad/-/-/OK_LIIK_KORG/1/JSON';
+                $json_urls[] = 'http://enda.ehis.ee/avaandmed/rest/oppekavad/-/-/OK_LIIK_KORG/1/JSON';
                 $json_urls[] = 'http://enda.ehis.ee/avaandmed/rest/oppekavad/-/-/OK_LIIK_KUTSE/1/JSON';
                 break;
             default:
