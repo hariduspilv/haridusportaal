@@ -14,28 +14,28 @@
   }
   @include break-on(sm, min) {margin-top: .5rem;}
 }
-.button-list {display: flex;flex-basis: 100%;justify-content: center; margin-top: 1rem; 
+.button-list {display: flex;flex-basis: 100%;justify-content: flex-start; margin-top: 1rem; border-bottom: 0.1875rem solid $light-gray;
   a {text-decoration: none;}
   @include break-on(sm, max) {margin-left: -1.5rem;margin-right: -1.5rem;}
   &.left-align {justify-content: flex-start;}
 }
-.view-item {width: 25%; margin: 0 auto;
+.view-item {width: 25%; margin: 0;
   &.left-align {margin: 0;}
 }
 
 .htm-icon {margin: 1rem 0;
   @include break-on(xxs, min) {margin: 1rem 0 .5rem;}
 }
-.button-list .view-item.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange;pointer-events: none;cursor: initial; 
+.button-list .view-item.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange;pointer-events: none;cursor: initial; margin-bottom: -0.1875rem; 
   .htm-icon, .title {color: $black; }
 }
-.button-list .view-item.mat-menu-item-active:hover { border-bottom: .1875rem solid $dark-orange; 
+.button-list .view-item.mat-menu-item-active:hover { 
   .htm-icon, .title {color: $black; }
 }
 .button-list .view-item .htm-icon { color: $blue; }
-.button-list .view-item { border-bottom: .175rem solid $light-gray; 
-	&:hover {border-bottom: 0.1875rem solid $light-gray;
-		.htm-icon, .title {color: #0F7B8A;}
+.button-list .view-item {
+	&:hover {
+		.htm-icon, .title {color: rgb(153, 160, 161);}
 	}
 
 }

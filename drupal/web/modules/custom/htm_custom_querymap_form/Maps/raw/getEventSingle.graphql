@@ -143,6 +143,13 @@ fieldEventMainDate {
               entityLabel
             }
           }
+          fieldRegistrationUrl{
+            url{
+              routed
+              path
+            }
+            title
+          }
         }
       }
     }
