@@ -124,7 +124,7 @@ export class LoginComponent implements OnInit{
 
       this.user = this.userService.storeData(data['token']);
       
-      let redirectUrl = '/töölaud/taotlused';
+      let redirectUrl = '/töölaud/tunnistused';
       let lang = this.rootScope.get("lang");
       
       this.router.navigateByUrl("/", {skipLocationChange: true}).then( () => {
