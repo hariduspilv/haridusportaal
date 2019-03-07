@@ -65,7 +65,7 @@ const appRoutes: Routes = [
       { path: 'tunnistused', component: CertificatesComponent},
       { path: 'õpingud', component: StudiesComponent},
       { path: 'õpetan', component: TeachingsComponent},
-      { path: '', redirectTo: 'tunnistused', pathMatch: 'full' },
+      { path: 'taotlused', redirectTo: 'tunnistused', pathMatch: 'full' },
       { path: '**', redirectTo: '404', pathMatch: 'full' }
     ]
   },

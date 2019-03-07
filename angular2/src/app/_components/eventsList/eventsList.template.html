@@ -13,9 +13,9 @@
           role="link" [routerLink]="[event.entityUrl.path]">
           <div>
             <span *ngIf="!compareDate(event.fieldEventMainDate.unix)">{{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM' }}</span>
-            <span *ngIf="compareDate(event.fieldEventMainDate.unix)">{{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM.yyyy' }}</span>
-            <span>{{ 'time.time_of_day' | translate | lowercase }}</span>
-            <span>{{ event.fieldEventMainStartTime | unixToTime }}</span>
+            <span *ngIf="compareDate(event.fieldEventMainDate.unix)"> {{ event.fieldEventMainDate.unix*1000 | date: 'dd.MM.yyyy' }}</span>
+            <span> {{ 'time.time_of_day' | translate | lowercase }}</span>
+            <span> {{ event.fieldEventMainStartTime | unixToTime }}</span>
           </div>
           <h2>{{ event.title }}</h2>
         </a>
