@@ -15,7 +15,7 @@ use Consolidation\Config\Util\ConfigInterpolatorTrait;
  * individual configuration context. When using overlays, always call
  * getDefault / setDefault on the ConfigOverlay object itself.
  */
-class ConfigOverlay implements ConfigInterface, ConfigInterpolatorInterface
+class ConfigOverlay implements ConfigInterface, ConfigInterpolatorInterface, ConfigRuntimeInterface
 {
     use ConfigInterpolatorTrait;
     protected $contexts = [];
@@ -87,6 +87,11 @@ class ConfigOverlay implements ConfigInterface, ConfigInterpolatorInterface
             return $this->contexts[$name];
         }
         return new Config();
+    }
+
+    public function runtimeConfig()
+    {
+        return $this->getContext(self::PROCESS_CONTEXT);
     }
 
     public function removeContext($name)
@@ -197,6 +202,22 @@ class ConfigOverlay implements ConfigInterface, ConfigInterpolatorInterface
         foreach ($this->contexts as $name => $config) {
             $exportToMerge = $config->export();
             $export = \array_replace_recursive($export, $exportToMerge);
+        }
+        return $export;
+    }
+
+    /**
+     * exportAll returns the export of all contexts, separated into
+     * separate buckets keyed by context name.
+     *
+     * @return array
+     */
+    public function exportAll()
+    {
+        $export = [];
+        foreach ($this->contexts as $name => $config) {
+            $exportToInsert = $config->export();
+            $export[$name] = $exportToInsert;
         }
         return $export;
     }

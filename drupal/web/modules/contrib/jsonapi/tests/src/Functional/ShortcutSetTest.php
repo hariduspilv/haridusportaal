@@ -60,7 +60,7 @@ class ShortcutSetTest extends ResourceTestBase {
   protected function getExpectedUnauthorizedAccessMessage($method) {
     switch ($method) {
       case 'GET':
-        return floatval(\Drupal::VERSION >= 8.7) ? "The 'access shortcuts' permission is required." : '';
+        return "The 'access shortcuts' permission is required.";
 
       default:
         return parent::getExpectedUnauthorizedAccessMessage($method);

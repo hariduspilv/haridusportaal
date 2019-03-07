@@ -165,10 +165,6 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
                         if(empty($record['valdkond']) && empty($record['alavaldkond']) && $record['ametiala'] != ''){
                             continue;
                         }
-                    case 'ametiala':
-                        if(empty($record['valdkond']) && empty($record['alavaldkond']) && empty($record['ametiala'])){
-                            continue;
-                        }
                 }
 
                 if(isset($record[$label_field]) && $record[$label_field] != ''){
@@ -222,7 +218,7 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
                 foreach($labelsums as $label => $value){
                     $data_array[0][] = (string)$label;
                     foreach($value as $key => $val){
-                        $data_array[$key][] = round($val);
+                        $data_array[$key][] = is_string($val) ? $val : round($val);
                     }
                 }
                 $data_array = array_values($data_array);

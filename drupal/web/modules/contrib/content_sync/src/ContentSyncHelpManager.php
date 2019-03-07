@@ -485,7 +485,7 @@ SUGGESTIONS
         'system.modules_list',
       ],
       'title' => $this->t('Installing the Content Sync module'),
-      'content' => $this->t('<strong>Congratulations!</strong> You have successfully installed the Contact Sync module.'),
+      'content' => $this->t('<strong>Congratulations!</strong> You have successfully installed the Content Sync module.'),
       'message_type' => 'info',
       'message_close' => TRUE,
       'message_storage' => ContentSyncMessage::STORAGE_STATE,

@@ -4,6 +4,7 @@ import { RecentNewsModule } from './recent.news/recent.news.module';
 import { OskaAreasSidebarModule } from './oska.areas.sidebar/oska.areas.sidebar.module';
 import { NewsletterOrderModule } from './newsletter.order/newsletter.order.module';
 import { ProgressBarModule } from '@app/_components/progress.bar/progress.bar.module';
+import { LabeledSeparatorModule } from '@app/_components/labeled.separator/labeled.separator.module';
 
 
 export const AppModules = [
@@ -12,5 +13,6 @@ export const AppModules = [
   RecentNewsModule,
   NewsletterOrderModule,
   OskaAreasSidebarModule,
-  ProgressBarModule
+  ProgressBarModule,
+  LabeledSeparatorModule
 ];

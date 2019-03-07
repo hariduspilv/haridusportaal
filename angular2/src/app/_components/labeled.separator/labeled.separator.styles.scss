@@ -1,0 +1,11 @@
+@import "../../../assets/styles/typography.scss"; 
+.separator {color: $dark-gray;font-weight: normal;font-size: 1rem;line-height: 1rem;
+  display: block;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; 
+  span {position: relative;display: inline-block;
+    &:before, &:after {content: "";position: absolute;top: 50%;
+      width: 100rem;height: .0625rem;background: $gray;
+    }
+    &:before {right: 100%;margin-right: .75rem;}
+    &:after {left: 100%;margin-left: .75rem;}
+  }
+}

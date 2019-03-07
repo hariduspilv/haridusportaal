@@ -9,8 +9,6 @@ use PDO;
 class SqlMysql extends SqlBase
 {
 
-    public $queryExtra = '-A';
-
     public function command()
     {
         return 'mysql';
@@ -152,7 +150,7 @@ EOT;
         if ($ordered_dump) {
             $extra .= ' --skip-extended-insert --order-by-primary';
         }
-        if ($option = $this->getOption('extra-dump')) {
+        if ($option = $this->getOption('extra-dump', $this->queryExtra)) {
             $extra .= " $option";
         }
         $exec .= $extra;

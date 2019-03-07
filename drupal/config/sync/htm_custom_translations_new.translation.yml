@@ -1539,7 +1539,7 @@ button:
     en: 'Confirm order'
   login:
     translation_type: textarea
-    et: 'Logi sisse'
+    et: Sisene
     en: 'Log in'
   logout:
     translation_type: textarea
@@ -1683,7 +1683,7 @@ button:
     en: 'Yes'
   download_table:
     translation_type: textarea
-    et: 'Lae tabel alla'
+    et: 'Lae tabel alla (.xlsx)'
     en: 'Download table'
   edit_data:
     translation_type: textarea
@@ -2247,6 +2247,14 @@ oska:
     translation_type: textarea
     et: 'Eestis kutse- või kõrgkoolides eriala õppida ei saa'
     en: 'Cant study in Estonia'
+  proposal_title:
+    translation_type: textarea
+    et: 'Ettepanekute elluviimine'
+    en: 'Delivering on promises'
+  see_proposals:
+    translation_type: textarea
+    et: 'Vaata ettepanekute elluviimist'
+    en: 'Go to proposals'
 oskaProfession:
   view_field_info:
     translation_type: textarea
@@ -2325,7 +2333,7 @@ dashboard:
     en: 'Educational Institution name'
   contactPhone:
     translation_type: textarea
-    et: 'Telefoni number'
+    et: Telefoninumber
     en: Phone
   webpageAddress:
     translation_type: textarea
@@ -2390,11 +2398,11 @@ feedback_send:
   en: Send
 login_tara:
   translation_type: textarea
-  et: 'Logi sisse TARA-ga'
+  et: 'Sisene TARA-ga'
   en: 'Login with TARA'
 login_harid:
   translation_type: textarea
-  et: 'Logi sisse HarID-ga'
+  et: 'Sisene HarID-ga'
   en: 'Login with HarID'
 certificate:
   name:
@@ -2465,3 +2473,12 @@ professions:
     translation_type: textarea
     et: 'Vaata erialasid'
     en: 'Check study programmes'
+label:
+  or:
+    translation_type: textarea
+    et: või
+    en: or
+login_mobile:
+  translation_type: textarea
+  et: 'Sisene Mobiil ID-ga'
+  en: 'Mobile ID login'

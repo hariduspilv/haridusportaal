@@ -100,6 +100,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 $indicator_options[$key] = $key;
             }
 
+            $group_by_options = $fields;
+            $group_by_options['naitaja'] = $this->t('indicator');
+
             $element['graph_options']['graph_indicator'] = [
                 '#title' => $this->t('OSKA indicator'),
                 '#type' => 'select',
@@ -133,7 +136,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#type' => 'select',
                 '#multiple' => TRUE,
                 '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
-                '#options' =>  $fields,
+                '#options' =>  $group_by_options,
                 '#empty_option'  => '-',
                 '#required' => FALSE,
                 '#delta' => $delta,
@@ -249,9 +252,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
             $element['graph_options']['graph_text'] = [
                 '#title' => $this->t('Graph info text'),
-                '#type' => 'textarea',
+                '#type' => 'text_format',
                 '#maxlength' => 1500,
-                '#default_value' => isset($data['graph_text']) ? $data['graph_text'] : NULL,
+                '#default_value' => isset($data['graph_text']['value']) ? $data['graph_text']['value'] : NULL,
             ];
         }
 
@@ -361,7 +364,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 'graph_type' => $value['graph_type'],
                 'graph_title' => $value['graph_options']['graph_title'],
                 'secondary_graph_type' => isset($value['graph_options']['secondary_graph_type']) ? $value['graph_options']['secondary_graph_type'] : NULL,
-                'graph_text' => $value['graph_options']['graph_text'],
+                'graph_text' => $value['graph_options']['graph_text']['value'],
                 'filter_values' => json_encode($value, TRUE),
             ];
         }
