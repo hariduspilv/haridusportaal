@@ -197,7 +197,16 @@
                     <span class="time">{{ 'event.start_time' | translate }}: <strong *ngIf="event.firstEventTime">{{ event.firstEventTime | unixToTime }}</strong> <strong *ngIf="!event.firstEventTime">-</strong> </span>
 
                     <span class="location" *ngIf="event.location">{{ 'event.location' | translate }}: <strong>{{ event.location ? event.location.name : '' }}</strong></span>
-                    <span class="entrance" *ngIf="event.fieldEntryType && event.fieldEntryType !== 'juhan'">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
+                    <ng-container [ngSwitch]="event.fieldEntryType">
+                      <ng-container *ngSwitchCase="'juhan'"></ng-container>
+                      <ng-container *ngSwitchCase="'event.external_inv'">
+                        <span class="entrance">{{ 'event.entrance' | translate }}: <strong>{{ event.fieldEntryType | translate }}</strong></span>
+                      </ng-container>
+                      <ng-container *ngSwitchDefault>
+                        <span class="entrance">{{ 'event.entrance' | translate }}: <strong>{{ 'event.' + event.fieldEntryType | translate }}</strong></span>
+                      </ng-container>
+                    </ng-container>
+                    
                   </div>
                   <div class="tags sm-hide" *ngIf="(event.hashTags && event.hashTags.length) || event.fieldEventType">
                     <mat-chip-list tabindex="0" aria-multiselectable="true" >
