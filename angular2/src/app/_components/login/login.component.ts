@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit{
   taraUrl: any;
   harIDurl: any;
 
+  mobileIdLogin: boolean = false;
   basicLogin: boolean = false;
 
   constructor(
@@ -159,6 +160,10 @@ export class LoginComponent implements OnInit{
 
     if( this.settings.url == "https://htm.wiseman.ee" || this.settings.url == "http://test-htm.wiseman.ee:30000" ){
       this.basicLogin = true;
+      this.mobileIdLogin = true;
+    }
+    if( this.settings.url == "https://apitest.hp.edu.ee" ){
+      this.mobileIdLogin = true;
     }
     
     this.user = this.userService.getData();

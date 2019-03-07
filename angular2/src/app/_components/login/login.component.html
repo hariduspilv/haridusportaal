@@ -1,4 +1,4 @@
-<span class="login-wrapper" *ngIf="basicLogin">
+<span class="login-wrapper" *ngIf="mobileIdLogin || basicLogin">
 
   <button class="login__actions" *ngIf="!user.isExpired" [matMenuTriggerFor]="usermenu" [class.logged]="!user.isExpired">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
@@ -23,37 +23,39 @@
       <button type="button" role="button" mat-raised-button color="primary" (click)="openHarID()" attr.aria-label="{{ 'login_harid' | translate }}">{{ 'login_harid' | translate }}</button>
       <labeled-separator label="{{ 'label.or' | translate }}"></labeled-separator>
       <button type="button" role="button" mat-raised-button color="primary" (click)="openTara()" attr.aria-label="{{ 'login_tara' | translate }}">{{ 'login_tara' | translate }}</button>
-      <labeled-separator label="{{ 'label.or' | translate }}"></labeled-separator>
     </ng-container>
 
     <!-- MOBILE ID -->
-    <form (ngSubmit)="submit('mobile')" *ngIf="!loader && basicLogin">
-      <div class="row" *ngIf="!mobileValidation.handshake">
-        <div class="col-12">
-          <h2 class="text-center">{{ 'login_mobile' | translate }}</h2>
-        </div>
-        <div class="col-12">
-          <div class="round-input__wrapper" 
-          [class.complete]="formModels.tel && !telFocus"
-          [class.errors]="!formModels.tel && !telFocus && mobileValidation.errorState">
-            <span class="round-input__title">{{ 'dashboard.contactPhone' | translate }}</span>
-            <div class="round-input__field-wrapper">
-              <input autocomplete="off" class="round-input__field" (focus)="telFocus = true" (blur)="telFocus = false" [class.focused]='telFocus' type="tel" name="tel" placeholder="{{ 'dashboard.contactPhone' | translate }}" [(ngModel)]="formModels.tel"/>
+    <ng-container *ngIf="!loader && mobileIdLogin">
+      <labeled-separator label="{{ 'label.or' | translate }}"></labeled-separator>
+      <form (ngSubmit)="submit('mobile')">
+        <div class="row" *ngIf="!mobileValidation.handshake">
+          <div class="col-12">
+            <h2 class="text-center">{{ 'login_mobile' | translate }}</h2>
+          </div>
+          <div class="col-12">
+            <div class="round-input__wrapper" 
+            [class.complete]="formModels.tel && !telFocus"
+            [class.errors]="!formModels.tel && !telFocus && mobileValidation.errorState">
+              <span class="round-input__title">{{ 'dashboard.contactPhone' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input autocomplete="off" class="round-input__field" (focus)="telFocus = true" (blur)="telFocus = false" [class.focused]='telFocus' type="tel" name="tel" placeholder="{{ 'dashboard.contactPhone' | translate }}" [(ngModel)]="formModels.tel"/>
+              </div>
             </div>
           </div>
+          <div class="col-12">
+            <button role="button" mat-raised-button color="primary">{{ 'button.login' | translate }}</button>
+          </div><!--/col-12-->
         </div>
-        <div class="col-12">
-          <button role="button" mat-raised-button color="primary">{{ 'button.login' | translate }}</button>
-        </div><!--/col-12-->
-      </div>
-      <div class="error" role="alert" tabindex="0" *ngIf="!mobileValidation.handshake && mobileValidation.errorState">{{ mobileValidation.errorText | translate }}</div>
-      <div class="flex flex-notrows mobile-handshake" *ngIf="mobileValidation.handshake">
-        <p>Kontrolli, et näed mobiiltelefoni ekraanil täpselt sama numbrit:</p>
-        <h1>{{ mobileValidation.challengeID }}</h1>
-        <p class="latter">Seejärel sisesta PIN1</p>
-        <p class="latter light">Ootame Mobiil-ID vastust…</p>
-      </div>
-    </form>  
+        <div class="error" role="alert" tabindex="0" *ngIf="!mobileValidation.handshake && mobileValidation.errorState">{{ mobileValidation.errorText | translate }}</div>
+        <div class="flex flex-notrows mobile-handshake" *ngIf="mobileValidation.handshake">
+          <p>Kontrolli, et näed mobiiltelefoni ekraanil täpselt sama numbrit:</p>
+          <h1>{{ mobileValidation.challengeID }}</h1>
+          <p class="latter">Seejärel sisesta PIN1</p>
+          <p class="latter light">Ootame Mobiil-ID vastust…</p>
+        </div>
+      </form>  
+    </ng-container>
 
     <!-- REGULAR LOGIN DISABLED-->
     <ng-container *ngIf="!loader && !mobileValidation.handshake && basicLogin">
