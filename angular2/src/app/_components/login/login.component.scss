@@ -55,6 +55,13 @@
   }
  }
 }
+.mobile-handshake {color: $black;white-space: normal;
+  h1 {margin: 2rem 0;color: $black;}
+  p {font-size: 1rem;line-height: 1.25rem;margin: 0;
+    &.latter {line-height: 1.25rem;}
+    &.light {font-weight: 400;}
+  }
+}
 .dropdown-menu-overlay{position: fixed; top:0; left:0; bottom:0; right:0; background:transparent;}
 button{ display: block;}
 button+button{margin-top:1rem;}
