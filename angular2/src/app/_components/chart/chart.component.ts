@@ -23,7 +23,7 @@ export class ChartComponent implements OnInit{
   requestSubscription = {};
 
   graphOptions = {
-    height: 400,
+    height: 500,
     pieSliceTextStyle: {
       "color": '#ffffff'
     },
@@ -34,8 +34,8 @@ export class ChartComponent implements OnInit{
     lineWidth: 5,
     pointsVisible: true,
     pointSize: 12,
-    legend: { position: 'top', maxLines: 3 },
-    colors: ['#18218F', '#9E02B6', '#0252B0', '#C200C2', '#0071C7', '#D704A2', '#198294', '#D11B6F', '#00856A', '#D11B1B', '#257E25', '#DB3A00'],
+    legend: { position: 'bottom', maxLines: 3, alignment: 'start' },
+    colors: ['#18218F', '#DB3A00', '#0252B0', '#9E02B6', '#257E25', '#D11B1B', '#C200C2', '#00856A', '#0071C7', '#D11B6F', '#D704A2', '#198294'],
     animation:{
       duration: 1000,
       easing: 'out',
@@ -94,10 +94,15 @@ export class ChartComponent implements OnInit{
           break;
         }
         case 'stacked bar 100' : {
-          isStacked = "percent";
+          isStacked = true;
           chartType = "Bar";
           seriesType = 'bars';
           break;
+        }
+        case 'stacked column': {
+          isStacked = true;
+          chartType = "Column";
+          seriesType = 'bars';
         }
       }
 
@@ -125,6 +130,9 @@ export class ChartComponent implements OnInit{
       tmp.options['hAxis'] = {
         format: '####'
       };
+
+      //tmp.options['hAxis']['ticks'] = ticks;
+
 
       if( graphName == "ComboChart" ){
         //tmp['options']['colors'] = ["#18218f", "#db3a00"];
@@ -198,9 +206,9 @@ export class ChartComponent implements OnInit{
           targetAxisIndex: secondaryIndex
         };
 
-        console.log( JSON.stringify( value ) );
-    
-      }
+      }   
+
+      console.log(tmp);
       
       output.push(tmp);
 

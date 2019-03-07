@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppDeclarations, AppEntryComponents } from './app.declarations';
