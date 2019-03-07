@@ -45,7 +45,7 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 	
 	ngOnInit() {
 
-		this.unix = new Date().getTime();
+		this.unix = this.parseDate( new Date().getTime() / 1000 );
 
 		this.lang = this.rootScope.get("lang");
 		
@@ -96,20 +96,30 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		});
 	}
 	
+	parseDate(input){
+		var tmpDate = new Date(input*1000);
+		var year = tmpDate.getFullYear();
+		var month = tmpDate.getMonth();
+		var day = tmpDate.getDate();
+
+		return new Date(year,month,day, 0, 0).getTime();
+	}
 	canRegister() {
 
 		let firstDate;
 		let lastDate;
 
 		if( this.content.entity.fieldRegistrationDate ){
-			firstDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix * 1000;
-			lastDate = this.content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix * 1000;
+			firstDate = this.parseDate( this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix );
+			lastDate = this.parseDate( this.content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix );
 		}else{
-			firstDate = this.content.entity.fieldEventMainDate.unix * 1000;
-			lastDate = this.content.entity.fieldEventMainDate.unix * 1000;
+			firstDate = this.parseDate( this.content.entity.fieldEventMainDate.unix );
+			lastDate = this.parseDate( this.content.entity.fieldEventMainDate.unix );
 		}
 
-		//firstDate-=43200000;
+		console.log('firstDate: ', firstDate);
+		console.log('lastDate: ', lastDate);
+		console.log('unix: ', this.unix);
 
 		let isFull = this.content.entity.RegistrationCount >= this.content.entity.fieldMaxNumberOfParticipants;
 		if( this.content.entity.fieldMaxNumberOfParticipants == null ){ isFull = false;}

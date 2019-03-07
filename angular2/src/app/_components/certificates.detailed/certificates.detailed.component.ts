@@ -137,7 +137,7 @@ export class CertificatesDetailedComponent implements OnInit{
     this.pathWatcher();
 
     let url = this.path.split('/');
-    this.dashboardLink = url.splice(0,url.length-1).join('/');
+    this.dashboardLink = decodeURI(  url.splice(0,url.length-1).join('/') );
 
     if (this.examsView) {
       this.loadExaminations(this.certificateId);
