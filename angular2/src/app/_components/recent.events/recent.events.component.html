@@ -25,7 +25,14 @@
       <ng-container  *ngIf="content.entity.fieldEventLink && content.entity.fieldEventLink[0]">
         <a target="_blank" [href]="content.entity.fieldEventLink[0].url.path" class="no-break">{{ 'event.registration_link' | translate }}</a>
       </ng-container>
-      
+    </div>
+
+    <div *ngIf="content.entity.fieldEntryType == 'external_inv'">
+      <div class="title"><h1>{{'event.registration' | translate}}</h1></div>
+
+      <ng-container  *ngIf="content.entity.fieldRegistrationUrl">
+        <a target="_blank" [href]="content.entity.fieldRegistrationUrl.url.path" class="no-break">{{ 'event.external_registration' | translate }}</a>
+      </ng-container>
     </div>
 
     
@@ -71,19 +78,39 @@
             <span>
               {{ 'time.'+ (content.entity.fieldEventMainDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
               {{ content.entity.fieldEventMainDate.unix*1000 | date: "dd.MM yyy "}}
-              <ng-container *ngIf="content.entity.fieldEventMainStartTime || content.entity.fieldEventMainEndTime">{{ 'time.time_of_day' | translate }}</ng-container>
-              <ng-container *ngIf="content.entity.fieldEventMainStartTime">{{ content.entity.fieldEventMainStartTime | unixToTime }}</ng-container>
-              <ng-container *ngIf="content.entity.fieldEventMainStartTime && content.entity.fieldEventMainEndTime">-</ng-container>
-              <ng-container *ngIf="content.entity.fieldEventMainEndTime">{{ content.entity.fieldEventMainEndTime | unixToTime }}</ng-container>
 
+              <span *ngIf="content.entity.fieldEventMainStartTime || content.entity.fieldEventMainEndTime">
+                <span> {{ 'time.time_of_day' | translate }}</span>
+                <ng-container *ngIf="content.entity.fieldEventMainStartTime">
+                  {{ content.entity.fieldEventMainStartTime | unixToTime  }}
+                </ng-container>
+                <ng-container *ngIf="content.entity.fieldEventMainStartTime && content.entity.fieldEventMainEndTime">
+                  -
+                </ng-container>
+                <ng-container *ngIf="content.entity.fieldEventMainEndTime">
+                  {{ content.entity.fieldEventMainEndTime | unixToTime  }}
+                </ng-container>
+              </span>
+              
             </span>
             <ng-container *ngIf="content.entity && content.entity.fieldEventDate">
               <div *ngFor="let item of content.entity.fieldEventDate">
                 <ng-container *ngIf="item.entity.fieldEventDate">
                   {{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
                   {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
-                  {{ 'time.time_of_day' | translate }}
-                  {{ item.entity.fieldEventStartTime | unixToTime }} - {{ item.entity.fieldEventEndTime | unixToTime }}
+
+                  <span *ngIf="item.entity.fieldEventStartTime || item.entity.fieldEventEndTime">
+                    <span> {{ 'time.time_of_day' | translate }}</span>
+                    <ng-container *ngIf="item.entity.fieldEventStartTime">
+                      {{ item.entity.fieldEventStartTime | unixToTime  }}
+                    </ng-container>
+                    <ng-container *ngIf="item.entity.fieldEventStartTime && item.entity.fieldEventEndTime">
+                      -
+                    </ng-container>
+                    <ng-container *ngIf="item.entity.fieldEventEndTime">
+                      {{ item.entity.fieldEventEndTime | unixToTime  }}
+                    </ng-container>
+                  </span>
                 </ng-container>
               </div>
             </ng-container>
