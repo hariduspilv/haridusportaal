@@ -23,9 +23,11 @@ export class LoginComponent implements OnInit{
   formModels: object = {};
   data: any;
 
-  mobError: object = {
-    state: false,
-    text: ''
+  mobileValidation: object = {
+    challengeID: '',
+    handshake: false,
+    errorState: false,
+    errorText: '',
   };
   error: boolean = false;
 
@@ -61,11 +63,14 @@ export class LoginComponent implements OnInit{
 
     /* clear all values */
     this.error = false;
-    this.mobError['state'] = false;
-    this.mobError['text'] = '';
+    this.mobileValidation['errorState'] = false;
+    this.mobileValidation['errorText'] = '';
+    this.mobileValidation['challengeID'] = '';
+    this.mobileValidation['handshake'] = false;
     this.loader = true;
     this.user = false;
     this.userService.clearStorage();
+    this.user = this.userService.getData();
     this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password'];
     this.formModels['auth_method'] = type === 'mobile' ? 'mobile_id' : 'basic';
     
@@ -76,12 +81,13 @@ export class LoginComponent implements OnInit{
       let mobileForm = {telno: this.formModels['tel']};
       this.http.post(this.mobileUrl, mobileForm, {headers}).subscribe(data => {
         let consecutiveForm = { session_code: data['Sesscode'], id_code: data['UserIDCode'], auth_method: 'mobile_id' }
+        this.mobileValidation['challengeID'] = data['ChallengeID'];
         this.loginSubmit(consecutiveForm, headers, true)
       }, (data) => {
         this.loader = false;
         if( !data['token'] ) {
-          this.mobError['state'] = true;
-          this.mobError['text'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
+          this.mobileValidation['errorState'] = true;
+          this.mobileValidation['errorText'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
           return false; 
         }
       });
@@ -91,14 +97,20 @@ export class LoginComponent implements OnInit{
   }
 
   loginSubmit (form, headers, isMobile) {
+    if (isMobile) {
+      this.loader = false;
+      this.mobileValidation['handshake'] = true;
+    }
     this.http.post(this.postUrl, form, {headers}).subscribe(data => {
+      this.mobileValidation['handshake'] = false;
+      this.mobileValidation['challengeID'] = '';
       this.loader = false;
       this.data = data;
       
       if( !data['token'] ) { 
         if (isMobile) { 
-          this.mobError['state'] = true; 
-          this.mobError['text'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
+          this.mobileValidation['errorState'] = true; 
+          this.mobileValidation['errorText'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
         }
         if (!isMobile) this.error = true; 
         return false; 
@@ -123,10 +135,11 @@ export class LoginComponent implements OnInit{
     }, (data) => {
       this.formModels['password'] = '';
       this.loader = false;
+      this.mobileValidation['handshake'] = false;
       if( !data['token'] ){
         if (isMobile) { 
-          this.mobError['state'] = true; 
-          this.mobError['text'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
+          this.mobileValidation['errorState'] = true; 
+          this.mobileValidation['errorText'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
         }
         if (!isMobile) this.error = true;
         return false; 
@@ -158,57 +171,4 @@ export class LoginComponent implements OnInit{
     this.rootScope.set('certificatesAccordion', 0);
     this.sidemenu.triggerLang();
   }
-
-  /*
-  submit() {
-
-    this.error = false;
-
-    this.loader = true;
-
-    this.userService.clearStorage();
-
-    this.user = false;
-
-    this.http.post(this.postUrl, this.formModels).subscribe(data => {
-
-      this.formModels['password'] = '';
-
-      this.loader = false;
-
-      this.data = data;
-      
-      if( data['token'] ){
-        
-        sessionStorage.setItem("token", this.data.token);
-
-        for( let i in this.formModels ){
-          this.formModels[i] = '';
-        };
-
-        this.userService.triggerPageReload();
-  
-        this.loginVisible = false;
-
-        this.userService.decodeToken();
-      }else{
-        this.error = true;
-      }
-      
-    });
-  }
-
-  logOut() {
-    this.userService.logout();
-  }
-
-  readStorage() {
-    return sessionStorage.getItem("token");
-  }
-
-  ngOnInit() {
-    this.userService.decodeToken();
-  }
-
-  */
 }
