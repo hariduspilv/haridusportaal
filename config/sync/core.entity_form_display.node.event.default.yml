@@ -332,7 +332,25 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
-    third_party_settings: {  }
+    third_party_settings:
+      conditional_fields:
+        4e4cb6ef-2bfc-420d-9332-9b3dec9b5490:
+          dependee: field_entry_type
+          settings:
+            state: required
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: external_inv
+            effect: show
+            effect_options: {  }
+            selector: ''
+          entity_type: node
+          bundle: event
     type: link_default
     region: content
   field_tag:
