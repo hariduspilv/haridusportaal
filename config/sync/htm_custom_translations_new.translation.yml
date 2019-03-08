@@ -976,6 +976,14 @@ event:
     translation_type: textarea
     et: 'Registreerumine täiendkoolituste infosüsteemis'
     en: 'Registration in info system'
+  external_registration:
+    translation_type: textarea
+    et: 'Registreerumine teises infosüsteemis'
+    en: 'Registration in external system'
+  external_inv:
+    translation_type: textarea
+    et: 'Välise registreerimisega'
+    en: 'External registration'
 school:
   label:
     translation_type: textarea
