@@ -27,7 +27,7 @@
 
     <!-- MOBILE ID -->
     <ng-container *ngIf="!loader && mobileIdLogin">
-      <labeled-separator label="{{ 'label.or' | translate }}"></labeled-separator>
+      <labeled-separator *ngIf="basicLogin" label="{{ 'label.or' | translate }}"></labeled-separator>
       <form (ngSubmit)="submit('mobile')">
         <div class="row" *ngIf="!mobileValidation.handshake">
           <div class="col-12">
