@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "form_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "number_of_steps": {
+          "type": "integer"
+        }
+      },
+      "required": ["endpoint", "form_name", "number_of_steps"]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["et"]
+        },
+        "introduction": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["et"]
+        },
+        "hide_steps": {
+          "type": "boolean"
+        },
+        "steps":{
+          "type": "object",
+          "minItem": 5
+        }
+      },
+      "required": ["title", "steps"]
+    }
+  },
+  "required": ["header", "body"]
+}
