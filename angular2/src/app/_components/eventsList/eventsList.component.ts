@@ -53,7 +53,7 @@ export class EventsListComponent implements OnInit, OnDestroy{
       "timeFrom":"0",
       "timeTo":"99999999"};
     
-    let subscription = this.http.get('eventList', {params:variables} ).subscribe( response => {
+    let subscription = this.http.get('getEventList', {params:variables} ).subscribe( response => {
       
       this.loading = false;
       

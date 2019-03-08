@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
   
   public mainMenu = {
     "et": [
-      {_id: 1, link: '/töölaud/taotlused', active: true },
+      // {_id: 1, link: '/töölaud/taotlused', active: true },
       {_id: 2, link: '/töölaud/tunnistused', active: true },
       {_id: 3, link: '/töölaud/õpingud', active: true },
       {_id: 4, link: '/töölaud/õpetan', active: true }
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
   };
 
   public mainMenuCommonAttrs = {
-    1: {icon: 'description', label: 'frontpage.dashboard_tabs_applications'},
+    // 1: {icon: 'description', label: 'frontpage.dashboard_tabs_applications'},
     2: {icon: 'class', label: 'frontpage.dashboard_tabs_certificates'},
     3: {icon: 'local_library', label: 'frontpage.dashboard_tabs_studies'},
     4: {icon: 'school', label: 'frontpage.dashboard_tabs_teachings'}
@@ -92,7 +92,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
       this.dialog.afterAllClosed.subscribe(result => {
         if (this.rootScope.get('roleChanged')) {
           this.rootScope.set('roleChanged', false);
-          let paths = { 'et': '/töölaud/taotlused' };
+          let paths = { 'et': '/töölaud/tunnistused' };
           this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
             this.router.navigateByUrl(paths[this.lang]);
           });

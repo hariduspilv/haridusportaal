@@ -61,11 +61,11 @@ const appRoutes: Routes = [
   { path: 'töölaud/taotlused/:form_name', component: XjsonComponent},
   { path: 'töölaud', component: DashboardComponent,
     children: [
-      { path: 'taotlused', component: ApplicationsComponent},
+      // { path: 'taotlused', component: ApplicationsComponent},
       { path: 'tunnistused', component: CertificatesComponent},
       { path: 'õpingud', component: StudiesComponent},
       { path: 'õpetan', component: TeachingsComponent},
-      { path: '', redirectTo: 'taotlused', pathMatch: 'full' },
+      { path: 'taotlused', redirectTo: 'tunnistused', pathMatch: 'full' },
       { path: '**', redirectTo: '404', pathMatch: 'full' }
     ]
   },
