@@ -5,3 +5,4 @@ langcode: et
 path: varnish
 port: '8080'
 header_name: Purge-Cache-Tags
+enabled: 1
