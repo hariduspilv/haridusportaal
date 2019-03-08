@@ -87,7 +87,7 @@ class VarnishPurgeForm extends ConfigFormBase {
             ->set('path', $form_state->getValue('path'))
             ->set('port', $form_state->getValue('port'))
             ->set('header_name', $form_state->getValue('header_name'))
-            ->set('header_name', $form_state->getValue('enabled'))
+            ->set('enabled', $form_state->getValue('enabled'))
             ->save();
     }
 
