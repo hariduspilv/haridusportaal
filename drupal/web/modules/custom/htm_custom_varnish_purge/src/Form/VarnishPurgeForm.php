@@ -60,6 +60,13 @@ class VarnishPurgeForm extends ConfigFormBase {
             '#default_value' => $config->get('header_name'),
             '#maxlength' => 100,
         ];
+
+        $form['varnish_data']['enabled'] = [
+            '#type' => 'checkbox',
+            '#title' => $this->t('Enabled'),
+            '#default_value' => $config->get('enabled'),
+        ];
+
         return parent::buildForm($form, $form_state);
     }
 
@@ -80,6 +87,7 @@ class VarnishPurgeForm extends ConfigFormBase {
             ->set('path', $form_state->getValue('path'))
             ->set('port', $form_state->getValue('port'))
             ->set('header_name', $form_state->getValue('header_name'))
+            ->set('enabled', $form_state->getValue('enabled'))
             ->save();
     }
 
