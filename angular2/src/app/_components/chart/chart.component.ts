@@ -106,6 +106,24 @@ export class ChartComponent implements OnInit{
         }
       }
 
+
+      console.log(data[i]);
+      let primaryFormat = '####';
+
+      if( value[0] ){
+        
+        switch( value[0][0] ){
+          case 'periood': {
+            primaryFormat = '####';
+            break;
+          }
+
+          default: {
+            primaryFormat = '####';
+          }
+        }
+      }
+
       let graphName = chartType+"Chart";
 
       if( chartType && secondaryGraphType ){

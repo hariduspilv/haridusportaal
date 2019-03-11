@@ -109,6 +109,8 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 		let firstDate;
 		let lastDate;
 
+		console.log(this.content.entity);
+		
 		if( this.content.entity.fieldRegistrationDate ){
 			firstDate = this.parseDate( this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix );
 			lastDate = this.parseDate( this.content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix );

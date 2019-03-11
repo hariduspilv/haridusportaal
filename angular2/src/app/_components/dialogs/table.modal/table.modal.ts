@@ -30,7 +30,9 @@ export class TableModal {
   ngOnInit() {
     this.loading = true;
     let sub = this.http.get(this.data.contentUrl).subscribe(response => {
+
       if(response['error']){
+
         this.loading = false;
         this.error = true;
         if (response['error']['message_text']) {
@@ -38,10 +40,14 @@ export class TableModal {
         }
       } else {
         
-        this.data.fields.forEach((field) => {
-          let translationLink = this.data.fieldsTranslationSrc[field];
-          this.fieldTranslations.push(this.translate.get(translationLink)['value']);
-        });
+        try{
+          this.data.fields.forEach((field) => {
+            this.fieldTranslations.push(this.translate.get(field)['value']);
+
+          });
+        }catch(err){
+          console.log(err);
+        }
         
         this.content = response['value']['isikuandmed'];
 
@@ -49,6 +55,7 @@ export class TableModal {
         sub.unsubscribe();
       }
     }, error => {
+
       this.loading = false;
       this.error = true;
     });
