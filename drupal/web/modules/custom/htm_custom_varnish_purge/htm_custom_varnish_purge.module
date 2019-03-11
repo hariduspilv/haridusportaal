@@ -26,29 +26,33 @@ function htm_custom_varnish_purge_help($route_name, RouteMatchInterface $route_m
 
 function htm_custom_varnish_purge_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
 
-    $cache_tags = $entity->getCacheTagsToInvalidate();
+    $configuration = \Drupal::config('htm_custom_varnish_purge.varnishpurge');
 
-    if(count($cache_tags) > 0){
+    if($configuration->get('enabled') == 1){
 
-        $configuration = \Drupal::config('htm_custom_varnish_purge.varnishpurge');
-        $client = new Client([
-            'timeout'  => 30,
-        ]);
+        $cache_tags = $entity->getCacheTagsToInvalidate();
 
-        $purgeurl = 'http://'.$configuration->get('path').':'.$configuration->get('port');
-        $varnishcommand = "PURGE";
+        if(count($cache_tags) > 0){
 
-        foreach($cache_tags as $cache_tag){
-            $header = [
-                $configuration->get('path') => $cache_tag
-            ];
+            $client = new Client([
+                'timeout'  => 30,
+            ]);
 
-            try{
-                $client->request($varnishcommand, $purgeurl, [$header]);
-            } catch (Guzzle\Http\Exception\BadResponseException $e){
-                \Drupal::logger('htm_custom_varnish_purge')->error($e);
-            } catch (GuzzleHttp\Exception\ConnectException $e){
-                \Drupal::logger('htm_custom_varnish_purge')->error($e);
+            $purgeurl = 'http://'.$configuration->get('path').':'.$configuration->get('port');
+            $varnishcommand = "PURGE";
+
+            foreach($cache_tags as $cache_tag){
+                $header = [
+                    $configuration->get('path') => $cache_tag
+                ];
+
+                try{
+                    $client->request($varnishcommand, $purgeurl, [$header]);
+                } catch (Guzzle\Http\Exception\BadResponseException $e){
+                    \Drupal::logger('htm_custom_varnish_purge')->error($e);
+                } catch (GuzzleHttp\Exception\ConnectException $e){
+                    \Drupal::logger('htm_custom_varnish_purge')->error($e);
+                }
             }
         }
     }

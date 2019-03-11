@@ -107,6 +107,8 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'Symfony\\Cmf\\Component\\Routing\\' => 30,
             'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
             'Symfony\\Bridge\\PhpUnit\\' => 23,
+            'Swaggest\\JsonSchema\\' => 20,
+            'Swaggest\\JsonDiff\\' => 18,
             'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 49,
             'SelfUpdate\\' => 11,
         ),
@@ -122,6 +124,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
+            'PhpLang\\' => 8,
         ),
         'M' => 
         array (
@@ -137,6 +140,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         ),
         'J' => 
         array (
+            'JsonSchema\\' => 11,
             'JakubOnderka\\PhpConsoleHighlighter\\' => 35,
             'JakubOnderka\\PhpConsoleColor\\' => 29,
         ),
@@ -392,6 +396,14 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/symfony/phpunit-bridge',
         ),
+        'Swaggest\\JsonSchema\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/swaggest/json-schema/src',
+        ),
+        'Swaggest\\JsonDiff\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/swaggest/json-diff/src',
+        ),
         'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => 
         array (
             0 => __DIR__ . '/..' . '/stecman/symfony-console-completion/src',
@@ -428,6 +440,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'PhpLang\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phplang/scope-exit/src',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -451,6 +467,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'League\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/container/src',
+        ),
+        'JsonSchema\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/justinrainbow/json-schema/src/JsonSchema',
         ),
         'JakubOnderka\\PhpConsoleHighlighter\\' => 
         array (
