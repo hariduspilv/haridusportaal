@@ -47,6 +47,9 @@
         "steps":{
           "type": "object",
           "minItem": 5
+        },
+        "messages": {
+          "type": "object"
         }
       },
       "required": ["title", "steps"]

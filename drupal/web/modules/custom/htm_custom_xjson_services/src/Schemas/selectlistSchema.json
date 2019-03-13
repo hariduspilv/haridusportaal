@@ -1,0 +1,66 @@
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "title": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "et"
+      ]
+    },
+    "helpertext": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "et"
+      ]
+    },
+    "empty_option": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "et"
+      ]
+    },
+    "options": {
+      "type": "object"
+    },
+    "options_list": {
+      "type": "string"
+    },
+    "default_value": {
+      "type": "string"
+    },
+    "width": {
+      "type": "integer"
+    },
+    "readonly": {
+      "type": "boolean"
+    },
+    "hidden": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "type",
+    "title"
+  ]
+}
