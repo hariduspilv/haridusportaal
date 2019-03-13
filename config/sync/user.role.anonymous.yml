@@ -17,6 +17,7 @@ permissions:
   - 'edit subscription entity entities'
   - 'execute graphql requests'
   - 'execute persisted graphql requests'
+  - 'restful get auth_methods_rest_resource'
   - 'restful get base_settings_rest_resource'
   - 'restful get dashboard_service_rest_resource'
   - 'restful get get_certificate_public_rest_resource'
