@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "title": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["et"]
+    },
+    "readonly": {
+      "type": "boolean"
+    },
+    "hidden": {
+      "type": "boolean"
+    },
+
+    "introduction": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["et"]
+    }
+  },
+  "required": ["type", "title"]
+}
