@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "message_text": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["et"]
+    },
+    "message_type": {
+      "type": "string",
+      "enum": ["NOTICE", "WARNING", "ERROR"],
+      "minLength": 1
+    }
+  },
+  "required": ["message_text", "message_type"]
+}
