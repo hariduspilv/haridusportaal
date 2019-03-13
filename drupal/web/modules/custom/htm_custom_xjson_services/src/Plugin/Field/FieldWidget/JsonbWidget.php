@@ -77,25 +77,37 @@ class JsonbWidget extends StringTextareaWidget {
         $this->langs = \Drupal::languageManager()->getLanguages();
 
         if (Unicode::strlen($element['#value'])) {
-            $value = $element['#value'];
-
             $schema = file_get_contents("/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJsonSchema.json");
+            $step_schema = file_get_contents("/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/stepSchema.json");
+            $value = json_decode($element['#value']);
+
             $schema = Schema::import(json_decode($schema));
+            $step_schema = Schema::import(json_decode($step_schema));
+
             try{
-                $schema->in(json_decode($value));
+                $schema->in($value);
             }catch(Exception $e){
                 $message = $e->getMessage();
                 $this->setErrorMessage(t($message));
             }
 
-/*            if (isset($value['body']['steps']) && !empty($value['body']['steps'])) {
-                $steps = array_keys($value['body']['steps']);
-                $steps_count = count($steps);
-                if (isset($value['header'])) {
-                    if ($steps_count != $value['header']['number_of_steps']) $this->setErrorMessage(t('header.number_of_steps and body.steps count is different'));
+         if (isset($value->body->steps) && !empty($value->body->steps)) {
+                $steps = $value->body->steps;
+                $steps_count = count((array)$value->body->steps);
+                if (isset($value->header)) {
+                    if ($steps_count != $value->header->number_of_steps) $this->setErrorMessage(t('header.number_of_steps and body.steps count is different'));
                 }
 
                 foreach ($steps as $step) {
+                    try{
+                        $step_schema->in($step);
+                    }catch(Exception $e){
+                        $message = $e->getMessage();
+                        $this->setErrorMessage(t($message));
+                    }
+                }
+/*
+
                     if (!empty($value['body']['steps'][$step])) {
                         $step_item = $value['body']['steps'][$step];
 
@@ -127,8 +139,8 @@ class JsonbWidget extends StringTextareaWidget {
                         $this->setErrorMessage("message $key type missing");
                     }
                     (isset($message['message_text'])) ? $this->checkTextLanguages($message['message_text'], "message $key") : $this->setErrorMessage("Message $key message_text required");
-                }
-            }*/
+                }*/
+            }
 
             if (!empty($this->getErrorMessages())) $form_state->setError($element, $this->getErrorMessages());
         }
