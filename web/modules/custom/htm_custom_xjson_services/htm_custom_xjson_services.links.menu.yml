@@ -12,3 +12,17 @@ x_json_entity.admin.structure.settings:
   description: 'Configure xJson entity entities'
   route_name: x_json_entity.settings
   parent: system.admin_structure
+
+# X json form entity menu items definition
+entity.x_json_form_entity.collection:
+  title: 'xJson form entity list'
+  route_name: entity.x_json_form_entity.collection
+  description: 'List xJson form entity entities'
+  parent: system.admin_structure
+  weight: 100
+
+x_json_form_entity.admin.structure.settings:
+  title: 'xJson form entity settings'
+  description: 'Configure xJson form entity entities'
+  route_name: x_json_form_entity.settings
+  parent: system.admin_structure
