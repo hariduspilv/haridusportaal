@@ -1,36 +1,296 @@
 {
-  "type": "object",
-  "properties": {
-    "type": {
-      "type": "string"
-    },
-    "title": {
+  "definitions": {
+    "table": {
       "type": "object",
       "properties": {
-        "et": {
-          "type": "string",
-          "minLength": 1
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "et"
+          ]
+        },
+        "add_del_rows": {
+          "type": "boolean"
+        },
+        "table_columns": {
+          "type": "object",
+          "oneOf": [
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "helpertext"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/definitions/helpertext"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "text"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/definitions/text"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "textarea"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/definitions/textarea"
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "number"
+                  }
+                }
+              },
+              "then": {
+                "$ref": "#/definitions/number"
+              }
+            }
+          ]
         }
       },
-      "required": ["et"]
+      "required": [
+        "type",
+        "title"
+      ]
     },
-    "readonly": {
-      "type": "boolean"
-    },
-    "hidden": {
-      "type": "boolean"
-    },
-
-    "introduction": {
+    "helpertext": {
       "type": "object",
       "properties": {
-        "et": {
-          "type": "string",
-          "minLength": 1
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "et"
+          ]
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "hidden": {
+          "type": "boolean"
         }
       },
-      "required": ["et"]
+      "required": [
+        "type",
+        "title"
+      ]
+    },
+    "text": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "et"
+          ]
+        },
+        "width": {
+          "type": "integer"
+        },
+        "maxlength": {
+          "type": "integer"
+        },
+        "minlength": {
+          "type": "integer"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "hidden": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "title"
+      ]
+    },
+    "textarea": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "et"
+          ]
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "maxlength": {
+          "type": "integer"
+        },
+        "minlength": {
+          "type": "integer"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "hidden": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "title"
+      ]
+    },
+    "date": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "et"
+          ]
+        },
+        "default_value": {
+          "type": "string",
+          "pattern": "^([1-9]|0[1-9]|[12][0-9]|3[01])[-\\.]([1-9]|0[1-9]|1[012])[-\\.](19|20)\\d\\d$"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "min": {
+          "type": "string",
+          "pattern": "^([1-9]|0[1-9]|[12][0-9]|3[01])[-\\.]([1-9]|0[1-9]|1[012])[-\\.](19|20)\\d\\d$"
+        },
+        "max": {
+          "type": "string",
+          "pattern": "^([1-9]|0[1-9]|[12][0-9]|3[01])[-\\.]([1-9]|0[1-9]|1[012])[-\\.](19|20)\\d\\d$"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "hidden": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "title"
+      ]
+    },
+    "number": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "et"
+          ]
+        },
+        "default_value": {
+          "type": "number"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "readonly": {
+          "type": "boolean"
+        },
+        "hidden": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "title"
+      ]
     }
   },
-  "required": ["type", "title"]
+  "oneOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "table"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/table"
+      }
+    }
+  ]
 }

@@ -172,6 +172,8 @@ class xJsonService implements xJsonServiceInterface {
 	 * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
 	 */
 	public function getEntityJsonObject ($form_name = null) {
+	    dump('jou');
+	    die();
 		$id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
 		$entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
 
