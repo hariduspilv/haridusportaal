@@ -133,6 +133,22 @@ class xJsonService implements xJsonServiceInterface {
 		return $baseJson;
 	}
 
+	public function getXJsonFormDefinition($data){
+        $entity = $this->entityTypeManager->getStorage('x_json_form_entity')->loadByProperties([
+            "name" => $data['form_name']
+        ]);
+        $entity = reset($entity);
+
+        if(!empty($entity)){
+            $xjson_definition = Json::decode($entity->get('xjson_definition')->value);
+            $xjson_definition['header']['identifier'] = '0';
+            $xjson_definition['header']['current_step'] = '1';
+            $xjson_definition['header']['acceptable_activity'] = 'SUBMIT';
+        }
+
+        return ($entity) ? $xjson_definition : null;
+    }
+
 	public function checkAcceptableForms($checkJson){
 
         if(in_array('VIEW', $checkJson['header']['acceptable_activity'])){
@@ -172,8 +188,6 @@ class xJsonService implements xJsonServiceInterface {
 	 * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
 	 */
 	public function getEntityJsonObject ($form_name = null) {
-	    dump('jou');
-	    die();
 		$id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
 		$entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
 
