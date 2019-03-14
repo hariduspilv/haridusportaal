@@ -25,3 +25,30 @@ entity.x_json_entity.delete_form:
   title: Delete
   weight: 10
 
+# X json form entity routing definition
+x_json_form_entity.settings_tab:
+  route_name: x_json_form_entity.settings
+  title: 'Settings'
+  base_route: x_json_form_entity.settings
+
+entity.x_json_form_entity.canonical:
+  route_name: entity.x_json_form_entity.canonical
+  base_route: entity.x_json_form_entity.canonical
+  title: 'View'
+
+entity.x_json_form_entity.edit_form:
+  route_name: entity.x_json_form_entity.edit_form
+  base_route: entity.x_json_form_entity.canonical
+  title: 'Edit'
+
+entity.x_json_form_entity.version_history:
+  route_name: entity.x_json_form_entity.version_history
+  base_route: entity.x_json_form_entity.canonical
+  title: 'Revisions'
+
+entity.x_json_form_entity.delete_form:
+  route_name:  entity.x_json_form_entity.delete_form
+  base_route:  entity.x_json_form_entity.canonical
+  title: Delete
+  weight: 10
+

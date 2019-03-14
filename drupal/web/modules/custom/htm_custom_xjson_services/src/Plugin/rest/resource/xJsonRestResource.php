@@ -90,9 +90,9 @@ class xJsonRestResource extends ResourceBase {
 	public function post ($data) {
 		// You must to implement the logic of your REST Resource here.
 		// Use current user after pass authentication to validate access.
-		if (!$this->currentUser->isAuthenticated()) {
-			throw new AccessDeniedHttpException();
-		}
+		#if (!$this->currentUser->isAuthenticated()) {
+		#	throw new AccessDeniedHttpException();
+		#}
 		if (isset($data['id'])) {
 			if (isset($data['status']) && ($data['status'] === 'draft' || $data['status'] === 'submitted')) {
 				return $this->returnExistingDzeison($data);
