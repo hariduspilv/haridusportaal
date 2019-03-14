@@ -76,9 +76,9 @@ a {text-decoration: underline;
   @include break-on(xxl, min) {font-size: 22px;}
 }
 .main-container, .row-wrapper{
-  @include break-on(lg, min) {max-width: 1130px;margin-left: auto !important;margin-right: auto !important;}
-  @include break-on(xl, min) {max-width: 1430px;margin-left: auto !important;margin-right: auto !important;}
-  @include break-on(xxl, min) {max-width: 1890px;margin-left: auto !important;margin-right: auto !important;}
+  @include break-on(lg, min) {max-width: 1130px; margin-left: auto !important; margin-right: auto !important;}
+  @include break-on(xl, min) {max-width: 1430px; margin-left: auto !important; margin-right: auto !important;}
+  @include break-on(xxl, min) {max-width: 1890px; margin-left: auto !important; margin-right: auto !important;}
 }
 body{height: calc(100% - 4rem);}
 @include break-on(sm, max) {body{padding-top:4rem;}}
