@@ -13,7 +13,7 @@
       <ng-container *ngIf="item.filters">
         <div class="row">
           <ng-container *ngFor="let select of item.filters; let i = index">
-            <div class="col-3"  *ngIf="select.options.length > 0">
+            <div class="col-3"  *ngIf="select.options.length > 1">
               <div class="round-input__wrapper">
                 <mat-form-field>
                     <ng-container *ngIf="!select.multiple">

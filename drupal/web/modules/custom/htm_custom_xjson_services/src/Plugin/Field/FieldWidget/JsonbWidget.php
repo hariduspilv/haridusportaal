@@ -32,7 +32,7 @@ class JsonbWidget extends StringTextareaWidget {
 
     var $errormessages = [];
     var $langs = [];
-    var $schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/";
+    var $schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/Form/";
 
     /**
      * {@inheritdoc}

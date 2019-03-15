@@ -7,7 +7,7 @@ use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
 use Symfony\Component\Routing\Route;
 
 /**
- * Provides routes for X json form entity entities.
+ * Provides routes for xJson form entity entities.
  *
  * @see \Drupal\Core\Entity\Routing\AdminHtmlRouteProvider
  * @see \Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider
@@ -38,10 +38,6 @@ class xJsonFormEntityHtmlRouteProvider extends AdminHtmlRouteProvider {
       $collection->add("entity.{$entity_type_id}.revision_delete", $delete_route);
     }
 
-    if ($translation_route = $this->getRevisionTranslationRevertRoute($entity_type)) {
-      $collection->add("{$entity_type_id}.revision_revert_translation_confirm", $translation_route);
-    }
-
     if ($settings_form_route = $this->getSettingsFormRoute($entity_type)) {
       $collection->add("$entity_type_id.settings", $settings_form_route);
     }
@@ -66,7 +62,7 @@ class xJsonFormEntityHtmlRouteProvider extends AdminHtmlRouteProvider {
           '_title' => "{$entity_type->getLabel()} revisions",
           '_controller' => '\Drupal\htm_custom_xjson_services\Controller\xJsonFormEntityController::revisionOverview',
         ])
-        ->setRequirement('_permission', 'access x json form entity revisions')
+        ->setRequirement('_permission', 'access xjson form entity revisions')
         ->setOption('_admin_route', TRUE);
 
       return $route;
@@ -90,7 +86,7 @@ class xJsonFormEntityHtmlRouteProvider extends AdminHtmlRouteProvider {
           '_controller' => '\Drupal\htm_custom_xjson_services\Controller\xJsonFormEntityController::revisionShow',
           '_title_callback' => '\Drupal\htm_custom_xjson_services\Controller\xJsonFormEntityController::revisionPageTitle',
         ])
-        ->setRequirement('_permission', 'access x json form entity revisions')
+        ->setRequirement('_permission', 'access xjson form entity revisions')
         ->setOption('_admin_route', TRUE);
 
       return $route;
@@ -114,7 +110,7 @@ class xJsonFormEntityHtmlRouteProvider extends AdminHtmlRouteProvider {
           '_form' => '\Drupal\htm_custom_xjson_services\Form\xJsonFormEntityRevisionRevertForm',
           '_title' => 'Revert to earlier revision',
         ])
-        ->setRequirement('_permission', 'revert all x json form entity revisions')
+        ->setRequirement('_permission', 'revert all xjson form entity revisions')
         ->setOption('_admin_route', TRUE);
 
       return $route;
@@ -138,31 +134,7 @@ class xJsonFormEntityHtmlRouteProvider extends AdminHtmlRouteProvider {
           '_form' => '\Drupal\htm_custom_xjson_services\Form\xJsonFormEntityRevisionDeleteForm',
           '_title' => 'Delete earlier revision',
         ])
-        ->setRequirement('_permission', 'delete all x json form entity revisions')
-        ->setOption('_admin_route', TRUE);
-
-      return $route;
-    }
-  }
-
-  /**
-   * Gets the revision translation revert route.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
-   *   The entity type.
-   *
-   * @return \Symfony\Component\Routing\Route|null
-   *   The generated route, if available.
-   */
-  protected function getRevisionTranslationRevertRoute(EntityTypeInterface $entity_type) {
-    if ($entity_type->hasLinkTemplate('translation_revert')) {
-      $route = new Route($entity_type->getLinkTemplate('translation_revert'));
-      $route
-        ->setDefaults([
-          '_form' => '\Drupal\htm_custom_xjson_services\Form\xJsonFormEntityRevisionRevertTranslationForm',
-          '_title' => 'Revert to earlier revision of a translation',
-        ])
-        ->setRequirement('_permission', 'revert all x json form entity revisions')
+        ->setRequirement('_permission', 'delete all xjson form entity revisions')
         ->setOption('_admin_route', TRUE);
 
       return $route;

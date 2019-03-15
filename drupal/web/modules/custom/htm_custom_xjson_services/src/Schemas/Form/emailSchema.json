@@ -16,17 +16,8 @@
         "et"
       ]
     },
-    "helpertext": {
-      "type": "object",
-      "properties": {
-        "et": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "required": [
-        "et"
-      ]
+    "default_value": {
+      "type": "string"
     },
     "width": {
       "type": "integer"
