@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\htm_custom_xjson_services\xJsonService;
+use Drupal\htm_custom_xjson_services\xJsonFormService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Psr\Log\LoggerInterface;
@@ -41,6 +42,7 @@ class xJsonRestResource extends ResourceBase {
 	 * @param array                 $serializer_formats
 	 * @param LoggerInterface       $logger
 	 * @param xJsonService          $xJsonService
+     * @param xJsonFormService      $xJsonFormService
 	 * @param AccountProxyInterface $current_user
 	 * @param EhisConnectorService  $ehisConnectorService
 	 */
@@ -51,10 +53,12 @@ class xJsonRestResource extends ResourceBase {
 		array $serializer_formats,
 		LoggerInterface $logger,
 		xJsonService $xJsonService,
+		xJsonFormService $xJsonFormService,
 		AccountProxyInterface $current_user,
 		EhisConnectorService $ehisConnectorService) {
 		parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
 		$this->xJsonService = $xJsonService;
+        $this->xJsonFormService = $xJsonFormService;
 		$this->currentUser = $current_user;
 		$this->ehisService = $ehisConnectorService;
 	}
@@ -70,7 +74,8 @@ class xJsonRestResource extends ResourceBase {
 			$container->getParameter('serializer.formats'),
 			$container->get('logger.factory')->get('htm_custom_xjson_services'),
 			$container->get('htm_custom_xjson_services.default'),
-			$container->get('current_user'),
+            $container->get('htm_custom_xjson_services.form'),
+            $container->get('current_user'),
 			$container->get('htm_custom_ehis_connector.default')
 		);
 	}
@@ -93,19 +98,36 @@ class xJsonRestResource extends ResourceBase {
 		#if (!$this->currentUser->isAuthenticated()) {
 		#	throw new AccessDeniedHttpException();
 		#}
-		if (isset($data['id'])) {
-			if (isset($data['status']) && ($data['status'] === 'draft' || $data['status'] === 'submitted')) {
-				return $this->returnExistingDzeison($data);
-			} else {
-				return new ModifiedResourceResponse('Status missing or status value wrong', 400);
-			}
-		}
 
-		if (isset($data['test']) && $data['test'] === true) {
-			return $this->returnTestDzeison();
-		} else {
-			return $this->returnRighstDzeison($data);
-		}
+        if(isset($data['form_name'])){
+
+            // check whether asked form is xjson entity or xjson form entity
+            $xJsonFormEntity = $this->checkxJsonForm($data);
+
+            if($xJsonFormEntity){
+
+                if(isset($data['form_info'])){
+                    return $this->postXJsonForm($data);
+                }
+
+                return $this->getXJsonForm($data);
+            }else{
+
+                if (isset($data['id'])) {
+                    if (isset($data['status']) && ($data['status'] === 'draft' || $data['status'] === 'submitted')) {
+                        return $this->returnExistingDzeison($data);
+                    } else {
+                        return new ModifiedResourceResponse('Status missing or status value wrong', 400);
+                    }
+                }
+
+                if (isset($data['test']) && $data['test'] === true) {
+                    return $this->returnTestDzeison();
+                } else {
+                    return $this->returnRighstDzeison($data);
+                }
+            }
+        }
 
 	}
 
@@ -157,4 +179,31 @@ class xJsonRestResource extends ResourceBase {
 		if (empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
 		return new ModifiedResourceResponse($builded_response, 200);
 	}
+
+    private function getXJsonForm ($data) {
+	    $definition = $this->xJsonFormService->getXJsonFormDefinition($data);
+        return ($definition) ? new ModifiedResourceResponse($definition, 200) : new ModifiedResourceResponse('form_name unknown', 400);
+    }
+
+    private function postXJsonForm ($data) {
+	    $result = $this->xJsonFormService->postXJsonFormValues($data);
+	    if($result){
+	        $data['form_info']['header']['acceptable_activity'] = ['VIEW'];
+	        $data['form_info']['body']['message'] = 'success_message';
+	        return new ModifiedResourceResponse($data, 200);
+        }else{
+            $data['form_info']['body']['message'] = 'error_message';
+            return new ModifiedResourceResponse($data, 400);
+        }
+	}
+
+    private function checkxJsonForm ($data) {
+        $id = $data['form_name'];
+
+        $connection = \Drupal::database();
+        $xJsonFormQuery = $connection->query("SELECT id FROM x_json_form_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $id]);
+        $result = $xJsonFormQuery->fetchField();
+
+        return $result ? true : false;
+    }
 }

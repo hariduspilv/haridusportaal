@@ -5,7 +5,7 @@ namespace Drupal\htm_custom_xjson_services\Entity;
 use Drupal\views\EntityViewsData;
 
 /**
- * Provides Views data for X json form entity entities.
+ * Provides Views data for xJson form entity entities.
  */
 class xJsonFormEntityViewsData extends EntityViewsData {
 

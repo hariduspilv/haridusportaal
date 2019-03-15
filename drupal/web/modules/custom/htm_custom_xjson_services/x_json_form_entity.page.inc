@@ -4,13 +4,13 @@
  * @file
  * Contains x_json_form_entity.page.inc.
  *
- * Page callback for X json form entity entities.
+ * Page callback for xJson form entity entities.
  */
 
 use Drupal\Core\Render\Element;
 
 /**
- * Prepares variables for X json form entity templates.
+ * Prepares variables for xJson form entity templates.
  *
  * Default template: x_json_form_entity.html.twig.
  *
