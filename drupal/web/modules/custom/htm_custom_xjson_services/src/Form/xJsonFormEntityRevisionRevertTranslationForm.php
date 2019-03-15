@@ -10,7 +10,7 @@ use Drupal\htm_custom_xjson_services\Entity\xJsonFormEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a form for reverting a X json form entity revision for a single translation.
+ * Provides a form for reverting a xJson form entity revision for a single translation.
  *
  * @ingroup htm_custom_xjson_services
  */
@@ -35,7 +35,7 @@ class xJsonFormEntityRevisionRevertTranslationForm extends xJsonFormEntityRevisi
    * Constructs a new xJsonFormEntityRevisionRevertTranslationForm.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
-   *   The X json form entity storage.
+   *   The xJson form entity storage.
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter service.
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
