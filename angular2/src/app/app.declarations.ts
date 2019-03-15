@@ -31,6 +31,7 @@ import { ChartComponent } from './_components/chart/chart.component';
 import { taraLoginModal } from './_components/dialogs/taraLogin/taraLogin.modal';
 import { CookieNotification } from './_components/cookieNotification/cookieNotification.component';
 import { FeedbackComponent } from './_components/feedback/feedback.component';
+import { LoginModal } from './_components/dialogs/login.modal/login.modal'; 
 
 export const AppDeclarations = [
   routedComponents,
@@ -65,7 +66,8 @@ export const AppDeclarations = [
   ChartComponent,
   EventsListComponent,
   CookieNotification,
-  FeedbackComponent
+  FeedbackComponent,
+  LoginModal
 ];
 
 export const AppEntryComponents = [
@@ -78,5 +80,6 @@ export const AppEntryComponents = [
   Modal,
   VideoComponent,
   StudyProgrammeCompareComponent,
-  ConfirmPopupDialog
+  ConfirmPopupDialog,
+  LoginModal
 ]

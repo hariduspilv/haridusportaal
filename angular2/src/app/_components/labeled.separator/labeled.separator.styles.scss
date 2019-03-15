@@ -1,11 +1,52 @@
 @import "../../../assets/styles/typography.scss"; 
-.separator {color: $dark-gray;font-weight: normal;font-size: 1rem;line-height: 1rem;
-  display: block;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; 
-  span {position: relative;display: inline-block;
-    &:before, &:after {content: "";position: absolute;top: 50%;
-      width: 100rem;height: .0625rem;background: $gray;
+// .separator {color: $dark-gray;font-weight: normal;font-size: 1rem;line-height: 1rem;
+//   display: block;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; 
+//   span {position: relative;display: inline-block;
+//     &:before, &:after {content: "";position: absolute;top: 50%;
+//       width: 100rem;height: .0625rem;background: $gray;
+//     }
+//     &:before {right: 100%;margin-right: .75rem;}
+//     &:after {left: 100%;margin-left: .75rem;}
+//   }
+// }
+:host {
+  width: 100%;
+  max-width: 100px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.75rem;
+  .separator {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: $dark-gray;
+    font-weight: normal;
+    font-size: 1rem;
+    line-height: 1rem;
+    justify-content: center;
+    &__divider {
+      background-color: $gray;
+      height: 1px;
+      width: 100%;
+      max-width: 31px;
     }
-    &:before {right: 100%;margin-right: .75rem;}
-    &:after {left: 100%;margin-left: .75rem;}
+    span {
+      margin: .75rem;
+    }
+    @include break-on(sm, min) {
+      &--vertical {
+        height: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .separator__divider {
+          max-height: 31px;
+          height: 100%;
+          width: 1px;
+        }
+      }
+    }
   }
 }
