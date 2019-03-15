@@ -10,7 +10,7 @@ use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a form for deleting a X json form entity revision.
+ * Provides a form for deleting a xJson form entity revision.
  *
  * @ingroup htm_custom_xjson_services
  */
@@ -18,14 +18,14 @@ class xJsonFormEntityRevisionDeleteForm extends ConfirmFormBase {
 
 
   /**
-   * The X json form entity revision.
+   * The xJson form entity revision.
    *
    * @var \Drupal\htm_custom_xjson_services\Entity\xJsonFormEntityInterface
    */
   protected $revision;
 
   /**
-   * The X json form entity storage.
+   * The xJson form entity storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
@@ -106,8 +106,8 @@ class xJsonFormEntityRevisionDeleteForm extends ConfirmFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->xJsonFormEntityStorage->deleteRevision($this->revision->getRevisionId());
 
-    $this->logger('content')->notice('X json form entity: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-    drupal_set_message(t('Revision from %revision-date of X json form entity %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
+    $this->logger('content')->notice('xJson form entity: deleted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
+    drupal_set_message(t('Revision from %revision-date of xJson form entity %title has been deleted.', ['%revision-date' => format_date($this->revision->getRevisionCreationTime()), '%title' => $this->revision->label()]));
     $form_state->setRedirect(
       'entity.x_json_form_entity.canonical',
        ['x_json_form_entity' => $this->revision->id()]
