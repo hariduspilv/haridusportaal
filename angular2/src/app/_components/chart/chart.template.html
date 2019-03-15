@@ -13,28 +13,24 @@
       <ng-container *ngIf="item.filters">
         <div class="row">
           <ng-container *ngFor="let select of item.filters; let i = index">
-            <div class="col-3"  *ngIf="select.options.length > 0">
+            <div class="col-3"  *ngIf="select.options.length > 1">
               <div class="round-input__wrapper">
                 <mat-form-field>
-
-                  <ng-container [ngSwitch]='select.key'>
-                    <ng-container *ngSwitchCase="'groupBy'">
+                    <ng-container *ngIf="!select.multiple">
                       <mat-select placeholder="{{ select.key | capitalize }}" [(ngModel)]="filters[item.id][select.key]" (selectionChange)="getGraphData( item.id )">
-                          <mat-option *ngFor="let item of select.options" [value]="item">
-                            {{ item }}
-                          </mat-option>
-                        </mat-select>
+                        <mat-option *ngFor="let item of select.options" [value]="item">
+                          {{ item }}
+                        </mat-option>
+                      </mat-select>
                     </ng-container>
-                    <ng-container *ngSwitchDefault>
+                    
+                    <ng-container *ngIf="select.multiple">
                       <mat-select placeholder="{{ select.key | capitalize }}" [(ngModel)]="filters[item.id][select.key]" (selectionChange)="getGraphData( item.id )" multiple>
                         <mat-option *ngFor="let item of select.options" [value]="item">
                           {{ item }}
                         </mat-option>
                       </mat-select>
                     </ng-container>
-
-                  </ng-container>
-                  
                 </mat-form-field>
               </div>
             </div><!--/col-->
