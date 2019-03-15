@@ -1,0 +1,41 @@
+@import "../../../../assets/styles/typography.scss";
+
+.dialog--login {
+  max-width: unset;
+  .dialog-content {
+    display: flex;
+    .login-methods {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-around;
+      @include break-on(sm, max) {
+        flex-direction: column;
+      }
+      .login-method {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 1;
+        @include break-on(xs, max) {
+          width: 100%;
+        }
+        @include break-on(sm, min) {
+          max-width: 300px;
+        }
+        @include break-on(sm, max) {
+          flex-shrink: 0;
+        }
+      }
+      form.login-method {
+        & > div, & > button {
+          padding: 0.5rem;
+        }
+      }
+      form input {
+        width: 100%;
+      }
+    }
+  } 
+}
+
