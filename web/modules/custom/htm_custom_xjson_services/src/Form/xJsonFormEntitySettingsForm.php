@@ -35,7 +35,7 @@ class xJsonFormEntitySettingsForm extends FormBase {
   }
 
   /**
-   * Defines the settings form for X json form entity entities.
+   * Defines the settings form for xJson form entity entities.
    *
    * @param array $form
    *   An associative array containing the structure of the form.
@@ -46,7 +46,7 @@ class xJsonFormEntitySettingsForm extends FormBase {
    *   Form definition array.
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['xjsonformentity_settings']['#markup'] = 'Settings form for X json form entity entities. Manage field settings here.';
+    $form['xjsonformentity_settings']['#markup'] = 'Settings form for xJson form entity entities. Manage field settings here.';
     return $form;
   }
 

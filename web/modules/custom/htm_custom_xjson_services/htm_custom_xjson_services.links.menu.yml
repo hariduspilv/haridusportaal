@@ -13,7 +13,7 @@ x_json_entity.admin.structure.settings:
   route_name: x_json_entity.settings
   parent: system.admin_structure
 
-# X json form entity menu items definition
+# xJson form entity menu items definition
 entity.x_json_form_entity.collection:
   title: 'xJson form entity list'
   route_name: entity.x_json_form_entity.collection
