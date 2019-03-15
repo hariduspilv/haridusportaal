@@ -9,7 +9,6 @@
       "properties": {
         "et": {
           "type": "string",
-          "format": "email",
           "minLength": 1
         }
       },
@@ -17,9 +16,17 @@
         "et"
       ]
     },
-    "default_value": {
-      "type": "string",
-      "format": "email"
+    "helpertext": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "et"
+      ]
     },
     "width": {
       "type": "integer"
@@ -32,7 +39,6 @@
     }
   },
   "required": [
-    "type",
-    "title"
+    "type"
   ]
 }

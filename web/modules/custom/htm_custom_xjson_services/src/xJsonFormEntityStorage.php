@@ -8,10 +8,10 @@ use Drupal\Core\Language\LanguageInterface;
 use Drupal\htm_custom_xjson_services\Entity\xJsonFormEntityInterface;
 
 /**
- * Defines the storage handler class for X json form entity entities.
+ * Defines the storage handler class for xJson form entity entities.
  *
  * This extends the base storage class, adding required special handling for
- * X json form entity entities.
+ * xJson form entity entities.
  *
  * @ingroup htm_custom_xjson_services
  */
