@@ -110,14 +110,21 @@ export class ChartComponent implements OnInit{
 
       let primaryFormat = '####';
 
-      if( value[0] ){
-        
-        switch( value[0][0] ){
-          case 'periood': {
+      console.log(current);
+      if( current.options.graph_y_unit ){
+        switch( current.options.graph_y_unit ){
+          case 'summa': {
             primaryFormat = '####';
             break;
           }
-
+          case '%': {
+            primaryFormat = 'percent';
+            break;
+          }
+          case 'euro': {
+            primaryFormat = '#€';
+            break;
+          }
           default: {
             primaryFormat = '####';
           }
@@ -484,10 +491,11 @@ export class ChartComponent implements OnInit{
             graphTitle: current.graphTitle,
             value: item.ChartValue,
             secondaryGraphType:	variables['secondaryGraphType'],
-            secondaryGraphIndicator:	null
+            secondaryGraphIndicator:	null,
+            options: current['filterValues']['graph_options']
           }
         });
-  
+
         this.filtersData[current.id] = this.compileData( data );
 
         this.filtersData[current.id].loading = false;
