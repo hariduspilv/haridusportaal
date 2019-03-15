@@ -29,26 +29,40 @@ export class TeachingsComponent{
         this.error = true;
         this.requestErr = true;
       } else {
-        this.content = response['value'];
-        var errorVal = true;
-        Object.values(this.content).forEach(elem => {
-          if (elem[0]) {errorVal = false;}
-        });
-        this.error = this.dataErr = errorVal;
-        if (this.content ) {
-          this.content.tootamine.sort((a, b) => {
-            let obj = this.convertDates(a.ametikohtAlgus, b.ametikohtAlgus);
-            return +new Date(obj.valB) - +new Date(obj.valA);
+        try{
+          this.content = response['value'];
+          var errorVal = true;
+          Object.values(this.content).forEach(elem => {
+            if (elem[0]) {errorVal = false;}
           });
-          this.content.taiendkoolitus.sort((a, b) => {
-            let obj = this.convertDates(a.loppKp, b.loppKp);
-            return +new Date(obj.valB) - +new Date(obj.valA);
-          });
-          this.content.tasemeharidus.sort((a, b) => {
-            let obj = this.convertDates(a.lopetanud, b.lopetanud);
-            return +new Date(obj.valB) - +new Date(obj.valA);
-          });
-          this.content.kvalifikatsioon.sort((a, b) => b.aasta - a.aasta);
+          this.error = this.dataErr = errorVal;
+          if (this.content ) {
+
+            try{
+              this.content.tootamine.sort((a, b) => {
+                let obj = this.convertDates(a.ametikohtAlgus, b.ametikohtAlgus);
+                return +new Date(obj.valB) - +new Date(obj.valA);
+              });
+            }catch(err){}
+
+            try{
+              this.content.taiendkoolitus.sort((a, b) => {
+                let obj = this.convertDates(a.loppKp, b.loppKp);
+                return +new Date(obj.valB) - +new Date(obj.valA);
+              });
+            }catch(err){}
+
+            try{
+              this.content.tasemeharidus.sort((a, b) => {
+                let obj = this.convertDates(a.lopetanud, b.lopetanud);
+                return +new Date(obj.valB) - +new Date(obj.valA);
+              });
+            }catch(err){}
+              
+            this.content.kvalifikatsioon.sort((a, b) => b.aasta - a.aasta);
+          }
+        }catch(err){
+          console.log(err);
         }
       }
       sub.unsubscribe();
