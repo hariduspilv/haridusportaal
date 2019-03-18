@@ -690,8 +690,8 @@
   Drupal.ImageWidgetCropType.prototype.toCanvasDimensions = function (x, y) {
     var imageData = this.cropper.getImageData();
     return {
-      width: imageData.width * (x / this.originalWidth),
-      height: imageData.height * (y / this.originalHeight)
+      width: Math.ceil(imageData.width * (x / this.originalWidth)),
+      height: Math.ceil(imageData.height * (y / this.originalHeight))
     }
   };
 
