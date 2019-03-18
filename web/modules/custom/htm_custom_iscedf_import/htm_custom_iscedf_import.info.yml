@@ -1,0 +1,5 @@
+name: 'htm_custom_iscedf_import'
+type: module
+description: 'Module for importing ISCEDF taxonomies'
+core: 8.x
+package: 'HTM'
