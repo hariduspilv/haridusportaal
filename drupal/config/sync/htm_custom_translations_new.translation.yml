@@ -2490,3 +2490,8 @@ login_mobile:
   translation_type: textarea
   et: 'Sisene Mobiil ID-ga'
   en: 'Mobile ID login'
+error:
+  404:
+    translation_type: textarea
+    et: 'Sorri, halvasti on kõik :('
+    en: 'Something died'
