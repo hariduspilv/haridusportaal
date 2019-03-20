@@ -27,6 +27,10 @@
     },
     "hidden": {
       "type": "boolean"
+    },
+    "multiple": {
+      "type": "boolean",
+      "enum": [false]
     }
   },
   "required": [
