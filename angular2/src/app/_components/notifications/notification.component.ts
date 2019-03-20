@@ -25,7 +25,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
         this.notifications = [];
         return;
       }
-      console.log(notification);
       if(notification['httpStatus'] !== undefined) {
         if(this.notifications.find((x: Notification) => x['httpStatus'] === notification['httpStatus'])) return;
       }
@@ -42,10 +41,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
   // }
 
   remove(notification: Notification) {
-    console.log(this.notifications);
     this.notifications = this.notifications.filter(x => x !== notification);
     // clearTimeout(notification['timeout']);
-    console.log(this.notifications);
   }
 
   icon(type: string):string {
