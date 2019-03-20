@@ -4,6 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from './_services/settings.service';
 import { HttpService } from '@app/_services/httpService';
 import { UserService } from '@app/_services/userService';
+import { NotificationService } from '@app/_services/notificationService';
+
 import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
  
 import { LOCATION_INITIALIZED } from '@angular/common';
@@ -46,6 +48,7 @@ export const AppProviders = [
   AddressService,
   UserService,
   CookieService,
+  NotificationService,
   {
     provide: APP_INITIALIZER,
     useFactory: appInitializerFactory,

@@ -11,14 +11,15 @@
 // }
 :host {
   width: 100%;
-  max-width: 100px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0.75rem;
+  @include break-on(md, min) {
+    width: unset;
+  }
   .separator {
-    width: 100%;
+    width: 90%;
     display: flex;
     align-items: center;
     color: $dark-gray;
@@ -26,16 +27,17 @@
     font-size: 1rem;
     line-height: 1rem;
     justify-content: center;
+    margin: 0.75rem;
+
     &__divider {
       background-color: $gray;
       height: 1px;
       width: 100%;
-      max-width: 31px;
     }
     span {
       margin: .75rem;
     }
-    @include break-on(sm, min) {
+    @include break-on(md, min) {
       &--vertical {
         height: 100%;
         flex-direction: column;

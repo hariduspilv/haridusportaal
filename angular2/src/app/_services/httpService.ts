@@ -5,13 +5,16 @@ import { SettingsService } from '@app/_services/settings.service';
 
 import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';
+import { Notification, NotificationType } from '../_components/notifications/notification.model';
+import { NotificationService } from './notificationService';
 
 @Injectable()
 export class HttpService {
 
   constructor(
     private http: HttpClient,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private notificationService: NotificationService
   ) {}
 
   createAuthorizationHeader() {
@@ -71,7 +74,28 @@ export class HttpService {
       headers: headers,
       withCredentials: options['withCredentials'] || false
     }).catch((err) => {
-
+      if(err.status === 404){
+        this.notificationService.notify(
+          new Notification({
+            message: 'errors.request',
+            type: NotificationType.Error,
+            id: 'global',
+            closeable: true,
+            httpStatus: 404,
+          })
+        );
+      }
+      if(err.status === 0){
+        this.notificationService.notify(
+          new Notification({
+            message: 'errors.no_internet',
+            type: NotificationType.Error,
+            id: 'global',
+            closeable: true,
+            httpStatus: 0,
+          })
+        );
+      }
       return throwError(err);
     });
   }
