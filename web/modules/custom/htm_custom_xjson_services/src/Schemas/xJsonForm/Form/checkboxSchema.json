@@ -38,7 +38,6 @@
       "type": "boolean"
     }
   },
-  "additionalProperties": false,
   "required": [
     "type"
   ]

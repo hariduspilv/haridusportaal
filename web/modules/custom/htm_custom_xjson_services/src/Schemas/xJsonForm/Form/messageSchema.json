@@ -17,6 +17,5 @@
       "minLength": 1
     }
   },
-  "additionalProperties": false,
   "required": ["message_text", "message_type"]
 }
