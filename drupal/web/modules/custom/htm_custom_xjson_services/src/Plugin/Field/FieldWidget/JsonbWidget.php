@@ -32,7 +32,7 @@ class JsonbWidget extends StringTextareaWidget {
 
     var $errormessages = [];
     var $langs = [];
-    var $schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/Form/";
+    var $schemas_path = '';
 
     /**
      * {@inheritdoc}
@@ -77,10 +77,18 @@ class JsonbWidget extends StringTextareaWidget {
         $this->langs = \Drupal::languageManager()->getLanguages();
 
         if (Unicode::strlen($element['#value'])) {
+
+            $value = json_decode($element['#value']);
+            if($value['header']['endpoint'] === 'HP'){
+                $this->schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJsonForm/Form/";
+            }else{
+                $this->schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJson/Form/";
+            }
+
             $schema = file_get_contents($this->schemas_path."xJsonSchema.json");
             $step_schema = file_get_contents($this->schemas_path."stepSchema.json");
             $message_schema = file_get_contents($this->schemas_path."messageSchema.json");
-            $value = json_decode($element['#value']);
+
 
             $schema = Schema::import(json_decode($schema));
             $step_schema = Schema::import(json_decode($step_schema));
