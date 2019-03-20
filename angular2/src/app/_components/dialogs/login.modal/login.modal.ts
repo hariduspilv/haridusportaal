@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RootScopeService, SideMenuService } from '@app/_services';
+import { RootScopeService, SideMenuService, NotificationService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
@@ -39,16 +39,18 @@ export class LoginModal {
   basicLogin: boolean = false;
 
   authMethods = {
-    basic: true,
-    mobile_id: true,
-    tara: true,
-    harid: true,
+    harid: false,
+    tara: false,
+    mobile_id: false,
+    basic: false,
   };
 
+  availableAuthMethods = [];
+
+  loginRequest = null;
+
   constructor(
-    private route : ActivatedRoute,
     private router: Router,
-    private translate: TranslateService,
     private http: HttpClient,
     private sidemenu: SideMenuService,
     private settings: SettingsService,
@@ -56,26 +58,34 @@ export class LoginModal {
     private rootScope: RootScopeService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<LoginModal>,
+    public notificationService: NotificationService,
   ){
     this.postUrl = this.settings.url+this.settings.login;
     this.mobileUrl = this.settings.url+this.settings.mobileLogin;
   }
 
   ngOnInit() {
-
+    this.loader = true;
     if( this.settings.url == "https://htm.wiseman.ee" || this.settings.url == "http://test-htm.wiseman.ee:30000" ){
-      this.basicLogin = true;
-      this.mobileIdLogin = true;
+      this.authMethods.basic = true;
+      this.authMethods.mobile_id = true;
     }
     if( this.settings.url == "https://apitest.hp.edu.ee" ){
-      this.mobileIdLogin = true;
+      this.authMethods.mobile_id = true;
     }
     this.http.get(`${this.settings.url}/auth_methods?_format=json`).subscribe((response) => {
       this.authMethods = Object.assign({}, this.authMethods, {...response['auth_methods']});
+      this.availableAuthMethods = Object.entries(this.authMethods).filter(method => method[1] == true);
+      if(!this.availableAuthMethods.length) this.notificationService.error('login.unavailable', 'login', false);
+    }, (response) => {
+      this.notificationService.error(response.error.message, 'login', false);
+    }, () => {
+      this.loader = false;
     })
   }
 
   submit(type) {
+    /* here be dragons */
     /* clear all values */
     this.error = false;
     this.mobileValidation['errorState'] = false;
@@ -88,21 +98,24 @@ export class LoginModal {
     this.user = this.userService.getData();
     this.formModels['password'] = !this.formModels['password'] ? '' : this.formModels['password'];
     this.formModels['auth_method'] = type === 'mobile' ? 'mobile_id' : 'basic';
+    this.notificationService.clear('login');
     
     let headers = new HttpHeaders();
     headers = headers.append('X-CSRF-TOKEN', sessionStorage.getItem('xcsrfToken'));
 
     if (type === 'mobile') {
       let mobileForm = {telno: this.formModels['tel']};
-      this.http.post(this.mobileUrl, mobileForm, {headers}).subscribe(data => {
+      this.loginRequest = this.http.post(this.mobileUrl, mobileForm, {headers}).subscribe(data => {
         let consecutiveForm = { session_code: data['Sesscode'], id_code: data['UserIDCode'], auth_method: 'mobile_id' }
         this.mobileValidation['challengeID'] = data['ChallengeID'];
         this.loginSubmit(consecutiveForm, headers, true)
-      }, (data) => {
+      }, (data: any) => {
         this.loader = false;
         if( !data['token'] ) {
           this.mobileValidation['errorState'] = true;
-          this.mobileValidation['errorText'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
+          this.notificationService.error(data.error.message || 'errors.request', 'login', false);
+          console.log('in if mobile???', data);
+
           return false; 
         }
       });
@@ -116,7 +129,7 @@ export class LoginModal {
       this.loader = false;
       this.mobileValidation['handshake'] = true;
     }
-    this.http.post(this.postUrl, form, {headers}).subscribe(data => {
+    this.loginRequest = this.http.post(this.postUrl, form, {headers}).subscribe((data: any) => {
       this.mobileValidation['handshake'] = false;
       this.mobileValidation['challengeID'] = '';
       this.loader = false;
@@ -125,7 +138,7 @@ export class LoginModal {
       if( !data['token'] ) { 
         if (isMobile) { 
           this.mobileValidation['errorState'] = true; 
-          this.mobileValidation['errorText'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
+          this.notificationService.error(data.error.message || 'errors.request', 'login', false);
         }
         if (!isMobile) this.error = true; 
         return false; 
@@ -149,14 +162,14 @@ export class LoginModal {
       this.userService.toggleLoggedInStatus(true);
       this.dialogRef.close();
       
-    }, (data) => {
+    }, (data: any) => {
       this.formModels['password'] = '';
       this.loader = false;
       this.mobileValidation['handshake'] = false;
       if( !data['token'] ){
         if (isMobile) { 
           this.mobileValidation['errorState'] = true; 
-          this.mobileValidation['errorText'] = data['error'] && data['error']['message'] ? data['error']['message'] : 'errors.request';
+          this.notificationService.error(data.error.message || 'errors.request', 'login', false);
         }
         if (!isMobile) this.error = true;
         return false; 
@@ -177,5 +190,11 @@ export class LoginModal {
   closeModal() {
     this.dialogRef.close();
   }
-  
+  mobileIdCancel() {
+    if(this.loginRequest) {
+      this.loginRequest.unsubscribe();
+      this.mobileValidation['handshake'] = false;
+    }
+    return;
+  }
 }

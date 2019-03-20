@@ -1,0 +1,39 @@
+:host(.notifications) { font-family: Rubik; z-index: 1000; width: 100%; display: flex; flex-direction: column;
+  &--global { position: fixed; bottom: 0; left: 0; };
+}
+
+/*default is info*/
+.notification { background-color: #f1f7fe; border: .09375px solid #1565c0; display: flex;
+
+  &__icon { min-width: 3.75rem; min-height: 3.75rem; display: flex; align-items: center; justify-content: center; color: #fff; background-color: #1565c0;
+    .htm-icon { font-size: 2rem; height: 2rem !important; width: 2rem !important; }
+  }
+
+  p { padding: 1.1875rem 1rem; color: #333; margin: 0; width: 100%; display: flex; align-self: center; line-height: 1.38 }
+
+  &__close { justify-self: flex-end; align-self: center; padding: 1rem; display: flex; align-content: center; justify-content: center; background: transparent; border: 0; 
+    .htm-icon { display: flex; align-items: center; justify-content: center }
+  }
+
+  &--warning { background-color: #fff7eb; border-color: #f5a623;
+    .notification__icon { background-color: #f5a623; transform: rotate(180deg); }
+  }
+  &--error { background-color: #fdf3f4; border-color: #d0021b;
+    .notification__icon { background-color: #d0021b; }
+  }
+  &--success { background-color: #e6f5ef; border-color: #008d53;
+    .notification__icon { background-color: #008d53; }
+  }
+}
+
+:host(.notifications--small) .notification {
+  &__icon { min-width: 2.5rem; min-height: 2.5rem;
+    .htm-icon { font-size: 1.5rem; height: 1.5rem !important; width: 1.5rem !important; }
+  }
+
+  p { padding: 0.5625rem 1rem; color: #333; margin: 0; width: 100%; }
+
+  &__close { padding: 0.5625rem 1rem;
+    .htm-icon { height: 1rem !important; width: 1rem !important };
+  }
+}

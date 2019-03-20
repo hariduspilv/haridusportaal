@@ -2,8 +2,9 @@
 <div class="accordion">
   <h2 class="section--header">{{ 'frontpage.studies_data' | translate }}</h2>
   <mat-spinner *ngIf="loading && !error"></mat-spinner>
-  <div role="alert" class="error" *ngIf="error && requestErr">{{ 'errors.studies_data_request' | translate }}</div>
-  <div role="alert" class="error" *ngIf="error && dataErr">{{ 'errors.studies_data_missing' | translate }}</div>
+  <!-- <div role="alert" class="ERROR" *ngIf="error && requestErr">{{ 'errors.studies_data_request' | translate }}</div>
+  <div role="alert" class="ERROR" *ngIf="error && dataErr">{{ 'errors.studies_data_missing' | translate }}</div> -->
+  <notifications [id]="'studies'" class="notifications notifications--small"></notifications>
   <mat-accordion multi *ngIf="!loading && content && !error">
     <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let item of content; let first = first;">
       <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
