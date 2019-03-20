@@ -229,7 +229,7 @@ class xJsonService implements xJsonServiceInterface {
 
         $this->validatexJsonHeader($response_header);
         $form_name = $response['header']['form_name'];
-        $definition = $this->getEntityJsonObject($form_name, $entity_type);
+        $definition = $this->getEntityJsonObject($form_name);
         $definition_body = $definition['body'];
 
         $return['messages'] = (isset($definition['messages'])) ? $definition['messages'] : [];
