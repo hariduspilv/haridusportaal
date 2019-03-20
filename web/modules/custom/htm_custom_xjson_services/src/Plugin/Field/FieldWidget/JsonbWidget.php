@@ -79,7 +79,7 @@ class JsonbWidget extends StringTextareaWidget {
         if (Unicode::strlen($element['#value'])) {
 
             $value = json_decode($element['#value']);
-            if($value['header']['endpoint'] === 'HP'){
+            if($value->header->endpoint === 'HP'){
                 $this->schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJsonForm/Form/";
             }else{
                 $this->schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJson/Form/";
