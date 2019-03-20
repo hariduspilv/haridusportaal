@@ -40,6 +40,10 @@
         "et"
       ]
     },
+    "multiple": {
+      "type": "boolean",
+      "enum": [false]
+    },
     "options": {
       "type": "object"
     },
