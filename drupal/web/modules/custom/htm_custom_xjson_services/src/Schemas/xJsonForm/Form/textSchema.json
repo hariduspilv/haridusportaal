@@ -28,6 +28,10 @@
         "et"
       ]
     },
+    "multiple": {
+      "type": "boolean",
+      "enum": [false]
+    },
     "default_value": {
       "type": "string"
     },
