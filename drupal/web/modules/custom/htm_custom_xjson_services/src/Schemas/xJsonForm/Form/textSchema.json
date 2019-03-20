@@ -28,20 +28,21 @@
         "et"
       ]
     },
+    "multiple": {
+      "type": "boolean",
+      "enum": [false]
+    },
     "default_value": {
-      "type": "string",
-      "pattern": "^([1-9]|0[1-9]|[12][0-9]|3[01])[-\\.]([1-9]|0[1-9]|1[012])[-\\.](19|20)\\d\\d$"
+      "type": "string"
     },
     "width": {
       "type": "integer"
     },
-    "min": {
-      "type": "string",
-      "pattern": "^([1-9]|0[1-9]|[12][0-9]|3[01])[-\\.]([1-9]|0[1-9]|1[012])[-\\.](19|20)\\d\\d$"
+    "maxlength": {
+      "type": "integer"
     },
-    "max": {
-      "type": "string",
-      "pattern": "^([1-9]|0[1-9]|[12][0-9]|3[01])[-\\.]([1-9]|0[1-9]|1[012])[-\\.](19|20)\\d\\d$"
+    "minlength": {
+      "type": "integer"
     },
     "readonly": {
       "type": "boolean"
