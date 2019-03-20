@@ -1,0 +1,5 @@
+entity.isced_f.collection:
+  title: Import ISCEDF data
+  parent: system.admin_structure
+  description: 'Import data for ISCEDF taxonomy from CSV file.'
+  route_name: entity.isced_f.import_data

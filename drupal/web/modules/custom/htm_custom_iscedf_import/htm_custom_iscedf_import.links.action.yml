@@ -1,0 +1,5 @@
+entity.isced_f.import_data:
+  route_name: entity.isced_f.import_data
+  title: 'Import ISCEDF terms'
+  appears_on:
+  - entity.isced_f.overview_form
