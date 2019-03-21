@@ -47,7 +47,15 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
     &.narrow {min-width: 7.5rem; font-weight: 400;}
     &.wide {min-width: 15rem; font-weight: 400;}
   }
-  td, th {font-size: 1rem;line-height: 1.375rem;}
+  td, th {font-size: 1rem;line-height: 1.375rem;
+    .less {overflow: hidden; max-height: 7rem;position: relative;
+      &:before {content: '';width: 100%;height: 35%;top: 65%;left: 0;
+        position: absolute;background: linear-gradient(transparent 0, $white);
+      }
+    }
+    .show-more {line-height: 2rem;}
+    .hidden {display: none;}
+  }
 }
 .block__head {margin-bottom: 0;}
 @include break-on(sm, max) {
