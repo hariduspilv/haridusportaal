@@ -1,4 +1,4 @@
 auth_methods:
-  harid: 0
-  tara: 0
+  harid: 1
+  tara: 1
   mobile_id: 1
