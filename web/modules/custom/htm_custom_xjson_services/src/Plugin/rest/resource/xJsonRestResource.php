@@ -101,7 +101,7 @@ class xJsonRestResource extends ResourceBase {
 
             if($xJsonFormEntity){
 
-                if($this->auth_required === true){
+                if($this->auth_required){
                     // Use current user after pass authentication to validate access.
                     if (!$this->currentUser->isAuthenticated()) {
                         throw new AccessDeniedHttpException();
