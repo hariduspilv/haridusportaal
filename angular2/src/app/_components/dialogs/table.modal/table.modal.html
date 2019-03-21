@@ -9,9 +9,10 @@
       </div>
     </div>
   </div>
-  <div class="dialog__success--modal dialog__success--modal--table">
-    <mat-spinner *ngIf="loading && !error"></mat-spinner>
-    <div class="dialog__success--content dialog__success--content--table" *ngIf="!loading && content && !error">
+  <notifications id="personal_data" class="notifications notifications--small"></notifications>
+  <mat-spinner *ngIf="loading && !error"></mat-spinner>
+  <div class="dialog__success--modal dialog__success--modal--table" *ngIf="!loading && content && !error">
+    <div class="dialog__success--content dialog__success--content--table">
       <h1 class="mt-0 mb-0" >{{ data.title | titleCase }}</h1>
       <table class="dashboard-table">
         <tbody>
@@ -33,15 +34,6 @@
           </ng-container>
         </tbody>
       </table>
-    </div>
-    <div class="dialog__success--content dialog__success--content--error" *ngIf="error" role="alert">
-      <span *ngIf="!errorMessage">{{'errors.personal_data_missing' | translate}}</span>
-      <span *ngIf="errorMessage">{{'errors.personal_data_request' | translate}}</span>
-    </div>
-    <div class="dialog__actions--success">
-      <div class="text-center">
-        <div class="dialog__actions--success__close"><a href="javascript:void(0)" attr.aria-label="{{'modal.close' | translate}}" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()">{{ data.close }}</a></div>
-      </div>
     </div>
   </div>
 </div>
