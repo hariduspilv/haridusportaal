@@ -93,11 +93,6 @@ class xJsonRestResource extends ResourceBase {
 	 *   Throws exception expected.
 	 */
 	public function post ($data) {
-		// You must to implement the logic of your REST Resource here.
-		// Use current user after pass authentication to validate access.
-		#if (!$this->currentUser->isAuthenticated()) {
-		#	throw new AccessDeniedHttpException();
-		#}
 
         if(isset($data['form_name'])){
 
@@ -106,12 +101,24 @@ class xJsonRestResource extends ResourceBase {
 
             if($xJsonFormEntity){
 
+                if($this->auth_required === true){
+                    // Use current user after pass authentication to validate access.
+                    if (!$this->currentUser->isAuthenticated()) {
+                        throw new AccessDeniedHttpException();
+                    }
+                }
+
                 if(isset($data['form_info'])){
                     return $this->postXJsonForm($data);
                 }
 
                 return $this->getXJsonForm($data);
             }else{
+
+                // Use current user after pass authentication to validate access.
+                if (!$this->currentUser->isAuthenticated()) {
+                    throw new AccessDeniedHttpException();
+                }
 
                 if (isset($data['id'])) {
                     if (isset($data['status']) && ($data['status'] === 'draft' || $data['status'] === 'submitted')) {
@@ -199,10 +206,16 @@ class xJsonRestResource extends ResourceBase {
 
     private function checkxJsonForm ($data) {
         $id = $data['form_name'];
+        $entityStorage = $this->entityTypeManager->getStorage('x_json_form_entity');
 
         $connection = \Drupal::database();
         $xJsonFormQuery = $connection->query("SELECT id FROM x_json_form_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $id]);
         $result = $xJsonFormQuery->fetchField();
+        if($result){
+            $entity = $entityStorage->load($result);
+            $value = json_decode($entity->get('xjson_definition_test')->value);
+            $this->auth_required = $value->header->auth_not_required === true ? false : true;
+        }
 
         return $result ? true : false;
     }
