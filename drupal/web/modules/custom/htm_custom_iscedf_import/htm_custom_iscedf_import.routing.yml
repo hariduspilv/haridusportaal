@@ -1,0 +1,7 @@
+entity.isced_f.import_data:
+  path: '/admin/structure/taxonomy/manage/isced_f/import'
+  defaults:
+    _form: '\Drupal\htm_custom_iscedf_import\Form\ImportDataForm'
+    _title: 'Import terms'
+  requirements:
+    _entity_create_access: 'taxonomy_term:isced_f'

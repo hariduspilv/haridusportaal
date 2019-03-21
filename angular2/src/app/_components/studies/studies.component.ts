@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { HttpService } from '@app/_services/httpService';
+import { NotificationService, RootScopeService } from '@app/_services';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'studies',
@@ -15,14 +17,21 @@ export class StudiesComponent{
   requestErr: boolean = false;
   dataErr: boolean = false;
    
-  constructor(private http: HttpService) {}
+  constructor(
+    private http: HttpService,
+    private notificationService: NotificationService,
+    private translate: TranslateService,
+    private rootScope: RootScopeService
+  ) {}
 
   ngOnInit() {
     this.loading = true;
-    let sub = this.http.get('/dashboard/eeIsikukaart/studies?_format=json').subscribe(response => {
-      if(response['error']){
+    let sub = this.http.get('/dashboard/eeIsikukaart/studies?_format=json').subscribe((response: any) => {
+      if(response.error){
         this.error = true;
         this.requestErr = true;
+        const currentLang = this.rootScope.get('lang')
+        this.notificationService.error(response.error.message_text[currentLang], 'studies', false);
       } else {
         let resultData = response['value']['oping'];
         this.content = resultData.sort((a, b) => {
@@ -35,6 +44,7 @@ export class StudiesComponent{
         if (!this.content.length) {
           this.error = true;
           this.dataErr = true;
+          this.notificationService.error('errors.studies_data_missing', 'studies', false);
         }
       }
       sub.unsubscribe();
@@ -43,6 +53,7 @@ export class StudiesComponent{
       this.loading = false;
       this.error = true;
       this.requestErr = true;
+      this.notificationService.error('errors.studies_data_request', 'studies', false);
     });
   }
 

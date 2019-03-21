@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Link;
 
 /**
- * Defines a class to build a listing of X json form entity entities.
+ * Defines a class to build a listing of xJson form entity entities.
  *
  * @ingroup htm_custom_xjson_services
  */
@@ -18,7 +18,7 @@ class xJsonFormEntityListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('X json form entity ID');
+    $header['id'] = $this->t('xJson form entity ID');
     $header['name'] = $this->t('Name');
     return $header + parent::buildHeader();
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { HttpService } from '@app/_services/httpService';
-import { RootScopeService } from '@app/_services';
+import { RootScopeService, NotificationService } from '@app/_services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,14 +20,16 @@ export class TeachingsComponent{
   contentTypes = ['tootamine', 'kvalifikatsioon', 'tasemeharidus', 'taiendkoolitus'];
   accordionStates: Array<Boolean> = [true, false, false, false];
    
-  constructor(private http: HttpService, private rootScope: RootScopeService, private router: Router) {}
+  constructor(private http: HttpService, private rootScope: RootScopeService, private router: Router, private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.loading = true;
-    let sub = this.http.get('/dashboard/eeIsikukaart/teachings?_format=json').subscribe(response => {
+    let sub = this.http.get('/dashboard/eeIsikukaart/teachings?_format=json').subscribe((response: any) => {
       if(response['error']){
         this.error = true;
         this.requestErr = true;
+        const currentLang = this.rootScope.get('lang');
+        this.notificationService.error(response.error.message_text[currentLang], 'teachings', false);
       } else {
         try{
           this.content = response['value'];
@@ -63,6 +65,8 @@ export class TeachingsComponent{
           }
         }catch(err){
           console.log(err);
+          this.notificationService.error('errors.teachings_data_missing', 'teachings', false);
+
         }
       }
       sub.unsubscribe();
@@ -72,6 +76,7 @@ export class TeachingsComponent{
       this.loading = false;
       this.error = true;
       this.requestErr = true;
+      this.notificationService.error('errors.teachings_data_request', 'teachings', false);
     });
   }
 

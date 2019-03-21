@@ -29,33 +29,33 @@ delete all xjson entity revisions:
   title: 'Delete all revisions'
   description: 'Role requires permission to <em>view xJson entity revisions</em> and <em>delete rights</em> for xjson entity entities in question or <em>administer xjson entity entities</em>.'
 
-add x json form entity entities:
+add xjson form entity entities:
   title: 'Create new xJson form entity entities'
 
-administer x json form entity entities:
+administer xjson form entity entities:
   title: 'Administer xJson form entity entities'
   description: 'Allow to access the administration form to configure xJson form entity entities.'
   restrict access: true
 
-delete x json form entity entities:
+delete xjson form entity entities:
   title: 'Delete xJson form entity entities'
 
-edit x json form entity entities:
+edit xjson form entity entities:
   title: 'Edit xJson form entity entities'
 
-view published x json form entity entities:
+view published xjson form entity entities:
   title: 'View published xJson form entity entities'
 
-view unpublished x json form entity entities:
+view unpublished xjson form entity entities:
   title: 'View unpublished xJson form entity entities'
 
-view all x json form entity revisions:
+view all xjson form entity revisions:
   title: 'View all xJson form entity revisions'
 
-revert all x json form entity revisions:
+revert all xjson form entity revisions:
   title: 'Revert all xJson form entity revisions'
-  description: 'Role requires permission <em>view xJson form entity revisions</em> and <em>edit rights</em> for xJson form entity entities in question or <em>administer xJson form entity entities</em>.'
+  description: 'Role requires permission <em>view xJson form entity revisions</em> and <em>edit rights</em> for xjson form entity entities in question or <em>administer xjson form entity entities</em>.'
 
-delete all x json form entity revisions:
+delete all xjson form entity revisions:
   title: 'Delete all revisions'
-  description: 'Role requires permission to <em>view xJson form entity revisions</em> and <em>delete rights</em> for xJson form entity entities in question or <em>administer xJson form entity entities</em>.'
+  description: 'Role requires permission to <em>view xJson form entity revisions</em> and <em>delete rights</em> for xjson form entity entities in question or <em>administer xjson form entity entities</em>.'

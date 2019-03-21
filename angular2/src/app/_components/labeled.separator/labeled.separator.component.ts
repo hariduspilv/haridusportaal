@@ -7,5 +7,6 @@ import { Component, Input } from "@angular/core";
 })
 
 export class LabeledSeparatorComponent {
-  @Input() label;
+  @Input() label: string;
+  @Input() vertical: boolean;
 }

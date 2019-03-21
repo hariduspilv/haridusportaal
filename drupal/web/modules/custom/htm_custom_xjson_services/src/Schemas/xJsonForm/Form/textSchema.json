@@ -9,7 +9,6 @@
       "properties": {
         "et": {
           "type": "string",
-          "format": "email",
           "minLength": 1
         }
       },
@@ -17,11 +16,32 @@
         "et"
       ]
     },
+    "helpertext": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "et"
+      ]
+    },
+    "multiple": {
+      "type": "boolean",
+      "enum": [false]
+    },
     "default_value": {
-      "type": "string",
-      "format": "email"
+      "type": "string"
     },
     "width": {
+      "type": "integer"
+    },
+    "maxlength": {
+      "type": "integer"
+    },
+    "minlength": {
       "type": "integer"
     },
     "readonly": {
@@ -32,7 +52,6 @@
     }
   },
   "required": [
-    "type",
-    "title"
+    "type"
   ]
 }
