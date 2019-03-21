@@ -7,3 +7,10 @@
 #  requirements:
 #    # Calls the access controller of the entity, $operation 'view'
 #    _entity_access: 'x_json_entity.view'
+xjson_form_csv.list:
+  path: '/xjson-csv-list'
+  defaults:
+    _form: '\Drupal\htm_custom_xjson_services\Form\xJsonFormCsvListForm'
+    _title: 'View xJson Form Data CSVs'
+  requirements:
+    _permission: 'access content'
