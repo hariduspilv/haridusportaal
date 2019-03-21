@@ -91,6 +91,24 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
     }
   }
 
+  limitTableRows(id, maxChars) {
+    let limitedDivs = document.querySelectorAll(id);
+    for (let i = 0; i < limitedDivs.length; ++i) {
+      if (limitedDivs[i].innerHTML.length >= 150) {
+        limitedDivs[i].classList.add(`less`);
+        limitedDivs[i].classList.add(`elem-${i}`);
+        limitedDivs[i].nextElementSibling.classList.remove('hidden');
+        limitedDivs[i].nextElementSibling.childNodes[0].classList.add(i);
+      }
+    }
+  }
+
+  removeLimiter(self) {
+    self.target.parentNode.classList.add('hidden');
+    let sibling = document.querySelector(`.elem-${self.target.className}`);
+    sibling.classList.remove('less');
+  }
+
   getTableData(){
     let variables = {
       "lang": this.rootScope.get('lang').toUpperCase()
@@ -126,6 +144,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
       this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
       this.setScrollPos('resultsTable');
       this.initialized = true;
+      this.limitTableRows('#limitedData', 150);
     }
   }
   
