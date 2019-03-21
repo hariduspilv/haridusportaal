@@ -9,6 +9,9 @@
           "minLength": 1,
           "enum": ["HP"]
         },
+        "auth_not_required": {
+          "type": "boolean"
+        },
         "form_name": {
           "type": "string",
           "minLength": 1
@@ -18,7 +21,7 @@
           "enum": [1]
         }
       },
-      "required": ["endpoint", "form_name", "number_of_steps"]
+      "required": ["endpoint", "form_name", "number_of_steps", "auth_not_required"]
     },
     "body": {
       "type": "object",
