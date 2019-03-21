@@ -1307,6 +1307,10 @@ login:
     translation_type: textarea
     et: 'Sisselogimine õnnestus'
     en: 'Successful login'
+  unavailable:
+    translation_type: textarea
+    et: 'Praegu pole sisse logimine võimalik. Proovige hiljem uuesti.'
+    en: 'Login services are currently unavailable. Please try again later.'
 time:
   january:
     translation_type: textarea
@@ -1808,6 +1812,10 @@ errors:
     translation_type: textarea
     et: 'Tunnistus ei ole saadaval faili kujul e-tunnistusena'
     en: 'Certificate not available as a file'
+  no_internet:
+    translation_type: textarea
+    et: 'Ei saa serverit kätte. Palun kontrollige oma internetiühendust ning proovige uuesti.'
+    en: 'Cannot connect to server. Please check your internet connectivity and try again.'
 search:
   label:
     translation_type: textarea
@@ -2490,8 +2498,4 @@ login_mobile:
   translation_type: textarea
   et: 'Sisene Mobiil ID-ga'
   en: 'Mobile ID login'
-error:
-  404:
-    translation_type: textarea
-    et: 'Sorri, halvasti on kõik :('
-    en: 'Something died'
+error: {  }
