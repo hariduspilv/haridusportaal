@@ -11,7 +11,7 @@ use Drupal\htm_custom_xjson_services\Entity\xJsonFormEntityInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a form for reverting a X json form entity revision.
+ * Provides a form for reverting a xJson form entity revision.
  *
  * @ingroup htm_custom_xjson_services
  */
@@ -19,14 +19,14 @@ class xJsonFormEntityRevisionRevertForm extends ConfirmFormBase {
 
 
   /**
-   * The X json form entity revision.
+   * The xJson form entity revision.
    *
    * @var \Drupal\htm_custom_xjson_services\Entity\xJsonFormEntityInterface
    */
   protected $revision;
 
   /**
-   * The X json form entity storage.
+   * The xJson form entity storage.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
@@ -43,7 +43,7 @@ class xJsonFormEntityRevisionRevertForm extends ConfirmFormBase {
    * Constructs a new xJsonFormEntityRevisionRevertForm.
    *
    * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
-   *   The X json form entity storage.
+   *   The xJson form entity storage.
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter service.
    */
@@ -119,8 +119,8 @@ class xJsonFormEntityRevisionRevertForm extends ConfirmFormBase {
     $this->revision->revision_log = t('Copy of the revision from %date.', ['%date' => $this->dateFormatter->format($original_revision_timestamp)]);
     $this->revision->save();
 
-    $this->logger('content')->notice('X json form entity: reverted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
-    drupal_set_message(t('X json form entity %title has been reverted to the revision from %revision-date.', ['%title' => $this->revision->label(), '%revision-date' => $this->dateFormatter->format($original_revision_timestamp)]));
+    $this->logger('content')->notice('xJson form entity: reverted %title revision %revision.', ['%title' => $this->revision->label(), '%revision' => $this->revision->getRevisionId()]);
+    drupal_set_message(t('xJson form entity %title has been reverted to the revision from %revision-date.', ['%title' => $this->revision->label(), '%revision-date' => $this->dateFormatter->format($original_revision_timestamp)]));
     $form_state->setRedirect(
       'entity.x_json_form_entity.version_history',
       ['x_json_form_entity' => $this->revision->id()]

@@ -11,15 +11,15 @@ use Drupal\htm_custom_xjson_services\Entity\xJsonFormEntityInterface;
 /**
  * Class xJsonFormEntityController.
  *
- *  Returns responses for X json form entity routes.
+ *  Returns responses for xJson form entity routes.
  */
 class xJsonFormEntityController extends ControllerBase implements ContainerInjectionInterface {
 
   /**
-   * Displays a X json form entity  revision.
+   * Displays a xJson form entity  revision.
    *
    * @param int $x_json_form_entity_revision
-   *   The X json form entity  revision ID.
+   *   The xJson form entity  revision ID.
    *
    * @return array
    *   An array suitable for drupal_render().
@@ -32,10 +32,10 @@ class xJsonFormEntityController extends ControllerBase implements ContainerInjec
   }
 
   /**
-   * Page title callback for a X json form entity  revision.
+   * Page title callback for a xJson form entity  revision.
    *
    * @param int $x_json_form_entity_revision
-   *   The X json form entity  revision ID.
+   *   The xJson form entity  revision ID.
    *
    * @return string
    *   The page title.
@@ -46,10 +46,10 @@ class xJsonFormEntityController extends ControllerBase implements ContainerInjec
   }
 
   /**
-   * Generates an overview table of older revisions of a X json form entity .
+   * Generates an overview table of older revisions of a xJson form entity .
    *
    * @param \Drupal\htm_custom_xjson_services\Entity\xJsonFormEntityInterface $x_json_form_entity
-   *   A X json form entity  object.
+   *   A xJson form entity  object.
    *
    * @return array
    *   An array as expected by drupal_render().
@@ -65,8 +65,8 @@ class xJsonFormEntityController extends ControllerBase implements ContainerInjec
     $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => $x_json_form_entity->label()]) : $this->t('Revisions for %title', ['%title' => $x_json_form_entity->label()]);
     $header = [$this->t('Revision'), $this->t('Operations')];
 
-    $revert_permission = (($account->hasPermission("revert all x json form entity revisions") || $account->hasPermission('administer x json form entity entities')));
-    $delete_permission = (($account->hasPermission("delete all x json form entity revisions") || $account->hasPermission('administer x json form entity entities')));
+    $revert_permission = (($account->hasPermission("revert all xjson form entity revisions") || $account->hasPermission('administer xjson form entity entities')));
+    $delete_permission = (($account->hasPermission("delete all xjson form entity revisions") || $account->hasPermission('administer xjson form entity entities')));
 
     $rows = [];
 
@@ -126,9 +126,7 @@ class xJsonFormEntityController extends ControllerBase implements ContainerInjec
           if ($revert_permission) {
             $links['revert'] = [
               'title' => $this->t('Revert'),
-              'url' => $has_translations ?
-              Url::fromRoute('entity.x_json_form_entity.translation_revert', ['x_json_form_entity' => $x_json_form_entity->id(), 'x_json_form_entity_revision' => $vid, 'langcode' => $langcode]) :
-              Url::fromRoute('entity.x_json_form_entity.revision_revert', ['x_json_form_entity' => $x_json_form_entity->id(), 'x_json_form_entity_revision' => $vid]),
+              'url' => Url::fromRoute('entity.x_json_form_entity.revision_revert', ['x_json_form_entity' => $x_json_form_entity->id(), 'x_json_form_entity_revision' => $vid]),
             ];
           }
 

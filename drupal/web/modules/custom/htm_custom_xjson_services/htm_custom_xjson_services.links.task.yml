@@ -25,7 +25,7 @@ entity.x_json_entity.delete_form:
   title: Delete
   weight: 10
 
-# X json form entity routing definition
+# xJson form entity routing definition
 x_json_form_entity.settings_tab:
   route_name: x_json_form_entity.settings
   title: 'Settings'

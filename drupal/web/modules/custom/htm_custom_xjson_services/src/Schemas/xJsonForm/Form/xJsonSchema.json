@@ -1,0 +1,130 @@
+{
+  "type": "object",
+  "properties": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "minLength": 1,
+          "enum": ["HP"]
+        },
+        "auth_not_required": {
+          "type": "boolean"
+        },
+        "form_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "number_of_steps": {
+          "type": "integer",
+          "enum": [1]
+        }
+      },
+      "required": ["endpoint", "form_name", "number_of_steps", "auth_not_required"]
+    },
+    "body": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["et"]
+        },
+        "introduction": {
+          "type": "object",
+          "properties": {
+            "et": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": ["et"]
+        },
+        "hide_steps": {
+          "type": "boolean"
+        },
+        "steps":{
+          "type": "object",
+          "minItem": 5
+        },
+        "messages": {
+          "type": "object"
+        }
+      },
+      "required": ["title", "steps"]
+    },
+    "messages": {
+      "type": "object",
+      "properties": {
+        "success_message": {
+          "type": "object",
+          "properties": {
+            "message_text": {
+              "type": "object",
+              "properties": {
+                "et": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "et"
+              ]
+            },
+            "message_type": {
+              "type": "string",
+              "enum": [
+                "NOTICE",
+                "WARNING",
+                "ERROR"
+              ],
+              "minLength": 1
+            }
+          },
+          "required": [
+            "message_text",
+            "message_type"
+          ]
+        },
+        "error_message": {
+          "type": "object",
+          "properties": {
+            "message_text": {
+              "type": "object",
+              "properties": {
+                "et": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "et"
+              ]
+            },
+            "message_type": {
+              "type": "string",
+              "enum": [
+                "NOTICE",
+                "WARNING",
+                "ERROR"
+              ],
+              "minLength": 1
+            }
+          },
+          "required": [
+            "message_text",
+            "message_type"
+          ]
+        }
+      },
+      "required": ["success_message", "error_message"]
+    }
+  },
+  "required": ["header", "body", "messages"]
+}

@@ -11,19 +11,18 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\user\UserInterface;
 
 /**
- * Defines the X json form entity entity.
+ * Defines the xJson form entity entity.
  *
  * @ingroup htm_custom_xjson_services
  *
  * @ContentEntityType(
  *   id = "x_json_form_entity",
- *   label = @Translation("X json form entity"),
+ *   label = @Translation("xJson form entity"),
  *   handlers = {
  *     "storage" = "Drupal\htm_custom_xjson_services\xJsonFormEntityStorage",
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\htm_custom_xjson_services\xJsonFormEntityListBuilder",
  *     "views_data" = "Drupal\htm_custom_xjson_services\Entity\xJsonFormEntityViewsData",
- *     "translation" = "Drupal\htm_custom_xjson_services\xJsonFormEntityTranslationHandler",
  *
  *     "form" = {
  *       "default" = "Drupal\htm_custom_xjson_services\Form\xJsonFormEntityForm",
@@ -37,11 +36,9 @@ use Drupal\user\UserInterface;
  *     },
  *   },
  *   base_table = "x_json_form_entity",
- *   data_table = "x_json_form_entity_field_data",
  *   revision_table = "x_json_form_entity_revision",
  *   revision_data_table = "x_json_form_entity_field_revision",
- *   translatable = TRUE,
- *   admin_permission = "administer x json form entity entities",
+ *   admin_permission = "administer xjson form entity entities",
  *   entity_keys = {
  *     "id" = "id",
  *     "revision" = "vid",
@@ -60,7 +57,6 @@ use Drupal\user\UserInterface;
  *     "revision" = "/admin/structure/x_json_form_entity/{x_json_form_entity}/revisions/{x_json_form_entity_revision}/view",
  *     "revision_revert" = "/admin/structure/x_json_form_entity/{x_json_form_entity}/revisions/{x_json_form_entity_revision}/revert",
  *     "revision_delete" = "/admin/structure/x_json_form_entity/{x_json_form_entity}/revisions/{x_json_form_entity_revision}/delete",
- *     "translation_revert" = "/admin/structure/x_json_form_entity/{x_json_form_entity}/revisions/{x_json_form_entity_revision}/revert/{langcode}",
  *     "collection" = "/admin/structure/x_json_form_entity",
  *   },
  *   field_ui_base_route = "x_json_form_entity.settings"
@@ -201,7 +197,7 @@ class xJsonFormEntity extends RevisionableContentEntityBase implements xJsonForm
 
         $fields['user_id'] = BaseFieldDefinition::create('entity_reference')
             ->setLabel(t('Authored by'))
-            ->setDescription(t('The user ID of author of the X json form entity entity.'))
+            ->setDescription(t('The user ID of author of the xJson form entity entity.'))
             ->setRevisionable(TRUE)
             ->setSetting('target_type', 'user')
             ->setSetting('handler', 'default')
@@ -226,7 +222,7 @@ class xJsonFormEntity extends RevisionableContentEntityBase implements xJsonForm
 
         $fields['name'] = BaseFieldDefinition::create('string')
             ->setLabel(t('Name'))
-            ->setDescription(t('The name of the X json form entity entity.'))
+            ->setDescription(t('The name of the xJson form entity entity.'))
             ->setRevisionable(TRUE)
             ->setSettings([
                 'max_length' => 50,
@@ -248,7 +244,7 @@ class xJsonFormEntity extends RevisionableContentEntityBase implements xJsonForm
 
         $fields['status'] = BaseFieldDefinition::create('boolean')
             ->setLabel(t('Publishing status'))
-            ->setDescription(t('A boolean indicating whether the X json form entity is published.'))
+            ->setDescription(t('A boolean indicating whether the xJson form entity is published.'))
             ->setRevisionable(TRUE)
             ->setDefaultValue(TRUE)
             ->setDisplayOptions('form', [
@@ -263,13 +259,6 @@ class xJsonFormEntity extends RevisionableContentEntityBase implements xJsonForm
         $fields['changed'] = BaseFieldDefinition::create('changed')
             ->setLabel(t('Changed'))
             ->setDescription(t('The time that the entity was last edited.'));
-
-        $fields['revision_translation_affected'] = BaseFieldDefinition::create('boolean')
-            ->setLabel(t('Revision translation affected'))
-            ->setDescription(t('Indicates if the last edit of a translation belongs to current revision.'))
-            ->setReadOnly(TRUE)
-            ->setRevisionable(TRUE)
-            ->setTranslatable(TRUE);
 
         $fields['xjson_definition'] = BaseFieldDefinition::create('json')
             ->setLabel(t('xJson definition'))
@@ -290,6 +279,28 @@ class xJsonFormEntity extends RevisionableContentEntityBase implements xJsonForm
                 'type' => 'jsonb_textarea',
                 'weight' => -4,
             ]);
+
+        $fields['name'] = BaseFieldDefinition::create('string')
+            ->setLabel(t('Name'))
+            ->setDescription(t('The name of the xJson form entity entity.'))
+            ->setRevisionable(TRUE)
+            ->setSettings([
+                'max_length' => 50,
+                'text_processing' => 0,
+            ])
+            ->setDefaultValue('')
+            ->setDisplayOptions('view', [
+                'label' => 'above',
+                'type' => 'string',
+                'weight' => -4,
+            ])
+            ->setDisplayOptions('form', [
+                'type' => 'string_textfield',
+                'weight' => -4,
+            ])
+            ->setDisplayConfigurable('form', TRUE)
+            ->setDisplayConfigurable('view', TRUE)
+            ->setRequired(TRUE);
 
         return $fields;
     }

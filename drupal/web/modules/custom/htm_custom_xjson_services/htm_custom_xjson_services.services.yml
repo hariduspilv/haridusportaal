@@ -2,3 +2,6 @@ services:
   htm_custom_xjson_services.default:
     class: Drupal\htm_custom_xjson_services\xJsonService
     arguments: ['@current_user', '@request_stack', '@entity_type.manager', '@htm_custom_ehis_connector.default']
+  htm_custom_xjson_services.form:
+    class: Drupal\htm_custom_xjson_services\xJsonFormService
+    arguments: ['@current_user', '@request_stack', '@entity_type.manager', '@htm_custom_ehis_connector.default']

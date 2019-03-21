@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpService } from '@app/_services/httpService';
-import { RootScopeService } from '@app/_services';
+import { RootScopeService, NotificationService } from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -24,20 +24,20 @@ export class TableModal {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private http: HttpService,
     private rootScope: RootScopeService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private notificationService: NotificationService,
   ){}
   
   ngOnInit() {
     this.loading = true;
-    let sub = this.http.get(this.data.contentUrl).subscribe(response => {
+    let sub = this.http.get(this.data.contentUrl).subscribe((response: any) => {
 
-      if(response['error']){
+      if(response.error){
 
         this.loading = false;
         this.error = true;
-        if (response['error']['message_text']) {
-          this.errorMessage = response['error']['message_text'];
-        }
+        const currentLang = this.rootScope.get('lang');
+        this.notificationService.error(response.error.message_text[currentLang], 'personal_data', false);
       } else {
         
         try{
@@ -47,6 +47,8 @@ export class TableModal {
           });
         }catch(err){
           console.log(err);
+          this.notificationService.error('errors.personal_data_missing', 'personal_data', false);
+
         }
         
         this.content = response['value']['isikuandmed'];
@@ -58,6 +60,7 @@ export class TableModal {
 
       this.loading = false;
       this.error = true;
+      this.notificationService.error('errors.personal_data_request', 'personal_data', false);
     });
   }  
   
