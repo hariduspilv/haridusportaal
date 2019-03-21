@@ -3,18 +3,25 @@ import { SideMenuService } from '@app/_services/sidemenuService';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { RootScopeService } from './rootScopeService';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class UserService{
 
   private tokenKey: string = "token";
-
+  public isLoggedIn: boolean = false;
+  isLoggedInChange: Subject<boolean> = new Subject<boolean>();
   constructor(
     private router: Router,
     private sidemenu: SideMenuService,
-    private rootScope: RootScopeService
+    private rootScope: RootScopeService,
   ) {
-    
+    this.isLoggedInChange.subscribe(value => {
+      this.isLoggedIn = value;
+    })
+  }
+  toggleLoggedInStatus(isLoggedIn: boolean) {
+    this.isLoggedInChange.next(isLoggedIn);
   }
 
   private decodeToken(inputToken:any = "") {
@@ -35,12 +42,12 @@ export class UserService{
 
     if( !isExpired ){
       data = decodedToken;
+      this.toggleLoggedInStatus(true);
     }else{
       this.clearStorage();
     }
 
     data['isExpired'] = isExpired;
-
     return data;
 
   }
@@ -60,7 +67,7 @@ export class UserService{
 
   public logout() {
     sessionStorage.removeItem( this.tokenKey ); 
-
+    this.toggleLoggedInStatus(false);
     if ( decodeURIComponent(this.router.url).indexOf('/töölaud/') !== -1 || decodeURIComponent(this.router.url).indexOf('/dashboard/')  !== -1 ) {
       console.log("aaa");
       this.router.navigateByUrl('/');
@@ -70,6 +77,7 @@ export class UserService{
   }
 
   public clearStorage() {
+    this.toggleLoggedInStatus(false);
     sessionStorage.removeItem( this.tokenKey );
   }
 
