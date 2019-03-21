@@ -80,38 +80,6 @@ export class ChartComponent implements OnInit{
         chartType = "Pie";
       }
 
-      switch( chartType.toLowerCase() ){
-        case 'clustered bar' : {
-          isStacked = false;
-          chartType = "Bar";
-          seriesType = 'bars';
-          break;
-        }
-        case 'clustered column' : {
-          isStacked = false;
-          chartType = "Column";
-          seriesType = 'bars';
-          break;
-        }
-        case 'stacked bar' : {
-          isStacked = true;
-          chartType = "Bar";
-          seriesType = 'bars';
-          break;
-        }
-        case 'stacked bar 100' : {
-          isStacked = true;
-          chartType = "Bar";
-          seriesType = 'bars';
-          break;
-        }
-        case 'stacked column': {
-          isStacked = true;
-          chartType = "Column";
-          seriesType = 'bars';
-        }
-      }
-
       let primaryFormat = '####';
       
       if( current.options.graph_y_unit ){
@@ -134,6 +102,47 @@ export class ChartComponent implements OnInit{
         }
       }
 
+      switch( chartType.toLowerCase() ){
+        case 'clustered bar' : {
+          isStacked = false;
+          chartType = "Bar";
+          seriesType = 'bars';
+          break;
+        }
+        case 'clustered column' : {
+          isStacked = false;
+          chartType = "Column";
+          seriesType = 'bars';
+          break;
+        }
+        case 'stacked bar' : {
+          isStacked = true;
+          chartType = "Bar";
+          seriesType = 'bars';
+          break;
+        }
+        case 'stacked bar 100' : {
+          isStacked = 'percent';
+          chartType = "Bar";
+          seriesType = 'bars';
+          primaryFormat = 'percent';
+          break;
+        }
+        case 'stacked column 100' : {
+          isStacked = 'percent';
+          chartType = "Column";
+          seriesType = 'columns';
+          primaryFormat = 'percent';
+          break;
+        }
+        case 'stacked column': {
+          isStacked = true;
+          chartType = "Column";
+          seriesType = 'bars';
+        }
+      }
+
+
       let graphName = chartType+"Chart";
 
       if( chartType && secondaryGraphType ){
@@ -146,7 +155,8 @@ export class ChartComponent implements OnInit{
         dataTable: value,
         options: this.getGraphOptions()
       }
-      console.log(tmp.options.colors);
+      
+
       tmp.options['isStacked'] = isStacked;
 
       tmp.options['title'] = graphTitle;
@@ -156,6 +166,11 @@ export class ChartComponent implements OnInit{
         format: primaryFormat
       };
 
+      if( isStacked == 'percent'){
+        tmp.options['vAxis']['minValue'] = 0;
+        //tmp.options['vAxis']['ticks'] = [0, 30, 60, 90, 100];
+
+      }
       tmp.options['hAxis'] = {
         format: '####'
       };
@@ -253,7 +268,7 @@ export class ChartComponent implements OnInit{
 
       }
       
-      console.log(tmp.options.colors);
+      console.log( JSON.stringify( tmp.options ));
       
       output.push(tmp);
 
@@ -549,3 +564,4 @@ export class ChartComponent implements OnInit{
     }
   }
 }
+
