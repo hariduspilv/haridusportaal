@@ -24,31 +24,35 @@ export class ChartComponent implements OnInit{
 
   initiallyFilledSelects = ['näitaja', 'valdkond', 'näitaja2'];
 
-  graphOptions = {
-    height: 500,
-    pieSliceTextStyle: {
-      "color": '#ffffff'
-    },
-    tooltip: {
-      format: '####'
-    },
-    curveType: "function",
-    lineWidth: 5,
-    pointsVisible: true,
-    pointSize: 12,
-    legend: { position: 'bottom', maxLines: 3, alignment: 'start' },
-    colors: ['#18218F', '#DB3A00', '#0252B0', '#9E02B6', '#257E25', '#D11B1B', '#C200C2', '#00856A', '#0071C7', '#D11B6F', '#D704A2', '#198294'],
-    animation:{
-      duration: 1000,
-      easing: 'out',
-      startup: true
-    }
-  }
-
   constructor(
     private http: HttpService
   ) {
 
+  }
+
+  getGraphOptions()  {
+
+    return {
+      height: 500,
+      pieSliceTextStyle: {
+        "color": '#ffffff'
+      },
+      tooltip: {
+        format: '####'
+      },
+      curveType: "function",
+      lineWidth: 5,
+      pointsVisible: true,
+      pointSize: 12,
+      legend: { position: 'bottom', maxLines: 99, alignment: 'start' },
+      colors: ['#161B5B', '#293193', '#3E4BED', '#6248C9', '#9E02B6'],
+
+      animation:{
+        duration: 1000,
+        easing: 'out',
+        startup: true
+      }
+    }
   }
 
   capitalize = function(input) {
@@ -76,41 +80,8 @@ export class ChartComponent implements OnInit{
         chartType = "Pie";
       }
 
-      switch( chartType.toLowerCase() ){
-        case 'clustered bar' : {
-          isStacked = false;
-          chartType = "Bar";
-          seriesType = 'bars';
-          break;
-        }
-        case 'clustered column' : {
-          isStacked = false;
-          chartType = "Column";
-          seriesType = 'bars';
-          break;
-        }
-        case 'stacked bar' : {
-          isStacked = true;
-          chartType = "Bar";
-          seriesType = 'bars';
-          break;
-        }
-        case 'stacked bar 100' : {
-          isStacked = true;
-          chartType = "Bar";
-          seriesType = 'bars';
-          break;
-        }
-        case 'stacked column': {
-          isStacked = true;
-          chartType = "Column";
-          seriesType = 'bars';
-        }
-      }
-
       let primaryFormat = '####';
-
-      console.log(current);
+      
       if( current.options.graph_y_unit ){
         switch( current.options.graph_y_unit ){
           case 'summa': {
@@ -131,6 +102,47 @@ export class ChartComponent implements OnInit{
         }
       }
 
+      switch( chartType.toLowerCase() ){
+        case 'clustered bar' : {
+          isStacked = false;
+          chartType = "Bar";
+          seriesType = 'bars';
+          break;
+        }
+        case 'clustered column' : {
+          isStacked = false;
+          chartType = "Column";
+          seriesType = 'bars';
+          break;
+        }
+        case 'stacked bar' : {
+          isStacked = true;
+          chartType = "Bar";
+          seriesType = 'bars';
+          break;
+        }
+        case 'stacked bar 100' : {
+          isStacked = 'percent';
+          chartType = "Bar";
+          seriesType = 'bars';
+          primaryFormat = 'percent';
+          break;
+        }
+        case 'stacked column 100' : {
+          isStacked = 'percent';
+          chartType = "Column";
+          seriesType = 'columns';
+          primaryFormat = 'percent';
+          break;
+        }
+        case 'stacked column': {
+          isStacked = true;
+          chartType = "Column";
+          seriesType = 'bars';
+        }
+      }
+
+
       let graphName = chartType+"Chart";
 
       if( chartType && secondaryGraphType ){
@@ -141,9 +153,10 @@ export class ChartComponent implements OnInit{
       let tmp = {
         chartType: graphName,
         dataTable: value,
-        options: { ... this.graphOptions }
+        options: this.getGraphOptions()
       }
       
+
       tmp.options['isStacked'] = isStacked;
 
       tmp.options['title'] = graphTitle;
@@ -153,6 +166,11 @@ export class ChartComponent implements OnInit{
         format: primaryFormat
       };
 
+      if( isStacked == 'percent'){
+        tmp.options['vAxis']['minValue'] = 0;
+        //tmp.options['vAxis']['ticks'] = [0, 30, 60, 90, 100];
+
+      }
       tmp.options['hAxis'] = {
         format: '####'
       };
@@ -163,6 +181,11 @@ export class ChartComponent implements OnInit{
       if( graphName == "ComboChart" ){
         //tmp['options']['colors'] = ["#18218f", "#db3a00"];
       };
+
+      let filters = false;
+      if( current.id ){
+        filters = this.filters[current.id];
+      }
 
       if( graphName == "BarChart" ){
 
@@ -225,14 +248,27 @@ export class ChartComponent implements OnInit{
           }
         }
 
-        let secondaryIndex = value[0].length-2;
+        if( filters && filters['näitaja2'] && filters['näitaja2'].length > 0 ){
+          let lineColors = ['#c7c7c9', '#c7c7c9'];
+          let colorCounter = 0;
 
-        tmp.options['series'][secondaryIndex] = {
-          type: secondaryGraphType,
-          targetAxisIndex: secondaryIndex
-        };
+          for( let i in filters['näitaja2'] ){
 
-      }   
+            let index = value[0].indexOf(filters['näitaja2'][i]);
+
+            tmp.options.colors[index-1] = lineColors[colorCounter];
+            tmp.options['series'][index-1] = {
+              type: secondaryGraphType,
+              targetAxisIndex: 1
+            };
+            colorCounter++;
+            if( colorCounter > lineColors.length ){ colorCounter = 0; }
+          }
+        }
+
+      }
+      
+      console.log( JSON.stringify( tmp.options ));
       
       output.push(tmp);
 
@@ -392,11 +428,15 @@ export class ChartComponent implements OnInit{
       let current = item.filters[i];
       let options = current.options;
 
-      if( options.length > 0 ){
+      if( current.multiple ){
+        this.filters[item.id][current.key] = options;
+      }
+      else if( options.length > 0 ){
         if( this.initiallyFilledSelects.indexOf( current.key ) !== -1 ){
           this.filters[item.id][current.key] = current.multiple ? [options[0]] : options[0];
         }
       }
+
     }
 
   }
@@ -492,7 +532,8 @@ export class ChartComponent implements OnInit{
             value: item.ChartValue,
             secondaryGraphType:	variables['secondaryGraphType'],
             secondaryGraphIndicator:	null,
-            options: current['filterValues']['graph_options']
+            options: current['filterValues']['graph_options'],
+            id: current['id']
           }
         });
 
@@ -523,3 +564,4 @@ export class ChartComponent implements OnInit{
     }
   }
 }
+
