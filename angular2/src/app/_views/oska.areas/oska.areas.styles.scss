@@ -53,7 +53,7 @@
   text-decoration: none;
   &:hover {text-decoration: underline;}
 }
-::ng-deep .accordion__body a[target="_blank"]:after, ::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after {
+::ng-deep .accordion__body a[target="_blank"]:after, ::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after, ::ng-deep .graphText a[target="_blank"]:after {
   font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;
 }
 
