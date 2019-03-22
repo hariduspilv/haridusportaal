@@ -103,16 +103,13 @@ class xJsonRestResource extends ResourceBase {
 
                 if($this->auth_required){
                     // Use current user after pass authentication to validate access.
-                    if (!$this->currentUser->isAuthenticated()) {
-                        throw new AccessDeniedHttpException();
-                    }
+                    #if (!$this->currentUser->isAuthenticated()) {
+                    #    throw new AccessDeniedHttpException();
+                    #}
                 }
 
-                if(isset($data['form_info'])){
-                    return $this->postXJsonForm($data);
-                }
+                return isset($data['form_info']) ? $this->postXJsonForm($data) : $this->getXJsonForm($data);
 
-                return $this->getXJsonForm($data);
             }else{
 
                 // Use current user after pass authentication to validate access.
@@ -206,7 +203,7 @@ class xJsonRestResource extends ResourceBase {
 
     private function checkxJsonForm ($data) {
         $id = $data['form_name'];
-        $entityStorage = $this->entityTypeManager->getStorage('x_json_form_entity');
+        $entityStorage = \Drupal::entityTypeManager()->getStorage('x_json_form_entity');
 
         $connection = \Drupal::database();
         $xJsonFormQuery = $connection->query("SELECT id FROM x_json_form_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $id]);

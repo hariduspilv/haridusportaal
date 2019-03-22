@@ -19,6 +19,17 @@
     "default_value": {
       "type": "string"
     },
+    "send_email": {
+      "type": "boolean"
+    },
+    "email_subject": {
+      "type": "string",
+      "minLength": 1
+    },
+    "email_body": {
+      "type": "string",
+      "minLength": 1
+    },
     "width": {
       "type": "integer"
     },
@@ -33,8 +44,11 @@
       "enum": [false]
     }
   },
-  "required": [
-    "type",
-    "title"
-  ]
+  "required": ["title", "type"],
+  "if": {
+    "properties": {
+      "send_email": { "enum": [ true ] }
+    }
+  },
+  "then": { "required": ["email_subject", "email_body"] }
 }
