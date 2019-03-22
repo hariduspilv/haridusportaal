@@ -168,15 +168,19 @@ export class ChartComponent implements OnInit{
 
       if( isStacked == 'percent'){
         tmp.options['vAxis']['minValue'] = 0;
-        //tmp.options['vAxis']['ticks'] = [0, 30, 60, 90, 100];
-
       }
+
       tmp.options['hAxis'] = {
         format: '####'
       };
 
-      //tmp.options['hAxis']['ticks'] = ticks;
+      if( chartType == 'Bar' && isStacked == 'percent' ){
+        tmp.options['hAxis'] = {
+          format: primaryFormat
+        };
+      }
 
+      console.log(primaryFormat);
 
       if( graphName == "ComboChart" ){
         //tmp['options']['colors'] = ["#18218f", "#db3a00"];
@@ -268,8 +272,6 @@ export class ChartComponent implements OnInit{
 
       }
       
-      console.log( JSON.stringify( tmp.options ));
-      
       output.push(tmp);
 
     }
@@ -279,7 +281,6 @@ export class ChartComponent implements OnInit{
     }else{
       this.chartData = output;
     }
-
 
   }
 
