@@ -162,12 +162,32 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of filteredTableData">
-                  <td class="narrow"><div *ngIf="item.oskaField && item.oskaField[0]">{{ item.oskaField[0].entity.title }}</div></td>
-                  <td class="wide"><div *ngIf="item.problemDescription">{{item.problemDescription}}</div></td>
-                  <td class="wide"><div *ngIf="item.proposal">{{item.proposal}}</div></td>
-                  <td class="narrow"><div *ngIf="item.responsible">{{item.responsible}}</div></td>
-                  <td class="narrow"><div *ngIf="item.proposalStatus">{{item.proposalStatus}}</div></td>
-                  <td class="wide"><div *ngIf="item.expertCommentary">{{item.expertCommentary}}</div></td>
+                  <td class="narrow">
+                    <div id="limitedData" *ngIf="item.oskaField && item.oskaField[0]">
+                      <div>{{ item.oskaField[0].entity.title }}</div>
+                    </div>
+                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                  </td>
+                  <td class="wide">
+                    <div id="limitedData" *ngIf="item.problemDescription">{{item.problemDescription}}</div>
+                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                  </td>
+                  <td class="wide">
+                    <div id="limitedData" *ngIf="item.proposal">{{item.proposal}}</div>
+                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)"  href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                  </td>
+                  <td class="narrow">
+                    <div id="limitedData" *ngIf="item.responsible">{{item.responsible}}</div>
+                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                  </td>
+                  <td class="narrow">
+                    <div id="limitedData" *ngIf="item.proposalStatus">{{item.proposalStatus}}</div>
+                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                  </td>
+                  <td class="wide">
+                    <div id="limitedData" *ngIf="item.expertCommentary">{{item.expertCommentary}}</div>
+                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                  </td>
                 </tr>
               </tbody>
             </table>

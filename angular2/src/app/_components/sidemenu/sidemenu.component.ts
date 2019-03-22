@@ -65,7 +65,7 @@ export class SideMenuComponent implements OnInit {
       this.getData();
     });
     this.getData();
-    this.appVersion();
+    //this.appVersion();
   }
 
   appVersion() {
