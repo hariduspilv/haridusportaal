@@ -98,6 +98,7 @@ class ProcessOskaIndicatorData {
                 $context['sandbox']['max'] = count($context['results']['values']);
             }
 
+            $context['results']['processed'] = [];
 
             if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
                 $limit = $context['sandbox']['current_id'] + 10;
@@ -105,19 +106,18 @@ class ProcessOskaIndicatorData {
                     $limit = $context['sandbox']['max'] + 1;
                 }
                 for($i = $context['sandbox']['current_id']; $i < $limit; $i++){
-                    // do something
+
                     $values = $context['results']['values'][$i];
                     if($values){
                         $entity = OskaIndicatorEntity::create($values);
                         $entity->save();
+
+                        $context['sandbox']['progress']++;
+                        $context['sandbox']['current_id'] = $i;
+                        $context['message'] = $context['sandbox']['max'];
+                        $context['results']['processed'][] = $entity->id();
                     }
 
-                    $context['sandbox']['progress']++;
-                    $context['sandbox']['current_id'] = $i;
-                    #$context['message'] = t('Processing lines : @limit - @current ', ['@limit' => $limit, '@current' => $context['sandbox']['current_id'] + 1]);
-                    $context['message'] = $context['sandbox']['max'];
-
-                    $context['results']['processed'][] = $entity->id();
                 }
                 $context['sandbox']['current_id']++;
 
