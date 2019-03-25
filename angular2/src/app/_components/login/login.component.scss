@@ -42,18 +42,16 @@
 
   .login__actions{background:none; padding:0; border:none; appearance: none;
     .person{padding-right:0.3125rem;}
-  }
-}
-    @include break-on(md, max) {
-.login__actions { position: relative;
-  .login { display: none; }
-  .person { padding-right: 0.75rem; }
-        &.logged:before { 
-    @include break-on(md, max) { 
+    &.logged::before { 
       content: ""; display: block; height: 0.625rem; width: 0.625rem; background: $success; border-radius: 1rem; margin-right: 0.5rem; position: absolute; top: 0.8rem; left: 1.1rem; z-index: 3;
     }
   }
- }
+}
+@include break-on(md, max) {
+  .login__actions { position: relative;
+    .login { display: none; }
+    .person { padding-right: 0.75rem; }
+  }
 }
 .mobile-handshake {color: $black;white-space: normal;
   h1 {margin: 2rem 0;color: $black;}

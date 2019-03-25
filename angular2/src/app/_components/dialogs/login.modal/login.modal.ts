@@ -193,7 +193,7 @@ export class LoginModal {
   mobileIdCancel() {
     if(this.loginRequest) {
       this.loginRequest.unsubscribe();
-      this.mobileValidation['handshake'] = false;
+      //this.mobileValidation['handshake'] = false;
     }
     return;
   }

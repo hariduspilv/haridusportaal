@@ -75,8 +75,8 @@
     <div class="flex flex-notrows mobile-handshake centered" *ngIf="mobileValidation.handshake">
       <p>Kontrolli, et näed mobiiltelefoni ekraanil täpselt sama numbrit:</p>
       <h1>{{ mobileValidation.challengeID }}</h1>
-      <p class="latter">Seejärel sisesta PIN1</p>
-      <p class="latter light">Ootame Mobiil-ID vastust…</p>
+      <p class="mb-0">Seejärel sisesta PIN1</p>
+      <p class="light mt-0">Ootame Mobiil-ID vastust…</p>
       <button (click)="mobileIdCancel()" class="button--cancel">{{"button.cancel" | translate}}</button>
     </div>
   </div>
