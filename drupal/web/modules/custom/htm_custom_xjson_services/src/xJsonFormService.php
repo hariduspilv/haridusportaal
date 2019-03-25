@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_xjson_services;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\user\Entity\User;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -11,11 +12,16 @@ use Swaggest\JsonSchema\Exception;
 use Swaggest\JsonSchema\Schema;
 use League\Csv\Writer;
 use League\Csv\Reader;
+use League\Csv\CannotInsertRecord;
 
 /**
  * Class xJsonService.
  */
 class xJsonFormService implements xJsonServiceInterface {
+
+    var $entity;
+    var $definition_steps;
+    var $send_email_fields = [];
 
     /**
      * Drupal\Core\Session\AccountProxyInterface definition.
@@ -36,7 +42,13 @@ class xJsonFormService implements xJsonServiceInterface {
      */
     protected $entityTypeManager;
 
-    #protected $ehisconnector;
+    /**
+     * The entity type manager.
+     *
+     * @var \Drupal\Core\Mail\MailManagerInterface
+     */
+    protected $mailManager;
+
 
     /**
      * xJsonService constructor.
@@ -44,11 +56,13 @@ class xJsonFormService implements xJsonServiceInterface {
      * @param AccountProxyInterface      $current_user
      * @param RequestStack               $request_stack
      * @param EntityTypeManagerInterface $entityTypeManager
+     * @param MailManagerInterface       $mailManager
      */
-    public function __construct (AccountProxyInterface $current_user, RequestStack $request_stack, EntityTypeManagerInterface $entityTypeManager) {
+    public function __construct (AccountProxyInterface $current_user, RequestStack $request_stack, EntityTypeManagerInterface $entityTypeManager, MailManagerInterface $mailManager) {
         $this->currentUser = $current_user;
         $this->currentRequestContent = json_decode($request_stack->getCurrentRequest()->getContent());
         $this->entityTypeManager = $entityTypeManager;
+        $this->mailManager = $mailManager;
     }
 
     public function getxJsonHeader () {
@@ -87,13 +101,8 @@ class xJsonFormService implements xJsonServiceInterface {
 
         // validate posted values
         $valid = $this->validateFormValues($data);
-        if($valid){
-            $this->postValuesToCSV($data);
-        }else{
-            return false;
-        }
 
-        return true;
+        return $valid ? $this->postValuesToCSV($data) : $valid;
     }
 
     public function validateFormValues($data){
@@ -102,17 +111,25 @@ class xJsonFormService implements xJsonServiceInterface {
 
         // get xJson definition for validation
         $definition = $this->getEntityJsonObject();
-        $definition_steps = $definition['body']['steps'];
+        $this->definition_steps = $definition['body']['steps'];
 
         $steps = $data['form_info']['body']['steps'];
 
         // look through steps and validate data inside them
         foreach($steps as $step_key => $step){
             foreach($step['data_elements'] as $field_name => $value){
-                $data_type = $definition_steps[$step_key]['data_elements'][$field_name]['type'];
+                $data_type = $this->definition_steps[$step_key]['data_elements'][$field_name]['type'];
                 $valid = $this->validateDataElement($data_type, $value);
                 if(!$valid){
                     return $valid;
+                }
+
+                // check, if we need to send email later on
+                if($data_type === 'email'){
+                    $email_def = $this->definition_steps[$step_key]['data_elements'][$field_name];
+                    if(isset($email_def['send_email']) && $email_def['send_email'] === true){
+                        $this->send_email_fields[$field_name] = $email_def;
+                    }
                 }
             }
         }
@@ -173,7 +190,7 @@ class xJsonFormService implements xJsonServiceInterface {
             $this->entity = $entityStorage->load($result);
             return ($this->entity) ? Json::decode($this->entity->get('xjson_definition')->value) : null;
         } else {
-            return null;
+            return $this->returnErrorxDzeison();
         }
 
     }
@@ -198,8 +215,42 @@ class xJsonFormService implements xJsonServiceInterface {
         foreach($headers as $key => $header){
             $ordered_values[$key] = $values[$header];
         }
-        $writer->insertOne($ordered_values);
 
+        // add new data to CSV
+        try{
+            $writer->insertOne($ordered_values);
+        }catch(CannotInsertRecord $e) {
+            return false;
+        }
+
+        // send out emails if needed
+        if(count($this->send_email_fields) > 0){
+            $this->sendOutEmails($values);
+        }
+
+        return true;
+    }
+
+    protected function sendOutEmails($values){
+        $module = 'htm_custom_xjson_services';
+        $key = 'xjson_email';
+        $langcode = 'et';
+
+
+        foreach($this->send_email_fields as $field_name => $field_info){
+            $recipient = $values[$field_name];
+            $params['subject'] = $field_info['email_subject'];
+            $params['body'] = $field_info['email_body'];
+
+            $result = $this->mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, true);
+            if ($result['result']) {
+                $message = t('An email notification has been sent to @email', array('@email' => $recipient));
+                \Drupal::logger($module)->notice($message);
+            }else{
+                $message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
+                \Drupal::logger($module)->error($message);
+            }
+        }
     }
 
     protected function getInputValues($data){
