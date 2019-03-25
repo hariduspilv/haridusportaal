@@ -50,6 +50,20 @@
   }
   .mobile-handshake {
     width: 100%;
+    color: #333333;
+    p {
+      font-weight: 500;
+      line-height: 1.88;
+      text-align: center;
+      &.light {
+        font-weight: normal;
+      }
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1.25;
+    }
   }
   button.button--cancel{margin-left:2.25rem; margin-right:2.25rem; appearance:none; padding:0; background:none; border:none; text-decoration: underline; color:$blue; font-size:1rem; line-height:2.5rem; margin-bottom:1rem;
     &:hover{text-decoration: none;}
