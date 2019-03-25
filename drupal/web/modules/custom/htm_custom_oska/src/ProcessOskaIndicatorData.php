@@ -109,9 +109,9 @@ class ProcessOskaIndicatorData {
                     $values = $context['results']['values'][$i];
                     if($values){
                         $entity = OskaIndicatorEntity::create($values);
+                        $entity->save();
                     }
 
-                    $entity->save();
                     $context['sandbox']['progress']++;
                     $context['sandbox']['current_id'] = $i;
                     #$context['message'] = t('Processing lines : @limit - @current ', ['@limit' => $limit, '@current' => $context['sandbox']['current_id'] + 1]);
