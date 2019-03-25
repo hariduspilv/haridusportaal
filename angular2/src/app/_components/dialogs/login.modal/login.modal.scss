@@ -1,8 +1,10 @@
 @import "../../../../assets/styles/typography.scss";
 /* do as i say not as i do */
+
+/* i am very sorry for this */
 .dialog--login {
-  max-width: unset;
-  width: unset;
+  max-width: none;
+  width: auto;
   @include break-on(xxs, max) {
     min-width: 100vh;
   }
@@ -20,22 +22,54 @@
       align-items: center;
       justify-content: space-around;
       flex-direction: column;
+      padding-top: 1.5rem;
       @include break-on(md, min) {
         flex-direction: row;
+        padding-top: 0;
       }
       .login-method {
-        display: flex;
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+        -ms-grid-rows: 1fr 1fr 1fr;
+        grid-template-rows: repeat(3, 1fr);
         flex-direction: column;
         justify-content: center;
+        align-items: center;
         flex-shrink: 0;
+        // hello IE11 my old friend
+        > :nth-child(1) {
+          -ms-grid-row: 1;
+          grid-row: 1;
+        }
+        > :nth-child(2) {
+          -ms-grid-row: 2;
+          grid-row: 2;
+        }
+        > :nth-child(3) {
+          -ms-grid-row: 3;
+          grid-row: 3;
+        }
+        //
+        > button:first-child {
+          -ms-grid-row: 2;
+          grid-row: 1/4;
+        }
         @include break-on(xs, max) {
           width: 100%;
         }
         @include break-on(xs, min) {
-          width: 300px;
+          width: 18.75rem;
         }
         @include break-on(md, min) {
           flex-shrink: 1;
+          &--mobile-id {
+            // designer is king
+            > div:first-child {
+              align-self: flex-end;
+            }
+          }
         }
       }
       form.login-method {
@@ -43,7 +77,7 @@
           padding: 0.5rem;
         }
       }
-      form input {
+      form input, form button {
         width: 100%;
       }
     }
@@ -60,7 +94,7 @@
       }
     }
     h1 {
-      font-size: 24px;
+      font-size: 1.5rem;
       font-weight: bold;
       line-height: 1.25;
     }

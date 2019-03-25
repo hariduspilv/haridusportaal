@@ -4,7 +4,7 @@
       <span class="dialog__text--medium">{{ 'button.login' | translate | uppercase }}</span>
       <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
         <span class="htm-icon">close
-          <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0"></button>
+          <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0" aria-label="close"></button>
         </span>
       </div>
     </div>
@@ -25,10 +25,10 @@
         <div *ngIf="authMethod[0] === 'tara'" class="login-method">
             <button type="button" role="button" mat-raised-button color="primary" (click)="openTara()" attr.aria-label="{{ 'login_tara' | translate }}">{{ 'login_tara' | translate }}</button>
         </div>
-        <form (ngSubmit)="submit('mobile')" class="login-method" *ngIf="authMethod[0] === 'mobile_id'">
+        <form (ngSubmit)="submit('mobile')" class="login-method login-method--mobile-id" *ngIf="authMethod[0] === 'mobile_id'">
           <ng-container>
             <div class="col-12">
-              <h2 class="text-center">{{ 'login_mobile' | translate }}</h2>
+              <h2 class="text-center my-0">{{ 'login_mobile' | translate }}</h2>
             </div>
             <div class="col-12">
               <div class="round-input__wrapper" 
