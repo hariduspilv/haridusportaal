@@ -1,5 +1,5 @@
 <span class="login-wrapper">
-  <button class="login__actions" *ngIf="isLoggedIn" [matMenuTriggerFor]="usermenu" [class.logged]="!isLoggedIn">
+  <button class="login__actions" *ngIf="isLoggedIn" [matMenuTriggerFor]="usermenu" [class.logged]="isLoggedIn">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
     <span class="login pointer sm-hide">{{ user.username }}</span>
   </button>
