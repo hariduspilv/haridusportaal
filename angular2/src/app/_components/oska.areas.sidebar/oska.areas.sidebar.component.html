@@ -295,6 +295,21 @@
     </div>
   </div>
   <!-- / sidebar.fieldOskaFieldPros/Cons / -->
+  <!-- resultLocation -->
+  <div class="block border-orange padding-block sm-top" *ngIf="viewType == 'field' && resultLocation && fieldQuery">
+    <h1 class="medium">{{ 'oska.results' | translate }}</h1>
+    <div class="padding-block--content">
+      <ul class="link-list mt-0 mb-0 extra" *ngIf="resultLocation">
+        <li>
+          <a href="javascript:void(0)" [routerLink]="resultLocation" [queryParams]="fieldQuery" attr.aria-label="{{ 'oska.results' | translate }}" class="link related">
+            <div aria-hidden="true"><span class="htm-icon">link</span></div>
+            <div class="label">{{ 'oska.go_to_results' | translate }}</div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- / resultLocation / -->
   <!-- sidebar.fieldOskaMainProfession -->
   <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldOskaMainProfession && sidebar.fieldOskaMainProfession.length">
     <h1 class="medium">{{ 'oskaProfessions.label' | translate }}</h1>
