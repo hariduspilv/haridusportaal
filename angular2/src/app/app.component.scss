@@ -503,7 +503,7 @@ $grid-columns: 12;
       &.hidden {border-top: none;border-bottom: none;
         &.last {border-bottom: .0625rem solid $gray;}
         &.vertical {position: relative;}
-        .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 500;font-size: .875rem;left: $gutter;top: $half-gutter;}
+        .vertical__text {position: absolute;writing-mode: tb-rl;white-space: nowrap;font-weight: 400;font-size: .875rem;left: $gutter;top: 1rem;z-index: 1;}
       }
       &.dark {font-weight: 500;}
     }

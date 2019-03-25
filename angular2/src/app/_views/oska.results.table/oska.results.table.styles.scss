@@ -42,10 +42,13 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
 }
 .pointer {user-select: none;}
 .scrollable {padding: 0;}
+.scrollable__table {overflow-y: hidden;}
 .scrollableTable {
   td {
     &.narrow {min-width: 7.5rem; font-weight: 400;}
-    &.wide {min-width: 15rem; font-weight: 400;}
+    &.wide {min-width: 15rem; font-weight: 400;
+      &--extra {min-width: 25rem;}
+    }
   }
   td, th {font-size: 1rem;line-height: 1.375rem;
     .less {overflow: hidden; max-height: 7rem;position: relative;
@@ -54,9 +57,11 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
       }
     }
     .show-more {line-height: 2rem;}
-    .hidden {display: none;}
+    .hidden-elem {display: none;}
+    &.hidden {opacity: 1;background: #ffe7c1}
   }
 }
+.hidden {position: inherit;}
 .block__head {margin-bottom: 0;}
 @include break-on(sm, max) {
   .padding-block{
@@ -64,13 +69,20 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
   }
 }
 .link-holder {padding-bottom: .5rem;}
-.scrollableTable thead span.icon {position: relative;min-width: 1.5rem;display: inline-block;bottom: 1rem;
-  .htm-icon {
-    position: absolute;
-    top: -.125rem;
-    font-size: 1.5rem;
-    left: .25rem;
+.scrollableTable thead {
+  .htm-icon.nonvisible__elem {font-size: 1.5rem;top: .75rem;cursor: pointer;}
+  .visible__elem {float: right;top: 0;}
+  span.icon {position: relative;min-width: 1.5rem;display: inline-block;bottom: 1rem;
+    .htm-icon {
+      cursor: pointer;
+      position: absolute;
+      top: -.125rem;
+      font-size: 1.5rem;
+      left: .25rem;
+    }
   }
 }
-
+.icon-wrapper {margin-right: .5rem;}
+.dashboard-table tr {border: none;}
+.dashboard-table tr td:last-of-type {font-weight: normal;}
 feedback{margin-left:0; margin-right:0; margin-bottom:-2rem;}
