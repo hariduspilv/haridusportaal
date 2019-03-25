@@ -1,5 +1,5 @@
 @import "../../../../assets/styles/typography.scss";
-.dialog {padding: $medium;padding-top:$small;border-top: $gutter solid $orange;padding-bottom: $xxl; box-sizing:border-box; max-height:90vh; overflow: auto;
+.dialog {padding: $medium;padding-top:$small;border-top: $gutter solid $dark-orange;padding-bottom: $xxl; box-sizing:border-box; max-height:90vh; overflow: auto;
   &.dashboard-form {overflow: unset;}
 
   iframe{border:none; display:block; width:100%; height:400px;}
