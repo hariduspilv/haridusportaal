@@ -14,10 +14,13 @@ export class OskaAreasSidebarComponent implements OnInit {
   @Input() indicators: any;
   @Input() fillingbar: any;
   @Input() viewType: any;
+  @Input() fieldName: any
 
   private lang;
   private jobPagesExist: boolean = false;
   private locationPerLang: any = false;
+  private resultLocation: string = '/oska-tulemused/ettepanekute-elluviimine';
+  private fieldQuery: any = false;
   private learningQuery: any = false;
   private generalLimiter: number = 5;
   private filledNumberEmployed: any = false;
@@ -82,6 +85,7 @@ export class OskaAreasSidebarComponent implements OnInit {
       }
   
       if (this.viewType === 'field') {
+        this.fieldQuery = {field: this.fieldName.replace(/-/g, ' ')};
         this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
         this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
         this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];

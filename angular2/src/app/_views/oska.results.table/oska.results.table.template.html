@@ -137,7 +137,7 @@
                       </span>
                     </a>
                   </th>
-                  <th>{{ 'oska.table_problem' | translate }}</th>
+                  <!-- <th>{{ 'oska.table_problem' | translate }}</th> -->
                   <th>{{ 'oska.table_proposition' | translate }}</th>
                   <th class="pointer" (click)="sortView('responsible')">
                     <span>{{ 'oska.table_responsible_person' | translate }}</span>
@@ -157,37 +157,52 @@
                       </span>
                     </a>
                   </th>
-                  <th>{{ 'oska.table_experts_comment' | translate }}</th>
+                  <th class="separator" *ngIf="!commentVisible"></th>
+                  <th [class.hidden]="!commentVisible">
+                    <span *ngIf="commentVisible">{{ 'oska.table_experts_comment' | translate }}</span>
+                    <span class="icon visible__elem" aria-hidden="true" *ngIf="commentVisible">
+                      <span class="htm-icon" (click)="commentVisible = !commentVisible; tableOverflown = tableService.isElemOverflown('resultsTable');">skip_previous</span>
+                    </span>
+                    <span aria-hidden="true" *ngIf="!commentVisible">
+                      <span class="htm-icon nonvisible__elem" (click)="commentVisible = !commentVisible; tableOverflown = tableService.isElemOverflown('resultsTable');">skip_next</span>
+                    </span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of filteredTableData">
+                <tr *ngFor="let item of filteredTableData; let first = first; let last = last;">
                   <td class="narrow">
-                    <div id="limitedData" *ngIf="item.oskaField && item.oskaField[0]">
-                      <div>{{ item.oskaField[0].entity.title }}</div>
-                    </div>
-                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                    <div *ngIf="item.oskaField && item.oskaField[0]">{{ item.oskaField[0].entity.title }}</div>
                   </td>
-                  <td class="wide">
-                    <div id="limitedData" *ngIf="item.problemDescription">{{item.problemDescription}}</div>
-                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
-                  </td>
+                  <!-- <td class="wide">
+                    <div *ngIf="item.problemDescription">{{item.problemDescription}}</div>
+                  </td> -->
                   <td class="wide">
                     <div id="limitedData" *ngIf="item.proposal">{{item.proposal}}</div>
                     <div class="text-center hidden show-more"><a (click)="removeLimiter($event)"  href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
                   </td>
                   <td class="narrow">
-                    <div id="limitedData" *ngIf="item.responsible">{{item.responsible}}</div>
-                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                    <div *ngIf="item.responsible">{{item.responsible}}</div>
                   </td>
                   <td class="narrow">
-                    <div id="limitedData" *ngIf="item.proposalStatus">{{item.proposalStatus}}</div>
-                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                    <!-- <div *ngIf="item.proposalStatus">{{item.proposalStatus}}</div> -->
+                    <div class="flex centered">
+                      <div class="icon-wrapper"
+                        [class.stagnant]="item.proposalStatus == 'Töös'"
+                        [class.top]="item.proposalStatus == 'Tehtud'"
+                        [class.bottom]="item.proposalStatus == 'Tegemata'">
+                        <span class="icon" aria-hidden="true"></span>
+                      </div>
+                      <div class="flex-text"><span role="text" attr.aria-label="{{item.proposalStatus}}">{{item.proposalStatus}}</span></div>
+                    </div>
                   </td>
-                  <td class="wide">
-                    <div id="limitedData" *ngIf="item.expertCommentary">{{item.expertCommentary}}</div>
-                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
-                  </td>
+                  <ng-container>
+                    <td class="separator" *ngIf="!commentVisible"></td>
+                    <td [class.wide--extra]="commentVisible" [class.hidden]="!commentVisible" [class.last]="last" [class.vertical]="!commentVisible">
+                      <span class="vertical__text" *ngIf="!commentVisible && first">{{ 'oska.table_experts_comment' | translate }}</span>
+                      <span *ngIf="commentVisible && item.expertCommentary">{{ item.expertCommentary }}</span>
+                    </td>
+                  </ng-container>
                 </tr>
               </tbody>
             </table>

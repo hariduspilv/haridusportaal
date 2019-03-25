@@ -18,6 +18,8 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   public tableFile: any = false;
   public filteredTableData: any = false;
   public error: boolean = false;
+  public updated: boolean = false;
+  public commentVisible: boolean = false;
   public tableOverflown: boolean = false;
   public elemAtStart: boolean = true;
   public initialized: boolean = false;
@@ -65,6 +67,8 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
           && responsible.includes(this.filterItems['responsible'].toLowerCase())
           && proposalStatus.includes(this.filterItems['proposalStatus'].toLowerCase());
       })
+      this.removeAllRedundantClasses()
+      this.updated = true;
       this.resetTableScroll();
     }
   }
@@ -103,10 +107,23 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
     }
   }
 
+  removeAllRedundantClasses() {
+    let elems = document.querySelectorAll('[class*="elem-"]');
+    for (let i = 0; i < elems.length; i++) {
+      Array.from(elems[i].classList).forEach(className => { 
+        if (className.startsWith('elem')) {
+          elems[i].classList.remove(className);
+        }
+      });
+    }
+  }
+
   removeLimiter(self) {
     self.target.parentNode.classList.add('hidden');
     let sibling = document.querySelector(`.elem-${self.target.className}`);
     sibling.classList.remove('less');
+    sibling.classList.remove(`elem-${self.target.className}`);
+    self.target.parentNode.childNodes[0].classList.remove(`${self.target.className}`);
   }
 
   getTableData(){
@@ -197,6 +214,10 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   ngAfterViewChecked() {
     if(!this.initialized) {
       this.initialTableCheck('resultsTable');
+    }
+    if(this.updated) {
+      this.limitTableRows('#limitedData', 150);
+      this.updated = false;
     }
   }
 
