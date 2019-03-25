@@ -19,8 +19,8 @@ export class OskaAreasSidebarComponent implements OnInit {
   private lang;
   private jobPagesExist: boolean = false;
   private locationPerLang: any = false;
-  private resultLocation: string = '/oska-tulemused/ettepanekute-elluviimine';
-  private fieldQuery: any = false;
+  public resultLocation: string = '/oska-tulemused/ettepanekute-elluviimine';
+  public fieldQuery: any = false;
   private learningQuery: any = false;
   private generalLimiter: number = 5;
   private filledNumberEmployed: any = false;
