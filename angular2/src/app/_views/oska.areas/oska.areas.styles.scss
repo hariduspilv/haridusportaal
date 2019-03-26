@@ -123,7 +123,7 @@ h1{color:$black; font-size:1.5rem; line-height:125%; margin:0;}
   }
 
 }
-.studyProgramme__item {padding: $small $quarter; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
+.studyProgramme__item {padding: .5rem .75rem; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
   &__titlebox {width:100%; display:flex;
     .col-grow{flex-grow: 1}
     .col{display: flex; align-items: baseline; flex-shrink: 0;align-items: baseline;flex-grow: 0;}
@@ -132,7 +132,7 @@ h1{color:$black; font-size:1.5rem; line-height:125%; margin:0;}
   &__title{width:100%; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue;
     &:hover{text-decoration: none;}
   }
-  &__contentbox {margin: 0 $gutter;width: 100%;box-sizing: border-box;margin-top: -.375rem;}
+  &__contentbox {margin: 0 $gutter;width: 100%;box-sizing: border-box;margin-top: -.375rem;padding-bottom: .5rem;}
   @include break-on(sm, min) {
     &:last-child{border-bottom:0;}
   }
