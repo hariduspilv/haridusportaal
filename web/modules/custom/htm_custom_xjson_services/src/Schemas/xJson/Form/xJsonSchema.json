@@ -55,6 +55,9 @@
       },
       "required": ["title", "steps"],
       "additionalProperties": false
+    },
+    "messages": {
+      "type": "object"
     }
   },
   "required": ["header", "body"],
