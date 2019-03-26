@@ -191,12 +191,12 @@ class xJsonService implements xJsonServiceInterface {
      * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
      * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
      */
-    public function getEntityJsonObject ($form_name = null, $entity_type) {
+    public function getEntityJsonObject ($form_name = null) {
         $id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
-        $entityStorage = $this->entityTypeManager->getStorage($entity_type);
+        $entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
 
         $connection = \Drupal::database();
-        $query = $connection->query("SELECT id FROM ".$entity_type." WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $id]);
+        $query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $id]);
         $result = $query->fetchField();
         if ($result) {
             $entity = $entityStorage->load($result);
