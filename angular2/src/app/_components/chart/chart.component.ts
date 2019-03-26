@@ -41,11 +41,11 @@ export class ChartComponent implements OnInit{
         format: '####'
       },
       curveType: "function",
-      lineWidth: 5,
+      lineWidth: 3,
       pointsVisible: true,
-      pointSize: 12,
+      pointSize: 10,
       legend: { position: 'bottom', maxLines: 99, alignment: 'start' },
-      colors: ['#161B5B', '#293193', '#3E4BED', '#6248C9', '#9E02B6'],
+      colors: ['#161B5B','#293193','#4C53AD','#824CAD','#AD4CA3'],
 
       animation:{
         duration: 1000,
@@ -57,6 +57,40 @@ export class ChartComponent implements OnInit{
 
   capitalize = function(input) {
     return input.charAt(0).toUpperCase() + input.slice(1);
+  }
+
+  getFormat( unit ){
+    let format = '####';
+    switch( unit ){
+      case 'summa': {
+        format = '####';
+        break;
+      }
+      case '%': {
+        format = 'percent';
+        break;
+      }
+      case 'euro': {
+        format = '#€';
+        break;
+      }
+      default: {
+        format = '####';
+      }
+    }
+    return format;
+  }
+
+  dividePercentage( value ){
+    return value = value.map( item => {
+      return item.map( col => {
+        if( !isNaN( col ) && typeof col == 'number' ){
+          return col/100;
+        }else{
+          return col;
+        }
+      });
+    });
   }
 
   compileData(inputData:any = false) {
@@ -75,31 +109,14 @@ export class ChartComponent implements OnInit{
       let secondaryGraphType = current.secondaryGraphType;
       let isStacked:any = false;
       let seriesType:any = false;
+      let primaryFormat;
 
       if( chartType == "Doughnut" ){
         chartType = "Pie";
       }
-
-      let primaryFormat = '####';
       
       if( current.options.graph_y_unit ){
-        switch( current.options.graph_y_unit ){
-          case 'summa': {
-            primaryFormat = '####';
-            break;
-          }
-          case '%': {
-            primaryFormat = 'percent';
-            break;
-          }
-          case 'euro': {
-            primaryFormat = '#€';
-            break;
-          }
-          default: {
-            primaryFormat = '####';
-          }
-        }
+        primaryFormat = this.getFormat(current.options.graph_y_unit);
       }
 
       switch( chartType.toLowerCase() ){
@@ -142,6 +159,9 @@ export class ChartComponent implements OnInit{
         }
       }
 
+      if( primaryFormat == 'percent' ){
+        value = this.dividePercentage( value );
+      }
 
       let graphName = chartType+"Chart";
 
@@ -179,8 +199,6 @@ export class ChartComponent implements OnInit{
           format: primaryFormat
         };
       }
-
-      console.log(primaryFormat);
 
       if( graphName == "ComboChart" ){
         //tmp['options']['colors'] = ["#18218f", "#db3a00"];
@@ -253,7 +271,7 @@ export class ChartComponent implements OnInit{
         }
 
         if( filters && filters['näitaja2'] && filters['näitaja2'].length > 0 ){
-          let lineColors = ['#c7c7c9', '#c7c7c9'];
+          let lineColors = ['#FFE7C1', '#BEE3E8'];
           let colorCounter = 0;
 
           for( let i in filters['näitaja2'] ){
