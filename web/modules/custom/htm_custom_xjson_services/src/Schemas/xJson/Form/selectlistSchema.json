@@ -40,6 +40,9 @@
         "et"
       ]
     },
+    "multiple": {
+      "type": "boolean"
+    },
     "options": {
       "type": "object"
     },
