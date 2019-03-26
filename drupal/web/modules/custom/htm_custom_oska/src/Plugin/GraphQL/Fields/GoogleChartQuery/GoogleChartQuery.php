@@ -155,12 +155,12 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
             #get value for each label, sum reoccurring labels
             foreach($records as $record){
 
-                if($indicator_field === 'valdkond'){
+                if($indicator_field === 'valdkond' || $label_field === 'valdkond'){
                     if(empty($record['valdkond']) || !empty($record['alavaldkond']) || !empty($record['ametiala'])){
                         continue;
                     }
                 }
-                if($indicator_field === 'alavaldkond'){
+                if($indicator_field === 'alavaldkond' || $label_field === 'alavaldkond'){
                     if(empty($record['valdkond']) || empty($record['alavaldkond']) || !empty($record['ametiala'])){
                         continue;
                     }
