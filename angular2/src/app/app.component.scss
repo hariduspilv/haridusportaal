@@ -497,7 +497,7 @@ $grid-columns: 12;
     }
     th {white-space: nowrap;}
     th, td {line-height: 1.38rem;font-size: 1rem;font-weight: 500;padding: $gutter $medium;text-align:left;border: .0625rem solid $gray;}
-    td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
+    td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:0 $gutter;}
     th.hidden {text-align: center;border-bottom: none;}
     td {font-weight: 400;
       &.hidden {border-top: none;border-bottom: none;
