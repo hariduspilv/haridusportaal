@@ -36,6 +36,12 @@
     },
     "hidden": {
       "type": "boolean"
+    },
+    "required": {
+      "type": "boolean"
+    },
+    "default_value": {
+      "type": "boolean"
     }
   },
   "required": [
