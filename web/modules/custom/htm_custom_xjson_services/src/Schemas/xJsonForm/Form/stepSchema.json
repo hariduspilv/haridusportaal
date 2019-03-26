@@ -22,5 +22,6 @@
       "required": ["et"]
     }
   },
-  "required": ["title", "data_elements"]
+  "required": ["title", "data_elements"],
+  "additionalProperties": false
 }
