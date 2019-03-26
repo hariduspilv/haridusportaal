@@ -21,7 +21,8 @@
           "enum": [1]
         }
       },
-      "required": ["endpoint", "form_name", "number_of_steps", "auth_not_required"]
+      "required": ["endpoint", "form_name", "number_of_steps", "auth_not_required"],
+      "additionalProperties": false
     },
     "body": {
       "type": "object",
@@ -57,7 +58,8 @@
           "type": "object"
         }
       },
-      "required": ["title", "steps"]
+      "required": ["title", "steps"],
+      "additionalProperties": false
     },
     "messages": {
       "type": "object",
@@ -123,8 +125,10 @@
           ]
         }
       },
-      "required": ["success_message", "error_message"]
+      "required": ["success_message", "error_message"],
+      "additionalProperties": false
     }
   },
-  "required": ["header", "body", "messages"]
+  "required": ["header", "body", "messages"],
+  "additionalProperties": false
 }

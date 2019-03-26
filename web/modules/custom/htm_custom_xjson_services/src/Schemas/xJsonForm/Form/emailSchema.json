@@ -50,5 +50,6 @@
       "send_email": { "enum": [ true ] }
     }
   },
-  "then": { "required": ["email_subject", "email_body"] }
+  "then": { "required": ["email_subject", "email_body"] },
+  "additionalProperties": false
 }
