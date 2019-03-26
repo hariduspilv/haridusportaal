@@ -80,10 +80,10 @@ class xJsonService implements xJsonServiceInterface {
                             'role' => 'TAOTLEJA',
                             'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
-                            'educationalInstitutions_id' => ($this->currentRequestContent->educationalInstitutions_id) ?: null,
+                            'educationalInstitutions_id' => isset($this->currentRequestContent->educationalInstitutions_id) ? $this->currentRequestContent->educationalInstitutions_id : null,
                         ]
                     ],
-                    'parameters' => ($this->currentRequestContent->additional_parameters) ?: null,
+                    'parameters' => isset($this->currentRequestContent->additional_parameters) ? $this->currentRequestContent->additional_parameters : null,
                 ];
 
             /*TODO fix empty arrays*/
@@ -191,12 +191,12 @@ class xJsonService implements xJsonServiceInterface {
      * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
      * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
      */
-    public function getEntityJsonObject ($form_name = null, $entity_type) {
+    public function getEntityJsonObject ($form_name = null) {
         $id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
-        $entityStorage = $this->entityTypeManager->getStorage($entity_type);
+        $entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
 
         $connection = \Drupal::database();
-        $query = $connection->query("SELECT id FROM ".$entity_type." WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $id]);
+        $query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $id]);
         $result = $query->fetchField();
         if ($result) {
             $entity = $entityStorage->load($result);

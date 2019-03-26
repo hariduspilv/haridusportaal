@@ -16,6 +16,18 @@
         "et"
       ]
     },
+    "helpertext": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "et"
+      ]
+    },
     "default_value": {
       "type": "string"
     },
@@ -27,10 +39,14 @@
     },
     "hidden": {
       "type": "boolean"
+    },
+    "required": {
+      "type": "boolean"
     }
   },
   "required": [
     "type",
     "title"
-  ]
+  ],
+  "additionalProperties": false
 }

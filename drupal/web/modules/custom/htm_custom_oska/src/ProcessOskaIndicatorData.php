@@ -103,7 +103,7 @@ class ProcessOskaIndicatorData {
             if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
                 $limit = $context['sandbox']['current_id'] + 10;
                 if ($context['sandbox']['max'] - $context['sandbox']['current_id'] < 10){
-                    $limit = $context['sandbox']['max'] + 1;
+                    $limit = $context['sandbox']['max'];
                 }
                 for($i = $context['sandbox']['current_id']; $i < $limit; $i++){
 
@@ -150,21 +150,26 @@ class ProcessOskaIndicatorData {
         drupal_set_message($message[0], $message[1]);
     }
 
-    public function checkEntityReference($entity_type, $vocabulary, $name){
+    public static function checkEntityReference($entity_type, $vocabulary, $name){
 
-        $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
+
+        $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
 
         $properties = [
             'type' => $vocabulary,
             'title' => $name
         ];
 
-        $entity = reset($storage->loadByProperties($properties));
+        $result = $storage->loadByProperties($properties);
 
-        return ($entity) ? $entity->id() : FALSE;
+        if($result){
+            $entity = reset($result);
+        }
+
+        return isset($entity) ? $entity->id() : FALSE;
     }
 
-    private function deleteAllEntities(){
+    public static function deleteAllEntities(){
         $ids = \Drupal::entityQuery('oska_indicator_entity')->execute();
         $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_indicator_entity');
         $entities = $storage_handler->loadMultiple($ids);
