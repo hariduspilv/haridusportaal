@@ -132,7 +132,7 @@
                     </div>
                     <ng-container *ngIf="item.paragraphReference[0].reverseOskaMainProfessionOskaIndicatorEntity.entities && item.paragraphReference[0].reverseOskaMainProfessionOskaIndicatorEntity.entities.length">
                       <ng-container *ngFor="let elem of indicatorValues(item.paragraphReference[0].reverseOskaMainProfessionOskaIndicatorEntity.entities); let ind = index;">
-                        <ng-container *ngIf="elem.oskaId">
+                        <ng-container *ngIf="elem && elem.oskaId">
                           <div class="studyProgramme__item__contentbox--elem">
                             <div class="inline__items sm-hide">
                               <span class="item">{{ elem.oskaIndicator | titleCase }}: 

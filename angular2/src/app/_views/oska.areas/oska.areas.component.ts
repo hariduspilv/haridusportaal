@@ -122,9 +122,10 @@ export class OskaAreasComponent implements OnInit{
     let res = [];
     let employed = {};
     let pay = {};
+    item = item.filter(el => el != null);
     let values = item.forEach(elem => {
-      if (elem.oskaId === 1) employed = elem;
-      if (elem.oskaId === 3) pay = elem;
+      if (elem && elem.oskaId === 1) employed = elem;
+      if (elem && elem.oskaId === 3) pay = elem;
     });
     if (employed['oskaId']) res.push(employed);
     if (pay['oskaId']) res.push(pay);
