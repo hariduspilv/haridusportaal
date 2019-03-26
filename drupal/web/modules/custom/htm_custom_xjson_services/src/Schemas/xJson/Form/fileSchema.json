@@ -48,6 +48,9 @@
     },
     "hidden": {
       "type": "boolean"
+    },
+    "required": {
+      "type": "boolean"
     }
   },
   "required": [
