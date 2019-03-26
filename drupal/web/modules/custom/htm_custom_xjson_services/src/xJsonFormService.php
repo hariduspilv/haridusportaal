@@ -91,7 +91,7 @@ class xJsonFormService implements xJsonServiceInterface {
         if(!empty($xjson_definition)){
             $xjson_definition['header']['identifier'] = '0';
             $xjson_definition['header']['current_step'] = '1';
-            $xjson_definition['header']['acceptable_activity'] = 'SUBMIT';
+            $xjson_definition['header']['acceptable_activity'] = ['SUBMIT'];
         }
 
         return $xjson_definition;
