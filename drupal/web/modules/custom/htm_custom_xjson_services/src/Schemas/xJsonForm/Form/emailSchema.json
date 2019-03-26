@@ -20,7 +20,8 @@
       "type": "string"
     },
     "send_email": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "email_subject": {
       "type": "string",
