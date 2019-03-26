@@ -34,7 +34,7 @@
     "width": {
       "type": "integer"
     },
-    "accepted_extensions": {
+    "acceptable_extensions": {
       "type": "array",
       "items": {
         "type": "string"
