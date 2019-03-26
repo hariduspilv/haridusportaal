@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_xjson_services\Form;
 
 use Drupal\Core\Entity\ContentEntityForm;
 use Drupal\Core\Form\FormStateInterface;
+use League\Csv\Exception;
 use League\Csv\Writer;
 use League\Csv\Reader;
 
@@ -85,7 +86,12 @@ class xJsonFormEntityForm extends ContentEntityForm {
       }else{
           $reader = Reader::createFromPath($result_csv_path, 'r');
           $reader->setHeaderOffset(0);
-          $current_header = explode(';', $reader->getHeader()[0]);
+          try{
+              $response = $reader->getHeader();
+              $current_header = explode(';', $response[0]);
+          }catch(Exception $e){
+              $current_header = [];
+          }
 
           $result = array_diff($headers, $current_header);
           if(count($result) > 0){
@@ -102,7 +108,7 @@ class xJsonFormEntityForm extends ContentEntityForm {
   }
 
   private function getDefinitionHeaders(){
-      $schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/Value/";
+      $schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJsonForm/Value/";
       $headers = [];
       $data_elements = [];
 
