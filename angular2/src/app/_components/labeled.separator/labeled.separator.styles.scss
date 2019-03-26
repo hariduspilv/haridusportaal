@@ -15,8 +15,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  @include break-on(xs, min) {
+    max-width: 18.75rem;
+  }
   @include break-on(md, min) {
-    width: unset;
+    width: auto;
+    max-width: none;
   }
   .separator {
     width: 90%;
@@ -31,7 +35,7 @@
 
     &__divider {
       background-color: $gray;
-      height: 1px;
+      height: 1px; /* rem value too small for ie */
       width: 100%;
     }
     span {
@@ -44,7 +48,7 @@
         justify-content: center;
         align-items: center;
         .separator__divider {
-          max-height: 31px;
+          max-height: 1.9375rem;
           height: 100%;
           width: 1px;
         }
