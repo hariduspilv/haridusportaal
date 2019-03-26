@@ -80,10 +80,10 @@ class xJsonService implements xJsonServiceInterface {
                             'role' => 'TAOTLEJA',
                             'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
-                            'educationalInstitutions_id' => ($this->currentRequestContent->educationalInstitutions_id) ?: null,
+                            'educationalInstitutions_id' => isset($this->currentRequestContent->educationalInstitutions_id) ? $this->currentRequestContent->educationalInstitutions_id : null,
                         ]
                     ],
-                    'parameters' => ($this->currentRequestContent->additional_parameters) ?: null,
+                    'parameters' => isset($this->currentRequestContent->additional_parameters) ? $this->currentRequestContent->additional_parameters : null,
                 ];
 
             /*TODO fix empty arrays*/
