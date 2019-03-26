@@ -20,6 +20,7 @@ export class OskaAreasComponent implements OnInit{
   viewType : string;
   public sidebarData: any = false;
   private userLoggedOut: boolean = false;
+  public competitionLabels = ['oska.simple_extended', 'oska.quite_simple_extended', 'oska.medium_extended', 'oska.quite_difficult_extended', 'oska.difficult_extended'];
 
   constructor(
     private http: HttpService,
@@ -78,6 +79,15 @@ export class OskaAreasComponent implements OnInit{
           return false;
         }else{
           this.data = data['data']['route']['entity'];
+          if (this.data.reverseFieldOskaFieldParagraph && this.data.reverseFieldOskaFieldParagraph.entities.length) {
+            this.data.reverseFieldOskaFieldParagraph.entities = this.data.reverseFieldOskaFieldParagraph.entities.sort((elem1, elem2) => {
+              if(elem1.paragraphReference[0].entityLabel > elem2.paragraphReference[0].entityLabel) {
+                return 1;
+              } else {
+                return -1;
+              }
+            });
+          }
         }
 
         if (this.data.fieldSidebar) {
@@ -93,6 +103,32 @@ export class OskaAreasComponent implements OnInit{
       });
     }
     
+  }
+
+  getCompetitionLabel (val) {
+    if (val > 0 && val < 6) {
+      return this.competitionLabels[val - 1];
+    }
+    return '';
+  }
+  
+  formatNumber (number, locale) {
+    let num = parseInt(number, 10)
+    let formattedNum = num.toLocaleString(locale)
+    return formattedNum.replace(',', ' ')
+  }
+
+  indicatorValues (item) {
+    let res = [];
+    let employed = {};
+    let pay = {};
+    let values = item.forEach(elem => {
+      if (elem.oskaId === 1) employed = elem;
+      if (elem.oskaId === 3) pay = elem;
+    });
+    if (employed['oskaId']) res.push(employed);
+    if (pay['oskaId']) res.push(pay);
+    return res;
   }
 
   ngOnInit() {
