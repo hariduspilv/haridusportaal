@@ -34,7 +34,7 @@
     "width": {
       "type": "integer"
     },
-    "accepted_extensions": {
+    "acceptable_extensions": {
       "type": "array",
       "items": {
         "type": "string"
@@ -48,10 +48,14 @@
     },
     "hidden": {
       "type": "boolean"
+    },
+    "required": {
+      "type": "boolean"
     }
   },
   "required": [
     "type",
     "title"
-  ]
+  ],
+  "additionalProperties": false
 }

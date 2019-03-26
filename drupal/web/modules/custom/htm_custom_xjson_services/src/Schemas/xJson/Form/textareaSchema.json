@@ -45,10 +45,14 @@
     },
     "hidden": {
       "type": "boolean"
+    },
+    "required": {
+      "type": "boolean"
     }
   },
   "required": [
     "type",
     "title"
-  ]
+  ],
+  "additionalProperties": false
 }

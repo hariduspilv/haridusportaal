@@ -49,9 +49,13 @@
     },
     "hidden": {
       "type": "boolean"
+    },
+    "required": {
+      "type": "boolean"
     }
   },
   "required": [
     "type"
-  ]
+  ],
+  "additionalProperties": false
 }

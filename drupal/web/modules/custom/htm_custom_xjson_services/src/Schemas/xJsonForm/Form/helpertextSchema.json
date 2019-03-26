@@ -28,10 +28,20 @@
     },
     "hidden": {
       "type": "boolean"
+    },
+    "required": {
+      "type": "boolean"
+    },
+    "maxlength": {
+      "type": "integer"
+    },
+    "minlength": {
+      "type": "integer"
     }
   },
   "required": [
     "type",
     "title"
-  ]
+  ],
+  "additionalProperties": false
 }

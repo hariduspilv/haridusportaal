@@ -21,7 +21,11 @@
     },
     "table_columns": {
       "type": "object"
+    },
+    "required": {
+      "type": "object"
     }
   },
-  "required": [ "type", "title", "table_columns" ]
+  "required": [ "type", "title", "table_columns" ],
+  "additionalProperties": false
 }

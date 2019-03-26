@@ -103,9 +103,9 @@ class xJsonRestResource extends ResourceBase {
 
                 if($this->auth_required){
                     // Use current user after pass authentication to validate access.
-                    #if (!$this->currentUser->isAuthenticated()) {
-                    #    throw new AccessDeniedHttpException();
-                    #}
+                    if (!$this->currentUser->isAuthenticated()) {
+                        throw new AccessDeniedHttpException();
+                    }
                 }
 
                 return isset($data['form_info']) ? $this->postXJsonForm($data) : $this->getXJsonForm($data);
@@ -167,7 +167,7 @@ class xJsonRestResource extends ResourceBase {
 
 	private function returnRighstDzeison ($data) {
 
-		if ($data['form_info']) {
+		if (isset($data['form_info'])) {
 			$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
 		} else {
 			$request_body = $this->xJsonService->getBasexJsonForm(true);
@@ -211,7 +211,7 @@ class xJsonRestResource extends ResourceBase {
         if($result){
             $entity = $entityStorage->load($result);
             $value = json_decode($entity->get('xjson_definition_test')->value);
-            $this->auth_required = $value->header->auth_not_required === true ? false : true;
+            $this->auth_required = $value->header->auth_not_required ? false : true;
         }
 
         return $result ? true : false;

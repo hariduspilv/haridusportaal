@@ -20,7 +20,11 @@
         }
       },
       "required": ["et"]
+    },
+    "data_elements": {
+      "type": "object"
     }
   },
-  "required": ["title", "data_elements"]
+  "required": ["title", "data_elements"],
+  "additionalProperties": false
 }
