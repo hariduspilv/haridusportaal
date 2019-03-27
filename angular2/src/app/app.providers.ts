@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, Injector } from '@angular/core';
+import { APP_INITIALIZER, Injector, LOCALE_ID } from '@angular/core';
 import { RootScopeService, MetaTagsService, TableService, AddressService } from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from './_services/settings.service';
@@ -64,6 +64,7 @@ export const AppProviders = [
 		useFactory: SettingsProviderFactory,
 		deps: [ SettingsService ],
 		multi: true
-  }
+  },
+  { provide: LOCALE_ID, useValue: 'et-EE' }
 
 ]
