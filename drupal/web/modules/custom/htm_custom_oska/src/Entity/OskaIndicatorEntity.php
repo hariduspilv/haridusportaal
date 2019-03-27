@@ -279,14 +279,6 @@ class OskaIndicatorEntity extends ContentEntityBase implements OskaIndicatorEnti
             ->setDisplayConfigurable('form', TRUE)
             ->setDisplayConfigurable('view', TRUE);
 
-        $fields['status'] = BaseFieldDefinition::create('boolean')
-            ->setLabel(t('Publishing status'))
-            ->setDescription(t('A boolean indicating whether the Oska indicator entity is published.'))
-            ->setDefaultValue(TRUE)
-            ->setDisplayOptions('form', [
-                'type' => 'boolean_checkbox',
-            ]);
-
         $fields['created'] = BaseFieldDefinition::create('created')
             ->setLabel(t('Created'))
             ->setDescription(t('The time that the entity was created.'));
