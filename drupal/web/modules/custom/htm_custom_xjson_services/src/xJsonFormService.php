@@ -100,19 +100,18 @@ class xJsonFormService implements xJsonServiceInterface {
 
     public function postXJsonFormValues($data){
 
-        $this->return_data = $data;
-
         // validate posted values
-        $valid = $this->validateFormValues($this->return_data);
+        $valid = $this->validateFormValues($data);
 
         if($valid){
-            $this->postValuesToCSV($this->return_data);
+            $this->postValuesToCSV($data);
         }
 
         return $this->return_data;
     }
 
-    public function validateFormValues(){
+    public function validateFormValues($data){
+        $this->return_data = $data;
         $this->schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJsonForm/Value/";
         $valid = true;
 

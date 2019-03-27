@@ -103,9 +103,9 @@ class xJsonRestResource extends ResourceBase {
 
                 if($this->auth_required){
                     // Use current user after pass authentication to validate access.
-                    #if (!$this->currentUser->isAuthenticated()) {
-                    #    throw new AccessDeniedHttpException();
-                    #}
+                    if (!$this->currentUser->isAuthenticated()) {
+                        throw new AccessDeniedHttpException();
+                    }
                 }
 
                 return isset($data['form_info']) ? $this->postXJsonForm($data) : $this->getXJsonForm($data);
@@ -191,7 +191,7 @@ class xJsonRestResource extends ResourceBase {
 
     private function postXJsonForm ($data) {
 	    $result = $this->xJsonFormService->postXJsonFormValues($data);
-        return new ModifiedResourceResponse($result, 200);
+        return new ModifiedResourceResponse($result['form_info'], 200);
 	}
 
     private function checkxJsonForm ($data) {
