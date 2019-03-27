@@ -71,7 +71,7 @@ export class OskaAreasSidebarComponent implements OnInit {
   
   ngOnInit() {
     if (this.viewType === 'field' && this.fieldName) {
-      this.fieldQuery = {field: this.fieldName.replace(/-/g, ' ')};
+      this.fieldQuery = {field: this.fieldName};
     }
     if (this.viewType === 'mainProfession' && this.fillingbar[0] && this.fillingbar[0].value) {
       this.competitionLevel = parseInt(this.fillingbar[0].value, 10);
@@ -116,7 +116,7 @@ export class OskaAreasSidebarComponent implements OnInit {
           if (elem.entity.fieldJobLink) { this.jobPagesExist = true; }
         });
       }
-      
+
     }
   }
 
