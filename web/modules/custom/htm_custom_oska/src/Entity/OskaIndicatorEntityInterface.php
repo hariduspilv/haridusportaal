@@ -53,4 +53,25 @@ interface OskaIndicatorEntityInterface extends ContentEntityInterface, EntityCha
    */
   public function setCreatedTime($timestamp);
 
+  /**
+   * Returns the Oska indicator entity published status indicator.
+   *
+   * Unpublished Oska indicator entity are only visible to restricted users.
+   *
+   * @return bool
+   *   TRUE if the Oska indicator entity is published.
+   */
+  public function isPublished();
+
+  /**
+   * Sets the published status of a Oska indicator entity.
+   *
+   * @param bool $published
+   *   TRUE to set this Oska indicator entity to published, FALSE to set it to unpublished.
+   *
+   * @return \Drupal\htm_custom_oska\Entity\OskaIndicatorEntityInterface
+   *   The called Oska indicator entity entity.
+   */
+  public function setPublished($published);
+
 }
