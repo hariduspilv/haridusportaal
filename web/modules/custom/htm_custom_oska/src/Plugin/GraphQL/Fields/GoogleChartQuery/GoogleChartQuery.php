@@ -21,7 +21,6 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  *   secure = true,
  *   type = "[GoogleChart]",
  *   name = "GoogleChartQuery",
- *   response_cache_contexts = {"languages:language_url"},
  *   arguments = {
  *     "filters" = "GoogleChartFilterInput",
  *   }
