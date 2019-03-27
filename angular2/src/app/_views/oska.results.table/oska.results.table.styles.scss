@@ -53,7 +53,7 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
   td, th {font-size: 1rem;line-height: 1.375rem;
     .less {overflow: hidden; max-height: 7rem;position: relative;
       &:before {content: '';width: 100%;height: 35%;top: 65%;left: 0;
-        position: absolute;background: linear-gradient(transparent 0, $white);
+        position: absolute;background: linear-gradient(rgba(255, 255, 255, 0), #ffffff);
       }
     }
     .show-more {line-height: 2rem;}

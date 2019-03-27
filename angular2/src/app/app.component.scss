@@ -224,8 +224,11 @@ $grid-columns: 12;
       border: .0625rem solid $gray;
       width: 33%;
       font-size: 0.875rem;
-      a {font-weight: 400;}
+      a {font-weight: 400; font-size: 16px;}
       color: $black;
+      &.text-center {
+        text-align: center;
+      }
       &:first-letter { 
         text-transform: uppercase;
       }

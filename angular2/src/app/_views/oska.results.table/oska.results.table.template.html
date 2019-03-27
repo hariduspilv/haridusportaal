@@ -99,9 +99,9 @@
           </div>
           <div class="col sm-4 flex flex-center flex-justify-end action--back" *ngIf="tableFile">
             <div class="link-holder">
-              <a href="{{ tableFile.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download' | translate }}: {{ tableFile.fieldResultPageTableFile.description || tableFile.fieldResultPageTableFile.entity.entityLabel }}">
-                <span class="sm-hide">{{ 'button.download_table' | translate }}</span>
-                <span class="sm-show">{{ 'button.download' | translate }}</span>
+              <a href="{{ tableFile.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download_table' | translate }}: {{ tableFile.fieldResultPageTableFile.description || tableFile.fieldResultPageTableFile.entity.entityLabel }}">
+                <span>{{ 'button.download_table' | translate }}</span>
+                <!-- <span class="sm-show">{{ 'button.download_table' | translate }}</span> -->
               </a>
             </div>
           </div>
@@ -158,13 +158,13 @@
                     </a>
                   </th>
                   <th class="separator" *ngIf="!commentVisible"></th>
-                  <th [class.hidden]="!commentVisible">
+                  <th class="pointer" [class.hidden]="!commentVisible" (click)="commentVisible = !commentVisible;">
                     <span *ngIf="commentVisible">{{ 'oska.table_experts_comment' | translate }}</span>
                     <span class="icon visible__elem" aria-hidden="true" *ngIf="commentVisible">
-                      <span class="htm-icon" (click)="commentVisible = !commentVisible; tableOverflown = tableService.isElemOverflown('resultsTable');">skip_previous</span>
+                      <span class="htm-icon">skip_previous</span>
                     </span>
                     <span aria-hidden="true" *ngIf="!commentVisible">
-                      <span class="htm-icon nonvisible__elem" (click)="commentVisible = !commentVisible; tableOverflown = tableService.isElemOverflown('resultsTable');">skip_next</span>
+                      <span class="htm-icon nonvisible__elem">skip_next</span>
                     </span>
                   </th>
                 </tr>
@@ -198,8 +198,10 @@
                   </td>
                   <ng-container>
                     <td class="separator" *ngIf="!commentVisible"></td>
-                    <td [class.wide--extra]="commentVisible" [class.hidden]="!commentVisible" [class.last]="last" [class.vertical]="!commentVisible">
-                      <span class="vertical__text" *ngIf="!commentVisible && first">{{ 'oska.table_experts_comment' | translate }}</span>
+                    <td *ngIf="!commentVisible" class="hidden vertical pointer" [class.last]="last" (click)="commentVisible = !commentVisible;">
+                      <span class="vertical__text" *ngIf="first">{{ 'oska.table_experts_comment' | translate }}</span>
+                    </td>
+                    <td *ngIf="commentVisible" class="wide--extra" [class.last]="last">
                       <span *ngIf="commentVisible && item.expertCommentary">{{ item.expertCommentary }}</span>
                     </td>
                   </ng-container>
