@@ -44,7 +44,6 @@ use Drupal\user\UserInterface;
  *     "uuid" = "uuid",
  *     "uid" = "user_id",
  *     "langcode" = "langcode",
- *     "status" = "status",
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/oska_indicator_entity/{oska_indicator_entity}",
@@ -127,21 +126,6 @@ class OskaIndicatorEntity extends ContentEntityBase implements OskaIndicatorEnti
      */
     public function setOwner(UserInterface $account) {
         $this->set('user_id', $account->id());
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isPublished() {
-        return (bool) $this->getEntityKey('status');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setPublished($published) {
-        $this->set('status', $published ? TRUE : FALSE);
         return $this;
     }
 
