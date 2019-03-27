@@ -235,20 +235,20 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     ],
                     '#delta' => $delta,
                 ];
-
-                $element['graph_options']['graph_y_unit'] = [
-                    '#title' => $this->t('Graph Y unit'),
-                    '#type' => 'select',
-                    '#options' => [
-                        'summa' => $this->t('summa'),
-                        '%' => $this->t('%'),
-                        'euro' => $this->t('euro'),
-                    ],
-                    '#multiple' => FALSE,
-                    '#required' => FALSE,
-                    '#default_value' => isset($data['graph_y_unit']) ? $data['graph_y_unit'] : NULL,
-                ];
             }
+
+            $element['graph_options']['graph_y_unit'] = [
+                '#title' => $this->t('Graph Y unit'),
+                '#type' => 'select',
+                '#options' => [
+                    'summa' => $this->t('summa'),
+                    '%' => $this->t('%'),
+                    'euro' => $this->t('euro'),
+                ],
+                '#multiple' => FALSE,
+                '#required' => FALSE,
+                '#default_value' => isset($data['graph_y_unit']) ? $data['graph_y_unit'] : NULL,
+            ];
 
             $element['graph_options']['graph_text'] = [
                 '#title' => $this->t('Graph info text'),
