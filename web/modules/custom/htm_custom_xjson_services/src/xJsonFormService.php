@@ -100,10 +100,8 @@ class xJsonFormService implements xJsonServiceInterface {
 
     public function postXJsonFormValues($data){
 
-        $this->return_data = $data;
-
         // validate posted values
-        $valid = $this->validateFormValues();
+        $valid = $this->validateFormValues($data);
 
         if($valid){
             $this->postValuesToCSV($data);
@@ -112,7 +110,8 @@ class xJsonFormService implements xJsonServiceInterface {
         return $this->return_data;
     }
 
-    public function validateFormValues(){
+    public function validateFormValues($data){
+        $this->return_data = $data;
         $this->schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJsonForm/Value/";
         $valid = true;
 
@@ -143,9 +142,6 @@ class xJsonFormService implements xJsonServiceInterface {
                 }
             }
             $this->return_data['form_info']['body']['steps'][$step_key]['messages'] = ['success_message'];
-            $this->return_data['form_info']['body']['steps'][$step_key] = [
-                'messages' => ['success_message']
-            ];
         }
 
         $this->return_data['form_info']['header']['acceptable_activity'] = ['VIEW'];
