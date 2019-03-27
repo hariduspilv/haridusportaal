@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Input } from '@angular/core';
+import { Component, OnInit, HostListener, Input, ChangeDetectorRef } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { TableService, RootScopeService } from '@app/_services';
 import { FiltersService } from '@app/_services/filtersService'
@@ -19,6 +19,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   public filteredTableData: any = false;
   public error: boolean = false;
   public updated: boolean = false;
+  public recentCommentState: boolean = false;
   public commentVisible: boolean = false;
   public tableOverflown: boolean = false;
   public elemAtStart: boolean = true;
@@ -44,6 +45,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
 
   constructor(
     private http: HttpService,
+    private cdr: ChangeDetectorRef,
     private tableService: TableService,
     private rootScope: RootScopeService,
     public route: ActivatedRoute, 
@@ -146,6 +148,8 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
             if (elem[item] && !this.filterItemValues[item].includes(elem[item])) this.filterItemValues[item].push(elem[item]);
           });
         });
+        this.filterItemValues['field'].sort()
+        this.filterItemValues['responsible'].sort()
       }
       subscription.unsubscribe();
       this.filterView();
@@ -212,12 +216,19 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   }
 
   ngAfterViewChecked() {
+    const element = document.getElementById('resultsTable');
     if(!this.initialized) {
       this.initialTableCheck('resultsTable');
     }
     if(this.updated) {
       this.limitTableRows('#limitedData', 150);
       this.updated = false;
+    }
+    if (this.recentCommentState !== this.commentVisible && element) {
+      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.cdr.detectChanges();
+      this.setScrollPos('resultsTable');
+      this.recentCommentState = this.commentVisible;
     }
   }
 
