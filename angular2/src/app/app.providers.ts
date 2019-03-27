@@ -64,6 +64,6 @@ export const AppProviders = [
 		useFactory: SettingsProviderFactory,
 		deps: [ SettingsService ],
 		multi: true
-	}
+  }
 
 ]
