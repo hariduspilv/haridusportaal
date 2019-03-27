@@ -20,6 +20,7 @@ use League\Csv\CannotInsertRecord;
 class xJsonFormService implements xJsonServiceInterface {
 
     var $entity;
+    var $return_data;
     var $definition_steps;
     var $send_email_fields = [];
 
@@ -99,13 +100,19 @@ class xJsonFormService implements xJsonServiceInterface {
 
     public function postXJsonFormValues($data){
 
-        // validate posted values
-        $valid = $this->validateFormValues($data);
+        $this->return_data = $data;
 
-        return $valid ? $this->postValuesToCSV($data) : $valid;
+        // validate posted values
+        $valid = $this->validateFormValues($this->return_data);
+
+        if($valid){
+            $this->postValuesToCSV($this->return_data);
+        }
+
+        return $this->return_data;
     }
 
-    public function validateFormValues($data){
+    public function validateFormValues(){
         $this->schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJsonForm/Value/";
         $valid = true;
 
@@ -113,7 +120,7 @@ class xJsonFormService implements xJsonServiceInterface {
         $definition = $this->getEntityJsonObject();
         $this->definition_steps = $definition['body']['steps'];
 
-        $steps = $data['form_info']['body']['steps'];
+        $steps = $this->return_data['form_info']['body']['steps'];
 
         // look through steps and validate data inside them
         foreach($steps as $step_key => $step){
@@ -122,6 +129,7 @@ class xJsonFormService implements xJsonServiceInterface {
                 if(isset($this->definition_steps[$step_key]['data_elements'][$field_name]['value'])){
                     $valid = $this->validateDataElement($data_type, $value);
                     if(!$valid){
+                        $this->return_data['form_info']['body']['steps'][$step_key]['messages'] = ['error_message'];
                         return $valid;
                     }
                 }
@@ -134,8 +142,10 @@ class xJsonFormService implements xJsonServiceInterface {
                     }
                 }
             }
+            $this->return_data['form_info']['body']['steps'][$step_key]['messages'] = ['success_message'];
         }
 
+        $this->return_data['form_info']['header']['acceptable_activity'] = ['VIEW'];
         return $valid;
     }
 
@@ -222,15 +232,13 @@ class xJsonFormService implements xJsonServiceInterface {
         try{
             $writer->insertOne($ordered_values);
         }catch(CannotInsertRecord $e) {
-            return false;
+            \Drupal::logger('htm_custom_xjson_services')->error($e);
         }
 
         // send out emails if needed
         if(count($this->send_email_fields) > 0){
             $this->sendOutEmails($values);
         }
-
-        return true;
     }
 
     protected function sendOutEmails($values){

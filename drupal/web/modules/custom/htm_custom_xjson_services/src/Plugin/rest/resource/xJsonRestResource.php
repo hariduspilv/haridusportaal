@@ -191,14 +191,7 @@ class xJsonRestResource extends ResourceBase {
 
     private function postXJsonForm ($data) {
 	    $result = $this->xJsonFormService->postXJsonFormValues($data);
-	    if($result){
-	        $data['form_info']['header']['acceptable_activity'] = ['VIEW'];
-	        $data['form_info']['body']['message'] = 'success_message';
-	        return new ModifiedResourceResponse($data, 200);
-        }else{
-            $data['form_info']['body']['message'] = 'error_message';
-            return new ModifiedResourceResponse($data, 400);
-        }
+        return new ModifiedResourceResponse($result, 200);
 	}
 
     private function checkxJsonForm ($data) {
