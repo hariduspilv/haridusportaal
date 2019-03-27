@@ -85,7 +85,6 @@ export class OskaAreasSidebarComponent implements OnInit {
       }
   
       if (this.viewType === 'field') {
-        this.fieldQuery = {field: this.fieldName.replace(/-/g, ' ')};
         this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
         this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
         this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];
@@ -113,6 +112,9 @@ export class OskaAreasSidebarComponent implements OnInit {
     if (this.viewType === 'mainProfession' && this.fillingbar[0] && this.fillingbar[0].value) {
       this.competitionLevel = parseInt(this.fillingbar[0].value, 10);
       this.competitionLabel = this.competitionLabels[this.competitionLevel - 1];
+    }
+    if (this.viewType === 'field' && this.fieldName) {
+      this.fieldQuery = {field: this.fieldName.replace(/-/g, ' ')};
     }
   }
 

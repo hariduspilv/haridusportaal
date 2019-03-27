@@ -90,6 +90,7 @@ query oskaFieldDetailView($path: String!) {
                     reverseOskaMainProfessionOskaIndicatorEntity {
                       entities {
                         ... on OskaIndicatorEntity {
+                          oskaId
                           oskaIndicator
                           value
                         }
