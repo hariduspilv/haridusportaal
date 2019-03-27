@@ -106,7 +106,7 @@ class xJsonFormService implements xJsonServiceInterface {
         $valid = $this->validateFormValues($this->return_data);
 
         if($valid){
-            $this->postValuesToCSV($this->return_data);
+            $this->postValuesToCSV($data);
         }
 
         return $this->return_data;
@@ -143,6 +143,9 @@ class xJsonFormService implements xJsonServiceInterface {
                 }
             }
             $this->return_data['form_info']['body']['steps'][$step_key]['messages'] = ['success_message'];
+            $this->return_data['form_info']['body']['steps'][$step_key] = [
+                'messages' => ['success_message']
+            ];
         }
 
         $this->return_data['form_info']['header']['acceptable_activity'] = ['VIEW'];
