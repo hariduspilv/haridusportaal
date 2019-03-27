@@ -104,7 +104,7 @@ class xJsonRestResource extends ResourceBase {
                 if($this->auth_required){
                     // Use current user after pass authentication to validate access.
                     if (!$this->currentUser->isAuthenticated()) {
-                        return new ModifiedResourceResponse('User must log in!', 403);
+                        return new ModifiedResourceResponse(['message' => $this->t("You must be logged in to view this form!")], 403);
                     }
                 }
 
