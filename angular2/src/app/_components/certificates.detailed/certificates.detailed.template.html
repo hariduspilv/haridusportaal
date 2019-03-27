@@ -17,14 +17,11 @@
         <div class="block-title">{{ 'frontpage.dashboard_label' | translate | uppercase }}</div>
         <mat-spinner *ngIf="loading"></mat-spinner>
         <ng-container *ngIf="certificate && !loading">
-
-
           <h1 *ngIf="certificate.nimi">{{ certificate.nimi }}</h1>
-          <ng-container *ngIf="certificate.kehtetu === true"><span class="highlighted">{{ 'frontpage.dashboard_tabs_certificates_notvalid' | translate }}</span></ng-container>
-          <ng-container *ngIf="certificate.duplikaat === true"><span class="highlighted">{{ 'frontpage.dashboard_tabs_certificates_duplicate' | translate }}</span></ng-container>
-
-          <a href="javascript:void(0)" id="backToDashboard" class="sm-hide pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
-          <a href="javascript:void(0)" id="backToDashboard" class="sm-show top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
+          <div class="highlights" *ngIf="certificate.kehtetu || certificate.duplikaat">
+              <ng-container *ngIf="certificate.kehtetu"><div class="highlighted">{{ 'frontpage.dashboard_tabs_certificates_notvalid' | translate }}</div></ng-container>
+              <ng-container *ngIf="certificate.duplikaat"><div class="highlighted">{{ 'frontpage.dashboard_tabs_certificates_duplicate' | translate }}</div></ng-container>
+          </div>
           <div class="table-holder">
             <table class="dashboard-table">
               <tbody>
