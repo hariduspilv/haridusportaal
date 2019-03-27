@@ -55,8 +55,12 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     if(this.params['location']) variables['address'] = this.params['location'];
     
     let subscribe = this.http.get('similarStudyProgrammes', { params: variables } ).subscribe(response => {
-      
+
       this.list = response['data']['CustomStudyProgrammeElasticQuery'];
+
+      if (response['errors'] && this.list === null) {
+        this.list = [];
+      }
 
       this.list.forEach(programme => {
         //convert string to number
@@ -64,7 +68,6 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
         //Split CSV of teaching languages to an array
         programme.FieldTeachingLanguage = programme.FieldTeachingLanguage.split(',');
       })
-
       
     });
     this.subscriptions = [...this.subscriptions, subscribe];
