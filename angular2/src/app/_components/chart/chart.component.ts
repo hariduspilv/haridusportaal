@@ -37,9 +37,6 @@ export class ChartComponent implements OnInit{
       pieSliceTextStyle: {
         "color": '#ffffff'
       },
-      tooltip: {
-        format: '####'
-      },
       curveType: "function",
       lineWidth: 3,
       pointsVisible: true,
@@ -60,22 +57,18 @@ export class ChartComponent implements OnInit{
   }
 
   getFormat( unit ){
-    let format = '####';
+    let format;
     switch( unit ){
-      case 'summa': {
-        format = '####';
-        break;
-      }
       case '%': {
         format = 'percent';
         break;
       }
       case 'euro': {
-        format = '#€';
+        format = '#,### €';
         break;
       }
       default: {
-        format = '####';
+
       }
     }
     return format;
@@ -130,7 +123,7 @@ export class ChartComponent implements OnInit{
       let secondaryGraphType = current.secondaryGraphType;
       let isStacked:any = false;
       let seriesType:any = false;
-      let primaryFormat = "####";
+      let primaryFormat;
 
       if( chartType == "Doughnut" ){
         chartType = "Pie";
@@ -198,6 +191,8 @@ export class ChartComponent implements OnInit{
         dataTable: value,
         options: this.getGraphOptions()
       }
+      
+
       
 
       tmp.options['isStacked'] = isStacked;
