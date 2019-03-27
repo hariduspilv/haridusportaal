@@ -31,7 +31,7 @@ export class TableModal {
   ngOnInit() {
     this.loading = true;
     let sub = this.http.get(this.data.contentUrl).subscribe((response: any) => {
-
+      console.log(response);
       if(response.error){
 
         this.loading = false;
@@ -42,8 +42,7 @@ export class TableModal {
         
         try{
           this.data.fields.forEach((field) => {
-            this.fieldTranslations.push(this.translate.get(field)['value']);
-
+            this.fieldTranslations.push(this.translate.get(`frontpage.${field}`)['value']);
           });
         }catch(err){
           console.log(err);
@@ -51,7 +50,7 @@ export class TableModal {
 
         }
         
-        this.content = response['value']['isikuandmed'];
+        this.content = response.value.isikuandmed;
 
         this.loading = false;
         sub.unsubscribe();

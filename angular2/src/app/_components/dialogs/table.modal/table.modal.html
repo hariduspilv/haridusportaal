@@ -21,11 +21,12 @@
               <td colspan="3">{{ fieldTranslations[i] }}</td>
               <td colspan="2">{{ content[field] }}</td>
             </tr>
-            <tr class="extraRow" *ngIf="content[field] && field === 'oppelaenOigus' && content[field].length">
-              <td colspan="5">{{ fieldTranslations[i] }}</td>
+            <tr [class.extraRow]="content[field].oigus === 'Ei'" *ngIf="content[field] && field === 'oppelaenOigus'">
+              <td colspan="3">{{ fieldTranslations[i] }}</td>
+              <td colspan="3">{{ content[field].oigus }}</td>
             </tr>
-            <ng-container *ngIf="content[field] && field === 'oppelaenOigus' && content[field].length">
-              <tr [class.extraBottom]="last" *ngFor="let reason of content[field][0].pohjus; let secondIndex = index; let last = last;">
+            <ng-container *ngIf="content[field] && field === 'oppelaenOigus' && content[field].pohjus.length > 0">
+              <tr [class.extraBottom]="last" *ngFor="let reason of content[field].pohjus; let secondIndex = index; let last = last;">
                 <td [class.lastRow]="last" class="additional additional--1" colspan="1">{{ secondIndex + 1 }}</td>
                 <td [class.lastRow]="last" class="additional additional--2" colspan="2">{{ 'frontpage.reason' | translate }} </td>
                 <td [class.lastRow]="last" class="additional additional--3" colspan="2">{{ reason }}</td>
