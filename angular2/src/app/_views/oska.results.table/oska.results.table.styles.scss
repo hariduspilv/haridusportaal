@@ -70,13 +70,13 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
 }
 .link-holder {padding-bottom: .5rem;}
 .scrollableTable thead {
-  .htm-icon.nonvisible__elem {font-size: 1.5rem;top: .75rem;cursor: pointer;}
+  .htm-icon.nonvisible__elem {font-size: 1.5rem;cursor: pointer;}
   .visible__elem {float: right;top: 0;}
   span.icon {position: relative;min-width: 1.5rem;display: inline-block;bottom: 1rem;
     .htm-icon {
       cursor: pointer;
       position: absolute;
-      top: -.125rem;
+      top: 0;
       font-size: 1.5rem;
       left: .25rem;
     }

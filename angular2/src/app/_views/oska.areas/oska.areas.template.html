@@ -107,10 +107,55 @@
           <chart [data]="data.fieldDynamicGraph"  type="filter"></chart>
         </ng-container>
 
+        <ng-container *ngIf="data.reverseFieldOskaFieldParagraph && data.reverseFieldOskaFieldParagraph.entities && data.reverseFieldOskaFieldParagraph.entities.length">
+          <div class="accordion accordion--list">
+            <mat-accordion>
+              <mat-expansion-panel expanded="false">
+                <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+                  <mat-panel-title>{{ 'oskaProfessions.label' | translate }}</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="studyProgramme__item" *ngFor="let item of data.reverseFieldOskaFieldParagraph.entities; let first = first; let i = index;">
+                  <div class="studyProgramme__item__titlebox">
+                    <div class="col-grow">
+                      <a id="{{i}}" href="javascript:void();" attr.aria-label="{{ item.paragraphReference[0].entityLabel }}" [routerLink]="item.paragraphReference[0].entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.paragraphReference[0].entityLabel }}</h1></a>
+                    </div><!--col-grow-->
+                    <div class="col sm-hide">
+                      <compare [id]="item.paragraphReference[0].entityId" sessionStorageKey="oskaProfessions.compare"></compare>
+                    </div>
+                  </div>
+                  <div class="studyProgramme__item__contentbox">
+                    <div class="studyProgramme__item__contentbox--elem" *ngIf="item.paragraphReference[0].reverseOskaMainProfessionOskaFillingBarEntity.entities && item.paragraphReference[0].reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && item.paragraphReference[0].reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value
+                      && item.paragraphReference[0].reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value > 0 && item.paragraphReference[0].reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value < 6">
+                      <div class="inline__items sm-hide">
+                        <span class="item">{{ 'oska.competition' | translate | titleCase }}: <span class="dark">{{ getCompetitionLabel(item.paragraphReference[0].reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value) | translate }}</span></span>
+                      </div>
+                    </div>
+                    <ng-container *ngIf="item.paragraphReference[0].reverseOskaMainProfessionOskaIndicatorEntity.entities && item.paragraphReference[0].reverseOskaMainProfessionOskaIndicatorEntity.entities.length">
+                      <ng-container *ngFor="let elem of indicatorValues(item.paragraphReference[0].reverseOskaMainProfessionOskaIndicatorEntity.entities); let ind = index;">
+                        <ng-container *ngIf="elem && elem.oskaId">
+                          <div class="studyProgramme__item__contentbox--elem">
+                            <div class="inline__items sm-hide">
+                              <span class="item">{{ elem.oskaIndicator | titleCase }}: 
+                                <span *ngIf="elem.oskaId === 1" class="dark">{{ formatNumber(elem.value, 'et') }}</span>
+                                <span *ngIf="elem.oskaId === 3" class="dark">{{ formatNumber(elem.value, 'et') }} €</span>
+                              </span>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div><!--/studyProgramme__item-->
+
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div><!--/accordion-->
+        </ng-container>
+
         <ng-container *ngIf="data.fieldOskaFieldAccordion">
           <div class="accordion" *ngIf="data['fieldOskaFieldAccordion'].length > 0">
             <mat-accordion multi>
-              <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of data['fieldOskaFieldAccordion']; let first = first;">
+              <mat-expansion-panel [expanded]="(first && data.reverseFieldOskaFieldParagraph && data.reverseFieldOskaFieldParagraph.entities && !data.reverseFieldOskaFieldParagraph.entities.length) ? true : false" *ngFor="let accordionItem of data['fieldOskaFieldAccordion']; let first = first;">
                 <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
                   <mat-panel-title>
 
@@ -194,7 +239,7 @@
       </div><!--/block-->
     </div><!--/col-8-->
 
-    <div class="col-4 sm-12" *ngIf="sidebarData || (data.reverseOskaMainProfessionOskaFillingBarEntity && data.reverseOskaMainProfessionOskaFillingBarEntity.entities)">
+    <div class="col-4 sm-12" *ngIf="sidebarData || (data.reverseOskaMainProfessionOskaFillingBarEntity && data.reverseOskaMainProfessionOskaFillingBarEntity.entities)  || viewType === 'field'">
       <oska-areas-sidebar [fieldName]="viewType === 'field' ? data['entityLabel'] : false" [sidebar]="sidebarData" [indicators]="data.reverseOskaMainProfessionOskaIndicatorEntity" [fillingbar]="data.reverseOskaMainProfessionOskaFillingBarEntity && data.reverseOskaMainProfessionOskaFillingBarEntity.entities" [viewType]="viewType"></oska-areas-sidebar>
     </div><!--/col-4-->
   </div><!--/row-->
