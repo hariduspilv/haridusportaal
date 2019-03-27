@@ -21,6 +21,9 @@ class OskaIndicatorEntityAccessControlHandler extends EntityAccessControlHandler
     /** @var \Drupal\htm_custom_oska\Entity\OskaIndicatorEntityInterface $entity */
     switch ($operation) {
       case 'view':
+        if (!$entity->isPublished()) {
+          return AccessResult::allowedIfHasPermission($account, 'view unpublished oska indicator entity entities');
+        }
         return AccessResult::allowedIfHasPermission($account, 'view published oska indicator entity entities');
 
       case 'update':
