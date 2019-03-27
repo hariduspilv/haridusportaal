@@ -23,6 +23,12 @@
     },
     "data_elements": {
       "type": "object"
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     }
   },
   "required": ["title", "data_elements"],
