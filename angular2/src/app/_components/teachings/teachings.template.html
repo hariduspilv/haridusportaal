@@ -19,7 +19,7 @@
         </mat-expansion-panel-header>
   
         <ng-container>
-          <table class="dashboard-table" *ngIf="!error">
+          <table class="dashboard-table dashboard-table--equalCells" *ngIf="!error">
             <tbody>
               <tr *ngFor="let work of content[type];">
                 <td>{{ work.oppeasutus }}</td>

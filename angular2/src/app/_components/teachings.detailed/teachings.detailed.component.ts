@@ -36,7 +36,7 @@ export class TeachingsDetailedComponent implements OnInit{
       (params: ActivatedRoute) => {
         this.path = this.router.url;
         this.type = params['type'];
-        this.dashboardLink = this.path.split("/" + this.type)[0];
+        this.dashboardLink = decodeURIComponent(this.path.split("/" + this.type)[0]);
       }
     );
   }
