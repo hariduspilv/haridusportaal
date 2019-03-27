@@ -103,7 +103,7 @@ class xJsonFormService implements xJsonServiceInterface {
         $this->return_data = $data;
 
         // validate posted values
-        $valid = $this->validateFormValues($this->return_data);
+        $valid = $this->validateFormValues();
 
         if($valid){
             $this->postValuesToCSV($data);
