@@ -46,7 +46,7 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
 .scrollableTable {
   td {
     &.narrow {min-width: 7.5rem; font-weight: 400;}
-    &.wide {min-width: 15rem; font-weight: 400;
+    &.wide {min-width: 14rem; font-weight: 400;
       &--extra {min-width: 25rem;}
     }
   }

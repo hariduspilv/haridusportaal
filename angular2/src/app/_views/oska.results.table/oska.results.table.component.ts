@@ -148,6 +148,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
             if (elem[item] && !this.filterItemValues[item].includes(elem[item])) this.filterItemValues[item].push(elem[item]);
           });
         });
+        this.filterItemValues['status'].sort()
         this.filterItemValues['field'].sort()
         this.filterItemValues['responsible'].sort()
       }
@@ -215,19 +216,27 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
     this.filterRetrieveParams( this.params );
   }
 
+  evaluateChange (id) {
+    const element = document.getElementById(id);
+    if (element) {
+      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.setScrollPos(id);
+      element.scrollLeft = 999;
+      this.cdr.detectChanges();
+    }
+  }
+
   ngAfterViewChecked() {
-    const element = document.getElementById('resultsTable');
     if(!this.initialized) {
       this.initialTableCheck('resultsTable');
     }
     if(this.updated) {
       this.limitTableRows('#limitedData', 150);
+      this.evaluateChange('resultsTable');
       this.updated = false;
     }
-    if (this.recentCommentState !== this.commentVisible && element) {
-      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-      this.cdr.detectChanges();
-      this.setScrollPos('resultsTable');
+    if (this.recentCommentState !== this.commentVisible) {
+      this.evaluateChange('resultsTable');
       this.recentCommentState = this.commentVisible;
     }
   }

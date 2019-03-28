@@ -37,9 +37,6 @@ export class ChartComponent implements OnInit{
       pieSliceTextStyle: {
         "color": '#ffffff'
       },
-      tooltip: {
-        format: '####'
-      },
       curveType: "function",
       lineWidth: 3,
       pointsVisible: true,
@@ -60,37 +57,54 @@ export class ChartComponent implements OnInit{
   }
 
   getFormat( unit ){
-    let format = '####';
+    let format;
     switch( unit ){
-      case 'summa': {
-        format = '####';
-        break;
-      }
       case '%': {
         format = 'percent';
         break;
       }
       case 'euro': {
-        format = '#€';
+        format = '#,### €';
         break;
       }
       default: {
-        format = '####';
+
       }
     }
     return format;
   }
 
   dividePercentage( value ){
-    return value = value.map( item => {
-      return item.map( col => {
-        if( !isNaN( col ) && typeof col == 'number' ){
-          return col/100;
-        }else{
-          return col;
-        }
+    try{
+      return value = value.map( item => {
+        return item.map( col => {
+          if( !isNaN( col ) && typeof col == 'number' ){
+            return col/100;
+          }else{
+            return col;
+          }
+        });
       });
-    });
+    }catch(err){
+      return value;
+    }
+  }
+
+  formatRangeValue(primaryFormat, value) {
+
+    if( !value ){
+      return 0;
+    }
+    let tmp;
+    if( primaryFormat == '#€' ){
+      tmp = parseInt(value)+"€";
+    }else if( primaryFormat == 'percent'){
+      tmp = (parseInt(value) )/100;
+    }else{
+      tmp = parseInt(value);
+    }
+
+    return tmp;
   }
 
   compileData(inputData:any = false) {
@@ -118,6 +132,8 @@ export class ChartComponent implements OnInit{
       if( current.options.graph_y_unit ){
         primaryFormat = this.getFormat(current.options.graph_y_unit);
       }
+
+      console.log(primaryFormat);
 
       switch( chartType.toLowerCase() ){
         case 'clustered bar' : {
@@ -177,6 +193,8 @@ export class ChartComponent implements OnInit{
       }
       
 
+      
+
       tmp.options['isStacked'] = isStacked;
 
       tmp.options['title'] = graphTitle;
@@ -185,6 +203,11 @@ export class ChartComponent implements OnInit{
       tmp.options['vAxis'] = {
         format: primaryFormat
       };
+
+      if( current.options.graph_y_min ){
+        tmp.options['vAxis']['minValue'] = this.formatRangeValue(primaryFormat, current.options.graph_y_min);
+      }
+
 
       if( isStacked == 'percent'){
         tmp.options['vAxis']['minValue'] = 0;
@@ -199,10 +222,6 @@ export class ChartComponent implements OnInit{
           format: primaryFormat
         };
       }
-
-      if( graphName == "ComboChart" ){
-        //tmp['options']['colors'] = ["#18218f", "#db3a00"];
-      };
 
       let filters = false;
       if( current.id ){
@@ -281,7 +300,10 @@ export class ChartComponent implements OnInit{
             tmp.options.colors[index-1] = lineColors[colorCounter];
             tmp.options['series'][index-1] = {
               type: secondaryGraphType,
-              targetAxisIndex: 1
+              targetAxisIndex: 1,
+              viewWindow: {
+                min: 1000
+              }
             };
             colorCounter++;
             if( colorCounter > lineColors.length ){ colorCounter = 0; }
