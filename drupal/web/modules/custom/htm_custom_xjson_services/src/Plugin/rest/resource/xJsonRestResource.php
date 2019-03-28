@@ -203,7 +203,7 @@ class xJsonRestResource extends ResourceBase {
         $result = $xJsonFormQuery->fetchField();
         if($result){
             $entity = $entityStorage->load($result);
-            $value = json_decode($entity->get('xjson_definition_test')->value);
+            $value = json_decode($entity->get('xjson_definition')->value);
             $this->auth_required = $value->header->auth_not_required ? false : true;
         }
 
