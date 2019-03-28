@@ -97,7 +97,7 @@
             <h1>{{ 'oska.proposal_title' | translate }}</h1>
             <!-- <h1 class="block-heading">{{ 'oskaProfessions.compare_label' | translate | titleCase }}</h1> -->
           </div>
-          <div class="col sm-4 flex flex-center flex-justify-end action--back" *ngIf="tableFile">
+          <div class="col sm-4 flex flex-center flex-justify-end action--back" *ngIf="filteredTableData && filteredTableData.length && tableFile">
             <div class="link-holder">
               <a href="{{ tableFile.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download_table' | translate }}: {{ tableFile.fieldResultPageTableFile.description || tableFile.fieldResultPageTableFile.entity.entityLabel }}">
                 <span>{{ 'button.download_table' | translate }}</span>
@@ -158,7 +158,7 @@
                     </a>
                   </th>
                   <th class="separator" *ngIf="!commentVisible"></th>
-                  <th class="pointer" [class.hidden]="!commentVisible" (click)="commentVisible = !commentVisible;">
+                  <th class="pointer" [class.hidden]="!commentVisible" (click)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable')">
                     <span *ngIf="commentVisible">{{ 'oska.table_experts_comment' | translate }}</span>
                     <span class="icon visible__elem" aria-hidden="true" *ngIf="commentVisible">
                       <span class="htm-icon">skip_previous</span>
@@ -198,7 +198,7 @@
                   </td>
                   <ng-container>
                     <td class="separator" *ngIf="!commentVisible"></td>
-                    <td *ngIf="!commentVisible" class="hidden vertical pointer" [class.last]="last" (click)="commentVisible = !commentVisible;">
+                    <td *ngIf="!commentVisible" class="hidden vertical pointer" [class.last]="last" (click)="commentVisible = !commentVisible;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable')">
                       <span class="vertical__text" *ngIf="first">{{ 'oska.table_experts_comment' | translate }}</span>
                     </td>
                     <td *ngIf="commentVisible" class="wide--extra" [class.last]="last">
