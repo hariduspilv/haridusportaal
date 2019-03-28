@@ -82,6 +82,9 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
     }
   }
 }
+@include break-on(sm, min) {
+  .row.wrapper__row {padding-top: 0rem;}
+}
 .icon-wrapper {margin-right: .5rem;}
 .dashboard-table tr {border: none;}
 .dashboard-table tr td:last-of-type {font-weight: normal;}
