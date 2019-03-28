@@ -6,6 +6,7 @@ dependencies:
     - htm_custom_xjson_services
     - jwt
     - serialization
+    - user
 id: xjson_rest_resource
 plugin_id: xjson_rest_resource
 granularity: resource
@@ -16,3 +17,4 @@ configuration:
     - json
   authentication:
     - jwt_auth
+    - cookie

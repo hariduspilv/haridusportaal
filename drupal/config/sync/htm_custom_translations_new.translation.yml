@@ -321,8 +321,8 @@ frontpage:
     en: 'Tasemeharidus kvalifikatsioonENG'
   taiendkoolitus:
     translation_type: textarea
-    et: Täiendkoolitus
-    en: TäiendkoolitusENG
+    et: Täienduskoolitus
+    en: TäienduskoolitusENG
   lead_title_xxs:
     translation_type: text_format
     et:
@@ -652,6 +652,10 @@ xjson:
     translation_type: textarea
     et: 'Taotluse vormi muutmine'
     en: 'Edit application form'
+  must_log_in:
+    translation_type: textarea
+    et: 'Seda vormi saab täita ainult sisse logitud kasutaja. Palun logige sisse.'
+    en: 'You must be logged in to see this form.'
 article:
   label:
     translation_type: textarea
@@ -1695,7 +1699,7 @@ button:
     en: 'Yes'
   download_table:
     translation_type: textarea
-    et: 'Lae tabel alla (.xlsx)'
+    et: 'Laadi tabel alla (.xlsx)'
     en: 'Download table'
   edit_data:
     translation_type: textarea
@@ -1709,6 +1713,14 @@ button:
     translation_type: textarea
     et: 'Tagasi ametialade nimekirja vaatesse'
     en: 'Back to professions list'
+  see_more:
+    translation_type: textarea
+    et: 'Vaata rohkem'
+    en: More
+  sortable:
+    translation_type: textarea
+    et: Sorteeritav
+    en: Sortable
 tooltip:
   share:
     translation_type: textarea
@@ -2271,6 +2283,10 @@ oska:
     translation_type: textarea
     et: 'Vaata ettepanekute elluviimist'
     en: 'Go to proposals'
+  go_to_results:
+    translation_type: textarea
+    et: 'Vaata uuringu ettepanekute elluviimist'
+    en: 'See results'
 oskaProfession:
   view_field_info:
     translation_type: textarea
