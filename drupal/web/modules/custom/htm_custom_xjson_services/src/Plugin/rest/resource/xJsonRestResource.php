@@ -103,9 +103,9 @@ class xJsonRestResource extends ResourceBase {
 
                 if($this->auth_required){
                     // Use current user after pass authentication to validate access.
-                    #if (!$this->currentUser->isAuthenticated()) {
-                    #    throw new AccessDeniedHttpException();
-                    #}
+                    if (!$this->currentUser->isAuthenticated()) {
+                        return new ModifiedResourceResponse("xjson.must_log_in", 403);
+                    }
                 }
 
                 return isset($data['form_info']) ? $this->postXJsonForm($data) : $this->getXJsonForm($data);
@@ -167,7 +167,7 @@ class xJsonRestResource extends ResourceBase {
 
 	private function returnRighstDzeison ($data) {
 
-		if ($data['form_info']) {
+		if (isset($data['form_info'])) {
 			$request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
 		} else {
 			$request_body = $this->xJsonService->getBasexJsonForm(true);
@@ -191,14 +191,7 @@ class xJsonRestResource extends ResourceBase {
 
     private function postXJsonForm ($data) {
 	    $result = $this->xJsonFormService->postXJsonFormValues($data);
-	    if($result){
-	        $data['form_info']['header']['acceptable_activity'] = ['VIEW'];
-	        $data['form_info']['body']['message'] = 'success_message';
-	        return new ModifiedResourceResponse($data, 200);
-        }else{
-            $data['form_info']['body']['message'] = 'error_message';
-            return new ModifiedResourceResponse($data, 400);
-        }
+        return new ModifiedResourceResponse($result['form_info'], 200);
 	}
 
     private function checkxJsonForm ($data) {
@@ -210,8 +203,8 @@ class xJsonRestResource extends ResourceBase {
         $result = $xJsonFormQuery->fetchField();
         if($result){
             $entity = $entityStorage->load($result);
-            $value = json_decode($entity->get('xjson_definition_test')->value);
-            $this->auth_required = $value->header->auth_not_required === true ? false : true;
+            $value = json_decode($entity->get('xjson_definition')->value);
+            $this->auth_required = $value->header->auth_not_required ? false : true;
         }
 
         return $result ? true : false;

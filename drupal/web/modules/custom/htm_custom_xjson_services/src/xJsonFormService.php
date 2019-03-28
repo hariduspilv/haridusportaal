@@ -20,6 +20,7 @@ use League\Csv\CannotInsertRecord;
 class xJsonFormService implements xJsonServiceInterface {
 
     var $entity;
+    var $return_data;
     var $definition_steps;
     var $send_email_fields = [];
 
@@ -91,7 +92,7 @@ class xJsonFormService implements xJsonServiceInterface {
         if(!empty($xjson_definition)){
             $xjson_definition['header']['identifier'] = '0';
             $xjson_definition['header']['current_step'] = '1';
-            $xjson_definition['header']['acceptable_activity'] = 'SUBMIT';
+            $xjson_definition['header']['acceptable_activity'] = ['SUBMIT'];
         }
 
         return $xjson_definition;
@@ -102,10 +103,15 @@ class xJsonFormService implements xJsonServiceInterface {
         // validate posted values
         $valid = $this->validateFormValues($data);
 
-        return $valid ? $this->postValuesToCSV($data) : $valid;
+        if($valid){
+            $this->postValuesToCSV($data);
+        }
+
+        return $this->return_data;
     }
 
     public function validateFormValues($data){
+        $this->return_data = $data;
         $this->schemas_path = "/app/drupal/web/modules/custom/htm_custom_xjson_services/src/Schemas/xJsonForm/Value/";
         $valid = true;
 
@@ -113,15 +119,18 @@ class xJsonFormService implements xJsonServiceInterface {
         $definition = $this->getEntityJsonObject();
         $this->definition_steps = $definition['body']['steps'];
 
-        $steps = $data['form_info']['body']['steps'];
+        $steps = $this->return_data['form_info']['body']['steps'];
 
         // look through steps and validate data inside them
         foreach($steps as $step_key => $step){
             foreach($step['data_elements'] as $field_name => $value){
                 $data_type = $this->definition_steps[$step_key]['data_elements'][$field_name]['type'];
-                $valid = $this->validateDataElement($data_type, $value);
-                if(!$valid){
-                    return $valid;
+                if(isset($this->definition_steps[$step_key]['data_elements'][$field_name]['value'])){
+                    $valid = $this->validateDataElement($data_type, $value);
+                    if(!$valid){
+                        $this->return_data['form_info']['body']['steps'][$step_key]['messages'] = ['error_message'];
+                        return $valid;
+                    }
                 }
 
                 // check, if we need to send email later on
@@ -132,8 +141,10 @@ class xJsonFormService implements xJsonServiceInterface {
                     }
                 }
             }
+            $this->return_data['form_info']['body']['steps'][$step_key]['messages'] = ['success_message'];
         }
 
+        $this->return_data['form_info']['header']['acceptable_activity'] = ['VIEW'];
         return $valid;
     }
 
@@ -220,15 +231,13 @@ class xJsonFormService implements xJsonServiceInterface {
         try{
             $writer->insertOne($ordered_values);
         }catch(CannotInsertRecord $e) {
-            return false;
+            \Drupal::logger('htm_custom_xjson_services')->error($e);
         }
 
         // send out emails if needed
         if(count($this->send_email_fields) > 0){
             $this->sendOutEmails($values);
         }
-
-        return true;
     }
 
     protected function sendOutEmails($values){

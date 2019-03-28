@@ -224,8 +224,11 @@ $grid-columns: 12;
       border: .0625rem solid $gray;
       width: 33%;
       font-size: 0.875rem;
-      a {font-weight: 400;}
+      a {font-weight: 400; font-size: 16px;}
       color: $black;
+      &.text-center {
+        text-align: center;
+      }
       &:first-letter { 
         text-transform: uppercase;
       }
@@ -497,7 +500,7 @@ $grid-columns: 12;
     }
     th {white-space: nowrap;}
     th, td {line-height: 1.38rem;font-size: 1rem;font-weight: 500;padding: $gutter $medium;text-align:left;border: .0625rem solid $gray;}
-    td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
+    td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:0 $gutter;}
     th.hidden {text-align: center;border-bottom: none;}
     td {font-weight: 400;
       &.hidden {border-top: none;border-bottom: none;
@@ -535,8 +538,8 @@ $grid-columns: 12;
     }
   }
 
-  .inline__items {padding-top: .375rem;
-    .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;padding-top: $half-gutter;white-space: nowrap;
+  .inline__items {padding-top: .375rem;display: flex;flex-wrap: wrap;flex-direction: row;
+    .item {font-weight: 500;font-size: .875rem;line-height: 1.25rem;color: $dark-gray;white-space: nowrap;
       a {white-space: pre-wrap;}
       &--inline {display: inline;}
       .dark {color: $black;}

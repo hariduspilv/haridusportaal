@@ -37,15 +37,12 @@ export class ChartComponent implements OnInit{
       pieSliceTextStyle: {
         "color": '#ffffff'
       },
-      tooltip: {
-        format: '####'
-      },
       curveType: "function",
-      lineWidth: 5,
+      lineWidth: 3,
       pointsVisible: true,
-      pointSize: 12,
+      pointSize: 10,
       legend: { position: 'bottom', maxLines: 99, alignment: 'start' },
-      colors: ['#161B5B', '#293193', '#3E4BED', '#6248C9', '#9E02B6'],
+      colors: ['#161B5B','#293193','#4C53AD','#824CAD','#AD4CA3'],
 
       animation:{
         duration: 1000,
@@ -57,6 +54,57 @@ export class ChartComponent implements OnInit{
 
   capitalize = function(input) {
     return input.charAt(0).toUpperCase() + input.slice(1);
+  }
+
+  getFormat( unit ){
+    let format;
+    switch( unit ){
+      case '%': {
+        format = 'percent';
+        break;
+      }
+      case 'euro': {
+        format = '#,### €';
+        break;
+      }
+      default: {
+
+      }
+    }
+    return format;
+  }
+
+  dividePercentage( value ){
+    try{
+      return value = value.map( item => {
+        return item.map( col => {
+          if( !isNaN( col ) && typeof col == 'number' ){
+            return col/100;
+          }else{
+            return col;
+          }
+        });
+      });
+    }catch(err){
+      return value;
+    }
+  }
+
+  formatRangeValue(primaryFormat, value) {
+
+    if( !value ){
+      return 0;
+    }
+    let tmp;
+    if( primaryFormat == '#€' ){
+      tmp = parseInt(value)+"€";
+    }else if( primaryFormat == 'percent'){
+      tmp = (parseInt(value) )/100;
+    }else{
+      tmp = parseInt(value);
+    }
+
+    return tmp;
   }
 
   compileData(inputData:any = false) {
@@ -75,32 +123,17 @@ export class ChartComponent implements OnInit{
       let secondaryGraphType = current.secondaryGraphType;
       let isStacked:any = false;
       let seriesType:any = false;
+      let primaryFormat;
 
       if( chartType == "Doughnut" ){
         chartType = "Pie";
       }
-
-      let primaryFormat = '####';
       
       if( current.options.graph_y_unit ){
-        switch( current.options.graph_y_unit ){
-          case 'summa': {
-            primaryFormat = '####';
-            break;
-          }
-          case '%': {
-            primaryFormat = 'percent';
-            break;
-          }
-          case 'euro': {
-            primaryFormat = '#€';
-            break;
-          }
-          default: {
-            primaryFormat = '####';
-          }
-        }
+        primaryFormat = this.getFormat(current.options.graph_y_unit);
       }
+
+      console.log(primaryFormat);
 
       switch( chartType.toLowerCase() ){
         case 'clustered bar' : {
@@ -142,6 +175,9 @@ export class ChartComponent implements OnInit{
         }
       }
 
+      if( primaryFormat == 'percent' ){
+        value = this.dividePercentage( value );
+      }
 
       let graphName = chartType+"Chart";
 
@@ -157,6 +193,8 @@ export class ChartComponent implements OnInit{
       }
       
 
+      
+
       tmp.options['isStacked'] = isStacked;
 
       tmp.options['title'] = graphTitle;
@@ -165,6 +203,11 @@ export class ChartComponent implements OnInit{
       tmp.options['vAxis'] = {
         format: primaryFormat
       };
+
+      if( current.options.graph_y_min ){
+        tmp.options['vAxis']['minValue'] = this.formatRangeValue(primaryFormat, current.options.graph_y_min);
+      }
+
 
       if( isStacked == 'percent'){
         tmp.options['vAxis']['minValue'] = 0;
@@ -179,12 +222,6 @@ export class ChartComponent implements OnInit{
           format: primaryFormat
         };
       }
-
-      console.log(primaryFormat);
-
-      if( graphName == "ComboChart" ){
-        //tmp['options']['colors'] = ["#18218f", "#db3a00"];
-      };
 
       let filters = false;
       if( current.id ){
@@ -253,7 +290,7 @@ export class ChartComponent implements OnInit{
         }
 
         if( filters && filters['näitaja2'] && filters['näitaja2'].length > 0 ){
-          let lineColors = ['#c7c7c9', '#c7c7c9'];
+          let lineColors = ['#FFE7C1', '#BEE3E8'];
           let colorCounter = 0;
 
           for( let i in filters['näitaja2'] ){
@@ -263,7 +300,10 @@ export class ChartComponent implements OnInit{
             tmp.options.colors[index-1] = lineColors[colorCounter];
             tmp.options['series'][index-1] = {
               type: secondaryGraphType,
-              targetAxisIndex: 1
+              targetAxisIndex: 1,
+              viewWindow: {
+                min: 1000
+              }
             };
             colorCounter++;
             if( colorCounter > lineColors.length ){ colorCounter = 0; }
