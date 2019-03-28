@@ -8,8 +8,12 @@ import { NotificationService } from '@app/_services/notificationService';
 
 import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
  
-import { LOCATION_INITIALIZED } from '@angular/common';
+import { LOCATION_INITIALIZED, registerLocaleData } from '@angular/common';
 import { CookieService } from './_services/cookieService';
+
+import localeEt from '@angular/common/locales/et';
+
+registerLocaleData(localeEt);
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector) {
   return () => new Promise<any>((resolve: any) => {
@@ -65,6 +69,6 @@ export const AppProviders = [
 		deps: [ SettingsService ],
 		multi: true
   },
-  { provide: LOCALE_ID, useValue: 'et-EE' }
+  { provide: LOCALE_ID, useValue: "et" }
 
 ]
