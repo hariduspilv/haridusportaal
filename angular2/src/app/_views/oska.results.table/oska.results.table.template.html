@@ -162,11 +162,11 @@
                     <span tabindex="0" role="button"
                       (keyup.enter)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()"
                       (click)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()">
-                      <span *ngIf="commentVisible" attr.aria-label="{{ 'button.close' | translate }}">{{ 'oska.table_experts_comment' | translate }}</span>
+                      <span *ngIf="commentVisible" attr.aria-label="{{ 'button.close' | translate }} {{ 'oska.table_experts_comment' | translate }}">{{ 'oska.table_experts_comment' | translate }}</span>
                       <span class="icon visible__elem" aria-hidden="true" *ngIf="commentVisible">
                         <span class="htm-icon">skip_previous</span>
                       </span>
-                      <span *ngIf="!commentVisible" attr.aria-label="{{ 'button.open' | translate }}"></span>
+                      <span *ngIf="!commentVisible" attr.aria-label="{{ 'button.open' | translate }} {{ 'oska.table_experts_comment' | translate }}"></span>
                       <span *ngIf="!commentVisible" aria-hidden="true">
                         <span class="htm-icon nonvisible__elem">skip_next</span>
                       </span>
@@ -205,6 +205,8 @@
                     <td aria-hidden="true" class="separator" *ngIf="!commentVisible"></td>
                     <td *ngIf="!commentVisible" class="hidden vertical pointer" [class.last]="last" (click)="commentVisible = !commentVisible;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()">
                       <span class="vertical__text" *ngIf="first">{{ 'oska.table_experts_comment' | translate }}</span>
+                      <span role="button" class="vertical__text" *ngIf="!first"></span>
+                      <!-- attr.aria-label="{{ 'button.open' | translate }} {{ 'oska.table_experts_comment' | translate }}" -->
                     </td>
                     <td *ngIf="commentVisible" class="wide--extra" [class.last]="last">
                       <span *ngIf="commentVisible && item.expertCommentary">{{ item.expertCommentary }}</span>
