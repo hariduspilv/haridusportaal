@@ -97,11 +97,11 @@
             <h1>{{ 'oska.proposal_title' | translate }}</h1>
             <!-- <h1 class="block-heading">{{ 'oskaProfessions.compare_label' | translate | titleCase }}</h1> -->
           </div>
-          <div class="col sm-4 flex flex-center flex-justify-end action--back" *ngIf="tableFile">
+          <div class="col sm-4 flex flex-center flex-justify-end action--back" *ngIf="filteredTableData && filteredTableData.length && tableFile">
             <div class="link-holder">
-              <a href="{{ tableFile.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download' | translate }}: {{ tableFile.fieldResultPageTableFile.description || tableFile.fieldResultPageTableFile.entity.entityLabel }}">
-                <span class="sm-hide">{{ 'button.download_table' | translate }}</span>
-                <span class="sm-show">{{ 'button.download' | translate }}</span>
+              <a href="{{ tableFile.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download_table' | translate }}: {{ tableFile.fieldResultPageTableFile.description || tableFile.fieldResultPageTableFile.entity.entityLabel }}">
+                <span>{{ 'button.download_table' | translate }}</span>
+                <!-- <span class="sm-show">{{ 'button.download_table' | translate }}</span> -->
               </a>
             </div>
           </div>
@@ -128,9 +128,9 @@
             <table class="dashboard-table scrollableTable">
               <thead>
                 <tr>
-                  <th class="pointer" (click)="sortView('field')">
+                  <th scope="col" class="pointer" (click)="sortView('field')">
                     <span>{{ 'oska.title_field' | translate }}</span>
-                    <a href="javascript:void(0)" attr.aria-label="{{'button.sort' | translate}} {{'button.by' | translate}} {{ 'oska.title_field' | translate }}">
+                    <a href="javascript:void(0)" attr.aria-label="{{'button.sortable' | translate}}">
                       <span class="icon" aria-hidden="true">
                         <span *ngIf="field === 'field' && modifier" class="htm-icon">keyboard_arrow_up</span>
                         <span *ngIf="field && !(field === 'field' && modifier)" class="htm-icon">keyboard_arrow_down</span>
@@ -138,33 +138,38 @@
                     </a>
                   </th>
                   <!-- <th>{{ 'oska.table_problem' | translate }}</th> -->
-                  <th>{{ 'oska.table_proposition' | translate }}</th>
-                  <th class="pointer" (click)="sortView('responsible')">
+                  <th scope="col">{{ 'oska.table_proposition' | translate }}</th>
+                  <th scope="col" class="pointer" (click)="sortView('responsible')">
                     <span>{{ 'oska.table_responsible_person' | translate }}</span>
-                    <a href="javascript:void(0)" attr.aria-label="{{'button.sort' | translate}} {{'button.by' | translate}} {{ 'oska.table_responsible_person' | translate }}">
+                    <a href="javascript:void(0)" role="button" attr.aria-label="{{'button.sortable' | translate}}">
                       <span class="icon" aria-hidden="true">
                         <span *ngIf="field === 'responsible' && modifier" class="htm-icon">keyboard_arrow_up</span>
                         <span *ngIf="field && !(field === 'responsible' && modifier)" class="htm-icon">keyboard_arrow_down</span>
                       </span>
                     </a>
                   </th>
-                  <th class="pointer" (click)="sortView('proposalStatus')">
+                  <th scope="col" class="pointer" (click)="sortView('proposalStatus')">
                     <span>{{ 'oska.table_proposition_status' | translate }}</span>
-                    <a href="javascript:void(0)" attr.aria-label="{{'button.sort' | translate}} {{'button.by' | translate}} {{ 'oska.table_proposition_status' | translate }}">
+                    <a href="javascript:void(0)" role="button" attr.aria-label="{{'button.sortable' | translate}}">
                       <span class="icon" aria-hidden="true">
                         <span *ngIf="field === 'proposalStatus' && modifier" class="htm-icon">keyboard_arrow_up</span>
                         <span *ngIf="field && !(field === 'proposalStatus' && modifier)" class="htm-icon">keyboard_arrow_down</span>
                       </span>
                     </a>
                   </th>
-                  <th class="separator" *ngIf="!commentVisible"></th>
-                  <th [class.hidden]="!commentVisible">
-                    <span *ngIf="commentVisible">{{ 'oska.table_experts_comment' | translate }}</span>
-                    <span class="icon visible__elem" aria-hidden="true" *ngIf="commentVisible">
-                      <span class="htm-icon" (click)="commentVisible = !commentVisible; tableOverflown = tableService.isElemOverflown('resultsTable');">skip_previous</span>
-                    </span>
-                    <span aria-hidden="true" *ngIf="!commentVisible">
-                      <span class="htm-icon nonvisible__elem" (click)="commentVisible = !commentVisible; tableOverflown = tableService.isElemOverflown('resultsTable');">skip_next</span>
+                  <th aria-hidden="true" class="separator" *ngIf="!commentVisible"></th>
+                  <th scope="col" class="pointer" [class.hidden]="!commentVisible">
+                    <span tabindex="0" role="button"
+                      (keyup.enter)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable')"
+                      (click)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable')">
+                      <span *ngIf="commentVisible" attr.aria-label="{{ 'button.close' | translate }}">{{ 'oska.table_experts_comment' | translate }}</span>
+                      <span class="icon visible__elem" aria-hidden="true" *ngIf="commentVisible">
+                        <span class="htm-icon">skip_previous</span>
+                      </span>
+                      <span *ngIf="!commentVisible" attr.aria-label="{{ 'button.open' | translate }}"></span>
+                      <span *ngIf="!commentVisible" aria-hidden="true">
+                        <span class="htm-icon nonvisible__elem">skip_next</span>
+                      </span>
                     </span>
                   </th>
                 </tr>
@@ -179,7 +184,7 @@
                   </td> -->
                   <td class="wide">
                     <div id="limitedData" *ngIf="item.proposal">{{item.proposal}}</div>
-                    <div class="text-center hidden show-more"><a (click)="removeLimiter($event)"  href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
+                    <div aria-hidden="true" class="text-center hidden show-more"><a (click)="removeLimiter($event)" aria-hidden="true" role="button" href="javascript:void(0)">{{'button.see_more' | translate}}</a></div>
                   </td>
                   <td class="narrow">
                     <div *ngIf="item.responsible">{{item.responsible}}</div>
@@ -197,9 +202,11 @@
                     </div>
                   </td>
                   <ng-container>
-                    <td class="separator" *ngIf="!commentVisible"></td>
-                    <td [class.wide--extra]="commentVisible" [class.hidden]="!commentVisible" [class.last]="last" [class.vertical]="!commentVisible">
-                      <span class="vertical__text" *ngIf="!commentVisible && first">{{ 'oska.table_experts_comment' | translate }}</span>
+                    <td aria-hidden="true" class="separator" *ngIf="!commentVisible"></td>
+                    <td *ngIf="!commentVisible" class="hidden vertical pointer" [class.last]="last" (click)="commentVisible = !commentVisible;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable')">
+                      <span class="vertical__text" *ngIf="first">{{ 'oska.table_experts_comment' | translate }}</span>
+                    </td>
+                    <td *ngIf="commentVisible" class="wide--extra" [class.last]="last">
                       <span *ngIf="commentVisible && item.expertCommentary">{{ item.expertCommentary }}</span>
                     </td>
                   </ng-container>

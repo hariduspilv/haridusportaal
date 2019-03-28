@@ -16,11 +16,24 @@
         "et"
       ]
     },
+    "helpertext": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "et"
+      ]
+    },
     "default_value": {
       "type": "string"
     },
     "send_email": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "email_subject": {
       "type": "string",

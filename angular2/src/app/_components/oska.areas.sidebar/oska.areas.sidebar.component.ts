@@ -70,9 +70,16 @@ export class OskaAreasSidebarComponent implements OnInit {
 	constructor(private rootScope: RootScopeService, private route: ActivatedRoute) {}
   
   ngOnInit() {
-    
+    if (this.viewType === 'field' && this.fieldName) {
+      this.fieldQuery = {field: this.fieldName};
+    }
+    if (this.viewType === 'mainProfession' && this.fillingbar[0] && this.fillingbar[0].value) {
+      this.competitionLevel = parseInt(this.fillingbar[0].value, 10);
+      this.competitionLabel = this.competitionLabels[this.competitionLevel - 1];
+    }
     this.lang = this.rootScope.get('lang');
     if (this.sidebar) {
+
       if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed) {
         this.locationPerLang = `/erialad`;
         this.learningQuery = {iscedf_detailed: []};
@@ -85,34 +92,31 @@ export class OskaAreasSidebarComponent implements OnInit {
       }
   
       if (this.viewType === 'field') {
-        this.fieldQuery = {field: this.fieldName.replace(/-/g, ' ')};
         this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
         this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
         this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];
         this.numberEmployed(this.sidebar.fieldNumberEmployed, 'filledNumberEmployed', 'outlinedNumberEmployed')
       } else if (this.viewType === 'mainProfession') {
-        if (this.indicators) {
-          this.indicators.entities.sort((a, b) => a.oskaId - b.oskaId);
-        }
         this.typeStatus['fields'] = this.sidebar.fieldOskaField.length > this.limits['fields'];
         this.typeStatus['opportunities'] = this.sidebar.fieldJobOpportunities.length > this.limits['opportunities'];
         this.typeStatus['qualification'] = this.sidebar.fieldQualificationStandard.length > this.limits['qualification'];
         this.typeStatus['profQuickFind'] = this.sidebar.fieldQuickFind.length > this.limits['profQuickFind'];
         this.typeStatus['jobs'] = this.sidebar.fieldJobs.length > this.limits['jobs'];
         this.numberEmployed(this.sidebar.fieldNumberEmployed, 'factsFilledNumber', 'factsOutlinedNumber')
+        if (this.indicators) {
+          this.indicators.entities.sort((a, b) => a.oskaId - b.oskaId);
+        }
       } else {
         this.typeStatus['resultHyperlinks'] = this.sidebar.fieldHyperlinks.length > this.limits['resultHyperlinks'];
         this.typeStatus['resultRelatedArticle'] = this.sidebar.fieldRelatedArticle.length > this.limits['resultRelatedArticle'];
       }
+
       if(this.sidebar.fieldJobs) {
         this.sidebar.fieldJobs.forEach(elem => {
           if (elem.entity.fieldJobLink) { this.jobPagesExist = true; }
         });
       }
-    }
-    if (this.viewType === 'mainProfession' && this.fillingbar[0] && this.fillingbar[0].value) {
-      this.competitionLevel = parseInt(this.fillingbar[0].value, 10);
-      this.competitionLabel = this.competitionLabels[this.competitionLevel - 1];
+
     }
   }
 

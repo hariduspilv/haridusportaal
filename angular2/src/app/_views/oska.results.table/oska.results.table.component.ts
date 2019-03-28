@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, Input } from '@angular/core';
+import { Component, OnInit, HostListener, Input, ChangeDetectorRef } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { TableService, RootScopeService } from '@app/_services';
 import { FiltersService } from '@app/_services/filtersService'
@@ -19,6 +19,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   public filteredTableData: any = false;
   public error: boolean = false;
   public updated: boolean = false;
+  public recentCommentState: boolean = false;
   public commentVisible: boolean = false;
   public tableOverflown: boolean = false;
   public elemAtStart: boolean = true;
@@ -44,6 +45,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
 
   constructor(
     private http: HttpService,
+    private cdr: ChangeDetectorRef,
     private tableService: TableService,
     private rootScope: RootScopeService,
     public route: ActivatedRoute, 
@@ -141,14 +143,19 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
       let fieldsToProcess = ['responsible', 'proposalStatus'];
       if (this.tableData) {
         this.tableData.forEach(elem => {
-          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
-          return fieldsToProcess.forEach(item => {
+          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) {
+            this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
+          }
+          fieldsToProcess.forEach(item => {
             if (elem[item] && !this.filterItemValues[item].includes(elem[item])) this.filterItemValues[item].push(elem[item]);
           });
         });
+        this.filterItemValues['proposalStatus'].sort();
+        this.filterItemValues['field'].sort();
+        this.filterItemValues['responsible'].sort();
       }
-      subscription.unsubscribe();
       this.filterView();
+      subscription.unsubscribe();
     }, (err) => {
       console.log(err);
       this.error = true;
@@ -211,13 +218,28 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
     this.filterRetrieveParams( this.params );
   }
 
+  evaluateChange (id) {
+    const element = document.getElementById(id);
+    if (element) {
+      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.setScrollPos(id);
+      element.scrollLeft = 999;
+      this.cdr.detectChanges();
+    }
+  }
+
   ngAfterViewChecked() {
     if(!this.initialized) {
       this.initialTableCheck('resultsTable');
     }
     if(this.updated) {
       this.limitTableRows('#limitedData', 150);
+      this.evaluateChange('resultsTable');
       this.updated = false;
+    }
+    if (this.recentCommentState !== this.commentVisible) {
+      this.evaluateChange('resultsTable');
+      this.recentCommentState = this.commentVisible;
     }
   }
 
