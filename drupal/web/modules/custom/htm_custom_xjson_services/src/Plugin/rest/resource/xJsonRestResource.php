@@ -104,7 +104,7 @@ class xJsonRestResource extends ResourceBase {
                 if($this->auth_required){
                     // Use current user after pass authentication to validate access.
                     if (!$this->currentUser->isAuthenticated()) {
-                        return new ModifiedResourceResponse($this->t("You must be logged in to view this form!"), 403);
+                        return new ModifiedResourceResponse("xjson.must_log_in", 403);
                     }
                 }
 
@@ -203,7 +203,7 @@ class xJsonRestResource extends ResourceBase {
         $result = $xJsonFormQuery->fetchField();
         if($result){
             $entity = $entityStorage->load($result);
-            $value = json_decode($entity->get('xjson_definition_test')->value);
+            $value = json_decode($entity->get('xjson_definition')->value);
             $this->auth_required = $value->header->auth_not_required ? false : true;
         }
 
