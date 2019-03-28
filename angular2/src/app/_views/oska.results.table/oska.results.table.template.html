@@ -128,7 +128,7 @@
             <table class="dashboard-table scrollableTable">
               <thead>
                 <tr>
-                  <th scope="col" class="pointer" (click)="sortView('field')">
+                  <th scope="col" class="pointer" (click)="sortView('field');setAlert('oska.title_field')">
                     <span>{{ 'oska.title_field' | translate }}</span>
                     <a href="javascript:void(0)" attr.aria-label="{{'button.sortable' | translate}}">
                       <span class="icon" aria-hidden="true">
@@ -139,7 +139,7 @@
                   </th>
                   <!-- <th>{{ 'oska.table_problem' | translate }}</th> -->
                   <th scope="col">{{ 'oska.table_proposition' | translate }}</th>
-                  <th scope="col" class="pointer" (click)="sortView('responsible')">
+                  <th scope="col" class="pointer" (click)="sortView('responsible');setAlert('oska.table_responsible_person')">
                     <span>{{ 'oska.table_responsible_person' | translate }}</span>
                     <a href="javascript:void(0)" role="button" attr.aria-label="{{'button.sortable' | translate}}">
                       <span class="icon" aria-hidden="true">
@@ -148,7 +148,7 @@
                       </span>
                     </a>
                   </th>
-                  <th scope="col" class="pointer" (click)="sortView('proposalStatus')">
+                  <th scope="col" class="pointer" (click)="sortView('proposalStatus');setAlert('oska.table_proposition_status')">
                     <span>{{ 'oska.table_proposition_status' | translate }}</span>
                     <a href="javascript:void(0)" role="button" attr.aria-label="{{'button.sortable' | translate}}">
                       <span class="icon" aria-hidden="true">
@@ -160,8 +160,8 @@
                   <th aria-hidden="true" class="separator" *ngIf="!commentVisible"></th>
                   <th scope="col" class="pointer" [class.hidden]="!commentVisible">
                     <span tabindex="0" role="button"
-                      (keyup.enter)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable')"
-                      (click)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable')">
+                      (keyup.enter)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()"
+                      (click)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()">
                       <span *ngIf="commentVisible" attr.aria-label="{{ 'button.close' | translate }}">{{ 'oska.table_experts_comment' | translate }}</span>
                       <span class="icon visible__elem" aria-hidden="true" *ngIf="commentVisible">
                         <span class="htm-icon">skip_previous</span>
@@ -203,7 +203,7 @@
                   </td>
                   <ng-container>
                     <td aria-hidden="true" class="separator" *ngIf="!commentVisible"></td>
-                    <td *ngIf="!commentVisible" class="hidden vertical pointer" [class.last]="last" (click)="commentVisible = !commentVisible;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable')">
+                    <td *ngIf="!commentVisible" class="hidden vertical pointer" [class.last]="last" (click)="commentVisible = !commentVisible;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()">
                       <span class="vertical__text" *ngIf="first">{{ 'oska.table_experts_comment' | translate }}</span>
                     </td>
                     <td *ngIf="commentVisible" class="wide--extra" [class.last]="last">
@@ -213,6 +213,9 @@
                 </tr>
               </tbody>
             </table>
+            <div class="notification--alert" role="alert">
+              <span *ngIf="alertText">{{alertText}}</span>
+            </div>
           </div>
         </div>
 

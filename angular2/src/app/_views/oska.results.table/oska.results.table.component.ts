@@ -4,6 +4,7 @@ import { TableService, RootScopeService } from '@app/_services';
 import { FiltersService } from '@app/_services/filtersService'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: "oska-results-table-component",
@@ -30,6 +31,8 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   public filterFull: boolean = true;
   public showFilter: boolean = true;
   public searchSubscription: Subscription;
+  private activeSortedBy: string = '';
+  private alertText: string = '';
   public params: object;
   public filterOptionsKeys = ['field','responsible','proposalStatus'];
   public filterItems: {} = {
@@ -49,7 +52,8 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
     private tableService: TableService,
     private rootScope: RootScopeService,
     public route: ActivatedRoute, 
-    public router: Router
+    public router: Router,
+    public translate: TranslateService
   ) {
     super(null, null)
   }
@@ -175,6 +179,17 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   resetTableScroll () {
     let table = document.getElementById('resultsTable');
     if (table) table.scrollLeft = 0;
+  }
+
+  setAlert(sortedBy) {
+    if (sortedBy) {
+      let modifierValue = this.modifier ? 'sort.descending' : 'sort.ascending';
+      let sortLabel = `${this.translate.get(sortedBy)['value']} - ${this.translate.get(modifierValue)['value']}`;
+      this.alertText = `${this.translate.get('button.sorted_by')['value']} ${sortLabel}`;
+    } else {
+      let commentValue = this.commentVisible ? 'button.column_opened' : 'button.column_closed';
+      this.alertText = `${this.translate.get('oska.table_experts_comment')['value']} ${this.translate.get(commentValue)['value']}`;
+    }
   }
   
   setScrollPos (id) {
