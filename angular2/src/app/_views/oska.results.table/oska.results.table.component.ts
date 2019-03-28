@@ -143,17 +143,19 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
       let fieldsToProcess = ['responsible', 'proposalStatus'];
       if (this.tableData) {
         this.tableData.forEach(elem => {
-          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
-          return fieldsToProcess.forEach(item => {
+          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) {
+            this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
+          }
+          fieldsToProcess.forEach(item => {
             if (elem[item] && !this.filterItemValues[item].includes(elem[item])) this.filterItemValues[item].push(elem[item]);
           });
         });
-        this.filterItemValues['status'].sort()
-        this.filterItemValues['field'].sort()
-        this.filterItemValues['responsible'].sort()
+        this.filterItemValues['proposalStatus'].sort();
+        this.filterItemValues['field'].sort();
+        this.filterItemValues['responsible'].sort();
       }
-      subscription.unsubscribe();
       this.filterView();
+      subscription.unsubscribe();
     }, (err) => {
       console.log(err);
       this.error = true;
