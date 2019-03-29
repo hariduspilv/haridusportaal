@@ -97,7 +97,7 @@
             <h1>{{ 'oska.proposal_title' | translate }}</h1>
             <!-- <h1 class="block-heading">{{ 'oskaProfessions.compare_label' | translate | titleCase }}</h1> -->
           </div>
-          <div class="col sm-4 flex flex-center flex-justify-end action--back" *ngIf="filteredTableData && filteredTableData.length && tableFile">
+          <div class="col sm-4 flex flex-center flex-justify-end action--back" *ngIf="filteredTableData && filteredTableData.length && tableFile && tableFile.fieldResultPageTableFile">
             <div class="link-holder">
               <a href="{{ tableFile.fieldResultPageTableFile.entity.url }}" target="_blank" attr.aria-label="{{ 'button.download_table' | translate }}: {{ tableFile.fieldResultPageTableFile.description || tableFile.fieldResultPageTableFile.entity.entityLabel }}">
                 <span>{{ 'button.download_table' | translate }}</span>
