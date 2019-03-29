@@ -11,9 +11,6 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
 use League\Csv\Reader;
 use League\Csv\Statement;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
-
-
 
 /**
  * @GraphQLField(
