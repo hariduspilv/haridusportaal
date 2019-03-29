@@ -63,6 +63,10 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
       if (!this.filterFormItems['field'] && !this.filterFormItems['responsible'] && !this.filterFormItems['proposalStatus']) {
         this.filteredTableData = this.tableData;
       }
+      if (this.params['field'] && !this.filterItemValues['field'].includes(this.params['field'])) {
+        this.router.navigate([], {queryParams: {field: null}, queryParamsHandling: 'merge', replaceUrl: true});
+        this.filterFormItems['field'] = '';
+      }
       this.filterItems = {field: '', responsible: '', proposalStatus: ''};
       Object.keys(this.filterFormItems).forEach((key) => this.filterItems[key] = this.filterFormItems[key] || "");
       this.filteredTableData = this.tableData.filter((elem) => {
@@ -109,7 +113,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
         limitedDivs[i].classList.add(`elem-${i}`);
         limitedDivs[i].nextElementSibling.classList.remove('hidden');
         limitedDivs[i].nextElementSibling.childNodes[0].classList.add(i);
-      }
+      } 
     }
   }
 
