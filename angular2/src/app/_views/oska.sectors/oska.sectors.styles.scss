@@ -13,7 +13,7 @@
           text-decoration: underline;padding: 0 .5rem;overflow: hidden;text-overflow: ellipsis;
         }
       }
-      &--pic {position: relative;
+      &--pic {position: relative; width:100%;
         @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {flex: 0 0 200px;}
       }
       img {width: 100%;height: auto;box-sizing: border-box;display: block;
