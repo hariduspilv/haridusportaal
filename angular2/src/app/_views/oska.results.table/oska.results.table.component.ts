@@ -242,7 +242,11 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
     if (element) {
       this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
       this.setScrollPos(id);
-      element.scrollLeft = 999;
+      if (window.innerWidth > 1024) {
+        element.scrollLeft = 999;
+      } else if (!this.commentVisible && !this.elemAtStart) {
+        this.tableOverflown = false;
+      }
       this.cdr.detectChanges();
     }
   }
