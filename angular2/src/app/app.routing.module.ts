@@ -18,6 +18,7 @@ import {
   DashboardComponent,
   SchoolsFundingComponent,
   XjsonComponent,
+  XjsonFormComponent,
   SearchComponent,
   OskaAreasComponent,
   OskaProfessionsComponent,
@@ -55,6 +56,8 @@ const appRoutes: Routes = [
   { path: 'erialad/:id', component: StudyProgrammeSingleComponent},
 
   { path: 'tunnistuse-kehtivuse-kontroll', component: CertificateCheckComponent },
+
+  { path: 'vormid/:form_name', component: XjsonFormComponent },
   
   { path: 'töölaud/tunnistused/:id', component: CertificatesDetailedComponent},
   { path: 'töölaud/õpetan/:type', component: TeachingsDetailedComponent},
@@ -129,6 +132,7 @@ export const routedComponents = [
   DashboardComponent,
   SchoolsFundingComponent,
   XjsonComponent,
+  XjsonFormComponent,
   SearchComponent,
   OskaAreasComponent,
   OskaProfessionsComponent,
