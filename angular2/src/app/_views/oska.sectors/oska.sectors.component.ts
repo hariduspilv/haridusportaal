@@ -61,7 +61,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
 
   sortByKey(array, key) {
     return array.sort(function(a, b) {
-        var x = a[key]; var y = b[key];
+        var x = a[key].toLowerCase(); var y = b[key].toLowerCase();
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
   }

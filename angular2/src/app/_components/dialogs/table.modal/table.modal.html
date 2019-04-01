@@ -29,7 +29,7 @@
               <tr [class.extraBottom]="last" *ngFor="let reason of content[field].pohjus; let secondIndex = index; let last = last;">
                 <td [class.lastRow]="last" class="additional additional--1" colspan="1">{{ secondIndex + 1 }}</td>
                 <td [class.lastRow]="last" class="additional additional--2" colspan="2">{{ 'frontpage.reason' | translate }} </td>
-                <td [class.lastRow]="last" class="additional additional--3" colspan="2">{{ reason }}</td>
+                <td [class.lastRow]="last" class="additional additional--3" colspan="2">{{ parseTypeTranslation(reason) }}</td>
               </tr>
             </ng-container>
           </ng-container>

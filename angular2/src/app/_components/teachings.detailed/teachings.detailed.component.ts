@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { UserService } from '@app/_services/userService';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'teachings-detailed',
@@ -28,7 +29,8 @@ export class TeachingsDetailedComponent implements OnInit{
     private user: UserService,
     private rootScope: RootScopeService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {}
 
   pathWatcher() { 
@@ -68,7 +70,11 @@ export class TeachingsDetailedComponent implements OnInit{
   }
 
   parseTypeTranslation(type) {
-    return "frontpage."+type;
+    const translation = this.translate.get(`frontpage.${type}`)['value'].toString();
+    if(translation.includes(`frontpage.${type}`)){
+      return type;
+    }
+    return translation;
   }
 
   constructCrumbs() {

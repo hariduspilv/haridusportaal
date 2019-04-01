@@ -12,6 +12,7 @@ import { titleCasePipe } from './titleCase.pipe';
 import { LegendCurrencyPipe } from './legendCurrency.pipe';
 import { EuroCurrencyPipe } from './euroCurrency';
 import { CapitalizePipe } from './capitalize.pipe';
+import { IframePipe } from './iframe.pipe';
 
 @NgModule({
   declarations:[
@@ -25,7 +26,8 @@ import { CapitalizePipe } from './capitalize.pipe';
     titleCasePipe,
     LegendCurrencyPipe,
     EuroCurrencyPipe,
-    CapitalizePipe
+    CapitalizePipe,
+    IframePipe
   ],
   imports:[CommonModule],
   exports:[
@@ -39,7 +41,8 @@ import { CapitalizePipe } from './capitalize.pipe';
     titleCasePipe,
     LegendCurrencyPipe,
     EuroCurrencyPipe,
-    CapitalizePipe
+    CapitalizePipe,
+    IframePipe
   ]
 })
 
