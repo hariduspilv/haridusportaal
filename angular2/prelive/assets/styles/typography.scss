@@ -79,3 +79,24 @@ h2, h3 {
   font-size: 1rem;
   font-weight: 500;
 }
+
+/* margin utility classes */
+// margin top
+.mt {
+  &-0 {
+    margin-top: 0;
+  }
+}
+// margin bottom
+.mb {
+  &-0 {
+    margin-bottom: 0;
+  }
+}
+// margin y-axis (top & bottom)
+.my {
+  &-0 {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+}
