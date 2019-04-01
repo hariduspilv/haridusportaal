@@ -1,8 +1,8 @@
 <div class="notifications__list" *ngIf="notifications">
   <ng-container *ngFor="let notification of notifications">
-      <div [ngClass]="'notification notification--' + notification.type" role="notification" (mouseenter)="mouseEnter(notification)"> 
+      <div [ngClass]="'notification notification--' + notification.type" role="alert" aria-label="alert" (mouseenter)="mouseEnter(notification)"> 
         <div class="notification__icon">
-            <span class="htm-icon">{{icon(notification.type)}}</span>
+            <span aria-hidden class="htm-icon">{{icon(notification.type)}}</span>
         </div>
         <p>{{notification.message | translate}}</p>
         <button *ngIf="notification.closeable" class="notification__close" (click)="remove(notification)">
