@@ -18,7 +18,7 @@
         <tbody>
           <tr *ngIf="item.haridustase">
             <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.haridustase }}</td>
+            <td class="normal" colspan="2">{{ parseTypeTranslation(item.haridustase) }}</td>
           </tr>
           <ng-container *ngIf="item.oppekava && item.oppekava.length"><!--Oppekavad-->
             <tr class="extraRow">
@@ -67,7 +67,7 @@
           </tr>
           <tr *ngIf="item.staatus">
             <td class="normal" colspan="3">{{ 'frontpage.staatus' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.staatus }}</td>
+            <td class="normal" colspan="2">{{ parseTypeTranslation(item.staatus) }}</td>
           </tr>
           <tr *ngIf="item.tunnistusDiplom">
             <td class="normal" colspan="3">{{ 'frontpage.tunnistusDiplom' | translate }}</td>
@@ -163,7 +163,7 @@
               <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
                 <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
                 <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.nimetus' | translate }} </td>
-                <td class="additional additional--3 multi--bordered" colspan="2">{{ elem.nimetus }}</td>
+                <td class="additional additional--3 multi--bordered" colspan="2">{{ parseTypeTranslation(elem.nimetus) }}</td>
               </tr>
               <tr *ngIf="elem.algusKp" [class.extraBottom]="last && !elem.loppKp">
                 <td class="additional additional--1" [class.multi]="elem.loppKp" colspan="1"></td>
