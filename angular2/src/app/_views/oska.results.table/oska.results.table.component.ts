@@ -4,6 +4,7 @@ import { TableService, RootScopeService } from '@app/_services';
 import { FiltersService } from '@app/_services/filtersService'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: "oska-results-table-component",
@@ -30,6 +31,8 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   public filterFull: boolean = true;
   public showFilter: boolean = true;
   public searchSubscription: Subscription;
+  private activeSortedBy: string = '';
+  private alertText: string = '';
   public params: object;
   public filterOptionsKeys = ['field','responsible','proposalStatus'];
   public filterItems: {} = {
@@ -49,7 +52,8 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
     private tableService: TableService,
     private rootScope: RootScopeService,
     public route: ActivatedRoute, 
-    public router: Router
+    public router: Router,
+    public translate: TranslateService
   ) {
     super(null, null)
   }
@@ -58,6 +62,10 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
     if (this.tableData) {
       if (!this.filterFormItems['field'] && !this.filterFormItems['responsible'] && !this.filterFormItems['proposalStatus']) {
         this.filteredTableData = this.tableData;
+      }
+      if (this.params['field'] && !this.filterItemValues['field'].includes(this.params['field'])) {
+        this.router.navigate([], {queryParams: {field: null}, queryParamsHandling: 'merge', replaceUrl: true});
+        this.filterFormItems['field'] = '';
       }
       this.filterItems = {field: '', responsible: '', proposalStatus: ''};
       Object.keys(this.filterFormItems).forEach((key) => this.filterItems[key] = this.filterFormItems[key] || "");
@@ -105,7 +113,7 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
         limitedDivs[i].classList.add(`elem-${i}`);
         limitedDivs[i].nextElementSibling.classList.remove('hidden');
         limitedDivs[i].nextElementSibling.childNodes[0].classList.add(i);
-      }
+      } 
     }
   }
 
@@ -143,17 +151,19 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
       let fieldsToProcess = ['responsible', 'proposalStatus'];
       if (this.tableData) {
         this.tableData.forEach(elem => {
-          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
-          return fieldsToProcess.forEach(item => {
+          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) {
+            this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
+          }
+          fieldsToProcess.forEach(item => {
             if (elem[item] && !this.filterItemValues[item].includes(elem[item])) this.filterItemValues[item].push(elem[item]);
           });
         });
-        this.filterItemValues['status'].sort()
-        this.filterItemValues['field'].sort()
-        this.filterItemValues['responsible'].sort()
+        this.filterItemValues['proposalStatus'].sort();
+        this.filterItemValues['field'].sort();
+        this.filterItemValues['responsible'].sort();
       }
-      subscription.unsubscribe();
       this.filterView();
+      subscription.unsubscribe();
     }, (err) => {
       console.log(err);
       this.error = true;
@@ -173,6 +183,17 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
   resetTableScroll () {
     let table = document.getElementById('resultsTable');
     if (table) table.scrollLeft = 0;
+  }
+
+  setAlert(sortedBy) {
+    if (sortedBy) {
+      let modifierValue = this.modifier ? 'sort.descending' : 'sort.ascending';
+      let sortLabel = `${this.translate.get(sortedBy)['value']} - ${this.translate.get(modifierValue)['value']}`;
+      this.alertText = `${this.translate.get('button.sorted_by')['value']} ${sortLabel}`;
+    } else {
+      let commentValue = this.commentVisible ? 'button.column_opened' : 'button.column_closed';
+      this.alertText = `${this.translate.get('oska.table_experts_comment')['value']} ${this.translate.get(commentValue)['value']}`;
+    }
   }
   
   setScrollPos (id) {
@@ -221,7 +242,11 @@ export class OskaResultsTableComponent extends FiltersService implements OnInit{
     if (element) {
       this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
       this.setScrollPos(id);
-      element.scrollLeft = 999;
+      if (window.innerWidth > 1024) {
+        element.scrollLeft = 999;
+      } else if (!this.commentVisible && !this.elemAtStart) {
+        this.tableOverflown = false;
+      }
       this.cdr.detectChanges();
     }
   }

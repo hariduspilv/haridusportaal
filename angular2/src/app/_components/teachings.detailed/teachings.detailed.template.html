@@ -25,7 +25,7 @@
                 <ng-container *ngIf="type === 'tootamine'">
                   <tr *ngIf="content.liik">
                     <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.liik }}</td>
+                    <td class="normal" colspan="2">{{ parseTypeTranslation(content.liik) }}</td>
                   </tr>
                   <tr *ngIf="content.ametikoht">
                     <td class="normal" colspan="3">{{ 'frontpage.ametikoht' | translate }}</td>
