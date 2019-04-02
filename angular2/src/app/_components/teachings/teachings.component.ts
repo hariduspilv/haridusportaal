@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { HttpService } from '@app/_services/httpService';
 import { RootScopeService, NotificationService } from '@app/_services';
+import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,7 +21,7 @@ export class TeachingsComponent{
   contentTypes = ['tootamine', 'kvalifikatsioon', 'tasemeharidus', 'taiendkoolitus'];
   accordionStates: Array<Boolean> = [true, false, false, false];
    
-  constructor(private http: HttpService, private rootScope: RootScopeService, private router: Router, private notificationService: NotificationService) {}
+  constructor(private http: HttpService, private rootScope: RootScopeService, private router: Router, private notificationService: NotificationService, private translate: TranslateService) {}
 
   ngOnInit() {
     this.loading = true;
@@ -89,7 +90,11 @@ export class TeachingsComponent{
   }
 
   parseTypeTranslation(type) {
-    return "frontpage."+type;
+    const translation = this.translate.get(`frontpage.${type}`)['value'].toString();
+    if(translation.includes(`frontpage.${type}`)){
+      return type;
+    }
+    return translation;
   }
   
   setTeachingsDetail(work, route) {

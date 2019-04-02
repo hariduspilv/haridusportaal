@@ -64,7 +64,7 @@
 
                     <ng-container *ngIf="modal.videoUrl">
                       <div class="modal__video">
-                        <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(modal.videoUrl)" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe [src]="modal.videoUrl | iframe" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                       </div><!--/modal__video-->
                     </ng-container>
                   </div><!--/modal__padding-->
