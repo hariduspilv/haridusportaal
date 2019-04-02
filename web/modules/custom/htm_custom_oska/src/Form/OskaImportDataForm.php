@@ -105,10 +105,10 @@ class OskaImportDataForm extends FormBase {
                     '\Drupal\htm_custom_oska\ProcessOskaData::ValidateFile',
                     [$data_items]
                 ],
-                [
-                    '\Drupal\htm_custom_oska\ProcessOskaData::DeleteOldData',
-                    [$data_items]
-                ],
+               #[
+               #     '\Drupal\htm_custom_oska\ProcessOskaData::DeleteOldData',
+               #     [$data_items]
+               # ],
                 [
                     '\Drupal\htm_custom_oska\ProcessOskaData::CreateOskaFilters',
                     [$data_items]
