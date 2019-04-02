@@ -39,7 +39,7 @@ field_settings:
     label: 'Sisu tüüp'
     datasource_id: 'entity:node'
     property_path: type
-    type: string
+    type: text
     dependencies:
       module:
         - node
@@ -59,7 +59,7 @@ field_settings:
     label: 'Vastuvõtu olek'
     datasource_id: 'entity:node'
     property_path: field_admission_status
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_admission_status
@@ -102,7 +102,7 @@ field_settings:
     label: 'Õppekavarühm » Taxonomy term » Nimi'
     datasource_id: 'entity:node'
     property_path: 'field_iscedf_detailed:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_iscedf_detailed
@@ -129,7 +129,7 @@ field_settings:
     label: 'Õppeasutus » Sisu » Pealkiri'
     datasource_id: 'entity:node'
     property_path: 'field_educational_institution:entity:title'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_educational_institution
@@ -140,7 +140,7 @@ field_settings:
     label: 'School website'
     datasource_id: 'entity:node'
     property_path: field_school_website
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_school_website
@@ -148,7 +148,7 @@ field_settings:
     label: 'Õppekava tase  » Taxonomy term » Nimi'
     datasource_id: 'entity:node'
     property_path: 'field_study_programme_level:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_study_programme_level
@@ -159,7 +159,7 @@ field_settings:
     label: 'Õppekava tüüp » Taxonomy term » Nimi'
     datasource_id: 'entity:node'
     property_path: 'field_study_programme_type:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_study_programme_type
@@ -186,7 +186,7 @@ field_settings:
     label: Pealkiri
     datasource_id: 'entity:node'
     property_path: title
-    type: string
+    type: text
     dependencies:
       module:
         - node

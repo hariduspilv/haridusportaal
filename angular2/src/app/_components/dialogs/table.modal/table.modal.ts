@@ -28,6 +28,14 @@ export class TableModal {
     private notificationService: NotificationService,
   ){}
   
+  parseTypeTranslation(type) {
+    const translation = this.translate.get(`frontpage.${type}`)['value'].toString();
+    if(translation.includes(`frontpage.${type}`)){
+      return type;
+    }
+    return translation;
+  }
+
   ngOnInit() {
     this.loading = true;
     let sub = this.http.get(this.data.contentUrl).subscribe((response: any) => {

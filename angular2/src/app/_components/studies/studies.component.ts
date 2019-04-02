@@ -57,6 +57,14 @@ export class StudiesComponent{
     });
   }
 
+  parseTypeTranslation(type) {
+    const translation = this.translate.get(`frontpage.${type}`)['value'].toString();
+    if(translation.includes(`frontpage.${type}`)){
+      return type;
+    }
+    return translation;
+  }
+
   //YYYY-MM-DD to DD.MM.YYYY
   // dateFormatter(date) {
   //   let dateOfBirthArr = date.split('-');

@@ -321,8 +321,8 @@ frontpage:
     en: 'Tasemeharidus kvalifikatsioonENG'
   taiendkoolitus:
     translation_type: textarea
-    et: Täiendkoolitus
-    en: TäiendkoolitusENG
+    et: Täienduskoolitus
+    en: TäienduskoolitusENG
   lead_title_xxs:
     translation_type: text_format
     et:
@@ -599,6 +599,82 @@ frontpage:
     translation_type: textarea
     et: 'Seotud dokumendid'
     en: 'Related documents'
+  YLIKOOL:
+    translation_type: textarea
+    et: Kõrgharidus
+    en: 'Higher education'
+  KUTSEKOOL:
+    translation_type: textarea
+    et: Kutseharidus
+    en: Kutseharidus-ENG
+  POHIKOOL:
+    translation_type: textarea
+    et: Üldharidus
+    en: Üldharidus-eng
+  ALUSKOOL:
+    translation_type: textarea
+    et: Alusharidus
+    en: Alusharidus-eng
+  HUVIKOOL:
+    translation_type: textarea
+    et: Huviharidus
+    en: Huviharidus-eng
+  OPIB_HETKEL:
+    translation_type: textarea
+    et: 'Õpib hetkel'
+    en: 'Õpib hetkel-eng'
+  LOPETANUD:
+    translation_type: textarea
+    et: Lõpetanud
+    en: Lõpetanud-eng
+  REORGANISEERIMINE:
+    translation_type: textarea
+    et: 'Õppeasutuse ümberkorraldamine või reorganiseerimine'
+    en: 'Õppeasutuse ümberkorraldamine või reorganiseerimine-eng'
+  KATKESTANUD:
+    translation_type: textarea
+    et: Katkestanud
+    en: Katkestanud-eng
+  OPPELAEN_OIGUS_PUUDUB_EESTI_KODAKONDSUS:
+    translation_type: textarea
+    et: 'Puudub Eesti kodakondsus või pikaajaline elamisluba'
+    en: 'Puudub Eesti kodakondsus või pikaajaline elamisluba-eng'
+  OPPELAEN_OIGUS_OPPEKAVA_NOMINAALKESTVUS_9:
+    translation_type: textarea
+    et: 'Õppekava nominaalkestus peab olema vähemalt 9 kuud'
+    en: 'Õppekava nominaalkestus peab olema vähemalt 9 kuud-eng'
+  OPPELAEN_OIGUS_AKADEEMILINE_PUHKUS:
+    translation_type: textarea
+    et: 'Akadeemilisel puhkusel ei ole õppelaenu taotlemise õigust'
+    en: 'Akadeemilisel puhkusel ei ole õppelaenu taotlemise õigust-eng'
+  OPPELAEN_OIGUS_OPPELAEN:
+    translation_type: textarea
+    et: 'Õppelaenu võtmise korrad on kasutatud'
+    en: 'Õppelaenu võtmise korrad on kasutatud-eng'
+  OPPELAEN_OIGUS_OSAKOORMUS:
+    translation_type: textarea
+    et: 'Õppimine osakoormusega või eksternina'
+    en: 'Õppimine osakoormusega või eksternina-eng'
+  OPPELAEN_OIGUS_MUU:
+    translation_type: textarea
+    et: 'Muu põhjus. Küsi täpsemalt ehis.tugi@hm.ee'
+    en: 'Muu põhjus. Küsi täpsemalt ehis.tugi@hm.ee-eng'
+  AKAD_PUHKUS_OMAL_SOOVIL:
+    translation_type: textarea
+    et: 'Omal soovil'
+    en: 'Omal soovil-eng'
+  AKAD_PUHKUS_TERVIS:
+    translation_type: textarea
+    et: 'Tervislikel põhjustel'
+    en: 'Tervislikel põhjustel-eng'
+  AKAD_PUHKUS_KAITSEVAE:
+    translation_type: textarea
+    et: 'Kaitseväeteenistuse puhul'
+    en: 'Kaitseväeteenistuse puhul-eng'
+  AKAD_PUHKUS_LAPSEHOOLDUS:
+    translation_type: textarea
+    et: 'Lapse hooldamiseks'
+    en: 'Lapse hooldamiseks-eng'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -652,6 +728,10 @@ xjson:
     translation_type: textarea
     et: 'Taotluse vormi muutmine'
     en: 'Edit application form'
+  must_log_in:
+    translation_type: textarea
+    et: 'Seda vormi saab täita ainult sisse logitud kasutaja. Palun logige sisse.'
+    en: 'You must be logged in to see this form.'
 article:
   label:
     translation_type: textarea
@@ -1695,7 +1775,7 @@ button:
     en: 'Yes'
   download_table:
     translation_type: textarea
-    et: 'Lae tabel alla (.xlsx)'
+    et: 'Laadi tabel alla (.xlsx)'
     en: 'Download table'
   edit_data:
     translation_type: textarea
@@ -1709,6 +1789,26 @@ button:
     translation_type: textarea
     et: 'Tagasi ametialade nimekirja vaatesse'
     en: 'Back to professions list'
+  see_more:
+    translation_type: textarea
+    et: 'Vaata rohkem'
+    en: More
+  sortable:
+    translation_type: textarea
+    et: Sorteeritav
+    en: Sortable
+  sorted_by:
+    translation_type: textarea
+    et: 'Sorteeritud väljaga '
+    en: 'Sorted by'
+  column_opened:
+    translation_type: textarea
+    et: 'Veerg avatud'
+    en: 'Column opened'
+  column_closed:
+    translation_type: textarea
+    et: 'Veerg suletud'
+    en: 'Column closed'
 tooltip:
   share:
     translation_type: textarea
@@ -2271,6 +2371,10 @@ oska:
     translation_type: textarea
     et: 'Vaata ettepanekute elluviimist'
     en: 'Go to proposals'
+  go_to_results:
+    translation_type: textarea
+    et: 'Vaata uuringu ettepanekute elluviimist'
+    en: 'See results'
 oskaProfession:
   view_field_info:
     translation_type: textarea
@@ -2499,3 +2603,16 @@ login_mobile:
   et: 'Sisene Mobiil ID-ga'
   en: 'Mobile ID login'
 error: {  }
+sort:
+  descending:
+    translation_type: textarea
+    et: 'Ülevalt alla'
+    en: Descending
+  ascending:
+    translation_type: textarea
+    et: 'Alt üles'
+    en: Ascending
+VALJA_ARVATUD:
+  translation_type: textarea
+  et: 'Välja arvatud'
+  en: 'Välja arvatud-eng'
