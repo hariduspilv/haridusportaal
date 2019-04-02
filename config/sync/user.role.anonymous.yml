@@ -30,6 +30,7 @@ permissions:
   - 'restful post mobile_id_rest_response_resource'
   - 'restful post personal_card_rest_resource'
   - 'restful post x_json_file_rest_resource'
+  - 'restful post xjson_rest_resource'
   - 'search content'
   - 'view any article content'
   - 'view any avaleht content'
@@ -60,3 +61,4 @@ permissions:
   - 'view published oska table entity entities'
   - 'view published subscription entity entities'
   - 'view published subsidy project entities'
+  - 'view published xjson form entity entities'
