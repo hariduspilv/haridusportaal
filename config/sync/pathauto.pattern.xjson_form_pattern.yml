@@ -1,0 +1,14 @@
+uuid: ac1a9f90-1403-4dc1-82a0-e4500309a5c5
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_xjson_services
+id: xjson_form_pattern
+label: 'xJson Form pattern'
+type: 'canonical_entities:x_json_form_entity'
+pattern: '/vormid/[x_json_form_entity:name]'
+selection_criteria: {  }
+selection_logic: and
+weight: 0
+relationships: {  }

@@ -1,5 +1,6 @@
 enabled_entity_types:
   - x_json_entity
+  - x_json_form_entity
   - user
 punctuation:
   double_quotes: 0

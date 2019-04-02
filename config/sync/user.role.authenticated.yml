@@ -88,3 +88,4 @@ permissions:
   - 'view published subscription entity entities'
   - 'view published subsidy project entities'
   - 'view published xjson entity entities'
+  - 'view published xjson form entity entities'
