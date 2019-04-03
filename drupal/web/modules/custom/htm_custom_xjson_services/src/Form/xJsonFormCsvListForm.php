@@ -44,17 +44,19 @@ class xJsonFormCsvListForm extends FormBase {
             $entity_id = preg_replace('/\\.[^.\\s]{3,4}$/', '', $csv_name);
             $entity = \Drupal::entityTypeManager()->getStorage('x_json_form_entity')->load($entity_id);
 
-            $form['table'][$key]['xjson_form_entity'] = [
-                '#type' => 'link',
-                '#title' => $entity->label(),
-                '#url' => Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/'.$entity->toUrl()->getInternalPath())
-            ];
+            if($entity){
+                $form['table'][$key]['xjson_form_entity'] = [
+                    '#type' => 'link',
+                    '#title' => $entity->label(),
+                    '#url' => Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/'.$entity->toUrl()->getInternalPath())
+                ];
 
-            $form['table'][$key]['file'] = [
-                '#type' => 'link',
-                '#title' => $this->t('Download'),
-                '#url' => Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/sites/default/files/private/xJsonCSVs/'.$csv_name),
-            ];
+                $form['table'][$key]['file'] = [
+                    '#type' => 'link',
+                    '#title' => $this->t('Download'),
+                    '#url' => Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/sites/default/files/private/xJsonCSVs/'.$csv_name),
+                ];
+            }
         }
 
         return $form;
