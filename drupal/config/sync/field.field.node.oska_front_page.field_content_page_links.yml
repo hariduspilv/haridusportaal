@@ -1,0 +1,23 @@
+uuid: 16783193-b35a-4296-9498-89a2fcc474b3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_page_links
+    - node.type.oska_front_page
+  module:
+    - link
+id: node.oska_front_page.field_content_page_links
+field_name: field_content_page_links
+entity_type: node
+bundle: oska_front_page
+label: 'Sisulehtede lingid'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link
