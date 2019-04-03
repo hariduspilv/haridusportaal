@@ -59,6 +59,7 @@ permissions:
   - 'view any event content'
   - 'view any news content'
   - 'view any oska_field_page content'
+  - 'view any oska_front_page content'
   - 'view any oska_main_profession_page content'
   - 'view any oska_result_page content'
   - 'view any oska_survey_page content'
