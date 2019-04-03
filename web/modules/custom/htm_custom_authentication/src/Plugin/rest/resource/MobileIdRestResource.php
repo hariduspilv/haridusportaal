@@ -119,29 +119,29 @@ class MobileIdRestResource extends ResourceBase {
         }else{
           switch ($result['Code']) {
             case 101:
-              $message = $this->t('Invalid phone number.');
+              $message = 'login.invalid_number';
               break;
             case 104:
-              $message = $this->t('Access denied, error authorizing user.');
+              $message = 'login.acces_denied';
               break;
             case 301:
-              $message = $this->t('User is not a Mobile-ID client.');
+              $message = 'login.not_mobile_id_client';
               break;
             case 400:
-              $message = $this->t('Could not connect to host.');
+              $message = 'login.connection_error';
               break;
             default:
               $message = $result['message'];
               \Drupal::logger('htm_custom_authentication')->error($message);
-              throw new HttpException(500, $this->t('Authorizing failed, please try again.'));
+              throw new HttpException(500, 'login.auth_error');
           }
           throw new HttpException(400, $message);
         }
       } else {
-        throw new HttpException(400, 'Empty mobile number.');
+        throw new HttpException(400, 'login.nr_empty');
       }
     }else{
-      throw new HttpException(400, 'Missing necessary keys.');
+      throw new HttpException(400, 'login.missing_keys');
     }
   }
 
