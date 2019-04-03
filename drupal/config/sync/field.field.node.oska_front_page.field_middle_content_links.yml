@@ -1,0 +1,34 @@
+uuid: e6a4a7f8-240f-4920-a7b7-a5ac61a97f02
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_middle_content_links
+    - node.type.oska_field_page
+    - node.type.oska_front_page
+    - node.type.oska_main_profession_page
+    - node.type.oska_result_page
+    - node.type.oska_survey_page
+id: node.oska_front_page.field_middle_content_links
+field_name: field_middle_content_links
+entity_type: node
+bundle: oska_front_page
+label: 'Keskmised sisu viited'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      oska_main_profession_page: oska_main_profession_page
+      oska_result_page: oska_result_page
+      oska_survey_page: oska_survey_page
+      oska_field_page: oska_field_page
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: oska_main_profession_page
+field_type: entity_reference
