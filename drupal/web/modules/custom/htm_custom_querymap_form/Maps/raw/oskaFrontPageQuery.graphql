@@ -1,0 +1,89 @@
+query frontPageQuery($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "oska_front_page", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeOskaFrontPage {
+        fieldContentPageLinks {
+          url {
+            routed
+            path
+          }
+          title
+        }
+        fieldMiddleContentLinks {
+          entity {
+            ... on NodeOskaFieldPage {
+              title
+              introduction: fieldIntroduction
+            }
+            ... on NodeOskaResultPage {
+              title
+              introduction: fieldResultPageIntroduction
+            }
+            ... on NodeOskaSurveyPage {
+              title
+              introduction: fieldSurveyPageIntroduction
+            }
+            ... on NodeOskaMainProfessionPage {
+              title
+              introduction: fieldIntroduction
+            }
+          }
+        }
+        fieldBottomTopic {
+          entity {
+            ... on NodeOskaFieldPage {
+              title
+              introduction: fieldIntroduction
+              fieldOskaFieldPicture {
+                entity{
+                  ... on File{
+                    url
+                    entityId
+                    entityLabel
+                  }
+                }
+              }
+            }
+            ... on NodeOskaResultPage {
+              title
+              introduction: fieldResultPageIntroduction
+              fieldResultPagePicture {
+                derivative(style: CROP_LARGE) {
+                  url
+                }
+                targetId
+                alt
+                title
+              }
+            }
+            ... on NodeOskaSurveyPage {
+              title
+              introduction: fieldSurveyPageIntroduction
+              fieldSurveyPagePicture {
+
+                derivative(style: CROP_LARGE) {
+                  url
+                }
+                targetId
+                alt
+                title
+              }
+            }
+            ... on NodeOskaMainProfessionPage {
+              title
+              introduction: fieldIntroduction
+              fieldMainProfessionPicture {
+                derivative(style: CROP_LARGE) {
+                  url
+                }
+                targetId
+                alt
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
