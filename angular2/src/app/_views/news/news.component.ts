@@ -72,13 +72,15 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     
     for( let i in tags ){
       let current = tags[i];
-      if( current['Tag'].length == 0 ){ continue; }
+      if( current['Tag'] && current['Tag'].length == 0 ){ continue; }
 
       for( let ii in current['Tag'] ){
-        output.push({
-          id: current['Tag'][ii]['entity']['entityId'],
-          name: current['Tag'][ii]['entity']['entityLabel']
-        });
+        if (current['Tag'][ii]['entity']) {
+          output.push({
+            id: current['Tag'][ii]['entity']['entityId'],
+            name: current['Tag'][ii]['entity']['entityLabel']
+          });
+        }
       }
     }
 
@@ -191,7 +193,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   ngOnInit() {
 
     this.pathWatcher();
-
+    
     this.getTags();
 
     this.watchSearch();
