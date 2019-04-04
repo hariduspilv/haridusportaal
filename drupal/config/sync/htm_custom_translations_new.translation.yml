@@ -1391,6 +1391,34 @@ login:
     translation_type: textarea
     et: 'Praegu pole sisse logimine võimalik. Proovige hiljem uuesti.'
     en: 'Login services are currently unavailable. Please try again later.'
+  not_mobile_id_client:
+    translation_type: textarea
+    et: 'Kasutaja ei ole Mobiil-ID klient.'
+    en: 'User is not a Mobile-ID client.'
+  invalid_number:
+    translation_type: textarea
+    et: 'Vale telefoninumber!'
+    en: 'Invalid phone number!'
+  acces_denied:
+    translation_type: textarea
+    et: 'Ligipääs keelatud, viga kasutaja autoriseerimisel.'
+    en: 'Access denied, error authorizing user.'
+  connection_error:
+    translation_type: textarea
+    et: 'Ühenduse viga.'
+    en: 'Could not connect to host.'
+  auth_error:
+    translation_type: textarea
+    et: 'Autentimine ebaõnnestus, palun proovige uuesti!'
+    en: 'Authorizing failed, please try again.'
+  nr_empty:
+    translation_type: textarea
+    et: 'Tühi telefoninumber.'
+    en: '''Empty mobile number.'
+  missing_keys:
+    translation_type: textarea
+    et: 'Puuduvad vajalikud parameetrid.'
+    en: 'Missing necessary keys.'
 time:
   january:
     translation_type: textarea
@@ -2141,6 +2169,10 @@ oskaProfessions:
     translation_type: textarea
     et: Ametialad
     en: 'Field main profession'
+  tags:
+    translation_type: textarea
+    et: 'Ametialade sildid'
+    en: 'Ametialade sildid-eng'
 fieldFixedLabel:
   label:
     translation_type: textarea
