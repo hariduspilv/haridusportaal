@@ -1,0 +1,61 @@
+uuid: 36983350-9acb-4e38-9f07-75f86ae0741d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.oska_front_page.body
+    - field.field.node.oska_front_page.field_bottom_topic
+    - field.field.node.oska_front_page.field_content_page_links
+    - field.field.node.oska_front_page.field_middle_content_links
+    - node.type.oska_front_page
+  module:
+    - link
+    - text
+    - user
+id: node.oska_front_page.default
+targetEntityType: node
+bundle: oska_front_page
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_bottom_topic:
+    weight: 104
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_content_page_links:
+    weight: 102
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_middle_content_links:
+    weight: 103
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true
