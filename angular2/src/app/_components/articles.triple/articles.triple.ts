@@ -10,6 +10,10 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 })
 
 export class ArticlesTripleComponent {
+  @Input() heading: string = '';
+  @Input() generalLink: string = '';
+  @Input() content: object;
+  @Input() contentLabels: Object;
  
   public lang: string;
   public loading: boolean = false;
@@ -18,5 +22,9 @@ export class ArticlesTripleComponent {
     private http: HttpService,
     public route: ActivatedRoute) {}
    
+  ngOnInit() {
+    const { heading, generalLink, content, contentLabels } = this;
+    console.log(heading, generalLink, content, contentLabels);
+  }
   
 }

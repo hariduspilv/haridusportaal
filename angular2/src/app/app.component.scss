@@ -6,6 +6,8 @@
 @import "../assets/styles/layout.scss";
 @import "../assets/styles/htm-icon.scss";
 
+.mat-drawer-container.landing {background-color: $white;}
+
 article table, .accordion table{width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   th {background: $light-gray;
     .sortable {&:hover { color: $dark-gray;}}

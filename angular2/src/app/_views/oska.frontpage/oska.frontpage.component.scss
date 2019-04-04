@@ -1,2 +1,13 @@
 @import "../../../assets/styles/typography.scss"; 
-.frontpage {background-color: $white;}
+.frontpage {
+  &__section {padding-bottom: 8rem;}
+  &__title {padding: 4rem 0 3rem;color: $black;
+    ::ng-deep p {margin: 0;}
+  }
+  .origin {
+    &__child {margin-right: 4rem;
+      &--last {margin-right: 0;}
+    }
+    &__link {line-height: 1.88;margin-top: 1rem;}
+  }
+}

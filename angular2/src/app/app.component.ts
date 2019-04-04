@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   @ViewChild('sidenav') sidenav;
 
   mode: any;
+  isLandingPage: boolean = false;
   opened: any;
   debounce: any;
   debounceDelay: any;
@@ -68,6 +69,7 @@ export class AppComponent implements OnInit {
 
       if (event instanceof RoutesRecognized) {
         let params = event.state.root.firstChild.params;
+        this.isLandingPage = (event.url === '/oska' || event.url === '/');
         if (params && params.lang && (params.lang === 'et' || params.lang === 'en')) {
           translate.setDefaultLang(params['lang']);
         }

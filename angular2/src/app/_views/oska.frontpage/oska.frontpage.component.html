@@ -1,20 +1,20 @@
 <ng-template #origin>
-  <article class="flex flex-justify-center origin">
-    <ng-container *ngFor="let item of generalData[0].fieldContentPageLinks; let i = index;">
+  <div class="flex flex-justify-center origin">
+    <div class="origin__child" *ngFor="let item of generalData[0].fieldContentPageLinks; let i = index; let last = last;" [class.origin__child--last]="last">
       <a href="javascript:void(0)" class="flex flex-notrows pointer text-center " *ngIf="item.url && item.url.routed" [routerLink]="item.url.path">
         <div class="img__wrapper">
           <img aria-hidden="true" src="/assets/img/frontpage-button-default.svg">
         </div>
-        <div attr.aria-label="{{ item.title }}" class="section__text--strong">{{item.title}}</div>
+        <div attr.aria-label="{{ item.title }}" class="origin__link">{{item.title}}</div>
       </a> 
       <a *ngIf="item.url && !item.url.routed" class="flex flex-notrows pointer text-center" href="{{item.url.path}}" target="_blank">
         <div class="img__wrapper">
           <img aria-hidden="true" src="/assets/img/frontpage-button-default.svg">
         </div>
-        <div attr.aria-label="{{ item.title }}" class="section__text--strong">{{item.title}}</div>
+        <div attr.aria-label="{{ item.title }}" class="origin__link">{{item.title}}</div>
       </a>
-    </ng-container>
-  </article>
+    </div>
+  </div>
 </ng-template>
 
 <ng-container>
@@ -22,18 +22,32 @@
 
   <mat-spinner *ngIf="!generalData" ></mat-spinner>
   
-  <div class="frontpage" *ngIf="generalData">
-    <h1 class="lead-title">
-      <span class="sm-show xxs text-center" innerHtml="{{'frontpage.lead_title_xxs' | translate}}"></span>
-      <span class="sm-show sm text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
-      <span class="sm-hide text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
-    </h1>
-    <div class="section section--origin main-container" *ngIf="generalData && generalData.length">
+  <div class="frontpage" *ngIf="generalData && generalData.length && fieldsData">
+    <div class="frontpage__section main-container">
+      <h1 class="frontpage__title">
+        <span class="text-center" innerHtml="{{'frontpage.oska_lead_title' | translate}}"></span>
+      </h1>
       <div class="content">
         <ng-container *ngTemplateOutlet="origin"></ng-container>
       </div>
     </div>
-    <articles-single></articles-single>
+    <div class="frontpage__section" *ngIf="fieldsData && fieldsData.length">
+      <articles-triple
+        heading="oska.latest_field_studies" 
+        generalLink="/valdkonnad"
+        [content]="fieldsData"
+        [contentLabels]="fieldsLabels">
+      </articles-triple>
+    </div>
+    <div class="frontpage__section">
+      <articles-single
+        heading="news.current" 
+        [title]="generalData[0].fieldBottomTopic.entity.title"
+        [image]="generalData[0].fieldBottomTopic.entity.fieldMainProfessionPicture"
+        [url]="generalData[0].fieldBottomTopic.entity.entityUrl"
+        [subtext]="generalData[0].fieldBottomTopic.entity.introduction">
+      </articles-single>
+    </div>
   
     <!-- <div class="frontpage__triangle--wrapper">
       <div class="frontpage__triangle--bottom"></div>

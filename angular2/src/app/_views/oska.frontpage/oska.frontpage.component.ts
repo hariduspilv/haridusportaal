@@ -12,6 +12,12 @@ import { HttpService } from '@app/_services/httpService';
 export class OskaFrontPageComponent {
 
 	public generalData: any = false;
+	public fieldsData: any = false;
+	public fieldsLabels: Object = {
+    image: 'fieldOskaFieldPicture',
+    title: 'title',
+    url: 'entityUrl'
+  };
 	public lang: string;
   public mobileView: boolean = false;
   
@@ -27,19 +33,39 @@ export class OskaFrontPageComponent {
     
     let variables = {lang: this.lang.toUpperCase()}
 
-    this.http.get('oskaFrontPageQuery', {params:variables}).subscribe(data => {
-      if (data['errors'] && data['errors'].length) {
+    this.http.get('oskaFrontPageQuery', {params:variables}).subscribe(response => {
+      if (response['errors'] && response['errors'].length) {
         this.generalData = [];
       } else {
-        this.generalData = data['data']['nodeQuery']['entities'];
+        this.generalData = response['data']['nodeQuery']['entities'];
       }
     },(data) => {
       this.generalData = [];
     });
   }
+  
+  getFields () {
+    let variables = {
+      lang: this.lang.toUpperCase(),
+      offset: 0,
+      limit: 3,
+      nidEnabled: false
+    };
+
+    this.http.get('oskaFieldListView', {params:variables}).subscribe(response => {
+      if (response['errors']) {
+        this.fieldsData = [];
+        return;
+      }
+      this.fieldsData = response['data']['nodeQuery']['entities'];
+    }, (err) => {
+      this.fieldsData = [];
+    })
+  }
 
   ngOnInit() {
     this.lang = this.rootScope.get("lang");
+    this.getFields();
     this.getGeneral();
   }
 }
