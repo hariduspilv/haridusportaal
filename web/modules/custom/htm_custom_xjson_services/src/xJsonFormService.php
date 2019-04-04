@@ -136,7 +136,7 @@ class xJsonFormService implements xJsonServiceInterface {
                 // check, if we need to send email later on
                 if($data_type === 'email'){
                     $email_def = $this->definition_steps[$step_key]['data_elements'][$field_name];
-                    if(isset($email_def['send_email']) && $email_def['send_email'] === true && isset($email_def['required']) && $email_def['required'] === true){
+                    if(isset($email_def['send_email']) && $email_def['send_email'] === true){
                         $this->send_email_fields[$field_name] = $email_def;
                     }
                 }
@@ -247,17 +247,21 @@ class xJsonFormService implements xJsonServiceInterface {
 
 
         foreach($this->send_email_fields as $field_name => $field_info){
-            $recipient = $values[$field_name];
-            $params['subject'] = $field_info['email_subject'];
-            $params['body'] = $field_info['email_body'];
-
-            $result = $this->mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, true);
-            if ($result['result']) {
-                $message = t('An email notification has been sent to @email', array('@email' => $recipient));
-                \Drupal::logger($module)->notice($message);
+            if($field_info['required'] === false && empty($values[$field_name])){
+                continue;
             }else{
-                $message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
-                \Drupal::logger($module)->error($message);
+                $recipient = $values[$field_name];
+                $params['subject'] = $field_info['email_subject'];
+                $params['body'] = $field_info['email_body'];
+
+                $result = $this->mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, true);
+                if ($result['result']) {
+                    $message = t('An email notification has been sent to @email', array('@email' => $recipient));
+                    \Drupal::logger($module)->notice($message);
+                }else{
+                    $message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
+                    \Drupal::logger($module)->error($message);
+                }
             }
         }
     }
