@@ -83,27 +83,27 @@ class UserAuth implements UserAuthInterface {
       } catch (\Exception $e){
         switch($e->getMessage()){
           case 'SIM_ERROR':
-          $message = t('SIM application error.');
+          $message = 'login.mobile_id_sim_error';
           break;
           case 'PHONE_ABSENT':
-          $message = t('Phone is not in coverage area.');
+          $message = 'login.mobile_id_coverage';
           break;
           case 'NOT_VALID':
-          $message = t('Mobile-ID certificates are revoked or suspended.');
+          $message = 'login.mobile_id_not_valid';
           break;
           case 'SENDING_ERROR':
-          $message = t('Sending authentication request to phone failed.');
+          $message = 'login.mobile_id_sending_error';
           break;
           case 'USER_CANCEL':
-          $message = t('Authentication has been canceled.');
+          $message = 'login.mobile_id_user_cancel';
           break;
           case 'EXPIRED_TRANSACTION':
-          $message = t('Authentication has been expired.');
+          $message = 'login.mobile_id_expired_transaction';
           break;
           default:
           $message = $e->getMessage();
           \Drupal::logger('htm_custom_authentication')->error($message);
-          $message = t('Authorizing failed, please try again.');
+          $message = 'login.mobile_id_authorizing_failed';
           throw new HttpException(500, $message);
         }
         throw new HttpException(400, $message);
