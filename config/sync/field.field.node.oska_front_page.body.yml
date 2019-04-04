@@ -1,0 +1,22 @@
+uuid: fb2c60b7-8d3e-435b-bc00-7e416d1f252b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.oska_front_page
+  module:
+    - text
+id: node.oska_front_page.body
+field_name: body
+entity_type: node
+bundle: oska_front_page
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary
