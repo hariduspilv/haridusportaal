@@ -5,6 +5,11 @@
   <div class="row xjson-wrapper">
     <div class="col-8 sm-12">
 
+      <ng-container *ngIf="userLoggedOut">
+        <re-captcha class="sm-hide" tabindex="-1" #captchaRef="reCaptcha" size="invisible"
+          siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="add($event);"></re-captcha>
+      </ng-container>
+
       <mat-spinner *ngIf="!data && !loginError"></mat-spinner>
       <notifications [id]="'xjsonForm'" class="notifications notifications--small"></notifications>
       <ng-container *ngIf="data">
@@ -500,12 +505,6 @@
                         {{ error[element].message }}
                       </div>
                     </ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
-
-                    <ng-container *ngIf="userLoggedOut">
-                        <re-captcha class="sm-hide" tabindex="-1" #captchaRef="reCaptcha" size="invisible"
-                          siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="add($event);"></re-captcha>
-                      </ng-container>
-
                   </div>
                   <!--/col-12-->
                 </div> <!-- row -->
