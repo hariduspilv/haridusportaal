@@ -1,10 +1,10 @@
 <div class="wrapper">
   <div class="wrapper__heading">
-    <span class="wrapper__heading__label">{{ 'event.label' | translate | uppercase }}</span>
-    <span class="wrapper__heading__action"><a attr.aria-label="{{ 'button.view_all' | translate }}: {{ 'event.label' | translate }}" routerLink="/oska" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
+    <span class="wrapper__heading__label">{{ heading | translate | uppercase }}</span>
+    <span class="wrapper__heading__action"><a attr.aria-label="{{ 'button.view_all' | translate }}: {{ heading | translate }}" [routerLink]="generalLink" href="javascript:void(0);">{{ 'button.view_all' | translate }}</a></span>
   </div>
   <article class="wrapper__article">
-    <a class="article" href="javascript:void();" class="col-4 sm-12 pointer event__elem" *ngFor="let item of events; let first = first;" routerLink="/oska">
+    <a class="article" href="javascript:void();" class="col-4 sm-12 pointer event__elem" *ngFor="let item of content; let first = first;" [routerLink]="item[contentLabels.url].path">
       <span class="article__date" attr.aria-label="{{ 'event.start_time' | translate }}">{{ 'date' }}</span>
       <h1 class="article__title">{{ 'title' }}</h1>
       <div class="article__author" *ngIf="item.fieldOrganizer" attr.aria-label="{{'event.participant_organization' | translate}}">{{ 'organizer' }}</div>

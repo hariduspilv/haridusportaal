@@ -10,6 +10,12 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 })
 
 export class ArticlesSingleComponent {
+  @Input() image: object;
+  @Input() heading: string = '';
+  @Input() title: string = '';
+  @Input() subtext: string = '';
+  @Input() contentLeft: boolean;
+  @Input() url: object;
  
   public lang: string;
   public loading: boolean = false;
@@ -19,4 +25,6 @@ export class ArticlesSingleComponent {
     public route: ActivatedRoute) {}
    
   
+  ngOnInit() {}
+
 }
