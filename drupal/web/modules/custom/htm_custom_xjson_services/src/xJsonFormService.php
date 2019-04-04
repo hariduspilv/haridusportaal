@@ -136,7 +136,7 @@ class xJsonFormService implements xJsonServiceInterface {
                 // check, if we need to send email later on
                 if($data_type === 'email'){
                     $email_def = $this->definition_steps[$step_key]['data_elements'][$field_name];
-                    if(isset($email_def['send_email']) && $email_def['send_email'] === true){
+                    if(isset($email_def['send_email']) && $email_def['send_email'] === true && isset($email_def['required']) && $email_def['required'] === true){
                         $this->send_email_fields[$field_name] = $email_def;
                     }
                 }
