@@ -1,0 +1,19 @@
+uuid: 650fb09d-beb1-4e9e-882e-adcd56111702
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_middle_content_links
+field_name: field_middle_content_links
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 2
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
