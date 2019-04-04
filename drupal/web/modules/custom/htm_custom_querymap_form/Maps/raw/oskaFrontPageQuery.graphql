@@ -35,13 +35,12 @@ query frontPageQuery($lang: LanguageId!) {
               title
               introduction: fieldIntroduction
               fieldOskaFieldPicture {
-                entity{
-                  ... on File{
-                    url
-                    entityId
-                    entityLabel
-                  }
+                derivative(style: CROP_LARGE) {
+                  url
                 }
+                targetId
+                alt
+                title
               }
             }
             ... on NodeOskaResultPage {
