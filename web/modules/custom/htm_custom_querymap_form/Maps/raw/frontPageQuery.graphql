@@ -1,114 +1,58 @@
 query frontPageQuery($lang: LanguageId!) {
-  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "oska_front_page", language: $lang}}) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "avaleht", language: $lang}}) {
     entities(language: $lang) {
-      ... on NodeOskaFrontPage {
-        fieldContentPageLinks {
-          url {
-            routed
-            path
-          }
-          title
-        }
-        fieldMiddleContentLinks {
+      ... on NodeAvaleht {
+        fieldHeadBlockTitle
+        fieldTopics {
           entity {
-            ... on NodeOskaFieldPage {
-              title
-              introduction: fieldIntroduction
-              entityUrl {
-                routed
-                path
-              }
-            }
-            ... on NodeOskaResultPage {
-              title
-              introduction: fieldResultPageIntroduction
-              entityUrl {
-                routed
-                path
-              }
-            }
-            ... on NodeOskaSurveyPage {
-              title
-              introduction: fieldSurveyPageIntroduction
-              entityUrl {
-                routed
-                path
-              }
-            }
-            ... on NodeOskaMainProfessionPage {
-              title
-              introduction: fieldIntroduction
-              entityUrl {
-                routed
-                path
+            ... on ParagraphHomepageTopics {
+              fieldTopicTitle
+              fieldTopicText
+              fieldTopicLink {
+                url {
+                  routed
+                  path
+                }
               }
             }
           }
         }
-        fieldBottomTopic {
+        fieldSupernews {
           entity {
-            ... on NodeOskaFieldPage {
-              title
-              introduction: fieldIntroduction
-              entityUrl {
-                routed
-                path
-              }
-              fieldOskaFieldPicture {
-                derivative(style: CROP_LARGE) {
-                  url
+            ... on ParagraphSupernews {
+              fieldSupernewsNode {
+                entity {
+                  ... on NodeNews {
+                    entityAccess(operation:"view")
+                    entityPublished
+                    nid
+                    title
+                    entityUrl {
+                      routed
+                      path
+                    }
+                    fieldAuthor
+                    created
+                    fieldIntroductionImage {
+                      derivative(style: CROP_LARGE) {
+                        url
+                      }
+                      targetId
+                      alt
+                      title
+                    }
+                  }
                 }
-                targetId
-                alt
-                title
               }
-            }
-            ... on NodeOskaResultPage {
-              title
-              introduction: fieldResultPageIntroduction
-              entityUrl {
-                routed
-                path
+              fieldPublishDate{
+                value
+                date
+                unix
               }
-              fieldResultPagePicture {
-                derivative(style: CROP_LARGE) {
-                  url
-                }
-                targetId
-                alt
-                title
-              }
-            }
-            ... on NodeOskaSurveyPage {
-              title
-              introduction: fieldSurveyPageIntroduction
-              entityUrl {
-                routed
-                path
-              }
-              fieldSurveyPagePicture {
-                derivative(style: CROP_LARGE) {
-                  url
-                }
-                targetId
-                alt
-                title
-              }
-            }
-            ... on NodeOskaMainProfessionPage {
-              title
-              introduction: fieldIntroduction
-              entityUrl {
-                routed
-                path
-              }
-              fieldMainProfessionPicture {
-                derivative(style: CROP_LARGE) {
-                  url
-                }
-                targetId
-                alt
-                title
+              fieldUnpublishDate{
+                value
+                date
+                unix
               }
             }
           }
