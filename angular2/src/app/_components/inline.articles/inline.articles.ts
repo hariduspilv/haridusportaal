@@ -4,14 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { RootScopeService } from '@app/_services/rootScopeService';
 
 @Component({
-  selector: 'articles-triple',
-  templateUrl: './articles.triple.html',
-  styleUrls: ['./articles.triple.scss']
+  selector: 'inline-articles',
+  templateUrl: './inline.articles.html',
+  styleUrls: ['./inline.articles.scss']
 })
 
-export class ArticlesTripleComponent {
+export class InlineArticlesComponent {
   @Input() heading: string = '';
-  @Input() generalLink: string = '';
+  @Input() generalLink: object;
   @Input() content: object;
   @Input() contentLabels: Object;
  
@@ -24,7 +24,7 @@ export class ArticlesTripleComponent {
    
   ngOnInit() {
     const { heading, generalLink, content, contentLabels } = this;
-    console.log(heading, generalLink, content, contentLabels);
+    // console.log(heading, generalLink, content, contentLabels);
   }
   
 }

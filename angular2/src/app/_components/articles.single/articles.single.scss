@@ -1,5 +1,5 @@
 @import "../../../assets/styles/typography.scss"; 
-.wrapper {display: grid;grid-template-columns: repeat(18, 1fr);padding: 0 3rem;grid-template-rows: repeat(10, 1fr);
+.wrapper {display: grid;grid-template-columns: repeat(18, 1fr);padding: 4rem 3rem;grid-template-rows: repeat(10, 1fr);
   &__article {grid-row: 1 / 11;align-items: center;display: flex;
     a h1 {text-decoration: underline;
       &:hover {text-decoration: none;}

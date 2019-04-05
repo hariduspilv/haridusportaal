@@ -12,12 +12,54 @@ import { HttpService } from '@app/_services/httpService';
 export class OskaFrontPageComponent {
 
 	public generalData: any = false;
-	public fieldsData: any = false;
+  public fieldsData: any = false;
+  
+	public fieldsLink: Object = {
+    name: 'frontpage.view_all_fields',
+    url: '/valdkonnad'
+  };
 	public fieldsLabels: Object = {
     image: 'fieldOskaFieldPicture',
     title: 'title',
     url: 'entityUrl'
   };
+
+  public footerData: Array<Object> = [
+    {
+      title: 'Kutsekoda',
+      link: 'www.kutsekoda.ee',
+      url: {
+        routed: false,
+        path: 'https://www.kutsekoda.ee'
+      },
+      image: '/assets/img/kutsekoda-logo.svg',
+    },
+    {
+      title: 'OSKA',
+      link: 'oska.kutsekoda.ee',
+      url: {
+        routed: false,
+        path: 'https://oska.kutsekoda.ee'
+      },
+      image: '/assets/img/oska-logo.svg',
+    },
+  ]
+	public footerLabels: Object = {
+    image: 'image',
+    title: 'title',
+    link: 'link',
+    url: 'url'
+  };
+
+  public introLabels: Object = {
+    link: 'title',
+    url: 'url'
+  };
+  public introImage: Object = {
+    standard: '/assets/img/frontpage-button-default.svg',
+    hover: '/assets/img/frontpage-button-hover.svg'
+  };
+
 	public lang: string;
   public mobileView: boolean = false;
   

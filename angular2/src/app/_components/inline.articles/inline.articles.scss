@@ -1,0 +1,16 @@
+@import "../../../assets/styles/typography.scss"; 
+.wrapper {padding: 4rem 3rem;
+  &__heading {display: flex;
+    & > * {flex: 1;font-size: 1rem;line-height: 2rem;}
+    &__label {color: $dark-gray;}
+    &__action {text-align: right;}
+  }
+  &--light {background-color: #ffe7c1;}
+  &--dark {background-color: #bee3e8;}
+}
+.article {
+  &__image {margin: 1rem 0;
+    img {width: 100%;display: block;height: auto;}
+  }
+  &__title {font-size: 1.25rem;line-height: 1.5rem;}
+}

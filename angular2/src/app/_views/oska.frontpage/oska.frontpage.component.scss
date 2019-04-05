@@ -1,13 +1,17 @@
 @import "../../../assets/styles/typography.scss"; 
 .frontpage {
   &__section {padding-bottom: 8rem;}
-  &__title {padding: 4rem 0 3rem;color: $black;
+  &__title {color: $black;line-height: 2rem;
     ::ng-deep p {margin: 0;}
+    &--padded {padding: 4rem 0 3rem;}
+    &--middle {padding-bottom: 1.5rem;}
   }
-  .origin {
-    &__child {margin-right: 4rem;
+  &__description {color: $black;font-size: 1rem;line-height: 1.375rem;
+    &--middle {padding-bottom: 2rem;}
+  }
+  .middle {
+    &__child {flex-basis: 36%;margin-right: 2rem;
       &--last {margin-right: 0;}
     }
-    &__link {line-height: 1.88;margin-top: 1rem;}
   }
 }
