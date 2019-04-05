@@ -15,8 +15,8 @@ entity_type: node
 bundle: oska_front_page
 label: Päevakajaline
 description: ''
-required: false
-translatable: false
+required: true
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
