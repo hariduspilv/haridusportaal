@@ -1,0 +1,13 @@
+@import "../../../assets/styles/typography.scss"; 
+.origin {
+  &__child {margin-right: 4rem;
+    &--last {margin-right: 0;}
+    .content__wrapper {margin-top: 1rem;}
+  }
+  &__link {line-height: 1.25rem;}
+  &__title {line-height: 1.25rem;font-weight: 500;color: $black;}
+  a {text-decoration: none;
+    .origin__link {text-decoration: underline;}
+    &:hover .origin__link {text-decoration: none;}
+  }
+}
