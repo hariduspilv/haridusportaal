@@ -1,0 +1,36 @@
+uuid: 0ab759ce-fa7b-4029-b428-a8f1cd72f197
+langcode: et
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_employment_change
+field_name: field_employment_change
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: 'Suur kasv'
+      label: '1'
+    -
+      value: 'Väike kasv'
+      label: '2'
+    -
+      value: 'Jääb samaks'
+      label: '3'
+    -
+      value: 'Väike kahanemine'
+      label: '4'
+    -
+      value: 'Suur kahanemine'
+      label: '5'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
