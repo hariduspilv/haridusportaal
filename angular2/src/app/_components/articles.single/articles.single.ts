@@ -1,7 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { HttpService } from '@app/_services/httpService';
-import { ActivatedRoute } from '@angular/router';
-import { RootScopeService } from '@app/_services/rootScopeService';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'articles-single',
@@ -16,15 +13,7 @@ export class ArticlesSingleComponent {
   @Input() subtext: string = '';
   @Input() contentLeft: boolean;
   @Input() url: object;
- 
-  public lang: string;
-  public loading: boolean = false;
 
-  constructor(private rootScope: RootScopeService,
-    private http: HttpService,
-    public route: ActivatedRoute) {}
-   
-  
-  ngOnInit() {}
+  constructor() {}
 
 }

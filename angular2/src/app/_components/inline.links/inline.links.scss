@@ -1,7 +1,10 @@
 @import "../../../assets/styles/typography.scss"; 
 .origin {
   &__child {margin-right: 4rem;
-    &--last {margin-right: 0;}
+    @include break-on(sm, max) {margin-right: 0; margin-bottom: 4rem;}
+    &--last {margin-right: 0;
+      @include break-on(sm, max) {margin-bottom: 0;}  
+    }
     .content__wrapper {margin-top: 1rem;}
   }
   &__link {line-height: 1.25rem;}
@@ -10,4 +13,5 @@
     .origin__link {text-decoration: underline;}
     &:hover .origin__link {text-decoration: none;}
   }
+  @include break-on(sm, max) {flex-direction: column;}
 }

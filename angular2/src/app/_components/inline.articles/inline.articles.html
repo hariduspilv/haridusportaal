@@ -1,11 +1,16 @@
-<div class="outer__wrapper">
-  <div class="wrapper wrapper--dark">
+<div class="outer__wrapper--dark">
+  <div class="wrapper main-container">
     <div class="wrapper__heading">
       <span class="wrapper__heading__label">{{ heading | translate | uppercase }}</span>
-      <span class="wrapper__heading__action"><a attr.aria-label="{{ generalLink.name | translate }}" [routerLink]="generalLink.url" href="javascript:void(0);">{{ generalLink.name | translate }}</a></span>
+      <span class="wrapper__heading__action">
+        <a attr.aria-label="{{ generalLink.name | translate }}" [routerLink]="generalLink.url" href="javascript:void(0);">
+          <span class="sm-hide">{{ generalLink.name | translate }}</span>
+          <span class="sm-show">{{ 'button.view_all' | translate }}</span>
+        </a>
+      </span>
     </div>
     <article class="wrapper__article row">
-      <a class="article" href="javascript:void();" class="col-4 sm-12 pointer" *ngFor="let item of content; let first = first;" [routerLink]="item[contentLabels.url].path">
+      <a href="javascript:void();" class="col-4 sm-12 pointer article" *ngFor="let item of content; let first = first;" [routerLink]="item[contentLabels.url].path">
         <div class="article__image" *ngIf="item[contentLabels.image]">
           <img src="{{ item[contentLabels.image].derivative.url }}" alt="{{ item[contentLabels.image].alt }}"/>
         </div>

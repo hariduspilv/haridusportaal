@@ -1,7 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { HttpService } from '@app/_services/httpService';
-import { ActivatedRoute } from '@angular/router';
-import { RootScopeService } from '@app/_services/rootScopeService';
 
 @Component({
   selector: 'inline-links',
@@ -13,19 +10,24 @@ export class InlineLinksComponent {
   @Input() content: Array<object>;
   @Input() contentLabels: object;
   @Input() externalImage: object;
- 
-  public lang: string;
-  public loading: boolean = false;
 
-  constructor(private rootScope: RootScopeService,
-    private http: HttpService,
-    public route: ActivatedRoute) {}
+  constructor() {}
    
   ngOnInit() {
     const { content, contentLabels, externalImage } = this;
     if (content && content.length && externalImage && externalImage['standard'] && !contentLabels['image']) {
       contentLabels['image'] = 'image';
-      content.forEach(elem => elem['image'] = externalImage['standard']);
+      content.forEach(elem => elem['image'] = externalImage);
+    }
+  }
+
+  imgModifier(element, index, img) {
+    const elem = document.getElementById(`${element}-${index}`);
+    const { externalImage, content, contentLabels } = this;
+    if (externalImage) {
+      elem.setAttribute('src', externalImage[img]);
+    } else {
+      elem.setAttribute('src', content[index][contentLabels['image']][img]);
     }
   }
   
