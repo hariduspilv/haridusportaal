@@ -1,0 +1,37 @@
+uuid: a0cf3cf1-fe24-40b3-9377-33ed7cebf877
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.oska_field_comparison_page.field_dynamic_graph
+    - field.field.node.oska_field_comparison_page.field_introduction
+    - node.type.oska_field_comparison_page
+  module:
+    - htm_custom_oska
+    - user
+id: node.oska_field_comparison_page.default
+targetEntityType: node
+bundle: oska_field_comparison_page
+mode: default
+content:
+  field_dynamic_graph:
+    weight: 103
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_graph_formatter_type
+    region: content
+  field_introduction:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true

@@ -12,20 +12,20 @@ type: list_string
 settings:
   allowed_values:
     -
-      value: 'Suur kasv'
-      label: '1'
+      value: '1'
+      label: 'Suur kasv'
     -
-      value: 'Väike kasv'
-      label: '2'
+      value: '2'
+      label: 'Väike kasv'
     -
-      value: 'Jääb samaks'
-      label: '3'
+      value: '3'
+      label: 'Jääb samaks'
     -
-      value: 'Väike kahanemine'
-      label: '4'
+      value: '4'
+      label: 'Väike kahanemine'
     -
-      value: 'Suur kahanemine'
-      label: '5'
+      value: '5'
+      label: 'Suur kahanemine'
   allowed_values_function: ''
 module: options
 locked: false
