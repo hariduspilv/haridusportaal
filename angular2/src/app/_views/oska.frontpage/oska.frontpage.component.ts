@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { RootScopeService } from '@app/_services';
-import { Router, ActivatedRoute } from '@angular/router';
-import { SettingsService } from '@app/_services/settings.service';
 import { HttpService } from '@app/_services/httpService';
 
 @Component({
@@ -13,6 +11,7 @@ export class OskaFrontPageComponent {
 
 	public generalData: any = false;
   public fieldsData: any = false;
+  public hasScrolled: boolean = false;
   
 	public fieldsLink: Object = {
     name: 'frontpage.view_all_fields',
@@ -32,7 +31,10 @@ export class OskaFrontPageComponent {
         routed: false,
         path: 'https://www.kutsekoda.ee'
       },
-      image: '/assets/img/kutsekoda-logo.svg',
+      image: {
+        standard: '/assets/img/kutsekoda-logo.svg',
+        hover: '/assets/img/kutsekoda-logo-colored.svg'
+      },
     },
     {
       title: 'OSKA',
@@ -41,7 +43,10 @@ export class OskaFrontPageComponent {
         routed: false,
         path: 'https://oska.kutsekoda.ee'
       },
-      image: '/assets/img/oska-logo.svg',
+      image: {
+        standard: '/assets/img/oska-logo.svg',
+        hover: '/assets/img/oska-logo-colored.svg'
+      },
     },
   ]
 	public footerLabels: Object = {
@@ -50,7 +55,6 @@ export class OskaFrontPageComponent {
     link: 'link',
     url: 'url'
   };
-
   public introLabels: Object = {
     link: 'title',
     url: 'url'
@@ -59,16 +63,11 @@ export class OskaFrontPageComponent {
     standard: '/assets/img/frontpage-button-default.svg',
     hover: '/assets/img/frontpage-button-hover.svg'
   };
-
 	public lang: string;
-  public mobileView: boolean = false;
   
   constructor (
     private rootScope:RootScopeService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private http: HttpService,
-    private settings: SettingsService
+    private http: HttpService
   ) {}
 
   getGeneral() {
@@ -105,9 +104,28 @@ export class OskaFrontPageComponent {
     })
   }
 
+  onScroll () {
+    const scrollPast = document.querySelector('.scroll__past');
+    if (scrollPast) {
+      const rect = scrollPast.getBoundingClientRect();
+      const scrollPosition = window.pageYOffset;
+      const viewHeight = window.innerHeight;
+      if ((rect.top + rect.height) < viewHeight || !scrollPosition) {
+        this.hasScrolled = window.scrollY > 1
+      } else {
+        this.hasScrolled = false
+      }
+    }
+  }
+
   ngOnInit() {
     this.lang = this.rootScope.get("lang");
     this.getFields();
     this.getGeneral();
+  }
+
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    this.onScroll();
   }
 }

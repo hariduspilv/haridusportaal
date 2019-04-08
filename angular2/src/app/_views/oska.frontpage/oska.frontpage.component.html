@@ -9,50 +9,62 @@
 </ng-template>
 
 <ng-container>
+  <div class="main-container">
+    <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="top"></triangles>
+  </div>
   <breadcrumbs></breadcrumbs>
   <mat-spinner *ngIf="!generalData" ></mat-spinner>
   <div class="frontpage" *ngIf="generalData && generalData.length && fieldsData">
-    <div class="frontpage__section main-container">
+    <div class="frontpage__section--short main-container">
       <h1 class="frontpage__title frontpage__title--padded">
         <span class="text-center" innerHtml="{{'frontpage.oska_lead_title' | translate}}"></span>
       </h1>
-      <div class="frontpage__section">
-        <inline-links
-          [content]="generalData[0].fieldContentPageLinks"
-          [contentLabels]="introLabels"
-          [externalImage]="introImage">
-        </inline-links>
-      </div>
+      <inline-links
+        [content]="generalData[0].fieldContentPageLinks"
+        [contentLabels]="introLabels"
+        [externalImage]="introImage">
+      </inline-links>
+    </div>
+    <div class="scroll__past main-container text-right" role="img" aria-label="Euroopa Liidu lipp. Euroopa sotsiaalfond. Eesti lipp. Eesti tuleviku heaks.">
+      <img [class.translate]="hasScrolled" src="/assets/img/europe-fund.svg" alt="">
     </div>
     <div class="frontpage__section" *ngIf="fieldsData && fieldsData.length">
+      <circles aria-hidden="true" large="#15adc2" small="#15adc2" position="top" smallAlignment="left"></circles>
       <inline-articles
         heading="oska.latest_field_studies" 
         [generalLink]="fieldsLink"
         [content]="fieldsData"
         [contentLabels]="fieldsLabels">
       </inline-articles>
+      <circles aria-hidden="true" large="#15adc2" position="bottom"></circles>
+      <triangles aria-hidden="true" small="#15adc2" large="#f8b243" position="right"></triangles>
     </div>
     <div class="frontpage__section main-container">
       <ng-container *ngTemplateOutlet="middle"></ng-container>
     </div>
+    <triangles aria-hidden="true" small="#15adc2" large="#f8b243" position="left"></triangles>
     <div class="frontpage__section">
+      <circles aria-hidden="true" large="#f8b243" small="#f8b243" position="topMiddle" smallAlignment="right"></circles>
       <articles-single
-        heading="news.current" 
+        heading="oska.workforcePrognosis" 
         [title]="generalData[0].fieldBottomTopic.entity.title"
         [image]="generalData[0].fieldBottomTopic.entity.fieldMainProfessionPicture"
         [url]="generalData[0].fieldBottomTopic.entity.entityUrl"
-        [subtext]="generalData[0].fieldBottomTopic.entity.introduction">
+        [subtext]="generalData[0].fieldBottomTopic.entity.introduction"
+        contentLeft="true">
       </articles-single>
+      <circles aria-hidden="true" large="#f8b243" position="bottomMiddle"></circles>
     </div>
-    <div class="frontpage__section">
+    <div class="frontpage__section main-container">
       <inline-links
         [content]="footerData"
         [contentLabels]="footerLabels">
       </inline-links>
+      <div class="frontpage__footer">
+        <div class="frontpage__description__footer">{{ 'oska.footer_intro' | translate }}</div>
+        <div class="frontpage__description__footer frontpage__description__footer--medium">{{ 'oska.footer_outro' | translate }}</div>
+      </div>
     </div>
-    <!-- <div class="frontpage__triangle--wrapper">
-      <div class="frontpage__triangle--bottom"></div>
-    </div> -->
   </div><!--/frontpage-->
 </ng-container>
 
