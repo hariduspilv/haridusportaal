@@ -1,0 +1,16 @@
+uuid: 0e22e17d-7994-41ba-a94d-df9c32ccbc60
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.oska_front_page
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.oska_front_page
+target_entity_type_id: node
+target_bundle: oska_front_page
+default_langcode: site_default
+language_alterable: true
