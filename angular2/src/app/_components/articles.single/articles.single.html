@@ -1,7 +1,7 @@
 <div class="outer__wrapper outer__wrapper--light">
   <div class="wrapper main-container">
     <div class="wrapper__img pointer" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
-      <img [alt]="image.alt" [src]="image['derivative'].url">
+      <img [alt]="image['alt']" [src]="image['derivative'].url">
     </div>
     <div class="wrapper__article" [class.atEnd]="!contentLeft" [class.atStart]="contentLeft">
       <article class="article">
