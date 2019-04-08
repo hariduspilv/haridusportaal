@@ -675,6 +675,18 @@ frontpage:
     translation_type: textarea
     et: 'Lapse hooldamiseks'
     en: 'Lapse hooldamiseks-eng'
+  oska_lead_title:
+    translation_type: text_format
+    et:
+      value: "<p>OSKA aitab Sul teha õigeid karjäärivalikuid</p>\r\n\r\n<p>ja õppida õigeid erialasid</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>OSKA aitab Sul teha õigeid karjäärivalikuid</p>\r\n\r\n<p>ja õppida õigeid erialasid</p>\r\n"
+      format: custom_editor
+  view_all_fields:
+    translation_type: textarea
+    et: 'Vaata kõiki valdkondi'
+    en: 'View all fields'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1419,6 +1431,34 @@ login:
     translation_type: textarea
     et: 'Puuduvad vajalikud parameetrid.'
     en: 'Missing necessary keys.'
+  mobile_id_sim_error:
+    translation_type: textarea
+    et: 'SIM rakenduse viga.'
+    en: 'SIM application error.'
+  mobile_id_coverage:
+    translation_type: textarea
+    et: 'Mobiiltelefon on väljaspool teenindusala.'
+    en: 'Phone is not in coverage area.'
+  mobile_id_not_valid:
+    translation_type: textarea
+    et: 'Mobiil-ID sertifikaadid on tühistatud või peatatud.'
+    en: 'Mobile-ID certificates are revoked or suspended.'
+  mobile_id_sending_error:
+    translation_type: textarea
+    et: 'Autentimise taotluse saatmine ebaõnnestus.'
+    en: 'Sending authentication request to phone failed.'
+  mobile_id_user_cancel:
+    translation_type: textarea
+    et: 'Autentimine tühistati.'
+    en: 'Authentication has been canceled.'
+  mobile_id_expired_transaction:
+    translation_type: textarea
+    et: 'Autentimine aegus.'
+    en: 'Authentication has been expired.'
+  mobile_id_authorizing_failed:
+    translation_type: textarea
+    et: 'Autoriseerimine ebaõnnestus, palun proovige uuesti.'
+    en: 'Authorizing failed, please try again.'
 time:
   january:
     translation_type: textarea
@@ -2407,6 +2447,10 @@ oska:
     translation_type: textarea
     et: 'Vaata uuringu ettepanekute elluviimist'
     en: 'See results'
+  latest_field_studies:
+    translation_type: textarea
+    et: 'Viimased valdkonnauuringud'
+    en: 'Viimased valdkonnauuringud'
 oskaProfession:
   view_field_info:
     translation_type: textarea
