@@ -683,6 +683,10 @@ frontpage:
     en:
       value: "<p>OSKA aitab Sul teha õigeid karjäärivalikuid</p>\r\n\r\n<p>ja õppida õigeid erialasid</p>\r\n"
       format: custom_editor
+  view_all_fields:
+    translation_type: textarea
+    et: 'Vaata kõiki valdkondi'
+    en: 'View all fields'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea

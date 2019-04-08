@@ -1,19 +1,21 @@
-uuid: 287eb294-a13f-4a87-8d83-c49d79a61d5a
+uuid: a09e8a7a-ae47-4cb5-aa02-a6093472c40d
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_number_employed_text
+    - field.storage.paragraph.field_employment_change
     - paragraphs.paragraphs_type.oska_field_sidebar
-id: paragraph.oska_field_sidebar.field_number_employed_text
-field_name: field_number_employed_text
+  module:
+    - options
+id: paragraph.oska_field_sidebar.field_employment_change
+field_name: field_employment_change
 entity_type: paragraph
 bundle: oska_field_sidebar
-label: 'Hõivatute arvu tekst'
+label: 'Hõive muutus'
 description: ''
 required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string_long
+field_type: list_string
