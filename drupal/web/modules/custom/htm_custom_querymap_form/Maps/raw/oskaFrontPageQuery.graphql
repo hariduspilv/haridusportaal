@@ -14,18 +14,34 @@ query frontPageQuery($lang: LanguageId!) {
             ... on NodeOskaFieldPage {
               title
               introduction: fieldIntroduction
+              entityUrl {
+                routed
+                path
+              }
             }
             ... on NodeOskaResultPage {
               title
               introduction: fieldResultPageIntroduction
+              entityUrl {
+                routed
+                path
+              }
             }
             ... on NodeOskaSurveyPage {
               title
               introduction: fieldSurveyPageIntroduction
+              entityUrl {
+                routed
+                path
+              }
             }
             ... on NodeOskaMainProfessionPage {
               title
               introduction: fieldIntroduction
+              entityUrl {
+                routed
+                path
+              }
             }
           }
         }
@@ -34,19 +50,26 @@ query frontPageQuery($lang: LanguageId!) {
             ... on NodeOskaFieldPage {
               title
               introduction: fieldIntroduction
+              entityUrl {
+                routed
+                path
+              }
               fieldOskaFieldPicture {
-                entity{
-                  ... on File{
-                    url
-                    entityId
-                    entityLabel
-                  }
+                derivative(style: CROP_LARGE) {
+                  url
                 }
+                targetId
+                alt
+                title
               }
             }
             ... on NodeOskaResultPage {
               title
               introduction: fieldResultPageIntroduction
+              entityUrl {
+                routed
+                path
+              }
               fieldResultPagePicture {
                 derivative(style: CROP_LARGE) {
                   url
@@ -59,8 +82,11 @@ query frontPageQuery($lang: LanguageId!) {
             ... on NodeOskaSurveyPage {
               title
               introduction: fieldSurveyPageIntroduction
+              entityUrl {
+                routed
+                path
+              }
               fieldSurveyPagePicture {
-
                 derivative(style: CROP_LARGE) {
                   url
                 }
@@ -72,6 +98,10 @@ query frontPageQuery($lang: LanguageId!) {
             ... on NodeOskaMainProfessionPage {
               title
               introduction: fieldIntroduction
+              entityUrl {
+                routed
+                path
+              }
               fieldMainProfessionPicture {
                 derivative(style: CROP_LARGE) {
                   url

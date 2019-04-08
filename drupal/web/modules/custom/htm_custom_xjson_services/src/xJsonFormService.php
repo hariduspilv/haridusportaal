@@ -247,17 +247,21 @@ class xJsonFormService implements xJsonServiceInterface {
 
 
         foreach($this->send_email_fields as $field_name => $field_info){
-            $recipient = $values[$field_name];
-            $params['subject'] = $field_info['email_subject'];
-            $params['body'] = $field_info['email_body'];
-
-            $result = $this->mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, true);
-            if ($result['result']) {
-                $message = t('An email notification has been sent to @email', array('@email' => $recipient));
-                \Drupal::logger($module)->notice($message);
+            if($field_info['required'] === false && empty($values[$field_name])){
+                continue;
             }else{
-                $message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
-                \Drupal::logger($module)->error($message);
+                $recipient = $values[$field_name];
+                $params['subject'] = $field_info['email_subject'];
+                $params['body'] = $field_info['email_body'];
+
+                $result = $this->mailManager->mail($module, $key, $recipient, $langcode, $params, NULL, true);
+                if ($result['result']) {
+                    $message = t('An email notification has been sent to @email', array('@email' => $recipient));
+                    \Drupal::logger($module)->notice($message);
+                }else{
+                    $message = t('There was a problem sending email notification to @email', array('@email' => $recipient));
+                    \Drupal::logger($module)->error($message);
+                }
             }
         }
     }
