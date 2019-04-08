@@ -3,9 +3,9 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.paragraph.oska_field_sidebar.field_employment_change
     - field.field.paragraph.oska_field_sidebar.field_neutral
     - field.field.paragraph.oska_field_sidebar.field_number_employed
-    - field.field.paragraph.oska_field_sidebar.field_number_employed_text
     - field.field.paragraph.oska_field_sidebar.field_oska_field_cons
     - field.field.paragraph.oska_field_sidebar.field_oska_field_contact
     - field.field.paragraph.oska_field_sidebar.field_oska_field_pros
@@ -15,11 +15,19 @@ dependencies:
   module:
     - entity_reference_revisions
     - link
+    - options
 id: paragraph.oska_field_sidebar.default
 targetEntityType: paragraph
 bundle: oska_field_sidebar
 mode: default
 content:
+  field_employment_change:
+    weight: 9
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
   field_neutral:
     weight: 8
     label: above
@@ -35,13 +43,6 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     type: number_integer
-    region: content
-  field_number_employed_text:
-    weight: 1
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: basic_string
     region: content
   field_oska_field_cons:
     weight: 3

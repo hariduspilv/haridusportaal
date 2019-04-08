@@ -3,9 +3,9 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.paragraph.oska_field_sidebar.field_employment_change
     - field.field.paragraph.oska_field_sidebar.field_neutral
     - field.field.paragraph.oska_field_sidebar.field_number_employed
-    - field.field.paragraph.oska_field_sidebar.field_number_employed_text
     - field.field.paragraph.oska_field_sidebar.field_oska_field_cons
     - field.field.paragraph.oska_field_sidebar.field_oska_field_contact
     - field.field.paragraph.oska_field_sidebar.field_oska_field_pros
@@ -21,6 +21,12 @@ targetEntityType: paragraph
 bundle: oska_field_sidebar
 mode: default
 content:
+  field_employment_change:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_neutral:
     weight: 3
     settings:
@@ -41,19 +47,6 @@ content:
     third_party_settings: {  }
     type: number
     region: content
-  field_number_employed_text:
-    weight: 1
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings:
-      maxlength:
-        maxlength_js: 100
-        maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
-        maxlength_js_enforce: false
-        maxlength_js_truncate_html: false
-    type: string_textarea
-    region: content
   field_oska_field_cons:
     weight: 4
     settings:
@@ -69,7 +62,7 @@ content:
     region: content
   field_oska_field_contact:
     type: entity_reference_paragraphs
-    weight: 8
+    weight: 7
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -93,7 +86,7 @@ content:
     type: string_textarea
     region: content
   field_oska_field_quick_find:
-    weight: 6
+    weight: 5
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -101,7 +94,7 @@ content:
     type: link_default
     region: content
   field_related_pages:
-    weight: 7
+    weight: 6
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -109,7 +102,7 @@ content:
     type: link_default
     region: content
   translation:
-    weight: 9
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
