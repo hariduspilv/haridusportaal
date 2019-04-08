@@ -1,0 +1,19 @@
+query oskaFieldComparisonPageQuery($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "oska_field_comparison_page", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeOskaFieldComparisonPage {
+        title
+        fieldIntroduction
+        oskaGraphData
+        fieldDynamicGraph {
+          graphSet
+          graphTitle
+          filterValues
+          graphType
+          secondaryGraphType
+          graphText
+        }
+      }
+    }
+  }
+}
