@@ -1,10 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { FiltersService } from '@app/_services/filtersService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators/delay';
+import { MatAutocomplete } from '@angular/material';
 
 @Component({
   templateUrl: "oska.professions.template.html",
@@ -16,7 +19,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   public data: any = false;
   public loading: boolean = false;
   public errMessage: any = false;
-  private params: object;
+  private params: any;
   public lang: string;
   public limit: number = 999;
   public listLimit: number = 5;
@@ -24,14 +27,17 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   public listEnd: boolean;
   public showFilter: boolean = true;
   public filterFull: boolean = true;
-  public oskaFieldValue: any;
+  public oskaFieldValue: any = [];
   public sortedBy: any = [];
-  private FilterOptions: object = {};
-  private filterOptionKeys = ['oskaFieldValue', 'sortedBy', 'fixedLabelValue'];
+  private FilterOptions: any = {};
+  private filterOptionKeys = ['oskaFieldValue', 'sortedBy', 'fixedLabelValue', 'oskaFixedLabels', 'fillingBarValues'];
   public competitionLabels = ['oska.simple_extended', 'oska.quite_simple_extended', 'oska.medium_extended', 'oska.quite_difficult_extended', 'oska.difficult_extended'];
   private paramsSub: Subscription;
   private dataSub: Subscription;
   private filterSub: Subscription;
+  private oskaFixedLabels: any = [];
+  private oskaFixedLabelsObs: any = [];
+  private fillingBarValues = [1, 2, 3, 4, 5];
 
   constructor(
     private http: HttpService,
@@ -43,20 +49,20 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     super(null, null);
   }
 
-
   populateFilterOptions(){
     let variables = {
       lang: this.lang.toUpperCase(),
       limit: this.limit
     };
-    this.filterSub = this.http.get('oskaMainProfessionListViewFilter', {params:variables}).subscribe(response => {
-      this.oskaFieldValue = response['data']['oskaFields']['entities'];
-
+    this.filterSub = this.http.get('oskaMainProfessionListViewFilter', {params:variables}).subscribe((response: any) => {
+      this.oskaFieldValue = response.data.oskaFields.entities;
       // Map unique indicators for ascending and descending cases
-      let oskaIndicators = response['data']['oskaIndicators']['entities'];
+      let oskaIndicators = response.data.oskaIndicators.entities;
       let ascendingLabel = this.translate.get('oska.ascending')['value'];
       let descendingLabel = this.translate.get('oska.descending')['value'];
       let oskaIndicatorUniqueValues = Array.from(new Set(oskaIndicators.map(item => item.oskaIndicator)));
+      this.oskaFixedLabels = response.data.oskaFixedLabels.entities;
+      this.oskaFixedLabelsObs = of(this.oskaFixedLabels);
       oskaIndicatorUniqueValues.forEach((elem, index) => {
         this.sortedBy = [
           ...this.sortedBy, 
@@ -64,21 +70,33 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
           { name: elem + " - " + descendingLabel, indicator: elem, id: elem + "-desc", modifier: 'descending' }
         ];
       });
-
       for(let i in this.filterOptionKeys){
-        if( this.params[this.filterOptionKeys[i]] !== undefined && (this.filterOptionKeys[i] === 'fixedLabelValue' || this.filterOptionKeys[i] === 'sortedBy')) {
-          this.filterFormItems[this.filterOptionKeys[i]] = this.params[this.filterOptionKeys[i]];
-        } else if (this.params[this.filterOptionKeys[i]] !== undefined) {
-          this.filterFormItems[this.filterOptionKeys[i]] = parseInt(this.params[this.filterOptionKeys[i]], 10);
-        }
         if( this[this.filterOptionKeys[i]] ) {
           this.FilterOptions[this.filterOptionKeys[i]] = this[this.filterOptionKeys[i]];
+        }
+        if(this.params[this.filterOptionKeys[i]] !== undefined) {
+          switch (this.filterOptionKeys[i]) {
+            case 'fillingBarValues':
+              this.filterFormItems.fillingBarValues = this.params.fillingBarValues.split(',').map((s:any) => parseInt(s, 10));
+              this.fillingBarValuesSort(false);              
+              break;
+            case 'oskaFieldValue':
+              this.filterFormItems.oskaFieldValue = this.params.oskaFieldValue.split(',').map((s:any) => parseInt(s, 10));
+              this.oskaFieldValueSort(false);
+              break;
+            case 'oskaFixedLabels':
+              this.filterFormItems.oskaFixedLabels = this.params.oskaFixedLabels.split(',');
+              this.oskaFixedLabelsSort();
+              break;
+            default:
+              this.filterFormItems[this.filterOptionKeys[i]] = this.params[this.filterOptionKeys[i]];
+              break;
+          }
         }
       }
       this.filterSub.unsubscribe();
     }, (err) => {})
   };
-
   loadMore(){
     this.listLimit += this.step;
     if( this.data.length <= this.listLimit ){ 
@@ -86,6 +104,47 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     } else this.listEnd = false;
     let focusTarget = (this.listLimit - this.step - 1).toString();
     document.getElementById(focusTarget).focus();
+  }
+
+  fillingBarValuesSort(e) {
+    if(!e && this.filterFormItems.fillingBarValues) {
+      const sortedSelected = this.filterFormItems.fillingBarValues.sort((a, b) => {
+        if(a < b) {
+          return -1;
+        }
+        return 1;
+      });
+      const otherValues = this.FilterOptions.fillingBarValues.filter(el => !sortedSelected.find(value => value === el));
+      this.FilterOptions.fillingBarValues= [...sortedSelected, ...otherValues];
+    }
+  }
+
+  oskaFieldValueSort(e) {
+    if(!e && this.filterFormItems.oskaFieldValue) {
+      const sortedSelected = this.FilterOptions.oskaFieldValue.filter(el => this.filterFormItems.oskaFieldValue.find(value => value === el.nid)).sort((a, b) => {
+        if(a.title.toUpperCase() < b.title.toUpperCase()) {
+          return -1;
+        }
+        return 1;
+      });
+      const otherValues = this.FilterOptions.oskaFieldValue.filter(el => !sortedSelected.find(value => value.nid === el.nid));
+      this.FilterOptions.oskaFieldValue = [...sortedSelected, ...otherValues];
+    }
+  }
+
+  oskaFixedLabelsSort() {
+    if(this.filterFormItems.oskaFixedLabels) {
+          const sortedSelected = this.FilterOptions.oskaFixedLabels.filter(el => this.filterFormItems.oskaFixedLabels.find(value => value === el.entityId)).sort((a, b) => {
+      if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
+        return -1;
+      }
+      return 1;
+    });
+    const otherValues = this.FilterOptions.oskaFixedLabels.filter(el => !sortedSelected.find(value => value.entityId === el.entityId));
+    this.filterFormItems.oskaFixedLabels = sortedSelected.map(el => el.entityId);
+    this.FilterOptions.oskaFixedLabels = [...sortedSelected, ...otherValues];
+    this.oskaFixedLabelsObs = of(this.FilterOptions.oskaFixedLabels);
+    }
   }
 
   reset() {
@@ -109,10 +168,11 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       lang: this.lang.toUpperCase(),
       titleValue: this.params['titleValue'] ? "%" + this.params['titleValue'] + "%" : "",
       titleEnabled: this.params['titleValue'] ? true : false,
-      oskaFieldValue: this.params['oskaFieldValue'] ? this.params['oskaFieldValue'] : "",
+      oskaFieldValue: this.params['oskaFieldValue'] ? this.params['oskaFieldValue'].split(',') : "",
       oskaFieldEnabled: this.params['oskaFieldValue'] ? true : false,
-      fixedLabelValue: this.params['fixedLabelValue'] ? '1' : '0',
-      fixedLabelEnabled: this.params['fixedLabelValue'] ? true : false,
+      fixedLabelValue: this.params['oskaFixedLabels'] ? this.params['oskaFixedLabels'].split(',') : '',
+      fixedLabelEnabled: this.params['oskaFixedLabels'] ? true : false,
+      fillingBarValues: this.params['fillingBarValues'] ? this.params['fillingBarValues'].split(',') : '',
       sortedBy: false,
       nidEnabled: false,
       offset: 0,
@@ -143,6 +203,15 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
         });
       } else {
         responseData = responseVal;
+      }
+      if(this.params['fillingBarValues']) {
+        const values = this.params['fillingBarValues'].split(',');
+        responseData = responseData.filter((el) => {
+          if(el.reverseOskaMainProfessionOskaFillingBarEntity.entities[0]) {
+            return values.find(value => value === el.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value);
+          }
+          return false;
+        })
       }
       this.data = responseData;
 
@@ -204,7 +273,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     this.populateFilterOptions();
     this.filterSubmit();
     if (window.innerWidth > 1024) {
-      this.filterFull = this.params['fixedLabelValue'] || this.params['sortedBy'];
+      this.filterFull = this.params['oskaFixedLabels'] || this.params['sortedBy'] || this.params['fillingBarValues'];
     }
   }
   
