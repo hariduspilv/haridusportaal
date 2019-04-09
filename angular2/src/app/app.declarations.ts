@@ -26,6 +26,11 @@ import { VideoComponent } from './_components/video/video.component';
 import { StudyProgrammeCompareComponent } from './_views/studyProgramme.compare/studyProgramme.compare.component';
 import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
 import { EventsListComponent } from '@app/_components/eventsList/eventsList.component';
+import { ArticlesSingleComponent } from '@app/_components/articles.single/articles.single';
+import { InlineArticlesComponent } from '@app/_components/inline.articles/inline.articles';
+import { InlineLinksComponent } from '@app/_components/inline.links/inline.links';
+import { Triangles } from '@app/_components/shapes/triangles/triangles';
+import { Circles } from '@app/_components/shapes/circles/circles';
 import { SideMenuComponent } from '@app/_components/sidemenu/sidemenu.component';
 import { ChartComponent } from './_components/chart/chart.component';
 import { taraLoginModal } from './_components/dialogs/taraLogin/taraLogin.modal';
@@ -66,6 +71,11 @@ export const AppDeclarations = [
   SideMenuComponent,
   ChartComponent,
   EventsListComponent,
+  ArticlesSingleComponent,
+  InlineArticlesComponent,
+  InlineLinksComponent,
+  Triangles,
+  Circles,
   CookieNotification,
   FeedbackComponent,
   LoginModal,

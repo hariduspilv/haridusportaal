@@ -1,5 +1,6 @@
 export * from './article/article.component';
 export * from './frontpage/frontpage.component';
+export * from './oska.frontpage/oska.frontpage.component';
 export * from './events/events.component';
 export * from './news/news.component';
 export * from './news.single/news.single.component';

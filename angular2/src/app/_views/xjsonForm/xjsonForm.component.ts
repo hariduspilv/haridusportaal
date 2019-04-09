@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { SettingsService } from '@app/_services/settings.service';
@@ -12,12 +12,8 @@ import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confi
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';
-
-import * as _moment from 'moment';
-const moment = _moment;
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
+import { MAT_DATE_FORMATS } from "@angular/material";
+import * as moment from 'moment';
 
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
@@ -34,10 +30,10 @@ const XJSON_DATEPICKER_FORMAT = {
   templateUrl: 'xjsonForm.template.html',
   styleUrls: ['../xjson/xjson.styles.scss'],
   providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
+    { provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT },
   ]
 })
+
 export class XjsonFormComponent implements OnInit, OnDestroy {
 
   public view = 'document';
@@ -84,9 +80,10 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     public settings: SettingsService,
     private notificationService: NotificationService,
     private user: UserService
-  ) {}
+  ) {
+  }
 
-  pathWatcher() { 
+  pathWatcher() {
     let params = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.form_name = params['form_name']
@@ -96,9 +93,9 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     let strings = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
         this.test = (strings['test'] == 'true');
-        if(strings['draft'] == 'true') this.queryStrings['status'] = 'draft'
-        if(strings['existing'] == 'true') this.queryStrings['status'] = 'submitted';
-        if(strings['identifier'] != undefined ) this.queryStrings['id'] = Number(strings['identifier']);
+        if (strings['draft'] == 'true') this.queryStrings['status'] = 'draft'
+        if (strings['existing'] == 'true') this.queryStrings['status'] = 'submitted';
+        if (strings['identifier'] != undefined) this.queryStrings['id'] = Number(strings['identifier']);
       }
     );
 
@@ -110,89 +107,73 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     this.view = key;
   }
 
-  scrollPositionController(){
+  scrollPositionController() {
 
     let _opened_step = this.opened_step;
-    if(_opened_step){
-        
-      setTimeout(function(){
+    if (_opened_step) {
+
+      setTimeout(function () {
         var step_navigation_container = document.getElementById('stepNavigation');
         var opened_step_element = document.getElementById(_opened_step);
-        
+
         let parent_center = step_navigation_container.offsetWidth / 2;
         let button_center = opened_step_element.offsetWidth / 2;
         var position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
 
-        if(window.pageYOffset > 0){
-          try { 
-            window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
+        if (window.pageYOffset > 0) {
+          try {
+            window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
           } catch (e) {
             window.scrollTo(0, 0);
           }
           navScroller();
-          
+
         } else {
           navScroller();
         }
-        function navScroller(){
-          try { 
-            step_navigation_container.scrollTo({left: position_left,  behavior: 'smooth' });
+        function navScroller() {
+          try {
+            step_navigation_container.scrollTo({ left: position_left, behavior: 'smooth' });
           } catch (e) {
             step_navigation_container.scrollTo(position_left, 0);
           }
         }
-     
+
       }, 0)
     }
   }
 
-  setDatepickerValue(event, element, rowindex, col){
-    
-    if(this.datepickerFocus === false){
-      
-      if(rowindex == undefined || col == undefined){
-        if(event instanceof FocusEvent){
-          let string = JSON.parse(JSON.stringify(event.target['value']))
-          let date = moment(string.split('.').reverse().join('-')).format('YYYY-MM-DD');
-          if(date == 'Invalid date') {
-            this.data_elements[element].value = null;
-            event.target['value'] = null;
-          } else {
-            this.data_elements[element].value = JSON.parse(JSON.stringify(date));
-          } 
+  setDatepickerValue(event, element) {
+     if (this.datepickerFocus === false) {
+      if (event instanceof FocusEvent) {
+        let date = moment(event.target['value'], 'DD.MM.YYYY').format('L');
+        if(date == 'Invalid date') {
+          this.data_elements[element].value = null;
+          event.target['value'] = null;
         } else {
-          this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
-        }       
+          this.data_elements[element].value = event.target['value'].format('L');
+        }
       } else {
-        if(event instanceof FocusEvent){
-          let string = JSON.parse(JSON.stringify(event.target['value']))
-          let date = moment(string).format('DD.MM.YYYY')
-          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
-        } else {
-          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
-        } 
+        this.data_elements[element].value = event.value.format('L');
       }
     }
   }
-  getDatepickerValue(element, rowindex, col){
-    if(rowindex == undefined|| col == undefined){
-      return this.data_elements[element].value
-    } else {
-      return this.data_elements[element].value[rowindex][col];
-    }
-   
+
+  checkboxChange(event, element){
+    this.data_elements[element].value = event.checked;
   }
+
   selectListCompare(a, b) {
     return a && b ? a == b : a == b;
   }
-  isFieldDisabled(readonly): boolean{
-    if(readonly === true) {
+  isFieldDisabled(readonly): boolean {
+    if (readonly === true) {
       return true;
 
-    } else if (this.max_step != this.opened_step){
+    } else if (this.max_step != this.opened_step) {
       return true;
 
-    } else if(this.current_acceptable_activity.some(key => ['SUBMIT','SAVE'].includes(key))){
+    } else if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE'].includes(key))) {
       return false;
 
     } else {
@@ -201,49 +182,49 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   }
 
   promptEditConfirmation() {
-		 this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
-		  data: {
+    this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
+      data: {
         title: this.translate.get('xjson.edit_step_confirm_modal_title')['value'],
         content: this.translate.get('xjson.edit_step_confirm_modal_content')['value'],
         confirm: this.translate.get('button.yes_change')['value'],
         cancel: this.translate.get('button.cancel')['value'],
-		  }
+      }
     });
     this.dialogRef.afterClosed().subscribe(result => {
-      if(result == true) {
+      if (result == true) {
         this.data.header.current_step = this.opened_step;
         this.data.header["activity"] = 'SAVE';
-        let payload = {form_name: this.form_name, form_info: this.data}
-        if(this.test === true) this.promptDebugDialog(payload)
+        let payload = { form_name: this.form_name, form_info: this.data }
+        if (this.test === true) this.promptDebugDialog(payload)
         else this.getData(payload);
       }
       this.dialogRef = null;
     });
   }
 
-  isItemExisting(list, target): boolean{
+  isItemExisting(list, target): boolean {
     return list.some(item => item == target);
   }
 
-  selectLanguage(obj: object){
-    if(obj[this.lang]) return obj[this.lang];
+  selectLanguage(obj: object) {
+    if (obj[this.lang]) return obj[this.lang];
     else return obj['et'];
   }
 
-  setNavigationLinks(list, opened): {}[]{
-    if(list.length == 0) return [];
+  setNavigationLinks(list, opened): {}[] {
+    if (list.length == 0) return [];
     let output: {}[] = []
 
-    if(list[0] != opened) {
+    if (list[0] != opened) {
       let previous = list[list.indexOf(opened) - 1]
-      if(this.isStepDisabled(previous) === false){
-        output.push({label: 'button.previous', step: previous, 'type':'link'});
+      if (this.isStepDisabled(previous) === false) {
+        output.push({ label: 'button.previous', step: previous, 'type': 'link' });
       }
     }
-    if(list[list.length-1] != opened) {
+    if (list[list.length - 1] != opened) {
       let next = list[list.indexOf(opened) + 1];
-      if(this.isStepDisabled(next) === false){
-        output.push({label: 'button.next', step: next, 'type':'link'});
+      if (this.isStepDisabled(next) === false) {
+        output.push({ label: 'button.next', step: next, 'type': 'link' });
       }
     }
     return output;
@@ -252,67 +233,67 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   isStepDisabled(step): boolean {
     let max_step = this.max_step;
     let steps = Object.keys(this.data.body.steps);
-    let isAfterCurrentStep = steps.indexOf(step) > steps.indexOf(max_step) ? true: false;
-   
-    if (this.current_acceptable_activity.includes('VIEW') && !isAfterCurrentStep){
+    let isAfterCurrentStep = steps.indexOf(step) > steps.indexOf(max_step) ? true : false;
+
+    if (this.current_acceptable_activity.includes('VIEW') && !isAfterCurrentStep) {
       return false;
 
-    } else if(isAfterCurrentStep === true) {
+    } else if (isAfterCurrentStep === true) {
       return true;
 
     } else {
       return false;
-    }    
-  }
-  isValidField(field){
-    //check for required field
-    if(field.required === true){
-      if(field.value === undefined || field.value === null) return {valid: false, message: this.translate.get('xjson.missing_required_value')['value']}
     }
-    if(field.value) {
+  }
+  isValidField(field) {
+    //check for required field
+    if (field.required === true) {
+      if (field.value === undefined || field.value === null) return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }
+    }
+    if (field.value) {
       //check for minlength
-      if(field.minlength !== undefined){
-        if(field.value.length < field.minlength) return {valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }
+      if (field.minlength !== undefined) {
+        if (field.value.length < field.minlength) return { valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }
       }
       //check for maxlength
-      if(field.maxlength !== undefined){
-        if(field.value.length > field.maxlength) return {valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength }
+      if (field.maxlength !== undefined) {
+        if (field.value.length > field.maxlength) return { valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength }
       }
       //check for min
-      if(field.min !== undefined){
-        if(field.type === 'date') {
-          if(moment(field.value).isBefore(field.min)) {
-            return {valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') }
+      if (field.min !== undefined) {
+        if (field.type === 'date') {
+          if (moment(field.value).isBefore(field.min)) {
+            return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') }
           }
         } else if (field.value < field.min) {
-          return {valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min }
+          return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min }
         }
       }
       //check for max
-      if(field.max !== undefined){
-        if(field.type === 'date') {
-          if(moment(field.value).isAfter(field.max)) {
-            return {valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(field.max).format('DD.MM.YYYY') }
+      if (field.max !== undefined) {
+        if (field.type === 'date') {
+          if (moment(field.value).isAfter(field.max)) {
+            return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(field.max).format('DD.MM.YYYY') }
           }
         } else if (field.value > field.max) {
-          return {valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max };
+          return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max };
         }
       }
       //check for email format
-      if(field.type === 'email'){
-          let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          if(reg.test(field.value) === false) return {valid: false, message: this.translate.get('xjson.enter_valid_email')['value']  }
+      if (field.type === 'email') {
+        let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (reg.test(field.value) === false) return { valid: false, message: this.translate.get('xjson.enter_valid_email')['value'] }
       }
     }
-    return { valid: true, message:'valid' };
+    return { valid: true, message: 'valid' };
   }
 
-  validateForm(elements): void{
+  validateForm(elements): void {
     const NOT_FOR_VALIDATION = ['heading', 'helpertext',]
 
-    for(let field in elements) {
+    for (let field in elements) {
       let element = elements[field];
-      if (!NOT_FOR_VALIDATION.includes(element.type)) {        
+      if (!NOT_FOR_VALIDATION.includes(element.type)) {
         let validation = this.isValidField(element);
         if (validation.valid !== true) {
           this.error[field] = validation;
@@ -322,18 +303,18 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     };
   }
 
-  submitForm(activity: string){
+  submitForm(activity: string) {
     this.error = {};
 
-    if(activity == 'EDIT') {
+    if (activity == 'EDIT') {
       this.promptEditConfirmation();
     } else {
       this.validateForm(this.data_elements);
 
-      if(Object.keys(this.error).length == 0){
+      if (Object.keys(this.error).length == 0) {
         this.data.header["activity"] = activity;
-        let payload = {form_name: this.form_name, form_info: this.data};
-        if(this.test === true) {
+        let payload = { form_name: this.form_name, form_info: this.data };
+        if (this.test === true) {
           this.promptDebugDialog(payload)
         } else {
           this.getData(payload);
@@ -342,19 +323,19 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  errorHandler(message){
+  errorHandler(message) {
     console.log('DEBUG_ERROR: ', message);
   }
 
-  closeMessage( i ){
+  closeMessage(i) {
     this.data_messages.splice(i, 1);
   }
 
-  selectStep(step){
-    if(step === this.opened_step) {
+  selectStep(step) {
+    if (step === this.opened_step) {
       return //to nothing
     } else {
-      if(this.isStepDisabled(step)){
+      if (this.isStepDisabled(step)) {
         return this.errorHandler('This step is disabled');
       }
       this.opened_step = step;
@@ -362,33 +343,33 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  setActivityButtons(activities: string[]){
-    let output = {primary: [], secondary: []};
+  setActivityButtons(activities: string[]) {
+    let output = { primary: [], secondary: [] };
     let editableActivities = ['SUBMIT', 'CONTINUE'];
-    let maxStepActions = [{action: 'SAVE', label: 'button.save_draft'}]
-    if(this.opened_step < this.max_step){
+    let maxStepActions = [{ action: 'SAVE', label: 'button.save_draft' }]
+    if (this.opened_step < this.max_step) {
 
       let displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-      if(displayEditButton) output['primary'].push({label: 'button.edit' , action: 'EDIT', style: 'primary'})
+      if (displayEditButton) output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' })
 
     } else {
       activities.forEach(activity => {
-        if(editableActivities.includes(activity)) {
-          output['primary'].push({label: 'button.' + activity.toLowerCase() , action: activity, style: 'primary'})
+        if (editableActivities.includes(activity)) {
+          output['primary'].push({ label: 'button.' + activity.toLowerCase(), action: activity, style: 'primary' })
         }
       });
       maxStepActions.forEach(button => {
-        if(activities.some(activity => button.action == activity)) {
-          output['secondary'].push({label: button.label , action: button.action})
-        }    
+        if (activities.some(activity => button.action == activity)) {
+          output['secondary'].push({ label: button.label, action: button.action })
+        }
       });
     }
     return output;
   }
 
   promptDebugDialog(data) {
-   
-    if(this.test === false){
+
+    if (this.test === false) {
       return this.getData(data);
     }
 
@@ -401,8 +382,8 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
       }
     });
     this.dialogRef.afterClosed().subscribe(result => {
-      if(result == true) {
-        
+      if (result == true) {
+
         this.getData(data);
       }
       this.dialogRef = null;
@@ -410,77 +391,77 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
 
   }
 
-  setMaxStep(xjson){
-    if(!Object.keys(xjson['body']['steps']).length){
+  setMaxStep(xjson) {
+    if (!Object.keys(xjson['body']['steps']).length) {
       return this.errorHandler('No steps available');
-    } else if(Object.keys(xjson['body']['steps']).some(step => step == xjson['header']['current_step']) == false){
+    } else if (Object.keys(xjson['body']['steps']).some(step => step == xjson['header']['current_step']) == false) {
       this.max_step = Object.keys(xjson['body']['steps'])[0];
     } else {
       this.max_step = xjson['header']['current_step'];
     }
   }
 
-  getData(data){
+  getData(data) {
 
-    if(this.test) {
+    if (this.test) {
       data.test = true; //TEST
     }
-    
-    if(this.queryStrings){
-      data = {...data , ... this.queryStrings};
+
+    if (this.queryStrings) {
+      data = { ...data, ... this.queryStrings };
     }
 
-    let subscription = this.http.post('/xjson_service?_format=json', data ).subscribe(response => {
+    let subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
 
-      if(!response['header']) return this.errorHandler('Missing header from response');
-      if(!response['body']) return this.errorHandler('Missing body from response');
-      if(!response['body']['steps']) return this.errorHandler('Missing body.steps from response');
+      if (!response['header']) return this.errorHandler('Missing header from response');
+      if (!response['body']) return this.errorHandler('Missing body from response');
+      if (!response['body']['steps']) return this.errorHandler('Missing body.steps from response');
 
-      if(response['header']['current_step']) {
+      if (response['header']['current_step']) {
         this.setMaxStep(response);
       }
 
-      if(response['header']['acceptable_activity']){
-        if((!(response['header']['acceptable_activity'] instanceof Array))) {
+      if (response['header']['acceptable_activity']) {
+        if ((!(response['header']['acceptable_activity'] instanceof Array))) {
           return this.errorHandler('Acceptable activity is a string!');
         }
         this.current_acceptable_activity = response['header']['acceptable_activity'];
-       
+
         let acceptableActivityIncludesTarget = this.current_acceptable_activity.some(key => {
-          return ['SUBMIT','SAVE','CONTINUE'].includes(key);
+          return ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key);
         })
-      
-        if(acceptableActivityIncludesTarget && !response['header']['current_step']){
+
+        if (acceptableActivityIncludesTarget && !response['header']['current_step']) {
           return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE')
         }
       }
       this.stepController(response)
 
       subscription.unsubscribe();
-    }, err =>{
+    }, err => {
       this.loginError = true;
       this.notificationService.error(err.error, 'xjsonForm', false);
     });
 
   }
 
-  stepController(xjson){
+  stepController(xjson) {
     this.opened_step = this.max_step;
     this.viewController(xjson);
   }
 
 
-  viewController(xjson){
+  viewController(xjson) {
     this.elemAtStart = {};
     this.data = xjson;
     this.data_elements = this.data.body.steps[this.opened_step].data_elements;
 
     this.data_messages = this.data.body.steps[this.opened_step].messages;
 
-    if(!this.data_elements){
-      let payload = {form_name: this.form_name, form_info: xjson}
-     
-      if(this.test === true) this.promptDebugDialog(payload)
+    if (!this.data_elements) {
+      let payload = { form_name: this.form_name, form_info: xjson }
+
+      if (this.test === true) this.promptDebugDialog(payload)
       else this.getData(payload)
 
     } else {
@@ -493,12 +474,12 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.userLoggedOut = this.user.getData()['isExpired'];
     this.pathWatcher();
-    let payload = {form_name: this.form_name}
+    let payload = { form_name: this.form_name }
 
-    if(this.test === true) {
+    if (this.test === true) {
       this.promptDebugDialog(payload)
     } else {
       //TODO: create catcher to prevent endless loop requests...
@@ -506,7 +487,7 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     }
   };
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     /* Clear all subscriptions */
     for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {

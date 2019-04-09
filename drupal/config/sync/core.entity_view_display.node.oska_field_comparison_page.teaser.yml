@@ -1,0 +1,25 @@
+uuid: d3f944b3-1d61-4277-ab94-0d0abdfb3624
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.oska_field_comparison_page.field_dynamic_graph
+    - field.field.node.oska_field_comparison_page.field_introduction
+    - node.type.oska_field_comparison_page
+  module:
+    - user
+id: node.oska_field_comparison_page.teaser
+targetEntityType: node
+bundle: oska_field_comparison_page
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_dynamic_graph: true
+  field_introduction: true
+  langcode: true
