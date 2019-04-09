@@ -23,47 +23,7 @@ use League\Csv\Statement;
  *   }
  * )
  */
-class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPluginInterface {
-    use DependencySerializationTrait;
-
-    /**
-     * The sub-request buffer service.
-     *
-     * @var \Drupal\graphql\GraphQL\Buffers\SubRequestBuffer
-     */
-    protected $subRequestBuffer;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
-        return new static(
-            $configuration,
-            $pluginId,
-            $pluginDefinition,
-            $container->get('graphql.buffer.subrequest')
-        );
-    }
-
-    /**
-     * Metatags constructor.
-     *
-     * @param array $configuration
-     *   The plugin configuration array.
-     * @param string $pluginId
-     *   The plugin id.
-     * @param mixed $pluginDefinition
-     *   The plugin definition array.
-     */
-    public function __construct(
-        array $configuration,
-        $pluginId,
-        $pluginDefinition,
-        SubRequestBuffer $subRequestBuffer
-    ) {
-        parent::__construct($configuration, $pluginId, $pluginDefinition);
-        $this->subRequestBuffer = $subRequestBuffer;
-    }
+class GoogleChartQuery extends FieldPluginBase {
 
     /**
      * {@inheritdoc}
@@ -73,6 +33,31 @@ class GoogleChartQuery extends FieldPluginBase implements ContainerFactoryPlugin
         $value['ChartValue'] = $this->getGoogleChartValue($args);
 
         yield $value;
+    }
+
+    /**
+     * Retrieve the list of cache dependencies for a given value and arguments.
+     *
+     * @param array $result
+     *   The result of the field.
+     * @param mixed $parent
+     *   The parent value.
+     * @param array $args
+     *   The arguments passed to the field.
+     * @param \Drupal\graphql\GraphQL\Execution\ResolveContext $context
+     *   The resolve context.
+     * @param \GraphQL\Type\Definition\ResolveInfo $info
+     *   The resolve info object.
+     *
+     * @return array
+     *   A list of cacheable dependencies.
+     */
+    protected function getCacheDependencies(array $result, $parent, array $args, ResolveContext $context, ResolveInfo $info) {
+        $cache = parent::getCacheDependencies($result, $parent, $args, $context, $info);
+
+        $cache[0]->setCacheTags(['oska_csv']);
+
+        return $cache;
     }
 
     public function getGoogleChartValue($args){
