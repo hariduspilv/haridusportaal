@@ -108,8 +108,6 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 
 		let firstDate;
 		let lastDate;
-
-		console.log(this.content.entity);
 		
 		if( this.content.entity.fieldRegistrationDate ){
 			firstDate = this.parseDate( this.content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix );
@@ -118,10 +116,6 @@ export class RecentEventsComponent implements OnInit, OnDestroy {
 			firstDate = this.parseDate( this.content.entity.fieldEventMainDate.unix );
 			lastDate = this.parseDate( this.content.entity.fieldEventMainDate.unix );
 		}
-
-		console.log('firstDate: ', firstDate);
-		console.log('lastDate: ', lastDate);
-		console.log('unix: ', this.unix);
 
 		let isFull = this.content.entity.RegistrationCount >= this.content.entity.fieldMaxNumberOfParticipants;
 		if( this.content.entity.fieldMaxNumberOfParticipants == null ){ isFull = false;}
