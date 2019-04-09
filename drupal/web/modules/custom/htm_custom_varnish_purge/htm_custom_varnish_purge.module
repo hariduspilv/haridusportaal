@@ -26,6 +26,9 @@ function htm_custom_varnish_purge_help($route_name, RouteMatchInterface $route_m
 
 function htm_custom_varnish_purge_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
 
+    kint('tere');
+    die();
+
     $configuration = \Drupal::config('htm_custom_varnish_purge.varnishpurge');
 
     if($configuration->get('enabled') == 1){

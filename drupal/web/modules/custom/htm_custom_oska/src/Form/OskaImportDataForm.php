@@ -2,6 +2,7 @@
 namespace Drupal\htm_custom_oska\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Cache\Cache;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Serializer;
 use League\Csv\Reader;
@@ -45,6 +46,12 @@ class OskaImportDataForm extends FormBase {
         $form['submit'] = [
             '#type' => 'submit',
             '#value' => $this->t('Import'),
+        ];
+
+        $form['#cache'] = [
+            'tags' => [
+                'tere'
+            ]
         ];
 
         return $form;
@@ -119,6 +126,8 @@ class OskaImportDataForm extends FormBase {
         ];
 
         batch_set($batch);
+
+        Cache::invalidateTags(['oska_csv']);
     }
     public function detectCSVFileDelimiter($csvFile) {
         $delimiters = array(',' => 0, ';' => 0, "\t" => 0, '|' => 0);
