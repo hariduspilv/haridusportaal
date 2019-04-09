@@ -77,9 +77,11 @@ export class FrontpageComponent {
   
   getGeneral() {
     
-    let variables = {lang: this.rootScope.get('lang').toUpperCase()}
+    let variables = {
+      lang: this.rootScope.get('lang').toUpperCase()
+    }
 
-    this.http.get('frontPageQuery', {params:variables}).subscribe(data => {
+    this.http.get('frontPageQuery', { params:variables} ).subscribe(data => {
       if (data['errors'] && data['errors'].length) {
         this.generalData = [];
       } else {
@@ -140,6 +142,9 @@ export class FrontpageComponent {
 
   }
   populateSuggestionList(searchText, debounceTime) {
+
+    if( !searchText ){ searchText = ''; }
+
     if(searchText.length < 3) {
       clearTimeout(this.debouncer);
       this.suggestionList = [];
@@ -155,7 +160,7 @@ export class FrontpageComponent {
       let variables = {
         search_term: searchText
       }
-      let suggestionSubscription = this.http.get('testAutocomplete', {params:variables}).subscribe(res => {
+      this.suggestionSubscription = this.http.get('testAutocomplete', {params:variables}).subscribe(res => {
         this.autocompleteLoader = false;
         this.suggestionList = res['data']['CustomElasticAutocompleteQuery'] || [];
         this.suggestionSubscription.unsubscribe();

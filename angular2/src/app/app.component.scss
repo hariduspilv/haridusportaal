@@ -6,6 +6,8 @@
 @import "../assets/styles/layout.scss";
 @import "../assets/styles/htm-icon.scss";
 
+.mat-drawer-container.landing {background-color: $white;}
+
 article table, .accordion table{width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   th {background: $light-gray;
     .sortable {&:hover { color: $dark-gray;}}
@@ -923,4 +925,21 @@ a:hover .important-pill {
 .mat-drawer-content {padding-bottom:4rem;}
 @include break-on(sm, max) {
   .mat-drawer-content {padding-bottom:10rem !important;}
+}
+
+.ng-select.ng-select-searchable--clearChips {
+  .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
+    background-color: #fff;
+    &.ng-option.ng-option-marked {
+      background-color: #eee;
+    }
+  }
+  .ng-select-container .ng-value-container .ng-value {
+    background-color: transparent;
+    padding: 0;
+    margin-right: 0.3rem;
+    span {
+      color: #333333;
+    }
+  }
 }

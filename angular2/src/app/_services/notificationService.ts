@@ -11,7 +11,7 @@ export class NotificationService {
   getNotificationsFromBlock(id: string):Observable<any> {
     return this.subject.asObservable().filter((notification: Notification) => notification && notification.id === id);
   }
-
+// TODO : Notifications with a link
   warning(message: any, id: string = 'global', closeable: boolean = true) {
     this.notify(new Notification({
       message,

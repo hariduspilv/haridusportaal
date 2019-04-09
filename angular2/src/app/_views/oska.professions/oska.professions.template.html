@@ -19,9 +19,9 @@
 
       <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper">
-          <mat-form-field *ngIf="FilterOptions">
-            <mat-select placeholder="{{ 'frontpage.dashboard_tabs_certificates_field' | translate }}" [(ngModel)]='filterFormItems.oskaFieldValue' name="type">
-              <mat-option>{{ 'button.all' | translate }}</mat-option>
+          <mat-form-field *ngIf="FilterOptions.oskaFieldValue">
+            <mat-select [multiple]="true" placeholder="{{ 'frontpage.dashboard_tabs_certificates_field' | translate }}" [(ngModel)]='filterFormItems.oskaFieldValue' name="type" (openedChange)="oskaFieldValueSort($event)">
+              <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
               <mat-option *ngFor="let type of FilterOptions.oskaFieldValue" [value]="type.nid">
                 {{type.title}}
               </mat-option>
@@ -43,7 +43,19 @@
     </div><!--/row-->
     <ng-container *ngIf="filterFull">
       <div class="row form-additional-row">
-        <div class="col-9 sm-12 form-col">
+        <div class="col-4 sm-12 form-col">
+          <div class="round-input__wrapper" [class.complete]="filterFormItems.fillingBarValue">
+            <mat-form-field *ngIf="FilterOptions.fillingBarValues">
+              <mat-select [multiple]="true" placeholder="{{ 'oska.competition' | translate }}" [(ngModel)]='filterFormItems.fillingBarValues' name="fillingBarValues" (openedChange)="fillingBarValuesSort($event)">
+                <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
+                <mat-option *ngFor="let fillingBarValue of FilterOptions.fillingBarValues" [value]="fillingBarValue">
+                  {{getCompetitionLabel(fillingBarValue) | translate}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div><!--/round-inpuit__wrapper-->
+        </div><!--/col-4-->
+        <div class="col-5 sm-12 form-col">
           <div class="round-input__wrapper">
             <mat-form-field *ngIf="FilterOptions" >
               <mat-select placeholder="{{ 'button.sort' | translate }}" [(ngModel)]='filterFormItems.sortedBy' name="sortedBy">
@@ -56,23 +68,52 @@
           </div>
         </div><!--/col-9-->
       </div>
-      <div class="row form-additional-row no-gutter">
+      <div class="row form-additional-row" *ngIf="filterFull && FilterOptions.oskaFixedLabels">
         <div class="col-9 sm-12 form-col">
-          <div class="custom-checkbox">
-            <mat-checkbox [(ngModel)]="filterFormItems.fixedLabelValue" name="fixedLabelValue"> {{ 'fieldFixedLabel.slogan' | translate }}</mat-checkbox>
+          <div class="ng-select__wrapper__mt">
+            <span class="ng-select__title"  [class.exists]="filterFormItems.oskaFixedLabels && filterFormItems.oskaFixedLabels.length">{{ 'oskaProfessions.tags' | translate}}</span>
+            <ng-select
+              tabindex="0"
+              role="select"
+              attr.aria-label="{{'filter.select' | translate}}"
+              [class.exists]="filterFormItems.oskaFixedLabels && filterFormItems.oskaFixedLabels.length"
+              [items]="oskaFixedLabelsObs | async"
+              [multiple]="true"
+              bindLabel="entityLabel"
+              bindValue="entityId"
+              [notFoundText]="'events.no_results' | translate"
+              placeholder="{{ 'oskaProfessions.tags' | translate }}"
+              [(ngModel)]='filterFormItems.oskaFixedLabels'
+              name="labels"
+              [dropdownPosition]="'bottom'"
+              [closeOnSelect]="false"
+              class="mat-primary ng-select-searchable--clearChips"
+              (close)="oskaFixedLabelsSort()"
+            >
+              <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                  <span>{{item.entityLabel}},</span>
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <div id="item-{{index}}"
+                class="mat-option-pseudo-checkbox mat-pseudo-checkbox"
+                [class.mat-pseudo-checkbox-checked]="item$.selected"
+                ></div>
+                <span>{{item.entityLabel}}</span>
+              </ng-template>
+            </ng-select>
           </div>
-        </div><!--/col-9-->
+        </div>
         <div class="col-3 align-end text-right sm-12 inline-flex form-col">
-          <div class="align-center filter-state sm-hide">       
-            <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
-              <span>{{ 'button.search_brief' | translate }}</span>
-            </a>
-          </div>
-          <div class="button-row">
-            <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
-          </div>
-        </div><!--/col-3-->
-      </div><!--/row-->
+            <div class="align-center filter-state sm-hide">       
+              <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
+                <span>{{ 'button.search_brief' | translate }}</span>
+              </a>
+            </div>
+            <div class="button-row">
+              <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+            </div>
+          </div><!--/col-3-->
+      </div>
     </ng-container>
   </div>
 </form>
@@ -127,7 +168,7 @@
               <ng-container *ngIf="elem.oskaId">
                 <span class="bar" *ngIf="(item.reverseOskaMainProfessionOskaFillingBarEntity.entities && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0] && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value
                   && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value > 0 && item.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value < 6) || ind === 1">|</span>
-                <span class="item">{{ elem.oskaIndicator | titleCase }}: <span class="dark">{{ formatNumber(elem.value, 'et') }} <ng-container *ngIf="elem.oskaId === 3">€</ng-container></span></span>
+                <span class="item">{{ elem.oskaIndicator | titleCase }}: <span *ngIf="elem.oskaId === 1" class="dark">{{ elem.value | localeNumber }} </span> <span *ngIf="elem.oskaId === 3" class="dark">{{ elem.value | currency:"EUR" }} </span></span>
                 <!-- <span class="item">{{ elem.oskaIndicator | titleCase }}: 
                   <span *ngIf="elem.oskaId === 1" class="dark">{{ elem.value }}</span>
                   <span *ngIf="elem.oskaId === 3" class="dark">{{ formatNumber(elem.value, 'et') }} €</span>
