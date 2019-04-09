@@ -283,10 +283,11 @@
                         </span>
                         <div class="round-input__outer-wrapper">
                           <div class="round-input__field-wrapper">
-                            <input class="round-input__field" type="number" [min]="data_elements[element].min"
+                            <input class="round-input__field" type="text" [min]="data_elements[element].min"
                               [max]="data_elements[element].max"
                               placeholder="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                               [(ngModel)]="data_elements[element].value"
+                              numberFormatter = "true"
                               [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                               [name]="element" [attr.required]="data_elements[element].required" />
                           </div>

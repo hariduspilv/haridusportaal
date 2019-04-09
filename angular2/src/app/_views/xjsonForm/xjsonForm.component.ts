@@ -160,10 +160,10 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   }
 
   checkboxChange(event, element){
-    this.data_elements[element].value = event.checked;
+    this.data_elements[element].value = event.checked ? 'true' : 'false';
   }
 
-  selectListCompare(a, b) {
+  selectListCompare(a, b) { 
     return a && b ? a == b : a == b;
   }
   isFieldDisabled(readonly): boolean {
