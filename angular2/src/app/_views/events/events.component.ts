@@ -510,7 +510,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
         this.calendarDataEntries = "none";
 
-        let dataSubscription = this.http.get('getEventList', {params: variables}).subscribe((response) => {
+        this.dataSubscription = this.http.get('getEventList', {params: variables}).subscribe((response) => {
 
           let data = response['data'];
           

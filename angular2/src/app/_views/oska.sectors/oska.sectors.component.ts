@@ -56,7 +56,6 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
       this.modalOpen( modalIndex );
     }
 
-    console.log(this.modal);
   }
 
   sortByKey(array, key) {

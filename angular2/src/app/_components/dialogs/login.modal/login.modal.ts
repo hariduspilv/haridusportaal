@@ -114,7 +114,6 @@ export class LoginModal {
         if( !data['token'] ) {
           this.mobileValidation['errorState'] = true;
           this.notificationService.error(data.error.message || 'errors.request', 'login', false);
-          console.log('in if mobile???', data);
 
           return false; 
         }
