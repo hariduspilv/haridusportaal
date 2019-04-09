@@ -35,10 +35,8 @@
             <mat-autocomplete #auto="matAutocomplete" 
               tabindex="0"
               role="listbox"
-              name="searchParam"
               id="matAutocomplete"
               aria-activedescendant="option_0"
-              [(ngModel)]='param' 
               (optionSelected)="autocompleteLoader = false;suggestionList = [];getResults(param, [])">
               <ng-container *ngIf="autocompleteLoader && param">
                 <mat-option [value]="" disabled="true">
