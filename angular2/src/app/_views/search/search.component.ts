@@ -218,7 +218,7 @@ export class SearchComponent {
       let variables = {
         search_term: searchText
       }
-      let suggestionSubscription = this.http.get('testAutocomplete', {params:variables}).subscribe(res => {
+      this.suggestionSubscription = this.http.get('testAutocomplete', {params:variables}).subscribe(res => {
         this.autocompleteLoader = false;
         this.suggestionList = res['data']['CustomElasticAutocompleteQuery'] || [];
         this.suggestionSubscription.unsubscribe();

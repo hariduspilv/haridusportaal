@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SharedModule } from '@app/_core/shared.module';
 import { LoginModule } from '@app/_components/login/login.module';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   providers: [
@@ -19,7 +19,8 @@ import { FormsModule } from '@angular/forms'
     CommonModule,
     SharedModule,
     LoginModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     HeaderComponent

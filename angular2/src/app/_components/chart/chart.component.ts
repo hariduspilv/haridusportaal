@@ -133,8 +133,6 @@ export class ChartComponent implements OnInit{
         primaryFormat = this.getFormat(current.options.graph_y_unit);
       }
 
-      console.log(primaryFormat);
-
       switch( chartType.toLowerCase() ){
         case 'clustered bar' : {
           isStacked = false;
@@ -176,7 +174,7 @@ export class ChartComponent implements OnInit{
       }
 
       if( primaryFormat == 'percent' ){
-        value = this.dividePercentage( value );
+        //value = this.dividePercentage( value );
       }
 
       let graphName = chartType+"Chart";
@@ -596,11 +594,15 @@ export class ChartComponent implements OnInit{
 
     switch( this.type ){
       case 'filter': {
-        this.parseData();
+        try{
+          this.parseData();
+        }catch(err){}
         break;
       }
       default: {
-        this.compileData();
+        try{
+          this.compileData();
+        }catch(err){}
       }
     }
   }
