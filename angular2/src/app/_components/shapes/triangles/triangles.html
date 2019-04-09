@@ -1,0 +1,16 @@
+<div class="triangles" [ngClass]="{ 'triangles__topmost': position === 'top' }">
+  <div class="triangles__wrapper">
+    <div class="triangles__child" [ngStyle]="smallChild"
+      [ngClass]="{ 
+        'triangles--smallTop': position === 'top',
+        'triangles--smallRight': position === 'right',
+        'triangles--smallLeft': position === 'left' 
+      }"></div>
+    <div class="triangles__child" [ngStyle]="largeChild"
+      [ngClass]="{ 
+        'triangles--largeTop': position === 'top',
+        'triangles--largeRight': position === 'right',
+        'triangles--largeLeft': position === 'left' 
+      }"></div>
+  </div>
+</div>

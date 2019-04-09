@@ -69,7 +69,6 @@ export class UserService{
     sessionStorage.removeItem( this.tokenKey ); 
     this.toggleLoggedInStatus(false);
     if ( decodeURIComponent(this.router.url).indexOf('/töölaud/') !== -1 || decodeURIComponent(this.router.url).indexOf('/dashboard/')  !== -1 ) {
-      console.log("aaa");
       this.router.navigateByUrl('/');
     } else {
       this.triggerPageReload();
