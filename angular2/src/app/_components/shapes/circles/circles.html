@@ -1,0 +1,15 @@
+<div class="circles main-container">
+  <div class="circles__wrapper" [ngClass]="{ 
+    'circles__wrapper--top': position === 'top',
+    'circles__wrapper--topMiddle': position === 'topMiddle',
+    'circles__wrapper--bottom': position === 'bottom',
+    'circles__wrapper--bottomMiddle': position === 'bottomMiddle'
+    }">
+      <div class="circles__child circles__child--small" *ngIf="small" [ngStyle]="smallChild"
+        [ngClass]="{ 
+          'small--left': smallAlignment === 'left',
+          'small--right': smallAlignment === 'right'
+        }"></div>
+      <div class="circles__child circles__child--large" [ngStyle]="largeChild"></div>
+  </div>
+</div>

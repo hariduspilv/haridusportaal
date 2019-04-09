@@ -1,0 +1,32 @@
+<div class="flex flex-justify-center origin">
+  <div class="origin__child" *ngFor="let item of content; let i = index; let last = last;" [class.origin__child--last]="last">
+    <a *ngIf="item[contentLabels.url] && item[contentLabels.url].routed"
+    href="javascript:void(0)" 
+    class="flex flex-notrows pointer text-center" 
+    [routerLink]="item[contentLabels.url].path"
+    (mouseenter)="imgModifier('routed', i, 'hover')"
+    (mouseleave)="imgModifier('routed', i, 'standard')">
+      <div class="img__wrapper" *ngIf="item[contentLabels.image]">
+        <img attr.id="routed-{{i}}"  aria-hidden="true" [src]="item[contentLabels.image].standard">
+      </div>
+      <div class="content__wrapper" *ngIf="item[contentLabels.title] || item[contentLabels.link]">
+        <div *ngIf="item[contentLabels.title]" class="origin__title" attr.aria-label="{{item[contentLabels.title]}}">{{item[contentLabels.title]}}</div>
+        <div *ngIf="item[contentLabels.link]" attr.aria-label="{{item[contentLabels.link]}}" class="origin__link">{{item[contentLabels.link]}}</div>
+      </div>
+    </a> 
+    <a *ngIf="item[contentLabels.url] && !item[contentLabels.url].routed"
+    class="flex flex-notrows pointer text-center"
+    href="{{item[contentLabels.url].path}}"
+    target="_blank"
+    (mouseenter)="imgModifier('nonRouted', i, 'hover')"
+    (mouseleave)="imgModifier('nonRouted', i, 'standard')">
+      <div class="img__wrapper">
+        <img attr.id="nonRouted-{{i}}" aria-hidden="true" [src]="item[contentLabels.image].standard">
+      </div>
+      <div class="content__wrapper">
+        <div *ngIf="item[contentLabels.title]" class="origin__title" attr.aria-label="{{item[contentLabels.title]}}">{{item[contentLabels.title]}}</div>
+        <div *ngIf="item[contentLabels.link]" attr.aria-label="{{item[contentLabels.link]}}" class="origin__link">{{item[contentLabels.link]}}</div>
+      </div>
+    </a>
+  </div>
+</div>

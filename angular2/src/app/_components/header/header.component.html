@@ -36,9 +36,7 @@
             (ngModelChange)="populateSuggestionList(searchParam, 300)"/>
           <mat-autocomplete #auto="matAutocomplete" 
             role="listbox"
-            name="searchParam"
             id="matAutocomplete"
-            [(ngModel)]='searchParam' 
             (optionSelected)="autocompleteLoader = false;suggestionList = [];searchRoute(searchParam)">
             <ng-container *ngIf="autocompleteLoader && searchParam">
               <mat-option [value]="" disabled="true">

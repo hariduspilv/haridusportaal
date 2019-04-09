@@ -39,7 +39,7 @@ export class TableModal {
   ngOnInit() {
     this.loading = true;
     let sub = this.http.get(this.data.contentUrl).subscribe((response: any) => {
-      console.log(response);
+
       if(response.error){
 
         this.loading = false;

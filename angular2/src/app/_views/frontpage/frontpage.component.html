@@ -26,8 +26,6 @@
           <mat-autocomplete #auto="matAutocomplete"
             role="listbox"
             id="matAutocomplete"
-            name="searchParam"
-            [(ngModel)]='param' 
             (optionSelected)="autocompleteLoader = false;suggestionList = [];searchRoute(param)">
             <ng-container *ngIf="autocompleteLoader && param">
               <mat-option [value]="" disabled="true">
@@ -192,7 +190,7 @@
     </div>
   </ng-template>
   <mat-spinner *ngIf="!events || !news || !generalData" ></mat-spinner>
-  <div class="frontpage" *ngIf="(events && news && generalData) || (events && news)">
+  <div class="frontpage" *ngIf="(events && news && generalData && generalData[0]) || (events && news)">
     <div class="section section--search">
       <div class="content--middle search">
         <h1 class="lead-title">
@@ -208,7 +206,7 @@
               <ng-container *ngTemplateOutlet="search"></ng-container>
             </div>
           </div>
-          <div class="col-12 header sm-hide main-container">
+          <div class="col-12 header sm-hide main-container" *ngIf="generalData[0]">
             <h1 [class.missing-content]="generalData[0].fieldTopics && (!generalData[0].fieldTopics[0].entity.fieldTopicText && !generalData[0].fieldTopics[0].entity.fieldTopicTitle) && superNewsShown['first']">{{generalData[0].fieldHeadBlockTitle}}</h1>
           </div>
         </div>
