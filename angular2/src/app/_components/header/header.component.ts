@@ -90,6 +90,9 @@ export class HeaderComponent {
   }
 
   populateSuggestionList(searchText, debounceTime) {
+
+    if( !searchText ){ searchText = ''; }
+
     if(searchText.length < 3) {
       clearTimeout(this.debouncer);
       this.suggestionList = [];
@@ -105,7 +108,7 @@ export class HeaderComponent {
       let variables = {
         search_term: searchText
       }
-      let suggestionSubscription = this.http.get('testAutocomplete', {params:variables}).subscribe(res => {
+      this.suggestionSubscription = this.http.get('testAutocomplete', {params:variables}).subscribe(res => {
         this.autocompleteLoader = false;
         this.suggestionList = res['data']['CustomElasticAutocompleteQuery'] || [];
         this.suggestionSubscription.unsubscribe();
