@@ -1,0 +1,21 @@
+@import "../../../assets/styles/typography.scss"; 
+.outer__wrapper {
+  &--light {background-color: #ffe7c1;}
+  &--dark {background-color: #bee3e8;}
+}
+.wrapper {padding: 4rem 3rem;
+  &__heading {display: flex;
+    & > * {flex: 1;font-size: 1rem;line-height: 2rem;}
+    &__label {color: $dark-gray;}
+    &__action {text-align: right;}
+  }
+  @include break-on(sm, max) {padding: 4rem 6rem;}
+  @include break-on(xs, max) {padding: 4rem 2rem;}
+}
+.article {text-decoration: none;
+  &:hover {text-decoration: underline;}
+  &__image {margin: 1rem 0;
+    img {width: 100%;display: block;height: auto;}
+  }
+  &__title {font-size: 1.25rem;line-height: 1.5rem;}
+}

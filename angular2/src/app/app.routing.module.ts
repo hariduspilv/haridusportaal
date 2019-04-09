@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {
   ArticleComponent,
   FrontpageComponent,
+  OskaFrontPageComponent,
   EventsComponent,
   PersonalDataComponent,
   EventsSingleComponent,
@@ -39,6 +40,7 @@ import { VariablesComponent } from './_views/variables/variables.component';
 const appRoutes: Routes = [
 
   { path: '', component: FrontpageComponent },
+  { path: 'oska', component: OskaFrontPageComponent },
   
   { path: 'artiklid/:id', component: ArticleComponent },
   { path: 'uudised', component: NewsComponent },
@@ -118,6 +120,7 @@ for( let i in appRoutes ){
 export const routedComponents = [
   ArticleComponent,
   FrontpageComponent,
+  OskaFrontPageComponent,
   EventsComponent,
   PersonalDataComponent,
   EventsSingleComponent,
