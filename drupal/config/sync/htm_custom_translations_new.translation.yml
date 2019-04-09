@@ -2451,6 +2451,14 @@ oska:
     translation_type: textarea
     et: 'Viimased valdkonnauuringud'
     en: 'Viimased valdkonnauuringud'
+  footer_intro:
+    translation_type: textarea
+    et: 'Tuleviku tööjõu- ja oskuste vajaduse prognoosisüsteem OSKA koostab aastaks 2020 kõigil elualadel Eestis tuleviku tööjõu ja oskuste prognoosid ning võrdleb neid pakutava koolitusega kutse- ja kõrghariduses ning täiendõppes.'
+    en: 'Tuleviku tööjõu- ja oskuste vajaduse prognoosisüsteem OSKA koostab aastaks 2020 kõigil elualadel Eestis tuleviku tööjõu ja oskuste prognoosid ning võrdleb neid pakutava koolitusega kutse- ja kõrghariduses ning täiendõppes.'
+  footer_outro:
+    translation_type: textarea
+    et: 'OSKA uuringuid koostab Kutsekoda Euroopa Sotsiaalfondi vahenditest.'
+    en: 'OSKA uuringuid koostab Kutsekoda Euroopa Sotsiaalfondi vahenditest.'
 oskaProfession:
   view_field_info:
     translation_type: textarea
