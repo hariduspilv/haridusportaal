@@ -31,7 +31,8 @@ class StudyProgrammeController extends ControllerBase {
                 }
             }
         }
-        $this->unpublishNonExistantProgrammes($programmes);
+        $unpublishnodes = $this->unpublishNonExistantProgrammes($programmes);
+        $programmenodes = array_merge($programmenodes, $unpublishnodes);
         return $programmenodes;
     }
 
@@ -342,15 +343,21 @@ class StudyProgrammeController extends ControllerBase {
     public function unpublishNonExistantProgrammes($imported_programmes){
         $entities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'study_programme']);
         $new_ehis_ids = [];
+        $programme_nodes = [];
         foreach($imported_programmes as $programme){
             $new_ehis_ids[] = $programme->oppekavaKood;
         }
         foreach($entities as $entity){
             if(!in_array($entity->field_ehis_id->getValue()[0]['value'], $new_ehis_ids)){
-                $entity->set('status', '0');
-                $entity->save();
+                $programmenodes[] = [
+                    'programme_field' => [
+                        'nid' => $entity->id(),
+                        'status' => '0'
+                    ]
+                ];
             }
         }
+        return $programme_nodes;
     }
 
     private function parse_key($key){
