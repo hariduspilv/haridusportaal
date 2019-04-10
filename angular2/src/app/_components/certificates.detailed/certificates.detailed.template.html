@@ -104,7 +104,7 @@
 
         <ng-container *ngIf="examResults && !loading">
 
-          <h1 *ngIf="examResults">{{ 'frontpage.eksamiTulemused' | translate }} {{route.snapshot.queryParams['exams']}}</h1>
+          <h1 id="heading" tabindex="0" *ngIf="examResults">{{ 'frontpage.eksamiTulemused' | translate }} {{route.snapshot.queryParams['exams']}}</h1>
           <a href="javascript:void(0)" id="backToDashboard" class="sm-hide pull-right top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
           <a href="javascript:void(0)" id="backToDashboard" class="sm-show top-link" [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
           <mat-accordion multi>
