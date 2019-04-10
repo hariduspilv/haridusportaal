@@ -8,8 +8,9 @@
     @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
     .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%; position:relative; appearance:none; padding:0; border:none; width:100%;
       span{display:block;}
-      &--title {margin: auto 0;padding: .5rem;display: flex !important;align-items: center;min-height: 2.25rem;width: 100%;justify-content: center;
-        .sector__title {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;
+      &--title {margin: auto 0;padding: .5rem;display: flex !important;align-items: center;min-height: 2.25rem;width: 100%;justify-content: center;  appearance: none; background:none; border:none;
+        &:focus{border-radius:0;}
+        .sector__title {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;;
           text-decoration: underline;padding: 0 .5rem;overflow: hidden;text-overflow: ellipsis;
         }
       }
@@ -20,7 +21,7 @@
         @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {height: 200px;}
       }
       .overlay {position: absolute;top: 0;left: 0;right: 0;bottom: 0;clear: float;background-color: rgba(51,51,51,.2);}
-      &:hover {background-color: $gray;
+      &:hover{background-color: $gray;
         .overlay {display: none;}
         .sector__title {text-decoration: none;color: $black;font-weight: 500;}
       }
@@ -51,7 +52,8 @@
   .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
 }
 
-.modal{background:$light-gray; padding:2rem 2rem 0.4rem 2rem; margin-top:0.8rem;
+.modal{background:$light-gray; padding:2rem 2rem 0.4rem 2rem; margin-top:0.8rem; position: relative;
+  .hidden-button{position:absolute; top:0; left:0; width:1px; height:1px; overflow: hidden; opacity:0;}
   &__header{border-bottom:$white 3px solid; margin:-2rem -2rem 0 -2rem; padding:0 2rem; display:flex; min-height:4.625rem;
     &__col{flex-grow:1; display:flex; align-items: center; padding:0 !important;
       &:first-child{flex-wrap: wrap; }
@@ -91,7 +93,9 @@
     li{width:100%; margin:5px 0; padding-right:1rem; box-sizing: border-box;
       @include break-on(xs, min) {width:50%;}
       @include break-on(md, min) {width:33.3333%;}
-      a{display:block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+      a{display:block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+        &:focus{background:transparent;}
+      }
     }
   }
 }

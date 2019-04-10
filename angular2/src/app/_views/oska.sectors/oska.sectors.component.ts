@@ -75,11 +75,22 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
     });
   }
 
-  dontBlur() {
-    alert('oh no');
+  resetFocus($event, id){
+    $event.preventDefault();
+    $event.stopPropagation();
+    const elem = document.getElementById(id);
+    setTimeout( () => {
+      if( this.modal ){
+        elem.focus();
+      }
+    }, 60);
   }
 
   modalClose() {
+    if( this.modal && this.device.isDesktop() ){
+      let elem = document.getElementById('block_button_'+this.modal.index);
+      elem.focus();
+    }
     this.modal = false;
   }
   modalOpen(index){
@@ -102,6 +113,8 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
 
       if( !this.device.isDesktop() && !this.modal){
         elem.blur();
+      }else if( this.device.isDesktop() ){
+        document.getElementById('block_button_'+index).focus();
       }
       return false;
     }
