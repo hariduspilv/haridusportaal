@@ -252,11 +252,11 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     }
     if (typeof field.value !== 'undefined') {
       //check for minlength
-      if (field.minlength !== undefined) {
+      if (field.minlength !== undefined && field.value !== "") {
         if (field.value.length < field.minlength) return { valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }
       }
       //check for maxlength
-      if (field.maxlength !== undefined) {
+      if (field.maxlength !== undefined && field.value !== "") {
         if (field.value.length > field.maxlength) return { valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength }
       }
       //check for min
