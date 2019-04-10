@@ -7,7 +7,7 @@
   &__heading {display: flex;margin-bottom: 1rem;
     & > * {flex: 1;font-size: 1rem;line-height: 2rem;}
     &__label {color: $dark-gray;}
-    &__action {text-align: right;}
+    &__action {text-align: right;z-index: 1;}
   }
   @include break-on(sm, max) {padding: 4rem 6rem;}
   @include break-on(xs, max) {padding: 4rem 2rem;}
@@ -18,7 +18,7 @@
       text-decoration: underline;
     }
   }
-  &__image {margin-bottom: 1rem;
+  &__image {margin-bottom: 1rem;z-index: 1;
     img {width: 100%;display: block;height: auto;}
   }
   &__title {font-size: 1.25rem;line-height: 1.5rem;}
