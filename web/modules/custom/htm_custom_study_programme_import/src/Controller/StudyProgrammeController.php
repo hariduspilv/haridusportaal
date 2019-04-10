@@ -343,15 +343,20 @@ class StudyProgrammeController extends ControllerBase {
     }
 
     public function unpublishNonExistantProgrammes($imported_programmes){
-        $entities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'study_programme']);
         $new_ehis_ids = [];
         $programme_nodes = [];
         foreach($imported_programmes as $programme){
             $new_ehis_ids[] = $programme->oppekavaKood;
         }
-        foreach($entities as $entity){
+        $nids = \Drupal::entityQuery('node')
+            ->condition('field_ehis_id', $new_ehis_ids, 'NOT IN')
+            ->condition('type', 'study_programme')
+            ->execute();
+
+        foreach($nids as $nid){
+            $entity = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
             if(!in_array($entity->field_ehis_id->getValue()[0]['value'], $new_ehis_ids)){
-                $programmenodes[] = [
+                $programme_nodes[] = [
                     'programme_field' => [
                         'nid' => $entity->id(),
                         'status' => '0'
