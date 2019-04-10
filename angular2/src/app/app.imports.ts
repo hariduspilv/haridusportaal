@@ -1,3 +1,4 @@
+import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AgmKmlLayer } from '@agm/core';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -90,5 +91,6 @@ export const AppImports = [
   EmbedVideo.forRoot(),
   TextareaAutosizeModule,
   RecaptchaModule.forRoot(),
-  RecaptchaFormsModule
+  RecaptchaFormsModule,
+  DeviceDetectorModule.forRoot()
 ]
