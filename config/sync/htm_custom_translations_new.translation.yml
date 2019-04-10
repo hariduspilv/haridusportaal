@@ -2700,3 +2700,8 @@ VALJA_ARVATUD:
   translation_type: textarea
   et: 'Välja arvatud'
   en: 'Välja arvatud-eng'
+generic:
+  youtube_video:
+    translation_type: textarea
+    et: 'Youtube video'
+    en: 'Youtube video'
