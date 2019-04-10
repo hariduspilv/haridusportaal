@@ -83,7 +83,6 @@ class GoogleChartQuery extends FieldPluginBase {
         }
 
         if(isset($filter_values['secondary_graph_indicator'])){
-            $filter_values['indicator'] = $filter_values['indicator'];
             foreach($filter_values['secondary_graph_indicator'] as $value){
                 $filter_values['indicator'][] = $value;
             }
@@ -222,31 +221,28 @@ class GoogleChartQuery extends FieldPluginBase {
     public function applyFilters($row){
 
         foreach($this->filter_values as $key => $filters){
-            $match = false;
+            $match = true;
 
             if(isset($row[$key])){
                 if(is_array($filters) && count($filters) > 0){
-                    foreach($filters as $filter){
-                        if ($filter != '' && strpos($row[$key], $filter) !== FALSE) {
-                            $match = true;
-                        }
+                    if(!in_array($row[$key], $filters)){
+                        $match = false;
+                        break;
                     }
                 }else if(count($filters) == 0){
                     $match = true;
                 }else{
-                    if(strpos($row[$key], $filters) !== FALSE){
-                        $match = true;
+                    if(strpos($row[$key], $filters) == FALSE){
+                        $match = false;
+                        break;
                     }
                 }
-
-                if($match == false){
-                    return false;
-                }
             }else{
-                return false;
+                $match = false;
+                break;
             }
         }
 
-        return true;
+        return $match;
     }
 }
