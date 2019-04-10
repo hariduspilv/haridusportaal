@@ -13,6 +13,7 @@ import { LegendCurrencyPipe } from './legendCurrency.pipe';
 import { EuroCurrencyPipe } from './euroCurrency';
 import { CapitalizePipe } from './capitalize.pipe';
 import { IframePipe } from './iframe.pipe';
+import { LocaleNumberPipe } from './localeNumber.pipe';
 
 @NgModule({
   declarations:[
@@ -27,7 +28,8 @@ import { IframePipe } from './iframe.pipe';
     LegendCurrencyPipe,
     EuroCurrencyPipe,
     CapitalizePipe,
-    IframePipe
+    IframePipe,
+    LocaleNumberPipe
   ],
   imports:[CommonModule],
   exports:[
@@ -42,7 +44,8 @@ import { IframePipe } from './iframe.pipe';
     LegendCurrencyPipe,
     EuroCurrencyPipe,
     CapitalizePipe,
-    IframePipe
+    IframePipe,
+    LocaleNumberPipe
   ]
 })
 

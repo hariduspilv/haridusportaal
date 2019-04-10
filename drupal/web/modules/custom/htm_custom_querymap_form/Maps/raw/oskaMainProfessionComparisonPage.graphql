@@ -1,0 +1,19 @@
+query oskaMainProfessionComparisonPageQuery($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "main_profession_comparison_page", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeOskaFieldComparisonPage {
+        title
+        fieldIntroduction
+        oskaGraphData
+        fieldDynamicGraph {
+          graphSet
+          graphTitle
+          filterValues
+          graphType
+          secondaryGraphType
+          graphText
+        }
+      }
+    }
+  }
+}

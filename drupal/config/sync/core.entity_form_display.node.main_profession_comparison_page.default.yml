@@ -1,19 +1,19 @@
-uuid: 826d65ec-8e1a-4925-8f59-f3acd08a09aa
+uuid: d6b48280-767f-419b-99f6-f15a201bf407
 langcode: et
 status: true
 dependencies:
   config:
-    - field.field.node.oska_field_comparison_page.field_dynamic_graph
-    - field.field.node.oska_field_comparison_page.field_introduction
-    - node.type.oska_field_comparison_page
+    - field.field.node.main_profession_comparison_page.field_dynamic_graph
+    - field.field.node.main_profession_comparison_page.field_introduction
+    - node.type.main_profession_comparison_page
   module:
     - htm_custom_oska
     - maxlength
     - path
     - scheduler
-id: node.oska_field_comparison_page.default
+id: node.main_profession_comparison_page.default
 targetEntityType: node
-bundle: oska_field_comparison_page
+bundle: main_profession_comparison_page
 mode: default
 content:
   created:
