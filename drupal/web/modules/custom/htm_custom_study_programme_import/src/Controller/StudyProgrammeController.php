@@ -354,15 +354,17 @@ class StudyProgrammeController extends ControllerBase {
 
         foreach($nids as $nid){
             $entity = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
-            if(!in_array($entity->field_ehis_id->getValue()[0]['value'], $new_ehis_ids)){
+            kint($entity->field_ehis_id->getValue());
+/*            if(!in_array($entity->field_ehis_id->getValue()[0]['value'], $new_ehis_ids)){
                 $programme_nodes[] = [
                     'programme_field' => [
                         'nid' => $entity->id(),
                         'status' => '0'
                     ]
                 ];
-            }
+            }*/
         }
+        die();
         return $programme_nodes;
     }
 
