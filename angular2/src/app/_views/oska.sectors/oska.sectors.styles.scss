@@ -56,7 +56,7 @@
   .hidden-button{position:absolute; top:0; left:0; width:1px; height:1px; overflow: hidden; opacity:0;}
   &__header{border-bottom:$white 3px solid; margin:-2rem -2rem 0 -2rem; padding:0 2rem; display:flex; min-height:4.625rem;
     &__col{flex-grow:1; display:flex; align-items: center; padding:0 !important;
-      &:first-child{flex-wrap: wrap; }
+      &:first-child{flex-wrap: wrap; width:100%;}
       &:last-child{flex-grow:0; flex-shrink: 0;
         @include break-on(xs, max) {align-items: flex-start; padding-top:18px !important;}
       }

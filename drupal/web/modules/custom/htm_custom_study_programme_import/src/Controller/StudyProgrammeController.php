@@ -31,7 +31,8 @@ class StudyProgrammeController extends ControllerBase {
                 }
             }
         }
-        $this->unpublishNonExistantProgrammes($programmes);
+        $unpublishnodes = $this->unpublishNonExistantProgrammes($programmes);
+        $programmenodes = array_merge($programmenodes, $unpublishnodes);
         return $programmenodes;
     }
 
@@ -323,14 +324,16 @@ class StudyProgrammeController extends ControllerBase {
             }
         }
 
-        $schoolitem = entity_load('node', $programme['programme_field']['field_educational_institution']);
-        if(count($schoolitem->toArray()['field_school_location']) > 0){
-            $schoolitem->toArray()['field_school_location'][0]['target_id'];
-            $paragraph = entity_load('paragraph', $schoolitem->toArray()['field_school_location'][0]['target_id']);
-            $programme['programme_field']['field_school_address'] = $paragraph->get('field_address')->value;
-        }
-        if(count($schoolitem->toArray()['field_school_webpage_address']) > 0){
-            $programme['programme_field']['field_school_website'] = $schoolitem->toArray()['field_school_webpage_address'];
+        if(isset($programme['programme_field']['field_educational_institution'])){
+            $schoolitem = entity_load('node', $programme['programme_field']['field_educational_institution']);
+            if(count($schoolitem->toArray()['field_school_location']) > 0){
+                $schoolitem->toArray()['field_school_location'][0]['target_id'];
+                $paragraph = entity_load('paragraph', $schoolitem->toArray()['field_school_location'][0]['target_id']);
+                $programme['programme_field']['field_school_address'] = $paragraph->get('field_address')->value;
+            }
+            if(count($schoolitem->toArray()['field_school_webpage_address']) > 0){
+                $programme['programme_field']['field_school_website'] = $schoolitem->toArray()['field_school_webpage_address'];
+            }
         }
 
         foreach($programme['programme_field'] as $fieldlabel => $fieldvalue){
@@ -340,17 +343,27 @@ class StudyProgrammeController extends ControllerBase {
     }
 
     public function unpublishNonExistantProgrammes($imported_programmes){
-        $entities = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type' => 'study_programme']);
         $new_ehis_ids = [];
+        $programme_nodes = [];
         foreach($imported_programmes as $programme){
             $new_ehis_ids[] = $programme->oppekavaKood;
         }
-        foreach($entities as $entity){
-            if(!in_array($entity->field_ehis_id->getValue()[0]['value'], $new_ehis_ids)){
-                $entity->set('status', '0');
-                $entity->save();
+        $nids = \Drupal::entityQuery('node')
+            ->condition('type', 'study_programme')
+            ->execute();
+
+        foreach($nids as $nid){
+            $entity = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+            if(count($entity->field_ehis_id->getValue()) == 0 || !in_array($entity->field_ehis_id->getValue()[0]['value'], $new_ehis_ids)){
+                $programme_nodes[] = [
+                    'programme_field' => [
+                        'nid' => $entity->id(),
+                        'status' => '0'
+                    ]
+                ];
             }
         }
+        return $programme_nodes;
     }
 
     private function parse_key($key){

@@ -17,8 +17,8 @@
 
           <ng-container *ngIf="accordionItem._id === 'professional-certificates'">
             <div *ngIf="error">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</div>
-            <div *ngIf="professionalCertificates.length < 1">{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</div>
-            <table class="dashboard-table" *ngIf="!error">
+            <p *ngIf="professionalCertificates.length < 1" class="text-center text--substrong--head mb-0 error">{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</p>
+            <table class="dashboard-table" *ngIf="!error && professionalCertificates.length > 0">
               <tbody>
                   <tr *ngFor="let certificate of professionalCertificates">
                     <td>{{ certificate.nimi }}</td>
@@ -39,7 +39,7 @@
                 <tr>
                   <th>{{'frontpage.eksamiNimetus' | translate}}</th>
                   <th>{{'frontpage.aasta' | translate}}</th>
-                  <th></th>
+                  <th aria-hidden="true"></th>
                 </tr>
               </thead>
               <tbody>
