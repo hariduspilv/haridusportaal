@@ -1,0 +1,30 @@
+uuid: 3e2ae4a5-91d3-43a4-a89e-f833564fdfcd
+langcode: et
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - scheduler
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: true
+    publish_past_date: error
+    publish_required: false
+    publish_revision: true
+    publish_touch: false
+    unpublish_enable: true
+    unpublish_required: false
+    unpublish_revision: true
+name: 'Main Profession Comparison Page'
+type: main_profession_comparison_page
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

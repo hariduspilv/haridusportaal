@@ -1,0 +1,37 @@
+uuid: 0b47df49-347e-44aa-8871-658f1629bc32
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.main_profession_comparison_page.field_dynamic_graph
+    - field.field.node.main_profession_comparison_page.field_introduction
+    - node.type.main_profession_comparison_page
+  module:
+    - htm_custom_oska
+    - user
+id: node.main_profession_comparison_page.default
+targetEntityType: node
+bundle: main_profession_comparison_page
+mode: default
+content:
+  field_dynamic_graph:
+    weight: 103
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_graph_formatter_type
+    region: content
+  field_introduction:
+    weight: 102
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true
