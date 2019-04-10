@@ -22,7 +22,7 @@ h4.title-lg-padding { margin-bottom: 1rem; }
   &-body { padding: 0 $medium !important;}
   &-spacing {margin: 0 0 $half-gutter 0;}
   &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;background: #bee3e8!important; border-radius: 0;
-    &.mat-expanded {height: auto !important;padding-top: .5rem; padding-bottom: .5rem;margin-top: 0;font-weight: 500;white-space: normal;
+    &.mat-expanded {height: auto !important;padding-top: .5rem; padding-bottom: .5rem;margin-top: 0;font-weight: 500;white-space: normal;background:#8ad6e0 !important;
       .text--substrong--head {
         font-weight: 500;
       }
@@ -190,11 +190,11 @@ table p { margin: 0; font-weight: 400; }
     }
     dt {
       color: #757575;
+      margin-right: 0.5rem;
     }
     dd {
       margin-left: 0;
       color: #333333;
-      margin-left: 0.5rem;
     }
   }
   hr {
