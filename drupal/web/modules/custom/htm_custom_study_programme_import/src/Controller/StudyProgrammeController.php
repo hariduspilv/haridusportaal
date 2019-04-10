@@ -349,7 +349,6 @@ class StudyProgrammeController extends ControllerBase {
             $new_ehis_ids[] = $programme->oppekavaKood;
         }
         $nids = \Drupal::entityQuery('node')
-            ->condition('field_ehis_id', $new_ehis_ids, 'NOT IN')
             ->condition('type', 'study_programme')
             ->execute();
 
