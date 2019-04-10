@@ -6,7 +6,15 @@
       <div class="intro">{{ 'newsletter.intro' | translate }}</div>
     </div>
     <form class="block__content--form" (ngSubmit)="submit()">
-
+      <div class="form__checklist--parent">
+        <div class="block__content--form__checklist__elem">
+          <label class="checkbox__container pointer">
+            <span class="label">{{ 'Vali kõik' }}</span>
+            <input type="checkbox" [(ngModel)]="allChecked" name="allChecked" (change)="updateItems()">
+            <span class="checkmark" [class.checked]="allChecked"></span>
+          </label>
+        </div>
+      </div>
       <div class="block__content--form__checklist">
         <ng-container *ngFor="let item of data">
           <div class="block__content--form__checklist__elem" *ngIf="item && item.parentsCount && item.parentsCount.count > 0">
@@ -23,7 +31,7 @@
       <div class="block__content--form__input">
         <div class="flex wrap flex-justify-center" [class.order]="order">
           <ng-container *ngIf="!order">
-            <div class="grow full short">
+            <div class="full--lineup">
               <button type="button" (click)="order = true" attr.aria-label="{{'newsletter.order_to_email' | translate}}" mat-raised-button color="primary">{{ 'newsletter.order_to_email' | translate }} </button>
             </div>
             <div class="btn">
