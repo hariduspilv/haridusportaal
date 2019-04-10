@@ -17,7 +17,10 @@
   &__title {font-weight: 500}
   a {text-decoration: none;
     .origin__link {text-decoration: underline;}
-    &:hover .origin__link {text-decoration: none;}
+    &:hover {
+      img {transition: ease 0.2s;transform: rotate(30deg);}
+      .origin__link {text-decoration: none;}
+    }
   }
   @include break-on(sm, max) {flex-direction: column;}
   &--column {
