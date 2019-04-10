@@ -324,14 +324,16 @@ class StudyProgrammeController extends ControllerBase {
             }
         }
 
-        $schoolitem = entity_load('node', $programme['programme_field']['field_educational_institution']);
-        if(count($schoolitem->toArray()['field_school_location']) > 0){
-            $schoolitem->toArray()['field_school_location'][0]['target_id'];
-            $paragraph = entity_load('paragraph', $schoolitem->toArray()['field_school_location'][0]['target_id']);
-            $programme['programme_field']['field_school_address'] = $paragraph->get('field_address')->value;
-        }
-        if(count($schoolitem->toArray()['field_school_webpage_address']) > 0){
-            $programme['programme_field']['field_school_website'] = $schoolitem->toArray()['field_school_webpage_address'];
+        if(isset($programme['programme_field']['field_educational_institution'])){
+            $schoolitem = entity_load('node', $programme['programme_field']['field_educational_institution']);
+            if(count($schoolitem->toArray()['field_school_location']) > 0){
+                $schoolitem->toArray()['field_school_location'][0]['target_id'];
+                $paragraph = entity_load('paragraph', $schoolitem->toArray()['field_school_location'][0]['target_id']);
+                $programme['programme_field']['field_school_address'] = $paragraph->get('field_address')->value;
+            }
+            if(count($schoolitem->toArray()['field_school_webpage_address']) > 0){
+                $programme['programme_field']['field_school_website'] = $schoolitem->toArray()['field_school_webpage_address'];
+            }
         }
 
         foreach($programme['programme_field'] as $fieldlabel => $fieldvalue){
