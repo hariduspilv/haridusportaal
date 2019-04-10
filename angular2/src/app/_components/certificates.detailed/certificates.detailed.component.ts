@@ -26,7 +26,6 @@ export class CertificatesDetailedComponent implements OnInit{
   public opened: any = {};
   public examsView: boolean = false;
   public breadcrumbs;
-  
   public userData;
 
   public loading: boolean;
@@ -108,7 +107,6 @@ export class CertificatesDetailedComponent implements OnInit{
       this.loading = false;
       this.router.navigateByUrl( this.dashboardLink );
     });
-    
   }
   
   constructCrumbs() {
@@ -145,6 +143,12 @@ export class CertificatesDetailedComponent implements OnInit{
       this.loadCertificate();
     }
     this.breadcrumbs = this.constructCrumbs();
+  }
+  ngAfterViewChecked() {
+    if(!this.viewChecked && document.getElementById('heading')) {
+      document.getElementById('heading').focus();
+      this.viewChecked = true;
+    }
   }
 
 }
