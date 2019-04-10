@@ -19,7 +19,7 @@
   @include break-on(sm, max) {display: flex;flex-direction: column;margin: 0;padding: 4rem 6rem;
     &__article.atStart, &__article.atEnd {padding: 0 calc((100vw - 590px) / 2);margin: 0 calc((100vw - 590px) / -2);}
     &__article.atEnd {padding-top: calc(28% + 2rem);padding-bottom: 2rem;margin-top: -28%;}
-    &__article.atStart {padding-bottom: calc(28% + 2rem);padding-top: 2rem;margin-bottom: -28%;}
+    &__article.atStart {padding-bottom: calc(28% + 2rem);margin-bottom: -28%;}
   }
   @include break-on(xs, max) {padding: 4rem 2rem;}
   @media only screen and (max-width: 590px) {

@@ -18,6 +18,7 @@
     </inline-links>
   </div>
   <div class="frontpage__section frontpage__section--short" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && generalData[0].fieldSupernews[0] && superNewsShown['first'] && superNewsSubtext[0]">
+    <circles aria-hidden="true" large="#f8b243" small="#f8b243" position="topRight" smallAlignment="right"></circles>
     <articles-single
       heading="news.current" 
       [title]="generalData[0].fieldSupernews[0].entity.fieldSupernewsNode.entity.title"
@@ -26,6 +27,8 @@
       [subtext]="superNewsSubtext[0]"
       theme="light">
     </articles-single>
+    <circles aria-hidden="true" large="#f8b243" position="bottomLeft"></circles>
+    <triangles aria-hidden="true" small="#f8b243" large="#bee3e8" position="right"></triangles>
   </div>
   <div class="frontpage__section frontpage__section--short">
     <inline-articles
@@ -36,6 +39,7 @@
     </inline-articles>
   </div>
   <div class="frontpage__section frontpage__section--short" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && generalData[0].fieldSupernews[1] && superNewsShown['second'] && superNewsSubtext[1]">
+    <circles aria-hidden="true" large="#15adc2" small="#d5401a" position="topMiddle" smallAlignment="right"></circles>
     <articles-single
       heading="news.current" 
       [title]="generalData[0].fieldSupernews[1].entity.fieldSupernewsNode.entity.title"
@@ -45,6 +49,8 @@
       contentLeft="true"
       theme="dark">
     </articles-single>
+    <circles aria-hidden="true" large="#15adc2" position="bottom"></circles>
+    <triangles aria-hidden="true" small="#bee3e8" large="#15adc2" position="leftSwapped"></triangles>
   </div>
   <div class="frontpage__section frontpage__section--short">
     <inline-articles
@@ -54,7 +60,8 @@
       [contentLabels]="eventsLabels">
     </inline-articles>
   </div>
-  <div class="frontpage__section" *ngIf="((events && events.length) || (news && news.length)) && generalData">
+  <div class="frontpage__section frontpage__section--newsletter" *ngIf="((events && events.length) || (news && news.length)) && generalData">
+    <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="right"></triangles>
     <div class="section__block--newsletter">
       <div class="section__content">
         <newsletter-order></newsletter-order>
