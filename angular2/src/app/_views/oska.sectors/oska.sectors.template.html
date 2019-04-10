@@ -2,7 +2,7 @@
 <div class="sectors main-container">
   <div class="sectors__list-head">
     <div class="sectors__head">
-      <div class="sectors__title text-left">{{ 'oskaProfessions.fields' | translate | uppercase }}</div>
+      <h1 class="sectors__title text-left">{{ 'oskaProfessions.fields' | translate | uppercase }}</h1>
     </div>
   </div><!--/row-->
   <div class="sectors__list-body" *ngIf="loading && !data">
@@ -12,7 +12,7 @@
     <div class="row sectors--row" *ngIf="data.length">
       <ng-container *ngFor="let elem of data; let i = index;">
         <div class="col-3 md-4 xs-6 sectors--col">
-          <button attr.aria-label="{{ elem.title }}" class="sector__wrapper" (click)="modalOpen(i)" [class.active]="i == modal.index" [id]="'block_'+i">
+          <a role="button" attr.aria-label="{{ elem.title }}" class="sector__wrapper" (click)="modalOpen(i)" [class.active]="i == modal.index" [id]="'block_'+i">
             <span class="sector__wrapper--pic">
               <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.derivative && elem.fieldOskaFieldPicture.derivative.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url" />
               <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" *ngIf="!elem.fieldOskaFieldPicture" src="../../assets/img/1208x680.png">
@@ -21,7 +21,7 @@
             <span class="sector__wrapper--title">
               <span class="sector__title">{{ elem.title }}</span>
             </span>
-          </button>
+          </a>
         </div>
         <div class="col-12" *ngIf="modal && modal.position == i">
           <div class="modal" id="modal" tabindex="0" role="alert" attr.aria-label="{{ 'oskaProfessions.modal_opened' | translate }}">
@@ -35,7 +35,7 @@
                 <button role="button" attr.aria-label="{{ 'oskaProfessions.close_modal' | translate }}" (click)="modalClose()"><span class="htm-icon">close-1</span></button>
               </div><!--/modal__header__col-->
             </div>
-            <div class="modal__content">
+            <div class="modal__content" (blur)="dontBlur()">
               <div class="row">
                 <div class="col-8 xs-12">
                   <ng-container *ngIf="modal.fieldIntroduction">
@@ -47,7 +47,7 @@
 
                   <div class="separator xs-hide"></div>
 
-                  <hr class="xs-show"/>
+                  <hr class="xs-show" aria-hidden="true" />
 
                   <div class="modal__padding">
                     <ng-container *ngIf="!modal.fieldOskaFieldPicture && !modal.videoUrl">
@@ -64,13 +64,13 @@
 
                     <ng-container *ngIf="modal.videoUrl">
                       <div class="modal__video">
-                        <iframe [src]="modal.videoUrl | iframe" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe attr.aria-label="{{ 'generic.youtube_video' | translate }}" [src]="modal.videoUrl | iframe" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                       </div><!--/modal__video-->
                     </ng-container>
                   </div><!--/modal__padding-->
                 </div><!--/col-->
               </div>
-              <hr />
+              <hr  aria-hidden="true" />
 
               <p *ngIf="modal.list && modal.list.length > 0"><b>{{ 'oskaProfessions.main_profession' | translate }}</b></p>
               <ul>
