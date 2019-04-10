@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   templateUrl: "oska.sectors.template.html",
@@ -32,18 +33,27 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
 
   private modal:any = false;
   private colsPerRow = 4;
+  private lastWidth = 0;
 
   constructor(
     private http: HttpService,
     public router: Router,
     public route: ActivatedRoute,
     public rootScope: RootScopeService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private device: DeviceDetectorService
   ) {}
 
   calculateColsPerRow() {
     let tmpValue;
     let winWidth = window.innerWidth;
+
+    if( winWidth == this.lastWidth ){
+      return false;
+    }
+
+    this.lastWidth = winWidth;
+
     if( winWidth > 1280 ){ tmpValue = 4; }
     else if( winWidth > 720 ){ tmpValue = 3; }
     else{ tmpValue = 2; }
@@ -65,18 +75,34 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
     });
   }
 
+  dontBlur() {
+    alert('oh no');
+  }
+
   modalClose() {
     this.modal = false;
   }
   modalOpen(index){
 
+    const header = document.querySelector('.header-toolbar');
+
     if( this.modal && this.modal.index == index ){
       this.modal = false;
-      let elem = document.querySelector('#block_'+index);
+      let elem = document.getElementById('block_'+index);
 
       setTimeout( () => {
-        window.scrollTo({behavior: 'smooth', top:elem['offsetTop']});
+        let top = elem.getBoundingClientRect().top + window.scrollY - header['offsetHeight'] - 24;
+
+        if( !this.device.isDesktop() ){
+          window.scrollTo({top:top});
+        }else{
+          window.scrollTo({behavior: 'smooth', top:top});
+        }
       }, 0);
+
+      if( !this.device.isDesktop() && !this.modal){
+        elem.blur();
+      }
       return false;
     }
 
@@ -103,8 +129,13 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
     let elem = document.querySelector('#block_'+index);
 
     setTimeout( () => {
-      window.scrollTo({behavior: 'smooth', top:elem['offsetTop']});
-      document.getElementById("modal").focus();
+      let top = elem.getBoundingClientRect().top + window.scrollY - header['offsetHeight'] - 24;
+      if( !this.device.isDesktop() ){
+        window.scrollTo({top:top});
+      }else{
+        window.scrollTo({behavior: 'smooth', top:top});
+        document.getElementById("modal").focus();
+      }
     }, 0);
 
   }
