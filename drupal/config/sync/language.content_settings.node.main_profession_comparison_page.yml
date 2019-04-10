@@ -1,0 +1,16 @@
+uuid: a0649a49-92e7-4dd6-a451-d08916f9c3c8
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.main_profession_comparison_page
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.main_profession_comparison_page
+target_entity_type_id: node
+target_bundle: main_profession_comparison_page
+default_langcode: site_default
+language_alterable: true
