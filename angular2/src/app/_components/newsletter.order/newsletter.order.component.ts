@@ -31,6 +31,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
 
   subscriptionSuccessContent: string = "";
   subscribedStatus: boolean = false;
+  allChecked: boolean = false;
   subscribedFailure: string = "";
 
   constructor(
@@ -42,6 +43,10 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy{
     private http: HttpService,
     private rootScope: RootScopeService
   ){}
+
+  updateItems() {
+    this.data.forEach(elem => this.formItems[elem.entityId] = this.allChecked);
+  }
 
   updateRSSLink() {
     this.rssIDs = '/';

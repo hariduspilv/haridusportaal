@@ -23,7 +23,7 @@
   }
   @include break-on(xs, max) {padding: 4rem 2rem;}
   @media only screen and (max-width: 590px) {
-    &__article.atStart, .content-listItem.atEnd {margin: 0 -1.5rem;}
+    &__article.atStart, &__article.atEnd {margin: 0 -1.5rem;}
     &__article.atEnd {padding: 1.5rem;margin: 0 -1.5rem;margin-top: -28%;padding-top: calc(28% + 1.5rem);}
     &__article.atStart {padding: 1.5rem;margin-bottom: -28%;padding-bottom: calc(28% + 1.5rem);}
   }
@@ -33,5 +33,5 @@
   &__title {
     a h1 {color: $black;}
   }
-  &__author {line-height: 1.25rem;font-size: .875rem;margin-top: .5rem;}
+  &__subtext {line-height: 1.25rem;font-size: .875rem;margin-top: .5rem;}
 }
