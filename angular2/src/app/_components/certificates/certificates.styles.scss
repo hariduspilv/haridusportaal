@@ -15,14 +15,18 @@ h4.title-lg-padding { margin-bottom: 1rem; }
     @include break-on(sm, min) {span {overflow: hidden;text-overflow: ellipsis;}}
   }
   &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid #15adc2;
-    mat-panel-title {white-space: normal; color: $black; font-weight: $medium;
+    mat-panel-title {white-space: normal; color: $black; font-weight: 500;
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
   }
   &-body { padding: 0 $medium !important;}
   &-spacing {margin: 0 0 $half-gutter 0;}
-  &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;background: #bee3e8!important;
-    &.mat-expanded {height: auto !important;padding-top: .5rem; padding-bottom: .5rem;margin-top: 0;font-weight: 500;white-space: normal;background: transparent!important;}
+  &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;background: #bee3e8!important; border-radius: 0;
+    &.mat-expanded {height: auto !important;padding-top: .5rem; padding-bottom: .5rem;margin-top: 0;font-weight: 500;white-space: normal;
+      .text--substrong--head {
+        font-weight: 500;
+      }
+    }
   }
   &:hover {
     border-left: .1875rem solid #15adc2;
@@ -70,9 +74,9 @@ h4.title-lg-padding { margin-bottom: 1rem; }
   .accordion .error {
     @include break-on(sm, max) {margin: 0 1.5rem;}
   }
-  ::ng-deep .text--substrong { font-weight: 400;font-size: 1rem;padding-bottom: .5rem; span {font-weight: 500;}
-  &--head {@extend .text--substrong;padding-bottom: 0!important;}
-}
+  ::ng-deep .text--substrong { font-weight: 400;font-size: 1rem;padding-bottom: .5rem; color: #333;
+    &--head {@extend .text--substrong;padding-bottom: 0!important;}
+  }
 .dashboard--detail.main-container{@include break-on(sm, min) {margin:.5rem 1.5rem 0;}}
 .dashboard--detail {
   h1 { 
@@ -112,7 +116,7 @@ h4.title-lg-padding { margin-bottom: 1rem; }
     }
   }
   .scrollable {padding: 0;}
-  .text--substrong { font-weight: 400;font-size: 1rem;padding-bottom: .5rem; span {font-weight: 500;}}
+  .text--substrong { font-weight: 400;font-size: 1rem;padding-bottom: .5rem; }
   .sidebar {background: $light-gray;
     &__item {border-top: $gutter solid $orange;background: $white;padding: $small $medium $medium $medium;margin-bottom: 0;
       @include break-on(sm, min) {border-radius: $half-gutter; margin-bottom: $small;}
@@ -168,5 +172,33 @@ table p { margin: 0; font-weight: 400; }
   &:hover {text-decoration: none;}
   &--holder {
     @include break-on(sm, max) {margin: 0 -1.5rem;}
+  }
+}
+
+.exam-block {
+  margin-top: 1.5rem;
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    li {
+      line-height: 1.57;
+    }
+    dt, dd {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    dt {
+      color: #757575;
+    }
+    dd {
+      margin-left: 0;
+      color: #333333;
+      margin-left: 0.5rem;
+    }
+  }
+  hr {
+    border: solid 1px #c7c7c9;
+    margin: 1rem 0;
   }
 }
