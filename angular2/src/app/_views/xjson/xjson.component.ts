@@ -495,7 +495,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if(field.required === true){
       if(field.value === undefined || field.value === null) return {valid: false, message: this.translate.get('xjson.missing_required_value')['value']}
     }
-    if(field.value) {
+    if(typeof field.value !== 'undefined') {
       //check for minlength
       if(field.minlength !== undefined){
         if(field.value.length < field.minlength) return {valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }
