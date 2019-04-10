@@ -16,6 +16,7 @@ class StudyProgrammeController extends ControllerBase {
         $schools = $this->get_existing_schools();
         $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
         $programmes = $this->get_programme_data('programme', $schools, $taxonomies['studyprogrammetype']);
+        $unpublishnodes = $this->unpublishNonExistantProgrammes($programmes);
         $update_from_ehis_nodes = $this->get_ehis_updateable_nodes();
         $taxonomies['iscedf'] = $this->get_taxonomy_outputs('isced_f','field_code');
         $taxonomies['degreeordiploma'] = $this->get_taxonomy_terms('degreeordiploma');
