@@ -5,13 +5,25 @@
     &--last {margin-right: 0;
       @include break-on(sm, max) {margin-bottom: 0;}  
     }
+    &--secondLast {
+      @include break-on(sm, max) {
+       @include break-on(xxs, min) {margin-bottom: 0;}
+      }  
+    }
     .content__wrapper {margin-top: 1rem;}
   }
   &__link {line-height: 1.25rem;}
-  &__title {line-height: 1.25rem;font-weight: 500;color: $black;}
+  &__description, &__title {line-height: 1.25rem;color: $black;}
+  &__title {font-weight: 500}
   a {text-decoration: none;
     .origin__link {text-decoration: underline;}
     &:hover .origin__link {text-decoration: none;}
   }
   @include break-on(sm, max) {flex-direction: column;}
+  &--column {
+    @include break-on(sm, max) {flex-direction: row;
+      @include break-on(xxs, min) {padding: 0 2rem;}
+    }
+    .origin__child {margin-right: 0;}
+  }
 }
