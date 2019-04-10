@@ -363,6 +363,8 @@ class StudyProgrammeController extends ControllerBase {
                 ];
             }
         }
+        kint($programme_nodes);
+        die();
         return $programme_nodes;
     }
 
