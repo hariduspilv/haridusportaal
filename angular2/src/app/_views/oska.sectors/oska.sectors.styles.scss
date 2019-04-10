@@ -2,7 +2,7 @@
 .sectors {background: $white;border-top: $gutter solid $light-blue;
   @include break-on(sm, min) {border-radius: $half-gutter;margin: 1rem 1.5rem 1.5rem 1.5rem;}
   &__head {display: flex;border-bottom: .0625rem solid $gray;}
-  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%;}
+  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%; font-weight: normal;}
   &__list-head {margin-top: 0;}
   &__list-body {padding: 1.5rem 0 3rem;
     @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
@@ -54,12 +54,12 @@
 .modal{background:$light-gray; padding:2rem 2rem 0.4rem 2rem; margin-top:0.8rem;
   &__header{border-bottom:$white 3px solid; margin:-2rem -2rem 0 -2rem; padding:0 2rem; display:flex; min-height:4.625rem;
     &__col{flex-grow:1; display:flex; align-items: center; padding:0 !important;
-      &:first-child{flex-wrap: wrap;}
+      &:first-child{flex-wrap: wrap; }
       &:last-child{flex-grow:0; flex-shrink: 0;
         @include break-on(xs, max) {align-items: flex-start; padding-top:18px !important;}
       }
     }
-    h2{margin:0; font-size:1.5rem; line-height:100%; padding:1rem 0;
+    h2{margin:0; font-size:1.5rem; line-height:100%; padding:1rem 0; overflow: hidden; text-overflow: ellipsis;
       &+a{margin:0 0 1.4375rem 0; width:100%;}
     }
 
