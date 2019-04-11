@@ -114,7 +114,7 @@ class IntegrationTest extends IntegrationTestBase {
     $this->click('table[data-drupal-selector="edit-search-views-searches"] > thead > tr > th.select-all input.form-checkbox');
     $assert_session->checkboxChecked("searches[{$this->searchId}]");
 
-    $this->click('[data-drupal-selector="edit-submit"]');
+    $this->click('[data-drupal-selector="edit-actions-submit"]');
     $this->logPageChange(NULL, 'POST');
     $assert_session->statusCodeEquals(200);
     $assert_session->pageTextContains('The settings have been saved. Please remember to set the permissions for the newly enabled searches.');
@@ -379,8 +379,9 @@ class IntegrationTest extends IntegrationTestBase {
       ->save();
 
     $this->drupalGet($this->getAdminPath('edit'));
-    $path = '/' . drupal_get_path('module', 'search_api_autocomplete_test');
-    $path .= '/core/custom_autocomplete_script.php';
+    // This gets the request path to the "tests" directory.
+    $path = str_replace(DRUPAL_ROOT, '', dirname(dirname(__DIR__)));
+    $path .= '/search_api_autocomplete_test/core/custom_autocomplete_script.php';
     $edit = [
       'suggesters[enabled][custom_script]' => TRUE,
       'suggesters[settings][custom_script][path]' => $path,

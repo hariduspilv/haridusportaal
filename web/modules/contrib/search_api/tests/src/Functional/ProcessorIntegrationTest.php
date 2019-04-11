@@ -477,7 +477,7 @@ TAGS
     ];
     $this->checkValidationError($configuration, 'ignore_character', 'The entered text is no valid regular expression.');
 
-    $configuration = $form_values = [
+    $form_values = [
       'ignorable' => '[¿¡!?,.]',
       'strip' => [
         'character_sets' => [
@@ -504,6 +504,9 @@ TAGS
         ],
       ],
     ];
+    $configuration['ignorable'] = $form_values['ignorable'];
+    $configuration['ignorable_classes'] = array_filter($form_values['strip']['character_sets']);
+    sort($configuration['ignorable_classes']);
     $this->editSettingsForm($configuration, 'ignore_character', $form_values);
   }
 

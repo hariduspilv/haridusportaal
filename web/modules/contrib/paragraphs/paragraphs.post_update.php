@@ -110,6 +110,6 @@ function paragraphs_post_update_set_paragraphs_parent_fields(&$sandbox) {
   else {
     $sandbox['progress'] += Settings::get('paragraph_limit', 50);
   }
-  // Update #finished, 1 if the the whole update has finished.
+  // Update #finished, 1 if the whole update has finished.
   $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['current_paragraph_field_id'] / $sandbox['max']);
 }
