@@ -15,7 +15,7 @@
  * - url: The URL (\Drupal\Core\Url object) to which the suggestion will
  *   redirect the user.
  * - label: A complete label to display for the suggestion.
- * - prefix: A prefix to display in front of the label.
+ * - note: Text to display in front of the label.
  * - results_count: The (approximate) number of results the suggested keywords
  *   will yield.
  * - suggestion_prefix: A suggested prefix for the entered user input.
@@ -27,8 +27,8 @@
 #}
 
 <div class="search-api-autocomplete-suggestion">
-  {% if prefix %}
-    <span class="autocomplete-suggestion-note">{{ prefix }}</span>
+  {% if note %}
+    <span class="autocomplete-suggestion-note">{{ note }}</span>
   {% endif %}
   {% if label %}
     <span class="autocomplete-suggestion-label">{{ label }}</span>

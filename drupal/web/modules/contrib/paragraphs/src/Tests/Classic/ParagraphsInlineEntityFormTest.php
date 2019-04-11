@@ -82,7 +82,6 @@ class ParagraphsInlineEntityFormTest extends ParagraphsTestBase {
     $this->addParagraphsType('simple');
     $this->addParagraphsType('text');
 
-
     // Create a reference to an article.
     $this->fieldUIAddNewField('admin/structure/paragraphs_type/simple', 'article', 'Article', 'field_ui:entity_reference:node', [
       'settings[target_type]' => 'node',

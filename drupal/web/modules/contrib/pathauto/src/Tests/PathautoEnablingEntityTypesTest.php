@@ -21,7 +21,7 @@ class PathautoEnablingEntityTypesTest extends WebTestBase {
    *
    * @var array
    */
-  public static $modules = array('node', 'pathauto', 'comment');
+  public static $modules = ['node', 'pathauto', 'comment'];
 
   /**
    * Admin user.
@@ -36,16 +36,16 @@ class PathautoEnablingEntityTypesTest extends WebTestBase {
   function setUp() {
     parent::setUp();
 
-    $this->drupalCreateContentType(array('type' => 'article'));
+    $this->drupalCreateContentType(['type' => 'article']);
     $this->addDefaultCommentField('node', 'article');
 
-    $permissions = array(
+    $permissions = [
       'administer pathauto',
       'administer url aliases',
       'create url aliases',
       'administer nodes',
       'post comments',
-    );
+    ];
     $this->adminUser = $this->drupalCreateUser($permissions);
     $this->drupalLogin($this->adminUser);
   }

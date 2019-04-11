@@ -1,15 +1,14 @@
 <?php
+
 /**
-* This file is part of the League.csv library
-*
-* @license http://opensource.org/licenses/MIT
-* @link https://github.com/thephpleague/csv/
-* @version 9.1.4
-* @package League.csv
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * League.Csv (https://csv.thephpleague.com)
+ *
+ * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace League\Csv;
@@ -20,14 +19,28 @@ use Countable;
 use Iterator;
 use IteratorAggregate;
 use JsonSerializable;
+use League\Csv\Polyfill\EmptyEscapeParser;
 use SplFileObject;
 use TypeError;
+use function array_combine;
+use function array_filter;
+use function array_pad;
+use function array_slice;
+use function array_unique;
+use function gettype;
+use function is_array;
+use function iterator_count;
+use function iterator_to_array;
+use function mb_strlen;
+use function mb_substr;
+use function sprintf;
+use function strlen;
+use function substr;
+use const PHP_VERSION_ID;
+use const STREAM_FILTER_READ;
 
 /**
- * A class to select records from a CSV document
- *
- * @package League.csv
- * @since  3.0.0
+ * A class to parse and read records from a CSV document.
  *
  * @method array fetchOne(int $nth_record = 0) Returns a single record from the CSV
  * @method Generator fetchColumn(string|int $column_index) Returns the next value from a single CSV record field
@@ -36,21 +49,21 @@ use TypeError;
 class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSerializable
 {
     /**
-     * header offset
+     * header offset.
      *
      * @var int|null
      */
     protected $header_offset;
 
     /**
-     * header record
+     * header record.
      *
      * @var string[]
      */
     protected $header = [];
 
     /**
-     * records count
+     * records count.
      *
      * @var int
      */
@@ -66,11 +79,21 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
      */
     public static function createFromPath(string $path, string $open_mode = 'r', $context = null)
     {
-        return new static(Stream::createFromPath($path, $open_mode, $context));
+        return parent::createFromPath($path, $open_mode, $context);
     }
 
     /**
-     * Returns the header offset
+     * {@inheritdoc}
+     */
+    protected function resetProperties()
+    {
+        parent::resetProperties();
+        $this->nb_records = -1;
+        $this->header = [];
+    }
+
+    /**
+     * Returns the header offset.
      *
      * If no CSV header offset is set this method MUST return null
      *
@@ -82,7 +105,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
     }
 
     /**
-     * Returns the CSV record used as header
+     * Returns the CSV record used as header.
      *
      * The returned header is represented as an array of string values
      *
@@ -94,7 +117,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
             return $this->header;
         }
 
-        if (!empty($this->header)) {
+        if ([] !== $this->header) {
             return $this->header;
         }
 
@@ -104,9 +127,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
     }
 
     /**
-     * Determine the CSV record header
-     *
-     * @param int $offset
+     * Determine the CSV record header.
      *
      * @throws Exception If the header offset is set and no record is found or is the empty array
      *
@@ -115,7 +136,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
     protected function setHeader(int $offset): array
     {
         $header = $this->seekRow($offset);
-        if (empty($header)) {
+        if (false === $header || [] === $header) {
             throw new Exception(sprintf('The header record does not exist or is empty at offset: `%s`', $offset));
         }
 
@@ -127,44 +148,49 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
     }
 
     /**
-     * Returns the row at a given offset
+     * Returns the row at a given offset.
      *
-     * @param int $offset
-     *
-     * @return mixed
+     * @return array|false
      */
     protected function seekRow(int $offset)
     {
+        foreach ($this->getDocument() as $index => $record) {
+            if ($offset === $index) {
+                return $record;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the document as an Iterator.
+     */
+    protected function getDocument(): Iterator
+    {
+        if (70400 > PHP_VERSION_ID && '' === $this->escape) {
+            $this->document->setCsvControl($this->delimiter, $this->enclosure);
+
+            return EmptyEscapeParser::parse($this->document);
+        }
+
         $this->document->setFlags(SplFileObject::READ_CSV | SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY);
         $this->document->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
         $this->document->rewind();
 
-        //Workaround for SplFileObject::seek bug in PHP7.2+ see https://bugs.php.net/bug.php?id=75917
-        if (PHP_VERSION_ID >= 70200 && !$this->document instanceof Stream) {
-            while ($offset !== $this->document->key() && $this->document->valid()) {
-                $this->document->next();
-            }
-
-            return $this->document->current();
-        }
-
-        $this->document->seek($offset);
-
-        return $this->document->current();
+        return $this->document;
     }
 
     /**
-     * Strip the BOM sequence from a record
+     * Strip the BOM sequence from a record.
      *
      * @param string[] $record
-     * @param int      $bom_length
-     * @param string   $enclosure
      *
      * @return string[]
      */
     protected function removeBOM(array $record, int $bom_length, string $enclosure): array
     {
-        if (0 == $bom_length) {
+        if (0 === $bom_length) {
             return $record;
         }
 
@@ -188,7 +214,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
             return (new ResultSet($this->getRecords(), $this->getHeader()))->$method(...$arguments);
         }
 
-        throw new BadMethodCallException(sprintf('%s::%s() method does not exist', __CLASS__, $method));
+        throw new BadMethodCallException(sprintf('%s::%s() method does not exist', static::class, $method));
     }
 
     /**
@@ -232,20 +258,17 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
      * the returned object.
      *
      * @param string[] $header an optional header to use instead of the CSV document header
-     *
-     * @return Iterator
      */
     public function getRecords(array $header = []): Iterator
     {
         $header = $this->computeHeader($header);
-        $normalized = function ($record): bool {
+        $normalized = static function ($record): bool {
             return is_array($record) && $record != [null];
         };
         $bom = $this->getInputBOM();
-        $this->document->setFlags(SplFileObject::READ_CSV | SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY);
-        $this->document->setCsvControl($this->delimiter, $this->enclosure, $this->escape);
+        $document = $this->getDocument();
 
-        $records = $this->stripBOM(new CallbackFilterIterator($this->document, $normalized), $bom);
+        $records = $this->stripBOM(new CallbackFilterIterator($document, $normalized), $bom);
         if (null !== $this->header_offset) {
             $records = new CallbackFilterIterator($records, function (array $record, int $offset): bool {
                 return $offset !== $this->header_offset;
@@ -256,7 +279,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
     }
 
     /**
-     * Returns the header to be used for iteration
+     * Returns the header to be used for iteration.
      *
      * @param string[] $header
      *
@@ -266,7 +289,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
      */
     protected function computeHeader(array $header)
     {
-        if (empty($header)) {
+        if ([] === $header) {
             $header = $this->getHeader();
         }
 
@@ -278,21 +301,18 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
     }
 
     /**
-     * Combine the CSV header to each record if present
+     * Combine the CSV header to each record if present.
      *
-     * @param Iterator $iterator
      * @param string[] $header
-     *
-     * @return Iterator
      */
     protected function combineHeader(Iterator $iterator, array $header): Iterator
     {
-        if (empty($header)) {
+        if ([] === $header) {
             return $iterator;
         }
 
         $field_count = count($header);
-        $mapper = function (array $record) use ($header, $field_count): array {
+        $mapper = static function (array $record) use ($header, $field_count): array {
             if (count($record) != $field_count) {
                 $record = array_slice(array_pad($record, $field_count, null), 0, $field_count);
             }
@@ -304,12 +324,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
     }
 
     /**
-     * Strip the BOM sequence from the returned records if necessary
-     *
-     * @param Iterator $iterator
-     * @param string   $bom
-     *
-     * @return Iterator
+     * Strip the BOM sequence from the returned records if necessary.
      */
     protected function stripBOM(Iterator $iterator, string $bom): Iterator
     {
@@ -319,7 +334,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
 
         $bom_length = mb_strlen($bom);
         $mapper = function (array $record, int $index) use ($bom_length): array {
-            if (0 != $index) {
+            if (0 !== $index) {
                 return $record;
             }
 
@@ -330,7 +345,7 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
     }
 
     /**
-     * Selects the record to be used as the CSV header
+     * Selects the record to be used as the CSV header.
      *
      * Because the header is represented as an array, to be valid
      * a header MUST contain only unique string value.
@@ -359,14 +374,5 @@ class Reader extends AbstractCsv implements Countable, IteratorAggregate, JsonSe
         $this->resetProperties();
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function resetProperties()
-    {
-        $this->nb_records = -1;
-        $this->header = [];
     }
 }

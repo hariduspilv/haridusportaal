@@ -77,10 +77,10 @@
           // Override the "select" callback of the jQuery UI autocomplete.
           var oldSelect = uiAutocomplete.options.select;
           uiAutocomplete.options.select = function (event, ui) {
-            // If this is a URL suggestion (recognized by its leading space),
-            // instead of autocompleting we redirect the user to that URL.
-            if (ui.item.value.charAt(0) === ' ') {
-              location.href = ui.item.value.substr(1);
+            // If this is a URL suggestion, instead of autocompleting we
+            // redirect the user to that URL.
+            if (ui.item.url) {
+              location.href = ui.item.url;
               return false;
             }
 
