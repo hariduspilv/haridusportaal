@@ -60,10 +60,11 @@
       </articles-single>
       <circles aria-hidden="true" large="#f8b243" position="bottomMiddle"></circles>
     </div>
-    <div class="frontpage__section main-container">
+    <div class="frontpage__section frontpage__section--short main-container">
       <inline-links
         [content]="footerData"
-        [contentLabels]="footerLabels">
+        [contentLabels]="footerLabels"
+        extraSpaced="true">
       </inline-links>
       <div class="frontpage__footer">
         <div class="frontpage__description__footer">{{ 'oska.footer_intro' | translate }}</div>

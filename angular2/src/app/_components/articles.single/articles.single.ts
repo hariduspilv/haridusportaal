@@ -15,7 +15,8 @@ export class ArticlesSingleComponent {
   @Input() url: object;
   @Input() theme: string = '';
 
-  subtextObject: boolean = false;
+  public subtextObject: boolean = false;
+  public imageHovered: boolean = false;
 
   constructor() {}
 
