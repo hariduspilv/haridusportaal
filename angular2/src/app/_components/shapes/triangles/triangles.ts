@@ -20,6 +20,8 @@ export class Triangles {
   ngOnInit() {
     const { position, small, large } = this;
     let positionLabel = position === 'topLeft' ? 'top' : position;
+    positionLabel = position === 'leftSwapped' ? 'left' : positionLabel;
+    positionLabel = position === 'rightLower' ? 'right' : positionLabel;
     this.smallChild[`border-${positionLabel}-color`] = `${small}`;
     this.largeChild[`border-${positionLabel}-color`] = `${large}`;
   }
