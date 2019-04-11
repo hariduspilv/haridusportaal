@@ -1,0 +1,21 @@
+uuid: e792b3bf-edff-43b6-904b-2a9402dc2ace
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dynamic_graph
+    - node.type.oska_field_page
+  module:
+    - htm_custom_oska
+id: node.oska_field_page.field_dynamic_graph
+field_name: field_dynamic_graph
+entity_type: node
+bundle: oska_field_page
+label: 'Dünaamiline graafik'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: oska_dynamic_graph_field
