@@ -2,7 +2,6 @@ query frontPageQuery($lang: LanguageId!) {
   nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "avaleht", language: $lang}}) {
     entities(language: $lang) {
       ... on NodeAvaleht {
-        fieldHeadBlockTitle
         fieldTopics {
           entity {
             ... on ParagraphHomepageTopics {
