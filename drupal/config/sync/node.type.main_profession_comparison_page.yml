@@ -21,7 +21,7 @@ third_party_settings:
     unpublish_enable: true
     unpublish_required: false
     unpublish_revision: true
-name: 'Main Profession Comparison Page'
+name: 'Sisuleht OSKA ametialade võrdlus'
 type: main_profession_comparison_page
 description: ''
 help: ''
