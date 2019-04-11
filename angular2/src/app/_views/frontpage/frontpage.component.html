@@ -3,7 +3,8 @@
   <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="topLeft"></triangles>
 </div>
 <div class="frontpage" *ngIf="(events && news && generalData && generalData[0]) || (events && news)">
-  <div class="frontpage__section frontpage__section--origin main-container">
+  <div class="frontpage__section frontpage__section--origin main-container"
+    [class.frontpage__section--short]="generalData && generalData.length && !superNewsShown['first']">
     <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{ 'frontpage.lead_title_wcag' | translate}}">
       <span aria-hidden="true" class="sm-show xxs text-center" innerHtml="{{ 'frontpage.lead_title_xxs' | translate}}"></span>
       <span aria-hidden="true" class="sm-show sm text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
