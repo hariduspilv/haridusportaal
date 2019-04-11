@@ -97,7 +97,7 @@ class ParagraphsLibraryItemTest extends ParagraphsExperimentalTestBase {
 
     $library_items = \Drupal::entityTypeManager()->getStorage('paragraphs_library_item')->loadByProperties(['label' => 're usable paragraph label']);
     $this->drupalGet('admin/content/paragraphs/' . current($library_items)->id() . '/edit');
-    $this->assertText('Library item is used 1 time.');
+    $this->assertText('Modifications on this form will affect all existing usages of this entity.');
     $this->assertText('Delete');
 
     $this->drupalGet('admin/content/paragraphs');
@@ -148,7 +148,7 @@ class ParagraphsLibraryItemTest extends ParagraphsExperimentalTestBase {
     $this->assertNoLink('4', 'Link to usage statistics is not available for user without permission.');
 
     $this->clickLink('Edit');
-    $this->assertText('Library item is used 3 times.');
+    $this->assertText('Modifications on this form will affect all existing usages of this entity.');
     $edit = [
       'paragraphs[0][subform][field_text][0][value]' => 're_usable_text_new',
     ];
@@ -201,7 +201,7 @@ class ParagraphsLibraryItemTest extends ParagraphsExperimentalTestBase {
     $element = $this->cssSelect('th.views-field-paragraphs__target-id');
     $this->assertEqual($element[0]->__toString(), 'Paragraphs', 'Paragraphs column is available.');
 
-    $element = $this->cssSelect('.paragraphs-collapsed-description');
+    $element = $this->cssSelect('.paragraphs-description .paragraphs-content-wrapper .summary-content');
     $this->assertEqual(trim($element[0]->__toString()), 're_usable_text_new', 'Paragraphs summary available.');
 
     // Check that the deletion of library items does not cause errors.
@@ -405,6 +405,17 @@ class ParagraphsLibraryItemTest extends ParagraphsExperimentalTestBase {
     ];
     $this->drupalPostForm(NULL, $edit, t('Save'));
     $this->assertText('test text paragraph');
+
+    // Assert that the user with the access content permission can see the
+    // paragraph type label.
+    $user = $this->drupalCreateUser([
+      'access content',
+      'administer paragraphs library'
+    ]);
+    $this->drupalLogin($user);
+    $this->drupalGet('admin/content/paragraphs');
+    $paragraph_type = $this->xpath('//*[contains(@class, "view-paragraphs-library")]/div[contains(@class, "view-content")]/table/tbody/tr/td[2]');
+    $this->assertEqual(trim(strip_tags($paragraph_type[0]->asXML())), 'nested_test');
   }
 
   /**

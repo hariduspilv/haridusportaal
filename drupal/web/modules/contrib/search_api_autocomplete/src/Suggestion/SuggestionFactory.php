@@ -2,7 +2,6 @@
 
 namespace Drupal\search_api_autocomplete\Suggestion;
 
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Url;
 
 /**
@@ -43,24 +42,24 @@ class SuggestionFactory {
   public function createFromSuggestedKeys($suggested_keys, $results_count = NULL) {
     $suggestion = new Suggestion($suggested_keys);
 
-    $lowercase_input = Unicode::strtolower($this->userInput);
-    $lowercase_keys = Unicode::strtolower($suggested_keys);
-    $start_position = Unicode::strpos($lowercase_keys, $lowercase_input);
+    $lowercase_input = mb_strtolower($this->userInput);
+    $lowercase_keys = mb_strtolower($suggested_keys);
+    $start_position = mb_strpos($lowercase_keys, $lowercase_input);
     if ($start_position === FALSE) {
       $suggestion->setLabel($suggested_keys);
     }
     else {
       if ($start_position) {
-        $prefix = Unicode::substr($suggested_keys, 0, $start_position);
+        $prefix = mb_substr($suggested_keys, 0, $start_position);
         $suggestion->setSuggestionPrefix($prefix);
       }
-      $input_length = Unicode::strlen($this->userInput);
+      $input_length = mb_strlen($this->userInput);
       $end_position = $start_position + $input_length;
-      if ($end_position < Unicode::strlen($suggested_keys)) {
-        $suffix = Unicode::substr($suggested_keys, $end_position);
+      if ($end_position < mb_strlen($suggested_keys)) {
+        $suffix = mb_substr($suggested_keys, $end_position);
         $suggestion->setSuggestionSuffix($suffix);
       }
-      $suggestion->setUserInput(Unicode::substr($suggested_keys, $start_position, $input_length));
+      $suggestion->setUserInput(mb_substr($suggested_keys, $start_position, $input_length));
     }
 
     if ($results_count !== NULL) {
