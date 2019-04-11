@@ -17,27 +17,27 @@ class PathautoTokenTest extends KernelTestBase {
    *
    * @var array
    */
-  public static $modules = array('system', 'token', 'pathauto');
+  public static $modules = ['system', 'token', 'pathauto'];
 
   public function testPathautoTokens() {
 
-    $this->installConfig(array('pathauto'));
+    $this->installConfig(['pathauto']);
 
-    $array = array(
+    $array = [
       'test first arg',
       'The Array / value',
-    );
+    ];
 
-    $tokens = array(
+    $tokens = [
       'join-path' => 'test-first-arg/array-value',
-    );
+    ];
     $data['array'] = $array;
     $replacements = $this->assertTokens('array', $data, $tokens);
 
     // Ensure that the cleanTokenValues() method does not alter this token value.
     /* @var \Drupal\pathauto\AliasCleanerInterface $alias_cleaner */
     $alias_cleaner = \Drupal::service('pathauto.alias_cleaner');
-    $alias_cleaner->cleanTokenValues($replacements, $data, array());
+    $alias_cleaner->cleanTokenValues($replacements, $data, []);
     $this->assertEqual($replacements['[array:join-path]'], 'test-first-arg/array-value');
 
     // Test additional token cleaning and its configuration.
@@ -80,31 +80,31 @@ class PathautoTokenTest extends KernelTestBase {
   /**
    * Function copied from TokenTestHelper::assertTokens().
    */
-  public function assertTokens($type, array $data, array $tokens, array $options = array()) {
+  public function assertTokens($type, array $data, array $tokens, array $options = []) {
     $input = $this->mapTokenNames($type, array_keys($tokens));
     $bubbleable_metadata = new BubbleableMetadata();
     $replacements = \Drupal::token()->generate($type, $input, $data, $options, $bubbleable_metadata);
     foreach ($tokens as $name => $expected) {
       $token = $input[$name];
       if (!isset($expected)) {
-        $this->assertTrue(!isset($values[$token]), t("Token value for @token was not generated.", array('@type' => $type, '@token' => $token)));
+        $this->assertTrue(!isset($values[$token]), t("Token value for @token was not generated.", ['@type' => $type, '@token' => $token]));
       }
       elseif (!isset($replacements[$token])) {
-        $this->fail(t("Token value for @token was not generated.", array('@type' => $type, '@token' => $token)));
+        $this->fail(t("Token value for @token was not generated.", ['@type' => $type, '@token' => $token]));
       }
       elseif (!empty($options['regex'])) {
-        $this->assertTrue(preg_match('/^' . $expected . '$/', $replacements[$token]), t("Token value for @token was '@actual', matching regular expression pattern '@expected'.", array('@type' => $type, '@token' => $token, '@actual' => $replacements[$token], '@expected' => $expected)));
+        $this->assertTrue(preg_match('/^' . $expected . '$/', $replacements[$token]), t("Token value for @token was '@actual', matching regular expression pattern '@expected'.", ['@type' => $type, '@token' => $token, '@actual' => $replacements[$token], '@expected' => $expected]));
       }
       else {
-        $this->assertIdentical($replacements[$token], $expected, t("Token value for @token was '@actual', expected value '@expected'.", array('@type' => $type, '@token' => $token, '@actual' => $replacements[$token], '@expected' => $expected)));
+        $this->assertIdentical($replacements[$token], $expected, t("Token value for @token was '@actual', expected value '@expected'.", ['@type' => $type, '@token' => $token, '@actual' => $replacements[$token], '@expected' => $expected]));
       }
     }
 
     return $replacements;
   }
 
-  public function mapTokenNames($type, array $tokens = array()) {
-    $return = array();
+  public function mapTokenNames($type, array $tokens = []) {
+    $return = [];
     foreach ($tokens as $token) {
       $return[$token] = "[$type:$token]";
     }

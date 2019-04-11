@@ -82,7 +82,7 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
     $matches = [];
     $search = $search_api_autocomplete_search;
 
-    if (!$search->status()|| !$search->hasValidIndex()) {
+    if (!$search->status() || !$search->hasValidIndex()) {
       return new JsonResponse($matches);
     }
 
@@ -170,35 +170,47 @@ class AutocompleteController extends ControllerBase implements ContainerInjectio
         if (!$show_count) {
           $suggestion->setResultsCount(NULL);
         }
-        if ($build = $suggestion->toRenderable()) {
+        $build = $suggestion->toRenderable();
+        if ($build) {
+          // Render the label.
+          try {
+            $label = $this->renderer->render($build);
+          }
+          catch (\Exception $e) {
+            watchdog_exception('search_api_autocomplete', $e, '%type while rendering an autocomplete suggestion: @message in %function (line %line of %file).');
+            continue;
+          }
+
           // Decide what the action of the suggestion is – entering specific
           // search terms or redirecting to a URL.
           if ($suggestion->getUrl()) {
-            // Our JavaScript code recognizes URLs by their leading space.
-            $value = ' ' . $suggestion->getUrl()->toString();
-          }
-          else {
-            $value = trim($suggestion->getSuggestedKeys());
-          }
-
-          try {
+            // Generate an HTML-free version of the label to use as the value.
+            // Setting the label as the value here is necessary for proper
+            // accessibility via screen readers (which will otherwise read the
+            // URL).
+            $url = $suggestion->getUrl()->toString();
+            $trimmed_label = trim(strip_tags((string) $label)) ?: $url;
             $matches[] = [
-              'value' => $value,
-              'label' => $this->renderer->render($build),
+              'value' => $trimmed_label,
+              'url' => $url,
+              'label' => $label,
             ];
           }
-          catch (\Exception $e) {
-            watchdog_exception('search_api_autocomplete', $e, '%type while rendering an autocomplete suggestion: !message in %function (line %line of %file).');
+          else {
+            $matches[] = [
+              'value' => trim($suggestion->getSuggestedKeys()),
+              'label' => $label,
+            ];
           }
         }
       }
     }
     // @todo Use a multi-catch once we can depend on PHP 7.1+.
     catch (SearchApiAutocompleteException $e) {
-      watchdog_exception('search_api_autocomplete', $e, '%type while retrieving autocomplete suggestions: !message in %function (line %line of %file).');
+      watchdog_exception('search_api_autocomplete', $e, '%type while retrieving autocomplete suggestions: @message in %function (line %line of %file).');
     }
     catch (SearchApiException $e) {
-      watchdog_exception('search_api_autocomplete', $e, '%type while retrieving autocomplete suggestions: !message in %function (line %line of %file).');
+      watchdog_exception('search_api_autocomplete', $e, '%type while retrieving autocomplete suggestions: @message in %function (line %line of %file).');
     }
 
     return new JsonResponse($matches);

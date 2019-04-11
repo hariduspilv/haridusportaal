@@ -60,7 +60,7 @@ class ParagraphsWidgetButtonsTest extends ParagraphsTestBase {
     $this->drupalPostAjaxForm(NULL, $edit, 'field_paragraphs_1_collapse');
     // Verify that we have warning message for each paragraph.
     $this->assertNoUniqueText('You have unsaved changes on this Paragraph item.');
-    $this->assertRaw('<div class="paragraphs-collapsed-description">' . $closed_mode_text);
+    $this->assertRaw('<span class="summary-content">' . $closed_mode_text);
     $this->drupalPostForm(NULL, [], t('Save'));
     $this->assertText('paragraphed_test ' . $node->label() . ' has been updated.');
     $this->assertText($closed_mode_text);

@@ -2,6 +2,7 @@
 
 namespace Drupal\readonly_field_widget\Plugin\Field\FieldWidget;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -25,6 +26,13 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class ReadonlyFieldWidget extends WidgetBase implements ContainerFactoryPluginInterface {
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
    * The formatter plugin manager.
    *
    * @var \Drupal\Core\Field\FormatterPluginManager
@@ -34,9 +42,10 @@ class ReadonlyFieldWidget extends WidgetBase implements ContainerFactoryPluginIn
   /**
    * {@inheritdoc}
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, $field_formatter_manager) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, $field_formatter_manager, EntityTypeManagerInterface $entity_type_manager) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
     $this->fieldFormatterManager = $field_formatter_manager;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -61,7 +70,8 @@ class ReadonlyFieldWidget extends WidgetBase implements ContainerFactoryPluginIn
       $configuration['field_definition'],
       $configuration['settings'],
       $configuration['third_party_settings'],
-      $container->get('plugin.manager.field.formatter')
+      $container->get('plugin.manager.field.formatter'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -86,7 +96,7 @@ class ReadonlyFieldWidget extends WidgetBase implements ContainerFactoryPluginIn
     $entity_type = $items->getEntity()->getEntityType()->id();
 
     /*@var $view_builder \Drupal\Core\Entity\EntityViewBuilderInterface*/
-    $view_builder = \Drupal::entityManager()->getViewBuilder($entity_type);
+    $view_builder = $this->entityTypeManager->getViewBuilder($entity_type);
 
     $formatter_type = $this->getSetting('formatter_type');
     $formatter_settings = $this->getSetting('formatter_settings');
@@ -130,25 +140,25 @@ class ReadonlyFieldWidget extends WidgetBase implements ContainerFactoryPluginIn
 
     $field_name = $this->fieldDefinition->getName();
 
-    $form['label'] = [
-      '#title' => $this->t('Label'),
-      '#type' => 'select',
-      '#options' => $this->labelOptions(),
-      '#default_value' => $this->getSetting('label'),
-    ];
-
-    $form['formatter_type'] = [
-      '#title' => $this->t('Format'),
-      '#type' => 'select',
-      '#options' => $formatters,
-      '#default_value' => $this->getSetting('formatter_type'),
-    ];
-
-    $form['show_description'] = [
-      '#title' => $this->t('Show Description'),
-      '#description' => $this->t('Show the configured description under widget.'),
-      '#type' => 'checkbox',
-      '#default_value' => $this->getSetting('show_description'),
+    $element = [
+      'label' => [
+        '#title' => $this->t('Label'),
+        '#type' => 'select',
+        '#options' => $this->labelOptions(),
+        '#default_value' => $this->getSetting('label'),
+      ],
+      'formatter_type' => [
+        '#title' => $this->t('Format'),
+        '#type' => 'select',
+        '#options' => $formatters,
+        '#default_value' => $this->getSetting('formatter_type'),
+      ],
+      'show_description' => [
+        '#title' => $this->t('Show Description'),
+        '#description' => $this->t('Show the configured description under widget.'),
+        '#type' => 'checkbox',
+        '#default_value' => $this->getSetting('show_description'),
+      ],
     ];
 
     foreach (array_keys($formatters) as $formatter_plugin_id) {
@@ -156,8 +166,9 @@ class ReadonlyFieldWidget extends WidgetBase implements ContainerFactoryPluginIn
       $formatter_plugin = $this->getFormatterInstance($formatter_plugin_id);
 
       $settings_form = $formatter_plugin->settingsForm($form, $form_state);
+
       if (!empty($settings_form)) {
-        $form['formatter_settings'][$formatter_plugin_id] = [
+        $element['formatter_settings'][$formatter_plugin_id] = [
           '#type' => 'fieldset',
           '#title' => $formatters[$formatter_plugin_id] . ' ' . $this->t('Settings'),
           '#states' => [
@@ -169,7 +180,7 @@ class ReadonlyFieldWidget extends WidgetBase implements ContainerFactoryPluginIn
       }
     }
 
-    return $form;
+    return $element;
   }
 
   /**
