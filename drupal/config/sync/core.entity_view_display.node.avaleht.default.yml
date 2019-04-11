@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.avaleht.body
-    - field.field.node.avaleht.field_head_block_title
     - field.field.node.avaleht.field_supernews
     - field.field.node.avaleht.field_topics
     - node.type.avaleht
@@ -23,14 +22,6 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
-    region: content
-  field_head_block_title:
-    weight: 102
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
     region: content
   field_supernews:
     type: entity_reference_revisions_entity_view

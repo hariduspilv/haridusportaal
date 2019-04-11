@@ -50,7 +50,7 @@
                 </mat-option>
                 <ng-container *ngIf="suggestionList.length > 0">
                   <mat-option role="option" aria-selected="false" *ngFor="let result of suggestionList; let ind = index;" [value]="result.Suggestion">
-                    <span id="{{'option_' + ind" role="option">{{ result.Suggestion }}</span>
+                    <span id="{{'option_' + ind}}" role="option">{{ result.Suggestion }}</span>
                   </mat-option>
                   <div class="search__alert" role="alert">
                     <span class="search__alert--elem">{{suggestionList.length}} {{'search.suggestions_available' | translate}}</span>
