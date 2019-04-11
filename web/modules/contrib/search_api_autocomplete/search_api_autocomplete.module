@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\search_api\Plugin\views\query\SearchApiQuery;
+use Drupal\search_api_autocomplete\Search\SearchPluginDeriverBase;
 use Drupal\search_api_page\SearchApiPageInterface;
 use Drupal\views\ViewEntityInterface;
 
@@ -21,7 +22,7 @@ function search_api_autocomplete_theme() {
       'keys' => NULL,
       'url' => NULL,
       'label' => NULL,
-      'prefix' => NULL,
+      'note' => NULL,
       'results_count' => NULL,
       'suggestion_prefix' => '',
       'suggestion_suffix' => '',
@@ -197,6 +198,7 @@ function search_api_autocomplete_view_insert(ViewEntityInterface $view) {
     \Drupal::getContainer()
       ->get('plugin.manager.search_api_autocomplete.search')
       ->clearCachedDefinitions();
+    SearchPluginDeriverBase::resetStaticDerivativeCaches('views');
   }
 }
 
@@ -211,6 +213,7 @@ function search_api_autocomplete_view_delete(ViewEntityInterface $view) {
     \Drupal::getContainer()
       ->get('plugin.manager.search_api_autocomplete.search')
       ->clearCachedDefinitions();
+    SearchPluginDeriverBase::resetStaticDerivativeCaches('views');
   }
 }
 
@@ -224,6 +227,7 @@ function search_api_autocomplete_search_api_page_insert(SearchApiPageInterface $
   \Drupal::getContainer()
     ->get('plugin.manager.search_api_autocomplete.search')
     ->clearCachedDefinitions();
+  SearchPluginDeriverBase::resetStaticDerivativeCaches('page');
 }
 
 /**
@@ -236,4 +240,5 @@ function search_api_autocomplete_search_api_page_delete(SearchApiPageInterface $
   \Drupal::getContainer()
     ->get('plugin.manager.search_api_autocomplete.search')
     ->clearCachedDefinitions();
+  SearchPluginDeriverBase::resetStaticDerivativeCaches('page');
 }

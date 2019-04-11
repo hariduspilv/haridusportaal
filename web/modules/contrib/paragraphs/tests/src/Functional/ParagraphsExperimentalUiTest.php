@@ -46,6 +46,8 @@ class ParagraphsExperimentalUiTest extends BrowserTestBase {
     $this->assertSession()->responseContains('paragraph-type--test-paragraph');
     $this->getSession()->getPage()->findButton('paragraphs_text_add_more')->press();
     $this->assertSession()->responseContains('paragraph-type--text');
+    $this->getSession()->getPage()->findButton('paragraphs_0_remove')->press();
+    $this->assertSession()->responseContains('paragraph-type--text');
   }
 
   /**
@@ -74,6 +76,26 @@ class ParagraphsExperimentalUiTest extends BrowserTestBase {
     $node = $this->getNodeByTitle('Llama test');
     $this->drupalGet('node/' . $node->id() . '/edit');
     $this->assertSession()->pageTextContains('<iframe src="https://www.llamatest.neck');
+    $this->assertSession()->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">&lt;iframe src=');
+    // Assert that the summary keeps showing html even with longer html.
+    $this->getSession()->getPage()->pressButton('paragraphs_0_edit');
+    $edit = [
+      'paragraphs[0][subform][field_text_demo][0][value]' => '<iframe src="https://www.llamatest.neck" class="this-is-a-pretty-long-class-that-needs-to-be-really-long-for-testing-purposes-so-we-have-a-better-summary-test-and-it-has-exactly-144-characters"></iframe>',
+    ];
+    $this->drupalPostForm(NULL, $edit, 'Save');
+    $this->assertSession()->pageTextContains('paragraphed_test Llama test has been updated.');
+    $this->drupalGet('node/' . $node->id() . '/edit');
+    $this->assertSession()->pageTextContains('<iframe src="https://www.llamatest.neck" class="this-is-a-pretty-long-class-that-needs-to-be-really-long-for-testing-purposes-so-we-');
+    $this->assertSession()->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">&lt;iframe src=');
+    // Asset that the summary does not display markup even when we have long
+    // html.
+    $this->getSession()->getPage()->pressButton('paragraphs_0_edit');
+    $edit = [
+      'paragraphs[0][subform][field_text_demo][0][value]' => '<iframe src="https://www.llamatest.neck" class="this-is-a-pretty-long-class-that-needs-to-be-really-long-for-testing-purposes-so-we-have-a-better-summary-test-and-it-has-exactly-144-characters"></iframe><h1>This is a title</h1>',
+    ];
+    $this->drupalPostForm(NULL, $edit, 'Save');
+    $this->drupalGet('node/' . $node->id() . '/edit');
+    $this->assertSession()->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">This is a title');
   }
 
 }

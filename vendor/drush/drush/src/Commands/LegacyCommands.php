@@ -1,8 +1,6 @@
 <?php
 namespace Drush\Commands;
 
-use Drush\Drush;
-
 class LegacyCommands extends DrushCommands
 {
 
@@ -56,7 +54,9 @@ class LegacyCommands extends DrushCommands
     }
 
     /**
-     * The pm-updatestatus command was deprecated. Please see `composer show` and `composer outdated`. For security release notification, see `drush pm:security`.
+     * The pm-updatestatus command was deprecated. Please see `composer show`
+     * and `composer update --dry-run`. For security release notification,
+     * see `drush pm:security`.
      *
      * @command pm:updatestatus
      * @aliases ups,pm-updatestatus
@@ -68,7 +68,9 @@ class LegacyCommands extends DrushCommands
     }
 
     /**
-     * The pm-updatecode command was deprecated. Please see `composer outdated` and `composer update`. For security release notification, see `drush pm:security`.
+     * The pm-updatecode command was deprecated. Please see
+     * `composer update --dry-run` and `composer update`.
+     * For security release notification, see `drush pm:security`.
      *
      * @command pm:updatecode
      * @aliases upc,pm-update,pm-updatecode
@@ -136,6 +138,18 @@ class LegacyCommands extends DrushCommands
      * @obsolete
      */
     public function field()
+    {
+    }
+
+    /**
+     * core:execute has been deprecated. Please try `site:ssh` command.
+     *
+     * @command core:execute
+     * @aliases core-execute
+     * @hidden
+     * @obsolete
+     */
+    public function execute()
     {
     }
 }

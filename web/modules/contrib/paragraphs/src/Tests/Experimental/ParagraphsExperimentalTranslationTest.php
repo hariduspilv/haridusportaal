@@ -444,8 +444,8 @@ class ParagraphsExperimentalTranslationTest extends ParagraphsExperimentalTestBa
     // Assert that the summary is displayed in the current language.
     $this->drupalGet('de/node/' . $node->id() . '/edit');
     $this->assertFieldByName('title[0][value]', 'DE llama');
-    $this->assertRaw('<div class="paragraphs-collapsed-description">DE text llama');
-    $this->assertRaw('<div class="paragraphs-collapsed-description">DE nested text llama');
+    $this->assertRaw('<span class="summary-content">DE text llama</span></div></div>');
+    $this->assertRaw('<span class="summary-content">DE nested text llama</span></div></div>');
 
     // Case 2: Referenced entities.
     $this->addParagraphsType('node_reference');
@@ -473,7 +473,7 @@ class ParagraphsExperimentalTranslationTest extends ParagraphsExperimentalTestBa
     $this->drupalPostForm(NULL, $edit, t('Save (this translation)'));
     // Edit the node again and check the paragraph summary.
     $this->drupalGet('de/node/' . $referencing_node->id() . '/edit');
-    $this->assertRaw('<div class="paragraphs-collapsed-description">DE llama');
+    $this->assertRaw('<span class="summary-content">DE llama</span></div></div>');
   }
 
   /**

@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Url;
+use Drupal\Core\Utility\UpdateException;
 
 /**
  * Implements hook_requirements().
@@ -26,4 +27,23 @@ function search_api_views_taxonomy_requirements($phase) {
   }
 
   return $requirements;
+}
+
+/**
+ * Attempt to uninstall this module.
+ *
+ * @throws \Drupal\Core\Utility\UpdateException
+ *   Thrown if the module couldn't be uninstalled.
+ *
+ * @see https://www.drupal.org/node/2867479
+ */
+function search_api_views_taxonomy_update_8001() {
+  /** @var \Drupal\Core\Extension\ModuleInstaller $module_installer */
+  $module_installer = \Drupal::service('module_installer');
+  if ($module_installer->validateUninstall(['search_api_views_taxonomy']) !== []) {
+    $message = 'search_api_views_taxonomy has become obsolete and will be removed in a future release of search_api, but we are unable to automatically uninstall it for you. Please manually uninstall the module.';
+    throw new UpdateException($message);
+  }
+
+  $module_installer->uninstall(['search_api_views_taxonomy']);
 }
