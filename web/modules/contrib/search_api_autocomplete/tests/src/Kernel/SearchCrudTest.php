@@ -35,10 +35,10 @@ class SearchCrudTest extends KernelTestBase {
   public function setUp() {
     parent::setUp();
 
-    $this->installSchema('search_api', ['search_api_item']);
-    $this->installConfig('search_api');
     $this->installEntitySchema('search_api_task');
     $this->installEntitySchema('user');
+    $this->installSchema('search_api', ['search_api_item']);
+    $this->installConfig('search_api');
 
     // Do not use a batch for tracking the initial items after creating an
     // index when running the tests via the GUI. Otherwise, it seems Drupal's

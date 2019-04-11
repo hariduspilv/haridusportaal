@@ -6,8 +6,6 @@ use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityReferenceSelection\SelectionPluginManagerInterface;
-use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
@@ -15,12 +13,9 @@ use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Render\Element;
-use Drupal\node\Entity\Node;
-use Drupal\paragraphs;
 use Drupal\paragraphs\ParagraphInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Drupal\paragraphs\Plugin\EntityReferenceSelection\ParagraphSelection;
-
 
 /**
  * Plugin implementation of the 'entity_reference paragraphs' widget.
@@ -699,11 +694,9 @@ class InlineParagraphsWidget extends WidgetBase {
         $element['subform'] = array();
         $element['behavior_plugins'] = [];
         if ($paragraphs_entity) {
-          $summary = $paragraphs_entity->getSummary();
           $element['top']['paragraph_summary']['fields_info'] = [
-            '#markup' => $summary,
-            '#prefix' => '<div class="paragraphs-collapsed-description">',
-            '#suffix' => '</div>',
+            '#theme' => 'paragraphs_summary',
+            '#summary' => $paragraphs_entity->getSummaryItems(),
           ];
         }
       }
@@ -765,7 +758,6 @@ class InlineParagraphsWidget extends WidgetBase {
         }
       }
     }
-
 
     return $return_bundles;
   }
@@ -1004,6 +996,7 @@ class InlineParagraphsWidget extends WidgetBase {
     $access_control_handler = $entity_type_manager->getAccessControlHandler($target_type);
     $dragdrop_settings = $this->getSelectionHandlerSetting('target_bundles_drag_drop');
 
+    $this->accessOptions = [];
     foreach ($bundles as $machine_name => $bundle) {
       if ($dragdrop_settings || (empty($this->getSelectionHandlerSetting('target_bundles'))
           || in_array($machine_name, $this->getSelectionHandlerSetting('target_bundles')))) {

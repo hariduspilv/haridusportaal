@@ -7,7 +7,6 @@ use Drupal\field_ui\Tests\FieldUiTestTrait;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\user\RoleInterface;
-use Drupal\user\Entity\Role;
 
 /**
  * Tests the access check of paragraphs.
@@ -93,7 +92,7 @@ class ParagraphsAccessTest extends ParagraphsTestBase {
 
     // Remove the "access content" for anonymous users. That results in
     // anonymous users not being able to "view" the host entity.
-    /* @var Role $role */
+    /* @var \Drupal\user\Entity\Role $role */
     $role = \Drupal::entityTypeManager()
       ->getStorage('user_role')
       ->load(RoleInterface::ANONYMOUS_ID);

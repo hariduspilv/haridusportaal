@@ -1,4 +1,4 @@
-name: 'D8 Editor file upload'
+name: 'D8 Editor File Upload'
 type: module
 description: 'Allow users to link uploaded files in the text Editor.'
 # core: 8.x
@@ -9,8 +9,8 @@ dependencies:
   - drupal:file
 configure: filter.admin_overview
 
-# Information added by Drupal.org packaging script on 2018-11-19
-version: '8.x-1.3'
+# Information added by Drupal.org packaging script on 2019-04-05
+version: '8.x-1.4'
 core: '8.x'
 project: 'editor_file'
-datestamp: 1542624483
+datestamp: 1554478987

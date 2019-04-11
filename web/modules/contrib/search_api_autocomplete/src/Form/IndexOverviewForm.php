@@ -120,7 +120,8 @@ class IndexOverviewForm extends FormBase {
       $group_label = (string) $plugin->getGroupLabel();
       if (empty($form[$group_label])) {
         $form[$group_label] = [
-          '#type' => 'fieldset',
+          '#type' => 'details',
+          '#open' => TRUE,
           '#title' => $plugin->getGroupLabel(),
         ];
         if ($description = $plugin->getGroupDescription()) {
@@ -185,8 +186,10 @@ class IndexOverviewForm extends FormBase {
       $form['message']['#markup'] = '<p>' . $this->t('There are currently no searches known for this index. You need to create at least one search view.') . '</p>';
     }
     else {
-      $form['submit'] = [
+      $form['actions'] = ['#type' => 'actions'];
+      $form['actions']['submit'] = [
         '#type' => 'submit',
+        '#button_type' => 'primary',
         '#value' => $this->t('Save'),
       ];
     }

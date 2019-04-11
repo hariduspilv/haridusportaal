@@ -1,53 +1,57 @@
 <?php
+
 /**
-* This file is part of the League.csv library
-*
-* @license http://opensource.org/licenses/MIT
-* @link https://github.com/thephpleague/csv/
-* @version 9.1.4
-* @package League.csv
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * League.Csv (https://csv.thephpleague.com)
+ *
+ * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace League\Csv;
 
 use InvalidArgumentException;
+use function array_fill_keys;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_unique;
+use function is_object;
+use function is_string;
+use function method_exists;
+use function sprintf;
 
 /**
- * A League CSV formatter to tackle CSV Formula Injection
+ * A Formatter to tackle CSV Formula Injection.
  *
  * @see http://georgemauer.net/2017/10/07/csv-injection.html
- *
- * @package League.csv
- * @since   9.1.0
- * @author  Ignace Nyamagana Butera <nyamsprod@gmail.com>
  */
 class EscapeFormula
 {
     /**
-     * Spreadsheet formula starting character
+     * Spreadsheet formula starting character.
      */
     const FORMULA_STARTING_CHARS = ['=', '-', '+', '@'];
 
     /**
-     * Effective Spreadsheet formula starting characters
+     * Effective Spreadsheet formula starting characters.
      *
      * @var array
      */
     protected $special_chars = [];
 
     /**
-     * Escape character to escape each CSV formula field
+     * Escape character to escape each CSV formula field.
      *
      * @var string
      */
     protected $escape;
 
     /**
-     * New instance
+     * New instance.
      *
      * @param string   $escape        escape character to escape each CSV formula field
      * @param string[] $special_chars additional spreadsheet formula starting characters
@@ -56,7 +60,7 @@ class EscapeFormula
     public function __construct(string $escape = "\t", array $special_chars = [])
     {
         $this->escape = $escape;
-        if (!empty($special_chars)) {
+        if ([] !== $special_chars) {
             $special_chars = $this->filterSpecialCharacters(...$special_chars);
         }
 
@@ -97,8 +101,6 @@ class EscapeFormula
 
     /**
      * Returns the escape character.
-     *
-     * @return string
      */
     public function getEscape(): string
     {
@@ -109,10 +111,6 @@ class EscapeFormula
      * League CSV formatter hook.
      *
      * @see escapeRecord
-     *
-     * @param array $record
-     *
-     * @return array
      */
     public function __invoke(array $record): array
     {
@@ -121,10 +119,6 @@ class EscapeFormula
 
     /**
      * Escape a CSV record.
-     *
-     * @param array $record
-     *
-     * @return array
      */
     public function escapeRecord(array $record): array
     {
@@ -133,10 +127,6 @@ class EscapeFormula
 
     /**
      * Escape a CSV cell.
-     *
-     * @param mixed $cell
-     *
-     * @return mixed
      */
     protected function escapeField($cell)
     {
@@ -154,10 +144,6 @@ class EscapeFormula
 
     /**
      * Tell whether the submitted value is stringable.
-     *
-     * @param mixed $value
-     *
-     * @return bool
      */
     protected function isStringable($value): bool
     {
