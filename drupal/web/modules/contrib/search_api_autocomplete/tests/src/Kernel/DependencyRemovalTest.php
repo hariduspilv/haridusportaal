@@ -60,12 +60,12 @@ class DependencyRemovalTest extends KernelTestBase {
       \Drupal::state()->set('search_api_use_tracking_batch', FALSE);
     }
 
-    $this->installSchema('search_api', ['search_api_item']);
-    $this->installSchema('system', ['key_value_expire']);
-    $this->installConfig('search_api');
     $this->installEntitySchema('entity_test_mulrev_changed');
     $this->installEntitySchema('search_api_task');
     $this->installEntitySchema('user');
+    $this->installSchema('search_api', ['search_api_item']);
+    $this->installSchema('system', ['key_value_expire']);
+    $this->installConfig('search_api');
     $this->installConfig('search_api_autocomplete_test');
 
     // Create our test search, but don't save it yet so individual tests can

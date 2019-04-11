@@ -1,40 +1,36 @@
 <?php
+
 /**
-* This file is part of the League.csv library
-*
-* @license http://opensource.org/licenses/MIT
-* @link https://github.com/thephpleague/csv/
-* @version 9.1.4
-* @package League.csv
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * League.Csv (https://csv.thephpleague.com)
+ *
+ * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace League\Csv;
 
 use DOMException;
 use Traversable;
+use function preg_match;
 
 /**
- * A class to convert tabular data into an HTML Table string
- *
- * @package League.csv
- * @since   9.0.0
- * @author  Ignace Nyamagana Butera <nyamsprod@gmail.com>
+ * Converts tabular data into an HTML Table string.
  */
 class HTMLConverter
 {
     /**
-     * table class attribute value
+     * table class attribute value.
      *
      * @var string
      */
     protected $class_name = 'table-csv-data';
 
     /**
-     * table id attribute value
+     * table id attribute value.
      *
      * @var string
      */
@@ -46,7 +42,7 @@ class HTMLConverter
     protected $xml_converter;
 
     /**
-     * New Instance
+     * New Instance.
      */
     public function __construct()
     {
@@ -58,11 +54,9 @@ class HTMLConverter
     }
 
     /**
-     * Convert an Record collection into a DOMDocument
+     * Convert an Record collection into a DOMDocument.
      *
      * @param array|Traversable $records the tabular data collection
-     *
-     * @return string
      */
     public function convert($records): string
     {
@@ -74,14 +68,9 @@ class HTMLConverter
     }
 
     /**
-     * HTML table class name setter
-     *
-     * @param string $class_name
-     * @param string $id_value
+     * HTML table class name setter.
      *
      * @throws DOMException if the id_value contains any type of whitespace
-     *
-     * @return self
      */
     public function table(string $class_name, string $id_value = ''): self
     {
@@ -96,11 +85,7 @@ class HTMLConverter
     }
 
     /**
-     * HTML tr record offset attribute setter
-     *
-     * @param string $record_offset_attribute_name
-     *
-     * @return self
+     * HTML tr record offset attribute setter.
      */
     public function tr(string $record_offset_attribute_name): self
     {
@@ -111,11 +96,7 @@ class HTMLConverter
     }
 
     /**
-     * HTML td field name attribute setter
-     *
-     * @param string $fieldname_attribute_name
-     *
-     * @return self
+     * HTML td field name attribute setter.
      */
     public function td(string $fieldname_attribute_name): self
     {

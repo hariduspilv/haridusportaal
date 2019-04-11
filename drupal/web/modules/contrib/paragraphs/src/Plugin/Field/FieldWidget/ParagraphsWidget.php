@@ -437,7 +437,7 @@ class ParagraphsWidget extends WidgetBase {
       else {
         // If the node is being translated, the paragraphs should be all open
         // when the form is not being rebuilt (E.g. when clicked on a paragraphs
-        // action) and when the the translation is being added.
+        // action) and when the translation is being added.
         if (!$form_state->isRebuilding() && $host->getTranslationStatus($langcode) == TranslationStatusInterface::TRANSLATION_CREATED) {
           $item_mode = 'edit';
         }
@@ -677,10 +677,10 @@ class ParagraphsWidget extends WidgetBase {
             ];
           }
 
-          if (!$paragraphs_entity->access('view')) {
+          if (!$paragraphs_entity->isPublished()) {
             $info['preview'] = [
               '#theme' => 'paragraphs_info_icon',
-              '#message' => $this->t('You are not allowed to view this @title.', array('@title' => $this->getSetting('title'))),
+              '#message' => $this->t('Unpublished'),
               '#icon' => 'view',
             ];
           }
@@ -760,6 +760,17 @@ class ParagraphsWidget extends WidgetBase {
         $display->buildForm($paragraphs_entity, $element['subform'], $form_state);
         $hide_untranslatable_fields = $paragraphs_entity->isDefaultTranslationAffectedOnly();
 
+        $summary = $paragraphs_entity->getSummaryItems();
+        if (!empty($summary)) {
+          $element['top']['summary']['fields_info'] = [
+            '#theme' => 'paragraphs_summary',
+            '#summary' => $summary,
+            '#expanded' => TRUE,
+            '#access' => $paragraphs_entity->access('update') || $paragraphs_entity->access('view'),
+          ];
+        }
+        $info = array_merge($info, $paragraphs_entity->getIcons());
+
         foreach (Element::children($element['subform']) as $field) {
           if ($paragraphs_entity->hasField($field)) {
             $field_definition = $paragraphs_entity->get($field)->getFieldDefinition();
@@ -780,6 +791,12 @@ class ParagraphsWidget extends WidgetBase {
 
             if (!$is_paragraph_field) {
               $element['subform'][$field]['#attributes']['class'][] = 'paragraphs-content';
+              $element['top']['summary']['fields_info'] = [
+                '#theme' => 'paragraphs_summary',
+                '#summary' => $summary,
+                '#expanded' => TRUE,
+                '#access' => $paragraphs_entity->access('update') || $paragraphs_entity->access('view'),
+              ];
             }
             $translatable = $field_definition->isTranslatable();
             // Hide untranslatable fields when configured to do so except
@@ -831,12 +848,12 @@ class ParagraphsWidget extends WidgetBase {
         else {
           // The closed paragraph is displayed as a summary.
           if ($paragraphs_entity) {
-            $summary = $paragraphs_entity->getSummary();
+            $summary = $paragraphs_entity->getSummaryItems();
             if (!empty($summary)) {
               $element['top']['summary']['fields_info'] = [
-                '#markup' => $summary,
-                '#prefix' => '<div class="paragraphs-collapsed-description">',
-                '#suffix' => '</div>',
+                '#theme' => 'paragraphs_summary',
+                '#summary' => $summary,
+                '#expanded' => FALSE,
                 '#access' => $paragraphs_entity->access('update') || $paragraphs_entity->access('view'),
               ];
             }
@@ -975,7 +992,6 @@ class ParagraphsWidget extends WidgetBase {
       }
     }
 
-
     return $return_bundles;
   }
 
@@ -1034,7 +1050,7 @@ class ParagraphsWidget extends WidgetBase {
     $field_prefix = strtr($this->fieldIdPrefix, '_', '-');
     if (count($this->fieldParents) == 0) {
       if ($items->getEntity()->getEntityTypeId() != 'paragraph') {
-        $tabs = '<ul class="paragraphs-tabs tabs primary clearfix"><li id="content" class="tabs__tab"><a href="#' . $field_prefix . '-values">Content</a></li><li id="behavior" class="tabs__tab"><a href="#' . $field_prefix . '-values">Behavior</a></li></ul>';
+        $tabs = '<ul class="paragraphs-tabs tabs primary clearfix"><li id="content" class="tabs__tab"><a href="#' . $field_prefix . '-values">' . $this->t('Content', [], ['context' => 'paragraphs']) . '</a></li><li id="behavior" class="tabs__tab"><a href="#' . $field_prefix . '-values">' . $this->t('Behavior', [], ['context' => 'paragraphs']) . '</a></li></ul>';
       }
     }
     if (count($this->fieldParents) > 0) {
@@ -1158,6 +1174,7 @@ class ParagraphsWidget extends WidgetBase {
     }
 
     $elements['#allow_reference_changes'] = $this->allowReferenceChanges();
+    $elements['#paragraphs_widget'] = TRUE;
     $elements['#attached']['library'][] = 'paragraphs/drupal.paragraphs.widget';
 
     return $elements;
@@ -1340,9 +1357,9 @@ class ParagraphsWidget extends WidgetBase {
         }
 
         $element['top']['summary']['fields_info'] = [
-          '#markup' => $child_paragraph->getSummary($summary_options),
-          '#prefix' => '<div class="paragraphs-collapsed-description">',
-          '#suffix' => '</div>',
+          '#theme' => 'paragraphs_summary',
+          '#summary' => $child_paragraph->getSummaryItems($summary_options),
+          '#expanded' => FALSE,
           '#access' => $child_paragraph->access('update') || $child_paragraph->access('view'),
         ];
 
@@ -1771,7 +1788,7 @@ class ParagraphsWidget extends WidgetBase {
 
     // Check if the replicate module is enabled.
     if (\Drupal::hasService('replicate.replicator')) {
-      $duplicate_entity = \Drupal::getContainer()->get('replicate.replicator')->replicateEntity($entity);
+      $duplicate_entity = \Drupal::getContainer()->get('replicate.replicator')->cloneEntity($entity);
     }
     else {
       $duplicate_entity = $entity->createDuplicate();

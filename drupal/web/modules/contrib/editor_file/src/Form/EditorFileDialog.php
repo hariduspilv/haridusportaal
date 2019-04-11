@@ -191,6 +191,11 @@ class EditorFileDialog extends FormBase implements BaseFormIdInterface {
         // Add a more general class for groups of well known MIME types.
         'file--' . file_icon_class($mime_type),
       ];
+      // Merge with existing classes (eg: those added w/ Editor Advanced Link).
+      if (!empty($form_state->getValue('attributes')['class'])) {
+        $existing_classes = preg_split('/\s+/', $form_state->getValue('attributes')['class']);
+        $classes = array_unique(array_merge($existing_classes, $classes));
+      }
       $form_state->setValue(['attributes', 'class'], implode(' ', $classes));
     }
 

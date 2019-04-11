@@ -151,13 +151,13 @@ class ParagraphsExperimentalTranslationsTest extends BrowserTestBase {
     $assert_session->fieldNotExists('field_paragraphs[2][subform][field_text_untranslatable_hide][0][value]');
     $assert_session->buttonNotExists('field_paragraphs_2_collapse');
     $assert_session->buttonNotExists('field_paragraphs_2_edit');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Do not translate me CLOSED EN');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Do not translate me CLOSED EN');
 
     $assert_session->buttonExists('field_paragraphs_1_collapse');
     $assert_session->fieldExists('field_paragraphs[1][subform][field_text_untranslatable][0][value]');
     $page->pressButton('field_paragraphs_1_collapse');
     $assert_session->fieldNotExists('field_paragraphs[1][subform][field_text_untranslatable][0][value]');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Do not translate me EN');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Do not translate me EN');
     $assert_session->buttonExists('field_paragraphs_1_edit');
 
     $assert_session->buttonExists('field_paragraphs_3_collapse');
@@ -178,17 +178,17 @@ class ParagraphsExperimentalTranslationsTest extends BrowserTestBase {
     $this->drupalGet("/de/node/{$host_node_id}/translations/add/en/de");
     $assert_session->fieldExists('field_paragraphs[0][subform][field_text_translatable][0][value]');
     $assert_session->fieldExists('field_paragraphs[1][subform][field_text_untranslatable][0][value]');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Do not translate me CLOSED EN');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Do not translate me CLOSED EN');
     $assert_session->fieldExists('field_paragraphs[3][subform][field_paragraphs][0][subform][field_text_translatable][0][value]');
     // Translate the content of the translatable fields.
     $page->fillField('field_paragraphs[0][subform][field_text_translatable][0][value]', 'Translate me DE');
     $page->fillField('field_paragraphs[3][subform][field_paragraphs][0][subform][field_text_translatable][0][value]', 'Nested translate me DE');
     // Close all Paragraphs with the new values.
     $page->pressButton('field_paragraphs_collapse_all');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Translate me DE');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Do not translate me EN');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Do not translate me CLOSED EN');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Nested translate me DE');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Translate me DE');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Do not translate me EN');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Do not translate me CLOSED EN');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Nested translate me DE');
     // Edit the first Paragraph and update its value.
     $page->pressButton('field_paragraphs_0_edit');
     $page->fillField('field_paragraphs[0][subform][field_text_translatable][0][value]', 'Translate me UPDATE DE');
@@ -200,16 +200,16 @@ class ParagraphsExperimentalTranslationsTest extends BrowserTestBase {
 
     // Edit the translation, assert that the Paragraphs are closed by default.
     $this->drupalGet('de/node/' . $host_node_id . '/edit');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Translate me UPDATE DE');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Do not translate me EN');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Do not translate me CLOSED EN');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Nested translate me DE');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Translate me UPDATE DE');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Do not translate me EN');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Do not translate me CLOSED EN');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Nested translate me DE');
     // Open all paragraphs.
     $page->pressButton('field_paragraphs_edit_all');
     $assert_session->fieldExists('field_paragraphs[0][subform][field_text_translatable][0][value]');
     $assert_session->fieldExists('field_paragraphs[1][subform][field_text_untranslatable][0][value]');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Do not translate me CLOSED EN');
-    $assert_session->responseContains('<div class="paragraphs-collapsed-description">Nested translate me DE');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Do not translate me CLOSED EN');
+    $assert_session->responseContains('class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Nested translate me DE');
     $assert_session->fieldNotExists('field_paragraphs[3][subform][field_paragraphs][0][subform][field_text_translatable][0][value]');
     // When editing a nested container, all children should follow the widget
     // settings when editing the translation.

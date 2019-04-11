@@ -33,7 +33,7 @@
       if (!($mainRegion.hasClass('content-active'))
         && !($mainRegion.hasClass('behavior-active'))) {
         $tabContent.addClass('is-active');
-        $mainRegion.addClass('content-active');
+        $parWidget.addClass('content-active');
       }
 
       $parContent.show();
@@ -62,13 +62,13 @@
       $($parWidget).find($clickedTab.attr('href')).addClass('is-active');
 
       if ($parWidget.find('#content').hasClass('is-active')) {
-        $parWidget.find('.layout-region-node-main').addClass('content-active');
+        $parWidget.addClass('content-active');
         $parWidget.find('.paragraphs-content').show();
         $parWidget.find('.paragraphs-behavior').hide();
       }
 
       if ($parWidget.find('#behavior').hasClass('is-active')) {
-        $parWidget.find('.layout-region-node-main').addClass('behavior-active');
+        $parWidget.addClass('behavior-active');
         $parWidget.find('.paragraphs-content').hide();
         $parWidget.find('.paragraphs-behavior').show();
       }
