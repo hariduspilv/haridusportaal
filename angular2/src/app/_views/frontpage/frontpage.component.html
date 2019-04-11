@@ -4,17 +4,18 @@
 </div>
 <div class="frontpage" *ngIf="(events && news && generalData && generalData[0]) || (events && news)">
   <div class="frontpage__section frontpage__section--origin main-container">
-    <h1 class="frontpage__title frontpage__title--padded">
-      <span class="sm-show xxs text-center" innerHtml="{{'frontpage.lead_title_xxs' | translate}}"></span>
-      <span class="sm-show sm text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
-      <span class="sm-hide text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
+    <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{ 'frontpage.lead_title_wcag' | translate}}">
+      <span aria-hidden="true" class="sm-show xxs text-center" innerHtml="{{ 'frontpage.lead_title_xxs' | translate}}"></span>
+      <span aria-hidden="true" class="sm-show sm text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
+      <span aria-hidden="true" class="sm-hide text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
     </h1>
     <inline-links
       [content]="generalData[0].fieldTopics"
       [contentLabels]="fieldTopicLabels"
       [externalImage]="fieldTopicImage"
       externalLink="button.show_more"
-      columnLayout="true">
+      columnLayout="true"
+      hoverEffect="true">
     </inline-links>
   </div>
   <div class="frontpage__section frontpage__section--short" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && generalData[0].fieldSupernews[0] && superNewsShown['first'] && superNewsSubtext[0]">

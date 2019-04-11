@@ -1,12 +1,12 @@
 @import "../../../assets/styles/typography.scss"; 
 .origin {
   &__child {margin-right: 4rem;
-    @include break-on(sm, max) {margin-right: 0; margin-bottom: 4rem;}
+    @include break-on(xs, max) {margin-right: 0; margin-bottom: 4rem;}
     &--last {margin-right: 0;
-      @include break-on(sm, max) {margin-bottom: 0;}  
+      @include break-on(xs, max) {margin-bottom: 0;}  
     }
     &--secondLast {
-      @include break-on(sm, max) {
+      @include break-on(xs, max) {
        @include break-on(xxs, min) {margin-bottom: 0;}
       }  
     }
@@ -15,14 +15,16 @@
   &__link {line-height: 1.25rem;}
   &__description, &__title {line-height: 1.25rem;color: $black;}
   &__title {font-weight: 500}
-  a {text-decoration: none;
+  a {text-decoration: none;max-width: 14rem;margin: 0 auto;
     .origin__link {text-decoration: underline;}
     &:hover {
-      img {transition: ease 0.2s;transform: rotate(30deg);}
       .origin__link {text-decoration: none;}
     }
+    &.rotate:hover {
+      img {transition: ease 0.2s;transform: rotate(30deg);}
+    }
   }
-  @include break-on(sm, max) {flex-direction: column;}
+  @include break-on(xs, max) {flex-direction: column;}
   &--column {
     @include break-on(sm, max) {flex-direction: row;
       @include break-on(xxs, min) {padding: 0 2rem;}

@@ -10,7 +10,7 @@
       </span>
     </div>
     <article class="wrapper__article row">
-      <a href="javascript:void();" class="col-4 sm-12 pointer article" *ngFor="let item of content; let first = first;" [routerLink]="item[contentLabels.url].path">
+      <a href="javascript:void();" attr.aria-label="{{ item[contentLabels.title] }}" class="col-4 sm-12 pointer article" *ngFor="let item of content; let first = first;" [routerLink]="item[contentLabels.url].path">
         <div class="article__image" *ngIf="contentLabels.image && item[contentLabels.image]">
           <img src="{{ item[contentLabels.image].derivative.url }}" alt="{{ item[contentLabels.image].alt }}"/>
         </div>
