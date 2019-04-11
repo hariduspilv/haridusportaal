@@ -1,5 +1,5 @@
 <ng-template #imageFirst>
-  <div class="wrapper__img pointer" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
+  <div class="wrapper__img" aria-hidden="true" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
     <img [alt]="image['alt']" [src]="image['derivative'].url">
   </div>
   <div class="wrapper__article" [class.atEnd]="!contentLeft" [class.atStart]="contentLeft">
@@ -15,12 +15,12 @@
   <div class="wrapper__article" [class.atEnd]="!contentLeft" [class.atStart]="contentLeft">
     <article class="article">
       <div class="article__heading">{{ heading | translate | uppercase }}</div>
-      <div class="article__title" attr.aria-label="{{ 'news.title' | translate }}"><a href="javascript:void();" class="normal-text" [routerLink]="url['path']"><h1 class="dark"> {{ title }}</h1></a></div>
+      <div class="article__title"><a href="javascript:void();" class="normal-text" [routerLink]="url['path']"><h1 class="dark"> {{ title }}</h1></a></div>
       <div *ngIf="!subtextObject" class="article__subtext">{{ subtext }}</div>
       <div *ngIf="subtextObject" class="article__subtext">{{ subtext.author }} {{ subtext.date*1000 | date:"dd.MM.yyyy" }}</div>
     </article>
   </div>
-  <div class="wrapper__img pointer" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
+  <div class="wrapper__img" aria-hidden="true" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
     <img [alt]="image['alt']" [src]="image['derivative'].url">
   </div>
 </ng-template>

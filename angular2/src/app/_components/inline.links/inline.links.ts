@@ -13,6 +13,7 @@ export class InlineLinksComponent {
   @Input() externalImage: object;
   @Input() externalLink: string;
   @Input() columnLayout: boolean;
+  @Input() hoverEffect: boolean;
 
   constructor(public translate: TranslateService) {}
    
