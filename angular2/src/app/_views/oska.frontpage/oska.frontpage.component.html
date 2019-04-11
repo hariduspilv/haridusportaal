@@ -16,8 +16,8 @@
   <mat-spinner *ngIf="!generalData" ></mat-spinner>
   <div class="frontpage" *ngIf="generalData && generalData.length && fieldsData">
     <div class="frontpage__section--short main-container">
-      <h1 class="frontpage__title frontpage__title--padded">
-        <div class="text-center" [innerHtml]="generalData[0].title"></div>
+      <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{'frontpage.oska_lead_title_wcag' | translate}}">
+        <span aria-hidden="true" class="text-center" innerHtml="{{'frontpage.oska_lead_title' | translate}}"></span>
       </h1>
       <inline-links
         [content]="generalData[0].fieldContentPageLinks"
