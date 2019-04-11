@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_field_page.body
-    - field.field.node.oska_field_page.field_field_page_graph
+    - field.field.node.oska_field_page.field_dynamic_graph
     - field.field.node.oska_field_page.field_introduction
     - field.field.node.oska_field_page.field_oska_attachment_file
     - field.field.node.oska_field_page.field_oska_field_accordion
@@ -34,8 +34,8 @@ content:
     settings: {  }
     third_party_settings: {  }
     region: content
-  field_field_page_graph:
-    weight: 116
+  field_dynamic_graph:
+    weight: 117
     label: above
     settings: {  }
     third_party_settings: {  }
