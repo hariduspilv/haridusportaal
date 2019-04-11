@@ -4,8 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.node.oska_result_page.body
+    - field.field.node.oska_result_page.field_dynamic_graph
     - field.field.node.oska_result_page.field_result_page_files
-    - field.field.node.oska_result_page.field_result_page_graph
     - field.field.node.oska_result_page.field_result_page_introduction
     - field.field.node.oska_result_page.field_result_page_links
     - field.field.node.oska_result_page.field_result_page_picture
@@ -52,18 +52,18 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_dynamic_graph:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: oska_dynamic_graph_widget_type
+    region: content
   field_result_page_files:
     weight: 16
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
     type: file_generic
-    region: content
-  field_result_page_graph:
-    weight: 26
-    settings: {  }
-    third_party_settings: {  }
-    type: oska_graph_widget_type
     region: content
   field_result_page_introduction:
     weight: 11
