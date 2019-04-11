@@ -12,7 +12,11 @@
   }
   &__section {padding-bottom: 8rem;
     &--short {padding-bottom: 4rem;}
-    &--newsletter {background-color: #f4f4f4;}
+    &--newsletter {background-color: #f4f4f4;
+      @include break-on(sm, max) {
+        margin-bottom: -10rem;
+      }
+    }
     &--origin {padding-left: 3rem;padding-right: 3rem;
      @include break-on(xxs, max) {padding-left: 2rem;padding-right: 2rem;}
     }
@@ -42,5 +46,8 @@
       @include break-on(xxs, max) {display: block !important;}
     }
   }
+}
+.mat-drawer-content {
+  padding-bottom: 0 !important;
 }
 
