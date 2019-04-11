@@ -3,18 +3,21 @@
   &--light {background-color: #ffe7c1;}
   &--dark {background-color: #bee3e8;}
 }
-.wrapper {display: grid;grid-template-columns: repeat(18, 1fr);padding: 4rem 3rem;grid-template-rows: repeat(10, 1fr);
-  &__article {grid-row: 1 / 11;align-items: center;display: flex;
+.wrapper {display: -ms-grid;display: grid;padding: 4rem 3rem;
+  -ms-grid-columns: 1fr 1fr 1fr;grid-template-columns: repeat(18, 1fr);
+  -ms-grid-rows: 1fr;grid-template-rows: repeat(10, 1fr);
+  &__article {-ms-grid-row: 1;grid-row: 1 / 11;align-items: center;display: flex;
     a h1 {text-decoration: underline;
-      &:hover {text-decoration: none;}
+      &:hover, &.hovered {text-decoration: none;}
     }
-    &.atStart {grid-column: 1 / 14;padding-right: calc(8% + 1.5rem);z-index: 1;}
-    &.atEnd {grid-column: 6 / 19;padding-left: calc(8% + 1.5rem);}
+    &.atStart {-ms-grid-column: 1;grid-column: 1 / 14;padding-right: calc(8% + 1.5rem);z-index: 1;}
+    &.atEnd {-ms-grid-column: 3;grid-column: 6 / 19;padding-left: calc(8% + 1.5rem);}
   }
-  &__img {grid-row: 2 / 10;text-align: center;z-index: 1;align-self: center;box-sizing: border-box;background: $light-gray;margin: 0;width: 100%;
-    &.atStart {grid-column: 1 / 7;}
-    &.atEnd {grid-column: 13 / 19;}
+  &__img {-ms-grid-row: 1;grid-row: 2 / 10;text-align: center;z-index: 1;align-self: center;box-sizing: border-box;background: $light-gray;margin: 0;width: 100%;
+    &.atStart {-ms-grid-column: 1;grid-column: 1 / 7;}
+    &.atEnd {-ms-grid-column: 3;grid-column: 13 / 19;}
     img {width: 100%;height: auto;display: block;margin-bottom: 0;box-sizing: border-box;}
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {-ms-grid-row: 1;grid-row: 1 / 10;}
   }
   @include break-on(sm, max) {display: flex;flex-direction: column;margin: 0;padding: 4rem 6rem;
     &__article.atStart, &__article.atEnd {padding: 0 calc((100vw - 590px) / 2);margin: 0 calc((100vw - 590px) / -2);}
@@ -29,7 +32,9 @@
   }
 }
 .article {
-  &__heading {line-height: 2rem;font-size: 1rem;}
+  &__heading {line-height: 2rem;font-size: 1rem;
+    @include break-on(sm, max) {margin-bottom: 1rem;}
+  }
   &__title {
     a h1 {color: $black;}
   }
