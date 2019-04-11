@@ -2,6 +2,36 @@
 
 All Notable changes to `Csv` will be documented in this file
 
+## 9.2.0 - 2019-03-08
+
+### Added
+
+- Supports for PHP7.4 empty string for the escape character
+- Supports for empty string for the escape character with a polyfill for PHP7.4- versions.
+- `AbstractCSV::getPathname` see [#321](https://github.com/thephpleague/csv/pull/321) thanks [@tomkyle](https://github.com/tomkyle)
+
+### Deprecated
+
+- `League\Csv\RFC4180Field` use `AbstractCSV::setEscape` method with an empty string instead.
+
+### Fixed
+
+- `AbstractCSV::__construct` correctly initializes properties
+- `AbstractCSV::createFromString` named constructor default argument is now the empty string
+- `AbstractCSV::setEscape` now accepts the empty string like `fputcsv` and `fgetcsv`
+- `Writer::insertOne` fixes throwing exception when record can not be inserted
+- `XMLConverter` convert to string the record value to avoid PHP warning on `null` value
+- Internal `Stream::createFromString` named constructor default argument is now the empty string
+- Internal `Stream::fwrite` improved
+- Internal `Stream::__destruct` no longer emit warning on invalid stream filter removal.
+- Internal `Stream::seek` returns `0` if the seeked position `0` is valid see [#321](https://github.com/thephpleague/csv/pull/332) thanks [@HaozhouChen](https://github.com/HaozhouChen) 
+
+- `Reader:getHeader` when the record is an empty line.
+
+### Removed
+
+- Nothing
+
 ## 9.1.4 - 2018-05-01
 
 ### Added
@@ -14,8 +44,7 @@ All Notable changes to `Csv` will be documented in this file
 
 ### Fixed
 
-- `Writer::setFlushThreshold` should accept 1 as an argument [#289(https://github.com/thephpleague/csv/issue/289)
-
+- `Writer::setFlushThreshold` should accept 1 as an argument [#289](https://github.com/thephpleague/csv/issue/289)
 - `CharsetConverter::convert` should not try to convert numeric value [#287](https://github.com/thephpleague/csv/issue/287)
 
 ### Removed
