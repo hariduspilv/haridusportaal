@@ -3,6 +3,7 @@ import { HttpService } from '@app/_services/httpService';
 import { RootScopeService, NotificationService } from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'teachings',
@@ -63,6 +64,9 @@ export class TeachingsComponent{
             }catch(err){}
               
             this.content.kvalifikatsioon.sort((a, b) => b.aasta - a.aasta);
+          }
+          if(errorVal) {
+            throw new Error();
           }
         }catch(err){
           console.log(err);
