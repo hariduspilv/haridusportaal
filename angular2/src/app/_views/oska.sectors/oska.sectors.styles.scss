@@ -63,7 +63,9 @@
       }
     }
     h2{margin:0; font-size:1.5rem; line-height:100%; padding:1rem 0; overflow: hidden; text-overflow: ellipsis;
-      a{text-decoration: none; color:$black;}
+      a{text-decoration: underline; color:$black;
+        &:hover{text-decoration: none;}
+      }
       &+a{margin:0 0 1.4375rem 0; width:100%;}
     }
 
