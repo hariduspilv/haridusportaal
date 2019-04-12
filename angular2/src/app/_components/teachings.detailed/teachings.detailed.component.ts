@@ -58,13 +58,6 @@ export class TeachingsDetailedComponent implements OnInit{
     this.loading = false;
   }
 
-  ngAfterViewChecked() {
-    if (this.content && !this.loading && this.dashboardLink && !this.viewChecked) {
-      document.getElementById('backToDashboard').focus();
-      this.viewChecked = true;
-    }
-  }
-
   ngOnDestroy() {
     this.subscribe.unsubscribe();
   }
