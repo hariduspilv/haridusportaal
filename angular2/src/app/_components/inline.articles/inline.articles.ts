@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 
 export class InlineArticlesComponent {
+  @Input() identifier: string = '';
   @Input() heading: string = '';
   @Input() generalLink: object;
   @Input() content: object;
