@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'inline-links',
@@ -10,14 +11,21 @@ export class InlineLinksComponent {
   @Input() content: Array<object>;
   @Input() contentLabels: object;
   @Input() externalImage: object;
+  @Input() externalLink: string;
+  @Input() columnLayout: boolean;
+  @Input() hoverEffect: boolean;
 
-  constructor() {}
+  constructor(public translate: TranslateService) {}
    
   ngOnInit() {
-    const { content, contentLabels, externalImage } = this;
+    const { content, contentLabels, externalImage, externalLink } = this;
     if (content && content.length && externalImage && externalImage['standard'] && !contentLabels['image']) {
       contentLabels['image'] = 'image';
       content.forEach(elem => elem['image'] = externalImage);
+    }
+    if (content && content.length && externalLink && !contentLabels['link']) {
+      contentLabels['link'] = 'link';
+      content.forEach(elem => elem['link'] = elem['fieldTopicLink'] ? this.translate.get(externalLink)['value'] : null);
     }
   }
 

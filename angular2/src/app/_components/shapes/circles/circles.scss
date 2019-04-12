@@ -7,11 +7,21 @@
     &--topMiddle {left: 16rem;
       @include break-on(xs, max) {left: 10rem;}
     }
+    &--topRight {right: 15rem;
+      @include break-on(sm, max) {right: 11rem;}
+    }
     &--bottom {right: 15rem;
       @include break-on(xs, max) {right: auto;left: 5rem;}
     }
     &--bottomMiddle {right: 17rem;
       @include break-on(xs, max) {right: auto;left: 10rem;}
+    }
+    &--bottomLeft {left: 4rem;
+      @include break-on(sm, max) {right: auto;left: 7rem;}
+    }
+    &--bottomMob {right: 26rem;
+      @include break-on(sm, max) {left: auto;right: 12rem;}
+      @include break-on(xxs, max) {left: auto;right: 8rem;}
     }
   }
   &__child {position: absolute;border-radius: 50%;
