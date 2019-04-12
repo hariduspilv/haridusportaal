@@ -1,4 +1,4 @@
-query oskaMainProfessionDetailView($path: String!) {
+query oskaFieldDetailView($path: String!) {
   route(path: $path) {
     ... on EntityCanonicalUrl {
       languageSwitchLinks {
@@ -18,20 +18,12 @@ query oskaMainProfessionDetailView($path: String!) {
         __typename
       }
       entity {
-        ... on NodeOskaMainProfessionPage {
+        ... on NodeOskaFieldPage {
           isFavorite
           nid
           entityLabel
-          fieldFixedLabel{
-            entity {
-              ... on TaxonomyTermOskaFixedLabels{
-                entityId
-                entityLabel
-              }
-            }
-          }
           fieldIntroduction
-          fieldMainProfessionPicture {
+          fieldOskaFieldPicture {
             derivative(style: CROP_LARGE) {
               url
               __typename
@@ -42,7 +34,7 @@ query oskaMainProfessionDetailView($path: String!) {
             title
             __typename
           }
-          fieldOskaMainProfessionVideo {
+          fieldOskaVideo {
             input
             videoDomain
             videoDescription
@@ -52,7 +44,7 @@ query oskaMainProfessionDetailView($path: String!) {
             value
             processed
           }
-          fieldOskaMainProfessionLinks {
+          fieldOskaWebPage {
             url {
               routed
               path
@@ -61,7 +53,7 @@ query oskaMainProfessionDetailView($path: String!) {
             title
             __typename
           }
-          fieldOskaMainProfessionFile {
+          fieldOskaAttachmentFile {
             description
             entity {
               entityLabel
@@ -76,7 +68,40 @@ query oskaMainProfessionDetailView($path: String!) {
             }
             __typename
           }
-          fieldMainProfessionAccordion {
+          reverseFieldOskaFieldParagraph(limit:1000) {
+            entities {
+              ... on ParagraphMainProfessionSidebar {
+                paragraphReference {
+                  ... on NodeOskaMainProfessionPage {
+                    entityLabel
+                    entityId
+                    entityUrl {
+                      routed
+                      path
+                      __typename
+                    }
+                    reverseOskaMainProfessionOskaFillingBarEntity {
+                      entities {
+                        ... on OskaFillingBarEntity {
+                          value
+                        }
+                      }
+                    }
+                    reverseOskaMainProfessionOskaIndicatorEntity {
+                      entities {
+                        ... on OskaIndicatorEntity {
+                          oskaId
+                          oskaIndicator
+                          value
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          fieldOskaFieldAccordion {
             entity {
               ... on ParagraphMainProfessionAccordion {
                 fieldTitle
@@ -99,111 +124,35 @@ query oskaMainProfessionDetailView($path: String!) {
             }
             __typename
           }
-          fieldMainProfessionTag {
+          fieldOskaFieldSidebar {
             entity {
-              entityLabel
-              __typename
-            }
-            __typename
-          }
-          reverseOskaMainProfessionOskaIndicatorEntity {
-            entities {
-              ... on OskaIndicatorEntity {
-                oskaId
-                oskaIndicator
-                value
-                icon
-              }
-            }
-          }
-          reverseOskaMainProfessionOskaFillingBarEntity {
-            entities {
-              ... on OskaFillingBarEntity {
-                value
-              }
-            }
-          }
-          fieldSidebar {
-            entity {
-              ... on ParagraphMainProfessionSidebar {
-                fieldPros
+              ... on ParagraphOskaFieldSidebar {
+                fieldNumberEmployed
+                fieldEmploymentChange
+                fieldOskaFieldPros
                 fieldNeutral
-                fieldCons
-                fieldOskaField {
-                  entity {
-                    ... on NodeOskaFieldPage {
-                      entityLabel
-                      entityUrl {
-                        routed
-                        path
-                      }
-                    }
-                  }
-                }
-                fieldIscedfSearchLink {
-                  entity {
-                    ... on ParagraphIscedfSearch {
-                      iscedf_detailed: fieldIscedfSearchTerm {
-                        entity {
-                          ... on TaxonomyTermIscedF {
-                            entityId
-                            entityLabel
-                          }
-                        }
-                      }
-                      fieldLevel {
-                        entity {
-                          ... on TaxonomyTermStudyprogrammelevel {
-                            entityId
-                            entityLabel
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-                fieldJobOpportunities {
-                  url {
-                    path
-                    routed
-                  }
-                  title
-                }
-                fieldQualificationStandard {
+                fieldOskaFieldCons
+                fieldOskaFieldQuickFind {
                   url {
                     routed
                     path
                   }
                   title
                 }
-                fieldJobs {
-                  entity {
-                    ... on ParagraphJob {
-                      fieldJobName
-                      fieldJobLink {
-                        url {
-                          routed
-                          path
-                        }
-                        title
-                      }
-                    }
-                  }
-                }
-                fieldQuickFind {
+                fieldRelatedPages {
                   url {
                     routed
                     path
                   }
                   title
                 }
-                fieldContact {
+                fieldOskaFieldContact {
                   entity {
                     ... on ParagraphContactSection {
                       fieldEmail
-                      fieldOrganization
                       fieldPerson
                       fieldPhone
+                      fieldOrganization
                     }
                   }
                 }
