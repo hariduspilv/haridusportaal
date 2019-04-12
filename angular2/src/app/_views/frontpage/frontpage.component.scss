@@ -7,14 +7,18 @@
   }
   &__title {color: $black;line-height: 2rem;z-index: 1;position: relative;font-weight: 400;
     ::ng-deep p {margin: 0;}
-    &--padded {padding: 4rem 0;}
+    &--padded {padding: 6rem 0;
+      @include break-on(sm, max) {padding-top: 8rem;}
+    }
     &--middle {padding-bottom: 1.5rem;}
   }
   &__section {padding-bottom: 8rem;
     &--short {padding-bottom: 4rem;}
+    &--none {padding-bottom: 0;}
     &--newsletter {background-color: #f4f4f4;
       @include break-on(sm, max) {
         margin-bottom: -10rem;
+        padding-bottom: 5rem;
       }
     }
     &--origin {padding-left: 3rem;padding-right: 3rem;

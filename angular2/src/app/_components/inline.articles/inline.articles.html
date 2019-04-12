@@ -10,12 +10,12 @@
       </span>
     </div>
     <article class="wrapper__article row">
-      <a href="javascript:void();" role="img" attr.aria-label="{{ item[contentLabels.title] }}{{ (item[contentLabels.image] && item[contentLabels.image].alt) ? ', graphic: ' : '' }}{{ (item[contentLabels.image] && item[contentLabels.image].alt) ? item[contentLabels.image].alt : '' }}" class="col-4 sm-12 pointer article" *ngFor="let item of content; let first = first;" [routerLink]="item[contentLabels.url].path">
-        <div class="article__image" aria-hidden="true" *ngIf="contentLabels.image && item[contentLabels.image]">
+      <a href="javascript:void();" class="col-4 sm-12 pointer article" *ngFor="let item of content; let first = first;" [routerLink]="item[contentLabels.url].path">
+        <div class="article__image" *ngIf="contentLabels.image && item[contentLabels.image]">
           <img src="{{ item[contentLabels.image].derivative.url }}" alt="{{ item[contentLabels.image].alt }}"/>
         </div>
         <div class="article__headtext" *ngIf="contentLabels.date && item[contentLabels.date] && item[contentLabels.date]['unix']">{{ 'time.'+ (item[contentLabels.date]['unix']*1000 | weekday: "unix" | lowercase) | translate }}, {{ item[contentLabels.date]['unix']*1000 | date: "dd.MM"}}</div>
-        <h1 class="article__title" aria-hidden="true" *ngIf="contentLabels.title && item[contentLabels.title]">{{ item[contentLabels.title] }}</h1>
+        <h1 class="article__title" *ngIf="contentLabels.title && item[contentLabels.title]">{{ item[contentLabels.title] }}</h1>
         <div class="article__subtext" *ngIf="!subtextObject && contentLabels.subtext && item[contentLabels.subtext]">{{ item[contentLabels.subtext] }}</div>
         <div class="article__subtext" *ngIf="subtextObject">{{ item[authorLabel] }} {{ item[dateLabel] * 1000 | date:"dd.MM.yyyy" }}</div>
       </a>

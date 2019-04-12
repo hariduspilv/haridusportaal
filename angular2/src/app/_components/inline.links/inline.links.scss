@@ -15,7 +15,8 @@
   }
   &__link {line-height: 1.25rem;}
   &__description, &__title {line-height: 1.25rem;color: $black;}
-  &__title {font-weight: 500}
+  &__description {margin-bottom: .5rem;}
+  &__title {font-weight: 500;}
   a {text-decoration: none;max-width: 14rem;margin: 0 auto;
     .origin__link {text-decoration: underline;}
     &:hover {
@@ -30,6 +31,13 @@
     @include break-on(sm, max) {flex-direction: row;
       @include break-on(xxs, min) {padding: 0 2rem;}
     }
-    .origin__child {margin-right: 0;}
+    .origin__child {margin-right: 0;
+      @include break-on(sm, max) {margin-bottom: 4rem;
+        @include break-on(xxs, min) {
+          &--secondLast {margin-bottom: 0;}
+        }
+        &--last {margin-bottom: 0;}
+      }
+    }
   }
 }
