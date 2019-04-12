@@ -14,11 +14,15 @@ export class InlineLinksComponent {
   @Input() externalLink: string;
   @Input() columnLayout: boolean;
   @Input() hoverEffect: boolean;
+  @Input() extraSpaced: boolean;
+
+  public imageState: string = 'standard';
 
   constructor(public translate: TranslateService) {}
    
   ngOnInit() {
     const { content, contentLabels, externalImage, externalLink } = this;
+    this.imageState = window.innerWidth <= 1024 ? 'hover' : this.imageState;
     if (content && content.length && externalImage && externalImage['standard'] && !contentLabels['image']) {
       contentLabels['image'] = 'image';
       content.forEach(elem => elem['image'] = externalImage);

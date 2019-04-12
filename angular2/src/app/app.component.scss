@@ -843,7 +843,7 @@ font-family: 'Rubik', sans-serif!important;
   font-size: 0.875rem;
   font-weight: 300;
   color: $black;
-  .mat-select-value-text {font-size: .875rem;color: $black;font-weight: 300;}
+  .mat-select-value-text {font-size: .875rem;color: $black;font-weight: normal;}
 }
 .round-input__wrapper .mat-form-field:focus {
   border: 0.0625rem solid $blue;
@@ -934,12 +934,43 @@ a:hover .important-pill {
       background-color: #eee;
     }
   }
+  .ng-select-container .ng-arrow-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+    bottom: auto;
+    .ng-arrow {
+      background: url(/assets/img/dropdown-orange.svg) center center no-repeat;
+      height: 1.5rem;
+      width: 1.5rem;
+      background-size: 1.5rem;
+      display: inline-block;
+      margin: 0;
+      top: 0.5rem;
+      right: 0.5rem;
+      border-left: 0 solid transparent;
+      border-right: 0 solid transparent;
+      border-top: 0 solid transparent;
+    }
+  }
+  .ng-select-container .ng-clear-wrapper {
+    display: none;
+  }
+  .ng-select-container.ng-has-value .ng-arrow-wrapper {
+    border-top: 0;
+    margin-top: -0.3875em;
+  }
   .ng-select-container .ng-value-container .ng-value {
     background-color: transparent;
     padding: 0;
     margin-right: 0.3rem;
     span {
-      color: #333333;
+      color: #333333 !important;
+      font-weight: normal !important;
+    }
+  }
+  &.ng-select-opened {
+    .ng-select-container .ng-arrow-wrapper .ng-arrow {
+      transform: rotateZ(180deg);
     }
   }
 }

@@ -265,31 +265,10 @@ processor_settings:
       - field_tag
       - title
     ignorable: '[()''¿¡!?,.:;]'
-    strip:
-      character_sets:
-        Cc: 0
-        Cf: 0
-        Co: 0
-        Mc: 0
-        Me: 0
-        Mn: 0
-        Pc: 0
-        Pd: 0
-        Pe: 0
-        Pf: 0
-        Pi: 0
-        Po: 0
-        Ps: 0
-        Sc: 0
-        Sk: 0
-        Sm: 0
-        So: 0
-        Zl: 0
-        Zp: 0
-        Zs: 0
     weights:
       preprocess_index: -10
       preprocess_query: -10
+    ignorable_classes: {  }
   rendered_item: {  }
 tracker_settings:
   default:

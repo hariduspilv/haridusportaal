@@ -103,7 +103,7 @@ class PagesIntegrationTest extends IntegrationTestBase {
     $assert_session->checkboxChecked("searches[{$this->searchId}]");
 
     // Save the settings.
-    $this->click('[data-drupal-selector="edit-submit"]');
+    $this->click('[data-drupal-selector="edit-actions-submit"]');
     $this->logPageChange(NULL, 'POST');
     $assert_session->statusCodeEquals(200);
     $assert_session->pageTextContains('The settings have been saved.');

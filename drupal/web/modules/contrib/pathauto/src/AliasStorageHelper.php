@@ -90,17 +90,17 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
     // Alert users if they are trying to create an alias that is the same as the
     // internal path.
     if ($path['source'] == $path['alias']) {
-      $this->messenger->addMessage($this->t('Ignoring alias %alias because it is the same as the internal path.', array('%alias' => $path['alias'])));
+      $this->messenger->addMessage($this->t('Ignoring alias %alias because it is the same as the internal path.', ['%alias' => $path['alias']]));
       return NULL;
     }
 
     // Skip replacing the current alias with an identical alias.
     if (empty($existing_alias) || $existing_alias['alias'] != $path['alias']) {
-      $path += array(
+      $path += [
         'pathauto' => TRUE,
         'original' => $existing_alias,
         'pid' => NULL,
-      );
+      ];
 
       // If there is already an alias, respect some update actions.
       if (!empty($existing_alias)) {
@@ -127,19 +127,19 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
       if (!empty($existing_alias['pid'])) {
         $this->messenger->addMessage($this->t(
             'Created new alias %alias for %source, replacing %old_alias.',
-            array(
+            [
               '%alias' => $path['alias'],
               '%source' => $path['source'],
               '%old_alias' => $existing_alias['alias'],
-            )
+            ]
           )
         );
       }
       else {
-        $this->messenger->addMessage($this->t('Created new alias %alias for %source.', array(
+        $this->messenger->addMessage($this->t('Created new alias %alias for %source.', [
           '%alias' => $path['alias'],
           '%source' => $path['source'],
-        )));
+        ]));
       }
 
       return $path;
@@ -197,7 +197,7 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
    */
   public function loadBySourcePrefix($source) {
     $select = $this->database->select('url_alias', 'u')
-      ->fields('u', array('pid'));
+      ->fields('u', ['pid']);
 
     $or_group = $select->orConditionGroup()
       ->condition('source', $source)
@@ -214,7 +214,7 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
    */
   public function countBySourcePrefix($source) {
     $select = $this->database->select('url_alias', 'u')
-      ->fields('u', array('pid'));
+      ->fields('u', ['pid']);
 
     $or_group = $select->orConditionGroup()
       ->condition('source', $source)
@@ -248,7 +248,7 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
    */
   public function deleteMultiple($pids) {
     foreach ($pids as $pid) {
-      $this->aliasStorage->delete(array('pid' => $pid));
+      $this->aliasStorage->delete(['pid' => $pid]);
     }
   }
 
