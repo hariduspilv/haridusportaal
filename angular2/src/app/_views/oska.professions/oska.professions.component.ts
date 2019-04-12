@@ -223,8 +223,8 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       if (this.deviceService.isMobile() && this.isFirstLoad === false) {
         let elem = document.getElementById('searchHead');
         elem.scrollIntoView({behavior: "smooth", block: "start"});
-        this.isFirstLoad = false;
       }
+      this.isFirstLoad = false;
     }, (err) => {
       this.data = [];
       this.loading = false;
@@ -266,9 +266,10 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   }
  
   ngOnInit () {
-    this.showFilter = this.deviceService.isTablet() || this.deviceService.isDesktop();
-    this.filterFull = this.deviceService.isDesktop();
+    this.showFilter = this.deviceService.isDesktop();
+    this.filterFull = this.deviceService.isMobile() || this.deviceService.isTablet();
 
+    console.log(this.deviceService.isDesktop(), this.deviceService.isTablet(), this.deviceService.isMobile());
     this.lang = this.rootScope.get("lang");
 
     this.watchParams();
