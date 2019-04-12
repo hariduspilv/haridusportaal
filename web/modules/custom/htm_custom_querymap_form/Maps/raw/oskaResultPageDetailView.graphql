@@ -112,15 +112,13 @@ query oskaResultPageDetailView($path: String!) {
             __typename
           }
           oskaGraphData
-          fieldResultPageGraph{
-            value
+          fieldDynamicGraph {
             graphSet
             graphTitle
-            graphVAxis
+            filterValues
             graphType
             secondaryGraphType
-            graphIndicator
-            secondaryGraphIndicator
+            graphText
           }
         }
       }
