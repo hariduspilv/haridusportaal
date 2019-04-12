@@ -133,6 +133,8 @@ export class ChartComponent implements OnInit{
         primaryFormat = this.getFormat(current.options.graph_y_unit);
       }
 
+      let tmpChartType = chartType.toLowerCase();
+
       switch( chartType.toLowerCase() ){
         case 'clustered bar' : {
           isStacked = false;
@@ -174,7 +176,9 @@ export class ChartComponent implements OnInit{
       }
 
       if( primaryFormat == 'percent' ){
-        //value = this.dividePercentage( value );
+        if( tmpChartType !== "stacked column 100"){
+          value = this.dividePercentage( value );
+        }
       }
 
       let graphName = chartType+"Chart";
