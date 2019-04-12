@@ -11,10 +11,11 @@
       <span aria-hidden="true" class="sm-hide text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
     </h1>
     <inline-links
+      identifier="header"
       [content]="generalData[0].fieldTopics"
       [contentLabels]="fieldTopicLabels"
       [externalImage]="fieldTopicImage"
-      externalLink="button.show_more"
+      externalLink="button.read_more"
       columnLayout="true"
       hoverEffect="true">
     </inline-links>
@@ -32,7 +33,7 @@
     <circles aria-hidden="true" large="#f8b243" position="bottomLeft"></circles>
     <triangles aria-hidden="true" small="#f8b243" large="#bee3e8" position="right"></triangles>
   </div>
-  <div class="frontpage__section frontpage__section--short">
+  <div class="frontpage__section frontpage__section--short" [class.frontpage__section--none]="generalData && generalData.length && !superNewsShown['second']" *ngIf="news && news.length">
     <inline-articles
       heading="news.label" 
       [generalLink]="newsLink"
@@ -54,7 +55,7 @@
     <circles aria-hidden="true" large="#15adc2" position="bottomMob"></circles>
     <triangles aria-hidden="true" small="#bee3e8" large="#15adc2" position="leftSwapped"></triangles>
   </div>
-  <div class="frontpage__section frontpage__section--short">
+  <div class="frontpage__section frontpage__section--short" *ngIf="events && events.length">
     <inline-articles
       heading="event.label" 
       [generalLink]="eventsLink"

@@ -60,6 +60,10 @@
           <chart [data]="data.fieldResultPageGraph"></chart>
         </ng-container>
 
+        <ng-container *ngIf="data.fieldDynamicGraph">
+          <chart [data]="data.fieldDynamicGraph"  type="filter"></chart>
+        </ng-container>
+
         <div class="navigation text-center">
           <button role="link" routerLink="/oska-tulemused/ettepanekute-elluviimine" attr.aria-label="{{ 'oska.see_proposals' | translate }}" mat-raised-button color="primary">{{ 'oska.see_proposals' | translate }}</button>
         </div>

@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 
 export class InlineLinksComponent {
+  @Input() identifier: string;
   @Input() content: Array<object>;
   @Input() contentLabels: object;
   @Input() externalImage: object;
@@ -34,8 +35,8 @@ export class InlineLinksComponent {
   }
 
   imgModifier(element, index, img) {
-    const elem = document.getElementById(`${element}-${index}`);
-    const { externalImage, content, contentLabels } = this;
+    const { externalImage, content, contentLabels, identifier } = this
+    const elem = document.getElementById(`${element}-${identifier}-${index}`);;
     if (externalImage) {
       elem.setAttribute('src', externalImage[img]);
     } else {
