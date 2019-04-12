@@ -3,7 +3,9 @@
   &__section {padding-bottom: 8rem;
     &--short {padding-bottom: 5rem;}
   }
-  &__title {color: $black;line-height: 2rem;z-index: 1;position: relative;
+  &__title {color: $black;line-height: 2rem;z-index: 1;position: relative;    
+    overflow: hidden;
+    text-overflow: ellipsis;
     ::ng-deep p {margin: 0;}
     &--padded {padding: 4rem 0 3rem;}
     &--middle {padding-bottom: 1.5rem;}
@@ -32,6 +34,7 @@
   .scroll__past {overflow: hidden;margin: 0 3rem;
     @include break-on(sm, max) {margin: 0 6rem;}
     @include break-on(xs, max) {margin: 0 2rem;}
+    img {width: 7.5rem;}
     .translate {transform: translateY(125%);transition: transform 300ms ease;}
   }
 }

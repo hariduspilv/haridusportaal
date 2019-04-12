@@ -12,6 +12,7 @@ export class OskaFrontPageComponent {
 	public generalData: any = false;
   public fieldsData: any = false;
   public hasScrolled: boolean = false;
+  public fieldBottomHeading: string = '';
   
 	public fieldsLink: Object = {
     name: 'frontpage.view_all_fields',
@@ -79,6 +80,11 @@ export class OskaFrontPageComponent {
         this.generalData = [];
       } else {
         this.generalData = response['data']['nodeQuery']['entities'];
+        let fieldBottomTopicEntity = this.generalData[0].fieldBottomTopic.entity;
+        if (fieldBottomTopicEntity['fieldMainProfessionPicture']) { this.fieldBottomHeading = 'oska.title_main_profession'; }
+        if (fieldBottomTopicEntity['fieldOskaFieldPicture']) { this.fieldBottomHeading = 'oska.title_field'; }
+        if (fieldBottomTopicEntity['fieldSurveyPagePicture']) { this.fieldBottomHeading = 'oska.workforcePrognosis'; }
+        if (fieldBottomTopicEntity['fieldResultsPagePicture']) { this.fieldBottomHeading = 'oska.results'; }
       }
     },(data) => {
       this.generalData = [];
@@ -99,6 +105,11 @@ export class OskaFrontPageComponent {
         return;
       }
       this.fieldsData = response['data']['nodeQuery']['entities'];
+      this.fieldsData.forEach(element => {
+        if (element && !element.fieldOskaFieldPicture) {
+          element.fieldOskaFieldPicture = { derivative: {url: '/assets/img/1208x680.png'}}
+        }
+      });
     }, (err) => {
       this.fieldsData = [];
     })

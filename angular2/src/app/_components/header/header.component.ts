@@ -47,8 +47,9 @@ export class HeaderComponent {
         this.activeLanguage = this.rootScope.get("lang");
       }
       if (event instanceof NavigationEnd) {
-        var partials = ['/et', '/en', '/ru', '/'];
-        this.hideElement = partials.includes(event.url) || event.url.includes('/otsing');
+        // var partials = ['/et', '/en', '/ru', '/'];
+        // partials.includes(event.url) || 
+        this.hideElement = event.url.includes('/otsing');
         this.wasClicked = false;
       }
     });
