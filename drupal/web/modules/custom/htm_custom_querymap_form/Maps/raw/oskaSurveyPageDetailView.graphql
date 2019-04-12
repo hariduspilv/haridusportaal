@@ -128,15 +128,13 @@ query oskaSurveyPageDetailView($path: String!) {
             }
           }
           oskaGraphData
-          fieldSurveyPageGraph {
-            value
+          fieldDynamicGraph {
             graphSet
             graphTitle
-            graphVAxis
+            filterValues
             graphType
             secondaryGraphType
-            graphIndicator
-            secondaryGraphIndicator
+            graphText
           }
         }
         __typename
