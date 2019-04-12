@@ -69,6 +69,10 @@
             <td class="normal" colspan="3">{{ 'frontpage.staatus' | translate }}</td>
             <td class="normal" colspan="2">{{ parseTypeTranslation(item.staatus) }}</td>
           </tr>
+          <tr *ngIf="item.oppekavataitine && item.oppekavataitine.length !== 0">
+            <td class="normal" colspan="3">{{ 'frontpage.oppekavataitmine' | translate }}</td>
+            <td class="normal" colspan="2">{{ item.oppekavataitine.protsent }}% ({{ item.oppekavataitine.otsusKp}} {{ 'frontpage.seisuga' | translate }})</td>
+          </tr>
           <tr *ngIf="item.tunnistusDiplom">
             <td class="normal" colspan="3">{{ 'frontpage.tunnistusDiplom' | translate }}</td>
             <td class="normal" colspan="2">{{ item.tunnistusDiplom }}</td>
