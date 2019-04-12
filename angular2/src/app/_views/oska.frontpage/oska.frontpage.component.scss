@@ -7,6 +7,11 @@
         @include break-on(xxs, min) {margin-left: auto!important;margin-right: auto!important;max-width: 590px;}
       }
     }
+    &--middle.main-container {
+      @include break-on(sm, max) {
+        @include break-on(xxs, min) {max-width: inherit;}
+      }
+    }
   }
   &__title {color: $black;line-height: 2rem;z-index: 1;position: relative;    
     overflow: hidden;
