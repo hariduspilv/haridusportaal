@@ -19,6 +19,7 @@ export class FrontpageComponent {
     'first': false,
     'second': false
   }
+  public superNewsSubtext: Array<Object> = [];
 	public events: any = false;
 	public generalData: any = false;
 	public lang: string;
@@ -29,6 +30,39 @@ export class FrontpageComponent {
   public mobileView: boolean = false;
   public autocompleteLoader: boolean = false;
   public suggestionSubscription: Subscription;
+
+  public eventsLink: Object = {
+    name: 'button.view_all',
+    url: '/sündmused'
+  };
+  public eventsLabels: Object = {
+    title: 'entityLabel',
+    date: 'fieldEventMainDate',
+    subtext: 'fieldOrganizer',
+    url: 'entityUrl'
+  };
+  public newsLink: Object = {
+    name: 'button.view_all',
+    url: '/uudised'
+  };
+  public newsLabels: Object = {
+    title: 'entityLabel',
+    image: 'fieldIntroductionImage',
+    subtext: {
+      author: 'fieldAuthor',
+      date: 'created'
+    },
+    url: 'entityUrl'
+  };
+  public fieldTopicLabels: Object = {
+    title: 'fieldTopicTitle',
+    description: 'fieldTopicText',
+    url: 'fieldTopicLink'
+  };
+  public fieldTopicImage: Object = {
+    standard: '/assets/img/frontpage-button-default.svg',
+    hover: '/assets/img/frontpage-button-hover.svg'
+  };
   
   constructor (
     private rootScope:RootScopeService,
@@ -86,8 +120,22 @@ export class FrontpageComponent {
         this.generalData = [];
       } else {
         this.generalData = data['data']['nodeQuery']['entities'];
+        this.generalData[0].fieldTopics = this.generalData[0].fieldTopics.map(elem => elem.entity);
+        this.generalData[0].fieldTopics.forEach(elem => elem.fieldTopicLink = elem.fieldTopicLink ? elem.fieldTopicLink.url : null);
         this.superNewsShown['first'] = this.superNewsValid(0);
         this.superNewsShown['second'] = this.superNewsValid(1);
+        if (this.superNewsShown['first']) {
+          this.superNewsSubtext[0] = {
+            author: this.generalData[0].fieldSupernews[0].entity.fieldSupernewsNode.entity.fieldAuthor,
+            date: this.generalData[0].fieldSupernews[0].entity.fieldSupernewsNode.entity.created
+          }
+        }
+        if (this.superNewsShown['second']) {
+          this.superNewsSubtext[1] = {
+            author: this.generalData[0].fieldSupernews[1].entity.fieldSupernewsNode.entity.fieldAuthor,
+            date: this.generalData[0].fieldSupernews[1].entity.fieldSupernewsNode.entity.created
+          }
+        }
       }
     },(data) => {
       this.generalData = [];
@@ -130,8 +178,6 @@ export class FrontpageComponent {
     let variables = {lang: this.rootScope.get('lang').toUpperCase(), nid: 0}
 
     let subscription = this.http.get('recentNews', {params:variables}).subscribe(data => {
-
-
       if ( data['data']['nodeQuery'] == null ) {
         that.error = true;
         that.news = [];

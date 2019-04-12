@@ -3,8 +3,6 @@
 namespace Drupal\Tests\paragraphs\FunctionalJavascript;
 
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
 
 /**

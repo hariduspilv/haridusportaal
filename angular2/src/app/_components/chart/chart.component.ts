@@ -189,14 +189,10 @@ export class ChartComponent implements OnInit{
         dataTable: value,
         options: this.getGraphOptions()
       }
-      
-
-      
 
       tmp.options['isStacked'] = isStacked;
 
       tmp.options['title'] = graphTitle;
-
 
       tmp.options['vAxis'] = {
         format: primaryFormat
@@ -205,7 +201,6 @@ export class ChartComponent implements OnInit{
       if( current.options.graph_y_min ){
         tmp.options['vAxis']['minValue'] = this.formatRangeValue(primaryFormat, current.options.graph_y_min);
       }
-
 
       if( isStacked == 'percent'){
         tmp.options['vAxis']['minValue'] = 0;

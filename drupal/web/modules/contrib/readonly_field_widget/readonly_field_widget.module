@@ -6,7 +6,9 @@
  */
 
 use Drupal\Core\Entity\EntityFormInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\readonly_field_widget\Plugin\Field\FieldWidget\ReadonlyFieldWidget;
 
 /**
  * Implements hook_field_widget_info_alter().
@@ -30,11 +32,13 @@ function readonly_field_widget_form_alter(&$form, FormStateInterface $form_state
   // Check that this is an entity form.
   $form_object = $form_state->getFormObject();
   if ($form_object instanceof EntityFormInterface) {
+
     $entity = $form_object->getEntity();
 
     // Set access to readonly widget items based on their view access.
     $storage = $form_state->getStorage();
-    if (isset($storage['form_display'])) {
+    if ($entity instanceof FieldableEntityInterface && isset($storage['form_display'])) {
+      /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $form_display */
       $form_display = $storage['form_display'];
     }
     else {
@@ -42,8 +46,7 @@ function readonly_field_widget_form_alter(&$form, FormStateInterface $form_state
     }
     foreach ($form_display->getComponents() as $name => $options) {
       $widget = $form_display->getRenderer($name);
-
-      if (!empty($widget) && $widget->getBaseId() == 'readonly_field_widget') {
+      if ($widget instanceof ReadonlyFieldWidget) {
         $items = $entity->get($name);
         $items->filterEmptyItems();
         $form[$name]['#access'] = $items->access('view');
