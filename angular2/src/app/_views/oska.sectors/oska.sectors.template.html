@@ -27,7 +27,7 @@
           <div class="modal" id="modal" tabindex="0" role="alert" attr.aria-label="{{ 'oskaProfessions.modal_opened' | translate }}" >
             <div class="modal__header">
               <div class="modal__header__col">
-                <h2 role="heading" tabindex="0" id="modalTitle">{{ modal.title }}</h2>
+                <h2 role="heading" tabindex="0" id="modalTitle"><a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ modal.title }}" >{{ modal.title }}</a></h2>
                 <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfession.view_field_info' | translate }}" class="sm-show">{{ 'oskaProfession.view_field_info' | translate }}</a>
               </div><!--/modal__header__col-->
               <div class="modal__header__col">

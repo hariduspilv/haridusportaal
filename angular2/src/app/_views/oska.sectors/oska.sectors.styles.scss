@@ -6,8 +6,9 @@
   &__list-head {margin-top: 0;}
   &__list-body {padding: 1.5rem 0 3rem;
     @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
-    .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%; position:relative; appearance:none; padding:0; border:none; width:100%;
+    .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%; position:relative; appearance:none; padding:0; border:none; width:100%; cursor: pointer;
       span{display:block;}
+      button{cursor: pointer;}
       &--title {margin: auto 0;padding: .5rem;display: flex !important;align-items: center;min-height: 2.25rem;width: 100%;justify-content: center;  appearance: none; background:none; border:none;
         &:focus{border-radius:0;}
         .sector__title {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;;
@@ -23,11 +24,11 @@
       .overlay {position: absolute;top: 0;left: 0;right: 0;bottom: 0;clear: float;background-color: rgba(51,51,51,.2);}
       &:hover{background-color: $gray;
         .overlay {display: none;}
-        .sector__title {text-decoration: none;color: $black;font-weight: 500;}
+        .sector__title {text-decoration: none;color: $black;}
       }
       &.active{background-color:$light-gray;
         .overlay{display:none;}
-        .sector__title {text-decoration: none;color: $black;font-weight: 500;}
+        .sector__title {text-decoration: none;color: $black;}
         &:after{top: 100%; left: 50%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-color: rgba(213, 203, 60, 0); border-bottom-color: $light-gray; border-width: 1.5rem; margin-left: -1.5rem; margin-top:-0.8125rem;}
       }
     }
@@ -62,6 +63,7 @@
       }
     }
     h2{margin:0; font-size:1.5rem; line-height:100%; padding:1rem 0; overflow: hidden; text-overflow: ellipsis;
+      a{text-decoration: none; color:$black;}
       &+a{margin:0 0 1.4375rem 0; width:100%;}
     }
 
