@@ -39,12 +39,12 @@ class ViewsTest extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
 
-    $this->installSchema('search_api', ['search_api_item']);
-    $this->installConfig('search_api');
-    $this->installConfig('search_api_test_example_content');
     $this->installEntitySchema('entity_test_mulrev_changed');
     $this->installEntitySchema('search_api_task');
     $this->installEntitySchema('user');
+    $this->installSchema('search_api', ['search_api_item']);
+    $this->installConfig('search_api');
+    $this->installConfig('search_api_test_example_content');
 
     // Do not use a batch for tracking the initial items after creating an
     // index when running the tests via the GUI. Otherwise, it seems Drupal's
@@ -210,6 +210,62 @@ class ViewsTest extends KernelTestBase {
       'do alter' => ['page', TRUE],
       "don't alter" => ['page_2', FALSE],
     ];
+  }
+
+  /**
+   * Tests that the deriver works correctly.
+   *
+   * @see \Drupal\search_api_autocomplete\Plugin\search_api_autocomplete\search\ViewsDeriver
+   */
+  public function testDeriver() {
+    $searches = $this->container
+      ->get('plugin.manager.search_api_autocomplete.search')
+      ->getDefinitions();
+    $expected = ['search_api_autocomplete_test'];
+    $this->assertEquals($expected, array_keys($searches));
+
+    $this->installConfig('search_api_autocomplete_test');
+
+    $searches = $this->container
+      ->get('plugin.manager.search_api_autocomplete.search')
+      ->getDefinitions();
+    ksort($searches);
+    $expected = [
+      'search_api_autocomplete_test',
+      'views:search_api_autocomplete_test_view',
+    ];
+    $this->assertEquals($expected, array_keys($searches));
+
+    View::create([
+      'id' => 'second_test_view',
+      'base_field' => 'search_api_id',
+      'base_table' => 'search_api_index_autocomplete_search_index',
+      'core' => '8.x',
+      'display' => [
+        'default' => [
+          'display_plugin' => 'default',
+          'id' => 'default',
+          'display_title' => 'Master',
+          'position' => 0,
+          'display_options' => [
+            'query' => [
+              'type' => 'search_api_query',
+            ],
+          ],
+        ],
+      ],
+    ])->save();
+
+    $searches = $this->container
+      ->get('plugin.manager.search_api_autocomplete.search')
+      ->getDefinitions();
+    ksort($searches);
+    $expected = [
+      'search_api_autocomplete_test',
+      'views:search_api_autocomplete_test_view',
+      'views:second_test_view',
+    ];
+    $this->assertEquals($expected, array_keys($searches));
   }
 
 }

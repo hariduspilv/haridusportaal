@@ -8,7 +8,12 @@
     & > * {flex: 1;font-size: 1rem;line-height: 2rem;}
     &__label {color: $dark-gray;}
     &__action {text-align: right;z-index: 1;}
+    @include break-on(xs, max) {
+      .wrapper__heading__label {line-height: 1.25rem;}
+      .wrapper__heading__action {align-self: flex-end;line-height: 1.38;}
+    }
   }
+  
   @include break-on(sm, max) {padding: 4rem 6rem;}
   @include break-on(xs, max) {padding: 4rem 2rem;}
 }

@@ -192,3 +192,6 @@
     </button>
   </ng-container>
 </div>
+<div class="search__alert" role="alert" *ngIf="!loading">
+  <span class="search__alert--elem">{{data.length}} {{'search.suggestions_available' | translate}}</span>
+</div>

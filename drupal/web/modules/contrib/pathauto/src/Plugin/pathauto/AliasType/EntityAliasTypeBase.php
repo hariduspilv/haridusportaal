@@ -190,7 +190,7 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
     $context['sandbox']['count'] += count($ids);
     $context['sandbox']['current'] = !empty($ids) ? max($ids) : 0;
     $context['results']['updates'] += $updates;
-    $context['message'] = $this->t('Updated alias for %label @id.', array('%label' => $entity_type->getLabel(), '@id' => end($ids)));
+    $context['message'] = $this->t('Updated alias for %label @id.', ['%label' => $entity_type->getLabel(), '@id' => end($ids)]);
 
     if ($context['sandbox']['count'] != $context['sandbox']['total']) {
       $context['finished'] = $context['sandbox']['count'] / $context['sandbox']['total'];
@@ -263,8 +263,8 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
    * @return int
    *   The number of updated URL aliases.
    */
-  protected function bulkUpdate(array $ids, array $options = array()) {
-    $options += array('message' => FALSE);
+  protected function bulkUpdate(array $ids, array $options = []) {
+    $options += ['message' => FALSE];
     $updates = 0;
 
     $entities = $this->entityTypeManager->getStorage($this->getEntityTypeId())->loadMultiple($ids);

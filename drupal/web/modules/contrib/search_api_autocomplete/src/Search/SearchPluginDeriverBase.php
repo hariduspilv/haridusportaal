@@ -16,6 +16,13 @@ abstract class SearchPluginDeriverBase extends DeriverBase implements ContainerD
   use StringTranslationTrait;
 
   /**
+   * Existing instances of this class.
+   *
+   * @var \Drupal\search_api_autocomplete\Search\SearchPluginDeriverBase[][]
+   */
+  protected static $instances = [];
+
+  /**
    * {@inheritdoc}
    */
   protected $derivatives = NULL;
@@ -36,7 +43,26 @@ abstract class SearchPluginDeriverBase extends DeriverBase implements ContainerD
     $deriver->setEntityTypeManager($container->get('entity_type.manager'));
     $deriver->setStringTranslation($container->get('string_translation'));
 
+    static::$instances[$base_plugin_id][] = $deriver;
+
     return $deriver;
+  }
+
+  /**
+   * Resets the statically cached derivatives for all instances of this class.
+   *
+   * @param string|null $base_plugin_id
+   *   (optional) If given, only reset the caches on derivers for the given base
+   *   plugin ID.
+   */
+  public static function resetStaticDerivativeCaches($base_plugin_id = NULL) {
+    $instances = static::$instances;
+    if ($base_plugin_id) {
+      $instances = !empty($instances[$base_plugin_id]) ? $instances[$base_plugin_id] : [];
+    }
+    foreach ($instances as $deriver) {
+      $deriver->derivatives = NULL;
+    }
   }
 
   /**

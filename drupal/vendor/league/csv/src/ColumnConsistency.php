@@ -1,40 +1,36 @@
 <?php
+
 /**
-* This file is part of the League.csv library
-*
-* @license http://opensource.org/licenses/MIT
-* @link https://github.com/thephpleague/csv/
-* @version 9.1.4
-* @package League.csv
-*
-* For the full copyright and license information, please view the LICENSE
-* file that was distributed with this source code.
-*/
+ * League.Csv (https://csv.thephpleague.com)
+ *
+ * (c) Ignace Nyamagana Butera <nyamsprod@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace League\Csv;
 
+use function count;
+use function sprintf;
+
 /**
- * A class to validate column consistency when inserting records into a CSV document
- *
- * @package League.csv
- * @since   7.0.0
- * @author  Ignace Nyamagana Butera <nyamsprod@gmail.com>
+ * Validates column consistency when inserting records into a CSV document.
  */
 class ColumnConsistency
 {
     /**
-     * The number of column per record
+     * The number of column per record.
      *
      * @var int
      */
     protected $columns_count;
 
     /**
-     * New Instance
+     * New Instance.
      *
-     *
-     * @param  int                 $columns_count
      * @throws OutOfRangeException if the column count is lesser than -1
      */
     public function __construct(int $columns_count = -1)
@@ -47,9 +43,7 @@ class ColumnConsistency
     }
 
     /**
-     * Returns the column count
-     *
-     * @return int
+     * Returns the column count.
      */
     public function getColumnCount(): int
     {
@@ -57,11 +51,7 @@ class ColumnConsistency
     }
 
     /**
-     * Tell whether the submitted record is valid
-     *
-     * @param array $record
-     *
-     * @return bool
+     * Tell whether the submitted record is valid.
      */
     public function __invoke(array $record): bool
     {
