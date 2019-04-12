@@ -8,8 +8,8 @@
       <div class="article__title">
         <a attr.aria-label="{{ heading | translate }}: {{ title }}{{ ', graphic: '}}{{ image ? image['alt'] : '' }}" href="javascript:void();" class="normal-text" [routerLink]="url['path']"><h1 class="dark" [class.hovered]="imageHovered">{{ title }}</h1></a>
       </div>
-      <div aria-hidden="true" *ngIf="!subtextObject" class="article__subtext">{{ subtext }}</div>
-      <div aria-hidden="true" *ngIf="subtextObject" class="article__subtext">{{ subtext.author }} {{ subtext.date*1000 | date:"dd.MM.yyyy" }}</div>
+      <div attr.aria-label="{{ subtext }}" *ngIf="!subtextObject" class="article__subtext">{{ subtext }}</div>
+      <div attr.aria-label="{{ subtext.author }} {{ subtext.date*1000 | date:'dd.MM.yyyy' }}" *ngIf="subtextObject" class="article__subtext">{{ subtext.author }} {{ subtext.date*1000 | date:"dd.MM.yyyy" }}</div>
     </article>
   </div>
 </ng-template>
@@ -20,8 +20,8 @@
       <div class="article__title">
         <a attr.aria-label="{{ heading | translate }}: {{ title }}{{ ', graphic: '}}{{ image ? image['alt'] : '' }}" href="javascript:void();" class="normal-text" [routerLink]="url['path']"><h1 class="dark" [class.hovered]="imageHovered">{{ title }}</h1></a>
       </div>
-      <div aria-hidden="true" *ngIf="!subtextObject" class="article__subtext">{{ subtext }}</div>
-      <div aria-hidden="true" *ngIf="subtextObject" class="article__subtext">{{ subtext.author }} {{ subtext.date*1000 | date:"dd.MM.yyyy" }}</div>
+      <div attr.aria-label="{{ subtext }}" *ngIf="!subtextObject" class="article__subtext">{{ subtext }}</div>
+      <div attr.aria-label="{{ subtext.author }} {{ subtext.date*1000 | date:'dd.MM.yyyy' }}" *ngIf="subtextObject" class="article__subtext">{{ subtext.author }} {{ subtext.date*1000 | date:"dd.MM.yyyy" }}</div>
     </article>
   </div>
   <div *ngIf="image" class="wrapper__img pointer" aria-hidden="true" (mouseover)="imageHovered = true" (mouseout)="imageHovered = false" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
