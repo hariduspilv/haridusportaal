@@ -20,6 +20,7 @@
         <span aria-hidden="true" class="text-center" innerHtml="{{'frontpage.oska_lead_title' | translate}}"></span>
       </h1>
       <inline-links
+        identifier="header"
         [content]="generalData[0].fieldContentPageLinks"
         [contentLabels]="introLabels"
         [externalImage]="introImage"
@@ -62,6 +63,7 @@
     </div>
     <div class="frontpage__section frontpage__section--short main-container">
       <inline-links
+        identifier="footer"
         [content]="footerData"
         [contentLabels]="footerLabels"
         extraSpaced="true">
