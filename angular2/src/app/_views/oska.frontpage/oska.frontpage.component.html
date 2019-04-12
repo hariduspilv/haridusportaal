@@ -33,6 +33,7 @@
     <div class="frontpage__section" *ngIf="fieldsData && fieldsData.length">
       <circles aria-hidden="true" large="#15adc2" small="#15adc2" position="top" smallAlignment="left"></circles>
       <inline-articles
+        identifier="fields"
         heading="oska.latest_field_studies" 
         [generalLink]="fieldsLink"
         [content]="fieldsData"

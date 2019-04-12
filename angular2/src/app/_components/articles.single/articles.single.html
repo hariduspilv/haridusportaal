@@ -1,15 +1,16 @@
 <ng-template #imageFirst>
-  <div *ngIf="image" class="wrapper__img pointer" aria-hidden="true" (mouseover)="imageHovered = true" (mouseout)="imageHovered = false" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
+  <div class="wrapper__img pointer" aria-hidden="true" (mouseover)="imageHovered = true" (mouseout)="imageHovered = false" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
     <img [alt]="image['alt']" [src]="image['derivative'].url">
   </div>
   <div class="wrapper__article" [class.atEnd]="!contentLeft" [class.atStart]="contentLeft">
     <article class="article">
       <div class="article__heading" aria-hidden="true">{{ heading | translate | uppercase }}</div>
       <div class="article__title">
-        <a attr.aria-label="{{ heading | translate }}: {{ title }}{{ ', graphic: '}}{{ image ? image['alt'] : '' }}" href="javascript:void();" class="normal-text" [routerLink]="url['path']"><h1 class="dark" [class.hovered]="imageHovered">{{ title }}</h1></a>
+        <a attr.aria-label="{{ heading | translate }}: {{ title }}{{ ', graphic: '}}{{ image && image['alt'] }} {{ (subtext && subtext.author) && subtext.author }} {{ (subtext && subtext.author) && subtext.date*1000 | date:'dd.MM.yyyy' }} {{ ((subtext && !subtext.author) && subtext) || '' }}"
+        href="javascript:void();" class="normal-text" [routerLink]="url['path']"><h1 class="dark" [class.hovered]="imageHovered">{{ title }}</h1></a>
       </div>
-      <div attr.aria-label="{{ subtext }}" *ngIf="!subtextObject" class="article__subtext">{{ subtext }}</div>
-      <div attr.aria-label="{{ subtext.author }} {{ subtext.date*1000 | date:'dd.MM.yyyy' }}" *ngIf="subtextObject" class="article__subtext">{{ subtext.author }} {{ subtext.date*1000 | date:"dd.MM.yyyy" }}</div>
+      <div aria-hidden="true" *ngIf="!subtextObject" class="article__subtext">{{ subtext }}</div>
+      <div aria-hidden="true" *ngIf="subtextObject" class="article__subtext">{{ subtext.author }} {{ subtext.date*1000 | date:"dd.MM.yyyy" }}</div>
     </article>
   </div>
 </ng-template>
@@ -18,13 +19,14 @@
     <article class="article">
       <div class="article__heading" aria-hidden="true">{{ heading | translate | uppercase }}</div>
       <div class="article__title">
-        <a attr.aria-label="{{ heading | translate }}: {{ title }}{{ ', graphic: '}}{{ image ? image['alt'] : '' }}" href="javascript:void();" class="normal-text" [routerLink]="url['path']"><h1 class="dark" [class.hovered]="imageHovered">{{ title }}</h1></a>
+        <a attr.aria-label="{{ heading | translate }}: {{ title }}{{ ', graphic: '}}{{ image && image['alt'] }} {{ (subtext && subtext.author) && subtext.author }} {{ (subtext && subtext.author) && subtext.date*1000 | date:'dd.MM.yyyy' }} {{ ((subtext && !subtext.author) && subtext) || '' }}"
+        href="javascript:void();" class="normal-text" [routerLink]="url['path']"><h1 class="dark" [class.hovered]="imageHovered">{{ title }}</h1></a>
       </div>
-      <div attr.aria-label="{{ subtext }}" *ngIf="!subtextObject" class="article__subtext">{{ subtext }}</div>
-      <div attr.aria-label="{{ subtext.author }} {{ subtext.date*1000 | date:'dd.MM.yyyy' }}" *ngIf="subtextObject" class="article__subtext">{{ subtext.author }} {{ subtext.date*1000 | date:"dd.MM.yyyy" }}</div>
+      <div aria-hidden="true" *ngIf="!subtextObject" class="article__subtext">{{ subtext }}</div>
+      <div aria-hidden="true" *ngIf="subtextObject" class="article__subtext">{{ subtext.author }} {{ subtext.date*1000 | date:"dd.MM.yyyy" }}</div>
     </article>
   </div>
-  <div *ngIf="image" class="wrapper__img pointer" aria-hidden="true" (mouseover)="imageHovered = true" (mouseout)="imageHovered = false" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
+  <div class="wrapper__img pointer" aria-hidden="true" (mouseover)="imageHovered = true" (mouseout)="imageHovered = false" [class.atEnd]="contentLeft" [class.atStart]="!contentLeft" [routerLink]="url['path']">
     <img [alt]="image['alt']" [src]="image['derivative'].url">
   </div>
 </ng-template>

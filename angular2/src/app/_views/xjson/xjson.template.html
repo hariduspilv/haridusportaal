@@ -240,7 +240,7 @@
                       </span>
                       <div class="round-input__outer-wrapper">
                         <div class="round-input__field-wrapper">
-                          <input class="round-input__field" type="number" [min]="data_elements[element].min" [max]="data_elements[element].max"
+                          <input class="round-input__field" type="text" [min]="data_elements[element].min" [max]="data_elements[element].max"
                             placeholder="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [(ngModel)]="data_elements[element].value" [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                             [name]="element" [attr.required]="data_elements[element].required" />
@@ -452,7 +452,7 @@
                                 </ng-container> <!-- /EMAIL -->
 
                                 <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
-                                  <input class="contnent-input" type="number" [min]="tableColumnAttribute(element, colIndex, 'min')"
+                                  <input class="contnent-input" type="text" [min]="tableColumnAttribute(element, colIndex, 'min')"
                                     [max]="tableColumnAttribute(element, colIndex, 'max')" [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? true : null"
                                     [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
                                 </ng-container> <!-- /NUMBER -->
