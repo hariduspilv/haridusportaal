@@ -1,13 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { FiltersService } from '@app/_services/filtersService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators/delay';
-import { MatAutocomplete } from '@angular/material';
+import { of } from 'rxjs';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   templateUrl: "oska.professions.template.html",
@@ -38,13 +37,15 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   private oskaFixedLabels: any = [];
   private oskaFixedLabelsObs: any = [];
   private fillingBarValues = [1, 2, 3, 4, 5];
+  private isFirstLoad = true;
 
   constructor(
     private http: HttpService,
     public router: Router,
     public route: ActivatedRoute,
     public rootScope: RootScopeService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private deviceService: DeviceDetectorService
   ) {
     super(null, null);
   }
@@ -219,10 +220,11 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
         this.listEnd = true;
       } else this.listEnd = false;
       this.dataSub.unsubscribe();
-      if (window.innerWidth <= 1024) {
+      if (this.deviceService.isMobile() && this.isFirstLoad === false) {
         let elem = document.getElementById('searchHead');
         elem.scrollIntoView({behavior: "smooth", block: "start"});
       }
+      this.isFirstLoad = false;
     }, (err) => {
       this.data = [];
       this.loading = false;
@@ -264,15 +266,16 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   }
  
   ngOnInit () {
-    this.showFilter = window.innerWidth > 1024;
-    this.filterFull = window.innerWidth <= 1024;
+    this.showFilter = this.deviceService.isDesktop();
+    this.filterFull = this.deviceService.isMobile() || this.deviceService.isTablet();
 
+    console.log(this.deviceService.isDesktop(), this.deviceService.isTablet(), this.deviceService.isMobile());
     this.lang = this.rootScope.get("lang");
 
     this.watchParams();
     this.populateFilterOptions();
     this.filterSubmit();
-    if (window.innerWidth > 1024) {
+    if (this.deviceService.isDesktop()) {
       this.filterFull = this.params['oskaFixedLabels'] || this.params['sortedBy'] || this.params['fillingBarValues'];
     }
   }

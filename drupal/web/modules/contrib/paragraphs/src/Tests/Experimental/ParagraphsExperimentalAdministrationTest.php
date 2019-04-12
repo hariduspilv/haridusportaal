@@ -275,8 +275,8 @@ class ParagraphsExperimentalAdministrationTest extends ParagraphsExperimentalTes
     // The textareas for paragraphs should not be visible.
     $this->assertNoRaw('field_paragraphs[0][subform][field_text][0][value]');
     $this->assertNoRaw('field_paragraphs[1][subform][field_text][0][value]');
-    $this->assertRaw('<div class="paragraphs-collapsed-description">Test text 1, ' . $files[0]->filename);
-    $this->assertRaw('<div class="paragraphs-collapsed-description">Test text 2, ' . $files[1]->filename);
+    $this->assertRaw('<span class="summary-content">Test text 1</span>, <span class="summary-content">' . $files[0]->filename);
+    $this->assertRaw('<span class="summary-content">Test text 2</span>, <span class="summary-content">' . $files[1]->filename);
 
     // Test for preview option.
     $this->drupalGet('admin/structure/types/manage/article/form-display');

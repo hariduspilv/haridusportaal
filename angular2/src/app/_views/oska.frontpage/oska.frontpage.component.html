@@ -16,13 +16,15 @@
   <mat-spinner *ngIf="!generalData" ></mat-spinner>
   <div class="frontpage" *ngIf="generalData && generalData.length && fieldsData">
     <div class="frontpage__section--short main-container">
-      <h1 class="frontpage__title frontpage__title--padded">
-        <span class="text-center" innerHtml="{{'frontpage.oska_lead_title' | translate}}"></span>
+      <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{'frontpage.oska_lead_title_wcag' | translate}}">
+        <span aria-hidden="true" class="text-center" innerHtml="{{'frontpage.oska_lead_title' | translate}}"></span>
       </h1>
       <inline-links
+        identifier="header"
         [content]="generalData[0].fieldContentPageLinks"
         [contentLabels]="introLabels"
-        [externalImage]="introImage">
+        [externalImage]="introImage"
+        hoverEffect="true">
       </inline-links>
     </div>
     <div class="scroll__past main-container text-right" role="img" aria-label="Euroopa Liidu lipp. Euroopa sotsiaalfond. Eesti lipp. Eesti tuleviku heaks.">
@@ -31,10 +33,12 @@
     <div class="frontpage__section" *ngIf="fieldsData && fieldsData.length">
       <circles aria-hidden="true" large="#15adc2" small="#15adc2" position="top" smallAlignment="left"></circles>
       <inline-articles
+        identifier="fields"
         heading="oska.latest_field_studies" 
         [generalLink]="fieldsLink"
         [content]="fieldsData"
-        [contentLabels]="fieldsLabels">
+        [contentLabels]="fieldsLabels"
+        theme="dark">
       </inline-articles>
       <circles aria-hidden="true" large="#15adc2" position="bottom"></circles>
       <triangles aria-hidden="true" small="#15adc2" large="#f8b243" position="right"></triangles>
@@ -46,19 +50,24 @@
     <div class="frontpage__section">
       <circles aria-hidden="true" large="#f8b243" small="#f8b243" position="topMiddle" smallAlignment="right"></circles>
       <articles-single
-        heading="oska.workforcePrognosis" 
+        [heading]="fieldBottomHeading" 
         [title]="generalData[0].fieldBottomTopic.entity.title"
-        [image]="generalData[0].fieldBottomTopic.entity.fieldMainProfessionPicture"
+        [image]="generalData[0].fieldBottomTopic.entity.fieldMainProfessionPicture
+          || generalData[0].fieldBottomTopic.entity.fieldOskaFieldPicture
+          || (generalData[0].fieldBottomTopic.entity.fieldSurveyPagePicture && generalData[0].fieldBottomTopic.entity.fieldSurveyPagePicture[0])
+          || (generalData[0].fieldBottomTopic.entity.fieldResultPagePicture && generalData[0].fieldBottomTopic.entity.fieldResultPagePicture[0])"
         [url]="generalData[0].fieldBottomTopic.entity.entityUrl"
-        [subtext]="generalData[0].fieldBottomTopic.entity.introduction"
-        contentLeft="true">
+        contentLeft="true"
+        theme="light">
       </articles-single>
       <circles aria-hidden="true" large="#f8b243" position="bottomMiddle"></circles>
     </div>
-    <div class="frontpage__section main-container">
+    <div class="frontpage__section frontpage__section--short main-container">
       <inline-links
+        identifier="footer"
         [content]="footerData"
-        [contentLabels]="footerLabels">
+        [contentLabels]="footerLabels"
+        extraSpaced="true">
       </inline-links>
       <div class="frontpage__footer">
         <div class="frontpage__description__footer">{{ 'oska.footer_intro' | translate }}</div>

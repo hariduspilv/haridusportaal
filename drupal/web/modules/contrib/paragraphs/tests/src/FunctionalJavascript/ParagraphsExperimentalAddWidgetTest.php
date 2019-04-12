@@ -136,7 +136,6 @@ class ParagraphsExperimentalAddWidgetTest extends JavascriptTestBase {
     ];
     $this->drupalPostForm(NULL, $edit, t('Save'));
 
-
     // Check the created paragraphed test.
     $this->assertText('paragraphed_test Example title has been created.');
     $this->assertRaw('paragraph--type--nested-test');

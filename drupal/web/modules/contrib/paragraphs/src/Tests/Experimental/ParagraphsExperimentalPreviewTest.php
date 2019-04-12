@@ -2,7 +2,6 @@
 
 namespace Drupal\paragraphs\Tests\Experimental;
 
-use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\field_ui\Tests\FieldUiTestTrait;
 
 /**

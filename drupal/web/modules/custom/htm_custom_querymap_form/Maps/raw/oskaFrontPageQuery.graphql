@@ -1,7 +1,8 @@
-query frontPageQuery($lang: LanguageId!) {
+query oskaFrontPageQuery($lang: LanguageId!) {
   nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "oska_front_page", language: $lang}}) {
     entities(language: $lang) {
       ... on NodeOskaFrontPage {
+        title
         fieldContentPageLinks {
           url {
             routed

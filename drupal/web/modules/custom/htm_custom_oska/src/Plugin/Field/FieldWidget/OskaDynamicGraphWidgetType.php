@@ -242,7 +242,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#type' => 'select',
                 '#options' => [
                     'summa' => $this->t('summa'),
-                    '%' => $this->t('%'),
                     'euro' => $this->t('euro'),
                 ],
                 '#multiple' => FALSE,

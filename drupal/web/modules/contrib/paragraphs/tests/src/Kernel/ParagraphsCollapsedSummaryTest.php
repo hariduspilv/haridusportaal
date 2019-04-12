@@ -95,7 +95,7 @@ class ParagraphsCollapsedSummaryTest extends KernelTestBase {
     // Load the paragraph and assert its stored feature settings.
     $paragraph = Paragraph::load($paragraph->id());
     $this->assertEquals($paragraph->getAllBehaviorSettings(), $feature_settings);
-    $this->assertEquals($paragraph->getSummary(), 'Example text for a text paragraph, Text color: red');
+    $this->assertEquals($paragraph->getSummary(), '<div class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Example text for a text paragraph</span></div><div class="paragraphs-plugin-wrapper"><span class="summary-plugin"><span class="summary-plugin-label">Text color</span>red</span></div></div>');
 
     // Check the summary and the additional options.
     $paragraph_1 = Paragraph::create([
@@ -103,8 +103,9 @@ class ParagraphsCollapsedSummaryTest extends KernelTestBase {
       'nested_paragraph_field' => [$paragraph],
     ]);
     $paragraph_1->save();
-    $this->assertEquals($paragraph_1->getSummary(), 'Example text for a text paragraph, Text color: red');
-    $this->assertEquals($paragraph_1->getSummary(['show_behavior_summary' => FALSE]), 'Example text for a text paragraph');
+    // We do not include behavior summaries of nested children in the parent
+    // summary.
+    $this->assertEquals($paragraph_1->getSummary(), '<div class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Example text for a text paragraph</span></div></div>');
     $info = $paragraph_1->getIcons();
     $this->assertEquals($info['count']['#prefix'], '<span class="paragraphs-badge" title="1 child">');
     $this->assertEquals($info['count']['#suffix'], '</span>');
@@ -143,8 +144,8 @@ class ParagraphsCollapsedSummaryTest extends KernelTestBase {
       'nested_paragraph_field' => [$paragraph_text_2, $paragraph_nested_1],
     ]);
     $paragraph_nested_2->save();
-    $this->assertEquals($paragraph_nested_2->getSummary(['show_behavior_summary' => FALSE]), 'Text paragraph on top level');
-    $this->assertEquals($paragraph_nested_2->getSummary(['show_behavior_summary' => FALSE, 'depth_limit' => 2]), 'Text paragraph on top level, Text paragraph on nested level');
+    $this->assertEquals($paragraph_nested_2->getSummary(['show_behavior_summary' => FALSE]), '<div class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Text paragraph on top level</span></div></div>');
+    $this->assertEquals($paragraph_nested_2->getSummary(['show_behavior_summary' => FALSE, 'depth_limit' => 2]), '<div class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Text paragraph on top level</span>, <span class="summary-content">Text paragraph on nested level</span></div></div>');
     $info = $paragraph_nested_2->getIcons();
     $this->assertEquals($info['count']['#prefix'], '<span class="paragraphs-badge" title="2 children">');
     $this->assertEquals($info['count']['#suffix'], '</span>');
