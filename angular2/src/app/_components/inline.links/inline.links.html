@@ -18,7 +18,7 @@
       </div>
     </a> 
     <a *ngIf="item[contentLabels.url] && !item[contentLabels.url].routed"
-    attr.aria-label="{{item[contentLabels.title] || ''}}: {{item[contentLabels.description] || ''}}{{ item[contentLabels.description] ? ',' : ''}} {{item[contentLabels.link] || ''}}"
+    attr.aria-label="{{item[contentLabels.title] || ''}} {{item[contentLabels.description] || ''}}{{ item[contentLabels.description] ? ',' : ''}} {{item[contentLabels.link] || ''}}"
     [class.rotate]="hoverEffect"
     class="flex flex-notrows pointer text-center"
     href="{{item[contentLabels.url].path}}"
