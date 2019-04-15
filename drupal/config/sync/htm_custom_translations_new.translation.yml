@@ -699,6 +699,14 @@ frontpage:
     translation_type: textarea
     et: 'Haridusportaal edu.ee - hoia end haridusinfoga kursis!'
     en: 'Haridusportaal edu.ee - hoia end haridusinfoga kursis!'
+  oppekavataitmine:
+    translation_type: textarea
+    et: 'Õppekava täitmine'
+    en: 'Õppekava täitmine-eng'
+  seisuga:
+    translation_type: textarea
+    et: seisuga
+    en: seisuga-eng
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
