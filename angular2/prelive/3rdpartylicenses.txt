@@ -727,6 +727,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+ngx-device-detector
+MIT
+
 undefined
 
 rxjs-compat
@@ -1001,14 +1004,10 @@ MIT
 
 @angular/material/tooltip
 
-@angular/material/core
+@angular/material/progress-spinner
 
 @ngx-translate/core
 MIT
-
-@angular/material/autocomplete
-
-@angular/material/progress-spinner
 
 @auth0/angular-jwt
 MIT
@@ -1076,6 +1075,8 @@ THE SOFTWARE.
 
 @angular/material/menu
 
+@angular/material/core
+
 @angular/material/form-field
 
 @angular/material/select
@@ -1134,6 +1135,8 @@ THE SOFTWARE.
 
 @angular/http
 MIT
+
+@angular/material/autocomplete
 
 ng2-google-charts
 MIT

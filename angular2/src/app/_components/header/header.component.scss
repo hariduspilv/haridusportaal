@@ -1,8 +1,6 @@
 @import "../../../assets/styles/typography.scss"; 
 .mat-toolbar.mat-primary {background: $blue;height: 4rem;box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0,0,0,.2), 0 0.125rem 0.125rem 0 rgba(0,0,0,.14), 0 0.0625rem 0.3125rem 0 rgba(0,0,0,.12);}
-.header-logo {text-align: left;margin-left: 1.25rem;text-decoration: none;letter-spacing: 0.03125rem;font-size: 1.25rem;line-height: 1.4;color: $white; box-sizing: border-box; padding-left:1.5rem;
-  span {font-weight: 300;}
-  span.bold {font-weight: 500;}
+.header-logo {line-height: 1;margin-left: 1.25rem;padding-left:1.5rem;
   @include break-on(sm, min) {width: 16.25rem;margin-left: 0;}
   @include break-on(sm, max) {padding-left:0;}
 }
