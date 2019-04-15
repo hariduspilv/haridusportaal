@@ -96,8 +96,21 @@
           </mat-form-field>
         </div><!--/round-input__wrapper-->
       </div><!--/col-5-->
+
+      <div class="col-3 align-end text-right sm-12 inline-flex form-col" *ngIf="production">
+        <div class="align-center filter-state sm-hide">       
+          <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
+            <span>{{ 'button.search_brief' | translate}}</span>
+          </a>
+        </div>
+        <div class="button-row">
+          <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate }}</button>
+        </div>
+      </div><!--/col-3-->
     </div>
-    <div class="row form-additional-row" *ngIf="filterFull">
+    
+    <!-- Hide in production -->
+    <div class="row form-additional-row" *ngIf="filterFull && !production">
       <div class="col-9 form-col">
         <div class="custom-checkbox">
           <mat-checkbox [(ngModel)]="filterFormItems.specialClass" name="specialClass">{{ 'school.special_needs_short' | translate }}</mat-checkbox>
@@ -109,7 +122,7 @@
       <div class="col-3 align-end text-right sm-12 inline-flex form-col">
         <div class="align-center filter-state sm-hide">       
           <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
-                       <span>{{ 'button.search_brief' | translate}}</span>
+            <span>{{ 'button.search_brief' | translate}}</span>
           </a>
         </div>
         <div class="button-row">

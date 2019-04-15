@@ -22,6 +22,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { AgmCoreModule } from '@agm/core';
 import { TranslateService } from '@ngx-translate/core';
+import { SettingsService } from '@app/_services/settings.service';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   path: any;
   lang: any;
 
+  public production: boolean = true;
   boundsEnabled: boolean = false;
 
   view: any = sessionStorage.getItem("schools.view") || "list";
@@ -95,6 +97,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     public route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private http: HttpService,
+    private settings: SettingsService,
     private translate: TranslateService,
   ) {
     super(null, null);
@@ -356,6 +359,10 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   }
 
   ngOnInit() {
+
+    if( this.settings.url == "https://htm.wiseman.ee" || this.settings.url == "http://test-htm.wiseman.ee:30000" ){
+      this.production = false;
+    }
 
     this.mapOptions.styles = this.rootScope.get("mapStyles");
     
