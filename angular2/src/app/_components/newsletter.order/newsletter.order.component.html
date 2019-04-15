@@ -10,7 +10,7 @@
         <div class="block__content--form__checklist__elem">
           <label class="checkbox__container pointer">
             <span class="label">{{ 'Vali kõik' }}</span>
-            <input type="checkbox" [(ngModel)]="allChecked" name="allChecked" (change)="updateItems()">
+            <input type="checkbox" [(ngModel)]="allChecked" name="all_check" (change)="updateItems()">
             <span class="checkmark" [class.checked]="allChecked"></span>
           </label>
         </div>
@@ -66,13 +66,13 @@
     </form><!--block__content--form-->
   </div><!--block__content-->
 
-  <div class="message--holder">
+  <div class="message--holder" aria-live="assertive">
     <div class="block__content--message" *ngIf="subscribedStatus && !subscribedFailure">
-      <div class="block__content--message__content" role="alert">{{ 'newsletter.subscription_thanks_content' | translate }}</div>
-      <div class="block__content--message__subcontent" role="alert">{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{email}}</b>.</div>
+      <div class="block__content--message__content">{{ 'newsletter.subscription_thanks_content' | translate }}</div>
+      <div class="block__content--message__subcontent">{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{email}}</b>.</div>
     </div>
     <div class="block__content--message" *ngIf="subscribedStatus && subscribedFailure">
-      <div class="block__content--message__content" role="alert">{{ 'newsletter.subscription_failed' | translate }}</div>
+      <div class="block__content--message__content">{{ 'newsletter.subscription_failed' | translate }}</div>
       <button class="again" type="button" (click)="resetView()" attr.aria-label="{{'button.try_again' | translate}}" mat-raised-button color="primary">{{ 'button.try_again' | translate }} </button>
     </div>
   </div>
