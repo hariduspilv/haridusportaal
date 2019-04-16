@@ -44,4 +44,13 @@ img:-moz-loading {
     }
   }
 }
+// Firefox specific
+@media screen and (min--moz-device-pixel-ratio:0) {
+  .label__tag--pointer :nth-child(6n):after {
+    @include break-on(sm, min) {bottom: 20px;}
+    @include break-on(md, min) {bottom: 24px;}
+    @include break-on(xl, min) {bottom: 36px;}
+    @include break-on(xxl, min) {bottom: 52px;}
+  }
+}
 progress-bar .progress {margin-top: 1rem;}
