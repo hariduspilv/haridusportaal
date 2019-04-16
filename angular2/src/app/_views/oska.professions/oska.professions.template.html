@@ -139,7 +139,7 @@
             <!-- <div class="studyProgramme__item__head sm-hide">{{ 'oskaProfessions.label' | uppercase }}</div> -->
             <span>
               <a id="{{i}}" href="javascript:void();" attr.aria-label="{{ item.title }}" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.title }}</h1></a>
-              <span role="term" attr.aria-label="{{'fieldFixedLabel.label' | translate}}" class="important-pill" *ngIf="item.fieldFixedLabel">{{'fieldFixedLabel.label' | translate}}</span>
+              <span role="term" attr.aria-label="{{item.fieldFixedLabel.entity.entityLabel}}" class="important-pill" *ngIf="item.fieldFixedLabel && item.fieldFixedLabel.entity">{{item.fieldFixedLabel.entity.entityLabel}}</span>
             </span>
           </div><!--col-9-->
           <div class="col sm-hide">

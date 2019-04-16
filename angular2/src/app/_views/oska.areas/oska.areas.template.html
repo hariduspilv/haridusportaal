@@ -15,9 +15,9 @@
           <favourites *ngIf="!userLoggedOut" [state]="data.isFavorite" [title]="data['entityLabel']" [id]="data['nid']"></favourites>
           <share></share>
           <compare *ngIf="compareButton" [id]="data.nid" sessionStorageKey="oskaProfessions.compare"></compare>
-          <span class="important-pill xxs-hide" *ngIf="data.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span> 
+          <span class="important-pill xxs-hide" *ngIf="data.fieldFixedLabel && data.fieldFixedLabel.entity">{{data.fieldFixedLabel.entity.entityLabel}}</span> 
         </div>  
-        <div class="important-pill xxs-show" *ngIf="data.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</div>
+        <div class="important-pill xxs-show" *ngIf="data.fieldFixedLabel && data.fieldFixedLabel.entity">{{data.fieldFixedLabel.entity.entityLabel}}</div>
         <div class="short" [attr.aria-label]="'description.short' | translate">
           {{ data['fieldIntroduction'] || data['fieldSurveyPageIntroduction'] }}
         </div>
