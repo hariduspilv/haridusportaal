@@ -37,7 +37,7 @@
         <ng-container *ngIf="indicator.oskaId === 3 && indicator.icon > 0 && indicator.icon < 21">
           <h2 class="medium" attr.aria-label="{{ 'oska.wage' | translate }}: {{ indicator.value }} €">{{ 'oska.wage' | translate }}: {{ formatNumber(indicator.value, 'et') }} €</h2>
           <div class="padding-block--content">
-            <div class="label__tag--wrapper">
+            <div class="label__tag--wrapper" aria-hidden="true">
               <span class="label__tag">{{'label.average' | translate}}</span>
             </div>
             <div class="flex label__tag--pointer">
