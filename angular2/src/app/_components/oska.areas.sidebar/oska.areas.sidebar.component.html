@@ -14,7 +14,7 @@
     <h1 class="medium">{{ 'oskaProfessions.facts' | translate }}</h1>
     <div class="padding-block--content">
       <div *ngFor="let indicator of indicators.entities; let last = last;">
-        <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12">
+        <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
           <h2 class="medium" attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">{{ 'oska.fieldNumberEmployed' | translate }}: {{ formatNumber(indicator.value, 'et') }}</h2>
           <div class="padding-block--content">
             <div class="flex">
@@ -259,7 +259,7 @@
   </div>
   <!-- / sidebar.fieldQuickFind / -->
   <!-- sidebar.fieldNumberEmployed -->
-  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldNumberEmployed || sidebar.fieldNumberEmployed == '0'">
+  <!-- <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldNumberEmployed || sidebar.fieldNumberEmployed == '0'">
     <h1 class="medium" attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ sidebar.fieldNumberEmployed }}">{{ 'oska.fieldNumberEmployed' | translate }} {{ formatNumber(sidebar.fieldNumberEmployed, 'et') }}</h1>
     <div class="padding-block--content">
       <div class="block__footer" *ngIf="sidebar.fieldNumberEmployedText">{{ sidebar.fieldNumberEmployedText }}</div>
@@ -268,7 +268,7 @@
         <div class="flex--single padded" *ngFor="let elem of outlinedNumberEmployed" aria-hidden="true"><img alt="icon" src="/assets/img/person.svg"/></div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- / sidebar.fieldNumberEmployed / -->
   <!-- sidebar.fieldOskaFieldPros/Cons -->
   <div class="block border-orange padding-block sm-top" *ngIf="(sidebar.fieldOskaFieldPros && sidebar.fieldOskaFieldPros.length) || (sidebar.fieldOskaFieldCons && sidebar.fieldOskaFieldCons.length) || (sidebar.fieldNeutral && sidebar.fieldNeutral.length && viewType != 'mainProfession')">

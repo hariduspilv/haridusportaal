@@ -21,6 +21,7 @@ export class OskaAreasComponent implements OnInit{
   public sidebarData: any = false;
   private userLoggedOut: boolean = false;
   public competitionLabels = ['oska.simple_extended', 'oska.quite_simple_extended', 'oska.medium_extended', 'oska.quite_difficult_extended', 'oska.difficult_extended'];
+  private oskaAreaIndicators:any = false;
 
   constructor(
     private http: HttpService,
@@ -81,11 +82,9 @@ export class OskaAreasComponent implements OnInit{
           this.data = data['data']['route']['entity'];
           if (this.data.reverseFieldOskaFieldParagraph && this.data.reverseFieldOskaFieldParagraph.entities.length) {
             this.data.reverseFieldOskaFieldParagraph.entities = this.data.reverseFieldOskaFieldParagraph.entities.sort((elem1, elem2) => {
-              if(elem1.paragraphReference[0].entityLabel > elem2.paragraphReference[0].entityLabel) {
-                return 1;
-              } else {
-                return -1;
-              }
+              if(elem1.paragraphReference[0].entityLabel.toLowerCase() > elem2.paragraphReference[0].entityLabel.toLowerCase()) return 1;
+              if(elem1.paragraphReference[0].entityLabel.toLowerCase() < elem2.paragraphReference[0].entityLabel.toLowerCase()) return -1;
+              return 0;
             });
           }
         }
@@ -94,6 +93,24 @@ export class OskaAreasComponent implements OnInit{
           this.sidebarData = this.data.fieldSidebar.entity;
         } else if (this.data.fieldOskaFieldSidebar) {
           this.sidebarData = this.data.fieldOskaFieldSidebar.entity;
+          /* here be dragons */
+          this.oskaAreaIndicators = { entities: []};
+          if(this.data.fieldOskaFieldSidebar.entity.fieldNumberEmployed) {
+            this.oskaAreaIndicators['entities'].push({
+              oskaId: 1,
+              value: this.data.fieldOskaFieldSidebar.entity.fieldNumberEmployed,
+              oskaIndicator: "Hõivatute arv",
+              icon: this.getFieldNumberEmployedIcon(this.data.fieldOskaFieldSidebar.entity.fieldNumberEmployed),
+            })
+          }
+          if(this.data.fieldOskaFieldSidebar.entity.fieldEmploymentChange){
+            this.oskaAreaIndicators['entities'].push({
+              oskaId: 2,
+              value: this.data.fieldOskaFieldSidebar.entity.fieldEmploymentChange,
+              oskaIndicator: "Hõive muutus",
+              icon: this.data.fieldOskaFieldSidebar.entity.fieldEmploymentChange,
+            });
+          }
         } else if (this.data.fieldSurveyPageSidebar) {
           this.sidebarData = this.data.fieldSurveyPageSidebar.entity;
         }
@@ -103,6 +120,33 @@ export class OskaAreasComponent implements OnInit{
       });
     }
     
+  }
+
+  /* sorry father for i have sinned */
+  getFieldNumberEmployedIcon (val) {
+    if(val < 10000) {
+      return 1
+    } else if ( val >= 10000 && val < 15000) {
+      return 2
+    } else if ( val >= 15000 && val < 20000) {
+      return 3
+    } else if ( val >= 20000 && val < 25000) {
+      return 4
+    } else if ( val >= 25000 && val < 30000) {
+      return 5
+    } else if ( val >= 30000 && val < 35000) {
+      return 6
+    } else if ( val >= 35000 && val < 45000) {
+      return 7
+    } else if ( val >= 45000 && val < 55000) {
+      return 8
+    } else if ( val >= 55000 && val < 65000) {
+      return 9
+    } else if ( val >= 65000 && val < 75000) {
+      return 10
+    } else {
+      return 11;
+    }
   }
 
   getCompetitionLabel (val) {
