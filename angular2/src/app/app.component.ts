@@ -7,8 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { SettingsService } from '@app/_services/settings.service';
-import { HttpClient } from '@angular/common/http'
 import { CookieService } from './_services/cookieService';
+import { HttpService } from '@app/_services/httpService';
 
 @Component({
   selector: 'app-root',
@@ -42,18 +42,16 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private adapter: DateAdapter<Date>,
     private rootScope: RootScopeService,
-    private http: HttpClient,
+    private http: HttpService,
     private settings: SettingsService,
     private cookies: CookieService
   ) {
 
-    rootScope.set('lang', 'et');
-    
-    this.http.get(this.settings.url + '/session/token', {responseType: 'text'}).subscribe(data => {
+    this.http.xcsrf().subscribe(data => {
       sessionStorage.setItem('xcsrfToken', data);
-    }, (err) => {
-      console.log(err);
     });
+
+    rootScope.set('lang', 'et');
 
     this.isSidenavCloseDisabled = true;
 

@@ -44,6 +44,10 @@ export class HttpService {
 
   }
 
+  xcsrf() {
+    return this.http.get(this.settings.url + '/session/token', {responseType: 'text'});
+  }
+
   parseUrl(url){
     if( !url.match(/.*\s*:\/\/\s*/) && !url.match("/assets") ){
       url = this.settings.url+url;
@@ -101,15 +105,22 @@ export class HttpService {
   }
 
   post(url, data) {
-    const xcsrf = sessionStorage.getItem('xcsrfToken');
+    let xcsrf = sessionStorage.getItem('xcsrfToken');
     url = this.parseUrl(url);
     let headers = this.createAuthorizationHeader();
-    headers = headers.append('X-CSRF-TOKEN', xcsrf);
-    
+    if (!xcsrf) {
+      this.xcsrf().subscribe(data => {
+        let xcsrf = data;
+        headers = headers.append('X-CSRF-TOKEN', xcsrf);
+      });
+    } else {
+      headers = headers.append('X-CSRF-TOKEN', xcsrf);
+    }
     return this.http.post(url, data, {
       headers: headers
     });
   }
+
   fileUpload(url, data){
     url = this.parseUrl(url);
     let headers = this.createAuthorizationHeader();
