@@ -175,6 +175,8 @@ class xJsonRestResource extends ResourceBase {
 
 		if (empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
 		$response = $this->ehisService->postDocument(['json' => $request_body]);
+        \Drupal::logger('xjson')->notice(json_encode($request_body));
+        \Drupal::logger('xjson')->notice(json_encode($response));
 		return $this->returnBuildedResponse($response);
 	}
 
