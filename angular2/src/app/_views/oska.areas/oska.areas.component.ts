@@ -82,8 +82,8 @@ export class OskaAreasComponent implements OnInit{
           this.data = data['data']['route']['entity'];
           if (this.data.reverseFieldOskaFieldParagraph && this.data.reverseFieldOskaFieldParagraph.entities.length) {
             this.data.reverseFieldOskaFieldParagraph.entities = this.data.reverseFieldOskaFieldParagraph.entities.sort((elem1, elem2) => {
-              if(elem1.paragraphReference[0].entityLabel > elem2.paragraphReference[0].entityLabel) return 1;
-              if(elem1.paragraphReference[0].entityLabel < elem2.paragraphReference[0].entityLabel) return -1;
+              if(elem1.paragraphReference[0].entityLabel.toLowerCase() > elem2.paragraphReference[0].entityLabel.toLowerCase()) return 1;
+              if(elem1.paragraphReference[0].entityLabel.toLowerCase() < elem2.paragraphReference[0].entityLabel.toLowerCase()) return -1;
               return 0;
             });
           }
