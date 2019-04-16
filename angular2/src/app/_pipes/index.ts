@@ -6,6 +6,7 @@ import { UnixToTimePipe } from './unixToTime.pipe';
 import { WeekDayPipe } from './weekday.pipe';
 import { UrlPipe } from './url.pipe';
 import { FilterPipe } from './filter.pipe';
+import { alphabeticalSort } from './alphabeticalSort.pipe';
 import { GroupByPipe } from './groupBy.pipe';
 import { RemoveProtocolPipe } from './removeProtocol.pipe';
 import { titleCasePipe } from './titleCase.pipe';
@@ -22,6 +23,7 @@ import { LocaleNumberPipe } from './localeNumber.pipe';
     WeekDayPipe,
     UrlPipe,
     FilterPipe,
+    alphabeticalSort,
     GroupByPipe,
     RemoveProtocolPipe,
     titleCasePipe,
@@ -38,6 +40,7 @@ import { LocaleNumberPipe } from './localeNumber.pipe';
     WeekDayPipe,
     UrlPipe,
     FilterPipe,
+    alphabeticalSort,
     GroupByPipe,
     RemoveProtocolPipe,
     titleCasePipe,
