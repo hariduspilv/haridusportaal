@@ -1843,8 +1843,8 @@ button:
     en: Close
   save_draft:
     translation_type: textarea
-    et: 'Salvesta mustand'
-    en: 'Save draft'
+    et: 'Salvesta ja jätka'
+    en: 'Save and continue'
   rss_order:
     translation_type: textarea
     et: 'Telli teemad RSS-iga'
