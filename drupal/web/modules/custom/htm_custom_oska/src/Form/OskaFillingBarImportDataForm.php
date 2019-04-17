@@ -100,6 +100,10 @@ class OskaFillingBarImportDataForm extends FormBase {
                     [$file_array]
                 ],
                 [
+                    '\Drupal\htm_custom_oska\ProcessOskaFillingBarData::ClearOldValues',
+                    [$file_array]
+                ],
+                [
                     '\Drupal\htm_custom_oska\ProcessOskaFillingBarData::ProcessOskaFillingBarData',
                     [$file_array]
                 ]
