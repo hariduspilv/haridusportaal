@@ -44,7 +44,7 @@
                 <tr *ngIf="list && fixedLabelExists">
                   <td *ngFor="let item of list" class="lastCell centered"
                     [class.withBottom]="!graduatesToJobsFields.length && !finalFieldsArr.length && !paymentFields.length && !employedChangeFields.length && !employedFields.length && !progressFields.length && !oskaFieldsArr.length">
-                    <span class="important-pill" *ngIf="item.fieldFixedLabel">{{ 'fieldFixedLabel.label' | translate }}</span>
+                    <span class="important-pill" *ngIf="item.fieldFixedLabel && item.fieldFixedLabel.entity">{{item.fieldFixedLabel.entity.entityLabel}}</span>
                   </td>
                 </tr>
                 <tr *ngIf="list && oskaFieldsArr.length" class="shade">

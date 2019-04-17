@@ -29,4 +29,28 @@ h2 {margin-bottom: 0;}
 img:-moz-loading {
   visibility: hidden;
 }
+.label {
+  &__tag {height: 1.375rem;font-size: .75rem;border-radius: .6875rem;background: #f8b243;z-index: 2;
+    text-align: center;padding: 0 1rem;position: relative;white-space: nowrap;margin: 0 auto;
+    @include break-on(sm, max) {left: 5.5rem;margin:0;}
+    &--wrapper {height: 2rem;display: flex;position: relative;}
+    &--pointer {
+      :nth-child(6n) {position: relative;
+        &:after {content: '';position: absolute;border-right: 10px solid transparent;border-left: 10px solid transparent;
+          border-top: 12px solid #f8b243;right: 25%;bottom: 24px;z-index: 1;
+          @include break-on(sm, max) {bottom: 28px;}
+        }
+      }
+    }
+  }
+}
+// Firefox specific
+@media screen and (min--moz-device-pixel-ratio:0) {
+  .label__tag--pointer :nth-child(6n):after {
+    @include break-on(sm, min) {bottom: 20px;}
+    @include break-on(md, min) {bottom: 24px;}
+    @include break-on(xl, min) {bottom: 36px;}
+    @include break-on(xxl, min) {bottom: 52px;}
+  }
+}
 progress-bar .progress {margin-top: 1rem;}
