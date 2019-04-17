@@ -1,0 +1,15 @@
+name: Computed Field Example Formatter
+type: module
+description: Provides an example PHP formatter for computed fields where the code is implemented inside the module.
+# core: 8.x
+package: Field types
+dependencies:
+  - computed_field
+
+hidden: true
+
+# Information added by Drupal.org packaging script on 2018-12-28
+version: '8.x-2.0-beta1'
+core: '8.x'
+project: 'computed_field'
+datestamp: 1546032484
