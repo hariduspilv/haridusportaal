@@ -106,6 +106,7 @@ class ProcessOskaIndicatorData {
             foreach($fields as $field){
                 $entity->set($field, 0);
             }
+            $entity->save();
         }
     }
 
