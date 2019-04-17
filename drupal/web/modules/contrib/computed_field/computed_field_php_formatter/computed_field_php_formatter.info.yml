@@ -1,0 +1,13 @@
+name: Computed Field PHP Formatter
+type: module
+description: Defines a PHP formatter type that allows values to be "computed" via PHP code.
+# core: 8.x
+package: Field types
+dependencies:
+  - computed_field
+
+# Information added by Drupal.org packaging script on 2018-12-28
+version: '8.x-2.0-beta1'
+core: '8.x'
+project: 'computed_field'
+datestamp: 1546032484

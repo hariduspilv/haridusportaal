@@ -100,6 +100,10 @@ class OskaIndicatorImportDataForm extends FormBase {
                     [$file_array]
                 ],
                 [
+                    '\Drupal\htm_custom_oska\ProcessOskaIndicatorData::ClearOldValues',
+                    [$file_array]
+                ],
+                [
                     '\Drupal\htm_custom_oska\ProcessOskaIndicatorData::ProcessOskaIndicatorData',
                     [$file_array]
                 ]
