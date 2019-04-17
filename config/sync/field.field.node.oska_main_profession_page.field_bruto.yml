@@ -1,0 +1,23 @@
+uuid: 97320cbd-00df-47cb-a4fb-49ac56811b9b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_bruto
+    - node.type.oska_main_profession_page
+id: node.oska_main_profession_page.field_bruto
+field_name: field_bruto
+entity_type: node
+bundle: oska_main_profession_page
+label: Bruto
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
