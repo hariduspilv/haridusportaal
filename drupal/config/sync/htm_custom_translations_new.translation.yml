@@ -2702,6 +2702,10 @@ label:
     translation_type: textarea
     et: või
     en: or
+  average:
+    translation_type: textarea
+    et: 'Eesti keskmine'
+    en: 'Eesti keskmine'
 login_mobile:
   translation_type: textarea
   et: 'Sisene Mobiil ID-ga'
