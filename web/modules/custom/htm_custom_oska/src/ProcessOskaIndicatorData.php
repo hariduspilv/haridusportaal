@@ -20,7 +20,6 @@ class ProcessOskaIndicatorData {
         return new static();
     }
 
-
     public static function ValidateFile($items, &$context){
         $message = t('Validating file');
 
@@ -89,6 +88,27 @@ class ProcessOskaIndicatorData {
         $context['results']['values'] = $results;
     }
 
+    public static function ClearOldValues($items, &$context){
+        $fields = [
+            'field_bruto',
+            'field_education_indicator',
+            'field_number_of_employees',
+            'field_change_in_employment'
+        ];
+
+        $nids = \Drupal::entityQuery('node')
+            ->condition('type', 'oska_main_profession_page')
+            ->execute();
+        $storage = \Drupal::entityTypeManager()->getStorage('node');
+
+        foreach($nids as $nid){
+            $entity = $storage->load($nid);
+            foreach($fields as $field){
+                $entity->set($field, 0);
+            }
+        }
+    }
+
     public static function ProcessOskaIndicatorData($items, &$context){
         //process only if no errors otherwise nothing
         if(empty($context['results']['error'])){
@@ -109,6 +129,8 @@ class ProcessOskaIndicatorData {
 
                     $values = $context['results']['values'][$i];
                     if($values){
+                        dump($values);
+                        die();
                         $entity = OskaIndicatorEntity::create($values);
                         $entity->save();
 

@@ -1,0 +1,4 @@
+allowed_field_types:
+  - 'entity_reference'
+disallowed_entity_types: []
+allow_custom_storage: false

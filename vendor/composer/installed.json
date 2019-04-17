@@ -2737,6 +2737,83 @@
         ]
     },
     {
+        "name": "drupal/computed_field",
+        "version": "2.0.0-beta1",
+        "version_normalized": "2.0.0.0-beta1",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/computed_field.git",
+            "reference": "8.x-2.0-beta1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/computed_field-8.x-2.0-beta1.zip",
+            "reference": "8.x-2.0-beta1",
+            "shasum": "a918cb85b7865f15cc5a5c327e37964e53545161"
+        },
+        "require": {
+            "drupal/core": "~8.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.0-beta1",
+                "datestamp": "1546032480",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Beta releases are not covered by Drupal security advisories."
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Agileware",
+                "homepage": "https://www.drupal.org/user/89106"
+            },
+            {
+                "name": "Moonshine",
+                "homepage": "https://www.drupal.org/user/133705"
+            },
+            {
+                "name": "Pedro Lozano",
+                "homepage": "https://www.drupal.org/user/123766"
+            },
+            {
+                "name": "colan",
+                "homepage": "https://www.drupal.org/user/58704"
+            },
+            {
+                "name": "dealancer",
+                "homepage": "https://www.drupal.org/user/243418"
+            },
+            {
+                "name": "markus_petrux",
+                "homepage": "https://www.drupal.org/user/39593"
+            },
+            {
+                "name": "nickcaballero",
+                "homepage": "https://www.drupal.org/user/588336"
+            },
+            {
+                "name": "ram4nd",
+                "homepage": "https://www.drupal.org/user/601534"
+            }
+        ],
+        "description": "Defines a field type that allows values to be \"computed\" via PHP code.",
+        "homepage": "https://www.drupal.org/project/computed_field",
+        "support": {
+            "source": "https://git.drupalcode.org/project/computed_field"
+        }
+    },
+    {
         "name": "drupal/conditional_fields",
         "version": "1.0.0-alpha5",
         "version_normalized": "1.0.0.0-alpha5",
@@ -3605,6 +3682,67 @@
         "support": {
             "source": "http://cgit.drupalcode.org/devel",
             "issues": "http://drupal.org/project/devel",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
+        }
+    },
+    {
+        "name": "drupal/dynamic_entity_reference",
+        "version": "1.7.0",
+        "version_normalized": "1.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/dynamic_entity_reference.git",
+            "reference": "8.x-1.7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/dynamic_entity_reference-8.x-1.7.zip",
+            "reference": "8.x-1.7",
+            "shasum": "48473adb20413babb548a2501e396e66f13c30f2"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.7",
+                "datestamp": "1554020884",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Lee Rowlands",
+                "homepage": "https://www.drupal.org/u/larowlan",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Jibran Ijaz",
+                "homepage": "https://www.drupal.org/u/jibran",
+                "role": "Maintainer"
+            },
+            {
+                "name": "larowlan",
+                "homepage": "https://www.drupal.org/user/395439"
+            }
+        ],
+        "description": "Provides a field that allows an entity-reference field to reference more than one entity type.",
+        "homepage": "http://drupal.org/project/dynamic_entity_reference",
+        "support": {
+            "source": "http://cgit.drupalcode.org/dynamic_entity_reference",
+            "issues": "http://drupal.org/project/dynamic_entity_reference",
             "irc": "irc://irc.freenode.org/drupal-contribute"
         }
     },
@@ -6156,6 +6294,56 @@
         "homepage": "https://www.drupal.org/project/restui",
         "support": {
             "source": "http://cgit.drupalcode.org/restui"
+        }
+    },
+    {
+        "name": "drupal/reverse_entity_reference",
+        "version": "2.7.0-rc2",
+        "version_normalized": "2.7.0.0-RC2",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/reverse_entity_reference.git",
+            "reference": "8.x-2.7-rc2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/reverse_entity_reference-8.x-2.7-rc2.zip",
+            "reference": "8.x-2.7-rc2",
+            "shasum": "9f1b2b84df971f1ff5031b054b19fb6b8a4c79f5"
+        },
+        "require": {
+            "drupal/core": "~8.0",
+            "drupal/dynamic_entity_reference": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-2.x": "2.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-2.7-rc2",
+                "datestamp": "1512958388",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Project has not opted into security advisory coverage!"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "GeraldNDA",
+                "homepage": "https://www.drupal.org/user/3513746"
+            }
+        ],
+        "description": "Provide a back reference to all the entities that are referencing the current entity",
+        "homepage": "https://www.drupal.org/project/reverse_entity_reference",
+        "support": {
+            "source": "https://git.drupalcode.org/project/reverse_entity_reference"
         }
     },
     {
@@ -12881,6 +13069,11 @@
         "name": "webflo/drupal-core-require-dev",
         "version": "8.6.14",
         "version_normalized": "8.6.14.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/webflo/drupal-core-require-dev.git",
+            "reference": "a34a91c78db67979e3fd574bbec6045a932d2ca7"
+        },
         "require": {
             "behat/mink": "1.7.x-dev",
             "behat/mink-goutte-driver": "^1.2",
