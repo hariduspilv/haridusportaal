@@ -129,10 +129,22 @@ class ProcessOskaIndicatorData {
 
                     $values = $context['results']['values'][$i];
                     if($values){
-                        dump($values);
-                        die();
                         $entity = OskaIndicatorEntity::create($values);
                         $entity->save();
+
+                        //load main profession page, for updating values
+                        $main_profession_page = \Drupal::entityTypeManager()->getStorage('node')->load($values['oska_main_profession']);
+
+                        switch($values['oska_indicator']){
+                            case 'Hõivatute arv':
+                                $main_profession_page->set('field_number_of_employees', $values['value']);
+                            case 'Hõive muutus':
+                                $main_profession_page->set('field_change_in_employment', $values['value']);
+                            case 'Hariduse pakkumine':
+                                $main_profession_page->set('field_education_indicator', $values['value']);
+                            case 'Brutopalk':
+                                $main_profession_page->set('field_bruto', $values['value']);
+                        }
 
                         $context['sandbox']['progress']++;
                         $context['sandbox']['current_id'] = $i;
