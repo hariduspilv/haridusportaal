@@ -145,6 +145,7 @@ class ProcessOskaIndicatorData {
                             case 'Brutopalk':
                                 $main_profession_page->set('field_bruto', $values['value']);
                         }
+                        $main_profession_page->save();
 
                         $context['sandbox']['progress']++;
                         $context['sandbox']['current_id'] = $i;
