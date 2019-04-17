@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 import { HttpService} from '@app/_services/httpService';
 
 import * as _moment from 'moment';
+import { DeviceDetectorService } from 'ngx-device-detector';
 const moment = _moment;
 
 @Component({
@@ -27,7 +28,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
   private lang: string;
   private path: string;
-  private params: object;
+  private params: any;
   private limit: number = 5;
   private offset: number = 0;
 
@@ -48,7 +49,8 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute, 
-    private http: HttpService
+    private http: HttpService,
+    private device: DeviceDetectorService
   ) {
     super(null, null);
   }
@@ -70,30 +72,42 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         this.isceList['iscedf_broad'] = allocateIsceOptions(null, iscedf_all),
         this.isceList['iscedf_narrow'] = allocateIsceOptions(this.isceList['iscedf_broad'], iscedf_all),
         this.isceList['iscedf_detailed'] = allocateIsceOptions(this.isceList['iscedf_narrow'], iscedf_all),
-        
         this.FilterOptions['iscedf_broad'] = this.isceList['iscedf_broad'];
       }
       for(let i in this.filterOptionKeys){
-        //if URL params contains valid key
-        if( this.params[this.filterOptionKeys[i]] !== undefined ){
-          //if valid key includes iscedf
-          if(this.filterOptionKeys[i].includes('iscedf') && data['isced_f'] !== undefined) {
-            //populate options 
-            this.isceChange(parseInt(this.params[this.filterOptionKeys[i]]), this.filterOptionKeys[i])
-            //set selected isce option
-            this.filterFormItems[this.filterOptionKeys[i]] = this.params[this.filterOptionKeys[i]];
-          } else {
-            //set selected option
-            this.filterFormItems[this.filterOptionKeys[i]] = parseInt(this.params[this.filterOptionKeys[i]]);
-          }
-        }
         //Populate FilterOptions
         if( data[this.filterOptionKeys[i]] ) {
           this.FilterOptions[this.filterOptionKeys[i]] = data[this.filterOptionKeys[i]]['entities'];
         }
+        //if URL params contains valid key
+        if( this.params[this.filterOptionKeys[i]] !== undefined ){
+          //if valid key includes iscedf
+          if(this.filterOptionKeys[i].includes('iscedf') && data['isced_f'] !== undefined) {
+            //populate options
+            const isceArr = this.params[this.filterOptionKeys[i]].split(',').map(e => parseInt(e));
+            this.isceChange(isceArr, this.filterOptionKeys[i])
+            //set selected isce option
+            this.filterFormItems[this.filterOptionKeys[i]] = this.params[this.filterOptionKeys[i]].split(',');
+          } else {
+            //set selected option
+            switch (this.filterOptionKeys[i]) {
+              case 'level':
+              case 'language':
+              case 'type':
+                this.filterFormItems[this.filterOptionKeys[i]] = this.params[this.filterOptionKeys[i]].split(',').map(e => parseInt(e))
+                break;
+              default:
+                this.filterFormItems[this.filterOptionKeys[i]] = parseInt(this.params[this.filterOptionKeys[i]]);
+                break;
+            }
+          }
+        }
+        this.entityLabelSort(false, this.filterOptionKeys[i]);
       }
       //Determine whether to open detailed filter view or not based on what URL params we have
-      // this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
+      if(this.device.isDesktop()){
+        this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
+      }
 
       function allocateIsceOptions (parent, list){
        if(!parent) return list.filter(entity => entity.parentId == null);
@@ -104,22 +118,48 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     });
 
   }
+
+  entityLabelSort(e, prop) {
+    if(!e && this.filterFormItems[prop]) {
+      const sortedSelected = this.FilterOptions[prop].filter(el => this.filterFormItems[prop].find(value => parseInt(value) === parseInt(el.tid || el.entityId))).sort((a, b) => {
+        if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
+          return -1;
+        }
+        return 1;
+      });
+      const otherValues = this.FilterOptions[prop].filter(el => !sortedSelected.find(value => parseInt(value.tid || value.entityId) === parseInt(el.tid || el.entityId))).sort((a, b) => {
+        if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
+          return -1;
+        }
+        return 1;
+      });
+      this.FilterOptions[prop] = [...sortedSelected, ...otherValues];
+    }
+  }
+
   isValidAccreditation(date){
     //necessity pending on business logic decision #147
     return moment(date).isAfter(this.today);
   }
   
-  isceChange(id: number, level: string){
+  isceChange(id: any, level: string){
     //Update options
     if(level == 'iscedf_broad'){
       this.clearField('iscedf_narrow');
       this.clearField('iscedf_detailed');
-      if(id) this.FilterOptions['iscedf_narrow'] = this.isceList['iscedf_narrow'].filter(entity => entity.parentId == id );
-      
+      if(id) {
+        this.FilterOptions['iscedf_narrow'] = this.isceList['iscedf_narrow'].filter((entity) => {
+          return id.find(e => entity.parentId === parseInt(e));
+        });
+      } 
     } else if ( level == 'iscedf_narrow'){
       this.clearField('iscedf_detailed');
-      if(id) this.FilterOptions['iscedf_detailed'] = this.isceList['iscedf_detailed'].filter(entity => entity.parentId == id );
-    }   
+      if(id) {
+        this.FilterOptions['iscedf_detailed'] = this.isceList['iscedf_detailed'].filter((entity) => {
+          return id.find(e => entity.parentId === parseInt(e));
+        })
+      }
+    }
   }
 
   reset() {
@@ -180,7 +220,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       queryVars[key] = this.params[key] ? this.params[key].split(",") : undefined,
       queryVars[key + "Enabled"] = this.params[key] ? true : false
     }
-
     let variables = queryVars;
     
     this.dataSubscription = this.http.get('studyProgrammeList', {params:variables}).subscribe( (response) => {
@@ -192,7 +231,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       } else this.listEnd = false;
 
       this.list = this.list ? [...this.list, ...data['nodeQuery']['entities']] : data['nodeQuery']['entities'];
-
       this.dataSubscription.unsubscribe();
 
     });
@@ -202,7 +240,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   ngOnInit() {
     this.showFilter = window.innerWidth > 1024;
     this.filterFull = window.innerWidth < 1024;
-    
     this.pathWatcher();
     this.watchSearch();
     this.populateFilterOptions();
