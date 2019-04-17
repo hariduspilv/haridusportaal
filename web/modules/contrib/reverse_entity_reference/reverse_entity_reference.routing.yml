@@ -1,0 +1,9 @@
+# Reverse Entity Reference Settings Page
+reverse_entity_reference.settings:
+    path: '/admin/config/system/reverse-entity-reference'
+    defaults:
+        _title: Reverse Entity Reference 
+        _title_context: Edit Reverse Entity Reference settings
+        _form: 'Drupal\reverse_entity_reference\Form\SettingsForm'
+    requirements:
+        _permission: 'administer site configuration'
