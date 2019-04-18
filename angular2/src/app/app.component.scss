@@ -111,7 +111,11 @@ $grid-columns: 12;
   &.short-filter {margin-bottom: -$quarter !important;}
 }
 .form-additional-row {padding-top: $gutter;
-  &:last-child {margin-bottom: -$quarter !important;}
+  &:last-child {margin-bottom: -$quarter !important;
+    &.no-margin {
+      margin-bottom: 0 !important;
+    }
+  }
   &.no-gutter {
     .custom-checkbox {margin-left: 1rem;}
     @include break-on(sm, min) {margin-top: -1.5rem;
@@ -404,8 +408,6 @@ $grid-columns: 12;
   .w-100{width:100%;
     .mat-input-infix{width:auto;}
   }
-  .mt-0{margin-top:0 !important;}
-  .mb-0{margin-bottom:0 !important;}
   .mb-20{margin-bottom:1.25rem !important;}
   .mt-20{margin-top:1.25rem !important;}
   .mt-30{margin-top:1.875rem !important;}
@@ -974,3 +976,36 @@ a:hover .important-pill {
     }
   }
 }
+
+/* margin utility classes */
+// margin top
+.mt {
+  &-0 {
+    margin-top: 0 !important;
+  }
+}
+// margin bottom
+.mb {
+  &-0 {
+    margin-bottom: 0 !important;
+  }
+}
+// margin y-axis (top & bottom)
+.my {
+  &-0 {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+  }
+}
+
+.pb {
+  &-0 {
+    padding-bottom: 0 !important;
+  }
+}
+
+.pt {
+  &-1 {
+    padding-top: 0.5rem !important;
+  }
+} 
