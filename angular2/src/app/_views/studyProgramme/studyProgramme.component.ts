@@ -120,19 +120,30 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
 
   entityLabelSort(e, prop) {
-    if(!e && this.filterFormItems[prop]) {
-      const sortedSelected = this.FilterOptions[prop].filter(el => this.filterFormItems[prop].find(value => parseInt(value) === parseInt(el.tid || el.entityId))).sort((a, b) => {
-        if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
-          return -1;
-        }
-        return 1;
-      });
-      const otherValues = this.FilterOptions[prop].filter(el => !sortedSelected.find(value => parseInt(value.tid || value.entityId) === parseInt(el.tid || el.entityId))).sort((a, b) => {
-        if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
-          return -1;
-        }
-        return 1;
-      });
+    if(!e) {
+      let sortedSelected = [];
+      let otherValues = [];
+      if(this.filterFormItems[prop]){
+        sortedSelected = this.FilterOptions[prop].filter(el => this.filterFormItems[prop].find(value => parseInt(value) === parseInt(el.tid || el.entityId))).sort((a, b) => {
+          if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
+            return -1;
+          }
+          return 1;
+        });
+        otherValues = this.FilterOptions[prop].filter(el => !sortedSelected.find(value => parseInt(value.tid || value.entityId) === parseInt(el.tid || el.entityId))).sort((a, b) => {
+          if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
+            return -1;
+          }
+          return 1;
+        });
+      } else if(this.FilterOptions[prop]) {
+        otherValues = this.FilterOptions[prop].sort((a, b) => {
+          if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
+            return -1;
+          }
+          return 1;
+        })
+      }
       this.FilterOptions[prop] = [...sortedSelected, ...otherValues];
     }
   }
@@ -145,19 +156,25 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   isceChange(id: any, level: string){
     //Update options
     if(level == 'iscedf_broad'){
-      this.clearField('iscedf_narrow');
-      this.clearField('iscedf_detailed');
+
+      // this.clearField('iscedf_narrow');
+      // this.clearField('iscedf_detailed');
+      this.filterFormItems.iscedf_narrow = [];
+      this.filterFormItems.iscedf_detailed = []
       if(id) {
         this.FilterOptions['iscedf_narrow'] = this.isceList['iscedf_narrow'].filter((entity) => {
           return id.find(e => entity.parentId === parseInt(e));
         });
-      } 
+        this.entityLabelSort(false, 'iscedf_narrow');
+      }
     } else if ( level == 'iscedf_narrow'){
-      this.clearField('iscedf_detailed');
+      // this.clearField('iscedf_detailed');
+      this.filterFormItems.iscedf_detailed = [];
       if(id) {
         this.FilterOptions['iscedf_detailed'] = this.isceList['iscedf_detailed'].filter((entity) => {
           return id.find(e => entity.parentId === parseInt(e));
-        })
+        });
+        this.entityLabelSort(false, 'iscedf_detailed');
       }
     }
   }
