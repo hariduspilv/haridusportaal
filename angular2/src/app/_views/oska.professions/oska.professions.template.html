@@ -132,7 +132,7 @@
 
   <div *ngIf="data && data.length > 0">
   
-    <ng-container *ngFor="let item of data | alphabeticalSort: 'title'; let i = index">
+    <ng-container *ngFor="let item of data; let i = index">
       <div class="studyProgramme__item" *ngIf="i < listLimit">
         <div class="studyProgramme__item__titlebox">
           <div class="col-grow">
