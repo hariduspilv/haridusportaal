@@ -260,7 +260,10 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     this.pathWatcher();
     this.watchSearch();
     this.populateFilterOptions();
-    this.filterFormItems.open_admission = true; //default
+    // if no selections made
+    if(Object.keys(this.filterFormItems).length === 0) {
+      this.filterFormItems.open_admission = true; //default
+    }
     this.filterSubmit();
   }
   ngOnDestroy() {
