@@ -31,11 +31,15 @@
               <img src="{{ content.fieldImage.derivative.url }}" alt="{{ content.fieldImage.alt }}" title="{{ content.fieldImage.title }}" style="max-width:100%;" />
               <div aria-hidden="true" class="image-alt-text" *ngIf="content.fieldImage.title">{{ content.fieldImage.title }}</div>
             </div>
+            <div *ngIf="!content.fieldImage && content.fieldVideo && content.fieldVideo.length > 0">
+              <video-component [videos]="[content.fieldVideo[0]]"></video-component>
+            </div>
             
-            <div class="description" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
+            <div class="description" [class.sm-top]="!content.fieldImage && content.fieldVideo && content.fieldVideo.length > 0" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
           </article>
 
-          <video-component *ngIf="content.fieldVideo && content.fieldVideo.length > 0" [videos]="content.fieldVideo"></video-component>
+          <video-component *ngIf="content.fieldImage && content.fieldVideo && content.fieldVideo.length > 0" [videos]="content.fieldVideo"></video-component>
+          <video-component *ngIf="!content.fieldImage && content.fieldVideo && content.fieldVideo.length === 2" [videos]="[content.fieldVideo[1]]"></video-component>
           
           <div class="accordion" *ngIf="accordionSection.length > 0">
             <mat-accordion multi>
