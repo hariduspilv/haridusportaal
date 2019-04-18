@@ -20,14 +20,12 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   public errMessage: any = false;
   private params: any;
   public lang: string;
-  public limit: number = 999;
-  public listLimit: number = 5;
-  public step: number = 5;
+  public listLimit: number = 24;
+  public step: number = 24;
   public listEnd: boolean;
   public showFilter: boolean = true;
   public filterFull: boolean = true;
   public oskaFieldValue: any = [];
-  public sortedBy: any = [];
   private FilterOptions: any = {};
   private filterOptionKeys = ['oskaFieldValue', 'sortedBy', 'fixedLabelValue', 'oskaFixedLabels', 'fillingBarValues'];
   public competitionLabels = ['oska.simple_extended', 'oska.quite_simple_extended', 'oska.medium_extended', 'oska.quite_difficult_extended', 'oska.difficult_extended'];
@@ -37,6 +35,16 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   private oskaFixedLabels: any = [];
   private oskaFixedLabelsObs: any = [];
   private fillingBarValues = [1, 2, 3, 4, 5];
+  private sortedBy: Array<Object> = [
+    { name: 'Brutopalga järgi kasvavalt', id: 'field_bruto-asc', modifier: 'ASC' },
+    { name: 'Brutopalga järgi kahanevalt', id: 'field_bruto-desc', modifier: 'DESC' },
+    { name: 'Hariduse pakkumise järgi kasvavalt', id: 'field_education_indicator-asc', modifier: 'ASC' },
+    { name: 'Hariduse pakkumise järgi kahanevalt', id: 'field_education_indicator-desc', modifier: 'DESC' },
+    { name: 'Hõivatute arvu järgi kasvavalt', id: 'field_number_of_employees-asc', modifier: 'ASC' },
+    { name: 'Hõivatute arvu järgi kahanevalt', id: 'field_number_of_employees-desc', modifier: 'DESC' },
+    { name: 'Hõive muutuse järgi kasvavalt', id: 'field_change_in_employment-asc', modifier: 'ASC' },
+    { name: 'Hõive muutuse järgi kahanevalt', id: 'field_change_in_employment-desc', modifier: 'DESC' }
+  ];
   private isFirstLoad = true;
 
   constructor(
@@ -53,7 +61,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   populateFilterOptions(){
     let variables = {
       lang: this.lang.toUpperCase(),
-      limit: this.limit
+      limit: this.listLimit
     };
     this.filterSub = this.http.get('oskaMainProfessionListViewFilter', {params:variables}).subscribe((response: any) => {
       this.oskaFieldValue = response.data.oskaFields.entities;
@@ -61,16 +69,8 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       let oskaIndicators = response.data.oskaIndicators.entities;
       let ascendingLabel = this.translate.get('oska.ascending')['value'];
       let descendingLabel = this.translate.get('oska.descending')['value'];
-      let oskaIndicatorUniqueValues = Array.from(new Set(oskaIndicators.map(item => item.oskaIndicator)));
       this.oskaFixedLabels = response.data.oskaFixedLabels.entities;
       this.oskaFixedLabelsObs = of(this.oskaFixedLabels);
-      oskaIndicatorUniqueValues.forEach((elem, index) => {
-        this.sortedBy = [
-          ...this.sortedBy, 
-          { name: elem + " - " + ascendingLabel, indicator: elem, id: elem + "-asc", modifier: 'ascending' }, 
-          { name: elem + " - " + descendingLabel, indicator: elem, id: elem + "-desc", modifier: 'descending' }
-        ];
-      });
       for(let i in this.filterOptionKeys){
         if( this[this.filterOptionKeys[i]] ) {
           this.FilterOptions[this.filterOptionKeys[i]] = this[this.filterOptionKeys[i]];
@@ -100,9 +100,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   };
   loadMore(){
     this.listLimit += this.step;
-    if( this.data.length <= this.listLimit ){ 
-      this.listEnd = true;
-    } else this.listEnd = false;
+    this.getData(this.params);
     let focusTarget = (this.listLimit - this.step - 1).toString();
     document.getElementById(focusTarget).focus();
   }
@@ -135,7 +133,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
 
   oskaFixedLabelsSort() {
     if(this.filterFormItems.oskaFixedLabels) {
-          const sortedSelected = this.FilterOptions.oskaFixedLabels.filter(el => this.filterFormItems.oskaFixedLabels.find(value => value === el.entityId)).sort((a, b) => {
+      const sortedSelected = this.FilterOptions.oskaFixedLabels.filter(el => this.filterFormItems.oskaFixedLabels.find(value => value === el.entityId)).sort((a, b) => {
       if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
         return -1;
       }
@@ -149,8 +147,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   }
 
   reset() {
-    this.limit = 999;
-    this.listLimit = 5;
+    this.listLimit = this.step;
     this.listEnd = false;
     this.data = false;
     this.getData(this.params);
@@ -163,8 +160,6 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       this.dataSub.unsubscribe();
     }
     this.filterFormItems = !Object.keys(this.params).length ? {} : this.filterFormItems;
-    this.data = false;
-    
     let variables = {
       lang: this.lang.toUpperCase(),
       titleValue: this.params['titleValue'] ? "%" + this.params['titleValue'] + "%" : "",
@@ -173,50 +168,26 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       oskaFieldEnabled: this.params['oskaFieldValue'] ? true : false,
       fixedLabelValue: this.params['oskaFixedLabels'] ? this.params['oskaFixedLabels'].split(',') : '',
       fixedLabelEnabled: this.params['oskaFixedLabels'] ? true : false,
-      fillingBarValues: this.params['fillingBarValues'] ? this.params['fillingBarValues'].split(',') : '',
+      fillingBarValues: this.params['fillingBarValues'] ? this.params['fillingBarValues'].split(',') : [],
+      fillingBarFilterEnabled: this.params['fillingBarValues'] ? true : false,
       sortedBy: false,
       nidEnabled: false,
-      offset: 0,
-      limit: this.limit
+      offset: this.listLimit - this.step,
+      limit: this.step,
+      sortField: this.params['sortedBy'] ? this.params['sortedBy'].split('-')[0] : 'title',
+      sortDirection: this.params['sortedBy'] ? this.params['sortedBy'].split('-')[1].toUpperCase() : 'ASC',
+      indicatorSort: this.params['sortedBy'] ? true : false,
     };
     this.dataSub = this.http.get('oskaMainProfessionListView', {params:variables}).subscribe(response => {
-      let responseVal: any = response['data']['nodeQuery']['entities'];
-      let filterIndicator: any = false;
-      let responseData: any = false;
+      let responseVal: any = response['data']['nodeQuery'];
       this.loading = false;
       if (response['errors']) {
         this.loading = false;
         this.data = [];
         this.errMessage = response['errors'][0]['message'];
       }
-      
-      // Sort by filter if it exists
-      if (this.params['sortedBy'] && this.FilterOptions['sortedBy']) {
-        filterIndicator = this.FilterOptions['sortedBy'].filter(elem => elem.id === this.params['sortedBy'])[0];
-      }
-      if (filterIndicator && responseVal.length) {
-        responseData = responseVal.filter((elem) => {
-          return elem.reverseOskaMainProfessionOskaIndicatorEntity.entities.filter(indicator => indicator.oskaIndicator === filterIndicator.indicator).length > 0;
-        }).sort((a, b) => {
-          let indicatorA = a.reverseOskaMainProfessionOskaIndicatorEntity.entities.filter(indicator => indicator.oskaIndicator === filterIndicator.indicator)[0];
-          let indicatorB = b.reverseOskaMainProfessionOskaIndicatorEntity.entities.filter(indicator => indicator.oskaIndicator === filterIndicator.indicator)[0];
-          return filterIndicator.modifier === 'ascending' ? indicatorA.value - indicatorB.value : indicatorB.value - indicatorA.value;
-        });
-      } else {
-        responseData = responseVal;
-      }
-      if(this.params['fillingBarValues']) {
-        const values = this.params['fillingBarValues'].split(',');
-        responseData = responseData.filter((el) => {
-          if(el.reverseOskaMainProfessionOskaFillingBarEntity.entities[0]) {
-            return values.find(value => value === el.reverseOskaMainProfessionOskaFillingBarEntity.entities[0].value);
-          }
-          return false;
-        })
-      }
-      this.data = responseData;
-
-      if( responseData.length <= this.listLimit ){ 
+      this.data = this.data && this.data.length ? [...this.data, ...responseVal['entities']] : responseVal['entities'];
+      if( responseVal.count <= this.listLimit ){ 
         this.listEnd = true;
       } else this.listEnd = false;
       this.dataSub.unsubscribe();
