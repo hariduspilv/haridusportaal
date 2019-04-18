@@ -25,11 +25,11 @@
           <hr aria-hidden="true" *ngIf="!last">
         </ng-container>
         <ng-container *ngIf="indicator.oskaId === 2 && indicator.icon > 0 && indicator.icon < 6">
-          <h2 class="medium" attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}">{{ 'oska.numberEmployedChange' | translate }}:</h2>
-          <div class="padding-block--content">
+          <h2 class="medium" attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}: {{trendingValues[indicator.icon - 1].text | translate}}">{{ 'oska.numberEmployedChange' | translate }}:</h2>
+          <div class="padding-block--content" aria-hidden="true">
             <div class="flex centered final">
               <div class="{{'icon-wrapper'}} {{trendingValues[indicator.icon - 1].class}}"><span class="htm-icon" aria-hidden="true">{{trendingValues[indicator.icon - 1].icon}}</span></div>
-              <div class="flex-text"><span role="text" attr.aria-label="{{trendingValues[indicator.icon - 1].text | translate}}">{{trendingValues[indicator.icon - 1].text | translate}}</span></div>
+              <div class="flex-text"><span role="text">{{trendingValues[indicator.icon - 1].text | translate}}</span></div>
             </div>
           </div>
           <hr aria-hidden="true" *ngIf="!last">
