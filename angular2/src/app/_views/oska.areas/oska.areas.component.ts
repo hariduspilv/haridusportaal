@@ -95,6 +95,7 @@ export class OskaAreasComponent implements OnInit{
           this.sidebarData = this.data.fieldOskaFieldSidebar.entity;
           /* here be dragons */
           this.oskaAreaIndicators = { entities: []};
+          let hasFieldNumberEmployed = false;
           if(this.data.fieldOskaFieldSidebar.entity.fieldNumberEmployed) {
             this.oskaAreaIndicators['entities'].push({
               oskaId: 1,
@@ -102,8 +103,9 @@ export class OskaAreasComponent implements OnInit{
               oskaIndicator: "Hõivatute arv",
               icon: this.getFieldNumberEmployedIcon(this.data.fieldOskaFieldSidebar.entity.fieldNumberEmployed),
             })
+            hasFieldNumberEmployed = true;
           }
-          if(this.data.fieldOskaFieldSidebar.entity.fieldEmploymentChange){
+          if(this.data.fieldOskaFieldSidebar.entity.fieldEmploymentChange && hasFieldNumberEmployed){
             this.oskaAreaIndicators['entities'].push({
               oskaId: 2,
               value: this.data.fieldOskaFieldSidebar.entity.fieldEmploymentChange,
