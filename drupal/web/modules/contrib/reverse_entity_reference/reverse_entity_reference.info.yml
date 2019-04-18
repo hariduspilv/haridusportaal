@@ -1,0 +1,19 @@
+name: Reverse Entity Reference
+type: module
+description: Provide a back reference to all the entities that are referencing the current entity
+# core: 8.x
+package:  Field types
+dependencies:
+  - dynamic_entity_reference
+
+# Information added by Drupal.org packaging script on 2017-04-04
+# version: '8.x-2.x-dev'
+# core: '8.x'
+# project: 'reverse_entity_reference'
+# datestamp: 1491321185
+
+# Information added by Drupal.org packaging script on 2017-12-11
+version: '8.x-2.7-rc2'
+core: '8.x'
+project: 'reverse_entity_reference'
+datestamp: 1512958391

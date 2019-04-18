@@ -12,7 +12,7 @@ import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confi
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';
-import { MAT_DATE_FORMATS } from "@angular/material";
+import { MAT_DATE_FORMATS } from '@angular/material';
 import * as moment from 'moment';
 
 const XJSON_DATEPICKER_FORMAT = {
@@ -48,7 +48,7 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   public form_name: string;
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
-  public datepickerFocus: boolean = false;
+  public datepickerFocus = false;
   public temporaryModel = {};
   public data;
   public opened_step;
@@ -60,14 +60,14 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   public subButtons;
   public activityButtons;
   public error = {};
-  public loginError: boolean = false;
-  public userLoggedOut: boolean = false;
+  public loginError = false;
+  public userLoggedOut = false;
 
   public autoCompleteContainer = {};
   public autocompleteDebouncer = {};
   public autocompleteSubscription = {};
-  public autocompleteLoader: boolean = true;
-  public addressFieldFocus: boolean = false;
+  public autocompleteLoader = true;
+  public addressFieldFocus = false;
 
   constructor(
     private translate: TranslateService,
@@ -84,18 +84,18 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   }
 
   pathWatcher() {
-    let params = this.route.params.subscribe(
+    const params = this.route.params.subscribe(
       (params: ActivatedRoute) => {
-        this.form_name = params['form_name']
+        this.form_name = params['form_name'];
         this.lang = params['lang'];
       }
     );
-    let strings = this.route.queryParams.subscribe(
+    const strings = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
         this.test = (strings['test'] == 'true');
-        if (strings['draft'] == 'true') this.queryStrings['status'] = 'draft'
-        if (strings['existing'] == 'true') this.queryStrings['status'] = 'submitted';
-        if (strings['identifier'] != undefined) this.queryStrings['id'] = Number(strings['identifier']);
+        if (strings['draft'] == 'true') { this.queryStrings['status'] = 'draft' }
+        if (strings['existing'] == 'true') { this.queryStrings['status'] = 'submitted'; }
+        if (strings['identifier'] != undefined) { this.queryStrings['id'] = Number(strings['identifier']); }
       }
     );
 
@@ -109,16 +109,16 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
 
   scrollPositionController() {
 
-    let _opened_step = this.opened_step;
+    const _opened_step = this.opened_step;
     if (_opened_step) {
 
       setTimeout(function () {
-        var step_navigation_container = document.getElementById('stepNavigation');
-        var opened_step_element = document.getElementById(_opened_step);
+        let step_navigation_container = document.getElementById('stepNavigation');
+        let opened_step_element = document.getElementById(_opened_step);
 
-        let parent_center = step_navigation_container.offsetWidth / 2;
-        let button_center = opened_step_element.offsetWidth / 2;
-        var position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
+        const parent_center = step_navigation_container.offsetWidth / 2;
+        const button_center = opened_step_element.offsetWidth / 2;
+        let position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
 
         if (window.pageYOffset > 0) {
           try {
@@ -139,15 +139,15 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
           }
         }
 
-      }, 0)
+      }, 0);
     }
   }
 
   setDatepickerValue(event, element) {
      if (this.datepickerFocus === false) {
       if (event instanceof FocusEvent) {
-        let date = moment(event.target['value'], 'DD.MM.YYYY').format('L');
-        if(date == 'Invalid date') {
+        const date = moment(event.target['value'], 'DD.MM.YYYY').format('L');
+        if (date == 'Invalid date') {
           this.data_elements[element].value = null;
           event.target['value'] = null;
         } else {
@@ -159,11 +159,11 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkboxChange(event, element){
+  checkboxChange(event, element) {
     this.data_elements[element].value = event.checked ? 'true' : 'false';
   }
 
-  selectListCompare(a, b) { 
+  selectListCompare(a, b) {
     return a && b ? a == b : a == b;
   }
   isFieldDisabled(readonly): boolean {
@@ -193,10 +193,10 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     this.dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.data.header.current_step = this.opened_step;
-        this.data.header["activity"] = 'SAVE';
-        let payload = { form_name: this.form_name, form_info: this.data }
-        if (this.test === true) this.promptDebugDialog(payload)
-        else this.getData(payload);
+        this.data.header['activity'] = 'SAVE';
+        const payload = { form_name: this.form_name, form_info: this.data };
+        if (this.test === true) { this.promptDebugDialog(payload) }
+        else { this.getData(payload); }
       }
       this.dialogRef = null;
     });
@@ -207,22 +207,22 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   }
 
   selectLanguage(obj: object) {
-    if (obj[this.lang]) return obj[this.lang];
-    else return obj['et'];
+    if (obj[this.lang]) { return obj[this.lang]; }
+    else { return obj['et']; }
   }
 
   setNavigationLinks(list, opened): {}[] {
-    if (list.length == 0) return [];
-    let output: {}[] = []
+    if (list.length == 0) { return []; }
+    const output: {}[] = [];
 
     if (list[0] != opened) {
-      let previous = list[list.indexOf(opened) - 1]
+      const previous = list[list.indexOf(opened) - 1];
       if (this.isStepDisabled(previous) === false) {
         output.push({ label: 'button.previous', step: previous, 'type': 'link' });
       }
     }
     if (list[list.length - 1] != opened) {
-      let next = list[list.indexOf(opened) + 1];
+      const next = list[list.indexOf(opened) + 1];
       if (this.isStepDisabled(next) === false) {
         output.push({ label: 'button.next', step: next, 'type': 'link' });
       }
@@ -231,9 +231,9 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   }
 
   isStepDisabled(step): boolean {
-    let max_step = this.max_step;
-    let steps = Object.keys(this.data.body.steps);
-    let isAfterCurrentStep = steps.indexOf(step) > steps.indexOf(max_step) ? true : false;
+    const max_step = this.max_step;
+    const steps = Object.keys(this.data.body.steps);
+    const isAfterCurrentStep = steps.indexOf(step) > steps.indexOf(max_step) ? true : false;
 
     if (this.current_acceptable_activity.includes('VIEW') && !isAfterCurrentStep) {
       return false;
@@ -246,61 +246,61 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     }
   }
   isValidField(field) {
-    //check for required field
+    // check for required field
     if (field.required === true) {
-      if (field.value === undefined || field.value === null) return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }
+      if (field.value === undefined || field.value === null) { return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] } }
     }
     if (typeof field.value !== 'undefined') {
-      //check for minlength
-      if (field.minlength !== undefined && field.value !== "") {
-        if (field.value.length < field.minlength) return { valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }
+      // check for minlength
+      if (field.minlength !== undefined && field.value !== '') {
+        if (field.value.length < field.minlength) { return { valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength } }
       }
-      //check for maxlength
-      if (field.maxlength !== undefined && field.value !== "") {
-        if (field.value.length > field.maxlength) return { valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength }
+      // check for maxlength
+      if (field.maxlength !== undefined && field.value !== '') {
+        if (field.value.length > field.maxlength) { return { valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength } }
       }
-      //check for min
+      // check for min
       if (field.min !== undefined) {
         if (field.type === 'date') {
           if (moment(field.value).isBefore(field.min)) {
-            return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') }
+            return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') };
           }
         } else if (field.value < field.min) {
-          return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min }
+          return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min };
         }
       }
-      //check for max
+      // check for max
       if (field.max !== undefined) {
         if (field.type === 'date') {
           if (moment(field.value).isAfter(field.max)) {
-            return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(field.max).format('DD.MM.YYYY') }
+            return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(field.max).format('DD.MM.YYYY') };
           }
         } else if (field.value > field.max) {
           return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max };
         }
       }
-      //check for email format
+      // check for email format
       if (field.type === 'email') {
-        let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (reg.test(field.value) === false) return { valid: false, message: this.translate.get('xjson.enter_valid_email')['value'] }
+        const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (reg.test(field.value) === false) { return { valid: false, message: this.translate.get('xjson.enter_valid_email')['value'] } }
       }
     }
     return { valid: true, message: 'valid' };
   }
 
   validateForm(elements): void {
-    const NOT_FOR_VALIDATION = ['heading', 'helpertext',]
+    const NOT_FOR_VALIDATION = ['heading', 'helpertext', ];
 
-    for (let field in elements) {
-      let element = elements[field];
+    for (const field in elements) {
+      const element = elements[field];
       if (!NOT_FOR_VALIDATION.includes(element.type)) {
-        let validation = this.isValidField(element);
+        const validation = this.isValidField(element);
         if (validation.valid !== true) {
           this.error[field] = validation;
           break;
         }
       }
-    };
+    }
   }
 
   submitForm(activity: string) {
@@ -312,10 +312,10 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
       this.validateForm(this.data_elements);
 
       if (Object.keys(this.error).length == 0) {
-        this.data.header["activity"] = activity;
-        let payload = { form_name: this.form_name, form_info: this.data };
+        this.data.header['activity'] = activity;
+        const payload = { form_name: this.form_name, form_info: this.data };
         if (this.test === true) {
-          this.promptDebugDialog(payload)
+          this.promptDebugDialog(payload);
         } else {
           this.getData(payload);
         }
@@ -333,34 +333,34 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
 
   selectStep(step) {
     if (step === this.opened_step) {
-      return //to nothing
+      return; // to nothing
     } else {
       if (this.isStepDisabled(step)) {
         return this.errorHandler('This step is disabled');
       }
       this.opened_step = step;
-      this.viewController(this.data)
+      this.viewController(this.data);
     }
   }
 
   setActivityButtons(activities: string[]) {
-    let output = { primary: [], secondary: [] };
-    let editableActivities = ['SUBMIT', 'CONTINUE'];
-    let maxStepActions = [{ action: 'SAVE', label: 'button.save_draft' }]
+    const output = { primary: [], secondary: [] };
+    const editableActivities = ['SUBMIT', 'CONTINUE'];
+    const maxStepActions = [{ action: 'SAVE', label: 'button.save_draft' }];
     if (this.opened_step < this.max_step) {
 
-      let displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-      if (displayEditButton) output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' })
+      const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
+      if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }) }
 
     } else {
       activities.forEach(activity => {
         if (editableActivities.includes(activity)) {
-          output['primary'].push({ label: 'button.' + activity.toLowerCase(), action: activity, style: 'primary' })
+          output['primary'].push({ label: 'button.' + activity.toLowerCase(), action: activity, style: 'primary' });
         }
       });
       maxStepActions.forEach(button => {
         if (activities.some(activity => button.action == activity)) {
-          output['secondary'].push({ label: button.label, action: button.action })
+          output['secondary'].push({ label: button.label, action: button.action });
         }
       });
     }
@@ -378,7 +378,7 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
         title: data.form_name,
         json: data,
         confirm: 'Jätka',
-        cancel: "Katkesta"
+        cancel: 'Katkesta'
       }
     });
     this.dialogRef.afterClosed().subscribe(result => {
@@ -404,18 +404,18 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   getData(data) {
 
     if (this.test) {
-      data.test = true; //TEST
+      data.test = true; // TEST
     }
 
     if (this.queryStrings) {
       data = { ...data, ... this.queryStrings };
     }
 
-    let subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
+    const subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
 
-      if (!response['header']) return this.errorHandler('Missing header from response');
-      if (!response['body']) return this.errorHandler('Missing body from response');
-      if (!response['body']['steps']) return this.errorHandler('Missing body.steps from response');
+      if (!response['header']) { return this.errorHandler('Missing header from response'); }
+      if (!response['body']) { return this.errorHandler('Missing body from response'); }
+      if (!response['body']['steps']) { return this.errorHandler('Missing body.steps from response'); }
 
       if (response['header']['current_step']) {
         this.setMaxStep(response);
@@ -427,15 +427,15 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
         }
         this.current_acceptable_activity = response['header']['acceptable_activity'];
 
-        let acceptableActivityIncludesTarget = this.current_acceptable_activity.some(key => {
+        const acceptableActivityIncludesTarget = this.current_acceptable_activity.some(key => {
           return ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key);
-        })
+        });
 
         if (acceptableActivityIncludesTarget && !response['header']['current_step']) {
-          return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE')
+          return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE');
         }
       }
-      this.stepController(response)
+      this.stepController(response);
 
       subscription.unsubscribe();
     }, err => {
@@ -459,16 +459,16 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     this.data_messages = this.data.body.steps[this.opened_step].messages;
 
     if (!this.data_elements) {
-      let payload = { form_name: this.form_name, form_info: xjson }
+      const payload = { form_name: this.form_name, form_info: xjson };
 
-      if (this.test === true) this.promptDebugDialog(payload)
-      else this.getData(payload)
+      if (this.test === true) { this.promptDebugDialog(payload) }
+      else { this.getData(payload) }
 
     } else {
 
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
 
-      this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity)
+      this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
 
       this.scrollPositionController();
     }
@@ -477,22 +477,22 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userLoggedOut = this.user.getData()['isExpired'];
     this.pathWatcher();
-    let payload = { form_name: this.form_name }
+    const payload = { form_name: this.form_name };
 
     if (this.test === true) {
-      this.promptDebugDialog(payload)
+      this.promptDebugDialog(payload);
     } else {
-      //TODO: create catcher to prevent endless loop requests...
+      // TODO: create catcher to prevent endless loop requests...
       this.getData(payload);
     }
-  };
+  }
 
   ngOnDestroy() {
     /* Clear all subscriptions */
-    for (let sub of this.subscriptions) {
+    for (const sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
     }
-  };
-};
+  }
+}

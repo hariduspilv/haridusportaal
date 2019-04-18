@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Contains the update scripts for the reverse_entity_reference module.
+ */
+use Drupal\Core\Entity\EntityStorageException;
+/**
+ *  Remove old entity reference fields and add
+ */
+function reverse_entity_reference_update_8101( &$sandbox ){
+    try {
+        \Drupal::entityDefinitionUpdateManager()->applyUpdates();
+    }
+    catch (EntityStorageException $e) {
+        \Drupal::logger()->error($e);
+        return t('There was an error applying entity updates');
+    }
+    return t('All entities were updated properly, so all reverse_entity' .
+        '_reference fields should be added and old back reference fields were removed');
+    
+}
+
+function reverse_entity_reference_update_8201( &$sandbox ){
+    $config_factory = \Drupal::configFactory();
+    if( !$config_factory->get('reverse_entity_reference.settings')->get('allowed_field_types') ){
+        $rer_settings = $config_factory->getEditable('reverse_entity_reference.settings');
+        $rer_settings->set('allowed_field_types', ['entity_reference']);
+    }
+    return t('Added reverse_entity_reference settings page and default settings.' .
+        'Now reverse_entity_reference fields can support other field types.');
+}

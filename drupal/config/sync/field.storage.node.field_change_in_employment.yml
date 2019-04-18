@@ -1,0 +1,20 @@
+uuid: 7017c84e-6ac5-41e7-8fdc-4e81e62b8cc8
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_change_in_employment
+field_name: field_change_in_employment
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

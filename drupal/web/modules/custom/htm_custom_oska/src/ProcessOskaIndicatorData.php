@@ -20,7 +20,6 @@ class ProcessOskaIndicatorData {
         return new static();
     }
 
-
     public static function ValidateFile($items, &$context){
         $message = t('Validating file');
 
@@ -89,6 +88,28 @@ class ProcessOskaIndicatorData {
         $context['results']['values'] = $results;
     }
 
+    public static function ClearOldValues($items, &$context){
+        $fields = [
+            'field_bruto',
+            'field_education_indicator',
+            'field_number_of_employees',
+            'field_change_in_employment'
+        ];
+
+        $nids = \Drupal::entityQuery('node')
+            ->condition('type', 'oska_main_profession_page')
+            ->execute();
+        $storage = \Drupal::entityTypeManager()->getStorage('node');
+
+        foreach($nids as $nid){
+            $entity = $storage->load($nid);
+            foreach($fields as $field){
+                $entity->set($field, 0);
+            }
+            $entity->save();
+        }
+    }
+
     public static function ProcessOskaIndicatorData($items, &$context){
         //process only if no errors otherwise nothing
         if(empty($context['results']['error'])){
@@ -111,6 +132,21 @@ class ProcessOskaIndicatorData {
                     if($values){
                         $entity = OskaIndicatorEntity::create($values);
                         $entity->save();
+
+                        //load main profession page, for updating values
+                        $main_profession_page = \Drupal::entityTypeManager()->getStorage('node')->load($values['oska_main_profession']);
+
+                        switch($values['oska_indicator']){
+                            case 'Hõivatute arv':
+                                $main_profession_page->set('field_number_of_employees', $values['value']);
+                            case 'Hõive muutus':
+                                $main_profession_page->set('field_change_in_employment', $values['value']);
+                            case 'Hariduse pakkumine':
+                                $main_profession_page->set('field_education_indicator', $values['value']);
+                            case 'Brutopalk':
+                                $main_profession_page->set('field_bruto', $values['value']);
+                        }
+                        $main_profession_page->save();
 
                         $context['sandbox']['progress']++;
                         $context['sandbox']['current_id'] = $i;
