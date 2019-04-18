@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains reverse_entity_reference.module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_entity_base_field_info().
+ *
+ * Creates reverse_entity_reference field on all fieldable entities. Then when accessed 
+ * it will compute all the reverse references for the entity as a table looking like
+ * | Referencing Entity Type | Referencing Entity ID | Referencing Entity Fieldname |
+ * This table could be queried using array_column as per the old method 
+ * @code
+ *    $result1 = array_column($result, 'ref_entity_type')
+ *    $result2 = array_column($result, 'ref_field_name')
+ *    and then filter out the original $result based on $result1 and $result2
+ */
+function reverse_entity_reference_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = array();
+  $fields['reverse_entity_reference'] = BaseFieldDefinition::create('dynamic_entity_reference')
+    ->setName('reverse_entity_reference')
+    ->setTargetEntityTypeId($entity_type->id())
+    ->setLabel(t('All the reverse entity references for this entity'))
+    ->setDescription(t('A map of all the entities referencing this entity,'))
+    ->setTranslatable(FALSE)
+    ->setComputed(TRUE)
+    ->setClass('\Drupal\reverse_entity_reference\ReverseReferenceList');
+  return $fields;
+}

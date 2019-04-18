@@ -1,0 +1,5 @@
+reverse_entity_reference.settings:
+  title: 'Reverse Entity Reference Settings'
+  description: 'Configure settings for the Reverse Entity Reference module.'
+  route_name: reverse_entity_reference.settings
+  parent: 'system.admin_config_system'
