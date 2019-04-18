@@ -39,6 +39,9 @@
         </ng-container>
 
         <!-- fieldSurveyPagePicture -->
+        <ng-container *ngIf="data.fieldSurveyPageVideo && data.fieldSurveyPageVideo.length">
+          <video-component [videos]="[data.fieldSurveyPageVideo[0]]"></video-component>
+        </ng-container>
         <ng-container *ngIf="data.fieldSurveyPagePicture">
           <div *ngIf="data.fieldSurveyPagePicture && data.fieldSurveyPagePicture.length > 0" class="article-image pull-right">
             <img src="{{ data.fieldSurveyPagePicture[0].derivative.url }}" alt="{{ data.fieldSurveyPagePicture[0].alt }}" title="{{ data.fieldSurveyPagePicture[0].title }}" style="max-width:100%;" />
@@ -95,8 +98,8 @@
           <video-component *ngIf="data.fieldOskaMainProfessionVideo.length > 0" [videos]="data.fieldOskaMainProfessionVideo"></video-component>
         </ng-container>
 
-        <ng-container *ngIf="data.fieldSurveyPageVideo">
-          <video-component [videos]="data.fieldSurveyPageVideo"></video-component>
+        <ng-container *ngIf="data.fieldSurveyPageVideo && data.fieldSurveyPageVideo.length === 2">
+          <video-component [videos]="[data.fieldSurveyPageVideo[1]]"></video-component>
         </ng-container>
 
         <ng-container *ngIf="data.fieldMainProfessionGraph || data.fieldSurveyPageGraph	|| data.fieldFieldPageGraph">
