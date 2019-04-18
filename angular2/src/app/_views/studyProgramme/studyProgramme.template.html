@@ -187,10 +187,10 @@
           <div class="studyProgramme__item__titlebox">
             <div class="col-grow">
               <div class="studyProgramme__item__head sm-hide" *ngIf="item.fieldStudyProgrammeLevel && item.fieldStudyProgrammeLevel.entity">{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</div>
-              <span>
+              <div class="flex flex-center">
                 <a href="javascript:void();" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.entityLabel }}</h1></a>
-                <a href="javascript:void();" class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'"><h1>{{'studyProgramme.non_active' | translate}}</h1></a>
-              </span>
+                <span href="javascript:void();" class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</span>
+              </div>
             </div><!--col-9-->
             <div class="col sm-hide">
               <compare [id]="item.nid" sessionStorageKey="studyProgramme.compare"></compare>
