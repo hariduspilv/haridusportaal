@@ -48,12 +48,6 @@ class OskaImportDataForm extends FormBase {
             '#value' => $this->t('Import'),
         ];
 
-        $form['#cache'] = [
-            'tags' => [
-                'tere'
-            ]
-        ];
-
         return $form;
     }
 
