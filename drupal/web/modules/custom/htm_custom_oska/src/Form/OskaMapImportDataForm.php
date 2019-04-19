@@ -5,6 +5,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Serializer;
+use Drupal\Core\Cache\Cache;
 
 /**
  * Class DeleteNodeForm.
@@ -109,6 +110,8 @@ class OskaMapImportDataForm extends FormBase {
         ];
 
         batch_set($batch);
+
+        Cache::invalidateTags(['oska_map_csv']);
     }
     public function detectCSVFileDelimiter($csvFile) {
         $delimiters = array(',' => 0, ';' => 0, "\t" => 0, '|' => 0);
