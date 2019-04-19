@@ -85,4 +85,3 @@ entity.oska_filling_bar_entity.delete_form:
   base_route:  entity.oska_filling_bar_entity.canonical
   title: Delete
   weight: 10
-
