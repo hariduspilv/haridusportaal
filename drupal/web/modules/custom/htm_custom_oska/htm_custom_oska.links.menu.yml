@@ -54,3 +54,9 @@ oska_filling_bar_entity.admin.structure.settings:
   description: 'Configure Oska filling bar entity entities'
   route_name: oska_filling_bar_entity.settings
   parent: system.admin_structure
+
+oska_map_csv.import:
+  title: 'Import OSKA Map Data'
+  route_name: oska_map_csv.import
+  description: 'Import OSKA Map Data'
+  parent: system.admin_structure
