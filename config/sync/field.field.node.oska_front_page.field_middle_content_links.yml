@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_middle_content_links
+    - node.type.article
     - node.type.oska_field_page
     - node.type.oska_front_page
     - node.type.oska_main_profession_page
@@ -23,6 +24,7 @@ settings:
   handler: 'default:node'
   handler_settings:
     target_bundles:
+      article: article
       oska_main_profession_page: oska_main_profession_page
       oska_result_page: oska_result_page
       oska_survey_page: oska_survey_page
