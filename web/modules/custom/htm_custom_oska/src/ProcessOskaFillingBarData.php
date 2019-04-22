@@ -96,9 +96,8 @@ class ProcessOskaFillingBarData {
             if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
                 $limit = $context['sandbox']['current_id'] + 10;
                 if ($context['sandbox']['max'] - $context['sandbox']['current_id'] < 10){
-                    $limit = $context['sandbox']['max'] + 1;
+                    $limit = $context['sandbox']['max'];
                 }
-                dump($limit);
                 for($i = $context['sandbox']['current_id']; $i < $limit; $i++){
                     // do something
                     $values = $context['results']['values'][$i];
