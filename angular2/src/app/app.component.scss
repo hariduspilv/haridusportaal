@@ -631,7 +631,9 @@ $grid-columns: 12;
     .mat-sidenav-content{padding:0 0 1.5rem 0; margin-left: auto;}
     .mat-sidenav{top:4rem !important;}
     .mat-toolbar.header-toolbar{
-      .inline{padding-left: 1.25rem; padding-right: 1rem;}
+      .inline{padding-left: 1.25rem; padding-right: 1rem;
+        @include break-on(xs, max) {padding-right: 0rem;}
+      }
     }
     .inline{padding:0;
       .mat-drawer-content{padding:0;}
@@ -838,7 +840,19 @@ font-family: 'Rubik', sans-serif!important;
   background: url('/assets/img/dropdown-gray.svg') center center no-repeat; height: 1.5rem; width: 1.5rem; background-size: 1.5rem; display: block;
   margin: -0.25rem -0.5rem 0 0; border-left: 0 solid transparent; border-right: 0 solid transparent; border-top: 0 solid transparent;
 }
-
+.sticky-dialog-backdrop {background: rgba(51,51,51,0.9);
+  @include break-on(xs, max) {background: linear-gradient(rgba(51, 51, 51, 0) 4rem, rgba(51, 51, 51, 0.9) 0);}
+}
+.sticky-dialog-wrapper {
+  .sticky-dialog-container {
+    .mat-dialog-container {
+      @include break-on(xs, max) {
+        border-radius: 0 !important;
+      }
+    }
+  }
+  @include break-on(xs, max) {align-items: baseline !important;top: 4rem;}
+}
 .cdk-overlay-dark-backdrop { background: rgba(51,51,51,0.9); }
 .cdk-overlay-container{z-index: 99999999;}
 .mat-select-value {
