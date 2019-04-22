@@ -12,6 +12,14 @@ query oskaFrontPageQuery($lang: LanguageId!) {
         }
         fieldMiddleContentLinks {
           entity {
+            ... on NodeArticle {
+              title
+              introduction: fieldBodySummary
+              entityUrl{
+                routed
+                path
+              }
+            }
             ... on NodeOskaFieldPage {
               title
               introduction: fieldIntroduction

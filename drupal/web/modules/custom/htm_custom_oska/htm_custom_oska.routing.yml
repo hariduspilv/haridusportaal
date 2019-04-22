@@ -26,3 +26,10 @@ oska_filling_bar_entity.batch_import:
     _title: 'Import oska filling bar data'
   requirements:
     _permission: 'access content'
+oska_map_csv.import:
+  path: '/oska_map_csv_import'
+  defaults:
+    _form: '\Drupal\htm_custom_oska\Form\OskaMapImportDataForm'
+    _title: 'Import OSKA Map Data CSV'
+  requirements:
+    _permission: 'access content'
