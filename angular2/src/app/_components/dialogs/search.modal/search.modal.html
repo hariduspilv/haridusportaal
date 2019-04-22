@@ -1,0 +1,15 @@
+<div class="dialog dialog--search" cdkTrapFocus>
+  <div class="row">
+    <div class="col-12" style="position: relative;">
+      <span class="dialog__text--medium">{{ 'button.search' | translate | uppercase }}</span>
+      <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
+        <span class="htm-icon">close
+          <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0" aria-label="close"></button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-content">
+    
+  </div>
+</div>

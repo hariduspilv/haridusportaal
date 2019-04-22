@@ -9,7 +9,7 @@
     min-width: 100vh;
   }
   @include break-on(xs, max) {
-    min-width: 80vw;
+    min-width: 100vw;
   }
   @include break-on(xs, min) {
     min-width: 50vw;
@@ -105,5 +105,6 @@
       &.negative{color:#d0021b; border-color:#d0021b; background:#fdf3f4;}
     }
   }
+  @include break-on(sm, max) {.pull-right {position: relative;left: .25rem;}}
 }
 

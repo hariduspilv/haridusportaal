@@ -1,0 +1,28 @@
+@import "../../../../assets/styles/typography.scss";
+.dialog--search {
+  max-width: none;
+  width: auto;
+  @include break-on(xxs, max) {
+    min-width: 100vh;
+  }
+  @include break-on(xs, max) {
+    min-width: 100vw;
+  }
+  @include break-on(xs, min) {
+    min-width: 50vw;
+  }
+  .dialog-content {
+    display: flex;
+    .login-methods {
+      form.login-method {
+        & > div, & > button {
+          padding: 0.5rem;
+        }
+      }
+      form input, form button {
+        width: 100%;
+      }
+    }
+  }
+}
+
