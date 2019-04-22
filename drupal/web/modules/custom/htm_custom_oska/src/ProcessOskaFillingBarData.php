@@ -148,18 +148,22 @@ class ProcessOskaFillingBarData {
         drupal_set_message($message[0], $message[1]);
     }
 
-    public function checkEntityReference($entity_type, $vocabulary, $name){
+    public static function checkEntityReference($entity_type, $vocabulary, $name){
 
-        $storage = \Drupal::service('entity_type.manager')->getStorage($entity_type);
+        $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
 
         $properties = [
             'type' => $vocabulary,
             'title' => $name
         ];
 
-        $entity = reset($storage->loadByProperties($properties));
+        $result = $storage->loadByProperties($properties);
 
-        return ($entity) ? $entity->id() : FALSE;
+        if($result){
+            $entity = reset($result);
+        }
+
+        return isset($entity) ? $entity->id() : FALSE;
     }
 
     private function deleteAllEntities(){

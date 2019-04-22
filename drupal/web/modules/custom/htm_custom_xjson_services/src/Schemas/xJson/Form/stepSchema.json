@@ -1,6 +1,9 @@
 {
   "type": "object",
   "properties": {
+    "sequence": {
+      "type": "integer"
+    },
     "title": {
       "type": "object",
       "properties": {
