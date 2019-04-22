@@ -1,0 +1,1 @@
+{"query oskaMapData {\n  OskaMapQuery {\n    OskaMapJson\n  }\n}\n":1}
