@@ -614,23 +614,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   setActivityButtons(activities: string[]) {
-    const output = {primary: [], secondary: []};
-    const editableActivities = ['SUBMIT', 'CONTINUE'];
-    const maxStepActions = [{action: 'SAVE', label: 'button.save_draft'}];
-    if (this.opened_step < this.max_step) {
-
+    const output = { primary: [], secondary: [] };
+    const editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
+    if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence) {
       const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-      if (displayEditButton) { output['primary'].push({label: 'button.edit' , action: 'EDIT', style: 'primary'}) }
+      if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }) }
 
     } else {
       activities.forEach(activity => {
         if (editableActivities.includes(activity)) {
-          output['primary'].push({label: 'button.' + activity.toLowerCase() , action: activity, style: 'primary'});
-        }
-      });
-      maxStepActions.forEach(button => {
-        if (activities.some(activity => button.action == activity)) {
-          output['primary'].push({label: button.label , action: button.action, style: 'primary'});
+          output['primary'].push({ label: 'button.' + activity.toLowerCase(), action: activity, style: 'primary' });
         }
       });
     }
@@ -765,6 +758,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     } else {
       // TODO: create catcher to prevent endless loop requests...
       this.getData(payload);
+      console.log(this.data);
     }
   }
 
