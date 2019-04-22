@@ -106,6 +106,7 @@ class ProcessOskaFillingBarData {
                     }
                     $entity->save();
 
+                    dump($values);
                     $main_profession_page = \Drupal::entityTypeManager()->getStorage('node')->load($values['oska_main_profession']);
                     $main_profession_page->set('field_filling_bar', $values['value']);
                     $main_profession_page->save();
