@@ -3,7 +3,7 @@
   max-width: none;
   width: auto;
   @include break-on(xs, max) {
-    min-width: 70vw;
+    width: 70vw;
   }
   @include break-on(xxs, max) {
     min-width: 100vw;
@@ -23,6 +23,9 @@
       box-sizing: border-box;
     }
   }
-  @include break-on(sm, max) {.pull-right {position: relative;left: .25rem;}}
+  @include break-on(sm, max) {
+    .pull-right {position: relative;left: .25rem;}
+    .round-input__field-wrapper {display: flex;}
+  }
 }
 
