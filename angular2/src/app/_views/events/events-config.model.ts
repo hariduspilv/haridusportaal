@@ -13,7 +13,7 @@ export class EventsConfig {
     public dateFrom: string = moment().format('YYYY-MM-DD').toString(), //"1901-00-00" TODAY
     public dateTo: string = moment().add(20, 'years').format("YYYY-MM-DD").toString(),
     public offset: number = 0,
-    public limit: number = 5,
+    public limit: number = 24,
     public timeFrom: any = "0"
   ) {
     this.tagsValue = tagsValue;
