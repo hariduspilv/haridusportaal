@@ -62,7 +62,7 @@ query getEventList($tagsValue: [String], $tagsEnabled: Boolean, $typesValue: [St
 fragment eventdates on FieldNodeFieldEventDate {
   entity {
     ... on ParagraphEventDate {
-      fieldEventDate {
+      fieldEventDate:fieldEventAdditionalDate{
         value
         date
         unix
