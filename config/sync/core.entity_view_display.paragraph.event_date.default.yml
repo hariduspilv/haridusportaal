@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.event_date.field_event_date
+    - field.field.paragraph.event_date.field_event_additional_date
     - field.field.paragraph.event_date.field_event_end_time
     - field.field.paragraph.event_date.field_event_start_time
     - paragraphs.paragraphs_type.event_date
@@ -15,14 +15,14 @@ targetEntityType: paragraph
 bundle: event_date
 mode: default
 content:
-  field_event_date:
-    weight: 0
+  field_event_additional_date:
+    weight: 3
     label: above
     settings:
+      format_type: medium
       timezone_override: ''
-      date_format: Y-m-d
     third_party_settings: {  }
-    type: datetime_custom
+    type: datetime_default
     region: content
   field_event_end_time:
     weight: 2
