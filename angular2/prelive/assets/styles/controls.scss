@@ -103,6 +103,8 @@
     width: 100%; 
     font-family: 'Rubik', sans-serif;
     &::placeholder{
+      color: #757575;
+      font-weight: normal;
       @include break-on(sm, max) {font-size:0.875rem;}  
     }
         &:focus {
