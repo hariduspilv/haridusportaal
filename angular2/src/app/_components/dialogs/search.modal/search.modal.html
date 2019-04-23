@@ -1,0 +1,66 @@
+<div class="dialog dialog--search" cdkTrapFocus>
+  <div class="row">
+    <div class="col-12" style="position: relative;">
+      <span class="dialog__text--medium">{{ 'search.label' | translate | uppercase }}</span>
+      <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
+        <span class="htm-icon">close
+          <button class="btn-hidden" (keyup.space)="closeModal()" (keyup.enter)="closeModal()" (click)="closeModal()" tabindex="0" aria-label="close"></button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-content">
+    <div class="row">
+      <div class="col-12">
+        <div class="round-input__wrapper" [class.complete]="param">
+          <label for="param" class="round-input__title">{{'search.keyword' | translate}}</label>
+          <div class="round-input__field-wrapper">
+            <input type="text"
+              (keyup.enter)="searchRoute(searchParam)"
+              attr.aria-label="{{ 'search.keyword' | translate }}" 
+              class="round-input__field"
+              placeholder="{{ 'search.keyword' | translate}}" 
+              [(ngModel)]='searchParam' 
+              (focus)="populateSuggestionList(searchParam, 300)"
+              role="combobox"
+              aria-autocomplete="both"
+              spellcheck="false"
+              autocomplete="off"
+              aria-owns="matAutocomplete"
+              name="searchParam" 
+              id="searchParam"
+              [matAutocomplete]="auto"
+              (ngModelChange)="populateSuggestionList(searchParam, 300)"/>
+            <mat-autocomplete #auto="matAutocomplete" 
+              role="listbox"
+              id="matAutocomplete"
+              (optionSelected)="autocompleteLoader = false;suggestionList = [];searchRoute(searchParam)">
+              <ng-container *ngIf="autocompleteLoader && searchParam">
+                <mat-option [value]="" disabled="true">
+                  <span>{{'search.searching_please_wait' | translate }}</span>
+                </mat-option>
+              </ng-container>
+              <ng-container *ngIf="autocompleteLoader == false && suggestionList && searchParam">
+                <mat-option *ngIf="!suggestionList.length" [value]="" disabled="true">
+                  <span role="alert" *ngIf="searchParam && searchParam.length < 3">{{'search.not_found_required_chars' | translate }}</span>
+                  <span role="alert" *ngIf="searchParam && searchParam.length >= 3">{{'search.not_found' | translate }}</span>
+                </mat-option>
+                <ng-container *ngIf="suggestionList.length > 0">
+                  <mat-option role="option" aria-selected="false" *ngFor="let result of suggestionList; let ind = index;" [value]="result.Suggestion">
+                    <span id="{{'option_' + ind" role="option">{{ result.Suggestion }}</span>
+                  </mat-option>
+                  <div class="search__alert" role="alert">
+                    <span class="search__alert--elem">{{suggestionList.length}} {{'search.suggestions_available' | translate}}</span>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </mat-autocomplete>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 text-center">
+        <button role="button" (click)="searchRoute(searchParam)" mat-raised-button color="primary">{{ 'button.search' | translate }}</button>
+      </div><!--/col-12-->
+    </div>
+  </div>
+</div>

@@ -12,15 +12,15 @@ import { LoginModal } from '../dialogs/login.modal/login.modal';
 })
 
 export class LoginComponent {
+  public dialogOpened: boolean = false;
+
   constructor(
     private sidemenu: SideMenuService,
     private settings: SettingsService,
     private userService: UserService,
     private rootScope: RootScopeService,
     public dialog: MatDialog
-  ) {
-
-  }
+  ) {}
 
   get isLoggedIn(): boolean {
     return this.userService.isLoggedIn;
@@ -31,9 +31,18 @@ export class LoginComponent {
   }
 
   toggleLogin() {
-    this.dialog.open(LoginModal, {
-      
-    });
+    if (!this.dialogOpened) {
+      this.dialog.closeAll();
+      let dialogRef = this.dialog.open(LoginModal, {
+        panelClass: 'sticky-dialog-container',
+        backdropClass: 'sticky-dialog-backdrop'
+      });
+      if (dialogRef['_overlayRef'].overlayElement) {
+        dialogRef['_overlayRef'].overlayElement.parentElement.className += ' sticky-dialog-wrapper';
+        this.dialogOpened = true;
+        dialogRef.afterClosed().subscribe(result => this.dialogOpened = false);
+      }
+    }
   }
 
   logOut() {
