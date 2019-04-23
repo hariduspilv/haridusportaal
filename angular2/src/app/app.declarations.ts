@@ -37,6 +37,7 @@ import { taraLoginModal } from './_components/dialogs/taraLogin/taraLogin.modal'
 import { CookieNotification } from './_components/cookieNotification/cookieNotification.component';
 import { FeedbackComponent } from './_components/feedback/feedback.component';
 import { LoginModal } from './_components/dialogs/login.modal/login.modal'; 
+import { SearchModal } from './_components/dialogs/search.modal/search.modal'; 
 import { NotificationComponent } from './_components/notifications/notification.component';
 
 export const AppDeclarations = [
@@ -79,6 +80,7 @@ export const AppDeclarations = [
   CookieNotification,
   FeedbackComponent,
   LoginModal,
+  SearchModal,
   NotificationComponent
 ];
 
@@ -93,5 +95,6 @@ export const AppEntryComponents = [
   VideoComponent,
   StudyProgrammeCompareComponent,
   ConfirmPopupDialog,
-  LoginModal
+  LoginModal,
+  SearchModal
 ]
