@@ -2,27 +2,27 @@
 .dialog--search {
   max-width: none;
   width: auto;
-  @include break-on(xxs, max) {
-    min-width: 100vh;
-  }
   @include break-on(xs, max) {
+    min-width: 70vw;
+  }
+  @include break-on(xxs, max) {
     min-width: 100vw;
   }
   @include break-on(xs, min) {
     min-width: 50vw;
   }
-  .dialog-content {
-    display: flex;
-    .login-methods {
-      form.login-method {
-        & > div, & > button {
-          padding: 0.5rem;
-        }
-      }
-      form input, form button {
-        width: 100%;
-      }
+  .dialog-content {padding-top: 1rem;
+    .search-input  {
+      height: 2.5rem;
+      border-radius: 1.25rem;
+      border: solid 1px $gray;
+      font-weight: 300;
+      color: $black;
+      padding: 0 1rem;
+      width: 100%;
+      box-sizing: border-box;
     }
   }
+  @include break-on(sm, max) {.pull-right {position: relative;left: .25rem;}}
 }
 

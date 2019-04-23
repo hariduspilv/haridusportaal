@@ -5,10 +5,10 @@
 .dialog--login {
   max-width: none;
   width: auto;
-  @include break-on(xxs, max) {
-    min-width: 100vh;
-  }
   @include break-on(xs, max) {
+    min-width: 70vw;
+  }
+  @include break-on(xxs, max) {
     min-width: 100vw;
   }
   @include break-on(xs, min) {
