@@ -1,17 +1,17 @@
-uuid: caa5796d-7dbc-4b16-b1a2-b75e0ba023a1
-langcode: en
+uuid: abc5c083-415a-4d12-8ae2-301c961cedbe
+langcode: et
 status: true
 dependencies:
   module:
-    - datetime
+    - htm_custom_datetime_unix
     - paragraphs
-id: paragraph.field_event_date
-field_name: field_event_date
+id: paragraph.field_event_additional_date
+field_name: field_event_additional_date
 entity_type: paragraph
 type: datetime
 settings:
   datetime_type: date
-module: datetime
+module: htm_custom_datetime_unix
 locked: false
 cardinality: 1
 translatable: true

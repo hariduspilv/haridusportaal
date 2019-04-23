@@ -1771,8 +1771,8 @@ button:
     en: 'Back to dashboard'
   save:
     translation_type: textarea
-    et: Salvesta
-    en: Save
+    et: 'Salvesta ja jätka'
+    en: 'Save and continue'
   submit:
     translation_type: textarea
     et: Esita

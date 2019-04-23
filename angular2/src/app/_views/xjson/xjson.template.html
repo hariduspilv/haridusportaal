@@ -1,4 +1,6 @@
-<div><breadcrumbs></breadcrumbs></div>
+<div>
+  <breadcrumbs></breadcrumbs>
+</div>
 <div class="main-container">
   <div class="row xjson-wrapper">
     <div class="col-8 sm-12">
@@ -7,19 +9,25 @@
         <div class="block__head">
           <div class="block__head__title">{{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}</div>
           <div class="block__head__buttons">
-            <div class="view-item" (click)="changeView('document')" attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0" [class.active]="view === 'document'">
+            <div class="view-item" (click)="changeView('document')"
+              attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0"
+              [class.active]="view === 'document'">
               <span class="htm-icon">insert_drive_file</span>
-              <div class="title" >{{ 'frontpage.dokument' | translate }}</div>
+              <div class="title">{{ 'frontpage.dokument' | translate }}</div>
             </div>
-            <div class="view-item" (click)="changeView('related_documents')" attr.aria-label="{{ 'frontpage.dashboard_related_documents' | translate }}" tabindex="0" [class.active]="view === 'related_documents'">
+            <div class="view-item" (click)="changeView('related_documents')"
+              attr.aria-label="{{ 'frontpage.dashboard_related_documents' | translate }}" tabindex="0"
+              [class.active]="view === 'related_documents'">
               <span class="htm-icon">call_split</span>
               <div class="title">{{ 'frontpage.dashboard_related_documents' | translate }}</div>
             </div>
-          </div><!--/block__head__buttons-->
-        </div><!--/block__hed-->
-          
+          </div>
+          <!--/block__head__buttons-->
+        </div>
+        <!--/block__hed-->
+
         <mat-spinner *ngIf="!data"></mat-spinner>
-        
+
         <ng-container *ngIf="data && view == 'document'">
 
           <div class="xjson__title" *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</div>
@@ -27,16 +35,19 @@
 
           <ng-container *ngIf="data_messages">
             <ng-container *ngFor="let message of data_messages; let i = index;">
-              <div class="alert" [ngClass]="'alert__'+data.messages[message].message_type | lowercase" >{{ selectLanguage(data.messages[message].message_text)}}<button class="alert__close" (click)="closeMessage(i)" [attr.aria-label]="'notification.close' | translate"></button></div>
+              <div class="alert" [ngClass]="'alert__'+data.messages[message].message_type | lowercase">
+                {{ selectLanguage(data.messages[message].message_text)}}<button class="alert__close"
+                  (click)="closeMessage(i)" [attr.aria-label]="'notification.close' | translate"></button></div>
             </ng-container>
           </ng-container>
 
           <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
-            <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step" [class.disabled]="isStepDisabled(step)"
-              *ngFor="let step of objectKeys(data.body.steps)">
+            <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
+              [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps)">
               <a (click)="selectStep(step)">
                 <span class="xjson__navigation__stepname">
-                  <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}</ng-container>
+                  <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}
+                  </ng-container>
                 </span>
               </a>
             </li>
@@ -45,17 +56,19 @@
           <!-- STEP BODY -->
           <div class="row button-list button-list-top">
             <ng-container *ngFor="let activity of activityButtons['primary']">
-              <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+              <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button
+                [color]="[activity.style]" (click)="submitForm(activity.action)">
                 {{ activity.label | translate }}
               </button>
             </ng-container>
           </div>
 
           <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction">
-            {{selectLanguage(data.body.steps[opened_step].introduction) }} 
+            {{selectLanguage(data.body.steps[opened_step].introduction) }}
           </div>
 
-          <form [class.disabled-step]="opened_step != this.max_step" (submit)="submitForm()" *ngIf="objectKeys(data_elements).length > 0">
+          <form [class.disabled-step]="opened_step != this.max_step" (submit)="submitForm()"
+            *ngIf="objectKeys(data_elements).length > 0">
 
             <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
 
@@ -78,66 +91,76 @@
 
                   <ng-container *ngIf="data_elements[element].type == 'text'">
                     <div class="round-input__outer-wrapper">
-                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value || opened_step != this.max_step">
+                      <div class="round-input__wrapper"
+                        [class.complete]="data_elements[element].value || opened_step != this.max_step">
                         <span class="round-input__title">
                           {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                         </span>
                         <div class="round-input__field-wrapper">
-                          <input class="round-input__field" type="text" placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                            [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null" [(ngModel)]='data_elements[element].value'
-                            [name]="element" [attr.required]="data_elements[element].required" />
+                          <input class="round-input__field" type="text"
+                            placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                            [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
+                            [(ngModel)]='data_elements[element].value' [name]="element"
+                            [attr.required]="data_elements[element].required" />
                         </div>
                       </div>
                       <!--/round-input__wrapper-->
-            
-                    <div class="helper-wrapper" >
+
+                      <div class="helper-wrapper">
                         <ng-container *ngIf="data_elements[element].helpertext">
                           <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
                           </span>
                         </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                    </div>
+                      </div>
                     </div>
                   </ng-container> <!-- /TEXT -->
 
                   <ng-container *ngIf="data_elements[element].type == 'textarea'">
-                      <div class="round-input__area">
+                    <div class="round-input__area">
 
-                    <div class="round-input__outer-wrapper">
-                        <div class="round-input__wrapper" [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                                          <span class="xjson__textarea__info round-input__title">
-                      {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
-                    </span>
-                      <div class="round-input__area">
-                        <textarea class="round-input__area__elem" [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
-                          [(ngModel)]='data_elements[element].value' placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                          [name]="element"></textarea>
-                      </div>
-                      </div>
-                      <div class="helper-wrapper" >
-                        <ng-container *ngIf="data_elements[element].helpertext">
-                          <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
-                            matTooltipPosition="above">
+                      <div class="round-input__outer-wrapper">
+                        <div class="round-input__wrapper"
+                          [class.complete]="data_elements[element].value || opened_step != this.max_step">
+                          <span class="xjson__textarea__info round-input__title">
+                            {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                           </span>
-                        </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                          <div class="round-input__area">
+                            <textarea class="round-input__area__elem"
+                              [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
+                              [(ngModel)]='data_elements[element].value'
+                              placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                              [name]="element"></textarea>
+                          </div>
+                        </div>
+                        <div class="helper-wrapper">
+                          <ng-container *ngIf="data_elements[element].helpertext">
+                            <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
+                              matTooltipPosition="above">
+                            </span>
+                          </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </ng-container> <!-- /TEXTAREA -->
 
                   <ng-container *ngIf="data_elements[element].type == 'selectlist'">
                     <div class="round-input__outer-wrapper multiselect-wrapper">
-                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value || opened_step != this.max_step">
+                      <div class="round-input__wrapper"
+                        [class.complete]="data_elements[element].value || opened_step != this.max_step">
                         <span class="round-input__title">
                           {{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                         </span>
 
                         <div class="round-input__field-wrapper">
-                          <mat-select class="round-input__field" placeholder=" {{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                            [(ngModel)]='data_elements[element].value' [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                            [name]="element" [multiple]="data_elements[element].multiple">
+                          <mat-select class="round-input__field"
+                            placeholder=" {{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                            [(ngModel)]='data_elements[element].value'
+                            [disabled]="isFieldDisabled(data_elements[element].readonly)" [name]="element"
+                            [multiple]="data_elements[element].multiple">
                             <ng-container *ngIf="!data_elements[element].multiple">
-                              <mat-option *ngIf="!data_elements[element].multiple" [value]="undefined">{{selectLanguage(data_elements[element].empty_option)}}</mat-option>
+                              <mat-option *ngIf="!data_elements[element].multiple" [value]="undefined">
+                                {{selectLanguage(data_elements[element].empty_option)}}</mat-option>
 
                               <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
                                 <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
@@ -149,21 +172,25 @@
                                     {{ selectLanguage(data_elements[element].options[option]) }}
                                   </mat-option>
 
-                                  <ng-container *ngFor="let option2 of objectKeys(data_elements[element].options[option].options)">
+                                  <ng-container
+                                    *ngFor="let option2 of objectKeys(data_elements[element].options[option].options)">
                                     <!--level 2-->
                                     <mat-option *ngIf="!data_elements[element].options[option].options[option2].options"
                                       [value]="option2">
                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{selectLanguage(data_elements[element].options[option].options[option2]) }}
                                     </mat-option>
 
-                                    <ng-container *ngIf="data_elements[element].options[option].options[option2].options">
+                                    <ng-container
+                                      *ngIf="data_elements[element].options[option].options[option2].options">
                                       <mat-option disabled="true" [value]="null">
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{selectLanguage(data_elements[element].options[option]['options'][option2]) }}
                                       </mat-option>
 
-                                      <ng-container *ngFor="let option3 of objectKeys(data_elements[element].options[option].options[option2].options)">
+                                      <ng-container
+                                        *ngFor="let option3 of objectKeys(data_elements[element].options[option].options[option2].options)">
                                         <!--level 3-->
-                                        <mat-option *ngIf="!data_elements[element].options[option].options[option2].options[option3].options"
+                                        <mat-option
+                                          *ngIf="!data_elements[element].options[option].options[option2].options[option3].options"
                                           [value]="option3">
                                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{selectLanguage(data_elements[element].options[option].options[option2].options[option3])}}
                                         </mat-option>
@@ -175,14 +202,15 @@
                             </ng-container>
 
                             <ng-container *ngIf="data_elements[element].multiple">
-                              <mat-option *ngFor="let option of objectKeys(data_elements[element].options)" [value]="option">
+                              <mat-option *ngFor="let option of objectKeys(data_elements[element].options)"
+                                [value]="option">
                                 {{ selectLanguage(data_elements[element].options[option]) }}
                               </mat-option>
                             </ng-container>
                           </mat-select>
                         </div>
                       </div>
-                      <div class="helper-wrapper" >
+                      <div class="helper-wrapper">
                         <ng-container *ngIf="data_elements[element].helpertext">
                           <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
@@ -193,17 +221,20 @@
                   </ng-container> <!-- /SELECTLIST -->
 
                   <ng-container *ngIf="data_elements[element].type == 'email'">
-                    <div class="round-input__wrapper" [class.complete]="data_elements[element].value || opened_step != this.max_step">
+                    <div class="round-input__wrapper"
+                      [class.complete]="data_elements[element].value || opened_step != this.max_step">
                       <span class="round-input__title">
                         {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                       </span>
                       <div class="round-input__outer-wrapper">
                         <div class="round-input__field-wrapper">
-                          <input class="round-input__field" type="email" placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                            [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null" [(ngModel)]='data_elements[element].value'
-                            [name]="element" [attr.required]="data_elements[element].required" />
+                          <input class="round-input__field" type="email"
+                            placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                            [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
+                            [(ngModel)]='data_elements[element].value' [name]="element"
+                            [attr.required]="data_elements[element].required" />
                         </div>
-                        <div class="helper-wrapper" >
+                        <div class="helper-wrapper">
                           <ng-container *ngIf="data_elements[element].helpertext">
                             <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                               matTooltipPosition="above">
@@ -218,12 +249,13 @@
                   <ng-container *ngIf="data_elements[element].type == 'checkbox'">
                     <div class="round-input__outer-wrapper checkbox-wrapper">
                       <div class="custom-checkbox">
-                        <mat-checkbox [(ngModel)]="data_elements[element].value" [name]="element" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                        <mat-checkbox [(ngModel)]="data_elements[element].value" [name]="element"
+                          [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           [required]="data_elements[element].required">
                           {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
                         </mat-checkbox>
                       </div>
-                      <div class="helper-wrapper" >
+                      <div class="helper-wrapper">
                         <ng-container *ngIf="data_elements[element].helpertext">
                           <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
@@ -234,18 +266,21 @@
                   </ng-container> <!-- /CHECKBOX -->
 
                   <ng-container *ngIf="data_elements[element].type == 'number'">
-                    <div class="round-input__wrapper" [class.complete]="data_elements[element].value != undefined || opened_step != this.max_step">
+                    <div class="round-input__wrapper"
+                      [class.complete]="data_elements[element].value != undefined || opened_step != this.max_step">
                       <span class="round-input__title">
                         {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                       </span>
                       <div class="round-input__outer-wrapper">
                         <div class="round-input__field-wrapper">
-                          <input class="round-input__field" type="text" [min]="data_elements[element].min" [max]="data_elements[element].max"
+                          <input class="round-input__field" type="text" [min]="data_elements[element].min"
+                            [max]="data_elements[element].max"
                             placeholder="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                            [(ngModel)]="data_elements[element].value" [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
+                            [(ngModel)]="data_elements[element].value"
+                            [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                             [name]="element" [attr.required]="data_elements[element].required" />
                         </div>
-                        <div class="helper-wrapper" >
+                        <div class="helper-wrapper">
                           <ng-container *ngIf="data_elements[element].helpertext">
                             <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                               matTooltipPosition="above">
@@ -259,24 +294,20 @@
 
                   <ng-container *ngIf="data_elements[element].type == 'address'">
                     <div class="round-input__outer-wrapper">
-                    <div class="round-input__wrapper" [class.complete]="temporaryModel[element] || opened_step != this.max_step">
-                      <span class="round-input__title">
-                        {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
-                      </span>
-                      <div class="round-input__field-wrapper">
-                        <input class="round-input__field" 
-                          type="text"
-                          matInput
-                          [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                          [(ngModel)]="temporaryModel[element]"
-                          placeholder="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
-                          (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
-                          (focus)="addressFieldFocus = true"
-                          (blur)="validateInAdsField(element)"
-                          [name]="element" 
-                          [matAutocomplete]="autoAddress">
-                          <mat-autocomplete #autoAddress="matAutocomplete"
-                            (optionSelected)="addressFieldFocus = false"
+                      <div class="round-input__wrapper"
+                        [class.complete]="temporaryModel[element] || opened_step != this.max_step">
+                        <span class="round-input__title">
+                          {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
+                        </span>
+                        <div class="round-input__field-wrapper">
+                          <input class="round-input__field" type="text" matInput
+                            [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                            [(ngModel)]="temporaryModel[element]"
+                            placeholder="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
+                            (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
+                            (focus)="addressFieldFocus = true" (blur)="validateInAdsField(element)" [name]="element"
+                            [matAutocomplete]="autoAddress">
+                          <mat-autocomplete #autoAddress="matAutocomplete" (optionSelected)="addressFieldFocus = false"
                             [(ngModel)]="temporaryModel[element]">
                             <ng-container *ngIf="autocompleteLoader">
                               <mat-option [value]="" disabled="true">
@@ -288,46 +319,46 @@
                                 <span>{{'xjson.address_not_found' | translate }}</span>
                               </mat-option>
                               <ng-container *ngIf="autoCompleteContainer[element].length > 0">
-                                <mat-option *ngFor="let address of autoCompleteContainer[element]" [value]="address.addressHumanReadable">
+                                <mat-option *ngFor="let address of autoCompleteContainer[element]"
+                                  [value]="address.addressHumanReadable">
                                   <span>{{ address.addressHumanReadable }}</span>
                                 </mat-option>
                               </ng-container>
                             </ng-container>
                           </mat-autocomplete>
+                        </div>
                       </div>
-                    </div>
-                    <div class="helper-wrapper" >
-                      <ng-container *ngIf="data_elements[element].helpertext">
-                        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
-                          matTooltipPosition="above">
-                        </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                    </div>
+                      <div class="helper-wrapper">
+                        <ng-container *ngIf="data_elements[element].helpertext">
+                          <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
+                            matTooltipPosition="above">
+                          </span>
+                        </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                      </div>
                     </div>
                   </ng-container> <!-- /ADDRESS -->
 
                   <ng-container *ngIf="data_elements[element].type == 'date'">
                     <div class="round-input__outer-wrapper date-wrapper">
-                      <div class="round-input__wrapper" [class.complete]="data_elements[element].value || opened_step != this.max_step">
+                      <div class="round-input__wrapper"
+                        [class.complete]="data_elements[element].value || opened_step != this.max_step">
                         <span class="round-input__title">
                           {{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}
                         </span>
                         <div class="round-input__field-wrapper">
-                          <input class="round-input__field"
-                            matInput [matDatepicker]="picker"
+                          <input class="round-input__field" matInput [matDatepicker]="picker"
                             [disabled]="isFieldDisabled(data_elements[element].readonly)"
                             placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
-                            [value]="getDatepickerValue(element, element)" 
+                            [value]="getDatepickerValue(element, element)"
                             (dateInput)="setDatepickerValue($event, element)"
-                            (dateChange)="setDatepickerValue($event, element)" 
-                            (focus)="datepickerFocus = true" 
-                            (blur)="datepickerFocus = false; setDatepickerValue($event, element)"
-                            name="{{element}}">
-                          <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="picker"></mat-datepicker-toggle>
+                            (dateChange)="setDatepickerValue($event, element)" (focus)="datepickerFocus = true"
+                            (blur)="datepickerFocus = false; setDatepickerValue($event, element)" name="{{element}}">
+                          <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="picker">
+                          </mat-datepicker-toggle>
                           <mat-datepicker #picker></mat-datepicker>
                         </div>
                       </div>
-                      <div class="helper-wrapper" >
+                      <div class="helper-wrapper">
                         <ng-container *ngIf="data_elements[element].helpertext">
                           <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
@@ -343,9 +374,10 @@
                       <span class="xjson__heading">
                         {{selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
                       </span>
-                      <div class="helper-wrapper" >
+                      <div class="helper-wrapper">
                         <ng-container *ngIf="data_elements[element].helpertext">
-                          <span class="tooltip" tooltipClass="AAAAAAAAAAA"  matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
+                          <span class="tooltip" tooltipClass="AAAAAAAAAAA"
+                            matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
                           </span>
                         </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
@@ -359,26 +391,32 @@
                             <a class="file-name" [href]="fileDownloadlink(file.file_identifier)" target="_blank">
                               {{ file.file_name }}
                             </a>
-                            <a class="close-icn" href="javascript:void(0)" *ngIf="!isFieldDisabled(data_elements[element].readonly)" [class.disabled]="isFieldDisabled(data_elements[element].readonly)"
-                              (click)="fileDelete(file.file_identifier, data_elements[element])"><span class="htm-icon">close</span></a>
+                            <a class="close-icn" href="javascript:void(0)"
+                              *ngIf="!isFieldDisabled(data_elements[element].readonly)"
+                              [class.disabled]="isFieldDisabled(data_elements[element].readonly)"
+                              (click)="fileDelete(file.file_identifier, data_elements[element])"><span
+                                class="htm-icon">close</span></a>
                           </div>
                         </ng-container>
                       </ng-container>
                     </div>
 
-                    <div class="dropzone" (drop)="fileEventHandler($event, element)" (dragover)="$event.preventDefault()" *ngIf="canUploadFile(data_elements[element])">
+                    <div class="dropzone" (drop)="fileEventHandler($event, element)"
+                      (dragover)="$event.preventDefault()" *ngIf="canUploadFile(data_elements[element])">
                       <div class="dropzone-text">
                         <span class="dropzone-title">
                           {{ 'xjson.drag_files_here_or' | translate }}
                         </span>
                         <a class="dropzone-add" href="javascript:void(0)">
                           <input type="file" [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
-                            (change)="fileEventHandler($event, element)" placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                            (change)="fileEventHandler($event, element)"
+                            placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
                             [attr.multiple]="data_elements[element].multiple ? '' : null" />
-                            {{ 'button.upload' | translate }}
+                          {{ 'button.upload' | translate }}
                         </a>
-                        <span class="dropzone-description">Lubatud failitüübid: {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}</span>
+                        <span class="dropzone-description">Lubatud failitüübid:
+                          {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}</span>
                       </div>
                     </div>
                   </ng-container> <!-- /FILE -->
@@ -389,7 +427,7 @@
                       <div class="xjson__heading table-heading" *ngIf="data_elements[element].title">
                         {{ selectLanguage(data_elements[element].title) }}
                       </div>
-                      <div class="helper-wrapper" >
+                      <div class="helper-wrapper">
                         <ng-container *ngIf="data_elements[element].helpertext">
                           <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
@@ -400,115 +438,147 @@
 
 
                     <div class="scrollable">
-                      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart[index]" 
-                        (touchstart)="tableService.scrollStart('xjsonTable_'+index)" 
-                        (mousedown)="tableService.scrollStart('xjsonTable_'+index)" 
-                        (touchend)="tableService.scrollEnd()" 
-                        (mouseup)="tableService.scrollEnd()">
+                      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer"
+                        *ngIf="!elemAtStart[index]" (touchstart)="tableService.scrollStart('xjsonTable_'+index)"
+                        (mousedown)="tableService.scrollStart('xjsonTable_'+index)"
+                        (touchend)="tableService.scrollEnd()" (mouseup)="tableService.scrollEnd()">
                         <span class="htm-icon">keyboard_arrow_left</span>
                       </div>
-                      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer" *ngIf="tableOverflown[index]" 
-                        (touchstart)="tableService.scrollStart('xjsonTable_'+index, true)"
+                      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer"
+                        *ngIf="tableOverflown[index]" (touchstart)="tableService.scrollStart('xjsonTable_'+index, true)"
                         (mousedown)="tableService.scrollStart('xjsonTable_'+index, true)"
-                        (touchend)="tableService.scrollEnd(true)"
-                        (mouseup)="tableService.scrollEnd(true)">
+                        (touchend)="tableService.scrollEnd(true)" (mouseup)="tableService.scrollEnd(true)">
                         <span class="htm-icon">keyboard_arrow_right</span>
                       </div>
-                      <div class="scrollable__table" [attr.id]="'xjsonTable_' + index" (scroll)="tableOverflown[index] = tableService.isOverflownWhileScrolling($event); elemAtStart[index] = tableService.isElemAtStart('xjsonTable_'+index)">
+                      <div class="scrollable__table" [attr.id]="'xjsonTable_' + index"
+                        (scroll)="tableOverflown[index] = tableService.isOverflownWhileScrolling($event); elemAtStart[index] = tableService.isElemAtStart('xjsonTable_'+index)">
 
                         <table class="scrollableTable">
-                        <thead>
-                          <tr>
-                            <ng-container *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
-                              <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
-                                <th>
-                                  {{selectLanguage(data_elements[element].table_columns[col].title)}}
-                                  {{data_elements[element].table_columns[col].required ? '*' : ''}}
-                                </th>
+                          <thead>
+                            <tr>
+                              <ng-container
+                                *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
+                                <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
+                                  <th>
+                                    {{selectLanguage(data_elements[element].table_columns[col].title)}}
+                                    {{data_elements[element].table_columns[col].required ? '*' : ''}}
+                                  </th>
+                                </ng-container>
                               </ng-container>
-                            </ng-container>
 
-                            <th *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
-                              <!-- extra column for action buttons -->
-                            </th>
-                          </tr>
-                        </thead>
+                              <th
+                                *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                                <!-- extra column for action buttons -->
+                              </th>
+                            </tr>
+                          </thead>
                           <tbody>
                             <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
-                            <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
-                              
-                              <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
-                                <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
-                                  <input class="contnent-input" type="text" placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                    [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
-                                    [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
-                                </ng-container> <!-- /TEXT -->
+                              <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
 
-                                <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
-                                  <input class="contnent-input" type="email" [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                    placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                    [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                    [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
-                                </ng-container> <!-- /EMAIL -->
+                                <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
+                                  <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
+                                    <input class="contnent-input" type="text"
+                                      placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                                      [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
+                                      [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
+                                  </ng-container> <!-- /TEXT -->
 
-                                <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
-                                  <input class="contnent-input" type="text" [min]="tableColumnAttribute(element, colIndex, 'min')"
-                                    [max]="tableColumnAttribute(element, colIndex, 'max')" [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? true : null"
-                                    [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
-                                </ng-container> <!-- /NUMBER -->
+                                  <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
+                                    <input class="contnent-input" type="email"
+                                      [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                      placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                                      [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                      [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
+                                  </ng-container> <!-- /EMAIL -->
 
-                                <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
-                                  <div class="round-input__wrapper" [class.complete]="data_elements[element].picker || opened_step != this.max_step">
-                                    <div class="round-input__field-wrapper">
-                                      <input matInput class="round-input__field" [matDatepicker]="picker" [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                        placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                        [value]="getDatepickerValue(element, rowIndex, col)" (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
-                                        (focus)="datepickerFocus = true;" (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
-                                        name="{{element +_+ rowIndex + '_' + colIndex}}">
-                                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                      <mat-datepicker #picker [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"></mat-datepicker>
+                                  <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
+                                    <input class="contnent-input" type="text"
+                                      [min]="tableColumnAttribute(element, colIndex, 'min')"
+                                      [max]="tableColumnAttribute(element, colIndex, 'max')"
+                                      [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? true : null"
+                                      [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
+                                  </ng-container> <!-- /NUMBER -->
+
+                                  <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
+                                    <ng-container
+                                      *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) == false; else readonlyDisplay">
+                                      <div class="round-input__wrapper"
+                                        [class.complete]="data_elements[element].picker || opened_step != this.max_step">
+                                        <div class="round-input__field-wrapper">
+                                          <input matInput class="round-input__field" [matDatepicker]="picker"
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                                            [value]="getDatepickerValue(element, rowIndex, col)"
+                                            (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
+                                            (focus)="datepickerFocus = true;"
+                                            (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
+                                            name="{{element +_+ rowIndex + '_' + colIndex}}">
+                                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker
+                                            [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
+                                          </mat-datepicker>
+                                        </div>
+                                      </div>
+                                    </ng-container>
+                                  </ng-container> <!-- /DATE -->
+
+                                  <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
+                                    <div class="custom-checkbox">
+                                      <mat-checkbox [(ngModel)]="row[col]"
+                                        name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
+                                      </mat-checkbox>
                                     </div>
-                                  </div>
-                                </ng-container> <!-- /DATE -->
+                                  </ng-container> <!-- /CHECKBOX -->
 
-                                <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
-                                  <div class="custom-checkbox">
-                                    <mat-checkbox [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                      [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
-                                    </mat-checkbox>
-                                  </div>
-                                </ng-container> <!-- /CHECKBOX -->
+                                  <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
+                                    <ng-container
+                                      *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) == false; else readonlyDisplay">
+                                      <div class="round-input__wrapper"
+                                        [class.complete]="data_elements[element].value || opened_step != this.max_step">
+                                        <div class="round-input__field-wrapper">
+                                          <mat-select class="round-input__field"
+                                            [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                            [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            placeholder="{{ tableColumnAttribute(element, colIndex, 'empty_option') ? selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}">
+                                            <mat-option>
+                                              {{ tableColumnAttribute(element, colIndex, 'empty_option') ?
+                                          selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}
+                                            </mat-option>
+                                            <mat-option
+                                              *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
+                                              [value]="option">
+                                              {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
+                                            </mat-option>
+                                          </mat-select>
+                                        </div>
+                                      </div>
+                                    </ng-container>
+                                  </ng-container> <!-- /SELECTLIST -->
 
-                                <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
-                                  <div class="round-input__wrapper" [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                                    <div class="round-input__field-wrapper">
-                                      <mat-select class="round-input__field" [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                        [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                        placeholder="{{ tableColumnAttribute(element, colIndex, 'empty_option') ? selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}">
-                                        <mat-option>{{ tableColumnAttribute(element, colIndex, 'empty_option') ?
-                                          selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}</mat-option>
-                                        <mat-option *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
-                                          [value]="option">
-                                          {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
-                                        </mat-option>
-                                      </mat-select>
-                                    </div>
-                                  </div>
-                                </ng-container> <!-- /SELECTLIST -->
+                                  <ng-template #readonlyDisplay>
+                                    <input class="contnent-input" type="text"
+                                      [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
+                                      [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
+                                  </ng-template>
 
-                                <ng-container *ngIf="error[element]"> <!-- START OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
-                                  <ng-container *ngIf="error[element].row == rowIndex && error[element].column == col">
-                                    <div class="error">
-                                      {{ error[element].message }}
-                                    </div>
-                                  </ng-container>
-                                </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
+                                  <ng-container *ngIf="error[element]">
+                                    <!-- START OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
+                                    <ng-container
+                                      *ngIf="error[element].row == rowIndex && error[element].column == col">
+                                      <div class="error">
+                                        {{ error[element].message }}
+                                      </div>
+                                    </ng-container>
+                                  </ng-container> <!-- END OF TABLE COLUMN VALIDATION ERROR MESSAGE -->
 
-                              </td>
+                                </td>
                               </ng-container> <!-- END OF *NGFOR COLUMNS-->
-                              <td *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                              <td
+                                *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
                                 <div>
-                                  <a class="table-link" href="javascript:void(0);" (click)="tableDeleteRow(element, rowIndex)">
+                                  <a class="table-link" href="javascript:void(0);"
+                                    (click)="tableDeleteRow(element, rowIndex)">
                                     {{ 'button.delete_table_row' | translate }}
                                   </a>
                                 </div>
@@ -519,7 +589,8 @@
                       </div>
                     </div>
 
-                    <div *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                    <div
+                      *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
                       <div>
                         <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
                           + {{ 'button.add_table_row' | translate }}
@@ -535,7 +606,8 @@
                     </div>
                   </ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
 
-                </div><!--/col-12-->
+                </div>
+                <!--/col-12-->
               </div> <!-- row -->
             </ng-container>
           </form>
@@ -543,25 +615,29 @@
           <div class="row button-list">
             <ng-container *ngFor="let activity of activityButtons['primary']">
               <div class="subrow">
-                <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+                <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button
+                  [color]="[activity.style]" (click)="submitForm(activity.action)">
                   {{ activity.label | translate }}
                 </button>
               </div>
             </ng-container>
-           
-      
+
+
             <div class="button-switch">
               <ng-container *ngFor="let link of navigationLinks">
-                <a *ngIf="link.type === 'link'" href="javascript:void(0);" (click)="selectStep(link.step)">{{ link.label | translate }}</a>
-                <button *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
+                <a *ngIf="link.type === 'link'" href="javascript:void(0);"
+                  (click)="selectStep(link.step)">{{ link.label | translate }}</a>
+                <button *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button
+                  [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
               </ng-container>
               <ng-container *ngFor="let activity of activityButtons['primary']">
-                <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button [color]="[activity.style]" (click)="submitForm(activity.action)">
+                <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button
+                  [color]="[activity.style]" (click)="submitForm(activity.action)">
                   {{ activity.label | translate }}
                 </button>
               </ng-container>
             </div>
-            
+
             <ng-container *ngFor="let activity of activityButtons['secondary']">
               <div class="subrow" *ngIf="activityButtons['secondary'].length">
                 <a href="javascript:void(0);" (click)="submitForm(activity.action)">{{ activity.label | translate }}</a>
@@ -569,7 +645,11 @@
             </ng-container>
           </div> <!-- /row button-list -->
         </ng-container> <!-- /if data-->
-      </div><!--/block border-blue-->
-    </div> <!--/col-8-->
-  </div><!--/row-->
-</div><!--/main-container-->
+      </div>
+      <!--/block border-blue-->
+    </div>
+    <!--/col-8-->
+  </div>
+  <!--/row-->
+</div>
+<!--/main-container-->
