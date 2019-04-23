@@ -19,7 +19,7 @@
 
       <div class="col-5 sm-12">
         <div class="round-input__wrapper">
-          <mat-form-field *ngIf="FilterOptions && FilterOptions.type">
+          <mat-form-field>
             <mat-select [multiple]='true' placeholder="{{ 'studyProgramme.filter_type' | translate }}" [(ngModel)]='filterFormItems.type' name="type" (openedChange)="entityLabelSort($event, 'type')">
               <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
               <mat-option *ngFor="let type of FilterOptions.type" [value]="type.tid">
