@@ -214,7 +214,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.eventsConfig.limit = 9999;
       this.generateCalendar(true);
     }else{
-      this.eventsConfig.limit = 5;
+      this.eventsConfig.limit = 24;
     }
 
     sessionStorage.setItem("events.view", view);

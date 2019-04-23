@@ -29,7 +29,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private lang: string;
   private path: string;
   private params: any;
-  private limit: number = 5;
+  private limit: number = 24;
   private offset: number = 0;
 
   private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed']
