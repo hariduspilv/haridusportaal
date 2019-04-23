@@ -841,17 +841,17 @@ font-family: 'Rubik', sans-serif!important;
   margin: -0.25rem -0.5rem 0 0; border-left: 0 solid transparent; border-right: 0 solid transparent; border-top: 0 solid transparent;
 }
 .sticky-dialog-backdrop {background: rgba(51,51,51,0.9);
-  @include break-on(xs, max) {background: linear-gradient(rgba(51, 51, 51, 0) 4rem, rgba(51, 51, 51, 0.9) 0);}
+  @include break-on(xxs, max) {background: linear-gradient(rgba(51, 51, 51, 0) 4rem, rgba(51, 51, 51, 0.9) 0);}
 }
 .sticky-dialog-wrapper {
   .sticky-dialog-container {
     .mat-dialog-container {
-      @include break-on(xs, max) {
+      @include break-on(xxs, max) {
         border-radius: 0 !important;
       }
     }
   }
-  @include break-on(xs, max) {align-items: baseline !important;top: 4rem;}
+  @include break-on(xxs, max) {align-items: baseline !important;top: 4rem;}
 }
 .cdk-overlay-dark-backdrop { background: rgba(51,51,51,0.9); }
 .cdk-overlay-container{z-index: 99999999;}

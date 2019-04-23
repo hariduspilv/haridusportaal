@@ -46,7 +46,9 @@
       content: ""; display: block; height: 0.625rem; width: 0.625rem; background: $success; border-radius: 1rem; margin-right: 0.5rem; position: absolute; top: 0.8rem; left: 1.1rem; z-index: 3;
     }
     @include break-on(sm, max) {position: relative;width: 4rem;height: 4rem;
-      &.active {background: #fd8208;}
+      @include break-on(xxs, max) {
+        &.active {background: #fd8208;}
+      }
       .login { display: none; }
       .person { padding-right: 0rem; }
     }
