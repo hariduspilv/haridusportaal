@@ -1,14 +1,14 @@
-uuid: 1239a4f4-f01a-46c3-bb8c-e5018b93b255
-langcode: en
+uuid: 62cc4888-5f8b-4f5a-9b53-0ece9af311d2
+langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_event_date
+    - field.storage.paragraph.field_event_additional_date
     - paragraphs.paragraphs_type.event_date
   module:
-    - datetime
-id: paragraph.event_date.field_event_date
-field_name: field_event_date
+    - htm_custom_datetime_unix
+id: paragraph.event_date.field_event_additional_date
+field_name: field_event_additional_date
 entity_type: paragraph
 bundle: event_date
 label: 'Sündmuse lisakuupäev'
