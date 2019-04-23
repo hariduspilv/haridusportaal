@@ -84,7 +84,7 @@ fieldEventMainDate {
           fieldEventDate {
             entity {
               ... on ParagraphEventDate {
-                fieldEventDate {
+                fieldEventDate:fieldEventAdditionalDate{
                   value
                   date
                   unix

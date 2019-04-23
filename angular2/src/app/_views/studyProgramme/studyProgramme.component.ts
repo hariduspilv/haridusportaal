@@ -264,6 +264,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     if(Object.keys(this.filterFormItems).length === 0) {
       this.filterFormItems.open_admission = true; //default
     }
+    if(typeof this.filterFormItems.type === "string") {
+      this.filterFormItems.type = this.filterFormItems.type.split(',').map(e => parseInt(e));
+    }
     this.filterSubmit();
   }
   ngOnDestroy() {

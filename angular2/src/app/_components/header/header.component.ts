@@ -3,9 +3,10 @@ import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService, RootScopeService } from '@app/_services';
 import { Router, Event, NavigationEnd, RoutesRecognized } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-
 import { HttpService } from '@app/_services/httpService';
 import { SettingsService } from '@app/_services/settings.service';
+import { MatDialog } from '@angular/material';
+import { SearchModal } from '../dialogs/search.modal/search.modal';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +27,7 @@ export class HeaderComponent {
   public suggestionList: any = false;
   public debouncer: any;
   public autocompleteLoader: boolean = false;
+  public dialogOpened: boolean = false;
   
 
   constructor(
@@ -35,7 +37,8 @@ export class HeaderComponent {
     private changeDetectorRef: ChangeDetectorRef,
     private translate: TranslateService,
     private http: HttpService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private dialog: MatDialog,
   ) {
 
     this.logoLink = "/";
@@ -76,6 +79,21 @@ export class HeaderComponent {
 
     this.router.navigate([currentPath]);
 
+  }
+
+  toggleSearch() {
+    if (!this.dialogOpened) {
+      this.dialog.closeAll();
+      let dialogRef = this.dialog.open(SearchModal, {
+        panelClass: 'sticky-dialog-container',
+        backdropClass: 'sticky-dialog-backdrop'
+      });
+      if (dialogRef['_overlayRef'].overlayElement) {
+        dialogRef['_overlayRef'].overlayElement.parentElement.className += ' sticky-dialog-wrapper';
+        this.dialogOpened = true;
+        dialogRef.afterClosed().subscribe(result => this.dialogOpened = false);
+      }
+    }
   }
 
   toggleSideNav(): void {

@@ -46,29 +46,29 @@
           </ng-container>
         </form>  
         <form (ngSubmit)="submit()" class="login-method" *ngIf="authMethod[0] === 'basic'">
-            <div class="col-12">
-              <div class="round-input__wrapper" 
-              [class.complete]="formModels.username && !usernameFocus"
-              [class.errors]="!formModels.username && !usernameFocus && error">
-                <span class="round-input__title">{{ 'login.username' | translate }}</span>
-                <div class="round-input__field-wrapper">
-                  <input autocomplete="off" class="round-input__field" (focus)="usernameFocus = true" (blur)="usernameFocus = false" [class.focused]='usernameFocus' type="text" name="username" placeholder="{{ 'login.username' | translate }}" [(ngModel)]="formModels.username"/>
-                </div>
+          <div class="col-12">
+            <div class="round-input__wrapper" 
+            [class.complete]="formModels.username && !usernameFocus"
+            [class.errors]="!formModels.username && !usernameFocus && error">
+              <span class="round-input__title">{{ 'login.username' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input autocomplete="off" class="round-input__field" (focus)="usernameFocus = true" (blur)="usernameFocus = false" [class.focused]='usernameFocus' type="text" name="username" placeholder="{{ 'login.username' | translate }}" [(ngModel)]="formModels.username"/>
               </div>
             </div>
-            <div class="col-12">
-              <div class="round-input__wrapper" 
-              [class.complete]="formModels.password && !passwordFocus"
-              [class.errors]="!formModels.password && !passwordFocus && error">
-                <span class="round-input__title">{{ 'login.password' | translate }}</span>
-                <div class="round-input__field-wrapper">
-                  <input autocomplete="off" class="round-input__field" (focus)="passwordFocus = true" (blur)="passwordFocus = false" [class.focused]='passwordFocus' type="password" name="password" placeholder="{{ 'login.password' | translate }}" [(ngModel)]="formModels.password"/>
-                </div>
+          </div>
+          <div class="col-12">
+            <div class="round-input__wrapper" 
+            [class.complete]="formModels.password && !passwordFocus"
+            [class.errors]="!formModels.password && !passwordFocus && error">
+              <span class="round-input__title">{{ 'login.password' | translate }}</span>
+              <div class="round-input__field-wrapper">
+                <input autocomplete="off" class="round-input__field" (focus)="passwordFocus = true" (blur)="passwordFocus = false" [class.focused]='passwordFocus' type="password" name="password" placeholder="{{ 'login.password' | translate }}" [(ngModel)]="formModels.password"/>
               </div>
             </div>
-            <div class="col-12 text-center">
-              <button role="button" mat-raised-button color="primary">{{ 'button.login' | translate }}</button>
-            </div><!--/col-12-->
+          </div>
+          <div class="col-12 text-center">
+            <button role="button" mat-raised-button color="primary">{{ 'button.login' | translate }}</button>
+          </div><!--/col-12-->
         </form>
       </ng-container>
     </div>

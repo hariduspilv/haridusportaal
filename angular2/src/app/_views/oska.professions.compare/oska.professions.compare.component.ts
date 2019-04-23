@@ -97,15 +97,22 @@ export class OskaProfessionsCompareComponent extends CompareComponent implements
     this.loading = true;
     let variables = {
       lang: this.lang.toUpperCase(),
-      limit: "3",
-      titleEnabled: "false",
-      oskaFieldEnabled: "false",
-      fixedLabelEnabled: "false",
-      offset: "0",
+      titleValue: "",
+      titleEnabled: false,
+      oskaFieldValue: "",
+      oskaFieldEnabled: false,
+      fixedLabelValue: '',
+      fixedLabelEnabled: false,
+      fillingBarValues: [],
+      fillingBarFilterEnabled: false,
+      sortedBy: false,
+      offset: '0',
+      limit: '3',
+      sortField: 'title',
+      sortDirection: 'ASC',
+      indicatorSort: false,
       nid: this.compare,
-      nidEnabled: true,
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all'
+      nidEnabled: true
     }
     
     this.http.get('oskaMainProfessionListView', {params:variables}).subscribe(response => {
