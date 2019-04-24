@@ -22,21 +22,9 @@
       
     <form [formGroup]="form" class="dialog__form col-12" *ngIf="!loader && initialized">
       <div class="dialog-content">
-        <div *ngIf="actionSuccess" class="SUCCESS md-top" role="alert">
-          <div class="alert">
-            <ng-container *ngIf="data && data.edId">{{ 'dashboard.educational_institution_data_updated' | translate }}</ng-container>
-            <ng-container *ngIf="data && !data.edId">{{ 'dashboard.educational_institution_data_saved' | translate }}</ng-container>
-          </div>
-        </div>
-        <div *ngIf="!actionSuccess && reqError" class="ERROR md-top">
-          <div class="alert">
-            <ng-container>{{ 'errors.request' | translate }}</ng-container>
-          </div>
-        </div>
-        <div *ngIf="!actionSuccess && fieldsError" class="ERROR md-top">
-          <div class="alert">
-            <ng-container>{{ 'errors.enter_required_fields' | translate }}</ng-container>
-          </div>
+        <div class="md-top">
+          <notifications class="notifications notifications--small" id="success"></notifications>
+          <notifications class="notifications notifications--small" id="error"></notifications>
         </div>
         <ng-container *ngIf="!actionSuccess">
           <div class="row form-first-row" *ngIf="data && !data.edId"><!-- ROW -->

@@ -5,7 +5,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { Subscription } from 'rxjs/Subscription';
-import { TableService } from '@app/_services';
+import { TableService, NotificationService } from '@app/_services';
 import { UserService } from '@app/_services/userService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DashboardFormDialog } from '@app/_components/dialogs/dashboard.form/dashboard.form.dialog';
@@ -51,6 +51,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
 
 
   constructor(public http: HttpService,
+    public notificationService: NotificationService,
     public dialog: MatDialog,
     public rootScope: RootScopeService,
     public route: ActivatedRoute,
@@ -141,7 +142,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(response['educationalInstitutions'])) {
           this.data.educationalInstitutions = response['educationalInstitutions']; 
           // && response['educationalInstitutions'].length ? response['educationalInstitutions'] : juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
-          this.data.message = response['message'];
+          if (response['message']) {
+            this.notificationService.info(response['message'], 'general', false);
+          }
           // || juridicalDummyData[this.dummyDataVersion].message;
           // this.data.educationalInstitutions = juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
           // this.data.message = juridicalDummyData[this.dummyDataVersion].message || response['message'];
