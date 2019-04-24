@@ -1,15 +1,15 @@
-uuid: 65b4853f-e232-4012-86e0-56e67c73e7be
-langcode: en
+uuid: 22b417ff-46dd-4f53-8f37-d38ee32bec52
+langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_registration_notification_
+    - field.storage.paragraph.field_notification_email
     - paragraphs.paragraphs_type.registration_period
-id: paragraph.registration_period.field_registration_notification_
-field_name: field_registration_notification_
+id: paragraph.registration_period.field_notification_email
+field_name: field_notification_email
 entity_type: paragraph
 bundle: registration_period
-label: 'Registration Notification Email'
+label: 'Registreerimise teate emailiaadress'
 description: ''
 required: false
 translatable: true

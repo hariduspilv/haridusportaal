@@ -2733,3 +2733,12 @@ generic:
     translation_type: textarea
     et: 'Youtube video'
     en: 'Youtube video'
+sidemenu:
+  support_text:
+    translation_type: text_format
+    et:
+      value: "<p>Lehte haldab</p>\r\n\r\n<p>Haridus- ja Teadusministeerium</p>\r\n\r\n<p>koos partneritega</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Lehte haldab</p>\r\n\r\n<p>Haridus- ja Teadusministeerium</p>\r\n\r\n<p>koos partneritega</p>\r\n"
+      format: custom_editor
