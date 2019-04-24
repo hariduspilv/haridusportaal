@@ -79,7 +79,10 @@
         </div>
       </div>
       <span class="mob-space sm-show"></span>
-      <a href="javascript:void(0)" aria-hidden="true" (click)="searchRoute(searchParam)"><span class="htm-icon search sm-show" aria-hidden="true">search</span></a>
+
+      <button class="search__action sm-show" [class.active]="dialogOpened" attr.aria-label="{{ 'button.search' | translate }}" (click)="toggleSearch()">
+        <span class="pointer htm-icon search" aria-hidden="true">search</span>
+      </button>
 
       <app-login class="sm-show"></app-login>
 
