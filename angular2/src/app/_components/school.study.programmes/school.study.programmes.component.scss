@@ -1,8 +1,9 @@
 @import "../../../assets/styles/typography.scss";
+:host{margin-bottom: 4.5rem; display: block;
+  @include break-on(sm, min) {margin-bottom: 5.25rem;}
+}
+
 #school-study-programmes {
-  &.snackBar {margin-bottom: 4.5rem;
-    @include break-on(sm, min) {margin-bottom: 5.25rem;}
-  }
   .block-title {padding: $small $medium;padding-bottom: 0;margin-bottom: 0;}
   .programme {
     padding: $medium;
@@ -49,5 +50,7 @@
 }
 
 .block {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
+
+.button-wrapper{text-align:center;}
