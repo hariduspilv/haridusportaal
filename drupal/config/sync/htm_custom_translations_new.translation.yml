@@ -2479,6 +2479,10 @@ oska:
     translation_type: textarea
     et: 'OSKA uuringuid koostab Kutsekoda Euroopa Sotsiaalfondi vahenditest.'
     en: 'OSKA uuringuid koostab Kutsekoda Euroopa Sotsiaalfondi vahenditest.'
+  data:
+    translation_type: textarea
+    et: Andmed
+    en: Andmed-eng
 oskaProfession:
   view_field_info:
     translation_type: textarea
