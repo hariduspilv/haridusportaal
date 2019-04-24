@@ -30,12 +30,18 @@ class HarID extends Generic {
 
 	public function authorize ($scope = 'openid') {
 		$scope = 'openid personal_code profile';
+        if($_SERVER['HTTP_HOST'] === 'test-htm.wiseman.ee:30000'){
+            $redirect_uri = 'https://htm.wiseman.ee/custom/login/harid/return';
+        }else{
+            $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/custom/login/harid/return';
+        }
+
 		$url_options = [
 			'query' => [
 				'client_id' => $this->configuration['client_id'],
 				'response_type' => 'code',
 				'scope' => $scope,
-				'redirect_uri' => 'https://htm.wiseman.ee/custom/login/harid/return',
+				'redirect_uri' => $redirect_uri,
 				'state' => StateToken::create(),
 			],
 		];
@@ -66,13 +72,18 @@ class HarID extends Generic {
 	 */
 	public function retrieveTokens($authorization_code) {
 		$endpoints = $this->getEndpoints();
+		if($_SERVER['HTTP_HOST'] === 'test-htm.wiseman.ee:30000'){
+		    $redirect_uri = 'https://htm.wiseman.ee/custom/login/harid/return';
+        }else{
+            $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/custom/login/harid/return';
+        }
 
 		$request_options = [
 			'form_params' => [
 				'code' => $authorization_code,
 				'client_id' => $this->configuration['client_id'],
 				'client_secret' => $this->configuration['client_secret'],
-				'redirect_uri' => 'https://htm.wiseman.ee/custom/login/harid/return',
+				'redirect_uri' => $redirect_uri,
 				'grant_type' => 'authorization_code',
 			],
 			'headers' => [

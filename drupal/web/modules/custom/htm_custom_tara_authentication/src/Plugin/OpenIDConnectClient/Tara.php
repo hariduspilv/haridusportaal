@@ -58,12 +58,18 @@ class Tara extends OpenIDConnectClientBase {
 	}
 
 	public function authorize($scope = 'openid') {
+        if($_SERVER['HTTP_HOST'] === 'test-htm.wiseman.ee:30000'){
+            $redirect_uri = 'https://htm.wiseman.ee/custom/login/tara/return';
+        }else{
+            $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/custom/login/tara/return';
+        }
+
 		$url_options = [
 			'query' => [
 				'client_id' => $this->configuration['client_id'],
 				'response_type' => 'code',
 				'scope' => 'openid',
-				'redirect_uri' => 'https://htm.wiseman.ee/custom/login/tara/return',
+				'redirect_uri' => $redirect_uri,
 				'state' => StateToken::create(),
 			],
 		];
@@ -93,13 +99,18 @@ class Tara extends OpenIDConnectClientBase {
 	 */
 	public function retrieveTokens($authorization_code) {
 		$endpoints = $this->getEndpoints();
+        if($_SERVER['HTTP_HOST'] === 'test-htm.wiseman.ee:30000'){
+            $redirect_uri = 'https://htm.wiseman.ee/custom/login/tara/return';
+        }else{
+            $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/custom/login/tara/return';
+        }
 
 		$request_options = [
 			'form_params' => [
 				'code' => $authorization_code,
 				'client_id' => $this->configuration['client_id'],
 				'client_secret' => $this->configuration['client_secret'],
-				'redirect_uri' => 'https://htm.wiseman.ee/custom/login/tara/return',
+				'redirect_uri' => $redirect_uri,
 				'grant_type' => 'authorization_code',
 			],
 			'headers' => [

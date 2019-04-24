@@ -10,6 +10,7 @@
   }
   @include break-on(xxs, max) {
     min-width: 100vw;
+    padding-bottom: 8rem;
   }
   @include break-on(xs, min) {
     min-width: 50vw;

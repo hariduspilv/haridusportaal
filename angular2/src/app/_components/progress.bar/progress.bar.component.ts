@@ -19,7 +19,7 @@ export class ProgressBarComponent implements AfterViewInit {
     2: 32,
     3: 57,
     4: 78,
-    5: 96
+    5: 97.5
   }
 
   ngAfterViewInit() {

@@ -167,8 +167,8 @@
 </div>
 
 <div *ngIf="loading.initial === false && currentRole === 'juridical_person'">
-  <div *ngIf="data.message && false" class="NOTICE lg-top">
-    <div class="alert">{{ data.message }}</div>
+  <div *ngIf="false" class="lg-top">
+    <notifications class="notifications notifications--small" id="general"></notifications>
   </div>
   <!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
   <div class="block-btn--holder">
