@@ -63,5 +63,8 @@
       </ul>
     </li>
   </ul>
-  <div class="app-version" *ngIf="version">{{ 'frontpage.version' | translate }} {{version}}</div>
+  <div class="app__info">
+    <div *ngIf="version" class="version">{{ 'frontpage.version' | translate }} {{version}}</div>
+    <div class="support" innerHtml="{{ 'sidemenu.support_text' | translate }}"></div>
+  </div>
 </aside>
