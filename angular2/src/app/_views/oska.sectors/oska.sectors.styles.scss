@@ -1,11 +1,29 @@
 @import "../../../assets/styles/typography.scss";
 .sectors {background: $white;border-top: $gutter solid $light-blue;
   @include break-on(sm, min) {border-radius: $half-gutter;margin: 1rem 1.5rem 1.5rem 1.5rem;}
-  &__head {display: flex;border-bottom: .0625rem solid $gray;}
+  &__head {display: flex;border-bottom: .0625rem solid $gray;
+    .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
+    @include break-on(xs, max){text-align:center;display: block;
+      .button-list{border-top:$gray 1px solid; border-bottom:$gray 1px solid; width:100%;
+        .view-item{width:50%; padding-top:0.56rem; padding-bottom:0.56rem;}
+      }
+    }
+  }
   &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%; font-weight: normal;}
   &__list-head {margin-top: 0;}
   &__list-body {padding: 1.5rem 0 3rem;
     @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
+    &--comparison {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      h1 {
+        line-height: 1.25;
+        color: #333;
+      }
+      .graphText {
+        display: none;
+      }
+    }
     .sector__wrapper {display: flex;flex-direction: column;align-items: center;background-color: $blue;height: 100%; position:relative; appearance:none; padding:0; border:none; width:100%; cursor: pointer;
       span{display:block;}
       button{cursor: pointer;}
@@ -50,7 +68,12 @@
       &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: .625rem;}
     }
   }
-  .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
+  .sector-comparison-chart {
+    margin-top: 1.5rem;
+    ::ng-deep .graphText {
+      margin-bottom: 2rem;
+    }
+  }
 }
 
 .modal{background:$light-gray; padding:2rem 2rem 0.4rem 2rem; margin-top:0.8rem; position: relative;
