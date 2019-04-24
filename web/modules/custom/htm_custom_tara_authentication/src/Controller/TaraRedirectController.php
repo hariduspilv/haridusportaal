@@ -10,7 +10,6 @@ use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationP
 use Drupal\openid_connect\Claims;
 use Drupal\openid_connect\Controller\RedirectController;
 use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
-use Psy\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -102,11 +101,7 @@ class TaraRedirectController extends RedirectController{
 			$tokens = $client->retrieveTokens($query->get('code'));
 			if ($tokens) {
 				if ($parameters['op'] === 'login') {
-				    try{
-                        $success = openid_connect_complete_authorization($client, $tokens, $destination);
-                    }catch (RuntimeException $e){
-				        \Drupal::logger('htm_custom_tara_authentication')->notice($e);
-                    }
+					$success = openid_connect_complete_authorization($client, $tokens, $destination);
 
 					$register = \Drupal::config('user.settings')->get('register');
 					if (!$success && $register !== USER_REGISTER_ADMINISTRATORS_ONLY) {
@@ -114,12 +109,7 @@ class TaraRedirectController extends RedirectController{
 					}
 				}
 				elseif ($parameters['op'] === 'connect' && $parameters['connect_uid'] === $this->currentUser->id()) {
-                    try{
-                        $success = openid_connect_connect_current_user($client, $tokens);
-                    }catch (RuntimeException $e){
-                        \Drupal::logger('htm_custom_tara_authentication')->notice($e);
-                    }
-
+					$success = openid_connect_connect_current_user($client, $tokens);
 					if ($success) {
 						$this->messenger()->addMessage($this->t('Account successfully connected with @provider.', $provider_param));
 					}
@@ -129,7 +119,7 @@ class TaraRedirectController extends RedirectController{
 				}
 			}
 		}
-
+>
 		$fe_url = $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url').'/auth.html';
 		if(empty($this->messenger()->all()) && !$redirect_home){
 			$query = ['jwt' => $this->jsonAuth->generateToken(), 'error' => 'false'];
