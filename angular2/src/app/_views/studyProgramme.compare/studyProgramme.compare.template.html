@@ -123,7 +123,7 @@
                   <td class="highlighted" *ngFor="let item of list">{{ item.admissionStatus }}</td>
                 </tr>
 
-                <tr>
+                <!-- <tr>
                   <td>{{ 'studyProgramme.accreditation_decision' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
                     <ng-container *ngIf="item.accreditationStatus">{{ item.accreditationStatus | titleCase }}</ng-container>
@@ -137,7 +137,7 @@
                     <ng-container *ngIf="item.accreditationValidUntil">{{ item.accreditationValidUntil.unix * 1000 | date:"dd.MM.yyyy" }}</ng-container>
                     <ng-container *ngIf="!item.accreditationValidUntil"> - </ng-container>
                   </td>
-                </tr>
+                </tr> -->
                 <tr>
                   <td></td>
                   <td *ngFor="let item of list">
