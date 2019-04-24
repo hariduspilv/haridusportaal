@@ -76,6 +76,7 @@ const appRoutes: Routes = [
     ]
   },
 
+  { path: 'login/cancel', redirectTo: '' },
   { path: 'ametialad/võrdlus', component: OskaProfessionsCompareComponent},
   { path: 'ametialad', component: OskaProfessionsComponent},
   { path: 'valdkonnad', component: OskaSectorsComponent},
