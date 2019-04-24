@@ -1,7 +1,0 @@
-uuid: 66a5788c-fac8-4496-b723-e8ebac0b4ce7
-langcode: en
-status: true
-dependencies: {  }
-version: createFavoriteItem
-map:
-  1: "mutation ($id: Int!, $language: LanguageId!) {\n  createFavoriteItem(input: {page_id: $id}, language: $language) {\n    entity {\n      ... on FavoriteEntity {\n        favoritesNew {\n          targetId\n          entity {\n            entityLabel\n            entityUrl {\n              path\n            }\n          }\n        }\n      }\n    }\n    errors\n    violations {\n      message\n      path\n      code\n    }\n  }\n}\n"
