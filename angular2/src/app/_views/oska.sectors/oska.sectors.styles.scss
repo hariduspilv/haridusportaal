@@ -71,7 +71,7 @@
   .sector-comparison-chart {
     margin-top: 1.5rem;
     ::ng-deep .graphText {
-      margin-bottom: 2rem;
+      display:none;
     }
   }
 }
