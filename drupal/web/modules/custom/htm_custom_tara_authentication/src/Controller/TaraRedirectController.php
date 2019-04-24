@@ -151,6 +151,7 @@ class TaraRedirectController extends RedirectController{
 		$_SESSION['openid_connect_op'] = 'login';
 
 		$response = $client->authorize($scopes);
+		\Drupal::logger('htm_custom_tara_authentication')->notice($response);
 
 		return $response;
 	}
