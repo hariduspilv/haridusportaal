@@ -1,7 +1,0 @@
-uuid: 807fe3de-1864-45e4-b4dd-d65800527526
-langcode: en
-status: true
-dependencies: {  }
-version: frontPageEvents
-map:
-  1: "query ($lang: LanguageId!, $currentDate: [String]) {\n  nodeQuery(offset: 0, limit: 3, sort: {field: \"field_event_main_date\", direction: ASC}, filter: {conjunction: AND, conditions: [{field: \"type\", value: \"event\", language: $lang}, {operator: GREATER_THAN_OR_EQUAL, field: \"field_event_main_date\", value: $currentDate}]}) {\n    entities(language: $lang) {\n      ... on NodeEvent {\n        entityUrl {\n          path\n        }\n        fieldOrganizer\n        fieldEventMainDate {\n          value\n          date\n          unix\n        }\n        entityLabel\n      }\n    }\n  }\n}\n"
