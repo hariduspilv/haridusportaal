@@ -2,6 +2,13 @@ htm_custom_admin_form.customadmin:
   type: config_object
   label: 'Admin configurations'
   mapping:
+    general:
+      type: mapping
+      label: 'General site settings'
+      mapping:
+        fe-url:
+          type: text
+          label: 'Front-end url'
     emails:
       type: mapping
       label: 'Email translations'
