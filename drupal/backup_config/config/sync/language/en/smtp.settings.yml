@@ -1,3 +1,0 @@
-smtp_port: '25'
-smtp_protocol: standard
-prev_mail_system: php_mail

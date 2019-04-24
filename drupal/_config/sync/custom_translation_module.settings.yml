@@ -1,9 +1,0 @@
-name: ''
-email: ''
-langcode: et
-default_langcode: et
-_core:
-  default_config_hash: YPL-xoni85FNIVpcg_yqIAUzSteFOyPlV5wk7iMSRCg
-field1: 'Tekstiväli number 1'
-field2: 'Tekstiväli number 2'
-field3: 'Tekstiväli number 3'
