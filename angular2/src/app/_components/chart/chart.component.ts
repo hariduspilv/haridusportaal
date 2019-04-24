@@ -10,6 +10,8 @@ import { HttpService } from '@app/_services/httpService';
 export class ChartComponent implements OnInit{
   @Input() data;
   @Input () type = 'default';
+  @Input() height = 500;
+  @Input() wide = false;
 
   chartData:any = [];
 
@@ -33,7 +35,7 @@ export class ChartComponent implements OnInit{
   getGraphOptions()  {
 
     return {
-      height: 500,
+      height: this.height,
       pieSliceTextStyle: {
         "color": '#ffffff'
       },
