@@ -58,7 +58,11 @@ class Tara extends OpenIDConnectClientBase {
 	}
 
 	public function authorize($scope = 'openid') {
-	    $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/custom/login/tara/return';
+        if($_SERVER['HTTP_HOST'] === 'test-htm.wiseman.ee:30000'){
+            $redirect_uri = 'https://htm.wiseman.ee/custom/login/tara/return';
+        }else{
+            $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/custom/login/tara/return';
+        }
 
 		$url_options = [
 			'query' => [
@@ -95,7 +99,11 @@ class Tara extends OpenIDConnectClientBase {
 	 */
 	public function retrieveTokens($authorization_code) {
 		$endpoints = $this->getEndpoints();
-        $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/custom/login/tara/return';
+        if($_SERVER['HTTP_HOST'] === 'test-htm.wiseman.ee:30000'){
+            $redirect_uri = 'https://htm.wiseman.ee/custom/login/tara/return';
+        }else{
+            $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/custom/login/tara/return';
+        }
 
 		$request_options = [
 			'form_params' => [
