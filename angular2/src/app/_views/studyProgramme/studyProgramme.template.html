@@ -198,7 +198,7 @@
           </div>
           <div class="inline__items sm-hide">
             <span class="item" *ngIf="item.fieldSchoolAddress">{{ item.fieldSchoolAddress }}</span>
-            <span class="bar" *ngIf="item.fieldSchoolWebsite">|</span>
+            <span class="bar" *ngIf="item.fieldSchoolWebsite && item.fieldSchoolAddress">|</span>
             <span class="item" *ngIf="item.fieldSchoolWebsite">
               <a attr.aria-label="{{' event.website: '}} {{item.fieldSchoolWebsite }}" href="{{ item.fieldSchoolWebsite }}">{{ item.fieldSchoolWebsite | removeProtocol }}</a>
             </span>

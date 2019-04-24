@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { TableService } from '@app/_services';
+import { TableService, NotificationService } from '@app/_services';
 import { SettingsService } from '@app/_services/settings.service';
 import { UserService } from '@app/_services/userService';
 
@@ -21,11 +21,6 @@ export class CertificateCheckComponent {
   public elemAtStart: any = true;
   public initialized: any = false;
   public userLoggedOut: boolean = false;
-  public error = {
-    captcha: false,
-    request: false,
-    file: false
-  };
   public resultSetIds = {
     id_code: null,
     certificate_id: null
@@ -37,6 +32,7 @@ export class CertificateCheckComponent {
   };
 
   constructor(
+    private notificationService: NotificationService,
 		private router: Router,
 		private route: ActivatedRoute,
     private http: HttpService,
@@ -46,21 +42,20 @@ export class CertificateCheckComponent {
   ) {}
 
   checkCertificate() {
-    const { model, error } = this;
-    Object.keys(error).forEach(v => error[v] = false);
+    const { model } = this;
+    this.notificationService.clear('general');
     this.certificateData = false;
     if( this.querySubscription ){
       this.querySubscription.unsubscribe();
     }
     if (!model['captcha'] && this.userLoggedOut) {
-      this.error['captcha'] = true;
+      this.notificationService.error('errors.captcha', 'general', false);
       return;
     }
     this.loader = true;
     this.querySubscription = this.http.post('/certificate-public', model).subscribe((response) => {
       if (!response['value']['tunnistus']) {
-        this.error['request'] = true;
-        this.errorRequest = response['value']['teade'] || false;
+        this.notificationService.error(response['value']['teade'] || 'errors.request', 'general', false);
       }
       if (response['value']['tunnistus_nr']) {
         this.certificateData = response['value'];
@@ -71,7 +66,7 @@ export class CertificateCheckComponent {
       this.loader = false;
       this.querySubscription.unsubscribe();
     }, (data) => {
-      this.error['request'] = true;
+      this.notificationService.error('errors.request', 'general', false);
       this.loader = false;
       this.querySubscription.unsubscribe();
     });
@@ -91,8 +86,7 @@ export class CertificateCheckComponent {
     if (resultSetIds['id_code'] && resultSetIds['certificate_id']) {
       return `${settings.url}/certificate-public-download/${resultSetIds['id_code']}/${resultSetIds['certificate_id']}`;
     } else {
-      this.error['file'] = true;
-      return '';
+      this.notificationService.error('errors.file', 'general', false);
     }
   }
 
@@ -105,6 +99,7 @@ export class CertificateCheckComponent {
   }
 
   ngOnInit() {
+    this.notificationService.clear('general');
     this.userLoggedOut = this.user.getData()['isExpired'];
   }
 }
