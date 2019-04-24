@@ -5,6 +5,7 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 import {SettingsService} from '@app/_services/settings.service';
 import {HttpService} from '@app/_services/httpService';
 import {AddressService} from '@app/_services/addressService';
+import {NotificationService} from '@app/_services';
 @Component({
   selector: 'dashboard-form-dialog',
   templateUrl: 'dashboard.form.dialog.html',
@@ -53,6 +54,7 @@ export class DashboardFormDialog {
     public router: Router,
     public route: ActivatedRoute,
     public settings: SettingsService,
+    public notificationService: NotificationService,
     private http: HttpService,
     private addressService: AddressService
   ) { }
@@ -127,13 +129,14 @@ export class DashboardFormDialog {
     if (!this.form.controls.address.value) {this.formErrors['address'] = true;}
     if (!addressVal) {
       this.addressInvalid = true;
-      this.reqError = true;
+      this.notificationService.error('errors.request', 'error', false);
       return false; 
     }
     if (!this.form.controls.studyInstitutionType.value || !this.form.controls.ownershipType.value || !this.form.controls.ownerType.value) {return false;}
     if (this.form.valid) {
       this.loader = true;
-      this.reqError = false;
+      this.notificationService.clear('error');
+      this.notificationService.clear('success');
       let data = { 
         address: addressVal,
         general: { 
@@ -151,13 +154,14 @@ export class DashboardFormDialog {
       }
       const add = this.http.post('/educational-institution/add', data).subscribe((response) => {
         this.actionSuccess = true;
+        this.notificationService.success('dashboard.educational_institution_data_saved', 'notification', false);
         this.loader = false;
       }, (data) => {
-        this.reqError = true;
+        this.notificationService.error('errors.request', 'error', false);
         this.loader = false;
       });
     } else {
-      this.fieldsError = true;
+      this.notificationService.error('errors.enter_required_fields', 'error', false);
     }
   }
   
@@ -165,12 +169,12 @@ export class DashboardFormDialog {
     let addressVal = this.addressService.addressSelectionValue || null;
     if (!addressVal) {
       this.addressInvalid = true;
-      this.reqError = true;
+      this.notificationService.error('errors.request', 'error', false);
       return false; 
     }
     if (this.form.valid) {
       this.loader = true;
-      this.reqError = false;
+      this.notificationService.clear('error');
       let data = { 
         edId: this.data.edId,
         address: addressVal,
@@ -182,9 +186,10 @@ export class DashboardFormDialog {
       }
       const edit = this.http.post('/educational-institution/edit', data).subscribe((response) => {
         this.actionSuccess = true;
+        this.notificationService.success('dashboard.educational_institution_data_saved', 'notification', false);
         this.loader = false;
       }, (data) => {
-        this.reqError = true;
+        this.notificationService.error('errors.request', 'error', false);
         this.loader = false;
       });
     }

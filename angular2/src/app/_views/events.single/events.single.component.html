@@ -42,7 +42,7 @@
                 <span class="mat-chip-list-wrapper" *ngIf="content.entity.fieldEventType">
                   <mat-chip tabindex="0">{{ content.entity.fieldEventType.entity.entityLabel }}</mat-chip>
                 </span>
-                <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-list-wrapper">
+                <span *ngFor="let tag of content.entity.fieldTag" class="mat-chip-wrapper">
                   <mat-chip *ngIf="tag.entity && tag.entity" tabindex="0">{{ tag.entity.entityLabel }}</mat-chip>
                 </span>
               </mat-chip-list>
