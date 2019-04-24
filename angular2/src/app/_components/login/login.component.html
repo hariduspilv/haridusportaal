@@ -1,13 +1,13 @@
 <span class="login-wrapper">
   <button class="login__actions" *ngIf="isLoggedIn" [matMenuTriggerFor]="usermenu" [class.logged]="isLoggedIn">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
-    <span class="login pointer sm-hide">{{ user.username }}</span>
+    <span class="login pointer md-hide">{{ user.username }}</span>
   </button>
   <mat-menu #usermenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
     <button mat-menu-item (click)="logOut()">{{ 'button.logout' | translate }}</button>
   </mat-menu>
   <button class="login__actions" [class.active]="dialogOpened" *ngIf="!isLoggedIn" (click)="toggleLogin()" attr.aria-label="{{ 'button.login' | translate }}">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
-    <span class="login pointer sm-hide">{{ 'button.login' | translate }}</span>
+    <span class="login pointer md-hide">{{ 'button.login' | translate }}</span>
   </button>
 </span>
