@@ -40,7 +40,10 @@ input[type=number] {
 .accordion{
   ul, ol{margin-left:0; padding-left:1rem;}
 }
-.app-version {margin-top: .25rem;padding: 1.5rem;text-align: center;color: $dark-gray;font-size: .875rem;font-weight: 300;}
+.app__info {padding: 1.5rem;text-align: center;color: $dark-gray;font-size: .875rem;font-weight: 300;
+  .version {margin-top: .25rem;padding-bottom: 1.5rem;line-height: 1;}
+  .support p {margin: 0;line-height: 1.375;}
+}
 /* You can add global styles to this file, and also import other style files */
 body{margin:0; padding:0; padding-top:4rem; background: $light-gray;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -185,30 +188,20 @@ $grid-columns: 12;
 
 /*ALERTS*/
 
-.NOTICE { margin-bottom: 1rem; position: relative; border-radius: 0.25rem; background-color: #f1f7fe; border: solid 0.0625rem $info; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
-  &:before {
-    font-family: 'htm-icon'; content: "info"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $info; position: absolute;
-    left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400; 
-  } 
-}
-.WARNING { margin-bottom: 1rem; position: relative; border-radius: 0.25rem; background-color: #fff7eb; border: solid 0.0625rem $warning; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
-  &:before {transform:rotate(180deg);
-    font-family: 'htm-icon'; content: "info"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $warning; position: absolute;
-    left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;
-  }
-}
-.ERROR { margin-bottom: 1rem; position: relative; border-radius: 4px; background-color: #fdf3f4; border: solid 1px $error; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
-  &:before {
-    font-family: 'htm-icon'; content: "highlight_off"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $error; position: absolute;
-    left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;speak: none;
-  }
-}
-.SUCCESS { margin-bottom: 1rem; position: relative;border-radius: 4px; background-color: #e6f5ef; border: solid 1px $success; padding: 0.5625rem 1rem 0.5625rem 3.5rem; 
-  &:before {
-    font-family: 'htm-icon'; content: "check_circle"; font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';color: $white; background: $success; position: absolute;
-    left: 0px; font-size: 1.5rem; align-items: center; text-align: center; display: flex; padding: 0.5rem; top: 0; bottom: 0; font-weight: 400;
-  } 
-}   
+// .notification { position: relative;display: flex;align-items: center;margin-bottom: 1rem; border-radius: 4px; background-color: #fdf3f4;
+//   &--error {border: solid 1px $error;}
+//   &--notice {border: solid 1px $info;}
+//   &--success {border: solid 1px $success;}
+//   &--warning {border: solid 1px $warning;}
+//   &__text {padding: .5625rem 1rem .5625rem 3.5rem;}
+//   &__icon {height: 100%;box-sizing: border-box;padding: 0 .5rem;position: absolute;color: #ffffff;display: flex;align-items: center;
+//     &--error {background: $error;}
+//     &--notice {background: $info}
+//     &--success {background: $success;}
+//     &--warning {background: $warning}
+//   }
+// }
+
 .alert { font-size: 1rem; line-height: 1.38; text-align: left; color:$black; }
 
 .search__alert {position: absolute; overflow: hidden;
@@ -600,7 +593,9 @@ $grid-columns: 12;
   .mat-spinner{margin:3.125rem auto;}
   .mat-chip[ng-reflect-router-link]{cursor: pointer !important;}
   .mat-chip-list{margin:0 -$half-gutter; display:block !important;;
-    .mat-chip{ margin:0 $half-gutter;}
+    .mat-chip{ margin:0 $half-gutter;pointer-events: none;
+      &.mat-standard-chip::after {background: $white;}
+    }
     .mat-chip-list-wrapper{margin-bottom:-.625rem; display: inline;
       .mat-chip-wrapper{margin-bottom:.625rem !important; overflow: hidden;}
     }

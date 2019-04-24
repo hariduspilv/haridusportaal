@@ -1,0 +1,18 @@
+uuid: 1a070f7a-d84e-42a7-ab00-505af6412a56
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_notification_email
+field_name: field_notification_email
+entity_type: paragraph
+type: email
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

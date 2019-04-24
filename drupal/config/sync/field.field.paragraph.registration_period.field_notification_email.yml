@@ -1,0 +1,19 @@
+uuid: 22b417ff-46dd-4f53-8f37-d38ee32bec52
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_notification_email
+    - paragraphs.paragraphs_type.registration_period
+id: paragraph.registration_period.field_notification_email
+field_name: field_notification_email
+entity_type: paragraph
+bundle: registration_period
+label: 'Registreerimise teate emailiaadress'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email
