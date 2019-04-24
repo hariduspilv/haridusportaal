@@ -40,8 +40,8 @@ input[type=number] {
 .accordion{
   ul, ol{margin-left:0; padding-left:1rem;}
 }
-.app__info {margin-top: .25rem;padding: 1.5rem;text-align: center;color: $dark-gray;font-size: .875rem;font-weight: 300;
-  .version {padding-bottom: 1.5rem;line-height: 1;}
+.app__info {padding: 1.5rem;text-align: center;color: $dark-gray;font-size: .875rem;font-weight: 300;
+  .version {margin-top: .25rem;padding-bottom: 1.5rem;line-height: 1;}
   .support p {margin: 0;line-height: 1.375;}
 }
 /* You can add global styles to this file, and also import other style files */
