@@ -3,9 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.registration_period.field_notification_email
     - field.field.paragraph.registration_period.field_registration_first_date
     - field.field.paragraph.registration_period.field_registration_last_date
-    - field.field.paragraph.registration_period.field_registration_notification_
     - paragraphs.paragraphs_type.registration_period
   module:
     - datetime
@@ -14,6 +14,13 @@ targetEntityType: paragraph
 bundle: registration_period
 mode: default
 content:
+  field_notification_email:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
   field_registration_first_date:
     weight: 0
     label: above
@@ -31,12 +38,5 @@ content:
       timezone_override: ''
     third_party_settings: {  }
     type: datetime_default
-    region: content
-  field_registration_notification_:
-    weight: 2
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: basic_string
     region: content
 hidden: {  }
