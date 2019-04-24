@@ -9,32 +9,52 @@ import { HttpService } from '@app/_services/httpService';
   templateUrl: './school.study.programmes.component.html',
   styleUrls: ['./school.study.programmes.component.scss']
 })
+
 export class SchoolStudyProgrammesComponent implements OnInit {
 
   @Input() schoolId: number;
   @Input() schoolName: String;
+
   programmes: any;
-  loading = true;
+  loading: boolean = true;
+  listEnd: boolean = false;
+  limit: number = 24;
 
   constructor(
 		private rootScope: RootScopeService,
     private http: HttpService
   ) { }
 
-  ngOnInit() {
+  getData() {
+
+    this.loading = true;
 
     let variables = {
       schoolId: this.schoolId.toString(),
-      lang: this.rootScope.get('lang').toUpperCase()
+      lang: this.rootScope.get('lang').toUpperCase(),
+      limit: this.limit,
+      offset: this.programmes ? this.programmes.length : 0
     };
     
     let subscribe = this.http.get('relatedStudyProgrammeList', { params: variables }).subscribe( (response) => {
       let data = response['data'];
       this.loading = false;
-      this.programmes = data.nodeQuery.entities;
+
+      if( this.programmes ){
+        this.programmes = [ ... this.programmes, ...data.nodeQuery.entities ];
+      }else{
+        this.programmes = data.nodeQuery.entities;
+      }
+
+      if( data.nodeQuery.entities.length < this.limit ){
+        this.listEnd = true;
+      }
       subscribe.unsubscribe();
     });
+  }
 
+  ngOnInit() {
+    this.getData();
   }
 
   ngOnDestroy() {

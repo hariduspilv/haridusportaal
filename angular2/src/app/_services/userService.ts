@@ -18,8 +18,9 @@ export class UserService{
   ) {
     this.isLoggedInChange.subscribe(value => {
       this.isLoggedIn = value;
-    })
+    });
   }
+
   toggleLoggedInStatus(isLoggedIn: boolean) {
     this.isLoggedInChange.next(isLoggedIn);
   }
