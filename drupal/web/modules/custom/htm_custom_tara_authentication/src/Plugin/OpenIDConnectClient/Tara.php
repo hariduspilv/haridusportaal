@@ -58,7 +58,7 @@ class Tara extends OpenIDConnectClientBase {
 	}
 
 	public function authorize($scope = 'openid') {
-	    $redirect_uri = $_SERVER[REQUEST_SCHEME].'://'.$_SERVER[HTTP_HOST].'/custom/login/tara/return';
+	    $redirect_uri = 'https://'.$_SERVER[HTTP_HOST].'/custom/login/tara/return';
 
 		$url_options = [
 			'query' => [
@@ -95,7 +95,7 @@ class Tara extends OpenIDConnectClientBase {
 	 */
 	public function retrieveTokens($authorization_code) {
 		$endpoints = $this->getEndpoints();
-        $redirect_uri = $_SERVER[REQUEST_SCHEME].'://'.$_SERVER[HTTP_HOST].'/custom/login/tara/return';
+        $redirect_uri = 'https://'.$_SERVER[HTTP_HOST].'/custom/login/tara/return';
 
 		$request_options = [
 			'form_params' => [
