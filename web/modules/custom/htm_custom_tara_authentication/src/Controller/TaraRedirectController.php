@@ -105,7 +105,7 @@ class TaraRedirectController extends RedirectController{
 				    try{
                         $success = openid_connect_complete_authorization($client, $tokens, $destination);
                     }catch (RuntimeException $e){
-				        \Drupal::logger('htm_custom_tara_authentication', $e);
+				        \Drupal::logger('htm_custom_tara_authentication')->notice($e);
                     }
 
 					$register = \Drupal::config('user.settings')->get('register');
@@ -117,7 +117,7 @@ class TaraRedirectController extends RedirectController{
                     try{
                         $success = openid_connect_connect_current_user($client, $tokens);
                     }catch (RuntimeException $e){
-                        \Drupal::logger('htm_custom_tara_authentication', $e);
+                        \Drupal::logger('htm_custom_tara_authentication')->notice($e);
                     }
 
 					if ($success) {
