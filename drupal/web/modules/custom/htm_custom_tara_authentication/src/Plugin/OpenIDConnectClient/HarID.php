@@ -30,7 +30,7 @@ class HarID extends Generic {
 
 	public function authorize ($scope = 'openid') {
 		$scope = 'openid personal_code profile';
-        $redirect_uri = $_SERVER[REQUEST_SCHEME].'://'.$_SERVER[HTTP_HOST].'/custom/login/harid/return';
+        $redirect_uri = 'https://'.$_SERVER[HTTP_HOST].'/custom/login/harid/return';
 
 		$url_options = [
 			'query' => [
@@ -68,7 +68,7 @@ class HarID extends Generic {
 	 */
 	public function retrieveTokens($authorization_code) {
 		$endpoints = $this->getEndpoints();
-        $redirect_uri = $_SERVER[REQUEST_SCHEME].'://'.$_SERVER[HTTP_HOST].'/custom/login/harid/return';
+        $redirect_uri = 'https://'.$_SERVER[HTTP_HOST].'/custom/login/harid/return';
 
 		$request_options = [
 			'form_params' => [
