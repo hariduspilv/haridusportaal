@@ -129,7 +129,6 @@ class TaraRedirectController extends RedirectController{
 			$query = ['error' => 'true'];
 		}
 		$redirect = Url::fromUri($fe_url, ['query' => $query, 'http' => true])->toString();
-		\Drupal::logger('htm_custom_tara_authentication')->notice($redirect);
 		#dump($redirect);
 		#die();
 		// log user out because we have own jwt token for auth and dont need session
@@ -151,7 +150,6 @@ class TaraRedirectController extends RedirectController{
 		$_SESSION['openid_connect_op'] = 'login';
 
 		$response = $client->authorize($scopes);
-		\Drupal::logger('htm_custom_tara_authentication')->notice($response);
 
 		return $response;
 	}
