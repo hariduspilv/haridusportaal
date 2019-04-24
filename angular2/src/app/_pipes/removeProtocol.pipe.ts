@@ -11,7 +11,7 @@ export class RemoveProtocolPipe implements PipeTransform {
     if( value == undefined ){
       return '';
     }else{
-      return value.replace(/.*\s*:\/\/\s*/, "");
+      return decodeURIComponent(value.replace(/.*\s*:\/\/\s*/, ""));
     }
 
   }
