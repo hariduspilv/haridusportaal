@@ -246,9 +246,9 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     this.watchParams();
     this.populateFilterOptions();
     this.filterSubmit();
-    if (this.deviceService.isDesktop()) {
-      this.filterFull = this.params['oskaFixedLabels'] || this.params['sortedBy'] || this.params['fillingBarValues'];
-    }
+    // if (this.deviceService.isDesktop()) {
+    //   this.filterFull = this.params['oskaFixedLabels'] || this.params['sortedBy'] || this.params['fillingBarValues'];
+    // }
   }
   
   ngOnDestroy () {

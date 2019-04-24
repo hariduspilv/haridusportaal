@@ -122,7 +122,8 @@ export class AppComponent implements OnInit {
   showChat(){
     if (window.location.host !== 'haridusportaal.edu.ee' && window.location.host !== 'edu.ee') {
       window['__lc'] = window['__lc'] || {};
-      window['__lc'].license = 10492167;
+      // Initial api-key: 10492167
+      window['__lc'].license = 10834647;
       (function() {
         var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = false;
         lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';

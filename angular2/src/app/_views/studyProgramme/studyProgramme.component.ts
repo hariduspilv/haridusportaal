@@ -29,7 +29,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private lang: string;
   private path: string;
   private params: any;
-  private limit: number = 5;
+  private limit: number = 24;
   private offset: number = 0;
 
   private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed']
@@ -263,6 +263,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     // if no selections made
     if(Object.keys(this.filterFormItems).length === 0) {
       this.filterFormItems.open_admission = true; //default
+    }
+    if(typeof this.filterFormItems.type === "string") {
+      this.filterFormItems.type = this.filterFormItems.type.split(',').map(e => parseInt(e));
     }
     this.filterSubmit();
   }

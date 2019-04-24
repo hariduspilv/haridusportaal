@@ -39,7 +39,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   dataSubscription: Subscription;
   parseFloat = parseFloat;
   showFilter: boolean;
-  limit: Number = 5;
+  limit: Number = 24;
   mapLimit: Number = 3000;
 
   params: object;

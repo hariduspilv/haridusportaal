@@ -17,6 +17,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   private url;
   private lang: string;
   private subscriptions: Subscription[] = [];
+  private requestSub: Subscription;
   private params: object;
 
   public list: any = false;
@@ -34,7 +35,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   }
 
   watchSearch() {
-    
+
 
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
@@ -48,13 +49,16 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   }
 
   getData(){
+    if(this.params && !this.params['displayRelated']) return;
     let variables = {
       lang: this.lang.toUpperCase(),
       nid: this.studyProgrammeId.toString()
     }
     if(this.params['location']) variables['address'] = this.params['location'];
-    
-    let subscribe = this.http.get('similarStudyProgrammes', { params: variables } ).subscribe(response => {
+    if(this.requestSub !== undefined) {
+      this.requestSub.unsubscribe();
+    }
+    this.requestSub = this.http.get('similarStudyProgrammes', { params: variables } ).subscribe(response => {
 
       this.list = response['data']['CustomStudyProgrammeElasticQuery'];
 
@@ -68,22 +72,22 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
         //Split CSV of teaching languages to an array
         programme.FieldTeachingLanguage = programme.FieldTeachingLanguage.split(',');
       })
-      
+      this.requestSub.unsubscribe();
     });
-    this.subscriptions = [...this.subscriptions, subscribe];
   }
   ngOnInit() {
 
     this.lang = this.rootScope.get("lang");
-    
-    this.watchSearch();
 
     //make sure related study programmes are opened when user returns to this url via browser back button/link share
     this.filterFormItems['displayRelated'] = true;
     this.filterSubmit();
+    
+    this.watchSearch();
   }
   ngOnDestroy(){
      /* Clear all subscriptions */
+     this.requestSub.unsubscribe();
      for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();

@@ -36,9 +36,9 @@ export class SideMenuComponent implements OnInit {
     if ((current.match(/\//g) || []).length >= 2) {
       let childSplitVar = current.split('/').pop();
       let childCurrent = current.split("/" + childSplitVar)[0];
-      return childCurrent === path;
+      return decodeURIComponent(childCurrent) === path;
     }
-    return (path.match(/\//g) || []).length > 1 && current === path;
+    return decodeURIComponent(current) === path;
   }
 
   getData(){

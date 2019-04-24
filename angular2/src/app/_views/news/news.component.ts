@@ -33,7 +33,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
 
   subscriptions: Subscription[] = [];
 
-  limit = 5;
+  limit = 24;
   path: any;
   lang: any;
   tags: any;

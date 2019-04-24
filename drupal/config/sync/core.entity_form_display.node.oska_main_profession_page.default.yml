@@ -54,9 +54,11 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_bruto:
-    weight: 28
+    type: readonly_field_widget
+    weight: 23
+    region: content
     settings:
-      label: visually_hidden
+      label: above
       formatter_type: number_integer
       formatter_settings:
         number_integer:
@@ -64,12 +66,12 @@ content:
           prefix_suffix: '1'
       show_description: 0
     third_party_settings: {  }
-    type: readonly_field_widget
-    region: content
   field_change_in_employment:
-    weight: 27
+    type: readonly_field_widget
+    weight: 24
+    region: content
     settings:
-      label: visually_hidden
+      label: above
       formatter_type: number_integer
       formatter_settings:
         number_integer:
@@ -77,40 +79,32 @@ content:
           prefix_suffix: '1'
       show_description: 0
     third_party_settings: {  }
-    type: readonly_field_widget
-    region: content
   field_dynamic_graph:
-    weight: 21
+    weight: 22
     settings: {  }
     third_party_settings: {  }
     type: oska_dynamic_graph_widget_type
     region: content
   field_education_indicator:
-    weight: 29
-    settings:
-      label: visually_hidden
-      formatter_type: number_integer
-      formatter_settings:
-        number_integer:
-          thousand_separator: ''
-          prefix_suffix: '1'
-      show_description: 0
-    third_party_settings: {  }
     type: readonly_field_widget
+    weight: 25
     region: content
+    settings:
+      label: above
+      formatter_type: null
+      formatter_settings: null
+      show_description: false
+    third_party_settings: {  }
   field_filling_bar:
-    weight: 30
-    settings:
-      label: visually_hidden
-      formatter_type: number_integer
-      formatter_settings:
-        number_integer:
-          thousand_separator: ''
-          prefix_suffix: '1'
-      show_description: 0
-    third_party_settings: {  }
     type: readonly_field_widget
+    weight: 26
     region: content
+    settings:
+      label: above
+      formatter_type: null
+      formatter_settings: null
+      show_description: false
+    third_party_settings: {  }
   field_fixed_label:
     weight: 2
     settings: {  }
@@ -167,18 +161,15 @@ content:
     type: entity_reference_autocomplete_tags
     region: content
   field_number_of_employees:
-    weight: 26
-    settings:
-      label: visually_hidden
-      formatter_type: number_integer
-      formatter_settings:
-        number_integer:
-          thousand_separator: ''
-          prefix_suffix: '1'
-      show_description: 0
-    third_party_settings: {  }
     type: readonly_field_widget
+    weight: 27
     region: content
+    settings:
+      label: above
+      formatter_type: null
+      formatter_settings: null
+      show_description: false
+    third_party_settings: {  }
   field_oska_main_profession_file:
     weight: 16
     settings:
@@ -241,7 +232,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   scheduler_settings:
-    weight: 20
+    weight: 21
     region: content
     settings: {  }
     third_party_settings: {  }
