@@ -26,6 +26,8 @@ class LinkUrl extends FieldPluginBase {
    */
   public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
     if ($value instanceof Link) {
+        dump($value->getUrl());
+        die();
       yield $value->getUrl();
     }
   }
