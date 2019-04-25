@@ -2233,6 +2233,10 @@ oskaProfessions:
     translation_type: textarea
     et: 'Ametialade sildid'
     en: 'Ametialade sildid-eng'
+  fieldsCompare:
+    translation_type: textarea
+    et: 'Valdkondade andmed'
+    en: 'Valdkondade andmed-eng'
 fieldFixedLabel:
   label:
     translation_type: textarea
