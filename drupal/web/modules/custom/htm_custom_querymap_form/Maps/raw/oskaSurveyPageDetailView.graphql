@@ -24,7 +24,7 @@ query oskaSurveyPageDetailView($path: String!) {
           entityLabel
           fieldSurveyPageIntroduction
           fieldSurveyPagePicture {
-            derivative(style: CROP_LARGE) {
+            derivative(style: CROPLARGE) {
               url
               __typename
             }

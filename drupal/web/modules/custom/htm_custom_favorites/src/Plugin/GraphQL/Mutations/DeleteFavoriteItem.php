@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_favorites\Plugin\GraphQL\Mutations;
 
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
@@ -49,7 +50,8 @@ class DeleteFavoriteItem extends DeleteEntityBase {
 				$pluginId,
 				$pluginDefinition,
 				$container->get('entity_type.manager'),
-				$container->get('current_user')
+				$container->get('current_user'),
+                $container->get('renderer')
 		);
 	}
 
@@ -61,9 +63,10 @@ class DeleteFavoriteItem extends DeleteEntityBase {
 			$pluginId,
 			$pluginDefinition,
 			EntityTypeManagerInterface $entityTypeManager,
-			AccountInterface $currentUser)
+			AccountInterface $currentUser,
+            RendererInterface $renderer)
 	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
+		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager, $renderer);
 		$this->currentUser = $currentUser;
 	}
 

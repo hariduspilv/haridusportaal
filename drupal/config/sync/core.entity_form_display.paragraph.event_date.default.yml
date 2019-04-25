@@ -16,7 +16,7 @@ bundle: event_date
 mode: default
 content:
   field_event_additional_date:
-    weight: 3
+    weight: 0
     settings: {  }
     third_party_settings: {  }
     type: datetime_default
