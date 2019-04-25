@@ -24,7 +24,7 @@ query getEventSingle(
           RegistrationCount
           fieldMaxNumberOfParticipants
           fieldPicture {
-            derivative(style:CROP_LARGE){
+            derivative(style:CROPLARGE){
               url
             }
             width
