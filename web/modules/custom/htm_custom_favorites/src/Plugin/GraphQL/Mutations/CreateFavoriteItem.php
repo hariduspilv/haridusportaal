@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_favorites\Plugin\GraphQL\Mutations;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
@@ -67,7 +68,8 @@ class CreateFavoriteItem extends CreateEntityBase{
 				$container->get('entity_type.manager'),
 				$container->get('htm_custom_graphql_functions.language_negotiator'),
 				$container->get('current_user'),
-				$container->get('language_manager'));
+				$container->get('language_manager'),
+                $container->get('renderer'));
 	}
 
 	/**
@@ -80,9 +82,10 @@ class CreateFavoriteItem extends CreateEntityBase{
 			EntityTypeManagerInterface $entityTypeManager,
 			CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
 			AccountInterface $currentUser,
-			LanguageManager $languageManager)
+			LanguageManager $languageManager,
+            RendererInterface $renderer)
 	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
+		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager, $renderer);
 		$this->CustomGraphqlLanguageNegotiator = $CustomGraphqlLanguageNegotiator;
 		$this->languageManager = $languageManager;
 		$this->currentUser = $currentUser;
