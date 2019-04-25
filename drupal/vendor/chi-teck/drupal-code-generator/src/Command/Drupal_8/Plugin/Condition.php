@@ -20,10 +20,9 @@ class Condition extends BaseGenerator {
    * {@inheritdoc}
    */
   protected function interact(InputInterface $input, OutputInterface $output) {
-    $questions = Utils::defaultPluginQuestions();
+    $questions = Utils::moduleQuestions() + Utils::pluginQuestions();
 
-    $vars = &$this->collectVars($input, $output, $questions);
-    $vars['class'] = Utils::camelize($vars['plugin_label']);
+    $this->collectVars($input, $output, $questions);
 
     $this->addFile()
       ->path('src/Plugin/Condition/{class}.php')

@@ -540,7 +540,7 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
     {
         foreach ($this->required as $item) {
             if (!array_key_exists($item, $array)) {
-                $this->fail(new ObjectException('Required property missing: ' . $item, ObjectException::REQUIRED), $path);
+                $this->fail(new ObjectException('Required property missing: ' . $item . ', data: ' . json_encode($array, JSON_UNESCAPED_SLASHES), ObjectException::REQUIRED), $path);
             }
         }
     }
@@ -1310,6 +1310,8 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
     }
 
     /**
+     * Resolves boolean schema into Schema instance
+     *
      * @param mixed $schema
      * @return mixed|Schema
      */

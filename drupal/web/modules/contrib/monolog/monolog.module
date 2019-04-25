@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Implements hook_mail().
+ */
+function monolog_mail($key, &$message, $params) {
+  $content = $params['content'];
+  $records = $params['records'];
+
+  $message['subject'] = t('A new %level message has been logged', ['%level' => $records[0]['level_name']]);
+  $message['body'][] = $content;
+}
