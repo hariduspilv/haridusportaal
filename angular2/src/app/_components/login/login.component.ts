@@ -23,6 +23,7 @@ export class LoginComponent {
   ) {}
 
   get isLoggedIn(): boolean {
+    this.userService.getData();
     return this.userService.isLoggedIn;
   }
 
