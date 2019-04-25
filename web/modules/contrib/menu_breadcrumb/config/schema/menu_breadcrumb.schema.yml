@@ -14,6 +14,9 @@ menu_breadcrumb.settings:
     current_page_as_link:
       type: boolean
       label: 'If the current page in the breadcrumb trail should be a link.'
+    stop_on_first_match:
+      type: boolean
+      label: 'End the breadcrumb trail when the first matching found in the menu.'
     append_member_page:
       type: boolean
       label: 'This option affects breadcrumb display when the current page is a member of a taxonomy whose term is on a menu with "Taxonomy Attachment" selected.'
@@ -32,6 +35,9 @@ menu_breadcrumb.settings:
     exclude_empty_url:
       type: boolean
       label: 'Exclude menu items with empty URLs.'
+    derived_active_trail:
+      type: boolean
+      label: 'Derive MenuActiveTrail from RouteMatch.'
     menu_breadcrumb_menus:
       type: sequence
       label: 'Menu Breadcrumb Menu Configurations'

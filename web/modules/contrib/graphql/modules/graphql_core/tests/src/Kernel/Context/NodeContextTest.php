@@ -10,7 +10,6 @@ use Drupal\Tests\graphql_core\Kernel\GraphQLContentTestBase;
  *
  * @group graphql_core
  */
-
 class NodeContextTest extends GraphQLContentTestBase {
 
   /**
